@@ -32,8 +32,8 @@
     "why": "P13 reported that twenty school acquaintances contacted the player on 134 to 236 of 355 days in the measured year; these are P13 measurements, not independently rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source-qualified contact-frequency and availability by current tie type, checked against actual contacts in the ordinary world rather than a forced encounter schedule.",
-    "status": "open"
+    "replacement": "Measured in played worlds (src/core2/life-contact-frequency.test.ts, a drawn place and seed each run): over 355 days the player's acquaintances outside the household are in contact on 0 to 52 days (most on 0 to 3), against P13's 134 to 236; contact follows the company need and the tie, with no forced encounter schedule. The household's own contact is SG-P8-household-shared-time-contact.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-household-shared-time-contact",
@@ -567,12 +567,12 @@
     "id": "SG-P8-business-books-credit-policy",
     "kind": "authored-finance-policy",
     "file": "src/core2/data/parameters.json",
-    "line": 2658,
-    "whatItFakes": "Partial finite facility draws, cash-surplus repayment policy and primary binding-shortage labels. A plan's closing evidence is not an executed closure or loan approval.",
-    "why": "The pure calculator has no bank underwriting/borrowing actor decision, priority-of-claims policy, actual settlement writer, or closed-employer status writer. Existing admitted facility/cash inputs are mandatory for borrowing.",
+    "line": 1911,
+    "whatItFakes": "Every borrower repays its facilities from half of its cash (businessRepaymentShare, an authored liquidity policy) in finishFinanceDay, with no underwriting, priority-of-claims policy or lender decision behind it.",
+    "why": "The finance engine settles facility interest and repayment with finite cash, but the share a firm repays is one authored number, not a behavior rule.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded facility terms and generic conserving credit/repayment/closure writers with dated obligations, sources, claim priority and meaningful failure/reload checks.",
+    "replacement": "Recorded facility terms and a repayment decision from the firm's cash need, the lender's terms and claim priority, with the share derived from them.",
     "status": "open"
   },
   {
@@ -784,11 +784,11 @@
     "kind": "family-network-generation-gap",
     "file": "src/core2/population.ts",
     "line": 568,
-    "whatItFakes": "Opening generation omits substantial family connections and cannot route losses to missing relatives.",
+    "whatItFakes": "Opening generation records family for nearly every resident (99.9 to 100% with a relative, 3.6 to 4.9 links each, every link mutual; src/core2/opening-family-coverage.test.ts), against P10's 65% and 1.5. The relation-type and household mix is not yet validated against a published kinship source.",
     "why": "P10 reports only 6,481 of 10,001 residents have any recorded family, 1.5 family links per person, and 74 deaths reaching 57 relatives. These are P10 measurements, not rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source-qualified kinship and summarized family histories with realistic relation-type and household coverage; validate actual event recipients.",
+    "replacement": "Source-qualified kinship and summarized family histories with realistic relation-type and household coverage; validate actual event recipients. Coverage is measured in src/core2/opening-family-coverage.test.ts; counted deaths already reach relatives (counted-death-notices.test.ts).",
     "status": "open"
   },
   {
@@ -1451,7 +1451,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 231,
     "whatItFakes": "The credit engine reads the catalog cap when quoting new personal loans for full and counted households. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted income uses contracted wages adjusted by the latest settled wage-flow fraction; individual counted attendance and historical earnings ledgers are absent. Existing fixed-rate contracts are not retroactively repriced.",
-    "why": "Personal loans share the borrowing comparison and use borrower-keyed payments in both tiers. Lender exemptions, fee-inclusive APR, statutory product scope and counted individual attendance history are missing. A binding native rate change, received explanation and director chain still need evidence.",
+    "why": "Personal loans share the borrowing comparison and use borrower-keyed payments in both tiers. Lender exemptions, fee-inclusive APR, statutory product scope and counted individual attendance history are missing. A binding native rate change, received explanation and director chain still need evidence. Measured: the generic ceiling (36 percent, `consumerLoanRateCap`) sits far above the quoted personal-loan rate (policy rate plus 3.08 and 6 points, about 13 percent at today's rates), so `min(marketRate, ceiling)` never binds in an ordinary rate year and a borrower is never offered a changed rate; a received explanation can only fire once product-specific caps (payday and installment loans, fees included) or a rate shock make the ceiling bind.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "Counted earnings history matching full workers, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
@@ -2689,12 +2689,12 @@
     "id": "SG-WORLD-housing-island-areas",
     "kind": "assumed-data",
     "file": "src/core2/modules/housing.ts",
-    "line": 134,
-    "whatItFakes": "Where no ACS tenure or rent table covers a place (American Samoa, Guam, the Northern Marianas, the Virgin Islands), homes are owned in the nation's share and rents and values start at the nation's household-weighted county medians.",
-    "why": "The American Community Survey does not cover the four island areas; their 2020 Census tables are not in the data yet.",
+    "line": 160,
+    "whatItFakes": "A place that no Census county table covers and that is not one of the four island areas (American Samoa, Guam, the Northern Marianas, the Virgin Islands, which now start from their own Census 2020 rows) starts from the nation's owner share and household-weighted county medians.",
+    "why": "Every other place has a Census county tenure, rent and value table or one of the four island areas' own Census 2020 rows; a place with neither has no table of its own in the data.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area.",
+    "replacement": "That place's own tenure, rent and value table; if no such place is reachable, delete the fallback and this row.",
     "status": "open"
   },
   {
@@ -2890,6 +2890,18 @@
     "addedAt": "2026-10-12",
     "replacement": "A recorded decision of who keeps a home and its mortgage when some of a household's members leave, so that groups can leave with part of the household behind.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-moves-player-home-stays",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/moves.ts",
+    "line": 1,
+    "whatItFakes": "No one in the player's own household moves away through the engine, so the player is never left alone with a lease, no job and no cash when the adults who earn leave town.",
+    "why": "Fraser, Colorado (seed d8c9a58e, place 0828305): at 17 the player's parents and siblings moved away on Feb 12 with their cash and the household's only job, and the player's lease went into arrears and ended. Whether parents may leave an 18-year-old player behind, and with what, is the owner's call; no ruling exists in the decision register.",
+    "addedBy": "claude/player-living-cost-fraser",
+    "addedAt": "2026-10-20",
+    "replacement": "Background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-moves-pinned-jobs",

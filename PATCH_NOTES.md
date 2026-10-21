@@ -296,6 +296,40 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.21.1
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Hand-written journal lines held back** Nine hand-written lines in "My life"
+  about where a family came from, where the partners met and a parent's new job
+  are held back until the English engine grades them.
+
+## PRE-ALPHA 0.21.0
+
+_Released October 21, 2026._
+
+### Improved
+
+- **American Samoa, Guam, the Northern Marianas and the Virgin Islands start
+  with their own housing figures.** Homes in these four island areas now start
+  from their own 2020 Census owner share, rent and home value instead of the
+  nation's. Owners' opening home values in every place also preserve household
+  variation while centering the median on that place's own housing value, moved
+  by its price index to the opening date.
+
+## PRE-ALPHA 0.20.4
+
+_Released October 21, 2026._
+
+### Changed
+
+- **The player's parents no longer move away and leave the player with nothing**
+  When the player lives in a household, the moves engine no longer takes that
+  household apart: the adults who earn and hold its cash stay, so the player is
+  not left alone with a lease, no job and no money.
+
 ## PRE-ALPHA 0.20.3
 
 _Released October 21, 2026._

@@ -11,7 +11,7 @@ pr: #5415
 blocked-on:
 milestone:
 source: "split from laws-family-bargaining; stopgap SG-GOV-REACH-A-bargaining"
-claimed-at: 2026-10-20T12:59:51.566Z
+claimed-at: 2026-10-21T22:24:44.435Z
 ---
 
 **What.** The public-sector bargaining law is a record on public workers, employers and unions; no contract is bargained and no pay changes. Build the smallest bargaining: where the law is in force, a recognized union at a public employer (a police, fire or school unit) negotiates the unit's pay with the employer on a calendar, from the employer's budget line and the union's members' own stances, and the result re-rates the unit's jobs through the core's job re-rate; where the law is not in force there is no contract. A strike is the failure path, and the owner has ruled "Unions and strikes: 1.0" so ask the register before adding one.
@@ -27,3 +27,5 @@ claimed-at: 2026-10-20T12:59:51.566Z
 Oct 20: Owner ruled that unions, membership rules and strikes wait for 1.0, so #5415's pay-follows-the-budget part may merge without union leverage or strikes, which stay out until 1.0.
 
 Sent back 2026-10-20 from PR #5415 (branch claude/public-bargaining): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5415 (branch claude/public-bargaining): The recorded Oct 20 ruling permits this budget-only phase; deferring union leverage and strikes is not the objection. The required pay proof can still pass without checking a pay change: src/core2/law-reach-bargaining.test.ts:114 falls back to raised[0] when no named-worker sample exists, and lines 119-136 put every actual job/pay-change assertion inside if (f.sampleJobId !== undefined). The counted-only fallback then returns successfully after checking contract fields, without proving the named worker and budget-funded payment required by docs/pool/items/gov-public-sector-bargaining.md:20. Require a nonempty generated-world named-worker/pay-change case tied to the contract, and a real payroll/journal receipt showing the employer budget line paid it by record id. Keep the counted-unit case as additional coverage with its actual pay/flow read checked. The prior owner/date-note repair is present. This is source review; no local gate pass is claimed.; finish on that branch, merge main into it first.
