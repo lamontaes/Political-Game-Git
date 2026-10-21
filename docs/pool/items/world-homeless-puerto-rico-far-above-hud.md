@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pr-homeless-rent
-pr:
+pr: #5792
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T10:05:57.453Z
