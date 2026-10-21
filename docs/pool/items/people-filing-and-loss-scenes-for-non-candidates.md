@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/scene-subject-named
 pr: #5056
 blocked-on:
