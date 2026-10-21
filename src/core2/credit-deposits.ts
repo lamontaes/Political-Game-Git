@@ -2,8 +2,6 @@
 import { bankDeposit, moveBankDeposit } from "./accounts";
 import { fundBalance, fundOf } from "./counted-money";
 import { residentsRuntime } from "./modules/residents";
-import { daysBetween, makeIsoDate } from "./kernel/dates";
-import type { BusinessBooksState } from "./finance-types";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 interface CashTarget {
@@ -22,43 +20,6 @@ export function savingsTarget(
   months: number,
 ): number {
   return Math.trunc(cashMinor - Math.ceil(Math.max(0, monthlyCosts) * months));
-}
-
-/**
- * A business's costs in a month as it actually runs them. Its books name the
- * costs at the size the book was drawn (payroll and other costs a year), but
- * a firm's supplies follow what it takes in (residents.ts accrues the booked
- * cost share of each sale), so in a town opened at its Census size, where
- * sales run at the town's weight, the supplies run at that weight too. The
- * other costs are therefore the larger of the booked ones and the booked cost
- * share of the monthly sales received since the game began.
- */
-export function businessMonthlyCosts(
-  api: CoreAPI,
-  book: Pick<
-    BusinessBooksState,
-    | "annualPayrollMinor"
-    | "annualOtherCostsMinor"
-    | "annualDemandMinor"
-    | "receivedMinor"
-  >,
-): number {
-  const core = api.state as CoreState;
-  const months = api.parameter("macroMonthsPerYear");
-  const elapsedMonths =
-    daysBetween(makeIsoDate(core.startedAt), makeIsoDate(core.date)) /
-    (api.parameter("jobsDaysPerYear") / months);
-  const costShare =
-    book.annualDemandMinor > 0
-      ? book.annualOtherCostsMinor / book.annualDemandMinor
-      : 0;
-  // Less than a month in, there is no run rate to read: the books stand.
-  const runOtherCosts =
-    elapsedMonths >= 1 ? (book.receivedMinor / elapsedMonths) * costShare : 0;
-  return (
-    book.annualPayrollMinor / months +
-    Math.max(book.annualOtherCostsMinor / months, runOtherCosts)
-  );
 }
 
 export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
@@ -153,7 +114,11 @@ export function reviewBankDeposits(api: CoreAPI, bankId: string): void {
       kind: "business",
       tier: "business",
       cashMinor,
-      reserveMinor: Math.ceil(businessMonthlyCosts(api, book) * months),
+      reserveMinor: Math.ceil(
+        ((book.annualPayrollMinor + book.annualOtherCostsMinor) /
+          api.parameter("macroMonthsPerYear")) *
+          months,
+      ),
       accounts: [{ id: account, cashMinor }],
     });
   }
