@@ -1,5 +1,5 @@
 ---
-id: pool-law-reaches-nobody-note
+id: pool-commute-split
 impact: none
 ---
 

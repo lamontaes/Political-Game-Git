@@ -5,9 +5,9 @@ area: world
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/standins-jobs
-pr:
+pr: #5193
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T22:37:46.889Z
