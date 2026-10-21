@@ -4,13 +4,13 @@ title: "OPUS-WORLD economy engines branch (#3996)"
 area: world
 kind: feature
 priority: 2
-status: claimed
-claimed-by: opus-world
+status: dropped
+claimed-by:
 pr: #3996
 blocked-on:
 milestone:
 source: "open PR #3996"
-claimed-at: 2026-10-19T22:23:26.304Z
+claimed-at:
 ---
 
 **What.** OPUS-WORLD economy engines branch (#3996). This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/jobs-closure.test.ts, src/core2/modules/housing.ts (code or data, left for the author); resolve and push. Finish it on the existing branch opus-world, after merging main into it with a plain merge.
@@ -25,3 +25,7 @@ claimed-at: 2026-10-19T22:23:26.304Z
 Sent back 2026-10-15 from PR #3996 (branch opus-world): code conflict with main in src/core2/modules/housing.ts, src/core2/data/stopgaps.json, housing.ts; finish on that branch, merge main into it first. (PR references as of 2026-10-15.)
 
 Sent back 2026-10-16 from PR #3996 (branch opus-world): merging main conflicts in src/core2/jobs-closure.test.ts, src/core2/modules/housing.ts (code or data, left for the author); resolve and push; finish on that branch, merge main into it first.
+PR #3996 closed unmerged (2026-10-16); reopened by the pool reconcile Oct 19.
+Dropped by the pool reconcile Oct 19 (audit-2026-10-19): owner closed #3996 on Oct 16; superseded on core2.
+
+Tried Oct 19 (claude session): merging origin/main into opus-world gives 28 conflicted files (6,253 commits behind, 242 ahead, 138 files changed, last pushed Oct 15): jobs.ts, housing.ts, business.ts, credit.ts, residents.ts, macro.ts, employer-taxes.ts, counted-drift.ts, housing-property-tax.ts, housing-construction.ts, housing-occupancy.ts, housing-homeless.ts, macro-model.ts, module-data.ts, residents-economy.ts, three parameter tables, stopgaps.json and five tests. Both sides changed the same engines for a week, so a file-by-file resolve would be guesswork. Recommend the L rule: list what the branch adds that main still lacks (diff each engine's behavior, not text), and re-land it as bounded pool items on main, one engine each, then drop this PR.

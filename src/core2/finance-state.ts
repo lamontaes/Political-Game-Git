@@ -9,6 +9,7 @@ import { countedJobsOf } from "./residents-economy";
 import { admitEverydayPurchase, isEverydayPurchase } from "./cost-of-living";
 import { ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
+import { webFactorFor } from "./outcome-web-reach";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
@@ -31,6 +32,7 @@ import type {
   FinanceRuntime,
   FinanceInput,
   OwnerClosureChoice,
+  PayerHandover,
   SalesReceiptBudgetPool,
   SalesReceiptPendingBudget,
 } from "./finance-types";
@@ -782,6 +784,81 @@ export function setStandingContractAmount(
 }
 
 /**
+ * People move from one household to another: the home obligations they shared
+ * (the lease) are paid by the household they now belong to. They stop paying
+ * the old household's; an obligation left with no payer ends, and the people
+ * who stay keep paying it. They begin paying the new household's. Returns the
+ * contracts that changed.
+ */
+export function moveHouseholdPayers(
+  core: CoreState,
+  api: CoreAPI,
+  fromId: string,
+  toId: string,
+  personIds: readonly string[],
+): string[] {
+  const moving = new Set(personIds);
+  const today = makeIsoDate(core.date);
+  const adultAge = api.parameter("benchmarkAdultMinimumAge");
+  // Who stays and can take a lease over: the oldest living adult first.
+  const heir = (core.households.get(fromId)?.memberIds ?? [])
+    .map((id) => core.people.get(id))
+    .filter(
+      (person): person is PersonState =>
+        person !== undefined &&
+        person.alive &&
+        !moving.has(person.id) &&
+        ageOnDate(makeIsoDate(person.birthDate), today) >= adultAge,
+    )
+    .sort(
+      (a, b) =>
+        a.birthDate.localeCompare(b.birthDate) || a.id.localeCompare(b.id),
+    )[api.parameter("zero")];
+  const changed: string[] = [];
+  for (const id of [
+    ...(core.finance.obligationsByHousehold.get(fromId) ?? []),
+  ]) {
+    const row = core.finance.contracts.get(id);
+    if (!row || row.endedAt) continue;
+    if (!row.payerIds.some((payer) => moving.has(payer))) continue;
+    const left = row.payerIds.filter((payer) => !moving.has(payer));
+    const outcome: PayerHandover["outcome"] = left.length
+      ? "kept-by-co-payers"
+      : heir
+        ? "taken-over"
+        : "ended";
+    const payers = left.length ? left : heir ? [heir.id] : [];
+    row.payerHandovers = [
+      ...(row.payerHandovers ?? []),
+      ...personIds
+        .filter((payer) => row.payerIds.includes(payer))
+        .map((payer) => ({ on: today, from: payer, to: payers, outcome })),
+    ];
+    if (payers.length) row.payerIds = payers;
+    else endStandingContract(core, api, id);
+    changed.push(id);
+  }
+  for (const id of core.finance.obligationsByHousehold.get(toId) ?? []) {
+    const row = core.finance.contracts.get(id);
+    if (!row || row.endedAt) continue;
+    const add = personIds.filter((payer) => !row.payerIds.includes(payer));
+    if (!add.length) continue;
+    row.payerIds = [...row.payerIds, ...add];
+    row.payerHandovers = [
+      ...(row.payerHandovers ?? []),
+      ...add.map((payer) => ({
+        on: today,
+        from: payer,
+        to: row.payerIds,
+        outcome: "joined" as const,
+      })),
+    ];
+    changed.push(id);
+  }
+  return changed;
+}
+
+/**
  * A person with a recorded income award moves to a household of their own:
  * their awards are paid into it from the next due date, the monthly amount
  * unchanged, and the saved award still names the household it was written
@@ -1332,21 +1409,26 @@ export function reviewBusiness(
     options,
   );
   const pay = ownHourlyPay(core, id);
-  const price = projectBusinessPrice(
-    {
-      priorPrice: book.price,
-      annualPlannedPayMinor: book.annualPayrollMinor,
-      annualOtherCostsMinor: cost.annualOtherCostsMinor,
-      wagePriceFactor:
-        ownRaise(book.lastHourlyByJob, pay) ??
-        wagePrice / book.lastWagePriceFactor,
-      generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
-      annualDemandMinor: demand,
-      capacityMinor: book.capacityMinor,
-      priceLevel: book.price / book.anchorPrice,
-    },
-    options,
-  );
+  // What laws and other causes the outcome web carries into prices moves the
+  // business's own price by the change in that factor since its last review.
+  const webPrice = webFactorFor(api, place, "household.prices");
+  const price =
+    projectBusinessPrice(
+      {
+        priorPrice: book.price,
+        annualPlannedPayMinor: book.annualPayrollMinor,
+        annualOtherCostsMinor: cost.annualOtherCostsMinor,
+        wagePriceFactor:
+          ownRaise(book.lastHourlyByJob, pay) ??
+          wagePrice / book.lastWagePriceFactor,
+        generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
+        annualDemandMinor: demand,
+        capacityMinor: book.capacityMinor,
+        priceLevel: book.price / book.anchorPrice,
+      },
+      options,
+    ) *
+    (webPrice / (book.lastWebPriceFactor ?? p("one")));
   const next = financeNextDate(
     api,
     book.nextReviewedAt,
@@ -1368,6 +1450,7 @@ export function reviewBusiness(
   book.annualOtherCostsMinor = cost.annualOtherCostsMinor;
   book.price = price;
   book.lastGeneralPriceFactor = generalPrice;
+  book.lastWebPriceFactor = webPrice;
   book.lastWagePriceFactor = wagePrice;
   book.lastHourlyByJob = pay.hourly;
   financeIndex(core.finance.reviewsDueAt, next, id);
