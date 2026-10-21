@@ -365,7 +365,7 @@ const ALLOWED_FILES: readonly {
       "census place and county names as published (Sauk Centre, Grey Eagle, Ward County), and quotes of D.C.'s wards",
   },
   {
-    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
+    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026|ballot-order-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
     words: /^wards?$/i,
     reason:
       "research facts about real charters and statutes: D.C.'s eight wards, and the municipal filing rules whose recorded seat type is ward; never deleted",

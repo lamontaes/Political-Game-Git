@@ -73,6 +73,11 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
       "real place and county names from Census and EPA records (Centre, Harbour, Storey)",
   },
   {
+    pattern: /^docs\/reports\/trait-wiring-[0-9a-z-]+\.json$/,
+    reason:
+      "written by the trait-wiring checker; quotes research citations by their published titles (Labour Economics)",
+  },
+  {
     pattern: /^src\/bench\/[a-z-]+-receipt\.json$/,
     reason:
       "receipts the bench verifier wrote and reads back; regenerated rather than edited",
