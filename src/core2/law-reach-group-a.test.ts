@@ -41,7 +41,6 @@ import {
   POLICIES,
   reachOn,
   reachParameter,
-  selectorGroup,
   STAFFING,
   townOrganizations,
   townPeople,
