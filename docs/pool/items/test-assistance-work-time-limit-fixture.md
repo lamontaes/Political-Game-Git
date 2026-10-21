@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/assistance-work-fixture
-pr:
+pr: #5801
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T12:20:46.459Z
