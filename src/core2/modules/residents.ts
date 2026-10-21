@@ -1428,6 +1428,21 @@ export function residentPerson(
     .find((row) => row.id === id);
 }
 
+/** Where someone still in the wider population lives, read from their group's columns without building their record. */
+export function residentPlaceId(
+  core: CoreState,
+  personId: PersonId,
+): PlaceId | undefined {
+  const store = runtimes.get(core)?.store;
+  const m = store?.countedMember(personId);
+  return m === undefined ? undefined : store!.strings[store!.placeIx[m]!]!;
+}
+
+/** Whether someone is still in the wider population (counted), without building their record. */
+export function isResident(core: CoreState, personId: PersonId): boolean {
+  return runtimes.get(core)?.store.countedMember(personId) !== undefined;
+}
+
 registerCountedPersonSource(residentPerson);
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */

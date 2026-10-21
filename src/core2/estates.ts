@@ -38,7 +38,7 @@ import { closenessBetween } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
 import { personOrFillIn, registerModule } from "./state";
-import { residentPerson } from "./modules/residents";
+import { isResident } from "./modules/residents";
 import { isDemoted } from "./counted-groups";
 import {
   endRecipientIncomeAtDeath,
@@ -73,7 +73,7 @@ function relationsOf(person: Readonly<PersonState>): Map<PersonId, string> {
 function livingKin(api: CoreAPI, id: PersonId): boolean {
   const kin = api.state.people.get(id);
   if (kin && !isDemoted(kin)) return kin.alive === true;
-  return residentPerson(api.state, id) !== undefined;
+  return isResident(api.state, id);
 }
 
 type OrderRow = (typeof data.intestateOrder)[number];

@@ -44,7 +44,12 @@ import {
   participationShift,
   type LaborFacts,
 } from "../jobs-web";
-import { residentPerson, residentsRuntime } from "./residents";
+import {
+  isResident,
+  residentPerson,
+  residentPlaceId,
+  residentsRuntime,
+} from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -1353,8 +1358,8 @@ function layOff(
   });
   // Read before the event: an event can fill a counted worker in, after which
   // the counts no longer hold them.
-  const placeId = (c.people.get(job.personId) ??
-    residentPerson(c, job.personId))!.placeId;
+  const placeId = (c.people.get(job.personId)?.placeId ??
+    residentPlaceId(c, job.personId))!;
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
@@ -1786,7 +1791,7 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
-    if (!c.people.has(seeker.personId) && !residentPerson(c, seeker.personId)) {
+    if (!c.people.has(seeker.personId) && !isResident(c, seeker.personId)) {
       store(api).table("countedSeekers").remove(seeker.personId);
       continue;
     }
