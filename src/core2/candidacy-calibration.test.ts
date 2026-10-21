@@ -76,7 +76,11 @@ it("the share of local seats with no more candidates than seats cannot be shown 
       // core-press-staff-counted-job-not-resident: a press staff member who
       // is not a resident stops some played years. It is that item's defect,
       // not this check's; the place is named and left out.
-      if (!String(error).includes("Not in the wider population")) throw error;
+      if (!String(error).includes("Not in the wider population"))
+        throw new Error(
+          `${place.name} (${place.key}), seed ${place.seed}: ${String(error)}`,
+          { cause: error },
+        );
       lines.push(`${place.name} (${place.key}): skipped, press staff defect`);
       continue;
     }
