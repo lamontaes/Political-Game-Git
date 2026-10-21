@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/opelika-memory
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T07:12:50.915Z
 ---
 
 **What.** A played year of Opelika, Alabama (place 0157048, seed op1) at the sample size, buildBenchWorld two-level, took about 27 minutes on a 4-core container, against the two-minute rule. The first six 30-day months ran in 15 to 23 seconds each; from August the live heap after collection grows from about 0.9 GB to about 4.9 GB by October and the months slow down, and a vitest run of the year runs out of memory at a 5 GB heap. Clean main showed the same curve, so it is not from the change that found it. Find what accumulates from August (a table, an index or a history kept per day) and make it act on the day something changed or drop what nothing reads.
