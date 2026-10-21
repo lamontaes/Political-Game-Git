@@ -5,12 +5,12 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/housing-moved-lines
 pr: #5708
 blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T11:30:12.391Z
 ---
 
 **What.** A household's move into a new home has journal and scene words from the English engine. The housing engine writes the move and the director can fire a situation from it, but no banked piece words 'we moved into a new place' for the journal or the scene. Mine and grade pieces for the move from the real home and rent records, and wire them through the English engine so the player reads who moved where and what it cost.
