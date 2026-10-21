@@ -28,8 +28,8 @@ afterAll(() => {
   setBookkeeping(before);
 });
 
-for (const direction of ["cut"] as const)
-  it(`a ${direction} to the city's administration line ends named city employees' jobs and later pay`, () => {
+for (const direction of ["cut", "raise"] as const)
+  it(`a ${direction} to the city's administration line moves named city employees' jobs (a cut ends them, a raise hires)`, () => {
     const tried: string[] = [];
     for (let draw = 0; draw < 25; draw += 1) {
       const place = drawPlace(`${seed}:${draw}`, "admin-line");
@@ -53,8 +53,10 @@ for (const direction of ["cut"] as const)
       // City hall employees: named jobs and counted workers on its payroll.
       const staffIn = (organizationId: string) =>
         employees(organizationId).length + countedStaffOf(core, organizationId);
-      if (!mayor || !city || !district || employees(district.id).length < 4) {
-        tried.push(`${where}: no mayor, city or city hall with employees`);
+      if (!mayor || !city || !district || employees(district.id).length < 1) {
+        tried.push(
+          `${where}: no mayor, city or city hall with a named employee`,
+        );
         continue;
       }
       const mayorId = memberKey(mayor.holder!);
@@ -76,8 +78,9 @@ for (const direction of ["cut"] as const)
       expect(budgetProposalDue(api, officeHost, mayorId), where).not.toBeNull();
       const staffBefore = employees(district.id).map((j) => j.personId);
       const staffInPlace = staffIn(district.id);
-      // The mayor asks to cut or raise the administration line by a third.
-      const change = (direction === "cut" ? -1 : 1) * Math.floor(priorLine / 3);
+      // The mayor asks to cut or raise the administration line by two thirds (city hall has few named employees, so a third rounds to no layoff).
+      const change =
+        (direction === "cut" ? -1 : 1) * Math.floor((priorLine * 2) / 3);
       prepareAct(api, mayorId, "propose-budget", {
         budget: { changes: { administration: change } },
       });
