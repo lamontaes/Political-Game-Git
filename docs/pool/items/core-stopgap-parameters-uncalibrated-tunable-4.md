@@ -4,10 +4,10 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-core-parameters-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/moves/parameters.json, kind uncalibrated-tunable"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/moves/parameters.json, kin
 **Files.** src/core2/data/moves/parameters.json
 
 **Notes.** First row: How strongly each tie holds a person in town and each event pushes them out, and the scale that turns the ACS rate for their age into a monthly pull.
+
+Folded into research-core-parameters-sourced-parameters (CTO, Oct 19, 2026).

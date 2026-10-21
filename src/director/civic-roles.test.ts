@@ -11,8 +11,6 @@ import {
   memberKey,
   members,
 } from "../core2/modules/legislature";
-import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
-import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { townSeats } from "../core2/modules/offices";
 import {
   ELECTIONS_MODULE_ID,
@@ -29,7 +27,7 @@ import {
   requestInterview,
 } from "../core2/modules/press";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
-import { civicFill } from "./civic-roles";
+import { CIVIC_FILLS, civicFill } from "./civic-roles";
 import type { Moment } from "./types";
 
 // The civic roles a scene's type names (clerk, chair, members, press, poll
@@ -143,62 +141,17 @@ describe(`civic role fills in ${where}`, () => {
     expect(withChair, where).toBeGreaterThan(0);
   });
 
-  it("fills the teller with the head of the outlet whose story taught the person", () => {
-    // Hand-made records, since the played year rarely lands a change that a
-    // story then explains: a story an outlet carried, the person who heard it
-    // and the landed change it explained.
-    const outlet = outletsHere(api).find(
-      (row) => row.headId && core.people.get(row.headId)?.alive,
-    );
-    expect(outlet, where).toBeDefined();
-    const reader = [...core.people.values()].find(
-      (p) => p.alive && p.id !== outlet!.headId,
-    )!;
-    const news = api.moduleState(NEWS_MODULE_ID);
-    news.table("stories").put({
-      id: "story:test",
-      kind: "test",
-      outletId: outlet!.id,
-      date: core.date,
-      placeId: reader.placeId,
-      facts: {},
-    } as never);
-    news.table("heard").put({
-      id: `${reader.id}:story:test`,
-      personId: reader.id,
-      storyId: "story:test",
-      date: core.date,
-    } as never);
-    api
-      .moduleState(BUDGETS_MODULE_ID)
-      .table("landed")
-      .put({
-        id: "landed:test",
-        personId: reader.id,
-        obligationId: "obligation:test",
-        date: core.date,
-        measureId: "",
-        lawId: "law:test",
-        series: "test",
-        share: -0.1,
-        learnedFrom: "story:test",
-      } as never);
-    const teller = civicFill(
-      "teller",
-      core,
-      momentFor(
-        reader.id,
-        `event:law.effect-learned:${core.date}:obligation:test`,
-      ),
-      new Set(),
-    );
-    expect(teller, where).toEqual([outlet!.headId]);
-    // A notice with no story behind it has no teller.
+  it("has no teller fill: the story that reached a person is the source, not a person", () => {
+    // Owner, Oct 16: a person learns a law changed their money mostly from the
+    // news or a feed, so no one is invented to tell them; a person is a teller
+    // only where a conversation record shows one.
+    expect(CIVIC_FILLS.has("teller")).toBe(false);
+    const reader = [...core.people.values()].find((p) => p.alive)!;
     expect(
       civicFill(
         "teller",
         core,
-        momentFor(reader.id, "event:law.effect-learned:no-story"),
+        momentFor(reader.id, "event:law.effect-learned:no-teller"),
         new Set(),
       ),
       where,
@@ -208,7 +161,10 @@ describe(`civic role fills in ${where}`, () => {
   it("fills the clerk with the person the filing office's records name", () => {
     const contests = openContests(api);
     expect(contests.length, where).toBeGreaterThan(0);
-    const subject = [...core.people.keys()][0]!;
+    // The person the moment is about is never their own clerk, so take one who holds no clerk's desk.
+    const subject = [...core.people.keys()].find(
+      (id) => !contests.some((c) => filingClerkFor(api, c.id)?.personId === id),
+    )!;
     let named = 0;
     let paid = 0;
     for (const contest of contests) {

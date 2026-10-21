@@ -1,4 +1,4 @@
-import { createPersonalityTendencyDefinition } from "./mind-catalog";
+import { createPersonalityTendencyDefinition } from "../core2/mind-catalog";
 import type { EntityId, PersonalityTendencyDefinition } from "./types";
 
 import {

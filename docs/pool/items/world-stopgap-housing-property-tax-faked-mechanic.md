@@ -4,13 +4,13 @@ title: "Stopgaps in housing-property-tax (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: blocked
-claimed-by: claude/property-tax-g08lgv
-pr:
-blocked-on: world-property-tax-due-dates-data
+status: open
+claimed-by:
+pr: #5249
+blocked-on: sourced county due dates for all 56 places (research data)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
-claimed-at: 2026-10-19T22:49:44.749Z
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WORLD-property-tax-monthly in src/core2/housing-property-tax.ts mark a shortcut that is still live in play. Today property tax is paid a twelfth each month, as through a mortgage escrow, for every owner. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:49:44.749Z
 **Files.** src/core2/housing-property-tax.ts, src/core2/data/stopgaps.json, src/core2/housing-property-tax.test.ts
 
 **Notes.** First row: Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner.
+
+Sent back 2026-10-20 from PR #5249 (branch claude/property-tax-billing-g08lgv): Merging current origin/main conflicts in src/core2/housing-property-tax.ts. Resolve that code conflict on this branch and rerun changed-file checks. Preserve the audited Connecticut July 1 / January 1 due dates from main: the body still describes the superseded November/May estimate, so its old played-year trace does not verify the merged data. Update the named non-escrow bill/payment and treasury-receipt proof on the resolved result.; finish on that branch, merge main into it first.
