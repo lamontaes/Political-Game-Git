@@ -8,7 +8,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
-import { JOBS_MODULE_ID } from "./modules/jobs";
+import { JOBS_DATA, JOBS_MODULE_ID } from "./modules/jobs";
 import { retirementClaims } from "./modules/retirement-claims";
 import { residentsRuntime } from "./modules/residents";
 
@@ -35,8 +35,16 @@ function playUntilRetirement() {
         kind: string;
         personId: string;
         id: string;
+        reasonKey: string;
+        values: Record<string, number>;
       }[]
-    ).filter((row) => row.kind === "left-work");
+    ).filter(
+      // A counted worker who chose to retire; an official who died leaves work too.
+      (row) =>
+        row.kind === "left-work" &&
+        row.reasonKey === JOBS_DATA.reasons.retired &&
+        row.values.counted === 1,
+    );
     if (retired.length) return { core, retired, where: tried.join("; ") };
   }
   return { core: null, retired: [], where: tried.join("; ") };
