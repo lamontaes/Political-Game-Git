@@ -287,6 +287,40 @@ export function gradedCoverage(graded: readonly GradedBatch[]): GradedCoverage {
   return table;
 }
 
+/** One batch's graded counts, keyed by the batch's own id. */
+export type GradedCoverageByBatch = Readonly<Record<string, GradedCoverage>>;
+
+/**
+ * The graded count of each batch on its own, so a batch's share stays in the
+ * coverage file after its files are deleted from the repository.
+ */
+export function gradedCoverageByBatch(
+  graded: readonly GradedBatch[],
+): GradedCoverageByBatch {
+  const byBatch: Record<string, GradedCoverage> = {};
+  for (const row of graded) {
+    const id = row.batch?.id ?? row.grades.batch;
+    if (!id) throw new Error("A graded batch names no id.");
+    byBatch[id] = gradedCoverage([row]);
+  }
+  return byBatch;
+}
+
+/** Every batch's graded counts added together, axis by kind. */
+export function sumGradedCoverage(
+  byBatch: GradedCoverageByBatch,
+): GradedCoverage {
+  const table: Record<string, Record<string, number>> = {};
+  for (const id of Object.keys(byBatch).sort())
+    for (const [axis, kinds] of Object.entries(byBatch[id]!))
+      for (const [kind, count] of Object.entries(kinds))
+        table[axis] = {
+          ...table[axis],
+          [kind]: (table[axis]?.[kind] ?? 0) + count,
+        };
+  return table;
+}
+
 /** The graded batches on disk, in batch order (batch-2 before batch-10). */
 export function readGradedBatches(
   batchDir = BATCH_DIR,
@@ -448,9 +482,15 @@ function main() {
         unknown
       >)
     : {};
+  // Each batch's share is kept by id: one whose files were since deleted
+  // keeps its counts, and one still on disk is counted again from its files.
+  const byBatch = {
+    ...((coverage.gradedByBatch as GradedCoverageByBatch | undefined) ?? {}),
+    ...gradedCoverageByBatch(graded),
+  };
   writeFileSync(
     COVERAGE_FILE,
-    `${JSON.stringify({ ...coverage, graded: gradedCoverage(graded) }, null, 2)}\n`,
+    `${JSON.stringify({ ...coverage, graded: sumGradedCoverage(byBatch), gradedByBatch: byBatch }, null, 2)}\n`,
   );
   execSync(`npx prettier --write ${COVERAGE_FILE}`, { stdio: "ignore" });
   writeFileSync(LEDGER_FILE, `${JSON.stringify(ledger, null, 2)}\n`);

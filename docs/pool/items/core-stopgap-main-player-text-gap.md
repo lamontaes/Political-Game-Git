@@ -4,12 +4,13 @@ title: "Stopgaps in main (player-text-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/desktop-update-text
+pr: #5251
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, desktop/main.mjs, kind player-text-gap"
+claimed-at: 2026-10-19T23:11:57.820Z
 ---
 
 **What.** Replace or clear the 1 open player-text-gap stopgap row(s) in desktop/main.mjs: SG-PLAY-desktop-update-dialog-text. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -21,3 +22,5 @@ source: "src/core2/data/stopgaps.json, desktop/main.mjs, kind player-text-gap"
 **Files.** desktop/main.mjs
 
 **Notes.** First row: The desktop shell's update dialogs (Check for Updates, and the Mac note on what installing does) are written in the shell, not by the English engine.
+
+Looked at Oct 19 (claude/stopgap-rows-notes), not built. The row is one sentence in `desktop/main.mjs` (`installNote`, shown on a Mac update: "When you quit, the new version replaces this one in the same folder and opens. Your saves stay where they are."), a dialog the owner ordered on Oct 14. Replacing it means shipping an English-engine bank beside the client for the shell to read, which has to be built and checked in the packaged Electron app; this container cannot run it. The owner may prefer to close the row as an accepted shell string; that is his call, so I did not guess.

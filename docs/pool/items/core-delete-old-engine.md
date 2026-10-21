@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/delete-old-engine
+pr: #5078
 blocked-on:
 source: "core-needs-fixer-51 triage, Oct 15"
+claimed-at: 2026-10-19T18:22:21.979Z
 ---
 
 **What.** `src/simulation` (507 files) and `src/presentation` still hold about 940 files, down from about 1,600. Non-test code outside them that still imports them: 14 files in `src/core2` (item core-old-imports-14), `src/bench/world.ts`, `src/bench/creator.ts`, `src/education/tuition-prices.ts` and about 31 scripts. Move what is still used into core2 or rules, delete the rest, and keep `scripts/core2-guard` reachability green.

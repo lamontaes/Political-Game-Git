@@ -6,7 +6,10 @@ import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { enactLaw, openLaws } from "./modules/laws";
-import { retirementClaims } from "./modules/retirement-claims";
+import {
+  claimRetirementNow,
+  retirementClaims,
+} from "./modules/retirement-claims";
 import { PARAMETERS } from "./parameters";
 import { retirementClaimAgeMonths } from "./retirement-claim";
 import { startingSocialSecurityAges } from "./social-security-law";
@@ -185,5 +188,33 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
       expect(row.monthlyMinor).toBeGreaterThan(0);
       expect(residentsRuntime(core)!.flows.get(row.obligationId)).toBeDefined();
     }
+  }, 600_000);
+
+  it("a counted worker who leaves work for good claims at once from their own record, once", () => {
+    const core = createLifeCore(generatedOpening(place, { twoLevel: true }));
+    const api = coreAPI(core);
+    advanceCore(core, daysAfterStart(2));
+    const store = residentsRuntime(core)!.store;
+    const claimed = new Set(retirementClaims(core).keys());
+    let pick: string | undefined;
+    for (const h of store.liveHouseholds())
+      for (const member of store.countedMembers(h)) {
+        const id = store.ids[member]!;
+        const born = Number(store.born[member]!.slice(0, 4));
+        if (born <= 1950 && !claimed.has(id) && (!pick || id < pick)) pick = id;
+      }
+    expect(
+      pick,
+      `${place.name}: a counted person aged 70 or more (seed ${seed})`,
+    ).toBeDefined();
+    expect(claimRetirementNow(api, pick!)).toBe(true);
+    const claim = retirementClaims(core).get(pick!)!;
+    expect(claim.counted).toBe(true);
+    expect(claim.monthlyMinor).toBeGreaterThan(0);
+    expect(residentsRuntime(core)!.flows.get(claim.obligationId)).toBeDefined();
+    // Asking again, or the claim date coming round, adds no second award.
+    const flows = residentsRuntime(core)!.flows.size;
+    expect(claimRetirementNow(api, pick!)).toBe(true);
+    expect(residentsRuntime(core)!.flows.size).toBe(flows);
   }, 600_000);
 });

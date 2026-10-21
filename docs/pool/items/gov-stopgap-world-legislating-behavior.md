@@ -4,10 +4,10 @@ title: "Stopgaps in world-legislating (behavior): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Towns governed by a township board never legislated at all: only councils and county boards met (Oct 13 lawmaking-volume fix).
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/world-legislating.ts, kind behavior"
 ---

@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
-pr:
+pr: #5104
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
 ---
@@ -21,3 +21,5 @@ source: "split from core-remaining-port-the-opening-town-builder-population (an 
 **Files.** src/simulation/trait-registry.ts, src/simulation/trait-packs.ts, src/simulation/people-traits.ts, src/simulation/people-upbringing.ts, src/simulation/personality-catalogue.ts, src/core2/population.ts
 
 **Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+
+Oct 19 (claude/port-trait-packs): the two leaf files are moved. src/simulation/mind-catalog.ts and trait-packs.ts are now src/core2/mind-catalog.ts and trait-packs.ts (they import only types and the id helper), and the 75 files that import them point there; none is left in the old folder. population.ts no longer imports trait-packs from the old engine. Still to do: personality-catalogue (imports the old traits/effects), people-traits, people-upbringing and trait-registry, which import many old modules (see the Oct 19 note on PR #5101 for the list); they wait on core-port-world-scaffold or a rewrite on core records.

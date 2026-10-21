@@ -5,11 +5,12 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-accounts-api
+pr: #5176
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
+claimed-at: 2026-10-19T21:58:11.349Z
 ---
 
 **What.** Business, credit and housing money flows still bypass `api.accounts()` (credit reads only `bankDepositLiability`; business uses only `accounts().main`; housing, jobs, macro and regional never touch it). Open named funds with `accounts.open`, move money with `accounts.transfer`, schedule payments with `accounts.addObligation`, and report in the PR anything the API lacks. The API's missing pieces are reported in the PR so the core session can add them.

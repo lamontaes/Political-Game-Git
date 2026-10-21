@@ -234,10 +234,10 @@
     }
   },
   "restingStressFloor": {
-    "value": 0.271,
+    "value": 0.261,
     "tag": "ESTIMATED",
     "citation": "The part of resting stress that no recorded situation explains: the intercept of the resting-stress sum, set so the modeled population's average equals stressBaseline (the PSS-10 norm) in a drawn place.",
-    "estimatedFrom": "Calibrated to stressBaseline; the intercept moves with the weights below.",
+    "estimatedFrom": "Calibrated to stressBaseline; the intercept moves with the weights below. Recalibrated Oct 19 from 0.271: across 28 drawn towns (seeds sm-0 to sm-13 and sn-0 to sn-13 of the stress calibration) the adults' mean sat 0.0098 above the norm (town-to-town spread 0.012), so the intercept comes down by that gap.",
     "spread": {
       "low": 0.1,
       "high": 0.3,
@@ -1299,11 +1299,11 @@
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
     }
   },
-  "workWakingRecoveryHours": {
+  "restDayHours": {
     "value": 5.16,
     "tag": "ESTIMATED",
     "citation": "BLS American Time Use Survey 2025, Table 3: leisure and sports, 5.16 hours per day for people 15 and over (src/core2/data/time-use-reference.json).",
-    "estimatedFrom": "The rest act stands for an evening of leisure, so it takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
+    "estimatedFrom": "The rest act stands for the day's leisure: the free-time planner (free-block.ts) takes at most one act per need per day, so one rest act is the whole day's leisure and takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). Measured Oct 19: shortening it to one sitting cuts the leisure hours per day almost in proportion, because a person still rests once a day (docs/pool/items/core-recovery-hours-per-offer.md). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
     "stopgapId": "SG-P8-work-time-reserve",
     "spread": {
       "status": "unmeasured",

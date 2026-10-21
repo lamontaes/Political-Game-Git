@@ -4,12 +4,13 @@ title: "Stopgaps in membership-dues (assumed-data): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-pdqjm6
 pr:
-blocked-on:
+blocked-on: world-union-dues-from-own-cash
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/membership-dues.ts, kind assumed-data"
+claimed-at: 2026-10-19T22:42:08.819Z
 ---
 
 **What.** Replace or clear the 1 open assumed-data stopgap row(s) in src/core2/membership-dues.ts: SG-WORLD-business-union-members. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

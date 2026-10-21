@@ -4,12 +4,13 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-3xfqef-7
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/candidacy/parameters.json, kind uncalibrated-tunable"
+claimed-at: 2026-10-20T00:45:19.383Z
 ---
 
 **What.** Replace or clear the 1 open uncalibrated-tunable stopgap row(s) in src/core2/data/candidacy/parameters.json: SG-P15-candidacy-weights. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

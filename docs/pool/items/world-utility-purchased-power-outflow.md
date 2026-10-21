@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/utility-outflow-g08lgv
 pr:
-blocked-on:
+blocked-on: world-utility-staff-never-paid
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:15:46.608Z
 ---
 
 **What.** TODO

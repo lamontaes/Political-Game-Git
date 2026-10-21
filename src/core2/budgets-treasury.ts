@@ -4,8 +4,8 @@
  * line of its budget pays a twelfth of the year. A line pays first what the
  * town's own engines already paid on it (public pay drawn on the line,
  * law-driven benefits), then aid to the lower treasuries in the game, then
- * the town's share of its purchases to the town's businesses that do that
- * work; the rest goes to the outside account as spending elsewhere, recorded
+ * the town's share of its purchases to the town's business that the
+ * government's body awarded the line's contract (the contracts module); the rest goes to the outside account as spending elsewhere, recorded
  * by line. The federal treasury borrows the month's gap from the groups that hold its debt and pays its net interest to them; a
  * state, county or city treasury pays what it holds and records the rest as
  * short. Social Security paid in town follows the federal line.
@@ -387,15 +387,23 @@ export interface TreasuryMonthRow {
   readonly paymentIds: readonly string[];
 }
 
-/** The town's businesses that do each kind of work, with how many they employ. */
-function providersIndex(api: CoreAPI): Map<string, [string, number][]> {
+/** A town business that bids for a kind of public work: how many it employs and what a worker costs it a day. */
+export interface ProviderFirm {
+  readonly organizationId: string;
+  readonly staff: number;
+  /** The mean daily wage across its jobs, the cost its bid rests on. */
+  readonly wageDailyMinor: number;
+}
+
+/** The town's businesses that do each kind of work. */
+function providersIndex(api: CoreAPI): Map<string, ProviderFirm[]> {
   const core = api.state as CoreState;
   const town = lawChain(api).townPlaceId;
   const kinds = new Set(
     Object.values(DATA.providers.lines).flatMap((l) => l.classifications),
   );
-  const staff = new Map<string, number>();
-  const count = (orgId: string) => {
+  const staff = new Map<string, { n: number; wages: number }>();
+  const count = (orgId: string, wageDailyMinor: number) => {
     const org = core.organizations.get(orgId);
     if (
       !org ||
@@ -404,20 +412,61 @@ function providersIndex(api: CoreAPI): Map<string, [string, number][]> {
       !kinds.has(org.classification ?? "")
     )
       return;
-    staff.set(orgId, (staff.get(orgId) ?? 0) + 1);
+    const row = staff.get(orgId) ?? { n: 0, wages: 0 };
+    row.n += 1;
+    row.wages += wageDailyMinor;
+    staff.set(orgId, row);
   };
   for (const job of core.jobs.values())
-    if (job.endsAt === undefined) count(job.organizationId);
+    if (job.endsAt === undefined) count(job.organizationId, job.wageDailyMinor);
   const rt = residentsRuntime(core);
   if (rt)
     for (const job of rt.jobs.values())
-      if (!core.jobs.has(job.id)) count(job.organizationId);
-  const out = new Map<string, [string, number][]>();
-  for (const [orgId, n] of [...staff].sort(([a], [b]) => a.localeCompare(b))) {
+      if (!core.jobs.has(job.id)) count(job.organizationId, job.wageDailyMinor);
+  const out = new Map<string, ProviderFirm[]>();
+  for (const [orgId, row] of [...staff].sort(([a], [b]) =>
+    a.localeCompare(b),
+  )) {
     const kind = core.organizations.get(orgId)!.classification!;
-    out.set(kind, [...(out.get(kind) ?? []), [orgId, n]]);
+    out.set(kind, [
+      ...(out.get(kind) ?? []),
+      {
+        organizationId: orgId,
+        staff: row.n,
+        wageDailyMinor: row.wages / row.n,
+      },
+    ]);
   }
   return out;
+}
+
+/** The contract a government's body awarded for one spending line. */
+export interface ContractAward {
+  readonly id: string;
+  readonly organizationId: string;
+}
+
+/** What the contracts module gives the treasury: who won a line's work, and a record of each payment. */
+export interface ContractAwarder {
+  award(
+    api: CoreAPI,
+    input: {
+      readonly gov: GovernmentRow;
+      readonly line: string;
+      readonly monthlyMinor: number;
+      readonly firms: readonly ProviderFirm[];
+    },
+  ): ContractAward | null;
+  paid(
+    api: CoreAPI,
+    awardId: string,
+    payment: { readonly id: string; readonly amountMinor: number },
+  ): void;
+}
+let contractAwarder: ContractAwarder | null = null;
+/** The contracts module registers how a government's body chooses among bids. */
+export function registerContractAwarder(awarder: ContractAwarder): void {
+  contractAwarder = awarder;
 }
 
 /** What this treasury couldn't cover of its opening employers' wages, by the core's own record. */
@@ -658,7 +707,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     });
     // The town's share of each line's purchases, to the town's businesses.
     const share = townShareOf(api, gov);
-    const toProviders: Record<string, [string, number][]> = {};
+    const awarded: Record<string, ContractAward> = {};
     const plan: Record<string, { providers: number; outside: number }> = {};
     for (const [line, d] of Object.entries(due)) {
       const left = Math.max(
@@ -672,8 +721,19 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       const bought = rule
         ? Math.min(left, Math.round(d * share * rule.purchasedShare.value))
         : 0;
-      const providerMinor = firms.length ? bought : 0;
-      if (providerMinor > 0) toProviders[line] = firms;
+      // The body chooses among the town's firms; with no firm, or no
+      // contracts engine, the purchase goes to the outside account.
+      const award =
+        bought > 0 && firms.length && contractAwarder
+          ? contractAwarder.award(api, {
+              gov,
+              line,
+              monthlyMinor: bought,
+              firms,
+            })
+          : null;
+      const providerMinor = award ? bought : 0;
+      if (award) awarded[line] = award;
       plan[line] = { providers: providerMinor, outside: left - providerMinor };
     }
     const need =
@@ -759,23 +819,20 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     for (const [line, d] of Object.entries(due)) {
       const p = plan[line]!;
       let providersPaid = 0;
-      const firms = toProviders[line];
-      if (firms) {
-        const staff = firms.reduce((s, [, n]) => s + n, 0);
-        let left = p.providers;
-        firms.forEach(([orgId, n], i) => {
-          const amount =
-            i === firms.length - 1
-              ? left
-              : Math.floor((p.providers * n) / staff);
-          left -= amount;
-          providersPaid += pay(
-            `treasury:${gov.id}:${line}:${orgId}:${date}`,
-            accounts.main(orgId),
-            amount,
-            `treasury-spending:${line}`,
-          );
-        });
+      const winner = awarded[line];
+      if (winner) {
+        const id = `treasury:${gov.id}:${line}:${winner.organizationId}:${date}`;
+        providersPaid = pay(
+          id,
+          accounts.main(winner.organizationId),
+          p.providers,
+          `treasury-spending:${line}`,
+        );
+        if (providersPaid > 0)
+          contractAwarder?.paid(api, winner.id, {
+            id,
+            amountMinor: providersPaid,
+          });
       }
       let outsidePaid = 0;
       if (gov.level === "federal" && line === DEBT.interestLine) {

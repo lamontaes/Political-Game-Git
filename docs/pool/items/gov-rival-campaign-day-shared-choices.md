@@ -5,11 +5,12 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/rival-campaign-day
+pr: #5268
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T23:23:02.039Z
 ---
 
 **What.** TODO

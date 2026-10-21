@@ -5,12 +5,13 @@ area: world
 kind: stopgap
 priority: 2
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/split-jobs-stopgaps
 pr:
-blocked-on:
+blocked-on: world-jobs-opening-seekers
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/jobs.ts, kind faked-mechanic"
+claimed-at: 2026-10-19T22:26:02.801Z
 ---
 
 **What.** The stopgap row(s) SG-WORLD-jobs-opening-seekers, SG-WORLD-jobs-layoff-decider, SG-WORLD-jobs-counted-choices, SG-WORLD-jobs-agreement-pinned, SG-WORLD-jobs-counted-retiree-income, SG-WORLD-jobs-offer-deadline-reminder in src/core2/modules/jobs.ts mark a shortcut that is still live in play. Today the opening's job seekers are only the neediest jobless adults, layoffs use a stand-in decider, counted workers choose by a stand-in, agreements are pinned, counted retirees get a stand-in income, and offer deadlines have no reminder. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.

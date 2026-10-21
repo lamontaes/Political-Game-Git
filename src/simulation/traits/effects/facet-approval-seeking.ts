@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /** Favorable reactions matter more when someone is asked to answer publicly. */
 export const facetApprovalSeekingEffects: readonly TraitEffectDeclaration[] = [

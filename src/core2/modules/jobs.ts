@@ -29,12 +29,12 @@ import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
 import { isDemoted } from "../counted-groups";
 import { residentPerson, residentsRuntime } from "./residents";
+import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
   addCountedJob,
-  addCountedRetiree,
   countedHeadsOf,
   countedJobsOf,
   endCountedJob,
@@ -754,24 +754,36 @@ export function affordableStaff(
 }
 
 /**
- * An opening nobody has taken for a while may be offered more by its owner
- * (owner, Oct 16): the raise is a share of the offered pay that follows the
- * owner's traits (an open-handed one raises, a stubborn one holds), and only
- * what the business's last month of trading can carry. No cap beyond that:
- * an employer who cannot afford it does not raise it.
+ * An opening nobody has taken may be offered more by its owner (owner, Oct 16:
+ * "if they can't afford it they can't afford it; if they're stubborn they
+ * might not do it"). The raise is read from the employer's books and its
+ * owner's traits; no step and no waiting period is fixed.
+ *
+ * - What the seat can carry: each head's share of what the last month left
+ *   after purchases and compliance (the wages it has to cover), read against
+ *   the opening's pay now. A seat already paid at or above that share is not
+ *   raised: the employer cannot afford it.
+ * - What the empty seat has cost: the days it has stood empty times that
+ *   share a day. Nothing has been lost on the first day, so nothing is raised
+ *   on it; the longer it stands, the more the owner will add.
+ * - Who decides: the owner's open-handedness, from the shared chooser
+ *   (`decisionLean`), scales what they will add; a stubborn owner adds
+ *   nothing.
+ * The added monthly cost is the least of those three and the room the last
+ * month's trading left, which raises already given this review use up.
  */
 export function raiseUnfilledPay(
   api: CoreAPI,
   organizationId: string,
   positions: PositionRow[],
   trading: BusinessTradingMonth | undefined,
+  heads: number,
 ): void {
   const c = core(api);
-  if (!trading || trading.days <= 0) return;
+  if (!trading || trading.days <= 0 || heads <= 0) return;
   const ownerId = ownerOf(api, organizationId);
   const owner = ownerId ? c.people.get(ownerId) : undefined;
   if (!ownerId || !owner?.alive) return;
-  const after = api.parameter("jobsRaiseAfterDays");
   const lean = decisionLean(
     c,
     owner,
@@ -779,29 +791,42 @@ export function raiseUnfilledPay(
     "raise-pay",
     "hold-pay",
   );
-  const step = (api.parameter("jobsRaiseStepShare") * (1 + lean)) / 2;
-  if (step <= 0) return;
+  const openHanded = (1 + lean) / 2;
+  if (openHanded <= 0) return;
   const monthDays = api.parameter("jobsDaysPerYear") / 12;
+  const perMonth = monthDays / trading.days;
   // What the last month left after wages, purchases and compliance, in a month's days, less raises already given this review.
   let room =
-    ((trading.salesMinor -
+    (trading.salesMinor -
       trading.payrollMinor -
       trading.costsMinor -
       trading.complianceMinor) *
-      monthDays) /
-    trading.days;
+    perMonth;
+  // What one head's seat can carry in a month: sales less purchases and compliance, shared across the heads.
+  const carriesMonthly =
+    ((trading.salesMinor - trading.costsMinor - trading.complianceMinor) *
+      perMonth) /
+    heads;
+  if (carriesMonthly <= 0) return;
   for (const [at, position] of positions.entries()) {
     if (position.status !== "open" || position.offeredTo) continue;
+    const hours = jobById(api, position.templateJobId)?.hoursDaily ?? 0;
+    if (hours <= 0) continue;
     const since = position.raisedOn ?? position.openedAt;
     const waited =
       (Date.parse(`${c.date}T00:00:00Z`) - Date.parse(`${since}T00:00:00Z`)) /
       86_400_000;
-    if (waited < after) continue;
-    const hours = jobById(api, position.templateJobId)?.hoursDaily ?? 0;
-    const next = Math.round(position.hourlyMinor * (1 + step));
-    const added = (next - position.hourlyMinor) * hours * monthDays;
-    if (next <= position.hourlyMinor || added > room) continue;
-    room -= added;
+    // What the seat has cost standing empty since it was last priced.
+    const lost = (waited * carriesMonthly) / monthDays;
+    const paysMonthly = position.hourlyMinor * hours * monthDays;
+    const added = Math.min(
+      room,
+      carriesMonthly - paysMonthly,
+      lost * openHanded,
+    );
+    const next = position.hourlyMinor + Math.floor(added / (hours * monthDays));
+    if (next <= position.hourlyMinor) continue;
+    room -= (next - position.hourlyMinor) * hours * monthDays;
     const raised: PositionRow = {
       ...position,
       hourlyMinor: next,
@@ -845,7 +870,7 @@ function reviewEmployers(api: CoreAPI): void {
       // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
       seasonalStaffing(book.kindId, c.date, opened);
     const trading = businessTradingMonth(api, row.id);
-    raiseUnfilledPay(api, row.id, positions, trading);
+    raiseUnfilledPay(api, row.id, positions, trading, staff);
     const observedStaff =
       trading && trading.days > 0 && book.capacityMinor > 0
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
@@ -895,8 +920,10 @@ function reviewEmployers(api: CoreAPI): void {
     const adjustment = p("jobsStaffGapActedPerMonth");
     const shrinkAdjustment = adjustment + (1 - adjustment) * lossPressure;
     // Replacements for leavers count only while staff is below target; above it, attrition does the shrinking.
+    // A shrink carried from an earlier month is stale once the firm is short of staff: a leaver's job is still owed.
+    const owed = (row.leavers ?? []).reduce((n, l) => n + (l.heads ?? 1), 0);
     let need =
-      (gap > 0 ? row.need : Math.min(row.need, 0)) +
+      (gap > 0 ? Math.max(row.need, owed) : Math.min(row.need, 0)) +
       (gap > 0 ? adjustment * gap * reach : shrinkAdjustment * gap);
     // A new business's first roles come from its template business.
     const from =
@@ -1132,6 +1159,24 @@ function tenureYears(api: CoreAPI, job: JobInput): number {
   );
 }
 
+/** The full worker who runs a firm with no recorded owner: the best paid of those staying, ties by id. */
+function managerOf(
+  c: CoreState,
+  staff: readonly JobInput[],
+  leaving: JobInput,
+): string | undefined {
+  return staff
+    .filter(
+      (row) =>
+        row.personId !== leaving.personId && c.people.get(row.personId)?.alive,
+    )
+    .sort(
+      (a, b) =>
+        (b.hourlyMinor ?? 0) - (a.hourlyMinor ?? 0) ||
+        a.personId.localeCompare(b.personId),
+    )[0]?.personId;
+}
+
 /** The business decides who goes: the worker whose tenure and record it values least. */
 function layOff(
   api: CoreAPI,
@@ -1164,9 +1209,10 @@ function layOff(
   // the hire is full now, but their job can still live only in the counted books.
   if (c.jobs.has(job.id)) api.endJob(job.id, `jobs:layoff:${api.state.date}`);
   else endCountedJob(c, job.id);
-  // The owner decides; a business without a recorded owner decides as itself.
-  const decidedBy = ownerOf(api, organizationId);
-  if (!decidedBy) stopgap("SG-WORLD-jobs-layoff-decider");
+  // The owner decides; a firm with no recorded owner is run by its best-paid
+  // full worker still on the staff, ties by id. Only a firm with no one left
+  // to decide it lets go of its last worker as itself (it is closing).
+  const decidedBy = ownerOf(api, organizationId) ?? managerOf(c, staff, job);
   record(api, {
     personId: job.personId,
     organizationId,
@@ -1987,10 +2033,8 @@ function reviewCountedRetirements(api: CoreAPI): void {
     store(api).table("countedSeekers").remove(job.personId);
     endClaim(api, store(api).table("claims"), job.personId);
     endCountedJob(c, job.id);
-    // Their income goes on as their place's retirees' does (stand-in until their own claim is modeled).
-    stopgap("SG-WORLD-jobs-counted-retiree-income");
-    const placeId = residentPerson(c, job.personId)?.placeId;
-    if (placeId) addCountedRetiree(c, placeId, job.personId);
+    // Their income goes on from their own claim: age, covered work and traits.
+    claimRetirementNow(api, job.personId);
     record(api, {
       personId: job.personId,
       organizationId: job.organizationId,

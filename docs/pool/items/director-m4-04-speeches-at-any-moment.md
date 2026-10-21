@@ -5,12 +5,13 @@ area: director
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/director-m4-verify-2
+pr: #5350
 blocked-on:
 milestone: M4
 source: "docs/roadmap/later-specs-draft.md M4-04"
+claimed-at: 2026-10-20T00:47:40.875Z
 ---
 
 **What.** Give a speech anytime; each listener reacts by who they are, and it gets retold to family and friends. Movements come after early access. (Owner: OPUS-PEOPLE.)

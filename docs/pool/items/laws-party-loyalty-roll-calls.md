@@ -4,12 +4,13 @@ title: "Party loyalty calibrated from each legislature's public roll calls"
 area: laws
 kind: research
 priority: 2
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-l9cym2
+pr: #5159
 blocked-on:
 milestone:
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
+claimed-at: 2026-10-19T21:28:04.617Z
 ---
 
 **What.** State legislators' party loyalty is set from the Shor-McCarty dataset, which is non-commercial and cannot ship. The owner's Oct 15 ruling lets it calibrate the state-chamber party-loyalty parameter as one input weighted against roll calls, with nothing shipped and no citation. The replacement calibrates each chamber from its own public roll-call records. A player would see members of each chamber vote with or against their party the way that chamber really does.

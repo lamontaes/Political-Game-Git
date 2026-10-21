@@ -4,12 +4,13 @@ title: "Stopgaps in credit (missing-record): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/mortgage-funding
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/credit.ts, kind missing-record"
+claimed-at: 2026-10-19T22:11:14.322Z
 ---
 
 **What.** The stopgap row(s) SG-WORLD-opening-mortgage-funding in src/core2/modules/credit.ts mark a shortcut that is still live in play. Today the bank holds opening mortgages whose original funding is an unmatched opening liability instead of named customer deposits. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.

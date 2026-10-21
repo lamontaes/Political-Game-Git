@@ -4,12 +4,13 @@ title: "Stopgaps in residents (skipped-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The credit engine draws only against a standing finance contract; counted wages are residents flows paid by transfer, so a correct draw needs a finance-engine entry for flows (OPUS-CORE).
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind skipped-mechanic"
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open skipped-mechanic stopgap row(s) in src/core2/modules/residents.ts: SG-WORLD-wages-skip-credit-line. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

@@ -236,24 +236,64 @@ describe("political views", () => {
         moodImpulse: -0.3,
         source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
       });
-    hear("fixture-case-1");
-    hear("fixture-case-2");
-    hear("fixture-case-3");
+    // The latest cause is the hearing that just happened: read what it moved
+    // the listener by after each one.
+    const moves = ["fixture-case-1", "fixture-case-2", "fixture-case-3"].map(
+      (id) => {
+        hear(id);
+        const [stance] = stancesOf(api, listener!.id).filter(
+          (row) => row.topic === "fixture:wear-out",
+        );
+        const latest = stance!.causes.at(-1)!;
+        expect(latest.eventId).toBe(id);
+        expect(latest.speakerId).toBe(speaker!.id);
+        return latest.change;
+      },
+    );
+    // Each hearing moves the listener less than the one before.
+    const [first, second, third] = moves;
+    expect(second!).toBeLessThan(first!);
+    expect(third!).toBeLessThan(second!);
+    // The one speaker is one row: three hearings, the sum of what they moved.
     const [stance] = stancesOf(api, listener!.id).filter(
       (row) => row.topic === "fixture:wear-out",
     );
-    const [first, second, third] = stance!.causes.map((cause) => cause.change);
-    // Each hearing is recorded with its event and the speaker, and moves the
-    // listener less than the one before.
-    expect(stance!.causes.map((cause) => cause.eventId)).toEqual([
-      "fixture-case-1",
-      "fixture-case-2",
-      "fixture-case-3",
-    ]);
-    expect(
-      stance!.causes.every((cause) => cause.speakerId === speaker!.id),
-    ).toBe(true);
-    expect(second!).toBeLessThan(first!);
-    expect(third!).toBeLessThan(second!);
+    expect(stance!.causes).toHaveLength(1);
+    expect(stance!.causes[0]!.count).toBe(3);
+    expect(stance!.causes[0]!.total).toBeCloseTo(first! + second! + third!, 10);
+  });
+
+  it("keeps one cause per source for a stance heard about over and over", () => {
+    const { core, api, adults } = towns[1]!;
+    const [speaker, listener] = adults.slice(4);
+    // Causes are kept whole for the player's circle: make this listener part of it.
+    core.focusPersonIds.add(listener!.id);
+    const heard = 60;
+    let total = 0;
+    for (let n = 1; n <= heard; n += 1)
+      applyCoreEvent(core, {
+        id: `fixture-repeat-${n}`,
+        date: core.date,
+        kind: "fixture.case-made",
+        personIds: [speaker!.id],
+        witnessIds: [listener!.id],
+        placeId: speaker!.placeId,
+        topic: "fixture:repeat",
+        desiredChange: "raise-it",
+        moodImpulse: -0.3,
+        source: { tag: "SOURCED", citation: "Fixture event.", asOf: core.date },
+      });
+    const [stance] = stancesOf(api, listener!.id).filter(
+      (row) => row.topic === "fixture:repeat",
+    );
+    // One speaker, one record: one row, however many times they spoke.
+    expect(stance!.causes).toHaveLength(1);
+    const [cause] = stance!.causes;
+    // It names the latest event, and counts every event that moved the stance.
+    expect(cause!.eventId).toBe(`fixture-repeat-${heard}`);
+    expect(cause!.speakerId).toBe(speaker!.id);
+    expect(cause!.count).toBe(heard);
+    total = cause!.total!;
+    expect(total).toBeGreaterThan(cause!.change);
   });
 });

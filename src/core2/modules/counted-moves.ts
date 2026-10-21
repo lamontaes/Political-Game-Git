@@ -49,7 +49,6 @@ import type {
 
 export const COUNTED_MOVES_MODULE_ID = "core2-counted-moves-v1";
 const TABLE = "moves";
-const STATES_TABLE = "states";
 const PULLS_TABLE = "pulls";
 
 /** Coarse age bands and the ACS bands each averages. */
@@ -704,9 +703,6 @@ function month(api: CoreAPI): void {
   rt.totals.set(monthKey, totals);
   for (const key of [...rt.totals.keys()].sort().slice(0, -3))
     rt.totals.delete(key);
-  const table = api.moduleState(COUNTED_MOVES_MODULE_ID).table(STATES_TABLE);
-  for (const [usps, people] of totals)
-    table.put({ id: usps, month: monthKey, people } as unknown as ModuleRow);
 }
 
 function countedPeople(residents: ResidentsRuntime): number {
@@ -1014,7 +1010,7 @@ export const COUNTED_MOVES_MODULE: CoreModule = {
   id: COUNTED_MOVES_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { [TABLE]: {}, [STATES_TABLE]: {}, [PULLS_TABLE]: {} },
+    tables: { [TABLE]: {}, [PULLS_TABLE]: {} },
   },
   onDay(api) {
     if (!api.state.date.endsWith("-01")) return;

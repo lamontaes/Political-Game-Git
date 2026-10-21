@@ -5,6 +5,8 @@
 // Prints the furthest step reached. Usage: node --import tsx src/bench/path-check.ts
 import { coreAPI } from "../core2/state";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import { committeeRecords } from "../core2/modules/legislature";
+import { billTally } from "./bill-tally";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
 import { BenchPlayer } from "./player";
@@ -320,8 +322,10 @@ if (holder) {
   const after = seatView(w.core, holder).bills.find(
     (b) => b.bill.id === bill.id,
   );
+  const committee = committeeRecords(coreAPI(w.core), bill.id).at(-1);
+  const tally = billTally(after?.votes ?? [], committee);
   log.push(
-    `${body.title} bill ${bill.number}: ${after?.bill.status} (${after?.votes.filter((v) => v.vote === "yes").length ?? 0}–${after?.votes.filter((v) => v.vote === "no").length ?? 0})`,
+    `${body.title} bill ${bill.number}: ${after?.bill.status} (${tally})`,
   );
 } else log.push("no resident officeholder on a body");
 

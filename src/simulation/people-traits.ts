@@ -27,7 +27,7 @@ import {
   strengthForMagnitude,
   traitDefinitionFromPack,
   type RegisteredTrait,
-} from "./trait-packs";
+} from "../core2/trait-packs";
 import type { TraitLifePart } from "./personality-trait-registry";
 import { readTrait } from "./trait-readings";
 import { traitRegistryFor } from "./trait-registry";

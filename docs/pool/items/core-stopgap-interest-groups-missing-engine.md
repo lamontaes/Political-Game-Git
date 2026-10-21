@@ -4,12 +4,13 @@ title: "Stopgaps in interest-groups (missing-engine): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-lobbyist-owner
+pr: #5267
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/interest-groups.ts, kind missing-engine"
+claimed-at: 2026-10-19T23:27:30.009Z
 ---
 
 **What.** Replace or clear the 1 open missing-engine stopgap row(s) in src/core2/modules/interest-groups.ts: SG-GOV-group-lobbyist-stand-in. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

@@ -1,39 +1,57 @@
-# The opening input shrank; the finance year is still pending
+# core2: the map
 
-Before: Measured, the opening input occupied 3,247.9 million bytes and took 75.35 seconds to build and freeze. The preserved finance year closed 23 of 27 employers and remains rejected.
+`src/core2` is the game's one engine. Everything else is a client of it. The longer story is `ARCHITECTURE.md` at the root; the working rules are `AGENTS.md`.
 
-After: Measured, the same opening input occupies 732.5 million bytes and took 20.80 seconds to build and freeze. Financial terms, cash, roster counts and complete supplier qualifications match. The pending year must establish annual speed and financial outcomes.
+## The day
 
-## What is measured
+`advanceCore` in `life.ts`, one day per loop:
 
-Measured: The opening contains 10,002 people, 3,955 households, 1,433 jobs and 68,140 standing contracts. Opening cash remains 2,776,644,905 minor units, with zero added cash. Every checked opening invariant matches both preceding measurements. [Current opening census](receipts/prototype-v9-opening-census-after-20261010.json#L1338)
+1. the date moves one day; the people due today are noted;
+2. the module calendar runs (`module-calendar.ts`): dated work modules scheduled earlier;
+3. each module's `onDay`, in registration order (base order in `createLifeCore`; economy order is `WORLD_MODULES` in `modules/world.ts`);
+4. planned acts fall due;
+5. due people act through the one chooser, `choice.ts` (no dice: the best-scored offer wins);
+6. each module's `onAfterDay`;
+7. compaction of routine statistics and quiet work results.
 
-Measured: Encoded qualification strings fell from 1,918.6 million bytes to 4.9 million bytes. Finance fell from 719.3 million bytes to 227.1 million bytes. Preparation timing describes one observation per variant and advances no game days. [Paired size and preparation evidence](receipts/prototype-v9-money-repair-wip-20261010.json#L262)
+`focus.ts` decides who gets daily detail.
 
-Measured: The current census is 73,230.42 bytes per resident. Its declared conservative Source share is 69.9142%. This measure includes Sources inside encoded records and differs from the earlier direct-only share. [Registered byte census](receipts/prototype-v9-opening-census-after-20261010.json#L990)
+## Modules by area
 
-Measured: Finance passed all 41 checks and capital passed all 54 checks. Customer and Source-module checks passed all 164 cases. The observer passed 14 cases; the input counter passed 11. Earlier failures remain recorded as failures. [Executed gate history](receipts/prototype-v9-money-repair-wip-20261010.json#L47)
+Shape: `CoreModule` in `types.ts` (`id`, `state`, hooks `onDay`, `onAfterDay`, `onCalendarWork`, `onEvent`, `onEventAppraisal`, `onRelationshipChange`, `onFillIn`, `onWorkResult`, `onWorkAttendance`, `onWorkPayroll`, `onSalesReceipt`, `onCountedWages`; declarations `eventKinds`, `appraisalEventKinds`, `relationshipKinds`, `reasonProviders`, `journalSourceProviders`, `needEvaluators`, `offerProviders`, `effectHandlers`, `eligibilityRules`). All in `modules/`.
 
-Measured: Strict types, lint, formatting, and no-dice checks passed for the 15 affected TypeScript files before the final budget-runner change. The earlier lint failure remains recorded. [Source-check evidence](receipts/prototype-v9-money-repair-wip-20261010.json#L1708)
+- **Core:** life, record, residents, moves, counted-moves, counted-demotion, homeless-count, finance, work, staff, meetings, resting-stress, retirement-claims, filing-clerk, succession, outcome-web, world.
+- **Government:** laws, world-legislating, budgets, employer-taxes, purchase-tax, official-pay, offices, officials, office-day, leadership, executive, legislature, elections, world-races, campaigns, candidacy, voting, ballot-measures, recalls, parties, interest-groups, constituent-cases, justice, corruption, press, news.
+- **People:** people, health, drives, views, renewal, speech, school.
+- **World:** macro, regional, jobs, housing, credit, business, place-prices, world-metrics, disasters.
+- **Play:** world-panels.
 
-## What the code changes
+## The API
 
-Inferred: Each provider retains each complete service qualification once. [Provider qualification owner](opening-customers.ts#L985)
+`CoreAPI` in `types.ts`. A module touches the world only through it.
 
-Inferred: Private qualification metadata no longer makes a private firm count as a government institution. Genuine government evidence still excludes institutional books from the private route. The valid no-income calendar chain rebuilds; self-references and cycles reject. [Opening finance admission](opening-finance.ts#L686)
+- Reading: `moduleState`, `moduleCalendar`, `accounts`, `version`, `parameter`, `observe`, `knows`, `relationship`, `lookupPublicOrganization`.
+- Money (`accounts.ts`, `journal.ts`; every movement one balanced entry): `postJournal`, `completeJournalSource`, `releaseJournalSource`, `registerCashAccount`, `addFinanceContract`, `addFinanceCondition`, `addCreditFacility`, `drawCredit`, `repayCredit`, `repriceCreditFacility`, `reduceStandingArrears`, `carryStandingArrears`, `setStandingContractAmount`, `endStandingContract`, `settleFinanceContract`, `retireFinanceBudget`, `prepareFinanceProcurement`, `finishFinanceDay`, `setPurchaseTax`, `endPurchaseTax`, `fundPublicPay`, `publicPayShortfallMinor`.
+- Work and business: `startJob`, `startSalariedPost`, `endJob`, `rerateJob`, `addWorkCommitment`, `addWorkPayrollCalendar`, `recordWorkAttendance`, `settleWorkPayroll`, `settleWorkResult`, `settleLegacyWorkResult`, `addBusinessBooks`, `attachBusinessCredit`, `reviewBusiness`, `closeEmployer`, `closeBusinessByChoice`, `enterMarket`, `addOrganization`.
+- People: `updatePerson`, `updateNeeds`, `updateGoal`, `updateDrive`, `meet`, `join`, `leave`, `markOrganized`, `recordActivityTime`, `recordDiscretionaryTime`.
+- Events and acts: `emit`, `subscribeEvents`, `publishEventAppraisal`, `subscribeEventAppraisals`, `subscribeRelationshipChanges`, `validateAct`, `recordAct`, `requestCallback`, `resolveCallback`.
+- Honesty: `stopgap`.
 
-Inferred: The measurement guard limits input size to 80,554 bytes per resident and a 74.9142% declared conservative Source share. Those ceilings add chosen engineering margins of 10% and five percentage points to this opening measurement. The guard prints the census and rejects oversized inputs before exports or world initialization. [Technical input limits](tooling/opening-input-budgets.json#L2)
+## People, two tiers
 
-Inferred: The observer reports the existing actual customer-sales counter separately from other transfers and credit. It does not infer which fungible dollars funded payroll. [Finance observation](tooling/finance-observables.ts#L550)
+Full people in `person-state.ts`; everyone else as counted groups in `counted-groups.ts` (columns per place, household kind, income band, age band). `fillInPerson` in `state.ts` fills a counted person in when the game needs them and calls each module's `onFillIn`. See `docs/design/one-model-two-tiers.md`.
 
-## What remains
+## Data and parameters
 
-Pending: Complete one warmup and three measured years. Judge closures below 10% and actual customer sales covering most paid wages. Nine unsupported product classifications remain declared gaps; the year uses flat national conditions. [Current limitations](receipts/prototype-v9-money-repair-wip-20261010.json#L183)
+- `data/<name>/`: what each engine loads. Root `data/` is evidence and words; it never runs inside the engine.
+- `data/parameters.json`: every number, read through `api.parameter`; each row SOURCED, ESTIMATED or TUNABLE, with citation and spread.
+- `data/stopgaps.json`: every shortcut, registered through `api.stopgap`. `assertReleaseReady` (`stopgaps.ts`) refuses a release while any is open.
 
-Measured in the preserved annual baseline: The median was 96.47 days per minute without finance and 124.51 with rejected finance outcomes. No new annual days per minute has been measured. The target remains one game year under two minutes. [Preserved annual baseline](receipts/prototype-v9-money-repair-wip-20261010.json#L14)
+## How to add a module
 
-Pending: All 81 gaps remain open. The order is green checks, the measured slowdown repair, the judged year, four shared interfaces, RENEWAL and SPEED. P16 owns profiling; P15 owns PEOPLE on separate stacked branches. [Current CTO order](https://github.com/lamontaes/Political-Game-Git/pull/3918#issuecomment-6099430286)
-
-## Method
-
-The census used the same immutable original roster in the cloud. Two byte counters agreed without writing another giant input export. Startup build and final freeze are timed separately from the year. The technical margins are chosen limits; no spread across opening worlds has been measured. No world ran on the owner's Mac.
+1. One file, `modules/<name>.ts`, exporting a `CoreModule`. Helpers go in `src/core2/<name>-*.ts`.
+2. Register it in the module order (`createLifeCore` in `life.ts`, or `WORLD_MODULES` in `modules/world.ts` for the economy).
+3. Numbers as rows in `data/parameters.json`; the engine's own tables in `data/<name>/`.
+4. Tests beside it (`modules/<name>.test.ts`); the golden path in `tests/golden-path/` must still pass.
+5. Any shortcut gets a marker in the code and a row in `data/stopgaps.json`.
+6. Run `npm run zero-dice`, the golden path (`tests/golden-path/runner.mjs`) and `npm run speed:year`.

@@ -5,11 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/past-business-closures
+pr: #5072
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:01:21.474Z
 ---
 
 **What.** The news archive reports the year before day one but carries no business closures, because the generated past holds none: businesses start on day one. Generate the closures of the town's businesses in that year from the business engine's own past, as records with the owner, the workers and the date. Carry them into the archive so a shop that closed last year is in the news history and the people it employed remember it.

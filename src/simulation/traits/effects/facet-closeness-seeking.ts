@@ -1,4 +1,4 @@
-import type { TraitEffectDeclaration } from "../../trait-packs";
+import type { TraitEffectDeclaration } from "../../../core2/trait-packs";
 
 /** A high need for closeness gives a committed bond's invitation extra weight. */
 export const facetClosenessSeekingEffects: readonly TraitEffectDeclaration[] = [

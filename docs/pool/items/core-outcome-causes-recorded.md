@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/outcome-causes-recorded
+pr: #5075
 blocked-on:
 source: "split from core-stopgap-outcome-web-faked-mechanic (SG-WEB-outcome-drift), Oct 15"
+claimed-at: 2026-10-19T18:17:59.568Z
 ---
 
 **What.** 18 links wait because no engine records their cause (`cause-not-recorded`): pretrial detention, a severe disaster, health coverage, the earned income credit, blood lead, school-year heat, home prices, marriage equality, a denied abortion, a local newspaper closing and an exposed corruption case. Each cause is recorded by the engine that owns the thing (justice, disasters, health, programs, housing, press, officials) as a kept measure the web reads, one link at a time. The links include: `pretrial-detention-to-conviction`, `pretrial-detention-to-employment`, `release-lower-level-to-larceny`, `disaster-to-public-transfers`, `disaster-to-out-migration`, `disaster-to-home-values`, `coverage-to-catastrophic-bills`, `coverage-to-medical-debt`, `coverage-to-depression`, `eitc-to-low-birthweight`, `lead-to-reading`, `heat-to-learning`, `home-prices-to-owner-births`, `home-prices-to-renter-births`, `marriage-equality-to-coverage`, `abortion-denied-to-financial-distress`, `newspaper-clos

@@ -11,6 +11,7 @@ pr:
 blocked-on:
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-02"
+claimed-at:
 ---
 
 **What.** A versioned save format; a save can always continue, and updates don't break it. (Owner: OPUS-CORE.)

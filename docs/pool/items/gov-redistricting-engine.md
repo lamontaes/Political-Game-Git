@@ -5,12 +5,13 @@ area: gov
 kind: feature
 priority: 3
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/peaceful-ritchie-03780x
 pr:
-blocked-on:
+blocked-on: gov-redistricting-who-draws
 milestone:
 source: "split from laws-family-government-operations; stopgap SG-GOV-REACH-A-redistricting; owner D-6 (approved) and Sept 28 #8"
+claimed-at: 2026-10-19T23:51:06.707Z
 ---
 
 **What.** After a census the game recounts its people, seats shift between states, and the maps are redrawn: council wards, state legislative districts and U.S. House districts, by whoever the state's law names (legislature, independent commission, council). The independent-redistricting law decides who holds the pen. Neighborhood makeup comes from Census place data and is used the way courts use it under the Voting Rights Act; it is never a label on a person.

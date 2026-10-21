@@ -4,12 +4,13 @@ title: "Stopgaps in opening-partnership (estimated-behavior): 1 open"
 area: art
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/political-game-pool-yucp92-e
 pr:
-blocked-on:
+blocked-on: research-deep-past-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/opening-partnership.ts, kind estimated-behavior"
+claimed-at: 2026-10-19T22:53:17.745Z
 ---
 
 **What.** Replace or clear the 1 open estimated-behavior stopgap row(s) in src/core2/opening-partnership.ts: SG-P15-partnership-model. Each fake is replaced by the mechanic, or the feature that needs it is deleted.

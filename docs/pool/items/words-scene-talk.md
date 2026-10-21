@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: in-pr
+claimed-by: words/scene-talk
 pr: #4459
 blocked-on:
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
-claimed-at:
+claimed-at: 2026-10-20T00:34:33.834Z
 ---
 
 **What.** Scenes with a purpose: a person wants something, the stakes are clear, and an exchange runs to a result. Fix the root of talk openings so no opener appears without a long-ago record behind it and a yes or no is always followed up. Build the exchange engine with its fifteen-talk test, then batch 13 on top of it.
@@ -32,3 +32,6 @@ Sent back 2026-10-16 from PR #4459 (branch words/scene-talk): Merging current ma
 Sent back 2026-10-17 from PR #4459 (branch words/scene-talk): The top of the PR body has no named in-session changed-file checks and result. Move the existing check results to the top, then request another merger pass.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-17 from PR #4459 (branch words/scene-talk): The gate line and main-merge issues are fixed, but scripts/dialogue-batch/grading-bench.test.ts deletes the existing generated-world staging test and both regression tests for missing cause records/raw IDs/missing cast records. The replacement tests cover deduplication and calibration, not those safety contracts; grading-bench.ts still contains those production responsibilities. Port the existing assertions to the replacement cached-world staging path: every catalog type is staged or reports why, every staged scene has a cause and nonempty recorded cast, and invalid IDs/cast are reported. Keep the new tests as well; do not remove this coverage to land the replacement.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): Merge main conflicts require author resolution: data/english/parts/scene-words.json, scripts/dialogue-batch/coverage-table.test.ts; finish on that branch, merge main into it first.
+Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): merge conflicts in data/english and scripts/english-corpus/moves.json; finish on that branch, merge main into it first.

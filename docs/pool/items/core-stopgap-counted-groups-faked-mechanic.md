@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 status: blocked
-claimed-by: claude/core-stopgap-counted-groups
+claimed-by: claude/pool-counted-groups
 pr: #4500
-blocked-on: world-counted-reads-jobs
+blocked-on: core-counted-views-delete
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/counted-groups.ts, kind faked-mechanic"
-claimed-at: 2026-10-15T22:53:13.302Z
+claimed-at: 2026-10-20T00:26:28.869Z
 ---
 
 **What.** The stopgap row(s) SG-CORE-counted-person-views in src/core2/counted-groups.ts mark a shortcut that is still live in play. Today engines that read counted people one by one (jobs, business, campaigns, retirement claims, housing, place prices, candidacy) get a person or household record built on demand from the counted group's packed columns by a stand-in. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.

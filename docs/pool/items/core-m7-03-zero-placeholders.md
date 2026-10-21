@@ -11,6 +11,7 @@ pr:
 blocked-on:
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-03"
+claimed-at:
 ---
 
 **What.** Every registered shortcut replaced, or turned into a sourced or marked estimate. (Owner: Every session, in its own area.)
