@@ -62,6 +62,7 @@ function townWithCity(attempt: number): { key: string; state: string } {
 
 interface Contract {
   readonly id: string;
+  readonly since: string;
   readonly facts: Record<string, string | number>;
 }
 const contracts = (api: CoreAPI): Contract[] =>
@@ -199,8 +200,23 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
         paid?.lastPayrollReceiptId,
         `${place.key}: ${sampleJob.id} paid after ${contract.id}`,
       ).toBeTruthy();
+      const receipt = core.work.latestPayrollByJob.get(sampleJob.id);
+      expect(receipt).toMatchObject({
+        id: paid!.lastPayrollReceiptId,
+        personId: sampleJob.personId,
+        organizationId: sampleJob.organizationId,
+      });
+      expect(receipt!.date >= contract.since).toBe(true);
+      expect(receipt!.paidMinor).toBeGreaterThan(0);
+      const cashSource = core.work.payrollCashSources.get(receipt!.id);
+      expect(cashSource).toBeDefined();
+      expect(
+        cashSource!.postedJournalSequence !== undefined ||
+          cashSource!.completedAt !== undefined,
+      ).toBe(true);
+      expect(countedChecked).toBeGreaterThan(0);
       process.stdout.write(
-        `BARGAINING ${place.key} (seed ${seed}): ${contract.id} raised ${f.raised} jobs by ${f.raisePct}% (${f.line}); ${sampleJob.personId} on ${sampleJob.id} ${f.sampleFromMinor} to ${f.sampleToMinor}, paid by ${sampleJob.organizationId} in ${paid!.lastPayrollReceiptId}; ${countedChecked} counted jobs re-rated and checked\n`,
+        `BARGAINING ${place.key} (seed ${seed}): ${contract.id} raised ${f.raised} jobs by ${f.raisePct}% (${f.line}); ${sampleJob.personId} on ${sampleJob.id} ${f.sampleFromMinor} to ${f.sampleToMinor}, paid by ${sampleJob.organizationId} in ${paid!.lastPayrollReceiptId} (${receipt!.paidMinor} minor, journal ${cashSource!.postedJournalSequence ?? "completed public source"}); ${countedChecked} counted jobs re-rated and checked\n`,
       );
       // A repeal at every level in force stops the next contract.
       const repealed = new Set(yesLevels(api, KEY).map((l) => l.lawId));
