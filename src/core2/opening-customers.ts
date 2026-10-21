@@ -1581,6 +1581,19 @@ export function buildOpeningCustomers(
         );
         continue;
       }
+      // A buyer whose own jurisdiction is not the covered place (a township
+      // the town lies in) settles only against a recorded owner coverage of
+      // the place; where none is recorded the contract is not built, never
+      // built without the record settlement checks.
+      if (
+        buyer.placeId !== placeId &&
+        !(group.identitySource && group.coverageSource)
+      ) {
+        gaps.add(
+          `opening-customers:public-owner-outside-covered-place-without-coverage:${share.id}:${placeId}`,
+        );
+        continue;
+      }
       if (!sellerRows.length || share.amount <= zero) {
         gaps.add(
           `opening-customers:public-custodial-budget-unbound:${share.id}`,

@@ -330,6 +330,8 @@ type FilingRuleRow = {
     readonly weekday?: number;
     readonly nth?: number;
     readonly plusDays?: number;
+    /** The rule falls this many calendar years before the election's year (a December filing for a February election). */
+    readonly yearsBefore?: number;
   };
   readonly ruleText?: string | null;
   readonly citation: string;
@@ -351,7 +353,7 @@ export function municipalFilingDeadline(
   const row = filingRules[stateKey];
   if (!row) return null;
   const { rule } = row;
-  const year = Number(electionDate.slice(0, 4));
+  const year = Number(electionDate.slice(0, 4)) - (rule.yearsBefore ?? 0);
   let date: string | null = null;
   if (rule.kind === "days-before-election")
     date = addDays(makeIsoDate(electionDate), -(rule.days ?? 0));
@@ -591,6 +593,27 @@ function termStartRow(office: OfficeInput): TermStartRow | undefined {
   return (termStartData as unknown as TermStartTable).states[stateKey]?.[
     officeFamily(office)
   ];
+}
+
+/**
+ * A term start moved whole years from another start, set back on the state's
+ * own clause day for its year (the office's weekday rule where it is read),
+ * else left as it was.
+ */
+export function termStartInYear(office: OfficeInput, shifted: string): string {
+  const rule = office.termStarts ? undefined : termStartRow(office)?.rule;
+  if (!rule) return shifted;
+  return addDays(
+    makeIsoDate(
+      nthWeekday(
+        Number(shifted.slice(0, 4)),
+        rule.month,
+        rule.weekday,
+        rule.nth,
+      ),
+    ),
+    rule.offsetDays,
+  );
 }
 
 /** The first start a state's weekday rule gives after the election day. */
