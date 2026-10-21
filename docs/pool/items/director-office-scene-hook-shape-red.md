@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/office-scene-hook-shape
-pr:
+pr: #5825
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T17:59:38.216Z
