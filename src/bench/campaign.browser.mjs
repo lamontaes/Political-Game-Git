@@ -93,6 +93,34 @@ try {
       controls.some((c) => c.startsWith(name)),
       `the Campaigns screen has ${name}`,
     );
+  // The campaign day has no list of acts: no "Today" heading, and each
+  // campaign row carries exactly one control per outing.
+  const outings = [
+    "Knock on doors",
+    "Hold an event",
+    "Ask for an interview",
+    "Call donors",
+  ];
+  const headings = await page
+    .locator("#sheet-body b")
+    .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
+  assert.ok(!headings.includes("Today"), "the Campaigns screen lists no acts");
+  const rows = page.locator(".row.campaign");
+  for (let i = 0; i < (await rows.count()); i += 1) {
+    const labels = await rows
+      .nth(i)
+      .locator("button")
+      .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
+    const outingButtons = labels.filter((l) =>
+      outings.some((name) => l.startsWith(name)),
+    );
+    if (!outingButtons.length) continue;
+    assert.equal(
+      outingButtons.length,
+      outings.length,
+      `one control per outing, no list of acts: ${outingButtons.join(" | ")}`,
+    );
+  }
   await page.screenshot({
     path: "docs/reports/campaign-controls-2026-10-20/campaigns.png",
   });
