@@ -4,7 +4,7 @@ title: "Stopgaps in office-day-federal (missing-engine-hook): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/pool-fed-prepared
 pr: #5262
 blocked-on:

@@ -230,11 +230,33 @@ if (holder) {
     bill.status === "drafted"
   )
     try {
-      const request = askLeaderForHearing(coreAPI(w.core), holder, bill.id);
-      leaderDate = request.scheduledFor ?? undefined;
+      let request = askLeaderForHearing(coreAPI(w.core), holder, bill.id);
       log.push(
-        `the majority leader ${request.granted ? `put it on the floor for ${leaderDate}` : "left it off the floor"}`,
+        `the majority leader ${request.granted ? `put it on the floor for ${request.scheduledFor}` : "left it off the floor"}`,
       );
+      // A refused member goes back to the leader with something to offer: the
+      // talk carries the deal, and an accepted one is read in the new answer.
+      for (const deal of request.granted ? [] : ["favor", "back-their-item"]) {
+        try {
+          colleagueDeal(w.core, holder, request.leaderId, deal);
+          officeActHandlers(officeHost)["talk-to-colleague"](
+            coreAPI(w.core),
+            holder,
+            { targetId: request.leaderId } as never,
+          );
+        } catch (error) {
+          log.push(`no offer to the leader: ${(error as Error).message}`);
+          break;
+        }
+        request = askLeaderForHearing(coreAPI(w.core), holder, bill.id);
+        if (request.offer) {
+          log.push(
+            `the leader accepted ${request.offer.kind} (${request.offer.obligationId}) and ${request.granted ? `put it on the floor for ${request.scheduledFor}` : "still left it off the floor"}`,
+          );
+          break;
+        }
+      }
+      leaderDate = request.scheduledFor ?? undefined;
     } catch (error) {
       log.push(`no leader to ask: ${(error as Error).message}`);
     }
