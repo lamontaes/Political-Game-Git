@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** Since full and counted workers decide by the same chooser (world-jobs-counted-choices-one-rule), quitting and looking around while employed win only on a large pay gap, so a played year has far fewer quits than JOLTS reports; counted quits fell from 67 to a handful in one town. Recalibrate quitScore and the look terms (jobsLookBaseline, jobsPayGapWeight and the unemployment weights) so a played year's quits per worker match JOLTS total private quits, from reasons on the record, and resolve SG-WORLD-jobs-quit-rate-uncalibrated.
+**What.** Since full and counted workers decide by the same chooser (world-jobs-counted-choices-one-rule), quitting and looking around while employed win only on a large pay gap, so a played year has far fewer quits than JOLTS reports. Counted quits fell from 67 to a handful in one town. Recalibrate quitScore and the look terms (jobsLookBaseline, jobsPayGapWeight and the unemployment weights) so a played year's quits per worker match JOLTS total private quits, from reasons on the record, and resolve SG-WORLD-jobs-quit-rate-uncalibrated.
 
 **Rules.** No dice: a quit follows from the worker's own reasons (pay gap, tenure, strain, savings, scarcity), never a monthly rate applied to one person. Research before building: JOLTS quits calibrate the town's total, fetched with a quote. One model, two tiers: the same terms for full and counted workers.
 

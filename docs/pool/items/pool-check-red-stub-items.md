@@ -21,4 +21,6 @@ claimed-at: 2026-10-21T15:08:49.061Z
 
 **Files.** docs/pool/items
 
-**Notes.** TODO
+**Notes.** Found by a session running the pool check.
+
+Oct 21 (claude): filled on main in the commit that adds this note. people-leave-parents-home, words-past-public-and-archive-renderings and world-jobs-counted-retiree-income had TODO shells; their What, Rules, Done when and Files are now written from their titles, their PRs' changed files (#4959, #5704, #5455) and their send-back notes, which are kept as they were. core-speed-journal-bigint, people-births-age-shape-narrow and world-jobs-quit-rate-jolts had a What of two sentences, now split into three with no change of meaning. core-speed-year-over-limit-dense-town's Done when now names the played world. `npm run pool -- --check` then prints "pool index is current" and exits 0. A CTO can mark this done.
