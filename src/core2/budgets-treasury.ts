@@ -581,6 +581,66 @@ function standingDue(api: CoreAPI, account: string, date: string): number {
     );
 }
 
+/**
+ * The U.S. Treasury borrows an amount from the groups that hold its debt, in
+ * their shares, into its account; returns what each group lent.
+ */
+function borrowFederal(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  outside: string,
+  amountMinor: number,
+): Record<string, number> {
+  const accounts = api.accounts();
+  const date = api.state.date;
+  const lent: Record<string, number> = {};
+  const holders = federalDebtOf(api);
+  const wanted = splitBy(
+    amountMinor,
+    DEBT.holders.map((h) => h.share),
+  );
+  holders.forEach((holder, i) => {
+    if (wanted[i]! <= 0) return;
+    const paid = accounts.transfer({
+      // What the holder has lent so far keeps each borrowing's id its own.
+      id: `federal-borrowing:${holder.id}:${gov.id}:${date}:${holder.borrowedMinor}`,
+      from: accounts.main(outside),
+      to: accounts.main(gov.organizationId),
+      amountMinor: wanted[i]!,
+      reasonKey: "federal-borrowing",
+      source: {
+        tag: "SOURCED",
+        citation:
+          "U.S. Treasury, Monthly Treasury Statement fiscal 2025: outlays beyond receipts are financed by borrowing from the public; the holders and their shares are src/core2/data/budgets/federal-debt.json",
+        asOf: date,
+      },
+    }).paidMinor;
+    lent[holder.id] = paid;
+    table(api, "federalDebt").put({
+      ...holder,
+      balanceMinor: holder.balanceMinor + paid,
+      borrowedMinor: holder.borrowedMinor + paid,
+    } as unknown as ModuleRow);
+  });
+  return lent;
+}
+
+/**
+ * A standing federal payment added between closes (a covered adult's care
+ * from tomorrow) is paid from what the U.S. Treasury holds; it borrows any
+ * day what its account lacks for the payments due before the next close, as
+ * it does at each close. A town's other treasuries pay what they hold.
+ */
+export function fundFederalStanding(api: CoreAPI): void {
+  const outside = outsideAccountOf(api);
+  const gov = governments(api).find((g) => g.level === "federal");
+  if (!outside || !gov) return;
+  const main = api.accounts().main(gov.organizationId);
+  const short =
+    standingDue(api, main, api.state.date) - api.accounts().balance(main);
+  if (short > 0) borrowFederal(api, gov, outside, short);
+}
+
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
@@ -813,35 +873,12 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     const standing = gov.level === "federal" ? standingDue(api, main, date) : 0;
     if (gov.level === "federal" && have < need + standing) {
       // The U.S. Treasury borrows what the month's payments need beyond what
-      // it holds, issued to the groups that hold its debt in their shares.
-      const holders = federalDebtOf(api);
-      const wanted = splitBy(
-        need + standing - Math.max(0, have),
-        DEBT.holders.map((h) => h.share),
+      // it holds.
+      Object.assign(
+        borrowedByHolder,
+        borrowFederal(api, gov, outside, need + standing - Math.max(0, have)),
       );
-      holders.forEach((holder, i) => {
-        if (wanted[i]! <= 0) return;
-        const paid = accounts.transfer({
-          id: `federal-borrowing:${holder.id}:${gov.id}:${date}`,
-          from: accounts.main(outside),
-          to: main,
-          amountMinor: wanted[i]!,
-          reasonKey: "federal-borrowing",
-          source: {
-            tag: "SOURCED",
-            citation:
-              "U.S. Treasury, Monthly Treasury Statement fiscal 2025: outlays beyond receipts are financed by borrowing from the public; the holders and their shares are src/core2/data/budgets/federal-debt.json",
-            asOf: date,
-          },
-        }).paidMinor;
-        borrowedByHolder[holder.id] = paid;
-        borrowed += paid;
-        table(api, "federalDebt").put({
-          ...holder,
-          balanceMinor: holder.balanceMinor + paid,
-          borrowedMinor: holder.borrowedMinor + paid,
-        } as unknown as ModuleRow);
-      });
+      borrowed = Object.values(borrowedByHolder).reduce((n, v) => n + v, 0);
       have += borrowed;
     }
     const scale = need > 0 ? Math.min(1, Math.max(0, have) / need) : 1;
