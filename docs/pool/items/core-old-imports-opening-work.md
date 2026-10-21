@@ -4,10 +4,10 @@ title: "The opening's work schedules come from the core, not the old work-schedu
 area: core
 kind: cleanup
 priority: 2
-size: M
-status: open
-claimed-by:
-pr:
+size: S
+status: in-pr
+claimed-by: claude/old-imports-opening-work
+pr: #5035
 blocked-on:
 after: core-old-imports-opening-employment
 source: added with npm run pool -- add
@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/opening-work.ts, src/core2/data/work-patterns/, src/core2/population.ts
 
 **Notes.** Written Oct 18 from the file (it was a placeholder). Runs after core-old-imports-opening-employment, which gives each job its workplace. The schedule gap (opening schedules run 40 to 48 hours against 40 stated) was measured in the Oct 17 pool item world-opening-schedules-run-over-job-hours.
+
+**Looked at Oct 17 (claude/old-imports-town-households), not built, and the size is wrong.** `canonicalOpeningSchedules` calls `workSchedulesFor(world, personId, date)`, which builds a per-world index of every active job from the old World's history (work relationships, roles and rosters, through `currentLifeCutoff`, `organizationProfileAt`, `scheduledActivityState` and `townWorkplaceFor` in town-employment). The schedule shapes (`WORK_PATTERNS`, the title and workplace pattern tables, lines 47 to 240) are data and can move to a core data file as they are. The part that decides a job's pattern (`jobShape`, `scheduleOf`, the rosters for rotations) reads old-engine records that the opening builds before the core exists. It is therefore best ported together with core-old-imports-opening-employment and core-old-imports-population, which build those records, and should be M. Take it after the employment part.

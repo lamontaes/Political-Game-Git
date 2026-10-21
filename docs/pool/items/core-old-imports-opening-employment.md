@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/old-imports-opening-employment
+pr: #5071
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-19T18:11:11.377Z
 ---
 
 **What.** `src/core2/opening-employment.ts` still reads the old engine for the town's employers and their staff: `organizationProfileAt` from `simulation/life-queries`, `jailTermOn` from `simulation/justice/jail-terms`, and the workplace tables and `townWorkplaceFor` from `simulation/living-world/town-employment` (with its generated meta). It matches each resident to a job from the old world's work relationships, roles and statuses. Move the workplace table (each kind of workplace, its roles and its weight in the sector mix) into a core data file, read the employers and their staff from the opening's own organization and job records, and read a resident's jail term from the core's justice records, so that nothing in the file imports `src/simulation`. The player notices nothing: the same town opens with the same jobs.
