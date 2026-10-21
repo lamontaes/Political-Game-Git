@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/housing-island-areas
 pr: #5431
 blocked-on:
