@@ -19,7 +19,7 @@ import {
 } from "../counted-groups";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
-import { stableHash } from "../kernel/ids";
+import { stableHash, pairKey } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
@@ -31,7 +31,8 @@ import {
   returnCommuterPay,
   commuterPeriodPay,
 } from "./residents";
-import type { ResidentHouseholdRecord } from "../residents";
+import { admitPublicPayAuthority } from "../public-work-pay";
+import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {
   CoreAPI,
@@ -97,7 +98,8 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
     if (
       employer &&
       employer.kind !== OUTSIDE_MARKET_KIND &&
-      (employer.kind !== "employer" || employer.publicPayAuthority)
+      (employer.kind !== "employer" ||
+        (employer.publicPayAuthority && !isSchoolDistrict(employer)))
     )
       out.add(job.personId);
   }
@@ -110,8 +112,7 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
 /** When the player last had contact with this person (their relationship), if ever. */
 function lastPlayerContact(core: CoreState, id: PersonId): string | undefined {
   if (!core.playerId) return undefined;
-  return core.relationships.get([core.playerId, id].sort().join(":"))
-    ?.lastContactDate;
+  return core.relationships.get(pairKey(core.playerId, id))?.lastContactDate;
 }
 
 /** A demoted person's record, as the counts keep it. */
@@ -140,6 +141,29 @@ function asCounted(
     ...(person.looks ? { looks: person.looks } : {}),
     pastFacts: [],
   };
+}
+
+/**
+ * A demoted worker's commitment at a public employer joins the employer's pay
+ * authority under its new id, as a hire's does (job-lifecycle.ts): the
+ * authority resolves due pay only for the commitments it lists.
+ */
+function joinPublicPayAuthority(
+  core: CoreState,
+  commitment: WorkCommitmentInput,
+): void {
+  if (commitment.publicPayAuthorityId === undefined) return;
+  const employer = core.organizations.get(commitment.organizationId);
+  const authority = employer?.publicPayAuthority;
+  if (!employer || authority?.id !== commitment.publicPayAuthorityId) return;
+  if (authority.workCommitmentIds.includes(commitment.id)) return;
+  employer.publicPayAuthority = admitPublicPayAuthority(
+    {
+      ...authority,
+      workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
+    },
+    core.date,
+  );
 }
 
 /** Demote one filled-in household now. Returns the record. */
@@ -186,11 +210,13 @@ export function demoteHousehold(
     for (const cid of core.work.commitmentsByPerson.get(person.id) ?? []) {
       const row = core.work.commitments.get(cid);
       if (!row || row.jobId !== job.id || row.endsAt !== undefined) continue;
-      commitments.push({
+      const demoted = {
         ...row,
         id: `${row.id}:counted:${date}`,
         jobId: counted.id,
-      });
+      };
+      commitments.push(demoted);
+      joinPublicPayAuthority(core, demoted);
       const calendar = row.payrollCalendarId
         ? core.work.payrollCalendars.get(row.payrollCalendarId)
         : undefined;
