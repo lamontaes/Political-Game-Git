@@ -1,7 +1,7 @@
 /**
  * Full couples read the outcome web's birth-rate factor as a term in their
  * plan-a-child choice, as the counted women's births are scaled by it (pool
- * item web-calibrate-choice-terms; owner, Oct 14: one model, two tiers). The
+ * item web-calibrate-choice-terms; one model, two tiers). The
  * choice picks the higher score, so the weight is fitted (renewalWebWeight)
  * until the planning share moves with the factor at an elasticity near 1 (0.5 to 2). Couples from
  * sixteen places drawn from all 56 are pooled (WEB_FULL_SEED pins the run).
