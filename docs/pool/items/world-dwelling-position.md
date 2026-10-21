@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/dwelling-position
 pr:
 blocked-on: researcher: the town's tract or block-group population shares are not in the repo and the Census data service needs a key the cloud network lacks (api.census.gov answers Missing Key); needs a key or a bulk download
 source: found by gov-ward-map-from-dwellings
-claimed-at:
+claimed-at: 2026-10-21T13:55:27.446Z
 ---
 
 **What.** A dwelling in the core is a row keyed to its household with a tenure and a value, and nothing says where in the town it stands. Without that no council ward, precinct or school zone can follow where people live, and every such map is the households in recorded order. Give each dwelling a position inside its town, drawn from the town's real shape (its census tracts or block groups where the data has them, an estimate with a spread otherwise), so that neighbors are close and a map cut follows the town.
