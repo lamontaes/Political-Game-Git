@@ -138,6 +138,9 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
           lease.amountMinor > 0,
       );
       expect(paid.length, `${where}: renter leases settled`).toBeGreaterThan(0);
+      process.stdout.write(
+        `ISLAND HOUSING ${where}: ${own} of ${dwellings.length} homes owned (row ${row.ownerShare}); owners' median ${openingValue} against ${Math.round(indexed)} indexed; ${endValue} a year in; ${paid.length} renter leases settled, first ${paid[0]![0]}\n`,
+      );
       return;
     }
     throw new Error(
