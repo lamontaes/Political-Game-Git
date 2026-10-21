@@ -197,6 +197,20 @@ function bankOf(api: CoreAPI) {
   return row?.organizationId ? row : undefined;
 }
 
+/** The best-paid living full worker of a firm, ties by id: who decides for a firm with no recorded owner. */
+function managerOf(c: CoreState, organizationId: string): string | undefined {
+  let best: { id: string; pay: number } | undefined;
+  for (const jobId of c.finance.jobsByOrganization.get(organizationId) ?? []) {
+    const job = c.jobs.get(jobId);
+    const person = job && c.people.get(job.personId);
+    if (!job || !person?.alive) continue;
+    const pay = job.hourlyMinor ?? 0;
+    if (!best || pay > best.pay || (pay === best.pay && job.personId < best.id))
+      best = { id: job.personId, pay };
+  }
+  return best?.id;
+}
+
 /** Capital is assets less deposit liabilities; a deposit never creates bank equity. */
 function equity(api: CoreAPI, bankId: string) {
   const c = core(api);
@@ -432,11 +446,11 @@ function review(api: CoreAPI): void {
       ));
   serviceLoans(api, bank.organizationId);
   let room = lendingRoom(api, book);
-  // The owner decides whether to borrow; a business with no recorded owner applies when its cash runs short.
+  // The owner decides whether to borrow, or the firm's manager where it has no owner.
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
-  const wanted: { id: string; requested: number }[] = [];
+  const wanted: { id: string; requested: number; decidedBy?: string }[] = [];
   const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
     a[0].localeCompare(b[0]),
@@ -448,13 +462,13 @@ function review(api: CoreAPI): void {
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
-    const ownerId = (owners?.get(id) as { ownerId?: string } | undefined)
-      ?.ownerId;
-    if (!ownerId) {
-      stopgap("SG-WORLD-credit-business-applies");
-      wanted.push({ id, requested });
-      continue;
-    }
+    // The owner decides; a firm with no recorded owner (a public employer, an
+    // ownerless landlord) is run by its best-paid full worker, who weighs the
+    // same reasons. With no full person to decide, its counted people's summed
+    // pulls do, as a counted owner's do.
+    const ownerId =
+      (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
+      managerOf(c, id);
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
     // The owner weighs the rate the bank will charge this borrower, risk spread and all.
     const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
@@ -470,13 +484,13 @@ function review(api: CoreAPI): void {
             Math.max(p("one"), monthlySales),
         ),
     };
-    if (c.people.has(ownerId)) {
+    if (ownerId && c.people.has(ownerId)) {
       const choice = chooseAct(c, ownerId, [
         creditOffer("wait", id, {}),
         creditOffer("borrow", id, reasons),
       ]).selected!;
       if (choice.definition.id === creditData.actions.borrow.id)
-        wanted.push({ id, requested });
+        wanted.push({ id, requested, decidedBy: ownerId });
     } else
       counted.push({
         id,
@@ -485,9 +499,14 @@ function review(api: CoreAPI): void {
       });
   }
   if (counted.length)
-    for (const row of strongestPulls(api, "business-borrow", counted))
+    for (const row of strongestPulls(
+      api,
+      "business-borrow",
+      counted,
+      store(api).table("pulls"),
+    ))
       wanted.push({ id: row.id, requested: row.requested });
-  for (const { id, requested } of wanted.sort((a, b) =>
+  for (const { id, requested, decidedBy } of wanted.sort((a, b) =>
     a.id.localeCompare(b.id),
   )) {
     const books = c.finance.businesses.get(id)!;
@@ -504,6 +523,7 @@ function review(api: CoreAPI): void {
         organizationId: id,
         date: api.state.date,
         reasonKey: creditData.reasons.applied,
+        ...(decidedBy ? { decidedBy } : {}),
         requestedMinor: Math.round(requested),
         cashMinor: cash,
         salesToWages,
@@ -667,6 +687,8 @@ export const CREDIT_MODULE: CoreModule = {
         },
       },
       payments: { indexes: { byLoan: { fields: ["loanId"] } } },
+      // The carry of counted owners who borrow this month (strongestPulls).
+      pulls: {},
       households: { indexes: { byHousehold: { fields: ["householdId"] } } },
     },
   },
