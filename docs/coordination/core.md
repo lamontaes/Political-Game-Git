@@ -1,5 +1,7 @@
 # OPUS-CORE: The core
 
+> **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
+
 Only OPUS-CORE writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
 - **Owns:** src/core2 (state, clock, choices, ledger, population, speed, money), except the engine modules other pillars own.

@@ -6,11 +6,11 @@ kind: stopgap
 priority: 3
 size: M
 status: in-pr
-claimed-by: claude/fs11vb-rch
+claimed-by: claude/house-candidates
 pr: #5340
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T14:26:53.554Z
+claimed-at: 2026-10-21T15:22:43.811Z
 ---
 
 **What.** TODO
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T14:26:53.554Z
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5340 (branch claude/political-game-pool-yucp92-l): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5340 (branch claude/political-game-pool-yucp92-l): world-races.test.ts fails all 3 tests with main merged: Error 'Module has no registered state.'; finish on that branch, merge main into it first.

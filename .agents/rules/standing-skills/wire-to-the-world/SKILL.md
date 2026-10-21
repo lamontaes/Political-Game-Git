@@ -26,3 +26,5 @@ the actual number that moved (a dollar amount, a population count, a status
 change), not just green or red. If you can't point to a specific before/after
 number the simulation produced, the feature isn't wired yet — it's
 scaffolding. Report the number, never "the code is in place."
+
+For a whole family (every law, every outcome-web link, every personality decision), use `wiring-audit`: a twin-world checker and a matrix row per item. Never say "wired" without the row.

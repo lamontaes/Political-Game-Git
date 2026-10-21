@@ -5,12 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: done
-claimed-by:
-pr: #5534
+status: in-pr
+claimed-by: claude/employer-attitude
+pr: #5805
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T13:49:17.367Z
 ---
 
 **What.** The hiring engine needs a sourced table of how much more often employers call back some applicants than others, with a spread between employers, before a hiring decision can cite a recorded attitude (world-hiring-bias-reasons) or a discrimination ban can refuse one. PR #5191 built src/core2/data/jobs/employer-callback-gaps.json from Quillian et al. 2017, Bertrand and Mullainathan 2004, Kline, Rose and Walters 2022 and others, but was sent back because no engine reads it. Finish it with its first reader: each employer's owner is generated with an attitude drawn once from the table's between-employer spread (seeded generation of who exists), and the hiring score in the jobs engine reads it, so the table is not dead data. Tag the older-applicant and Pager 2003 rows ESTIMATED until read from the papers.
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Sent back 2026-10-20 from PR #5191 (branch claude/employer-attitude): Morning check failed because employer-callback-gaps.json is not read by any engine in core2; finish on that branch, merge main into it first.
 
 Oct 20 (pool feeder): write-up filled from PR #5191's body and its send-back. world-hiring-bias-reasons (claimed) builds the reasons on top of this reader.
+
+Sent back 2026-10-20 from PR #5191 (branch claude/employer-attitude): Merging current origin/main produces 366 conflicted files, including code in src/core2/modules/jobs.ts, src/core2/modules/press.ts, src/core2/trait-effects/index.ts, src/core2/trait-effects/initial-trust.ts, src/director/office-scene.ts, src/simulation/compiled-trait-packs.ts, tests/golden-path/runner.node-test.mjs and tsconfig.node.json, plus the English news bank and current merger/researcher instructions. Repair this branch against current main with plain commits, preserving the current engines, bank grading and main instructions, then rerun the changed-file gate. This merger cannot hand-resolve those code or English-bank conflicts.; finish on that branch, merge main into it first.
