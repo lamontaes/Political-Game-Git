@@ -62,8 +62,9 @@ it("a layoff at a business is decided by its owner, never by the business itself
       owned.some(byOwner),
       `${place.name}: ${owned.length} layoffs, none by the current owner`,
     ).toBe(true);
-    console.log(
-      `LAYOFF-OWNER ${place.name} (${place.key}), seed ${place.seed}: ${owned.length} layoffs at owned businesses, ${owned.filter(byOwner).length} decided by the owner on the books today`,
+    const named = owned.find(byOwner)!;
+    process.stdout.write(
+      `LAYOFF-OWNER ${place.name} (${place.key}), seed ${place.seed}: ${owned.length} layoffs at owned businesses, ${owned.filter(byOwner).length} decided by the owner on the books today; ${named.id}: ${named.personId} laid off by ${named.decidedBy} at ${named.organizationId}\n`,
     );
     return;
   }
