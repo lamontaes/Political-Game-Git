@@ -38,3 +38,28 @@ it("refills a record that was never frozen in place", () => {
   expect(old.amount).toBe(2);
   expect(Object.isFrozen(old)).toBe(false);
 });
+
+it("leaves writable an object the rebuilt world owns, even when a sealed record points at it", () => {
+  const live = { n: 1 };
+  const old = Object.freeze({ id: "a", shared: live });
+  const out = decoder()(
+    encode({ id: "a", shared: { n: 2 }, note: "changed" }),
+    old,
+  ) as { shared: { n: number } };
+  expect(Object.isFrozen(out)).toBe(true);
+  // The engine that holds `live` still writes to it.
+  expect(out.shared).toBe(live);
+  expect(Object.isFrozen(live)).toBe(false);
+  live.n = 3;
+  expect(out.shared.n).toBe(3);
+});
+
+it("a frozen record cannot be changed in place: only a producer replacing it can", () => {
+  const record = Object.freeze({ id: "a", terms: Object.freeze({ cents: 1 }) });
+  expect(() => {
+    (record as { id: string }).id = "b";
+  }).toThrow();
+  expect(() => {
+    (record.terms as { cents: number }).cents = 2;
+  }).toThrow();
+});
