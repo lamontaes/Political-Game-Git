@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/closeness.ts,src/core2/modules/news.ts,src/core2/work-pay-period.ts,src/core2/modules/work.ts
 
 **Notes.** Split from core-speed-date-parse (PR 5381), which took the parse itself from 5.0 s to 2.4 s.
+
+Sent back 2026-10-21 from PR #5766 (branch claude/speed-date-callers): The required table is present, but its Replace, never layer row and Removed claim say 18 makeIsoDate wrapper pairs. The checked diff actually removes wrapper pairs at 24 ageOnDate call sites (including tooling/measure.ts, tooling/world-prepare.ts and work-attendance.ts). Correct the count in both places so the evidence table matches the diff. Local checks passed here on main merged at bcca767c89: typecheck, eslint and prettier on changed files, dates-civil-day.test.ts (3 tests), zero-dice, release:check -- --mode pr and old-imports. The pool check has only the same unrelated failures on clean main. This fixer remains based on open parent #5381; no item was marked done.; finish on that branch, merge main into it first.
