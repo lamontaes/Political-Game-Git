@@ -58,6 +58,8 @@ import {
 import { agreementWith, VIEWS_SPEAKER_KEY } from "./views";
 import { recordAppeal } from "./record";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { answerInterview, candidateAnswers } from "./press";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -2196,29 +2198,46 @@ export interface CampaignTurnResult {
   readonly mailReached: number;
   readonly eventAudience: number;
   readonly polled: number;
+  /** The whole act the candidate's day was built around (an event or an interview), if any. */
+  readonly dayAct: "event" | "interview" | null;
+}
+
+/** The day a world candidate chose: a whole act, if any, and hours for the hour-based acts. */
+export interface RivalDay {
+  readonly callHours: number;
+  readonly doorHours: number;
+  /** A whole act (an evening event or a press interview) the day is built around, or null. */
+  readonly act: "event" | "interview" | null;
+  readonly actHours: number;
 }
 
 /**
- * How a world candidate spends their campaign day: they choose among the
- * player's own acts by their money, standing and traits.
- * The hours their own day leaves (a job takes most of it) are split between a
- * call-time session and a canvassing shift in proportion to how much each act
- * suits them: a candidate with little in the bank leans on calls for money, a
- * well-known one finds donors easier to reach, an unknown one and a sociable
- * one lean on doors. Nothing flips: the shares slide with each figure.
+ * How a world candidate spends their campaign day: a scored pass over the
+ * player's own day choices (`campaignDayChoices`), by their money, standing
+ * and traits. Every available act gets a score on one scale and nothing
+ * flips at a line:
+ * - call time for money rises as the bank empties and as they get better
+ *   known (donors are easier to reach);
+ * - doors rise as they are less known and as they are more sociable;
+ * - an event rises with the bank (venue money in hand) and sociability;
+ * - an interview rises with how known they are and with holding the seat.
+ * The hours their own day leaves (a job takes most of it, rest takes its
+ * lean) are split between calls and doors by score share. A whole act
+ * (event, interview) is taken when it is the best-scored act of the day,
+ * and then takes its share of the day's hours. Ads, mail, staff and polls
+ * are bought from the money in `campaignTurn`.
  */
 export function rivalDay(
   api: CoreAPI,
   filingId: string,
   candidate: Readonly<PersonState>,
   town: string,
-): { callHours: number; doorHours: number } {
+): RivalDay {
   const day = campaignDayChoices(api, filingId, true);
-  const calls = day.find((c) => c.kind === "raise-money")?.available ?? false;
-  const doors =
-    candidate.placeId === town &&
-    (day.find((c) => c.kind === "canvass")?.available ?? false);
-  if (!calls && !doors) return { callHours: 0, doorHours: 0 };
+  const offered = (kind: string) =>
+    day.find((c) => c.kind === kind)?.available ?? false;
+  const calls = offered("raise-money");
+  const doors = candidate.placeId === town && offered("canvass");
   const campaign = campaignFor(api, filingId);
   const cash =
     api.state.organizations.get(campaign.organizationId)?.liquidMinor ?? 0;
@@ -2237,7 +2256,26 @@ export function rivalDay(
     1 +
     campaignParameter("rivalDoorUnknownWeight") * (1 - known) +
     wTrait * sociable;
-  const hours =
+  const holdsSeat = holdsTheSeat(api, filingId, candidate.id) ? 1 : 0;
+  const eventScore =
+    campaignParameter("rivalActBaseScore") +
+    campaignParameter("rivalEventRichWeight") * richness +
+    wTrait * sociable;
+  const interviewScore =
+    campaignParameter("rivalActBaseScore") +
+    campaignParameter("rivalInterviewKnownWeight") * known +
+    campaignParameter("rivalInterviewIncumbentWeight") * holdsSeat;
+  const bestHourly = Math.max(calls ? callScore : 0, doors ? doorScore : 0);
+  const canEvent = offered("event") && eventScore > bestHourly;
+  const canInterview = offered("interview") && interviewScore > bestHourly;
+  const act: RivalDay["act"] =
+    canEvent && (!canInterview || eventScore >= interviewScore)
+      ? "event"
+      : canInterview
+        ? "interview"
+        : null;
+  const actHours = act ? (day.find((c) => c.kind === act)?.hours ?? 0) : 0;
+  const ownHours =
     (candidate.jobId
       ? campaignParameter("rivalHoursWithJob")
       : campaignParameter("rivalHoursWithoutJob")) *
@@ -2253,11 +2291,41 @@ export function rivalDay(
             "rest",
           ),
     );
+  // A whole act takes its share of the day; the rest is split by score.
+  const hours =
+    actHours > 0 ? (ownHours * ownHours) / (ownHours + actHours) : ownHours;
   const total = (calls ? callScore : 0) + (doors ? doorScore : 0);
   return {
     callHours: calls ? (hours * callScore) / total : 0,
     doorHours: doors ? (hours * doorScore) / total : 0,
+    act,
+    actHours,
   };
+}
+
+/** Whether this candidate holds the seat the contest is for (the incumbent running again). */
+function holdsTheSeat(
+  api: CoreAPI,
+  filingId: string,
+  personId: string,
+): boolean {
+  const filing = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("filings")
+    .get(filingId) as unknown as FilingRow | undefined;
+  const contest = filing
+    ? (api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .get(filing.contestId) as unknown as ContestRow | undefined)
+    : undefined;
+  if (!contest?.incumbentTermId || !api.state.modules.has(OFFICES_MODULE_ID))
+    return false;
+  const term = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(contest.incumbentTermId) as unknown as TermRow | undefined;
+  return term?.status === "serving" && term.personId === personId;
 }
 
 /**
@@ -2288,8 +2356,31 @@ export function campaignTurn(
   askOutsideDonors(api, filingId);
   let doors = 0;
   let asks = 0;
+  let dayAct: CampaignTurnResult["dayAct"] = null;
   if (candidate?.alive) {
     const day = rivalDay(api, filingId, candidate, town);
+    if (day.act === "event") {
+      takeCampaignDayChoice(api, filingId, "event", { world: true });
+      dayAct = "event";
+    } else if (day.act === "interview") {
+      // Ask the outlet; a yes comes with its questions, which they answer
+      // from their platform, their own view and their party.
+      const row = takeCampaignDayChoice(api, filingId, "interview", {
+        world: true,
+      }).interview;
+      if (row?.status === "invited") {
+        const filing = api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .get(filingId) as unknown as FilingRow;
+        answerInterview(
+          api,
+          row.id,
+          candidateAnswers(api, row.questions, filing),
+        );
+      }
+      dayAct = "interview";
+    }
     if (day.callHours > 0)
       asks = takeCampaignDayChoice(api, filingId, "raise-money", {
         world: true,
@@ -2402,6 +2493,7 @@ export function campaignTurn(
     mailReached,
     eventAudience,
     polled,
+    dayAct,
   };
 }
 

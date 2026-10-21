@@ -17,7 +17,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { campaignDayChoices } from "./campaign-day";
+import { campaignDayChoices, takeCampaignDayChoice } from "./campaign-day";
 import type { CoreAPI, CoreState } from "./types";
 import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
@@ -34,6 +34,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   askForDonation,
   campaignFor,
+  campaignRecognition,
   campaignTurn,
   contributionLimit,
   giftOf,
@@ -288,6 +289,53 @@ describe("campaigns that raise and spend", () => {
     expect(poor, `${where}: empty bank leans on calls`).toBeGreaterThan(rich);
     expect(middle, where).toBeLessThan(poor);
     expect(middle, where).toBeGreaterThan(rich);
+  }, 300_000);
+
+  it("a rich rival holds an event on a day it is offered and a poor one does not", () => {
+    const { core, api, where, pair } = worldWithPair("rival-event");
+    const filing = pair.rival;
+    const campaign = campaignFor(api, filing.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    bank.liquidMinor = 0;
+    const poor = rivalDay(api, filing.id, candidate, candidate.placeId);
+    bank.liquidMinor = 50_000_000_00;
+    const offered = campaignDayChoices(api, filing.id, true).find(
+      (c) => c.kind === "event",
+    );
+    expect(offered?.available, `${where}: an event is offered`).toBe(true);
+    const rich = rivalDay(api, filing.id, candidate, candidate.placeId);
+    expect(poor.act, `${where}: a poor rival holds no event`).not.toBe("event");
+    expect(rich.act, `${where}: a rich rival holds one`).toBe("event");
+    const turn = campaignTurn(api, filing.id, electionOf(api, filing));
+    expect(turn.dayAct, where).toBe("event");
+  }, 300_000);
+
+  it("an unknown rival puts more of the day into doors than a well-known one", () => {
+    const { core, api, where, pair } = worldWithPair("rival-known");
+    const campaign = campaignFor(api, pair.rival.id);
+    const candidate = core.people.get(campaign.candidateId)!;
+    const bank = core.organizations.get(campaign.organizationId)!;
+    const doorShare = () => {
+      const day = rivalDay(api, pair.rival.id, candidate, candidate.placeId);
+      return day.doorHours / (day.callHours + day.doorHours);
+    };
+    bank.liquidMinor = 0;
+    const knownBefore = campaignRecognition(api, pair.rival.id);
+    const unknown = doorShare();
+    // Weeks of canvassing make them known in town.
+    takeCampaignDayChoice(api, pair.rival.id, "canvass", {
+      world: true,
+      hours: 400,
+    });
+    bank.liquidMinor = 0;
+    const knownAfter = campaignRecognition(api, pair.rival.id);
+    expect(knownAfter, `${where}: doors made them known`).toBeGreaterThan(
+      knownBefore,
+    );
+    expect(doorShare(), `${where}: better known, fewer doors`).toBeLessThan(
+      unknown,
+    );
   }, 300_000);
 
   it("a donor's running total is read from its indexed row, not from the history of payments", () => {

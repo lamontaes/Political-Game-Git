@@ -5,4 +5,4 @@ section: Changed
 title: Rival candidates campaign through the same choices you do.
 ---
 
-A rival's campaign day now runs the same call-time session and canvassing shift the player's day offers, and chooses between them by their money, how well known they are and their temperament: an empty bank and a known name lean on calls, an unknown or sociable candidate on doors.
+A rival's campaign day is now a choice among the same acts your day offers (call time, doors, an event, an interview), by their money, how well known they are, whether they hold the seat and their temperament: a rich candidate holds events and buys ads, a poor one works calls and doors, a known incumbent sits for the press, and an unknown one builds a name on doors.
