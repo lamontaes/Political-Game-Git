@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/local-races-closeout
-pr: #5592
+pr: #5804
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T13:14:26.771Z
