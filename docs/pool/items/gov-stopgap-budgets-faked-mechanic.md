@@ -4,10 +4,11 @@ title: "Stopgaps in budgets (faked-mechanic): 3 open"
 area: gov
 kind: stopgap
 priority: 2
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: world-commuters-in-opening
+blocked-on:
+after: world-commuters-in-opening
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/budgets.ts, kind faked-mechanic"
 claimed-at: 2026-10-16T02:50:32.882Z
@@ -28,3 +29,5 @@ First row: Each month, a state, county, city or federal treasury receives from t
 **Split (Oct 16).** Three rows in the budgets module: the even monthly outside revenue is replaced by real payers in `gov-outside-revenue-taxes`, `-fees`, `-aid`, `-borrowing`, `gov-outside-spending-payees` and retired by `gov-outside-revenue-retire-plug`; the nonresident local tax is `world-withholding-nonresident-local`; the untaxed outside governments is `world-withholding-outside-governments`. This item is done when those are.
 
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
+
+Oct 20: Switched from blocked to the automatic after: gate on world-commuters-in-opening, so it opens by itself the moment those items are done.
