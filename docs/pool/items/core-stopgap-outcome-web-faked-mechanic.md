@@ -11,7 +11,7 @@ blocked-on:
 after: world-outcome-links-sizes, core-outcome-causes-recorded, core-outcome-produced
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/outcome-web.ts, kind faked-mechanic"
-claimed-at: 2026-10-15T23:30:23.092Z
+claimed-at:
 ---
 
 **What.** The stopgap row(s) SG-WEB-outcome-drift in src/core2/modules/outcome-web.ts mark a shortcut that is still live in play. Today each outcome the web keeps (crime, schooling, coverage, turnout and the rest) stays at its place's real starting level except where a researched link moves it. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.

@@ -13,7 +13,7 @@ import {
   localWageAuthority,
   raiseMinimumWage,
 } from "./group-a-wages";
-import { housingAssistance, paidLeave, parksFunding } from "./group-a-money";
+import { housingLineMeasure, paidLeave, parksFunding } from "./group-a-money";
 import { staffing } from "./group-a-staffing";
 import { votingLaw } from "./group-a-voting";
 import { rightToWork } from "./group-a-union";
@@ -35,12 +35,16 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   // The legislature's authority check reads home rule when the council
   // proposes a question the state has not settled (policy-authority.ts).
   "policy-authority": [],
+  // The public-safety engine reads these laws where it decides a case, a
+  // sale or a cost, and records whom it applied them to (public-safety.ts).
+  "public-safety": [],
   "federal-minimum-wage": [records, federalMinimumWage],
   "raise-minimum-wage": [records, raiseMinimumWage],
   "local-wage-authority": [records, localWageAuthority],
   "paid-leave-premium": [paidLeave],
   "parks-funding": [parksFunding],
-  "housing-assistance": [housingAssistance],
+  // The housing engine pays the assistance monthly (housing-assistance.ts), citing the measure kept here.
+  "housing-assistance": [housingLineMeasure],
   staffing: [staffing],
   "public-bargaining": [records, publicBargaining],
   "right-to-work": [records, rightToWork],
