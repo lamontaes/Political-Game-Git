@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/politics-scroll-g08lgv
 pr: #5402
 blocked-on:

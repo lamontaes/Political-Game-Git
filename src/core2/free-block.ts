@@ -35,7 +35,7 @@ import type {
   WeightedReason,
 } from "./types";
 import { registerWorldMapPart } from "./snapshot";
-import { pairKey } from "./pair-key";
+import { pairKey } from "./kernel/ids";
 
 export const FREE_BLOCK_DATA = freeBlockJson;
 

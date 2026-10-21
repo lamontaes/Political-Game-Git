@@ -1,24 +1,22 @@
+/** The pair id of two people is the same string the sort-and-join it replaced made. */
 import { expect, it } from "vitest";
-import { pairKey } from "./pair-key";
+import { pairKey } from "./kernel/ids";
 
-// The tie id is the two ids in sorted order, joined by a colon: the same
-// string the older `[a, b].sort().join(":")` made, in either argument order.
-it("makes the key of sorting the two ids and joining them", () => {
+it("equals [a, b].sort().join(':') for every order and for equal ids", () => {
   const ids = [
-    "person_00ab",
-    "person_00AB",
-    "person_9f",
+    "person_0a1",
+    "person_0a2",
+    "person_Z",
+    "person_a",
     "person_10",
-    "organization_x",
+    "person_9",
     "p",
-    "pp",
-    "é",
-    "z",
+    "person_é",
     "",
   ];
   for (const a of ids)
     for (const b of ids) {
-      expect(pairKey(a, b), `${a} ${b}`).toBe([a, b].sort().join(":"));
+      expect(pairKey(a, b), `${a}|${b}`).toBe([a, b].sort().join(":"));
       expect(pairKey(a, b)).toBe(pairKey(b, a));
     }
 });

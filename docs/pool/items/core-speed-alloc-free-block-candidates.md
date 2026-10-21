@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/speed-free-block
-pr:
+pr: #5411
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T01:55:10.461Z

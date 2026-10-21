@@ -12,7 +12,7 @@
  * half-life of their own.
  */
 import { daysBetween, makeIsoDate } from "./kernel/dates";
-import { stableHash } from "./kernel/ids";
+import { stableHash, pairKey } from "./kernel/ids";
 import { inverseStandardNormal } from "./kernel/deterministic-math";
 import { currentCloseness } from "./closeness";
 import data from "./data/grief.json" with { type: "json" };
@@ -25,7 +25,6 @@ import type {
   PersonState,
   ReasonBinding,
 } from "./types";
-import { pairKey } from "./pair-key";
 
 export const GRIEF = data;
 
