@@ -1,8 +1,9 @@
 /**
  * No body passes a bill whose answer is already the law in force at its
  * level: in a played year, a policy law a bill enacts always changes the
- * answer its government had before (its starting answer or its last act).
- * Places are drawn from all 56; each names its place and seed.
+ * answer its government had before (its starting answer or its last act),
+ * and every bill that passes changes some law. After one pinned regression,
+ * places are drawn from all 56; each names its place and seed.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -27,7 +28,16 @@ it(
     const tried: string[] = [];
     let witnessed = 0;
     for (let n = 0; n < PLACES && witnessed < WANTED; n++) {
-      const draw = drawPlace(randomBytes(32).toString("hex"), `repass:${n}`);
+      // The first is the case a county board once passed twice: civilian
+      // oversight of police, enacted by one bill and then passed again by
+      // another that had waited on the same meeting's agenda.
+      const draw = n
+        ? drawPlace(randomBytes(32).toString("hex"), `repass:${n}`)
+        : {
+            name: "Colwich, Kansas",
+            key: "2015100",
+            seed: "948b220271825094d5d58187daee570d46355594a76e74161012c7b117ec6b03",
+          };
       setBookkeeping(false);
       const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
         twoLevel: true,
@@ -86,6 +96,7 @@ it(
         `policy laws enacted, none repeating: ${label}; ${enacted.slice(0, 5).join("; ")}\n`,
       );
     }
+    process.stdout.write(`repass draws: ${tried.join("; ")}\n`);
     expect(
       witnessed,
       `fewer than ${WANTED} places enacted a policy law: ${tried.join("; ")}`,
