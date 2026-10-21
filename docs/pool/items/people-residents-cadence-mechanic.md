@@ -6,7 +6,7 @@ kind: feature
 priority: 2
 size: L
 status: claimed
-claimed-by: claude/residents-cadence
+claimed-by: claude/residents-cadence-mechanic
 pr:
 blocked-on:
 source: added with npm run pool -- add
