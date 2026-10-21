@@ -330,6 +330,8 @@ type FilingRuleRow = {
     readonly weekday?: number;
     readonly nth?: number;
     readonly plusDays?: number;
+    /** The rule falls this many calendar years before the election's year (a December filing for a February election). */
+    readonly yearsBefore?: number;
   };
   readonly ruleText?: string | null;
   readonly citation: string;
@@ -351,7 +353,7 @@ export function municipalFilingDeadline(
   const row = filingRules[stateKey];
   if (!row) return null;
   const { rule } = row;
-  const year = Number(electionDate.slice(0, 4));
+  const year = Number(electionDate.slice(0, 4)) - (rule.yearsBefore ?? 0);
   let date: string | null = null;
   if (rule.kind === "days-before-election")
     date = addDays(makeIsoDate(electionDate), -(rule.days ?? 0));
@@ -569,8 +571,62 @@ export function staggeredSeatElection(input: {
   return held.length ? held[index % held.length]! : null;
 }
 
+interface TermStartRule {
+  readonly month: number;
+  readonly nth: number;
+  readonly weekday: number;
+  readonly offsetDays: number;
+}
 interface TermStartRow {
-  readonly monthDay: string;
+  readonly monthDay?: string;
+  readonly rule?: TermStartRule;
+}
+interface TermStartTable {
+  default: TermStartRow & { monthDay: string };
+  states: Record<string, Record<string, TermStartRow>>;
+}
+
+function termStartRow(office: OfficeInput): TermStartRow | undefined {
+  const stateKey = office.jurisdiction.startsWith("US-")
+    ? office.jurisdiction.slice(0, 5)
+    : "";
+  return (termStartData as unknown as TermStartTable).states[stateKey]?.[
+    officeFamily(office)
+  ];
+}
+
+/**
+ * A term start moved whole years from another start, set back on the state's
+ * own clause day for its year (the office's weekday rule where it is read),
+ * else left as it was.
+ */
+export function termStartInYear(office: OfficeInput, shifted: string): string {
+  const rule = office.termStarts ? undefined : termStartRow(office)?.rule;
+  if (!rule) return shifted;
+  return addDays(
+    makeIsoDate(
+      nthWeekday(
+        Number(shifted.slice(0, 4)),
+        rule.month,
+        rule.weekday,
+        rule.nth,
+      ),
+    ),
+    rule.offsetDays,
+  );
+}
+
+/** The first start a state's weekday rule gives after the election day. */
+function ruleStartAfter(rule: TermStartRule, electionDate: string): string {
+  const year = Number(electionDate.slice(0, 4));
+  for (const y of [year, year + 1]) {
+    const start = addDays(
+      makeIsoDate(nthWeekday(y, rule.month, rule.weekday, rule.nth)),
+      rule.offsetDays,
+    );
+    if (start > electionDate) return start;
+  }
+  throw new Error(`No term start after ${electionDate}.`);
 }
 /**
  * The start day of a term where the office carries none: the state's row for
@@ -578,16 +634,9 @@ interface TermStartRow {
  * default (an estimate: SG-GOV-term-end-estimate).
  */
 function termStartDefault(office: OfficeInput): string {
-  const data = termStartData as unknown as {
-    default: TermStartRow;
-    states: Record<string, Record<string, TermStartRow>>;
-  };
-  const stateKey = office.jurisdiction.startsWith("US-")
-    ? office.jurisdiction.slice(0, 5)
-    : "";
   return (
-    data.states[stateKey]?.[officeFamily(office)]?.monthDay ??
-    data.default.monthDay
+    termStartRow(office)?.monthDay ??
+    (termStartData as unknown as TermStartTable).default.monthDay
   );
 }
 
@@ -613,6 +662,8 @@ export function termStartAfter(
     )
       return read.dates.termStarts;
   }
+  const rule = office.termStarts ? undefined : termStartRow(office)?.rule;
+  if (rule) return ruleStartAfter(rule, electionDate);
   const starts = office.termStarts ?? termStartDefault(office);
   const year = Number(electionDate.slice(0, 4));
   const same = `${year}-${starts}`;
@@ -630,8 +681,25 @@ export function termEndAfter(
 }
 
 interface SpecialLawRow {
-  readonly kind: "days-after-vacancy" | "next-general";
+  readonly kind:
+    | "days-after-vacancy"
+    | "next-general"
+    | "next-uniform-date"
+    | "governor-sets-date";
   readonly days?: number;
+  /** next-uniform-date: days from the vacancy to the governor's order (an estimate where the law sets none). */
+  readonly orderLagDays?: number;
+  /** next-uniform-date: the election falls on the first uniform date on or after this many days after the order. */
+  readonly minDaysAfterOrder?: number;
+  /** next-uniform-date: the state's uniform dates, a weekday of a month or the November general election day. */
+  readonly uniformDates?: readonly (
+    | { readonly general: true }
+    | {
+        readonly month: number;
+        readonly weekday: number;
+        readonly nth: number;
+      }
+  )[];
   readonly tag: string;
   readonly citation: string;
 }
@@ -667,6 +735,40 @@ export function specialElectionDate(input: {
       source: row.citation,
     };
   }
+  if (row?.kind === "next-uniform-date") {
+    const earliest = addDays(
+      makeIsoDate(vacancyDate),
+      (row.orderLagDays ?? 0) + (row.minDaysAfterOrder ?? 0),
+    );
+    const year = Number(earliest.slice(0, 4));
+    const dates = [year, year + 1]
+      .flatMap((y) =>
+        (row.uniformDates ?? []).map((rule) =>
+          "general" in rule
+            ? novemberGeneralElectionDay(y)
+            : nthWeekday(y, rule.month, rule.weekday, rule.nth),
+        ),
+      )
+      .sort();
+    const electionDate = dates.find((d) => d >= earliest);
+    if (electionDate)
+      return {
+        electionDate,
+        basis: row.tag === "SOURCED" ? "read" : "estimated",
+        source: row.citation,
+      };
+  }
+  if (row?.kind === "governor-sets-date")
+    // The law leaves the day to the governor: no fixed rule to read, so the
+    // estimate dates it, and the source says the law was read.
+    return {
+      electionDate: addDays(
+        makeIsoDate(vacancyDate),
+        electionsParameter("specialElectionDaysEstimate"),
+      ),
+      basis: "estimated",
+      source: row.citation,
+    };
   if (row?.kind === "days-after-vacancy")
     return {
       electionDate: addDays(makeIsoDate(vacancyDate), row.days ?? 0),
