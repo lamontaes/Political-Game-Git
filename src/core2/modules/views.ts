@@ -526,10 +526,72 @@ export function caseShift(
 }
 
 /**
+ * A person's opening stance on a question the survey asked, formed once and
+ * kept: what their faith and what their schooling add to where their lean
+ * puts them, each with the loading and the distance from the average of their
+ * age band that made it. Everything after the opening moves the stance only by
+ * a stored cause (`stanceOn`). A question the survey did not ask, or a person
+ * with no recorded faith or schooling, has no record and adds nothing.
+ */
+export interface OpeningRecord {
+  readonly id: string;
+  readonly personId: PersonId;
+  readonly question: string;
+  /** What faith and degree add together, on the scale of a view. */
+  readonly total: number;
+  readonly reasons: readonly {
+    readonly kind: "faith" | "degree";
+    readonly loading: number;
+    readonly fromAverage: number;
+    readonly adds: number;
+  }[];
+}
+
+export function openingRecord(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): OpeningRecord | undefined {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
+  const table = api.moduleState(VIEWS_MODULE_ID).table("openings");
+  const id = `opening:${personId}:${question}`;
+  const held = table.get(id) as unknown as OpeningRecord | undefined;
+  if (held) return held;
+  const loadings =
+    LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
+  const view = loadings ? viewOf(api, personId) : null;
+  if (!loadings || !view || view.faithFromAverage === undefined)
+    return undefined;
+  const reasons = [
+    {
+      kind: "faith" as const,
+      loading: loadings.faith.value,
+      fromAverage: view.faithFromAverage,
+      adds: loadings.faith.value * view.faithFromAverage,
+    },
+    {
+      kind: "degree" as const,
+      loading: loadings.college.value,
+      fromAverage: view.collegeFromAverage ?? v("zero"),
+      adds: loadings.college.value * (view.collegeFromAverage ?? v("zero")),
+    },
+  ];
+  const record: OpeningRecord = {
+    id,
+    personId,
+    question,
+    total: reasons.reduce((n, r) => n + r.adds, v("zero")),
+    reasons,
+  };
+  table.put(record as unknown as { id: string });
+  return record;
+}
+
+/**
  * The person's opening stance on a question: where their lean puts them on its
- * axis, plus what their faith and degree add beyond the lean (CES 2020
- * loadings, `data/research/people/opening-stance-loadings.json`). A question
- * the survey has no item for takes the lean alone.
+ * axis, plus their stored opening record (what their faith and degree add
+ * beyond the lean, CES 2020 loadings). A question the survey has no item for
+ * takes the lean alone.
  */
 export function openingStance(
   api: CoreAPI,
@@ -537,15 +599,9 @@ export function openingStance(
   question: string,
   lean: number,
 ): number {
-  const base = personStance(lean, question);
-  const row = LOADINGS[question.replace(/^us-policy-positions:/, "")];
-  if (!row || !api.state.modules.has(VIEWS_MODULE_ID)) return base;
-  const view = viewOf(api, personId);
-  if (!view || view.faithFromAverage === undefined) return base;
   return (
-    base +
-    row.loadings.faith.value * view.faithFromAverage +
-    row.loadings.college.value * (view.collegeFromAverage ?? v("zero"))
+    personStance(lean, question) +
+    (openingRecord(api, personId, question)?.total ?? v("zero"))
   );
 }
 
@@ -609,6 +665,7 @@ export const viewsModule: CoreModule = {
     schemaVersion: 1,
     tables: {
       people: {},
+      openings: { indexes: { byPerson: { fields: ["personId"] } } },
       stances: {
         indexes: {
           byPerson: { fields: ["personId"] },

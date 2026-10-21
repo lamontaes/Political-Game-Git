@@ -1072,11 +1072,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/campaigns.ts",
     "line": 292,
-    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, what their faith and four-year degree add beyond the lean (src/core2/modules/views.ts openingStance, data/research/people/opening-stance-loadings.json). The other questions take the lean alone, and no trait loading exists because the CES has no personality measure.",
+    "whatItFakes": "A person's opening stance on a policy question is their lean times the question's measured left-right axis, plus, for the eight questions the CES 2020 has an item for, a stored opening record with its reasons (src/core2/modules/views.ts openingRecord, data/research/people/opening-stance-loadings.json) holding what their faith and four-year degree add beyond the lean. Every other question, and every person with no recorded faith or schooling, opens as the lean alone, and no trait loading exists because the CES has no personality measure.",
     "why": "OPUS-PEOPLE's views engine (values and stances formed from each person's life) isn't on core2 yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Per-question stances from PEOPLE's views engine, once it holds stances by question at the opening.",
+    "replacement": "Per-question opening records for the questions the survey did not ask (a source with loadings for each), until every question opens as a stored record formed from the person's life.",
     "status": "open"
   },
   {
@@ -1451,7 +1451,7 @@
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 231,
     "whatItFakes": "The credit engine reads the catalog cap when quoting new personal loans for full and counted households. The generic 36% ceiling stands in for product, principal, fee and lender-specific statutory rules. Counted income uses contracted wages adjusted by the latest settled wage-flow fraction; individual counted attendance and historical earnings ledgers are absent. Existing fixed-rate contracts are not retroactively repriced.",
-    "why": "Personal loans share the borrowing comparison and use borrower-keyed payments in both tiers. Lender exemptions, fee-inclusive APR, statutory product scope and counted individual attendance history are missing. A binding native rate change, received explanation and director chain still need evidence.",
+    "why": "Personal loans share the borrowing comparison and use borrower-keyed payments in both tiers. Lender exemptions, fee-inclusive APR, statutory product scope and counted individual attendance history are missing. A binding native rate change, received explanation and director chain still need evidence. Measured: the generic ceiling (36 percent, `consumerLoanRateCap`) sits far above the quoted personal-loan rate (policy rate plus 3.08 and 6 points, about 13 percent at today's rates), so `min(marketRate, ceiling)` never binds in an ordinary rate year and a borrower is never offered a changed rate; a received explanation can only fire once product-specific caps (payday and installment loans, fees included) or a rate shock make the ceiling bind.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "Counted earnings history matching full workers, sourced product-specific rate and fee rules, and a named borrower receiving the explanation and discussing the changed offer.",
@@ -1913,12 +1913,12 @@
     "id": "SG-GOV-ballot-order-estimates",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 622,
-    "whatItFakes": "For 20 of the 56 places the ballot-order rule is read from a secondary source or assumed: the five territories' rules are guesses, and 15 states' primary rule or order within a party is assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json).",
-    "why": "Ballotpedia's ballot-order page gives one rule per state, usually for the general election; NCSL's table and the state codes were not reachable from the research session.",
+    "line": 621,
+    "whatItFakes": "For 5 of the 56 places the ballot-order rule is read from a secondary source or assumed: American Samoa, Indiana's primary order, the Northern Mariana Islands, Pennsylvania's primary and general rules, the Virgin Islands (the rows marked estimate in data/research/elections/ballot-order-2026.json). The other 51 rows were checked against statute text.",
+    "why": "The statute text for these places has not been read, or does not state the rule; each row's note says what is known.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
+    "replacement": "Each remaining estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
     "status": "open"
   },
   {
@@ -2890,6 +2890,18 @@
     "addedAt": "2026-10-12",
     "replacement": "A recorded decision of who keeps a home and its mortgage when some of a household's members leave, so that groups can leave with part of the household behind.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-moves-player-home-stays",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/moves.ts",
+    "line": 1,
+    "whatItFakes": "No one in the player's own household moves away through the engine, so the player is never left alone with a lease, no job and no cash when the adults who earn leave town.",
+    "why": "Fraser, Colorado (seed d8c9a58e, place 0828305): at 17 the player's parents and siblings moved away on Feb 12 with their cash and the household's only job, and the player's lease went into arrears and ended. Whether parents may leave an 18-year-old player behind, and with what, is the owner's call; no ruling exists in the decision register.",
+    "addedBy": "claude/player-living-cost-fraser",
+    "addedAt": "2026-10-20",
+    "replacement": "Background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-moves-pinned-jobs",
