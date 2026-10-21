@@ -5,12 +5,12 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/district-results
+status: open
+claimed-by:
 pr: #5360
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T15:25:38.175Z
+claimed-at:
 ---
 
 **What.** TODO
