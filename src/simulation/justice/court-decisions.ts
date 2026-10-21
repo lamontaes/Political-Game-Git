@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "../trait-packs";
+import type { DecisionDeclaration } from "../../core2/trait-packs";
 
 /**
  * Criminal-court decisions published for trait packs. A leaf module, like

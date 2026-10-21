@@ -7,17 +7,24 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5455
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
-**What.** A counted worker who retired from a job used to be handed their place's average retiree income. They now claim through the retirement-claims engine on the day they retire, and the award is sized from their own age and covered work and paid from the Social Security payer, once. The average-income flow and its code are deleted and the stopgap row is resolved.
+**What.** TODO
 
-**Rules.** One model, two tiers: a counted retiree is paid by the same claim rule as a full person. Replace, never layer: addCountedRetiree is deleted in the same change. No dice: the award comes from age, work and the law in force.
+**Rules.** TODO
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56) every counted worker who retired and has a claim is paid the retirement-claim flow with their person id, and no residents:retirement:added flow exists, proven by src/core2/jobs-counted-retire-claim.test.ts.
+**Done when.** TODO
 
-**Files.** src/core2/modules/jobs.ts, src/core2/modules/retirement-claims.ts, src/core2/residents-economy.ts, src/core2/data/stopgaps.json
+**Files.** TODO
 
-**Notes.** Built on claude/political-game-pool-yucp92-c.
+**Notes.** Sent back 2026-10-20 from PR #5250 (branch claude/pool-retiree-income): Merging main conflicts in code in src/core2/modules/jobs.ts, src/core2/modules/retirement-claims.ts, src/core2/retirement-claims.test.ts; finish on that branch, merge main into it first. TODO
+
+Oct 20 (claude/retiree-note): nothing left to build. Merging main into the PR #5250 branch conflicts in `jobs.ts`, `retirement-claims.ts`, `retirement-claims.test.ts` and `stopgaps.json` only because main already holds the same change: `claimRetirementNow` (modules/retirement-claims.ts), called from `reviewCountedRetirements` in jobs.ts, with its test and the stopgap row resolved (from the earlier PR #5239). The CTO can mark this done and close PR #5250.
+
+Sent back 2026-10-20 from PR #5250 (branch claude/pool-retiree-income): The body explicitly says the new retirement-claims.test.ts case returns early in a place with no qualifying retired person. That permits the retirement-award regression to pass without an assertion. Draw with bounded retries that throw on exhaustion, assert a positive counted retirement award and its credited residents flow through the ordinary jobs retirement path, and keep a named place/seed/record proof before resolving the stopgap.; finish on that branch, merge main into it first.
+
+Oct 21 (claude, fixing PR #5224 branch claude/political-game-pool-yucp92-c): merged main, which already holds the same change (claimRetirementNow, stopgap resolved); took main for jobs.ts, retirement-claims.ts, residents.test.ts, stopgaps.json and kept this PR's only unique piece, src/core2/jobs-counted-retire-claim.test.ts (no residents:retirement:added flow).

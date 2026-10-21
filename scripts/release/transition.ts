@@ -39,8 +39,13 @@ function git(root: string, args: readonly string[]): string {
   } catch (error) {
     const stderr = (error as { stderr?: Buffer | string }).stderr;
     const detail = stderr?.toString().trim();
+    // A shallow clone (a cloud session's) lacks the base commit; say how to fetch it.
+    const shallow =
+      args[0] === "rev-parse" && /Needed a single revision/.test(detail ?? "")
+        ? " The clone may be shallow and lack that commit: run `git fetch --unshallow origin` (or `git fetch origin main`) and retry."
+        : "";
     throw new Error(
-      `Could not run 'git ${args.join(" ")}'${detail ? `: ${detail}` : "."}`,
+      `Could not run 'git ${args.join(" ")}'${detail ? `: ${detail}` : "."}${shallow}`,
     );
   }
 }

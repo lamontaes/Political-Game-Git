@@ -4,10 +4,10 @@ title: "Stopgaps in retirement-claims (program-stand-in): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: WORLD's jobs engine retires people during play, and nothing started their benefits, so retirees lost all income.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/retirement-claims.ts, kind program-stand-in"
 ---

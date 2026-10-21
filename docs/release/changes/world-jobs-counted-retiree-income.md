@@ -2,7 +2,7 @@
 id: world-jobs-counted-retiree-income
 impact: patch
 section: Fixed
-title: Townspeople who retire from work are paid their own Social Security award.
+title: A neighbor who retires draws a pension from their own record.
 ---
 
-A worker who retires now draws the award their age and years of work give them under the law in force, instead of their town's average retiree income.
+When someone in the wider population leaves work for good, they now claim Social Security from their own age, work history and savings, not the town's average retiree check.

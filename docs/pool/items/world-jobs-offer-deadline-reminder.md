@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-3xfqef-2
-pr:
+status: open
+claimed-by:
+pr: #5232
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:27:55.559Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,7 @@ claimed-at: 2026-10-19T22:27:55.559Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5232 (branch claude/political-game-pool-3xfqef-2): deletes stopgap row SG-WORLD-jobs-offer-deadline-reminder; mark it resolved with its replacement instead; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5232 (branch claude/political-game-pool-3xfqef-2): jobs-player-offers.test.ts fails on the merged head: 'A job ends before its day's work, from calendar work.'; finish on that branch, merge main into it first.

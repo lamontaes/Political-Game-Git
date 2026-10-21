@@ -5,10 +5,10 @@ area: gov
 kind: owner-decision
 priority: 3
 size: S
-status: blocked
+status: done
 claimed-by:
 pr:
-blocked-on: owner decision
+blocked-on:
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/jobs-benefits.ts, src/core2/data/laws/starting-law.json
 
 **Notes.** Raised by claude/political-game-pool-3xfqef-2 on Oct 19 while taking `world-unemployment-work-search`, which three earlier sessions also left unbuilt for this reason.
+
+Oct 20: Owner ruled it is recorded law, simulated: claimants in the world follow their state's weekly contact rule in the background, with no form or paperwork step for the player.

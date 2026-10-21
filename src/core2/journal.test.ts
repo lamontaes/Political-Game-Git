@@ -1,5 +1,6 @@
 /** Technical admission fixtures only; unexecuted and not empirical accounting priors. */
 import { describe, expect, it } from "vitest";
+import { setBookkeeping } from "./bookkeeping";
 import { P } from "./parameters";
 import { projectCashJournal } from "./journal";
 import type {
@@ -461,5 +462,24 @@ describe("pure balanced cash journal admission", () => {
     const before = snapshot(first);
     left.postings[P.zero]!.deltaMinor = -999;
     expect(snapshot(first)).toBe(before);
+  });
+
+  it("projects the same result with bookkeeping off, which skips only the structural re-checks", () => {
+    const checked = projectCashJournal(fixture().input, fixture().context);
+    const before = setBookkeeping(false);
+    try {
+      const f = fixture();
+      expect(projectCashJournal(f.input, f.context)).toEqual(checked);
+      // The balance check is not bookkeeping: an unbalanced set still throws.
+      const lopsided = fixture([
+        { id: "fixture:out", accountId: residualA, deltaMinor: -400 },
+        { id: "fixture:in", accountId: residualB, deltaMinor: 399 },
+      ]);
+      expect(() =>
+        projectCashJournal(lopsided.input, lopsided.context),
+      ).toThrow();
+    } finally {
+      setBookkeeping(before);
+    }
   });
 });

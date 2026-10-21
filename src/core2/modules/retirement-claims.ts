@@ -211,6 +211,8 @@ function moveToPerson(api: CoreAPI, rt: Runtime, personId: PersonId): void {
 
 function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
   const core = api.state;
+  // One award a person: a claim made when work ended stands when the date comes.
+  if (rt.claimed.has(personId)) return;
   const full = core.people.get(personId);
   // A counted claimant is read from their group's columns, not built as a record.
   const counted = full ? undefined : residentsRuntime(core);
@@ -224,7 +226,6 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
           traits: counted.store.packedTraits(member),
         }
       : undefined);
-  if (rt.claimed.has(personId)) return;
   if (!person || (full && (!full.alive || receivesRetirement(core, personId))))
     return;
   const residentsId = full
@@ -319,29 +320,36 @@ function claim(api: CoreAPI, rt: Runtime, personId: PersonId): void {
   });
 }
 
-function runtimeOf(core: CoreState): Runtime {
+/**
+ * A worker who leaves work for good claims now, from their own record, rather
+ * than waiting for a claim date the index skipped because they were still
+ * working. Nothing happens without the module, or for someone already paid.
+ */
+export function claimRetirementNow(api: CoreAPI, personId: PersonId): boolean {
+  const core = api.state;
+  if (!core.modules.has(RETIREMENT_CLAIMS_MODULE_ID)) return false;
   let rt = runtimes.get(core);
   if (!rt) {
     rt = { known: new Set(), byDate: new Map(), claimed: new Map() };
     runtimes.set(core, rt);
   }
-  return rt;
-}
-
-/**
- * A worker who stops working for good claims today, whatever date their own
- * claim age scheduled: the award is sized from their age and covered work as
- * a scheduled claim's is. Nothing happens for one who has already claimed.
- */
-export function claimRetirementNow(api: CoreAPI, personId: PersonId): void {
-  claim(api, runtimeOf(api.state), personId);
+  claim(api, rt, personId);
+  return rt.claimed.has(personId);
 }
 
 export const RETIREMENT_CLAIMS_MODULE: CoreModule = {
   id: RETIREMENT_CLAIMS_MODULE_ID,
   onDay(api) {
     const core = api.state;
-    const rt = runtimeOf(core);
+    let rt = runtimes.get(core);
+    if (!rt) {
+      rt = {
+        known: new Set(),
+        byDate: new Map(),
+        claimed: new Map(),
+      };
+      runtimes.set(core, rt);
+    }
     index(api, rt);
     const due = rt.byDate.get(core.date);
     if (!due) return undefined;
