@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/territory-admin-line
 pr: #5725
 blocked-on:
