@@ -1,6 +1,35 @@
 {
   "entries": [
     {
+      "version": "0.20.4",
+      "releasedOn": "2026-10-21",
+      "revision": "22d91c9bece81a2f68dde6cf125ae49a9a2ae3b3",
+      "changeIds": [
+        "core-opening-employment-org-profile",
+        "elections-ballot-order-statutes",
+        "gov-consumer-credit-cap-measured",
+        "pool-research-jobs-note-oct20",
+        "release-audit-02-law-reach-tests",
+        "world-player-household-pays-no-living-cost-fraser",
+        "world-town-public-works-note"
+      ]
+    },
+    {
+      "version": "0.20.3",
+      "releasedOn": "2026-10-21",
+      "revision": "9a9cb5285d813b2d1179f3f64838d4b8692aaa62",
+      "changeIds": [
+        "corruption-test-two-takes",
+        "people-opening-stance-record-after-loadings"
+      ]
+    },
+    {
+      "version": "0.20.2",
+      "releasedOn": "2026-10-21",
+      "revision": "52e3f70781320c9d786936cd294bc91de84b3cd1",
+      "changeIds": ["effect-web-crime"]
+    },
+    {
       "version": "0.20.1",
       "releasedOn": "2026-10-21",
       "revision": "cd1eb3d4096390b30d94fdc30d015c24bc2b696c",
