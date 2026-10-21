@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/pick-research-stopgaps-oct19-apply
-pr:
+pr: #5794
 blocked-on:
 source: "data/research/stopgaps-oct19/README.md"
 claimed-at: 2026-10-21T10:45:47.850Z
