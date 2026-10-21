@@ -117,11 +117,14 @@ describe("a vote or signature is filed at its own government's level", () => {
         );
       }
     }
+    // A chamber organized before the test's hook was set is Congress's too.
+    const isFederal = (id: string) =>
+      federal.has(id) || id.startsWith("chamber-organized:federal:");
     // No town outlet printed Congress's business as the town's.
     for (const outlet of outletsHere(api))
       for (const story of storiesPrinted(api, outlet.id))
         if (outlet.tier !== "national")
-          expect(federal.has(story.wireId), `${where}: ${story.wireId}`).toBe(
+          expect(isFederal(story.wireId), `${where}: ${story.wireId}`).toBe(
             false,
           );
     // Where a national outlet exists, it prints one of them by record id.
@@ -130,7 +133,7 @@ describe("a vote or signature is filed at its own government's level", () => {
       expect(
         national
           .flatMap((o) => storiesPrinted(api, o.id))
-          .some((story) => federal.has(story.wireId)),
+          .some((story) => isFederal(story.wireId)),
         where,
       ).toBe(true);
   }, 600000);

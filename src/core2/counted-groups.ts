@@ -437,6 +437,18 @@ export class CountedStore {
     return 0;
   }
 
+  /** A household still counted, by id. */
+  liveHousehold(id: string): CountedHousehold | undefined {
+    const ix = this.householdOf.get(id);
+    const h = ix === undefined ? undefined : this.households[ix];
+    return h && !h.gone ? h : undefined;
+  }
+
+  /** The ids of a household's counted members. */
+  memberIdsOf(h: CountedHousehold): PersonId[] {
+    return this.countedMembers(h).map((m) => this.ids[m]!);
+  }
+
   /** Counted members of a household (the ones not filled in, dead or moved). */
   countedMembers(h: CountedHousehold): number[] {
     return h.members.filter((m) => this.isCounted(m));
