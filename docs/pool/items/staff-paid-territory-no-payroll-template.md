@@ -6,11 +6,11 @@ kind: bug
 priority: 1
 size: M
 status: in-pr
-claimed-by: claude/territory-payroll
+claimed-by:
 pr: #5712
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T23:14:43.904Z
+claimed-at:
 ---
 
 **What.** Merge audit fix 5 asked for a pinned regression of #5559 (staff paid in a territory). On main it does not hold: in Charlotte Amalie East, U.S. Virgin Islands (place territory:VI:charlotte-amalie-east, seed p3) all 19 aides of the delegate, governor, lieutenant governor, boards and legislature are unpaid after 120 days of play, because startPublicJob finds no job to take a schedule from: of 1,426 running jobs at the start, none has a work commitment with a payroll calendar (the territory's workers are counted, not full people), so even taking the longest-hours job anywhere finds no template, and the post is held unpaid. Give a post with no template a schedule built from the parameters (the full-time week and the paydays the opening's work builder uses) so the aide is paid.
@@ -34,3 +34,5 @@ Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): On main me
 Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): src/core2/staff-paid-every-place.test.ts:62-66 replaces the failing payroll assertion with continue for every post under 30 days old. That narrows the required payment proof and can leave zero commitments whose payment is checked; the body itself says the 29-day-old aide already had a payday, so the comment that every younger post has had no payday is false. Retain Mustang beside the drawn case, advance far enough for the witnessed aide to have an actual payday (or derive eligibility from its real calendar), assert a nonempty set of due commitments, and prove each was credited rather than blanket-exempting a month of hires.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5712 (branch claude/territory-payroll): staff-paid-every-place.test.ts still fails: the governor's aide in Independence, Louisiana (2237025) has no payroll record; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5712 (branch claude/territory-payroll): The revised Independence case supplies the attendance diagnosis and keeps a nonempty due-payroll set. The body is still stale: its gate line says 3 cases, but the test now has 4 including Independence. It also has no required Done when evidence table. Map the Charlotte Amalie East 120-day job, commitment, calendar and first-payment journal proof, plus the drawn case, to the item acceptance with full seeds and record ids. The current merger skill section 2.5 requires that table; no local gate pass is claimed here.; finish on that branch, merge main into it first.
