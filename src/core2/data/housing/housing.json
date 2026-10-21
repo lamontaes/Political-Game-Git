@@ -60312,7 +60312,7 @@
         "medianValueUsd": 277800,
         "valueDate": "2020-04-01",
         "tag": "SOURCED",
-        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-guam.html. Owners are 52.0 percent of householders in occupied units, excluding military housing"
+        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-guam.html. Fetched Oct 21: \"52.0% of the island’s householders in occupied units were owners\"; \"The median home value was $277,800.\"; \"The median monthly rent was $1,057.\" Excludes military housing"
       },
       "US-AS": {
         "ownerShare": 0.711,
@@ -60320,7 +60320,7 @@
         "medianValueUsd": 84400,
         "valueDate": "2020-04-01",
         "tag": "SOURCED",
-        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-american-samoa.html. Owners are 71.1 percent of occupied units"
+        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-american-samoa.html. Fetched Oct 21: \"71.1% of occupied units were owned\"; \"The median home value was $84,400, and the median gross monthly rent $601.\""
       },
       "US-MP": {
         "ownerShare": 0.29,
@@ -60328,7 +60328,7 @@
         "medianValueUsd": 184200,
         "valueDate": "2020-04-01",
         "tag": "SOURCED",
-        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://www.census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-cnmi.html. Owners are 29.0 percent of occupied units"
+        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://www.census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-cnmi.html. Fetched Oct 21: \"29.0% were owned\"; \"The median home value was $184,200.\"; \"The median monthly gross rent was $502.\""
       },
       "US-VI": {
         "ownerShare": 0.478,
@@ -60336,7 +60336,7 @@
         "medianValueUsd": 290600,
         "valueDate": "2020-04-01",
         "tag": "SOURCED",
-        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://www.census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-usvi.html. Owners are 47.8 percent of occupied units"
+        "citation": "U.S. Census Bureau, 2020 Island Areas Censuses, Demographic and Housing Characteristics summary file release (July 20, 2023): https://www.census.gov/newsroom/press-releases/2023/2020-dhc-summary-file-usvi.html. Fetched Oct 21: \"47.8% were owned\"; \"Median home value was $290,600.\"; \"Median monthly gross rent was $926.\""
       }
     }
   }

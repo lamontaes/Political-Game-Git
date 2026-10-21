@@ -12,8 +12,9 @@ import housingData from "./data/housing/housing.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { rentValueOf, valueDateOf } from "./modules/housing";
+import { ownedHomes, rentValueOf, valueDateOf } from "./modules/housing";
 import { searchCorePlaces } from "./place-lookup";
+import { coreAPI } from "./state";
 
 const seed =
   process.env.GOLDEN_PATH_SEED ??
@@ -36,6 +37,8 @@ const pick = <T>(list: readonly T[], salt: string): T =>
   ]!;
 // Enough homes that rounding to whole households stays under one point.
 const MIN_HOMES = 100;
+const median = (values: number[]): number =>
+  [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)]!;
 
 describe("an island area's housing starts from its own Census 2020 row", () => {
   it(`owner share, rent and value come from the area's row, and the year plays (seed ${seed})`, () => {
@@ -89,14 +92,44 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
           dwellings.filter((d) => d[1] === "rent").every((d) => d[2] > 0),
         `${where}: every home has a value or a rent`,
       ).toBe(true);
+      // Owners' median value at the opening is the census value moved by the
+      // price index from April 2020 to the start, not the census value itself.
+      const openingValue = median(
+        dwellings.filter((d) => d[1] === "own").map((d) => d[2]),
+      );
+      expect(openingValue, `${where}: opening median value`).not.toBe(
+        row.medianValueUsd * 100,
+      );
       // The year plays out from that opening.
       const end = addDays(makeIsoDate(core.date), 365);
       advanceCore(core, end);
       expect(core.date, where).toBe(end);
+      const api = coreAPI(core);
+      const owned = ownedHomes(api);
+      expect(owned.length, `${where}: owners still hold homes`).toBeGreaterThan(
+        0,
+      );
+      const endValue = median(owned.map((h) => h.valueMinor));
+      expect(endValue, `${where}: owners' median value after a year`).not.toBe(
+        openingValue,
+      );
+      // Renters pay: a lease of a renter household settled on its billing day.
+      const rentDwellings = new Set(
+        dwellings.filter((d) => d[1] === "rent").map((d) => d[0]),
+      );
+      const paid = [...core.finance.contracts.entries()].filter(
+        ([id, lease]) =>
+          id.startsWith("lease:") &&
+          rentDwellings.has(id.slice("lease:".length)) &&
+          lease.lastSettledAt !== undefined &&
+          lease.amountMinor > 0,
+      );
+      expect(paid.length, `${where}: renter leases settled`).toBeGreaterThan(0);
       return;
     }
     throw new Error(
       `no island-area place with ${MIN_HOMES} homes: ${tried.join("; ")}`,
     );
+    // Measured 118 s of test time for one attempt (island opening plus a played year, one process).
   }, 900_000);
 });
