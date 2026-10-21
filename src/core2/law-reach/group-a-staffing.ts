@@ -165,7 +165,9 @@ function countedStaff(
       continue;
     for (const jobId of flow.jobIds ?? []) {
       const job = rt.jobs.get(jobId);
-      if (job) out.push({ jobId, personId: job.personId });
+      // A counted job that has ended is no longer staff.
+      if (job && job.endsAt === undefined)
+        out.push({ jobId, personId: job.personId });
     }
   }
   return out.sort((a, b) => a.jobId.localeCompare(b.jobId));
@@ -316,6 +318,10 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
       if (headcount - laidOff.length <= target) break;
       if (!state.people.has(s.personId)) fillInPerson(state, s.personId);
       if (!state.people.has(s.personId)) continue;
+      // Filling a person in keeps their job record; one that ended since the
+      // list was made is not laid off again.
+      const own = state.jobs.get(s.jobId);
+      if (!own || own.endsAt !== undefined) continue;
       api.endJob(s.jobId, work.key);
       laidOff.push(s.personId);
     }
