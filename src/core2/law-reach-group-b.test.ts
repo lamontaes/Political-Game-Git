@@ -77,6 +77,13 @@ const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
+// A town with a Medicaid-eligible named adult who works under 80 hours a month
+// and has no child under 14 is rare (about one town in twenty), so the payment
+// fixture draws until it finds one.
+const DRAWS = 160;
+// The pinned case keeps one named place and redraws only past its empty tries.
+const PINNED_DRAWS = 40;
+
 /**
  * A town to run the cases in. The payment cases need payees (adults the
  * expansion covers, adults the work requirement then reaches, and a child of
@@ -84,7 +91,9 @@ const states = [...corePlaceStateIdentities()]
  * so it alone keeps a pinned place (GOLDEN_PATH_PLACE_KEY).
  */
 function build(options: { pinned: boolean }): void {
-  for (let attempt = 0; attempt < 40; attempt += 1) {
+  const draws =
+    options.pinned && process.env.GOLDEN_PATH_PLACE_KEY ? PINNED_DRAWS : DRAWS;
+  for (let attempt = 0; attempt < draws; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
       ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
@@ -148,7 +157,7 @@ function build(options: { pinned: boolean }): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in forty draws (seed ${seed})`,
+    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in ${options.pinned && process.env.GOLDEN_PATH_PLACE_KEY ? `${PINNED_DRAWS} draws of the named place ${process.env.GOLDEN_PATH_PLACE_KEY}` : `${draws} draws`} (seed ${seed})`,
   );
 }
 
@@ -315,7 +324,7 @@ const stepFor = (gov: GovernmentRow, name: string) =>
   );
 
 describe("law reach, group B: every policy reaches people through its engine", () => {
-  beforeAll(() => build({ pinned: false }));
+  beforeAll(() => build({ pinned: false }), 900_000);
 
   it("registers a handler for every group B policy and budget line", () => {
     expect(GROUP_B_KEYS.length).toBe(34);
