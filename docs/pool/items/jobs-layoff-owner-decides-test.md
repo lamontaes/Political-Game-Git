@@ -5,11 +5,12 @@ area: world
 kind: cleanup
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/standins-jobs
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T22:37:46.889Z
 ---
 
 **What.** PR 5193 adds src/core2/jobs-layoff-owner.test.ts: in places drawn from all 56, played a month at a time until a layoff at an owned business appears, no layoff names the business itself as its decider and at least one names the owner on the books. The layoff mechanic itself is already on main; gov-standins-jobs (the stopgap rows and the named benefit-claim chain) stays open.
