@@ -16,8 +16,13 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import { enactLaw, lawChain } from "./modules/laws";
 import { reachTable, yesLevels } from "./law-reach/group-a-records";
+import { jobsAt } from "./law-reach/group-b-money";
+import { lineForPost } from "./budgets-treasury";
+import { governments } from "./modules/budgets";
+import bargaining from "./data/laws/public-bargaining.json" with { type: "json" };
 import type { CoreAPI, CoreState } from "./types";
 
+const UNITS = bargaining.units as Readonly<Record<string, { line: string }>>;
 const KEY =
   "us-policy-positions:labor-workforce.public-sector-collective-bargaining";
 const seed =
@@ -88,35 +93,74 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
       });
       const core: CoreState = world.core;
       const api = coreAPI(core);
+      // The wider population's jobs in each unit, their pay the day before:
+      // a contract re-rates them by the same growth as a named worker's.
+      const countedPay = () =>
+        new Map(
+          Object.keys(UNITS).flatMap((classification) =>
+            jobsAt(api, [classification])
+              .filter((job) => !core.jobs.has(job.id))
+              .map(
+                (job) =>
+                  [
+                    job.id,
+                    { classification, hourly: job.hourlyMinor ?? 0 },
+                  ] as const,
+              ),
+          ),
+        );
+      let countedChecked = 0;
       // The world's own legislature may repeal the law on any day; the test
       // re-enacts it daily so a budget date never falls in a lapse.
       for (let day = 0; day < 400; day += 1) {
         if (!yesLevels(api, KEY).length)
           setLaw(api, "state", 1, `yes:${attempt}:${day}`);
+        const before = countedPay();
+        const known = new Set(contracts(api).map((c) => c.id));
         advanceCore(core, addDays(makeIsoDate(core.date), 1));
-        // Stop as soon as a contract has raised a unit's pay.
+        for (const c of contracts(api)) {
+          if (known.has(c.id) || !(Number(c.facts.raised) > 0)) continue;
+          const growth =
+            Number(c.facts.lineNowMinor) / Number(c.facts.lineBeforeMinor) - 1;
+          const after = countedPay();
+          for (const [jobId, was] of before) {
+            if (was.classification !== c.facts.classification) continue;
+            const now = after.get(jobId);
+            if (!now || was.hourly <= 0) continue;
+            expect(
+              now.hourly,
+              `${place.key}: counted ${jobId} under ${c.id}`,
+            ).toBe(Math.max(was.hourly, Math.round(was.hourly * (1 + growth))));
+            countedChecked += 1;
+          }
+        }
+        // Stop as soon as a contract has raised a named worker's pay.
         if (
-          day % 10 === 9 &&
-          contracts(api).some((c) => Number(c.facts.raised) > 0)
+          contracts(api).some(
+            (c) =>
+              Number(c.facts.raised) > 0 && c.facts.sampleJobId !== undefined,
+          )
         )
           break;
       }
       const raised = contracts(api).filter((c) => Number(c.facts.raised) > 0);
       tried.push(
         `${place.key}: ${contracts(api)
-          .map((c) => `${c.facts.line} ${c.facts.raisePct}%`)
+          .map(
+            (c) =>
+              `${c.facts.line} ${c.facts.raisePct}% (${c.facts.sampleJobId ?? "counted only"})`,
+          )
           .join(", ")}`,
       );
-      if (!raised.length) continue;
-      // A named worker's job is the proof; a unit of only counted workers
-      // (the wider population) still shows the contract and its raise.
-      const contract =
-        raised.find((c) => c.facts.sampleJobId !== undefined) ?? raised[0]!;
+      // A named worker's job is the proof: a place whose contracts raised only
+      // counted workers is checked above and the search goes on.
+      const contract = raised.find((c) => c.facts.sampleJobId !== undefined);
+      if (!contract) continue;
       const f = contract.facts;
       // The raise is the line's growth, no more: the pay change cites the line.
       const growth = Number(f.lineNowMinor) / Number(f.lineBeforeMinor) - 1;
       expect(Number(f.raisePct)).toBeCloseTo(growth * 100, 1);
-      if (f.sampleJobId !== undefined) {
+      {
         const change = core.work.payChanges
           .get(String(f.sampleJobId))
           ?.find(
@@ -133,6 +177,31 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
           Math.round(Number(f.sampleFromMinor) * (1 + growth)),
         );
       }
+      // The raised pay is paid: the worker's next payroll receipt after the
+      // contract, from the employer whose budget line the contract names.
+      const sampleJob = core.jobs.get(String(f.sampleJobId))!;
+      const gov = governments(api).find((g) => g.id === f.governmentId)!;
+      expect(
+        lineForPost(gov.level, sampleJob.id),
+        `${place.key}: ${sampleJob.id}`,
+      ).toBe(f.line);
+      const receiptAfter = () =>
+        [...core.work.payrollLedgerByCommitment.values()].find(
+          (row) =>
+            row.jobId === sampleJob.id &&
+            row.lastPayrollReceiptId !== undefined &&
+            String(row.lastPayrollReceiptId).split(":")[1]! >= contract.since,
+        );
+      for (let day = 0; day < 45 && !receiptAfter(); day += 1)
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const paid = receiptAfter();
+      expect(
+        paid?.lastPayrollReceiptId,
+        `${place.key}: ${sampleJob.id} paid after ${contract.id}`,
+      ).toBeTruthy();
+      process.stdout.write(
+        `BARGAINING ${place.key} (seed ${seed}): ${contract.id} raised ${f.raised} jobs by ${f.raisePct}% (${f.line}); ${sampleJob.personId} on ${sampleJob.id} ${f.sampleFromMinor} to ${f.sampleToMinor}, paid by ${sampleJob.organizationId} in ${paid!.lastPayrollReceiptId}; ${countedChecked} counted jobs re-rated and checked\n`,
+      );
       // A repeal at every level in force stops the next contract.
       const repealed = new Set(yesLevels(api, KEY).map((l) => l.lawId));
       for (const l of yesLevels(api, KEY))
