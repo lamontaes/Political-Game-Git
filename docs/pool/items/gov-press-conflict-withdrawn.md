@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T00:21:09.092Z
 ---
 
 **What.** TODO
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** TODO
 
 **Notes.** TODO
+
+Oct 20: Dropped as a duplicate of gov-press-ban-withdrawn (done, #5131).

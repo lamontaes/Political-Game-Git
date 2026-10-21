@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/red-electorate-weight
-pr:
+status: in-pr
+claimed-by: claude/electorate-weight-red
+pr: #5318
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:57:24.608Z
+claimed-at: 2026-10-20T03:48:23.791Z
 ---
 
 **What.** TODO
@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T23:57:24.608Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.

@@ -4,10 +4,10 @@ title: "Stopgaps in executive-proposal (assumed-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data (Per-city and per-county charter research on who may introduce legislation, read by proposalRight....)
+blocked-on: research-legislature-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/legislature/executive-proposal.json, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/legislature/executive-prop
 **Files.** src/core2/data/legislature/executive-proposal.json
 
 **Notes.** First row: One national rule for how a mayor or county executive brings a bill of their own: through a member who carries it at their request. Charters differ (some let the mayor introduce ordinances directly).
+
+Folded into research-legislature-sourced-parameters (CTO, Oct 19, 2026).

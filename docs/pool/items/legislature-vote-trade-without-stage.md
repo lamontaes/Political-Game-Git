@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #4756
 blocked-on: gov-vote-row-undefined-stage
@@ -27,3 +27,4 @@ Sent back 2026-10-16 from PR #4755 (branch claude/vote-trade-stage): Merging cur
 
 **Closed Oct 17.** Already fixed on main by gov-vote-row-undefined-stage (`legislature.ts` omits `stage` when a deal has none; the test at `legislature.test.ts` reads the vote row with the trade and no stage). With GOLDEN_PATH_SEED a2, a3 and a6 the minimum-wage ordinance test passes on main. No change needed.
 PR #4756 closed unmerged (2026-10-16); reopened by the pool reconcile Oct 19.
+Dropped by the pool reconcile Oct 19 (audit-2026-10-19): duplicate of gov-vote-row-undefined-stage, done #4730.

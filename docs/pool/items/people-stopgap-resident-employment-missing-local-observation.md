@@ -4,10 +4,10 @@ title: "Stopgaps in resident-employment (missing-local-observation): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: research data: the row's replacement needs sourced data or calibration (see the item's stopgap row)
+blocked-on: research-residents-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/resident-employment.json, kind missing-local-observation"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/resident-employment.json, 
 **Files.** src/core2/data/resident-employment.json
 
 **Notes.** First row: Uses national pre-opening CPS age ratios and a tunable local scale when actual county ACS cells are unavailable.
+
+Folded into research-residents-sourced-parameters (CTO, Oct 19, 2026).

@@ -6,6 +6,7 @@
  * (through defaults to ninety days after the world begins)
  */
 import { drawPlace } from "./place";
+import { parameter } from "../../src/core2/parameters";
 import { generatedOpening } from "../../src/core2/tooling/generated-world";
 import { advanceCore, createLifeCore } from "../../src/core2/life";
 import { peopleData, peopleModules } from "../../src/director/play-modules";
@@ -85,6 +86,18 @@ console.log(
 );
 console.log(
   `  civic (join, organize, approach): ${share(matching(/join|organiz|approach|civic/))}; ATUS 13.6% organizational, civic and religious (5.3% volunteering)`,
+);
+// Rest is the "recover" effect; one rest act takes the leisure total
+// (restDayHours, ATUS Table 3 leisure and sports 5.16 h a day) today,
+// so this line holds the leisure share still while that length is lowered.
+const restHours = parameter("restDayHours");
+const restActs = [...byAction]
+  .filter(([key]) =>
+    core.data.actions.some((row) => row.id === key && row.effect === "recover"),
+  )
+  .reduce((n, [, count]) => n + count, 0);
+console.log(
+  `  leisure hours a day (rest acts x ${restHours} h each): ${((restActs * restHours) / personDays).toFixed(2)} h; ATUS 5.16 h (leisure and sports, 15 and over)`,
 );
 console.log(
   "  Acts per person-day: a person can act more than once a day, so each is an upper bound on the share of days.",
