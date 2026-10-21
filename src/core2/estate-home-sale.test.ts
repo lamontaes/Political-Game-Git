@@ -15,6 +15,39 @@ import type { CoreEventInput, CoreState } from "./types";
 // (world-estate-sells-the-home).
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
+/** The heir payments an `estate.settled` record names: the transfer id `estate:<decedent>:<heir>` and the amount. */
+function heirPayments(
+  event: CoreEventInput,
+): { id: string; toId: string; amountMinor: number }[] {
+  const decedentId = String(event.facts?.decedentId);
+  return String(event.facts?.heirs ?? "")
+    .split(" ")
+    .filter(Boolean)
+    .map((pair) => {
+      const cut = pair.lastIndexOf("=");
+      const toId = pair.slice(0, cut);
+      return {
+        id: `estate:${decedentId}:${toId}`,
+        toId,
+        amountMinor: Number(pair.slice(cut + 1)),
+      };
+    });
+}
+
+/** The heirs were paid: at least one payment, each positive, together no more than the estate held. */
+function expectHeirsPaid(settled: CoreEventInput, where: string): string[] {
+  const payments = heirPayments(settled);
+  expect(payments.length, `${where}: heirs were paid`).toBeGreaterThan(0);
+  for (const payment of payments)
+    expect(payment.amountMinor, `${where}: ${payment.id}`).toBeGreaterThan(0);
+  const total = payments.reduce((sum, row) => sum + row.amountMinor, 0);
+  expect(
+    total,
+    `${where}: heirs' payments within the estate`,
+  ).toBeLessThanOrEqual(Number(settled.facts?.estateMinor));
+  return payments.map((row) => row.id);
+}
+
 it(`the last owner's death sells the home when probate closes, the lender first and the surplus to the heirs, seed ${seed}`, () => {
   setBookkeeping(false);
   const tried: string[] = [];
@@ -112,6 +145,8 @@ it(`the last owner's death sells the home when probate closes, the lender first 
       Number(settled!.facts?.estateMinor),
       `${where}: the estate held the surplus ${sale!.surplusMinor}`,
     ).toBeGreaterThanOrEqual(sale!.surplusMinor);
+    const paidIds = expectHeirsPaid(settled!, where);
+    expect(paidIds.length, where).toBeGreaterThan(0);
     expect(sale!.surplusMinor + sale!.toLenderMinor, where).toBeLessThanOrEqual(
       sale!.priceMinor,
     );
