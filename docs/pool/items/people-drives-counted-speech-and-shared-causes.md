@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: L
-status: claimed
+status: in-pr
 claimed-by: claude/counted-speech-causes
-pr:
+pr: #5826
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T18:20:41.767Z

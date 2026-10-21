@@ -1,5 +1,5 @@
 ---
-id: world-town-public-works-note
+id: pool-law-reaches-nobody-note
 impact: none
 ---
 
