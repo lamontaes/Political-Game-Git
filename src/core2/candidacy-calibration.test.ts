@@ -10,12 +10,10 @@
  * than half of the small towns decide no local contest in 400 days, and a
  * handful of contests per town makes any six places swing by tens of points.
  * So the check is on the pooled count of contests over as many places as it
- * takes to have at least `MIN_CONTESTS`, and it fails only when the pooled
- * count cannot be the real band at 99 percent confidence (the Wilson interval
- * of the pooled share lies wholly above 80 percent or wholly below 50). A run
- * that merely lands on one side of the band by luck does not fail. Each
- * contest is one seat (a body with several seats has a contest row per seat),
- * so a seat is uncontested when its ballot has no more than one candidate.
+ * takes to have at least `MIN_CONTESTS`: the observed pooled share must lie
+ * in the real band. Each contest is one seat (a body with several seats has a
+ * contest row per seat), so a seat is uncontested when its ballot has no more
+ * than one candidate.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -48,7 +46,7 @@ function wilson(successes: number, n: number): [number, number] {
   return [center - half, center + half];
 }
 
-it("the share of local seats with no more candidates than seats cannot be shown to lie outside the real band, over places drawn at random", () => {
+it("the share of local seats with no more candidates than seats lies in the real band, over places drawn at random", () => {
   const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
   let contests = 0,
     uncontested = 0;
@@ -94,6 +92,7 @@ it("the share of local seats with no more candidates than seats cannot be shown 
   const where = `seed ${seed}: ${uncontested} of ${contests} uncontested (99% interval ${(low * 100).toFixed(0)} to ${(high * 100).toFixed(0)} percent): ${lines.join("; ")}`;
   console.log(where);
   expect(contests, where).toBeGreaterThanOrEqual(MIN_CONTESTS);
-  expect(low, where).toBeLessThanOrEqual(BAND.high);
-  expect(high, where).toBeGreaterThanOrEqual(BAND.low);
+  const share = uncontested / contests;
+  expect(share, where).toBeLessThanOrEqual(BAND.high);
+  expect(share, where).toBeGreaterThanOrEqual(BAND.low);
 }, 7_200_000);
