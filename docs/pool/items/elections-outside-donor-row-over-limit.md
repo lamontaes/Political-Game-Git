@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/campaigns.ts, src/core2/campaign-turn.test.ts, src/core2/campaign-outside-donors.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-21 from PR #5819 (branch claude/outside-donor-limit): The new outside-donor count and per-person limit arithmetic describe a legitimate bounded fix, but the donor-index test is narrowed into a new no-check success path. In src/core2/campaign-turn.test.ts:262-265 it now selects only a gift whose donorId does not start outside:, then returns successfully if none is found. A world whose campaign has only outside gifts therefore skips every running-total/index assertion even though it has raised money. Keep the outside-group case separate and make the named-donor/index case use bounded draws or turns that require a nonempty named gift, failing on exhaustion instead of returning. Retain the outside-row per-person cap and verify the count is positive/integer on an exercised outside gift. No standard local gate pass or merge is claimed for this source review.; finish on that branch, merge main into it first.
