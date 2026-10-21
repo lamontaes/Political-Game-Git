@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/office-scene-hook-shape
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T17:59:38.216Z
 ---
 
 **What.** On main (ff36bf96b2), src/director/office-scene.test.ts fails before any test runs with 'TypeError: hook.run is not a function' at runBeforeVote, src/core2/modules/legislature.ts:3369. registerLegislatureHooks({ beforeVote }) now takes { name, run } (120f63963e, committee-stage hooks), but office-scene.test.ts and office-scene-levels.test.ts still pass a bare function. Renaming to { name, run } alone is not enough: a named hook outside committee-day.json's committeeStage list runs only on the floor day, so the 'bill its committee did not report' check would loop over an empty list.
