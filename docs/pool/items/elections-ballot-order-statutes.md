@@ -5,7 +5,7 @@ area: elections
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/ballot-order-statutes
 pr: #5621
 blocked-on:
