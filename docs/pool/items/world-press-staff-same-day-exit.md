@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/press-staff-exit
 pr: #5353
 blocked-on: "gov-stopgap-press-staff-missing-record"
