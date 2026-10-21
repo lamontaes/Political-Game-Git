@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/canvass-answers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T10:41:58.049Z
 ---
 
 **What.** src/bench/campaign-day-controls.test.ts checks the door-knocking scene only when someone answered; on a draw where nobody answers it asserts only that there is no scene, so the scene path can go unchecked. A merger sent #5671 back asking that answers be asserted to exist; main's version of the test has the same conditional.
