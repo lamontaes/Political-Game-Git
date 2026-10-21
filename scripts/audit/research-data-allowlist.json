@@ -722,6 +722,10 @@
       "reason": "Roadmap research record R19: the sources read, their terms of use and the gaps found, kept as the evidence the design cites; the game reads the data built from it, not this record."
     },
     {
+      "file": "data/research/people/census-household-pulse-homeschool-replicate-errors-2023.json",
+      "reason": "Raw Census Household Pulse replicate-weight standard errors behind the homeschool share and its shrinkage check; evidence for the figure, which the game reads from its own parameter table, not from this file."
+    },
+    {
       "file": "data/research/programs/roadmap-r6-handoff.json",
       "reason": "Research hand-off for the program tables: which official numbers were extracted and which requests were refused, a record of gaps, not data an engine reads."
     },
@@ -760,6 +764,42 @@
     {
       "file": "data/research/stopgaps-oct19/E-careers-finance.json",
       "reason": "Raw research result for the open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap (pool item research-stopgaps-oct19-apply), the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-CORE-district-placement.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-kin-generation.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-moves-weights.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-partnership-model-places.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-partnership-model.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-PW8-partnership-start.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-WORLD-housing-county-estimate.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-WORLD-property-tax-rate.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-rerun.results.json",
+      "reason": "Raw Census rerun result for open stopgap rows (value, spread, sources, one-line builder note each); builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
     },
     {
       "file": "data/research/succession/roadmap-r35-intestacy-examples.json",
