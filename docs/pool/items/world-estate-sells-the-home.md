@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/estate-sells-home
 pr: #5735
 blocked-on:
