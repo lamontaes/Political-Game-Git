@@ -14,6 +14,7 @@ import { countedResidents } from "./electorate";
 import { gameStartDate } from "./game-start";
 import { agreementWith, countedStanceProfile } from "./modules/views";
 import { coreAPI, fillInPerson } from "./state";
+import { residentsRuntime } from "./modules/residents";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -40,6 +41,16 @@ it("a counted resident's agreement with a platform equals the filled-in person's
     (_, i) => i % Math.ceil(adults.length / 8) === 0,
   );
   const profiles = new Set<string>();
+  const proof: {
+    groupId: number;
+    householdId: string;
+    residentId: string;
+    personId: string;
+    weight: number;
+    counted: number;
+    full: number;
+    leanOnly: number;
+  }[] = [];
   for (const voter of picked) {
     const lean = 0.3;
     const profile = countedStanceProfile(api, voter);
@@ -49,13 +60,47 @@ it("a counted resident's agreement with a platform equals the filled-in person's
     ).toBeDefined();
     profiles.add(`${profile.faithFromAverage}|${profile.collegeFromAverage}`);
     const counted = groupAgreement(lean, platform, profile);
+    const household = residentsRuntime(
+      core as CoreState,
+    )!.store.households.find((row) => row.id === voter.householdId);
+    expect(
+      household,
+      `${where}: ${voter.householdId} is recorded`,
+    ).toBeDefined();
     fillInPerson(core as CoreState, voter.id as never);
+    const person = core.people.get(voter.id as never);
+    expect(person, `${where}: ${voter.id} is filled in`).toBeDefined();
     const full = agreementWith(api, voter.id, lean, platform);
     expect(full, `${where}: ${voter.id} counted then filled in`).toBeCloseTo(
       counted,
       9,
     );
+    proof.push({
+      groupId: household!.group,
+      householdId: voter.householdId,
+      residentId: voter.id,
+      personId: person!.id,
+      weight: voter.weight,
+      counted,
+      full,
+      leanOnly: groupAgreement(lean, platform, undefined),
+    });
   }
   // The group of voters is not one profile: faith and degree differ.
   expect(profiles.size, where).toBeGreaterThan(1);
+  expect(
+    proof.some((row) => Math.abs(row.counted - row.leanOnly) > 1e-9),
+    `${where}: a recorded profile changes agreement`,
+  ).toBe(true);
+  console.log(
+    "COUNTED_STANCE_PROOF " +
+      JSON.stringify({
+        drawSeed: seed,
+        place: place.name,
+        key: place.key,
+        worldSeed: place.seed,
+        distinctProfiles: profiles.size,
+        proof,
+      }),
+  );
 }, 900_000);
