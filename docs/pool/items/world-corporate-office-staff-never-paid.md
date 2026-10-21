@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/corporate-office-staff-paid
+status: open
+claimed-by:
 pr: #5041
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T03:04:27.797Z
+claimed-at:
 ---
 
 **What.** A county "Business Services" office (classification enterprise:corporate-office) opens with no cash and no business books, so its staff are never paid. West Wendover, Nevada (seed f6): Elko County Business Services, 1 counted job, 1,853 asked per payday, nothing paid after four months; Sayreville, New Jersey (seed h8): Middlesex County Business Services, 4 counted jobs. The office is a regional branch whose pay comes from a parent firm outside the town, and no parent is modeled. The business-books table gives it no kind ("branch-or-institution-budget-required").
