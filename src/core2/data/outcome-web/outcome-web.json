@@ -252,13 +252,6 @@
       "field": "evictionOrdersLastMonth",
       "unitScale": 1
     },
-    "household.poverty-pct": {
-      "owner": "OPUS-WORLD",
-      "record": "world-metrics months.povertyShare (people in households whose yearly pay and awards are under the Census poverty line for their size, children and eldest member, named plus counted by weight), as a percent",
-      "field": "povertyShare",
-      "unitScale": 100,
-      "ownsOutcome": true
-    },
     "crime.violent-victimization-index": {
       "owner": "OPUS-CORE",
       "record": "crime months.violentIndex (robberies and assaults per person 12 and older the victimization records expect, 100 at the place's first month)",
@@ -274,6 +267,13 @@
       "unitScale": 1,
       "module": "core2-crime-v1",
       "table": "months"
+    },
+    "household.poverty-pct": {
+      "owner": "OPUS-WORLD",
+      "record": "world-metrics months.povertyShare (people in households whose yearly pay and awards are under the Census poverty line for their size, children and eldest member, named plus counted by weight), as a percent",
+      "field": "povertyShare",
+      "unitScale": 100,
+      "ownsOutcome": true
     },
     "housing.property-tax-rate": {
       "owner": "OPUS-WORLD",
