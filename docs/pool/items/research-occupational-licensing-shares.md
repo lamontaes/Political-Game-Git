@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/licensing-shares
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T17:25:31.761Z
 ---
 
 **What.** The jobs engine has no licensing field, so a repeal of an occupational license reaches no one's pay (world-licensing-reform-jobs). Fetch and quote the share of workers who hold a state license by occupation group and by state (BLS Current Population Survey certification and licensing tables, CareerOneStop, Kleiner and Soltas 2023). Turn it into a data table with SOURCED rows and an ESTIMATED fallback with spread where a state has no row, so a builder can give each licensed occupation a requirement row.
