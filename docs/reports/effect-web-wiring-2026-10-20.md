@@ -89,7 +89,7 @@ The other four do not move in three months. The uninsured share, poverty and gra
 - **Still open, each merged with main and merging cleanly:**
   - schools #5609: holds the school outcome records, school spending, and the twin's re-shift;
   - labor #5617 (merged): pay, participation, the low-wage stopgap and the retirement onset carried by the jobs engine;
-  - crime #5619: holds the victimization records and the story-gated crime in the vote.
+  - crime #5619 (merged): holds the victimization records and the story-gated crime in the vote.
 - **The last piece:** #5639 carries the unwired list, the matrix, this report and the twin-check fixes.
 - **Golden-path specs that fail on main as well:** M2-01 (`gov-opening-past-terms-gap-a-day`), M3-09 (`gov-corruption-small-territory-bribe`), and M2-05 and M2-07 (`people-opening-stance-needs-views-module`).
 
@@ -97,7 +97,7 @@ The other four do not move in three months. The uninsured share, poverty and gra
 
 Start here, in this order:
 
-1. Read the latest "Cloud merger:" comment on each of #5609, #5619 and #5639, and fix whatever it names on that PR's own branch.
+1. Read the latest "Cloud merger:" comment on each of #5609 and #5639, and fix whatever it names on that PR's own branch.
    - Labor is merged into main. It passed golden-path M0-13 after merging main, with no change to its code.
    - Schools (#5609) fails golden-path M0-13 in Casa Colorada, New Mexico, and main fails it the same way on that seed. The check reads withholding rows kept only for the player's circle; pool item `play-golden-path-withholding-reads-kept-rows` fixes the check. It does not block schools.
    - The labor web still fails its participation twin on some seeds. On seed 957b666a40b1beda (Stow, Ohio), mothers at work fell from 0.3209 to 0.3147 with the childcare effect at +0.6. The cause is the uncalibrated participation term (`SG-LABOR-participation-scale`): fit its weight (pool item `web-calibrate-choice-terms`) so the share moves by the researched size, then that twin passes. Do not loosen the assertion. This is new work on its own branch from main.
