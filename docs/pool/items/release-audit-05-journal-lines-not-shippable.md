@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/audit-05-journal-lines
 pr: #5507
 blocked-on:
