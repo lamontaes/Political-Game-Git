@@ -11,9 +11,8 @@
  *   resident times its residents, and the Treasury's fiscal 2025 statement for
  *   the federal government. Local spending divides between county and city
  *   by each function's real shares in the state (Census 2022). Each new fiscal year's
- *   budget is adopted on its start date by the old rule (carry the year's
- *   amounts forward) until a council or legislature votes it (M3):
- *   SG-GOV-budget-adopted-by-rule. A budget bill the legislature passes adds
+ *   budget is adopted on its start date by its council's or legislature's vote;
+ *   where no body votes it, the year's amounts carry forward. A budget bill the legislature passes adds
  *   its line changes to the government's enacted lines, which every later
  *   year's budget starts from.
  * - Withholding: each paycheck's income, Social Security and Medicare taxes,
@@ -36,6 +35,7 @@ import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { countyGovernmentUnit } from "../reference/government-units";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
+import propertyTaxCaps from "../data/laws/property-tax-caps.json" with { type: "json" };
 import { registerPropertyTax } from "../housing-property-tax";
 import {
   lawChainForPlace,
@@ -537,7 +537,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
         citation:
           "Fiscal year start (data/research/money/public-budget-bases.json)",
         asOf: core.date,
-        estimatedFrom: "SG-GOV-budget-adopted-by-rule",
+        estimatedFrom:
+          "Fiscal year start of the state's sampled unit of the same type.",
       },
       sourceRecordIds: [gov.id],
     });
@@ -679,23 +680,36 @@ function propertyTaxTerms(api: CoreAPI) {
     "us-policy-positions:fiscal.cap-property-tax-growth",
   );
   const capped = cap.value === 1 && cap.governing;
-  // stopgapId: SG-GOV-REACH-B-property-tax-bills — the catalog records a
-  // yes/no cap; its exact scope, exemptions and statutory size are pending.
-  if (capped) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
+  // The state's own cap statute where its row is read; the generic estimate
+  // (stopgapId: SG-GOV-REACH-B-property-tax-bills) for a state without one.
+  const statute = capped
+    ? (
+        propertyTaxCaps.states as Record<
+          string,
+          { capShare: number; scope: string; source: string }
+        >
+      )[lawChain(api).stateKey.slice(3)]
+    : undefined;
+  if (capped && !statute) api.stopgap("SG-GOV-REACH-B-property-tax-bills");
+  const capShare = statute
+    ? statute.capShare
+    : lawParameters.parameters.propertyTaxGrowthCapShare.value;
+  const capSource = statute
+    ? `${statute.source} (${statute.scope} property)`
+    : lawParameters.parameters.propertyTaxGrowthCapShare.source;
   return {
     rate: answer.value / 100,
     lawRowId: row.id,
     ...(capped
       ? {
-          assessmentCapShare:
-            lawParameters.parameters.propertyTaxGrowthCapShare.value,
+          assessmentCapShare: capShare,
           assessmentLawRowId: capped.id,
         }
       : {}),
     payeeId: collector,
     source: {
       tag: "ESTIMATED" as const,
-      citation: `${row.id}: ${citation}${capped ? `; ${capped.id}: ${String(capped.source)}; ${lawParameters.parameters.propertyTaxGrowthCapShare.source}` : ""}`,
+      citation: `${row.id}: ${citation}${capped ? `; ${capped.id}: ${String(capped.source)}; ${capSource}` : ""}`,
       asOf: api.state.date,
       estimatedFrom:
         "Property tax in force, to the county's tax collector; a yes/no growth cap uses the registered assessment-cap estimate.",
@@ -1030,8 +1044,8 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   let budget: BudgetRow;
   if (voted) budget = voted;
   else {
-    // stopgapId: SG-GOV-budget-adopted-by-rule
-    api.stopgap("SG-GOV-budget-adopted-by-rule");
+    // No body votes it (no seated members, or nothing to vote on): the
+    // enacted lines carry, as a charter's carry-forward does.
     budget = carriedBudget(
       api,
       gov,
