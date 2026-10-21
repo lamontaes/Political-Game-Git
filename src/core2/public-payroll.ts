@@ -7,6 +7,7 @@
  */
 import { inCustody } from "./modules/justice";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { publicPayFloorHourly } from "./public-pay-floor";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Puts a person on a government's payroll today; returns the job id, or null without a schedule to follow. */
@@ -42,22 +43,27 @@ export function startPublicJob(
     jobId = `${base}:${stint}`;
   }
   // The longest-hours job where the employer sits to follow, a public
-  // employer's first (the person may live elsewhere).
-  const where =
-    input.scheduleFromPlaceId ?? c.organizations.get(input.employerId)!.placeId;
-  const templates = [...c.jobs.values()]
-    .filter(
-      (j) =>
-        j.endsAt === undefined &&
-        c.organizations.get(j.organizationId)?.placeId === where,
-    )
-    .sort(
-      (a, b) =>
-        b.hoursDaily - a.hoursDaily ||
-        Number(!!c.organizations.get(b.organizationId)?.governmentFacts) -
-          Number(!!c.organizations.get(a.organizationId)?.governmentFacts) ||
-        a.id.localeCompare(b.id),
-    );
+  // employer's first (the person may live elsewhere). Its own place's jobs
+  // come first.
+  const templatesAt = (where: string) =>
+    [...c.jobs.values()]
+      .filter(
+        (j) =>
+          j.endsAt === undefined &&
+          c.organizations.get(j.organizationId)?.placeId === where,
+      )
+      .sort(
+        (a, b) =>
+          b.hoursDaily - a.hoursDaily ||
+          Number(!!c.organizations.get(b.organizationId)?.governmentFacts) -
+            Number(!!c.organizations.get(a.organizationId)?.governmentFacts) ||
+          a.id.localeCompare(b.id),
+      );
+  const own = templatesAt(c.organizations.get(input.employerId)!.placeId);
+  // The other place's jobs are reached only when none of the employer's own has a schedule and payday.
+  const templates = input.scheduleFromPlaceId
+    ? [...own, ...templatesAt(input.scheduleFromPlaceId)]
+    : own;
   for (const template of templates) {
     const commitment = [
       ...(c.work.commitmentsByPerson.get(template.personId) ?? []),
@@ -75,7 +81,7 @@ export function startPublicJob(
     const postHoursDaily =
       api.parameter("openingFullTimeWeeklyHours") /
       api.parameter("daysPerWeek");
-    const postedHourlyMinor =
+    const linePostedHourlyMinor =
       input.maxDailyMinor === undefined
         ? input.hourlyMinor
         : Math.min(
@@ -83,7 +89,16 @@ export function startPublicJob(
             Math.floor(input.maxDailyMinor / postHoursDaily),
           );
     // A post its line cannot pay at all is held unpaid.
-    if (postedHourlyMinor <= 0) return null;
+    if (linePostedHourlyMinor <= 0) return null;
+    // A public post is paid at the public pay floor in force the day it is
+    // filled, not a month later at the review.
+    const postedHourlyMinor = Math.max(
+      linePostedHourlyMinor,
+      publicPayFloorHourly(api, input.employerId, {
+        hourlyMinor: linePostedHourlyMinor,
+        wageDailyMinor: Math.round(linePostedHourlyMinor * postHoursDaily),
+      }),
+    );
     // Payroll pays the hourly rate for the minutes the schedule runs. The
     // template's schedule can run longer or shorter than the post's week, so
     // the rate is set over the scheduled minutes: the post's pay is what its
