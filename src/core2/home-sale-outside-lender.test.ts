@@ -57,7 +57,8 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
     housing
       .table("mortgages")
       .put({ ...loan, holderId: buyer.id } as unknown as ModuleRow);
-    const before = buyer.liquidMinor;
+    const first = household.memberIds.find((id) => core.people.get(id)?.alive);
+    const before = core.people.get(first!)?.liquidMinor ?? 0;
     const sale = sellHome(api, loan.householdId, "test.departure");
     expect(sale, where).toBeTruthy();
     expect(sale!.owedMinor, where).toBeGreaterThanOrEqual(loan.balanceMinor);
@@ -67,8 +68,10 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
         .balanceMinor,
       where,
     ).toBe(0);
-    // The market paid the surplus to the household and nothing to itself.
-    expect(before - buyer.liquidMinor, where).toBe(sale!.surplusMinor);
+    // The surplus reached the household's first living member.
+    expect(core.people.get(first!)!.liquidMinor - before, where).toBe(
+      sale!.surplusMinor,
+    );
     return;
   }
   throw new Error(`no mortgaged household in 8 places: ${tried.join("; ")}`);
