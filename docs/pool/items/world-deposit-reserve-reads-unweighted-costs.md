@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/deposit-reserve
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T07:05:03.197Z
+claimed-at:
 ---
 
 **What.** In src/core2/credit-deposits.ts the deposit reserve a business keeps in cash is figured from the book's annualOtherCostsMinor, which is not multiplied by the town's count weight, while its sales and purchases are. In Opelika, Alabama (0157048, seed op1, scale 3.5765) a wholesaler put 6.43 billion minor units in the bank, 8.2 times the sample's deposits for 3.55 times the flows, and held no cash on its payday. Read the weighted costs the way the other readers of a business's book do.
