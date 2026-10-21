@@ -77,5 +77,5 @@ describe("the household's story in the journal", () => {
     }
     // Not vacuous: every kind the lines would tell is really kept.
     expect([...kept].sort(), `seed ${seed}`).toEqual([...KINDS].sort());
-  }, 900_000);
+  }, 300_000);
 });
