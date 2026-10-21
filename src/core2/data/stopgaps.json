@@ -784,11 +784,11 @@
     "kind": "family-network-generation-gap",
     "file": "src/core2/population.ts",
     "line": 568,
-    "whatItFakes": "Opening generation omits substantial family connections and cannot route losses to missing relatives.",
+    "whatItFakes": "Opening generation records family for nearly every resident (99.9 to 100% with a relative, 3.6 to 4.9 links each, every link mutual; src/core2/opening-family-coverage.test.ts), against P10's 65% and 1.5. The relation-type and household mix is not yet validated against a published kinship source.",
     "why": "P10 reports only 6,481 of 10,001 residents have any recorded family, 1.5 family links per person, and 74 deaths reaching 57 relatives. These are P10 measurements, not rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source-qualified kinship and summarized family histories with realistic relation-type and household coverage; validate actual event recipients.",
+    "replacement": "Source-qualified kinship and summarized family histories with realistic relation-type and household coverage; validate actual event recipients. Coverage is measured in src/core2/opening-family-coverage.test.ts; counted deaths already reach relatives (counted-death-notices.test.ts).",
     "status": "open"
   },
   {
