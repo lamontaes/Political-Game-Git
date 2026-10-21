@@ -30,6 +30,26 @@ export interface HomeSale {
   /** The dead owner whose estate the sale belongs to, and the death that opened it. */
   readonly decedentId?: string;
   readonly deathEventId?: string;
+  /** For an estate's sale: probate's record and who the estate paid, once it closed. */
+  readonly settledEventId?: string;
+  readonly paid?: readonly {
+    readonly toId: string;
+    readonly amountMinor: number;
+  }[];
+}
+
+/** An estate's home sale records probate's close and whom the estate paid. */
+export function recordEstatePaid(
+  api: CoreAPI,
+  sale: HomeSale,
+  settledEventId: string,
+  paid: readonly { readonly toId: string; readonly amountMinor: number }[],
+): void {
+  table(api, "sales").put({
+    ...sale,
+    settledEventId,
+    paid: paid.map((row) => ({ ...row })),
+  } as unknown as ModuleRow);
 }
 
 /** A household's home sale on a date, if it sold. */

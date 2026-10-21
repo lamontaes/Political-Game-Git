@@ -88,7 +88,6 @@ it(`the last owner's death sells the home when probate closes, the lender first 
       (m) => m.householdId === owner.id && m.balanceMinor > 0,
     );
     const dying = owner.memberIds.filter((id) => state.people.get(id)?.alive);
-    const personId = dying.at(-1)!;
     const heard: CoreEventInput[] = [];
     registerModule(core, {
       id: "test:estate-reader",
@@ -120,11 +119,11 @@ it(`the last owner's death sells the home when probate closes, the lender first 
         sale!.toLenderMinor,
         `${where}: the lender was paid first`,
       ).toBeGreaterThan(0);
-    expect(sale!.decedentId, `${where}: names the estate`).toBe(personId);
-    expect(
-      sale!.toLenderMinor,
-      `${where}: the lender was paid first`,
-    ).toBeGreaterThan(0);
+    // All its owners died the same day: the first of their estates to close
+    // sells the home, and the sale names that estate.
+    expect(dying, `${where}: names an owner's estate`).toContain(
+      sale!.decedentId,
+    );
     expect(
       (dwellings.get(`dwelling:${owner.id}`) as unknown as { tenure: string })
         .tenure,
@@ -139,7 +138,7 @@ it(`the last owner's death sells the home when probate closes, the lender first 
       `${where}: the mortgage ended`,
     ).toEqual([]);
     // The surplus went through the estate: the court's record counts it for the heirs.
-    const settled = heard.find((e) => e.facts?.decedentId === personId);
+    const settled = heard.find((e) => e.facts?.decedentId === sale!.decedentId);
     expect(settled, `${where}: probate settled the estate`).toBeDefined();
     expect(
       Number(settled!.facts?.estateMinor),
@@ -147,11 +146,26 @@ it(`the last owner's death sells the home when probate closes, the lender first 
     ).toBeGreaterThanOrEqual(sale!.surplusMinor);
     const paidIds = expectHeirsPaid(settled!, where);
     expect(paidIds.length, where).toBeGreaterThan(0);
+    // The sale row names probate's record and the heirs it paid.
+    const named = (housing
+      .table("sales")
+      .get(sale!.id) as unknown as HomeSale)!;
+    expect(named.settledEventId, `${where}: ${sale!.id} names probate`).toBe(
+      settled!.id,
+    );
+    for (const heir of heirPayments(settled!))
+      expect(
+        named.paid?.find((row) => row.toId === heir.toId)?.amountMinor,
+        `${where}: ${sale!.id} names ${heir.id}`,
+      ).toBe(heir.amountMinor);
     expect(sale!.surplusMinor + sale!.toLenderMinor, where).toBeLessThanOrEqual(
       sale!.priceMinor,
     );
     expect(state.cashJournal.totals.grossDebitMinor).toBe(
       state.cashJournal.totals.grossCreditMinor,
+    );
+    process.stdout.write(
+      `estate home sale: ${where}; ${sale!.id} for ${sale!.decedentId}, price ${sale!.priceMinor}, lender ${sale!.toLenderMinor}, surplus ${sale!.surplusMinor}; ${named.settledEventId}; paid ${JSON.stringify(named.paid)}\n`,
     );
     return;
   }

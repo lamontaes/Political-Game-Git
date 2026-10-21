@@ -50,7 +50,7 @@ import {
   handOverContractsAtDeath,
 } from "./finance-state";
 import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
-import { sellHome } from "./housing-sale";
+import { recordEstatePaid, sellHome } from "./housing-sale";
 import type {
   CoreAPI,
   CoreModule,
@@ -424,11 +424,12 @@ function distribute(
   const trust = plan.kind === "trust";
   // Probate's close sells a home whose owners have all died; its surplus joins the estate.
   const home = trust ? undefined : homeOfLastOwner(api, person);
-  if (home)
-    sellHome(api, home, "estate.probate-closes", {
-      decedentId: personId,
-      deathEventId,
-    });
+  const sale = home
+    ? sellHome(api, home, "estate.probate-closes", {
+        decedentId: personId,
+        deathEventId,
+      })
+    : undefined;
   // The trust's part is what it holds; probate's is what is left in the account.
   const estate = trust
     ? Math.min(plan.fundedMinor ?? 0, accounts.balance(from))
@@ -590,9 +591,11 @@ function distribute(
     if (inherits)
       noticeTaxes(api, personId, taker.id, amountMinor, taxes, part);
   });
-  // Probate's close is a court record.
+  // Probate's close is a court record; the home it sold names whom it paid.
+  const settledId = `estate.settled:${personId}:${api.state.date}${part}`;
+  if (sale) recordEstatePaid(api, sale, settledId, paid);
   api.emit({
-    id: `estate.settled:${personId}:${api.state.date}${part}`,
+    id: settledId,
     date: api.state.date,
     kind: "estate.settled",
     personIds: paid
