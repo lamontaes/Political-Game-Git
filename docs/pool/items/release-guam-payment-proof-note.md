@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/guam-note
+pr: #5758
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T22:41:42.040Z
 ---
 
 **What.** PR #5684 merged with separate tax and payment fixtures, but docs/release/changes/laws-graduated-tax-repeal-guam.md still says Medicaid and preschool payment tests say they were skipped. That declaration contradicts the merged non-skipped fixture tests. Correct the test-only declaration to describe the pinned tax case and separate payment draws.
