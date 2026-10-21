@@ -13,7 +13,7 @@ after: gov-vehicle-tax-household-vehicles
 source: split from gov-town-payers-vehicle-tax
 ---
 
-**What.** Give the vehicle and other taxes line a per-vehicle rate: from a sourced law row where a place has one, otherwise the treasury's budgeted line divided by the vehicles in its jurisdiction, registered as an owner-decision stopgap. This is one slice of the town's vehicle tax, split because the whole item needed vehicles, a rate and a payment path that do not exist yet. Build only this slice, on the core's existing modules and data rows, and register any stand-in as a stopgap.
+**What.** Give the vehicle and other taxes line a per-vehicle rate: from a sourced law row where a place has one, otherwise the treasury's budgeted line divided by the vehicles in its jurisdiction, tagged ESTIMATED with the budget source and a spread under the existing ruling. This is one slice of vehicle-tax work: household vehicle records, the rate input and the treasury payment path have distinct acceptance checks. Build only this slice, on the core's existing modules and data rows, and register any stand-in as a stopgap.
 
 **Rules.** One model, two tiers: a counted household is read by the same rule as a full household, times its count. One rule, all 56 places: no state, city or GEOID named in logic. An effect is a read, not a record: the next slice must read what this one writes at the moment the tax is due.
 
@@ -22,3 +22,5 @@ source: split from gov-town-payers-vehicle-tax
 **Files.** src/core2/data/laws/, src/core2/budgets-treasury.ts, src/core2/data/budgets/revenue-payers.json
 
 **Notes.** Split Oct 19 from gov-town-payers-vehicle-tax; see its notes for the three gaps found.
+
+The ruling in docs/coordination/OWNER-DECISIONS.md ("Vehicle tax with no law on record (#5103)") already authorizes: "estimated from the treasury's budgeted vehicle line divided by vehicles in the jurisdiction, tagged ESTIMATED with the source ("estimate, never UNKNOWN")." Build under that ruling; no new owner decision is needed.

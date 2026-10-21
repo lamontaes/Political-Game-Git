@@ -12,7 +12,7 @@ blocked-on:
 source: split from gov-town-payers-vehicle-tax
 ---
 
-**What.** Give each household, full and counted, a vehicle count drawn from the Census vehicles-available table by household size and tenure, kept as an estimate with a source and a spread. This is one slice of the town's vehicle tax, split because the whole item needed vehicles, a rate and a payment path that do not exist yet. Build only this slice, on the core's existing modules and data rows, and register any stand-in as a stopgap.
+**What.** Give each household, full and counted, a vehicle count drawn from the Census vehicles-available table by household size and tenure, kept as an estimate with a source and a spread. This is one slice of vehicle-tax work: household vehicle records, the rate input and the treasury payment path have distinct acceptance checks. Build only this slice, on the core's existing modules and data rows, and register any stand-in as a stopgap.
 
 **Rules.** One model, two tiers: a counted household is read by the same rule as a full household, times its count. One rule, all 56 places: no state, city or GEOID named in logic. An effect is a read, not a record: the next slice must read what this one writes at the moment the tax is due.
 
