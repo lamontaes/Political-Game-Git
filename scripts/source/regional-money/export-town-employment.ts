@@ -22,6 +22,7 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { gunzipSync } from "node:zlib";
+import { format, resolveConfig } from "prettier";
 
 export const TOWN_EMPLOYMENT_OUTPUT_PATH =
   "src/core2/reference/town-employment.generated.ts";
@@ -194,6 +195,14 @@ export const STATE_PUBLIC_EMPLOYMENT =
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  writeFileSync(TOWN_EMPLOYMENT_OUTPUT_PATH, renderTownEmploymentModule());
+  // Format with the repository's prettier config so regeneration stays clean.
+  const config = (await resolveConfig(TOWN_EMPLOYMENT_OUTPUT_PATH)) ?? {};
+  writeFileSync(
+    TOWN_EMPLOYMENT_OUTPUT_PATH,
+    await format(renderTownEmploymentModule(), {
+      ...config,
+      filepath: TOWN_EMPLOYMENT_OUTPUT_PATH,
+    }),
+  );
   console.log(`wrote ${TOWN_EMPLOYMENT_OUTPUT_PATH}`);
 }
