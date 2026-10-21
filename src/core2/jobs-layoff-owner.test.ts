@@ -33,15 +33,25 @@ it("a layoff at a business is decided by its owner, never by the business itself
       placeKey: place.key,
     });
     const api = coreAPI(world.core);
-    advanceCore(world.core, addDays(makeIsoDate(world.core.date), 365));
-    const layoffs = api
-      .moduleState("jobs")
-      .table("changes")
-      .query("byKind", ["layoff"]) as unknown as Change[];
+    // A month at a time, stopping once a layoff at an owned business was
+    // decided by the owner on its books: a full year of a town holds several
+    // gigabytes (a single run holding two draws ran out of heap), and the
+    // claim needs only that one layoff, so the rest of the year is not played.
+    let layoffs: Change[] = [];
+    let owned: Change[] = [];
+    const byOwner = (row: Change) =>
+      row.decidedBy === ownerOf(api, row.organizationId);
+    for (let step = 0; step < 12 && !owned.some(byOwner); step += 1) {
+      advanceCore(world.core, addDays(makeIsoDate(world.core.date), 30));
+      layoffs = api
+        .moduleState("jobs")
+        .table("changes")
+        .query("byKind", ["layoff"]) as unknown as Change[];
+      owned = layoffs.filter((row) => ownerOf(api, row.organizationId));
+    }
     tried.push(
       `${place.name} (${place.key}), seed ${place.seed}: ${layoffs.length}`,
     );
-    const owned = layoffs.filter((row) => ownerOf(api, row.organizationId));
     if (!owned.length) continue;
     for (const row of owned)
       expect(row.decidedBy, `${place.name}: ${row.id}`).not.toBe(
@@ -49,11 +59,11 @@ it("a layoff at a business is decided by its owner, never by the business itself
       );
     // The owner on the books is the one who decided, for at least one layoff.
     expect(
-      owned.some((row) => row.decidedBy === ownerOf(api, row.organizationId)),
+      owned.some(byOwner),
       `${place.name}: ${owned.length} layoffs, none by the current owner`,
     ).toBe(true);
     console.log(
-      `LAYOFF-OWNER ${place.name} (${place.key}), seed ${place.seed}: ${owned.length} layoffs at owned businesses, ${owned.filter((row) => row.decidedBy === ownerOf(api, row.organizationId)).length} decided by the owner on the books today`,
+      `LAYOFF-OWNER ${place.name} (${place.key}), seed ${place.seed}: ${owned.length} layoffs at owned businesses, ${owned.filter(byOwner).length} decided by the owner on the books today`,
     );
     return;
   }
