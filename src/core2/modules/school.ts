@@ -97,11 +97,21 @@ function lastDayOfYear(startYear: number, usps: string | undefined): string {
  * (a state that sets hours, or leaves it to the district, keeps the base year).
  */
 export function isSchoolDay(date: string, usps?: string): boolean {
-  if (!onBaseCalendar(date)) return false;
-  const year = Number(date.slice(0, 4));
-  const startYear = date.slice(5) >= data.schoolYear.firstDay ? year : year - 1;
-  return date <= lastDayOfYear(startYear, usps);
+  // Every school-age person asks this each day, so a day's answer is kept.
+  const key = `${date}|${usps ?? ""}`;
+  const held = schoolDays.get(key);
+  if (held !== undefined) return held;
+  const answer = (() => {
+    if (!onBaseCalendar(date)) return false;
+    const year = Number(date.slice(0, 4));
+    const startYear =
+      date.slice(5) >= data.schoolYear.firstDay ? year : year - 1;
+    return date <= lastDayOfYear(startYear, usps);
+  })();
+  schoolDays.set(key, answer);
+  return answer;
 }
+const schoolDays = new Map<string, boolean>();
 
 /** The holiday's date that year: the nth (or, at -1, the last) given weekday of its month. */
 function onHoliday(
