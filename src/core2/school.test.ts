@@ -2,11 +2,16 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
-import { isSchoolDay, SCHOOL_MODULE_ID } from "./modules/school";
+import { isSchoolDay, SCHOOL_MODULE_ID, STAY_HOME } from "./modules/school";
+import { careNeedOf } from "./modules/health";
+import { scoreOffers } from "./choice";
+import { parameter } from "./parameters";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import { daysAfterStart } from "./tooling/test-days";
 import { gameStartDate } from "./game-start";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-school");
@@ -108,4 +113,46 @@ describe(`school days in ${place.name}, ${place.state} (seed ${seed})`, () => {
     expect(count("KS")).toBe(base);
     expect(count("CO")).toBeLessThan(base);
   });
+
+  it("staying home from school carries the child's own care need as its reason", () => {
+    // A town where someone is ill after 200 days: draw until one has a care need.
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const drawn = attempt
+        ? drawPlace(`${seed}:${attempt}`, "core2-school")
+        : place;
+      setBookkeeping(false);
+      const { core } = buildBenchWorld(drawn.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: drawn.key,
+      });
+      advanceCore(core, daysAfterStart(200));
+      const alive = [...core.people.values()].filter((row) => row.alive);
+      const sick = alive.find((row) => careNeedOf(core, row.id) > 0);
+      if (!sick) {
+        tried.push(drawn.name);
+        continue;
+      }
+      const well = alive.find((row) => careNeedOf(core, row.id) === 0)!;
+      const stayHome = (id: string) =>
+        scoreOffers(core, id, [
+          { definition: STAY_HOME, targetId: id, availableHours: 6 },
+        ])[0]!.reasons;
+      expect(STAY_HOME.reasonBindings?.[0]?.provider).toBe(
+        "school.own-illness",
+      );
+      expect(stayHome(sick.id).module, `${drawn.name}: ${sick.id}`).toBeCloseTo(
+        careNeedOf(core, sick.id) *
+          parameter("schoolAbsenceIllnessWeight", core.data.parameters),
+        9,
+      );
+      expect(stayHome(well.id).module ?? 0, `${drawn.name}: ${well.id}`).toBe(
+        0,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place had someone with a care need after 200 days (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 900_000);
 });

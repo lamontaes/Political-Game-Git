@@ -15,6 +15,7 @@ import { LAWS_MODULE_ID, lawChain } from "./laws";
 import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decisions";
 import { offer } from "./life";
+import { careNeedOf } from "./health";
 import { reenrollPrivateTuition } from "../private-tuition-reenroll";
 import type {
   ActOffer,
@@ -170,7 +171,7 @@ function due(api: CoreAPI, actor: Readonly<PersonState>): boolean {
 }
 
 /** The other way to spend a school day (the same act kinds as missing a work shift). */
-const STAY_HOME: ActionDefinition = {
+export const STAY_HOME: ActionDefinition = {
   id: "stay-home-from-school",
   actKinds: decisionKinds("school.attend", "stay-home-from-school"),
   goalKinds: [],
@@ -179,6 +180,15 @@ const STAY_HOME: ActionDefinition = {
   effectParameter: "one",
   targetKind: "self",
   effect: "recover",
+  // A child stays home mostly because they are ill: their own care need, a
+  // sliding scale, is the reason (see the provider below).
+  reasonBindings: [
+    {
+      id: "own-illness",
+      provider: "school.own-illness",
+      weightParameter: "schoolAbsenceIllnessWeight",
+    },
+  ],
 };
 
 /**
@@ -230,6 +240,14 @@ const isPlayer = (api: CoreAPI, actor: Readonly<PersonState>) =>
 export const SCHOOL_MODULE: CoreModule = {
   id: SCHOOL_MODULE_ID,
   state: { schemaVersion: 1, tables: { attended: {} } },
+  reasonProviders: {
+    "school.own-illness": (api, actor) => {
+      const need = careNeedOf(api.state, actor.id);
+      return need > api.parameter("zero")
+        ? { value: need, sourceIds: [`health:${actor.id}`] }
+        : undefined;
+    },
+  },
   onDay: (api) => {
     schoolDay(api);
     // A new school year: private enrollment is ranked again on what families hold.
