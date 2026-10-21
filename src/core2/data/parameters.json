@@ -4778,7 +4778,7 @@
   "circleDecisionDetailDays": {
     "value": 7,
     "tag": "TUNABLE",
-    "citation": "Owner rulings, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): how long a circle member's act keeps every option's score before only its chosen reasons remain.",
+    "citation": "Owner rulings, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): how long a circle member's act keeps every option's score before only its chosen reasons remain. Set to the low end of its spread, 7 days, on Oct 21, 2026: in Opelika, Alabama (0157048, seed op1) the player's circle grows from 51 to 368 people in August and September (everyone the player meets joins it), and over the 60 days from July 9 the live heap after collection grew 2,002 MB at 30 days (src/core2/choice.ts scoreOffers, retained through each circle member's logged decision, 1,123 MB of it) against 891 MB at 7 days (384 MB).",
     "spread": {
       "low": 7,
       "high": 90,
