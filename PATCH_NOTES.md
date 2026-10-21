@@ -296,6 +296,16 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.21.1
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Hand-written journal lines held back** Nine hand-written lines in "My life"
+  about where a family came from, where the partners met and a parent's new job
+  are held back until the English engine grades them.
+
 ## PRE-ALPHA 0.21.0
 
 _Released October 21, 2026._
