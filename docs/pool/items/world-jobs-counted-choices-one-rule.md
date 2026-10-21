@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/counted-job-choices
-pr:
+pr: #5767
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T21:24:59.359Z

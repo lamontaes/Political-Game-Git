@@ -555,39 +555,6 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     report.homeRule = { question, grantId, repealId };
   });
 
-  it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
-    const key = "budget-line:housing";
-    const gov = cityGov();
-    const delta = reachParameter("housingAssistanceAnnualMinor") * 3;
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: delta,
-      measureId: "test:housing:up",
-    });
-    const assisted = openReach(api, key).filter((r) => r.spec === "assisted");
-    report[key] = { assisted: assisted.length };
-    // Only renters are helped, and this small world has no leases to pay
-    // toward; the played world's payments are checked in rent-help.test.ts.
-    const leases = [...(core as CoreState).finance.contracts.keys()].filter(
-      (id) => id.startsWith("lease:"),
-    );
-    if (leases.length)
-      expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
-    for (const row of assisted)
-      expect(api.knows(row.targetId, `law-reach:${key}`)).toBeUndefined();
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: -delta,
-      measureId: "test:housing:down",
-    });
-    expect(
-      openReach(api, key).filter((r) => r.spec === "assisted"),
-      where,
-    ).toHaveLength(0);
-  });
-
   for (const key of Object.keys(STAFFING))
     it(`${key} hires or lays off at the public employer it funds`, () => {
       const line = key.slice("budget-line:".length);

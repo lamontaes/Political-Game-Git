@@ -188,7 +188,6 @@ export const REACH_A_MODULE: CoreModule = {
       },
       mechanics: { indexes: { byKey: { fields: ["key"] } } },
       premiums: { indexes: { byPerson: { fields: ["personId"] } } },
-      payments: { indexes: { byKey: { fields: ["key", "endedOn"] } } },
       staffing: {},
     },
   },
