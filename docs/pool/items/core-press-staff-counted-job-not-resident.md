@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/press-staff-counted
 pr:
-blocked-on:
+blocked-on: words-pack-scene-talk
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:15:58.730Z
 ---
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T07:15:58.730Z
 **Files.** src/core2/modules/press.ts,src/core2/state.ts,src/core2/counted-groups.ts
 
 **Notes.** Found Oct 20 while merging main into words/word-pack (PR #4626): the same two electoral-scenes tests failed in Bascom on the merged head. The run takes about 24 minutes. Not shown on a clean main: press.ts and state.ts here match main's.
+
+Oct 20, diagnosis (claude/press-staff-counted): the crash reproduces only on the words/word-pack head (PR #4626, older than main's latest residents.ts and counted-groups.ts), not on current main with the same seed. The failing worker is a husk person whose counted household is already marked Filled and gone (a demoted household whose member index still points at the old, filled record), so `takeResidentHousehold` finds nothing; `refreshPressStaff` calls `fillInPerson` directly on a husk. Merging main into the word-pack branch should clear it; that merge collides on two calibration systems (main's `english-calibration.ts` and `data/english/calibration.json` against the branch's `calibration.ts`), which is the Words session's call. Drop this item once PR #4626 has merged main and `electoral-scenes.test.ts` passes there (Bascom, Florida, seed 78df996a2a76eb81378fcb7c5c00238bb398b33a).
