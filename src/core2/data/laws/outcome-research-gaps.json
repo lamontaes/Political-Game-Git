@@ -22,11 +22,6 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "budget-line:higherEducation",
-      "outcome": "college enrollment and completion",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "income-tax",
       "outcome": "household income after tax and out-migration",
       "stopgapId": "SG-LAW-outcome-link-unresearched"

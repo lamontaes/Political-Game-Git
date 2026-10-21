@@ -25,6 +25,8 @@ import {
   type WebLink,
 } from "./outcome-web-model";
 import { coreAPI } from "./state";
+import local from "./data/outcome-web/outcome-web.json";
+import { GOV_MEASURES } from "./gov-measures";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -43,6 +45,10 @@ const monthOf = (api: CoreAPI, placeId: string, month: string) =>
 const Y = gameStartDate().slice(0, 4);
 
 describe("the outcome web's coverage", () => {
+  it("counts every government measure gov-measures.ts reads as a cause the core can read", () => {
+    expect([...local.govMeasures].sort()).toEqual([...GOV_MEASURES].sort());
+  });
+
   it("lists every researched link as wired or waiting on a named measure, and the list matches the code", () => {
     const { wired, waiting, measuresWanted } = COVERAGE_DATA;
     expect({ wired, waiting, measuresWanted }).toEqual(coverageTable());
