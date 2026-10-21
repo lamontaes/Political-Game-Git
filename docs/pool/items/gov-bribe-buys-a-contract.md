@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/bribe-contract
 pr: #5337
 after: gov-public-contract-awards
