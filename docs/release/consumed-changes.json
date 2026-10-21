@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.20.2",
+      "releasedOn": "2026-10-21",
+      "revision": "52e3f70781320c9d786936cd294bc91de84b3cd1",
+      "changeIds": ["effect-web-crime"]
+    },
+    {
       "version": "0.20.1",
       "releasedOn": "2026-10-21",
       "revision": "cd1eb3d4096390b30d94fdc30d015c24bc2b696c",
