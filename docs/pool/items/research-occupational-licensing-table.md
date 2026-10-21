@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/licensing-table
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T12:35:44.978Z
 ---
 
 **What.** The jobs engine has no licensing data, so the law reduce occupational licensing reaches no one. Source, per occupation and per state, whether a license is required and the share of workers who hold one (BLS and CareerOneStop licensing data; Kleiner and Soltas 2023 on licensing and pay). Record it as SOURCED or ESTIMATED parameter rows with a spread in data, one table for all 56 places, with a reader.
