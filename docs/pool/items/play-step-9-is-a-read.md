@@ -5,7 +5,7 @@ area: play
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/step9-read-s8
 pr: #5137
 after:
