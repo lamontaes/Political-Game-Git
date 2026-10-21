@@ -296,6 +296,19 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.20.2
+
+_Released October 21, 2026._
+
+### Improved
+
+- **Crimes now happen to households in town** Each month a town's households are
+  burgled, robbed, assaulted and robbed of property at the national rates,
+  scaled up or down by what is happening in town, such as unemployment and
+  police staffing. Renters, families with children and lower-income households
+  are hit more often, and voters react to the crimes that actually happened to
+  people in their town.
+
 ## PRE-ALPHA 0.20.1
 
 _Released October 21, 2026._
