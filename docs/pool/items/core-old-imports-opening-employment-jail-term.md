@@ -11,6 +11,7 @@ pr: #5073
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T18:12:30.665Z
+---
 
 **What.** The opening's employment allocation asks the old engine whether a resident is serving a jail term (`jailTermOn` in src/simulation/justice/jail-terms.ts) before it marks them employable. Move that read into the core: the opening takes the sentence, clemency and reversal records it needs from the core's own opening history and answers the same question. Nothing new is added to the old engine, and nothing old is deleted until core-delete-old-engine.
 
