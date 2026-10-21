@@ -19,42 +19,45 @@ afterAll(() => {
 });
 
 it("a peer from 40 years back is recalled less strongly than one from 5 years back", () => {
-  const place = drawPlace(seed, "peer-fades");
-  const where = `${place.name} (${place.key}), seed ${place.seed}`;
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  });
-  const rows: { fact: string; cohort: number; recall: number }[] = [];
-  for (const person of core.people.values())
-    for (const fact of person.pastFacts ?? []) {
-      if (fact.kind !== "social:generated-school-acquaintance") continue;
-      const context = person.pastFacts!.find(
-        (row) => row.id === fact.facts?.contextFactId,
-      );
-      const cohort = Number(context?.facts?.cohortYear);
-      if (Number.isFinite(cohort))
-        rows.push({
-          fact: fact.id,
-          cohort,
-          recall: peerNameRecall(cohort, core.date),
-        });
+  const tried: string[] = [];
+  for (let draw = 0; draw < 12; draw += 1) {
+    const place = drawPlace(`${seed}:${draw}`, "peer-fades");
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const year = Number(core.date.slice(0, 4));
+    const rows: { fact: string; ago: number; recall: number }[] = [];
+    for (const person of core.people.values())
+      for (const fact of person.pastFacts ?? []) {
+        if (fact.kind !== "social:generated-school-acquaintance") continue;
+        const context = person.pastFacts!.find(
+          (row) => row.id === fact.facts?.contextFactId,
+        );
+        const cohort = Number(context?.facts?.cohortYear);
+        if (Number.isFinite(cohort))
+          rows.push({
+            fact: fact.id,
+            ago: year - cohort,
+            recall: peerNameRecall(cohort, core.date),
+          });
+      }
+    const near = rows.find((r) => r.ago <= 10);
+    const far = rows.find((r) => r.ago >= 35);
+    if (!near || !far) {
+      tried.push(`${where}: ${rows.length} facts, no near/far pair`);
+      continue;
     }
-  const year = Number(core.date.slice(0, 4));
-  const near = rows.filter((r) => year - r.cohort <= 15);
-  const far = rows.filter((r) => year - r.cohort >= 30);
-  const detail = `${where}: ${rows.length} acquaintance facts`;
-  if (near.length && far.length) {
-    const mean = (xs: typeof rows) =>
-      xs.reduce((a, r) => a + r.recall, 0) / xs.length;
-    expect(mean(far), `${detail}; e.g. ${far[0]!.fact}`).toBeLessThan(
-      mean(near),
-    );
+    expect(
+      far.recall,
+      `${where}: ${far.fact} (${far.ago} years) vs ${near.fact} (${near.ago} years)`,
+    ).toBeLessThan(near.recall);
+    expect(peerNameRecall(year - 5, `${year}-06-01`)).toBeCloseTo(0.9);
+    expect(peerNameRecall(year - 50, `${year}-06-01`)).toBeCloseTo(0.7);
+    return;
   }
-  // The curve itself: flat near, smooth fall, bounded by the far point.
-  expect(peerNameRecall(year - 40, `${year}-06-01`)).toBeLessThan(
-    peerNameRecall(year - 5, `${year}-06-01`),
+  throw new Error(
+    `no drawn place had a near and a far peer: ${tried.join("; ")}`,
   );
-  expect(peerNameRecall(year - 5, `${year}-06-01`)).toBeCloseTo(0.9);
-  expect(peerNameRecall(year - 50, `${year}-06-01`)).toBeCloseTo(0.7);
-}, 600_000);
+}, 1_800_000);
