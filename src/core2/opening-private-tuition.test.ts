@@ -40,6 +40,9 @@ describe(`private tuition in ${place.name}, ${place.state} (seed ${seed})`, () =
       shares.states[place.state as keyof typeof shares.states].share * (1 - hs),
       10,
     );
+    console.log(
+      `private share used in ${place.name} (${place.key}, ${place.state}), seed ${seed}: ${privateShareOf(undefined, input.placeMetadata?.placeKey)} (NCES ${shares.states[place.state as keyof typeof shares.states].share} x (1 - homeschool ${hs}))`,
+    );
     const people = new Map(input.people.map((row) => [row.id, row]));
     const perChild =
       (p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
