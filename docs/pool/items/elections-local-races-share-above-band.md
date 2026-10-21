@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 - Cloud merger, after #5733 merged: the staying-out pull is recorded at 3.8 to 4.4, but the share of local seats with one candidate is still 85 to 92 percent against the band of 58 to 75, so this item stays open.
+
+Oct 21 (claude, PR #5592): another pooled measurement on main with #5756 merged, `candidacy-calibration.test.ts` seed lr1: 43 of 48 local seats with no more candidates than seats, 90 percent (99 percent interval 73 to 96), places Daniels Farm CT, Penalosa KS, Mansfield SD and others named in the test output; Monarch MT decided no contest. Same direction as the 85 percent above: the pull alone does not reach the band. The test now names the place and seed when a drawn year stops (it stopped in Monarch MT on a housing defect, fixed in PR #5772). Not a duplicate item: elections-local-races-too-uncontested keeps the cause search; this one keeps the pull's value.
