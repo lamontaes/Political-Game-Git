@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/counted-reads
-pr:
+pr: #5807
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T13:53:02.812Z
