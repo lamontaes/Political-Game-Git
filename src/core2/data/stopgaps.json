@@ -1913,12 +1913,12 @@
     "id": "SG-GOV-ballot-order-estimates",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 622,
-    "whatItFakes": "For 20 of the 56 places the ballot-order rule is read from a secondary source or assumed: the five territories' rules are guesses, and 15 states' primary rule or order within a party is assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json).",
-    "why": "Ballotpedia's ballot-order page gives one rule per state, usually for the general election; NCSL's table and the state codes were not reachable from the research session.",
+    "line": 621,
+    "whatItFakes": "For 5 of the 56 places the ballot-order rule is read from a secondary source or assumed: American Samoa, Indiana's primary order, the Northern Mariana Islands, Pennsylvania's primary and general rules, the Virgin Islands (the rows marked estimate in data/research/elections/ballot-order-2026.json). The other 51 rows were checked against statute text.",
+    "why": "The statute text for these places has not been read, or does not state the rule; each row's note says what is known.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
+    "replacement": "Each remaining estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
     "status": "open"
   },
   {
