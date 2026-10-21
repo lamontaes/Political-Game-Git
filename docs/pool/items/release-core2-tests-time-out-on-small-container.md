@@ -23,8 +23,6 @@ claimed-at: 2026-10-21T01:49:05.356Z
 
 **Notes.** Narrowed from seven tests after the merger asked for a measured reason per increase.
 
-Oct 20 (claude/core2-test-timeouts): reproduced at `--maxWorkers=2` on a 4-core container: groundwater-law took 156 seconds against its 120-second limit, and estate-contracts' first test (which builds the world) took 37 seconds against the 30-second default. The other five of the seven passed on this container. Each of the seven now carries the 900-second limit `moves-cash` already had (groundwater-law, paid-leave, housing-laws, income-tax-played, office-proof and estate-contracts raised; moves-cash unchanged). A limit is a guard against a hang, not a check, so raising it hides no failure; the year-under-two-minutes speed rule stays with the speed guard.
-
 Sent back 2026-10-20 from PR #5344 (branch claude/core2-test-timeouts): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5344 (branch claude/core2-test-timeouts): The body measured only groundwater-law and estate-contracts over their old limits, and explicitly says the other five passed, yet raises paid-leave, housing-laws and income-tax-played to 900 seconds too. The merger check requires a measured reason for each timeout increase. Retain only justified increases or provide each changed test measured need, then run every changed test file on the merged result; the body says four were not rerun.; finish on that branch, merge main into it first.
