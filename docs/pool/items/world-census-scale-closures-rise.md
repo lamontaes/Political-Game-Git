@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: claimed
-claimed-by: claude/census-closures
+claimed-by: claude/closures-rise
 pr: #5553
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T12:41:22.232Z
+claimed-at: 2026-10-21T02:20:22.255Z
 ---
 
 **What.** After outside demand was scaled by the count scale, a town opened at its Census size (Chantilly, Virginia) still shows 114 closure rows in the jobs engine in a played year, against none at the sample size. Closures remove the firm and its workers' jobs. Find why firms close at Census scale (their books, credit or owner draws read a figure that does not scale) and make the reads agree.
@@ -41,3 +41,5 @@ Oct 20 (claude, claude/closures-rise, after merging main): two more causes found
 Oct 20 (claude, later): the seller-capacity cap was the next cause and is now fixed in part. `overCapacity` (`modules/residents.ts`) sent counted spending beyond the book's `annualDemandMinor` / utilization to the outside market, so a seller staffed by counted workers (payroll weighted 2 to 4 times) could not take in more than the sample-size town did. Capacity now scales by the seller's weighted payroll over its book payroll (`weightedPayrollMinor`). Opelika, Alabama, scale 3.5765: 3 closures before, 2 after (a campaign firm and a communications firm, both thin margins: payroll, demand and other costs 26M, 93M, 61M and 117M, 1,073M, 880M a year); Central Falls stays at 1 against the sample's 1. The 2 still fail the item's test on that draw. Next: those firms' other costs are `outside-costs` flows and cost contracts that do not scale with the weighted payroll the way their sales now do; compare their costs at both scales with the journal trace (`setJournalTrace`, group postings by `sourceRef.id`).
 
 Oct 20 (claude, journal trace of Opelika Campaign Works, a firm that closes 2025-09-29 at scale 3.5765 and survives the year at scale 1): both runs lose money. Through 2025-09-28 at scale 1 it took in 32.7M minor units (all outside sales) and paid out 36.5M (outside costs 18.2M, wages 16.9M, employer tax 1.4M, owner draw 0.08M) from 5.0M opening cash; at scale 3.5765 it took in 117.0M and paid out 133.3M (outside costs 65.2M, wages 62.1M, tax 5.0M, owner draw 1.0M) from 17.9M. Net loss over opening cash is the same 0.9 to 0.98 both ways, so the firm is on a path to close either way and the scale only moves the date by weeks (wages scale 3.68 against cash 3.58, and the owner draw is 12 times larger). The closures are therefore not a scaling bug: the opening hands some firms a forecast their sales do not meet (`world-local-sales-below-opening-forecast`). The test criterion (Census-size closures no more than the sample size on one draw) is a knife edge for such firms. Options for the CTO: compare the closures of firms that make money at the sample size, or finish the forecast item first. No loosening in this PR.
+
+Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): docs/pool/items/world-census-scale-closures-rise.md:20 requires Census-size closure rows to be within the same towns scale-one count. The latest Notes explicitly report Opelika, Alabama (0157048, seed 628a8831..., scale 3.5765) still has two Census-size closures against none at scale one after the latest fixes. That is still a failing acceptance case. Preserve the regression and complete the forecast/cost cause or an authorized specification change; do not narrow the test to the firms that happen to survive.; finish on that branch, merge main into it first.

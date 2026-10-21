@@ -7,10 +7,10 @@ priority: 2
 size: M
 status: claimed
 claimed-by: claude/political-game-pool-yucp92-az
-pr: #5473
+pr: #5681
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T12:39:19.337Z
+claimed-at: 2026-10-21T02:05:05.084Z
 ---
 
 **What.** In a played year at Fraser, Colorado (place key 0828305, seed d8c9a58ec15036cb5a0575d72278e307d5387c37154aa2080b5127be9aa64139) the player's household has pay and contracts but no 'accounts.transfer living' outflow at all. src/core2/player-money-year.test.ts fails there with 'expected 0 to be greater than 0' on the living-cost line. Other drawn places pass, so the household's living plan is skipped under some condition of this town's household or payer; the cause is not yet traced.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-20T12:39:19.337Z
 Oct 20: Owner ruled on #5473 that background households may split from an 18-year-old when cheap to simulate and as common as in real life, but the player's own family does not leave the player before 1.0, so the hold in moves.ts stays and SG-P15-moves-player-home-stays can be marked resolved.
 
 Sent back 2026-10-20 from PR #5473 (branch claude/player-living-cost-fraser): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5681 (branch claude/political-game-pool-yucp92-az): The owner/date-note repair is present. The item Done when still requires the Fraser player-money-year.test.ts run with the household living outflow shown by journal record id, plus three other random places. The body provides no living-outflow journal id and names only two other seeds, f1 and f2. Supply the named test evidence for Fraser and three additional draws, with full places/seeds and the journal id, in the required Done when table. The fixer reports moves-minors/tripwires instead of this missing acceptance proof. No local gate pass is claimed here.; finish on that branch, merge main into it first.
