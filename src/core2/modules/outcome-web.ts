@@ -19,6 +19,7 @@ import {
   CALIBRATED_AT,
   derivedOf,
   engineMeasure,
+  engineOwned,
   fixedBaseline,
   isLaw,
   KEPT_OUTCOMES,
@@ -38,6 +39,7 @@ import {
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
+import { propertyTaxRateInForce } from "../housing-property-tax";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
 
@@ -171,6 +173,22 @@ export function lawValue(
   return [...latest.values()].some((row) => Number(row.value) === 1) ? 1 : 0;
 }
 
+/** Engine records outside the economy's monthly rows, read by name: the engine's own table. */
+const ENGINE_READERS: Readonly<
+  Record<
+    string,
+    (
+      api: CoreAPI,
+      placeId: string,
+    ) => { value: number; recordId: string | null } | null
+  >
+> = {
+  "property-tax-rate": (api, placeId) => {
+    const rate = propertyTaxRateInForce(api, placeId);
+    return rate ? { value: rate.share, recordId: rate.recordId } : null;
+  },
+};
+
 /** An engine's record for a measure in a place today, or null where it keeps none. */
 function readEngine(
   api: CoreAPI,
@@ -179,6 +197,12 @@ function readEngine(
 ): { value: number; recordId: string | null } | null {
   const definition = engineMeasure(measure);
   if (!definition) return null;
+  if (definition.reader) {
+    const read = ENGINE_READERS[definition.reader]?.(api, placeId);
+    return read
+      ? { value: read.value * definition.unitScale, recordId: read.recordId }
+      : null;
+  }
   // Engine measures are read from the economy's monthly rows (world-metrics).
   if (!(api.state as CoreState).modules.has(WORLD_METRICS_MODULE_ID))
     return null;
@@ -389,6 +413,11 @@ function recordMonth(api: CoreAPI, placeId: string, state: WebState): WebMonth {
   const effects: Record<string, number> = {};
   for (const outcome of KEPT_OUTCOMES) {
     const base = baseOf(outcome, state.stateKey).value;
+    // An engine's own record of the outcome stands as read (poverty).
+    if (engineOwned(outcome) && r.values[outcome] !== undefined) {
+      bases[outcome] = base;
+      continue;
+    }
     const level = scaleOf(outcome) === "level";
     let product = 1,
       added = 0;
@@ -434,6 +463,14 @@ function run(api: CoreAPI, announced = false): void {
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
+  // No engine keeps SNAP receipt or food insecurity; they stay ledger numbers.
+  api.stopgap("SG-WEB-snap-receipt-ledger");
+  api.stopgap("SG-WEB-food-insecurity-ledger");
+  // Causes of poverty that reach no incomes yet (poverty itself is the engine's).
+  api.stopgap("SG-WEB-poverty-licensing-no-engine");
+  api.stopgap("SG-WEB-poverty-graduation-no-engine");
+  api.stopgap("SG-WEB-housing-links-unsized");
+  api.stopgap("SG-WEB-disaster-severity");
   for (const placeId of placesOf(api)) {
     const row = recordMonth(api, placeId, state);
     if (announced) announce(api, row);

@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/bribe-reputation
 pr: #5673
 blocked-on:

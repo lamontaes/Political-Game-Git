@@ -22,10 +22,12 @@ import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
+import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openContracts } from "../core2/modules/contracts";
+import { openProjects } from "../core2/modules/projects";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/law-reach/host";
@@ -296,7 +298,8 @@ function* benchWorldStages(
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
     opening = scaleOutsideSales(
-      settings.economy?.outsideDemand ?? 1,
+      // A town opened at its Census size sells to the outside as much more as its firms are bigger.
+      (settings.economy?.outsideDemand ?? 1) * (options.countScale ?? 1),
       withWorldEconomy(
         collapseToTwoLevels(economy, {
           keep: kept,
@@ -358,6 +361,7 @@ function* benchWorldStages(
   openLegislature(core);
   // Each government's body awards the town's public contracts (gov-public-contract-awards).
   openContracts(core);
+  openProjects(core);
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
@@ -390,6 +394,9 @@ function* benchWorldStages(
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
+  // Last, so everyone the opening seated has a health coverage record on day one
+  // (people who arrive later get theirs on the next 1st); the household pays its premium.
+  openCoverage(core);
   director.start(core);
   yield "opening";
   // The opening, told as a story from the records (owner, Oct 14, 2026): the

@@ -7,9 +7,10 @@ priority: 3
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5676
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The Oct 20 merge audit asked for a saves test that restores a world and checks frozen records. Records that exist at the opening restore frozen (shown in src/core2/saves.test.ts). Records a producer creates after the opening do not: core.work.payrollLedgerByCommitment and core.work.earnedPayPeriods rows are frozen in the played game under bookkeeping and unfrozen after loadGame, because the rebuilt world has no record at that path to take frozen state from. Only bookkeeping (tests and the bench) freezes records, so play is unaffected.
@@ -21,3 +22,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/snapshot.ts, src/core2/saves.test.ts
 
 **Notes.** Found Oct 20 while building fix 6 of release-merge-audit-oct20-morning-fixes (claude/political-game-pool-yucp92-at). Also answers that item's question about seal(): shared $ref objects are already frozen when reached a second time, so seal() returns early; no change is needed there.
+
+Sent back 2026-10-20 from PR #5676 (branch claude/political-game-pool-yucp92-ax): Merging current origin/main conflicts in src/core2/saves.test.ts. Resolve that code conflict on this fixer branch, preserving the parent test and the current main saves behavior, then rerun the changed-file gate. Its base PR #5670 is still open, so this fixer remains targeted at that branch and will not complete a pool item on a non-main merge.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5676 (branch claude/political-game-pool-yucp92-ax): The conflict repair is present, but the body has no Done when evidence table required by merger skill section 2.5. Map the bookkeeping-enabled world saved after 45 days, restoration, and every originally frozen record remaining frozen by path to the actual saves.test.ts assertions and a named drawn place/full seed. This is still a fixer based on open parent #5670; do not mark its pool item done for a branch merge. No local gate pass is claimed here.; finish on that branch, merge main into it first.
