@@ -78,12 +78,10 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
     const record = pay.get(row.id) as unknown as
       { payerId: string; source: { tag: string } } | undefined;
     if (!record) continue;
-    const federalOffice = [
-      "president",
-      "vice-president",
-      "us-senate",
-      "us-house",
-    ].includes(row.officeKind);
+    // A territory's delegate sits in the House and is paid nationally too.
+    const federalOffice =
+      ["president", "vice-president", "us-senate"].includes(row.officeKind) ||
+      row.officeKind.startsWith("us-house");
     if (federalOffice) {
       expect(record.payerId, `${where}: ${row.id}`).not.toBe(
         federal.organizationId,
@@ -116,14 +114,17 @@ it(`pays officials by paycheck with withholding in ${place.name} (${place.key}),
     // (a state treasury before its first close) is owed and paid later.
     const annualMinor = (record as unknown as { annualMinor: number })
       .annualMinor;
-    // Pay stops at death (the treasury pays the living); an official who died
-    // in the year is paid only to that day.
-    if (
-      seatedAtOpening.has(row.id) &&
-      annualMinor >= 3_000_000 &&
-      core.people.get(row.id)?.alive
-    ) {
-      // The days served run from the opening to the pay date now.
+    if (seatedAtOpening.has(row.id) && annualMinor >= 3_000_000) {
+      // An official who died in the year is paid to the day of death and no
+      // further: their pay stopped before the year's end, and they are
+      // measured for the days served to then, like the living.
+      const paidFrom = (record as unknown as { paidFrom: string }).paidFrom;
+      if (!api.state.people.get(row.personId)?.alive)
+        expect(
+          paidFrom < api.state.date,
+          `${where}: ${row.id} paid after death`,
+        ).toBe(true);
+      // The days served run from the opening to the date pay reached.
       const served =
         (Date.parse((record as unknown as { paidFrom: string }).paidFrom) -
           Date.parse(openedOn)) /
