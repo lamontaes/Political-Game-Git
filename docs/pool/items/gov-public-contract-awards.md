@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-yucp92
 pr: #5166
 after:
@@ -23,3 +23,5 @@ claimed-at: 2026-10-19T21:24:46.544Z
 **Files.** src/core2/budgets-treasury.ts, src/core2/modules/business.ts
 
 **Notes.** Owner ruling, Oct 19, 2026, via the acting CTO: yes, the game awards public contracts. Unblocks gov-bribe-buys-a-contract.
+
+Oct 20: PR #5166 merged to main: a body's vote awards each budget line's outside work to a town firm that is paid from the line and pays its workers; members' views are still unread (see gov-contract-award-weights-review).

@@ -4,6 +4,7 @@
  * cash journal, and lobby the members who vote; the lobbying is a recorded
  * reason in each member's position.
  */
+import { ownerOf } from "./modules/business";
 import { createHash } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -142,6 +143,20 @@ describe("M3-07 interest groups", () => {
           ).toBe(true);
           const v = votes.find((x) => x.memberId === m.memberId);
           if (v) expect(v.position.lobby).toBeLessThan(0);
+        }
+        // The lobbyist owns, or works for, a business the group speaks for.
+        if (group.lobbyistId) {
+          const owns = group.memberOrganizationIds.some(
+            (orgId) => ownerOf(api, orgId) === group.lobbyistId,
+          );
+          const works = [...core.work.commitments.values()].some(
+            (c) =>
+              c.personId === group.lobbyistId &&
+              group.memberOrganizationIds.includes(c.organizationId),
+          );
+          expect(owns || works, `${group.lobbyistId} speaks for a member`).toBe(
+            true,
+          );
         }
         report = {
           seed,

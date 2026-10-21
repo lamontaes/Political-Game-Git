@@ -11,6 +11,7 @@
  * it was filed under and cites the law row.
  */
 import type { ModuleTable } from "./module-state";
+import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 import { residentPerson, residentsRuntime } from "./modules/residents";
@@ -49,7 +50,7 @@ export interface ClaimRow {
   lawId?: string;
   source?: Source;
   endedAt?: string;
-  endReason?: "hired" | "exhausted" | "no-payer";
+  endReason?: "hired" | "exhausted" | "no-payer" | "left";
 }
 
 const DAYS_PER_WEEK = 7;
@@ -203,16 +204,22 @@ export function fileClaim(
   return row;
 }
 
-/** Pays every open claim due by today from the state's fund outside the town. */
+/** Pays every open claim due by today from the state's unemployment fund: its treasury. */
 export function payClaims(api: CoreAPI, table: ModuleTable): void {
   const c = api.state as CoreState;
   for (const row of table.query("open", [true]) as unknown as ClaimRow[]) {
     if (row.nextPayAt > c.date) continue;
-    // stopgapId: SG-WORLD-jobs-benefits (paid from the town's outside account, not a state fund)
-    api.stopgap("SG-WORLD-jobs-benefits");
-    const fund = [...c.organizations.values()].find(
-      (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-    );
+    // The state's unemployment fund is its treasury, which the employers'
+    // state unemployment tax pays into (employer-taxes); a world with no
+    // state treasury open pays from the town's outside account.
+    const state = c.modules.has(BUDGETS_MODULE_ID)
+      ? governments(api).find((g) => g.level === "state")
+      : undefined;
+    const fund = state
+      ? c.organizations.get(state.organizationId)
+      : [...c.organizations.values()].find(
+          (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
+        );
     if (!fund) {
       table.put({
         ...row,
@@ -222,14 +229,53 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       });
       continue;
     }
-    const paid = transferCash(
+    // A claimant who is neither a full person nor still counted has left the
+    // town's records (moved away): there is no one to pay.
+    if (
+      !c.people.has(row.personId) &&
+      residentsRuntime(c)?.store.countedMember(row.personId) === undefined
+    ) {
+      table.put({
+        ...row,
+        open: false,
+        endedAt: c.date,
+        endReason: "left",
+      });
+      continue;
+    }
+    const source = row.source ?? unemploymentTerms(api).source;
+    const payee = c.people.has(row.personId)
+      ? row.personId
+      : row.payeeAccountOwnerId;
+    let paid = transferCash(
       api,
       `unemployment-benefit:${row.personId}:${c.date}`,
       fund.id,
-      row.payeeAccountOwnerId,
+      // A claimant filled in since filing is paid as a full person; a counted
+      // one lands in their own household's group account.
+      payee,
       row.weeklyMinor,
-      row.source ?? unemploymentTerms(api).source,
+      source,
+      { personId: row.personId },
     );
+    // A state fund that cannot cover the week borrows the rest from outside
+    // the town, as a state borrows from the federal government when its fund
+    // runs short (26 U.S.C. 1201, Title XII advances).
+    if (state && paid < row.weeklyMinor) {
+      const advance = [...c.organizations.values()].find(
+        (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
+      );
+      if (advance)
+        paid += transferCash(
+          api,
+          `unemployment-advance:${row.personId}:${c.date}`,
+          advance.id,
+          payee,
+          row.weeklyMinor - paid,
+          source,
+          { personId: row.personId },
+        );
+    }
     const weeksLeft = row.weeksLeft - 1;
     table.put({
       ...row,

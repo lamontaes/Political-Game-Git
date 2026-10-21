@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/ballot-order-no-voters
 pr: #5485
 blocked-on:
@@ -23,4 +23,4 @@ claimed-at: 2026-10-20T03:57:10.145Z
 
 **Notes.** TODO
 
-Checked Oct 20: the same seed (GOLDEN_PATH_SEED=9cc9a291e9264b809336a856fddf141339c9acffe4ba35b0c900e4db647a09cb) fails at different assertions on different runs: one run at `votes[f.personId] > 0` for the rotation rule ("expected 0 to be greater than 0", contest seat:US-MT:us-senate:1), another at `total > namedVotes` ("expected 61 to be greater than 61"). A debug print on the failing run showed both candidates with votes (60 and 1). So the same seed gives different counted primaries across runs: the engine (or the test's setup) is not deterministic for a seed. Start by running the test three times with that seed and diffing the votes and the candidates' recorded reasons; look for Map or Set order, an unseeded draw or a wall-clock read in `holdPrimary`/`countedField` (src/core2/modules/voting.ts).
+Checked Oct 20 (corrected): the earlier note here claimed the same seed fails at different assertions. That was wrong: main had moved between my runs. Three runs on one main give the identical failure, `expected 61 to be greater than 61` (`total > namedVotes`): in Winnett, Montana (seed 9cc9a291e9264b809336a856fddf141339c9acffe4ba35b0c900e4db647a09cb) the two candidates' primary draws 60 and 1 votes and every vote is one a voter cast for a candidate they knew, so there is no voter left for the ballot position to decide. The engine is deterministic; the test assumed some voters know neither candidate. Fixed in the test by drawing the next place when every vote is a named vote.
