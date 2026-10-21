@@ -344,10 +344,10 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
 
   it("casts and records the vote of a senator the player controls on a House bill", () => {
     const seat = townSeats(api).find((s) => s.office.kind === "us-senate");
-    // A territory has no senators: its town has no Senate seat to play.
+    // A territory and D.C. have no senators: their towns have no Senate seat to play.
     if (!seat) {
       expect(place.state, `${place.name}, seed ${seed}`).toMatch(
-        /^US-(AS|GU|MP|PR|VI)$/,
+        /^US-(AS|DC|GU|MP|PR|VI)$/,
       );
       return;
     }
