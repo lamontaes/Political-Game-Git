@@ -1256,6 +1256,18 @@ export interface CoreAPI {
     householdId: string;
     source: Source;
   }): void;
+  /**
+   * Two living adults become partners (`together`), or stop being: a partner
+   * link is added or ended, each person's relatives and past facts record it
+   * with the date, and the event `family.partnered` or `family.separated` is
+   * emitted for the engines (the births engine takes up a new couple). Where
+   * the two live is the caller's business (`changeHouseholdV1`).
+   */
+  setPartnersV1(input: {
+    personIds: readonly [PersonId, PersonId];
+    together: boolean;
+    source: Source;
+  }): void;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   /**
