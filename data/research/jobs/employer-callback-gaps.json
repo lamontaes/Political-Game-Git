@@ -62,8 +62,8 @@
         "high": 0.82,
         "tag": "ESTIMATED"
       },
-      "ratioMeaning": "Compared to the youngest group, middle-aged (49 to 51) applicants received 18% fewer callbacks and seniors (64 to 66) 35% fewer, in a secondary summary of the study; women 64 to 66 were called back 12% of the time against 19% for women 29 to 31, and older men showed little gap except in some jobs",
-      "source": "Neumark, Burn and Button 2019, Journal of Political Economy. The 18% and 35% figures are from a secondary press summary, which is what was read; the paper itself (https://admin.nber.org/data-appendix/w21669/On%20line%20appendix%20for%20JPE%2010-16%20final.pdf) has not been read, so this row is ESTIMATED until it is.",
+      "ratioMeaning": "Compared to the youngest group (29 to 31), older applicants received fewer callbacks, with the gap largest for women near retirement age; the 18% (age 49 to 51) and 35% (age 64 to 66) fewer-callback figures are unverified: no summary or table that states them was read, so they are carried as estimates and not quoted from the paper",
+      "source": "Neumark, Burn and Button 2019, Journal of Political Economy. Only the study's abstract was read (https://causalclaims.trfetzer.com/paper/w21669.html: robust evidence of age discrimination in hiring against older women, especially near retirement age; much weaker for men). The paper's own tables (online appendix https://admin.nber.org/data-appendix/w21669/On%20line%20appendix%20for%20JPE%2010-16%20final.pdf) have not been read, so the value, low and high of this row are ESTIMATED until they are.",
       "spreadAcrossPlaces": {
         "note": "Study range, not a place measure. The study's design has been debated (identical resumes leave older applicants with gaps in their history).",
         "tag": "ESTIMATED"
