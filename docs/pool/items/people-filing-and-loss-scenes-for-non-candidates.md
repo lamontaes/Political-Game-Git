@@ -5,12 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/non-candidate-scenes
 pr: #5056
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T01:29:19.878Z
 ---
 
 **What.** The director staged a filing scene and a race-lost scene around listeners tied to a candidate, as if they had filed or lost a race they never entered, and staged hearing scenes around people who never spoke. A participant scene (a filing, a race lost, a public hearing) must be staged only around a person its cause record names. src/director/scheduling.ts checks the staged person against the record's named people, and the situation types in src/director/data/situation-types.json mark which kinds are participant scenes.
