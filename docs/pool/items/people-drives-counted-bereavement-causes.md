@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-bereavement
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T17:04:42.871Z
 ---
 
 **What.** When someone in the wider population dies (births-counted.ts), no event is recorded, so the household that outlives them never perceives the loss. A named household perceives a death through the bereavement rule in drives.ts and may take up a cause. Record a counted death as a private event of its own kind that names the dead as its counted subject and the household it left, and have each survivor respond by the same bereavement rule, read from their counted record. A cause they take up is kept until they are filled in.
