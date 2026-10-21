@@ -643,8 +643,17 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
         api,
         key,
       ).filter((r) => r.spec === "laid-off").length;
-      if (employers.length && before > 0)
-        expect(down, `${where}: ${key} no layoffs`).toBeLessThan(up);
+      if (employers.length && before > 0) {
+        // Staff go only where the cut line funds fewer positions than the staff
+        // in place (a one-person staff funded at half still has its one position).
+        const funded = employers.reduce(
+          (n, o) => n + Math.round(staffingOf(api, key, o.id)!.positions),
+          0,
+        );
+        if (funded < up)
+          expect(down, `${where}: ${key} no layoffs`).toBeLessThan(up);
+        else expect(down, `${where}: ${key} laid off a funded post`).toBe(up);
+      }
       // Back to the base.
       amendBudget(api, {
         governmentId: gov.id,
