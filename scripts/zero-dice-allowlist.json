@@ -388,13 +388,6 @@
     },
     {
       "file": "src/simulation/living-world/town-employment.ts",
-      "kind": "fixed-share",
-      "build": "Build 19",
-      "count": 1,
-      "code": "export const TOWN_PART_TIME_SHARE: Readonly<Record<string, number>> = {"
-    },
-    {
-      "file": "src/simulation/living-world/town-employment.ts",
       "kind": "list-pick",
       "build": null,
       "count": 1,
@@ -1086,17 +1079,6 @@
       "class": "IDENTITY",
       "keyedBy": "caller rng stream (person name)",
       "reason": "Given name weighted by birth-year cohort counts for a fictional official (ported from src/simulation/given-name-cohorts.ts); who they are, not what they do.",
-      "replacement": null
-    },
-    {
-      "file": "src/core2/modules/counted-moves.ts",
-      "kind": "list-pick",
-      "build": null,
-      "count": 1,
-      "code": "stableHash(`${core.seed}:arrival:${key}:${date}:${rt.serial}`).slice( 0, 8, ), 16, ); const template = shapes[pick % shapes.length]!;",
-      "class": "GENERATION",
-      "keyedBy": "the arriving household's own serial (its id), with its origin and age band",
-      "reason": "Who a newcomer household is: its shape is drawn from the place's households of its head's age band, keyed to that household's own serial; how many arrive and from where follows from the pull.",
       "replacement": null
     },
     {

@@ -4,10 +4,10 @@ title: "Stopgaps in births-plan (estimated-record): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The opening writes partnerships without a start date for many couples, so a long marriage looked brand new on the opening day.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/births-plan.ts, kind estimated-record"
 ---
