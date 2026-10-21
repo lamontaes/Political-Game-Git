@@ -5,11 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/counted-job-choices
+pr: #5767
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T21:24:59.359Z
 ---
 
 **What.** Counted workers (the wider population) retire, quit, start looking and stop looking by summed pulls (strongestPulls) rather than the shared chooser that full people decide with, and they apply to every opening in their place. That is two rules for one decision, which the owner's one model, two tiers rule forbids. Replace the counted path with the same chooser terms read from the counted record (age, work, cash, traits) times the household's weight, and delete strongestPulls for these decisions; resolve SG-WORLD-jobs-counted-choices.
