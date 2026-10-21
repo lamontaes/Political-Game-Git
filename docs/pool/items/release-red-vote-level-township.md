@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/vote-level.test.ts, src/core2/press-topics.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-21 from PR #5827 (branch claude/vote-level-township): This PR opened at 2026-10-21T19:57:40Z, after the 2026-10-20T23:35Z cutoff, so the current Done when evidence-table requirement applies. The body has proof bullets but no Done when table. Add the required row for release-red-vote-level-township: Michigan-seed pass, two random-seed passes, the township event ID and its town-level filing, and measured timeout evidence. The current body already reports candidate receipts, so a missing gate line is not the objection; the required table is. Keep the actual township mapping and the drawn-place coverage. No local gate pass or merge is claimed for this source review.; finish on that branch, merge main into it first.
