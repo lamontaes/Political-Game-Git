@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/share-above-band
-pr: #5733
+pr: #5806
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T13:51:42.529Z
