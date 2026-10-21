@@ -1148,6 +1148,23 @@ export function setJournalTrace(hook: typeof journalTrace): void {
 }
 
 /** All original rows are rechecked after the last provider call and before the first write. */
+/** The runtime maps a journal write must leave in place (checked under bookkeeping). */
+const RUNTIME_FIELDS = [
+  "accounts",
+  "accountsByOwner",
+  "accountCountByOwner",
+  "residualAccountByOwner",
+  "externalFlowsByOwner",
+  "sourceProviders",
+  "totalsByOwner",
+  "totalsByAccount",
+  "latestByOwner",
+  "latestByAccount",
+  "detailedReceipts",
+  "detailedByOwner",
+  "requiredBySource",
+] as const;
+
 export function postCashJournal(
   runtime: CashJournalRuntime,
   host: CashJournalHost,
@@ -1177,24 +1194,11 @@ export function postCashJournal(
       sequence = runtime.nextSequence;
     directField(runtime, "nextSequence");
     directField(runtime, "totals");
-    const runtimeFields = [
-      "accounts",
-      "accountsByOwner",
-      "accountCountByOwner",
-      "residualAccountByOwner",
-      "externalFlowsByOwner",
-      "sourceProviders",
-      "totalsByOwner",
-      "totalsByAccount",
-      "latestByOwner",
-      "latestByAccount",
-      "detailedReceipts",
-      "detailedByOwner",
-      "requiredBySource",
-    ] as const;
-    const originalMaps = runtimeFields.map(
-      (key) => [key, runtime[key]] as const,
-    );
+    // Bookkeeping proves the runtime's maps were not swapped under the writer;
+    // play builds nothing for it.
+    const originalMaps = bookkeeping()
+      ? RUNTIME_FIELDS.map((key) => [key, runtime[key]] as const)
+      : [];
     const people = state.people,
       organizations = state.organizations;
     const focus = state.focusPersonIds,
@@ -1692,22 +1696,7 @@ export function completeCashJournalSource(
     const sequence = runtime.nextSequence,
       beforeTotals = runtime.totals;
     const totalsSnapshot = { ...beforeTotals };
-    const runtimeFields = [
-      "accounts",
-      "accountsByOwner",
-      "accountCountByOwner",
-      "residualAccountByOwner",
-      "externalFlowsByOwner",
-      "sourceProviders",
-      "totalsByOwner",
-      "totalsByAccount",
-      "latestByOwner",
-      "latestByAccount",
-      "detailedReceipts",
-      "detailedByOwner",
-      "requiredBySource",
-    ] as const;
-    const originalMaps = runtimeFields.map(
+    const originalMaps = RUNTIME_FIELDS.map(
       (key) => [key, runtime[key]] as const,
     );
     const provider = runtime.sourceProviders.get(request.kind);
