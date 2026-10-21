@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.20.4
+
+_Released October 21, 2026._
+
+### Changed
+
+- **The player's parents no longer move away and leave the player with nothing**
+  When the player lives in a household, the moves engine no longer takes that
+  household apart: the adults who earn and hold its cash stay, so the player is
+  not left alone with a lease, no job and no money.
+
 ## PRE-ALPHA 0.20.3
 
 _Released October 21, 2026._
