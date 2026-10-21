@@ -21,6 +21,6 @@ claimed-at:
 
 **Files.** src/core2/estates.ts, src/core2/housing-sale.ts, src/core2/modules/residents.ts
 
-**Notes.** TODO
+**Notes.** Oct 20: paused by the CTO. Stopped mid-build; WIP (sellHome counted argument, sellCountedHome in residents.ts, typechecks, untested) is on branch claude/counted-estate-home, stacked on PR #5735. Still needs a test, a release declaration and a PR.
 
 Oct 20 (claude, paused by the CTO for the usage reset): stopped mid-build on branch claude/counted-estate-home (stacked on claude/estate-sells-home, PR #5735). Written and typechecking, not tested: `sellHome` takes a `counted` argument (weight, group surplus callback) and `removeCountedPerson` calls `sellCountedHome` when the last member dies. Still to do: a test in counted-estates.test.ts or a new file (counted household that owns its home, every member removed with removeCountedPerson in a bench world, then the sale row, lender paid, surplus in the group fund, journal balanced), the housing/estates/counted tests, a release declaration, PR.

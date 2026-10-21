@@ -19,13 +19,16 @@ import { leaderOf } from "./modules/leadership";
 import {
   draftBill,
   floorAgendaOn,
+  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
+  offerDeal,
 } from "./modules/legislature";
 import { lawChain, lawHere } from "./modules/laws";
 import {
   actOn,
   askLeaderForHearing,
+  reanswerLeaderRequest,
   perDiemOf,
   perDiemPaidTo,
   stateDay,
@@ -338,6 +341,89 @@ it("a floor leader's answer to a member's request decides whether the bill is on
     const agenda = floorAgendaOn(api, yes.scheduledFor!).map((row) => row.id);
     expect(agenda, where).toContain(friendly.id);
     expect(agenda, where).not.toContain(hostile.id);
+    // The refused member comes back with something the leader can accept: a
+    // favor owed, else backing the leader's own item. Nothing accepted leaves
+    // the refusal standing; an accepted deal is read again, cited by the
+    // obligation it created, and may put the bill on the floor.
+    let offered = false;
+    for (const kind of ["favor", "back-their-item"] as const) {
+      const dealt = offerDeal(api, {
+        billId: hostile.id,
+        memberId: found.leader,
+        kind,
+      });
+      if (!dealt.accepted) continue;
+      offered = true;
+      const again = reanswerLeaderRequest(
+        api,
+        found.rival.personId,
+        hostile.id,
+      )!;
+      expect(again.offer?.kind, where).toBe(kind);
+      expect(again.offer?.earlierReasons, where).toEqual(no.reasons);
+      expect(again.reasons.offer, where).toBeGreaterThan(0);
+      expect(
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("obligations")
+          .get(again.offer!.obligationId),
+        `${where}: ${again.offer!.obligationId}`,
+      ).toBeDefined();
+      if (again.granted) {
+        expect(again.scheduledFor, where).toBeTruthy();
+        expect(
+          floorAgendaOn(api, again.scheduledFor!).map((row) => row.id),
+          where,
+        ).toContain(hostile.id);
+      }
+      break;
+    }
+    if (!offered) {
+      // No leader took a real offer here: the refusal stands (the engine's
+      // own answer), and a deal recorded the way offerDeal records an
+      // accepted favor is read again and cited (an edge-case fixture).
+      expect(
+        reanswerLeaderRequest(api, found.rival.personId, hostile.id)?.reasons,
+        where,
+      ).toEqual(no.reasons);
+      const legislature = api.moduleState(LEGISLATURE_MODULE_ID);
+      const row = legislature.table("bills").get(hostile.id) as unknown as {
+        deals: readonly object[];
+      };
+      const index = row.deals.length;
+      legislature.table("bills").put({
+        ...row,
+        deals: [
+          ...row.deals,
+          {
+            memberId: found.leader,
+            kind: "favor",
+            terms: "favor",
+            date: api.state.date,
+            status: "accepted",
+          },
+        ],
+      } as never);
+      legislature.table("obligations").put({
+        id: `obligation:${hostile.id}:${found.leader}:${index}`,
+        owedBy: found.rival.personId,
+        owedTo: found.leader,
+        kind: "favor",
+        billId: hostile.id,
+        date: api.state.date,
+        settled: false,
+      } as never);
+      const again = reanswerLeaderRequest(
+        api,
+        found.rival.personId,
+        hostile.id,
+      )!;
+      expect(again.offer?.obligationId, where).toBe(
+        `obligation:${hostile.id}:${found.leader}:${index}`,
+      );
+      expect(again.reasons.offer, where).toBeGreaterThan(0);
+      expect(again.offer?.earlierReasons, where).toEqual(no.reasons);
+    }
     return;
   }
   throw new Error(
