@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: claimed
-claimed-by: main-pool-edits
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T15:08:49.061Z
+claimed-at:
 ---
 
 **What.** npm run pool -- --check reports errors on eight items: core-speed-journal-bigint, core-speed-year-over-limit-dense-town, people-births-age-shape-narrow, people-leave-parents-home, words-past-public-and-archive-renderings, world-jobs-counted-retiree-income and world-jobs-quit-rate-jolts. Their What, Rules, Done when or Files sections are stubs or too short for the item format. Each owner should fill in its own item, since the Rules and Done when lines are theirs to word.
