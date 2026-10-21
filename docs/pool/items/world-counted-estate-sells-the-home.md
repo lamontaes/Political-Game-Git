@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/counted-estate-home-sale
-pr: #5794
+pr: #5786
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T07:25:49.727Z
