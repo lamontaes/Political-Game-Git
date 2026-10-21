@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/apply-stopgaps-d
-pr:
+pr: #5461
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T23:06:03.721Z
