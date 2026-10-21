@@ -36,12 +36,22 @@ function open(seed: string, key: string, countScale?: number) {
 }
 
 it("pays the unplaced workers for as many households as the town's weight says, and keeps the groups' savings with them", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "census-unplaced");
+  // A town with unplaced workers pays them three times as much at three times
+  // the size; some places open without any, so draw again until one has them.
+  const tried: string[] = [];
+  let draw = drawPlace(randomBytes(32).toString("hex"), "census-unplaced");
+  let base = open(draw.seed, draw.key);
+  while (base.unplaced <= 0 && tried.length < 8) {
+    tried.push(`${draw.name} (${draw.key}, seed ${draw.seed})`);
+    draw = drawPlace(randomBytes(32).toString("hex"), "census-unplaced");
+    base = open(draw.seed, draw.key);
+  }
   const where = `seed ${draw.seed}, ${draw.name} (${draw.key})`;
-  const base = open(draw.seed, draw.key);
+  expect(
+    base.unplaced,
+    `no unplaced workers in ${tried.join(", ")}`,
+  ).toBeGreaterThan(0);
   const big = open(draw.seed, draw.key, SCALE);
-  // A town with unplaced workers pays them three times as much at three times the size.
-  expect(base.unplaced, `${where}: no unplaced workers`).toBeGreaterThan(0);
   expect(big.unplaced / base.unplaced, where).toBeGreaterThan(SCALE * 0.9);
   expect(big.unplaced / base.unplaced, where).toBeLessThan(SCALE * 1.1);
   // Savings per person stay in the same range as the town grows: they are not

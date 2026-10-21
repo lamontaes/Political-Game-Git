@@ -19,9 +19,9 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../kernel/dates";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { spendLivingCost } from "../official-living";
+import { decisionLean, leanedYes } from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -893,6 +893,38 @@ function adOutlet(api: CoreAPI): {
 }
 
 /**
+ * The town's counted adults by age band, counted once a week: the count walks
+ * every counted resident, and a campaign asks for an outlet's audience many
+ * times a day while the adults change slowly (the same week the followers of
+ * an outlet are held, `countedFollowersOf`).
+ */
+function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
+  const held = adultsCache.get(api.state);
+  if (
+    held &&
+    held.date <= api.state.date &&
+    api.state.date < addDays(makeIsoDate(held.date), 7)
+  )
+    return held.adults;
+  const town = lawChain(api).townPlaceId;
+  const date = api.state.date;
+  const adults = new Map<Band, number>();
+  for (const voter of countedResidents(api.state as CoreState)) {
+    if (voter.placeId !== town) continue;
+    const age = ageOn(voter, date);
+    if (age < 18) continue;
+    const band = bandOf(age);
+    adults.set(band, (adults.get(band) ?? 0) + voter.weight);
+  }
+  adultsCache.set(api.state, { date, adults });
+  return adults;
+}
+const adultsCache = new WeakMap<
+  object,
+  { date: string; adults: ReadonlyMap<Band, number> }
+>();
+
+/**
  * The counted adults in town who follow an outlet: the same rule as the full
  * people (in each age band the share that follows its kind, Pew 2024), times
  * each counted household's weight, and the outlet's slice of its kind's
@@ -903,17 +935,8 @@ export function countedFollowers(api: CoreAPI, outletId: string): number {
   const outlet = table(api, "outlets").get(outletId) as unknown as
     OutletRow | undefined;
   if (!outlet) return 0;
-  const town = lawChain(api).townPlaceId;
-  const date = api.state.date;
   const national = NATIONAL.kinds.find((row) => row.kind === outlet.kind);
-  const adults = new Map<Band, number>();
-  for (const voter of countedResidents(api.state as CoreState)) {
-    if (voter.placeId !== town) continue;
-    const age = ageOn(voter, date);
-    if (age < 18) continue;
-    const band = bandOf(age);
-    adults.set(band, (adults.get(band) ?? 0) + voter.weight);
-  }
+  const adults = townAdultsByBand(api);
   let ofKind = 0;
   for (const [band, count] of adults) {
     const share = national
@@ -2213,7 +2236,7 @@ function weighTip(
 
 /**
  * A person who knows of a hidden act takes it to a reporter on purpose (a
- * leak, owner ruling on favors and leaks Oct 14): the tip is theirs to give,
+ * leak): the tip is theirs to give,
  * so the first step is not weighed; the reporter still decides to dig and the
  * outlet's owner and head still decide to run it. The leaker is named on the
  * tip and in what the reporter knows, and the two spend time together. A tip
@@ -2568,10 +2591,28 @@ export function refreshPressStaff(api: CoreAPI): void {
   pressStaffChanged(api);
 }
 
+/** Owners given a household cost spend what it came to since last week out of what they hold. */
+function ownersLive(api: CoreAPI): void {
+  for (const raw of table(api, "staff").rows()) {
+    const row = raw as unknown as StaffRow;
+    if (!row.livedThrough || row.livedThrough >= api.state.date) continue;
+    spendLivingCost(
+      api,
+      row.id,
+      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+    );
+    table(api, "staff").put({
+      ...row,
+      livedThrough: api.state.date,
+    } as unknown as ModuleRow);
+  }
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
+  ownersLive(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
@@ -2639,21 +2680,21 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (row.status !== "invited" || f.personId === playerId) continue;
       const person = api.state.people.get(f.personId);
       const reporter = row.reporterId ?? "";
-      const willing = person
-        ? // Every trait's lean, on the trait scale the bar was set on, and
-          // how they stand with the reporter who asks.
-          parameter("traitScale") *
-            decisionLean(
-              api.state,
-              person,
-              "press.accept-interview",
-              "accept",
-              "decline",
-            ) +
-          closeness(api, person.id, reporter) -
-          grudge(api, person.id, reporter)
-        : 0;
-      if (willing < pressParameter("interviewShyness")) refuse(api, row);
+      // How they stand with the reporter who asks, past the bar, and every
+      // trait's lean toward accepting.
+      const accepts = person
+        ? leanedYes(
+            api.state,
+            person,
+            "press.accept-interview",
+            "accept",
+            "decline",
+            closeness(api, person.id, reporter) -
+              grudge(api, person.id, reporter) -
+              pressParameter("interviewShyness"),
+          )
+        : true;
+      if (!accepts) refuse(api, row);
       else publish(api, row, candidateAnswers(api, row.questions, f));
     }
 }
