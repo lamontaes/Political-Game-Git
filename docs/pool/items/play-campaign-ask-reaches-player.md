@@ -4,9 +4,9 @@ title: "A candidate's ask for money reaches the player as a request they answer"
 area: play
 kind: feature
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/campaign-ask-gov
-pr: #4865
+pr: #5407
 blocked-on:
 milestone:
 source: "core-player-money-spending: world campaigns no longer draw on the player's account"

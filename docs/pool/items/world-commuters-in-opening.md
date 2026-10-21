@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/commuters-in-opening-s9
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "gov-stopgap-budgets-faked-mechanic, found claiming it"
-claimed-at: 2026-10-19T20:20:46.107Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. No full worker lives elsewhere and works in the town; the opening only notes that many unplaced workers commute, and the repository holds commute times (ACS B08303) but no commuting flows. Next: Commuting shares per place from flow data. The player would see it as a choice among people, never a form.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T20:20:46.107Z
 **Notes.** Waits for world-commute-flow-data (the repository holds no commuting flows; split Oct 19). Blocks gov-stopgap-budgets-faked-mechanic (nonresident local tax and tax owed to another state cannot fire without it).
 
 Checked Oct 18 (claude/lodes-reachable), nothing built. The census LEHD LODES files are reachable from the cloud sessions' network (`https://lehd.ces.census.gov/data/lodes/LODES8/<state>/od/<state>_od_main_JT00_2021.csv.gz` and `<state>/<state>_xwalk.csv.gz` both returned 200; Vermont's pair is 1.7 MB). The crosswalk gives each census block's place (`stplc`), county subdivision (`ctycsub`, the town in New England) and county, so home-to-work flows between places can be summed for every state and D.C. from one OD file and one crosswalk each (about 150 MB for the country, read once by a script; the territories have no LODES and would start from the national figure marked ESTIMATED). The earlier notes that LODES was the blocker for this line should be read with that in mind. What stays hard is the opening side: the unplaced workers are one flow per place (`residents:unplaced-wages:<place>` in `src/core2/residents.ts`) threaded through counted households, fill-in, demotion and law reach (`unplacedWorkers`), so making them recorded commuters with their own employers is a core counted-groups change, not a data one.
+
+Sent back 2026-10-21 from PR #5139 (branch claude/pool-commute-split): The final docs-only split is stale against current main. docs/pool/items/world-commute-flow-data.md:16 says the repository has no commuting flows, and the new parent Notes at world-commuters-in-opening.md:24 repeats that block. Main already has data/source/lodes-commuting/place-commuting.json with 31,976 place rows, read by src/core2/commuting-shares.ts, and a README with the matching SHA-256 64eb9eeee797f7e7df9d083c9ee53be54373960d579fbb31e7f9476435396a5f. The data item is already done under #5143. Reconcile the specification and historical split note with that delivered work; the new Done when at :20 also names a separate lock file, while that source directory contains only the table and README, so supply the named artifact or accurately document the existing checksum contract. Preserve current main claims and the commuter feature's named-paycheck acceptance. The body's first-line parent marker would automatically complete that unfinished feature even though the final diff only changes docs: use a truthful specification/notes scope that cannot close it. Main merged cleanly locally; no standard-gate green or implementation completion is claimed.; finish on that branch, merge main into it first.
