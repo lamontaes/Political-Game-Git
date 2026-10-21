@@ -94,6 +94,21 @@ function addNoneDeclaration(root: string, id: string): void {
 }
 
 describe("transition-aware release declarations", { timeout: 120_000 }, () => {
+  it("names the fix when the comparison commit is missing, as in a shallow clone", () => {
+    const fixture = historyFixture();
+    try {
+      expect(() =>
+        checkDeclarationTransition(fixture.root, {
+          base: "0dceca57a44ce30201c03ea387ae470737112dde",
+          head: fixture.rollout,
+          mode: "pr",
+        }),
+      ).toThrow(/git fetch --unshallow origin/);
+    } finally {
+      fixture.dispose();
+    }
+  });
+
   it("fails a fresh eligible branch with no declaration", () => {
     const fixture = historyFixture();
     try {

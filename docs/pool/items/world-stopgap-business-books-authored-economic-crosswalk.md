@@ -4,10 +4,10 @@ title: "Stopgaps in business-books (authored-economic-crosswalk): 1 open"
 area: world
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: The current input preserves employer classifications but not firm legal form and all funding routes. Unknown classifications produce a gap; mods extend the mapping as data.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/business-books.json, kind authored-economic-crosswalk"
 ---

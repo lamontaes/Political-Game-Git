@@ -8,7 +8,7 @@ description: >
   synthesis. Not a substitute for the built-in Explore agent's broad fan-out
   search, and not a general-purpose worker: it never edits, never runs
   commands, and never spawns further helpers.
-model: claude-haiku-4-5-20251001
+model: haiku
 tools: Read, Grep, Glob
 maxTurns: 6
 ---

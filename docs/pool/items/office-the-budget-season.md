@@ -6,10 +6,11 @@ kind: feature
 priority: 2
 status: open
 claimed-by:
-pr:
+pr: #5217
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
+claimed-at:
 ---
 
 **What.** The local budget is passed without a season: the executive's proposal is not an act at its time of year and the council's budget hearing is not on the calendar. Add the budget season: the mayor or executive proposes the budget at the time the body's data sets, the council holds a hearing on the calendar, and the player acts at each step. The player would notice the proposal arriving in its month, a public hearing with speakers, and the vote that sets next year's lines.
@@ -20,4 +21,8 @@ source: "docs/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
 
 **Files.** src/core2/modules/office-day.ts, src/core2/office-day-calendar.ts, src/core2/modules/executive.ts, src/core2/data/legislature/executive-proposal.json
 
-**Notes.** Checklist line from OFFICE-LOCAL.md; verify against main before starting.
+**Notes.** Sent back 2026-10-20 from PR #5217 (branch claude/political-game-pool-udtiwn): merge conflict with origin/main in code (src/core2/modules/office-day.ts and src/core2/office-day-acts.ts); finish on that branch, merge main into it first. Checklist line from OFFICE-LOCAL.md; verify against main before starting.
+
+Sent back 2026-10-20 from PR #5533 (branch claude/political-game-pool-yucp92-tt): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5217 (branch claude/political-game-pool-udtiwn): Merging current origin/main conflicts in code: src/core2/jobs-benefits.ts, src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b-money.ts, src/core2/world-transfer.ts, and src/core2/data/candidacy/parameters.json. Resolve those on this branch, preserving current main behavior and every included budget-season/money slice, then rerun only the changed-file checks and the required played-world budget chain. The pool-note conflict is resolvable documentation; it is these code conflicts that prevent this merger from gating the merged result.; finish on that branch, merge main into it first.

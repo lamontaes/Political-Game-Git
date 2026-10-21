@@ -4,10 +4,10 @@ title: "Stopgaps in work (uncalibrated-choice-mapping): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: engine or design: Commitment magnitude and daily segment attendance policy are uncalibrated; detailed health/care constraints are absent.
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/work.json, kind uncalibrated-choice-mapping"
 ---
