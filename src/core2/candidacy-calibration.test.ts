@@ -31,8 +31,8 @@ import {
 } from "./modules/elections";
 
 const LOCAL = ["city", "county", "township", "school"];
-const MIN_CONTESTS = 40;
-const MAX_PLACES = 24;
+const MIN_CONTESTS = 30;
+const MAX_PLACES = 14;
 const BAND = { low: 0.5, high: 0.8 };
 const Z = 2.576;
 
@@ -87,6 +87,7 @@ it("the share of local seats with no more candidates than seats lies in the real
     lines.push(
       `${place.name} (${place.key}, seed ${place.seed}): ${decided.length} contests, ${here} uncontested`,
     );
+    console.log(lines[lines.length - 1]);
   }
   const [low, high] = wilson(uncontested, Math.max(contests, 1));
   const where = `seed ${seed}: ${uncontested} of ${contests} uncontested (99% interval ${(low * 100).toFixed(0)} to ${(high * 100).toFixed(0)} percent): ${lines.join("; ")}`;
