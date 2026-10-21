@@ -17,10 +17,7 @@ export interface BirthKin {
 }
 
 /** Reuse the P15 record vocabulary; existing relatives keep their identity and past. */
-export function birthKin(
-  api: CoreAPI,
-  parents: readonly [string, string],
-): BirthKin[] {
+export function birthKin(api: CoreAPI, parents: readonly string[]): BirthKin[] {
   const R = OPENING_KIN.relations;
   const rows = new Map<string, BirthKin>();
   for (const id of parents)
@@ -86,7 +83,7 @@ function temperamentSubjects(
 export function buildNewborn(
   api: CoreAPI,
   pregnancyId: string,
-  parents: readonly [string, string],
+  parents: readonly string[],
   source: Source,
 ) {
   const mother = api.state.people.get(parents[0])!;
@@ -139,7 +136,7 @@ export function buildNewborn(
         facts: {
           pregnancyId,
           motherId: parents[0],
-          otherParentId: parents[1],
+          ...(parents[1] ? { otherParentId: parents[1] } : {}),
           placeId: mother.placeId,
         },
       },

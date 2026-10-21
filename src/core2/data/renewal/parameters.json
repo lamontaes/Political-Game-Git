@@ -1,4 +1,14 @@
 {
+  "renewalFertileFromAge": {
+    "value": 15,
+    "tag": "SOURCED",
+    "citation": "NCHS National Vital Statistics Reports, Births: Final Data, Table 3: birth rates are published for women 15 to 44 and 45 to 49, the childbearing ages; a woman below 15 does not plan a birth here, and the age term of the plan score stays a sliding scale above it. Bounds of who is asked, never a rate."
+  },
+  "renewalFertileToAge": {
+    "value": 49,
+    "tag": "SOURCED",
+    "citation": "NCHS National Vital Statistics Reports, Births: Final Data, Table 3: the oldest published maternal age band is 45 to 49 (a woman older than 49 is not asked)."
+  },
   "renewalReviewDays": {
     "value": 91,
     "tag": "TUNABLE",

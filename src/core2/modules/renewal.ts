@@ -1,5 +1,5 @@
 import { renewalParameter } from "../births-parameters";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
 import {
   BIRTHS_STOPGAP,
   chooseBirthPlan,
@@ -58,15 +58,15 @@ function review(
   asOf = api.state.date,
   opening = false,
 ): void {
-  const parents = [
-    api.state.people.get(row.motherId),
-    api.state.people.get(row.otherParentId),
-  ];
+  const parents = parentsOf(api, row);
+  const mother = parents[0];
   // A parent who died or moved away (the inactive tier) ends the couple's
   // plans here.
   if (
-    parents.some((person) => !person?.alive || person.tier === INACTIVE_TIER) ||
-    parents[0]!.householdId !== parents[1]!.householdId
+    !mother ||
+    parents.length < (row.otherParentId ? 2 : 1) ||
+    parents.some((person) => !person.alive || person.tier === INACTIVE_TIER) ||
+    (parents[1] && mother.householdId !== parents[1].householdId)
   ) {
     table(api, "couples").put({
       ...row,
@@ -82,10 +82,32 @@ function review(
     ]).length
   )
     return;
+  // A mother with no recorded partner plans alone; outside the childbearing
+  // ages no plan is asked (a girl is looked at again, a woman past them is done).
+  if (!row.otherParentId) {
+    const age = ageOnDate(makeIsoDate(mother.birthDate), makeIsoDate(asOf));
+    if (age > renewalParameter(api, "renewalFertileToAge")) {
+      table(api, "couples").put({
+        ...row,
+        childIds: [...row.childIds],
+        status: "inactive",
+      });
+      return;
+    }
+    if (age < renewalParameter(api, "renewalFertileFromAge")) {
+      if (!opening)
+        scheduleReview(
+          api,
+          row,
+          dateAfter(api, renewalParameter(api, "renewalReviewDays")),
+        );
+      return;
+    }
+  }
   api.stopgap(BIRTHS_STOPGAP);
-  const decisions = [row.motherId, row.otherParentId].map((id) =>
-    chooseBirthPlan(api, id, row, asOf),
-  );
+  const decisions = parents
+    .map((person) => person.id)
+    .map((id) => chooseBirthPlan(api, id, row, asOf));
   const planSource: Source = opening
     ? {
         tag: "ESTIMATED",
@@ -141,8 +163,8 @@ function review(
       id: `${pregnancyId}:recorded`,
       date: api.state.date,
       kind: "pregnancy-recorded",
-      personIds: [row.motherId, row.otherParentId],
-      placeId: parents[0]!.placeId,
+      personIds: parents.map((person) => person.id),
+      placeId: mother.placeId,
       source: planSource,
       facts: { pregnancyId, planId, dueDate, conceivedAt: asOf },
     });
@@ -152,6 +174,14 @@ function review(
       row,
       dateAfter(api, renewalParameter(api, "renewalReviewDays")),
     );
+}
+
+/** The living parents a couple row names: the mother, and her partner when one is recorded. */
+function parentsOf(api: CoreAPI, row: BirthCouple) {
+  return [row.motherId, row.otherParentId].flatMap((id) => {
+    const person = id ? api.state.people.get(id) : undefined;
+    return person ? [person] : [];
+  });
 }
 
 /** The counted population's flows run on the first of each month. */
@@ -177,13 +207,15 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
   const motherId = String(row.motherId),
     otherParentId = String(row.otherParentId);
   const mother = api.state.people.get(motherId)!;
-  const father = api.state.people.get(otherParentId)!;
+  const father = otherParentId
+    ? api.state.people.get(otherParentId)!
+    : undefined;
   // A mother who moved away has her baby where she now lives, outside town.
   if (mother.tier === INACTIVE_TIER) {
     table(api, "pregnancies").put({ ...row, status: "moved-away" });
     return;
   }
-  if (!mother.alive || mother.householdId !== father.householdId) {
+  if (!mother.alive || (father && mother.householdId !== father.householdId)) {
     // SG-M1-births-circumstances: postpartum/relocation medicine is outside this prototype.
     table(api, "pregnancies").put({
       ...row,
@@ -197,12 +229,12 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
   const generated = buildNewborn(
     api,
     pregnancyId,
-    [motherId, otherParentId],
+    father ? [motherId, otherParentId] : [motherId],
     source(api),
   );
   const baby = api.addBornPersonV1(
     generated.person,
-    [motherId, otherParentId],
+    father ? [motherId, otherParentId] : [motherId],
     generated.kin,
   );
   table(api, "births").put({
@@ -235,7 +267,7 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
     id: `${baby.id}:birth`,
     date: api.state.date,
     kind: "person-birth",
-    personIds: [motherId, otherParentId, baby.id],
+    personIds: [motherId, ...(father ? [otherParentId] : []), baby.id],
     placeId: baby.placeId,
     source: source(api),
     publicRecord: true,
@@ -353,6 +385,41 @@ function initialize(api: CoreAPI): void {
     }
     review(api, row);
   }
+  // A full woman with no recorded partner plans from her own records, by the
+  // same path as a couple's (SG-WEB-births-full-tier: her partner is unrecorded).
+  for (const person of api.state.people.values()) {
+    if (
+      person.looks?.gender !== "female" ||
+      !person.alive ||
+      person.tier === INACTIVE_TIER ||
+      ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(api.state.date)) >
+        renewalParameter(api, "renewalFertileToAge") ||
+      table(api, "couples").query("byMother", [person.id]).length
+    )
+      continue;
+    const row = soloMother(person.id, api.state.startedAt, children);
+    table(api, "couples").put({
+      ...row,
+      childIds: [...row.childIds],
+      status: "active",
+    });
+    review(api, row);
+  }
+}
+
+/** The couples row of a mother with no recorded partner. */
+function soloMother(
+  motherId: string,
+  startedAt: string,
+  children: ReadonlyMap<string, readonly string[]>,
+): BirthCouple {
+  return {
+    id: `solo:${motherId}`,
+    motherId,
+    otherParentId: "",
+    startedAt,
+    childIds: children.get(motherId) ?? [],
+  };
 }
 
 export const RENEWAL_MODULE: CoreModule = {
@@ -430,6 +497,10 @@ export const RENEWAL_MODULE: CoreModule = {
       ? coupleFromLink(api, link, childrenByParent(api))
       : undefined;
     if (!row) return;
+    // She has a partner now: her one plan is the couple's.
+    const alone = table(api, "couples").get(`solo:${row.motherId}`);
+    if (alone?.status === "active")
+      table(api, "couples").put({ ...alone, status: "inactive" });
     table(api, "couples").put({
       ...row,
       childIds: [...row.childIds],

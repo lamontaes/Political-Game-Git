@@ -1289,7 +1289,7 @@ export interface CoreAPI {
   /** v11: zero-stock newborn admission through the canonical person writer. */
   addBornPersonV1(
     input: PersonInput,
-    parents: readonly [PersonId, PersonId],
+    parents: readonly PersonId[],
     relations: readonly {
       otherId: PersonId;
       relation: string;
