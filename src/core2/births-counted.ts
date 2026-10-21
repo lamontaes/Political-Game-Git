@@ -536,6 +536,35 @@ export function applyCountedFlows(
           countsId: row.id,
         });
         (on === date ? row.fellIll : row.openingIll).push(person.id);
+        // An illness begun today, for the person and the household they live
+        // with: a private record the people engines read.
+        if (on === date)
+          api.emit({
+            id: `event:${DEFAULT_HEALTH_DATA.countedOnsetEventKind}:${person.id}:${date}`,
+            date,
+            kind: DEFAULT_HEALTH_DATA.countedOnsetEventKind,
+            personIds: [],
+            placeId,
+            topic: `${DEFAULT_HEALTH_DATA.topicPrefix}:${DEFAULT_HEALTH_DATA.unconditionedTopic}`,
+            desiredChange: `${DEFAULT_HEALTH_DATA.desiredChangePrefix}:${DEFAULT_HEALTH_DATA.unconditionedTopic}`,
+            ...severityImpulse(api, DEFAULT_HEALTH_DATA.onsetSeverity),
+            publicRecord: false,
+            source: { ...DEFAULT_HEALTH_DATA.source, asOf: date },
+            facts: {
+              "counted-subject": person.id,
+              "counted-household": person.householdId,
+              "counted-perceivers": JSON.stringify(
+                people
+                  .filter(
+                    (other) =>
+                      other.id !== person.id &&
+                      other.householdId === person.householdId &&
+                      !row.deaths.includes(other.id),
+                  )
+                  .map((other) => other.id),
+              ),
+            },
+          });
       }
       return expected;
     };
