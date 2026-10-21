@@ -441,5 +441,44 @@
     "value": 1500,
     "tag": "SOURCED",
     "citation": "$15 an hour in cents: the line of the labor.low-wage-jobs outcome (Economic Policy Institute: 15 percent of workers paid under $15 an hour in 2022)."
+  },
+  "jobsWeeklyEarningsAllWorkers": {
+    "value": 1268,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: median usual weekly earnings, all workers, $1,268."
+  },
+  "jobsWeeklyEarningsNoCollege": {
+    "value": 966,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: high school diploma, $966 (less than a high school diploma $770)."
+  },
+  "jobsWeeklyEarningsSomeCollege": {
+    "value": 1100,
+    "tag": "ESTIMATED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: some college no degree $1,062, associate's degree $1,135.",
+    "estimatedFrom": "Midpoint of the two rows the survey's 'some college' answer spans (CES some-college covers both).",
+    "spread": {
+      "low": 1062,
+      "high": 1135,
+      "unit": "dollars a week",
+      "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: some college no degree $1,062 and associate's degree $1,135."
+    }
+  },
+  "jobsWeeklyEarningsCollege": {
+    "value": 1578,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: bachelor's degree, $1,578 (master's $1,876, professional $2,294, doctoral $2,307)."
+  },
+  "jobsSchoolingPayShare": {
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "citation": "The share of the raw earnings gap between education levels that remains within one occupation and employer: positions are already priced for their occupation, which carries part of the schooling premium (a degree opens higher-paid roles).",
+    "estimatedFrom": "Assumed share; no source measuring the within-occupation schooling premium was fetched, so it is an estimate with a wide spread, to be researched.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.7,
+      "unit": "share of the raw weekly-earnings gap",
+      "citation": "Assumed range around a middle value; unmeasured."
+    }
   }
 }
