@@ -1,0 +1,32 @@
+---
+id: play-campaign-interview-and-event-without-seat
+title: "A candidate who holds no seat can ask for an interview and hold an event from the campaign day"
+area: play
+kind: feature
+priority: 2
+size: M
+status: open
+claimed-by:
+pr: #5710
+blocked-on:
+source: added with npm run pool -- add
+claimed-at:
+---
+
+**What.** Merge audit fix 4 found that the campaign day (PR #5549) offers the doors and the calls as scenes, but a candidate who holds no seat has no control to ask for an interview or to hold an event; those choices exist in the engine (interview and event kinds in takeCampaignDayChoice) and the bench view throws on 'event'. Add a scene control or a press-desk entry so a candidate in a race can ask an outlet for an interview and hold an event, each running the engine's own act. The player would notice an interview and an event among the day's choices and a scene for each.
+
+**Rules.** Screens show record data and control names; no hand-written player text (words from the English engine). This is a game, not a spreadsheet: each is one choice with a scene, not a form. An effect is a read: the interview and the event move the race through the engine's causes.
+
+**Done when.** In a played world (buildBenchWorld) in a drawn place and seed named in the PR body, a candidate with no seat takes the interview choice and the event choice from the campaign view by control name, each writes the engine's own act and cause records named by id, and src/bench/campaign-day-controls.test.ts asserts both.
+
+**Files.** src/bench/campaign.ts, src/bench/campaign-day-controls.test.ts, src/bench/data/controls.json
+
+**Notes.** Filed by fs11vb from the Oct 20 merge audit, fix 4 (which allowed filing the gap as its own item).
+
+Sent back 2026-10-20 from PR #5710 (branch claude/fs11vb-ev): merging main conflicts in src/bench/campaign.ts, play.mjs and campaign-day-controls.test.ts: #5674 already added the event and interview days on main; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5710 (branch claude/fs11vb-ev): docs/pool/items/play-campaign-interview-and-event-without-seat.md Done when requires both choices taken in a drawn buildBenchWorld with engine act/cause record ids. The revised test still uses setup() to build its own small world and permits the event to remain unavailable, and the body explicitly says no candidate could fund an event in the generated worlds tried. Filing the funding defect is useful but does not prove this item complete. Keep the unconditional interview assertions, finish the generated-world event path, and report both act/cause ids with the place and full seed before this item can be marked done.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5710 (branch claude/fs11vb-ev): The generated-world interview/event proof now addresses the previous return. The new src/core2/campaign-day.ts raise-money loop [player, ...askedIds], however, calls askForDonation for the controlled candidate and immediately transfers their personal cash by a modeled donor amount. The unchanged control is Call donors and its view facts disclose no personal contribution. OWNER-DECISIONS.md:190 says the engine offers and the player decides; the money ruling permits own-campaign gifts but does not select them. Use the existing explicit donation action in src/bench/campaign.ts for self-funding (including in the test), or present an explicit personal-contribution choice with its amount before debiting it. Do not make the event proof pass by adding an unselected personal gift to a call day.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5710 (branch claude/fs11vb-ev): The explicit contribute choice addresses the earlier unselected personal-gift return. The body still has no Done when evidence table required by .agents/skills/merger/SKILL.md section 2.5. Add rows mapping the drawn buildBenchWorld, candidate holding no seat, interview and event choices by control name, and each engine act/cause record id to campaign-day-controls.test.ts and the supplied Springville run. Keep the explicit amount choice and unconditional event proof. No local gate pass is claimed here.; finish on that branch, merge main into it first.
