@@ -5,11 +5,12 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/budget-line-hires-tx
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T14:23:42.401Z
 ---
 
 **What.** On plain main, law-reach-group-a.test.ts with GOLDEN_PATH_SEED=34a774021edaa8ce218a6f469876af0ce75cc1ac5c83724bfd2c12003c9fec43 (US-TX place 4806200) fails the police, fire and administration cases of 'hires or lays off at the public employer it funds': staff before and after a doubling of the line are 1, 1 and 3, 'expected 1 to be greater than 1'. Corrections and schools pass in the same town. The staffing worker (src/core2/law-reach/group-a-staffing.ts) hires by copying a coworker's job and payroll calendar (hire() returns false when the first current staff member has no work commitment or payroll calendar, and the loop then stops at the first failure). Find which of those the police, fire and administration staff lack there and why, and make the line's raise fill the new positions.
