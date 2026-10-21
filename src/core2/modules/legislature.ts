@@ -512,7 +512,7 @@ function holdCouncilBudgetHearing(
     sponsorId: sponsor,
     provisions,
   });
-  for (const hook of beforeVoteHooks) hook(api, bill.id);
+  for (const hook of beforeVoteHooks) hook.run(api, bill.id);
   const speakers = remarkSpeakers(api, bill.id);
   const row: BudgetHearingRow = {
     id: `hearing:${gov.id}:${fy}`,
