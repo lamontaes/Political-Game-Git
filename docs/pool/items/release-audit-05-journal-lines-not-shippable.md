@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** Set the nine lines marked origin authored and shippable true to not shippable until graded, and make the test require the partners-met and parent-job lines.
+**What.** Set the nine lines marked origin authored and shippable true to not shippable until the English engine grades them. The test must require the partners-met and parent-job lines in addition to the roots case. It must fail when a required subject is absent, instead of passing on the roots line alone.
 
 **Rules.** Replace, never layer: the fix replaces the faulty code, text or note in the same change, and a test asserts the feature and fails when nothing is found.
 
