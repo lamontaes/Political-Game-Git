@@ -272,7 +272,7 @@ describe("campaigns that raise and spend", () => {
       return;
     }
     throw new Error(`no drawn town had a donor: ${tried.join("; ")}`);
-  }, 900_000);
+  }, 300_000);
 
   it("an ad is a message the views engine reads for the people who saw it", () => {
     const tried: string[] = [];
@@ -327,7 +327,7 @@ describe("campaigns that raise and spend", () => {
       return;
     }
     throw new Error(`no drawn town had an ad to test: ${tried.join("; ")}`);
-  }, 900_000);
+  }, 300_000);
 });
 
 describe("statements and questions", () => {
