@@ -9,8 +9,8 @@ import { composeJournal } from "./journal";
 // Household roots, where the partners met and a parent's new job are facts the
 // family history keeps (pool item words-past-household-roots-and-moments).
 // The nine lines that tell them were hand-written, so they stay out of play
-// (not shippable) until the English engine's grading passes them (merge audit
-// Oct 20, item 5). While they are held: the world still keeps each kind of
+// (not shippable) until the English engine's grading passes them. While they
+// are held: the world still keeps each kind of
 // fact, and "My life" tells none of them in words nobody graded. A random
 // place from all 56.
 const seed =
