@@ -5999,5 +5999,16 @@
       "unit": "score per unit of care need",
       "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
+  },
+  "schoolAbsenceIllnessWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Weight on a child's own care need (src/core2/modules/health.ts careNeedOf, 0 to 1) in the choice to stay home from school, so illness, not temperament, decides most days missed. Target: average daily non-attendance of 6.5 to 6.8 percent in 2016 and 2018 and about 10 percent in November 2023 (NCES School Pulse Panel, 'Public School Leaders Report 90 Percent Average Daily Student Attendance Rate in November 2023', https://nces.ed.gov/learn/press-release/nces-data-show-public-school-enrollment-held-steady-overall-fall-2022-fall-2023, and the AEI analysis of the same data, https://cosm.aei.org/ninety-percent-student-attendance-wont-solve-chronic-absenteeism/). Measured Oct 21, 2026 over 330 days in played towns (buildBenchWorld, drawPlace(seed, 'attend'), the school-age people the module weighs): Harvey, Iowa (seed a2) attended 95.8 percent at weight 0.3 and 94.1 percent at 4 and at 7 (it saturates: only a serious onset gives a care need near 1); Monroe, Oregon (a1) 99.8 percent at 0.3 and at 7; Mongmong-Toto-Maite, Guam (a3) 99.3 percent at 7. Most towns stay near 99 percent because the health module gives children no minor, passing illness; the 6 to 10 percent band needs that (pool item people-school-minor-illness).",
+    "spread": {
+      "low": 1,
+      "high": 7,
+      "unit": "score per unit of care need",
+      "citation": "Weights from 4 to 7 gave identical attendance in Harvey, Iowa (saturated); below 1 the term is lost under the compulsory pull."
+    }
   }
 }
