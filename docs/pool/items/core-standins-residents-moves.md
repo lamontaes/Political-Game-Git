@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/standins-residents-moves
 pr: #5086
 blocked-on:
