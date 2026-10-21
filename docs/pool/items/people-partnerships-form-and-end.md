@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: L
-status: blocked
+status: dropped
 claimed-by: claude/partnerships
 pr: #5189
 blocked-on: people-partnerships-full-people-form

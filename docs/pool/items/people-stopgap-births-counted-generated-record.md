@@ -4,7 +4,7 @@ title: "Stopgaps in births-counted (generated-record): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/births-legacy-moves-delete
 pr: #4903
 blocked-on:

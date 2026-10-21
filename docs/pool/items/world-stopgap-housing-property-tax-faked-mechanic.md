@@ -6,8 +6,8 @@ kind: stopgap
 priority: 2
 status: open
 claimed-by:
-pr:
-blocked-on:
+pr: #5249
+blocked-on: sourced county due dates for all 56 places (research data)
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/housing-property-tax.ts, src/core2/data/stopgaps.json, src/core2/housing-property-tax.test.ts
 
 **Notes.** First row: Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner.
+
+Sent back 2026-10-20 from PR #5249 (branch claude/property-tax-billing-g08lgv): Merging current origin/main conflicts in src/core2/housing-property-tax.ts. Resolve that code conflict on this branch and rerun changed-file checks. Preserve the audited Connecticut July 1 / January 1 due dates from main: the body still describes the superseded November/May estimate, so its old played-year trace does not verify the merged data. Update the named non-escrow bill/payment and treasury-receipt proof on the resolved result.; finish on that branch, merge main into it first.

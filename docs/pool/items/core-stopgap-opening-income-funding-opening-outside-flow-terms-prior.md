@@ -4,10 +4,10 @@ title: "Stopgaps in opening-income-funding (opening-outside-flow-terms-prior): 1
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-opening-income-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/opening-income-funding.json, kind opening-outside-flow-terms-prior"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/data/opening-income-funding.jso
 **Files.** src/core2/data/opening-income-funding.json
 
 **Notes.** First row: One modeled outside retirement payment boundary and exact dated funding terms linked to saved awards and income contracts. Individual eligibility, award amounts, institutional/jurisdiction crosswalk and fixed-day payment
+
+Folded into research-opening-income-sourced-parameters (CTO, Oct 19, 2026).
