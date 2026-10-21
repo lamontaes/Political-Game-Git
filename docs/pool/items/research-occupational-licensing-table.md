@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/licensing-table
-pr:
+pr: #5802
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T12:35:44.978Z
