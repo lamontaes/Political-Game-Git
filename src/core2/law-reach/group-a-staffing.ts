@@ -23,11 +23,11 @@ import {
 } from "../modules/budgets";
 import { countedStaffOf } from "../modules/residents";
 import { budgetToday } from "./group-a-money";
+import { onReachCalendar } from "./reach-workers";
 import {
   ageOn,
   currentStaff,
   ensureReachA,
-  onReachCalendar,
   reachParameter,
   reachTable,
   REACH_A_MODULE_ID,

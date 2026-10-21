@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/press-staff-exit
 pr: #5353
 blocked-on: "gov-stopgap-press-staff-missing-record"
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
-claimed-at:
+claimed-at: 2026-10-21T02:25:41.551Z
 ---
 
 **What.** In a played year in Center Moriches, New York (seed s2), ten of an area's press staff, heads and reporters across the outlets, left on the same day, December 7, 2026, each recorded as left-work. A whole group quitting on one date looks like a data artifact, such as jobs created with an end date or a payroll step ending them together, not a cause. Find what ends those jobs on that date and make each departure follow its own cause.
