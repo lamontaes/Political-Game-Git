@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/corruption-two-takes
-pr:
+status: in-pr
+claimed-by:
+pr: #5759
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T22:41:46.919Z
+claimed-at:
 ---
 
 **What.** src/core2/corruption.test.ts 'settles a taken bribe by the vote' expects at least two taken bribes (line 159) and fails on clean main in Hawleyville, Connecticut (GOLDEN_PATH_SEED 7d4c701fc31a10350bc60db43d6af340a651c33e02de11d1a30d3b6d12e6dec6, GOLDEN_PATH_PLACE_KEY 0937490): one bribe was taken. This red M3-09 (accepted) on the golden-path run of PR #5715.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-20T22:41:46.919Z
 **Files.** src/core2/corruption.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5759 (branch claude/corruption-two-takes): src/core2/corruption.test.ts:21 still defaults to the fixed corruption-a seed, with no fresh drawn-place case beside the pinned regression. The pool done-when explicitly requires the Hawleyville seed/place and three fresh draws from all 56. The body lists aa11, bb22, cc33 and the fixed default, but supplies no fresh unchosen draws. Keep the failing Hawleyville regression, retain the nonempty two-takes assertion, add a fresh drawn-place path, and provide the three required full seeds and places. Increasing the offerer/target sets alone does not supply that proof.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5759 (branch claude/corruption-two-takes): The new pinned Hawleyville case and three fresh drawn cases address the previous test return. The body still has no Done when evidence table. The current merger skill (.agents/skills/merger/SKILL.md, section 2.5) says: "A missing table, or a row whose evidence is not in the diff or the body, is a send-back naming that row." Add rows mapping the item acceptance to the Hawleyville regression, unchanged two-takes assertion, and three fresh all-56 draws, with full reproducible seeds and places from the actual run. The comments currently abbreviate the three world seeds. No local gate pass is claimed here.; finish on that branch, merge main into it first.
