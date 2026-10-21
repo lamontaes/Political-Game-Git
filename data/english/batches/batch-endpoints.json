@@ -1,0 +1,1190 @@
+{
+  "id": "batch-endpoints",
+  "title": "Scene batch batch-endpoints (27 scenes)",
+  "at": "2026-10-15T22:14:58.152Z",
+  "head": "f5ea73ab47ecc7e981d494116bbbea23aad6a5b7",
+  "shortHead": "f5ea73ab",
+  "seed": "endpoints-1",
+  "days": 365,
+  "status": "open",
+  "place": {
+    "name": "Bangor, Maine",
+    "key": "2302795",
+    "seed": "9d1f3e27aba8e99928f487bec383bf7134ae5d2d3dd3eb38a4699ee9ec9e364e",
+    "passed": [
+      "2026-1 (\"Inclusionary requirement\")",
+      "2026-2 (\"Rent stabilization\")",
+      "2026-3 (\"Civilian oversight of police\")",
+      "2026-4 (\"Right to counsel in eviction\")",
+      "2026-5 (\"Inclusionary requirement\")",
+      "2027-1 (\"Rent stabilization\")",
+      "2027-5 (\"Right to counsel in eviction\")"
+    ],
+    "tried": [
+      "Tonganoxie, Kansas: the played world stopped before its year ended (Public pay does not match its actual owned work obligation.)",
+      "Reserve, Kansas: the played world stopped before its year ended (api is not defined)"
+    ]
+  },
+  "kinds": {
+    "family": 2,
+    "journal": 6,
+    "conversation": 5,
+    "meeting": 3,
+    "minutes": 2,
+    "legislation": 3,
+    "notices": 2,
+    "campaign": 1,
+    "interview": 3
+  },
+  "screened": {
+    "rejected": 11,
+    "byGrades": {
+      "lines": 11,
+      "alternatives": 5,
+      "ungrammatical": 0
+    },
+    "rejections": [
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      },
+      {
+        "rule": "held-by-grades",
+        "kind": "meeting",
+        "text": "Is there a motion?"
+      }
+    ]
+  },
+  "stoodIn": [
+    "Bangor: 0 decided races, office levels federal/state/city/county;  bills and roll calls are the legislature module's own rows (13 local bills, 6517 recorded votes); interviews are the press module's"
+  ],
+  "gaps": [
+    "no state or federal house (a chamber with a Speaker) with two members on record in this world, so no floor honor is said; a senate's and a town body's own way of honoring a member are not mined yet",
+    "no race was decided by the end of the run, so victory and concession lines (which need a recorded winner and loser) cannot be produced",
+    "defect for OPUS-GOV: 2 local bill(s) passed with no title on record (2027-1, budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line; 2027-3, budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line/budget-line); a bill needs a title the words can name",
+    "A town body member's words to the chair: the meeting bank holds Congress's floor procedure, which a town council never hears, so no member speaks to the chair until a local body's own words are mined.",
+    "Hearings: the hearing bank holds a witness's thanks, answers and agreement but no chair's or member's question, so no answer could follow a question it was asked; hearings return when a question move is mined.",
+    "Scenes the world does not yet produce: a wedding, pork barreling (a member asking for a project in the district), a legislator arguing on the floor against another member by name.",
+    "A tribute's middle: the bank says where someone was born or grew up, which a congratulation never uses (owner, batch 9), and 'worked at {employer} for {years} years'; what a body says of an official's service ('{name} has served as {office}') is not mined yet.",
+    "Only 27 different scenes passed: the world held no more scenes whose phrases were not already shown."
+  ],
+  "items": [
+    {
+      "i": 0,
+      "kind": "family",
+      "endpoint": "money",
+      "scene": "A family scene at home in Bangor, December 1, 2026: Paul Barnett, 48, with Heather Barnett; turn 1.",
+      "trace": [
+        "Fired by the director from the record event:organization.owner-changed:organization_3af95d4a348ca666:2026-12-01 (money:job-ended), staged at home because it is the household's own news (situation \"news-arrives\").",
+        "The talk opens on that record (the occasion), and asking for more is answered from the records (the jobs engine's search, the housing engine's case).",
+        "The replies are the four the engine offers this turn; say nothing is the smaller control beside them."
+      ],
+      "sourceRecordIds": [
+        "event:organization.owner-changed:organization_3af95d4a348ca666:2026-12-01",
+        "person_d8bdfe012d62eb08",
+        "person_d8bdff012d62ecbb"
+      ],
+      "lines": [
+        {
+          "speaker": "Narrator",
+          "text": "Your partner is here.",
+          "parts": []
+        },
+        {
+          "speaker": "Heather Barnett",
+          "text": "Sit down.",
+          "parts": ["conversation.family-open-open.sit-down"]
+        },
+        {
+          "speaker": "Heather Barnett",
+          "text": "I lost my job.",
+          "parts": ["conversation.job-lost-raise.i-lost-my-job"]
+        }
+      ],
+      "test": "the choice set: mark each reply good or bad here, in this scene",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "Okay.",
+          "parts": ["conversation.greet-answer-fine.okay"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "I'm sorry to hear that.",
+          "parts": [
+            "conversation.other-work-answer-ack-none.im-sorry-to-hear-that"
+          ],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "I see.",
+          "parts": ["conversation.other-work-answer-ack.i-see"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.job-lost-raise.i-lost-my-job"]
+    },
+    {
+      "i": 1,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Priya Stone, chapter \"My daughter\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated October 13, 2008"
+      ],
+      "sourceRecordIds": [
+        "person_189ea7219ccc8c19",
+        "kinship_c0fbb93f8873cbee:past:person_189ea7219ccc8c19"
+      ],
+      "lines": [
+        {
+          "speaker": "Priya Stone",
+          "text": "My daughter was born. That was a turning point.",
+          "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "variants": [],
+      "parts": ["journal.memoir-hook.that-was-a-turning-point"]
+    },
+    {
+      "i": 2,
+      "kind": "conversation",
+      "endpoint": "political-life",
+      "scene": "Emily Stone talks with Jackson Hernandez, October 13, 2026, turn 1; the talk's topic: shared-school:person_189ea5219ccc88b3:p8-deep-past-v1:school:middle.",
+      "trace": [
+        "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": [
+        "person_189ea5219ccc88b3",
+        "person_9f5de42eb08169cb",
+        "shared-school:person_189ea5219ccc88b3:p8-deep-past-v1:school:middle"
+      ],
+      "lines": [
+        {
+          "speaker": "Jackson Hernandez",
+          "text": "Hi.",
+          "parts": ["conversation.greet-open-hello.hi"]
+        },
+        {
+          "speaker": "Jackson Hernandez",
+          "text": "You remember James F. Doughty School?",
+          "parts": [
+            "conversation.shared-school-ask-remember.you-remember-school"
+          ]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "Yeah.",
+          "parts": ["conversation.shared-school-answer-brief.yeah"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "That was 6 years ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-years-years-ago"
+          ],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "Oh, yes.",
+          "parts": ["conversation.shared-school-answer-plain.oh-yes"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "I do remember.",
+          "parts": ["conversation.shared-school-answer-turn.i-do-remember"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.shared-school-ask-remember.you-remember-school"]
+    },
+    {
+      "i": 3,
+      "kind": "meeting",
+      "endpoint": "bill",
+      "scene": "The County of Penobscot Board of County Commissioners takes up 2026-1 (\"Inclusionary requirement\"); the recorded result is failed.",
+      "trace": [
+        "the chair's run-meeting sentences in data/english/parts/address.json, picked by the bill's recorded step"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:166155:board:2026-10-27:person_2db23c6af23295e6:1",
+        "person_077ca4d9d9c847dd"
+      ],
+      "lines": [
+        {
+          "speaker": "Erika Freeman (chair)",
+          "text": "The meeting will come to order.",
+          "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+        },
+        {
+          "speaker": "Erika Freeman (chair)",
+          "text": "All in favor?",
+          "parts": ["address.chair-run-meeting.all-in-favor"]
+        },
+        {
+          "speaker": "Erika Freeman (chair)",
+          "text": "The noes have it.",
+          "parts": ["address.chair-run-meeting.the-noes-have-it"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": [
+            "address.chair-run-meeting.the-committee-will-come-to-order"
+          ],
+          "text": "The committee will come to order."
+        }
+      ],
+      "parts": ["address.chair-run-meeting.the-meeting-will-come-to-order"]
+    },
+    {
+      "i": 4,
+      "kind": "minutes",
+      "endpoint": "bill",
+      "scene": "The roll call on 2026-1 (\"Inclusionary requirement\") before the County of Penobscot Board of County Commissioners: 1 for, 1 against; the bill failed. Each name is read from a member's recorded vote.",
+      "trace": ["composeFromBank over data/english/parts/minutes.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:166155:board:2026-10-27:person_2db23c6af23295e6:1"
+      ],
+      "lines": [
+        {
+          "speaker": "County of Penobscot Board of County Commissioners (minutes)",
+          "text": "Voting for this action: Elena Rodgers.",
+          "parts": ["minutes.vote.voting-for-this-action-members"]
+        },
+        {
+          "speaker": "County of Penobscot Board of County Commissioners (minutes)",
+          "text": "Voting against this action: Erika Freeman.",
+          "parts": ["minutes.vote.voting-against-this-action-members"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["minutes.vote.voting-against-this-action-members"]
+    },
+    {
+      "i": 5,
+      "kind": "legislation",
+      "endpoint": "bill",
+      "scene": "Its short title. 2026-1 (failed), introduced October 27, 2026 before the County of Penobscot Board of County Commissioners: it adopts \"Inclusionary requirement\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:166155:board:2026-10-27:person_2db23c6af23295e6:1"
+      ],
+      "lines": [
+        {
+          "speaker": "County of Penobscot Board of County Commissioners (bill text)",
+          "text": "This Act may be cited as the \"Inclusionary requirement\".",
+          "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["legislation.short-title.this-act-may-be-cited-as-the-act"]
+    },
+    {
+      "i": 6,
+      "kind": "notices",
+      "endpoint": "bill",
+      "scene": "A hearing notice for 2026-1, posted by the County of Penobscot Board of County Commissioners.",
+      "trace": ["composeFromBank over data/english/parts/notices.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:166155:board:2026-10-27:person_2db23c6af23295e6:1"
+      ],
+      "lines": [
+        {
+          "speaker": "County of Penobscot Board of County Commissioners clerk",
+          "text": "NOTICE OF PUBLIC HEARING\nPROJECT NAME: \"Inclusionary requirement\"\nDATE OF MEETING: October 27, 2026",
+          "parts": ["notice.hearing.public-hearing"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["notice.hearing.public-hearing"]
+    },
+    {
+      "i": 7,
+      "kind": "campaign",
+      "endpoint": "political-life",
+      "scene": "Janet Strong speaks at a rally in Bangor as a candidate for U.S. Senator.",
+      "trace": [
+        "composeAddress (src/english/english-composition.ts), register campaign, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["official:term:seat:US-ME:us-senate:1:2026-10-12"],
+      "lines": [
+        {
+          "speaker": "Janet Strong",
+          "text": "I'm glad to be here.",
+          "parts": ["address.campaign-thanks.im-glad-to-be-here"]
+        },
+        {
+          "speaker": "Janet Strong",
+          "text": "I was born and raised in Bangor.",
+          "parts": ["address.campaign-self.i-was-born-and-raised-in-place"]
+        },
+        {
+          "speaker": "Janet Strong",
+          "text": "God bless America.",
+          "parts": ["address.campaign-ask.god-bless-america"]
+        },
+        {
+          "speaker": "Janet Strong",
+          "text": "God bless you, and God bless America.",
+          "parts": [
+            "address.campaign-close.god-bless-you-and-god-bless-america"
+          ]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 3,
+        "axis": "formality",
+        "parts": ["address.campaign-close.god-bless-you-and-god-bless-america"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["address.campaign-close.thank-you-and-god-bless"],
+          "text": "Thank you, and God bless."
+        }
+      ],
+      "parts": ["address.campaign-close.god-bless-you-and-god-bless-america"]
+    },
+    {
+      "i": 8,
+      "kind": "interview",
+      "endpoint": "political-life",
+      "scene": "A local reporter's interview of Diane Saunders (a candidate in Bangor, 2026-10-19); asked about \"Raise minimum wage\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:cable:0:national:filing:contest:seat:US-ME:upper:009:0:2026-11-03:official:term:seat:US-ME:upper:009:0:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-ME:upper:009:0:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Diane Saunders",
+          "text": "I will.",
+          "parts": ["interview.official-commit.i-will"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (formality)",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["interview.official-commit.i-will"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["interview.official-commit.ill-do-it"],
+          "text": "I'll do it."
+        }
+      ],
+      "parts": ["interview.official-commit.i-will"]
+    },
+    {
+      "i": 9,
+      "kind": "family",
+      "endpoint": "money",
+      "scene": "A family scene at home in Bangor, June 7, 2027: Erika Freeman, 31, with Kimberly Freeman; turn 1.",
+      "trace": [
+        "Fired by the director from the record job:position:organization_29c30d734a1376b1:2027-06-01:1:person_077ca4d9d9c847dd (money:job-started), staged at home because it is the household's own news (situation \"celebration\").",
+        "The talk opens on that record (the occasion), and asking for more is answered from the records (the jobs engine's search, the housing engine's case).",
+        "The replies are the four the engine offers this turn; say nothing is the smaller control beside them."
+      ],
+      "sourceRecordIds": [
+        "job:position:organization_29c30d734a1376b1:2027-06-01:1:person_077ca4d9d9c847dd",
+        "person_077ca4d9d9c847dd",
+        "person_9c5fd23833557482"
+      ],
+      "lines": [
+        {
+          "speaker": "Narrator",
+          "text": "Your mother is here too.",
+          "parts": []
+        },
+        {
+          "speaker": "Narrator",
+          "text": "You got a job.",
+          "parts": []
+        },
+        {
+          "speaker": "Kimberly Freeman",
+          "text": "What do you think?",
+          "parts": ["conversation.news-ask-think.what-do-you-think"]
+        }
+      ],
+      "test": "the choice set: mark each reply good or bad here, in this scene",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "That's terrible.",
+          "parts": ["conversation.news-answer-react.thats-terrible"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "I saw that.",
+          "parts": ["conversation.news-answer-yes.i-saw-that"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "It's about time.",
+          "parts": ["conversation.news-answer-opinion.its-about-time"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.news-ask-think.what-do-you-think"]
+    },
+    {
+      "i": 10,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Priya Stone, chapter \"My son\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated November 20, 2010"
+      ],
+      "sourceRecordIds": [
+        "person_189ea7219ccc8c19",
+        "kinship_b7f3183f833af82d:past:person_189ea7219ccc8c19"
+      ],
+      "lines": [
+        {
+          "speaker": "Priya Stone",
+          "text": "My son was born. I'll never forget that.",
+          "parts": ["journal.memoir-hook.ill-never-forget-that"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "formality",
+        "parts": ["journal.memoir-hook.ill-never-forget-that"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "formality",
+          "parts": ["journal.memoir-hook.i-never-knew"],
+          "text": "My son was born. I never knew."
+        }
+      ],
+      "parts": ["journal.memoir-hook.ill-never-forget-that"]
+    },
+    {
+      "i": 11,
+      "kind": "conversation",
+      "endpoint": "political-life",
+      "scene": "Emily Stone talks with Jackson Gomez, October 25, 2026, turn 1; the talk's topic: shared-school:person_189ea5219ccc88b3:p8-deep-past-v1:school:middle.",
+      "trace": [
+        "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": [
+        "person_189ea5219ccc88b3",
+        "person_6ba4c442c476f055",
+        "shared-school:person_189ea5219ccc88b3:p8-deep-past-v1:school:middle"
+      ],
+      "lines": [
+        {
+          "speaker": "Jackson Gomez",
+          "text": "Good to see you.",
+          "parts": ["conversation.greet-open-hello.good-to-see-you"]
+        },
+        {
+          "speaker": "Jackson Gomez",
+          "text": "Do you remember James F. Doughty School?",
+          "parts": [
+            "conversation.shared-school-ask-remember.do-you-remember-school"
+          ]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "Yes.",
+          "parts": ["conversation.shared-school-answer-brief.yes"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "That was a long time ago.",
+          "parts": [
+            "conversation.shared-school-reply-years.that-was-a-long-time-ago"
+          ],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "James F. Doughty School, yes.",
+          "parts": ["conversation.shared-school-answer-plain.school-yes"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "Yes, I do.",
+          "parts": ["conversation.shared-school-answer-turn.yes-i-do"],
+          "lie": false
+        }
+      ],
+      "parts": [
+        "conversation.shared-school-ask-remember.do-you-remember-school"
+      ]
+    },
+    {
+      "i": 12,
+      "kind": "meeting",
+      "endpoint": "bill",
+      "scene": "Avery Stone speaks in the public comment period of a Bangor council meeting.",
+      "trace": [
+        "composeAddress (src/english/english-composition.ts), register public-comment, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["person_189ea4219ccc8700"],
+      "lines": [
+        {
+          "speaker": "Avery Stone",
+          "text": "Thank you for the opportunity to comment.",
+          "parts": [
+            "address.public-comment-greet.thank-you-for-the-opportunity-to-comment"
+          ]
+        },
+        {
+          "speaker": "Avery Stone",
+          "text": "My name is Avery Stone, and I live in Bangor.",
+          "parts": [
+            "address.public-comment-name.my-name-is-name-and-i-live-in-place"
+          ]
+        },
+        {
+          "speaker": "Avery Stone",
+          "text": "Thank you very much.",
+          "parts": ["address.state-floor-close.thank-you-very-much"]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": [
+          "address.public-comment-greet.thank-you-for-the-opportunity-to-comment"
+        ]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["address.hearing-open.thank-you-for-having-me"],
+          "text": "Thank you for having me."
+        }
+      ],
+      "parts": [
+        "address.public-comment-greet.thank-you-for-the-opportunity-to-comment"
+      ]
+    },
+    {
+      "i": 13,
+      "kind": "minutes",
+      "endpoint": "bill",
+      "scene": "The discussion of \"Inclusionary requirement\" at the October 27, 2026 meeting (2026-1).",
+      "trace": ["composeFromBank over data/english/parts/minutes.json"],
+      "sourceRecordIds": [
+        "bill:office:gus2025:166155:board:2026-10-27:person_2db23c6af23295e6:1",
+        "bill:office:gus2025:166166:council:2026-10-27:person_4c7c9e28599f79ab:3"
+      ],
+      "lines": [
+        {
+          "speaker": "County of Penobscot Board of County Commissioners (minutes)",
+          "text": "The staff provided an update on \"Inclusionary requirement\".",
+          "parts": ["minutes.discussion.the-staff-provided-an-update-on-topic"]
+        },
+        {
+          "speaker": "City of Bangor council (minutes)",
+          "text": "Participants discussed \"Inclusionary requirement\".",
+          "parts": ["minutes.discussion.participants-discussed-topic"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["minutes.discussion.participants-discussed-topic"]
+    },
+    {
+      "i": 14,
+      "kind": "legislation",
+      "endpoint": "bill",
+      "scene": "Its long title. 2026-1 (failed), introduced October 27, 2026 before the County of Penobscot Board of County Commissioners: it adopts \"Inclusionary requirement\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:166155:board:2026-10-27:person_2db23c6af23295e6:1"
+      ],
+      "lines": [
+        {
+          "speaker": "County of Penobscot Board of County Commissioners (bill text)",
+          "text": "To provide for inclusionary requirement, and for other purposes.",
+          "parts": [
+            "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+          ]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": [
+        "legislation.long-title.to-provide-for-purpose-and-for-other-purposes"
+      ]
+    },
+    {
+      "i": 15,
+      "kind": "notices",
+      "endpoint": "political-life",
+      "scene": "The notice of the November 7, 2028 election in Bangor, from the contests the elections module holds.",
+      "trace": ["composeFromBank over data/english/parts/notices.json"],
+      "sourceRecordIds": [
+        "contest:seat:US:president:2028-11-07",
+        "contest:seat:gus2025:166166:council:0:2028-11-07",
+        "contest:seat:gus2025:166166:council:1:2028-11-07",
+        "contest:seat:gus2025:166166:council:2:2028-11-07",
+        "contest:seat:gus2025:166166:council:3:2028-11-07",
+        "contest:seat:gus2025:166166:council:4:2028-11-07",
+        "contest:seat:gus2025:166166:council:5:2028-11-07",
+        "contest:seat:gus2025:166166:council:6:2028-11-07",
+        "contest:seat:gus2025:166166:council:7:2028-11-07",
+        "contest:seat:gus2025:166166:council:8:2028-11-07",
+        "contest:seat:gus2025:166155:board:1:2028-11-07",
+        "contest:seat:US-ME:upper:009:0:2028-11-07",
+        "contest:seat:US-ME:lower:023:0:2028-11-07",
+        "contest:seat:US-ME:us-house:02:2028-11-07"
+      ],
+      "lines": [
+        {
+          "speaker": "Bangor election office",
+          "text": "NOTICE OF ELECTION\nNOTICE IS HEREBY GIVEN that an election will be held in Bangor on November 7, 2028 for the following Officers: President, Council member, County Commissioner, State Senator, State Representative and U.S. Representative.",
+          "parts": ["notice.election.notice-of-election"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["notice.election.notice-of-election"]
+    },
+    {
+      "i": 16,
+      "kind": "interview",
+      "endpoint": "political-life",
+      "scene": "A local reporter's interview of Diane Saunders (a candidate in Bangor, 2026-10-19); asked about \"Local minimum wage authority\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:cable:1:national:filing:contest:seat:US-ME:upper:009:0:2026-11-03:official:term:seat:US-ME:upper:009:0:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-ME:upper:009:0:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Diane Saunders",
+          "text": "You have my word.",
+          "parts": ["interview.official-commit.you-have-my-word"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["interview.official-commit.you-have-my-word"]
+    },
+    {
+      "i": 17,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Debbie Morgan, chapter \"My son\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated March 6, 1966"
+      ],
+      "sourceRecordIds": [
+        "person_44680e16f8f38e47",
+        "person_44680e16f8f38e47:family:person_5c63256cd57a161f"
+      ],
+      "lines": [
+        {
+          "speaker": "Debbie Morgan",
+          "text": "My son was born.",
+          "parts": ["journal.family-line-born.relation-was-born"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "variants": [],
+      "parts": ["journal.family-line-born.relation-was-born"]
+    },
+    {
+      "i": 18,
+      "kind": "conversation",
+      "endpoint": "political-life",
+      "scene": "Emily Stone talks with Caleb Sellers, November 30, 2026, turn 1; the talk's topic: person_8b0c93c3effa12a4>mutual:person_189ea7219ccc8c19.",
+      "trace": [
+        "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": [
+        "person_189ea5219ccc88b3",
+        "person_8b0c93c3effa12a4",
+        "person_8b0c93c3effa12a4>mutual:person_189ea7219ccc8c19",
+        "family:person_189ea7219ccc8c19"
+      ],
+      "lines": [
+        {
+          "speaker": "Caleb Sellers",
+          "text": "Good to see you, Emily.",
+          "parts": ["conversation.greet-open-hello.good-to-see-you-name"]
+        },
+        {
+          "speaker": "Caleb Sellers",
+          "text": "Have you talked to Priya?",
+          "parts": ["conversation.mutual-raise-seen.have-you-talked-to-first"]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "Why?",
+          "parts": ["conversation.asked-mutual-answer-turn.why"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "I talked to Priya today.",
+          "parts": [
+            "conversation.mutual-answer-mine-saw.i-talked-to-name-my-when"
+          ],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "No.",
+          "parts": ["conversation.news-answer-no.no"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.mutual-raise-seen.have-you-talked-to-first"]
+    },
+    {
+      "i": 19,
+      "kind": "meeting",
+      "endpoint": "bill",
+      "scene": "Dennis Stone speaks in the public comment period of a Bangor council meeting.",
+      "trace": [
+        "composeAddress (src/english/english-composition.ts), register public-comment, words from data/english/parts/address.json"
+      ],
+      "sourceRecordIds": ["person_189ea6219ccc8a66"],
+      "lines": [
+        {
+          "speaker": "Dennis Stone",
+          "text": "Good evening.",
+          "parts": ["address.public-comment-greet.good-evening"]
+        },
+        {
+          "speaker": "Dennis Stone",
+          "text": "My name is Dennis Stone.",
+          "parts": ["address.public-comment-name.my-name-is-name"]
+        },
+        {
+          "speaker": "Dennis Stone",
+          "text": "Thank you for your consideration.",
+          "parts": [
+            "address.public-comment-close.thank-you-for-your-consideration"
+          ]
+        }
+      ],
+      "test": "the wording of line 1 on one axis (word choice)",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["address.public-comment-greet.good-evening"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["address.public-comment-greet.good-evening-everyone"],
+          "text": "Good evening, everyone."
+        }
+      ],
+      "parts": ["address.public-comment-greet.good-evening"]
+    },
+    {
+      "i": 20,
+      "kind": "legislation",
+      "endpoint": "bill",
+      "scene": "Its short title. 2026-2 (failed), introduced October 27, 2026 before the County of Penobscot Board of County Commissioners: it adopts \"Civilian oversight of police\" on the bill's own provision record.",
+      "trace": [
+        "composeFromBank over data/english/parts/legislation.json, facts from the bill row (legislature module)"
+      ],
+      "sourceRecordIds": [
+        "bill:office:gus2025:166155:board:2026-10-27:person_2db23c6af23295e6:2"
+      ],
+      "lines": [
+        {
+          "speaker": "County of Penobscot Board of County Commissioners (bill text)",
+          "text": "This title may be cited as the \"Civilian oversight of police\".",
+          "parts": ["legislation.short-title.this-title-may-be-cited-as-the"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["legislation.short-title.this-title-may-be-cited-as-the"]
+    },
+    {
+      "i": 21,
+      "kind": "interview",
+      "endpoint": "political-life",
+      "scene": "A local reporter's interview of Diane Saunders (a candidate in Bangor, 2026-10-19); asked about \"Graduated income tax\"; the candidate's recorded answer is support.",
+      "trace": [
+        "composeFromBank over data/english/parts/interview.json, driven by the press module's interview rows"
+      ],
+      "sourceRecordIds": [
+        "interview:outlet:cable:1:national:filing:contest:seat:US-ME:upper:009:0:2026-11-03:official:term:seat:US-ME:upper:009:0:2026-10-12:2026-10-19:0",
+        "official:term:seat:US-ME:upper:009:0:2026-10-12"
+      ],
+      "lines": [
+        {
+          "speaker": "Diane Saunders",
+          "text": "That's a promise.",
+          "parts": ["interview.official-commit.thats-a-promise"]
+        }
+      ],
+      "test": "the scene as it stands",
+      "variants": [],
+      "parts": ["interview.official-commit.thats-a-promise"]
+    },
+    {
+      "i": 22,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Debbie Morgan, chapter \"Christopher\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated April 2, 1975"
+      ],
+      "sourceRecordIds": [
+        "person_44680e16f8f38e47",
+        "person_44680e16f8f38e47:family:person_5c63206cd57a0da0",
+        "person_5c63206cd57a0da0"
+      ],
+      "lines": [
+        {
+          "speaker": "Debbie Morgan",
+          "text": "Christopher was born.",
+          "parts": ["journal.family-line-born.other-was-born"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "variants": [],
+      "parts": ["journal.family-line-born.other-was-born"]
+    },
+    {
+      "i": 23,
+      "kind": "conversation",
+      "endpoint": "political-life",
+      "scene": "Emily Stone talks with Christopher Freeman, December 24, 2026, turn 1; the talk's topic: person_9c5fd33833557635>mutual:person_077ca4d9d9c847dd.",
+      "trace": [
+        "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
+        "The scales are dim: nothing about the player's own record is in play, or the listener already knows it.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": [
+        "person_189ea5219ccc88b3",
+        "person_9c5fd33833557635",
+        "person_9c5fd33833557635>mutual:person_077ca4d9d9c847dd"
+      ],
+      "lines": [
+        {
+          "speaker": "Christopher Freeman",
+          "text": "Hi there.",
+          "parts": ["conversation.greet-open-hello.hi-there"]
+        },
+        {
+          "speaker": "Christopher Freeman",
+          "text": "Have you seen Erika?",
+          "parts": ["conversation.mutual-raise-seen.have-you-seen-name"]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "How about you?",
+          "parts": ["conversation.greet-answer-fine.how-about-you"],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "I saw Erika on December 14.",
+          "parts": ["conversation.mutual-answer-mine-saw.i-saw-name-my-when"],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "No, I haven't.",
+          "parts": ["conversation.kin-reply-not.no-i-havent"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "All right.",
+          "parts": ["conversation.greet-answer-fine.all-right"],
+          "lie": false
+        }
+      ],
+      "parts": ["conversation.mutual-raise-seen.have-you-seen-name"]
+    },
+    {
+      "i": 24,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Elizabeth Harper, chapter \"Hancock County, Maine\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated November 30, 2026"
+      ],
+      "sourceRecordIds": [
+        "household_959835312825160a",
+        "jurisdiction_86e8148b9bdb99de"
+      ],
+      "lines": [
+        {
+          "speaker": "Elizabeth Harper",
+          "text": "I moved to Hancock County, Maine.",
+          "parts": ["journal.home-line-moved.i-moved-to-place"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "length",
+        "parts": ["journal.home-line-moved.i-moved-to-place"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "length",
+          "parts": ["journal.home-line-moved.we-moved"],
+          "text": "We moved."
+        }
+      ],
+      "parts": ["journal.home-line-moved.i-moved-to-place"]
+    },
+    {
+      "i": 25,
+      "kind": "conversation",
+      "endpoint": "political-life",
+      "scene": "Emily Stone talks with Nicole Hopkins, July 16, 2027, turn 1; the talk's topic: home:person_189ea5219ccc88b3.",
+      "trace": [
+        "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
+        "The lies are what the scales offer: the same moves made false about the player's own record.",
+        "Say nothing is the smaller control beside the replies."
+      ],
+      "sourceRecordIds": [
+        "person_189ea5219ccc88b3",
+        "person_98e6c8eebe4233b5",
+        "home:person_189ea5219ccc88b3",
+        "school:person_189ea5219ccc88b3"
+      ],
+      "lines": [
+        {
+          "speaker": "Nicole Hopkins",
+          "text": "Hey.",
+          "parts": ["conversation.greet-open-hello.hey"]
+        },
+        {
+          "speaker": "Nicole Hopkins",
+          "text": "Where are you from?",
+          "parts": ["conversation.home-new-ask-where.where-are-you-from"]
+        }
+      ],
+      "test": "the choice set: mark each reply and each lie good or bad here",
+      "variants": [],
+      "choices": [
+        {
+          "n": 1,
+          "text": "I'm from Bangor. How about you?",
+          "parts": [
+            "conversation.home-new-answer-plain.im-from-place",
+            "conversation.greet-answer-fine.how-about-you"
+          ],
+          "lie": false
+        },
+        {
+          "n": 2,
+          "text": "I was born and raised in Bangor.",
+          "parts": [
+            "conversation.home-new-answer-always.i-was-born-and-raised-in-place"
+          ],
+          "lie": false
+        },
+        {
+          "n": 3,
+          "text": "I'm from Bangor.",
+          "parts": ["conversation.home-new-answer-plain.im-from-place"],
+          "lie": false
+        },
+        {
+          "n": 4,
+          "text": "Right here in Bangor.",
+          "parts": ["conversation.home-new-answer-brief.right-here-in-place"],
+          "lie": false
+        },
+        {
+          "n": 5,
+          "text": "Not here. How about you?",
+          "parts": [
+            "conversation.home-new-lie-none.not-here",
+            "conversation.greet-answer-fine.how-about-you"
+          ],
+          "lie": true
+        },
+        {
+          "n": 6,
+          "text": "Not here.",
+          "parts": ["conversation.home-new-lie-none.not-here"],
+          "lie": true
+        }
+      ],
+      "parts": ["conversation.home-new-ask-where.where-are-you-from"]
+    },
+    {
+      "i": 26,
+      "kind": "journal",
+      "endpoint": "personal",
+      "scene": "The \"My life\" journal of Caleb Cruz, chapter \"Bangor, Maine\".",
+      "trace": [
+        "composeJournal (src/director/journal.ts), words from data/english/parts/journal.json",
+        "entry dated November 3, 2026"
+      ],
+      "sourceRecordIds": [
+        "election-result:contest:seat:gus2025:166155:prosecutor:0:2026-11-03",
+        "kinship_61e83b2d4fae657e:past:person_9d1b93df4f0e32b0"
+      ],
+      "lines": [
+        {
+          "speaker": "Caleb Cruz",
+          "text": "Robert won.",
+          "parts": ["journal.election-other-result.other-won"]
+        }
+      ],
+      "test": "the opening and closing pair: does the closing line follow from the opening, here?",
+      "tested": {
+        "line": 0,
+        "axis": "word choice",
+        "parts": ["journal.election-other-result.other-won"]
+      },
+      "variants": [
+        {
+          "n": 1,
+          "axis": "word choice",
+          "parts": ["journal.election-other-result.other-lost"],
+          "text": "Robert lost."
+        }
+      ],
+      "parts": ["journal.election-other-result.other-won"]
+    }
+  ]
+}

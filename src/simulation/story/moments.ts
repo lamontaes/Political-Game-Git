@@ -22,7 +22,10 @@ import {
 } from "../queries";
 import { readRelationshipStanding } from "../relationship-standing";
 import { loadedTraitRegistry } from "../trait-registry";
-import { traitDefinitionFromPack, type RegisteredTrait } from "../trait-packs";
+import {
+  traitDefinitionFromPack,
+  type RegisteredTrait,
+} from "../../core2/trait-packs";
 import { traitReadingOfRecord } from "../trait-readings";
 import { traitActTables } from "../traits/act-pulls";
 import { recordStoryThreads } from "./threads";

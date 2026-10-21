@@ -5,12 +5,13 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/town-districts-records
+pr: #5144
 after:
 blocked-on:
 source: "CTO ruling Oct 15 (town council seats); audit Oct 19, Part A 'What it fakes' 4"
+claimed-at: 2026-10-19T20:27:08.496Z
 ---
 
 **What.** `src/core2/modules/residents.ts` splits a town into the state House districts its population falls in, else the whole town, and holds that under `SG-CORE-owner-decision-town-districts`. The Oct 15 ruling answers it: each place's council or board is elected the way its own records say (at-large, by district, or mixed, from the place's data where the repository has it), estimated as at-large with a per-world spread where it does not, marked as an estimate with its source. Build the read from place data, replace the state-House split, and resolve the stopgap so the release build stops refusing on an answered question.
@@ -22,3 +23,5 @@ source: "CTO ruling Oct 15 (town council seats); audit Oct 19, Part A 'What it f
 **Files.** src/core2/modules/residents.ts, src/core2/electorate-places.ts, src/core2/data/stopgaps.json
 
 **Notes.** people-od-town-districts is the owner-decision item; it closes with this.
+
+Oct 20: PR #5144 merged to main and showed a council's shape is already read from place records; wards from dwellings stay in gov-ward-map-from-dwellings.
