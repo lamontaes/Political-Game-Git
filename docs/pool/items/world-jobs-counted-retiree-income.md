@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** A counted worker who retires used to draw a place-average stand-in instead of a benefit from their own earnings record. Retirement income for the wider population should be read from each record's own covered work, age and traits, the same way a full person's claim is. The notes below show this is already on main through claimRetirementNow, so the item waits only on a merger to confirm and close it.
 
-**Rules.** TODO
+**Rules.** One model, two tiers: a counted retiree's award follows the same claim rule as a full person's, read from their own record, times the household's count.
 
-**Done when.** TODO
+**Done when.** In a buildBenchWorld played year in a drawn place (seed named), a counted worker who retires through the jobs engine's retirement path receives a positive award of their own, credited to the residents flow, shown by record id, and retirement-claims.test.ts passes without an early return.
 
-**Files.** TODO
+**Files.** src/core2/modules/retirement-claims.ts, src/core2/modules/jobs.ts, src/core2/retirement-claims.test.ts
 
 **Notes.** Sent back 2026-10-20 from PR #5250 (branch claude/pool-retiree-income): Merging main conflicts in code in src/core2/modules/jobs.ts, src/core2/modules/retirement-claims.ts, src/core2/retirement-claims.test.ts; finish on that branch, merge main into it first. TODO
 
