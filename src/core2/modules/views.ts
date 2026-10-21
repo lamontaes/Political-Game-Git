@@ -24,8 +24,11 @@ import { stableHash, pairKey } from "../kernel/ids";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
-import { personStance } from "../campaign-views";
-import loadingsJson from "../../../data/research/people/opening-stance-loadings.json" with { type: "json" };
+import {
+  personStance,
+  STANCE_LOADINGS,
+  type StanceProfile,
+} from "../campaign-views";
 import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
@@ -137,14 +140,6 @@ export interface PersonView {
   collegeFromAverage?: number;
 }
 
-const LOADINGS = (
-  loadingsJson as unknown as {
-    questions: Record<
-      string,
-      { loadings: { faith: { value: number }; college: { value: number } } }
-    >;
-  }
-).questions;
 const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
   protestant: "faithImportanceProtestant",
   catholic: "faithImportanceCatholic",
@@ -213,7 +208,7 @@ function normal(key: string): number {
   );
 }
 
-function stateOf(person: PersonState): string | null {
+function stateOf(person: Pick<PersonState, "placeId">): string | null {
   const place = corePlaceByJurisdictionId(person.placeId as never);
   const key = place?.stateJurisdictionKey;
   return key ? key.slice(key.lastIndexOf("-") + v("one")) : null;
@@ -340,10 +335,11 @@ export function countedEngagement(
 
 /** A person's faith and degree against the average of their age band in their state, from their profile. */
 function profileFromAverage(
-  person: PersonState,
+  person: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId"> &
+    Partial<Pick<PersonState, "pastFacts">>,
   date: string,
   seed: string,
-): { faithFromAverage?: number; collegeFromAverage?: number } {
+): StanceProfile {
   const fact = (kind: string, key: string) =>
     person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
   const profile = profileFor(person, seed, date);
@@ -558,7 +554,7 @@ export function openingRecord(
   const held = table.get(id) as unknown as OpeningRecord | undefined;
   if (held) return held;
   const loadings =
-    LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
+    STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
   const view = loadings ? viewOf(api, personId) : null;
   if (!loadings || !view || view.faithFromAverage === undefined)
     return undefined;
@@ -626,10 +622,32 @@ export function viewOn(
   );
 }
 
+const profiles = new WeakMap<object, Map<PersonId, StanceProfile>>();
+
+/**
+ * A counted resident's faith and degree against the average of their age band
+ * in their state: the profile they will have when filled in, kept for the
+ * world. A counted resident has no past facts, so the world's seed gives the
+ * same profile the person will have once met (`profileFor` depends on nobody
+ * else, and `viewOf` reads it the same way).
+ */
+export function countedStanceProfile(
+  api: CoreAPI,
+  voter: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId">,
+): StanceProfile {
+  const held = profiles.get(api.state) ?? new Map();
+  profiles.set(api.state, held);
+  const kept = held.get(voter.id);
+  if (kept) return kept;
+  const out = profileFromAverage(voter, api.state.startedAt, api.state.seed);
+  held.set(voter.id, out);
+  return out;
+}
+
 /**
  * How much a person agrees with a platform, -1 to 1: the mean, over its
- * stated positions, of their current view times the position (the views
- * engine's version of `platformAgreement`).
+ * stated positions, of their current view times the position (the same rule a counted
+ * voter's group is read by, `groupAgreement`).
  */
 export function agreementWith(
   api: CoreAPI,
