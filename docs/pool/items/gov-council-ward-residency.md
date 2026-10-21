@@ -6,13 +6,13 @@ kind: wiring
 priority: 2
 size: S
 status: in-pr
-claimed-by: claude/ward-residency-g08lgv
+claimed-by: claude/gov-council-ward-residency
 pr: #4859
 after: gov-council-election-method
 blocked-on:
 milestone:
 source: "found by gov-council-election-method"
-claimed-at: 2026-10-20T03:04:41.497Z
+claimed-at: 2026-10-20T23:04:27.933Z
 ---
 
 **What.** Voters of a ward seat are now limited to their ward, but a resident of any part of town can still file for the seat. Where the charter or the state's law requires a district candidate to live in the district (`data/research/local-government/governing-body-seat-qualification.json`), the filing check refuses a resident of another part, with the recorded reason.
@@ -28,3 +28,5 @@ claimed-at: 2026-10-20T03:04:41.497Z
 Sent back 2026-10-17 from PR #4859 (branch claude/gov-council-ward-residency): Morning check: elections.ts adds player-facing English directly in checkEligibility (required: lives in the part of town the seat represents; actual: lives in it / lives in another part of town). Keep the district-residency rule and record facts, but obtain the displayed explanation from the English engine or approved control/data labels instead of writing prose in engine logic.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #4859 (branch claude/gov-council-ward-residency): Code conflict with main in src/core2/modules/elections.ts; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #4859 (branch claude/gov-council-ward-residency): Merging current origin/main conflicts in src/core2/modules/elections.ts. Resolve that code conflict on this branch, preserving current filing qualifications and the ward-residency rule/recorded refusal, then rerun the changed-file checks and the positive inside-ward/outside-ward drawn-place test. The stopgap register merged cleanly and is not the blocker.; finish on that branch, merge main into it first.
