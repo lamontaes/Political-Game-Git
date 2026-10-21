@@ -100,7 +100,11 @@ function everyAidePaid(place: { name: string; key: string; seed: string }) {
     expect(paid.length, `${where} ${aide.id} payroll record`).toBeGreaterThan(
       0,
     );
+    console.log(
+      `${where}: aide job ${aide.jobId}, commitment ${commitment!.id}, calendar ${calendar!.id}, first payment ${paid[0]}`,
+    );
   }
+  console.log(`${where}: ${aides.length} aides, ${due} due and paid`);
   expect(due, `${where}: no aide was due a payday`).toBeGreaterThan(0);
 }
 
