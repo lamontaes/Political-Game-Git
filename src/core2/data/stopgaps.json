@@ -2690,13 +2690,12 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/housing.ts",
     "line": 147,
-    "whatItFakes": "Where no ACS tenure or rent table covers a place (American Samoa, Guam, the Northern Marianas, the Virgin Islands), homes are owned in the nation's share and rents and values start at the nation's household-weighted county medians.",
-    "why": "The American Community Survey does not cover the four island areas; their 2020 Census tables are not in the data yet.",
+    "whatItFakes": "American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands start from their own 2020 Census tenure, median gross rent and median home value (data/housing/housing.json islandAreas). A nation place outside those four would still start from the nation's share and household-weighted county medians.",
+    "why": "The fallback stays for a place the ACS and the island tables both miss; none of the 56 places reaches it today.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area.",
-    "status": "resolved",
-    "resolution": "American Samoa, Guam, the Northern Mariana Islands and the U.S. Virgin Islands start from their own 2020 Census tenure, median gross rent and median home value (data/housing/housing.json islandAreas, cited per source); a place outside those four keeps the nation's figures."
+    "replacement": "Remove the nation fallback once every place has its own tenure, rent and value source.",
+    "status": "open"
   },
   {
     "id": "SG-WORLD-housing-county-estimate",
