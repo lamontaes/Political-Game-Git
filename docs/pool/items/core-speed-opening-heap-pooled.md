@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Replace, never layer: the old per-record holders are deleted as each moves. One model, two tiers: nothing here changes what any person or household does. Speed: measured on the same machine one process at a time with npm run speed:year -- --seed m7b --exclusive.
 
-**Done when.** npm run speed:year -- --seed m7b --exclusive finishes Long Hill's played year in under 120 seconds in three runs and seed m7a stays within 20 percent of its 52 seconds, with the garbage-collection seconds before and after in the PR body.
+**Done when.** npm run speed:year -- --seed m7b --exclusive runs Long Hill's played world for one game year in under 120 seconds in three runs and seed m7a stays within 20 percent of its 52 seconds, with the garbage-collection seconds before and after in the PR body.
 
 **Files.** src/core2/counted-groups.ts,src/core2/module-data.ts,src/core2/choice.ts
 
