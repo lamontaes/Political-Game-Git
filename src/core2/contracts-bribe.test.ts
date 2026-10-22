@@ -57,7 +57,15 @@ it("records each bribe offered for an award, and the taken ones by the votes the
       // The chain: a taken bribe, the vote it took part in, the award, and the
       // treasury's payment to the winner. A place without one is not a place to prove it in.
       const bought = awards.filter(
-        (award) => award.boughtVotes.length && award.paymentIds.length,
+        (award) =>
+          award.paymentIds.length > 0 &&
+          award.bribes.some(
+            (bribe) =>
+              bribe.taken &&
+              bribe.organizationId === award.organizationId &&
+              award.boughtVotes.includes(bribe.crimeId) &&
+              award.votes[bribe.memberId] === award.organizationId,
+          ),
       );
       if (!bought.length) continue;
       const crimes = api.moduleState(CORRUPTION_MODULE_ID).table("crimes");
@@ -103,6 +111,36 @@ it("records each bribe offered for an award, and the taken ones by the votes the
           moved += into!.deltaMinor;
         }
         expect(moved, `${where}: ${award.id}`).toBe(award.paidMinor);
+        const winningBribes = award.bribes.filter(
+          (bribe) =>
+            bribe.taken &&
+            bribe.organizationId === award.organizationId &&
+            award.boughtVotes.includes(bribe.crimeId) &&
+            award.votes[bribe.memberId] === award.organizationId,
+        );
+        expect(
+          winningBribes.length,
+          `${where}: ${award.id} winning bribe`,
+        ).toBeGreaterThan(0);
+        process.stdout.write(
+          `CONTRACT_WINNING_BRIBE ${JSON.stringify({
+            place: draw.name,
+            placeKey: draw.key,
+            worldSeed: draw.seed,
+            drawSeed: base,
+            award: award.id,
+            winner: award.organizationId,
+            winningBribes: winningBribes.map((bribe) => ({
+              crimeId: bribe.crimeId,
+              memberId: bribe.memberId,
+              vote: award.votes[bribe.memberId],
+            })),
+            payments: award.paymentIds,
+            treasury,
+            winnerAccount: winner,
+            paidMinor: moved,
+          })}\n`,
+        );
         for (const crimeId of award.boughtVotes)
           expect(
             award.bribes.find((b) => b.crimeId === crimeId)?.taken,
