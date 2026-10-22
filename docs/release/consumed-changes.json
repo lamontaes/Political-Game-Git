@@ -1,6 +1,87 @@
 {
   "entries": [
     {
+      "version": "0.21.4",
+      "releasedOn": "2026-10-21",
+      "revision": "58f33660476276db6559ea1143e52875ad978a0f",
+      "changeIds": [
+        "core-old-engine-tuition-prices",
+        "pool-check-item-count",
+        "quit-rate-note",
+        "world-transfer-needs-two-accounts-boiling-spring-lakes"
+      ]
+    },
+    {
+      "version": "0.21.3",
+      "releasedOn": "2026-10-21",
+      "revision": "460ec26392552368105a4a6af9acc2e1ac70b87f",
+      "changeIds": [
+        "core-finance-writer-own-illness-provider-red",
+        "core-speed-sibling-tie-pair-key",
+        "housing-shelter-island-areas-estimate",
+        "jobs-layoff-owner-decides-test",
+        "pool-commute-split"
+      ]
+    },
+    {
+      "version": "0.21.2",
+      "releasedOn": "2026-10-21",
+      "revision": "d5e42ecc1ee74a22857847afa435143135a9d351",
+      "changeIds": [
+        "core-speed-dense-town-note",
+        "counted-voters-read-group-stances",
+        "pool-vehicle-tax-findings",
+        "world-census-scale-closures-rise"
+      ]
+    },
+    {
+      "version": "0.21.1",
+      "releasedOn": "2026-10-21",
+      "revision": "9a95c291044821df1d751a46fccd875f22c7ab94",
+      "changeIds": [
+        "pool-corporate-office-body",
+        "pool-law-reaches-nobody-note",
+        "release-audit-05-journal-lines-not-shippable",
+        "research-reachable-sources-oct20",
+        "split-gov-standins",
+        "tests-early-returns-campaign-turn"
+      ]
+    },
+    {
+      "version": "0.21.0",
+      "releasedOn": "2026-10-21",
+      "revision": "340a3db5f86c439cc3ff974629756ad316b02dd6",
+      "changeIds": [
+        "core-contact-frequency-measured",
+        "core-delete-funding-plan-calculator",
+        "core-opening-family-coverage-measured",
+        "director-office-scene-hook-shape-red",
+        "pool-blocked-notes-oct19",
+        "pool-notes-path-sweep",
+        "pool-property-tax-due-dates",
+        "pool-speed-alloc-profile",
+        "pool-split-jobs-stopgaps",
+        "world-census-weight-measurements",
+        "world-housing-island-areas-sourced",
+        "world-outside-sales-macro-proof",
+        "world-press-staff-same-day-exit"
+      ]
+    },
+    {
+      "version": "0.20.4",
+      "releasedOn": "2026-10-21",
+      "revision": "22d91c9bece81a2f68dde6cf125ae49a9a2ae3b3",
+      "changeIds": [
+        "core-opening-employment-org-profile",
+        "elections-ballot-order-statutes",
+        "gov-consumer-credit-cap-measured",
+        "pool-research-jobs-note-oct20",
+        "release-audit-02-law-reach-tests",
+        "world-player-household-pays-no-living-cost-fraser",
+        "world-town-public-works-note"
+      ]
+    },
+    {
       "version": "0.20.3",
       "releasedOn": "2026-10-21",
       "revision": "9a9cb5285d813b2d1179f3f64838d4b8692aaa62",
