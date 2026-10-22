@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-21T04:08:36.564Z
 ---
 
-**What.** Five policies in src/core2/data/laws/reach-group-b.json run the mechanic "records", so the law is written down and nothing downstream reads it: expanding Medicaid eligibility, the Medicaid work requirement, universal preschool, exempting groceries from sales tax, and the sales tax itself. Give each a payment, price or eligibility effect another engine reads, such as who is marked eligible and then served, or the tax on a grocery receipt. Counted households must be reached by the same rule as full people, times their count.
+**What.** Complete the law-to-person chains for Medicaid eligibility, the Medicaid work requirement, universal preschool, the grocery sales-tax exemption and sales tax. A handler named "records" does not establish that the law has no effect: the budgets engine already reads the sales-tax records. Start from existing readers and their tests, then add the missing payment, price or eligibility evidence for each policy. Counted households must be reached by the same rule as full people, times their count.
 
 **Rules.** "An effect is a read, not a record": a policy counts only when a different engine reads it when it decides or pays. "The chain is the acceptance": follow one dollar or rule to a named person and the choice, view and journal line that moved.
 
