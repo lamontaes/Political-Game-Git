@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/light-opening
+status: open
+claimed-by:
 pr: #5079
 blocked-on:
+after: core-light-opening-kin-at-fill-in
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at: 2026-10-19T18:24:48.939Z
+claimed-at:
 ---
 
 **What.** `buildOpeningKin` and personality still run for every household at the opening (about half of the 12 s open). Take a `countedHouseholdIds`-style option decided before generation so counted households get only ages, household, job, cash and living cost, and build kin and past on demand at fill-in. The saving is meant to take a few seconds off the opening and keep a clicked counted person consistent with the records.
@@ -30,4 +31,6 @@ Looked at Oct 18 (claude/light-opening, nothing built). Timed a drawn opening (b
 
 Two ways forward that change no output: speed up `buildOpeningKin` (`moveHazard` is 0.8 s, recomputed in loops) and `openingTemperaments` and prove it by hash on three drawn places, or rule that the county and state counted population is generated from the census directly, not from residents' relatives, and then build this item against that.
 
-Split Oct 19 (claude): too large for one change. Parts, in order: core-light-opening-kin-households, core-light-opening-kin-only-kept, core-light-opening-kin-at-fill-in. This item is done when the three are.
+Oct 22, merger A: PR #5079 splits the proposed kin-opening work into three tasks; it does not implement the opening or fill-in acceptance. This parent stays open with its own Done when intact.
+
+Split Oct 19 (claude): proposed parts, in order: core-light-opening-kin-households, core-light-opening-kin-only-kept, core-light-opening-kin-at-fill-in. This parent retains its own Done when; child statuses alone do not waive its opening-time, count/trait consistency or named fill-in proof.
