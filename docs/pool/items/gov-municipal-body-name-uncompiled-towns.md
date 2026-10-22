@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/municipal-body-names
-pr: #0
+pr: #5840
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-22T07:56:05.646Z
