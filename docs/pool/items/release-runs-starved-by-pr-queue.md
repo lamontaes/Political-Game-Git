@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/release-queue-measured
-pr:
+pr: #5839
 blocked-on:
 source: added by the CTO from the Oct 20 night check
 claimed-at: 2026-10-22T07:45:41.276Z
