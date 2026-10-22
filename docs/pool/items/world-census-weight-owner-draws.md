@@ -3,7 +3,7 @@ id: world-census-weight-owner-draws
 title: "Owner draws of counted owners stand for as many households as the town's weight says"
 area: world
 kind: bug
-priority: 1
+priority: 2
 size: S
 status: open
 claimed-by:
