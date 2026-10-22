@@ -141,13 +141,11 @@ describe("elections in the two-level world", () => {
       const share = r / (r + d);
       if (contest.family === "statewideExecutive") {
         const real = 1 - presidential.get(state.slice(3))!;
-        // The state's result follows the state, not the town's sample. Statewide
-        // races weigh each candidate's public standing, so the result sits a
-        // little off the presidential split: measured over 240 statewide
-        // executive races in 48 states (one drawn place each) the gap never
-        // passed 0.151 (Rhode Island) and its 99th percentile was 0.145, so
-        // the bound is 0.16, the measured maximum rounded up, not a guess.
-        expect(Math.abs(share - real), contest.title).toBeLessThan(0.16);
+        // The state's result follows the state, not the town's sample.
+        expect(
+          Math.abs(share - real),
+          `${contest.title}: ${state} ${key}, seed ${seed}, share ${share.toFixed(3)} against the state's ${real.toFixed(3)}`,
+        ).toBeLessThan(0.15);
       }
       report.push(
         `${contest.title}: R ${share.toFixed(3)} of ${r + d} (counted ${result.countedTurnout}/${result.countedEligible}, named ${result.namedTurnout}/${result.namedEligible})`,
