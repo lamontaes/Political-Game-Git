@@ -29,3 +29,5 @@ Looked at Oct 18 (claude/light-opening, nothing built). Timed a drawn opening (b
 - **Counted people's temperament reads their kin.** `openingTemperaments` passes a resident's outside parents' inherited share down. A counted resident built without kin draws unseen parents instead, which keeps the spread but changes every counted value, and a filled-in person's relatives would no longer be heritable from them.
 
 Two ways forward that change no output: speed up `buildOpeningKin` (`moveHazard` is 0.8 s, recomputed in loops) and `openingTemperaments` and prove it by hash on three drawn places, or rule that the county and state counted population is generated from the census directly, not from residents' relatives, and then build this item against that.
+
+Oct 22, merger A: PR #5079 splits the proposed kin-opening work into three tasks; it does not implement the opening or fill-in acceptance. This parent stays open with its own Done when intact.
