@@ -296,6 +296,136 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.21.4
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Selling a home whose loan the outside market holds no longer stops the
+  game** A household that moves away and sells a home whose mortgage is held by
+  the outside market now settles the loan and keeps the surplus, instead of
+  stopping the game with an error.
+
+## PRE-ALPHA 0.21.3
+
+_Released October 21, 2026._
+
+### Changed
+
+- **American Samoa and the Marianas get an island-area shelter estimate**
+  American Samoa and the Northern Mariana Islands now start with the shelter
+  beds per 10,000 that the island areas HUD counts have, instead of the nation's
+  rate.
+
+## PRE-ALPHA 0.21.2
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Voters in the wider population now weigh a candidate's platform by their
+  faith and schooling too.** A voter you have not met is read by the same rule
+  as a person you have: how much they agree with a candidate's platform now
+  depends on their faith and schooling as well as their politics, so a voter
+  agrees the same before and after you meet them.
+
+- **Firms in a big town stop closing for want of cash to pay their workers** In
+  a town opened at its full Census size, shops, offices and local TV stations
+  used to run out of cash and close, taking their workers' jobs with them. Their
+  sales now grow with the town as their wages do, and a shop staffed by a big
+  town's workers can serve as many customers as those workers stand for. A
+  business short of cash on a payday draws the savings it holds at the bank
+  before the payroll goes unpaid, and keeps enough there for its workers' full
+  payroll. An owner no longer draws out the cash the next payroll needs, and a
+  business owned by a resident of a big town pays that owner's draw and profit
+  tax once, not once per household the owner stands for.
+
+## PRE-ALPHA 0.21.1
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Hand-written journal lines held back** Nine hand-written lines in "My life"
+  about where a family came from, where the partners met and a parent's new job
+  are held back until the English engine grades them.
+
+## PRE-ALPHA 0.21.0
+
+_Released October 21, 2026._
+
+### Improved
+
+- **American Samoa, Guam, the Northern Marianas and the Virgin Islands start
+  with their own housing figures.** Homes in these four island areas now start
+  from their own 2020 Census owner share, rent and home value instead of the
+  nation's. Owners' opening home values in every place also preserve household
+  variation while centering the median on that place's own housing value, moved
+  by its price index to the opening date.
+
+## PRE-ALPHA 0.20.4
+
+_Released October 21, 2026._
+
+### Changed
+
+- **The player's parents no longer move away and leave the player with nothing**
+  When the player lives in a household, the moves engine no longer takes that
+  household apart: the adults who earn and hold its cash stay, so the player is
+  not left alone with a lease, no job and no money.
+
+## PRE-ALPHA 0.20.3
+
+_Released October 21, 2026._
+
+### Changed
+
+- **People's opening stances are kept as records with their reasons** On the
+  questions the national survey asked, a person's faith and schooling now set
+  their opening stance once, as a record that keeps those reasons, instead of
+  being worked out again each time someone asks. Two neighbors of different
+  faith and schooling start out holding different stances.
+
+## PRE-ALPHA 0.20.2
+
+_Released October 21, 2026._
+
+### Improved
+
+- **Crimes now happen to households in town** Each month a town's households are
+  burgled, robbed, assaulted and robbed of property at the national rates,
+  scaled up or down by what is happening in town, such as unemployment and
+  police staffing. Renters, families with children and lower-income households
+  are hit more often, and voters react to the crimes that actually happened to
+  people in their town.
+
+## PRE-ALPHA 0.20.1
+
+_Released October 21, 2026._
+
+### Improved
+
+- **Housing and lending laws reach households** Housing and lending laws now
+  reach real households and move real money. Rent stabilization, the
+  inclusionary requirement, the multifamily, all-electric and farmland rules,
+  right to counsel in eviction, the consumer loan rate cap and a bigger housing
+  budget line each record the households, builders and governments they touched,
+  the dollars involved, and stop when the law is repealed. A housing budget
+  increase now pays rent assistance to the town's lowest-income renters, and a
+  tenant with a lawyer in an eviction case can settle on a payment plan the city
+  has paid to support.
+
+- **Candidates ask for volunteers and endorsements, and personality moves the
+  answers** A candidate in a town with a race now asks the people they can reach
+  to give their evenings and the people closest to them to put their names
+  behind the campaign, and each person answers from their own record and
+  temperament: open and outgoing people say yes more often, at about the rates
+  real surveys find. Volunteers come to the campaign's events and an endorsement
+  reaches the endorser's circle. Giving, answering the door, running for office,
+  standing again and holding a party's line lean on personality by researched
+  amounts instead of hand-set ones, and older officials are likelier to retire.
+
 ## PRE-ALPHA 0.20.0
 
 _Released October 21, 2026._

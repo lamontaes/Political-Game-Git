@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on: researcher: the town's tract or block-group population shares are not in the repo and the Census data service needs a key the cloud network lacks (api.census.gov answers Missing Key); needs a key or a bulk download
+blocked-on:
 source: found by gov-ward-map-from-dwellings
 claimed-at:
 ---
@@ -22,3 +22,7 @@ claimed-at:
 **Files.** src/core2/modules/housing.ts, src/core2/modules/voting.ts, src/core2/data/housing/
 
 **Notes.** Needed by gov-ward-map-from-dwellings (stopgap SG-GOV-ward-map). Oct 19.
+
+Oct 20 (research-reachable-sources-oct20): unblocked. Tract and block-group population shares come from the bulk files under https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/ and the Census Gazetteer at https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/ (both HTTP 200 from a cloud session). The done-when stands: a played world (buildBenchWorld), a drawn place and seed named in the PR body.
+
+Fetched Oct 20 (research-reachable-sources-oct20): total population by tract and block group from B01003 in the 2023 ACS 5-year table-based summary files (https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/acsdt5y2023-b01003.dat, 18,311,997 bytes, SHA-256 24ae3f523b4c54332ce0a71ba534569685a8a729056f975915d860d1eb943565): 85,381 tract rows (GEO_ID prefix 1400000US) and 242,296 block-group rows (1500000US). Check: Autauga County, Alabama has 17 tract rows summing to 59,285, equal to its county row (0500000US01001). The shares per tract are therefore a straight division of the tract row by its county or place total; the builder keeps the file out of the repository and records the values it uses with this citation.
