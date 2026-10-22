@@ -194,13 +194,13 @@
   "countedCommuterWorkdaysPerWeek": {
     "value": 5,
     "tag": "ESTIMATED",
-    "citation": "A full-time work week is five days (BLS ATUS: employed people worked on 5.1 weekdays in an average week).",
-    "estimatedFrom": "Weekday work shares in the ATUS.",
+    "citation": "Estimated five-day full-time schedule; checked over 4.5 to 5.5 days per week.",
+    "estimatedFrom": "A conventional five-day workweek; this is a modeling estimate, not a published ATUS weekday count.",
     "spread": {
       "low": 4.5,
       "high": 5.5,
       "unit": "days a week",
-      "citation": "BLS ATUS 2023."
+      "citation": "Sensitivity range around the estimated five-day workweek."
     }
   }
 }

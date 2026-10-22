@@ -144,7 +144,7 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
     expect(state.organizations.get(employer.id)!.liquidMinor).toBe(0);
     // Out of the player's life for the world's 180 to 240 days, the household
     // goes back to the counts: the job ends and its pay goes back to the pool.
-    advanceCore(core, addDays(makeIsoDate(core.date), 300));
+    advanceCore(core, addDays(makeIsoDate(core.date), 305));
     const returned = countedDemotions(api).find(
       (row) => row.householdId === commuter.householdId,
     );
