@@ -151,7 +151,7 @@ function savePull(api: CoreAPI, pull: Pull): void {
 }
 
 function ageOf(api: CoreAPI, person: Readonly<PersonState>): number {
-  return ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(api.state.date));
+  return ageOnDate(person.birthDate, api.state.date);
 }
 
 /** The ACS age band a person is in, or none below the youngest. */

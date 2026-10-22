@@ -7,7 +7,7 @@ priority: 2
 size: L
 status: open
 claimed-by:
-pr: #5555
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -28,3 +28,5 @@ Sent back 2026-10-20 from PR #5555 (branch claude/other-places-coarse): new Core
 Sent back 2026-10-20 from PR #5555 (branch claude/other-places-coarse): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
 
 Sent back 2026-10-21 from PR #5555 (branch claude/other-places-coarse): The import, generated-file formatting and D.C. Senate fixes are present. Acceptance is still incomplete: docs/pool/items/world-other-places-coarse-population.md:20 requires a one-year played-world trip whose resident has a household, job and pay matching held place counts, by record ids. The new SG-WORLD-coarse-place-no-payroll row in src/core2/data/stopgaps.json:5401 says the new identity:work fact has no employer, payroll or household and no engine reads it; the body also says counts are not stored or stepped and the money half is not done. That does not meet this item or justify resolving SG-OFFICE-FED-trip-residents. Please finish the named chain, or give this first slice a bounded pool item with its own acceptance and leave the broader trip/payroll item open. No local gates are claimed for this review.; finish on that branch, merge main into it first.
+
+Oct 22 (claude): the first slice in PR 5555 (a trip resident drawn from the place counts) is tracked as world-trip-resident-from-place-counts; this item (household, job and pay over a played year) stays open.

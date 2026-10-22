@@ -3,7 +3,7 @@ id: words-bench-datapoints
 title: "Every line the bench composes is a data point, deduped, in batch-12.json"
 area: words
 kind: feature
-priority: 1
+priority: 2
 size: M
 status: claimed
 claimed-by: claude/words-bench-datapoints
