@@ -21,7 +21,7 @@ claimed-at: 2026-10-20T02:21:21.934Z
 
 **Files.** src/core2/journal-state.ts
 
-**Notes.** TODO
+**Notes.** Historical pool-feeder context (Oct 20), not a completion receipt: two attempts found the swap cuts allocation by about 2.6 percent but does not move the year's wall time, so the remaining work is to decide from one A/B measurement whether to land it or drop it and file the receipt-copy cost as its own item. The canonical Done when above is retained.
 
 Tried Oct 20 (claude, branch claude/speed-journal-bigint, not proposed for merge): plusTotals, volumes and the outside-flow totals in `journal-state.ts` rewritten to add plain safe integers and refuse a sum that is not a safe integer (same exactness guarantee, no BigInt). The journal, accounts and finance tests passed (16 files, 568 tests). Same-session timing on seed m7a, two runs each, one process at a time: branch 36.2 s and 36.8 s, main 35.7 s and 35.9 s. No gain, so it should not merge. The allocation profile (23 GB) charged these functions about 770 MB, but V8 reclaims short-lived BigInts cheaply and the year did not move, so the journal's cost is not in its number type. Next look: the per-posting receipt objects and `sourceRef` copies in `postCashJournal` (1.1 GB) and the account snapshot maps built by `portfolios` (0.4 GB), measured by an A/B run like this one before any PR.
 

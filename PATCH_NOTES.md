@@ -296,6 +296,27 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.0
+
+_Released October 21, 2026._
+
+### Added
+
+- **A bribe can now buy a public contract.** A business owner who wants a public
+  contract may offer a council or board member a bribe, and the member decides
+  whether to take it. A bribe that is taken counts for the bidder who paid it
+  when the member ranks the bids.
+
+## PRE-ALPHA 0.21.6
+
+_Released October 21, 2026._
+
+### Improved
+
+- **Shops that closed last year are in the news history** A new town's news
+  archive now includes the businesses that closed in the year before day one,
+  and the retired owner of each remembers the day it was reported.
+
 ## PRE-ALPHA 0.21.5
 
 _Released October 21, 2026._

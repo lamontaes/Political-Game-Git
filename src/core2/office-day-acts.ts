@@ -21,7 +21,7 @@ import type {
 } from "./types";
 import type { ModuleRow } from "./module-data";
 import { extendData } from "./data";
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { officeActKits, type OfficeActKit } from "./office-day-registry";
 import { reanswerLeaderRequest } from "./office-day-state";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
@@ -439,7 +439,7 @@ export function budgetProposalDue(
     `${year}-${gov.fiscalYearStart}` > api.state.date
       ? `${year}-${gov.fiscalYearStart}`
       : `${year + 1}-${gov.fiscalYearStart}`;
-  const days = daysBetween(makeIsoDate(api.state.date), makeIsoDate(starts));
+  const days = daysBetweenText(api.state.date, starts);
   // The season runs from the proposal's lead time to the body's hearing; a
   // budget sent after the hearing would not have been heard.
   if (
@@ -451,7 +451,7 @@ export function budgetProposalDue(
   const last = host.lastGiven(api, personId, "propose-budget");
   if (
     last &&
-    daysBetween(makeIsoDate(last), makeIsoDate(api.state.date)) <=
+    daysBetweenText(last, api.state.date) <=
       api.parameter("budgetProposalLeadDays")
   )
     return null;
@@ -468,7 +468,7 @@ export function townHallDue(
   const last = host.lastGiven(api, personId, "town-hall");
   return (
     !last ||
-    daysBetween(makeIsoDate(last), makeIsoDate(api.state.date)) >=
+    daysBetweenText(last, api.state.date) >=
       api.parameter("townHallIntervalDays")
   );
 }
