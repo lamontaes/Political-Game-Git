@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/foreclosure-self-lender
-pr:
+pr: #5831
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-22T03:28:02.910Z
