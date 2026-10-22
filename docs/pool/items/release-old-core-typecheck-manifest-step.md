@@ -5,9 +5,9 @@ area: release
 kind: cleanup
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/old-core-typecheck
-pr:
+pr: #5833
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-22T05:17:24.652Z
