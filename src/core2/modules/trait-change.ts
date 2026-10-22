@@ -236,9 +236,7 @@ export function createTraitChangeModule(
         const from = Math.floor(
           ageOnDate(makeIsoDate(person.birthDate), start),
         );
-        const to = Math.floor(
-          ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(api.state.date)),
-        );
+        const to = Math.floor(ageOnDate(person.birthDate, api.state.date));
         const total = new Map<string, number>();
         for (let age = from; age < to; age += 1)
           for (const [traitId, delta] of agingDeltas(age))
@@ -259,7 +257,7 @@ export function createTraitChangeModule(
       for (const id of [...due, ...leapDay].sort()) {
         const person = api.state.people.get(id);
         if (!person?.alive) continue;
-        const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
+        const age = ageOnDate(person.birthDate, date);
         if (age < 1) continue;
         applyShifts(
           api,

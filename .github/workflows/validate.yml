@@ -11,6 +11,10 @@ on:
   pull_request:
   push:
     branches: [main]
+    # Pool-only bookkeeping changes no executable code. Keep pull-request,
+    # scheduled and manual validation; pushes touching other paths still run.
+    paths-ignore:
+      - "docs/pool/**"
 
 permissions:
   contents: read

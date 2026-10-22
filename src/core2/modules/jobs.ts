@@ -10,7 +10,7 @@
  * job change is a record with its reason and, for a layoff, who decided it.
  */
 import type { ModuleTable } from "../module-state";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "json" };
@@ -33,7 +33,17 @@ import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
 import { regionalMonth } from "./regional";
-import { isDemoted } from "../counted-groups";
+import { ageOn, isDemoted } from "../counted-groups";
+import { webFactorFor, type Subject } from "../outcome-web-reach";
+import {
+  countedFacts,
+  fullFacts,
+  inGroup,
+  lowWageStaffFactor,
+  markUnwiredLaborLinks,
+  participationShift,
+  type LaborFacts,
+} from "../jobs-web";
 import { residentPerson, residentsRuntime } from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
@@ -565,7 +575,7 @@ function openSeekers(api: CoreAPI): void {
   const c = core(api),
     [young, old] = jobsData.workingAge as [number, number];
   const ageOf = (person: PersonState) =>
-    daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+    daysBetweenText(person.birthDate, c.date) /
     api.parameter("jobsDaysPerYear");
   // The jobs held, counted by place and age band: the place's labor force.
   const heldBy = new Map<string, number>();
@@ -629,7 +639,7 @@ function openCountedSeekers(api: CoreAPI): void {
   const workingBy = new Map<string, number>();
   const counted = rt.store;
   const ageAt = (m: number) =>
-    daysBetween(makeIsoDate(counted.born[m]!), makeIsoDate(c.date)) /
+    daysBetweenText(counted.born[m]!, c.date) /
     api.parameter("jobsDaysPerYear");
   for (const h of counted.liveHouseholds()) {
     const adults = counted.countedMembers(h).filter((m) => {
@@ -986,9 +996,21 @@ function reviewEmployers(api: CoreAPI): void {
       p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff);
     // The market forecast already reads regional and national conditions.
     // Actual receipts let firms diverge when customers pay different sellers.
+    // The web's factor on low-wage jobs (a higher wage floor) moves the
+    // employer's own target by the low-wage share of its staff.
+    let lowHeads = 0;
+    for (const job of jobs)
+      if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
+        lowHeads += headsOf(c, job);
     const demandTarget =
-      projected * (1 - p("jobsSalesForecastWeight")) +
-      salesStaff * p("jobsSalesForecastWeight");
+      (projected * (1 - p("jobsSalesForecastWeight")) +
+        salesStaff * p("jobsSalesForecastWeight")) *
+      lowWageStaffFactor(
+        api,
+        c.organizations.get(row.id)!.placeId,
+        lowHeads,
+        staff,
+      );
     const target =
       trading && trading.lossMonths > 0
         ? affordableStaff(demandTarget, staff, trading)
@@ -1260,8 +1282,7 @@ function tenureYears(api: CoreAPI, job: JobInput): number {
     .find((row) => row.jobId === job.id);
   const since = commitment?.startsAt ?? api.state.startedAt;
   return (
-    daysBetween(makeIsoDate(since), makeIsoDate(api.state.date)) /
-    api.parameter("jobsDaysPerYear")
+    daysBetweenText(since, api.state.date) / api.parameter("jobsDaysPerYear")
   );
 }
 
@@ -1429,9 +1450,18 @@ function reviewWorkers(api: CoreAPI): void {
     const strain = (person.needs.time ?? 0) + (person.needs.health ?? 0);
     // Years past the earliest Social Security retirement age pull toward retiring, as savings allow.
     const age =
-      daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-      p("jobsDaysPerYear");
+      daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
     const pastRetirementAge = Math.max(0, age - retirementOnsetYears(api));
+    // The web's factor on staying at work for this worker's groups (mothers
+    // of young children, married women, 62 to 67): it lowers the pull to leave.
+    const stay = person.placeId
+      ? participationShift(
+          api,
+          person.placeId,
+          fullFacts(api, person.id, p)!,
+          p,
+        )
+      : 0;
     const result = chooseAct(c, person.id, [
       offer("stay", job.id, {}),
       offer("look", job.id, {
@@ -1445,6 +1475,7 @@ function reviewWorkers(api: CoreAPI): void {
       // Leaving needs a cause (strain on time or health); savings only make it possible.
       offer("leave", job.id, {
         baseline: p("jobsLeaveBaseline"),
+        ...(stay ? { web: -stay } : {}),
         strain:
           strain *
           (p("one") +
@@ -1454,6 +1485,7 @@ function reviewWorkers(api: CoreAPI): void {
         ? [
             offer("leave", `retire:${job.id}`, {
               baseline: p("jobsRetireBaseline"),
+              ...(stay ? { web: -stay } : {}),
               age: p("jobsRetireAgeWeight") * pastRetirementAge,
               savings:
                 p("jobsMoneyBufferWeight") *
@@ -1487,6 +1519,7 @@ function reviewWorkers(api: CoreAPI): void {
       });
     }
   }
+  markUnwiredLaborLinks();
   reviewJobless(api);
   reviewCountedRetirements(api);
   reviewCountedLooking(api);
@@ -1496,12 +1529,40 @@ function reviewWorkers(api: CoreAPI): void {
 }
 
 /** The place's pay level against the opening: national hourly earnings times its region's pay. */
-function payLevel(api: CoreAPI, placeId: string): number {
+function payLevel(api: CoreAPI, placeId: string, subject?: Subject): number {
   const c = core(api);
   const condition = (c.finance.conditionsByPlace.get(placeId) ?? [])
     .filter((row) => row.at <= c.date)
     .at(-1);
-  return condition?.wagePriceFactor ?? api.parameter("one");
+  // The web's policy effects on pay (a corporate tax passed to workers, a
+  // public bargaining law) land on each worker by their own band.
+  return (
+    (condition?.wagePriceFactor ?? api.parameter("one")) *
+    webFactorFor(api, placeId, "labor.wages", subject) *
+    webFactorFor(api, placeId, "labor.median-earnings", subject)
+  );
+}
+
+/** What the web's pay factors need to know of a worker, from the full or counted record. */
+function workerSubject(c: CoreState, personId: string): Subject | undefined {
+  const person = c.people.get(personId);
+  if (person) {
+    const gender = person.looks?.gender;
+    return {
+      age: ageOn(person.birthDate, c.date),
+      ...(gender === "female" || gender === "male" ? { sex: gender } : {}),
+    };
+  }
+  const store = residentsRuntime(c)?.store;
+  const m = store?.countedMember(personId);
+  if (!store || m === undefined) return undefined;
+  const gender = store.strings[store.genderIx[m]!];
+  return {
+    age: ageOn(store.born[m]!, c.date),
+    ...(gender === "female" || gender === "male" ? { sex: gender } : {}),
+    incomeFifth:
+      store.groups[store.households[store.household[m]!]!.group]?.incomeBand,
+  };
 }
 
 /**
@@ -1528,11 +1589,11 @@ function raisePay(api: CoreAPI): void {
     const level = row?.level ?? api.parameter("one"),
       at = row?.at ?? api.state.startedAt;
     if (
-      daysBetween(makeIsoDate(at), makeIsoDate(c.date)) <
+      daysBetweenText(at, c.date) <
       (api.parameter("jobsDaysPerYear") * (months - 1)) / months
     )
       continue;
-    const now = payLevel(api, placeId);
+    const now = payLevel(api, placeId, workerSubject(c, job.personId));
     const hourly = Math.round((job.hourlyMinor * now) / level);
     if (hourly > 0 && hourly !== job.hourlyMinor && !c.jobs.has(job.id))
       counted.set(job.id, hourly);
@@ -1583,8 +1644,7 @@ function reviewJobless(api: CoreAPI): void {
     // With it, the counts hold the wider population, so every full person of working age is in it, a first job included.
     if (!twoLevel && !worked.has(person.id)) continue;
     const age =
-      daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-      p("jobsDaysPerYear");
+      daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
     if (age < young || age >= old) continue;
     // A dependent's own living cost is carried by the household, so the
     // pressure is how few days the household's money covers its costs.
@@ -1597,10 +1657,17 @@ function reviewJobless(api: CoreAPI): void {
       cost += member.livingCostDailyMinor;
     }
     const days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
+    const enter = participationShift(
+      api,
+      person.placeId,
+      fullFacts(api, person.id, p)!,
+      p,
+    );
     const result = chooseAct(c, person.id, [
       offer("wait", person.id, {}),
       offer("look", person.id, {
         baseline: p("jobsEnterBaseline"),
+        ...(enter ? { web: enter } : {}),
         needWork:
           p("jobsUnemployedNeedWeight") /
           (p("one") + days / (p("jobsDaysPerYear") / p("macroMonthsPerYear"))),
@@ -1754,10 +1821,8 @@ function runWeek(api: CoreAPI): void {
         roles.get(job.id)?.startsAt;
       if (!since) continue;
       const years =
-        Math.max(
-          0,
-          daysBetween(makeIsoDate(since), makeIsoDate(job.endsAt ?? c.date)),
-        ) / p("jobsDaysPerYear");
+        Math.max(0, daysBetweenText(since, job.endsAt ?? c.date)) /
+        p("jobsDaysPerYear");
       const key = `${job.personId}|${roleOf(job)}`;
       countedExperience.set(key, (countedExperience.get(key) ?? 0) + years);
     }
@@ -1919,10 +1984,7 @@ export function referralStanding(api: CoreAPI, personId: string): number {
   const window = api.parameter("jobsReferralDays");
   let standing = 0;
   for (const row of rows) {
-    const age = daysBetween(
-      makeIsoDate(row.givenOn),
-      makeIsoDate(api.state.date),
-    );
+    const age = daysBetweenText(row.givenOn, api.state.date);
     standing = Math.max(standing, Math.max(0, 1 - age / window));
   }
   return standing;
@@ -2138,8 +2200,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
       const person = residentPerson(c, job.personId);
       if (!person) continue;
       const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-        p("jobsDaysPerYear");
+        daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
       const past = age - retirementOnsetYears(api);
       if (past <= 0) continue;
       rows.push({
@@ -2147,6 +2208,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
         job,
         age,
         score:
+          -countedShift(api, job.personId, person.placeId, p) +
           p("jobsRetireBaseline") +
           p("jobsRetireAgeWeight") * past +
           p("traitWeight") *
@@ -2175,6 +2237,112 @@ function reviewCountedRetirements(api: CoreAPI): void {
       values: { age, score, counted: 1 },
     });
   }
+}
+
+/**
+ * The labor outcomes the web keeps, read off the records: the share of each
+ * group at work (full people and counted members, a counted household
+ * standing for its weight) and the share of jobs under the low-wage line.
+ */
+export function laborGroupShares(
+  api: CoreAPI,
+  placeId: string,
+): Record<
+  | "labor.mothers-participation"
+  | "labor.married-women-participation"
+  | "labor.older-employment"
+  | "labor.low-wage-jobs",
+  { readonly of: number; readonly at: number }
+> {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const out = {
+    "labor.mothers-participation": { of: 0, at: 0 },
+    "labor.married-women-participation": { of: 0, at: 0 },
+    "labor.older-employment": { of: 0, at: 0 },
+    "labor.low-wage-jobs": { of: 0, at: 0 },
+  };
+  // Participation is being at work or looking for work; older employment is being at work.
+  const looking = new Set<string>(
+    [
+      ...(store(api).table("seekers").rows() as unknown as SeekerRow[]),
+      ...(store(api).table("countedSeekers").rows() as unknown as SeekerRow[]),
+    ].map((row) => row.personId),
+  );
+  const tally = (
+    facts: LaborFacts,
+    id: string,
+    working: boolean,
+    weight: number,
+  ) => {
+    for (const key of Object.keys(out).slice(0, 3))
+      if (inGroup(key, facts, p)) {
+        const row = out[key as keyof typeof out];
+        row.of += weight;
+        if (working || (key !== "labor.older-employment" && looking.has(id)))
+          row.at += weight;
+      }
+  };
+  const worked = new Set<string>();
+  for (const job of c.jobs.values()) {
+    if (job.endsAt !== undefined) continue;
+    const person = c.people.get(job.personId);
+    if (!person?.alive || person.placeId !== placeId) continue;
+    worked.add(job.personId);
+    out["labor.low-wage-jobs"].of += 1;
+    if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
+      out["labor.low-wage-jobs"].at += 1;
+  }
+  for (const person of c.people.values())
+    if (person.alive && person.placeId === placeId)
+      tally(fullFacts(api, person.id, p)!, person.id, worked.has(person.id), 1);
+  const rt = residentsRuntime(c);
+  if (rt) {
+    const working = new Set<string>();
+    for (const [jobId, flow] of rt.wageFlowByJob) {
+      const job = rt.jobs.get(jobId);
+      if (job && !job.endsAt && !flow.endedAt) {
+        working.add(job.personId);
+        const place = rt.store.countedMember(job.personId);
+        if (
+          place !== undefined &&
+          rt.store.strings[rt.store.placeIx[place]!] === placeId
+        ) {
+          const w = rt.store.weightOf(
+            rt.store.households[rt.store.household[place]!]!,
+          );
+          out["labor.low-wage-jobs"].of += w;
+          if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
+            out["labor.low-wage-jobs"].at += w;
+        }
+      }
+    }
+    for (const h of rt.store.liveHouseholds()) {
+      if (h.placeId !== placeId) continue;
+      const w = rt.store.weightOf(h);
+      for (const m of rt.store.countedMembers(h))
+        tally(
+          countedFacts(api, rt.store, m, p),
+          rt.store.ids[m]!,
+          working.has(rt.store.ids[m]!),
+          w,
+        );
+    }
+  }
+  return out;
+}
+
+/** The web's log factor on the pull to be at work for one counted person, from the counts. */
+function countedShift(
+  api: CoreAPI,
+  personId: string,
+  placeId: string,
+  p: (key: string) => number,
+): number {
+  const store = residentsRuntime(core(api))?.store;
+  const m = store?.countedMember(personId);
+  if (!store || m === undefined) return 0;
+  return participationShift(api, placeId, countedFacts(api, store, m, p), p);
 }
 
 /** Counted workers weigh looking around by their pay against the going rate and their traits (stopgap). */
@@ -2209,8 +2377,7 @@ function reviewCountedEntry(api: CoreAPI): void {
         continue;
       const placeId = counted.strings[counted.placeIx[m]!]!;
       const age =
-        daysBetween(makeIsoDate(counted.born[m]!), makeIsoDate(c.date)) /
-        p("jobsDaysPerYear");
+        daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
       if (age < young || age >= p("jobsEarliestRetirementAge")) continue;
       // Youth pulls hardest as school ends, rising over the first years after 18.
       const youth = Math.max(0, Math.min(age - young, youthSpan)) / youthSpan;
@@ -2218,6 +2385,12 @@ function reviewCountedEntry(api: CoreAPI): void {
         id: personId,
         placeId,
         score:
+          participationShift(
+            api,
+            placeId,
+            countedFacts(api, counted, m, p),
+            p,
+          ) +
           p("jobsCountedEntryBaseline") +
           p("jobsCountedEntryYouthWeight") *
             (age - young < youthSpan ? youth : 0) -
@@ -2231,6 +2404,7 @@ function reviewCountedEntry(api: CoreAPI): void {
       leaving.push({
         id: row.personId,
         score:
+          -countedShift(api, row.personId, row.placeId, p) +
           p("jobsCountedStopLookingBaseline") +
           p("jobsUnemploymentStopLookingWeight") *
             unemploymentGap(api, row.placeId),
@@ -2287,17 +2461,19 @@ function reviewCountedQuits(api: CoreAPI): void {
         id: job.id,
         job,
         placeId: person.placeId,
-        score: quitScore(p, {
-          payGap,
-          tenureYears: countedTenureYears(api, job),
-          unemploymentGapPts: unemploymentGap(api, person.placeId),
-          restless: traitLeanBetween(
-            c,
-            person,
-            jobsData.actions.look.actKinds,
-            jobsData.actions.stay.actKinds,
-          ),
-        }),
+        score:
+          -countedShift(api, job.personId, person.placeId, p) +
+          quitScore(p, {
+            payGap,
+            tenureYears: countedTenureYears(api, job),
+            unemploymentGapPts: unemploymentGap(api, person.placeId),
+            restless: traitLeanBetween(
+              c,
+              person,
+              jobsData.actions.look.actKinds,
+              jobsData.actions.stay.actKinds,
+            ),
+          }),
       });
     }
   }
@@ -2341,7 +2517,7 @@ function reviewCountedLooking(api: CoreAPI): void {
   for (const row of seekers.query("all", [true]) as unknown as SeekerRow[])
     if (
       row.employed &&
-      daysBetween(makeIsoDate(row.since), makeIsoDate(c.date)) >
+      daysBetweenText(row.since, c.date) >
         p("jobsOnTheJobSearchMonths") *
           (p("jobsDaysPerYear") / p("macroMonthsPerYear"))
     )
@@ -2406,8 +2582,7 @@ function experienceYears(
     if ((job?.occupationClassification ?? job?.title) !== occupation) continue;
     const end = row.endsAt ?? api.state.date;
     years +=
-      daysBetween(makeIsoDate(row.startsAt), makeIsoDate(end)) /
-      api.parameter("jobsDaysPerYear");
+      daysBetweenText(row.startsAt, end) / api.parameter("jobsDaysPerYear");
   }
   return years;
 }
@@ -2453,7 +2628,7 @@ function countedTenureYears(api: CoreAPI, job: JobInput): number {
     (rt ? countedRolesOf(rt).byJob.get(job.id)?.startsAt : undefined) ??
     api.state.startedAt;
   return (
-    Math.max(0, daysBetween(makeIsoDate(since), makeIsoDate(c.date))) /
+    Math.max(0, daysBetweenText(since, c.date)) /
     api.parameter("jobsDaysPerYear")
   );
 }
@@ -2556,7 +2731,7 @@ function openToOffers(api: CoreAPI): SeekerRow | undefined {
   )
     return undefined;
   const age =
-    daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+    daysBetweenText(person.birthDate, c.date) /
     api.parameter("jobsDaysPerYear");
   if (age < young || age >= old) return undefined;
   if (

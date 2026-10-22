@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5757
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split from people-unplanned-pregnancy-decision (PR for claude/political-game-pool-yucp92-bg).
 
 Sent back 2026-10-20 from PR #5757 (branch claude/unplanned-counted-tier): The new counted regression requires a delivered counted birth, which is useful, but this PR also imports the still-unfixed full-tier test from #5695/#5749. In src/core2/renewal.test.ts:34-107, plans may be empty, the only direct full-couple assertions are inside if (couple), the positive-plan assertion is inside if (waiting.length), and the payment check accepts paidMinor >= 0. Thus the purported full-tier side can check no pregnancy or payment at all; manually writing exposure carry is not the ordinary generated-world producer proof. Keep the counted case, repair the inherited full-tier test with bounded applicable draws and nonempty positive plan/payment assertions, and retain the player-household exclusion. The item asks for the counted rule matching the full rule, so an unchecked full side does not supply that comparison.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-22 from PR #5757 (branch claude/unplanned-counted-tier): The full-tier test manually seeds exposure after the played year and never requires a naturally produced full-tier pregnancy; retain the positive payment fixture and add a nonempty ordinary-producer case.; finish on that branch, merge main into it first.
