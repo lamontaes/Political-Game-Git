@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/municipal-body-names
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-22T07:56:05.646Z
 ---
 
 **What.** src/core2/offices-local.ts names a municipal body after the town plus "Council" unless the town is one of the 144 compiled municipal governments, whose readers now carry the charter's body name. The player sees this name on the Government screen and in every council scene. Source the common names by form of government and state (council, board of aldermen, commission, board of selectmen, village board, select board) from the Census of Governments and state municipal leagues, put them in the municipal data as ESTIMATED by form and state, and read them where no charter is compiled. Closes or narrows SG-GOV-municipal-body-name.
