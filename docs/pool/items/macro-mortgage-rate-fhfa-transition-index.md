@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice: the rate is a published series, and nothing rolls a monthly move. An effect is a read: housing.ts and the credit pass already read mortgage30Pct, so the lower rate must show in a mortgage payment a household pays. Estimate, never UNKNOWN: months the index has not yet published keep the Treasury-plus-spread fallback, marked as an estimate with its source. Look before you ask: the acting CTO ruled Oct 20 (OWNER-DECISIONS.md, pool rulings) that the index stands in from 2019-06, tagged ESTIMATED with FHFA's caveat in its citation; no owner question and no owner-decision stopgap.
 
-**Done when.** A test in src/core2/macro.test.ts names the months where the old and new mortgage30Pct differ and by how much, and shows no month from 2019-06 reading the spread. In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed the builder did not choose) the rate the housing module reads for a new mortgage equals the index for that month, by the mortgage record id.
+**Done when.** A test in src/core2/macro.test.ts names the months where the old and new mortgage30Pct differ and by how much, and shows no month from 2019-06 reading the spread. In a one-year run of the played world (buildBenchWorld, a drawn place from all 56, seed the builder did not choose) the rate the housing module reads for a new mortgage equals the index for that month, by the mortgage record id. history.json retains each covered monthly FHFA index from 2019-06 with its citation, and the registered mortgage-history row is marked resolved with its source and replacement reader named.
 
 **Files.** src/core2/data/macro/history.json, src/core2/macro-model.ts, src/core2/macro.test.ts, src/core2/data/stopgaps.json
 

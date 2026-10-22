@@ -1,6 +1,12 @@
 # Pool feeder, October 20, 2026
 
-The pool was close to running dry overnight, with 15 items a builder could take. The pool feeder wrote specs, research and rulings so that blocked work became buildable, and the status below is updated every hour.
+The sections below preserve the feeder's historical October 20 snapshots. Their availability and interim row counts are not the live pool; current work and dependency gates are in the generated docs/pool/INDEX.md.
+
+## Merge verification, October 22
+
+Against the checked main integration, this documentation change reopens 87 previously blocked items, adds 55 pool files and supplies 12 research write-ups containing 80 distinct stopgap entries. The dated acting-CTO section contains 24 entries. Existing active and completed claims are preserved, and the dropped counted-caller remainder stays dropped.
+
+Current research acceptance is retained, including complete source/spread fields, the calibration and reader guards, and resolved registry rows. The added inputs and historical notes do not complete implementation or calibration. The PR body records the final changed-file check results.
 
 ## Status at 09:40 UTC
 

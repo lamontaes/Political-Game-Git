@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** Wire to the world: the check runs on the real staged release files, not a fixture the builder wrote, so a bad feed stops the release. Replace, never layer: the inline existence test for latest-mac.yml in the publish step becomes this check instead of sitting beside it. One rule, all 56 places does not bind release machinery, but nothing in the script names a place or a version number; the version comes from the release being built. Look before you ask: the updater's own refusal rules are already covered by desktop/tests/updater.test.mjs and are not rebuilt.
 
-**Done when.** A test in desktop/tests/release-feed.test.mjs passes on the latest-mac.yml and latest.yml of the two newest published releases and fails on a copy whose size, sha512 or version is changed; the release workflow run that publishes the next release shows the step passing. This is release machinery, not a played-world feature. The owner plays it: installs the older Mac build, presses Check for updates and sees the newer one offered.
+**Done when.** A test in desktop/tests/release-feed.test.mjs passes on the latest-mac.yml and latest.yml of the two newest published releases and fails on a copy whose size, sha512 or version is changed; the release workflow run that publishes the next release shows the step passing. This is release machinery, not a played-world feature. The owner plays it: installs the older Mac build, presses Check for updates and sees the newer one offered. The installed older app then installs that offered update and launches the new version, retaining the original installed-app update acceptance.
 
 **Files.** .github/workflows/release.yml, desktop/scripts/check-release-feed.mjs, desktop/tests/release-feed.test.mjs
 

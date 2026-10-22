@@ -18,7 +18,7 @@ claimed-at:
 
 **Rules.** One model, two tiers: a counted group is read with the same rule as a full person times its count, and the rates only check totals. No dice: the weights, not a chance, decide how many go. Wire to the world: every move carries rent and cash by journal record. One rule, all 56 places: no place is named in code.
 
-**Done when.** Both parts are done: in a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose) a group's counted households show young adults leaving, couples forming and couples separating, each as a counted-household record id, proved by src/core2/counted-home-leaving.test.ts and src/core2/counted-partnering.test.ts.
+**Done when.** Both parts are done: in a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose) a group's counted households show young adults leaving, couples forming and couples separating, each as a counted-household record id, proved by src/core2/counted-home-leaving.test.ts and src/core2/counted-partnering.test.ts. Each move names the members who moved, and the town's counted population is unchanged by those household moves.
 
 **Files.** src/core2/modules/partnerships.ts, src/core2/counted-groups.ts, src/core2/modules/counted-moves.ts
 
