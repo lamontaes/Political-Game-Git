@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/staff-candidates-index
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-22T06:07:06.045Z
 ---
 
 **What.** staffCandidates (src/core2/modules/staff.ts) sorted and walked every full person in the world for each official at each staff review, and staffReview then recomputed each candidate's current pay. Read the official's own known people and family plus the town's residents from core.peopleByPlace instead, and within one review compute each resident's eligibility, working-age weight, pay and applicant row once, shared by every official considered. This is the first slice of core-speed-staff-candidates-scan; the rest of its cost is the reviews times the town's residents and stays on that item.
