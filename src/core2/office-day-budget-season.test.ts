@@ -19,7 +19,12 @@ import {
   budgetsOf,
   governments,
 } from "./modules/budgets";
-import { treasuryMonthsOf, treasuryParameter } from "./budgets-treasury";
+import {
+  lineForPost,
+  sameGovernment,
+  treasuryMonthsOf,
+  treasuryParameter,
+} from "./budgets-treasury";
 import { officeActsOf, officeHost, prepareAct } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import {
@@ -103,6 +108,14 @@ it("the executive's budget act opens in its season and its changes are what the 
     ).toEqual([`priorities:${city.id}`]);
     // Sent: the act is not offered again this season.
     expect(budgetProposalDue(api, officeHost, mayorId), where).toBeNull();
+    // What each line fell short at the last close before the year starts:
+    // the first month under the new budget pays it on top of its twelfth.
+    advanceCore(core, addDays(makeIsoDate(next), -1));
+    const arrearsBefore =
+      (
+        api.moduleState(BUDGETS_MODULE_ID).table("arrears").get(city.id) as
+          { lines: Record<string, number> } | undefined
+      )?.lines ?? {};
     // The council votes the budget at the year's start with the executive's changes in its bill.
     advanceCore(core, addDays(makeIsoDate(next), 1));
     // The budget bill the council voted carries the executive's line change, sponsored by the executive.
@@ -156,12 +169,7 @@ it("the executive's budget act opens in its season and its changes are what the 
     expect(adopted, `${where}: the ${fiscalYear} budget adopted`).toBeDefined();
     // The treasury reads the passed budget when it pays: the first month
     // closed under it pays the line's twelfth plus what it fell short before.
-    const months = api.moduleState(BUDGETS_MODULE_ID);
-    const owedBefore =
-      (
-        months.table("arrears").get(city.id) as unknown as
-          { lines: Record<string, number> } | undefined
-      )?.lines[line] ?? 0;
+    const owedBefore = arrearsBefore[line] ?? 0;
     const paidUnder = () =>
       treasuryMonthsOf(api, city.id).find((m) => m.budgetId === adopted!.id);
     for (let day = 0; day < 45 && !paidUnder(); day += 1)
@@ -172,17 +180,43 @@ it("the executive's budget act opens in its season and its changes are what the 
       `${where}: a treasury month under ${adopted!.id}`,
     ).toBeDefined();
     const paidLine = month!.lines[line]!;
+    // The line as the budget in force carries it at the close (an act may
+    // have amended it since the vote; the treasury reads it then).
+    const inForce = budgetsOf(api, city.id).find((b) => b.id === adopted!.id)!;
     expect(paidLine.dueMinor, `${where}: ${month!.id} ${line}`).toBe(
       Math.round(
-        (adopted!.spendingMinor[line] ?? 0) /
-          treasuryParameter("monthsPerYear"),
+        (inForce.spendingMinor[line] ?? 0) / treasuryParameter("monthsPerYear"),
       ) + owedBefore,
     );
+    // A person the line reached: a public employee paid on it after the vote.
+    const cityOrg = core.organizations.get(city.organizationId)!;
+    const paidByCity = (orgId: string | undefined) => {
+      const org = orgId ? core.organizations.get(orgId) : undefined;
+      return (
+        org !== undefined &&
+        (org.id === cityOrg.id || sameGovernment(org, cityOrg))
+      );
+    };
+    const reachedNow = () =>
+      [...core.work.payrollLedgerByCommitment.values()].find(
+        (row) =>
+          row.lastPayrollReceiptId !== undefined &&
+          String(row.lastPayrollReceiptId).split(":")[1]! >= next &&
+          lineForPost(city.level, row.jobId) === line &&
+          paidByCity(core.jobs.get(row.jobId)?.organizationId),
+      );
+    for (let day = 0; day < 45 && !reachedNow(); day += 1)
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const reached = reachedNow();
+    expect(
+      reached,
+      `${where}: a public employee paid on ${line}`,
+    ).toBeDefined();
     const linePayments = month!.paymentIds.filter((id) =>
       id.includes(`:${line}:`),
     );
     process.stdout.write(
-      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} at ${adopted!.spendingMinor[line]}; ${month!.id} paid ${line} due ${paidLine.dueMinor} (in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, outside ${paidLine.outsideMinor}) by ${linePayments.join(", ") || "in-town pay only"}\n`,
+      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} at ${inForce.spendingMinor[line]}; ${month!.id} paid ${line} due ${paidLine.dueMinor} (in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, outside ${paidLine.outsideMinor}) by ${linePayments.join(", ") || "in-town pay"}; reached ${reached ? `${core.jobs.get(reached.jobId)!.personId} on ${reached.jobId} in ${reached.lastPayrollReceiptId}` : ""}\n`,
     );
     return;
   }
