@@ -76,9 +76,12 @@ it(
           .table("pregnancies")
           .get(`${plan.id}:pregnancy`);
         expect(pregnancy, `${label} ${plan.id}`).toBeDefined();
-        expect(pregnancy!.status, `${label} ${plan.id}`).toBe(
-          decision.continues ? pregnancy!.status : "ended",
-        );
+        // Carried, it is a pregnancy or a birth; ended, it is ended.
+        if (decision.continues)
+          expect(["pregnant", "delivered"], `${label} ${plan.id}`).toContain(
+            pregnancy!.status,
+          );
+        else expect(pregnancy!.status, `${label} ${plan.id}`).toBe("ended");
         if (pregnancy!.status !== "ended") continue;
         ended += 1;
         expect(
@@ -115,4 +118,115 @@ it(
     // The run that found Leeds, Utah spent 566 seconds in its tests on a 4-core container (about 5 minutes a drawn year); up to PLACES of them.
   },
   PLACES * 400_000,
+);
+
+it(
+  "an unplanned pregnancy she ends pays her trip from her household's cash, on the journal (named regression)",
+  () => {
+    const tried: string[] = [];
+    for (let n = 0; n < PLACES; n += 1) {
+      const draw = drawPlace(
+        createHash("sha256").update(`${base}:ended:${n}`).digest("hex"),
+        "unplanned-ended",
+      );
+      setBookkeeping(false);
+      const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(core);
+      const label = `${draw.name}, ${draw.state} (${draw.key}), seed ${draw.seed}`;
+      advanceCore(core, addDays(makeIsoDate(core.date), 30));
+      const renewal = api.moduleState(RENEWAL_MODULE_ID);
+      const playerHome = core.people.get(core.playerId!)?.householdId;
+      // Couples whose own decision, read now, would end a pregnancy at a cost.
+      const ending = renewal
+        .table("couples")
+        .rows()
+        .filter(
+          (c) =>
+            c.status === "active" &&
+            core.people.get(String(c.motherId))?.householdId !== playerHome &&
+            renewal
+              .table("pregnancies")
+              .query("byMotherStatus", [c.motherId, "pregnant"]).length === 0,
+        )
+        .map((c) => ({
+          couple: c,
+          decision: decideUnplanned(api, c as unknown as BirthCouple),
+        }))
+        .filter((x) => !x.decision.continues && x.decision.travelMinor > 0);
+      tried.push(`${label}: ${ending.length} couples who would end one`);
+      if (!ending.length) continue;
+      // Their households are in focus, so the journal keeps their receipts.
+      for (const { couple } of ending)
+        for (const id of core.households.get(
+          core.people.get(String(couple.motherId))!.householdId,
+        )?.memberIds ?? [])
+          core.focusPersonIds.add(id);
+      // An edge fixture beside the ordinary case above: exposure is a carried
+      // total, and only these couples are brought to a whole unit, so the next
+      // review settles each by her own scores.
+      for (const { couple } of ending)
+        renewal.table("exposure").put({ id: couple.id, carry: 1 });
+      const ids = new Set(ending.map((x) => String(x.couple.id)));
+      const endedNow = () =>
+        renewal
+          .table("pregnancies")
+          .rows()
+          .find(
+            (row) =>
+              row.unplanned === true &&
+              row.status === "ended" &&
+              ids.has(String(row.coupleId)),
+          );
+      for (let day = 0; day < 100 && !endedNow(); day += 1)
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const pregnancy = endedNow();
+      if (!pregnancy) {
+        tried.push(`${label}: none ended at the review`);
+        continue;
+      }
+      const plan = renewal.table("plans").get(String(pregnancy.planId))!;
+      const decision = (plan.decisions as unknown as Decision[])[0]!;
+      expect(decision.continues, label).toBe(false);
+      expect(plan.lawId, label).toBe(
+        lawInForce(api, ABORTION_LAW_SERIES, String(plan.date)).governing?.id ??
+          null,
+      );
+      const paid = Number(pregnancy.paidMinor);
+      expect(paid, `${label}: ${String(pregnancy.id)} paid`).toBeGreaterThan(0);
+      expect(paid, label).toBeLessThanOrEqual(decision.travelMinor);
+      // The cash left her household on the journal, in the trip's own entries.
+      const household =
+        core.households.get(
+          core.people.get(String(pregnancy.motherId))!.householdId,
+        )?.memberIds ?? [];
+      const journal = core.cashJournal;
+      let left = 0;
+      const receipts: string[] = [];
+      for (const id of household)
+        for (const entry of journal.detailedByOwner.get(id) ?? []) {
+          const receipt = journal.detailedReceipts.get(entry);
+          if (
+            !receipt?.sourceRef.id.startsWith(`${String(pregnancy.id)}:trip:`)
+          )
+            continue;
+          receipts.push(receipt.sourceRef.id);
+          for (const posting of receipt.postings)
+            if (posting.accountId === `cash:${id}:residual`)
+              left -= posting.deltaMinor;
+        }
+      expect(left, `${label}: ${receipts.join(", ")}`).toBe(paid);
+      process.stdout.write(
+        `UNPLANNED ENDED ${label}: ${String(pregnancy.motherId)}'s ${String(pregnancy.id)} on ${String(plan.date)}, ended (continue ${decision.scores.continue.toFixed(3)}, end ${decision.scores.end.toFixed(3)}), law ${String(plan.lawId)}, trip ${decision.travelMinor} paid ${paid} in ${[...new Set(receipts)].join(", ")}\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place had a couple who would end an unplanned pregnancy in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
+    );
+    // Marquette, Kansas took under five minutes for its opening, month and review on a 4-core container.
+  },
+  PLACES * 300_000,
 );
