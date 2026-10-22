@@ -1396,6 +1396,26 @@ async function campaignRows() {
           button("Ad", "ad", { amountMinor: "5000" }),
           button("Poll", "poll", { sampleSize: "50" }),
         ),
+        // The player's own money into the campaign: the amount is theirs to set.
+        (() => {
+          const dollarsIn = el("input", {
+            type: "number",
+            min: "0",
+            step: "1",
+            value: "0",
+            ariaLabel: controls.campaignContribute.dollars,
+          });
+          const give = el("button", {
+            type: "button",
+            textContent: controls.campaignContribute.give,
+          });
+          give.addEventListener("click", () =>
+            act("contribute", {
+              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+            }),
+          );
+          return el("div", {}, dollarsIn, give);
+        })(),
         speechPanel(filing, venue),
         // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
         ...(debates ?? []).map((debate) => debatePanel(debate)),

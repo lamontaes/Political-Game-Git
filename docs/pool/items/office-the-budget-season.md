@@ -4,9 +4,9 @@ title: "The budget season:"
 area: office
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
-pr: #5217
+pr: #5533
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
@@ -28,3 +28,5 @@ Sent back 2026-10-20 from PR #5533 (branch claude/political-game-pool-yucp92-tt)
 Sent back 2026-10-20 from PR #5217 (branch claude/political-game-pool-udtiwn): Merging current origin/main conflicts in code: src/core2/jobs-benefits.ts, src/core2/law-reach-group-b.test.ts, src/core2/law-reach/group-b-money.ts, src/core2/world-transfer.ts, and src/core2/data/candidacy/parameters.json. Resolve those on this branch, preserving current main behavior and every included budget-season/money slice, then rerun only the changed-file checks and the required played-world budget chain. The pool-note conflict is resolvable documentation; it is these code conflicts that prevent this merger from gating the merged result.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-21 from PR #5533 (branch claude/political-game-pool-yucp92-tt): `src/core2/modules/legislature.ts:515` invokes all pre-vote hooks directly at the hearing, bypassing the stage selection and hooksRun bookkeeping in runBeforeVote; a scheduled committee/floor pass can therefore run those handlers again on the same bill. Route the hearing through the data-driven stage dispatch and prove each applicable handler runs once. `docs/pool/items/office-the-budget-season.md:20` also requires the proposal/hearing/vote-to-amended-treasury-payment chain by record id in a one-year drawn buildBenchWorld run. The body explicitly says that payment was not newly tested, and the added test only checks the hearing and bill; supply that missing payment/person trace before merge. Morning check blocks this head; no local gate pass is claimed.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-22 from PR #5533 (branch claude/political-game-pool-yucp92-tt): The returned stage dispatcher fixes the prior hook bookkeeping issue, and the test now reaches an employee, but the amended-budget-to-actual-payment acceptance is still not proved.; finish on that branch, merge main into it first.
