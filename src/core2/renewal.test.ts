@@ -226,7 +226,7 @@ it(
     throw new Error(
       `no drawn place had a couple who would end an unplanned pregnancy in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
     );
-    // Marquette, Kansas took under five minutes for its opening, month and review on a 4-core container.
+    // One place's opening, month and review took 15 seconds of test time (Kokhanok, Alaska) on a 4-core container.
   },
   PLACES * 300_000,
 );
