@@ -13,6 +13,10 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { BUSINESS_MODULE_ID, ownerOf } from "./modules/business";
+import { contractFor } from "./modules/contracts";
+import { lawChain } from "./modules/laws";
+import spendingData from "./data/budgets/treasury-spending.json" with { type: "json" };
 import {
   BUDGETS_MODULE_ID,
   budgetPriorities,
@@ -22,6 +26,7 @@ import {
 import {
   lineForPost,
   sameGovernment,
+  townShareOf,
   treasuryMonthsOf,
   treasuryParameter,
 } from "./budgets-treasury";
@@ -39,6 +44,16 @@ import { budgetProposalDue, officeActHandlers } from "./office-day-acts";
 import { budgetHearingOf } from "./modules/legislature";
 import { coreAPI } from "./state";
 
+const PROVIDERS = (
+  spendingData as unknown as {
+    providers: {
+      lines: Record<
+        string,
+        { classifications: string[]; purchasedShare: { value: number } }
+      >;
+    };
+  }
+).providers.lines;
 const seed = process.env.BUDGET_SEASON_SEED ?? randomBytes(8).toString("hex");
 // How many times the pre-vote pass reached each bill: a floor-stage hook of
 // the test's own, which the hearing must run once and nothing run again.
@@ -88,9 +103,44 @@ it("the executive's budget act opens in its season and its changes are what the 
       where,
     ).toBe(city.id);
     const handler = officeActHandlers(officeHost)["propose-budget"]!;
-    const line = Object.keys(
-      budgetsOf(api, city.id)[0]!.spendingMinor,
-    ).sort()[0]!;
+    // The line the executive changes: one that buys work from the town's
+    // firms, the one with the most left over its own payroll, so the
+    // treasury pays its purchases to the firm the body awarded the work.
+    const cityOrg = core.organizations.get(city.organizationId)!;
+    const paidByCity = (orgId: string | undefined) => {
+      const org = orgId ? core.organizations.get(orgId) : undefined;
+      return (
+        org !== undefined &&
+        (org.id === cityOrg.id || sameGovernment(org, cityOrg))
+      );
+    };
+    const town = lawChain(api).townPlaceId;
+    const kinds = new Set(
+      [...core.organizations.values()]
+        .filter((o) => o.placeId === town && o.outsideFlow === undefined)
+        .map((o) => o.classification ?? ""),
+    );
+    const wagesOn = (l: string) =>
+      [...core.jobs.values()]
+        .filter(
+          (job) =>
+            job.endsAt === undefined &&
+            paidByCity(job.organizationId) &&
+            lineForPost(city.level, job.id) === l,
+        )
+        .reduce(
+          (n, job) => n + job.wageDailyMinor * treasuryParameter("daysPerYear"),
+          0,
+        );
+    const spending = budgetsOf(api, city.id)[0]!.spendingMinor;
+    const line = Object.keys(spending)
+      .filter((l) => PROVIDERS[l]?.classifications.some((k) => kinds.has(k)))
+      .map((l) => [l, spending[l]! - wagesOn(l)] as const)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))[0]?.[0];
+    if (!line) {
+      tried.push(`${where}: no town firm does a line's purchased work`);
+      continue;
+    }
     // The executive sends their changes; the act is kept with the priorities' record id.
     prepareAct(api, mayorId, "propose-budget", {
       budget: { changes: { [line]: 1_000_000 } },
@@ -216,35 +266,118 @@ it("the executive's budget act opens in its season and its changes are what the 
         (inForce.spendingMinor[line] ?? 0) / treasuryParameter("monthsPerYear"),
       ) + owedBefore,
     );
-    // A person the line reached: a public employee paid on it after the vote.
-    const cityOrg = core.organizations.get(city.organizationId)!;
-    const paidByCity = (orgId: string | undefined) => {
-      const org = orgId ? core.organizations.get(orgId) : undefined;
-      return (
-        org !== undefined &&
-        (org.id === cityOrg.id || sameGovernment(org, cityOrg))
+    // The money the amended line paid out: the line's purchases go to the
+    // town firm the body awarded the work, a share of the line in force (a
+    // city buys for the whole town); last year's line would have bought less
+    // or more by the passed change.
+    const purchased = PROVIDERS[line]!.purchasedShare.value;
+    const bought = (due: number) =>
+      Math.min(
+        Math.max(0, due - paidLine.inTownMinor - paidLine.aidMinor),
+        Math.round(due * townShareOf(api, city) * purchased),
       );
-    };
-    const reachedNow = () =>
-      [...core.work.payrollLedgerByCommitment.values()].find(
-        (row) =>
-          row.lastPayrollReceiptId !== undefined &&
-          String(row.lastPayrollReceiptId).split(":")[1]! >= next &&
-          lineForPost(city.level, row.jobId) === line &&
-          paidByCity(core.jobs.get(row.jobId)?.organizationId),
-      );
-    for (let day = 0; day < 45 && !reachedNow(); day += 1)
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const reached = reachedNow();
-    expect(
-      reached,
-      `${where}: a public employee paid on ${line}`,
-    ).toBeDefined();
+    const oldDue =
+      Math.round(
+        (oldBudget!.spendingMinor[line] ?? 0) /
+          treasuryParameter("monthsPerYear"),
+      ) + owedBefore;
+    const award = contractFor(api, city.id, line);
+    expect(award, `${where}: ${line} awarded to a town firm`).toBeDefined();
+    const paymentId = `treasury:${city.id}:${line}:${award!.organizationId}:${month!.date}`;
+    expect(month!.paymentIds, `${where}: ${month!.id}`).toContain(paymentId);
+    expect(award!.paymentIds, `${where}: ${award!.id}`).toContain(paymentId);
+    // A treasury short of cash pays every line the same share of what it
+    // owes at the close (budgets-treasury.ts, closeTreasuries): read that
+    // share off this line's own payments. Each payment rounds down, so the
+    // purchase is that share of what the line in force buys, to within one
+    // unit per payment.
     const linePayments = month!.paymentIds.filter((id) =>
       id.includes(`:${line}:`),
     );
+    const owedOut =
+      paidLine.dueMinor - paidLine.inTownMinor - paidLine.aidMinor;
+    const share = (paidLine.providersMinor + paidLine.outsideMinor) / owedOut;
+    const rounding = linePayments.length + 1;
+    expect(
+      paidLine.providersMinor,
+      `${where}: ${paymentId} paid something`,
+    ).toBeGreaterThan(0);
+    expect(
+      Math.abs(paidLine.providersMinor - bought(paidLine.dueMinor) * share),
+      `${where}: ${paymentId} is ${share} of what ${line} buys`,
+    ).toBeLessThanOrEqual(rounding);
+    // Under last year's line the same share would have paid the firm less
+    // (or more, for a cut) by more than the rounding.
+    const moved = (bought(paidLine.dueMinor) - bought(oldDue)) * share;
+    expect(
+      Math.sign(moved),
+      `${where}: ${paymentId} moved with the passed change`,
+    ).toBe(Math.sign(passed));
+    expect(Math.abs(moved), `${where}: ${paymentId}`).toBeGreaterThan(rounding);
+    // A person the payment reached. A firm with an owner: the owner, whose
+    // next monthly draw is chosen from the profit the business kept, the
+    // payment in it. Any firm: a worker it pays after the payment (a branch
+    // of a firm based elsewhere has no owner in town).
+    const firm = award!.organizationId;
+    const owner = ownerOf(api, firm);
+    const drawAfter = () =>
+      owner === undefined
+        ? undefined
+        : (
+            api
+              .moduleState(BUSINESS_MODULE_ID)
+              .table("draws")
+              .rows() as unknown as {
+              id: string;
+              organizationId: string;
+              ownerId: string;
+              date: string;
+              profitMinor: number;
+              drawnMinor: number;
+            }[]
+          ).find(
+            (row) => row.organizationId === firm && row.date > month!.date,
+          );
+    const workerAfter = () =>
+      [...core.work.payrollLedgerByCommitment.values()].find(
+        (row) =>
+          row.lastPayrollReceiptId !== undefined &&
+          String(row.lastPayrollReceiptId).split(":")[1]! > month!.date &&
+          core.jobs.get(row.jobId)?.organizationId === firm,
+      );
+    for (
+      let day = 0;
+      day < 45 && !((owner === undefined || drawAfter()) && workerAfter());
+      day += 1
+    )
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const ownerDraw = drawAfter();
+    const worker = workerAfter();
+    expect(
+      ownerDraw ?? worker,
+      `${where}: a person ${firm} paid after ${paymentId}`,
+    ).toBeDefined();
+    if (ownerDraw)
+      expect(ownerDraw.ownerId, `${where}: ${ownerDraw.id}`).toBe(owner);
+    // The rest of the year: the amended line stays in force and every month
+    // under it pays the firm its purchases.
+    advanceCore(core, addDays(gameStartDate(), 365));
+    const under = treasuryMonthsOf(api, city.id).filter(
+      (m) => m.budgetId === adopted!.id,
+    );
+    expect(
+      budgetsOf(api, city.id).find((b) => b.id === adopted!.id)!.spendingMinor[
+        line
+      ],
+      `${where}: ${line} in force at the year's end`,
+    ).toBe(inForce.spendingMinor[line]);
+    const paidMonths = under.filter((m) =>
+      contractFor(api, city.id, line)?.paymentIds.some((id) =>
+        id.endsWith(`:${m.date}`),
+      ),
+    );
     process.stdout.write(
-      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} from ${oldBudget!.spendingMinor[line]} to ${inForce.spendingMinor[line]} (passed change ${passed}, proposed 1000000); ${month!.id} paid ${line} due ${paidLine.dueMinor} (in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, outside ${paidLine.outsideMinor}) by ${linePayments.join(", ") || "in-town pay"}; reached ${reached ? `${core.jobs.get(reached.jobId)!.personId} on ${reached.jobId} in ${reached.lastPayrollReceiptId}` : ""}\n`,
+      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} from ${oldBudget!.spendingMinor[line]} to ${inForce.spendingMinor[line]} (passed change ${passed}, proposed 1000000); ${month!.id} paid ${line} due ${paidLine.dueMinor} (last year's line ${oldDue}; in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, ${share.toFixed(4)} of the ${bought(paidLine.dueMinor)} the line buys, against ${Math.floor(bought(oldDue) * share)} under last year's line, outside ${paidLine.outsideMinor}) by ${paymentId} to ${firm} (${award!.id}, ${award!.basis}); owner ${ownerDraw ? `${ownerDraw.ownerId} in ${ownerDraw.id} (profit ${ownerDraw.profitMinor}, drawn ${ownerDraw.drawnMinor})` : `none in town (${owner ?? "no owner row"})`}; worker ${worker ? `${core.jobs.get(worker.jobId)!.personId} in ${worker.lastPayrollReceiptId}` : "none filled in"}; to ${core.date}: ${paidMonths.length} of ${under.length} months under ${adopted!.id} paid ${firm}\n`,
     );
     return;
   }
