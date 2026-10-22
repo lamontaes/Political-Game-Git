@@ -41,7 +41,7 @@ import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { townSeats } from "./offices";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import { inCustody } from "./justice";
@@ -1007,7 +1007,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     spendLivingCost(
       api,
       row.personId,
-      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+      daysBetweenText(row.livedThrough, api.state.date),
     );
     table(api, "staff").put({
       ...row,
