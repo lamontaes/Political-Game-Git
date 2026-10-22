@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/zero-dice-roots
-pr:
+pr: #5832
 after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md sections F and G2 step 10"
