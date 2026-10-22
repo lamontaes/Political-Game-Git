@@ -1,6 +1,17 @@
 {
   "entries": [
     {
+      "version": "0.21.4",
+      "releasedOn": "2026-10-21",
+      "revision": "58f33660476276db6559ea1143e52875ad978a0f",
+      "changeIds": [
+        "core-old-engine-tuition-prices",
+        "pool-check-item-count",
+        "quit-rate-note",
+        "world-transfer-needs-two-accounts-boiling-spring-lakes"
+      ]
+    },
+    {
       "version": "0.21.3",
       "releasedOn": "2026-10-21",
       "revision": "460ec26392552368105a4a6af9acc2e1ac70b87f",
