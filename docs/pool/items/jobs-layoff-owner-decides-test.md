@@ -5,7 +5,7 @@ area: world
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/standins-jobs
 pr: #5193
 blocked-on:
