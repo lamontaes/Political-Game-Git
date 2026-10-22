@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.21.5
+
+_Released October 21, 2026._
+
+### Added
+
+- **Put your own money into your campaign** The Campaigns screen has a control
+  to put an amount of your own money into your campaign. Nothing leaves your
+  savings unless you choose it, and a candidate with savings can then pay for an
+  event venue the donors did not cover.
+
 ## PRE-ALPHA 0.21.4
 
 _Released October 21, 2026._
