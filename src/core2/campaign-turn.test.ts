@@ -244,67 +244,100 @@ describe("campaigns that raise and spend", () => {
   }, 300_000);
 
   it("a donor's running total is read from its indexed row, not from the history of payments", () => {
-    const { api, pair } = worldWithPair("gift-index");
-    const { rival } = pair;
-    // Donors decide for their own reasons: a few turns reach more of them.
-    const gifts = () =>
-      api
-        .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("gifts")
-        .query("byCampaign", [rival.id]) as unknown as GiftRow[];
-    for (
-      let turn = 0;
-      turn < 5 && !gifts().some((row) => !row.donorId.startsWith("outside:"));
-      turn += 1
-    )
-      campaignTurn(api, rival.id, electionOf(api, rival));
-    // An outside place's row is many donors, not one indexed donor.
-    const gift = gifts().find((row) => !row.donorId.startsWith("outside:"));
-    // A town where no one the campaign reached would give has nothing to read.
-    if (!gift) return;
-    // Forget every payment record: the donor has still given what they'd give.
-    const money = api.moduleState(CAMPAIGNS_MODULE_ID).table("money");
-    for (const row of money.rows().slice()) money.remove(row.id);
-    expect(askForDonation(api, rival.id, gift!.donorId)).toBe(0);
-    expect(giftOf(api, rival.id, gift!.donorId)!.totalMinor).toBe(
-      gift!.totalMinor,
-    );
+    // Donors decide for their own reasons: draw places until a campaign
+    // reaches one who gives.
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const { core, api, where } = world(`gift-index:${attempt}`);
+      const pair = twoCandidates(api, core);
+      if (!pair) {
+        tried.push(`${where}: no two candidates for the first contest`);
+        continue;
+      }
+      const { rival } = pair;
+      const gifts = () =>
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("gifts")
+          .query("byCampaign", [rival.id]) as unknown as GiftRow[];
+      // An outside place's row is many donors, not one indexed donor: the
+      // index is read for a named donor.
+      const named = () =>
+        gifts().find((row) => !row.donorId.startsWith("outside:"));
+      for (let turn = 0; turn < 5 && !named(); turn += 1)
+        campaignTurn(api, rival.id, electionOf(api, rival));
+      const gift = named();
+      if (!gift) {
+        tried.push(
+          `${where}: no named donor the campaign reached would give (${gifts().length} outside rows)`,
+        );
+        continue;
+      }
+      // Forget every payment record: the donor has still given what they'd give.
+      const money = api.moduleState(CAMPAIGNS_MODULE_ID).table("money");
+      for (const row of money.rows().slice()) money.remove(row.id);
+      expect(askForDonation(api, rival.id, gift.donorId), where).toBe(0);
+      expect(giftOf(api, rival.id, gift.donorId)!.totalMinor, where).toBe(
+        gift.totalMinor,
+      );
+      return;
+    }
+    throw new Error(`no drawn town had a named donor: ${tried.join("; ")}`);
   }, 300_000);
 
   it("an ad is a message the views engine reads for the people who saw it", () => {
-    const { core, api, where, pair } = worldWithPair("ad-views");
-    const { rival } = pair;
-    // Money to spend, from the people who'd give it.
-    campaignTurn(api, rival.id, electionOf(api, rival));
-    const campaign = campaignFor(api, rival.id);
-    const lead = [...campaign.platform].sort(
-      (a, b) =>
-        Math.abs(b.position) - Math.abs(a.position) ||
-        a.question.localeCompare(b.question),
-    )[0]!;
-    // A town where no one the campaign reached would give yet has no ad to
-    // test: its donors decide for their own reasons.
-    if (campaign.raisedMinor === 0) return;
-    const free = campaign.raisedMinor - campaign.spentMinor;
-    // The turn may already have spent what it raised; its message moved the
-    // people it reached. Otherwise buy an ad with what's left.
-    const prefix = free > 0 ? "campaign-ad:" : "campaign-message:";
-    const viewers =
-      free > 0
-        ? runAd(api, { filingId: rival.id, amountMinor: free }).map(
-            (c) => c.voterId,
-          )
-        : [...core.people.keys()];
-    if (!viewers.length) return; // a town whose outlets have no followers
-    const moved = viewers.filter((id) =>
-      stancesOf(api, id).some(
-        (s) =>
-          s.topic === lead.question &&
-          s.causes.some((x) => x.eventId.startsWith(prefix)),
-      ),
-    );
-    if (free === 0 && campaign.spentMinor === 0) return;
-    expect(moved.length, where).toBeGreaterThan(0);
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const { core, api, where } = world(`ad-views:${attempt}`);
+      const pair = twoCandidates(api, core);
+      if (!pair) {
+        tried.push(`${where}: no two candidates for the first contest`);
+        continue;
+      }
+      const { rival } = pair;
+      // Money to spend, from the people who'd give it.
+      campaignTurn(api, rival.id, electionOf(api, rival));
+      const campaign = campaignFor(api, rival.id);
+      const lead = [...campaign.platform].sort(
+        (a, b) =>
+          Math.abs(b.position) - Math.abs(a.position) ||
+          a.question.localeCompare(b.question),
+      )[0]!;
+      // A town where no one the campaign reached would give has no ad to
+      // test: its donors decide for their own reasons.
+      if (campaign.raisedMinor === 0) {
+        tried.push(`${where}: nothing raised`);
+        continue;
+      }
+      const free = campaign.raisedMinor - campaign.spentMinor;
+      // The turn may already have spent what it raised; its message moved the
+      // people it reached. Otherwise buy an ad with what's left.
+      const prefix = free > 0 ? "campaign-ad:" : "campaign-message:";
+      const viewers =
+        free > 0
+          ? runAd(api, { filingId: rival.id, amountMinor: free }).map(
+              (c) => c.voterId,
+            )
+          : [...core.people.keys()];
+      if (!viewers.length) {
+        tried.push(`${where}: the outlets have no followers`);
+        continue;
+      }
+      if (free === 0 && campaign.spentMinor === 0) {
+        tried.push(`${where}: nothing raised or spent`);
+        continue;
+      }
+      const moved = viewers.filter((id) =>
+        stancesOf(api, id).some(
+          (s) =>
+            s.topic === lead.question &&
+            s.causes.some((x) => x.eventId.startsWith(prefix)),
+        ),
+      );
+      expect(moved.length, where).toBeGreaterThan(0);
+      return;
+    }
+    throw new Error(`no drawn town had an ad to test: ${tried.join("; ")}`);
   }, 300_000);
 });
 
