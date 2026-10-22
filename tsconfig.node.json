@@ -27,7 +27,6 @@
     "scripts/source/**/*.ts",
     "src/authoring/**/*.ts",
     "src/cli/**/*.ts",
-    "src/education/**/*.ts",
     "src/fiscal-authority/**/*.ts",
     "src/maps/**/*.ts",
     "src/content/**/*.ts",

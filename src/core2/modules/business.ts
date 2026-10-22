@@ -42,7 +42,6 @@ import {
   addResidentFlow,
   businessScaleOf,
   countedHeadcountOf,
-  countedHeadsOf,
   countedJobsOf,
   weightedPayrollMinor,
   purchaseShareOf,
@@ -1324,34 +1323,34 @@ function month(api: CoreAPI): void {
         // Only cash past the payroll cushion is spare: a draw never takes the
         // cash the next payroll needs, whatever profit the business has kept.
         const wanted = Math.min(retained * share, Math.max(0, cash - cushion));
-        // The business's cash is already at the town's weight, and a counted
-        // payment multiplies by the owner's household weight: ask for one
-        // household's part so the group receives what the business pays.
-        const heads = found.full ? 1 : countedHeadsOf(c, owner.id);
-        // A full owner is one household and owns one of the businesses the
-        // record stands for: the rest of the draw is the other owners', the
-        // counted households of the town.
+        // The business's cash is already at the town's weight. A full owner
+        // is one household and owns one of the businesses the record stands
+        // for: the rest of the draw is the other owners', the town's counted
+        // households. A counted owner's group receives the whole draw. The
+        // draw on the books is what the journal moved.
         const scale = found.full ? businessScaleOf(c, row.id) : 1;
-        const own = scale > 1 ? Math.floor(Math.floor(wanted) / scale) : wanted;
+        const whole = Math.floor(wanted);
+        const own = scale > 1 ? Math.floor(whole / scale) : whole;
         drawn = found.full
           ? transferCash(api, id, row.id, account, own, source) +
-            (scale > 1 && Math.floor(wanted) > own
+            (scale > 1 && whole > own
               ? countedPayment(api, {
                   id: `${id}:others`,
                   placeId: owner.placeId,
                   otherOwnerId: row.id,
-                  amountMinor: -(Math.floor(wanted) - own),
+                  amountMinor: -(whole - own),
+                  whole: true,
                   reasonKey: "owner-draw",
                   source,
                 })
               : 0)
-          : heads *
-            countedPayment(api, {
+          : countedPayment(api, {
               id,
               placeId: owner.placeId,
               personId: owner.id,
               otherOwnerId: row.id,
-              amountMinor: -Math.floor(wanted / heads),
+              amountMinor: -Math.floor(wanted),
+              whole: true,
               reasonKey: "owner-draw",
               source,
             });
