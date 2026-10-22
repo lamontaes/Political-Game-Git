@@ -61,6 +61,9 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
       housing.table("mortgages").get(loan.id) as unknown as MortgageRow
     ).holderId;
     expect(payee, where).toBe(buyer.id);
+    const payerAccount = api.accounts().main(buyer.id);
+    const payeeAccount = api.accounts().main(payee);
+    expect(payeeAccount, where).toBe(payerAccount);
     const first = household.memberIds.find((id) => core.people.get(id)?.alive);
     const before = core.people.get(first!)?.liquidMinor ?? 0;
     const sale = sellHome(api, loan.householdId, "test.departure");
@@ -80,7 +83,7 @@ it("sells a home whose mortgage the outside market holds: the loan ends and no c
       sale!.toLenderMinor + sale!.surplusMinor,
     );
     process.stdout.write(
-      `HOME-SALE ${where}: ${sale!.id}; mortgage ${loan.id}; payer ${buyer.id}; payee ${payee}; borrower ${first}; price ${sale!.priceMinor}, to lender ${sale!.toLenderMinor}, surplus ${sale!.surplusMinor}, loan balance 0\n`,
+      `HOME-SALE ${where}: ${sale!.id}; mortgage ${loan.id}; payer ${buyer.id} (account ${payerAccount}); payee ${payee} (account ${payeeAccount}); borrower ${first}; price ${sale!.priceMinor}, to lender ${sale!.toLenderMinor}, surplus ${sale!.surplusMinor}, loan balance 0\n`,
     );
     return;
   }
