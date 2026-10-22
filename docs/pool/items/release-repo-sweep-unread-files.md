@@ -5,12 +5,13 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/repo-sweep-unread
 pr:
 after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section G1"
+claimed-at: 2026-10-22T07:47:40.024Z
 ---
 
 **What.** This item records the October19 audit snapshot at `0104686`; its paths and counts require a current check before implementation. The audit's "Recommended changes, 1. Delete now" list (`docs/reports/repo-audit-2026-10-19.md`, section G1) names 698 files, 108 MB, with no importer, no reader and nothing superseding them: `src/source/` (3, section B1, plus its two `tsconfig.app.json` lines); the five ownership-boundary tests and `tests/support/ownership-boundary.ts` (6, section A, pinned to September PR waves); `scripts/dev-lab/expected-deaths.ts` (1, section A); the twelve one-session proof folders `scripts/{office-day, office-day-federal, office-day-state, office-records, filing-status, turnout-reasons, wide-races, justice, press, gov-wiring, world-proofs, law-audit}/` (33, section B2; `core2-year` and `speed-years` stay); `scripts/art-asset-factory/derive-g-press.ts` and `scripts/dehardwire-census.mjs` (2, sections B2 and F); `.github/workflows/browser.yml` and `scripts/dev-lab/write-e2e-*.ts` (3, section D); `.claude/skills/` (26, section D, replaced by a symlink to `.agents/skills/`); `prose-review/` and `examples/` (90, section C); `test-results/` and `README_pilot_completion.md` (15, sections B4 and C); and the four screenshot dumps under `docs/reports/` (162, 52.6 MB, section B4). After #5078 merges, `scripts/dead-code/reachable.mjs` goes too. The list includes public/data (52 MB, no reader, shipped in every build and the Mac app), one-session proof scripts, screenshot dumps, the ownership-boundary tests, the dead browser.yml workflow and its pinning test, the mirrored .claude/skills copy, and the unused React (Vite react plugin, zero .tsx files) and Playwright packages.
