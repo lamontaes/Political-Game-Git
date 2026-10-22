@@ -108,6 +108,8 @@ export interface UnplannedDecision {
   lawId: string | null;
   miles: number;
   travelMinor: number;
+  /** The household's cash she weighed the trip against, the day she decided. */
+  cashMinor: number;
   scores: { continue: number; end: number };
   reasons: Record<string, number>;
 }
@@ -158,6 +160,7 @@ export function decideUnplanned(
     lawId: law.lawId,
     miles,
     travelMinor,
+    cashMinor: cash,
     scores: { continue: carry, end },
     reasons,
   };

@@ -24,6 +24,7 @@ interface Decision {
   miles: number;
   scores: { continue: number; end: number };
   travelMinor: number;
+  cashMinor: number;
 }
 
 /** The miles recorded for her state, before a restriction and now. */
@@ -132,11 +133,14 @@ it(
           Number(pregnancy!.paidMinor),
           `${label} ${plan.id}`,
         ).toBeLessThanOrEqual(decision.travelMinor);
-        if (decision.travelMinor > 0)
-          expect(
-            Number(pregnancy!.paidMinor),
-            `${label} ${plan.id}: the trip is paid`,
-          ).toBeGreaterThan(0);
+        // Paid from the household's cash that day: the whole trip when it had
+        // the cash, what it had when it did not.
+        expect(
+          Number(pregnancy!.paidMinor),
+          `${label} ${plan.id}: the trip is paid from ${decision.cashMinor} on hand`,
+        ).toBeGreaterThanOrEqual(
+          Math.min(decision.travelMinor, Math.max(0, decision.cashMinor)),
+        );
       }
       // The decision reads the law: an active couple weighs the trip the law in force sets.
       const law = lawInForce(api, ABORTION_LAW_SERIES);
@@ -204,7 +208,13 @@ it(
           couple: c,
           decision: decideUnplanned(api, c as unknown as BirthCouple),
         }))
-        .filter((x) => !x.decision.continues && x.decision.travelMinor > 0);
+        // With the cash for the trip on hand: a household with none pays nothing.
+        .filter(
+          (x) =>
+            !x.decision.continues &&
+            x.decision.travelMinor > 0 &&
+            x.decision.cashMinor >= x.decision.travelMinor,
+        );
       tried.push(`${label}: ${ending.length} couples who would end one`);
       if (!ending.length) continue;
       // Their households are in focus, so the journal keeps their receipts.
