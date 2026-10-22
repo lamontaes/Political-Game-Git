@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/closures-large-cities
 pr: #5803
 blocked-on:
