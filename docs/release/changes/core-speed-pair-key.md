@@ -3,4 +3,4 @@ id: core-speed-pair-key
 impact: none
 ---
 
-A pair key is built without an array; no player-facing change.
+Record the pair-key allocation cleanup already on main; the original benchmark acceptance remains unfinished.
