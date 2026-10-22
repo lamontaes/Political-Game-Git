@@ -88,7 +88,11 @@ function world(salt: string) {
   };
 }
 
-/** Two wealthy adults filed in the first contest both qualify for. */
+/**
+ * Two wealthy adults filed in the first contest both qualify for: the richest
+ * adults, in order, who the contest's rules let on the ballot (a national
+ * outlet's head lives elsewhere and a press owner may not run).
+ */
 function twoCandidates(
   api: CoreAPI,
   core: CoreState,
@@ -101,19 +105,18 @@ function twoCandidates(
     )
     .sort((a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id));
   for (const contest of openContests(api)) {
-    const a = fileCandidacy(api, {
-      personId: adults[0]!.id,
-      contestId: contest.id,
-      platform: [],
-    });
-    if (a.status === "refused" || a.filing.status !== "on-ballot") continue;
-    const b = fileCandidacy(api, {
-      personId: adults[1]!.id,
-      contestId: contest.id,
-      platform: [],
-    });
-    if (b.status === "refused" || b.filing.status !== "on-ballot") continue;
-    return { you: a.filing, rival: b.filing };
+    const filed: FilingRow[] = [];
+    for (const adult of adults) {
+      const result = fileCandidacy(api, {
+        personId: adult.id,
+        contestId: contest.id,
+        platform: [],
+      });
+      if (result.status === "refused" || result.filing.status !== "on-ballot")
+        continue;
+      filed.push(result.filing);
+      if (filed.length === 2) return { you: filed[0]!, rival: filed[1]! };
+    }
   }
   return null;
 }
@@ -236,62 +239,94 @@ describe("campaigns that raise and spend", () => {
   }, 300_000);
 
   it("a donor's running total is read from its indexed row, not from the history of payments", () => {
-    const { api, pair } = worldWithPair("gift-index");
-    const { rival } = pair;
-    // Donors decide for their own reasons: a few turns reach more of them.
-    const gifts = () =>
-      api
-        .moduleState(CAMPAIGNS_MODULE_ID)
-        .table("gifts")
-        .query("byCampaign", [rival.id]) as unknown as GiftRow[];
-    for (let turn = 0; turn < 5 && !gifts().length; turn += 1)
-      campaignTurn(api, rival.id, electionOf(api, rival));
-    const gift = gifts()[0];
-    // A town where no one the campaign reached would give has nothing to read.
-    if (!gift) return;
-    // Forget every payment record: the donor has still given what they'd give.
-    const money = api.moduleState(CAMPAIGNS_MODULE_ID).table("money");
-    for (const row of money.rows().slice()) money.remove(row.id);
-    expect(askForDonation(api, rival.id, gift!.donorId)).toBe(0);
-    expect(giftOf(api, rival.id, gift!.donorId)!.totalMinor).toBe(
-      gift!.totalMinor,
-    );
+    // Donors decide for their own reasons: draw places until a campaign
+    // reaches one who gives.
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const { core, api, where } = world(`gift-index:${attempt}`);
+      const pair = twoCandidates(api, core);
+      if (!pair) {
+        tried.push(`${where}: no two candidates for the first contest`);
+        continue;
+      }
+      const { rival } = pair;
+      const gifts = () =>
+        api
+          .moduleState(CAMPAIGNS_MODULE_ID)
+          .table("gifts")
+          .query("byCampaign", [rival.id]) as unknown as GiftRow[];
+      for (let turn = 0; turn < 5 && !gifts().length; turn += 1)
+        campaignTurn(api, rival.id, electionOf(api, rival));
+      const gift = gifts()[0];
+      if (!gift) {
+        tried.push(`${where}: no one the campaign reached would give`);
+        continue;
+      }
+      // Forget every payment record: the donor has still given what they'd give.
+      const money = api.moduleState(CAMPAIGNS_MODULE_ID).table("money");
+      for (const row of money.rows().slice()) money.remove(row.id);
+      expect(askForDonation(api, rival.id, gift.donorId), where).toBe(0);
+      expect(giftOf(api, rival.id, gift.donorId)!.totalMinor, where).toBe(
+        gift.totalMinor,
+      );
+      return;
+    }
+    throw new Error(`no drawn town had a donor: ${tried.join("; ")}`);
   }, 300_000);
 
   it("an ad is a message the views engine reads for the people who saw it", () => {
-    const { core, api, where, pair } = worldWithPair("ad-views");
-    const { rival } = pair;
-    // Money to spend, from the people who'd give it.
-    campaignTurn(api, rival.id, electionOf(api, rival));
-    const campaign = campaignFor(api, rival.id);
-    const lead = [...campaign.platform].sort(
-      (a, b) =>
-        Math.abs(b.position) - Math.abs(a.position) ||
-        a.question.localeCompare(b.question),
-    )[0]!;
-    // A town where no one the campaign reached would give yet has no ad to
-    // test: its donors decide for their own reasons.
-    if (campaign.raisedMinor === 0) return;
-    const free = campaign.raisedMinor - campaign.spentMinor;
-    // The turn may already have spent what it raised; its message moved the
-    // people it reached. Otherwise buy an ad with what's left.
-    const prefix = free > 0 ? "campaign-ad:" : "campaign-message:";
-    const viewers =
-      free > 0
-        ? runAd(api, { filingId: rival.id, amountMinor: free }).map(
-            (c) => c.voterId,
-          )
-        : [...core.people.keys()];
-    if (!viewers.length) return; // a town whose outlets have no followers
-    const moved = viewers.filter((id) =>
-      stancesOf(api, id).some(
-        (s) =>
-          s.topic === lead.question &&
-          s.causes.some((x) => x.eventId.startsWith(prefix)),
-      ),
-    );
-    if (free === 0 && campaign.spentMinor === 0) return;
-    expect(moved.length, where).toBeGreaterThan(0);
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const { core, api, where } = world(`ad-views:${attempt}`);
+      const pair = twoCandidates(api, core);
+      if (!pair) {
+        tried.push(`${where}: no two candidates for the first contest`);
+        continue;
+      }
+      const { rival } = pair;
+      // Money to spend, from the people who'd give it.
+      campaignTurn(api, rival.id, electionOf(api, rival));
+      const campaign = campaignFor(api, rival.id);
+      const lead = [...campaign.platform].sort(
+        (a, b) =>
+          Math.abs(b.position) - Math.abs(a.position) ||
+          a.question.localeCompare(b.question),
+      )[0]!;
+      // A town where no one the campaign reached would give has no ad to
+      // test: its donors decide for their own reasons.
+      if (campaign.raisedMinor === 0) {
+        tried.push(`${where}: nothing raised`);
+        continue;
+      }
+      const free = campaign.raisedMinor - campaign.spentMinor;
+      // The turn may already have spent what it raised; its message moved the
+      // people it reached. Otherwise buy an ad with what's left.
+      const prefix = free > 0 ? "campaign-ad:" : "campaign-message:";
+      const viewers =
+        free > 0
+          ? runAd(api, { filingId: rival.id, amountMinor: free }).map(
+              (c) => c.voterId,
+            )
+          : [...core.people.keys()];
+      if (!viewers.length) {
+        tried.push(`${where}: the outlets have no followers`);
+        continue;
+      }
+      if (free === 0 && campaign.spentMinor === 0) {
+        tried.push(`${where}: nothing raised or spent`);
+        continue;
+      }
+      const moved = viewers.filter((id) =>
+        stancesOf(api, id).some(
+          (s) =>
+            s.topic === lead.question &&
+            s.causes.some((x) => x.eventId.startsWith(prefix)),
+        ),
+      );
+      expect(moved.length, where).toBeGreaterThan(0);
+      return;
+    }
+    throw new Error(`no drawn town had an ad to test: ${tried.join("; ")}`);
   }, 300_000);
 });
 
@@ -388,11 +423,23 @@ describe("candidates who read their party", () => {
       party,
       status: "on-ballot",
     });
+    // The nominees whose own view and their party's pull do not cancel: a
+    // person standing at 0 on every question has nothing continuous to show,
+    // so the sliding-scale proof is drawn from those who do stand somewhere.
+    const standing = adults.filter((p) =>
+      candidateAnswers(api, PLATFORM_QUESTIONS, filing(p.id, left)).some(
+        (x) => x.position !== null && x.position !== 0,
+      ),
+    );
+    expect(
+      standing.length,
+      `${where}: fewer than three adults stand anywhere under the left party`,
+    ).toBeGreaterThanOrEqual(3);
     const pairs: [string, string][] = [
       // The same person under each party, two people, and two officials the
       // world holds no view for (party alone).
-      [adults[0]!.id, adults[0]!.id],
-      [adults[1]!.id, adults[2]!.id],
+      [standing[0]!.id, standing[0]!.id],
+      [standing[1]!.id, standing[2]!.id],
       ["official:fixture:a", "official:fixture:b"],
     ];
     for (const [a, b] of pairs) {

@@ -7,12 +7,15 @@ import { hides, presentIds, turnOf } from "./scene";
 import { backdropStaging } from "./staging";
 import staging from "../../art/backdrops/staging.json" with { type: "json" };
 
-// A random painted place each run, named so a failure can be replayed.
+// A random painted place each run, named so a failure can be replayed. Only a
+// place with two standing spots at different positions can turn two people
+// toward each other.
+const standing = (place: string) =>
+  backdropStaging(place)!
+    .spots.filter((spot) => (spot.pose ?? "stand") === "stand")
+    .sort((x, y) => x.x - y.x);
 const places = Object.keys(staging.places).filter(
-  (place) =>
-    backdropStaging(place)!.spots.filter(
-      (spot) => (spot.pose ?? "stand") === "stand",
-    ).length >= 2,
+  (place) => new Set(standing(place).map((spot) => spot.x)).size >= 2,
 );
 const place =
   process.env.PEOPLE_TEST_PLACE ??
@@ -20,12 +23,11 @@ const place =
 
 describe(`who people face at ${place}`, () => {
   const stage = backdropStaging(place)!;
-  const [a, b] = stage.spots
-    .filter((spot) => (spot.pose ?? "stand") === "stand")
-    .sort((x, y) => x.x - y.x);
+  const [a] = standing(place);
+  const b = standing(place).find((spot) => spot.x !== a!.x);
 
   it("turns two people toward each other", () => {
-    if (a!.x === b!.x) return;
+    expect(a!.x).toBeLessThan(b!.x);
     expect(turnOf(a!, [a!, b!], undefined).toward).toBe("right");
     expect(turnOf(b!, [a!, b!], undefined).toward).toBe("left");
   });
