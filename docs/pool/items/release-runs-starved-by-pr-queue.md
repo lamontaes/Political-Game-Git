@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/ci-skip-pool-pushes
+pr: #5789
 blocked-on:
 source: added by the CTO from the Oct 20 night check
-claimed-at:
+claimed-at: 2026-10-21T09:07:29.797Z
 ---
 
 **What.** The last successful Release run on main was at 2026-10-20T18:37Z (2321e9aa0). Every run since (for example on 260fb1ae8, f495d2c42 and ff3a41c18 between 23:29 and 23:45Z) ends cancelled. release.yml already ignores docs/pool-only pushes, so pool commits are not the cause. Each run sits pending behind about 255 queued pull-request runs (144 Deterministic validation, 64 M0 guards, 42 Audit scan at 21:40Z, the oldest queued since 13:56Z), and the next merge to main replaces the pending one before a runner frees. Main's own Deterministic validation and M0 guards runs never finish either, so nobody can tell whether main is green.
