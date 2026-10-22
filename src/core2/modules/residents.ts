@@ -1810,14 +1810,17 @@ export function releaseResidentHousehold(
   // outside the town, paid from the place's outside account.
   if (ownFlows && cash && cash.unplaced > 0) {
     const unplaced = unplacedFlowOf(rt, placeId);
-    // A worker without a recorded job: an adult who already holds a local
-    // job keeps it, and the household's jobless adult takes the commute.
-    const worker = record.people.find(
-      (row) =>
-        row.livingCostDailyMinor > 0 &&
-        core.people.has(row.id) &&
-        !core.people.get(row.id)!.jobId,
-    );
+    // A worker without a recorded job, by the same rule the counts share the
+    // place's unplaced workers by (`jobless`): a working-age member with no
+    // job. An adult who already holds a local job keeps it.
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    const worker = record.people.find((row) => {
+      const person = core.people.get(row.id);
+      if (!person || person.jobId) return false;
+      const age = ageOn(person.birthDate, core.date);
+      return age >= from && age < below;
+    });
     if (unplaced && worker) {
       const amount = Math.round(unplaced.amountMinor * cash.unplaced);
       if (

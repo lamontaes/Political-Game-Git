@@ -4,12 +4,12 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { BUDGETS_MODULE_ID, withholdingOf } from "./modules/budgets";
 import { countedDemotions } from "./modules/counted-demotion";
 import { lawInForce } from "./modules/laws";
-import { residentsRuntime } from "./modules/residents";
+import { countedParameter, residentsRuntime } from "./modules/residents";
 import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState, PersonState } from "./types";
@@ -72,6 +72,40 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
     }
     if (!commuter || !local) continue;
     expect(local.id, where).not.toBe(commuter.id);
+    // The commute goes to a member the counts share the unplaced workers
+    // among: working age, no job. A household with a jobless member past
+    // working age and a jobless one of working age gives it to the latter.
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    const ageNow = (p: PersonState) => ageOnDate(p.birthDate, state.date);
+    let older: string | undefined;
+    for (const household of [...rt.store.liveHouseholds()]
+      .filter((h) => h.unplacedWorkers > 0 && rt.store.countedMembers(h).length)
+      .slice(0, 80)) {
+      const ids = rt.store
+        .countedMembers(household)
+        .map((m) => rt.store.ids[m]!);
+      fillInPerson(state, ids[0]!);
+      const members = [...state.people.values()].filter(
+        (p) => p.householdId === household.id,
+      );
+      const took = members.find((p) => p.jobId?.startsWith("job:commuter:"));
+      if (!took) continue;
+      expect(
+        ageNow(took),
+        `${where}: ${took.id} commutes`,
+      ).toBeGreaterThanOrEqual(from);
+      expect(ageNow(took), `${where}: ${took.id} commutes`).toBeLessThan(below);
+      const past = members.find(
+        (p) => p.id !== took.id && !p.jobId && ageNow(p) >= below,
+      );
+      if (past && !older)
+        older = `${household.id}: ${took.id} (${ageNow(took)}) commutes, not ${past.id} (${ageNow(past)})`;
+    }
+    if (!older) {
+      tried.push(`${place.name}: no household with a member past working age`);
+      continue;
+    }
     expect(
       state.jobs.get(local.jobId!)?.endsAt,
       `${where}: ${local.jobId} kept`,
@@ -133,7 +167,7 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
           lawInForce(api, series).value ?? 0,
           `${where}: nothing withheld, so ${series} is not in force`,
         ).toBe(0);
-    const trace = `${commuter.id} holds ${job.id} at ${employer.id} (housemate ${local.id} keeps ${local.jobId}); paid ${ledger!.paidMinor}, last payroll receipt ${ledger!.lastPayrollReceiptId}; withholding ${
+    const trace = `${older}; ${commuter.id} holds ${job.id} at ${employer.id} (housemate ${local.id} keeps ${local.jobId}); paid ${ledger!.paidMinor}, last payroll receipt ${ledger!.lastPayrollReceiptId}; withholding ${
       withheld
         .map(
           (row) =>
