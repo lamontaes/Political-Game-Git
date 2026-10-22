@@ -27,7 +27,7 @@ import { SUBJECT_RESPONSE_DECISION } from "./press/subject-response-decision";
 import {
   FACET_AFFECTIONATE_DECISIONS,
   FACET_AFFECTIONATE_EFFECTS,
-} from "./traits/effects/facet-affectionate";
+} from "../core2/trait-effects/facet-affectionate";
 
 /**
  * The packs and decisions this build loads.
