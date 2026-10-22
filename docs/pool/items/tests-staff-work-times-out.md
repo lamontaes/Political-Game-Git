@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/staff-test-timeout
-pr:
+pr: #5837
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-22T06:18:14.823Z
