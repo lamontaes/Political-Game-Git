@@ -13,7 +13,7 @@ it("counts every day from 0000 to 9999 the way the calendar does", () => {
   let date = new Date(day * 86_400_000);
   const epoch = makeIsoDate("1970-01-01");
   // Walk the whole span in steps; each step is checked against Date.
-  for (; date.getUTCFullYear() < 9999 || date.getUTCMonth() < 11;) {
+  for (; date.getUTCFullYear() <= 9999;) {
     const text = `${String(date.getUTCFullYear()).padStart(4, "0")}-${String(date.getUTCMonth() + 1).padStart(2, "0")}-${String(date.getUTCDate()).padStart(2, "0")}`;
     if (daysBetween(epoch, makeIsoDate(text)) !== day)
       throw new Error(

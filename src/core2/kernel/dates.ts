@@ -190,8 +190,8 @@ function epochDayOf(date: string): number {
 
 /**
  * `daysBetween` for dates held as plain text (a record's birth date, the
- * core's date): the day number cache validates a date the first time it
- * sees it, so a caller need not wrap each side in `makeIsoDate` on every read.
+ * core's date): the arithmetic reader validates each date, so a caller
+ * need not wrap each side in `makeIsoDate` on every read.
  */
 export function daysBetweenText(start: string, end: string): number {
   return daysBetween(start as IsoDate, end as IsoDate);
