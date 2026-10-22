@@ -1810,8 +1810,13 @@ export function releaseResidentHousehold(
   // outside the town, paid from the place's outside account.
   if (ownFlows && cash && cash.unplaced > 0) {
     const unplaced = unplacedFlowOf(rt, placeId);
+    // A worker without a recorded job: an adult who already holds a local
+    // job keeps it, and the household's jobless adult takes the commute.
     const worker = record.people.find(
-      (row) => row.livingCostDailyMinor > 0 && core.people.has(row.id),
+      (row) =>
+        row.livingCostDailyMinor > 0 &&
+        core.people.has(row.id) &&
+        !core.people.get(row.id)!.jobId,
     );
     if (unplaced && worker) {
       const amount = Math.round(unplaced.amountMinor * cash.unplaced);

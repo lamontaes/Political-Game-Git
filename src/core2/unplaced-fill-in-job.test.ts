@@ -44,22 +44,38 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
         .reduce((n, flow) => n + flow.amountMinor, 0);
     // A counted household with unplaced workers whose fill-in gives one of its
     // people a commuter job (a household of children or retirees would not).
+    // A mixed household: one adult holds a local job, so the commute goes to
+    // a member without one, and the local job is kept.
     let commuter: PersonState | undefined;
+    let local: PersonState | undefined;
     let before = 0;
     for (const household of [...rt.store.liveHouseholds()]
-      .filter((h) => h.unplacedWorkers > 0 && rt.store.countedMembers(h).length)
+      .filter(
+        (h) =>
+          h.unplacedWorkers > 0 &&
+          rt.store.countedMembers(h).length &&
+          h.jobs.some((job) => job.endsAt === undefined),
+      )
       .slice(0, 12)) {
       before = pool();
       const member = rt.store.ids[rt.store.countedMembers(household)[0]!]!;
       fillInPerson(state, member);
-      commuter = [...state.people.values()].find(
-        (p) =>
-          p.householdId === household.id &&
-          p.jobId?.startsWith("job:commuter:"),
+      const members = [...state.people.values()].filter(
+        (p) => p.householdId === household.id,
       );
-      if (commuter) break;
+      commuter = members.find((p) => p.jobId?.startsWith("job:commuter:"));
+      local = members.find(
+        (p) => p.jobId && !p.jobId.startsWith("job:commuter:"),
+      );
+      if (commuter && local) break;
+      commuter = undefined;
     }
-    if (!commuter) continue;
+    if (!commuter || !local) continue;
+    expect(local.id, where).not.toBe(commuter.id);
+    expect(
+      state.jobs.get(local.jobId!)?.endsAt,
+      `${where}: ${local.jobId} kept`,
+    ).toBeUndefined();
     // The neighbor the player meets: their records are kept like anyone the
     // player deals with, withholding included.
     state.focusPersonIds.add(commuter.id);
@@ -117,7 +133,7 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
           lawInForce(api, series).value ?? 0,
           `${where}: nothing withheld, so ${series} is not in force`,
         ).toBe(0);
-    const trace = `${commuter.id} holds ${job.id} at ${employer.id}; paid ${ledger!.paidMinor}, last payroll receipt ${ledger!.lastPayrollReceiptId}; withholding ${
+    const trace = `${commuter.id} holds ${job.id} at ${employer.id} (housemate ${local.id} keeps ${local.jobId}); paid ${ledger!.paidMinor}, last payroll receipt ${ledger!.lastPayrollReceiptId}; withholding ${
       withheld
         .map(
           (row) =>
