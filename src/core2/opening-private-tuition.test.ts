@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { setBookkeeping } from "./bookkeeping";
+import { residentsRuntime } from "./modules/residents";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { parameter as p } from "./parameters";
@@ -113,9 +114,15 @@ it(`a drawn played world uses the homeschool factor with a positive tuition cont
         twoLevel: true,
         placeKey: here.key,
       });
-      const tuition = [...core.finance.contracts.values()].filter(
-        (row) => row.kind === "household.customer.private-school",
-      );
+      // Counted households carry the same tuition in the residents flow store.
+      const tuition = [
+        ...[...core.finance.contracts.values()].filter(
+          (row) => row.kind === "household.customer.private-school",
+        ),
+        ...[...(residentsRuntime(core)?.flows.values() ?? [])].filter(
+          (row) => row.financeKind === "household.customer.private-school",
+        ),
+      ];
       tried.push(
         `${here.name} (${here.key}): ${tuition.length} tuition contracts`,
       );
@@ -128,6 +135,7 @@ it(`a drawn played world uses the homeschool factor with a positive tuition cont
       expect(hs.share, where).toBeGreaterThan(0);
       expect(used, where).toBeCloseTo(nces.share * (1 - hs.share), 10);
       expect(tuition[0]!.amountMinor, where).toBeGreaterThan(0);
+      expect(JSON.stringify(tuition[0]!.source), where).toContain(String(used));
       expect(core.organizations.has(tuition[0]!.payeeId), where).toBe(true);
       process.stdout.write(
         `HOMESCHOOL_PLAYED ${JSON.stringify({
