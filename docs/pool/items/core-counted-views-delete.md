@@ -5,13 +5,13 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/pool-views-delete
-pr: #5321
+status: open
+claimed-by:
+pr:
 blocked-on:
 after: world-counted-reads-jobs, world-counted-reads-business, world-counted-reads-housing, gov-counted-reads-campaigns, gov-counted-reads-retirement-claims
 source: "split from core-stopgap-counted-groups-faked-mechanic (SG-CORE-counted-person-views), Oct 15"
-claimed-at: 2026-10-20T11:47:33.329Z
+claimed-at:
 ---
 
 **What.** Once jobs, business, housing, campaigns and retirement claims read groups, nothing builds a record from the packed columns for the engines. Delete `CountedHouseholdMap`, `personInput` for engine reads and `householdView`, keep `takeResidentHousehold` for fill-in, and mark the stopgap resolved with how. The counted tier then has one way to be read.
@@ -37,7 +37,7 @@ Sent back 2026-10-17 from PR #4920 (branch claude/births-columns): Merging curre
 
 Looked at Oct 20 (claude/political-game-pool-3xfqef-5), released unbuilt: the five `after` items are done, but the views still have live readers beyond them. `countedHouseholdsByPlace` feeds six call sites in `births-counted.ts` (PR #4920's work), `campaign-day.ts` (town household count) and `housing-construction.ts` (`residentsOf`) read `ResidentsRuntime.households`, and six tests read it too (`residents.test.ts`, `counted-demotion.test.ts`, `housing-laws.test.ts`, `counted-deaths-spread.test.ts`). `personInput` must stay for `takeResidentHousehold` (fill-in) with its stopgap call dropped. Order: finish #4920 (births and credit on columns), move campaign-day and housing-construction to `store.liveHouseholds()` and `store.weightedPeople(placeId)`, then delete `CountedHouseholdMap`, `householdView` and `ResidentsRuntime.households`. This is M, not S.
 
-Oct 20 (claude/pool-views-delete, partial): `campaign-day.ts` (town household count) and `housing-construction.ts` (`residentsOf`) now read `store.liveHouseholds()` and `store.countedMembers`, the same counts. Still reading `ResidentsRuntime.households` or `householdView`: `births-counted.ts` (six sites, PR #4920's work), `residents.test.ts`, `counted-demotion.test.ts`, `housing-laws.test.ts`, `counted-deaths-spread.test.ts`. After those, delete `CountedHouseholdMap`, `householdView` and `ResidentsRuntime.households`, keep `personInput` for fill-in with the stopgap call dropped, and resolve `SG-CORE-counted-person-views`. This item is not done by the PR that carries this note.
+Historical snapshot, Oct 20 (claude/pool-views-delete, partial): `campaign-day.ts` (town household count) and `housing-construction.ts` (`residentsOf`) then read `store.liveHouseholds()` and `store.countedMembers`, the same counts. Remaining readers in that snapshot of `ResidentsRuntime.households` or `householdView`: `births-counted.ts` (six sites, PR #4920's work), `residents.test.ts`, `counted-demotion.test.ts`, `housing-laws.test.ts`, `counted-deaths-spread.test.ts`. After those, delete `CountedHouseholdMap`, `householdView` and `ResidentsRuntime.households`, keep `personInput` for fill-in with the stopgap call dropped, and resolve `SG-CORE-counted-person-views`. This item is not done by the PR that carries this note.
 
 Sent back 2026-10-20 from PR #4915 (branch claude/counted-views-delete): Merge main fc2817d7d5b5 into claude/counted-views-delete conflicts in: src/core2/modules/jobs.ts, src/core2/unfilled-opening-pay.test.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
 
