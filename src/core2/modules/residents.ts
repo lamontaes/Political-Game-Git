@@ -14,7 +14,7 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import { transfer, transferSplit } from "../accounts";
+import { drawSavingsToCover, transfer, transferSplit } from "../accounts";
 import { livingCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
@@ -56,6 +56,7 @@ export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
+import { weightedPayrollMinor } from "../residents-economy";
 import {
   chargeGroups,
   flowWeights,
@@ -89,6 +90,8 @@ const ORDER = {
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
   arrearsMinor: number;
+  /** A household's living cost written off past the creditors' charge-off age (never paid, never asked again). */
+  writtenOffMinor?: number;
   /** Latest settled request and payment, read by lenders rather than opening cash or promised pay. */
   lastRequestedMinor?: number;
   lastPaidMinor?: number;
@@ -691,6 +694,31 @@ function spendable(core: CoreState, ownerId: string): number {
 }
 
 /**
+ * What a business can pay now: its cash, and when that falls short of what
+ * it owes, the savings it holds at a local bank first (its own money, drawn
+ * before a payroll or a bill goes unpaid and the firm fails with money in
+ * the bank).
+ */
+function spendableFromSavings(
+  api: CoreAPI,
+  core: CoreState,
+  ownerId: string,
+  owed: number,
+  flowId: string,
+): number {
+  const cash = spendable(core, ownerId);
+  if (cash >= owed) return cash;
+  drawSavingsToCover(core, api, {
+    id: `savings-for-payment:${flowId}@${core.date}`,
+    holderId: ownerId,
+    owedMinor: owed,
+    asOf: core.date,
+    reason: `Flow ${flowId} asked ${owed} minor units against ${cash} in cash.`,
+  });
+  return spendable(core, ownerId);
+}
+
+/**
  * What a household's living cost takes from each member who can pay it: the
  * bill's payer first, then the others living there in id order, each from what
  * they hold, until the amount is met.
@@ -1024,7 +1052,10 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       ? requested
       : carries && payerPerson
         ? legs.reduce((n, leg) => n + leg.amount, 0)
-        : Math.min(requested, spendable(core, flow.payerId));
+        : Math.min(
+            requested,
+            spendableFromSavings(api, core, flow.payerId, requested, flow.id),
+          );
     if (countedPaid && paid > 0) {
       // Each counted group is paid its part, less what the law withholds.
       const net = payGroups(api, rt, {
@@ -1062,7 +1093,19 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         if (leg.amount > 0) post(api, flow, leg.amount, leg.payerId);
     } else if (paid > 0) post(api, flow, paid);
   }
-  if (carries) flow.arrearsMinor = requested - paid;
+  if (carries) {
+    // What is still unpaid after the creditors' charge-off age (a number of
+    // monthly bills) is written off: it stays on the books as written off and
+    // is not asked again, so a household with no job and no cash does not owe
+    // a growing sum forever.
+    const owed = requested - paid;
+    const ceiling = Math.round(
+      flow.amountMinor * api.parameter("livingCostWriteOffBills"),
+    );
+    flow.arrearsMinor = Math.min(owed, ceiling);
+    if (owed > ceiling)
+      flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + (owed - ceiling);
+  }
   flow.lastRequestedMinor = requested;
   flow.lastPaidMinor = paid;
   if (flow.kind === "outside-costs")
@@ -1192,7 +1235,7 @@ function overCapacity(
   api: CoreAPI,
   rt: ResidentsRuntime,
   flow: FlowState,
-  book: { annualDemandMinor: number },
+  book: { annualDemandMinor: number; annualPayrollMinor: number },
   paid: number,
 ): number {
   const month = api.state.date.slice(0, 7);
@@ -1201,8 +1244,18 @@ function overCapacity(
     row = { month, receivedMinor: 0 };
     rt.sellerMonth.set(flow.payeeId, row);
   }
+  // A seller staffed by counted workers serves as many as they stand for.
+  const staffed =
+    book.annualPayrollMinor > 0
+      ? weightedPayrollMinor(
+          api.state as CoreState,
+          flow.payeeId,
+          book.annualPayrollMinor,
+          DAYS_PER_YEAR,
+        ) / book.annualPayrollMinor
+      : 1;
   const capacity =
-    book.annualDemandMinor /
+    (book.annualDemandMinor * staffed) /
     api.parameter("sellerCapacityUtilization") /
     api.parameter("monthsPerYear");
   const room = Math.max(0, Math.floor(capacity - row.receivedMinor));
