@@ -263,6 +263,11 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
         row!.minAge,
       );
     }
+    const first = met[0]!;
+    const work = first.pastFacts?.find((f) => f.kind === "identity:work");
+    process.stdout.write(
+      `TRIP RESIDENT ${town.name} (${town.key}), seed ${seed}: ${first.id}, age ${ageOn(first.birthDate, core.date)}, ${work ? `${work.id}: ${work.facts?.title} at ${work.facts?.workplace}` : "no counts for this place"}\n`,
+    );
     expect(
       officeActsOf(api, president).filter((a) => a.kind === "daily-brief")
         .length,

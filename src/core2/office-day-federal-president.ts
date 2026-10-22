@@ -705,7 +705,8 @@ export function vicePresidentOf(api: CoreAPI): string | null {
  * each person met is drawn from its counts, so their age and job and the
  * wage that job pays there match what the counts show.
  * Stopgap SG-WORLD-coarse-place-no-payroll: the job is a fact on the person;
- * no employer, payroll or household beyond themselves exists there yet.
+ * no employer, payroll or household beyond themselves exists there yet, so
+ * SG-OFFICE-FED-trip-residents stays open.
  */
 export function travelToTown(
   api: CoreAPI,
@@ -725,6 +726,8 @@ export function travelToTown(
   const coarse = coarsePlace(placeKey);
   // stopgapId: SG-WORLD-coarse-place-no-payroll
   api.stopgap("SG-WORLD-coarse-place-no-payroll");
+  // stopgapId: SG-OFFICE-FED-trip-residents
+  api.stopgap("SG-OFFICE-FED-trip-residents");
   const placeId = place.context.jurisdiction.id;
   const tripId = `trip:${traveler}:${placeKey}:${api.state.date}`;
   const day = makeIsoDate(api.state.date);

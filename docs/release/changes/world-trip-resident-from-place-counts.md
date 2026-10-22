@@ -1,5 +1,5 @@
 ---
-id: other-places-coarse-population
+id: world-trip-resident-from-place-counts
 impact: patch
 section: Changed
 title: People you meet on a trip to another town now have an age, job and wage that town's workforce shows
