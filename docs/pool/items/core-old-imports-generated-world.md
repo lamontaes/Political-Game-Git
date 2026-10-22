@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/generated-world-old-imports
 pr:
-blocked-on:
+blocked-on: core-old-engine-04-opening-population-no-throwaway-world
 source: split from core-old-imports-opening-builders by pool feeder Oct 20
 claimed-at: 2026-10-22T06:11:44.353Z
 ---
