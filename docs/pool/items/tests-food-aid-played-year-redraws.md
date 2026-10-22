@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/food-aid-redraw
-pr:
+pr: #5800
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T11:39:25.221Z

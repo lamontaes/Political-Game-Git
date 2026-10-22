@@ -5,21 +5,21 @@ area: core
 kind: research
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/memory-player-decisions
+status: open
+claimed-by:
 pr: #5663
 blocked-on: owner-decision-may-player-old-decisions-be-compacted
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T17:44:36.455Z
+claimed-at:
 ---
 
-**What.** After the withholding, campaign, drive-fact and ballot trims a three-year Juliaetta run (seed memremeasure1, place key 1642130) still grows about 8.5 MiB a month. By JSON size the largest tables still growing are `core.durableLog` (+19.8 MB over months 12 to 30), `core.eventIds` (+5.8), `core2-campaigns-v1/money` (+4.7), `core2-employer-taxes-v1/shares` (+3.8), `speech/retellings` (+2.9), `core2-world-races-v1/places` (+2.4) and `candidacy/decisions` (+2.2). The heap also steps up about 35 MB in each election month. Find what the step is (the live-allocation sampler over months 21 to 23 puts holdElection, world-races recordPlaces and campaign speech first) and trim each to what an engine reads.
+**What.** Apply the owner's Oct 20 memory ruling: after a year, the player's own routine decisions keep their summary and reasons, not every option's score. Today `condenseCircleDecisions` in src/core2/decision-detail.ts condenses only decisions by other people (retainLog in src/core2/state.ts queues a row only when `row.actorId !== core.playerId`), so the player's roughly 22 MB of full `decision` objects in `core.durableLog` stay forever. Queue the player's decisions too, with their own longer window (a new TUNABLE `playerDecisionDetailMonths` of 12 in parameters.json), and condense them the same way to `actorId`, `date`, `reasonKey`, `selectedReasons` and the choice, so the why view still names the reason. Keep full records for a decision that is not routine: a filing, a vote cast, a bribe, a crime, a signed or vetoed bill, a promise, and anything a public record or the news cites. Then, with `core.eventIds`, trim ids of kinds that can never be emitted twice after a year, keeping ids such as `veto-override:<bill>` that can recur. Last, take the heap-snapshot diff between months 20 and 23 that earlier notes ask for, to find what holds the 35 MB election-month step (`holdElection`, world-races `recordPlaces`, campaign speech), and trim it to what an engine reads.
 
-**Rules.** Keep it simple: the why is saved for the player and the people they deal with (`keepsWhy` in `src/core2/why-kept.ts`). An effect is a read: a row nothing reads is dropped or kept in a smaller form.
+**Rules.** Keep it simple: the why is saved for the player and the people they deal with, so a routine decision keeps its reasons in a smaller form and only a non-routine one stays whole. An effect is a read: a row nothing reads is dropped or kept smaller, and the why view and the journal still read the condensed form. Ask why: after condensing, a one-year-old decision must still answer why by `reasonKey` and `selectedReasons`. Speed: condensing visits each queued record once and never scans the log. Replace, never layer: the circle-only condenser becomes one condenser with two windows, not a second one beside it. Estimate, never UNKNOWN: the 12-month window is a TUNABLE parameter row with its spread, not a bare number.
 
-**Done when.** The same three-year run (`CORE2_BOOKKEEPING=0 node --expose-gc --import tsx scripts/core2-guard/memory.mjs --months 36`) reports at or under 5 MiB a month, with the tables trimmed listed.
+**Done when.** In a three-year run of the played world (`buildBenchWorld`, a place drawn from all 56 and a seed the builder did not choose, both named in the PR body; `CORE2_BOOKKEEPING=0 node --expose-gc --import tsx scripts/core2-guard/memory.mjs --months 36`) heap growth is at or under 5 MiB a month, the tables trimmed are listed with their sizes before and after, and a test in src/core2/decision-detail.test.ts shows a 13-month-old routine decision of the player keeping its `reasonKey` and `selectedReasons` while a filing record from the same month stays whole, read by the why view by record id. The owner plays it: after two game years he opens an old journal line and still reads why he chose it.
 
-**Files.** src/core2/modules/voting.ts, src/core2/modules/world-races.ts, src/core2/modules/campaigns.ts, src/core2/state.ts
+**Files.** src/core2/decision-detail.ts, src/core2/state.ts, src/core2/data/parameters.json, src/core2/modules/voting.ts, src/core2/modules/world-races.ts, src/core2/modules/campaigns.ts, src/core2/decision-detail.test.ts
 
 **Notes.** Follows core-memory-drives-speech-growth (PR #4769).
 
@@ -29,4 +29,10 @@ Oct 19 (claude/memory-election-log, claimed and released, nothing built). Re-mea
 
 Measured Oct 19 (claude, claude/political-game-pool-yucp92-i): the three-year run (seed memremeasure1, place key 1642130, CORE2_BOOKKEEPING=0) grows 9.2 MiB a month on main (heap 470 to 790 MB; 569 at month 12, 685 at month 24). At month 14 the durable log holds 10,386 person.acted rows (23.6 MB of JSON) and `core.eventIds` 15,363 ids (1,782 are `office.voted:bill`, 840 `event:economy.state-jobs-report`, 609 `news.read:printed`, then `speech:` ids). Tried: cutting the runner-up and each reason's terms from a condensed circle act (src/core2/decision-detail.ts). The month-by-month heap was within 1 MB of main at every month, so the condensed act records are not where the growth is; the change was reverted. The dropped acts and the log's JSON are small beside the 9 MiB; the growth is held by something the tables do not show (the sampler's scoreOffers, publishEventAppraisal and drives respond allocations). Next step is a heap-snapshot diff between months 20 and 23 with retainers of the largest arrays, not another table trim.
 
+Oct 20 (pool feeder): spec written; the owner's Oct 20 memory ruling answers the old blocker (may the player's old decisions be compacted: yes, summary and reasons kept after a year); the player's decisions are never queued today, so this is new queueing plus a longer window.
+
 Sent back 2026-10-20 from PR #5623 (branch claude/memory-player-decisions): owner and date notes in parameters.json, decision-detail.ts and the test must not ship; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5645 (branch claude/memory-transfer-ids): docs/pool/items/core-memory-election-log-growth.md:20 requires the named 36-month run at or under 5 MiB per month. This PR reports 8.8 MB per month and explicitly says the goal is not met; the item is also currently attached to #5663. The source-note repair is present, but the transfer-id retention slice needs its own bounded tracking item and duplicate-write/retention proof, leaving the broader memory goal and its current PR open. Do not complete the shared memory item for this partial optimization. No local gate pass is claimed.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5635 (branch claude/memory-drive-acts): docs/pool/items/core-memory-election-log-growth.md:20 requires the named 36-month run at or under 5 MiB per month. This PR reports 8.7 MB per month and explicitly says the goal is not met, while the shared item is attached to another PR. The owner/date and optional-id repairs are present, but the drive-trace slice needs a bounded tracking item and its own retention/count proof before it can be completed independently. Leave the broader memory target open. No local gate pass is claimed.; finish on that branch, merge main into it first.
