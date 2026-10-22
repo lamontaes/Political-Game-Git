@@ -1,6 +1,6 @@
 # Pool feeder, October 20, 2026
 
-The sections below preserve the feeder's historical October 20 snapshots. Their availability and interim row counts are not the live pool; current work and dependency gates are in the generated docs/pool/INDEX.md.
+The sections below preserve the feeder's historical October 20 snapshots. Their availability and interim row counts are not the live pool; current work and dependency gates are in the generated pool index.
 
 ## Merge verification, October 22
 
