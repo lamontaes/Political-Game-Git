@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by:
 pr:
-blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
+blocked-on: duplicate of people-partnership-counted and people-partnership-rates-check (pool feeder Oct 20); CTO to drop
 after: people-partnerships-full-people-form,people-partnerships-full-people-end,people-leave-parents-home
 source: added with npm run pool -- add
 ---
