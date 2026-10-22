@@ -1,6 +1,8 @@
 # Repository audit, Oct 19 2026
 
-Historical snapshot of `0104686`, October19. Counts, proposed removal lists and dependency claims describe that checkout; recheck current readers and pool work before acting on them.
+This historical October19 audit identifies proposed repository cleanup work. Its counts, removal lists and dependency claims describe the old checkout; recheck current readers and pool work before acting on them.
+
+## Historical method and snapshot
 
 Claude CTO's repository auditor. Read-only, from `main` at `0104686` (tree of 17,154 files, **3.13 GB**, no Git LFS). Method: the full recursive tree, every code file outside `art/`, `docs/`, `data/` and `public/` read through the API (2,330 files), an import graph built from them, and code search. Nothing was run. Rulings applied: "Slim the repository like a real game before early access … the guards stay" and today's "the old core was supposed to have been removed … there's no reason to keep all this stuff around."
 
