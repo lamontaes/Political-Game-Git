@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by: claude/pool-medicaid
 pr:
-blocked-on: missing-engine-health-coverage-and-medical-spending
+blocked-on: duplicate of gov-medicaid-coverage-reader (pool feeder Oct 20); CTO to drop
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T02:30:18.002Z
 ---

@@ -1,6 +1,66 @@
 {
   "entries": [
     {
+      "version": "0.22.0",
+      "releasedOn": "2026-10-21",
+      "revision": "5a879161009c4a41ca4c129415f0bb58659fb7ee",
+      "changeIds": [
+        "core-speed-date-parse",
+        "core-speed-date-parse-callers",
+        "core-speed-pair-key",
+        "counted-views-historical-note",
+        "gov-bribe-buys-a-contract",
+        "laws-outcome-map-split",
+        "tests-early-returns-office-proof-staging"
+      ]
+    },
+    {
+      "version": "0.21.6",
+      "releasedOn": "2026-10-21",
+      "revision": "87d4b80e0163a30d040a07cdce75d06080974b4a",
+      "changeIds": [
+        "gov-past-closures-archive",
+        "merger-note-scope-5773",
+        "merger-note-scope-5777",
+        "pool-feeder-oct20-specs",
+        "release-red-legislature-project-request",
+        "release-runs-starved-by-pr-queue"
+      ]
+    },
+    {
+      "version": "0.21.5",
+      "releasedOn": "2026-10-21",
+      "revision": "898b98cee35480ba75d7882c074042658697739d",
+      "changeIds": [
+        "merger-note-scope-5785",
+        "play-campaign-interview-and-event",
+        "tests-campaign-day-canvass-someone-answers"
+      ]
+    },
+    {
+      "version": "0.21.4",
+      "releasedOn": "2026-10-21",
+      "revision": "58f33660476276db6559ea1143e52875ad978a0f",
+      "changeIds": [
+        "core-old-engine-tuition-prices",
+        "pool-check-item-count",
+        "quit-rate-note",
+        "world-transfer-needs-two-accounts-boiling-spring-lakes"
+      ]
+    },
+    {
+      "version": "0.21.3",
+      "releasedOn": "2026-10-21",
+      "revision": "460ec26392552368105a4a6af9acc2e1ac70b87f",
+      "changeIds": [
+        "core-finance-writer-own-illness-provider-red",
+        "core-speed-sibling-tie-pair-key",
+        "housing-shelter-island-areas-estimate",
+        "jobs-layoff-owner-decides-test",
+        "pool-commute-split"
+      ]
+    },
+    {
       "version": "0.21.2",
       "releasedOn": "2026-10-21",
       "revision": "d5e42ecc1ee74a22857847afa435143135a9d351",

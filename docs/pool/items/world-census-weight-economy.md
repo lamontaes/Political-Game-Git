@@ -3,7 +3,7 @@ id: world-census-weight-economy
 title: "Employers, jobs and housing are sized to the Census population"
 area: world
 kind: feature
-priority: 1
+priority: 2
 size: M
 status: in-pr
 claimed-by: claude/political-game-pool-yucp92-q

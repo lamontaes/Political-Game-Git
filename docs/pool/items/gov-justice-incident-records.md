@@ -3,7 +3,7 @@ id: gov-justice-incident-records
 title: "Police stops, complaints, self-defense claims and concealed-weapon applications exist as incident records"
 area: gov
 kind: feature
-priority: 2
+priority: 3
 status: in-pr
 claimed-by: claude/justice-incidents
 pr: #5088
