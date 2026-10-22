@@ -296,6 +296,72 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.21.5
+
+_Released October 21, 2026._
+
+### Added
+
+- **Put your own money into your campaign** The Campaigns screen has a control
+  to put an amount of your own money into your campaign. Nothing leaves your
+  savings unless you choose it, and a candidate with savings can then pay for an
+  event venue the donors did not cover.
+
+## PRE-ALPHA 0.21.4
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Selling a home whose loan the outside market holds no longer stops the
+  game** A household that moves away and sells a home whose mortgage is held by
+  the outside market now settles the loan and keeps the surplus, instead of
+  stopping the game with an error.
+
+## PRE-ALPHA 0.21.3
+
+_Released October 21, 2026._
+
+### Changed
+
+- **American Samoa and the Marianas get an island-area shelter estimate**
+  American Samoa and the Northern Mariana Islands now start with the shelter
+  beds per 10,000 that the island areas HUD counts have, instead of the nation's
+  rate.
+
+## PRE-ALPHA 0.21.2
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Voters in the wider population now weigh a candidate's platform by their
+  faith and schooling too.** A voter you have not met is read by the same rule
+  as a person you have: how much they agree with a candidate's platform now
+  depends on their faith and schooling as well as their politics, so a voter
+  agrees the same before and after you meet them.
+
+- **Firms in a big town stop closing for want of cash to pay their workers** In
+  a town opened at its full Census size, shops, offices and local TV stations
+  used to run out of cash and close, taking their workers' jobs with them. Their
+  sales now grow with the town as their wages do, and a shop staffed by a big
+  town's workers can serve as many customers as those workers stand for. A
+  business short of cash on a payday draws the savings it holds at the bank
+  before the payroll goes unpaid, and keeps enough there for its workers' full
+  payroll. An owner no longer draws out the cash the next payroll needs, and a
+  business owned by a resident of a big town pays that owner's draw and profit
+  tax once, not once per household the owner stands for.
+
+## PRE-ALPHA 0.21.1
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Hand-written journal lines held back** Nine hand-written lines in "My life"
+  about where a family came from, where the partners met and a parent's new job
+  are held back until the English engine grades them.
+
 ## PRE-ALPHA 0.21.0
 
 _Released October 21, 2026._
