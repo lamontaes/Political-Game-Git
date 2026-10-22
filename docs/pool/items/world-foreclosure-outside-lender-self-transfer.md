@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 
 **What.** A foreclosure can sell a home to the outside market that also holds its mortgage. foreclosureSale currently calls transferCash from buyer.id to row.holderId unconditionally for the lender share, so identical owner accounts reach the self-transfer guard and stop the game. The corresponding moving-household sellHome caller was fixed in PR #5795; that fix does not cover this separate foreclosure caller.
 
-**Rules.** Every dollar balances: settle the self-held loan without moving cash to the same account, preserve the normal distinct-lender transfer and borrower surplus, and never catch the guard or weaken it.
+**Rules.** Replace, never layer: repair the foreclosure caller at its source instead of weakening or catching the transfer guard; preserve normal distinct-lender payments, loan settlement and borrower surplus so every dollar balances.
 
 **Done when.** A focused regression in a generated buildBenchWorld town names the drawn place, seed, foreclosure record, mortgage and identical payer/payee account IDs, completes the foreclosure sale without a self-transfer error, and verifies loan settlement, surplus and price balance. Keep a distinct-lender case, and run the changed-file checks on main integrated with the repair.
 
