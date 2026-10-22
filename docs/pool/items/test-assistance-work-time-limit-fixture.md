@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/law-reach-group-b.test.ts
 
 **Notes.** Found while finishing test-assistance-work-counted-payments-rounding (PR 5730).
+
+Sent back 2026-10-22 from PR #5801 (branch claude/assistance-work-fixture): Merging current main conflicts in src/core2/law-reach-group-b.test.ts, in build around lines 98 and 147. Main wraps the opening with withPublicSchoolDistrict and adds required private-school, school-job and highway-line shapes for its other cases; this branch adds the separate time-limit shape and tried-place capture. Reconcile those conditions so each describe draws what its own assertions require, preserving main school setup and the bounded time-limit search. A counted-only time-limit draw must still execute an actual payment assertion rather than succeeding through empty named loops or a skipped aggregate-payment check. I aborted the local merge without pushing or changing assertions; no integrated head or local gate pass exists. Resolve with a plain main merge and rerun the changed-file gates plus the required gb-ev-1, gb-ev-2 and drawn cases.; finish on that branch, merge main into it first.
