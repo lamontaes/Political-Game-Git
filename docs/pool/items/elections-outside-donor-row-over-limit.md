@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/outside-donor-limit
 pr: #5819
 blocked-on:
