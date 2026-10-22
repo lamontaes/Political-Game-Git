@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/speed-free-block
 pr: #5411
 blocked-on:

@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/opening-seekers-region
 pr: #5211
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T22:29:47.477Z
 **Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/age-unemployment.json, src/core2/data/stopgaps.json
 
 **Notes.** Looked at Oct 19 (claude/political-game-pool-3xfqef-2), not built: the CPS unemployment rate by age (bls.gov/cps/cpsaat10.htm, annual averages) could not be retrieved with a citation from the cloud session (search returned only secondary figures), and the rules forbid unsourced numbers. A builder with web access fetches Table A-10 first.
+
+Split from world-stopgap-jobs-faked-mechanic (an L item) on Oct 19; row SG-WORLD-jobs-opening-seekers.
