@@ -1,5 +1,5 @@
 {
-  "about": "The month and day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). Read by src/core2/elections-calendar.ts termStartAfter. Rows are keyed by state and office family and carry either a fixed `monthDay` or a `rule` (the nth weekday of a month, plus offsetDays; a December rule falls in the election year, a January rule the year after). The default stands in where a state's rule is not yet read (SG-GOV-term-end-estimate, still open for the states not listed).",
+  "about": "The month and day a term starts after its election where the office's own start rule is not carried on the office (federal offices carry theirs: January 20, January 3). Read by src/core2/elections-calendar.ts termStartAfter. The statewideExecutive row is the governor's clause and stands for every statewide office until another clause is read. Rows are keyed by state and office family and carry either a fixed `monthDay` or a `rule` (the nth weekday of a month, plus offsetDays; a December rule falls in the election year, a January rule the year after). The default stands in where a state's rule is not yet read (SG-GOV-term-end-estimate, still open for the states not listed).",
   "stopgap": "SG-GOV-term-end-estimate",
   "default": {
     "monthDay": "01-01",
@@ -31,7 +31,7 @@
           "offsetDays": 0
         },
         "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2023-01-02 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-CA": {
@@ -70,7 +70,7 @@
           "offsetDays": 2
         },
         "citation": "The Wednesday after the first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-09 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the Wednesday after the first Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-DE": {
@@ -109,7 +109,7 @@
           "offsetDays": 0
         },
         "citation": "The second Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-14 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the second Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-HI": {
@@ -135,7 +135,7 @@
           "offsetDays": 0
         },
         "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-07 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-IL": {
@@ -174,7 +174,7 @@
           "offsetDays": 0
         },
         "citation": "The second Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-14 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the second Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-LA": {
@@ -226,7 +226,7 @@
           "offsetDays": 0
         },
         "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-07 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-MT": {
@@ -239,7 +239,7 @@
           "offsetDays": 0
         },
         "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2021-01-04 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-NE": {
@@ -252,7 +252,7 @@
           "offsetDays": 2
         },
         "citation": "The first Thursday after the first Tuesday in January: the usual clause for this state, which reproduces the current governor's term start of 2023-01-05 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Thursday after the first Tuesday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-NJ": {
@@ -278,7 +278,7 @@
           "offsetDays": 0
         },
         "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2023-01-02 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-OH": {
@@ -317,7 +317,7 @@
           "offsetDays": 0
         },
         "citation": "The second Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2023-01-09 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the second Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-PA": {
@@ -343,7 +343,7 @@
           "offsetDays": 0
         },
         "citation": "The third Tuesday in January: the usual clause for this state, which reproduces the current governor's term start of 2015-01-20 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the third Tuesday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-UT": {
@@ -356,7 +356,7 @@
           "offsetDays": 0
         },
         "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2021-01-04 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Monday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-VA": {
@@ -382,7 +382,7 @@
           "offsetDays": 1
         },
         "citation": "The first Thursday after the first Wednesday in January: the usual clause for this state, which reproduces the current governor's term start of 2017-01-05 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Thursday after the first Wednesday in January following the election."
+        "excerpt": "text not read"
       }
     },
     "US-WA": {
@@ -421,7 +421,7 @@
           "offsetDays": 0
         },
         "citation": "The first Monday in January: the usual clause for this state, which reproduces the current governor's term start of 2019-01-07 in Wikipedia's List of United States governors (read 2026-10-20). The constitution or statute text itself was not read.",
-        "excerpt": "The governor's term begins on the first Monday in January following the election."
+        "excerpt": "text not read"
       }
     }
   }
