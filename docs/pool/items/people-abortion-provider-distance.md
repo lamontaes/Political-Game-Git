@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/provider-distance
 pr: #5749
 blocked-on:
