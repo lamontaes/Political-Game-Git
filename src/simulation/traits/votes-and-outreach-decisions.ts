@@ -1,4 +1,4 @@
-import type { DecisionDeclaration } from "../trait-packs";
+import type { DecisionDeclaration } from "../../core2/trait-packs";
 
 /** Public-life choices shared by the self-image and social-manner families.
  * Their common ordinary-life scope lets each reader retain its catalog profile.

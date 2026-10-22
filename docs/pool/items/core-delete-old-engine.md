@@ -1,24 +1,30 @@
 ---
 id: core-delete-old-engine
-title: "Delete the old engine: lift what the game still uses into core2, then remove src/simulation and src/presentation"
+title: "Delete the old engine folders once nothing imports them"
 area: core
 kind: cleanup
-priority: 1
-size: L
-status: blocked
+priority: 2
+size: M
+status: open
 claimed-by:
-pr:
-after:
-blocked-on: core-old-engine-01-zero-dice-guard-repoint, core-old-engine-02-gov-rules-duplicates, core-old-engine-03-schedules-jobs-traits-history, core-old-engine-04-opening-population-no-throwaway-world, core-old-engine-05-health-onset-lift, core-old-engine-06-place-lookup-and-scripts, core-old-engine-07-appearance-and-delete, release-old-core-typecheck
-source: "owner ruling, Oct 19; docs/reports/repo-audit-2026-10-19.md section A and G2"
+pr: #5797
+blocked-on:
+source: "core-needs-fixer-51 triage, Oct 15"
+claimed-at:
 ---
 
-**What.** The owner ruled on Oct 19 that the old core goes: useful code is lifted into core2 and nothing is kept around. The audit (`docs/reports/repo-audit-2026-10-19.md`, section A) measured `src/simulation/` at 924 files, 27 MB and about 390,000 lines, imported by 34 files outside the folder through 111 import edges, and it is not a leaf: one import drags in 857 of the 924 files, so deletion is all-or-nothing per importer. Its sibling `src/presentation/` (the old appearance engine, 15 files) goes with it. The lift is seven ordered steps, each its own sub-item in this pool: re-point the zero-dice guard first, switch to the core2 copies of the 18 duplicated gov-rules files, lift schedules, jobs, traits and character history, make the opening population write straight into core2, lift the health onset code, re-home the place-lookup builder and the eight exporter scripts, then move the appearance engine out and delete both folders. This item is the parent; it is done when its seven parts are done.
+**What.** `src/simulation` (507 files) and `src/presentation` still hold about 940 files, down from about 1,600. Non-test code outside them that still imports them: 14 files in `src/core2` (item core-old-imports-14), `src/bench/world.ts`, `src/bench/creator.ts`, `src/education/tuition-prices.ts` and about 31 scripts. Move what is still used into core2 or rules, delete the rest, and keep `scripts/core2-guard` reachability green.
 
-**Rules.** Replace, never layer: every lifted file deletes its original in the same PR, and the PR body counts the files removed. The new core is the engine: no new code in `src/simulation`, and no new import of it anywhere. No dice: lifted code keeps its reads from the record, never a draw. Wire to the world: a lifted piece is proven by the same town, by record id, in a drawn place before and after.
+**Rules.** Replace, never layer: the old code, styles, data and markers are deleted in the same change, and the PR body counts what was removed.
 
-**Done when.** `src/simulation/` and `src/presentation/` do not exist on main; `grep -r "simulation/" src/ scripts/ tests/` returns nothing; the zero-dice guard scans `src/core2`, `src/bench` and `src/director` and reports; the golden-path suite and the speed guard pass on a drawn place built by `buildBenchWorld`; and the PR bodies of the seven sub-items each count the files removed.
+**Done when.** The reachability script lists no live importer of src/simulation or src/presentation, the folders' unused files are deleted with the count in the PR body, and the release build, typecheck and the golden-path test pass on a drawn-place world in buildBenchWorld. The audit also requires preserving the zero-dice coverage over the live engine, passing the existing speed guard, and counting files removed in each implementation PR.
 
-**Files.** src/simulation/, src/presentation/, src/core2/population.ts, src/core2/town-households.ts, src/bench/creator.ts, scripts/zero-dice-guard.mjs, eslint.config.js, tsconfig.node.json
+**Files.** src/simulation/**, src/presentation/**, src/bench/world.ts, src/bench/creator.ts, src/education/tuition-prices.ts, scripts/**
 
-**Notes.** Rewritten Oct 19 by the acting CTO from the repository audit (PR #5125): the earlier text said 507 files; the tree has 924. The audit's step table (G2, steps 1–11) is folded into the seven sub-items named in `blocked-on`. Open drafts #5031, #5032, #5073, #5084, #5093, #5097, #5100, #5104, #5108, #5110 carry pieces; finish on those branches rather than starting over. PR #5078 (the old-imports guard) stays its own PR.
+**Notes.** core-needs-fixer-51 triage, Oct 15. Do after core-old-imports-14.
+
+Measured Oct 19 (claude): `npm run old-imports` (new, `scripts/core2-guard/old-imports.mjs`) finds 939 files in the two folders, 920 reachable from files outside them and 19 unreachable. The 19 are old tests of code that is still live, so deleting them would drop coverage, not dead code; they go with the code they test. Importers outside, by folder: scripts/art-asset-factory 22, src/core2 11 (the open core-old-imports items), scripts/source 7, src/bench 4, tests 10, and one each in data/tables, src/education, src/authoring, src/districts and five scripts. The folder cannot be emptied in one change: the art pipeline alone keeps most of src/presentation (appearance-engine, garment fit, character components) alive. This item stays open for the folder-by-folder moves; `npm run old-imports -- --fail` is the done line.
+
+Historical audit proposal from #5125 (snapshot 0104686, October19): Rewritten Oct 19 by the acting CTO from the repository audit (PR #5125): the earlier text said 507 files; the tree has 924. The audit's step table (G2, steps 1–11) is folded into the seven sub-items named in `blocked-on`. Open drafts #5031, #5032, #5073, #5084, #5093, #5097, #5100, #5104, #5108, #5110 carry pieces; finish on those branches rather than starting over. PR #5078 (the old-imports guard) stays its own PR. The later current implementation notes and existing pool claims remain authoritative; recheck this proposed breakdown against the present import graph before starting it.
+
+Oct 22, merger A: PR #5797 moves one legacy tuition-price helper beside its four existing consumers, tracked by core-old-engine-tuition-prices-move. This parent remains open for its remaining importers, unused-file deletion and full acceptance.

@@ -11,7 +11,7 @@
  * by its own effect. Acts planned for a later date are kept here and happen on
  * that date, so their effects land when they occur.
  */
-import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import type { ScoredOffer } from "./choice";
 import {
   closenessAfter,
@@ -35,6 +35,7 @@ import type {
   WeightedReason,
 } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { pairKey } from "./kernel/ids";
 
 export const FREE_BLOCK_DATA = freeBlockJson;
 
@@ -174,7 +175,7 @@ function reserveRows(api: CoreAPI): ReserveRow[] {
 function reserveHours(api: CoreAPI, actor: Readonly<PersonState>): number {
   const rows = reserveRows(api);
   const age =
-    daysBetween(makeIsoDate(actor.birthDate), makeIsoDate(api.state.date)) /
+    daysBetweenText(actor.birthDate, api.state.date) /
     api.parameter("daysPerMeanYear");
   const [first] = rows;
   if (age <= first!.midAge) return first!.hours;
@@ -304,7 +305,7 @@ function candidates(
     let tie: TiePull | undefined;
     if (definition.effect === FREE_BLOCK.contactEffect && binding) {
       const relationship = core.relationships.get(
-        [actor.id, row.offer.targetId].sort().join(":"),
+        pairKey(actor.id, row.offer.targetId),
       );
       const lost = relationship ? hoursLost(core, relationship) : zero;
       const pull =
@@ -321,10 +322,7 @@ function candidates(
           pull,
           hours: hoursFromLevel(p, relationship.level),
           halfLife: halfLifeDays(p, relationship.kind),
-          elapsed: daysBetween(
-            makeIsoDate(relationship.lastContactDate),
-            makeIsoDate(core.date),
-          ),
+          elapsed: daysBetweenText(relationship.lastContactDate, core.date),
           lost,
           relationship,
         };
@@ -385,10 +383,7 @@ export function planFreeTime(
   api.stopgap(FREE_BLOCK.stopgapId);
   const today: PlannedAct[] = [];
   const projection: Projection = {
-    contactDay: -daysBetween(
-      makeIsoDate(actor.lastContactDate),
-      makeIsoDate(core.date),
-    ),
+    contactDay: -daysBetweenText(actor.lastContactDate, core.date),
   };
   const pool = candidates(api, actor, scored);
   const scores = new Float64Array(pool.length);
