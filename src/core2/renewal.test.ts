@@ -15,6 +15,14 @@ import { coreAPI } from "./state";
 import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 
 const PLACES = 4;
+/**
+ * A natural unplanned pregnancy in the named tier is rare: named people are
+ * few and mostly past the age curve's center, and they are reviewed every 91
+ * days. Drawn years gave one in about four to five places (Leeds, Utah;
+ * Kootenai, Idaho; none in Sumatra FL, Pleasant Garden NC, Billings MT and
+ * Faga'alu AS), so the ordinary case draws up to twelve.
+ */
+const ORDINARY_PLACES = 12;
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 interface Decision {
@@ -69,7 +77,7 @@ it(
   "an unplanned pregnancy is decided from her records and the law in force where she lives",
   () => {
     const tried: string[] = [];
-    for (let n = 0; n < PLACES; n += 1) {
+    for (let n = 0; n < ORDINARY_PLACES; n += 1) {
       const draw = drawPlace(
         createHash("sha256").update(`${base}:${n}`).digest("hex"),
         "unplanned-pregnancy",
@@ -166,11 +174,12 @@ it(
       return;
     }
     throw new Error(
-      `no drawn place had an unplanned pregnancy and an active couple in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
+      `no drawn place had an unplanned pregnancy and an active couple in ${ORDINARY_PLACES} places (base ${base}): ${tried.join("; ")}`,
     );
-    // The run that found Leeds, Utah spent 566 seconds in its tests on a 4-core container (about 5 minutes a drawn year); up to PLACES of them.
+    // Four drawn years took 813 seconds on a 4-core container (about 200 a
+    // year, up to 5 minutes in a larger town); up to ORDINARY_PLACES of them.
   },
-  PLACES * 400_000,
+  ORDINARY_PLACES * 300_000,
 );
 
 it(
