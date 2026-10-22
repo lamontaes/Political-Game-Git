@@ -7,7 +7,7 @@ priority: 3
 size: M
 status: open
 claimed-by:
-pr: #5623
+pr: #5663
 blocked-on: owner-decision-may-player-old-decisions-be-compacted
 source: added with npm run pool -- add
 claimed-at:
@@ -32,3 +32,7 @@ Measured Oct 19 (claude, claude/political-game-pool-yucp92-i): the three-year ru
 Oct 20 (pool feeder): spec written; the owner's Oct 20 memory ruling answers the old blocker (may the player's old decisions be compacted: yes, summary and reasons kept after a year); the player's decisions are never queued today, so this is new queueing plus a longer window.
 
 Sent back 2026-10-20 from PR #5623 (branch claude/memory-player-decisions): owner and date notes in parameters.json, decision-detail.ts and the test must not ship; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5645 (branch claude/memory-transfer-ids): docs/pool/items/core-memory-election-log-growth.md:20 requires the named 36-month run at or under 5 MiB per month. This PR reports 8.8 MB per month and explicitly says the goal is not met; the item is also currently attached to #5663. The source-note repair is present, but the transfer-id retention slice needs its own bounded tracking item and duplicate-write/retention proof, leaving the broader memory goal and its current PR open. Do not complete the shared memory item for this partial optimization. No local gate pass is claimed.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5635 (branch claude/memory-drive-acts): docs/pool/items/core-memory-election-log-growth.md:20 requires the named 36-month run at or under 5 MiB per month. This PR reports 8.7 MB per month and explicitly says the goal is not met, while the shared item is attached to another PR. The owner/date and optional-id repairs are present, but the drive-trace slice needs a bounded tracking item and its own retention/count proof before it can be completed independently. Leave the broader memory target open. No local gate pass is claimed.; finish on that branch, merge main into it first.

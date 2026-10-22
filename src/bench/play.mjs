@@ -1396,6 +1396,26 @@ async function campaignRows() {
           button("Ad", "ad", { amountMinor: "5000" }),
           button("Poll", "poll", { sampleSize: "50" }),
         ),
+        // The player's own money into the campaign: the amount is theirs to set.
+        (() => {
+          const dollarsIn = el("input", {
+            type: "number",
+            min: "0",
+            step: "1",
+            value: "0",
+            ariaLabel: controls.campaignContribute.dollars,
+          });
+          const give = el("button", {
+            type: "button",
+            textContent: controls.campaignContribute.give,
+          });
+          give.addEventListener("click", () =>
+            act("contribute", {
+              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+            }),
+          );
+          return el("div", {}, dollarsIn, give);
+        })(),
         speechPanel(filing, venue),
         // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
         ...(debates ?? []).map((debate) => debatePanel(debate)),
@@ -3757,6 +3777,14 @@ const sheets = {
     // The key people the opening names: one list for both screens.
     const keyPeople = v.keyPeople.map((k) => {
       const line = row(k.officeTitle, k.name);
+      // The President and Vice President a territory's voters do not choose.
+      if (k.chosenByHere === false)
+        line.append(
+          el("span", {
+            className: "label",
+            textContent: controls.politics.notChosenHere,
+          }),
+        );
       // Play anyone: a resident officeholder can be taken over (bench only).
       if (k.resident && k.personId !== me.id) {
         const b = el("button", {
