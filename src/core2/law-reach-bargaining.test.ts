@@ -86,6 +86,11 @@ function setLaw(api: CoreAPI, level: string, value: 0 | 1, tag: string): void {
 describe("public-sector bargaining sets a unit's pay from its employer's budget line", () => {
   it(`raises a named worker's pay by the line's growth, and a repeal stops the next contract (seed ${seed})`, () => {
     const tried: string[] = [];
+    // The named worker's case comes first; counted workers re-rated by a
+    // contract are checked in the same place or, where its units are all
+    // named people, in the next places drawn.
+    let countedTotal = 0;
+    let named = false;
     for (let attempt = 0; attempt < 6; attempt += 1) {
       const place = townWithCity(attempt);
       const world = buildBenchWorld(seed, gameStartDate(), {
@@ -135,14 +140,29 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
             countedChecked += 1;
           }
         }
-        // Stop as soon as a contract has raised a named worker's pay.
+        // Stop as soon as a contract has raised a named worker's pay (or,
+        // once that case is proved, a counted worker's).
         if (
-          contracts(api).some(
-            (c) =>
-              Number(c.facts.raised) > 0 && c.facts.sampleJobId !== undefined,
-          )
+          named
+            ? countedChecked > 0
+            : contracts(api).some(
+                (c) =>
+                  Number(c.facts.raised) > 0 &&
+                  c.facts.sampleJobId !== undefined,
+              )
         )
           break;
+      }
+      countedTotal += countedChecked;
+      if (named) {
+        tried.push(`${place.key}: ${countedChecked} counted jobs re-rated`);
+        if (countedTotal > 0) {
+          process.stdout.write(
+            `BARGAINING COUNTED ${place.key} (seed ${seed}): ${countedChecked} counted jobs re-rated by their line's growth\n`,
+          );
+          return;
+        }
+        continue;
       }
       const raised = contracts(api).filter((c) => Number(c.facts.raised) > 0);
       tried.push(
@@ -183,7 +203,11 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
       const sampleJob = core.jobs.get(String(f.sampleJobId))!;
       const gov = governments(api).find((g) => g.id === f.governmentId)!;
       expect(
-        lineForPost(gov.level, sampleJob.id),
+        lineForPost(
+          gov.level,
+          sampleJob.id,
+          core.organizations.get(sampleJob.organizationId)?.classification,
+        ),
         `${place.key}: ${sampleJob.id}`,
       ).toBe(f.line);
       const receiptAfter = () =>
@@ -214,7 +238,6 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
         cashSource!.postedJournalSequence !== undefined ||
           cashSource!.completedAt !== undefined,
       ).toBe(true);
-      expect(countedChecked).toBeGreaterThan(0);
       process.stdout.write(
         `BARGAINING ${place.key} (seed ${seed}): ${contract.id} raised ${f.raised} jobs by ${f.raisePct}% (${f.line}); ${sampleJob.personId} on ${sampleJob.id} ${f.sampleFromMinor} to ${f.sampleToMinor}, paid by ${sampleJob.organizationId} in ${paid!.lastPayrollReceiptId} (${receipt!.paidMinor} minor, journal ${cashSource!.postedJournalSequence ?? "completed public source"}); ${countedChecked} counted jobs re-rated and checked\n`,
       );
@@ -233,10 +256,13 @@ describe("public-sector bargaining sets a unit's pay from its employer's budget 
           repealed.has(String(c.facts.lawId)),
           `${place.key}: ${c.id} was bargained under the repealed ${c.facts.lawId}`,
         ).toBe(false);
-      return;
+      named = true;
+      if (countedTotal > 0) return;
     }
     throw new Error(
-      `no place raised a unit's pay in six tries (seed ${seed}): ${tried.join("; ")}`,
+      named
+        ? `no contract re-rated a counted worker in six places (seed ${seed}): ${tried.join("; ")}`
+        : `no place raised a named worker's pay in six tries (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 3_600_000);
 });
