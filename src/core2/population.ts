@@ -38,7 +38,7 @@ import {
   type HouseholdMix,
   type HouseholdShape,
 } from "./household-mix";
-import { createStableId, stableHash } from "./kernel/ids";
+import { createStableId, pairKey, stableHash } from "./kernel/ids";
 import {
   corePlaceByKey,
   corePlaceByJurisdictionId,
@@ -1108,7 +1108,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         recordFamilyPast(
           child,
           sibling,
-          `${plan.stableKey}:sibling:${[child, sibling].sort().join(":")}`,
+          `${plan.stableKey}:sibling:${pairKey(child, sibling)}`,
           born[p("one")]!,
           "sibling",
         );

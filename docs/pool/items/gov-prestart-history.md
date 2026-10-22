@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-prestart-history
 pr: #5234
 blocked-on:
