@@ -23,11 +23,12 @@ import {
 import { openCampaigns } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import {
-  breakElectionTie,
   countedBallotsOf,
   openVoting,
   resultOf,
+  secondElection,
 } from "./modules/voting";
+import { breakElectionTie } from "./election-ties";
 import tieRules from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { partySide } from "./appointments";
 import { countedChoice, countedResidents } from "./electorate";
@@ -207,7 +208,7 @@ describe("elections in the two-level world", () => {
                 contest.family === "municipalOffice"
               ? "localTie"
               : "generalElectionTie";
-      const winner = breakElectionTie(api, contest, tied);
+      const winner = breakElectionTie(api, contest, tied, secondElection);
       const method = rules[field]?.method ?? "lot";
       if (winner === null)
         expect(

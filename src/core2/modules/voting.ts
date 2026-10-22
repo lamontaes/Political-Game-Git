@@ -1780,7 +1780,7 @@ function atThePolls(
 }
 
 /** A second election between the tied candidates, a tunable number of weeks on. */
-function secondElection(
+export function secondElection(
   api: CoreAPI,
   contest: ContestRow,
   tied: readonly string[],
