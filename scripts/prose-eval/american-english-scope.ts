@@ -138,6 +138,19 @@ export const PROPER_NAMES: readonly {
     reason:
       "the generated index links items by their persisted ids (release-main-runs-cancelled-by-pool-pushes); identifiers keep their spelling",
   },
+  {
+    pattern:
+      /^docs\/pool\/(?:INDEX\.md|items\/core-speed-year-over-limit-dense-town\.md)$/,
+    names: ["Harbour"],
+    reason:
+      "Discovery Harbour, Hawaii, the Census place where the year stopped, named as published",
+  },
+  {
+    pattern: /^docs\/pool\/items\/release-spelling-sweep-red-oct17\.md$/,
+    names: ["Grey", "Centre"],
+    reason:
+      "the item quotes the Census names it allows, Grey Eagle and Sauk Centre",
+  },
 ];
 
 /** True when this British form is an official proper name allowed in this file. */
