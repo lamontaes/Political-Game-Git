@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** Full households that lack cash on the monthly living-cost date lose the unpaid part instead of keeping the bill. Carry the unpaid amount until money arrives, and use the same obligation and retry rule for counted groups. Each group keeps what it owes and paid without assigning its debt to another group.
 
-**Rules.** TODO
+**Rules.** One model, two tiers: full and counted households retain unpaid living costs by the same rule. Replace, never layer: replace skipped bills with one carried balance and prevent duplicate charges. Wire to the world: later payroll cash pays the recorded debt through the existing journal.
 
-**Done when.** TODO
+**Done when.** In a one-year played world (buildBenchWorld, a drawn place and seed named in the PR body), a full household short of cash on its billing date carries a positive unpaid amount and pays it after a later payday, with bill and journal record ids named. A counted group also carries a positive unpaid living-cost obligation across a day with no new bill and repays it when cash arrives; the flow arrears equal the sum its groups owe and the journal balances. src/core2/living-costs-arrears.test.ts proves both tiers without a vacuous zero-debt comparison, and the existing service-charge assertions remain intact.
 
-**Files.** TODO
+**Files.** src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/living-costs-arrears.test.ts, src/core2/service-charges.test.ts
 
 **Notes.** TODO
 
