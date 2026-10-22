@@ -7,7 +7,7 @@ priority: 3
 status: blocked
 claimed-by:
 pr:
-blocked-on: engine or design: The executive engine's orders read only a state's powers (one orderable series, a governor's).
+blocked-on: duplicate of office-presidential-orders-pardons-the-situation-room (same two rows; pool feeder Oct 20); CTO to drop
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts, kind missing-mechanic"
 ---

@@ -8,7 +8,7 @@ size: S
 status: blocked
 claimed-by: claude/political-game-pool-yucp92-hh
 pr:
-blocked-on: CTO: deciding whether to release four stale claims is the CTO's call (item text says so); builders may not push to their branches
+blocked-on: obsolete: the four claims it names are all in PR (pool feeder Oct 20); CTO to drop
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T03:51:23.947Z
 ---
