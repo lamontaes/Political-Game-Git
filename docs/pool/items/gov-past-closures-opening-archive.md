@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/political-game-pool-yucp92-oo
-pr:
+pr: #5513
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-22T01:24:19.938Z
