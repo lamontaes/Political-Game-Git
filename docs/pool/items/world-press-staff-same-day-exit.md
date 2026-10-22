@@ -8,7 +8,7 @@ size: S
 status: blocked
 claimed-by: claude/press-staff-exit
 pr: #5353
-blocked-on: "gov-stopgap-press-staff-missing-record"
+blocked-on: "people-press-turnover-no-leavers-no-openings"
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
 claimed-at: 2026-10-21T02:25:41.551Z
 ---
@@ -32,3 +32,5 @@ Sent back 2026-10-20 from PR #5353 (branch claude/press-staff-exit): see the Clo
 Oct 20 (claude, claude/press-staff-exit-spread): the mass exit no longer reproduces now that press staff have households (gov-stopgap-press-staff-missing-record is done). Measured in four drawn places over 365 days (Decaturville, Tennessee 4719900 seed a054b016…; Twin Lakes, Colorado 0879105 seed 6e4052b6…; Danvers, Montana 3019225 seed f004e545…; and a fourth), 27 press staff each: no one left at all, so there is no shared date. A guard test (`press-turnover.test.ts`, "no group of press staff leaves on one shared day…") fails if more than three staff leave on one day for different causes. The owner-play half ("people leave one at a time") needs departures to happen, which is `people-press-turnover-no-leavers-no-openings` (PR #4972).
 
 Sent back 2026-10-20 from PR #5353 (branch claude/press-staff-exit): The formatting feedback is addressed, but the body reports zero departures, which does not establish the Done when proof of departures spread by individual causes, named by record id, or the owner-play staff-list check. The item Notes explicitly defer the no-leavers gap to people-press-turnover-no-leavers-no-openings. Supply the required positive departure/cause proof or separate this completed finding-only note from the unfinished item so it is not marked done.; finish on that branch, merge main into it first.
+
+Oct 21 (claude, claude/press-staff-exit, PR 5353): finding only, the item stays open. On current main the ten-on-one-day exit does not reproduce (Center Moriches, New York, seed s2: 16 press staff, a 400-day run, nobody leaves; four other drawn places the same), because press staff now have households. That means the cause is fixed but the done-when's positive proof (departures spread over the year, each followed from its cause record, and the owner reading the staff list through the year) cannot be shown until press staff leave at all, which is people-press-turnover-no-leavers-no-openings (PR 4972). The guard that no more than three leave on one day is in press-turnover.test.ts. This item is blocked on that one.
