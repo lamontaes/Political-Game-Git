@@ -3,4 +3,4 @@ id: tests-early-returns-office-proof-staging
 impact: none
 ---
 
-Tests only: two tests that ended early in a drawn place without the case now draw until it exists; nothing in the game changes.
+The scene-staging test draws a painted place with distinct standing positions and checks both turns. The paired office-proof bounded search is already on main. No game behavior changes.
