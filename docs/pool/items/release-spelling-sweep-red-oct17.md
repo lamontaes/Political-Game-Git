@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/spelling-sweep-green-s5
 pr: #4957
 blocked-on:
