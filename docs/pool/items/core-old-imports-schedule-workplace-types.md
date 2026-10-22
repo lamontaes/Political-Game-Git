@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/schedule-workplace-types
 pr:
 blocked-on:
 source: split from core-old-imports-opening-builders by pool feeder Oct 20
+claimed-at: 2026-10-22T06:12:14.293Z
 ---
 
 **What.** `src/core2/town-workplaces.ts` and `src/core2/work-schedules.ts` each still import types from `src/simulation/types` (`OrganizationClassification` and friends in the first, `EntityId` and `IsoDate` in the second). Define the few types they use in the core (the core already has `src/core2/kernel/ids.ts` and `kernel/dates.ts`) and delete the two old imports so neither file reaches into the old engine. Nothing about the schedules or workplaces themselves changes.
