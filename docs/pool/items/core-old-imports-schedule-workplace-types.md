@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/schedule-workplace-types
-pr:
+pr: #5836
 blocked-on:
 source: split from core-old-imports-opening-builders by pool feeder Oct 20
 claimed-at: 2026-10-22T06:12:14.293Z
