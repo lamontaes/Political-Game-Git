@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/other-places-coarse
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-22T02:05:17.144Z
 ---
 
 **What.** PR 5555's first slice: a place other than the player's keeps a coarse population (src/core2/coarse-place.ts), and a person met there on a trip is drawn from its counts (an age from the county's employed by age, a job from the place's industry mix, the wage its occupation pays there), kept as the identity:work fact. No employer, payroll or household exists for them there yet (SG-WORLD-coarse-place-no-payroll), and SG-OFFICE-FED-trip-residents stays open; world-other-places-coarse-population keeps the played-year trip with household, job and pay.
