@@ -58,6 +58,16 @@
     "mail": "Mail",
     "event": "Events"
   },
+  "campaignAsks": {
+    "title": "Asking you for money",
+    "asked": "Asked",
+    "suggested": "Suggested",
+    "amount": "Amount",
+    "give": "Give",
+    "decline": "Decline",
+    "unavailable": "No longer open",
+    "failed": "Could not be answered"
+  },
   "speech": {
     "begin": "Give a speech",
     "give": "Give the speech",

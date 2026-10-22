@@ -1,9 +1,11 @@
 import { coreAPI } from "../core2/state";
 import {
+  answerDonationAsk,
   askForDonation,
   askForEndorsement,
   askToVolunteer,
   campaignFor,
+  donationAsksFor,
   commissionPoll,
   giveSpeech,
   runAd,
@@ -36,6 +38,7 @@ import {
   speechText,
   type SpeechBuild,
 } from "../director/speech-builder";
+import { personName } from "./legislature";
 import { backdropFile, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -466,5 +469,54 @@ export function speechGive(
     text: speechText(build),
     retold,
     scene: speechScene(core, personId, venue, causes),
+  };
+}
+
+/** Candidates' asks for money that reached the player, waiting on their answer. */
+export function donationAsksView(core: CoreState, personId: string) {
+  if (!core.modules.has(CAMPAIGNS)) return { asks: [] };
+  const api = coreAPI(core);
+  const person = core.people.get(personId);
+  return {
+    cashMinor: person?.liquidMinor ?? 0,
+    asks: donationAsksFor(api, personId).map((ask) => {
+      const filing = api
+        .moduleState(ELECTIONS)
+        .table("filings")
+        .get(ask.campaignId) as unknown as FilingRow | undefined;
+      const contest = filing
+        ? (api
+            .moduleState(ELECTIONS)
+            .table("contests")
+            .get(filing.contestId) as unknown as { title: string } | undefined)
+        : undefined;
+      return {
+        id: ask.id,
+        candidate: personName(core, ask.candidateId),
+        office: contest?.title ?? "",
+        suggestedMinor: ask.suggestedMinor,
+        askedOn: ask.askedOn,
+      };
+    }),
+  };
+}
+
+/** Only an explicit answer to this player's open ask reaches the engine. */
+export function answerAsk(
+  core: CoreState,
+  personId: string,
+  input: { askId: string; answer: string; amountMinor?: number },
+) {
+  if (input.answer !== "give" && input.answer !== "decline")
+    throw new Error("Invalid ask answer.");
+  if (!donationAsksView(core, personId).asks.some((a) => a.id === input.askId))
+    throw new Error("This ask is not open for this person.");
+  return {
+    answered: answerDonationAsk(
+      coreAPI(core),
+      input.askId,
+      input.answer,
+      input.amountMinor,
+    ),
   };
 }

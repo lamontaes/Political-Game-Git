@@ -1227,6 +1227,71 @@ function debatePanel(debate) {
     }),
   );
 }
+/** Candidates' asks for money that reached the player: theirs to give to, size or decline. */
+async function donationAskCards() {
+  const labels = controls.campaignAsks;
+  const view = await api("/api/campaign/asks");
+  if (!view.asks.length) return [];
+  return [
+    el("h3", { className: "work-heading", textContent: labels.title }),
+    ...view.asks.map((ask) => {
+      const amount = el("input", {
+        type: "number",
+        min: 0,
+        step: 1,
+        value: String(Math.round(ask.suggestedMinor / 100)),
+        ariaLabel: labels.amount,
+      });
+      const status = el("p", { className: "offer-status", role: "status" });
+      const actions = el("div", { className: "offer-actions" });
+      for (const answer of ["give", "decline"]) {
+        const button = el("button", {
+          type: "button",
+          textContent: labels[answer],
+        });
+        button.onclick = async () => {
+          for (const b of actions.children) b.disabled = true;
+          try {
+            const response = await post(
+              `/api/campaign/asks/answer?${new URLSearchParams({
+                askId: ask.id,
+                answer,
+                ...(answer === "give"
+                  ? {
+                      amountMinor: String(
+                        Math.round(Number(amount.value) * 100),
+                      ),
+                    }
+                  : {}),
+              })}`,
+            );
+            await refresh();
+            if (response.answered) await openSheet("campaigns");
+            else {
+              status.textContent = labels.unavailable;
+              for (const b of actions.children) b.disabled = false;
+            }
+          } catch {
+            status.textContent = labels.failed;
+            for (const b of actions.children) b.disabled = false;
+          }
+        };
+        actions.append(button);
+      }
+      return el(
+        "section",
+        { className: "job-offer" },
+        el("h3", { textContent: ask.candidate }),
+        el("p", { textContent: ask.office }),
+        row(labels.asked, ask.askedOn),
+        row(labels.suggested, dollars(ask.suggestedMinor)),
+        amount,
+        actions,
+        status,
+      );
+    }),
+  ];
+}
 function speechPanel(filing, venue) {
   const rebuild = () => openSheet("campaigns");
   if (!speechState)
@@ -3564,6 +3629,7 @@ const sheets = {
   async campaigns() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     return [
+      ...(await donationAskCards()),
       ...(await campaignRows()),
       ...v.filings.map((f) => row(words(f.status), f.filedWith)),
       ...(await sheets.results()),

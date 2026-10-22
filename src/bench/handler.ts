@@ -12,10 +12,12 @@ import { knownCard, personCard } from "./card";
 import { OPENING_EVENING_MINUTE, openingFrames } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
 import {
+  answerAsk,
   campaignAct,
   campaignDay,
   campaignView,
   debateAnswer,
+  donationAsksView,
   speechBegin,
   speechGive,
   speechPick,
@@ -863,6 +865,27 @@ export async function benchRequest(
         send(
           200,
           campaignView(requireCore(), url.searchParams.get("id") ?? ""),
+        );
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/campaign/asks") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(200, donationAsksView(requireCore(), player.personId));
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/campaign/asks/answer"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          answerAsk(requireCore(), player.personId, {
+            askId: url.searchParams.get("askId") ?? "",
+            answer: url.searchParams.get("answer") ?? "",
+            amountMinor:
+              Number(url.searchParams.get("amountMinor")) || undefined,
+          }),
         );
         return;
       }
