@@ -51,7 +51,7 @@ import {
 } from "../turnout";
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, leanedYes } from "../trait-decisions";
 import { parameter } from "../parameters";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -99,6 +99,7 @@ import { recordAppeal, type RecordReason } from "./record";
 import { decisionOf } from "./candidacy";
 import {
   agreementWith,
+  countedStanceProfile,
   VIEWS_DATA,
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
@@ -235,6 +236,9 @@ interface CountedBallotsRow {
   readonly cost: readonly number[];
   /** Real voters each kept ballot stands for (absent on rows kept before the Census weight; one). */
   readonly weight?: readonly number[];
+  /** Each voter's faith and degree against their age band's average (NaN with no profile; absent on rows kept before the loadings). */
+  readonly faith?: readonly number[];
+  readonly college?: readonly number[];
 }
 
 /** One voter's turnout on a ballot: its parts and the propensity they came to. */
@@ -305,6 +309,45 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(date.slice(0, 4)) -
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+
+/**
+ * Whether a serving incumbent who is a full person stands again: the base
+ * reason, less what their age takes from it, and the person's calibrated
+ * trait lean toward standing over retiring.
+ */
+export function standsAgain(
+  api: CoreAPI,
+  incumbent: Readonly<PersonState>,
+): boolean {
+  return leanedYes(
+    api.state,
+    incumbent,
+    "voting.stand-again",
+    "stand",
+    "retire",
+    standAgainReason(api, incumbent),
+  );
+}
+
+/** The reasons to stand again before personality: the base, less the weight of age past the pivot. */
+export function standAgainReason(
+  api: CoreAPI,
+  incumbent: Readonly<PersonState>,
+): number {
+  return (
+    campaignParameter("votingStandAgainBase") -
+    campaignParameter("votingStandAgainAgeWeight") *
+      Math.min(
+        1,
+        Math.max(
+          0,
+          (ageOn(incumbent, api.state.date) -
+            campaignParameter("votingStandAgainAgePivot")) /
+            campaignParameter("votingStandAgainAgeSpan"),
+        ),
+      )
+  );
+}
 
 /** Put every contest's election day and the winner's first day on the calendar. */
 export function openVoting(core: CoreState): void {
@@ -514,6 +557,10 @@ function appealFor(
     incumbentLean: incumbentLeanOf(api, voter),
     // The form of the ballot their own precinct prints.
     ballotForm: precinctIndexOf(api, voter),
+    // Their faith and degree, where the views engine runs in this world.
+    profile: api.state.modules.has(VIEWS_MODULE_ID)
+      ? viewOf(api, voter.id)
+      : undefined,
   });
   const tie = partyTie(api, voter.id);
   let heardPlatform = false;
@@ -1116,17 +1163,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     : undefined;
   // A full person stands from their own traits; a placeholder incumbent
   // keeps the standing rule.
-  const stands =
-    !incumbentPerson ||
-    campaignParameter("votingStandAgainBase") +
-      decisionLean(
-        api.state,
-        incumbentPerson,
-        "voting.stand-again",
-        "stand",
-        "retire",
-      ) >
-      0;
+  const stands = !incumbentPerson || standsAgain(api, incumbentPerson);
   if (
     incumbent &&
     alive &&
@@ -1407,6 +1444,7 @@ export function holdPrimary(
         trust: trustWeight(api, leanOf.get(voter.id) ?? 0),
         // The town's people hold each form of a rotated ballot in turn.
         ballotForm: form,
+        profile: countedStanceProfile(api, voter),
       });
       // Each counted voter stands for the town's people like them: their
       // vote counts at the share of them who turn out.
@@ -2160,6 +2198,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     interest: [] as number[],
     cost: [] as number[],
     weight: [] as number[],
+    faith: [] as number[],
+    college: [] as number[],
   };
   const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
   let countedAdultIndex = 0;
@@ -2189,6 +2229,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       trust: trustWeight(api, lean),
       // The town's people hold each form of a rotated ballot in turn.
       ballotForm: kept.voterIds.length,
+      profile: countedStanceProfile(api, voter),
     });
     const t = atThePolls(
       api,
@@ -2208,6 +2249,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.interest.push(t.interest);
     kept.cost.push(t.cost);
     kept.weight.push(voter.weight);
+    const profile = countedStanceProfile(api, voter);
+    kept.faith.push(profile.faithFromAverage ?? NaN);
+    kept.college.push(profile.collegeFromAverage ?? NaN);
     countedVoted += t.propensity * voter.weight;
     if (choice)
       countedVotes[choice] =
@@ -2960,6 +3004,13 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
       incumbentLean: row.incumbentLean[i]!,
       trust: row.trust?.[i] ?? 1,
       ballotForm: i,
+      profile:
+        row.faith && row.college && Number.isFinite(row.faith[i])
+          ? {
+              faithFromAverage: row.faith[i]!,
+              collegeFromAverage: row.college[i]!,
+            }
+          : null,
     }),
     basis: "party-name-incumbency",
     lean: row.lean[i]!,

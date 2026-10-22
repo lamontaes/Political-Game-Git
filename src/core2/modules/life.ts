@@ -296,7 +296,6 @@ export const LIFE_MODULE: CoreModule = {
     },
     self: (api, actor, action) => [offer(api, actor, action, actor.id)],
     "known-person": (api, actor, action) => {
-      api.stopgap("SG-P8-school-acquaintance-contact-frequency");
       return [...actor.knownIds]
         .filter((id) => api.state.people.get(id)?.alive)
         .map((id) => offer(api, actor, action, id));

@@ -42,6 +42,7 @@ import {
   addResidentFlow,
   countedHeadcountOf,
   countedJobsOf,
+  weightedPayrollMinor,
   purchaseShareOf,
   shiftPurchaseShare,
 } from "../residents-economy";
@@ -1275,9 +1276,16 @@ function month(api: CoreAPI): void {
     // Losses carry: an owner draws only from profit the business has kept, net of losses since.
     const retained = row.retainedMinor + profit;
     const cash = c.organizations.get(row.id)!.liquidMinor;
+    // The payroll the next paydays draw on: the book's, plus what its counted
+    // workers' households stand for beyond one each.
+    const weightedPayroll = weightedPayrollMinor(
+      c,
+      row.id,
+      book.annualPayrollMinor,
+      p("jobsDaysPerYear"),
+    );
     const cushion = Math.round(
-      (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-        p("businessCushionMonths"),
+      (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
     );
     const ownerDays =
       owner.livingCostDailyMinor > 0
@@ -1311,14 +1319,21 @@ function month(api: CoreAPI): void {
           citation: businessData.source.citation,
           estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
         };
+        // Only cash past the payroll cushion is spare: a draw never takes the
+        // cash the next payroll needs, whatever profit the business has kept.
+        const wanted = Math.min(retained * share, Math.max(0, cash - cushion));
+        // The business's cash is already at the town's weight: the counted
+        // owner's group receives the whole draw, and the draw on the books is
+        // what the journal moved.
         drawn = found.full
-          ? transferCash(api, id, row.id, account, retained * share, source)
+          ? transferCash(api, id, row.id, account, wanted, source)
           : countedPayment(api, {
               id,
               placeId: owner.placeId,
               personId: owner.id,
               otherOwnerId: row.id,
-              amountMinor: -Math.floor(retained * share),
+              amountMinor: -Math.floor(wanted),
+              whole: true,
               reasonKey: "owner-draw",
               source,
             });

@@ -47,10 +47,6 @@ export interface BusinessBooksData {
     outsideBusinessScope: string;
     missingIncomeAnchor: string;
     missingCapacity: string;
-    missingFacility: string;
-    facilityNotHonored: string;
-    lineExhausted: string;
-    lenderCashExhausted: string;
   };
 }
 
@@ -432,107 +428,4 @@ export function estimateCreditLimit(
   const limit = Math.floor(annualDemandMinor * (days / year));
   minor(limit, "estimated line limit", zero);
   return limit;
-}
-
-export interface FundingPlanInput {
-  at: string;
-  existingCashMinor: number;
-  recordedDueMinor: number;
-  existingDebtMinor: number;
-  source: Source;
-  /** Provided only for an actual admitted facility with a real funded lender. */
-  facility?: {
-    lenderId: string;
-    lenderCashMinor: number;
-    limitMinor: number;
-    honored: boolean;
-    source: Source;
-  };
-}
-
-export function planBusinessFunding(
-  input: FundingPlanInput,
-  options: BusinessBooksOptions = {},
-) {
-  const { data, p } = settings(options),
-    zero = p("zero"),
-    one = p("one");
-  makeIsoDate(input.at);
-  currentSource(input.source, input.at);
-  for (const [field, value] of Object.entries({
-    existingCashMinor: input.existingCashMinor,
-    recordedDueMinor: input.recordedDueMinor,
-    existingDebtMinor: input.existingDebtMinor,
-  }))
-    minor(value, field, zero);
-  const facility = input.facility;
-  if (facility) {
-    if (!facility.lenderId)
-      throw new Error("A credit facility requires its real lender identity.");
-    currentSource(facility.source, input.at);
-    minor(facility.lenderCashMinor, "lender cash", zero);
-    minor(facility.limitMinor, "admitted facility limit", zero);
-  }
-  const deficiencyMinor = Math.max(
-    zero,
-    input.recordedDueMinor - input.existingCashMinor,
-  );
-  const lineRoomMinor = facility
-    ? Math.max(zero, facility.limitMinor - input.existingDebtMinor)
-    : zero;
-  const availableCreditMinor = facility?.honored
-    ? Math.min(lineRoomMinor, facility.lenderCashMinor)
-    : zero;
-  const borrowMinor = Math.min(deficiencyMinor, availableCreditMinor);
-  const cashAfterDrawMinor = input.existingCashMinor + borrowMinor;
-  const debtAfterDrawMinor = input.existingDebtMinor + borrowMinor;
-  minor(cashAfterDrawMinor, "planned cash after draw", zero);
-  minor(debtAfterDrawMinor, "planned debt after draw", zero);
-  const plannedPaidMinor = Math.min(input.recordedDueMinor, cashAfterDrawMinor);
-  const unfundedDueMinor = input.recordedDueMinor - plannedPaidMinor;
-  const residualMinor = cashAfterDrawMinor - plannedPaidMinor;
-  const repaymentShare = p(data.policy.repaymentShareParameter);
-  nonnegative(repaymentShare, "repayment share", zero);
-  if (repaymentShare > one) throw new Error("Repayment share exceeds unity.");
-  const repayMinor = facility
-    ? Math.min(debtAfterDrawMinor, Math.floor(residualMinor * repaymentShare))
-    : zero;
-  const cashAfterPlanMinor = residualMinor - repayMinor;
-  const debtAfterPlanMinor = debtAfterDrawMinor - repayMinor;
-  const lenderCashAfterPlanMinor = facility
-    ? facility.lenderCashMinor - borrowMinor + repayMinor
-    : undefined;
-  if (lenderCashAfterPlanMinor !== undefined)
-    minor(lenderCashAfterPlanMinor, "planned lender cash", zero);
-  const closingReason =
-    unfundedDueMinor === zero
-      ? undefined
-      : !facility
-        ? data.reasons.missingFacility
-        : !facility.honored
-          ? data.reasons.facilityNotHonored
-          : lineRoomMinor <= borrowMinor
-            ? data.reasons.lineExhausted
-            : data.reasons.lenderCashExhausted;
-  return {
-    deficiencyMinor,
-    lineRoomMinor,
-    availableCreditMinor,
-    borrowMinor,
-    plannedPaidMinor,
-    unfundedDueMinor,
-    repayMinor,
-    cashAfterPlanMinor,
-    debtAfterPlanMinor,
-    lenderCashAfterPlanMinor,
-    /** Evidence only; integration must establish actual due obligations and close through its writer. */
-    closingEvidence: closingReason
-      ? { reason: closingReason, unfundedDueMinor, source: { ...input.source } }
-      : undefined,
-    gap:
-      !facility && input.existingDebtMinor > zero
-        ? data.reasons.missingFacility
-        : undefined,
-    stopgapIds: data.stopgapIds,
-  };
 }
