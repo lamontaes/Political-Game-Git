@@ -671,6 +671,8 @@ export function countedPayment(
     householdId?: string;
     otherOwnerId: string;
     amountMinor: number;
+    /** The amount is the whole record's, not one household's; the return is what moved. */
+    whole?: true;
     reasonKey: string;
     source: Source;
   },
@@ -691,7 +693,7 @@ export function countedPayment(
         ? householdById(rt, input.householdId)
         : undefined;
   // The engine's amount is for one household; the record stands for its weight.
-  const times = h && !h.gone ? rt.store.weightOf(h) : 1;
+  const times = h && !h.gone && !input.whole ? rt.store.weightOf(h) : 1;
   const amountMinor = times === 1 ? asked : Math.round(asked * times);
   // What the caller is told is in its own units: one household's.
   const perHousehold = (moved: number) =>
