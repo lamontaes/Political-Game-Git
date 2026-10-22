@@ -4,9 +4,9 @@ title: "Check for updates in the installed Mac app finds the newest release"
 area: release
 kind: bug
 priority: 2
-status: claimed
+status: in-pr
 claimed-by: claude/release-feed-check
-pr:
+pr: #5841
 blocked-on:
 milestone:
 size: S
