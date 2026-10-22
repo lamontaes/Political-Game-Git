@@ -129,6 +129,8 @@ export function governmentView(core: CoreState, personId: string) {
       title: office.title,
       level: office.level,
       government: office.governmentName,
+      // The body the seat sits on, as its record names it ("Eolia Board of Trustees").
+      body: office.bodyName ?? null,
       seatId: seat.id,
       district: seat.district,
       // The seat's elections, oldest first, each named by the term it seated.
