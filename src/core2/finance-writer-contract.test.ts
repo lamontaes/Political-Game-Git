@@ -31,6 +31,7 @@ import {
   catchUpScheduledWork,
   plannedWorkMinutesOnDate,
   runScheduledWork,
+  WORK_MODULE,
 } from "./modules/work";
 import { parameter as p } from "./parameters";
 import {
@@ -293,7 +294,7 @@ function input(options: FixtureOptions = {}): CoreInput {
 function fixture(options: FixtureOptions = {}): CoreState {
   const core = createCore(input(options), {
     data: fixtureData,
-    modules: [LIFE_MODULE],
+    modules: [LIFE_MODULE, WORK_MODULE],
   });
   // Namespace registration is fixture setup, before exact failed-writer snapshots.
   ensureFinanceCashModule(core);
@@ -812,7 +813,7 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     });
     const core = createCore(input({ lenderCash: 1_000 }), {
       data,
-      modules: [LIFE_MODULE],
+      modules: [LIFE_MODULE, WORK_MODULE],
     });
     const api = coreAPI(core);
     api.addCreditFacility(
@@ -889,7 +890,10 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     };
     const withoutFinance = { ...input() };
     delete withoutFinance.finance;
-    const core = createCore(withoutFinance, { data, modules: [LIFE_MODULE] });
+    const core = createCore(withoutFinance, {
+      data,
+      modules: [LIFE_MODULE, WORK_MODULE],
+    });
     const before = snapshot(core);
     expect(() => coreAPI(core).addCreditFacility(facility())).toThrow();
     expect(snapshot(core)).toBe(before);
@@ -1012,7 +1016,7 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     const ordinary = input();
     const core = createCore(
       { ...ordinary, focusPersonIds: [], visiblePlaceIds: [placeId] },
-      { data: fixtureData, modules: [LIFE_MODULE] },
+      { data: fixtureData, modules: [LIFE_MODULE, WORK_MODULE] },
     );
     const api = coreAPI(core);
     const receipt = api.settleFinanceContract(costId);
@@ -1128,7 +1132,10 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     delete parameters.isoMonthCharacters;
     const missingActParameter = createCore(
       input({ includeCredit: true, onlyWorkerCommitment: true }),
-      { data: { ...fixtureData, parameters }, modules: [LIFE_MODULE] },
+      {
+        data: { ...fixtureData, parameters },
+        modules: [LIFE_MODULE, WORK_MODULE],
+      },
     );
     ensureFinanceCashModule(missingActParameter);
     ensureWorkCashModule(missingActParameter);
@@ -1182,7 +1189,7 @@ describe("shared funding and retained finance obligations", () => {
     };
     const core = createCore(prepared, {
       data: fixtureData,
-      modules: [LIFE_MODULE],
+      modules: [LIFE_MODULE, WORK_MODULE],
     });
     const total = cash(core);
     freeWork(core);
@@ -1249,7 +1256,7 @@ describe("shared funding and retained finance obligations", () => {
           businesses: [books({ creditFacilityId: facilityId })],
         },
       },
-      { data, modules: [LIFE_MODULE] },
+      { data, modules: [LIFE_MODULE, WORK_MODULE] },
     );
     const api = coreAPI(core);
     const total = cash(core);
