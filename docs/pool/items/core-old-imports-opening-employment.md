@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/old-imports-opening-employment
+status: open
+claimed-by:
 pr: #5071
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T18:11:11.377Z
+claimed-at:
 ---
 
 **What.** The opening's employment allocation still imports the old town-employment, life-queries and jail-terms code. Port only what the allocation uses into the core and read the core's own copies. Delete the old imports from the opening files in the same change, so nothing is left layered beside the new reads.
