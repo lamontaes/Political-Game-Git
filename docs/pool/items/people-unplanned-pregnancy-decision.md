@@ -4,7 +4,7 @@ title: "Unplanned pregnancies and the decision, reading the abortion law where s
 area: people
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #5695
 blocked-on:
