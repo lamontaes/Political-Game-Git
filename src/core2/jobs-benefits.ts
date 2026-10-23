@@ -310,16 +310,16 @@ export function payClaims(
     let paid =
       due > 0
         ? transferCash(
-      api,
-      `unemployment-benefit:${row.personId}:${c.date}`,
-      fund.id,
-      // A claimant filled in since filing is paid as a full person; a counted
-      // one lands in their own household's group account.
-      payee,
-      due,
-      source,
-      { personId: row.personId },
-    
+            api,
+            `unemployment-benefit:${row.personId}:${c.date}`,
+            fund.id,
+            // A claimant filled in since filing is paid as a full person; a counted
+            // one lands in their own household's group account.
+            payee,
+            due,
+            source,
+            { personId: row.personId },
+          )
         : 0;
     // A state fund that cannot cover the week borrows the rest from outside
     // the town, as a state borrows from the federal government when its fund
