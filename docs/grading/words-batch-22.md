@@ -533,7 +533,7 @@ Grade each line good, bad or fix by its number. Curly braces mark what the game 
 - **133** · **I went to {school}. What we teach our kids there is what we leave behind.**
   - {school}: The speaker's school, from the school record.
 
-### tell (`stage-stance-enact`)
+### promise (`stage-stance-enact`)
 
 - **134** · **I want to talk about {issue}. {goal}? I'm for it, and I'd like you to hold me to that.**
   - {issue}: The subject of a stand, as the bill catalog names its topic.
@@ -546,7 +546,7 @@ Grade each line good, bad or fix by its number. Curly braces mark what the game 
   - {issue}: The subject of a stand, as the bill catalog names its topic.
   - {goal}: What the speaker's recorded stand is about, as the bill catalog names the policy; said as a question, then answered.
 
-### tell (`stage-stance-repeal`)
+### promise (`stage-stance-repeal`)
 
 - **137** · **Let me talk about {issue}. {goal}? I'm against it, and I'm saying so here in {place}.**
   - {issue}: The subject of a stand, as the bill catalog names its topic.

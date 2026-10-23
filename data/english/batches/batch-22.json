@@ -2291,7 +2291,7 @@
       "bank": "speech-stages.json",
       "register": "speech-stages",
       "move": "stage-stance-enact",
-      "sharedMove": "tell",
+      "sharedMove": "promise",
       "text": "I want to talk about {issue}. {goal}? I'm for it, and I'd like you to hold me to that.",
       "parts": [
         "speech-stages.stage-stance-enact.i-want-to-talk-about-issue-goal-i-m-"
@@ -2314,7 +2314,7 @@
       "bank": "speech-stages.json",
       "register": "speech-stages",
       "move": "stage-stance-enact",
-      "sharedMove": "tell",
+      "sharedMove": "promise",
       "text": "Let me talk about {issue}. {goal}? I'm for it, and I'm saying so here in {place}.",
       "parts": [
         "speech-stages.stage-stance-enact.let-me-talk-about-issue-goal-i-m-for"
@@ -2341,7 +2341,7 @@
       "bank": "speech-stages.json",
       "register": "speech-stages",
       "move": "stage-stance-enact",
-      "sharedMove": "tell",
+      "sharedMove": "promise",
       "text": "On {issue}, I'll be plain. {goal}? I'm for it. Ask me why, and I'll tell you.",
       "parts": [
         "speech-stages.stage-stance-enact.on-issue-i-ll-be-plain-goal-i-m-for-"
@@ -2364,7 +2364,7 @@
       "bank": "speech-stages.json",
       "register": "speech-stages",
       "move": "stage-stance-repeal",
-      "sharedMove": "tell",
+      "sharedMove": "promise",
       "text": "Let me talk about {issue}. {goal}? I'm against it, and I'm saying so here in {place}.",
       "parts": [
         "speech-stages.stage-stance-repeal.let-me-talk-about-issue-goal-i-m-aga"
@@ -2391,7 +2391,7 @@
       "bank": "speech-stages.json",
       "register": "speech-stages",
       "move": "stage-stance-repeal",
-      "sharedMove": "tell",
+      "sharedMove": "promise",
       "text": "On {issue}, I'll be plain. {goal}? I'm against it. Ask me why, and I'll tell you.",
       "parts": [
         "speech-stages.stage-stance-repeal.on-issue-i-ll-be-plain-goal-i-m-agai"
