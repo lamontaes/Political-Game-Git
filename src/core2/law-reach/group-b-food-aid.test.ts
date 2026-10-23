@@ -64,8 +64,15 @@ describe("foodAidDollars", () => {
 });
 
 describe("the baseline benefit in a played year", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "food-aid");
-  it(`pays qualifying households from the federal treasury (place ${draw.key}, seed ${draw.seed})`, () => {
+  const seed = randomBytes(32).toString("hex");
+  const DRAWS = 8;
+  /**
+   * One drawn place for two months: where no SNAP law is in force (a territory
+   * on a block grant) nothing is owed, and "no-snap" is returned so the test
+   * draws another; where SNAP is in force the payments are checked and "paid"
+   * returned.
+   */
+  const check = (draw: ReturnType<typeof drawPlace>): "no-snap" | "paid" => {
     setBookkeeping(false);
     const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
       twoLevel: true,
@@ -91,10 +98,9 @@ describe("the baseline benefit in a played year", () => {
     advanceCore(core, nextMonth(core.date));
     advanceCore(core, nextMonth(core.date));
     const rows = open();
-    // Where no SNAP law is in force (a territory on a block grant) nothing is owed.
     if (!lawInForce(api, "snap-maximum").value) {
       expect(rows, `${where}: paid with no SNAP law`).toEqual([]);
-      return;
+      return "no-snap";
     }
     expect(rows.length, `${where}: no SNAP obligations`).toBeGreaterThan(0);
     for (const row of rows) expect(row.governmentId).toBe(federal!.id);
@@ -125,7 +131,25 @@ describe("the baseline benefit in a played year", () => {
       paid,
       `${where}: no SNAP payment reached a household`,
     ).toBeGreaterThan(0);
-  }, 240_000);
+    return "paid";
+  };
+
+  it(
+    `pays qualifying households from the federal treasury, in a drawn place with SNAP in force (seed ${seed})`,
+    () => {
+      const tried: string[] = [];
+      for (let n = 0; n < DRAWS; n += 1) {
+        const draw = drawPlace(seed, `food-aid-${n}`);
+        const result = check(draw);
+        tried.push(`${draw.name} (${draw.key}, seed ${draw.seed}): ${result}`);
+        if (result === "paid") return;
+      }
+      throw new Error(
+        `no drawn place had SNAP in force in ${DRAWS} draws: ${tried.join("; ")}`,
+      );
+    },
+    240_000 * 8,
+  );
 });
 
 function nextMonth(date: string): never {
