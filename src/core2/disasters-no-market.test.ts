@@ -241,10 +241,12 @@ function townsWithDamage(usps: string): ReadonlySet<string> {
 }
 
 // About one draw in 46 is a town whose records show homes damaged in the
-// first year (2.2 percent over the 56 jurisdictions), so 2,000 screened draws
-// miss with odds near 1 in 10^19; at most 6 screened towns are opened.
+// first year (2.2 percent over the 56 jurisdictions), so 2,000 draws all miss
+// about once in 10^19 runs. Of 30 towns the screen kept, 25 had a damaged-home
+// record after their year, so 10 opened towns all fail about once in 60
+// million runs.
 const DRAWS = 2000;
-const OPENED = 6;
+const OPENED = 10;
 
 it("a place drawn from all 56 where a disaster damaged homes pays repairs to a recorded payee, or to none where none is recorded", () => {
   const drawSeed =
@@ -294,7 +296,7 @@ it("a place drawn from all 56 where a disaster damaged homes pays repairs to a r
     setBookkeeping(true);
   }
   // Measured on a 4-core container: an opening took 3.8 to 9.1 seconds and a
-  // played year 8.9 to 14.5, so the most this case does, 6 towns opened and
-  // played, is about 2.4 minutes; 10 minutes leaves a slower runner four times
-  // that. A run that opened 3 towns took 33 seconds.
-}, 600_000);
+  // played year 8.9 to 14.5, so the most this case does, 10 towns opened and
+  // played, is about 4 minutes; 15 minutes leaves a slower runner nearly four
+  // times that. A run that opened 3 towns took 33 seconds.
+}, 900_000);

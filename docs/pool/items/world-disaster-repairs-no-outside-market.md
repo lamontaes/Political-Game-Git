@@ -21,7 +21,7 @@ claimed-at: 2026-10-23T23:03:14.628Z
 
 1. `src/core2/disasters-no-market.test.ts` plays a year in the named repro (Guthrie, Oklahoma, seed 35f504a41ec4764f52666b6c5ccd1992aa077e83, salt "stories-from-engines") through the declared disaster without stopping, and asserts that a disaster damaged homes (a numeric damaged-home count above 0), that on the eve of its declaration the player's town had no open builder and no outside market, that no repair was paid for it, and that the journal's debits equal its credits. When the crash was found the player had moved to such a town on their own; where current main keeps them home, the test makes that one move itself, through the writer the moves engine uses, and says so.
 2. Beside it, a case draws places from all 56 until one has a disaster that damaged homes in its first year, and asserts that repairs were paid for it exactly when a builder or an outside market was recorded on the eve, with the journal balanced, naming the place and seed.
-3. Each case's timeout is a bound from measured runs, stated beside it: the named case's measured time, and for the drawn case the most it can do (6 towns opened and played) at the measured opening and year times.
+3. Each case's timeout is a bound from measured runs, stated beside it: the named case's measured time, and for the drawn case the most it can do (10 towns opened and played) at the measured opening and year times.
 4. The PR body names, for both cases, the disaster record id, the damaged homes, the payees on the eve, the repair payments and the journal totals.
 
 **Files.** `src/core2/disasters-no-market.test.ts`; `src/core2/modules/disasters.ts` (only the `townDisastersWithDamage` reader the drawn case uses to pass over a place with no damaging disaster due).
