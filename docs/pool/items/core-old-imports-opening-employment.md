@@ -1,6 +1,6 @@
 ---
 id: core-old-imports-opening-employment
-title: "The opening's employment allocation comes from the core, not the old town-employment, life-queries and jail-terms code"
+title: "The opening's employment allocation comes from the core, not the old town-employment code"
 area: core
 kind: cleanup
 priority: 2
