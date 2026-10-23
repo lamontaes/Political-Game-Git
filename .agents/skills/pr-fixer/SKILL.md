@@ -10,11 +10,13 @@ description: >
 
 # PR fixer
 
-Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+Current as of 2026-10-23 (merge-first list and Words exclusion added to the work order; checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
 
 A sent-back PR is usually one small fix away from merging. Finish it on its own branch; never open a second PR for the same item.
 
 ## Find the work
+
+Take send-backs oldest first from `docs/coordination/MERGE-FIRST.md` first, then any open PR whose newest merger comment has no later commit. Never take a `words/*` branch or a PR whose body says Words line; those go to the Words session.
 
 - Pool items with status `open` whose Notes say `Sent back <date> from PR #N (branch X): <reason>`.
 - Open PRs whose newest merger comment (starting `Cloud merger:`, `Codex merger:` or `CTO:`, or saying "sent back" or "left open") has no commit pushed after it.
