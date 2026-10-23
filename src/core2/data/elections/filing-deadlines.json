@@ -356,13 +356,14 @@
     },
     "US-NY": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-of-month",
+        "month": 4,
+        "weekday": 4,
+        "nth": 1
       },
-      "ruleText": "City and town offices on the June primary/November ballot: same petition dates as state; village elections (village clerk) in March or November with their own dates",
-      "citation": "N.Y. Elec. Law 6-136, 6-142, 15-108",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "ruleText": "A party candidate's designating petition is filed not later than the twelfth Thursday before the primary, held on the fourth Tuesday in June, which is always the first Thursday in April; an independent nominating petition is filed 24 to 23 weeks before the general election; a village that elects in March keeps its own dates (the estimate stands in there)",
+      "citation": "N.Y. Elec. Law 6-158(1), (9) and 8-100(1)(a), read from nysenate.gov Oct 23, 2026",
+      "tag": "SOURCED"
     },
     "US-OH": {
       "rule": {
@@ -559,23 +560,26 @@
     },
     "US-PR": {
       "rule": {
-        "kind": "unread",
-        "reason": "As the governor's race; the Commission sets it."
+        "kind": "fixed-date",
+        "month": 12,
+        "day": 30,
+        "yearsBefore": 1
       },
-      "ruleText": "As governor (estimate)",
-      "citation": "https://ww2.ceepur.org/sites/ComisionEE/es-pr/Presidencia/DocumentosPresidencia/Ley%2058-2020%20-%20Código%20Electoral.pdf",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "ruleText": "The Commission and the parties take candidacies from December 1 until noon on December 30 of the year before the general election, for every elective office",
+      "citation": "P.R. Electoral Code (Act 58-2020) art. 7.14(1), 16 L.P.R.A. 4624, read from the State Elections Commission's text (ceepur.org) Oct 23, 2026",
+      "tag": "SOURCED"
     },
     "US-GU": {
       "rule": {
-        "kind": "unread",
-        "reason": "The law counts the deadline from a primary or another date this calendar does not hold for towns."
+        "kind": "weekday-of-month",
+        "month": 8,
+        "weekday": 6,
+        "nth": 1,
+        "plusDays": -90
       },
-      "ruleText": "160 to 90 days before the primary",
-      "citation": "https://gec.guam.gov/filing-for-candidacy/",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "Statute or county page named in the citation, read from a search excerpt or secondary summary and not checked against the current code (filing-requirements.json estimate flag)."
+      "ruleText": "Nomination papers are filed with the Election Commission at least 90 days but not earlier than 160 days before the primary, held on the first Saturday of August in every even-numbered year",
+      "citation": "3 GCA 15201, 15206, read from the Compiler of Laws (col.guamcourts.gov, 3gc015.pdf) Oct 23, 2026",
+      "tag": "SOURCED"
     },
     "US-VI": {
       "rule": {
