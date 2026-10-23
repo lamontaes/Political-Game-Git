@@ -3485,12 +3485,24 @@
     "id": "SG-CORE-past-no-deaths-closures",
     "kind": "missing-record",
     "file": "src/core2/past-news.ts",
-    "line": 76,
+    "line": 78,
     "whatItFakes": "The news archive carries elections, laws, votes, budgets and the deaths of residents' parents, but no business closures from the year before day one. A counted resident's parent who died is not reported either.",
-    "why": "The generated past holds no closure records dated before the opening: businesses start on day one. Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
+    "why": "Resolved (gov-past-closures-archive): the closures are built in src/core2/past-business.ts and archived by past-news.ts; the counted residents' parents' deaths remain, registered as SG-CORE-past-counted-parents-deaths. The generated past holds no closure records dated before the opening: businesses start on day one. Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
     "replacement": "Closures of the town's businesses in the year before day one, generated as records by the business engine, and the counted residents' parents' deaths archived at counted level.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-CORE-past-counted-parents-deaths",
+    "kind": "missing-record",
+    "file": "src/core2/past-news.ts",
+    "line": 79,
+    "whatItFakes": "A counted resident's parent who died in the year before day one is not reported in the news archive.",
+    "why": "Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
+    "addedBy": "gov-past-closures-archive (split from SG-CORE-past-no-deaths-closures)",
+    "addedAt": "2026-10-19",
+    "replacement": "The counted residents' parents' deaths archived at counted level.",
     "status": "open"
   },
   {
@@ -4028,10 +4040,10 @@
     "line": 1715,
     "whatItFakes": "A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts.",
     "why": "The opening places only some counted workers in recorded jobs; the rest are paid from one place-level flow with no employer to file a W-2.",
-    "replacement": "The jobs engine places every counted worker in a recorded job on an employer's books, so a filled-in worker always gets a real job and withholding.",
+    "replacement": "Resolved: a filled-in worker with an unplaced income holds a job (job:commuter:<personId>:<start>) at the place's outside account, paid through the payroll calendar with withholding; demotion ends it and returns the pay to the unplaced pool. Shown in unplaced-fill-in-job.test.ts (pool item core-commuter-job-fill-in).",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-owner-decision-town-size",
@@ -4423,9 +4435,9 @@
     "id": "SG-WORLD-housing-shelter-territory",
     "kind": "assumed-data",
     "file": "src/core2/housing-homeless.ts",
-    "line": 113,
-    "whatItFakes": "American Samoa and the Northern Mariana Islands, which have no HUD Continuum of Care, use the nation's shelter beds per 10,000.",
-    "why": "No HUD Housing Inventory Count covers them.",
+    "line": 125,
+    "whatItFakes": "American Samoa and the Northern Mariana Islands, which have no HUD Continuum of Care, use the median shelter beds per 10,000 of the three island areas the HIC counts (Guam, Puerto Rico, U.S. Virgin Islands), an estimate with a spread of 2.47 to 10.9.",
+    "why": "No HUD Housing Inventory Count covers them; the island-area median is the nearest measured stand-in (data/research/stopgaps-oct19/D-economy-world.json).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "Each territory government's own shelter count.",
@@ -4729,6 +4741,18 @@
     "addedBy": "claude/gov-council-election-method",
     "addedAt": "2026-10-15",
     "replacement": "Council districts drawn from the town's dwellings (by the council or a commission, to near equal population as its charter says), each household and each sitting member placed by their dwelling.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-ward-residency",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/elections.ts",
+    "line": 644,
+    "whatItFakes": "A candidate for a council seat chosen by part of town must live in that part of town. The rule is assumed for every place: no charter text the repository holds says whether its ward or district seats ask it, and the part of town is the household-order ward of SG-GOV-ward-map.",
+    "why": "The compiled charters (src/core2/gov-rules/municipal-governments.json) carry only the council's composition, and governing-body-seat-qualification.json only the minimum age; most ward and district charters do ask residency in the ward, but no place's own text has been read.",
+    "addedBy": "claude/gov-council-ward-residency",
+    "addedAt": "2026-10-17",
+    "replacement": "Read each place's charter or state law for whether a ward or district candidate must live in it, and apply the check only where it does; the part of town then comes from the dwellings, as SG-GOV-ward-map's replacement draws it.",
     "status": "open"
   },
   {
