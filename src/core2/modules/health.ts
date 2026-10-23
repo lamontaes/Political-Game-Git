@@ -36,6 +36,7 @@ import { survivalThresholdFromDraws } from "../kernel/fixed-point";
 import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
+import { residentsRuntime } from "./residents";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -137,6 +138,21 @@ interface HealthRuntime {
    * shifts who, not how many.
    */
   traitNorm: Map<string, number>;
+  /**
+   * What a death moved in kin who are still counted, kept for the day they are
+   * filled in (one model, two tiers): a counted person has no mood to move, so
+   * the impulse waits on the counted household and lands decayed by the days
+   * gone, as it would have on a full person who was watched all along.
+   */
+  bereaved: Map<PersonId, Bereavement[]>;
+}
+
+interface Bereavement {
+  readonly eventId: string;
+  readonly deadId: PersonId;
+  readonly date: Day;
+  readonly moodImpulse: number;
+  readonly stressImpulse: number;
 }
 
 /** A day on the hazard model's calendar. */
@@ -178,6 +194,7 @@ function runtime(state: Readonly<CoreState>): HealthRuntime {
       plans: new Map(),
       causeOfDeath: new Map(),
       traitNorm: new Map(),
+      bereaved: new Map(),
     };
     runtimes.set(state, row);
   }
@@ -702,6 +719,54 @@ function caseEvent(
   };
 }
 
+/**
+ * The dead person's kin and housemates who are counted (not yet people of the
+ * world) cannot be witnesses, so what the death moved in them is kept on the
+ * health record by their id and lands when they are filled in.
+ */
+export function keepForCountedKin(
+  api: CoreAPI,
+  dead: Readonly<PersonState>,
+  event: CoreEventInput,
+): void {
+  const kin = new Set<PersonId>(dead.familyIds);
+  for (const id of api.state.households.get(dead.householdId)?.memberIds ?? [])
+    kin.add(id);
+  keepBereavement(api, dead.id, kin, event);
+}
+
+/** The same for a death in the counts: its counted kin, named by id, keep what it moved. */
+export function keepBereavement(
+  api: CoreAPI,
+  deadId: PersonId,
+  kinIds: Iterable<PersonId>,
+  event: Pick<CoreEventInput, "id" | "date" | "moodImpulse" | "stressImpulse">,
+): void {
+  const row = runtime(api.state);
+  const counted = residentsRuntime(api.state)?.store;
+  if (!counted || (!event.moodImpulse && !event.stressImpulse)) return;
+  for (const id of [...new Set(kinIds)].sort()) {
+    if (id === deadId || api.state.people.has(id)) continue;
+    if (counted.countedMember(id) === undefined) continue;
+    const list = row.bereaved.get(id) ?? [];
+    list.push({
+      eventId: event.id,
+      deadId,
+      date: makeIsoDate(event.date),
+      moodImpulse: event.moodImpulse ?? api.parameter("zero"),
+      stressImpulse: event.stressImpulse ?? api.parameter("zero"),
+    });
+    row.bereaved.set(id, list);
+  }
+}
+
+/** The part of an impulse left `days` after it, on the affect model's own half-life. */
+function remaining(api: CoreAPI, days: number, halfLifeParameter: string) {
+  return Math.exp(
+    (-Math.log(api.parameter("two")) * days) / api.parameter(halfLifeParameter),
+  );
+}
+
 export function createHealthModule(
   data: HealthData = DEFAULT_HEALTH_DATA,
 ): CoreModule {
@@ -710,6 +775,32 @@ export function createHealthModule(
     eventKinds: [HOUSING_STATUS_EVENT, "housing.eviction"],
     onEvent(api, event) {
       housingChanged(api, data, event);
+    },
+    // Kin filled in after a death meet it now: the part of its impulse left
+    // by today lands on them as one late event naming the dead.
+    onFillIn(api, { memberIds }) {
+      const row = runtime(api.state);
+      for (const id of memberIds) {
+        const kept = row.bereaved.get(id);
+        if (!kept || !api.state.people.has(id)) continue;
+        row.bereaved.delete(id);
+        for (const death of kept) {
+          const days = daysBetween(death.date, makeIsoDate(api.state.date));
+          api.emit({
+            id: `${death.eventId}:late:${id}`,
+            date: api.state.date,
+            kind: `${data.deathEventKind}.late`,
+            personIds: [death.deadId],
+            witnessIds: [id],
+            placeId: api.state.people.get(id)!.placeId,
+            moodImpulse:
+              death.moodImpulse * remaining(api, days, "moodHalfLifeDays"),
+            stressImpulse:
+              death.stressImpulse * remaining(api, days, "stressHalfLifeDays"),
+            source: { ...data.source, asOf: api.state.date },
+          });
+        }
+      }
     },
     onDay(api) {
       const row = runtime(api.state);
@@ -771,7 +862,7 @@ export function createHealthModule(
         // A death is a public record (the death certificate) and local news
         // (the obituary): the town's counts, the news, kin and the seat's
         // vacancy rule all read it. An illness's onset stays private.
-        api.emit({
+        const deathEvent = {
           ...event,
           facts: {
             ...event.facts,
@@ -779,7 +870,9 @@ export function createHealthModule(
           },
           publicRecord: true,
           news: true,
-        });
+        };
+        api.emit(deathEvent);
+        keepForCountedKin(api, person, deathEvent);
         // Their cash passes to their heirs, or escheats (money audit defect 6).
         settleEstate(api, id, event.id);
       }
@@ -828,6 +921,10 @@ export function healthReport(core: Readonly<CoreState>) {
     conditionsByPerson: row?.conditionsByPerson ?? new Map(),
     causeOfDeath: row?.causeOfDeath ?? new Map(),
     resilienceLines: row?.resilienceLines ?? new Map(),
+    /** Counted kin a death moved who are not yet filled in, by id. */
+    bereaved: new Map(
+      [...(row?.bereaved ?? new Map())].map(([id, list]) => [id, [...list]]),
+    ),
   };
 }
 
