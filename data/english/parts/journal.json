@@ -5741,21 +5741,37 @@
       "uses": [
         {
           "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
           "journal": [
             {
               "kindPrefix": "family:child",
               "field": "line"
             }
-          ],
-          "subject": "family",
-          "role": "line",
-          "choice": "born"
+          ]
         }
       ],
+      "transcriptsUsing": 34,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
+        "blm": 1,
+        "crec": 19,
+        "dcpd": 3,
+        "hearings": 1,
+        "nasa": 2,
+        "nasa2": 3,
+        "nps": 2,
+        "wpa": 2
+      },
       "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
+      "source": {
+        "document": "Trails Center welcomes special guest, Yufna Soldier Wolf, on May 27",
+        "date": "2023-05-19",
+        "granule": "blm-2023-05-19-trails-center-welcomes-special-guest-yufna-soldier-wolf-on-m-f320494c",
+        "url": "https://www.blm.gov/press-release/trails-center-welcomes-special-guest-yufna-soldier-wolf-may-27",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
       "tag": {
         "move": "tell",
         "key": "arrival"
@@ -5780,7 +5796,7 @@
           "choice": "born"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5808,7 +5824,7 @@
           "choice": "born"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5836,7 +5852,7 @@
           "choice": "hook"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5863,7 +5879,7 @@
           "choice": "hook"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5890,7 +5906,7 @@
           "choice": "hook"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",

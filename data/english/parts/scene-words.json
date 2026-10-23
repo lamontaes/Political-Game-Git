@@ -1638,7 +1638,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2163,7 +2163,7 @@
           "choice": "home"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2184,7 +2184,7 @@
           "choice": "visit"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2205,7 +2205,7 @@
           "choice": "visit"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2226,7 +2226,7 @@
           "choice": "letter"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2247,7 +2247,7 @@
           "choice": "school"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2269,7 +2269,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2291,7 +2291,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2313,7 +2313,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2335,7 +2335,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2357,7 +2357,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2379,7 +2379,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2401,7 +2401,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2423,7 +2423,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2445,7 +2445,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2467,7 +2467,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2489,7 +2489,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2511,7 +2511,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2533,7 +2533,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2555,7 +2555,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2577,7 +2577,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2599,7 +2599,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2621,7 +2621,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2643,7 +2643,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2665,7 +2665,7 @@
           "stages": ["other"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2687,7 +2687,7 @@
           "stages": ["self"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2708,7 +2708,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2729,7 +2729,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2750,7 +2750,7 @@
           "choice": "deliver-news"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2771,7 +2771,7 @@
           "choice": "farewell"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2792,7 +2792,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2813,7 +2813,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2834,7 +2834,7 @@
           "choice": "thank"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2855,7 +2855,7 @@
           "choice": "request"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2876,7 +2876,7 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2897,7 +2897,7 @@
           "choice": "announce-result"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -2918,7 +2918,7 @@
           "choice": "one"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -3023,7 +3023,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -3044,7 +3044,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -3065,7 +3065,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
@@ -3086,7 +3086,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-19",
