@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/old-imports-opening-work
+status: open
+claimed-by:
 pr: #5035
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T03:02:59.914Z
+claimed-at:
 ---
 
 **What.** The opening's work schedules still import the old work-schedules code. Read the core's own schedule data instead, porting only the part the opening uses. The old import is removed in the same change, so the opening builds schedules from one place.
