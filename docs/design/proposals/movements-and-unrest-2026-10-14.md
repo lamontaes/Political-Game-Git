@@ -1,5 +1,7 @@
 # Movements and protests come from people who share a loss
 
+Superseded by docs/coordination/OWNER-DECISIONS.md (the owner ruled on movements on Oct 14: in early access, with police, the Guard, boycotts and war at 1.0)
+
 The recommendation: build movements from what happens to people, and bring marches, petitions, primary challenges, boycotts and the player's part into early access. Your October 10, 2026 roadmap put movements after early access, so that needs your yes. Your decision register already settles most of the rest, and the proposal quotes it rather than asking again. Five questions remain at the end. A movement here is people who share a loss, people they trust who speak for it, and news and speeches that spread it. About half the pieces exist; the crowd, strikes, police and war do not.
 
 ## What you have asked for

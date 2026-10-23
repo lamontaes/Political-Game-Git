@@ -5,6 +5,8 @@ description: Traces one Our Civic Duty law from enactment through every supporte
 
 # Law trace
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 A law is explained only when its authority, recorded changes and consequences can be followed at a named source head. Use the current assignment and claims; this skill grants no additional writer or merge authority.
 
 ## Trace

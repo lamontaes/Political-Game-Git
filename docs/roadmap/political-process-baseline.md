@@ -1,5 +1,7 @@
 # The Political Process baseline
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 **Owner, Oct 12, 2026, 1:55 a.m.:** "That game is useful for depth so at baseline you should build my game to do everything [that] game does… and then [look] at Drive and everything… to see the additional depth."
 
 _The Political Process_ (Verlumino Studios, Steam app 1184770) is the systems baseline: our game does everything it does, then goes deeper. Its program files are compiled and unreadable, and its code, data, text and art are someone else's. Nothing of it goes into our game. This map is built from its module names and its store page.

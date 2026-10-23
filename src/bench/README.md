@@ -1,5 +1,7 @@
 # The bench
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Run `npm run bench` and open forwarded port 3000.
 
 - **`/play`** is the game screen on the new core. Press **New life**.

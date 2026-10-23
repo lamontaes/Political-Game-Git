@@ -10,6 +10,8 @@ description: >
 
 # Session start: the pool worker loop
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Copy this checklist and keep it current:
 
 ```

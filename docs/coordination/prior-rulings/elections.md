@@ -1,5 +1,7 @@
 # Prior rulings: elections and campaigns
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Read-only research from the owner's Google Drive, Oct 14, 2026. 19 `fullText contains` searches (campaign, election, ballot, polling place, vote, voter, turnout, primary, debate, speech, donation, fundraising, filing, clerk, candidate, party, endorsement, yard sign, canvass); 10 files read in full or to truncation.
 
 Dates are the date written in the document, or the Drive modified date when the document gives none. "Owner" means Lamontae. Items marked **build report** or **research** are not owner rulings and bind only as far as the owner or CTO adopted them.

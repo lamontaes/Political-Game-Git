@@ -18,7 +18,7 @@ Current as of 2026-10-23 (written after the Oct 23 doc audit; owner: "sick of st
 
 - Every live doc carries one line directly under its title: `Current as of <YYYY-MM-DD> (<what changed last>)`. A doc without one is stale by definition. Anyone who changes or re-checks a doc updates the line.
 - A status file or handoff that a newer one replaces carries `Superseded by <path>` directly under its title instead. Ended history carries the `> **History.**` banner, or moves to `docs/archive/<date>/`.
-- Dated records (`docs/reports/<name>-<date>.md`, grading batches) are true as of their date and need no header.
+- Dated records (`docs/reports/<name>-<date>.md`, grading batches) are true as of their date and need no header. Neither does `.github/PULL_REQUEST_TEMPLATE.md`, which is copied into every PR body.
 
 ## Who refreshes what, when
 
@@ -29,7 +29,7 @@ Current as of 2026-10-23 (written after the Oct 23 doc audit; owner: "sick of st
 
 ## The check
 
-`npm run docs:fresh` runs `scripts/docs/freshness.mjs`; scope and phrases live in `scripts/docs/freshness.json`. For every live `.md` in scope (`AGENTS.md`, `ARCHITECTURE.md`, `docs/README.md`, `docs/ROADMAP.md`, `docs/roadmap/`, `docs/coordination/`, `docs/design/`, `docs/packages/`, `docs/work-orders/`, top-level `docs/reports/` and `docs/grading/`, `docs/pool/README.md`, the `src/` and `desktop/` and `scripts/*/` READMEs, every `.agents/skills/*/SKILL.md`, `.agents/rules/`, the PR template) it flags:
+`npm run docs:fresh` runs `scripts/docs/freshness.mjs`; scope and phrases live in `scripts/docs/freshness.json`. For every live `.md` in scope (`AGENTS.md`, `ARCHITECTURE.md`, `docs/README.md`, `docs/ROADMAP.md`, `docs/roadmap/`, `docs/coordination/`, `docs/design/`, `docs/packages/`, `docs/work-orders/`, top-level `docs/reports/` and `docs/grading/`, `docs/pool/README.md`, the `src/` and `desktop/` and `scripts/*/` READMEs, every `.agents/skills/*/SKILL.md`, `.agents/rules/`) it flags:
 
 1. **header:** missing, or older than 14 days;
 2. **path:** a backtick path, or a bare `src/`, `docs/`, `scripts/` or `.agents/` path, that resolves neither from the repo root nor from the doc's folder;

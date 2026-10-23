@@ -1,5 +1,7 @@
 # Prior rulings: the press and news
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Read-only research from the owner's Google Drive, run 2026-10-14. Searches: 15 `fullText contains` queries (press, news, newspaper, reporter, journalist, interview, outlet, headline, canned news, recap, bias, media, Bezos, Suzerain, TV), each pageSize 15, MEDIUM snippets. Files read in full or truncated: 10 (marked READ). Other entries come from search snippets (marked SNIPPET) and are less certain.
 
 Rule applied: most recent wins unless the older one makes more sense. Each entry says whether it is an owner ruling, a CTO ruling, a research memo, or a finding.

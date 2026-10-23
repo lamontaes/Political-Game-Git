@@ -1,5 +1,7 @@
 # core2: the engine
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 The map of the engine (how a world is built, the day, the modules by area, money, the two tiers of people, numbers and shortcuts) is `ARCHITECTURE.md` at the repository root. This file covers only adding a module.
 
 ## How to add a module

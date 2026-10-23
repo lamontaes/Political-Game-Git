@@ -1,5 +1,7 @@
 # Our Civic Duty — Decision Register (copy of the Drive register, as of October 6, 2026)
 
+Current as of 2026-10-23 (a frozen copy of the Drive register as of October 6; every later ruling is in OWNER-DECISIONS.md, which wins)
+
 Source: Google Drive, "04_CURRENT_DECISION_CHANGE_AND_TRACEABILITY_REGISTER" (file 1bZWrzjUgDql2CIo_k1ElcQ2GrBZOzC_xJs8D-JswKpE). The Drive document stays the owner's master; this copy is here so every session reads it before asking the owner anything. The CTO refreshes it when the Drive copy changes. Newer rulings are in OWNER-DECISIONS.md in this folder.
 
 ## How this file is kept (CTO, October 15, 2026)

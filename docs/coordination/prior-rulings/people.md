@@ -1,5 +1,7 @@
 # Prior rulings on people (Google Drive, read-only)
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Scope: relationships, family, marriage, children, dynasty, heirs, movements, health, faith, personality, traits, emotions, mood, lying, scales, dossiers, heredity, names.
 Method: 18 Drive searches (fullText contains: relationships, family, marriage, children, dynasty, heirs, RFK, Indianapolis, movement, health, faith, personality, traits, emotions, scales, dossier, heredity, names). Ten files read in full. Other items cite search snippets and are marked "(snippet)". Nothing was edited in Drive or the repo.
 

@@ -1,5 +1,7 @@
 # Architecture
 
+Current as of 2026-10-23 (dropped the deleted education folder from the old-folders list; every other path checked by `npm run docs:fresh`)
+
 How the game is built, as it is today. Written for someone who will open files but does not write code. Rules for working on the game live in `AGENTS.md`; the docs map is `docs/README.md`.
 
 ## One engine
@@ -90,7 +92,7 @@ Every shortcut is a row in `src/core2/data/stopgaps.json` (the director has its 
 - **Political geography:** `src/districts/` and `src/maps/`.
 - **Old or unused folders, to be removed with the old core:**
   - `src/presentation/` (appearance engine, garment fit, pose families);
-  - `src/fiscal-authority/` and `src/education/` (used only by `src/simulation`);
+  - `src/fiscal-authority/` (used only by `src/simulation`);
   - `src/authoring/` (the art-bench event model, used by one dev script);
   - `src/source/` (three unused type files);
   - `src/release/` (an old build-identity copy; the live one is `scripts/release/`, and the bug report is `src/core2/bug-report.ts`).

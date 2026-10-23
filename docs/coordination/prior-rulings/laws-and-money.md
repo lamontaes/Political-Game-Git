@@ -1,5 +1,7 @@
 # Prior rulings: laws, legislating, budgets and treasuries
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Compiled Oct 14, 2026 from the owner's Google Drive (read-only).
 
 **Method.** 17 searches with `mcp__Google_Drive__search_files` (fullText contains): bill, legislation, ordinance, repeal, amendment, committee, veto, budget, treasury, tax, fiscal note, appropriation, federal treasury, windfall, debt limit, law in force, laws must visibly change. Ten files were read for this report: nine in full and one (Team G, Sept 27) through its saved result. Other entries come from search snippets and are marked "(snippet)". Repo standing rules from AGENTS.md and CLAUDE.md are included because they are newer than most Drive rulings; they are not Drive files.

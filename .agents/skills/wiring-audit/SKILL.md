@@ -10,6 +10,8 @@ description: >
 
 # Wiring audit
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 "Wired" means a played world shows it, row by row. A unit test, a catalog entry or a session's own claim is not proof. This is how the LAW-WIRING, EFFECT-WEB-WIRING and TRAIT-WIRING jobs work; follow it for any family.
 
 ## 1. Define wired, point by point

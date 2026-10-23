@@ -10,6 +10,8 @@ description: >
 
 # Feature walkthrough (the gold standard)
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 The owner called this "gold standard of how you should think." The worked
 model was the eviction walkthrough: what happens to a household after an
 eviction, step by step. Every hand-back uses the seven headings below, in

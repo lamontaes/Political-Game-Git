@@ -1,5 +1,7 @@
 # Prior rulings on the game's words (English engine, dialogue, Journal, bills, speech, copy)
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Compiled 2026-10-14 from the owner's Google Drive. Read-only research; no other file was edited.
 
 Method: 12 `search_files` queries (English engine, dialogue, conversation lines, journal, legislative text, speech composition, real speech, AI slop, grade, American English, wording, narration, emotional register, batch prose). Ten files were read for decisions:

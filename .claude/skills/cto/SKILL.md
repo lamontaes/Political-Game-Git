@@ -60,7 +60,7 @@ Run it when the role starts, every day, when the owner asks "where are we", and 
 
 ## The Words line
 
-The CTO screens every English-engine batch before the owner sees it (`words-engine`), and holds a batch that can't answer why by record. The owner grades on the review page the grading bench builds (`scripts/dialogue-batch/grading-bench.ts`). The line's open stack is in `docs/coordination/words.md`.
+The CTO screens every English-engine batch before the owner sees it (`words-engine`), and holds a batch that can't answer why by record. The owner grades on the batch's review page, which the Words PR builds and its body points to. The line's open stack is in `docs/coordination/words.md`.
 
 ## Reporting to the owner
 

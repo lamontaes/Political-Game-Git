@@ -10,6 +10,8 @@ description: >
 
 # PR fixer
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 A sent-back PR is usually one small fix away from merging. Finish it on its own branch; never open a second PR for the same item.
 
 ## Find the work

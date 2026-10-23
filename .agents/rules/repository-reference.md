@@ -1,5 +1,7 @@
 # Repository technical reference
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult the section you need, not the whole file.
 
 ## Where truth lives

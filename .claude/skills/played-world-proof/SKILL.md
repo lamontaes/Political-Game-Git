@@ -8,6 +8,8 @@ description: >
 
 # Played-world proof
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 A feature counts as finished only when the running game shows another part of the game using what it made. A small test world does not show that.
 
 ## The run

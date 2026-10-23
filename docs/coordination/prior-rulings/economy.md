@@ -1,5 +1,7 @@
 # Prior rulings: economy and the player's money
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Compiled 2026-10-14 from the owner's Google Drive. Searches: 20 terms (business, businesses, owner, chain, rich, wealth, oligarch, jobs, wage, rent, mortgage, roommate, money, debt, college, inflation, unemployment, bank, loan, price, electricity, housing). Files read in full: 9. Files read in part: 1 (04 SYSTEM SPECS, about 16% of text plus its headings and owner-rule lines). Other entries come from search snippets only and are marked "snippet".
 
 Rule for reading this file: newest ruling wins unless the older one makes more sense. Where the two sides are not settled, see the Conflicts section.

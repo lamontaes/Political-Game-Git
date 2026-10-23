@@ -5,6 +5,8 @@ description: Writes and reviews pieces for the English engine's banks against th
 
 # Civic prose
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Use this for development-time authoring; shipped gameplay does not call a prose model. The root is a router, not a fixed sequence of repeated audits.
 
 Render the supplied scene facts naturally in the correct surface register. Preserve the owner's calibrated rules and conditional examples in `references/owner-authoring-contract.md`; the full style is `references/prose-contract.md`, the grounding check is `references/grounding-gate.md`, a different surface is `references/surface-registers.md`, and a packet or schema issue is `references/fact-packet-schema.md`. The full style, grounding rules and example files remain authoritative; do not reread every example for an unchanged familiar pattern.

@@ -8,6 +8,8 @@ description: >
 
 # Research before building
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 When work touches X, look up real examples of X across the country before
 writing the rule: paychecks need real pay data and stubs, businesses need real
 business records, an inflation feature needs how it actually hit real

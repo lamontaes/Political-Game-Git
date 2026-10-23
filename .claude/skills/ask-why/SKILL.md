@@ -8,6 +8,8 @@ description: >
 
 # Ask why
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Run this checklist over every result before it goes out. Each hit needs a cause, or it is a defect you file.
 
 ## The checklist

@@ -8,6 +8,8 @@ description: >
 
 # No dice
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 A person's, business's, official's or body's decision comes from the actor's
 traits, principles, relationships, money, health, the law currently in force
 and the place's conditions — never from a seeded random draw checked against a

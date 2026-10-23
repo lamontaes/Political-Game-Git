@@ -5,7 +5,9 @@ description: Explains how Our Civic Duty's English engine and story director wor
 
 # The words engine and the director: the handoff
 
-Any session, on any model, can take this line over from this file. Read `AGENTS.md` first. Then this file. Then `docs/coordination/words.md` (the Words session's status and log, newest first) and `docs/coordination/OWNER-DECISIONS.md` (search "Oct 14 night playthrough", "Scenes carry the consequential dialogue", "batches grade content").
+Current as of 2026-10-23 (words.md is now the open-stack page; gaps go to the pool; the review page replaces the CTO-built grading page)
+
+Any session, on any model, can take this line over from this file. Read `AGENTS.md` first. Then this file. Then `docs/coordination/words.md` (the open Words PR stack and the newest batch) and `docs/coordination/OWNER-DECISIONS.md` (search "Oct 14 night playthrough", "Scenes carry the consequential dialogue", "batches grade content").
 
 ## The one rule that explains everything
 
@@ -29,11 +31,11 @@ Full history of the existing mined banks: `docs/research/english-corpus/README.m
 
 ## Grading batches: the loop with the owner
 
-- **The batch is the grading bench** (`scripts/dialogue-batch/grading-bench.ts`, Order 2 of `docs/work-orders/words-and-director-2026-10-15.md`), and grades feed `data/english/calibration.json`, which the engine reads.
+- **The batch is the grading bench** (`scripts/dialogue-batch/grading-bench.ts`, from Order 2 of the Oct 15 Words order, now `docs/archive/2026-10-23/work-orders/words-and-director-2026-10-15.md`), and grades feed `data/english/calibration.json`, which the engine reads.
 - A batch is a Markdown page, `docs/grading/words-batch-N.md`, built by `npm run dialogue:coverage -- --id batch-N --seed batch-N --days 365` (`scripts/dialogue-batch/coverage-batch.ts`), from one played place (drawn by `drawPlace`, never chosen; draws go on until a year fires what the batch needs), built as the bench builds it (`buildBenchWorld`, two-level), watched by the director for a year. Every scene is one the engine composed, with how it was made (the record id that fired it, the function, the bank), and tests one thing: the wording of a bold line on one axis (formality, word choice, length) with alternatives; an opening and closing pair; or a conversation's choice set (four replies, the lies, say nothing). A phrase appears once in a batch. The batch JSON is `data/english/batches/batch-N.json`; the owner's grades go to `data/english/grades/batch-N.json` (`{"i","grade","prefer"}` or `{"i","choices":{...}}`) and `node --import tsx scripts/dialogue-batch/apply-grades.ts` folds them into the part ledger so a failed part never ships and a preferred alternative is promoted.
 - The CTO screens every batch before the owner sees it and holds it when a scene cannot answer **why** by record (a raw id in a line, a body named by a member's title, a line repeated, a relative asked after with no recorded cause, a scene staged in the wrong household). A held batch names the engine defect; fix at the root and regenerate in a fresh place.
 - **A batch grades content and situations, not only wording** (owner, Oct 15). Thirty different situations with their context. Proof scenes are welcome: a situation the director does not yet fire may be composed from real records in a played world and sent, marked as a proof, so the owner grades what the game can say and about what. Every batch also adds pieces to the engine (situation types, occasions, banks).
-- The grading page the owner uses is built by the CTO as an artifact from the Markdown; the session only ships the Markdown and the JSON.
+- The owner grades on the batch's review page, which the Words PR builds and its body points to; the session ships the Markdown and the JSON with it.
 
 ## The owner's standing rulings on this line
 
@@ -51,5 +53,5 @@ In-session, on changed files only: typecheck, eslint, prettier, the bank's own t
 
 ## Boundaries
 
-- This line owns `src/director/`, `src/english/`, `data/english/`, `scripts/english-corpus/`, `scripts/dialogue-batch/`, `docs/grading/`, `docs/coordination/words.md`. It does not edit the engines (`src/core2/modules/*`): when a record is missing or wrong (a winner that is a seat-term id, a bill with no title), it writes the defect under **Needs from other sessions** in `words.md` and at the top of the PR body, builds against the smallest registered stand-in, and keeps going.
+- This line owns `src/director/`, `src/english/`, `data/english/`, `scripts/english-corpus/`, `scripts/dialogue-batch/`, `docs/grading/`, `docs/coordination/words.md`. It does not edit the engines (`src/core2/modules/*`): when a record is missing or wrong (a winner that is a seat-term id, a bill with no title), it files a pool item for the engine's area and names it at the top of the PR body, builds against the smallest registered stand-in, and keeps going.
 - Where a design is the owner's call and he has not ruled, build the simplest version that follows `AGENTS.md`, register an `owner-decision` stopgap, and write the question under **OWNER DECISIONS NEEDED** at the top of the PR body and in `OWNER-DECISIONS.md`.

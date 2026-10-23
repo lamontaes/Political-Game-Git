@@ -1,5 +1,7 @@
 # One model, two tiers (owner, Oct 14, 2026)
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 The owner: "This concept has to apply not just to the 348 generated people but to the entire simulation for an area, so districts can have personalities and all the numbers make sense. Instead of saying 18 people were affected by a new bill, it says 1,800 or 4,300. And population needs to be able to adjust: if California repealed its state income tax, people would flood in."
 
 ## The two tiers

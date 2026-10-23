@@ -10,6 +10,8 @@ description: >
 
 # Local gate, not the full suite
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Validation is bounded on purpose, and the full suite is never the gate.
 
 ## What to run

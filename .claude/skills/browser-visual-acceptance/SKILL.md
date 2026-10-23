@@ -10,6 +10,8 @@ description: >
 
 # Browser and visual acceptance
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Read `.agents/rules/visual-acceptance.md` and `.agents/workflows/pg-visual-review.md` first.
 
 ## Run it

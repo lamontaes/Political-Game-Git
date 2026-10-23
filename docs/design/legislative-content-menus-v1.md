@@ -1,5 +1,7 @@
 # The bill catalog: Legislative Content Menus, Proposal V1
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 **The owner accepted this as the catalog for bills on Sept 26, 2026** (decision register line 39). It was copied here from the Idea Inbox doc in Drive (`03_OUR_CIVIC_DUTY_IDEA_INBOX_AND_DEFERRED_DETAIL`) on Oct 12, 2026, so the cloud sessions can read it.
 
 What the acceptance covers:

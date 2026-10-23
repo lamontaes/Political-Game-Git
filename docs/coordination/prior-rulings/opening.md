@@ -1,5 +1,7 @@
 # Prior rulings: the game's opening and intro
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Research only. Compiled 2026-10-14 from the owner's Google Drive. Searches run: "opening", "intro", "inaugural", "inauguration", "White House", "Ken Burns", "opening cards", "title screen", "new life", "tutorial", "first scene", "family card", "opening questions", "cinematic", "newspaper" (15 searches, pageSize 15, MEDIUM snippets). Ten files were read: eight in full, plus the Decision Register and the Team E brief, which were read by keyword search over their full text. Entries are newest first. Where a Drive document is a CTO brief or a build hand-back rather than an owner ruling, it is labeled as such.
 
 ## Dated rulings, newest first
