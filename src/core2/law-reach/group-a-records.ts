@@ -17,9 +17,7 @@ import type {
   PersonState,
 } from "../types";
 import type { ModuleRow } from "../module-data";
-import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
-import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import { reachOf } from "../counted-reach";
 import { isNoncitizen } from "../citizenship";
 import { citizenShareOf } from "../electorate-places";
@@ -134,24 +132,7 @@ export function selectorGroup(name: string): readonly string[] {
 
 // --- the module --------------------------------------------------------------
 
-type CalendarWorker = (
-  api: CoreAPI,
-  work: Readonly<ModuleCalendarWork>,
-) => void;
-type PayrollWorker = (
-  api: CoreAPI,
-  receipt: Readonly<WorkPayrollJournalReceipt>,
-) => void;
-const calendarWorkers = new Map<string, CalendarWorker>();
-const payrollWorkers: PayrollWorker[] = [];
-/** A mechanic's dated work (a hire, a layoff) runs on the module's calendar. */
-export function onReachCalendar(kind: string, worker: CalendarWorker): void {
-  calendarWorkers.set(kind, worker);
-}
-/** A mechanic that acts on each payday (a payroll premium). */
-export function onReachPayroll(worker: PayrollWorker): void {
-  if (!payrollWorkers.includes(worker)) payrollWorkers.push(worker);
-}
+import { runReachCalendar, runReachPayroll } from "./reach-workers";
 
 interface PremiumRecord {
   readonly id: string;
@@ -207,7 +188,6 @@ export const REACH_A_MODULE: CoreModule = {
       },
       mechanics: { indexes: { byKey: { fields: ["key"] } } },
       premiums: { indexes: { byPerson: { fields: ["personId"] } } },
-      payments: { indexes: { byKey: { fields: ["key", "endedOn"] } } },
       staffing: {},
     },
   },
@@ -216,9 +196,9 @@ export const REACH_A_MODULE: CoreModule = {
   },
   eventKinds: ["person-birth", "family.partnered", "family.separated"],
   onEvent: (api) => refreshAfterHouseholdChange(api),
-  onCalendarWork: (api, work) => calendarWorkers.get(work.kind)?.(api, work),
+  onCalendarWork: (api, work) => runReachCalendar(api, work),
   onWorkPayroll: (api, receipt) => {
-    for (const worker of payrollWorkers) worker(api, receipt);
+    runReachPayroll(api, receipt);
   },
 };
 
@@ -671,14 +651,19 @@ export function writeRows(
   );
   for (const target of targets) {
     const held = holding.get(target.id);
-    // A group's count follows its records; a person or organization's row stands.
-    if (held && (held.count === target.count || target.count === null))
+    // A group's count follows its records; a person or organization's row
+    // stands, cited to the law row now applying it.
+    if (
+      held &&
+      (held.count === target.count || target.count === null) &&
+      held.lawId === lawId
+    )
       continue;
     const row: ReachRow = {
       id: held?.id ?? `reach:${lawId}:${spec.id}:${target.id}:${date}`,
       key,
       spec: spec.id,
-      lawId: held?.lawId ?? lawId,
+      lawId,
       target: spec.target,
       targetId: target.id,
       kind: spec.kind,
