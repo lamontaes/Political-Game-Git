@@ -13,13 +13,13 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** Rival candidates must choose among the same campaign acts the player can take each day. Their own money, standing and traits determine the relative scores for calls, doors, an event, an offered interview and rest. Replace the fixed calls-and-doors turn with the shared campaign-day choices and action reader, preserving the existing campaign funding and interview records.
 
-**Rules.** TODO
+**Rules.** No dice: the rival selects actions from their recorded money, standing and traits rather than a roll. Sliding scales and causes: act scores change smoothly with those facts. Replace, never layer: the rival uses the player's existing campaign-day actions instead of a second implementation of their effects.
 
-**Done when.** TODO
+**Done when.** In a played world built with buildBenchWorld in a place drawn from all 56, a rival's recorded day choices use the shared campaignDayChoices and takeCampaignDayChoice path. The named test shows the poor/rich and unknown/known score differences, an available event and interview, and their action record ids, with the place and independent seed in the PR body. The fixed duplicate calls-and-doors block is removed and the changed-file checks pass.
 
-**Files.** TODO
+**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-day.ts, src/core2/campaign-turn.test.ts, src/core2/data/campaigns/parameters.json
 
 **Notes.** TODO
 
