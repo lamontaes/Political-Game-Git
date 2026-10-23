@@ -38,3 +38,5 @@ Oct 21 (claude): the AS and MP shelter-bed row applied in PR 5461 is tracked as 
 Sent back 2026-10-23 from PR #5466 (branch claude/apply-stopgaps-a): Missing Done-when evidence table; identify a valid bounded spread-only item or provide parent calibration acceptance while preserving unfinished work open; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5478 (branch claude/apply-stopgaps-c2): Missing Done-when evidence table for delegate-size disposition and drawn-world reader proof; keep incomplete parent research work open or use a valid bounded item; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5794 (branch claude/apply-stopgaps-b): Body calls 0.04-to-0.10 smaller and cleaning provenance still says a tenth for 0.12; correct claims and use a valid bounded four-parameter acceptance item; finish on that branch, merge main into it first.
