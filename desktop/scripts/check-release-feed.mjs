@@ -60,6 +60,12 @@ export function feedProblems(feed, version, factsOf) {
   for (const file of feed.files) {
     if (!INSTALLER.test(file.url ?? ""))
       problems.push(`offers ${file.url}, which is not a zip or exe`);
+    // A release's files sit side by side: the updater fetches the URL as a
+    // name beside the feed, so a path into a folder names nothing published.
+    if (!isAssetName(file.url)) {
+      problems.push(`names ${file.url}, which is not a file in the release`);
+      continue;
+    }
     const facts = factsOf(file.url);
     if (!facts) {
       problems.push(`names ${file.url}, which is not in the release`);
@@ -79,6 +85,18 @@ export function feedProblems(feed, version, factsOf) {
   return problems;
 }
 
+/** A file name as a release publishes it: no folder, nothing above it. */
+function isAssetName(url) {
+  return (
+    typeof url === "string" &&
+    url.length > 0 &&
+    url === basename(url) &&
+    !url.includes("\\") &&
+    url !== "." &&
+    url !== ".."
+  );
+}
+
 async function sha512Of(path) {
   const hash = createHash("sha512");
   for await (const chunk of createReadStream(path)) hash.update(chunk);
@@ -96,8 +114,9 @@ export async function checkReleaseFolder(folder, version) {
     const feed = parseFeed(await readFile(join(folder, name), "utf8"));
     const facts = new Map();
     for (const file of feed.files) {
-      const path = join(folder, basename(file.url ?? ""));
-      if (file.url && existsSync(path))
+      if (!isAssetName(file.url)) continue;
+      const path = join(folder, file.url);
+      if (existsSync(path))
         facts.set(file.url, {
           size: statSync(path).size,
           sha512: await sha512Of(path),

@@ -97,14 +97,14 @@ test("a release folder is checked against the files in it", async () => {
   const bytes = Buffer.from("installer");
   const sha512 = createHash("sha512").update(bytes).digest("base64");
   writeFileSync(join(dir, "Game-1.2.3-mac-arm64.zip"), bytes);
-  const feed = (version, size) =>
+  const feed = (version, size, url = "Game-1.2.3-mac-arm64.zip") =>
     [
       `version: ${version}`,
       "files:",
-      "  - url: Game-1.2.3-mac-arm64.zip",
+      `  - url: ${url}`,
       `    sha512: ${sha512}`,
       `    size: ${size}`,
-      "path: Game-1.2.3-mac-arm64.zip",
+      `path: ${url}`,
       `sha512: ${sha512}`,
       "releaseDate: '2026-10-22T00:00:00.000Z'",
       "",
@@ -116,6 +116,22 @@ test("a release folder is checked against the files in it", async () => {
     (await checkReleaseFolder(dir, "1.2.3")).join(),
     /latest-mac\.yml gives .* size/,
   );
+  // A URL into a folder the release does not have names nothing published,
+  // even with a file of that name, size and hash at the release's root.
+  for (const url of [
+    "sub/Game-1.2.3-mac-arm64.zip",
+    "../Game-1.2.3-mac-arm64.zip",
+  ]) {
+    writeFileSync(
+      join(dir, "latest-mac.yml"),
+      feed("1.2.3", bytes.length, url),
+    );
+    assert.match(
+      (await checkReleaseFolder(dir, "1.2.3")).join(),
+      /not a file in the release/,
+      url,
+    );
+  }
   assert.match(
     (
       await checkReleaseFolder(
