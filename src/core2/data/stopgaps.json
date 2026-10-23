@@ -2368,7 +2368,7 @@
     "why": "Basic news (M2-09) needs a first version before outlets and media habits are modeled.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread.",
+    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread. Oct 23, 2026 (research-gov-sourced-parameters): newsOutletDelayDays is ESTIMATED at 1 day (spread 1 to 2) from The Media Insight Project's 2014 news-frequency split and Pew's 2022 share who follow the news most of the time (data/research/news/apnorc-2014-news-frequency.json, data/research/news/pew-2024-2025-news-habits.json), read by scheduleDeliveries in src/core2/modules/news.ts and heardOn in src/core2/past-news.ts; it becomes SOURCED with a measured delay from print to reading by how closely people follow the news. newsMaxAgeDays is read as a cutoff, so it is not sourced: people-news-newsMaxAgeDays-as-cause. newsStoriesPerContact has no convertible source; the share of adults word of mouth reaches is checked against Pew's 2025 Local News Fact Sheet by scripts/research/gov-year.ts.",
     "status": "open"
   },
   {
@@ -3286,7 +3286,7 @@
     "why": "The offices research records each statewide office's term and vacancy rule but not its holder's party, and the legislative roster has no row for a few seats.",
     "addedBy": "OPUS-OFFICIALS",
     "addedAt": "2026-10-13",
-    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results).",
+    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results). Oct 23, 2026 (research-gov-sourced-parameters): unrecordedParty in src/core2/modules/officials.ts now reads data/research/offices/unrecorded-holder-parties-2026.json first: the five territory governors (National Governors Association), the American Samoa and Northern Marianas lieutenant governors and attorney general (Wikipedia), ten offices elected without party labels, whose holders sit with no party (Wikipedia, Ballotpedia), the Guam, Virgin Islands, Northern Marianas and American Samoa legislatures (Wikipedia party counts, assigned to their at-large seats in order), and 43 state legislative seats the Open States roster leaves vacant (Ballotpedia's 2025 and 2026 vacancy tables: the departing member's party). Still estimated (the file's unreadSeats): six vacant seats with no Ballotpedia vacancy row, the Virgin Islands boards of education and of elections, and the seats the game creates when a Census district name does not match the roster's (gov-offices-roster-district-name-mismatch, which removes them).",
     "status": "open"
   },
   {
