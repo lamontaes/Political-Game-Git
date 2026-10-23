@@ -4040,10 +4040,10 @@
     "line": 1715,
     "whatItFakes": "A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts.",
     "why": "The opening places only some counted workers in recorded jobs; the rest are paid from one place-level flow with no employer to file a W-2.",
-    "replacement": "The jobs engine places every counted worker in a recorded job on an employer's books, so a filled-in worker always gets a real job and withholding.",
+    "replacement": "Resolved: a filled-in worker with an unplaced income holds a job (job:commuter:<personId>:<start>) at the place's outside account, paid through the payroll calendar with withholding; demotion ends it and returns the pay to the unplaced pool. Shown in unplaced-fill-in-job.test.ts (pool item core-commuter-job-fill-in).",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-owner-decision-town-size",
@@ -4556,8 +4556,8 @@
     "kind": "missing-record",
     "file": "src/core2/data/offices/body-names.json",
     "line": 6,
-    "whatItFakes": "A municipal collective in a town whose government the game has not compiled is named after the town and \"Council\"; a compiled town's body takes the name its charter gives it.",
-    "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name.",
+    "whatItFakes": "A municipal collective whose listing name gives no kind of municipality (no \"CITY OF\", \"TOWN OF\", \"VILLAGE OF\" or \"BOROUGH OF\") and whose government the game has not compiled is named after the town and \"Council\"; a compiled town's body takes the name its charter gives it, and any other town the usual body of its kind in its state (municipalByState and municipalByKind in the same file).",
+    "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
@@ -4741,6 +4741,18 @@
     "addedBy": "claude/gov-council-election-method",
     "addedAt": "2026-10-15",
     "replacement": "Council districts drawn from the town's dwellings (by the council or a commission, to near equal population as its charter says), each household and each sitting member placed by their dwelling.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-ward-residency",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/elections.ts",
+    "line": 644,
+    "whatItFakes": "A candidate for a council seat chosen by part of town must live in that part of town. The rule is assumed for every place: no charter text the repository holds says whether its ward or district seats ask it, and the part of town is the household-order ward of SG-GOV-ward-map.",
+    "why": "The compiled charters (src/core2/gov-rules/municipal-governments.json) carry only the council's composition, and governing-body-seat-qualification.json only the minimum age; most ward and district charters do ask residency in the ward, but no place's own text has been read.",
+    "addedBy": "claude/gov-council-ward-residency",
+    "addedAt": "2026-10-17",
+    "replacement": "Read each place's charter or state law for whether a ward or district candidate must live in it, and apply the check only where it does; the part of town then comes from the dwellings, as SG-GOV-ward-map's replacement draws it.",
     "status": "open"
   },
   {

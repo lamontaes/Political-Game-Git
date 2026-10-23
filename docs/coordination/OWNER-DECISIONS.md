@@ -5,7 +5,13 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 ## Open
 
 - **Counted people's out-of-town pay and non-local spending are labeled estimates (Oct 19, claude; stopgaps SG-CORE-outside-living-costs and SG-CORE-unplaced-workers-income, now resolved).** Counted workers the opening could not place earn the place's ACS median earnings, and the part of a counted household's living cost not bought from a local seller leaves the town (CEX and HUD), each flow carrying its ESTIMATED source and spread, as the Oct 14 stand-in audit (#4151) closed them. The alternative is to build recorded commutes (LEHD origin-destination flows) and an outside-spending model by category. Reopen the two rows if you want those built.
-- **Does hearing about a change in the town's conditions move a stance?** (`web-views-from-conditions`, from #5637.) The town's month now becomes news, and people hear that rent rose, unemployment fell or crime changed. That already reaches their vote. `views.ts` moves a stance only for an event that names a policy question and a desired change; a condition has no stance topic. I read the register first: "Knowing is a read" (a change is attributed to a law only if the person learned of it, and a stance cites how) and the Oct 16 ruling that the news and social media are how people mostly hear about it. Neither says whether hearing a condition shifts a stance on a related policy. Question for the owner: should a person who hears that rent rose move on a housing-policy stance (and unemployment on jobs policy, crime on policing), and by what rule? Recommended default, so nothing waits: yes, and only for a person the news reached, only toward the stance their own views already tie to that condition, by an amount the views engine already uses for a heard event (no new opinion size), with the outlet recorded as the reason. If the answer is no, conditions keep moving the vote through the person's own circumstances only.
+
+## Oct 22: rulings (owner, via the acting CTO)
+
+- **Builders on Oct 21 to 22 (owner, Oct 22):** they ran on a different account. The Oct 20 "pool builders and the pool feeder pause" ruling covered the account that stood at 83 percent of its weekly limit, not the fleet. No rule was broken.
+- **Hearing about the town's conditions moves a stance (owner, Oct 22: "sure"):** the default proposed on #5637 is the rule. Hearing "rent rose" (or any condition change the month's news carries: unemployment, crime and the rest) moves a housing-policy (or the matching) stance only for the people the news reached, toward the side their own views already tie to that condition, by the existing heard-event amount in the views engine (no new opinion size), with the outlet recorded as the reason. Closes `web-views-from-conditions`'s question; the Open bullet above is removed.
+- **Acting-CTO rulings stand (owner, Oct 22):** the 0.15 governor-share bound (`gov-two-level-governor-share-flaky`) and the FHFA MIRS Transition Index from 2019-06, tagged ESTIMATED (`macro-mortgage-rate-fhfa-transition-index`), stand as written in the Oct 20 night rulings; the owner did not overrule.
+- **Dead PRs (owner, Oct 22: "clear out the PRs that aren't needed"):** closed by rule: superseded (another PR's body says it replaces them), already on main (zero commits ahead), item done via another PR, old-core additions, and stale pre-Oct-14 branches with conflicts. The list with each PR's pool item is in the body of the acting CTO's Oct 22 fix-forward PR. Items they carried return to the pool as open where not done; items done through the replacement PR stay done.
 
 ## Oct 20, night: acting CTO rulings from the pool (standing rules; the owner may overrule)
 
@@ -290,6 +296,53 @@ Fifteen questions were shown to the owner as open; most were already ruled or bu
 - **The Words session's model (owner, Oct 15, evening):** the one exception to Sonnet-only. The Words line (the English engine and the director) runs as an Opus session at medium effort, because taste, variety and naturalness are the product there; it may run one Sonnet sub-agent for the engineering (coverage table, bench script, calibration table, gate changes) while Opus does the writing and reads the bench page before the owner sees it.
 
 - **Storage override in the cloud (owner, Oct 15):** builders, mergers and checkers in cloud environments set `OCD_STORAGE_OVERRIDE` themselves and never ask the owner to verify it.
+
+## Oct 15, evening: batch 12 rejected; what a scene is (owner, relayed by the CTO)
+
+Recorded whole, as the owner sent it.
+
+- **Batch 12 is rejected.** It is the same material as batch 11 with personality variants: "Do you remember Newark Charter School?", "Have you talked to X?", a death of someone the player does not know, replies that are "Yes" and talks that end with "Talk to you soon." Repeating the same situations with five profiles is not content. The owner will not grade another item of that kind. Every item of the form "do you remember <school>" is removed from the banks and the catalog as an opener unless something recorded happened to the school or decades have passed and the record shows it.
+- **What a scene is.** A scene has a setup, a person with a purpose, and stakes, and it plays out:
+  - Narrator: While you're preparing for the committee meeting, Senator Menendez walks in.
+  - Menendez: Do you have a minute?
+  - You (one of four replies): I'm really worried about this vote. I know I told you yes, but this time I can't do it.
+  - Menendez: (answers that, with his own stake)
+  - ... and it continues until the purpose is resolved or refused.
+
+  The narrator sets the scene in a few sentences. The other person opens with a purpose. Each reply carries a stake and moves the exchange. A yes or no never ends a talk; the asker follows up. Nobody closes with "Talk to you soon" after a question was answered. Where in language does "Do you remember the school?" "Yes." "Okay, bye." happen? Nowhere; that pattern is a defect in the conversation rules and is fixed at the root before anything else is built.
+
+- **What to build.** Scenes the game will actually play, drawn from the golden path and the political life: a colleague asking for your vote; you telling a colleague you can't vote yes after all; a member asking you to carry a bill; a donor or a party chair asking for something; a reporter at your door; a constituent at office hours with a problem; a family member reacting to your filing, your win, your loss or your absence; a campaign volunteer or opponent at a rally; the mayor's desk with a bill waiting; a staff member bringing bad news; a council member bargaining over a section. The director's catalog gets these as situation types with roles, purposes and stakes (no sentence text in the catalog). Where the cached world does not fire one, stage it as a proof scene from that world's real people and records, as Order 2 allows, and say so on the page.
+- **Reusable pieces.** Author the dialogue so a piece serves many scenes: "Do you have a minute?" opens an office visit, a kitchen talk and a campaign stop; "I know I told you yes, but I can't this time" works for any vote, favor or promise; a refusal, a plea, a threat, a boast, a condolence, a deflection each serve every situation with that move and key. Tag every piece by move, key, register and bearing so the engine arranges it anywhere. Write to the calibrated patterns from any source (the text rule of Oct 15); copy no one's copyrighted text.
+- **The next page.** Batch 13 is the first page built this way: at least thirty different scenes of the kinds above, each a full exchange as it would appear in the game (narrator paragraph, the opener with purpose, the four replies with stakes, the other person's answer, on to the close), composed per personality where it changes the words, with no two scenes sharing a situation and cast and no two reply sets alike. Use the grading-bench features (move, register, bearing, traits, length, pieces) on every line. Tell the owner in this chat when it is ready, with the place, the count and the list of situations, and the path `docs/grading/words-batch-13.md`.
+- **Process.** Claim pool items with `npm run pool -- claim <id> --branch <branch>` before building. Ask the owner in the chat, in one sentence with your default, whenever a design is his call.
+
+## Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)
+
+The owner reviewed scenes 1 to 28 of batch 13 ("a solid step forward") and asked for the rest to be reworked to these rulings as batch 14. Most grading arrives as voice notes; taps on the page are grades of the sentence alone (a 3 means the sentence is fine but the context is wrong).
+
+- **Introduce people before they speak.** The narrator says who someone is and why they are here ("You arrive for the interview Michael Howell asked for; he writes for Weom"). Nobody is addressed by an outlet or a record name the player has not been told ("Got a minute for Weom?" reads as a place).
+- **A reply fits the line it answers.** "Who's your source?" only answers a claim; "Let's not get ahead of ourselves" and "I'll be at the doors this weekend" did not answer what was asked. A follow says what it means ("We have it on the record" is what "who's your source" was for: say that directly).
+- **Plain words, no trade or dev language.** "Canvassing" or "door knocking", never "the doors"; "campaign signs", not "the signs"; never "gaps", "settled", "That's not an answer" when it was one.
+- **Say why.** A plea gives its stake ("I need to bring something home to my district", "I could lose my primary over this"); a bargain names the trade ("this is a two-way street", "I'll need your vote on my bill"); "Make it smaller" names what; "I need a few days" says "to think it over".
+- **Threats sound like politics:** "You'll need friends after this vote. I won't be one." (graded 5), "The party has a long memory.", "You know how this works." Not "I'd think hard about that." or "Remember this conversation." (graded 1; "I won't forget this." is better).
+- **Scenes run as deep as the moment needs**, five to ten exchanges for a contentious one; a scene does not end at "Deal." when there is more to settle (where the votes are, what the count is).
+- **Auto-replies.** The player's character may say a line the player did not choose, to keep the talk going before the real choice ("Attorney General? Why me?", "How did you know?"), and the other person answers it ("Kelly at the clerk's office told me").
+- **A request needs its ground.** The party asks someone to run only with some inroads on record; a donor who leans on you gave a large share of your money ("you owe your career to me"); "I'll take the meeting" only after a meeting was asked for.
+- **Bills.** Titles from the records need work (later); a scene may also call a bill by what it is ("the infrastructure bill").
+- **Trees and endings.** Scenes become trees with several branches and endings (up to about ten per scene as the engine grows); the scene stays the same, the words and the people's memories change with the path.
+- **Variety.** Even good lines turn robotic when the structure repeats; vary openers, closers and the order of moves.
+- **Family:** a filing scene asks how they found out before it asks why; a win may say "Mr. Commissioner"; promises like "This weekend is ours" belong after a few exchanges, not as the first reply.
+
+## Oct 16, early morning: batch 14 review and standing instructions (owner, voice notes)
+
+- **Ungraded is not rejected.** Lines and pieces the owner didn't grade aren't rejected; the good ones go into the game as simulation pieces. "We're not authoring scenarios. We're giving the simulation pieces to work with." Track them as pool items (word packs), and get the engine to a state the CTO can merge ("engine part one").
+- **The one-scene, tap-to-reply page is right** ("Amazing"). Keep that format.
+- **Every scene is different and tests something different.** Three scenes of one purpose with the same lines is a regression; a batch draws on what the director and the world actually produce, not the same staged ask again.
+- **Replies are too vanilla.** After the first exchange, the options must not rehash the first options; they move the talk on (for example "They'll see when I vote", ending it, or a lie). Contentious exchanges are good.
+- **Calibrate replies on real exchanges.** Interviews: 60 Minutes transcripts and Firing Line (Margaret Hoover). For every scene, find how real people say it (a confronted lie, a volunteer after a rally). The owner allocates one more Sonnet sub-agent, for research only.
+- **Specific lines.** "I'm not going to talk about that" is unnatural. "Then put this in the story: I'm proud of my vote" is wrong before the vote. "I'll have something to say after the vote" is the most natural. "Your vote is public. Your reasons don't have to be a secret" is great. Caught in a lie: "You're right, I shouldn't have said that" sounds like AI; "People say a lot of things" is decent; "Then {source} has it wrong" is good. The three-way choice (an off-ramp, doubling down, or honest but combative) is right.
+- **Volunteers.** "They loved you up there. What do you need from us this week?" is an awkward jump: talk about the speech, and let the player's character answer first. "Bring a friend next time", "You've got it. We'll bring more people Saturday" and "We'll be there" read as AI's quick resolution, not how people talk.
+- **Send finished work only.** Don't hand over a batch with a "still rough" list; fix what is known before the owner grades.
 
 ## Oct 16, evening: rulings (owner, via the acting CTO)
 
