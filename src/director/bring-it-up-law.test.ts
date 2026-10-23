@@ -16,7 +16,7 @@ import { storyTopicName } from "./question-names";
 const seed = process.env.GOLDEN_PATH_SEED ?? "bring-it-up-law";
 
 describe("bring it up: a law taking effect", () => {
-  it("names the law's subject and the outlet that printed it", () => {
+  it("tells the neighbor of the printed law story, saying no hand-written line", () => {
     setBookkeeping(false);
     const tried: string[] = [];
     for (let draw = 0; draw < 6; draw += 1) {
@@ -44,17 +44,28 @@ describe("bring it up: a law taking effect", () => {
         });
       const reader = [...core.people.values()].find(
         (row) =>
-          row.alive && row.knownIds.size > 0 && lawStory(row.id).length > 0,
+          row.alive &&
+          row.knownIds.size > 0 &&
+          lawStory(row.id).length > 0 &&
+          // The newest change they know of is the law's story, so it is the
+          // one they bring up.
+          lawStory(row.id)[0]?.eventId ===
+            changesKnownTo(core, row.id)[0]?.eventId,
       );
       if (!reader) continue;
       const [change] = lawStory(reader.id);
       const story = printedStoryOf(api, storyOfReadEvent(change!.eventId)!)!;
       const said = bringItUp(core, reader.id, [...reader.knownIds][0]!);
+      // The reader still knows the law's story and tells the neighbor. The
+      // sentence it would say is hand-written and held until
+      // graded (pool item words-bring-it-up-law-line), so nothing is said
+      // aloud, never an empty or hand-written line, until the engine writes
+      // it.
       expect(said).not.toBeNull();
-      expect(said!.lines[0]!.text.toLowerCase()).toContain(
-        storyTopicName(story.topic)!.toLowerCase(),
-      );
-      expect(said!.lines[0]!.sourceRecordIds).toContain(change!.eventId);
+      expect(said!.change.eventId).toBe(change!.eventId);
+      expect(story.topic).toBeDefined();
+      expect(said!.toldEventId).toBeTruthy();
+      expect(said!.lines).toEqual([]);
       return;
     }
     throw new Error(
