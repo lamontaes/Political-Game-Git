@@ -7,7 +7,7 @@ import { peopleTraitPack } from "./people-trait-pack";
 import {
   PEOPLE_TRAITS,
   peopleTraitDefinition,
-} from "./people-trait-definitions";
+} from "../core2/people-trait-definitions";
 import { loadTraitPacks, traitDefinitionFromPack } from "../core2/trait-packs";
 
 /**

@@ -14,7 +14,7 @@ import {
   PEOPLE_TRAITS,
   TRAIT_SHAPES,
   PEOPLE_MIND_VERSION,
-} from "../simulation/people-trait-definitions";
+} from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 
 // Engineering page size for the card's closest people, not a model value.
