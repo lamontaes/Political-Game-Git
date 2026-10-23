@@ -296,6 +296,26 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.1
+
+_Released October 23, 2026._
+
+### Added
+
+- **Townspeople you haven't met can take up a cause after a death in the
+  family** When someone in town dies, the family they lived with can now come
+  away with a cause, such as fighting the illness that took them, even if you
+  have never met them. Whether they do follows their own temperament, the same
+  way it does for the people you know. If you meet one of them later, they
+  already carry that cause.
+
+- **Townspeople you haven't met can take up a cause when they lose their job**
+  When a business lays someone off or closes, the people who lose their jobs can
+  now come away with a cause to prove themselves or to hold the employer to
+  account, even if you have never met them. Whether they do follows their own
+  temperament, the same way it does for the people you know. If you meet one of
+  them later, they already carry that cause and act on it.
+
 ## PRE-ALPHA 0.22.0
 
 _Released October 21, 2026._
