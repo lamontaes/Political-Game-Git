@@ -41,12 +41,14 @@ describe("coarse place counts", () => {
   });
 
   it("fill in the same person every time, with an age and wage the counts show", () => {
+    let filled = 0;
     for (const place of places) {
       const coarse = coarsePlace(place.key);
       const where = `${place.name} (${place.key}), seed ${seed}`;
       if (!coarse) continue;
       for (let i = 0; i < 20; i++) {
         const met = metResident(coarse, seed, `day:${i}`);
+        filled += 1;
         expect(met, where).toBeDefined();
         expect(metResident(coarse, seed, `day:${i}`), where).toEqual(met);
         const band = coarse.ages.find((row) => row.id === met!.ageRowId)!;
@@ -63,5 +65,9 @@ describe("coarse place counts", () => {
         expect(met!.job.hourlyMinor, where).toBe(wage?.hourlyMinor ?? null);
       }
     }
+    expect(
+      filled,
+      `no drawn place had a Census population to fill a person from, seed ${seed}`,
+    ).toBeGreaterThan(0);
   });
 });
