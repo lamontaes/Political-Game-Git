@@ -9,7 +9,7 @@ status: blocked
 claimed-by:
 pr:
 after:
-blocked-on: people-partnership-forms (PR #4963, an open draft) holds src/core2/modules/partnerships.ts, the pairing rule this item must read the record in
+blocked-on: people-partnership-forms (PR 4963, an open draft) holds src/core2/modules/partnerships.ts, the pairing rule this item must read the record in
 milestone:
 source: split from people-partnership-counted by pool feeder Oct 20
 ---

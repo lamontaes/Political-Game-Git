@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/private-zero-cash-employers
 pr: #5016
 blocked-on:

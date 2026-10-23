@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/year-speed-activate
 pr: #5109
 blocked-on:
