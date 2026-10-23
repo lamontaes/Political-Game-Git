@@ -21,4 +21,4 @@ claimed-at: 2026-10-21T14:36:00.174Z
 
 **Files.** src/core2/opening-peer-network.ts,src/core2/data/opening-peer-network.json,src/core2/data/parameters.json
 
-**Notes.** TODO
+**Notes.** Built: `peerNameRecall` (flat 0.9 through 15 years, then exponential to 0.7 at 50; four ESTIMATED parameters with spreads), read by conversation.ts as the shared-school topic's weight. Test: src/core2/peer-recognition-fades.test.ts.
