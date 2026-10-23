@@ -282,6 +282,15 @@ it("the executive's budget act opens in its season and its changes are what the 
           treasuryParameter("monthsPerYear"),
       ) + owedBefore;
     const award = contractFor(api, city.id, line);
+    // A treasury whose cash at the close is all held back for its own
+    // payroll pays no line that month (closeTreasuries): that town cannot
+    // show a purchase reaching anyone, so another is drawn.
+    if (!month!.paymentIds.length) {
+      tried.push(
+        `${where}: ${month!.id} made no payment (${line} short ${paidLine.shortMinor} of ${paidLine.dueMinor})`,
+      );
+      continue;
+    }
     expect(award, `${where}: ${line} awarded to a town firm`).toBeDefined();
     const paymentId = `treasury:${city.id}:${line}:${award!.organizationId}:${month!.date}`;
     expect(month!.paymentIds, `${where}: ${month!.id}`).toContain(paymentId);
@@ -314,51 +323,83 @@ it("the executive's budget act opens in its season and its changes are what the 
       `${where}: ${paymentId} moved with the passed change`,
     ).toBe(Math.sign(passed));
     expect(Math.abs(moved), `${where}: ${paymentId}`).toBeGreaterThan(rounding);
-    // A person the payment reached. A firm with an owner: the owner, whose
-    // next monthly draw is chosen from the profit the business kept, the
-    // payment in it. Any firm: a worker it pays after the payment (a branch
-    // of a firm based elsewhere has no owner in town).
+    // A person the payment reached, shown by the cash posting itself: the
+    // firm's owner, whose next monthly draw is chosen from the profit the
+    // business kept (the payment in it), or a worker the firm pays after the
+    // payment. Their journal receipts are kept from here (focused), so each
+    // transfer to them names the balance it raised.
     const firm = award!.organizationId;
     const owner = ownerOf(api, firm);
-    const drawAfter = () =>
-      owner === undefined
-        ? undefined
-        : (
-            api
-              .moduleState(BUSINESS_MODULE_ID)
-              .table("draws")
-              .rows() as unknown as {
-              id: string;
-              organizationId: string;
-              ownerId: string;
-              date: string;
-              profitMinor: number;
-              drawnMinor: number;
-            }[]
-          ).find(
-            (row) => row.organizationId === firm && row.date > month!.date,
-          );
-    const workerAfter = () =>
-      [...core.work.payrollLedgerByCommitment.values()].find(
+    const workers = [...core.jobs.values()]
+      .filter((job) => job.endsAt === undefined && job.organizationId === firm)
+      .map((job) => job.personId);
+    const watched = [...new Set([owner, ...workers])].filter(
+      (id): id is string => !!id && core.people.has(id),
+    );
+    for (const id of watched) core.focusPersonIds.add(id);
+    const posting = (personId: string, from: (id: string) => boolean) => {
+      for (const id of core.cashJournal.detailedByOwner.get(personId) ?? []) {
+        const receipt = core.cashJournal.detailedReceipts.get(id);
+        const change = receipt?.owners.get(personId);
+        if (
+          receipt &&
+          change &&
+          receipt.date > month!.date &&
+          change.afterMinor > change.beforeMinor &&
+          (from(receipt.id) || from(receipt.sourceRef.id))
+        )
+          return {
+            personId,
+            receiptId: receipt.id,
+            gained: change.afterMinor - change.beforeMinor,
+          };
+      }
+      return undefined;
+    };
+    const drawRows = () =>
+      (
+        api
+          .moduleState(BUSINESS_MODULE_ID)
+          .table("draws")
+          .rows() as unknown as {
+          id: string;
+          organizationId: string;
+          ownerId: string;
+          date: string;
+          profitMinor: number;
+          drawnMinor: number;
+        }[]
+      ).filter(
         (row) =>
-          row.lastPayrollReceiptId !== undefined &&
-          String(row.lastPayrollReceiptId).split(":")[1]! > month!.date &&
-          core.jobs.get(row.jobId)?.organizationId === firm,
+          row.organizationId === firm &&
+          row.date > month!.date &&
+          row.drawnMinor > 0,
       );
-    for (
-      let day = 0;
-      day < 45 && !((owner === undefined || drawAfter()) && workerAfter());
-      day += 1
-    )
+    const reached = () => {
+      for (const draw of drawRows()) {
+        const paid =
+          owner && watched.includes(owner)
+            ? posting(owner, (id) =>
+                id.includes(`owner-draw:${firm}:${draw.date}`),
+              )
+            : undefined;
+        if (paid) return { ...paid, via: draw.id, profit: draw.profitMinor };
+      }
+      for (const id of workers) {
+        if (!watched.includes(id)) continue;
+        const paid = posting(id, (ref) => ref.includes("work-payroll:"));
+        if (paid) return { ...paid, via: "payroll", profit: 0 };
+      }
+      return undefined;
+    };
+    for (let day = 0; day < 45 && !reached(); day += 1)
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const ownerDraw = drawAfter();
-    const worker = workerAfter();
+    const person = reached();
     expect(
-      ownerDraw ?? worker,
-      `${where}: a person ${firm} paid after ${paymentId}`,
+      person,
+      `${where}: a positive cash posting from ${firm} to its owner (${owner ?? "none in town"}) or a worker (${workers.length}) after ${paymentId}`,
     ).toBeDefined();
-    if (ownerDraw)
-      expect(ownerDraw.ownerId, `${where}: ${ownerDraw.id}`).toBe(owner);
+    expect(person!.gained, `${where}: ${person!.receiptId}`).toBeGreaterThan(0);
     // The rest of the year: the amended line stays in force and every month
     // under it pays the firm its purchases.
     advanceCore(core, addDays(gameStartDate(), 365));
@@ -377,7 +418,7 @@ it("the executive's budget act opens in its season and its changes are what the 
       ),
     );
     process.stdout.write(
-      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} from ${oldBudget!.spendingMinor[line]} to ${inForce.spendingMinor[line]} (passed change ${passed}, proposed 1000000); ${month!.id} paid ${line} due ${paidLine.dueMinor} (last year's line ${oldDue}; in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, ${share.toFixed(4)} of the ${bought(paidLine.dueMinor)} the line buys, against ${Math.floor(bought(oldDue) * share)} under last year's line, outside ${paidLine.outsideMinor}) by ${paymentId} to ${firm} (${award!.id}, ${award!.basis}); owner ${ownerDraw ? `${ownerDraw.ownerId} in ${ownerDraw.id} (profit ${ownerDraw.profitMinor}, drawn ${ownerDraw.drawnMinor})` : `none in town (${owner ?? "no owner row"})`}; worker ${worker ? `${core.jobs.get(worker.jobId)!.personId} in ${worker.lastPayrollReceiptId}` : "none filled in"}; to ${core.date}: ${paidMonths.length} of ${under.length} months under ${adopted!.id} paid ${firm}\n`,
+      `${where}: mayor ${mayorId} sent priorities:${city.id}; ${hearing!.id} on ${hearing!.heldOn} with ${hearing!.speakerIds.length} speakers; bill ${bill!.id} (hooks once: ${ran.join(", ")}); adopted ${adopted!.id} with ${line} from ${oldBudget!.spendingMinor[line]} to ${inForce.spendingMinor[line]} (passed change ${passed}, proposed 1000000); ${month!.id} paid ${line} due ${paidLine.dueMinor} (last year's line ${oldDue}; in town ${paidLine.inTownMinor}, providers ${paidLine.providersMinor}, ${share.toFixed(4)} of the ${bought(paidLine.dueMinor)} the line buys, against ${Math.floor(bought(oldDue) * share)} under last year's line, outside ${paidLine.outsideMinor}) by ${paymentId} to ${firm} (${award!.id}, ${award!.basis}); reached ${person!.personId} (${person!.personId === owner ? "owner" : "worker"}) by ${person!.via}: journal ${person!.receiptId} raised their balance ${person!.gained}${person!.via === "payroll" ? "" : ` (profit kept ${person!.profit})`}; to ${core.date}: ${paidMonths.length} of ${under.length} months under ${adopted!.id} paid ${firm}${tried.length ? `; drawn before: ${tried.join("; ")}` : ""}\n`,
     );
     return;
   }
