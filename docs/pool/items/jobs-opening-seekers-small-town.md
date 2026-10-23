@@ -7,9 +7,10 @@ priority: 3
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5814
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** Complete the existing test fix on claude/opening-seekers-small-town. Legitimately empty counted-seeker towns should not fail an assertion that requires a nonempty subject.
