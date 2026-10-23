@@ -1,0 +1,1123 @@
+{
+  "about": "The labor and pay family's rows of the law-wiring matrix (the labor family's laws, plus the payroll taxes, unemployment insurance, the teacher salary floor and the public pay floor that this branch wires), from scripts/law-wiring/check.ts --only those laws in the item's two places on this branch, graded by scripts/law-wiring/matrix.ts. docs/reports/law-wiring-matrix.json is left as it is, since every family pull request would rewrite that one file.",
+  "places": [
+    {
+      "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+      "key": "2666300",
+      "name": "Prescott, Michigan",
+      "state": "US-MI"
+    },
+    {
+      "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+      "key": "3149425",
+      "name": "Uehling, Nebraska",
+      "state": "US-NE"
+    }
+  ],
+  "rows": [
+    {
+      "key": "medicare-tax",
+      "name": "Medicare tax rate",
+      "kind": "amount",
+      "family": "healthcare",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:medicare-tax:general:2013-01-01",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:medicare-tax: raise/lower at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1689 open (full 1610, counted groups 55/72.58417112299465 people, households 0, orgs 24, govts 0) e.g. applied|medicare-tax|official:term:seat:US:president:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1622 open (full 1531, counted groups 55/82.18581657006479 people, households 0, orgs 36, govts 0) e.g. applied|medicare-tax|official:term:seat:US:president:2025-01-20",
+          "why": ""
+        },
+        "systems": {
+          "status": "wired",
+          "evidence": "src/core2/modules/budgets.ts:1172, src/core2/modules/employer-taxes.ts:527, src/core2/counted-money.ts:404, src/core2/modules/budgets.ts:1164",
+          "why": ""
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1406 113054820 -> 113809473 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2276877 (journal:2025-01-25:1637); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:576 32331239 -> 32330840 (journal:2025-01-24:1635)",
+          "why": ""
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 79 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 80 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1689 open -> after repeal 1701 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1622 open -> after repeal 1633 open, 0 ended",
+          "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "medicare-tax 1.45 -> 1.6 at federal (law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "medicare-tax 1.45 -> 1.6 at federal (law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "name": "raise teacher minimum salary",
+      "kind": "question",
+      "family": "education",
+      "reachGroup": "B",
+      "mechanic": "teacher-floor",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:education.raise-teacher-minimum-salary: enact/repeal at state, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 2 open (full 0, counted groups 1/0 people, households 0, orgs 1, govts 0) e.g. us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_971998ff58477430|2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 3 open (full 1, counted groups 1/0 people, households 0, orgs 1, govts 0) e.g. us-policy-positions:education.raise-teacher-minimum-salary|person_ec73f444cf6e19d8|2025-01-21",
+          "why": ""
+        },
+        "systems": {
+          "status": "partial",
+          "evidence": "src/core2/law-reach/group-b.ts:229",
+          "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "teacher-minimum-salary-to-graduation",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 73 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 2 open -> after repeal 0 open, 2 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 3 open -> after repeal 0 open, 3 ended",
+          "why": ""
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "federal-unemployment-tax",
+      "name": "Federal unemployment tax rate",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:federal-unemployment-tax:general:2011-07-01",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:federal-unemployment-tax: raise/lower at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 open (full 0, counted groups 27/49 people, households 0, orgs 24, govts 0) e.g. applied|federal-unemployment-tax|organization_e1c746b8ee72e0b6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 61 open (full 0, counted groups 25/53 people, households 0, orgs 36, govts 0) e.g. applied|federal-unemployment-tax|organization_8af18928e3f7b74e",
+          "why": ""
+        },
+        "systems": {
+          "status": "wired",
+          "evidence": "src/core2/modules/employer-taxes.ts:536",
+          "why": ""
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2257960 (journal:2025-01-25:1637); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2882999 -> 2895745 (journal:2025-01-25:1558)",
+          "why": ""
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 79 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 80 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 open -> after repeal 43 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 61 open -> after repeal 55 open, 0 ended",
+          "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "federal-unemployment-tax 0.6 -> 0.66 at federal (law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "federal-unemployment-tax 0.6 -> 0.66 at federal (law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "state-unemployment-tax",
+      "name": "State unemployment tax rate",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 53); src/core2/data/laws/starting-law.json jurisdictions; elsewhere none: American Samoa, Guam and the Northern Mariana Islands run no unemployment insurance program (their unemployment-insurance row is 0; 26 U.S.C. 3306(j) covers the states, D.C., Puerto Rico and the Virgin Islands); drawn place row law:US-MI:state:state-unemployment-tax:general:2025-01-01",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:state-unemployment-tax: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 open (full 0, counted groups 27/49 people, households 0, orgs 24, govts 0) e.g. applied|state-unemployment-tax|organization_e1c746b8ee72e0b6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 61 open (full 0, counted groups 25/53 people, households 0, orgs 36, govts 0) e.g. applied|state-unemployment-tax|organization_8af18928e3f7b74e",
+          "why": ""
+        },
+        "systems": {
+          "status": "wired",
+          "evidence": "src/core2/modules/employer-taxes.ts:536",
+          "why": ""
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2298925 (journal:2025-01-25:1637); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2882999 -> 2956475 (journal:2025-01-25:1558)",
+          "why": ""
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 77 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 51 open -> after repeal 43 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 61 open -> after repeal 55 open, 0 ended",
+          "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "state-unemployment-tax 2.7 -> 2.97 at state (law:US-MI:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "state-unemployment-tax 2.7 -> 2.97 at state (law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "unemployment-weekly-maximum",
+      "name": "Unemployment weekly maximum",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 53); src/core2/data/laws/starting-law.json jurisdictions; elsewhere none: American Samoa, Guam and the Northern Mariana Islands run no unemployment insurance program (their unemployment-insurance row is 0); drawn place row law:US-MI:state:unemployment-weekly-maximum:general:2026-01-01:from-start",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:unemployment-weekly-maximum: raise/lower at state",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): unemployment-weekly-maximum 530 -> 583 at state (law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): unemployment-weekly-maximum 582 -> 640 at state (law:US-NE:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 9745174 -> 9767283 (journal:2025-01-26:1648); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1406 113054820 -> 113059662 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2245690 (journal:2025-01-25:1637)",
+          "why": ""
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 77 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "nothing reached, so nothing to stop"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": "reaches nobody anywhere"
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "unemployment-weekly-maximum 530 -> 583 at state (law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "unemployment-weekly-maximum 582 -> 640 at state (law:US-NE:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "social-security-tax",
+      "name": "Social Security tax rate",
+      "kind": "amount",
+      "family": "assistance",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-tax:general:2026-01-01:from-start",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:social-security-tax: raise/lower at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1689 open (full 1610, counted groups 55/72.58417112299465 people, households 0, orgs 24, govts 0) e.g. applied|social-security-tax|official:term:seat:US:president:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1622 open (full 1531, counted groups 55/82.18581657006479 people, households 0, orgs 36, govts 0) e.g. applied|social-security-tax|official:term:seat:US:president:2025-01-20",
+          "why": ""
+        },
+        "systems": {
+          "status": "wired",
+          "evidence": "src/core2/modules/budgets.ts:1172, src/core2/modules/employer-taxes.ts:514, src/core2/counted-money.ts:403, src/core2/modules/budgets.ts:1164",
+          "why": ""
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1406 113054820 -> 116157436 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2374603 (journal:2025-01-25:1637); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:576 32331239 -> 32329587 (journal:2025-01-24:1635)",
+          "why": ""
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 79 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 80 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1689 open -> after repeal 1701 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1622 open -> after repeal 1633 open, 0 ended",
+          "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "social-security-tax 6.2 -> 6.82 at federal (law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "social-security-tax 6.2 -> 6.82 at federal (law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "minimum-wage",
+      "name": "Minimum wage",
+      "kind": "amount",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "none",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 38, state 81, county 15, city 73); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-MI:state:minimum-wage:general:2024-01-01",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:minimum-wage: raise/lower at federal, state, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open (full 8, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|minimum-wage|person_2dc9b418ebc09f6d; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open (full 12, counted groups 6/11 people, households 0, orgs 0, govts 0) e.g. applied|minimum-wage|person_d3ebde8c7d2740d8",
+          "why": ""
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/life.ts:551 1625540 -> 1563490 (journal:2025-01-23:1634)",
+          "why": ""
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "minimum-wage-to-poverty",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 73 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 8 open -> after repeal 7 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open -> after repeal 2 open, 0 ended",
+          "why": "repeal leaves reach rows open (or re-enacting does not reopen them)"
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "minimum-wage 1033 -> 1136 at state (law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "minimum-wage 1350 -> 1485 at state (law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+      "name": "raise federal minimum wage",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "federal-minimum-wage",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:starting",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-federal-positions:labor-commerce.raise-federal-minimum-wage: enact/repeal at federal",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 open (full 56, counted groups 11/86 people, households 0, orgs 0, govts 0) e.g. reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_33f81e3b0c5194c6:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 80 open (full 69, counted groups 11/85 people, households 0, orgs 0, govts 0) e.g. reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_eadfec9a418d1fed:2025-01-21",
+          "why": ""
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/life.ts:551 1625540 -> 1418790 (journal:2025-01-23:1634); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/life.ts:551 627266 -> 622666 (journal:2025-02-08:7843)",
+          "why": ""
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "federal-minimum-wage-to-poverty",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 84 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 open -> after repeal 0 open, 40 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 80 open -> after repeal 0 open, 54 ended",
+          "why": ""
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e) effective 2025-01-21; then repealed at federal effective 2025-02-26",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "name": "local minimum wage authority",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "local-wage-authority",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.local-minimum-wage-authority: enact/repeal at state, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4:city:organization_1571ef11eb9b9b4a:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 8 open (full 6, counted groups 0/0 people, households 0, orgs 1, govts 1) e.g. reach:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting:city:organization_66aa7ca5030a42f2:2025-01-20",
+          "why": "full people only: no counted group is reached (one model, two tiers)"
+        },
+        "systems": {
+          "status": "partial",
+          "evidence": "src/core2/law-reach/group-a-records.ts:251",
+          "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/counted-money.ts:576 45319197 -> 45169197 (journal:2025-01-24:1556); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): work-payroll @ src/core2/work-payroll-cash.ts:2351 16126582 -> 16192909 (journal:2025-01-28:1571); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): accounts.transfer @ src/core2/world-transfer.ts:40 9379843 -> 9329843 (journal:2025-02-01:1848)",
+          "why": ""
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "minimum-wage-to-poverty",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 73 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open -> after repeal 0 open, 1 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 8 -> after repeal 0 -> re-enacted 1",
+          "why": ""
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-02-26:law-wiring-d994f5d4-b) effective 2025-02-26",
+          "inForceAtOpening": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "name": "raise minimum wage",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "raise-minimum-wage",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.raise-minimum-wage: enact/repeal at state, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 31 open (full 30, counted groups 1/69 people, households 0, orgs 0, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_33f81e3b0c5194c6:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 43 open (full 42, counted groups 1/75 people, households 0, orgs 0, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_eadfec9a418d1fed:2025-01-20",
+          "why": ""
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 9745174 -> 9767283 (journal:2025-01-26:1648); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1406 113054820 -> 113059662 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2245690 (journal:2025-01-25:1637)",
+          "why": ""
+        },
+        "web": {
+          "status": "missing",
+          "evidence": "minimum-wage-to-poverty",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 77 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 73 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 31 -> after repeal 0 -> re-enacted 68; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 43 -> after repeal 0 -> re-enacted 88",
+          "why": ""
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b) effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b) effective 2025-02-26",
+          "inForceAtOpening": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.paid-family-leave",
+      "name": "paid family leave",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "paid-leave-premium",
+      "overall": "stopgapped",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.paid-family-leave: enact/repeal at state, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 75 open (full 39, counted groups 28/23.58417112299465 people, households 0, orgs 8, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_474c2f7aee205efe:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 99 open (full 52, counted groups 30/29.18581657006478 people, households 0, orgs 17, govts 0) e.g. reach:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_01b157d5b2d5f916:2025-01-21",
+          "why": ""
+        },
+        "systems": {
+          "status": "wired",
+          "evidence": "src/core2/paid-leave.ts:23",
+          "why": ""
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:159 0 -> 40110 (journal:2025-01-26:1651); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:159 0 -> 66344 (journal:2025-01-28:1574)",
+          "why": ""
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "paid-leave-to-mothers-work",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-leave-claims)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 73 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 75 open -> after repeal 0 open, 8 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 99 open -> after repeal 0 open, 17 ended",
+          "why": ""
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "enacted at city (law:place:3149425:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "name": "public sector collective bargaining",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "public-bargaining",
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.public-sector-collective-bargaining: enact/repeal at state, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 15 open (full 8, counted groups 0/0 people, households 0, orgs 7, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_3f9b0f502a79bcc4:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 18 open (full 11, counted groups 0/0 people, households 0, orgs 7, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_328f136709e7c650:2025-01-20",
+          "why": "full people only: no counted group is reached (one model, two tiers)"
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-bargaining)"
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 9745174 -> 9767283 (journal:2025-01-26:1648); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1406 113054820 -> 113059662 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2245690 (journal:2025-01-25:1637)",
+          "why": ""
+        },
+        "web": {
+          "status": "partial",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 public-bargaining-to-earnings 0.0100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 public-bargaining-to-earnings 0.0100; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 public-bargaining-to-earnings 0.0100",
+          "why": "links not built: public-bargaining-to-graduation (about-zero)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 77 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 73 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 15 -> after repeal 0 -> re-enacted 25; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 18 -> after repeal 0 -> re-enacted 28",
+          "why": ""
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b) effective 2025-02-26",
+          "inForceAtOpening": true
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b) effective 2025-02-26",
+          "inForceAtOpening": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.right-to-work",
+      "name": "right to work",
+      "kind": "question",
+      "family": "labor",
+      "reachGroup": "A",
+      "mechanic": "right-to-work",
+      "overall": "stopgapped",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/policy-answers.ts (data/research/laws/starting-law-2026); drawn place row law:US-MI:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog question:us-policy-positions:labor-workforce.right-to-work: enact/repeal at state, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 43 open (full 39, counted groups 2/100 people, households 0, orgs 2, govts 0) e.g. reach:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb:workers:person_33f81e3b0c5194c6:2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 46 open (full 42, counted groups 2/86 people, households 0, orgs 2, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_eadfec9a418d1fed:2025-01-20",
+          "why": ""
+        },
+        "systems": {
+          "status": "stopgap",
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything) (registered SG-GOV-REACH-A-union-dues)"
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 9745174 -> 9745085 (journal:2025-01-26:1648); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:662 13339597 -> 13339542 (journal:2025-02-01:2660); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): finance.contract-settlement @ src/core2/finance-cash.ts:2591 18908071 -> 18908084 (journal:2025-02-01:1945)",
+          "why": ""
+        },
+        "web": {
+          "status": "wired",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 right-to-work-to-turnout 0.0310; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-02 right-to-work-to-turnout 0.0310",
+          "why": ""
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 73 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 43 open -> after repeal 0 open, 41 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 46 -> after repeal 0 -> re-enacted 72",
+          "why": ""
+        },
+        "allPlaces": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": ""
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b) effective 2025-02-26",
+          "inForceAtOpening": true
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "public-pay-floor",
+      "name": "Public pay floor",
+      "kind": "amount",
+      "family": "government",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "missing",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "bill-catalog law:public-pay-floor: raise/lower at federal, state, city",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): public-pay-floor 0 -> 1 at city (law:place:2666300:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): public-pay-floor 0 -> 1 at city (law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
+        },
+        "systems": {
+          "status": "wired",
+          "evidence": "src/core2/public-pay-floor.ts:68",
+          "why": ""
+        },
+        "money": {
+          "status": "missing",
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure public-sector vacancies and turnover (SG-LAW-outcome-link-unresearched)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 73 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "nothing reached, so nothing to stop"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": "reaches nobody anywhere"
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "public-pay-floor 0 -> 1 at city (law:place:2666300:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "public-pay-floor 0 -> 1 at city (law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "local-minimum-wage-authority",
+      "name": "local-minimum-wage-authority",
+      "kind": "amount",
+      "family": "starting law",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-MI:state:local-minimum-wage-authority:general:2015-06-30",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "question us-policy-positions:labor-workforce.local-minimum-wage-authority writes this series (group-a-wages.ts localWageAuthority)",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): local-minimum-wage-authority 0 -> 1 at state (law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): local-minimum-wage-authority 1 -> 2 at state (law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
+        },
+        "systems": {
+          "status": "wired",
+          "evidence": "src/core2/modules/retirement-claims.ts:92, src/core2/modules/budgets.ts:1172, src/core2/modules/employer-taxes.ts:536, src/core2/modules/budgets.ts:1164, src/core2/paid-leave.ts:23, src/core2/modules/employer-taxes.ts:514",
+          "why": ""
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1406 113054820 -> 113059662 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2245690 (journal:2025-01-25:1637); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): budgets:withholding @ src/core2/modules/budgets.ts:1406 107875863 -> 107884176 (journal:2025-01-28:1572)",
+          "why": ""
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure local minimum wage adoption (SG-LAW-outcome-link-unresearched)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 77 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "nothing reached, so nothing to stop"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": "reaches nobody anywhere"
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "local-minimum-wage-authority 0 -> 1 at state (law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "local-minimum-wage-authority 1 -> 2 at state (law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    },
+    {
+      "key": "unemployment-insurance",
+      "name": "unemployment-insurance",
+      "kind": "amount",
+      "family": "starting law",
+      "reachGroup": null,
+      "mechanic": null,
+      "overall": "partly",
+      "links": {
+        "exists": {
+          "status": "wired",
+          "evidence": "56/56 places (state 56); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-MI:state:unemployment-insurance:general:2026-01-01:from-start",
+          "why": ""
+        },
+        "change": {
+          "status": "wired",
+          "evidence": "every state must run the program (26 U.S.C. 3304); bodies change it through unemployment-weekly-maximum and state-unemployment-tax",
+          "why": ""
+        },
+        "reach": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): unemployment-insurance 1 -> 2 at state (law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): unemployment-insurance 1 -> 2 at state (law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
+        },
+        "systems": {
+          "status": "missing",
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
+        },
+        "money": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 9745174 -> 9767283 (journal:2025-01-26:1648); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1406 113054820 -> 113059662 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:647 2243269 -> 2245690 (journal:2025-01-25:1637)",
+          "why": ""
+        },
+        "web": {
+          "status": "stopgap",
+          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
+          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)"
+        },
+        "knowing": {
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 77 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 72 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403)",
+          "why": ""
+        },
+        "repeal": {
+          "status": "missing",
+          "evidence": "",
+          "why": "nothing reached, so nothing to stop"
+        },
+        "allPlaces": {
+          "status": "missing",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "why": "reaches nobody anywhere"
+        }
+      },
+      "runs": [
+        {
+          "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
+          "change": "unemployment-insurance 1 -> 2 at state (law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21",
+          "inForceAtOpening": false
+        },
+        {
+          "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+          "change": "unemployment-insurance 1 -> 2 at state (law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
+      "errors": []
+    }
+  ]
+}
