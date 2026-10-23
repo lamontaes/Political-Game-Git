@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: claimed
+status: in-pr
 claimed-by: words/scene-talk
 pr: #4459
 blocked-on:
