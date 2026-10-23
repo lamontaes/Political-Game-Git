@@ -5,11 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/generated-world-old-imports
 pr:
-blocked-on:
+blocked-on: core-old-engine-04-opening-population-no-throwaway-world
 source: split from core-old-imports-opening-builders by pool feeder Oct 20
+claimed-at: 2026-10-22T06:11:44.353Z
 ---
 
 **What.** `src/core2/tooling/generated-world.ts`, the route the speed guard and the bench use for a generated opening, still imports `releaseRecentHistory` from the old `history-index` and `forgetLastValidatedWorld` and `withoutWorldChecks` from the old `world` module. Check what each does for a core-only opening; where the core builds no old World, delete the call, and where it still does, replace it with a core step. Delete the three old imports.
