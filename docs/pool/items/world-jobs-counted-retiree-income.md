@@ -29,3 +29,5 @@ Sent back 2026-10-20 from PR #5250 (branch claude/pool-retiree-income): The body
 
 Oct 21 (claude, fixing PR #5224 branch claude/political-game-pool-yucp92-c): merged main, which already holds the same change (claimRetirementNow, stopgap resolved); took main for jobs.ts, retirement-claims.ts, residents.test.ts, stopgaps.json and kept this PR's only unique piece, src/core2/jobs-counted-retire-claim.test.ts (no residents:retirement:added flow).
 Oct 21 (claude): already done on main by another change. `claimRetirementNow` (`src/core2/modules/retirement-claims.ts`) gives a counted worker who retires their own award from their record; the place-average stand-in is gone and its stopgap row is resolved; `retirement-claims.test.ts` has the no-early-return case (a counted person of 70 or more, fails by name if none). PR #5250 now carries no diff after merging main and should be closed as superseded. A merger can mark this item done after checking those three. Claim released.
+
+Split from world-stopgap-jobs-faked-mechanic (an L item) on Oct 19; row SG-WORLD-jobs-counted-retiree-income.

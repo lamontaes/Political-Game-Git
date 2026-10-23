@@ -13,7 +13,7 @@
  */
 import traitTable from "../../data/content/trait-act-pulls.json" with { type: "json" };
 import { OPENING_KIN } from "./opening-kin";
-import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { ageOnDate } from "./kernel/dates";
 import { PEOPLE_MIND_VERSION } from "./people-mind";
 import { SeededRng } from "./kernel/rng";
 import { parameter as p } from "./parameters";
@@ -223,10 +223,7 @@ export function openingTemperaments(
       : segregation.map((value) => value * inheritedSd);
     genetic.set(subject.id, genes);
     const own = draws(rng.fork("own"));
-    const age = ageOnDate(
-      makeIsoDate(subject.birthDate),
-      makeIsoDate(options.startedAt),
-    );
+    const age = ageOnDate(subject.birthDate, options.startedAt);
     const traits: Record<string, number> = {};
     const scores: number[] = [];
     SPEC.dimensions.forEach((row, index) => {

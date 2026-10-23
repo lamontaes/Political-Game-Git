@@ -5,11 +5,12 @@ area: elections
 kind: research
 priority: 2
 size: M
-status: blocked
-claimed-by:
+status: claimed
+claimed-by: claude/dreamy-tesla-bgi3ui-elections
 pr:
-blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: The region's or state's real polling firms (County Business Patterns NAICS 541910 by county) as recorded organizations a campaign
+blocked-on:
 source: "collapsed Oct 19, 2026 from elections-stopgap-campaigns-missing-data, elections-stopgap-elections-estimated-calendar, elections-stopgap-elections-missing-data, elections-stopgap-voting-missing-data"
+claimed-at: 2026-10-23T20:24:11.145Z
 ---
 
 **What.** Source the numbers behind elections, campaigns and voting. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 4 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/elections/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -29,3 +30,5 @@ source: "collapsed Oct 19, 2026 from elections-stopgap-campaigns-missing-data, e
 **Files.** src/core2/modules/campaigns.ts, src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/elections/
 
 **Notes.** Folded from: elections-stopgap-campaigns-missing-data, elections-stopgap-elections-estimated-calendar, elections-stopgap-elections-missing-data, elections-stopgap-voting-missing-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-elections-sourced-parameters.md (7 rows: 3 sourced, 4 estimated, 0 mechanic).
