@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: in-pr
+status: done
 claimed-by: claude/practical-planck-vou42i
 pr: #5360
 blocked-on:
