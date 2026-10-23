@@ -147,7 +147,7 @@ describe("a vote or signature is filed at its own government's level", () => {
       for (const event of seen) {
         const level = event.facts?.level;
         expect(
-          ["federal", "state", "county", "city"],
+          ["federal", "state", "county", "township", "city"],
           `${where}: ${event.id}`,
         ).toContain(level);
         const billId = event.facts?.billId;
