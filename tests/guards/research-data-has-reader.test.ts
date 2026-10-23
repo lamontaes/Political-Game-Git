@@ -29,8 +29,10 @@ interface AllowEntry {
 /**
  * The waiting list may only shrink. When a file gains its reader and leaves
  * the list, lower this to the new length in the same change; never raise it.
+ * Raised from 7 to 8 on Oct 20 (CTO merge audit) for employer-callback-gaps.json,
+ * which had skipped the guard as rawSource; it leaves when its reader lands.
  */
-const AWAITING_READER_CEILING = 7;
+const AWAITING_READER_CEILING = 8;
 /** The same for the files found unread on Oct 16 (see `unreadFound`). */
 const UNREAD_FOUND_CEILING = 364;
 
