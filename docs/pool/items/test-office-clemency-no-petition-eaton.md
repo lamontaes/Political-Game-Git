@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/clemency-eaton
+pr: #5779
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-21T05:35:32.279Z
 ---
 
 **What.** The test src/core2/office-day-clemency.test.ts draws a place and expects one clemency petition on the governor's review day. With OFFICE_CLEMENCY_SEED=4434416becb2dc1d it draws Eaton, Indiana (key 1820080) and finds none: expected 1, received 0 at the entries.length assertion. It fails the same on clean main and on the corruption calibration branch, so it is not from that change. Find why no petition was filed in that world, whether the prisoner pool or the filing step is empty, and fix the cause or the test's draw.
