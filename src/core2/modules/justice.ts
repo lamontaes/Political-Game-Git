@@ -505,7 +505,8 @@ function followTheMoney(
  * How full a prosecutor's desk is, as a share of what the office carries: its
  * open investigations and its charged cases not yet decided, read when it
  * weighs opening or charging another (the indexes are by office, so nothing
- * scans the world).
+ * scans the world). A desk at capacity weighs fully and no more, so a strong
+ * case on a busy desk is still pursued (prosecutorCaseloadCapacity).
  */
 function workload(api: CoreAPI, officeId: string): number {
   const open = (
@@ -516,7 +517,7 @@ function workload(api: CoreAPI, officeId: string): number {
   const pending = (
     table(api, "cases").query("byOffice", [officeId]) as unknown as CaseRow[]
   ).filter((row) => row.status === "charged").length;
-  return (open + pending) / p(api, "prosecutorCaseloadCapacity");
+  return clamp01(api, (open + pending) / p(api, "prosecutorCaseloadCapacity"));
 }
 
 function lossShare(api: CoreAPI, officeId: string): number {
