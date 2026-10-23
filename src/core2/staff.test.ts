@@ -253,7 +253,13 @@ describe("M3-06 staff", () => {
       `no office could hire in ${tried.join(", ")}`,
     ).not.toBeNull();
     govReport("staff", JSON.stringify(report));
-  });
+    // Up to 8 drawn towns, each built in about 0.4 to 1.1 s and played 46
+    // days in 4.9 to 8.2 s on a 4-core container at one worker. Three random
+    // draws played two towns (ending at place 0949880), seven (ending at
+    // 1849950) and two (ending at 2731760): a town is redrawn when its first
+    // aides were let go for missed days and no replacement has been paid yet.
+    // The cases took 10.9, 37.0 and 50.1 s in three later random runs.
+  }, 120_000);
 
   it("weighs age by the working-age pool, sliding, with no cutoff", () => {
     const at = (age: number) => workingAgeWeight(age);

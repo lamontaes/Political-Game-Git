@@ -24,6 +24,7 @@ import { lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
 import { ownerOf } from "./business";
 import { residentPerson, residentsRuntime } from "./residents";
+import { countedHeadsOf } from "../residents-economy";
 import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
@@ -329,8 +330,12 @@ function passThroughCounted(
   const owner = residentPerson(core, ownerId);
   const law = paydayLaw(api);
   if (!owner || !law) return;
+  // The profit is the business's, already at the town's weight, and a counted
+  // payment multiplies by the owner's household weight: the withholding is
+  // for one household's part of the profit.
+  const heads = countedHeadsOf(core, ownerId);
   const lines = withholdingFor({
-    paidMinor: profitMinor,
+    paidMinor: profitMinor / heads,
     periodDays: QUARTER_DAYS_COUNT,
     yearToDateMinor: 0,
     incomeTax: law.incomeTax,

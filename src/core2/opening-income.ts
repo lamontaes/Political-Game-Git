@@ -1,7 +1,12 @@
 import { retirementClaimAgeMonths } from "./retirement-claim";
 import { startingSocialSecurityAges } from "./social-security-law";
 import dataJson from "./data/opening-income.json" with { type: "json" };
-import { daysBetween, isoDateFromParts, makeIsoDate } from "./kernel/dates";
+import {
+  daysBetween,
+  isoDateFromParts,
+  makeIsoDate,
+  daysBetweenText,
+} from "./kernel/dates";
 import { stableHash } from "./kernel/ids";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
@@ -666,8 +671,7 @@ export function buildOpeningRetirementIncome(
           ),
         );
         const coveredMonths = Math.floor(
-          (daysBetween(makeIsoDate(startAt), makeIsoDate(claimAt)) /
-            p("daysPerMeanYear")) *
+          (daysBetweenText(startAt, claimAt) / p("daysPerMeanYear")) *
             months *
             fraction,
         );
