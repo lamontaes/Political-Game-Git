@@ -21,7 +21,7 @@ claimed-at:
 
 **Files.** src/core2/modules/business.ts, src/core2/business.test.ts
 
-**Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
+**Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it. Unblocked Oct 23: world-counted-headcount-falls-faster-than-population is done and #5685 merged; CTO to retitle per the old blocked-on.
 
 Measured Oct 20 (claude/pool-bds): the premise is out of date, and the error now runs the other way. `buildBenchWorld` two-level, 365 days, six drawn towns (`drawPlace(seed, "entry")`), firms that exist at the end and were not in the books at the start against the start count (BDS nation entry 9.06 percent, exit 8.68 percent, `src/core2/data/business/bds-rates.json`):
 

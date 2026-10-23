@@ -6,13 +6,14 @@ kind: bug
 priority: 3
 size: S
 status: open
-claimed-by:
+claimed-by: claude/event-platform-stance
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T13:41:41.135Z
 ---
 
-**What.** In the Oct 20 browser run (PR 5680) Hold an event was disabled for a candidate who filed with an empty platform, because campaignDayChoices requires at least one platform stance and venue cash. The screen shows a greyed control with no reason. Decide whether an event should need a stance at all (Political Process baseline: check docs/roadmap/political-process-baseline.md and DECISION-REGISTER.md first), and if it does, let the player set a stance from the Campaigns screen or word why the control is off.
+**What.** In the Oct 20 browser run (PR 5680) Hold an event was disabled for a candidate who filed with an empty platform, because campaignDayChoices requires at least one platform stance and venue cash. The screen shows a grayed control with no reason. Decide whether an event should need a stance at all (Political Process baseline: check docs/roadmap/political-process-baseline.md and DECISION-REGISTER.md first), and if it does, let the player set a stance from the Campaigns screen or word why the control is off.
 
 **Rules.** Look before you ask: read the register first. No hand-written player text: any reason is worded by the English engine. This is a game, not a spreadsheet.
 
@@ -20,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/campaign-day.ts,src/bench/campaign.ts,src/bench/play.mjs
 
-**Notes.** TODO
+**Notes.** Unblocked Oct 23: #5549 merged, so the Today list and its Hold an event control are gone; CTO to confirm the bug is closed and drop, or keep for the stance-first scene.

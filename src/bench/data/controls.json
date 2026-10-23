@@ -67,7 +67,13 @@
   "campaignOutings": {
     "doors": "Knock on doors",
     "calls": "Call donors",
+    "event": "Hold an event",
+    "interview": "Ask for an interview",
     "hours": "hours"
+  },
+  "campaignContribute": {
+    "give": "Put in your own money",
+    "dollars": "dollars"
   },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
@@ -260,6 +266,7 @@
   },
   "politics": {
     "seats": "Seats",
+    "notChosenHere": "Not chosen by this place's voters",
     "votes": "Votes",
     "yes": "Yes",
     "no": "No",

@@ -5,12 +5,12 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/schools-raise-hires
 pr: #5632
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T14:03:46.310Z
 ---
 
 **What.** PR #5588 proved a schools line cut ends teachers' jobs; the raise path (hire from the town's adults without work) is unproved.
@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5632 (branch claude/schools-raise-test): school teachers are counted workers since #5568, so the budget-line-schools-staffing test's named-teacher precondition never holds and it fails in every draw with main merged in; prove the line change on the district's counted payroll; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5632 (branch claude/schools-raise-test): Merging current origin/main conflicts in src/core2/budget-line-schools-staffing.test.ts and src/core2/law-reach/group-a-staffing.ts. Resolve both code conflicts against current main while preserving the counted-teacher hire and layoff proofs, then rerun the changed-file gate. The earlier fix commits are present, but the current merged result cannot be checked until these conflicts are resolved.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5632 (branch claude/schools-raise-test): The conflict repair preserves the counted-teacher hire and layoff paths, but the body has no Done when evidence table. The item requires a drawn place and seed where a mayors schools-line raise hires at least one named adult at the district, followed by record id. The body mentions an earlier failing Rio Rancho draw with an abbreviated seed and later comments report passing tests without the successful hire id and full reproducible draw. Add that acceptance row with the successful place, full seed and hire/job record id. No local gate pass is claimed here.; finish on that branch, merge main into it first.

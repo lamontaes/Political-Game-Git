@@ -4,5 +4,7 @@
   "supplierClassification": "service:private-school",
   "contractKind": "household.customer.private-school",
   "settlementPhaseId": "household-purchases",
-  "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average private school tuition, all schools, 2011–12, $12,420 in constant 2020–21 dollars (https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp). NCES Fast Facts, Back-to-school statistics: fall 2021 private enrollment 4.7 million of 54.1 million enrolled; NCES NHES 2019 homeschooling."
+  "citation": "NCES, Digest of Education Statistics 2021, Table 205.50: average private school tuition, all schools, 2011\u201312, $12,420 in constant 2020\u201321 dollars (https://nces.ed.gov/programs/digest/d21/tables/dt21_205.50.asp). NCES Fast Facts, Back-to-school statistics: fall 2021 private enrollment 4.7 million of 54.1 million enrolled; NCES NHES 2019 homeschooling.",
+  "reenrollOn": "08-01",
+  "reenrollOnCitation": "Private schools fill their seats before the fall term; the first of August, ahead of the first day of school (school-days.json), is a registered estimate of when families are re-ranked."
 }

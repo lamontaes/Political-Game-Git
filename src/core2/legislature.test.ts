@@ -242,9 +242,10 @@ describe(
       for (const m of council.map((s) => s.holder!.personId!)) {
         const v = votes.find((x) => x.memberId === m)!;
         if (v.vote !== "abstain")
-          expect(votesOf(api, m).some((r) => r.measureId === bill.number)).toBe(
-            true,
-          );
+          expect(
+            votesOf(api, m).some((r) => r.measureId === bill.number),
+            `member ${m} voted ${v.vote} on ${bill.number} with no vote record (vote ${v.id}, place ${key}, seed ${seed})`,
+          ).toBe(true);
       }
       // If it became law: on its date the town's law changes and named workers are raised.
       if (
@@ -361,7 +362,7 @@ describe(
         )
         .sort();
       const tried: string[] = [];
-      for (let attempt = 0; attempt < 6; attempt += 1) {
+      for (let attempt = 0; attempt < 30; attempt += 1) {
         const { api, key } = town(
           states,
           `project:${attempt}`,
@@ -385,9 +386,19 @@ describe(
               amountMinor: 10_000,
             }),
           );
+        // An appropriations bill is carried by the chamber's majority: a
+        // minority member's bill dies in a committee the majority chairs, by
+        // their recorded party positions. The sponsor is the first member on
+        // the majority side.
+        const seats = members(api, body);
+        const majority = Math.sign(
+          seats.reduce((sum, t) => sum + partySide(t.party), 0),
+        );
+        const sponsorTerm =
+          seats.find((t) => partySide(t.party) === majority) ?? seats[0]!;
         const bill = appropriationsWithProjects(api, {
           bodyOfficeId: body,
-          sponsorId: memberKey(members(api, body)[0]!),
+          sponsorId: memberKey(sponsorTerm),
         });
         const after = requests.map((r) => projectRequestOf(api, r.id)!);
         // Every request is settled on standing, with its reasons kept.
@@ -403,6 +414,22 @@ describe(
         const included = after.filter((r) => r.status === "included");
         if (!bill || !included.length) {
           tried.push(`${key}: none included`);
+          continue;
+        }
+        // The vote follows the members' recorded positions: a chamber whose
+        // members mostly stand against a spending bill buries it in committee
+        // (the chair's own position decides whether it is heard), so a town is
+        // a place to prove the grant in only where more members stand for the
+        // bill than against it. The others are named, with their count.
+        const stand = bill
+          ? members(api, body).filter(
+              (t) => memberPosition(api, bill.id, memberKey(t)).total > 0,
+            ).length
+          : 0;
+        if (bill && stand * 2 <= members(api, body).length) {
+          tried.push(
+            `${key}: ${stand} of ${members(api, body).length} members stand for it`,
+          );
           continue;
         }
         const lines = bill.provisions.filter((p) => p.recipientId === city.id);
@@ -775,7 +802,10 @@ describe(
       expect(
         budgetsOf(api, city.id).find((b) => b.fiscalYear === fy)?.spendingMinor,
       ).toEqual(requested);
-    }, 120_000);
+      // A drawn town's fiscal year of daily work took 15 to 85 s alone across
+      // sixteen runs and 122 s inside a 92-file run on a loaded
+      // machine, so the limit is twice the old one, for load and not a slow path.
+    }, 240_000);
 
     it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
       const { api, council } = town(Object.keys(authority).sort(), "catalog");
