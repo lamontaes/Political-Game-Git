@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/counted-weight-headcount.test.ts, src/core2/collapse.ts, src/bench/world.ts
 
-**Notes.** Found Oct 23 by claude/sleepy-carson-f8omzd while rechecking PR 5295 (core-census-uncap-opening): the same draw fails with the same 3.115101550212461 on that branch and on clean main.
+**Notes.** Found Oct 23 by claude/sleepy-carson-f8omzd while rechecking PR 5295 (core-census-uncap-opening): the same draw fails with the same 3.115101550212461 on that branch and on clean main. A recurrence: release-suite-red-list-core2 recorded the same check failing in Renwick, Iowa (3.19 against 3.09), which PR 4997 fixed; read that fix before changing the weights or the band.
