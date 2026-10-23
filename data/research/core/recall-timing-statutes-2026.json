@@ -1,0 +1,384 @@
+{
+  "id": "recall-timing-statutes-2026",
+  "publisher": "State legislatures and code publishers (each row names its statute and page)",
+  "vintage": "Codes as published online, read October 23, 2026",
+  "table": "Local recall timing bars by state: days into a term before a petition may be filed, days before the term's end after which none may be, and the bar after a failed recall",
+  "title": "When a local recall petition may be filed, by state",
+  "universe": "Elected local officers (city and county) in places whose municipal rule pack gives a petitioned recall",
+  "geography": "All 56 places, keyed by postal code",
+  "sourceUrl": "https://www.akleg.gov/basis/statutes.asp",
+  "retrievedOn": "2026-10-23",
+  "limits": "Statute text only, no case law. Places whose rule pack gives no petitioned local recall carry no bar. \"encoded\" is the row written to src/core2/data/campaigns/recall-bars.json (days; six months taken as 182 days, two months as 61); scripts/research/check-core-research.ts fails when the two differ. \"afterFailed\" is what each statute says about a later petition; the recall engine still applies one rule everywhere (none again in the term after one failed) until the builder item gov-recall-bars-election-clock reads it.",
+  "places": {
+    "AL": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "AK": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "Alaska Stat. 29.26.240, 29.26.290(a), 29.26.300, 29.26.340(b)",
+      "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.26.240&secEnd=29.26.360",
+      "quotes": [
+        "may be recalled by the voters after the official has served the first 120 days of the term for which elected or appointed",
+        "A petition may not be filed within 180 days before the end of the term of office of the official sought to be recalled",
+        "an application for a petition to recall the same official may not be filed sooner than six months after the election",
+        "A new application for a petition to recall the same official may not be filed sooner than six months after a petition is rejected as insufficient"
+      ],
+      "encoded": {
+        "openingDays": 120,
+        "closingDays": 180
+      },
+      "afterFailed": "six months after a failed recall election or a petition rejected as insufficient"
+    },
+    "AZ": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "AR": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "CA": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "CO": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "CT": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "DE": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "DC": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "D.C. Code 1-1001.17(c)",
+      "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1001.17",
+      "quotes": [
+        "No recall proceedings shall be initiated for an elected officer during the 1st 365 days nor during the last 365 days of the elected officer's term of office.",
+        "The recall process for an elected officer may not be initiated within 365 days after a recall election has been determined in the elected officer's favor."
+      ],
+      "encoded": {
+        "openingDays": 365,
+        "closingDays": 365
+      },
+      "afterFailed": "365 days after a recall election the officer won",
+      "note": "An Advisory Neighborhood Commissioner has six-month bars instead; the game's D.C. offices are the council and the mayor."
+    },
+    "FL": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "Fla. Stat. 100.361(8)",
+      "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0100/Sections/0100.361.html",
+      "quotes": [
+        "No petition to recall any member of the governing body of a municipality shall be filed until the member has served one-fourth of his or her term of office."
+      ],
+      "encoded": {
+        "openingDays": 183,
+        "longTermOpeningDays": 365,
+        "longTermAboveYears": 2
+      },
+      "encodingNote": "One-fourth of the term: 183 days of a two-year term, 365 days of a four-year term. The bar table holds one value per term band, so a three-year term takes the four-year value (91 days longer than a quarter of three years).",
+      "afterFailed": "not stated in the sections read"
+    },
+    "GA": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "O.C.G.A. 21-4-5(a) (FindLaw, current as of March 28, 2024)",
+      "url": "https://codes.findlaw.com/ga/title-21-elections/ga-code-sect-21-4-5/",
+      "quotes": [
+        "No application for a recall petition may be filed during the first 180 days or during the last 180 days of the term of office of any public official subject to recall."
+      ],
+      "encoded": {
+        "openingDays": 180,
+        "closingDays": 180
+      },
+      "afterFailed": "not stated in the sections read"
+    },
+    "HI": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "ID": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "IL": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "IN": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "IA": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "KS": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "KY": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "LA": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "La. R.S. 18:1300.1",
+      "url": "https://www.legis.la.gov/Legis/Law.aspx?d=81315",
+      "quotes": [
+        "no recall petition may be submitted for certification to or accepted for certification by the registrar of voters or any other official if less than six months remain in the term of office."
+      ],
+      "encoded": {
+        "openingDays": 0,
+        "closingDays": 182
+      },
+      "encodingNote": "No bar at the start of the term in the section read; six months taken as 182 days.",
+      "afterFailed": "not stated in the sections read"
+    },
+    "ME": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "MD": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "MA": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "MI": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "MN": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "MS": {
+      "localRecall": true,
+      "tag": "unread",
+      "reason": "Not found. The searches read found Mississippi's recall reaches county officials by petition to the governor, and the 2026 bill SB 2350 (introduced, https://legiscan.com/MS/text/SB2350/2026) would add a municipal recall barred in a term's first 180 days; no enacted municipal timing bar was read. The national estimate (recallTermOpeningDays) stands."
+    },
+    "MO": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "MT": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "Mont. Code Ann. 2-16-613 (2025)",
+      "url": "https://leg.mt.gov/bills/mca/title_0020/chapter_0160/part_0060/section_0130/0020-0160-0060-0130.html",
+      "quotes": [
+        "A recall petition against an officer may not be approved for circulation, as required in 2-16-617 (3), until an officer has held office for 2 months.",
+        "A recall petition may not be filed against an officer for whom a recall election has been held for a period of 2 years during the officer's term of office unless the state or political subdivision or subdivisions financing the recall election are first reimbursed for all expenses of the preceding recall election."
+      ],
+      "encoded": {
+        "openingDays": 61,
+        "closingDays": 0
+      },
+      "encodingNote": "Two months taken as 61 days.",
+      "afterFailed": "two years after a recall election, unless its cost is reimbursed"
+    },
+    "NE": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "Neb. Rev. Stat. 32-1309",
+      "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-1309",
+      "quotes": [
+        "No recall petition filing form shall be filed against an elected official within twelve months after a recall election has failed to remove him or her from office or within six months after the beginning of his or her term of office or within six months prior to the incumbent filing deadline for the office."
+      ],
+      "encoded": {
+        "openingDays": 182
+      },
+      "encodingNote": "Six months taken as 182 days. The closing bar counts back from the incumbent filing deadline, not the term's end; the bar table holds days before the term's end only, so it is not encoded (builder item gov-recall-bars-election-clock).",
+      "afterFailed": "twelve months after a failed recall election"
+    },
+    "NV": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "Nev. Const. art. 2, sec. 9",
+      "url": "https://www.leg.state.nv.us/Const/NvConst.html",
+      "quotes": [
+        "No such petition shall be circulated or filed against any officer until he has actually held his office six (6) months",
+        "After one such petition and special election, no further recall petition shall be filed against the same officer during the term for which he was elected, unless such further petitioners shall pay into the public treasury from which the expenses of said special election have been paid, the whole amount paid out of said public treasury as expenses for the preceding special election."
+      ],
+      "encoded": {
+        "openingDays": 182
+      },
+      "encodingNote": "Six months taken as 182 days.",
+      "afterFailed": "rest of the term after a recall election, unless the next petitioners pay its cost"
+    },
+    "NH": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "NJ": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "NM": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "NY": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "NC": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "ND": {
+      "localRecall": true,
+      "tag": "ESTIMATED",
+      "statute": "N.D. Cent. Code 44-08-21.1(3), (6)",
+      "url": "https://www.ndlegis.gov/cencode/t44c08.pdf",
+      "quotes": [
+        "the filing officer shall call a special election to be held not sooner than ninety-five days nor later than one hundred five days following the date the filing officer certifies the petition valid and sufficient.",
+        "A member is not subject to recall twice during the term for which the member was elected. A member whose office is on the ballot at a regularly scheduled election occurring within one year is not subject to recall if the recall special election would occur within one year of the next regularly scheduled election in which the member could be re-elected."
+      ],
+      "encoded": {
+        "openingDays": 0,
+        "closingDays": 465
+      },
+      "spread": [465, 500],
+      "estimatedFrom": "No bar at the start of the term. The end bar falls on the recall election, held 95 to 105 days after the petition is certified, which must be more than a year before the next regular election: a petition filed fewer than about 365 + 100 = 465 days before that election cannot be voted on. The bar table counts days before the term's end, which comes some weeks after that election, so 465 is the low end and 500 allows for the gap.",
+      "afterFailed": "not twice in the same term"
+    },
+    "OH": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "OK": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "OR": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "PA": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "RI": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "SC": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "SD": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "S.D. Codified Laws 9-13-29, 9-13-30",
+      "url": "https://sdlegislature.gov/api/Statutes/9-13-29.html?all=true",
+      "quotes": [
+        "the mayor, any commissioner, any alderman, or any member of the board of trustees may be removed from office at any time by the voters qualified to vote for a successor"
+      ],
+      "encoded": {
+        "openingDays": 0,
+        "closingDays": 0
+      },
+      "afterFailed": "not stated in the sections read",
+      "note": "9-13-30 (https://sdlegislature.gov/api/Statutes/9-13-30.html?all=true) also lists grounds: \"The allowable grounds for removal are misconduct, malfeasance, nonfeasance, crimes in office, drunkenness, gross incompetency, corruption, theft, oppression, or gross partiality.\" The municipal rule pack reads South Dakota as needing no grounds."
+    },
+    "TN": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "TX": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "UT": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "VT": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "VA": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "WA": {
+      "localRecall": true,
+      "tag": "ESTIMATED",
+      "statute": "RCW 29A.56.150(1)",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.56.150",
+      "quotes": [
+        "The sponsors of a recall demanded of any public officer shall stop circulation of and file all petitions with the appropriate elections officer not less than six months before the next general election in which the officer whose recall is demanded is subject to reelection."
+      ],
+      "encoded": {
+        "openingDays": 0,
+        "closingDays": 237
+      },
+      "spread": [182, 245],
+      "estimatedFrom": "The closing bar counts back six months (182 days) from the November general election; local terms begin in January, about 55 days later, so about 237 days before the term's end. No bar at the start of the term in the section read (the constitution's recall sections were not read).",
+      "afterFailed": "not stated in the sections read"
+    },
+    "WV": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "WI": {
+      "localRecall": true,
+      "tag": "earlier",
+      "basis": "read before Oct 23, 2026; its bars, citation and URL are in src/core2/data/campaigns/recall-bars.json and were not reopened here"
+    },
+    "WY": {
+      "localRecall": true,
+      "tag": "SOURCED",
+      "statute": "Wyo. Stat. 15-4-110 (commission form; FindLaw, current as of January 1, 2024)",
+      "url": "https://codes.findlaw.com/wy/title-15-cities-and-towns/wy-st-sect-15-4-110/",
+      "quotes": ["may be removed at any time by the qualified electors"],
+      "encoded": {
+        "openingDays": 0,
+        "closingDays": 0
+      },
+      "afterFailed": "not stated in the sections read",
+      "note": "The 2026 bill HB0022 would have given every municipal officer a recall with a nine-month opening bar and a six-month bar before the next election; the Senate Committee of the Whole failed it on March 3, 2026 (https://www.wyoleg.gov/2026/Digest/HB0022.pdf: \"3/3/2026 S COW:Failed 10-20-1-0-0\"). Recall elsewhere than commission-form cities rests on the rule pack, not read here."
+    },
+    "PR": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "GU": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "VI": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "AS": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    },
+    "MP": {
+      "localRecall": false,
+      "basis": "municipal rule pack doctrine is not a petitioned recall (src/core2/gov-rules/municipal-ballot-rules.ts resolveMunicipalRecallRule); no timing bar applies"
+    }
+  }
+}

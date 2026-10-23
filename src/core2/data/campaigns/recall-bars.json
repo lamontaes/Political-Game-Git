@@ -1,7 +1,14 @@
 {
-  "about": "When a local recall petition may be filed against an officeholder, by state: days into the term before one may be filed (openingDays; longTermOpeningDays where the state counts a term longer than longTermAboveYears years differently) and days before the term's end after which none may be filed (closingDays). Read by src/core2/modules/recalls.ts. A state with no row here takes the national estimate recallTermOpeningDays (SG-GOV-recall-bars-national, still open for those states).",
+  "about": "When a local recall petition may be filed against an officeholder, by state: days into the term before one may be filed (openingDays; longTermOpeningDays where the state counts a term longer than longTermAboveYears years differently) and days before the term's end after which none may be filed (closingDays). Read by src/core2/modules/recalls.ts. A state with no row here takes the national estimate recallTermOpeningDays (SG-GOV-recall-bars-national, still open for those states). Rows read Oct 23, 2026 keep their statute quotes and the bar after a failed recall in data/research/core/recall-timing-statutes-2026.json.",
   "stopgap": "SG-GOV-recall-bars-national",
   "states": {
+    "AK": {
+      "openingDays": 120,
+      "closingDays": 180,
+      "tag": "SOURCED",
+      "citation": "Alaska Stat. 29.26.240, 29.26.290(a), 29.26.300, 29.26.340(b): \"may be recalled by the voters after the official has served the first 120 days of the term for which elected or appointed\" \"A petition may not be filed within 180 days before the end of the term of office of the official sought to be recalled\" \"an application for a petition to recall the same official may not be filed sooner than six months after the election\" \"A new application for a petition to recall the same official may not be filed sooner than six months after a petition is rejected as insufficient\" Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://www.akleg.gov/basis/statutes.asp?media=print&secStart=29.26.240&secEnd=29.26.360"
+    },
     "AZ": {
       "openingDays": 182,
       "tag": "SOURCED",
@@ -22,6 +29,28 @@
       "url": "https://louisvilleco.gov/home/showpublisheddocument/34258/637817280873800000",
       "spread": [90, 182]
     },
+    "DC": {
+      "openingDays": 365,
+      "closingDays": 365,
+      "tag": "SOURCED",
+      "citation": "D.C. Code 1-1001.17(c): \"No recall proceedings shall be initiated for an elected officer during the 1st 365 days nor during the last 365 days of the elected officer's term of office.\" \"The recall process for an elected officer may not be initiated within 365 days after a recall election has been determined in the elected officer's favor.\" Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-1001.17"
+    },
+    "FL": {
+      "openingDays": 183,
+      "longTermOpeningDays": 365,
+      "longTermAboveYears": 2,
+      "tag": "SOURCED",
+      "citation": "Fla. Stat. 100.361(8): \"No petition to recall any member of the governing body of a municipality shall be filed until the member has served one-fourth of his or her term of office.\" One-fourth of the term: 183 days of a two-year term, 365 days of a four-year term. The bar table holds one value per term band, so a three-year term takes the four-year value (91 days longer than a quarter of three years). Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0100/Sections/0100.361.html"
+    },
+    "GA": {
+      "openingDays": 180,
+      "closingDays": 180,
+      "tag": "SOURCED",
+      "citation": "O.C.G.A. 21-4-5(a) (FindLaw, current as of March 28, 2024): \"No application for a recall petition may be filed during the first 180 days or during the last 180 days of the term of office of any public official subject to recall.\" Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://codes.findlaw.com/ga/title-21-elections/ga-code-sect-21-4-5/"
+    },
     "ID": {
       "openingDays": 90,
       "tag": "SOURCED",
@@ -35,6 +64,13 @@
       "citation": "K.S.A. 25-4323: no recall petition against a local officer in the first 120 days or the last 180 days of the term.",
       "url": "https://syfert.com/kansas/sections/25-4323.html"
     },
+    "LA": {
+      "openingDays": 0,
+      "closingDays": 182,
+      "tag": "SOURCED",
+      "citation": "La. R.S. 18:1300.1: \"no recall petition may be submitted for certification to or accepted for certification by the registrar of voters or any other official if less than six months remain in the term of office.\" No bar at the start of the term in the section read; six months taken as 182 days. Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://www.legis.la.gov/Legis/Law.aspx?d=81315"
+    },
     "MI": {
       "openingDays": 182,
       "longTermOpeningDays": 365,
@@ -46,11 +82,38 @@
       "url": "https://www.mml.org/pdf/information/elections-recall-entire-packet-new-2012.pdf",
       "spread": [182, 365]
     },
+    "MT": {
+      "openingDays": 61,
+      "closingDays": 0,
+      "tag": "SOURCED",
+      "citation": "Mont. Code Ann. 2-16-613 (2025): \"A recall petition against an officer may not be approved for circulation, as required in 2-16-617 (3), until an officer has held office for 2 months.\" \"A recall petition may not be filed against an officer for whom a recall election has been held for a period of 2 years during the officer's term of office unless the state or political subdivision or subdivisions financing the recall election are first reimbursed for all expenses of the preceding recall election.\" Two months taken as 61 days. Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://leg.mt.gov/bills/mca/title_0020/chapter_0160/part_0060/section_0130/0020-0160-0060-0130.html"
+    },
+    "ND": {
+      "openingDays": 0,
+      "closingDays": 465,
+      "tag": "ESTIMATED",
+      "citation": "N.D. Cent. Code 44-08-21.1(3), (6): \"the filing officer shall call a special election to be held not sooner than ninety-five days nor later than one hundred five days following the date the filing officer certifies the petition valid and sufficient.\" \"A member is not subject to recall twice during the term for which the member was elected. A member whose office is on the ballot at a regularly scheduled election occurring within one year is not subject to recall if the recall special election would occur within one year of the next regularly scheduled election in which the member could be re-elected.\" No bar at the start of the term. The end bar falls on the recall election, held 95 to 105 days after the petition is certified, which must be more than a year before the next regular election: a petition filed fewer than about 365 + 100 = 465 days before that election cannot be voted on. The bar table counts days before the term's end, which comes some weeks after that election, so 465 is the low end and 500 allows for the gap. Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://www.ndlegis.gov/cencode/t44c08.pdf",
+      "spread": [465, 500]
+    },
+    "NE": {
+      "openingDays": 182,
+      "tag": "SOURCED",
+      "citation": "Neb. Rev. Stat. 32-1309: \"No recall petition filing form shall be filed against an elected official within twelve months after a recall election has failed to remove him or her from office or within six months after the beginning of his or her term of office or within six months prior to the incumbent filing deadline for the office.\" Six months taken as 182 days. The closing bar counts back from the incumbent filing deadline, not the term's end; the bar table holds days before the term's end only, so it is not encoded (builder item gov-recall-bars-election-clock). Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-1309"
+    },
     "NJ": {
       "openingDays": 315,
       "tag": "SOURCED",
       "citation": "N.J.S.A. 19:27A-2 and 19:27A-4(b): recall requires one year of service in the term, and the process may begin no earlier than the 50th day before the first year is complete (365 less 50 days).",
       "url": "https://ebench-dev.greeninfo.org/state/new-jersey/statute/19:27A-4"
+    },
+    "NV": {
+      "openingDays": 182,
+      "tag": "SOURCED",
+      "citation": "Nev. Const. art. 2, sec. 9: \"No such petition shall be circulated or filed against any officer until he has actually held his office six (6) months\" \"After one such petition and special election, no further recall petition shall be filed against the same officer during the term for which he was elected, unless such further petitioners shall pay into the public treasury from which the expenses of said special election have been paid, the whole amount paid out of said public treasury as expenses for the preceding special election.\" Six months taken as 182 days. Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://www.leg.state.nv.us/Const/NvConst.html"
     },
     "OR": {
       "openingDays": 182,
@@ -58,11 +121,33 @@
       "citation": "Or. Const. art. II, sec. 18 and the Secretary of State's recall page: most public officials can be the subject of a recall petition only after six months of their current term (taken as 182 days).",
       "url": "https://sos.oregon.gov/elections/Pages/recall.aspx"
     },
+    "SD": {
+      "openingDays": 0,
+      "closingDays": 0,
+      "tag": "SOURCED",
+      "citation": "S.D. Codified Laws 9-13-29, 9-13-30: \"the mayor, any commissioner, any alderman, or any member of the board of trustees may be removed from office at any time by the voters qualified to vote for a successor\" Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://sdlegislature.gov/api/Statutes/9-13-29.html?all=true"
+    },
+    "WA": {
+      "openingDays": 0,
+      "closingDays": 237,
+      "tag": "ESTIMATED",
+      "citation": "RCW 29A.56.150(1): \"The sponsors of a recall demanded of any public officer shall stop circulation of and file all petitions with the appropriate elections officer not less than six months before the next general election in which the officer whose recall is demanded is subject to reelection.\" The closing bar counts back six months (182 days) from the November general election; local terms begin in January, about 55 days later, so about 237 days before the term's end. No bar at the start of the term in the section read (the constitution's recall sections were not read). Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.56.150",
+      "spread": [182, 245]
+    },
     "WI": {
       "openingDays": 365,
       "tag": "SOURCED",
       "citation": "Wis. Const. art. XIII, sec. 12 and Wis. Stat. 9.10, as the Elections Commission's recall manual reads them: an incumbent can be recalled only after serving one year of the term.",
       "url": "https://Elections.WI.Gov/sites/default/files/legacy/2020-09/Recall%2520Manual%2520Local%2520%2528Rev.%252008.2020%2529_Final.pdf"
+    },
+    "WY": {
+      "openingDays": 0,
+      "closingDays": 0,
+      "tag": "SOURCED",
+      "citation": "Wyo. Stat. 15-4-110 (commission form; FindLaw, current as of January 1, 2024): \"may be removed at any time by the qualified electors\" Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "url": "https://codes.findlaw.com/wy/title-15-cities-and-towns/wy-st-sect-15-4-110/"
     }
   }
 }
