@@ -35,6 +35,11 @@
       "file": "mirs30.json",
       "source": "https://www.fhfa.gov/sites/default/files/Table26-2019-by-Month.xls (30-year rows; This product uses FHFA data but is neither endorsed nor certified by FHFA.)",
       "sha256": "145366560501a391095c2f77e532018ec701a9cb5aa45d15067205e948f5146e"
+    },
+    {
+      "file": "mirs-transition-index.csv",
+      "source": "https://www.fhfa.gov/document/d/mirs/mirs-historical-data-file (MIRS Transition Index, by release date; retrieved 2026-10-22; This product uses FHFA data but is neither endorsed nor certified by FHFA.)",
+      "sha256": "56bad49a211a1d3cb668e808c6085caf6212dbee7ad84a572de33908dd3ae09e"
     }
   ]
 }

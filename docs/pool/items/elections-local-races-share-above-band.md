@@ -7,7 +7,7 @@ priority: 3
 size: M
 status: open
 claimed-by:
-pr: #5733
+pr: #5806
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** TODO
 
 - Cloud merger, after #5733 merged: the staying-out pull is recorded at 3.8 to 4.4, but the share of local seats with one candidate is still 85 to 92 percent against the band of 58 to 75, so this item stays open.
+
+Sent back 2026-10-23 from PR #5774 (branch claude/uncontested-note): Missing release declaration (impact none is appropriate for notes) and bounded measurement-note Done-when table; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5806 (branch claude/share-above-band): Required prerequisite #5804 is still open and its calibration test absent; update the stale acceptance test path in place and rerun after integrating that prerequisite; finish on that branch, merge main into it first.
