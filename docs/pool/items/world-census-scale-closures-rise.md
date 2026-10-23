@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5553
 blocked-on:
@@ -17,9 +17,9 @@ claimed-at:
 
 **Rules.** Wire to the world: every reader of a household or firm figure multiplies by the weight the same way. No dice: a firm closes from its books and its owner's choice, not a chance.
 
-**Done when.** In a one-year played world (buildBenchWorld with countScale set to Census over 10,000, a drawn place above 10,000, seed named) the closure rows in the jobs engine's changes table are within the same town's count at scale one, named by job change id, shown by a case in src/core2/census-weight-economy.test.ts.
+**Done when.** In a one-year played world (buildBenchWorld with countScale set to Census over 10,000, a drawn place above 10,000, seed named) the closure rows in the jobs engine's changes table are within the same town's count at scale one, named by job change id, shown by a case in src/core2/census-scale-closures.test.ts, alongside the pinned regressions in src/core2/census-scale-closures-opelika.test.ts.
 
-**Files.** src/core2/modules/business.ts, src/core2/modules/jobs.ts, src/core2/census-weight-economy.test.ts
+**Files.** src/core2/modules/business.ts, src/core2/modules/jobs.ts, src/core2/census-scale-closures.test.ts, src/core2/census-scale-closures-opelika.test.ts
 
 Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): new Core test imports the old simulation population reader and impact:none mislabels gameplay changes to sales and owner payouts; use a Core-owned reader and a gameplay release declaration; finish on that branch, merge main into it first.
 

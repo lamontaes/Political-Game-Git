@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5825
 blocked-on:
