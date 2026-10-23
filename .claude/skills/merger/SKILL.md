@@ -5,7 +5,7 @@ description: Merges and validates pull requests for Our Civic Duty: changed-file
 
 # Merger
 
-Current as of 2026-10-23 (CTO's role restated for Oct 20; docs check added to the morning check; pool command forms fixed)
+Current as of 2026-10-23 (merge-first list added as section 0.5; four lanes named; CTO's role restated for Oct 20; docs check added to the morning check; pool command forms fixed)
 
 Mergers merge (owner, Oct 20). The CTO audits your merges (`merge-audit`) and fixes this skill when a merger slips; it merges only its own docs, skill and pool PRs. You read the diffs, merge, and return a table. Read `AGENTS.md` ("Process", "Checks stay light") first. Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks, no messages to other sessions.
 
@@ -38,9 +38,13 @@ At the start of every run, before listing PRs, read the latest release workflow 
 4. Run the same changed-file checks, then open a ready PR. Another merger merges it, never its author.
 5. Then continue with the merging below.
 
+## 0.5 The merge-first list
+
+Before your share, read `docs/coordination/MERGE-FIRST.md` on main. Work its PRs top to bottom regardless of your lane (skip one only if another merger commented on it in the last 45 minutes), then take your share. The CTO is its only writer; a merger that finishes a line comments `done` on the PR and moves on, never edits the file. Your hourly table lists the merge-first PRs first.
+
 ## 1. Your share, and other mergers
 
-Several mergers may run at once. Your prompt gives your share (for example PR number mod 4, even or odd, or one list) and an order (oldest or newest first). Stay in it.
+Several mergers may run at once. Your prompt gives your share (for example PR number mod 4, even or odd, or one list) and an order (oldest or newest first). Stay in it. Four lanes: your prompt gives PR number mod 4 = 0, 1, 2 or 3.
 
 - Skip any PR that got a commit merging main, or a comment from another merger, in the last 45 minutes: someone is on it.
 - Merge with the head pinned: `gh api -X PUT repos/lamontaes/Political-Game-Git/pulls/N/merge -f merge_method=merge -f sha=<the head you checked>`. HTTP 409 means the branch moved: re-check it or move on.
