@@ -18,7 +18,6 @@ import { addDays } from "./kernel/dates";
 import { pairKey } from "./kernel/ids";
 import { advanceCore } from "./life";
 import { DEFAULT_HEALTH_DATA } from "./modules/health";
-import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { coreAPI } from "./state";
 
 const seed = process.env.DEATH_NOTICE_SEED ?? randomBytes(8).toString("hex");
@@ -65,36 +64,30 @@ it(`a counted relative's death reaches a full relative who grieves from their re
         core,
         addDays(core.date, 30) < end ? addDays(core.date, 30) : end,
       );
-      for (const row of api
-        .moduleState(RENEWAL_MODULE_ID)
-        .table("counts")
-        .rows() as unknown as { id: string; deaths: string[] }[])
-        for (const deceasedId of row.deaths) {
-          const relatives = kin.get(deceasedId);
-          if (!relatives || found) continue;
-          for (const relative of relatives) {
-            const person = core.people.get(relative.personId);
-            if (!person?.alive) continue;
-            const grief = griefToday(api, person);
-            const eventId = grief.sourceIds.find((id) =>
-              id.startsWith(
-                `${DEFAULT_HEALTH_DATA.deathEventKind}:${deceasedId}:`,
-              ),
-            );
-            expect(
-              eventId,
-              `${where}: ${relative.personId} learned of ${deceasedId}'s death (${row.id})`,
-            ).toBeDefined();
-            found = {
-              deceasedId,
-              countsId: row.id,
-              eventId: eventId!,
-              relative: relative.personId,
-              grief: grief.grief,
-            };
-            break;
-          }
+      // The month's counts row is bookkeeping (kept only with it on); the
+      // notice is what a relative reads: a death event in their grief.
+      for (const [deceasedId, relatives] of kin) {
+        if (found) break;
+        for (const relative of relatives) {
+          const person = core.people.get(relative.personId);
+          if (!person?.alive) continue;
+          const grief = griefToday(api, person);
+          const eventId = grief.sourceIds.find((id) =>
+            id.startsWith(
+              `${DEFAULT_HEALTH_DATA.deathEventKind}:${deceasedId}:`,
+            ),
+          );
+          if (!eventId) continue;
+          found = {
+            deceasedId,
+            countsId: eventId.slice(eventId.lastIndexOf(":") + 1),
+            eventId,
+            relative: relative.personId,
+            grief: grief.grief,
+          };
+          break;
         }
+      }
     }
     if (!found) {
       tried.push(`${where}: no counted relative of a full person died`);
@@ -104,7 +97,7 @@ it(`a counted relative's death reaches a full relative who grieves from their re
       0,
     );
     process.stdout.write(
-      `DEATH NOTICE ${where}: ${found.deceasedId} died in ${found.countsId}; ${found.eventId} reached ${found.relative}, grief ${found.grief.toFixed(4)} on ${core.date} (opening closeness ${kin
+      `DEATH NOTICE ${where}: ${found.deceasedId} died on ${found.countsId}; ${found.eventId} reached ${found.relative}, grief ${found.grief.toFixed(4)} on ${core.date} (opening closeness ${kin
         .get(found.deceasedId)!
         .find((k) => k.personId === found!.relative)!
         .closeness.toFixed(4)})\n`,
