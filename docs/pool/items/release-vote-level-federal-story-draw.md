@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 
 **What.** On clean main 5cfd65f6f19b19855162dd297d88fdd98d0bd269, vote-level.test.ts second case fails its national outlet publication assertion at line 138. GOLDEN_PATH_SEED=dc4ca02829931f61516253751229f4eb270be44f draws place 0815330. The same seed fails identically at line 148 on the main-integrated township fix, head 67c4cef7727d275512b563cabfe178459e56c08e. The vote mapping case passes. Diagnose whether the press never selects a federal item or the test misses the item it printed.
 
-**Rules.** Fix the producer, reader or test at the demonstrated root. Do not skip or weaken the positive publication assertion. Preserve township mapping and drawn-place coverage; use the same rule in all places.
+**Rules.** One rule, all 56 places: the press must file and choose stories by the same government-level rule in every drawn place. Fix the producer, reader or test at the demonstrated root. Do not skip or weaken the positive publication assertion. Preserve township mapping and drawn-place coverage; use the same rule in all places.
 
 **Done when.** On a main-integrated head, the exact seed passes the complete vote-level.test.ts and a fresh drawn-place run also passes; name the national outlet, printed story and federal wire IDs and explain the root cause. Retain the named township regression alongside drawn coverage.
 
