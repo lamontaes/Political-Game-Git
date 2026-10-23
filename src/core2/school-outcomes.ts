@@ -14,6 +14,7 @@
  */
 import data from "./data/school/outcomes.json" with { type: "json" };
 import { ageOn } from "./counted-groups";
+import { fullHouseholdIncomes } from "./counted-income-fifth";
 import {
   countedHouseholdsByPlace,
   groupKeyOf,
@@ -37,7 +38,7 @@ export const SCHOOL_MEASURE = {
   spending: "school.spending-per-student",
 } as const;
 
-interface Student {
+export interface Student {
   readonly id: string;
   readonly weight: number;
   readonly fifth: number;
@@ -84,7 +85,7 @@ export function schoolStartYear(date: string, firstDay: string): number {
 }
 
 /** Students of one grade today, by place; full people with their attendance, counted people with their household's weight. */
-function collect(
+export function studentsByPlace(
   api: CoreAPI,
   grade: number,
   startYear: number,
@@ -112,8 +113,9 @@ function collect(
       .filter((tier) => tier.cadence === "inactive")
       .map((tier) => tier.id),
   );
-  const wageYear = api.parameter("daysPerMeanYear");
-  // Full students: the household's wages are its income.
+  // Full students: the household's income from its jobs and recorded awards,
+  // the sources a counted household's income fifth is read from.
+  const incomes = fullHouseholdIncomes(core);
   const fullShares: number[] = [];
   const fullStudents: {
     placeId: string;
@@ -125,19 +127,12 @@ function collect(
   for (const person of core.people.values()) {
     if (!person.alive || inactive.has(person.tier)) continue;
     if (ageOn(person.birthDate, sept) !== age) continue;
-    const home = core.households.get(person.householdId);
-    let wages = 0;
-    for (const memberId of home?.memberIds ?? []) {
-      const jobId = core.people.get(memberId)?.jobId;
-      const job = jobId ? core.jobs.get(jobId) : undefined;
-      if (job && job.endsAt === undefined) wages += job.wageDailyMinor;
-    }
     const attended = attendance(person.id);
     if (attended !== undefined) fullShares.push(attended);
     fullStudents.push({
       placeId: person.placeId,
       id: person.id,
-      fifth: incomeBandOf(wages * wageYear),
+      fifth: incomeBandOf(incomes.get(person.householdId) ?? 0),
       trait: traitMean(person.traits),
       attended,
     });
@@ -219,7 +214,7 @@ export function decideSchoolOutcome(
   api.stopgap("SG-SCHOOL-links-not-running");
   const written: SchoolMeasureRow[] = [];
   const carry = table(api, "carry");
-  for (const [placeId, students] of collect(
+  for (const [placeId, students] of studentsByPlace(
     api,
     data.tested[kind],
     startYear,

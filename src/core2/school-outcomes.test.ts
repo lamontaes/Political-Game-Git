@@ -16,15 +16,31 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
-import { residentsRuntime } from "./modules/residents";
+import {
+  countedHouseholdsByPlace,
+  householdIncome,
+  incomeBandOf,
+  residentsRuntime,
+} from "./modules/residents";
 import {
   OUTCOME_WEB_MODULE_ID,
   placeOutcome,
   type WebMonth,
 } from "./modules/outcome-web";
 import { SCHOOL_MODULE_ID, type SchoolMeasureRow } from "./school-measures";
-import type { SchoolGroupRow, SchoolResultRow } from "./school-outcomes";
-import { coreAPI } from "./state";
+import {
+  SCHOOL_MEASURE,
+  schoolStartYear,
+  studentsByPlace,
+  type SchoolGroupRow,
+  type SchoolResultRow,
+} from "./school-outcomes";
+import schoolDays from "./data/school-days.json" with { type: "json" };
+import { ageOn } from "./counted-groups";
+import { fullHouseholdIncomes } from "./counted-income-fifth";
+import { webReach } from "./outcome-web-reach";
+import { setBookkeeping } from "./bookkeeping";
+import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
 const seed = process.env.SCHOOL_SEED || randomBytes(8).toString("hex");
@@ -242,5 +258,133 @@ describe(`school outcomes (seed ${seed})`, () => {
       (m) => m.id === read[0]!.engineSources["school.graduation-pct"],
     )!;
     expect(read[0]!.values["school.graduation-pct"]).toBe(measure.value);
+  }, 1_500_000);
+});
+
+describe(`a student filled in keeps the income fifth the counts gave them (seed ${seed})`, () => {
+  it("a household whose income besides job pay sets its income fifth keeps that fifth and web factor when a student in it is met", () => {
+    const tried: string[] = [];
+    const priorBookkeeping = setBookkeeping(false);
+    try {
+      for (let attempt = 0; attempt < 4; attempt++) {
+        const drawn = drawPlace(seed, `school-income-fill-in:${attempt}`);
+        const where = `seed ${seed}, ${drawn.name} (${drawn.key}), attempt ${attempt}`;
+        const core = buildBenchWorld(drawn.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: drawn.key,
+        }).core as CoreState;
+        const api = coreAPI(core);
+        // A played year, then a student is met.
+        advanceCore(core, addDays(makeIsoDate(core.date), 365));
+        const rt = residentsRuntime(core);
+        if (!rt) {
+          tried.push(`${where}: no counted tier`);
+          continue;
+        }
+        const startYear = schoolStartYear(
+          core.date,
+          schoolDays.schoolYear.firstDay,
+        );
+        const sept = `${startYear}-09-01`;
+        // A counted student whose household's income besides its recorded pay
+        // (its unplaced workers' pay, retirement awards) moves it to another
+        // income fifth. The reader is the same for every grade, so any
+        // school-age student will do.
+        let found: {
+          placeId: string;
+          kid: string;
+          grade: number;
+          nonJob: number;
+        } | null = null;
+        const grades = Array.from(
+          { length: schoolData.tested.graduation + 1 },
+          (_, grade) => grade,
+        );
+        for (const [placeId, records] of countedHouseholdsByPlace(core)) {
+          for (const record of records) {
+            const at = rt.store.householdOf.get(record.household.id);
+            if (at === undefined) continue;
+            const h = rt.store.households[at]!;
+            const total = householdIncome(rt, h);
+            const nonJob = total - h.wagesMinorYear;
+            if (
+              nonJob <= 0 ||
+              incomeBandOf(total) === incomeBandOf(h.wagesMinorYear)
+            )
+              continue;
+            for (const grade of grades) {
+              const kid = record.people.find(
+                (p) =>
+                  ageOn(p.birthDate, sept) === schoolData.gradeAgeFirst + grade,
+              );
+              if (kid) {
+                found = { placeId, kid: kid.id, grade, nonJob };
+                break;
+              }
+            }
+            if (found) break;
+          }
+          if (found) break;
+        }
+        if (!found) {
+          tried.push(
+            `${where}: no counted student whose household's income besides pay moves its fifth`,
+          );
+          continue;
+        }
+        const studentOf = () =>
+          studentsByPlace(api, found!.grade, startYear, () => undefined)
+            .get(found!.placeId)
+            ?.find((s) => s.id === found!.kid);
+        const before = studentOf();
+        expect(
+          before,
+          `${where}: ${found.kid} is a counted student`,
+        ).toBeDefined();
+        expect(before!.full, `${where}: ${found.kid} counted before`).toBe(
+          false,
+        );
+
+        fillInPerson(core, found.kid);
+        const after = studentOf();
+        expect(after?.full, `${where}: ${found.kid} filled in`).toBe(true);
+        const home = core.people.get(found.kid)!.householdId;
+        // The filled-in household's basis carries what the counts read: its
+        // unplaced workers' pay is a job outside the town by then, and its
+        // awards are standing contracts.
+        const awards = [...core.finance.contracts.values()].filter(
+          (c) => c.recipientIncome?.householdId === home && !c.endedAt,
+        );
+        const jobs = [...core.jobs.values()].filter(
+          (j) =>
+            j.endsAt === undefined &&
+            core.people.get(j.personId)?.householdId === home,
+        );
+        const sources = [...awards.map((c) => c.id), ...jobs.map((j) => j.id)];
+        expect(
+          after!.fifth,
+          `${where}: ${found.kid} in ${home} (income ${fullHouseholdIncomes(core).get(home) ?? 0}, from ${sources.join(", ") || "nothing"}) keeps fifth ${before!.fifth}`,
+        ).toBe(before!.fifth);
+        for (const measure of [SCHOOL_MEASURE.math, SCHOOL_MEASURE.graduation])
+          expect(
+            webReach(api, found.placeId, measure, { incomeFifth: after!.fifth })
+              .factor,
+            `${where}: ${measure} factor`,
+          ).toBe(
+            webReach(api, found.placeId, measure, {
+              incomeFifth: before!.fifth,
+            }).factor,
+          );
+        console.info(
+          `school income fill-in ${where}: grade ${found.grade} student ${found.kid}, household ${home}, fifth ${before!.fifth} counted and ${after!.fifth} filled in; ${Math.round(found.nonJob)} a year besides recorded pay; income from ${sources.join(", ")}`,
+        );
+        return;
+      }
+      throw new Error(
+        `No drawn place had a student to check (seed ${seed}); tried ${tried.join("; ")}`,
+      );
+    } finally {
+      setBookkeeping(priorBookkeeping);
+    }
   }, 1_500_000);
 });
