@@ -3,14 +3,14 @@ id: gov-press-outlet-revenue
 title: "An outlet earns from its audience's subscriptions and from local businesses that choose to advertise"
 area: gov
 kind: stopgap
-priority: 2
+priority: 1
 size: M
-status: in-pr
-claimed-by: claude/press-outlet-revenue
+status: open
+claimed-by:
 pr: #5099
 blocked-on:
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
-claimed-at: 2026-10-19T18:41:28.658Z
+claimed-at:
 ---
 
 **What.** An outlet's revenue is one standing monthly payment from the town's outside customers, sized at the opening from its audience and a per-follower amount by kind. Local businesses buy no ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks (stopgap SG-PEOPLE-press-outlet-revenue). Make the outlet earn from its audience's subscriptions and from local businesses that choose to advertise, each a payment from a named payer's own account, and delete the standing payment in the same change.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T18:41:28.658Z
 **Files.** src/core2/modules/press.ts, src/core2/press-money.ts, src/core2/data/press/parameters.json, src/core2/data/stopgaps.json
 
 **Notes.** The revenue half of gov-stopgap-press-faked-mechanic. Local advertising needs businesses that choose to advertise, which the business engine does not model yet; that may need its own item first.
+
+Sent back 2026-10-23 from PR #5099 (branch claude/press-outlet-revenue): The 45-day/helper-only revenue proof does not supply the required annual audience-change and named local advertising-payer chain; the broader stopgap remains open. Rechecked unchanged head 9678cefc3d; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5099#issuecomment-6328540445; finish on that branch, merge main into it first.

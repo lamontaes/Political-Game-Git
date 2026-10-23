@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5770
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** On main, src/core2/law-reach-group-b.test.ts's Medicaid payment case fails for seed fc72c0cac63ca84c1d57f7f473ec592c95abdce2fe9718478fa5e0b362c63e56 in Ainaloa, Hawaii (place 1501085). After 35 days a counted group's coverage obligation still shows paidMinor 0, so the test's paid rows are empty. Other seeds pass, so the payment path misses a case this place hits. Find why that group's obligation is never settled and fix it in the reach engine.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/law-reach/group-b.ts, src/core2/law-reach/group-b-money.ts, src/core2/law-reach-group-b.test.ts
 
 **Notes.** Found by the fixer while resolving #5517 (whose merged tree equals main).
+
+Sent back 2026-10-23 from PR #5770 (branch claude/medicaid-ainaloa): New standing reserve can make have negative but borrowing clips it to zero, underpaying due budget lines; cover the full shortfall and test reserve plus actual payments and debt; finish on that branch, merge main into it first.
