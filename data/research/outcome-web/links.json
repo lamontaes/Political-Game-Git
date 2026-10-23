@@ -462,7 +462,8 @@
         "status": "applied",
         "requiredConnection": "Applied as a proportional change in the rate of leaving: 1.18 / 100,000 per crime per resident, over the 0.295 five-year share who left (Table 4), 0.00004 per reported crime per 100,000 residents, read as the average of the last 60 months (the paper's five-year change)."
       },
-      "notes": "Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "notes": "Unsupported until a unit adapter exists: the study measures people leaving per added reported crime, but the game keeps violent crime per 100,000, not total reported crime per resident; see the research packet in researchSizing. The new core reads the cause from the victimization records (reported to police a year, per resident); the link still waits on a researched size and a unit adapter. Size by the paper's own conversion: the study counts all reported index crimes (violent and property, 'similar coefficients on both types') per resident and the game's cause is violent crime per 100,000 residents, so one more violent crime per 100,000 is one more reported crime per 100,000. 95% interval of the coefficient (0.063 to 2.297) gives the range. The paper measures a one-time loss over five years from a five-year rise in crime; the web applies it as a sustained rate while the level stays up, which overstates a level that stays high for many years. By schooling the relative response is nearly flat (Table 6a divided by Table 4 Goers: more than 12 years 1.54/0.413 = 3.7, 12 years 1.27/0.292 = 4.3, under 12 years 0.77/0.172 = 4.5), so no income moderator is added. Chain: the cause crime.violent is the web's own kept value today (moved by the crime links, e.g. unemployment and policing laws); it has no engine record, so the chain is law or unemployment -> crime.violent (web ledger) -> leaving (moves.ts and counted-moves.ts).",
+      "readFrom": "crime.reported-per-capita",
       "range": [2.1e-6, 7.8e-5],
       "phaseInMonths": 60,
       "varies": [
@@ -1709,9 +1710,9 @@
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "evidence": "researched",
-      "notes": "Diamond, McQuade and Qian (NBER w24181) report the supply response for treated landlords as a whole (15 percent fewer rental units); their splits by tenant age and tenure are for tenants' staying, not for supply, so no moderator is set. The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth).",
       "range": [-0.292, 0.002],
-      "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Figure 5(b) \"Renters/Average Population 1990-1994\": \"β = -0.145 (0.075)\", the post-2006 treatment effect and its standard error; 95% interval -0.145 +/- 1.96 x 0.075 = [-0.292, 0.002]. The text rounds this to \"reduced rental housing supply by 15%\"."
+      "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Figure 5(b) \"Renters/Average Population 1990-1994\": \"β = -0.145 (0.075)\", the post-2006 treatment effect and its standard error; 95% interval -0.145 +/- 1.96 x 0.075 = [-0.292, 0.002]. The text rounds this to \"reduced rental housing supply by 15%\".",
+      "notes": "Diamond, McQuade and Qian (NBER w24181) report the supply response for treated landlords as a whole (15 percent fewer rental units); their splits by tenant age and tenure are for tenants' staying, not for supply, so no moderator is set. The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth)."
     },
     {
       "key": "rent-control-to-tenant-stays",
@@ -1731,6 +1732,8 @@
       "source": "Diamond, McQuade and Qian 2019 (AER)",
       "from": "law:us-policy-positions:housing-land-use.rent-stabilization",
       "evidence": "researched",
+      "range": [-0.2, -0.1],
+      "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Table 2 column 3 \"Same Address\", 2000-2004: treatment effect 0.0354 (se 0.0088) on control mean 0.1827 (19.4% , \"nearly 20%\"); 95% interval 0.0354 +/- 1.96 x 0.0088 = [0.018, 0.053], i.e. [10.0%, 28.8%] of the control mean. Expressed in the link's own sign (renter moves fall as staying rises).",
       "varies": [
         {
           "by": "age",
@@ -1754,9 +1757,7 @@
           "estimatedFrom": "Figures 2 and 3 give the effect on staying at the 1994 address (percentage points) for tenants aged 20 to 39 and 40 to 65 who had lived there 4 to 14 years (low turnover): young 0.018 and 0.007 (mean 0.0125), old 0.062 and 0.041 (mean 0.0515). The high-turnover cells are noisy and, for older tenants in high-rent-appreciation zip codes, negative (-0.107), which the authors attribute to landlords removing tenants; evictions are the eviction engine's, so they are left out here. Shares: renters by age in CPS ASEC 2023 Table 5 (101,024 thousand renters; ages 0 to 29, 30 to 44 and 45 and over), with the 30 to 44 band split 10 to 5 years at age 40. The subject has no years-at-address, so the low-turnover contrast carries the age gradient."
         }
       ],
-      "notes": "Diamond, McQuade and Qian report the effect as a 20% reduction in renter mobility (NBER WP 24181: 'the beneficiaries of rent control are between 10 and 20% more likely to remain at their 1994 address'); the center (-0.20) is kept and the range is 10 to 20. The effect is a level shift in the share who stay, not a build-up, so no phase-in. Renters only: the renter-moves rate is read by moves.ts and counted-moves.ts for tenants. Evictions of covered tenants are the eviction engine's.",
-      "range": [-0.2, -0.1],
-      "rangeSource": "Diamond, McQuade and Qian, NBER w24181, Table 2 column 3 \"Same Address\", 2000-2004: treatment effect 0.0354 (se 0.0088) on control mean 0.1827 (19.4% , \"nearly 20%\"); 95% interval 0.0354 +/- 1.96 x 0.0088 = [0.018, 0.053], i.e. [10.0%, 28.8%] of the control mean. Expressed in the link's own sign (renter moves fall as staying rises)."
+      "notes": "Diamond, McQuade and Qian report the effect as a 20% reduction in renter mobility (NBER WP 24181: 'the beneficiaries of rent control are between 10 and 20% more likely to remain at their 1994 address'); the center (-0.20) is kept and the range is 10 to 20. The effect is a level shift in the share who stay, not a build-up, so no phase-in. Renters only: the renter-moves rate is read by moves.ts and counted-moves.ts for tenants. Evictions of covered tenants are the eviction engine's."
     },
     {
       "key": "rent-burden-to-homelessness",
@@ -2550,9 +2551,9 @@
       "source": "Cantoni and Pons 2021 (QJE)",
       "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
       "evidence": "about-zero",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. Cantoni and Pons find no significant effect for any group, so it is unvaried.",
       "range": [-0.066, 0.062],
-      "rangeSource": "Cantoni and Pons 2021 (QJE; NBER w25522), Table I Panel B column 4 (most demanding specification): \"1(Strict ID Law) -.001 (.014)\", outcome mean .428; 95% interval -0.001 +/- 1.96 x 0.014 = [-0.028, 0.026] points, divided by the mean .428 = [-0.066, 0.062] proportional. The abstract states the interval as \"[-3.0; 2.8pp]\"."
+      "rangeSource": "Cantoni and Pons 2021 (QJE; NBER w25522), Table I Panel B column 4 (most demanding specification): \"1(Strict ID Law) -.001 (.014)\", outcome mean .428; 95% interval -0.001 +/- 1.96 x 0.014 = [-0.028, 0.026] points, divided by the mean .428 = [-0.066, 0.062] proportional. The abstract states the interval as \"[-3.0; 2.8pp]\".",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. Cantoni and Pons find no significant effect for any group, so it is unvaried."
     },
     {
       "key": "same-day-registration-to-youth-turnout",
@@ -2848,6 +2849,7 @@
       "aboutZero": false,
       "notes": "Not hooked by design: crisis/health-coverage.ts already applies this row's 9.4% to the death hazard of each covered low-income person aged 55 to 64, so a place death rate that also applied it would count the law twice, and would wrongly cut every 55- to 64-year-old's deaths by a low-income group's share. A state base now exists (CDC 2022 deaths at 55 to 64, data.cdc.gov 9bhg-hcku, over ACS B01001 population); a producer of health.mortality-55-64 should count the recorded deaths instead. No phase-in: the paper reports a 7.0 percent reduction already in year 0, so a ramp from zero would understate the first years. The size is now the place-wide average: 9.4% (7.0% in year 0 to 11.9% in year 3, range 7.0 to 11.9) among the low-income sample times its one-fifth share; the lowest income fifth takes the full cut. The effect is already 7.0% in year 0, so a ramp from zero would misstate it and no phase-in is set.",
       "range": [-0.0238, -0.014],
+      "rangeSource": "Miller, Johnson and Wherry 2021 (QJE; NBER w26081), Table I: Expansion x Post \"-0.00132 (0.00050)\" on annual mortality (9.4% of the sample mean, \"0.132 percentage point decline\"); 95% interval = -9.4% +/- 1.96 x (0.00050/0.00132 x 9.4%) = [-16.4%, -2.4%].",
       "varies": [
         {
           "by": "incomeFifth",
@@ -2883,8 +2885,7 @@
           "quote": "\"We include only individuals who either are in families with income at or under 138 percent of the FPL or who have less than a high school degree.\" \"Using this model, we estimate an average reduction in annual mortality of 0.132 percentage points. This represents a reduction in mortality of about 9.4 percent relative to the sample mean\". For ages 55 to 64 in families at 400% of the poverty level or more: \"small but, for some years, statistically significant reductions in mortality\".",
           "estimatedFrom": "The 9.4% is the cut among the low-income sample, so the whole 55-to-64 population's cut is smaller. The lowest national income fifth (households under about 138% of the poverty level) stands for the sample and takes the full effect; the higher fifths take none (the paper finds only small changes at 400% of the poverty level and above). The link's size is the sample's 9.4% times the sample's one-fifth share, so the average over all 55- to 64-year-olds is a fifth of it and the lowest fifth gets the full 9.4%."
         }
-      ],
-      "rangeSource": "Miller, Johnson and Wherry 2021 (QJE; NBER w26081), Table I: Expansion x Post \"-0.00132 (0.00050)\" on annual mortality (9.4% of the sample mean, \"0.132 percentage point decline\"); 95% interval = -9.4% +/- 1.96 x (0.00050/0.00132 x 9.4%) = [-16.4%, -2.4%]."
+      ]
     },
     {
       "key": "medicaid-expansion-to-medical-debt",
@@ -3202,9 +3203,9 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
       "to": "voting.turnout-pct",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried.",
       "range": [0, 0],
-      "rangeSource": "The size is computed per place from the law and turnout data in this row's anchor (turnout of restored people 0.14, range 0.12 to 0.22); the national link size is 0 and the place sizes carry the spread. Range [0, 0] records the national zero."
+      "rangeSource": "The size is computed per place from the law and turnout data in this row's anchor (turnout of restored people 0.14, range 0.12 to 0.22); the national link size is 0 and the place sizes carry the spread. Range [0, 0] records the national zero.",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The research gives no split by age or income beyond the size, so the link is unvaried."
     },
     {
       "key": "housing-by-right-to-new-buildings",
@@ -3224,9 +3225,9 @@
       "evidence": "researched",
       "from": "law:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
       "to": "housing.new-large-buildings",
-      "notes": "Anagol, Ferreira and Rexer (NBER w29440) report the building response as a count of permits by lot and neighborhood, with no split by income, tenure or household kind; Pew and Terner Center report none either. The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time.",
       "range": [0.75, 1.25],
-      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. The size 1.0 is a recorded midpoint calibration from Pew (Jan 4, 2024), Terner Center (2022) and Anagol, Ferreira and Rexer (NBER w29440), not one estimate with an interval."
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. The size 1.0 is a recorded midpoint calibration from Pew (Jan 4, 2024), Terner Center (2022) and Anagol, Ferreira and Rexer (NBER w29440), not one estimate with an interval.",
+      "notes": "Anagol, Ferreira and Rexer (NBER w29440) report the building response as a count of permits by lot and neighborhood, with no split by income, tenure or household kind; Pew and Terner Center report none either. The engine reads this link's factor in its apartment starts (src/core2/housing-construction.ts buildMonth) and no longer scales starts by the share of land zoned for apartments, which was the same law counted a second time."
     },
     {
       "key": "right-to-counsel-to-evictions",
@@ -4219,7 +4220,8 @@
       "range": [0.01, 0.01],
       "floor": 0.25,
       "ceiling": 3,
-      "notes": "Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-robbery",
@@ -4242,7 +4244,8 @@
       "range": [0.01, 0.01],
       "floor": 0.25,
       "ceiling": 3,
-      "notes": "Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-assault",
@@ -4265,7 +4268,8 @@
       "range": [0.01, 0.01],
       "floor": 0.25,
       "ceiling": 3,
-      "notes": "Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it. Internal link from the design record, with no research source behind it, so there is no reported split by income, age, household kind or tenure."
     },
     {
       "key": "crime-level-to-vandalism",
@@ -4287,7 +4291,9 @@
       "evidence": "researched",
       "range": [0.01, 0.01],
       "floor": 0.25,
-      "ceiling": 3
+      "ceiling": 3,
+      "readFrom": "crime.violent-victimization-index",
+      "notes": "The new core reads the cause from the victimization records' own index of robbery and assault per person 12 and older, 100 at the town's first month (src/core2/modules/crime.ts), not from the web's ledger; `from` stays as the old engine reads it."
     },
     {
       "key": "births-level-to-births",
@@ -4630,9 +4636,9 @@
       "evidence": "about-zero",
       "anchor": "California's term limits brought no rise, and perhaps a fall, in legislative-race turnout; nothing shows a statewide change",
       "source": "Nalder 2007, State Politics and Policy Quarterly 7(2)",
-      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The effect is about zero, so it is unvaried.",
       "range": [0, 0],
-      "rangeSource": "Nalder 2007 (State Politics and Policy Quarterly 7(2)): no rise in legislative-race turnout; the paper was not retrievable here, so no interval was read. Range [0, 0] records the null."
+      "rangeSource": "Nalder 2007 (State Politics and Policy Quarterly 7(2)): no rise in legislative-race turnout; the paper was not retrievable here, so no interval was read. Range [0, 0] records the null.",
+      "notes": "The election laws act on a voter's turnout through the law reach (electionLawTurnoutCost, felonyDisenfranchisedShare, barredFromVoting), so the voting engine leaves this link out of the web factor it applies (turnout-web.ts) and the law moves turnout once; the link stays in the web's ledger as the researched size the law reach is checked against. The effect is about zero, so it is unvaried."
     },
     {
       "key": "library-funding-to-math",
@@ -5335,9 +5341,9 @@
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
       "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
-      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing.",
       "range": [0, 0],
-      "rangeSource": "Young et al. 2016 (ASR): even millionaires rarely leave high-tax states. No interval was retrieved; range [0, 0] records the null."
+      "rangeSource": "Young et al. 2016 (ASR): even millionaires rarely leave high-tax states. No interval was retrieved; range [0, 0] records the null.",
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
       "key": "graduated-income-tax-to-out-migration",
@@ -5357,9 +5363,9 @@
       "evidence": "about-zero",
       "anchor": "Taxes move few people: even millionaires rarely leave high-tax states",
       "source": "Young, Varner, Lurie and Prisinzano 2016, American Sociological Review",
-      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing.",
       "range": [0, 0],
-      "rangeSource": "Young et al. 2016 (ASR): even millionaires rarely leave high-tax states. No interval was retrieved; range [0, 0] records the null."
+      "rangeSource": "Young et al. 2016 (ASR): even millionaires rarely leave high-tax states. No interval was retrieved; range [0, 0] records the null.",
+      "notes": "About zero for the population, kept at zero. Young, Varner, Lurie and Prisinzano 2016: 'millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance'; the annual millionaire migration rate is 2.4 percent against 2.9 percent for the general population. Moretti and Wilson 2017 (AER) find a long-run elasticity of about 1.7 for star scientists at the 99th percentile of income, who are about 1% of people, so the average person's rate does not move. The researched response is concentrated in the top income fifth, and the engines already carry it from their own records: counted-moves.ts (pullBetween) reads the town state's income-tax law in force and the other states' 2026 table into the income pull, by wage, so a web read on the same law would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull). No moderator rows: a weight on a size of zero moves nothing."
     },
     {
       "key": "balanced-budget-to-borrowing-cost",
