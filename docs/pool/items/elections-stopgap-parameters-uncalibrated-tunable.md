@@ -4,13 +4,13 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/candidacy-calibration-g08lgv
+status: open
+claimed-by:
 pr: #5436
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/data/candidacy/parameters.json, kind uncalibrated-tunable"
-claimed-at: 2026-10-20T02:31:07.929Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open uncalibrated-tunable stopgap row(s) in src/core2/data/candidacy/parameters.json: SG-P15-candidacy-weights. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -32,3 +32,5 @@ Measured Oct 20 (claude/political-game-pool-3xfqef-7), not closed. Contests now 
 | Warrenville, Illinois (1778929) | 1.00 (2; 0) | 1.43 (7; 0) | 4.00 (4; 0) | 1.30 (10; 0) |
 
 Against the cited band (most local seats draw one or two candidates), state and federal seats sit inside it. County and city seats do not hold across places: half of Tupelo's county contests drew no one while Warrenville's four city contests averaged four candidates, so the same weights give a spread of 0.5 to 4.0 between towns. That spread is for the builder to explain (which reasons differ between the towns' adults: engagement, time, age) before the row can close; three places is too few to move a weight, and the incumbent re-run share (the 81 percent the incumbency weight cites) was not measured here. The scratch test is not kept; it is about 30 lines over `moduleState("core2-elections-v1")` filings and contests.
+
+Sent back 2026-10-23 from PR #5436 (branch claude/candidacy-calibration-g08lgv): this measurement-only PR still marks the unfinished calibration umbrella for automatic completion while SG-P15-candidacy-weights stays open; use a bounded reporting item and a Done-when evidence table; finish on that branch, merge main into it first.
