@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The pool-done-on-merge workflow is meant to flip an item to done the moment its PR merges, but 303 of its last 400 runs were cancelled and 42 merged PRs still showed in-pr on Oct 23. The cause is the shared concurrency group pool-main-push: GitHub keeps one running and one pending job per group, so in a merge burst each newer merge cancels the run waiting behind it. A second, smaller miss is a red run when a merger already flipped the item on main between the checkout and the fetch, because git commit finds nothing staged. Give each pull request its own group, let the push retry cover a burst, and treat nothing-to-commit as finished.
