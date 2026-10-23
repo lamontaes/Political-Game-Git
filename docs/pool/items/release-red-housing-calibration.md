@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/release-red-housing
+status: open
+claimed-by:
 pr: #5324
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:59:25.221Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:59:25.221Z
 **Files.** TODO
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5324 (branch claude/release-red-housing): the PR body lacks the mandatory Done-when evidence table and still says the failure was not reproduced; put the bounded ten-case proof, replay seed and main-only HUD result in the body and replace the item TODO acceptance; finish on that branch, merge main into it first.
