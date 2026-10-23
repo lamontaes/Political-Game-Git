@@ -11,6 +11,7 @@ import { buildBenchWorld } from "../bench/world";
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { homePriceRatio } from "./housing-prices";
 import { advanceCore } from "./life";
 import { ownedHomes, rentValueOf, valueDateOf } from "./modules/housing";
 import { searchCorePlaces } from "./place-lookup";
@@ -97,9 +98,21 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
       const openingValue = median(
         dwellings.filter((d) => d[1] === "own").map((d) => d[2]),
       );
-      expect(openingValue, `${where}: opening median value`).not.toBe(
-        row.medianValueUsd * 100,
-      );
+      // Each home still scales with its household's income; the owners'
+      // median is the census value indexed to the start, to the minor unit
+      // its rounding allows.
+      const indexed =
+        row.medianValueUsd *
+        100 *
+        homePriceRatio(state.slice(3), row.valueDate, core.date);
+      expect(
+        Math.abs(openingValue - indexed),
+        `${where}: opening median value ${openingValue} against ${indexed}`,
+      ).toBeLessThanOrEqual(1);
+      expect(
+        new Set(dwellings.filter((d) => d[1] === "own").map((d) => d[2])).size,
+        `${where}: owners' values vary`,
+      ).toBeGreaterThan(1);
       // The year plays out from that opening.
       const end = addDays(makeIsoDate(core.date), 365);
       advanceCore(core, end);
@@ -125,6 +138,9 @@ describe("an island area's housing starts from its own Census 2020 row", () => {
           lease.amountMinor > 0,
       );
       expect(paid.length, `${where}: renter leases settled`).toBeGreaterThan(0);
+      process.stdout.write(
+        `ISLAND HOUSING ${where}: ${own} of ${dwellings.length} homes owned (row ${row.ownerShare}); owners' median ${openingValue} against ${Math.round(indexed)} indexed; ${endValue} a year in; ${paid.length} renter leases settled, first ${paid[0]![0]}\n`,
+      );
       return;
     }
     throw new Error(
