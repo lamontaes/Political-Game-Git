@@ -555,6 +555,9 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           )
           .reduce((n, p) => n + p.gross, 0);
         expect(repaid, `${where}: repaid after the repeal`).toBe(owedAtRepeal);
+        console.info(
+          `law-wiring-government owed ${where}: ${owedId} owed ${owedAtRepeal} at the repeal, repaid ${repaid}`,
+        );
         // The repeal still ended the law's rows; paying the old cost reopens none.
         expect(
           open(api, PHOTO).map((r: LawAppliedRow) => r.id),
