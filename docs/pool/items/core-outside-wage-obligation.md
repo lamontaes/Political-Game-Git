@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: blocked
+status: open
 claimed-by: claude/political-game-pool-3xfqef-26
 pr: #5076
-blocked-on: core-commuter-job-fill-in
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:33:29.793Z
 ---
@@ -21,7 +21,7 @@ claimed-at: 2026-10-20T06:33:29.793Z
 
 **Files.** src/core2/opening-outside-market.ts, src/core2/public-work-pay.ts, src/core2/modules/residents.ts, src/core2/modules/counted-demotion.ts, src/core2/counted-weight-money.test.ts, src/core2/data/stopgaps.json
 
-**Notes.** Sent back Oct 20 from PR #5076 (branch claude/peaceful-ritchie-03780x): loosened tolerance in counted-weight-money.test.ts, unstated timeout increases in two tests, and new features added to src/simulation; finish on that branch, merge main into it first.
+**Notes.** Sent back Oct 20 from PR #5076 (branch claude/peaceful-ritchie-03780x): loosened tolerance in counted-weight-money.test.ts, unstated timeout increases in two tests, and new features added to src/simulation; finish on that branch, merge main into it first. Unblocked Oct 23: core-commuter-job-fill-in is done (#5613).
 
 Oct 20 (pool feeder): write-up filled from PR #5076's body and the send-back reason. The PR also carries redistricting, groundwater and LODES pieces that belong to their own items; split them out rather than finishing them here.
 
