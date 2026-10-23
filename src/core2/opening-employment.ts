@@ -8,7 +8,7 @@ import {
   isoDateFromParts,
 } from "./kernel/dates";
 import { createStableId, stableHash } from "./kernel/ids";
-import { organizationProfileAt } from "../simulation/life-queries";
+import { openingOrganizationProfiles } from "./opening-org-profiles";
 import {
   activeWorkers,
   laborStatus,
@@ -364,8 +364,9 @@ export function openingEmploymentFromRecordedRoles(
     EntityId,
     { organization: Organization; workplace: Workplace }
   >();
+  const profiles = openingOrganizationProfiles(world);
   for (const organization of world.history.organizations) {
-    const profile = organizationProfileAt(world, organization.id);
+    const profile = profiles.get(organization.id);
     if (!profile || profile.closed || profile.locationJurisdictionId !== town)
       continue;
     const workplace = townWorkplaceFor(

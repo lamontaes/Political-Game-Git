@@ -5,12 +5,12 @@ area: release
 kind: research
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/red-list
+status: open
+claimed-by:
 pr: #5080
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T15:52:28.199Z
+claimed-at:
 ---
 
 **What.** The unit suite run on current main (Oct 17, after the main at d8ff953760 plus the claims), by directory, with each red test and what it is. This replaces the stale #4309 (see release-green-suite). Each directory was run with `npx vitest run` and the JSON reporter, and each red test is named below with its place and seed. The core engine's 360 test files are not yet run; the next builder does that first.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-20T15:52:28.199Z
 Sent back 2026-10-20 from PR #5007 (branch claude/dev-why-red): Morning check: the dev-why ledger test now chooses a worker by whether why(p.id) already renders a pay row, then falls back to a person without itemized receipts when no such worker exists. If pay rendering breaks for every paid worker, the positive pay assertion can disappear and the negative fallback can pass. Choose the paid worker from actual payroll/cash-journal source records, require or draw an eligible positive case, and assert the rendered pay row independently; preserve the separate unitemized-receipt case.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
 
 Sent back 2026-10-20 from PR #5080 (branch claude/political-game-pool-8defjq): merging main still conflicts in scripts/health/mortality-band.ts and src/core2/player-money-year.test.ts; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5007 (branch claude/dev-why-red): The dev-why test still selects only already-paid workers and excludes the unpaid-worker case; the duplicate pool sections also remain uncorrected on this head. Rechecked unchanged head 9f542e0092; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5007#issuecomment-6309496777; finish on that branch, merge main into it first.
