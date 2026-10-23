@@ -5,12 +5,12 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/apply-buy-reasons
+status: open
+claimed-by:
 pr: #5812
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T14:47:26.266Z
+claimed-at:
 ---
 
 **What.** Every unemployed seeker scores the same need to apply and nobody buys a home in a played year, so no trait weight can act; give both decisions varying circumstance reasons, then calibrate.
