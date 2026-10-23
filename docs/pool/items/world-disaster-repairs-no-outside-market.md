@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/disaster-repairs-no-market
 pr: #5327
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-23T23:03:14.628Z
 ---
 
 **What.** TODO
