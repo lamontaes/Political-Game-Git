@@ -4,13 +4,13 @@ title: "Stopgaps in life (contact-frequency-logic-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: claimed
-claimed-by: claude/political-game-pool-76ksvw
+status: done
+claimed-by: claude/pool-contact-measured
 pr: #5281
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/life.ts, kind contact-frequency-logic-gap"
-claimed-at: 2026-10-20T05:12:28.585Z
+claimed-at: 2026-10-21T16:00:29.965Z
 ---
 
 **What.** Replace or clear the 1 open contact-frequency-logic-gap stopgap row(s) in src/core2/modules/life.ts: SG-P8-school-acquaintance-contact-frequency. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -25,3 +25,4 @@ claimed-at: 2026-10-20T05:12:28.585Z
 
 Sent back Oct 20 from PR #5281 (claude/pool-contact-measured): `src/core2/life-contact-frequency.test.ts` failed on drawn place Mount Vernon, Kentucky (seed `d9a933c1c96657eb7386428c2c7203a137d18d1a`): expected 158 to be less than 88.75. A non-household acquaintance had 158 contact days across 355 days (`others: 8,7,7,1,7,158,7,1,1,2,1,1,1,1,1`), violating `expect(n).toBeLessThan(DAYS / 4)`.
 
+Sent back 2026-10-20 from PR #5281 (branch claude/pool-contact-measured): src/core2/life-contact-frequency.test.ts:48-52 can pass without checking anything: the household assertion is inside if (household.length), and the acquaintance assertions loop over others which may be empty. Assert nonempty witnessed sets or use bounded drawn-place retries that fail on exhaustion, then run both contact assertions unconditionally. Do not resolve the stopgap on a test that can inspect zero ties.; finish on that branch, merge main into it first.

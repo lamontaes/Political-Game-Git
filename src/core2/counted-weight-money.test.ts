@@ -31,8 +31,15 @@ interface Entry {
   readonly tax: number;
   /** The weight the flow's household stood for when it was paid, for a rent flow. */
   readonly weight?: number;
+  /** Rent: the monthly rent of one household, as this run's own flow carries it. */
+  readonly rent?: number;
   /** Wages: pay-weighted mean household weight of the jobs the flow pays. */
   readonly wageScale?: number;
+  /** Wages: the flow's pay per day over all its jobs, and weighted by each counted job's household weight. */
+  readonly perDay?: number;
+  readonly weightedPerDay?: number;
+  /** Wages: how many jobs the flow pays. */
+  readonly jobs?: number;
 }
 
 function play(seed: string, key: string, countScale: number) {
@@ -58,29 +65,55 @@ function play(seed: string, key: string, countScale: number) {
       }
       const flow = rt.flows.get(flowId!);
       let weight: number | undefined;
+      let rent: number | undefined;
       let wageScale: number | undefined;
+      let perDay: number | undefined;
+      let weightedPerDay: number | undefined;
+      let jobs: number | undefined;
       if (flowId!.startsWith("rent:")) {
         const ix = rt.store.householdOf.get(flowId!.slice("rent:".length));
         if (ix !== undefined)
           weight = rt.store.weightOf(rt.store.households[ix]!);
+        rent = (flow as { amountMinor?: number } | undefined)?.amountMinor;
       } else if (flow?.perDayMinorByJob) {
         let plain = 0;
         let weighted = 0;
-        for (const [jobId, perDay] of Object.entries(flow.perDayMinorByJob)) {
+        perDay = 0;
+        weightedPerDay = 0;
+        jobs = Object.keys(flow.perDayMinorByJob).length;
+        for (const [jobId, pay] of Object.entries(flow.perDayMinorByJob)) {
           const job = rt.jobs.get(jobId);
           const m = job ? rt.store.countedMember(job.personId) : undefined;
-          if (m === undefined) continue;
-          plain += perDay;
-          weighted +=
-            perDay *
-            rt.store.weightOf(rt.store.households[rt.store.household[m]!]!);
+          perDay += pay;
+          if (m === undefined) {
+            weightedPerDay += pay;
+            continue;
+          }
+          const weight = rt.store.weightOf(
+            rt.store.households[rt.store.household[m]!]!,
+          );
+          plain += pay;
+          weighted += pay * weight;
+          weightedPerDay += pay * weight;
         }
         if (plain > 0) wageScale = weighted / plain;
         // The independent figure is the code's own for these flows.
         if (wageScale !== undefined)
-          expect(flowScale(rt, flow)).toBeCloseTo(wageScale, 9);
+          expect(
+            flowScale(rt, flow),
+            `${key} seed ${seed} scale ${countScale} flow ${flowId}`,
+          ).toBeCloseTo(wageScale, 9);
       }
-      entries.set(id, { out, tax, weight, wageScale });
+      entries.set(id, {
+        out,
+        tax,
+        weight,
+        rent,
+        wageScale,
+        perDay,
+        weightedPerDay,
+        jobs,
+      });
     }
     return post(entry);
   };
@@ -88,13 +121,25 @@ function play(seed: string, key: string, countScale: number) {
   return { core, rt, entries };
 }
 
-it("rent and pay of counted households are moved times their weights, and the books balance", () => {
-  const draw = drawPlace(
-    randomBytes(32).toString("hex"),
-    "census-weight-money",
-  );
-  const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
-  const base = play(draw.seed, draw.key, 1);
+function compareOne() {
+  // A town with no counted renter has no rent to compare: draw again, a
+  // few times, and fail if none of the draws pays any (pinned with
+  // CWM_SEED and CWM_KEY to replay one).
+  const pinned = process.env.CWM_SEED
+    ? { name: "pinned", key: process.env.CWM_KEY!, seed: process.env.CWM_SEED }
+    : undefined;
+  let draw =
+    pinned ?? drawPlace(randomBytes(32).toString("hex"), "census-weight-money");
+  let base = play(draw.seed, draw.key, 1);
+  const rented = (run: typeof base) =>
+    [...run.rt.flows.keys()].filter((id) => id.startsWith("rent:")).length;
+  const tried: string[] = [];
+  for (let again = 0; !pinned && rented(base) <= 5 && again < 3; again += 1) {
+    tried.push(`${draw.name} [${draw.key}]`);
+    draw = drawPlace(randomBytes(32).toString("hex"), "census-weight-money");
+    base = play(draw.seed, draw.key, 1);
+  }
+  const where = `${draw.name} [${draw.key}], seed ${draw.seed}${tried.length ? ` (no counted rent in ${tried.join("; ")})` : ""}`;
   const scaled = play(draw.seed, draw.key, SCALE);
 
   // A town of one-household records changes nothing.
@@ -122,36 +167,85 @@ it("rent and pay of counted households are moved times their weights, and the bo
       rents += 1;
       // The rent of one household, times as many as the record stands for.
       // A group short of cash pays less (and carries the rest); none pays more.
-      const expected = one.out * many.weight;
+      // The two runs hold the same town but not always the same households
+      // or rents (the opening's allocation follows the counts: here 66985 and
+      // 66995 for one, 99049 and 118079 for another), so the group is
+      // compared with what its own household owes: its rent times its weight.
+      const own = many.rent ?? one.out;
+      expect(many.rent, `${where} ${id}: the flow's own rent`).toBeGreaterThan(
+        0,
+      );
+      const expected = own * many.weight;
       expect(
         many.out,
-        `${where} ${id}: ${one.out} -> ${many.out} for weight ${many.weight}`,
+        `${where} ${id}: ${one.out} -> ${many.out} for weight ${many.weight} (own rent ${own})`,
       ).toBeLessThanOrEqual(Math.ceil(expected) + 2);
       if (Math.abs(many.out - expected) <= 2) rentsInFull += 1;
     } else if (many.wageScale !== undefined) {
+      // The two worlds hold the same employers but not always the same jobs
+      // (the opening's allocation follows the counts), so the payroll is
+      // compared with what its own jobs are owed: the pay of one day over the
+      // flow's jobs, weighted by each counted job's household, times the days
+      // the single-household run paid. A run that paid a part of a whole
+      // number of days was short of cash and is not compared.
+      const days = one.out / (one.perDay ?? Number.NaN);
+      if (!(days >= 1) || Math.abs(days - Math.round(days)) > 0.005) continue;
       wages += 1;
-      const expected = one.out * many.wageScale;
-      // An employer short of cash pays less; none pays more.
+      const expected = many.weightedPerDay! * Math.round(days);
+      // Each job's pay is rounded to cents; an employer short of cash pays
+      // less; none pays more.
+      const slack = (many.jobs ?? 0) + 4;
       expect(many.out, `${where} ${id}`).toBeLessThanOrEqual(
-        Math.ceil(expected) + 4,
+        Math.ceil(expected) + slack,
       );
-      if (Math.abs(many.out - expected) <= 4) {
+      if (Math.abs(many.out - expected) <= slack) {
         paidInFull += 1;
-        // Withholding: the same rate per worker on as many workers.
-        const taxExpected = one.tax * many.wageScale;
+        // Withholding: the same rate per worker on as many workers. It is
+        // withheld per worker on a schedule that rises with pay, and the two
+        // runs' payrolls are made of different jobs, so the group's tax is not
+        // exactly its payroll times the single run's rate: over about twenty
+        // draws the largest gap was 2.13 percent (Pomfret, Maryland), so the
+        // bound is 3 percent.
+        const taxExpected =
+          (one.tax * expected) / (one.perDay! * Math.round(days));
         expect(
           Math.abs(many.tax - taxExpected),
           `${where} ${id}: tax ${one.tax} -> ${many.tax}`,
-        ).toBeLessThanOrEqual(Math.max(8, taxExpected * 0.02));
+        ).toBeLessThanOrEqual(Math.max(8, taxExpected * 0.03));
         taxed += one.tax > 0 ? 1 : 0;
       }
     }
   }
-  expect(rents, `${where}: rents compared`).toBeGreaterThan(5);
-  expect(wages, `${where}: payrolls compared`).toBeGreaterThan(5);
+  // Too few rents or payrolls compared (a town with almost no counted renters,
+  // or whose employers all ran short of whole days): this draw proves nothing
+  // about them, so the test draws another town, and fails if none compares
+  // more than five of each.
+  if (rents <= 5 || wages <= 5)
+    return { where, base, scaled, rents, wages, compared: false as const };
   expect(rentsInFull, `${where}: rents paid in full`).toBeGreaterThan(0);
   expect(paidInFull, `${where}: payrolls paid in full`).toBeGreaterThan(0);
   expect(taxed, `${where}: payrolls with tax withheld`).toBeGreaterThan(0);
+  return { where, base, scaled, rents, wages, compared: true as const };
+}
+
+it("rent and pay of counted households are moved times their weights, and the books balance", () => {
+  // Draw whole towns, a few times, until one compares enough payrolls; fail
+  // naming each draw if none does.
+  const skipped: string[] = [];
+  let found: ReturnType<typeof compareOne> | undefined;
+  for (let outer = 0; outer < 4 && !found?.compared; outer += 1) {
+    found = compareOne();
+    if (!found.compared)
+      skipped.push(
+        `${found.where}: ${found.rents} rents and ${found.wages} payrolls compared`,
+      );
+    if (process.env.CWM_SEED) break;
+  }
+  expect(
+    found?.compared,
+    `too few rents or payrolls compared in ${skipped.join("; ")}`,
+  ).toBe(true);
+  const { where, base, scaled } = found!;
 
   // A bill an engine sends one household (a tax, a benefit) is for one real
   // household: the record's group pays it as many times as it stands for, and

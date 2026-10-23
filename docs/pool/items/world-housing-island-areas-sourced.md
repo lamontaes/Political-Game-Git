@@ -5,20 +5,26 @@ area: world
 kind: research
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/housing-island-areas
+status: done
+claimed-by:
 pr: #5431
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T02:23:10.145Z
+claimed-at:
 ---
 
-**What.** American Samoa, Guam, the Northern Marianas and the Virgin Islands have no ACS tenure or rent table, so the housing engine starts them from the nation's owner share and household-weighted county medians (SG-WORLD-housing-island-areas). The Census Bureau's 2020 Island Areas Censuses give each its own owner share, median monthly gross rent and median home value. Put those four rows in the housing data with their citations, read them where the engine now reads the nation's, date the home values to April 2020 so the price index moves them to the start, and resolve the stopgap row.
+**What.** American Samoa, Guam, the Northern Marianas and the Virgin Islands have no ACS tenure or rent table, so the housing engine starts them from the nation's owner share and household-weighted county medians (SG-WORLD-housing-island-areas). The Census Bureau's 2020 Island Areas Censuses give each its own owner share, median monthly gross rent and median home value. Put those four rows in the housing data with their citations, read them where the engine now reads the nation's, date the home values to April 2020 so the price index moves them to the start, and narrow the stopgap row to the places no table covers.
 
 **Rules.** Research before building: the figures calibrate a place's starting mix and never decide one household's tenure. Estimate, never UNKNOWN: each row names its source and a spread. One rule, all 56 places: the rows are data keyed by the place's state key, never a territory named in logic.
 
-**Done when.** In a one-year played world (buildBenchWorld) in a territory drawn by seed from the four island areas, the town's owner share is within one point of its Census row, owners' median value is that row's value moved from April 2020, renters' rent is its row, `SG-WORLD-housing-island-areas` is resolved in src/core2/data/stopgaps.json, and a test in src/core2/housing.test.ts names the place and seed.
+**Done when.** In a one-year played world (buildBenchWorld) in a territory drawn by seed from the four island areas, the town's owner share is within one point of its Census row, owners' median value is that row's value moved from April 2020, renters' rent is its row, `SG-WORLD-housing-island-areas` is narrowed to places no table covers in src/core2/data/stopgaps.json, and a test in src/core2/housing.test.ts names the place and seed.
 
 **Files.** src/core2/modules/housing.ts, src/core2/data/housing/housing.json, src/core2/data/stopgaps.json, src/core2/housing.test.ts
 
 **Notes.** Figures read Oct 20 from the Census Bureau's July 20, 2023 release pages for each island area (2020 DHC): Guam owners 52.0 percent of occupied, median value $277,800, rent $1,057; American Samoa owners 71.1 percent, value $84,400, rent $601; Northern Marianas owners 29.0 percent, value $184,200, rent $502; Virgin Islands owners 47.8 percent, value $290,600, rent $926.
+
+Sent back 2026-10-20 from PR #5431 (branch claude/housing-island-areas): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5431 (branch claude/housing-island-areas): docs/pool/items/world-housing-island-areas-sourced.md:20 requires a one-year played world, owner share within one percentage point, and checks of owners median value moved from April 2020 plus renters rent. src/core2/housing-island-areas.test.ts only builds the opening, allows at least two points of owner-share difference, and checks the county key; it never advances a year or asserts value or rent. Add the named proof instead of the broader test title. Also update the narrowed stopgap why: the new island-area table makes its old statement that the 2020 tables are not in the data false.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5431 (branch claude/housing-island-areas): All twelve cited Census figures check out, and local typecheck, ESLint/Prettier, zero-dice, release, old-imports and the drawn-year test passed. The owner's-median acceptance is still not met: src/core2/housing-island-areas.test.ts:95-102 only asserts that the opening median is NOT the unindexed Census value; it never compares with the indexed target. In the test's drawn Frederiksted opening (territory:VI:frederiksted; full seed cefec27eda93f44cb3ea73d9273a687101997afaf0e1bf117b75fdb8141ef027), its own housingDwellings data has 115 owned homes among 241 and median 23,293,962 minor units. The Census value 29,060,000 times homePriceRatio(VI, 2020-04-01, 2025-01-20) = 1.2439308993821747 gives 36,148,632 minor units. src/core2/modules/housing.ts:512-517 additionally multiplies household incomeScale, so the observed aggregate median is not the target required by docs/pool/items/world-housing-island-areas-sourced.md:20. Calibrate the owned-home median to the stated target while retaining variation, and assert the expected indexed value (with a stated rounding tolerance), rather than not-equal. Preserve the valid source rows and the drawn-year case. Pool has 5 unrelated errors reproduced on frozen main; they are not the reason for return. Main integration is plain-pushed at 7942d83c72.; finish on that branch, merge main into it first.

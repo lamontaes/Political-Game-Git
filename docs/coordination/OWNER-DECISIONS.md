@@ -4,7 +4,41 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-(none; every question asked is ruled below)
+- **Counted people's out-of-town pay and non-local spending are labeled estimates (Oct 19, claude; stopgaps SG-CORE-outside-living-costs and SG-CORE-unplaced-workers-income, now resolved).** Counted workers the opening could not place earn the place's ACS median earnings, and the part of a counted household's living cost not bought from a local seller leaves the town (CEX and HUD), each flow carrying its ESTIMATED source and spread, as the Oct 14 stand-in audit (#4151) closed them. The alternative is to build recorded commutes (LEHD origin-destination flows) and an outside-spending model by category. Reopen the two rows if you want those built.
+
+## Oct 22: rulings (owner, via the acting CTO)
+
+- **Builders on Oct 21 to 22 (owner, Oct 22):** they ran on a different account. The Oct 20 "pool builders and the pool feeder pause" ruling covered the account that stood at 83 percent of its weekly limit, not the fleet. No rule was broken.
+- **Hearing about the town's conditions moves a stance (owner, Oct 22: "sure"):** the default proposed on #5637 is the rule. Hearing "rent rose" (or any condition change the month's news carries: unemployment, crime and the rest) moves a housing-policy (or the matching) stance only for the people the news reached, toward the side their own views already tie to that condition, by the existing heard-event amount in the views engine (no new opinion size), with the outlet recorded as the reason. Closes `web-views-from-conditions`'s question; the Open bullet above is removed.
+- **Acting-CTO rulings stand (owner, Oct 22):** the 0.15 governor-share bound (`gov-two-level-governor-share-flaky`) and the FHFA MIRS Transition Index from 2019-06, tagged ESTIMATED (`macro-mortgage-rate-fhfa-transition-index`), stand as written in the Oct 20 night rulings; the owner did not overrule.
+- **Dead PRs (owner, Oct 22: "clear out the PRs that aren't needed"):** closed by rule: superseded (another PR's body says it replaces them), already on main (zero commits ahead), item done via another PR, old-core additions, and stale pre-Oct-14 branches with conflicts. The list with each PR's pool item is in the body of the acting CTO's Oct 22 fix-forward PR. Items they carried return to the pool as open where not done; items done through the replacement PR stay done.
+
+## Oct 20, night: acting CTO rulings from the pool (standing rules; the owner may overrule)
+
+- **Director producers and the Words line** (`words-director-watches-officeholders`, `director-bring-it-up-names-signer`): any builder may build the director-side producer that reads a record (a law's signer, an officeholder's address, signing or term ending) and stages the situation and moves. Every word still comes from the English engine's mined bank; where no graded sentence exists, the builder files a Words-line pool item and the scene stays out of play until graded. Rules: no hand-written player text; replace, never layer.
+- **Purpose scenes in play** (`words-scene-talk-in-play`): the `after: words-scene-talk` gate governs alone; no separate blocker.
+- **Counted giving** (`people-stopgap-drives-counted-giving`): a counted group's gift is the full person's gift rule applied to the group's own income and cash records, times the count, not the mean of full members' gifts. Rules: one model, two tiers; the CTO's Oct 14 ruling.
+- **Governor share test** (`gov-two-level-governor-share-flaky`): the 0.15 bound stays. It is measured from the interval between the state's presidential split and the share the standing term predicts for the sitting executive's party, and the failure message prints place and seed. Rules: the merger's no-loosening rule; the owner's Oct 20 ruling that swings stay small.
+- **Roadmap spec commands** (`docs-roadmap-spec-commands`): the builder writes the `command` values in its PR and never touches a spec's `test` text; `passes` is set only where the test covers the spec.
+- **Out-of-town candidates** (`core-race-candidates-who-runs`): they run by the counted tier's existing rule (`countedCandidacyReasons` in `src/core2/modules/candidacy.ts`); the seat's holder weighs running again by `candidacyReasons`. Rules: one model, two tiers.
+- **Discrimination complaints** (`justice-discrimination-complaint`): the commission orders back pay (the applicant's wage times the days they stayed jobless) and a civil fine, both paid by the employer on the journal; the fine comes from the law row, or a registered ESTIMATED parameter sourced to EEOC resolutions. The applicant files or not by the chooser, from their traits and whether they learned the reason. Rules: no dice; ask why.
+- **Orientation** (`people-orientation-record`): full adults carry a recorded orientation from sourced shares, consistent with their household; counted groups use the place's same-sex couple share times the count. Applies the owner's Oct 19 pairing ruling.
+- **Counted job choices** (`world-jobs-counted-choices`): a counted group gets the same offer list a full person would and is scored by the shared `scoreOffers` on the group's mean needs and traits; the members who act follow the selection weights times the count, with remainders carried to the next month and members chosen by trait lean, ties by id. Rules: one model, two tiers; no dice.
+- **Health mechanics** (`people-stopgap-health-missing-mechanic`): the health engine exists; what remains is conditions beginning during life (incidence from prevalence by age) and injuries (exposure against the person's own line). Rules: no dice; sliding scales.
+- **Mortgage rate after 2019** (`macro-mortgage-rate-fhfa-transition-index`): FHFA's MIRS Transition Index stands in from 2019-06, tagged ESTIMATED with FHFA's caveat in the citation. No owner question. Rule: estimate, never UNKNOWN.
+- **Opening stances with no survey item** (`people-views-opening-stance-per-question`, the ballot-measure and approval items): such a question keeps lean times the question's axis, marked ESTIMATED with a spread. Rule: estimate, never UNKNOWN.
+- **Unemployment work search** (`world-unemployment-work-search`): a claimant's weekly contacts are sized from their drive, traits and the regional labor market, not posted openings; the week's benefit scales with contacts over the requirement, up to the full amount; a place with no rule asks nothing. Applies the owner's Oct 20 ruling. Rules: no dice; sliding scales.
+- **A player's unanswered plea or report** (`gov-stopgap-justice-missing-mechanic`): no choice by the deadline means no plea (trial) and no report; the engine never decides for the player.
+- **Federal-only questions** (`gov-stopgap-world-legislating-missing-mechanic`): each enters Congress's pool only once it has a standing answer, members' stances and an effect reader. Rule: an effect is a read.
+- **Local tax base** (`gov-withholding-local-exemptions`): build the personal exemptions from the law rows only; pre-tax paycheck deductions are not built, and the builder raises them as a question in its PR body. Rule: a game, not a spreadsheet.
+- **Executive powers check** (`gov-stopgap-executive-missing-data`): a verification against Book of the States, NCSL and state constitutions; no owner question.
+- **Private school choice** (`core-private-tuition-choice-reads-beliefs`): the Oct 20 ruling covers faith, views, distance and a child's care need; the town's private share checks the total and is never a per-family quota. Rules: no dice; sliding scales.
+- **Credit lines** (`core-stopgap-parameters-estimated-industry-priors`): the 0.26 usable-line share (spread 0.15 to 0.40) checks totals only; whether a firm holds a line comes from the credit engine reading its books and owner. Rule: no dice.
+- **Business shortfalls** (`world-stopgap-finance-estimated-mechanism`): an unfunded obligation goes into arrears and the owner chooses to put in cash, borrow, cut or close; the 27-day cash buffer checks totals. Applies the owner's Oct 20 money ruling.
+- **Social Security** (`world-retirement-benefit-from-law-and-record`): build only the law's formula on recorded earnings; spouse, survivor and earnings-test benefits are a question for the owner in the builder's PR body. Rule: a game, not a spreadsheet.
+- **Authored parts held until graded** (`words-authored-parts-shippable-sweep`): all 141 authored parts are flipped to not shippable, as the merge audit and the fixer PRs already do. The 20 director tests that relied on them assert on mined or graded parts, or that the scene stays out of play while its only line is ungraded. The lines go into the next owner grading batch, and the build does not wait on the grading. Rule: no hand-written player text.
+- **The Freddie Mac survey exclusion** (`research-macro-sourced-parameters`): the exclusion ruled on #3959 stands. The mortgage rate after 2019 comes from FHFA's index, as ruled above for `macro-mortgage-rate-fhfa-transition-index`.
+- **Residence room art** (`director-stopgap-scene-placeholder-art`): art work for the art pipeline, not an owner decision; the item stays blocked on the art.
 
 ## Oct 20: rulings (owner, spoken; recorded by the CTO)
 
@@ -26,6 +60,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - **Private school** (#5483): beliefs, the schools nearby and a child's needs decide which families choose private school, not only money.
 - **Memory** (`core-memory-election-log-growth`): after a year, keep the summary and reasons of the player's routine decisions, not every detail.
 - **The Mac update dialog** (`core-stopgap-main-player-text-gap`): its words come from the English engine, like all player text.
+
+- **Models (owner, Oct 20; replaces the Oct 15 "Sonnet only" rule):** a big cross-system job runs as an Opus lead session with Sonnet helpers: "start an Opus cloud session and allow it Sonnet helpers" (laws), then the same for the effect web and traits, "with 8 helpers". Builders and fixers run on whatever the owner picks for the job ("I can do 2 Opus sessions or 4 Sonnet"). The CTO may use Sonnet helpers for research and audits ("up to 5 Sonnet subagents").
+- **Merging (owner, Oct 20; replaces "only the CTO merges"):** merger sessions merge (Antigravity lanes, Codex, Claude cloud mergers) under `.agents/skills/merger/SKILL.md`, each in its own share. The CTO audits their merges and fixes the skill when a merger slips ("Look at the mistakes Codex has made before on merges... Fix the merging skill"). Nobody merges their own PR; the CTO merges only its own docs, skill and pool PRs.
+- **Usage (owner, Oct 20):** at 83% of the weekly limit he chose "wiring only, lean": the three wiring sessions keep going at three helpers each; pool builders and the pool feeder pause until the weekly reset or his word.
+- **Agent instructions (owner, Oct 20):** keep every skill and doc current, create the skills the work needs and delete dead ones, following Anthropic's guidance; "this will help me perpetually."
 
 ## Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)
 
@@ -196,6 +235,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - The CTO holds a batch whose scenes are mostly repeats of the same few situations, the same way it holds one with record defects.
 
 ## Oct 15, afternoon: usage (owner, repeated; now written)
+
+Replaced on Oct 20 (see "Oct 20: rulings"): Opus leads with Sonnet helpers are allowed, and merger sessions merge. Kept below for the record.
 
 - Sonnet is the only Claude model that builds, reviews or merges. No Opus sessions or sub-agents of any kind.
 - The CTO session answers the owner and prepares orders, rulings, skills and reports. It never merges, reads diffs, logs or test output, runs tests, creates PRs or holds PR subscriptions; a Sonnet helper does those and returns a table.

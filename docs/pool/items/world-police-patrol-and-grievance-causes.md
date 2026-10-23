@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: open
-claimed-by:
+status: blocked
+claimed-by: claude/police-patrol-causes
 pr:
-blocked-on:
+blocked-on: OWNER-DECISIONS Oct 16: the crime engine comes later, 'when it gets a little more fleshed out' (owner-crime-engine, p3); the crime measure here is that engine
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T06:01:01.986Z
 ---
 
 **What.** gov-justice-incident-producer asks incidents to arise from a town's patrol hours, its crime outcomes and two people's recorded grievance. None of the three exists in the core today: no module records patrol hours (the police department is staff and a budget line), nothing keeps a crime measure per town that a policy moves, and no engine writes a grievance between two people (only recalls reads the word). Build the three as records other engines write and read: patrol hours from the police department's staffing and the budget line, a monthly crime measure from the place's conditions and the patrol hours, and a grievance record written by the engines that already create conflict (a dispute over a business, a rent, a bill). Household firearm ownership already exists in src/core2/firearm-ownership.ts.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/ (new police and grievance modules), src/core2/data/, src/core2/modules/budgets.ts
 
 **Notes.** Found Oct 20 (claude/political-game-pool-yucp92-qq) while claiming gov-justice-incident-producer. Check docs/coordination/DECISION-REGISTER.md first; the owner may have ruled on crime.
+
+Oct 20 (claude/police-patrol-grievance): not built. The crime measure is the crime engine, and docs/coordination/OWNER-DECISIONS.md line 271 (owner, Oct 16) says it comes later, "when it gets a little more fleshed out", priority 3 as `owner-crime-engine`. The patrol-hours and grievance records could be built alone; the CTO should say whether to split them from the crime measure.
