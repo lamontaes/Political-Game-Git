@@ -5,7 +5,7 @@ area: office
 kind: feature
 priority: 3
 size: L
-status: in-pr
+status: done
 claimed-by: claude/m5-04-verified
 pr: #5424
 blocked-on:
