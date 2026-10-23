@@ -5,21 +5,21 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/closures-rise
+status: done
+claimed-by:
 pr: #5553
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T02:20:22.255Z
+claimed-at:
 ---
 
 **What.** After outside demand was scaled by the count scale, a town opened at its Census size (Chantilly, Virginia) still shows 114 closure rows in the jobs engine in a played year, against none at the sample size. Closures remove the firm and its workers' jobs. Find why firms close at Census scale (their books, credit or owner draws read a figure that does not scale) and make the reads agree.
 
 **Rules.** Wire to the world: every reader of a household or firm figure multiplies by the weight the same way. No dice: a firm closes from its books and its owner's choice, not a chance.
 
-**Done when.** In a one-year played world (buildBenchWorld with countScale set to Census over 10,000, a drawn place above 10,000, seed named) the closure rows in the jobs engine's changes table are within the same town's count at scale one, named by job change id, shown by a case in src/core2/census-weight-economy.test.ts.
+**Done when.** In a one-year played world (buildBenchWorld with countScale set to Census over 10,000, a drawn place above 10,000, seed named) the closure rows in the jobs engine's changes table are within the same town's count at scale one, named by job change id, shown by a case in src/core2/census-scale-closures.test.ts, alongside the pinned regressions in src/core2/census-scale-closures-opelika.test.ts.
 
-**Files.** src/core2/modules/business.ts, src/core2/modules/jobs.ts, src/core2/census-weight-economy.test.ts
+**Files.** src/core2/modules/business.ts, src/core2/modules/jobs.ts, src/core2/census-scale-closures.test.ts, src/core2/census-scale-closures-opelika.test.ts
 
 Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): new Core test imports the old simulation population reader and impact:none mislabels gameplay changes to sales and owner payouts; use a Core-owned reader and a gameplay release declaration; finish on that branch, merge main into it first.
 
@@ -37,3 +37,5 @@ Every closure carries the reason `finance.unfunded-obligation-cash-and-credit-ex
 Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): its own census-scale closures test fails in Central Falls, Rhode Island (3 closures at Census size, none at sample size); finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5553 (branch claude/closures-rise): docs/pool/items/world-census-scale-closures-rise.md:20 requires Census-size closure rows to be within the same towns scale-one count. The latest Notes explicitly report Opelika, Alabama (0157048, seed 628a8831..., scale 3.5765) still has two Census-size closures against none at scale one after the latest fixes. That is still a failing acceptance case. Preserve the regression and complete the forecast/cost cause or an authorized specification change; do not narrow the test to the firms that happen to survive.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5553 (branch claude/closures-rise): src/core2/modules/business.ts:1332 reconstructs the total draw by multiplying a rounded per-household return, producing fractional drawnMinor and retained-profit values that disagree with the actual journal payment in 26 records in the 40-day Opelika op1 run; finish on that branch, merge main into it first.

@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5780
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** In Guymon, Oklahoma (seed f28d686032d0850a26acef3082270a78f69609b37910a396c2c07c5e2dd13196, law-reach-group-b.test.ts), Medicaid expansion's federal share for the town's counted adults (2,763.82 a month, obligation reach-b:coverage:US|residents:jurisdiction_4280d54eb76ada09) was paid nothing for two months while the state's share was paid in full. The federal treasury account in the town world held 7,415.38 and was empty when the payment fell due, so the federal match the law sets never reaches counted residents. A treasury pays what it holds, so the federal government's cash in a town must reflect the federal revenue and borrowing that pays its programs there.

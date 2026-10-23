@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/worker-unpaid-four-months
+status: open
+claimed-by:
 pr: #5011
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T00:04:58.775Z
+claimed-at:
 ---
 
 **What.** A worker earns $2,092 over 120 days and is paid nothing because their employer pays no wages (La Liga, Puerto Rico, seed 4b22c467924caecf). Find why that employer's payroll does not run and fix it at the cause. Any worker whose employer owes wages is paid on payday.
@@ -30,3 +30,5 @@ Done for this PR: `node --import tsx scripts/core2-year/wages-unpaid-check.ts <s
 Found by the check: A worker earns about $2,092 over 120 days and is paid nothing, because the employer holds no cash and no pay link. A check now lists, for any drawn place, every employer whose wage flows paid nothing at their last payday. In six drawn towns the unpaid employers were the town's government departments, the state offices, the post office and the public school district. The opening links only recorded county government accounts to a pay authority, so every other public employer has none and no cash.
 
 Evidence: Coldwater, Michigan, seed w2: 1 of 40 organizations has a pay authority; the public school district asked 303,637 per payday for 108 counted jobs and paid nothing. La Liga, Puerto Rico, seed 4b22c467924caecf: person_688586e39370083b, employer organization_62f157e3f7d6d4ca.
+
+Sent back 2026-10-23 from PR #5011 (branch claude/worker-unpaid-four-months): The check-only slice would complete the original payroll-fix item without its paid-worker proof, and the script header overstates its resident-flow coverage; finish on that branch, merge main into it first.

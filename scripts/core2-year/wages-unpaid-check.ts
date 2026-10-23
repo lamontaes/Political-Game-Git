@@ -1,9 +1,9 @@
 /**
- * Does every employer pay its workers? For each drawn place, the played world
- * for 120 days, then every wage flow (counted workers' payrolls and the work
- * engine's full workers) whose last payday paid nothing, by employer: its
- * name, whether it has a public pay authority, its cash, and how many jobs
- * it holds.
+ * Does every employer pay its counted workers? For each drawn place, the played
+ * world for 120 days, then every counted-flow wage payroll (the residents
+ * runtime's wage flows; the work engine's full workers are not read here)
+ * whose last payday paid nothing, by employer: its name, whether it has a
+ * public pay authority, its cash, and how many counted jobs it holds.
  *
  * Run: node --import tsx scripts/core2-year/wages-unpaid-check.ts [seed ...]
  */
@@ -41,7 +41,7 @@ for (const seed of seeds) {
     }
   }
   console.log(
-    `${place.name} (${place.key}), seed ${seed}: ${wageFlows} wage flows, ${unpaid.size} employers paid nothing at their last payday`,
+    `${place.name} (${place.key}), seed ${seed}: ${wageFlows} counted wage flows, ${unpaid.size} employers paid nothing at their last payday`,
   );
   for (const [id, row] of unpaid) {
     const org = core.organizations.get(id);
