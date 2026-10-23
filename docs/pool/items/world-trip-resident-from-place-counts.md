@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/coarse-place.ts, src/core2/office-day-federal-president.ts, src/core2/coarse-place.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5555 (branch claude/other-places-coarse): The bounded item, reopened broader parent, restored trip stopgap and named trip witness address the previous scope return, and current main integrates cleanly. One newly added test still has a no-check success path: src/core2/coarse-place.test.ts:44-66 loops over the drawn places but continues whenever coarsePlace returns null; it has no successful-place or filled-resident count assertion of its own. Running this test alone can therefore pass without calling metResident once or checking any age, job or wage. The positive counted assertion at lines 36-40 belongs to the other test and does not guard this one. Add a nonempty witness assertion inside the fill-in test, or make it draw with bounded retries and fail on exhaustion, retaining the existing determinism, age-band, minimum-job-age and wage checks. No local gate pass is claimed for this source review.; finish on that branch, merge main into it first.
