@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/news-tags
 pr: #5579
 blocked-on:

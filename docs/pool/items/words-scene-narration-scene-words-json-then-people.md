@@ -6,11 +6,11 @@ kind: feature
 priority: 2
 status: claimed
 claimed-by: claude/political-game-pool-yucp92-bo
-pr: #5233
+pr: #5706
 blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"
-claimed-at: 2026-10-20T14:06:30.016Z
+claimed-at: 2026-10-23T18:09:17.299Z
 ---
 
 **What.** Scene narration is thin: `data/english/parts/scene-words.json` has few setting lines, `bring-it-up.json` lacks the rows for many subjects, and news headlines and the names of choices, stance questions and actions still show as record keys (the News screen reads 'election-result · office: Commissioner · winner: ...'). Mine and author scene narration first, then the bring-it-up rows, then headlines (from `headlines.json` and `news.json`) and choice names, and have composeScene, bringItUp and the news writer read them. The player would notice scenes that describe where he is, neighbors who bring things up and headlines instead of keys.
@@ -30,3 +30,7 @@ Measured Oct 19 (claude/news-headlines-worded), not built. What the News screen 
 Sent back 2026-10-20 from PR #5241 (branch claude/news-headlines-more): Merge main 355f7abbdb8d into claude/news-headlines-more conflicts in: src/bench/calendar.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first. Current replacement claim and PR are preserved.
 
 Sent back 2026-10-20 from PR #5233 (branch claude/law-decision-headlines): the release note still promises law headlines whose authored parts are now not shippable, so they cannot show; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5706 (branch claude/political-game-pool-yucp92-bo): data/english/parts/headlines.json:1 and the added src/director headline composers are Words-owned paths. The body explicitly identifies this as a pool session rather than the Words session, so the merger morning check refuses these edits. Route this change through the Words session; also retain the item-specific played-world proof when resubmitting.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5241 (branch claude/news-headlines-more): data/english/parts/headlines.json adds six origin authored entries with shippable true. Authored pieces must stay held until graded, and the body gives no grading proof. Correct the flags and the player-visible headline claim before merging; Words-owned bank and director edits also require the Words session. Keep the stacked parent handling separate from completion of the main pool item.; finish on that branch, merge main into it first.

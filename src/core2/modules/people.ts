@@ -16,7 +16,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { daysBetween, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import {
   CLOSENESS,
   closenessBetween,
@@ -28,14 +28,13 @@ import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
-import type {
-  ActOffer,
-  CoreAPI,
-  CoreModule,
-  PersonState,
-  Relationship,
-} from "../types";
+import type { ActOffer, CoreAPI, PersonState, Relationship } from "../types";
 import { offer } from "./life";
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
 import { pairKey } from "../kernel/ids";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
@@ -49,7 +48,7 @@ const seeded = new WeakSet<object>();
 function shareHomeTime(api: CoreAPI): void {
   const core = api.state;
   const p = (key: string) => api.parameter(key);
-  const day = daysBetween(makeIsoDate(core.startedAt), makeIsoDate(core.date));
+  const day = daysBetweenText(core.startedAt, core.date);
   const week = p("daysPerWeek");
   const opening = !seeded.has(core);
   if (!opening && (day <= p("zero") || day % week !== p("zero"))) return;
@@ -144,8 +143,51 @@ function dependents(
   return rows;
 }
 
-export const PEOPLE_MODULE: CoreModule = {
+/**
+ * Pre-start people pass (M1-14): a full person's own dated records that fall
+ * before day one (their birth and each dated past fact: moves, jobs,
+ * partnerships) are entered in the history, so the world's past can be read
+ * by record id. Nothing is generated here: counted people carry no individual
+ * past until they are filled in, and the records' own sources are kept.
+ */
+function peopleHistory(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  for (const person of api.state.people.values()) {
+    if (person.tier === "husk") continue;
+    const inside = (date: string) =>
+      date >= window.from && date <= window.through;
+    if (inside(person.birthDate))
+      history.record({
+        id: `person-history:${person.id}:birth`,
+        date: makeIsoDate(person.birthDate),
+        kind: "person.birth",
+        placeId: person.placeId,
+        personIds: [person.id],
+        facts: { personId: person.id },
+        publicRecord: true,
+        source: person.source,
+      });
+    for (const fact of person.pastFacts ?? [])
+      if (inside(fact.date))
+        history.record({
+          id: `person-history:${person.id}:${fact.id}`,
+          date: makeIsoDate(fact.date),
+          kind: `person.${fact.kind}`,
+          placeId: person.placeId,
+          personIds: [person.id],
+          facts: { personId: person.id, ...(fact.facts ?? {}) },
+          publicRecord: false,
+          source: fact.source,
+        });
+  }
+}
+
+export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
+  preStart: { phase: "people", run: peopleHistory },
   onDay: (api) => {
     shareHomeTime(api);
   },

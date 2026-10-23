@@ -22,6 +22,7 @@ import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
+import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openEstates } from "../core2/estates";
@@ -66,6 +67,7 @@ import { recordOpeningStory } from "../director/opening-story";
 import {
   applyOpeningSettings as applyWorldSettings,
   checkSettings as checkWorldSettings,
+  scaleBusinessCash,
   scaleOutsideSales,
   type WorldSettings,
 } from "../core2/world-settings";
@@ -297,19 +299,25 @@ function* benchWorldStages(
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
-    opening = scaleOutsideSales(
-      settings.economy?.outsideDemand ?? 1,
-      withWorldEconomy(
-        collapseToTwoLevels(economy, {
-          keep: kept,
-          ...(options.countScale && options.countScale !== 1
-            ? {
-                weights: {
-                  [place.context.jurisdiction.id]: options.countScale,
-                },
-              }
-            : {}),
-        }),
+    // A town opened at a multiple of its sample pays that multiple of wages
+    // (its counted workers stand for several), so its outside buyers buy that
+    // multiple too: sales and payroll scale together, as the people do.
+    opening = scaleBusinessCash(
+      options.countScale ?? 1,
+      scaleOutsideSales(
+        (settings.economy?.outsideDemand ?? 1) * (options.countScale ?? 1),
+        withWorldEconomy(
+          collapseToTwoLevels(economy, {
+            keep: kept,
+            ...(options.countScale && options.countScale !== 1
+              ? {
+                  weights: {
+                    [place.context.jurisdiction.id]: options.countScale,
+                  },
+                }
+              : {}),
+          }),
+        ),
       ),
     );
     releaseRecentHistory();
@@ -355,6 +363,8 @@ function* benchWorldStages(
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
+  openCrime(core);
   openEstates(core);
   openEmployerTaxes(core);
   openLegislature(core);

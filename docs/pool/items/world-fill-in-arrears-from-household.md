@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-yucp92-bh
 pr: #5699
 after:
