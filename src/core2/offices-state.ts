@@ -10,6 +10,7 @@
  * each seat from the public-domain rosters in
  * `data/research/offices/legislature-party-counts-2026.json`.
  */
+import { corePlaceStateIdentities } from "./place-lookup";
 import representation from "./data/offices/federal-representation.json" with { type: "json" };
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
@@ -24,6 +25,14 @@ import { largestPopulationShareDistrict } from "../districts/place-population-sh
 import type { DistrictChamber, DistrictIdentity } from "../districts/types";
 import type { OfficeInput } from "./offices-local";
 import { stopgap } from "./stopgaps";
+
+/** A state's name as people write it, from its jurisdiction key (US-KS). */
+function stateNameOf(stateKey: string): string {
+  return (
+    corePlaceStateIdentities().find((row) => row.jurisdictionKey === stateKey)
+      ?.name ?? stateKey
+  );
+}
 
 export interface VacancyRule {
   readonly method:
@@ -501,7 +510,7 @@ export function stateOffices(
         id,
         level: "state",
         jurisdiction: stateKey,
-        governmentName: stateKey,
+        governmentName: stateNameOf(stateKey),
         kind: executive.key,
         title: executive.title,
         seats: 1,
@@ -628,8 +637,8 @@ export function stateOffices(
         id,
         level: "state",
         jurisdiction: stateKey,
-        governmentName: chamberRead?.name ?? stateKey,
-        bodyName: chamberRead?.name ?? stateKey,
+        governmentName: chamberRead?.name ?? stateNameOf(stateKey),
+        bodyName: chamberRead?.name ?? stateNameOf(stateKey),
         kind: `legislature-${key}`,
         title:
           key === "lower"
