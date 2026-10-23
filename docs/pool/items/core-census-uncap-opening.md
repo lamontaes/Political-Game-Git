@@ -5,13 +5,13 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/uncap
 pr: #5295
 blocked-on: core-census-weight-readers
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
-claimed-at:
+claimed-at: 2026-10-23T21:30:20.833Z
 ---
 
 **What.** Once the weight is read everywhere, delete the `Math.min(target, real)` cap and the sample-only path so every town opens at its Census size, and measure a year in the largest town and in a random town, one process at a time.
