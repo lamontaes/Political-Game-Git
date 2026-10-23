@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/demotion-outside-counts
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-23T22:31:13.446Z
 ---
 
 **What.** A jobless household evicted in the town doubles up with a relative in another town (housing-homeless.ts placeRemovedHousehold), keeping the tier the days run. Months later the monthly demotion review (modules/counted-demotion.ts) sends it back to the counts at that town, but the counts keep no group or residents account there, so fundOf throws and the played year stops. Seen in Brandsville, Missouri (place seed 203b073afe7dfef52c0fa1b5a5bc9fb72c924305a80a9b654ee69aeddb2d49f9) on 2025-10-01: No residents account for jurisdiction_b1026a58f8e32e09.
