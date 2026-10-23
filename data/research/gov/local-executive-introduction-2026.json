@@ -9,7 +9,7 @@
   "sourceUrl": "per row (sourceUrl)",
   "retrievedOn": "2026-10-23",
   "limits": "Modes: by-request (the executive is not a voting member; a member carries the executive's bill, as proposalRight does today); member (the mayor is a voting member of the council and may move an ordinance like any member); presides (the county executive presides over the board); none (no elected executive under general law). A county row's mode applies to the counties that have an elected executive; electedExecutive says whether all, most, some or none do. A SOURCED row quotes the statute or rule fetched on Oct 23, 2026, for the class of city it names. Every other row is ESTIMATED from the national pattern or the repository's own baselines named in the row. No source read gives the share of places that adopt a charter of their own.",
-  "readBy": "scripts/research/legislature-local-rules-check.ts (checks each ESTIMATED county row against county-governing-bodies.json; reports the places whose mode differs from by-request). No engine reads it yet: gov-legislature-executive-proposal-by-place (proposalRight in src/core2/modules/legislature.ts) is the builder item.",
+  "readBy": "scripts/research/legislature-local-rules-check.ts (checks each ESTIMATED county row against county-governing-bodies.json; reports the places whose mode differs from by-request). No engine reads it yet: gov-legislature-local-rules-by-place (proposalRight in src/core2/modules/legislature.ts) is the builder item.",
   "places": {
     "AL": {
       "mayor": {

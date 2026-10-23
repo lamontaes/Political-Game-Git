@@ -311,8 +311,10 @@
       "templateId": "state-house",
       "membersAppointedBy": "speaker",
       "chairsAppointedBy": "speaker",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "tag": "SOURCED",
+      "rule": "House Rule 1102(a)-(b), Rules of the Kansas House of Representatives",
+      "sourceUrl": "https://kslegislature.gov/house/rules/",
+      "quote": "(a) The Speaker shall appoint the members of the standing committees. ... (b) The Speaker shall appoint the chairperson and vice chairperson of each standing committee."
     },
     {
       "jurisdictionKey": "US-KS",
@@ -668,8 +670,10 @@
       "templateId": "state-house",
       "membersAppointedBy": "speaker",
       "chairsAppointedBy": "speaker",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "tag": "SOURCED",
+      "rule": "House Rule 13, Rules of the Ohio House of Representatives",
+      "sourceUrl": "https://www.ohiohouse.gov/about/rules",
+      "quote": "The Speaker shall name all committees and subcommittees, and shall appoint all members and chairs thereto."
     },
     {
       "jurisdictionKey": "US-OH",
@@ -677,8 +681,10 @@
       "templateId": "state-senate",
       "membersAppointedBy": "senate-president",
       "chairsAppointedBy": "senate-president",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "tag": "SOURCED",
+      "rule": "Senate Rule 19(a), Rules of the Ohio Senate, 136th General Assembly",
+      "sourceUrl": "https://www.ohiosenate.gov/about/rules",
+      "quote": "At as early a date as practicable after the organization of the Senate, the President of the Senate, by message, shall name all standing and select committees and subcommittees and shall appoint all members and chairs of those committees and subcommittees."
     },
     {
       "jurisdictionKey": "US-OK",
@@ -720,19 +726,23 @@
       "jurisdictionKey": "US-PA",
       "chamberKey": "house",
       "templateId": "state-house",
-      "membersAppointedBy": "speaker",
+      "membersAppointedBy": "committee-on-committees",
       "chairsAppointedBy": "speaker",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "tag": "SOURCED",
+      "rule": "House Rule 43, Rules of the Pennsylvania House of Representatives",
+      "sourceUrl": "https://www.palegis.us/house/rules",
+      "quote": "The Committee on Committees shall consist of the Speaker and 15 members of the House, ten of whom shall be members of the majority party and five of whom shall be members of the minority party, whose duty shall be to recommend to the House the names of members who are to serve on the standing committees of the House. ... The Speaker shall appoint the chair and vice-chair of each standing committee"
     },
     {
       "jurisdictionKey": "US-PA",
       "chamberKey": "senate",
       "templateId": "state-senate",
-      "membersAppointedBy": "senate-president",
-      "chairsAppointedBy": "senate-president",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "membersAppointedBy": "president-pro-tempore",
+      "chairsAppointedBy": "president-pro-tempore",
+      "tag": "SOURCED",
+      "rule": "Senate Rule 5(a)(1), Rules of the Senate of Pennsylvania 2025-2026 (S.R. 3, adopted Jan. 7, 2025)",
+      "sourceUrl": "https://www.palegis.us/senate/rules",
+      "quote": "The President Pro Tempore shall: (1) Appoint the Chair, Vice Chair and members of the Standing Committees of the Senate as soon after the election of the President Pro Tempore as possible."
     },
     {
       "jurisdictionKey": "US-RI",
@@ -898,9 +908,11 @@
       "chamberKey": "senate",
       "templateId": "state-senate",
       "membersAppointedBy": "senate-president",
-      "chairsAppointedBy": "senate-president",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "chairsAppointedBy": null,
+      "tag": "SOURCED",
+      "rule": "Senate Rule 1(6), Permanent Rules of the Washington State Senate",
+      "sourceUrl": "https://leg.wa.gov/about-the-legislature/legislative-procedures/senate-rules/",
+      "quote": "The president shall appoint all conference, special, joint and hereinafter named standing committees on the part of the senate. The appointment of the conference, special, joint and standing committees shall be confirmed by the senate."
     },
     {
       "jurisdictionKey": "US-WV",

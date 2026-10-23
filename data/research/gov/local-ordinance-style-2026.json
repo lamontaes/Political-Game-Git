@@ -15,7 +15,7 @@
     "period": "annual",
     "from": "src/core2/data/legislature/bill-forms.json (local)"
   },
-  "readBy": "scripts/research/legislature-local-rules-check.ts (shape check; reports which places differ from the national default). No engine reads it yet: gov-legislature-local-ordinance-form-by-state (bodyNumbering in src/core2/legislature-bill-form.ts) and words-local-enacting-clause-by-state (the English engine's legislation bank) are the items that will.",
+  "readBy": "scripts/research/legislature-local-rules-check.ts (shape check; reports which places differ from the national default). No engine reads it yet: gov-legislature-local-rules-by-place (bodyNumbering in src/core2/legislature-bill-form.ts) and words-local-enacting-clause-by-state (the English engine's legislation bank) are the items that will.",
   "places": {
     "AL": {
       "municipal": {
