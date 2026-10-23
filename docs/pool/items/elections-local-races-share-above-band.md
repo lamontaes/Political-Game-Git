@@ -5,12 +5,12 @@ area: elections
 kind: bug
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/share-above-band
+status: open
+claimed-by:
 pr: #5806
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T13:51:42.529Z
+claimed-at:
 ---
 
 **What.** Measured Oct 20 in about 30 random places (buildBenchWorld, 400 days, candidacy-calibration test seed 2bcba597e55132fcb4ffd69d65e3626a plus four earlier batches): 94 of 111 local seats had no more than one candidate, 85 percent. The calibration test passes because one run's interval still reaches 80, so it only catches a clear miss. SG-P15-candidacy-weights holds candidacyStayOutPull at 4.0 with a documented spread of 3.8 to 4.4. Run the same measurement at 3.8 and 3.9, keep the value whose pooled share over at least 100 contests puts the interval's center near 70 percent, and check src/core2/who-runs.test.ts and the incumbency rate (about 81 percent run again) still hold.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-21T13:51:42.529Z
 **Notes.** TODO
 
 - Cloud merger, after #5733 merged: the staying-out pull is recorded at 3.8 to 4.4, but the share of local seats with one candidate is still 85 to 92 percent against the band of 58 to 75, so this item stays open.
+
+Sent back 2026-10-23 from PR #5774 (branch claude/uncontested-note): Missing release declaration (impact none is appropriate for notes) and bounded measurement-note Done-when table; finish on that branch, merge main into it first.
