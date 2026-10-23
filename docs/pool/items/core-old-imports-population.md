@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: L
-status: in-pr
+status: done
 claimed-by: claude/old-imports-population
 pr: #5068
 blocked-on: "core-old-imports-population-org-profile, core-old-imports-population-traits, core-old-imports-population-town-employment"
