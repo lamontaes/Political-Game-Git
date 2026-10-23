@@ -4,13 +4,13 @@ title: "Stopgaps in justice-law (missing-data): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/pool-appointed-ag
+status: open
+claimed-by:
 pr: #5317
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind missing-data"
-claimed-at: 2026-10-19T23:44:57.805Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open missing-data stopgap row(s) in src/core2/justice-law.ts: SG-GOV-justice-prosecutor-stand-in. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T23:44:57.805Z
 **Files.** src/core2/justice-law.ts
 
 **Notes.** First row: A state prosecutor's office where the offices data has neither a county prosecutor covering the town nor an elected attorney general.
+
+Sent back 2026-10-21 from PR #5317 (branch claude/pool-appointed-ag): The opening-only appointed-AG test and PR body lack the required one-year played-world justice-case consumption proof, by record id.; finish on that branch, merge main into it first.

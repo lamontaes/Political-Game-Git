@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5703
 blocked-on:
@@ -36,3 +36,9 @@ Oct 20 (fs11vb): fix 1 merged (#5655). Fix 7 is PR #5697 (the notes of #5548 and
 Sent back 2026-10-20 from PR #5656 (branch claude/political-game-pool-yucp92-ap): data/research/jobs/employer-callback-gaps.json:63 attributes the older-applicants percentages to an unnamed press summary but links only the paper that was not read. The body explicitly says the summary URL is not recorded. The research morning check requires the source URL to be the page actually read. Supply that summary citation or read the original and revise the figures from it; the awaitingReader move and ceiling reason do not cure the missing source.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5703 (branch claude/fs11vb-f2): data/research/jobs/employer-callback-gaps.json:66 says the 18% and 35% figures came from a press summary that was read, but its only URL points to the paper explicitly not read. The actual summary URL is still missing, so audit fix 2 is incomplete under the source-page rule. Supply the summary citation or verify and revise the figures from the original paper. The awaitingReader category and stated ceiling reason are acceptable.; finish on that branch, merge main into it first.
+
+Oct 21 (claude): where each fix stands. 1 merged (#5655). 2 is #5703: the older-applicant figures now quote NBER w21669 p. 27, read from the PDF, and the date note in the guard is gone; it waits on a merger. 3 merged (#5658 wording, #5748 code: the floor reaches a public hire on the day it is made). 4: the households test merged (#5707). The browser check's "lists no acts" assertion is #5818. The interview and event controls for a candidate without a seat are on main (a30b7d3071), and in a played world in #5710. Every canvass is checked, with redraws until someone answers, in #5793. 5: the schedule fix merged (#5668). The pinned case (territory:VI:charlotte-amalie-east, seed p3) is in #5712 with the fix that makes it pass; its public-office fallback leaves no path where a post gets no job. 6 merged (#5705). 7 merged (#5697). Superseded duplicates still open: #5656 (fix 2), #5659 (fix 7), #5670 (fix 6), #5671 (fix 4).
+
+Sent back 2026-10-21 from PR #5703 (branch claude/fs11vb-f2): scripts/audit/research-data-allowlist.json:89-94 adds the island-place population and economic-context binding files to rawSource with reasons that say no engine reads them yet. The latest fixer comment explicitly says the additions clear a red guard for ten unread research files. That is the bypass the merger rule rejects; no engine reads it yet belongs to a justified awaiting-reader category or a real reader, not automatic rawSource immunity. Keep the repaired callback citation and its justified rawSource-to-awaitingReader move, but remove the unrelated red-guard bypasses and account for each new entry in the correct category. No local gate pass is claimed.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5703 (branch claude/fs11vb-f2): The broad completion marker and table would close the seven-fix umbrella while public-hire/browser/aide proof remains open; use bounded fix-2 routing and correct the NBER citation to printed p.26 (PDF p.28); finish on that branch, merge main into it first.
