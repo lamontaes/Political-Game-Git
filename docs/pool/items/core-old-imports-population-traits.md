@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/later-years-drive-holders
+status: open
+claimed-by:
 pr: #5514
 blocked-on:
 source: split from core-old-imports-population
-claimed-at: 2026-10-21T02:56:34.440Z
+claimed-at:
 ---
 
 **What.** The opening seeds each person's traits through the old trait registry (traitRegistryFor), the PERSONALITY_PACK name and the isOneSided test, which pull in the compiled trait packs and every decision declaration. The opening population builder in src/core2/population.ts still builds a whole old-engine World first and reads these pieces from src/simulation. Move only what the opening uses into the core as data and small functions, and delete nothing the old engine still needs until core-delete-old-engine. Nothing new is added to the old engine.
@@ -28,3 +28,5 @@ Sent back 2026-10-20 from PR #5514 (branch claude/fs11vb-old-imports): the new s
 Looked at Oct 20 (claude/old-imports-note) and handed back unbuilt: the opening needs the seeded traits of three packs (`peopleTraitPack`, `legislatureTraitPack`, `personalityCataloguePack` in `src/simulation/compiled-trait-packs.ts`), but `loadTraitPacks` in `src/core2/trait-packs.ts` validates each pack's effects against `BUILT_IN_TRAIT_DECISIONS`, which collects declarations from about fifteen old-engine files (clemency, courts, bargaining, jobs, votes and outreach, press and more). A core copy therefore means either moving the three packs and every decision declaration they name, or loading the packs without decisions and proving the seeded values are unchanged. Split it: (1) a test that fixes the seeded trait values for a drawn place by person id and trait key, (2) the pack declarations as core data with the loader taking the decision list from the core, (3) switching `population.ts` and deleting the old reads.
 
 Sent back 2026-10-20 from PR #5514 (branch claude/fs11vb-old-imports): docs/pool/items/core-old-imports-population-traits.md:20 requires matching every persons seeded trait values and opening records by id in a drawn buildBenchWorld before and after the move. Your 12:07 update explicitly says that comparison was not done after the main merge and catalog conflict resolution. The earlier body receipt cannot establish equivalence for that changed catalog. Rerun the paired opening-record comparison on the current merged head and record its head, place, seed and result; the old-engine import and owner-note fixes themselves are acknowledged.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5514 (branch claude/fs11vb-old-imports): Live docs/systems/traits.md:17 references the removed simulation trait definition; refresh docs and put the acceptance evidence table in the PR body; finish on that branch, merge main into it first.

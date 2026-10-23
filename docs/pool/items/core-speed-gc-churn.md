@@ -40,3 +40,5 @@ Oct 20 (claude/speed-people-sort): the call sites behind the native frames, from
 After merging main (Oct 21): main already carried `pairKey` in `kernel/ids.ts` (same function) and its call sites; this PR keeps only the sibling-tie key in `population.ts`, and its own `pair-key.ts` is removed.
 
 Oct 21 (claude): the remaining sibling-tie key of PR 5409 is tracked as core-speed-sibling-tie-pair-key; this umbrella stays open.
+
+Sent back 2026-10-23 from PR #5771 (branch claude/speed-gc-churn): Body and declaration claim tooling only despite cash-journal and bench runtime changes; describe and validate the actual bounded slice without closing the unmet below-10-percent GC umbrella; finish on that branch, merge main into it first.
