@@ -5,12 +5,12 @@ area: people
 kind: research
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/residents-cadence
+status: open
+claimed-by:
 pr: #5796
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T10:57:50.920Z
+claimed-at:
 ---
 
 **What.** Split from research-residents-sourced-parameters. SG-CORE-residents-cadence in src/core2/residents.ts: the wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays; counted workers always work their full schedule and are paid on the employer's cadence (semimonthly approximated as two monthly dates). Source what the replacement will read: the counts' pay dates and income, and absence and turnover rates by industry from BLS JOLTS and CPS (BLS is not reachable from cloud sessions, so use a reachable publisher or mark the row ESTIMATED with its source). Where the replacement is a mechanic, source what it reads and leave the mechanic to the people builder, naming the pool item.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-21T10:57:50.920Z
 **Files.** src/core2/residents.ts,src/core2/data/parameters.json,src/core2/data/stopgaps.json,data/research/people/
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5796 (branch claude/residents-cadence): the played-year proof only checks a fixed-key counts object and finite rates, so zero source records/empty IDs can pass; require positive source record IDs and consistent observed counts, assert the year target, and justify/re-run the new one-hour limit; finish on that branch, merge main into it first.
