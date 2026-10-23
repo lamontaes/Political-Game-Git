@@ -228,6 +228,28 @@ export function weightedPayrollMinor(
   return payroll;
 }
 
+/**
+ * How many times its book a business runs at: its payroll with its counted
+ * workers at their weight over the book's payroll (one with no payroll).
+ * Every reader of the book's other figures (its demand, its other costs)
+ * multiplies by it the same way.
+ */
+export function staffedScale(
+  core: CoreState,
+  organizationId: string,
+  annualPayrollMinor: number,
+  daysPerYear: number,
+): number {
+  return annualPayrollMinor > 0
+    ? weightedPayrollMinor(
+        core,
+        organizationId,
+        annualPayrollMinor,
+        daysPerYear,
+      ) / annualPayrollMinor
+    : 1;
+}
+
 /** How many people one counted person's record stands for: their household's weight (one where the counts no longer hold them). */
 export function countedHeadsOf(core: CoreState, personId: string): number {
   const store = residentsRuntime(core)?.store;

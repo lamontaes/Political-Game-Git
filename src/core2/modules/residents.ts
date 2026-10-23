@@ -58,7 +58,7 @@ export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
-import { weightedPayrollMinor } from "../residents-economy";
+import { staffedScale } from "../residents-economy";
 import {
   chargeGroups,
   flowWeights,
@@ -1246,15 +1246,12 @@ function overCapacity(
     rt.sellerMonth.set(flow.payeeId, row);
   }
   // A seller staffed by counted workers serves as many as they stand for.
-  const staffed =
-    book.annualPayrollMinor > 0
-      ? weightedPayrollMinor(
-          api.state as CoreState,
-          flow.payeeId,
-          book.annualPayrollMinor,
-          DAYS_PER_YEAR,
-        ) / book.annualPayrollMinor
-      : 1;
+  const staffed = staffedScale(
+    api.state as CoreState,
+    flow.payeeId,
+    book.annualPayrollMinor,
+    DAYS_PER_YEAR,
+  );
   const capacity =
     (book.annualDemandMinor * staffed) /
     api.parameter("sellerCapacityUtilization") /
