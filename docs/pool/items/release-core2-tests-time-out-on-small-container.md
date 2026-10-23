@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/core2-test-timeouts
 pr: #5344
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-21T01:49:05.356Z
 ---
 
 **What.** src/core2/groundwater-law.test.ts runs a drawn farm town's played year and was measured at 156 seconds at two workers on a 4-core container, past its 120-second limit. Raise that one test's limit to 300 seconds (about twice the measured run), with the measurement in a comment beside the limit. The other six tests first listed passed under their own limits when re-measured and keep them.

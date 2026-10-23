@@ -1,6 +1,6 @@
 import type { World, EntityId } from "./types";
 import type { LifePathDefinition } from "./life-paths2-catalog";
-import type { SchoolTuitionSelector } from "../education/tuition-prices";
+import type { SchoolTuitionSelector } from "./tuition-prices";
 import { studyUsesPeriodModel } from "./education-study-progression";
 import { recordEvidenceArtifact } from "./evidence";
 import legacyTerms from "./legacy-education-terms-v1.json" with { type: "json" };
