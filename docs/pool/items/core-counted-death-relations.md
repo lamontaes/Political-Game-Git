@@ -5,11 +5,12 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-death-relations
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-22T08:38:36.017Z
 ---
 
 **What.** A counted relative can receive a death notice, but the core opening skips relationship initialization when the other person is a counted person (a husk), so full-to-counted family ties carry no closeness and grief never follows. Initialize those family relationship records through the shared core rule at the opening, reconcile the bench's own family closure with the core opening, and prove a counted death reaching a full relative who grieves. Closes SG-CORE-counted-death-relations.
