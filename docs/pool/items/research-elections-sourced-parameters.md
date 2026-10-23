@@ -5,9 +5,9 @@ area: elections
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-elections
-pr:
+pr: #5851
 blocked-on:
 source: "collapsed Oct 19, 2026 from elections-stopgap-campaigns-missing-data, elections-stopgap-elections-estimated-calendar, elections-stopgap-elections-missing-data, elections-stopgap-voting-missing-data"
 claimed-at: 2026-10-23T20:24:11.145Z

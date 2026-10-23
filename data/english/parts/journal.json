@@ -16,7 +16,8 @@
     "name": "A person, by name, from the records.",
     "whose": "A person's name with 's, from the records.",
     "votes": "A vote margin, from the results record.",
-    "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections)."
+    "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections).",
+    "named": "A relative by relation and given name (\"my daughter Jane\"), or a person by name, from the family record."
   },
   "maxWords": 10,
   "mining": {
@@ -718,7 +719,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001\u20132007",
+        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
         "date": "2019-09-30",
         "granule": "house-oh-hart",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/hart-transcript/",
@@ -726,91 +727,6 @@
       },
       "tag": {
         "move": "tell"
-      }
-    },
-    {
-      "key": "journal.family-line-born.other-was-born",
-      "move": "family-line-born",
-      "kind": "spoken",
-      "text": "{other} was born.",
-      "uses": [
-        {
-          "move": "family-line-born",
-          "subject": "family",
-          "role": "line",
-          "choice": "born",
-          "journal": [
-            {
-              "kindPrefix": "family:child",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 34,
-      "bySource": {
-        "U.S. Senate Historical Office oral history": 1,
-        "blm": 1,
-        "crec": 19,
-        "dcpd": 3,
-        "hearings": 1,
-        "nasa": 2,
-        "nasa2": 3,
-        "nps": 2,
-        "wpa": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "Trails Center welcomes special guest, Yufna Soldier Wolf, on May 27",
-        "date": "2023-05-19",
-        "granule": "blm-2023-05-19-trails-center-welcomes-special-guest-yufna-soldier-wolf-on-m-f320494c",
-        "url": "https://www.blm.gov/press-release/trails-center-welcomes-special-guest-yufna-soldier-wolf-may-27",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
-      }
-    },
-    {
-      "key": "journal.family-line-born.relation-was-born",
-      "move": "family-line-born",
-      "kind": "spoken",
-      "text": "{relation} was born.",
-      "uses": [
-        {
-          "move": "family-line-born",
-          "subject": "family",
-          "role": "line",
-          "choice": "born",
-          "journal": [
-            {
-              "kindPrefix": "family:child",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 9,
-      "bySource": {
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "dcpd": 2,
-        "house": 1,
-        "nasa2": 1,
-        "nps": 3,
-        "wpa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks at the National Republican Congressional Committee Annual Fundraising Dinner",
-        "date": "2026-03-25",
-        "granule": "DCPD-202600207",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600207/html/DCPD-202600207.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "tell",
-        "key": "arrival"
       }
     },
     {
@@ -1116,7 +1032,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community\u2019s Vision and Support for Proposed National Park System Additions in Alabama",
+        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community’s Vision and Support for Proposed National Park System Additions in Alabama",
         "date": "2016-10-28",
         "granule": "doi-2016-10-28-secretary-jewell-national-park-service-director-jarvis-hear-98df7a13",
         "url": "https://www.doi.gov/pressreleases/secretary-jewell-national-park-service-director-jarvis-hear-communitys-vision-and",
@@ -4640,43 +4556,6 @@
       }
     },
     {
-      "key": "journal.memoir-hook.i-had-no-idea",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I had no idea.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 28,
-      "bySource": {
-        "NASA oral histories": 21,
-        "U.S. House oral histories": 6,
-        "U.S. Senate oral histories": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House oral history: The Honorable Lois Capps",
-        "date": "2019-07-16",
-        "granule": "house-capps-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/capps-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
       "key": "journal.memoir-hook.i-didnt-know-it-at-the-time",
       "move": "memoir-hook",
       "kind": "spoken",
@@ -4706,77 +4585,6 @@
         "date": "2024-07-22",
         "granule": "house-coelho-transcript",
         "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.that-was-the-beginning",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "That was the beginning.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "NASA oral histories": 5
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history koosrh-8-22-23",
-        "date": "2023-08-22",
-        "granule": "nasa-koosrh-8-22-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/koosrh-8-22-23.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.that-was-a-turning-point",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "That was a turning point.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. House oral histories": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House oral history: The Honorable Mary Rose Oakar",
-        "date": "2017-03-02",
-        "granule": "house-oakar-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/oakar-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -4885,219 +4693,6 @@
         "date": "2015-02-17",
         "granule": "nasa-curleyh-n-2-17-15",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/11/curleyh-n-2-17-15.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-didnt-know-what-that-meant",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I didn't know what that meant.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "NASA oral histories": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history peddiecl-4-27-23",
-        "date": "2023-04-27",
-        "granule": "nasa-peddiecl-4-27-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/peddiecl-4-27-23.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-never-knew",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I never knew.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House oral history: Brenda Countz",
-        "date": "2024-03-29",
-        "granule": "house-countz-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/countz-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.i-had-no-clue",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "I had no clue.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "NASA oral histories": 1,
-        "U.S. House oral histories": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House oral history: The Honorable Sue W. Kelly",
-        "date": "2016-06-23",
-        "granule": "house-kellys-transcript",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.thats-how-it-started",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "That's how it started.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "NASA oral histories": 3,
-        "U.S. House oral histories": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history haweswm-8-1-18",
-        "date": "2018-08-01",
-        "granule": "nasa-haweswm-8-1-18",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/haweswm-8-1-18.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.thats-where-it-began",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "That's where it began.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "NASA oral histories": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history reedlm-5-15-15",
-        "date": "2015-05-15",
-        "granule": "nasa-reedlm-5-15-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/reedlm-5-15-15.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "recall"
-      }
-    },
-    {
-      "key": "journal.memoir-hook.we-had-no-idea",
-      "move": "memoir-hook",
-      "kind": "spoken",
-      "text": "We had no idea.",
-      "uses": [
-        {
-          "move": "memoir-hook",
-          "subject": "memoir",
-          "role": "hook",
-          "choice": "hook",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "hook"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 7,
-      "bySource": {
-        "NASA oral histories": 7
-      },
-      "shippable": true,
-      "source": {
-        "document": "NASA oral history jenkinsj-6-18-24",
-        "date": "2024-06-18",
-        "granule": "nasa-jenkinsj-6-18-24",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/jenkinsj-6-18-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       },
       "tag": {
@@ -6136,6 +5731,187 @@
       "date": "2026-10-16",
       "tag": {
         "move": "tell"
+      }
+    },
+    {
+      "key": "journal.family-line-born.named-was-born",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{named} was born.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 34,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
+        "blm": 1,
+        "crec": 19,
+        "dcpd": 3,
+        "hearings": 1,
+        "nasa": 2,
+        "nasa2": 3,
+        "nps": 2,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Trails Center welcomes special guest, Yufna Soldier Wolf, on May 27",
+        "date": "2023-05-19",
+        "granule": "blm-2023-05-19-trails-center-welcomes-special-guest-yufna-soldier-wolf-on-m-f320494c",
+        "url": "https://www.blm.gov/press-release/trails-center-welcomes-special-guest-yufna-soldier-wolf-may-27",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.family-line-born.we-welcomed-named",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "We welcomed {named}.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ],
+          "subject": "family",
+          "role": "line",
+          "choice": "born"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.family-line-born.named-came-along",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{named} came along.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ],
+          "subject": "family",
+          "role": "line",
+          "choice": "born"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.that-wasn-t-the-last-i-d-see-of-name",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "That wasn't the last I'd see of {name}.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ],
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.i-would-see-a-lot-more-of-name-after-that",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "I would see a lot more of {name} after that.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ],
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
+      }
+    },
+    {
+      "key": "journal.memoir-hook.name-would-come-back-into-my-life",
+      "move": "memoir-hook",
+      "kind": "spoken",
+      "text": "{name} would come back into my life.",
+      "uses": [
+        {
+          "move": "memoir-hook",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "hook"
+            }
+          ],
+          "subject": "memoir",
+          "role": "hook",
+          "choice": "hook"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "recall"
       }
     },
     {
