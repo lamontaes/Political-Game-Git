@@ -79,4 +79,15 @@ describe("the filing visit", () => {
     expect(visit.choices.map((row) => row.action.kind)).toEqual(["done"]);
     expect(visit.choices.map((row) => row.control)).toEqual(["acknowledge"]);
   });
+
+  it("tells a candidate which ward the seat is for and which they live in", () => {
+    const visit = openFilingVisit(core, player.id, [contest]);
+    pickContest(core, visit, contest.id, terms, [
+      check("district-residency", false, "3", "5"),
+    ]);
+    const said = visit.lines.filter((row) => row.speaker === "clerk").at(-1)!;
+    expect(said.text).toMatch(/Ward 3\b.*Ward 5\b/);
+    expect(said.sourceRecordIds).toContain(player.id);
+    expect(visit.choices.map((row) => row.action.kind)).toEqual(["done"]);
+  });
 });
