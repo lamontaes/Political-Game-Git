@@ -1,0 +1,208 @@
+import { randomBytes } from "node:crypto";
+import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
+import { advanceCore } from "./life";
+import { BUDGETS_MODULE_ID, withholdingOf } from "./modules/budgets";
+import { countedDemotions } from "./modules/counted-demotion";
+import { lawInForce } from "./modules/laws";
+import { countedParameter, residentsRuntime } from "./modules/residents";
+import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
+import { coreAPI, fillInPerson } from "./state";
+import type { CoreState, PersonState } from "./types";
+
+// A filled-in household's jobless worker takes a real job with an employer
+// outside the town, paid from the place's outside account, and goes back to
+// the unplaced workers' pay when the household returns to the counts
+// (core-commuter-job-fill-in). A place is drawn from all 56; set
+// GOLDEN_PATH_SEED to reproduce a run.
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+
+it(`a filled-in jobless worker holds an outside job with a payday and withholding, and returns to the pool, seed ${seed}`, () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    const place = drawPlace(seed, `commuter:${attempt}`);
+    tried.push(place.name);
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const state = core as CoreState;
+    const api = coreAPI(core);
+    const rt = residentsRuntime(state)!;
+    const where = `${place.name} [${place.key}], seed ${seed}`;
+    const pool = () =>
+      [...rt.flows.values()]
+        .filter(
+          (flow) =>
+            !flow.endedAt && flow.financeKind === "work.unplaced-residents",
+        )
+        .reduce((n, flow) => n + flow.amountMinor, 0);
+    // A counted household with unplaced workers whose fill-in gives one of its
+    // people a commuter job (a household of children or retirees would not).
+    // A mixed household: one adult holds a local job, so the commute goes to
+    // a member without one, and the local job is kept.
+    let commuter: PersonState | undefined;
+    let local: PersonState | undefined;
+    let before = 0;
+    for (const household of [...rt.store.liveHouseholds()]
+      .filter(
+        (h) =>
+          h.unplacedWorkers > 0 &&
+          rt.store.countedMembers(h).length &&
+          h.jobs.some((job) => job.endsAt === undefined),
+      )
+      .slice(0, 12)) {
+      before = pool();
+      const member = rt.store.ids[rt.store.countedMembers(household)[0]!]!;
+      fillInPerson(state, member);
+      const members = [...state.people.values()].filter(
+        (p) => p.householdId === household.id,
+      );
+      commuter = members.find((p) => p.jobId?.startsWith("job:commuter:"));
+      local = members.find(
+        (p) => p.jobId && !p.jobId.startsWith("job:commuter:"),
+      );
+      if (commuter && local) break;
+      commuter = undefined;
+    }
+    if (!commuter || !local) continue;
+    expect(local.id, where).not.toBe(commuter.id);
+    // The commute goes to a member the counts share the unplaced workers
+    // among: working age, no job. A household with a jobless member past
+    // working age and a jobless one of working age gives it to the latter.
+    const from = countedParameter("countedWorkingAgeFrom"),
+      below = countedParameter("countedWorkingAgeBelow");
+    const ageNow = (p: PersonState) => ageOnDate(p.birthDate, state.date);
+    let older: string | undefined;
+    for (const household of [...rt.store.liveHouseholds()]
+      .filter((h) => h.unplacedWorkers > 0 && rt.store.countedMembers(h).length)
+      .slice(0, 80)) {
+      const ids = rt.store
+        .countedMembers(household)
+        .map((m) => rt.store.ids[m]!);
+      fillInPerson(state, ids[0]!);
+      const members = [...state.people.values()].filter(
+        (p) => p.householdId === household.id,
+      );
+      const took = members.find((p) => p.jobId?.startsWith("job:commuter:"));
+      if (!took) continue;
+      expect(
+        ageNow(took),
+        `${where}: ${took.id} commutes`,
+      ).toBeGreaterThanOrEqual(from);
+      expect(ageNow(took), `${where}: ${took.id} commutes`).toBeLessThan(below);
+      const past = members.find(
+        (p) => p.id !== took.id && !p.jobId && ageNow(p) >= below,
+      );
+      if (past && !older)
+        older = `${household.id}: ${took.id} (${ageNow(took)}) commutes, not ${past.id} (${ageNow(past)})`;
+    }
+    if (!older) {
+      tried.push(`${place.name}: no household with a member past working age`);
+      continue;
+    }
+    expect(
+      state.jobs.get(local.jobId!)?.endsAt,
+      `${where}: ${local.jobId} kept`,
+    ).toBeUndefined();
+    // The neighbor the player meets: their records are kept like anyone the
+    // player deals with, withholding included.
+    state.focusPersonIds.add(commuter.id);
+    const job = state.jobs.get(commuter.jobId!)!;
+    const employer = state.organizations.get(job.organizationId)!;
+    expect(employer.kind, `${where}: employer is the outside account`).toBe(
+      OUTSIDE_MARKET_KIND,
+    );
+    expect(
+      pool(),
+      `${where}: the pool gave up the household's share`,
+    ).toBeLessThan(before);
+    // A regular payday, with tax withheld, and the account's own cash never used.
+    advanceCore(core, addDays(makeIsoDate(core.date), 60));
+    const ledger = [...state.work.payrollLedgerByCommitment.values()].find(
+      (row) => row.jobId === job.id,
+    );
+    expect(
+      ledger?.paidMinor ?? 0,
+      `${where}: ${job.id} was paid`,
+    ).toBeGreaterThan(0);
+    expect(
+      ledger?.lastPayrollReceiptId,
+      `${where}: a payroll receipt`,
+    ).toBeTruthy();
+    // The paycheck went through the withholding step like any other: the year's
+    // pay is counted once it is withheld, or had nothing to withhold under the
+    // place's law, and any tax taken is on the person's record.
+    const counted = api
+      .moduleState(BUDGETS_MODULE_ID)
+      .table("yearToDate")
+      .get(`${commuter.id}:${core.date.slice(0, 4)}`) as
+      { minor: number } | undefined;
+    expect(
+      counted?.minor ?? 0,
+      `${where}: ${commuter.id} pay counted`,
+    ).toBeGreaterThan(0);
+    // Each payday's withholding names the payroll receipt it was taken from.
+    const withheld = withholdingOf(api, commuter.id);
+    for (const row of withheld) {
+      expect(row.payrollReceiptId, `${where}: ${row.id}`).toBeTruthy();
+      expect(row.paidMinor, `${where}: ${row.id}`).toBeGreaterThan(0);
+    }
+    // Nothing withheld only where the law in force taxes none of this pay.
+    const taxLaw = ["income-tax", "social-security-tax", "medicare-tax"].map(
+      (series) => `${series} ${lawInForce(api, series).value ?? "none"}`,
+    );
+    if (!withheld.length)
+      for (const series of [
+        "income-tax",
+        "social-security-tax",
+        "medicare-tax",
+      ])
+        expect(
+          lawInForce(api, series).value ?? 0,
+          `${where}: nothing withheld, so ${series} is not in force`,
+        ).toBe(0);
+    const trace = `${older}; ${commuter.id} holds ${job.id} at ${employer.id} (housemate ${local.id} keeps ${local.jobId}); paid ${ledger!.paidMinor}, last payroll receipt ${ledger!.lastPayrollReceiptId}; withholding ${
+      withheld
+        .map(
+          (row) =>
+            `${row.id} from ${row.payrollReceiptId}: ${row.lines.length} lines, postings ${row.postings.map((x) => x.id).join(" ")}`,
+        )
+        .join("; ") || `none recorded (law in force: ${taxLaw.join(", ")})`
+    }; year's pay counted ${counted!.minor}`;
+    expect(state.organizations.get(employer.id)!.liquidMinor).toBe(0);
+    // Out of the player's life for the world's 180 to 240 days, the household
+    // goes back to the counts: the job ends and its pay goes back to the pool.
+    advanceCore(core, addDays(makeIsoDate(core.date), 305));
+    const returned = countedDemotions(api).find(
+      (row) => row.householdId === commuter.householdId,
+    );
+    if (!returned) continue;
+    expect(
+      state.jobs.get(job.id)!.endsAt,
+      `${where}: the job ended`,
+    ).toBeDefined();
+    // Its share of the unplaced workers is back with its counted group.
+    const group =
+      rt.store.households[rt.store.householdOf.get(commuter.householdId!)!]!;
+    expect(
+      group.unplacedWorkers,
+      `${where}: the household's unplaced workers are back in its group`,
+    ).toBeGreaterThan(0);
+    expect(core.cashJournal.totals.grossDebitMinor).toBe(
+      core.cashJournal.totals.grossCreditMinor,
+    );
+    process.stdout.write(
+      `COMMUTER ${where} (place seed ${place.seed}): ${trace}; job ended ${state.jobs.get(job.id)!.endsAt}\n`,
+    );
+    return;
+  }
+  throw new Error(
+    `no drawn place had a filled-in unplaced worker (${tried.join(", ")}; seed ${seed})`,
+  );
+}, 1_800_000);
