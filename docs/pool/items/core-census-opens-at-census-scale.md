@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5295
 blocked-on:
 source: added with npm run pool -- add
 ---
