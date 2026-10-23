@@ -96,14 +96,19 @@ describe("a vote or signature is filed at its own government's level", () => {
       "bill-amendment",
     ]);
     const seen: CoreEventInput[] = [];
+    const records: CoreEventInput[] = [];
     const emit = api.emit.bind(api);
     api.emit = (event: CoreEventInput) => {
       if (kinds.has(event.kind)) seen.push(event);
+      if (event.publicRecord) records.push(event);
       return emit(event);
     };
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     expect(seen.length, where).toBeGreaterThan(0);
     const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
+    const committees = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("committees");
     const chain = lawChain(api);
     const town = { placeId: chain.townPlaceId, stateKey: chain.stateKey };
     const federal = new Set<string>();
@@ -126,6 +131,26 @@ describe("a vote or signature is filed at its own government's level", () => {
           "nation",
         );
       }
+      // A hearing is wired as what its bill changes, and its story names the
+      // committee whose record it is: the members on its roll call.
+      if (event.kind === "committee-hearing" && billId) {
+        const bill = bills.get(billId) as unknown as BillRow;
+        const first = bill?.provisions[0];
+        const topic = first
+          ? (first.question ??
+            (first.line ? `budget-line:${first.line}` : first.series))
+          : undefined;
+        const item = wireItem(api, event, town);
+        expect(item?.topic, `${where}: ${event.id}`).toBe(topic ?? event.kind);
+        const record = committees.get(event.id) as unknown as {
+          memberIds?: readonly string[];
+        };
+        for (const memberId of record?.memberIds ?? [])
+          if (api.state.people.has(memberId))
+            expect(item?.subjectIds, `${where}: ${event.id}`).toContain(
+              memberId,
+            );
+      }
     }
     // A chamber organized before the test's hook was set is Congress's too.
     const isFederal = (id: string) =>
@@ -137,14 +162,29 @@ describe("a vote or signature is filed at its own government's level", () => {
           expect(isFederal(story.wireId), `${where}: ${story.wireId}`).toBe(
             false,
           );
-    // Where a national outlet exists, it prints one of them by record id.
+    // A national outlet prints the nation's business by record id: a story
+    // whose wire item is a federal public record its desk read. The demand
+    // cannot rest on the four tracked kinds alone: a hearing with no town
+    // witness and an out-of-town committee carries no people and no renown,
+    // and on reader care alone it cannot outscore a state law that reaches
+    // the outlet's own readers (place 0815330, seed dc4ca028…, the week of
+    // Feb 17 2025: the House medicaid-work-requirement hearing scored its
+    // nation proximity times 1 plus care, while the state laws ahead of it
+    // scored 1.54 to 1.67 on a people term of 4.0). A federal law taking
+    // effect reaches those same readers, so a national desk prints the
+    // nation's business in every world, and that is the read asserted here.
+    const everything = new Map(records.map((event) => [event.id, event]));
     const national = outletsHere(api).filter((o) => o.tier === "national");
-    if (national.length && federal.size)
+    if (national.length) {
+      const printed = national.flatMap((o) => storiesPrinted(api, o.id));
+      expect(printed.length, where).toBeGreaterThan(0);
       expect(
-        national
-          .flatMap((o) => storiesPrinted(api, o.id))
-          .some((story) => isFederal(story.wireId)),
+        printed.some((story) => {
+          const event = everything.get(story.wireId);
+          return !!event && wireItem(api, event, town)?.level === "nation";
+        }),
         where,
       ).toBe(true);
+    }
   }, 600000);
 });
