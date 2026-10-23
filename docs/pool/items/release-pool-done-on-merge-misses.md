@@ -22,3 +22,5 @@ claimed-at:
 **Files.** .github/workflows/pool-done-on-merge.yml, scripts/pool/index.ts, scripts/pool/done-on-merge.ts, tests/release/pool-done-on-merge.test.ts
 
 **Notes.** Found by the Oct 23 reconcile (CTO). Meeting P1 rules: the fix is a build, with its gate in the PR.
+
+Sent back 2026-10-23 from PR #5843 (branch cto/pool-done-on-merge-fix): The required ten-merge operational proof is explicitly absent, and routing would prematurely complete the broad item; the changed no-op and exhausted-retry paths also lack behavior coverage; finish on that branch, merge main into it first.
