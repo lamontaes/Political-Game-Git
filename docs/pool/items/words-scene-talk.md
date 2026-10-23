@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
+status: done
 claimed-by:
 pr: #4459
 blocked-on:
@@ -43,3 +43,5 @@ Looked at Oct 21 (claude, Sonnet session): not taken. The fixer's Oct 20 note is
 Sent back 2026-10-23 from PR #4459 (branch words/scene-talk): Done-when evidence is explicitly partial; supply fifteen talks reaching a result in buildBenchWorld on a drawn place and independent seed, with scene/record IDs and follow-up/opener assertions; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #4459 (branch words/scene-talk): the Done-when row is partly met; supply the fifteen-talk buildBenchWorld test naming scene and record IDs, proving earned openers and followed-up replies through results; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4459 (branch words/scene-talk): The new played-talks assertion block accepts fifteen empty conversations with zero lines and record ids; require positive dialogue/answers and observed follow-ups before counting each talk, with an empty-talk break-it case; finish on that branch, merge main into it first.
