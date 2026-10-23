@@ -150,4 +150,6 @@ it("reads withdrawal law at farm production and removes its limit on repeal", ()
   } finally {
     setBookkeeping(true);
   }
-}, 120_000);
+  // A drawn farm town's year took 156 seconds at two workers on a 4-core
+  // container, past the 120 seconds it had; about twice that. Measured again the same way at 189 seconds.
+}, 300_000);
