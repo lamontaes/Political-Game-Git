@@ -397,4 +397,35 @@ describe("what the allowlist asks of a list-pick", () => {
       { file: "src/simulation/x.ts", kind: "list-pick", before: 1, after: 2 },
     ]);
   });
+
+  it("counts a line that moved to another file as the same line, not growth", () => {
+    const row = (file: string, code: string) => ({
+      file,
+      kind: "list-pick",
+      build: null,
+      count: 1,
+      code,
+      class: "GENERATION",
+      keyedBy: "id",
+      reason: "Who exists.",
+      replacement: null,
+    });
+    const before = { entries: [row("src/old.ts", "point -= share;")] };
+    // Moved: gone from the old file, the same code in the new one.
+    expect(
+      growth(before, { entries: [row("src/new.ts", "point -= share;")] }),
+    ).toEqual([]);
+    // Copied, or new code: the repository holds more of it, so it grows.
+    expect(
+      growth(before, {
+        entries: [
+          row("src/old.ts", "point -= share;"),
+          row("src/new.ts", "point -= share;"),
+        ],
+      }),
+    ).toEqual([{ file: "src/new.ts", kind: "list-pick", before: 0, after: 1 }]);
+    expect(
+      growth(before, { entries: [row("src/new.ts", "rng.pick(list);")] }),
+    ).toEqual([{ file: "src/new.ts", kind: "list-pick", before: 0, after: 1 }]);
+  });
 });

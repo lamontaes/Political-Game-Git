@@ -22,8 +22,8 @@
       "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
       "Federal Election Commission (fec.gov)": 253,
       "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
-      "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
-      "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+      "Carter Presidential Library (NARA) Carter/Smith Family Oral History Project": 8,
+      "Carter Presidential Library (NARA) White House Exit Interview Project": 92,
       "National Archives History Office oral history project": 57,
       "National Archives History Office oral history project (brooks-oral-histories)": 26,
       "National Archives History Office oral history project (nprc-oral-histories)": 12,
@@ -178,7 +178,7 @@
       ],
       "transcriptsUsing": 4,
       "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 1,
         "briefing": 1,
         "crec": 1,
         "dcpd": 1
@@ -826,7 +826,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks With Former Presidents Barack Obama and William J. Clinton in a Question-and-Answer Session Moderated by Stephen T. Colbert at a Campaign Reception in New York City",
+        "document": "Remarks With Former Presidents Obama and William J. Clinton in a Question-and-Answer Session Moderated by Stephen T. Colbert at a Campaign Reception in New York City",
         "date": "2024-03-28",
         "granule": "DCPD-202400238",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202400238/html/DCPD-202400238.htm",
@@ -1212,7 +1212,7 @@
       ],
       "transcriptsUsing": 169,
       "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 2,
         "National Archives History Office oral history project (nprc-oral-histories)": 1,
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 4,
@@ -1329,8 +1329,8 @@
       "transcriptsUsing": 354,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Carter Presidential Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 4,
         "U.S. Army Center of Military History": 1,
         "U.S. Election Assistance Commission (eac.gov)": 5,
@@ -1373,7 +1373,7 @@
       ],
       "transcriptsUsing": 61,
       "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 1,
         "briefing": 8,
         "dcpd": 32,
         "hearings": 19,
@@ -1597,8 +1597,8 @@
       ],
       "transcriptsUsing": 323,
       "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 7,
+        "Carter Presidential Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 7,
         "National Archives History Office oral history project": 6,
         "National Archives History Office oral history project (brooks-oral-histories)": 1,
         "National Archives History Office oral history project (nprc-oral-histories)": 2,
@@ -1646,8 +1646,8 @@
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 2,
         "Federal Election Commission (fec.gov)": 2,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 22,
+        "Carter Presidential Library (NARA) Carter/Smith Family Oral History Project": 3,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 22,
         "National Archives History Office oral history project": 25,
         "National Archives History Office oral history project (brooks-oral-histories)": 7,
         "National Archives History Office oral history project (nprc-oral-histories)": 7,
@@ -1760,7 +1760,7 @@
       ],
       "transcriptsUsing": 76,
       "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 2,
         "National Archives History Office oral history project": 1,
         "National Archives History Office oral history project (nprc-oral-histories)": 1,
         "U.S. Senate Historical Office oral history": 5,
@@ -1799,8 +1799,8 @@
       "bySource": {
         "Air Force Historical Research Agency, USAF Oral History Program": 1,
         "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 10,
+        "Carter Presidential Library (NARA) Carter/Smith Family Oral History Project": 3,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 10,
         "National Archives History Office oral history project": 15,
         "National Archives History Office oral history project (nprc-oral-histories)": 2,
         "National Archives History Office oral history project (nyc-oral-histories)": 2,
@@ -1850,7 +1850,7 @@
       ],
       "transcriptsUsing": 243,
       "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 1,
         "Naval History and Heritage Command, Navy strategy oral histories": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 3,
         "U.S. Election Assistance Commission (eac.gov)": 4,
@@ -1894,7 +1894,7 @@
       "transcriptsUsing": 157,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 1,
         "National Archives History Office oral history project (nprc-oral-histories)": 1,
         "National Archives History Office oral history project (nyc-oral-histories)": 2,
@@ -1975,7 +1975,7 @@
       ],
       "transcriptsUsing": 85,
       "bySource": {
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 1,
         "National Archives History Office oral history project (nprc-oral-histories)": 1,
         "Naval History and Heritage Command, Navy strategy oral histories": 1,
@@ -2018,8 +2018,8 @@
       ],
       "transcriptsUsing": 468,
       "bySource": {
-        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Carter Presidential Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Carter Presidential Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 4,
         "National Archives History Office oral history project (nprc-oral-histories)": 1,
         "National Archives History Office oral history project (nyc-oral-histories)": 1,

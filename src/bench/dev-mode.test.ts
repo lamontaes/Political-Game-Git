@@ -65,7 +65,22 @@ describe(`dev mode: ${world.place.displayName} (seed ${seed})`, () => {
   it("sets a law the law engine reads and the minimum-wage raise follows", () => {
     const api = coreAPI(core);
     const floor = lawInForce(api, "minimum-wage").value ?? 0;
-    const value = floor + 1000;
+    // Above the town's lowest full-person wage, so some job is under it (a
+    // floor raised by a fixed step can sit below every job in a town).
+    const town = core.visiblePlaceIds;
+    const lowest = Math.min(
+      ...[...core.work.commitments.values()]
+        .filter((row) => {
+          const employer = core.organizations.get(row.organizationId);
+          return (
+            employer &&
+            (!town.size || town.has(employer.placeId)) &&
+            (row.endsAt === undefined || row.endsAt > core.date)
+          );
+        })
+        .map((row) => row.hourlyMinor),
+    );
+    const value = Math.max(floor, lowest) + 1000;
     const { law, reach } = dev.setLaw({
       // The state level always counts; a place's floor needs the state's leave.
       level: "state",

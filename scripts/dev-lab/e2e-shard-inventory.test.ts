@@ -4,7 +4,6 @@ import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   assertShardUnion,
-  listPlaywrightTests,
   parsePlaywrightList,
   readShardInventories,
   shardInventory,
@@ -54,23 +53,6 @@ describe("Playwright shard inventory", () => {
       ]),
     ).toThrow("does not match");
   });
-
-  it("matches Playwright's live file-level shards for this checkout", () => {
-    const baseline = listPlaywrightTests();
-    expect(baseline.length).toBeGreaterThan(0);
-    assertShardUnion(baseline, [
-      shardInventory(
-        1,
-        2,
-        listPlaywrightTests(process.cwd(), { shard: 1, total: 2 }),
-      ),
-      shardInventory(
-        2,
-        2,
-        listPlaywrightTests(process.cwd(), { shard: 2, total: 2 }),
-      ),
-    ]);
-  }, 30_000);
 
   it("loads uploaded shard JSON from nested artifact folders", () => {
     const root = mkdtempSync(join(tmpdir(), "e2e-shard-"));

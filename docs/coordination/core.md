@@ -17,6 +17,11 @@ New on `core/wiring-office-and-husks` (PR #4167, Oct 14): when someone in town g
 
 In the evening build (PLAY's bench on the core): every game opens on January 20, 2025, and FEMA's real disasters reach the town on their dates through October 9, 2026 (1,610 of 3,282 counties had one begin in that span; White Plains, Kentucky saw 4 in 2025): news, federal aid to the town and its households, and repair work for its builders. Retirement claims follow Social Security law as Congress sets it. Children go to school on school days. A Woodmere, New York year from the 2025 opening runs in 76.6 seconds (Oct 14, one run). Businesses mostly stay open and their prices rise with the price index (where they had risen 21% a year); a raise, such as a new minimum wage, shows up in the employer's prices at its next monthly review. A sales tax collects on every purchase. The rest of the town is born, dies and moves. Counted voters start at their county's 2024 lean and their town's citizen share. Not visible until PLAY's opening uses the core's steps (Needs): the public school district and its teachers, private-school families, and the representative sample of the town. Saves in the base world load from a snapshot.
 
+## Release gate and unit suite (Oct 14, night)
+
+- #4302 (merged): the release blocks on the build, typecheck, zero dice, the release declarations and the golden path; the six unit shards are gone; a newer push cancels a release only while it validates; desktop packaging runs on `desktop/` changes only.
+- #4309 (draft): the unit suite follows the game now, 52 failing files down to 3 that fail on some seeds only. Those are named, with their seeds, for GOV, WORLD and PEOPLE in the PR body. One Sonnet helper ran twice, on the guard and English-data tests.
+
 ## Retire the old core
 
 Cleanup builder, PR #4196 (branch `cleanup/retire-old-core`, on top of the dead-files cleanup #4153). Opus, high; no sub-agents. Nothing a player sees changes: on one random seed the world state hashes the same as main at the opening and after 60 days; the golden path, the played world and the dollar check come out the same; the speed guard reads 0.963 of main.

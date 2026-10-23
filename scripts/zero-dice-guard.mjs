@@ -575,8 +575,38 @@ function totals(entries) {
  */
 export function growth(previous, current) {
   const before = totals(previous.entries);
+  // A line that moved to another file is the same line, not a new one: the
+  // repository's count of that exact code and kind did not grow.
+  const byCode = (entries) => {
+    const counts = new Map();
+    for (const entry of entries) {
+      const key = `${entry.kind}\u0000${entry.code}`;
+      counts.set(key, (counts.get(key) ?? 0) + entry.count);
+    }
+    return counts;
+  };
+  const codeBefore = byCode(previous.entries);
+  const codeAfter = byCode(current.entries);
+  const moved = new Map();
+  for (const entry of current.entries) {
+    const key = `${entry.kind}\u0000${entry.code}`;
+    if ((codeAfter.get(key) ?? 0) > (codeBefore.get(key) ?? 0)) continue;
+    const kept = previous.entries
+      .filter(
+        (row) => groupOf(row) === groupOf(entry) && row.code === entry.code,
+      )
+      .reduce((n, row) => n + row.count, 0);
+    if (entry.count > kept)
+      moved.set(
+        groupOf(entry),
+        (moved.get(groupOf(entry)) ?? 0) + entry.count - kept,
+      );
+  }
   return [...totals(current.entries)]
-    .filter(([group, after]) => after > (before.get(group) ?? 0))
+    .filter(
+      ([group, after]) =>
+        after - (moved.get(group) ?? 0) > (before.get(group) ?? 0),
+    )
     .map(([group, after]) => {
       const [file, kind] = group.split("\u0000");
       return { file, kind, before: before.get(group) ?? 0, after };
