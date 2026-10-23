@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/vote-level.test.ts, src/core2/press-topics.ts, src/core2/modules/press.ts
 
 **Notes.** Found while gating PR #5827 on 2026-10-23. The unchanged second case failed in about 70 seconds on both integrated PR and clean frozen main. Prior release-red-vote-level-organizing-filed is done and already counts opening chamber IDs; this recurrence remains.
+
+Sent back 2026-10-23 from PR #5845 (branch glm/vote-level-federal-story-draw): The new hearing/member assertions can all be skipped and publication is witnessed by an unrelated federal law, leaving the changed committee-news route without positive read proof; finish on that branch, merge main into it first.
