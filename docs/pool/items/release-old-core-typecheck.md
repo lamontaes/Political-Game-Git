@@ -5,11 +5,11 @@ area: release
 kind: cleanup
 priority: 1
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
 after:
-blocked-on:
+blocked-on: core-old-engine-07-appearance-and-delete
 source: "repo audit Oct 19 (docs/reports/repo-audit-2026-10-19.md)"
 ---
 
