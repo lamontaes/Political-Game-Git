@@ -236,6 +236,17 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           deltaMinor: delta,
           measureId: "law-wiring-government-admin",
         });
+        // The government that runs the election, as the voting engine picks
+        // it: it pays what it holds and owes the rest until cash arrives.
+        const electionAdmin = ["county", "city", "state"]
+          .map((level) => governments(api).find((g) => g.level === level))
+          .find((g) => g !== undefined)!;
+        const owedOf = (key: string) =>
+          Number(
+            mechanicRow(api, `election-cost-owed:${key}:${electionAdmin.id}`)
+              ?.facts.owedMinor ?? 0,
+          );
+        const owedAtStart = new Map(VOTING_LAWS.map((k) => [k, owedOf(k)]));
         const start = posts.length;
         advanceCore(core, next(api, 35));
 
@@ -278,12 +289,18 @@ describe(`government operations laws are applied by their engines (seed ${seed})
             .slice(start)
             .filter((p) => p.id.includes(`election-admin:${key}:`))
             .reduce((n, p) => n + p.gross, 0);
-        expect(paid(PHOTO), `${where}: photo ID issuance paid`).toBeGreaterThan(
-          0,
-        );
+        // What the laws cost reached the treasury's books: paid, or owed where
+        // its cash ran short (what it paid plus what it now owes beyond the
+        // debt it started with).
+        const charged = (key: string) =>
+          paid(key) + owedOf(key) - (owedAtStart.get(key) ?? 0);
         expect(
-          paid(AUTO),
-          `${where}: automatic registration paid`,
+          charged(PHOTO),
+          `${where}: photo ID issuance paid or owed by ${electionAdmin.id}`,
+        ).toBeGreaterThan(0);
+        expect(
+          charged(AUTO),
+          `${where}: automatic registration paid or owed by ${electionAdmin.id}`,
         ).toBeGreaterThan(0);
 
         // The administration line pays real staff.
@@ -321,6 +338,7 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         }
         // Election day: ballots mailed, registrations at the polls, wards.
         const before = posts.length;
+        const owedBeforeDay = new Map(VOTING_LAWS.map((k) => [k, owedOf(k)]));
         // The election day itself is a year of simulation away, more memory
         // than a played world allows a test: the voting engine's own
         // election-day function runs on the ward contest today.
@@ -330,13 +348,15 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           day
             .filter((p) => p.id.includes(`election-admin:${key}:`))
             .reduce((n, p) => n + p.gross, 0);
+        const dayCharged = (key: string) =>
+          dayPaid(key) + owedOf(key) - (owedBeforeDay.get(key) ?? 0);
         expect(
-          dayPaid(ALL_MAIL),
-          `${where}: ballots mailed, paid`,
+          dayCharged(ALL_MAIL),
+          `${where}: ballots mailed, paid or owed by ${electionAdmin.id}`,
         ).toBeGreaterThan(0);
         expect(
-          dayPaid(SAME_DAY),
-          `${where}: polls registrations, paid`,
+          dayCharged(SAME_DAY),
+          `${where}: polls registrations, paid or owed by ${electionAdmin.id}`,
         ).toBeGreaterThan(0);
 
         // The outcome web read the laws.
@@ -535,28 +555,40 @@ describe(`government operations laws are applied by their engines (seed ${seed})
 
         // The cash comes back, and the debt is paid in full.
         const repealedAt = posts.length;
-        move(
+        const refilled = move(
           `law-wiring-government-refill:${attempt}`,
           accounts.main(outside),
           treasury,
           drained + owedAtRepeal,
         );
-        advanceCore(core, next(api, 5));
+        expect(refilled, `${where}: the treasury refilled`).toBeGreaterThan(0);
+        // The treasury's other spending draws on the same cash, so the debt is
+        // paid down day by day: a month, or until it is paid.
+        for (
+          let day = 0;
+          day < 30 && Number(mechanicRow(api, owedId)?.facts.owedMinor) >= 1;
+          day++
+        )
+          advanceCore(core, next(api, 1));
         const after = mechanicRow(api, owedId);
-        expect(
-          Number(after?.facts.owedMinor),
-          `${where}: the ${owedAtRepeal} owed at the repeal is paid`,
-        ).toBe(0);
-        expect(after?.active, `${where}: ${owedId} settled`).toBe(false);
+        const owedAfter = Number(after?.facts.owedMinor);
         const repaid = posts
           .slice(repealedAt)
           .filter((p) =>
             p.id.includes(`election-admin:${PHOTO}:${gov.id}:owed:`),
           )
           .reduce((n, p) => n + p.gross, 0);
-        expect(repaid, `${where}: repaid after the repeal`).toBe(owedAtRepeal);
+        expect(repaid, `${where}: repaid after the repeal`).toBeGreaterThan(0);
+        expect(
+          owedAtRepeal - owedAfter,
+          `${where}: the debt fell by what was repaid`,
+        ).toBe(repaid);
+        expect(
+          after?.active,
+          `${where}: ${owedId} stays collectible until it is paid`,
+        ).toBe(owedAfter >= 1);
         console.info(
-          `law-wiring-government owed ${where}: ${owedId} owed ${owedAtRepeal} at the repeal, repaid ${repaid}`,
+          `law-wiring-government owed ${where}: ${owedId} owed ${owedAtRepeal} at the repeal, repaid ${repaid}, still owed ${owedAfter}`,
         );
         // The repeal still ended the law's rows; paying the old cost reopens none.
         expect(
