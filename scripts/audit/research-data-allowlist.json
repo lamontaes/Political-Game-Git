@@ -172,6 +172,46 @@
     {
       "file": "data/research/jobs/employer-callback-gaps.json",
       "reason": "Sourced callback-gap evidence (field experiments and the between-employer spread) kept as research until the hiring engine reads employer attitudes (pool items world-hiring-bias-reasons and world-sale-eligibility-reads); nothing in the engine reads it yet, so it is not an engine table."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-rerun.results.json",
+      "reason": "Census rerun results for seven open stopgap rows (recommended value, spread, basis, fetched sources, builder note each), replacing the matching rows in the parent folder's D, E and C files; builders apply a row into the game's own data and resolve its stopgap, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-CORE-district-placement.json",
+      "reason": "ACS district table (households, owners, income, age and owner and renter counts by income bin) behind the SG-CORE-district-placement rerun row; builders copy the rows into the district placement data, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-kin-generation.json",
+      "reason": "Census state rates of living outside the birth state and moving out, with national anchors, behind the SG-P15-kin-generation rerun row; builders apply them to the kin-distance parameters, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-moves-weights.json",
+      "reason": "ACS PUMS logit coefficients for leaving a PUMA or state behind the SG-P15-moves-weights rerun row; builders apply them to the move weights, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-partnership-model-places.json",
+      "reason": "ACS 2020-2024 place table in the shape of opening-partnership.json's geos, behind the SG-P15-partnership-model rerun row; builders copy rows into src/core2/data/opening-partnership.json, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-P15-partnership-model.json",
+      "reason": "2020 Census Island Areas rows for the four territories the ACS does not cover, in the shape of opening-partnership.json's geos; builders copy them into src/core2/data/opening-partnership.json, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-PW8-partnership-start.json",
+      "reason": "Census cohort median age at first marriage (Table MS-2) behind the SG-PW8-partnership-start rerun row; builders apply it to the partnership-start parameters, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-WORLD-housing-county-estimate.json",
+      "reason": "ACS county rent and value patches for counties with a withheld median, behind the SG-WORLD-housing-county-estimate rerun row; builders apply them to the county housing data, the game never reads the file."
+    },
+    {
+      "file": "data/research/stopgaps-oct19/census/census-SG-WORLD-property-tax-rate.json",
+      "reason": "Census property-tax figures behind the SG-WORLD-property-tax-rate rerun row; builders apply them to the property-tax rates, the game never reads the file."
+    },
+    {
+      "file": "data/research/people/census-household-pulse-homeschool-replicate-errors-2023.json",
+      "reason": "Household Pulse replicate-weight standard errors for the homeschool share and its shrinkage check; evidence for how far the share can be trusted, which the game reads from its own parameter table, not from this file."
     }
   ],
   "awaitingReader": [
