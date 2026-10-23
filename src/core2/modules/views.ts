@@ -22,11 +22,14 @@
  */
 import { declareSnapshotCovered } from "../snapshot";
 import { stableHash, pairKey } from "../kernel/ids";
-import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { ageOnDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
-import { personStance } from "../campaign-views";
-import loadingsJson from "../../../data/research/people/opening-stance-loadings.json" with { type: "json" };
+import {
+  personStance,
+  STANCE_LOADINGS,
+  type StanceProfile,
+} from "../campaign-views";
 import { currentCloseness } from "../closeness";
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
@@ -138,14 +141,6 @@ export interface PersonView {
   collegeFromAverage?: number;
 }
 
-const LOADINGS = (
-  loadingsJson as unknown as {
-    questions: Record<
-      string,
-      { loadings: { faith: { value: number }; college: { value: number } } }
-    >;
-  }
-).questions;
 const FAITH_IMPORTANCE: Readonly<Record<string, string>> = {
   protestant: "faithImportanceProtestant",
   catholic: "faithImportanceCatholic",
@@ -214,7 +209,7 @@ function normal(key: string): number {
   );
 }
 
-function stateOf(person: PersonState): string | null {
+function stateOf(person: Pick<PersonState, "placeId">): string | null {
   const place = corePlaceByJurisdictionId(person.placeId as never);
   const key = place?.stateJurisdictionKey;
   return key ? key.slice(key.lastIndexOf("-") + v("one")) : null;
@@ -236,7 +231,7 @@ export function viewCell(
   seed: string,
 ): { cell: CellKey; shares: Readonly<Record<string, number>>; basis: string } {
   const state = stateOf(person);
-  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
+  const age = ageOnDate(person.birthDate, date);
   const band = ageBand(age);
   const row = state ? VIEWS_KEYS.states[state] : undefined;
   const national = VIEWS_KEYS.national;
@@ -318,10 +313,7 @@ export function countedEngagement(
 ): number {
   const cache = engagementCells.get(api.state) ?? new Map<string, number>();
   engagementCells.set(api.state, cache);
-  const age = ageOnDate(
-    makeIsoDate(voter.birthDate),
-    makeIsoDate(api.state.startedAt),
-  );
+  const age = ageOnDate(voter.birthDate, api.state.startedAt);
   const key = `${voter.placeId}|${age}`;
   let mean = cache.get(key);
   if (mean === undefined) {
@@ -341,10 +333,11 @@ export function countedEngagement(
 
 /** A person's faith and degree against the average of their age band in their state, from their profile. */
 function profileFromAverage(
-  person: PersonState,
+  person: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId"> &
+    Partial<Pick<PersonState, "pastFacts">>,
   date: string,
   seed: string,
-): { faithFromAverage?: number; collegeFromAverage?: number } {
+): StanceProfile {
   const fact = (kind: string, key: string) =>
     person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
   const profile = profileFor(person, seed, date);
@@ -352,9 +345,7 @@ function profileFromAverage(
     fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
   const faith = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
   if (!educ || !faith || !FAITH_IMPORTANCE[faith]) return {};
-  const band = ageBand(
-    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date)),
-  );
+  const band = ageBand(ageOnDate(person.birthDate, date));
   const state = stateOf(person);
   const row = state ? VIEWS_KEYS.states[state] : undefined;
   const educShares =
@@ -527,10 +518,72 @@ export function caseShift(
 }
 
 /**
+ * A person's opening stance on a question the survey asked, formed once and
+ * kept: what their faith and what their schooling add to where their lean
+ * puts them, each with the loading and the distance from the average of their
+ * age band that made it. Everything after the opening moves the stance only by
+ * a stored cause (`stanceOn`). A question the survey did not ask, or a person
+ * with no recorded faith or schooling, has no record and adds nothing.
+ */
+export interface OpeningRecord {
+  readonly id: string;
+  readonly personId: PersonId;
+  readonly question: string;
+  /** What faith and degree add together, on the scale of a view. */
+  readonly total: number;
+  readonly reasons: readonly {
+    readonly kind: "faith" | "degree";
+    readonly loading: number;
+    readonly fromAverage: number;
+    readonly adds: number;
+  }[];
+}
+
+export function openingRecord(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): OpeningRecord | undefined {
+  if (!api.state.modules.has(VIEWS_MODULE_ID)) return undefined;
+  const table = api.moduleState(VIEWS_MODULE_ID).table("openings");
+  const id = `opening:${personId}:${question}`;
+  const held = table.get(id) as unknown as OpeningRecord | undefined;
+  if (held) return held;
+  const loadings =
+    STANCE_LOADINGS[question.replace(/^us-policy-positions:/, "")]?.loadings;
+  const view = loadings ? viewOf(api, personId) : null;
+  if (!loadings || !view || view.faithFromAverage === undefined)
+    return undefined;
+  const reasons = [
+    {
+      kind: "faith" as const,
+      loading: loadings.faith.value,
+      fromAverage: view.faithFromAverage,
+      adds: loadings.faith.value * view.faithFromAverage,
+    },
+    {
+      kind: "degree" as const,
+      loading: loadings.college.value,
+      fromAverage: view.collegeFromAverage ?? v("zero"),
+      adds: loadings.college.value * (view.collegeFromAverage ?? v("zero")),
+    },
+  ];
+  const record: OpeningRecord = {
+    id,
+    personId,
+    question,
+    total: reasons.reduce((n, r) => n + r.adds, v("zero")),
+    reasons,
+  };
+  table.put(record as unknown as { id: string });
+  return record;
+}
+
+/**
  * The person's opening stance on a question: where their lean puts them on its
- * axis, plus what their faith and degree add beyond the lean (CES 2020
- * loadings, `data/research/people/opening-stance-loadings.json`). A question
- * the survey has no item for takes the lean alone.
+ * axis, plus their stored opening record (what their faith and degree add
+ * beyond the lean, CES 2020 loadings). A question the survey has no item for
+ * takes the lean alone.
  */
 export function openingStance(
   api: CoreAPI,
@@ -538,15 +591,9 @@ export function openingStance(
   question: string,
   lean: number,
 ): number {
-  const base = personStance(lean, question);
-  const row = LOADINGS[question.replace(/^us-policy-positions:/, "")];
-  if (!row || !api.state.modules.has(VIEWS_MODULE_ID)) return base;
-  const view = viewOf(api, personId);
-  if (!view || view.faithFromAverage === undefined) return base;
   return (
-    base +
-    row.loadings.faith.value * view.faithFromAverage +
-    row.loadings.college.value * (view.collegeFromAverage ?? v("zero"))
+    personStance(lean, question) +
+    (openingRecord(api, personId, question)?.total ?? v("zero"))
   );
 }
 
@@ -571,10 +618,32 @@ export function viewOn(
   );
 }
 
+const profiles = new WeakMap<object, Map<PersonId, StanceProfile>>();
+
+/**
+ * A counted resident's faith and degree against the average of their age band
+ * in their state: the profile they will have when filled in, kept for the
+ * world. A counted resident has no past facts, so the world's seed gives the
+ * same profile the person will have once met (`profileFor` depends on nobody
+ * else, and `viewOf` reads it the same way).
+ */
+export function countedStanceProfile(
+  api: CoreAPI,
+  voter: Pick<PersonState, "id" | "householdId" | "birthDate" | "placeId">,
+): StanceProfile {
+  const held = profiles.get(api.state) ?? new Map();
+  profiles.set(api.state, held);
+  const kept = held.get(voter.id);
+  if (kept) return kept;
+  const out = profileFromAverage(voter, api.state.startedAt, api.state.seed);
+  held.set(voter.id, out);
+  return out;
+}
+
 /**
  * How much a person agrees with a platform, -1 to 1: the mean, over its
- * stated positions, of their current view times the position (the views
- * engine's version of `platformAgreement`).
+ * stated positions, of their current view times the position (the same rule a counted
+ * voter's group is read by, `groupAgreement`).
  */
 export function agreementWith(
   api: CoreAPI,
@@ -610,6 +679,7 @@ export const viewsModule: CoreModule = {
     schemaVersion: 1,
     tables: {
       people: {},
+      openings: { indexes: { byPerson: { fields: ["personId"] } } },
       stances: {
         indexes: {
           byPerson: { fields: ["personId"] },

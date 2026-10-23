@@ -12,7 +12,7 @@
  * half-life of their own.
  */
 import { registerWorldMapPart } from "./snapshot";
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { stableHash, pairKey } from "./kernel/ids";
 import { inverseStandardNormal } from "./kernel/deterministic-math";
 import { currentCloseness } from "./closeness";
@@ -125,8 +125,7 @@ export function griefToday(
     grief +=
       row.grief *
       api.parameter("two") **
-        (-daysBetween(makeIsoDate(row.date), makeIsoDate(api.state.date)) /
-          halfLife);
+        (-daysBetweenText(row.date, api.state.date) / halfLife);
   return {
     grief: Math.min(api.parameter("one"), grief),
     sourceIds: rows.map((row) => row.eventId),

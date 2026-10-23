@@ -28,7 +28,7 @@ import {
 import { votesOf } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
-import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { ageOnDate } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -327,10 +327,7 @@ function reasonsFrom(
   // Personality enters once, through the chooser's trait term on the two
   // options' act kinds; no second temperament term here.
   const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
-  const age = ageOnDate(
-    makeIsoDate(person.birthDate),
-    makeIsoDate(api.state.date),
-  );
+  const age = ageOnDate(person.birthDate, api.state.date);
   const distance =
     (age - c(api, "candidacyAgeCenter")) / c(api, "candidacyAgeSpread");
   // Standing in town: how many people know them, against the circle a local
@@ -743,8 +740,7 @@ export function weighContest(
         p.alive &&
         (p.placeId === town.townPlaceId || pool.has(p.id)) &&
         !appointed.has(p.id) &&
-        ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(date)) >=
-          rules.minimumAge &&
+        ageOnDate(p.birthDate, date) >= rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
         !committed.has(p.id) &&
         !(incumbentFiled && p.id === incumbentId) &&

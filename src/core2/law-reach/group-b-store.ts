@@ -174,12 +174,15 @@ export function reconcile(
     null,
   ]) as unknown as PersonReach[];
   const named = input.reach?.named ?? new Map();
+  // A person still reached on the same terms keeps the row, cited to the law
+  // row now applying it (a new row with the same terms replaces the old law).
   for (const row of open) {
     const terms = named.get(row.personId);
-    if (terms && sameTerms(terms, row.terms)) continue;
+    if (terms && sameTerms(terms, row.terms) && row.lawId === input.lawId)
+      continue;
     people.put({
       ...row,
-      ...(terms ? { terms } : { endedOn: date }),
+      ...(terms ? { terms, lawId: input.lawId } : { endedOn: date }),
     } as unknown as ModuleRow);
   }
   const holding = new Set(open.map((row) => row.personId));
@@ -206,10 +209,11 @@ export function reconcile(
   const bound = input.reach?.organizations ?? new Map();
   for (const row of openOrgs) {
     const terms = bound.get(row.organizationId);
-    if (terms && sameTerms(terms, row.terms)) continue;
+    if (terms && sameTerms(terms, row.terms) && row.lawId === input.lawId)
+      continue;
     orgs.put({
       ...row,
-      ...(terms ? { terms } : { endedOn: date }),
+      ...(terms ? { terms, lawId: input.lawId } : { endedOn: date }),
     } as unknown as ModuleRow);
   }
   const boundNow = new Set(openOrgs.map((row) => row.organizationId));
