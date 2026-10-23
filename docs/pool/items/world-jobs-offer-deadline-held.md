@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/political-game-pool-yucp92-an
+status: open
+claimed-by:
 pr: #5651
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T10:18:07.870Z
+claimed-at:
 ---
 
 **What.** SG-WORLD-jobs-offer-deadline-reminder (src/core2/modules/jobs.ts) says a job offer's deadline stops the player's clock once as a reminder, not held, because the play screen had no control to answer an offer. It does now: src/bench/play.mjs shows each offer with Accept and Decline (POST /api/jobs/answer). Make the deadline stop a held stop (hold: true), so the clock cannot pass an unanswered offer's deadline, answering or the employer's lapse releases it (settleOffer already releases the tokens), and resolve the row.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T10:18:07.870Z
 **Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps.json, src/core2/jobs.test.ts
 
 **Notes.** One of the six rows of world-stopgap-jobs-faked-mechanic, split out because its stated blocker is gone. Found Oct 20 (claude/political-game-pool-yucp92-an).
+
+Sent back 2026-10-23 from PR #5651 (branch claude/political-game-pool-yucp92-an): Missing Done-when evidence table, drawn place and offer record id in the body; align the specification with the actual test path and supply the held-stop chain evidence; finish on that branch, merge main into it first.
