@@ -41,3 +41,5 @@ Fixer, Oct 20 (PR #4459, branch words/scene-talk): handed back for a Words-line 
 Looked at Oct 21 (claude, Sonnet session): not taken. The fixer's Oct 20 note is a Words-line design call (keep main's `english-calibration.ts` and port this branch's trait and move-pair weights, 11 conflicting files), which AGENTS.md assigns to an Opus session. Claim released for that session.
 
 Sent back 2026-10-23 from PR #4459 (branch words/scene-talk): Done-when evidence is explicitly partial; supply fifteen talks reaching a result in buildBenchWorld on a drawn place and independent seed, with scene/record IDs and follow-up/opener assertions; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4459 (branch words/scene-talk): the Done-when row is partly met; supply the fifteen-talk buildBenchWorld test naming scene and record IDs, proving earned openers and followed-up replies through results; finish on that branch, merge main into it first.
