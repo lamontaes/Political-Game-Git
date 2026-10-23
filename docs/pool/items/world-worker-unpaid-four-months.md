@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/opening-payroll-calendar.ts, src/core2/modules/jobs.ts
 
 **Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
+
+Sent back 2026-10-23 from PR #5011 (branch claude/worker-unpaid-four-months): The check-only slice would complete the original payroll-fix item without its paid-worker proof, and the script header overstates its resident-flow coverage; finish on that branch, merge main into it first.
