@@ -417,7 +417,7 @@ const option = (args: string[], name: string, fallback: string) => {
 
 /* ----------------------------------------------------------------- the run */
 
-interface Skipped {
+export interface Skipped {
   what: string;
   reason: string;
 }
@@ -427,6 +427,24 @@ const HELD_SETTINGS = new Set(["school", "workplace"]);
 const HELD_TYPES = new Set(["public-hearing"]);
 
 const MAX_TURNS_SHOWN = 3;
+
+/** The profiles the bench lays over a scene's people, in file order. */
+export const GRADING_PROFILES: readonly GradingProfile[] = (
+  profilesFile as { profiles: GradingProfile[] }
+).profiles;
+
+/** What the bench composed from one cached world, before the page rules. */
+export interface BenchRun {
+  /** Every scene composed once per profile, in staged order. */
+  items: (BenchItem & DedupeItem)[];
+  /** The entries the director's staging put on a schedule, one per binding. */
+  staged: number;
+  stagedByType: Map<string, number>;
+  skipped: Skipped[];
+  standIn: string[];
+  /** The world as first loaded; profile 0 is composed on it. */
+  first: ReturnType<typeof loadWorld>;
+}
 
 export function runBench(args: string[]): number {
   const id = option(args, "id", "batch-12");
@@ -442,9 +460,63 @@ export function runBench(args: string[]): number {
     );
     return 1;
   }
-  const profiles = (
-    profilesFile as { profiles: GradingProfile[] }
-  ).profiles.slice(0, profileCount);
+  const profiles = GRADING_PROFILES.slice(0, profileCount);
+  const {
+    items: all,
+    staged,
+    stagedByType: typesSeen,
+    skipped,
+    standIn,
+    first,
+  } = composeBench(worldCachePath(cache), profiles);
+
+  const deduped = dedupe(all, maxPerType, phraseOnce);
+  // A scene is shown once, with its narration; each profile's talk follows
+  // as that scene's items. Scenes are ordered so neighbors differ.
+  const byScene = new Map<string, (BenchItem & DedupeItem)[]>();
+  for (const item of deduped.kept)
+    byScene.set(item.sceneId, [...(byScene.get(item.sceneId) ?? []), item]);
+  const kept = orderForPage(
+    [...byScene.values()].map((list) => ({
+      typeKey: list[0]!.typeKey,
+      register: list[0]!.register,
+      list,
+    })),
+  )
+    .flatMap((scene) => scene.list)
+    .map((item, at) => ({ ...item, i: at }));
+  const stagedByType = Object.fromEntries(
+    [...typesSeen.entries()].sort(([a], [b]) => a.localeCompare(b)),
+  );
+  writeOutputs({
+    stagedByType,
+    id,
+    cache,
+    profiles,
+    kept,
+    dropped: deduped.dropped,
+    repeats: deduped.repeats,
+    skipped,
+    standIn,
+    maxPerType,
+    staged,
+    loaded: first,
+  });
+  console.log(
+    `${kept.length} items from ${staged} staged scenes x ${profiles.length} profiles; dropped ${JSON.stringify(deduped.dropped)}; skipped ${skipped.length} situations`,
+  );
+  return 0;
+}
+
+/**
+ * Composes every scene the director staged in one saved world once per
+ * profile, with the functions play calls. Each profile after the first gets a
+ * fresh load, because talking records events on the core.
+ */
+export function composeBench(
+  path: string,
+  profiles: readonly GradingProfile[],
+): BenchRun {
   const library = SITUATION_LIBRARY as unknown as {
     types: {
       key: string;
@@ -462,7 +534,7 @@ export function runBench(args: string[]): number {
 
   // The staged entries come from the first load; each profile gets a fresh
   // load, because talking records events on the core.
-  const first = loadWorld(worldCachePath(cache));
+  const first = loadWorld(path);
   // One staged scene for each situation type the moment's records bound.
   const staged: {
     personId: string;
@@ -492,7 +564,7 @@ export function runBench(args: string[]): number {
     if (row.skipped) skipped.push({ what: row.key, reason: row.skipped });
 
   profiles.forEach((profile, profileAt) => {
-    const world = profileAt === 0 ? first : loadWorld(worldCachePath(cache));
+    const world = profileAt === 0 ? first : loadWorld(path);
     const { core, director } = world;
     const nameOf = (personId: string) => {
       const row = core.people.get(personId);
@@ -545,43 +617,14 @@ export function runBench(args: string[]): number {
       }
     }
   });
-
-  const deduped = dedupe(all, maxPerType, phraseOnce);
-  // A scene is shown once, with its narration; each profile's talk follows
-  // as that scene's items. Scenes are ordered so neighbors differ.
-  const byScene = new Map<string, (BenchItem & DedupeItem)[]>();
-  for (const item of deduped.kept)
-    byScene.set(item.sceneId, [...(byScene.get(item.sceneId) ?? []), item]);
-  const kept = orderForPage(
-    [...byScene.values()].map((list) => ({
-      typeKey: list[0]!.typeKey,
-      register: list[0]!.register,
-      list,
-    })),
-  )
-    .flatMap((scene) => scene.list)
-    .map((item, at) => ({ ...item, i: at }));
-  const stagedByType = Object.fromEntries(
-    [...typesSeen.entries()].sort(([a], [b]) => a.localeCompare(b)),
-  );
-  writeOutputs({
-    stagedByType,
-    id,
-    cache,
-    profiles,
-    kept,
-    dropped: deduped.dropped,
-    repeats: deduped.repeats,
+  return {
+    items: all,
+    staged: staged.length,
+    stagedByType: typesSeen,
     skipped,
     standIn,
-    maxPerType,
-    staged: staged.length,
-    loaded: first,
-  });
-  console.log(
-    `${kept.length} items from ${staged.length} staged scenes x ${profiles.length} profiles; dropped ${JSON.stringify(deduped.dropped)}; skipped ${skipped.length} situations`,
-  );
-  return 0;
+    first,
+  };
 }
 
 interface SceneContext {

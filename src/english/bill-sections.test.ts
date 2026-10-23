@@ -6,6 +6,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import { billForm, type BillRow } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
+import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
+import { storyTopicName } from "../director/question-names";
 import { BILL_SECTIONS, composeBill, valueWords } from "./bill-sections";
 
 // A bill's sections are worded from the record (owner, Oct 14, 2026: bill
@@ -78,6 +80,60 @@ describe("a section reads the record's numbers", () => {
     expect(composeBill(input(900))!.sections[0]).toContain(
       "lowered from $9.50",
     );
+  });
+});
+
+describe("every law amount a body can draft has words", () => {
+  // The drafting screen offers each series in series-powers.json. A series
+  // with no row here could not be composed into a bill and could not be named
+  // when it takes effect (golden path step 10, words-law-subjects-for-bring-it-up).
+  // unemployment-insurance is a program that exists or not, not an amount.
+  const draftable = Object.keys(
+    (seriesPowers as { series: Record<string, unknown> }).series,
+  ).filter((series) => series !== "unemployment-insurance");
+
+  it("names the subject, composes a raise and a cut, and names the story topic of each", () => {
+    expect(draftable.length).toBeGreaterThan(10);
+    for (const series of draftable) {
+      expect(
+        BILL_SECTIONS.amounts[series],
+        `${series} needs a row`,
+      ).toBeTruthy();
+      expect(storyTopicName(series), `${series}: story topic`).toBe(
+        BILL_SECTIONS.amounts[series]!.subject,
+      );
+      const unit =
+        series === "snap-maximum"
+          ? "USD/month"
+          : series === "unemployment-weekly-maximum"
+            ? "USD/week"
+            : series === "minimum-wage"
+              ? "minor/hour"
+              : "percent";
+      for (const [to, before, word] of [
+        [12, 10, "raised"],
+        [8, 10, "lowered"],
+      ] as const) {
+        const made = composeBill({
+          id: `b:${series}`,
+          number: "2026-1",
+          form: {
+            kind: "ordinance",
+            enactingClause: "Be it ordained by the Town",
+          },
+          provisions: [{ kind: "law-amount", series, value: to, unit }],
+          before: [{ value: before, unit, statute: null }],
+        })!;
+        expect(made, `${series} ${word}`).toBeTruthy();
+        expect(made.sections[0], `${series} ${word}`).toContain(word);
+        expect(made.sections[0], series).not.toMatch(/[{}]|undefined|NaN/);
+      }
+    }
+  });
+
+  it("words a monthly and a weekly amount", () => {
+    expect(valueWords(291, "USD/month")).toBe("$291 a month");
+    expect(valueWords(450, "USD/week")).toBe("$450 a week");
   });
 });
 

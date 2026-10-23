@@ -4,10 +4,10 @@ title: "Stopgaps in residents (missing-jobs): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: duplicate of world-lodes-commutes and people-unplaced-outside-employer (pool feeder Oct 20); CTO to drop
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/residents.ts, kind missing-jobs"
 ---

@@ -3,7 +3,7 @@ id: words-bench-page
 title: "The batch-12 grading page shows each scene as the game would, with the owner's ten rulings kept"
 area: words
 kind: feature
-priority: 1
+priority: 2
 size: S
 status: claimed
 claimed-by: claude/words-bench-page

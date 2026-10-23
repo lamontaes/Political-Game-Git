@@ -185,6 +185,8 @@ function foldAxes(
   where: string,
 ): void {
   for (const [axis, word] of Object.entries(row.axes ?? {})) {
+    // A number from 1 to 5 is a calibration grade, folded by foldCalibration.
+    if (typeof word === "number") continue;
     const grade = ownerGrade({ grade: word }, `${where} axis ${axis}`);
     for (const key of new Set(lineKeys)) addAxisGrade(parts, key, axis, grade);
     const preferred =

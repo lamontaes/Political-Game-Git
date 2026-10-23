@@ -3,9 +3,9 @@ id: words-batch-13
 title: "Batch 13: thirty scenes with a purpose, each a full exchange"
 area: words
 kind: feature
-priority: 1
+priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #4459
 blocked-on:

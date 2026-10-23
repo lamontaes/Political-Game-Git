@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/adults-opening-cash
 pr: #5140
 after:
@@ -24,3 +24,5 @@ claimed-at: 2026-10-19T20:05:29.273Z
 **Files.** `src/core2/opening-finance.ts`, `src/core2/opening-income.ts`, `src/core2/modules/residents.ts` (see `opening-resident-cash.test.ts`), `src/core2/data/opening-finance.json`.
 
 **Notes.** From PR #4309's audit of adults with no cash; the acting CTO ruled on Oct 19 that this is a defect for the pool, not a board section.
+
+Oct 20: PR #5140 merged to main: every adult who opens with no cash is explained and the residents' zeros sit inside the survey band.

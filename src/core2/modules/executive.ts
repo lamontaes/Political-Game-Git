@@ -1,3 +1,4 @@
+import { workedToday } from "../job-lifecycle";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
  * The executive's desk (M3-05; BOARD "features the old engine had":
@@ -23,6 +24,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  */
 import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
+import emergencyData from "../data/executive/emergency.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -51,10 +53,14 @@ import {
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { BUDGETS_MODULE_ID, governments } from "./budgets";
+import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";
+import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
+import { parameter } from "../parameters";
+import { medianTransactionBalance } from "../starting-cash";
 import { filingRequirements } from "./elections";
+import { pairKey } from "../kernel/ids";
 
 export const EXECUTIVE_MODULE_ID = "core2-executive-v1";
 
@@ -71,6 +77,7 @@ const RESEARCH = research as unknown as {
     {
       cabinet?: { positions?: PostSpec[] };
       canOrder?: { key: string }[] | Record<string, unknown>;
+      pardon?: { authority: string };
     }
   >;
 };
@@ -103,6 +110,7 @@ export const EXECUTIVE_MODULE: CoreModule = {
       appointments: { indexes: { byGovernment: { fields: ["government"] } } },
       agencyHeads: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
+      emergencies: {},
       nominations: {},
       desk: { indexes: { byExecutive: { fields: ["executiveId"] } } },
       review: {},
@@ -219,14 +227,6 @@ export function experienceFromAge(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-/** A job ends before its day's work, so someone who has worked today leaves theirs for a post tomorrow, not today. */
-function workedToday(core: CoreState, person: PersonState): boolean {
-  return (
-    !!person.jobId &&
-    core.work.lastAttendanceByJob.get(person.jobId)?.date === core.date
-  );
-}
-
 function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
@@ -283,7 +283,7 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
       qualification: qualification(api, p, spec.key, date),
       known:
         !!appointer?.personId &&
-        relationships.has([appointer.personId, p.id].sort().join(":")),
+        relationships.has(pairKey(appointer.personId, p.id)),
     })),
   };
 }
@@ -379,19 +379,17 @@ function fillTownPost(
       (other.key === spec.key ||
         !appointmentsIn(api, town).some((a) => a.post === other.key)),
   ).length;
-  const paid = employer
-    ? startPublicJob(api, {
-        personId: row.holderId,
-        employerId: employer,
-        post,
-        title: spec.title,
-        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-        maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
-        citation: `Appointment ${row.id}`,
-      })
-    : null;
-  // stopgapId: SG-GOV-appointee-pay
-  if (!paid) api.stopgap("SG-GOV-appointee-pay");
+  // A world with no treasury open has no payroll to hold the post on.
+  if (employer)
+    startPublicJob(api, {
+      personId: row.holderId,
+      employerId: employer,
+      post,
+      title: spec.title,
+      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
+      citation: `Appointment ${row.id}`,
+    });
   return row;
 }
 
@@ -456,6 +454,96 @@ export function appoint(
   );
   if (!spec) throw new Error(`No post ${input.post} in this town's government`);
   return fillTownPost(api, spec, input.personId);
+}
+
+/**
+ * A state cabinet member the governor picked, seated as a person with a job
+ * on the state's payroll (the same pay rule as a town's department heads, cut
+ * to the room on the state budget line the post draws on). The member the
+ * post had before leaves the payroll. A world with no state treasury open has
+ * no payroll to hold a post on, so the post is held unpaid there.
+ */
+function seatCabinetPerson(
+  api: CoreAPI,
+  input: {
+    readonly state: string;
+    readonly spec: PostSpec;
+    readonly identity: ReturnType<typeof drawOfficialIdentity>;
+    readonly round: string;
+    readonly appointmentId: string;
+    readonly posts: readonly PostSpec[];
+  },
+): string {
+  const core = api.state as CoreState;
+  const { state, spec, identity } = input;
+  const prior = table(api, "appointments").get(
+    input.appointmentId,
+  ) as unknown as AppointmentRow | undefined;
+  const priorJob = prior ? core.people.get(prior.holderId)?.jobId : undefined;
+  if (priorJob && core.jobs.get(priorJob)?.endsAt === undefined)
+    api.endJob(priorJob, input.appointmentId);
+  const personId =
+    `person:cabinet:${state}:${spec.key}${input.round ? `:${input.round}` : ""}`.replace(
+      /:$/,
+      "",
+    );
+  const employer = (
+    api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
+  ).find((g) => g.level === "state")?.organizationId;
+  const post = `state:${spec.key}`;
+  const maxDailyMinor = employer
+    ? postPayCapDaily(
+        api,
+        employer,
+        post,
+        input.posts.filter(
+          (other) =>
+            lineForPost("state", `state:${other.key}`) ===
+            lineForPost("state", post),
+        ).length,
+      )
+    : undefined;
+  fillInIdentity(core, {
+    id: personId,
+    givenName: identity.givenName,
+    familyName: identity.familyName,
+    birthDate: identity.birthDate,
+    placeId: state,
+    gender: identity.gender,
+    // What a family at their pay keeps in its accounts (SCF 2022), as the
+    // town's generated residents do; later hires arrive with what they have.
+    ...(maxDailyMinor !== undefined && core.date === core.startedAt
+      ? {
+          openingLiquidMinor: Math.round(
+            medianTransactionBalance(
+              (maxDailyMinor *
+                parameter("daysPerMeanYear", core.data.parameters)) /
+                parameter("minorPerDollar", core.data.parameters),
+            ) * parameter("minorPerDollar", core.data.parameters),
+          ),
+        }
+      : {}),
+    source: {
+      tag: "ESTIMATED",
+      asOf: api.state.date,
+      citation: `${spec.title} of ${state}, picked by the governor.`,
+      estimatedFrom:
+        "The research file names the post, not the person; the person is drawn from the world's seed like any invented official.",
+    },
+  });
+  if (employer) {
+    startPublicJob(api, {
+      personId,
+      employerId: employer,
+      post,
+      title: spec.title,
+      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      maxDailyMinor,
+      scheduleFromPlaceId: lawChain(api).townPlaceId,
+      citation: `Appointment ${input.appointmentId}`,
+    });
+  }
+  return personId;
 }
 
 /**
@@ -527,12 +615,23 @@ function appointStateCabinet(
     });
     if (!appointment.nomineeId) continue;
     const chosen = pool[Number(appointment.nomineeId.split(":").pop())]!;
+    const id = `appointment:${state}:${spec.key}`;
+    // The cabinet member the governor picked is a full person on the state's
+    // payroll, as the election agency's head is; the one they replace leaves it.
+    const holderId = seatCabinetPerson(api, {
+      state,
+      spec,
+      identity: chosen.identity,
+      round,
+      appointmentId: id,
+      posts: posts.filter((p) => /governor/.test(p.appointedBy)),
+    });
     table(api, "appointments").put({
-      id: `appointment:${state}:${spec.key}`,
+      id,
       government: state,
       post: spec.key,
       title: spec.title,
-      holderId: appointment.nomineeId,
+      holderId,
       identity: {
         givenName: chosen.identity.givenName,
         familyName: chosen.identity.familyName,
@@ -608,20 +707,18 @@ function seatElectionChief(api: CoreAPI, worldSeed: string): void {
   const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
   const employer = govs.find((g) => g.level === "state")?.organizationId;
   const post = `state:${ELECTION_CHIEF_POST}`;
-  const paid = employer
-    ? startPublicJob(api, {
-        personId,
-        employerId: employer,
-        post,
-        title: agency,
-        hourlyMinor: campaignParameter("appointeeHourlyMinor"),
-        maxDailyMinor: postPayCapDaily(api, employer, post, 1),
-        scheduleFromPlaceId: lawChain(api).townPlaceId,
-        citation: `Appointment ${id}`,
-      })
-    : null;
-  // stopgapId: SG-GOV-appointee-pay
-  if (!paid) api.stopgap("SG-GOV-appointee-pay");
+  // A world with no treasury open has no payroll to hold the post on.
+  if (employer)
+    startPublicJob(api, {
+      personId,
+      employerId: employer,
+      post,
+      title: agency,
+      hourlyMinor: campaignParameter("appointeeHourlyMinor"),
+      maxDailyMinor: postPayCapDaily(api, employer, post, 1),
+      scheduleFromPlaceId: lawChain(api).townPlaceId,
+      citation: `Appointment ${id}`,
+    });
 }
 
 /** The heads of a government's agencies that are not the governor's cabinet (the election agency's), by id. */
@@ -721,7 +818,7 @@ export function appointStatePost(
       lean: personLean(api.state.people, person, 0),
       qualification: qualification(api, person, spec.key, api.state.date),
       known: (api.state as CoreState).relationships.has(
-        [input.executiveId, person.id].sort().join(":"),
+        pairKey(input.executiveId, person.id),
       ),
     })),
     confirmingBody: confirmation
@@ -857,6 +954,117 @@ export function issueOrder(
     date: api.state.date,
   } as unknown as ModuleRow);
   return { lawId: row.id };
+}
+
+export interface EmergencyRow {
+  readonly id: string;
+  readonly executiveId: string;
+  readonly state: string;
+  /** The disaster record the declaration cites. */
+  readonly hazardRecordId: string;
+  /** The state's own power, as researched: its key and basis. */
+  readonly basis: string;
+  readonly confidence: string;
+  readonly governmentId: string;
+  readonly line: string;
+  readonly deltaMinor: number;
+  readonly date: string;
+}
+
+/** Whether this state's governor may declare a state of emergency, and the researched basis. */
+export function emergencyPower(
+  api: CoreAPI,
+): { readonly basis: string; readonly confidence: string } | null {
+  const raw = RESEARCH.places[lawChain(api).stateKey]?.canOrder ?? [];
+  const found = Array.isArray(raw)
+    ? raw.find((r) => (r as { key: string }).key === "emergency-declaration")
+    : undefined;
+  return found
+    ? {
+        basis: (found as { basis?: string }).basis ?? "",
+        confidence: (found as { confidence?: string }).confidence ?? "",
+      }
+    : null;
+}
+
+/**
+ * The sitting governor declares a state of emergency for a disaster on the
+ * record. The declaration cites the hazard record and the state's researched
+ * power, and the state's budget takes on its share of the non-federal cost of
+ * the public assistance FEMA obligated for the disaster: the budget line
+ * moves by that much, as an amendment recorded with the declaration.
+ */
+export function declareEmergency(
+  api: CoreAPI,
+  input: { readonly executiveId: string; readonly hazardRecordId: string },
+): EmergencyRow {
+  const state = lawChain(api).stateKey;
+  const governor = townSeats(api).find(
+    (s) => s.office.kind === "governor",
+  )?.holder;
+  if (!governor || memberKey(governor) !== input.executiveId)
+    throw new Error("Only the sitting governor can declare an emergency.");
+  const power = emergencyPower(api);
+  if (!power) throw new Error(`${state} gives its governor no such power.`);
+  const hazard = (api.state as CoreState).durableLog.get(input.hazardRecordId);
+  if (!hazard || hazard.kind !== "hazard.disaster")
+    throw new Error("A declaration cites a disaster on the record.");
+  const id = `emergency:${state}:${input.hazardRecordId}`;
+  if (table(api, "emergencies").get(id))
+    throw new Error("This disaster is already under a declaration.");
+  const gov = governments(api).find((g) => g.level === "state");
+  if (!gov) throw new Error("The state has no government on the books.");
+  const aid = federalAidFor(api, Number(hazard.facts?.disasterNumber));
+  const deltaMinor = Math.round(
+    (aid *
+      emergencyData.nonFederalShare.value *
+      emergencyData.stateShareOfNonFederal.value) /
+      (1 - emergencyData.nonFederalShare.value),
+  );
+  const line = emergencyData.budgetLine.value;
+  if (deltaMinor > 0)
+    amendBudget(api, {
+      governmentId: gov.id,
+      line,
+      deltaMinor,
+      measureId: id,
+    });
+  const row: EmergencyRow = {
+    id,
+    executiveId: input.executiveId,
+    state,
+    hazardRecordId: input.hazardRecordId,
+    basis: power.basis,
+    confidence: power.confidence,
+    governmentId: gov.id,
+    line,
+    deltaMinor,
+    date: api.state.date,
+  };
+  table(api, "emergencies").put(row as unknown as ModuleRow);
+  api.emit({
+    id: `emergency-declared:${id}`,
+    date: api.state.date,
+    kind: "emergency-declared",
+    personIds: governor.personId ? [governor.personId] : [],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `State emergency-management statute (${state}): ${power.basis}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      hazardRecordId: input.hazardRecordId,
+      disasterNumber: String(hazard.facts?.disasterNumber ?? ""),
+      title: String(hazard.facts?.title ?? ""),
+      governmentId: gov.id,
+      line,
+      deltaMinor: String(deltaMinor),
+    },
+  });
+  return row;
 }
 
 export interface DeskRow {
@@ -1029,3 +1237,14 @@ export function pendingGovernorOrders(
     },
   );
 }
+
+/** Who holds a state's pardon and commutation power, from the research (`governor-alone`, `governor-with-board-advice`, `board-alone`, ...). */
+export function clemencyAuthority(stateKey: string): string | null {
+  return RESEARCH.places[stateKey]?.pardon?.authority ?? null;
+}
+
+/** The authorities under which the governor decides alone, a board's advice being only advice. */
+export const GOVERNOR_DECIDES_CLEMENCY: readonly string[] = [
+  "governor-alone",
+  "governor-with-board-advice",
+];

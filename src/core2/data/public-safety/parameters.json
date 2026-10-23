@@ -1,0 +1,716 @@
+{
+  "about": "Numbers the ordinary-crime case flow, firearm laws, oversight and fire service use (src/core2/public-safety.ts). Each is tagged SOURCED, ESTIMATED (with source and spread) or TUNABLE (with the spread it is checked against).",
+  "parameters": {
+    "monthsPerYear": {
+      "value": 12,
+      "tag": "SOURCED",
+      "citation": "Calendar."
+    },
+    "daysPerMonth": {
+      "value": 30,
+      "tag": "SOURCED",
+      "citation": "A billing month of jail days."
+    },
+    "reportedRobbery": {
+      "value": 0.734,
+      "tag": "SOURCED",
+      "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json. Robbery 73.4 percent reported."
+    },
+    "reportedAssault": {
+      "value": 0.475,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
+      "estimatedFrom": "Aggravated assault 4.7 per 1,000 at 69.1 percent reported and simple assault 14.4 per 1,000 at 40.4 percent, weighted by rate.",
+      "spread": {
+        "low": 0.4,
+        "high": 0.69,
+        "unit": "share of victimizations reported",
+        "citation": "The simple and aggravated assault reporting rates."
+      }
+    },
+    "reportedBurglary": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
+      "estimatedFrom": "Household burglary is reported about half the time in the NCVS series.",
+      "spread": {
+        "low": 0.4,
+        "high": 0.6,
+        "unit": "share of victimizations reported",
+        "citation": "NCVS household property reporting rates across years."
+      }
+    },
+    "reportedProperty": {
+      "value": 0.33,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
+      "estimatedFrom": "Total household property crime is reported about one time in three in the NCVS series.",
+      "spread": {
+        "low": 0.28,
+        "high": 0.38,
+        "unit": "share of victimizations reported",
+        "citation": "NCVS property reporting rates across years."
+      }
+    },
+    "clearedAssault": {
+      "value": 0.523,
+      "tag": "SOURCED",
+      "citation": "FBI, Crime in the United States 2019, Table 25 (percent of offenses cleared by arrest or exceptional means). Aggravated assault 52.3 percent."
+    },
+    "clearedRobbery": {
+      "value": 0.305,
+      "tag": "SOURCED",
+      "citation": "FBI, Crime in the United States 2019, Table 25 (percent of offenses cleared by arrest or exceptional means). Robbery 30.5 percent."
+    },
+    "clearedBurglary": {
+      "value": 0.138,
+      "tag": "SOURCED",
+      "citation": "FBI, Crime in the United States 2019, Table 25 (percent of offenses cleared by arrest or exceptional means). Burglary 13.8 percent."
+    },
+    "clearedProperty": {
+      "value": 0.174,
+      "tag": "SOURCED",
+      "citation": "FBI, Crime in the United States 2019, Table 25 (percent of offenses cleared by arrest or exceptional means). Larceny-theft 17.4 percent."
+    },
+    "policeServiceElasticity": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "citation": "How far a police line above or below its base moves clearance: a share of the staffing change reaches the arrest rate.",
+      "spread": {
+        "low": 0.25,
+        "high": 1.0,
+        "unit": "elasticity",
+        "citation": "Checked against the researched police-to-violent-crime link size (-0.34 per unit of officers per 1,000)."
+      }
+    },
+    "serviceFloor": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "citation": "A line cut to a quarter of its base is the lowest service the model reads.",
+      "spread": {
+        "low": 0.1,
+        "high": 0.5,
+        "unit": "ratio",
+        "citation": "Largest single-year municipal police cuts in the historical record."
+      }
+    },
+    "serviceCeiling": {
+      "value": 2.0,
+      "tag": "TUNABLE",
+      "citation": "A line doubled is the highest service the model reads.",
+      "spread": {
+        "low": 1.5,
+        "high": 3.0,
+        "unit": "ratio",
+        "citation": "Largest single-year municipal police increases in the historical record."
+      }
+    },
+    "liquidMedianToMean": {
+      "value": 0.13,
+      "tag": "ESTIMATED",
+      "citation": "Federal Reserve, Survey of Consumer Finances 2022: median transaction-account balance about $8,000 against a mean near $62,000.",
+      "estimatedFrom": "Median over mean of family transaction accounts.",
+      "spread": {
+        "low": 0.08,
+        "high": 0.2,
+        "unit": "ratio",
+        "citation": "SCF 2019 to 2022 median and mean balances."
+      }
+    },
+    "dangerDetentionShare": {
+      "value": 0.06,
+      "tag": "ESTIMATED",
+      "citation": "Illinois Pretrial Fairness Act first-year detention petitions (Loyola University Chicago Center for Criminal Justice, 2024): detention petitions were filed in roughly one case in ten and granted in most.",
+      "estimatedFrom": "Share of violent-offense adult cases a court detains for danger where money bail has ended.",
+      "spread": {
+        "low": 0.03,
+        "high": 0.12,
+        "unit": "share of violent cases",
+        "citation": "Loyola first-year report, Cook County against collar counties."
+      }
+    },
+    "detentionConvictionRatio": {
+      "value": 1.31,
+      "tag": "SOURCED",
+      "citation": "Dobbie, Goldin and Yang 2018 (American Economic Review): detained defendants are about 31 percent more likely to be convicted than released ones (data/research/outcome-web/links.json, bail-to-conviction anchor)."
+    },
+    "convictedShare.assault": {
+      "value": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Defendants in Large Urban Counties, 2009: 66 percent of felony defendants convicted; lower for assault, where charges are dropped more.",
+      "estimatedFrom": "Share of adult cases ending in conviction across detained and released defendants together.",
+      "spread": {
+        "low": 0.35,
+        "high": 0.55,
+        "unit": "share of cases",
+        "citation": "BJS SCPS 2009 by offense group."
+      }
+    },
+    "convictedShare.robbery": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Defendants in Large Urban Counties, 2009: 66 percent of felony defendants convicted; lower for assault, where charges are dropped more.",
+      "estimatedFrom": "Share of adult cases ending in conviction across detained and released defendants together.",
+      "spread": {
+        "low": 0.5,
+        "high": 0.7,
+        "unit": "share of cases",
+        "citation": "BJS SCPS 2009 by offense group."
+      }
+    },
+    "convictedShare.burglary": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Defendants in Large Urban Counties, 2009: 66 percent of felony defendants convicted; lower for assault, where charges are dropped more.",
+      "estimatedFrom": "Share of adult cases ending in conviction across detained and released defendants together.",
+      "spread": {
+        "low": 0.5,
+        "high": 0.7,
+        "unit": "share of cases",
+        "citation": "BJS SCPS 2009 by offense group."
+      }
+    },
+    "convictedShare.property": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Defendants in Large Urban Counties, 2009: 66 percent of felony defendants convicted; lower for assault, where charges are dropped more.",
+      "estimatedFrom": "Share of adult cases ending in conviction across detained and released defendants together.",
+      "spread": {
+        "low": 0.4,
+        "high": 0.6,
+        "unit": "share of cases",
+        "citation": "BJS SCPS 2009 by offense group."
+      }
+    },
+    "dispositionMonths.assault": {
+      "value": 4,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, State Court Processing Statistics: median time from arrest to adjudication about three months for felonies.",
+      "estimatedFrom": "Months from arrest to the case's end.",
+      "spread": {
+        "low": 3,
+        "high": 6,
+        "unit": "months",
+        "citation": "BJS SCPS median days to adjudication by offense."
+      }
+    },
+    "dispositionMonths.robbery": {
+      "value": 5,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, State Court Processing Statistics: median time from arrest to adjudication about three months for felonies.",
+      "estimatedFrom": "Months from arrest to the case's end.",
+      "spread": {
+        "low": 4,
+        "high": 7,
+        "unit": "months",
+        "citation": "BJS SCPS median days to adjudication by offense."
+      }
+    },
+    "dispositionMonths.burglary": {
+      "value": 3,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, State Court Processing Statistics: median time from arrest to adjudication about three months for felonies.",
+      "estimatedFrom": "Months from arrest to the case's end.",
+      "spread": {
+        "low": 2,
+        "high": 5,
+        "unit": "months",
+        "citation": "BJS SCPS median days to adjudication by offense."
+      }
+    },
+    "dispositionMonths.property": {
+      "value": 2,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, State Court Processing Statistics: median time from arrest to adjudication about three months for felonies.",
+      "estimatedFrom": "Months from arrest to the case's end.",
+      "spread": {
+        "low": 1,
+        "high": 4,
+        "unit": "months",
+        "citation": "BJS SCPS median days to adjudication by offense."
+      }
+    },
+    "incarceratedShare.assault": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: about 70 percent of convicted felons got jail or prison.",
+      "estimatedFrom": "Share of convictions sentenced to jail or prison.",
+      "spread": {
+        "low": 0.5,
+        "high": 0.7,
+        "unit": "share of convictions",
+        "citation": "BJS felony sentences by offense."
+      }
+    },
+    "prisonShare.assault": {
+      "value": 0.35,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: about 41 percent of felons to prison, 28 percent to jail.",
+      "estimatedFrom": "Share of incarcerated sentences served in state prison, the rest in county jail.",
+      "spread": {
+        "low": 0.25,
+        "high": 0.45,
+        "unit": "share of incarcerations",
+        "citation": "BJS felony sentences by offense."
+      }
+    },
+    "incarceratedShare.robbery": {
+      "value": 0.85,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: about 70 percent of convicted felons got jail or prison.",
+      "estimatedFrom": "Share of convictions sentenced to jail or prison.",
+      "spread": {
+        "low": 0.75,
+        "high": 0.95,
+        "unit": "share of convictions",
+        "citation": "BJS felony sentences by offense."
+      }
+    },
+    "prisonShare.robbery": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: about 41 percent of felons to prison, 28 percent to jail.",
+      "estimatedFrom": "Share of incarcerated sentences served in state prison, the rest in county jail.",
+      "spread": {
+        "low": 0.5,
+        "high": 0.7,
+        "unit": "share of incarcerations",
+        "citation": "BJS felony sentences by offense."
+      }
+    },
+    "incarceratedShare.burglary": {
+      "value": 0.65,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: about 70 percent of convicted felons got jail or prison.",
+      "estimatedFrom": "Share of convictions sentenced to jail or prison.",
+      "spread": {
+        "low": 0.55,
+        "high": 0.75,
+        "unit": "share of convictions",
+        "citation": "BJS felony sentences by offense."
+      }
+    },
+    "prisonShare.burglary": {
+      "value": 0.4,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: about 41 percent of felons to prison, 28 percent to jail.",
+      "estimatedFrom": "Share of incarcerated sentences served in state prison, the rest in county jail.",
+      "spread": {
+        "low": 0.3,
+        "high": 0.5,
+        "unit": "share of incarcerations",
+        "citation": "BJS felony sentences by offense."
+      }
+    },
+    "incarceratedShare.property": {
+      "value": 0.45,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: about 70 percent of convicted felons got jail or prison.",
+      "estimatedFrom": "Share of convictions sentenced to jail or prison.",
+      "spread": {
+        "low": 0.35,
+        "high": 0.55,
+        "unit": "share of convictions",
+        "citation": "BJS felony sentences by offense."
+      }
+    },
+    "prisonShare.property": {
+      "value": 0.2,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: about 41 percent of felons to prison, 28 percent to jail.",
+      "estimatedFrom": "Share of incarcerated sentences served in state prison, the rest in county jail.",
+      "spread": {
+        "low": 0.1,
+        "high": 0.3,
+        "unit": "share of incarcerations",
+        "citation": "BJS felony sentences by offense."
+      }
+    },
+    "jailSentenceDays": {
+      "value": 45,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Felony Sentences in State Courts 2006: median jail sentence about six months, served in part; misdemeanor terms shorter.",
+      "estimatedFrom": "Mean jail days served per jail sentence.",
+      "spread": {
+        "low": 30,
+        "high": 120,
+        "unit": "days",
+        "citation": "BJS jail sentence lengths."
+      }
+    },
+    "prisonSentenceDays": {
+      "value": 730,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Time Served in State Prison, 2018: mean about two years served.",
+      "estimatedFrom": "Mean prison days served per prison sentence.",
+      "spread": {
+        "low": 365,
+        "high": 1095,
+        "unit": "days",
+        "citation": "BJS time served by offense."
+      }
+    },
+    "jailPerDiemMinor": {
+      "value": 8500,
+      "tag": "ESTIMATED",
+      "citation": "Vera Institute of Justice, The Price of Jails, 2015: about $85 a day.",
+      "estimatedFrom": "Average jail cost per inmate day.",
+      "spread": {
+        "low": 6000,
+        "high": 12000,
+        "unit": "minor units per day",
+        "citation": "Vera county-level range."
+      }
+    },
+    "prisonPerDiemMinor": {
+      "value": 11300,
+      "tag": "ESTIMATED",
+      "citation": "Vera Institute of Justice, The Price of Prisons, 2015: $33,274 a year.",
+      "estimatedFrom": "Average state prison cost per inmate day.",
+      "spread": {
+        "low": 9000,
+        "high": 15000,
+        "unit": "minor units per day",
+        "citation": "Vera state range."
+      }
+    },
+    "marginalCostShare": {
+      "value": 0.3,
+      "tag": "ESTIMATED",
+      "citation": "Vera Institute of Justice, The Price of Jails, 2015, and CBO: variable cost of one more inmate is a minority of the average cost.",
+      "estimatedFrom": "Share of the per diem that is food, medical and supplies paid to outside vendors for each added jail day; staff and buildings are the corrections line.",
+      "spread": {
+        "low": 0.2,
+        "high": 0.4,
+        "unit": "share of per diem",
+        "citation": "Vera and CBO marginal-cost range."
+      }
+    },
+    "courtCostPerCaseMinor": {
+      "value": 150000,
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Indigent Defense Systems and county prosecution budgets: about $1,500 of added defense and prosecution contract cost per adult case.",
+      "estimatedFrom": "Marginal county cost of an adult case.",
+      "spread": {
+        "low": 80000,
+        "high": 300000,
+        "unit": "minor units per case",
+        "citation": "BJS county indigent defense expenditures per case."
+      }
+    },
+    "juvenileAdjudicatedShare": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Office of Juvenile Justice and Delinquency Prevention, Juvenile Court Statistics 2019: about half of petitioned delinquency cases adjudicated.",
+      "estimatedFrom": "Share of juvenile court cases ending in adjudication.",
+      "spread": {
+        "low": 0.4,
+        "high": 0.6,
+        "unit": "share of cases",
+        "citation": "OJJDP Juvenile Court Statistics."
+      }
+    },
+    "juvenilePlacedShare": {
+      "value": 0.15,
+      "tag": "ESTIMATED",
+      "citation": "OJJDP Juvenile Court Statistics 2019: about 15 percent of adjudicated cases got out-of-home placement.",
+      "estimatedFrom": "Share of adjudicated cases placed.",
+      "spread": {
+        "low": 0.1,
+        "high": 0.2,
+        "unit": "share of adjudications",
+        "citation": "OJJDP."
+      }
+    },
+    "juvenilePlacementDays": {
+      "value": 120,
+      "tag": "ESTIMATED",
+      "citation": "OJJDP Juvenile Residential Facility Census: median length of stay about four months.",
+      "estimatedFrom": "Mean placement days.",
+      "spread": {
+        "low": 60,
+        "high": 240,
+        "unit": "days",
+        "citation": "OJJDP."
+      }
+    },
+    "juvenilePerDiemMinor": {
+      "value": 58800,
+      "tag": "SOURCED",
+      "citation": "Justice Policy Institute, Sticker Shock 2020: about $588 a day to confine a young person in a state juvenile facility."
+    },
+    "juvenileCourtCostPerCaseMinor": {
+      "value": 100000,
+      "tag": "ESTIMATED",
+      "citation": "County juvenile court and probation costs per petition (OJJDP, Juvenile Court Statistics, and county budgets).",
+      "estimatedFrom": "Marginal county cost of a juvenile case.",
+      "spread": {
+        "low": 50000,
+        "high": 200000,
+        "unit": "minor units per case",
+        "citation": "County juvenile court budgets."
+      }
+    },
+    "juvenileAgeDefault": {
+      "value": 18,
+      "tag": "SOURCED",
+      "citation": "National Conference of State Legislatures, Juvenile Age of Jurisdiction 2024: 18 in nearly every state."
+    },
+    "juvenileAgeRaised": {
+      "value": 19,
+      "tag": "SOURCED",
+      "citation": "Vermont Act 201 of 2018 (18-year-olds to juvenile court from 2020, 19-year-olds from 2022); National Conference of State Legislatures, Juvenile Age of Jurisdiction, 2024."
+    },
+    "forceClaimShare": {
+      "value": 0.06,
+      "tag": "ESTIMATED",
+      "citation": "Self-defense claims in assault cases (Center for American Progress and state studies of justifiable-force claims).",
+      "estimatedFrom": "Share of assault cases in which the arrested person claims self-defense.",
+      "spread": {
+        "low": 0.03,
+        "high": 0.1,
+        "unit": "share of assault cases",
+        "citation": "State studies of stand-your-ground claims."
+      }
+    },
+    "retreatPossibleShare": {
+      "value": 0.5,
+      "tag": "ESTIMATED",
+      "citation": "Duty-to-retreat jurisdictions weigh whether a safe retreat existed; no study counts how often it did.",
+      "estimatedFrom": "Share of self-defense claims in which a safe retreat was possible, so the claim fails where the duty to retreat applies.",
+      "spread": {
+        "low": 0.3,
+        "high": 0.7,
+        "unit": "share of claims",
+        "citation": "Spread of cases in the state studies."
+      }
+    },
+    "storageDeviceMinor": {
+      "value": 6000,
+      "tag": "ESTIMATED",
+      "citation": "Gun locks run $10 to $100 and safes more; Giffords Law Center and Everytown safe-storage cost surveys.",
+      "estimatedFrom": "Mean one-time cost of a lock or lockbox bought to comply.",
+      "spread": {
+        "low": 2000,
+        "high": 30000,
+        "unit": "minor units",
+        "citation": "Retail price range of cable locks, lockboxes and small safes."
+      }
+    },
+    "permitFeeMinor": {
+      "value": 10000,
+      "tag": "ESTIMATED",
+      "citation": "State concealed carry permit fees run from about $10 to $200 (Giffords Law Center, Concealed Carry, 2024; state police fee schedules).",
+      "estimatedFrom": "Mean state application fee.",
+      "spread": {
+        "low": 3000,
+        "high": 20000,
+        "unit": "minor units",
+        "citation": "State fee schedules."
+      }
+    },
+    "permitTrainingMinor": {
+      "value": 12000,
+      "tag": "ESTIMATED",
+      "citation": "Required live-fire classes cost about $75 to $200 where a state requires training.",
+      "estimatedFrom": "Mean training class cost for a first permit.",
+      "spread": {
+        "low": 5000,
+        "high": 20000,
+        "unit": "minor units",
+        "citation": "Range of class prices."
+      }
+    },
+    "permitHolderShare": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "citation": "Crime Prevention Research Center, Concealed Carry Permit Holders Across the United States 2023: about 21 million permit holders against about 80 million adult gun owners.",
+      "estimatedFrom": "Share of adults (21 and older) in firearm-owning households who hold a permit where one is required.",
+      "spread": {
+        "low": 0.1,
+        "high": 0.4,
+        "unit": "share of adult gun-household members",
+        "citation": "CPRC state-by-state permit rates."
+      }
+    },
+    "permitRampShare": {
+      "value": 0.08,
+      "tag": "TUNABLE",
+      "citation": "Share of the gap between holders and the target who apply each month after a permit requirement takes effect.",
+      "spread": {
+        "low": 0.03,
+        "high": 0.2,
+        "unit": "share per month",
+        "citation": "Time for permit counts to settle after Michigan 2001 and Pennsylvania 1989 changes."
+      }
+    },
+    "permitTermMonths": {
+      "value": 60,
+      "tag": "SOURCED",
+      "citation": "Most states issue concealed carry permits for four to five years (Giffords Law Center, Concealed Carry, 2024)."
+    },
+    "handgunPurchaseRate": {
+      "value": 0.03,
+      "tag": "ESTIMATED",
+      "citation": "ATF and NICS data: about 5 million handgun purchases a year among about 80 million gun owners; young adults buy less.",
+      "estimatedFrom": "Yearly share of 18-to-20-year-olds in firearm-owning households who buy a handgun from a private seller where no age limit applies.",
+      "spread": {
+        "low": 0.015,
+        "high": 0.05,
+        "unit": "share per year",
+        "citation": "NICS handgun checks by age."
+      }
+    },
+    "handgunPriceMinor": {
+      "value": 50000,
+      "tag": "ESTIMATED",
+      "citation": "National Shooting Sports Foundation average handgun retail price, about $500.",
+      "estimatedFrom": "Mean price paid.",
+      "spread": {
+        "low": 35000,
+        "high": 70000,
+        "unit": "minor units",
+        "citation": "Retail price range."
+      }
+    },
+    "boardCostPerResidentYearMinor": {
+      "value": 300,
+      "tag": "ESTIMATED",
+      "citation": "National Association for Civilian Oversight of Law Enforcement, Oversight Agency Survey 2016: median agency budget near $500,000 in large cities.",
+      "estimatedFrom": "Yearly board staff and investigation cost per resident of the town.",
+      "spread": {
+        "low": 100,
+        "high": 800,
+        "unit": "minor units per resident per year",
+        "citation": "NACOLE survey, agencies serving 100,000 to 1 million people."
+      }
+    },
+    "detainerHoldDays": {
+      "value": 2,
+      "tag": "SOURCED",
+      "citation": "8 CFR 287.7(d): a detainer asks a jail to hold a person up to 48 hours beyond release."
+    },
+    "fireStructureRatePer1000": {
+      "value": 3.8,
+      "tag": "SOURCED",
+      "citation": "National Fire Protection Association, Fire Loss in the United States 2022: about 499,000 structure fires against 131 million households."
+    },
+    "fireLossMinor": {
+      "value": 2400000,
+      "tag": "ESTIMATED",
+      "citation": "National Fire Protection Association, Fire Loss in the United States 2022: structure fire direct property damage per fire.",
+      "estimatedFrom": "Mean direct property loss per structure fire.",
+      "spread": {
+        "low": 1500000,
+        "high": 4000000,
+        "unit": "minor units per fire",
+        "citation": "NFPA 2018 to 2022 range."
+      }
+    },
+    "fireUninsuredShare": {
+      "value": 0.3,
+      "tag": "ESTIMATED",
+      "citation": "Insurance Information Institute: about three in ten households lack adequate fire coverage; renters least.",
+      "estimatedFrom": "Share of a fire loss the household pays.",
+      "spread": {
+        "low": 0.15,
+        "high": 0.5,
+        "unit": "share of loss",
+        "citation": "III renters and homeowners coverage surveys."
+      }
+    },
+    "fireServiceLossSlope": {
+      "value": 0.8,
+      "tag": "TUNABLE",
+      "citation": "How far a fire line above or below its base moves the loss per fire.",
+      "spread": {
+        "low": 0.4,
+        "high": 1.5,
+        "unit": "loss per unit service gap",
+        "citation": "NFPA response-time loss studies and ISO class ratings."
+      }
+    },
+    "youthDeathAgeFrom": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "America's Health Rankings, Firearm Deaths among Children, ages 1 to 19."
+    },
+    "youthDeathAgeBelow": {
+      "value": 20,
+      "tag": "SOURCED",
+      "citation": "America's Health Rankings, Firearm Deaths among Children, ages 1 to 19."
+    },
+    "youthSuicideAgeFrom": {
+      "value": 10,
+      "tag": "SOURCED",
+      "citation": "Johns Hopkins Center for Gun Violence Solutions, ages 10 to 19."
+    },
+    "adultAge": {
+      "value": 18,
+      "tag": "SOURCED",
+      "citation": "Age of majority in nearly every state."
+    },
+    "permitAge": {
+      "value": 21,
+      "tag": "SOURCED",
+      "citation": "Most permit states issue from age 21 (Giffords Law Center, 2024)."
+    },
+    "handgunAge": {
+      "value": 21,
+      "tag": "SOURCED",
+      "citation": "18 U.S.C. 922(b)(1) and state laws setting 21 for all sales."
+    },
+    "childAgeBelow": {
+      "value": 18,
+      "tag": "SOURCED",
+      "citation": "Child access prevention laws cover minors under 18."
+    },
+    "offendingAgeFrom": {
+      "value": 12,
+      "tag": "SOURCED",
+      "citation": "NCVS covers persons 12 and older."
+    }
+  },
+  "ageProfile": {
+    "tag": "ESTIMATED",
+    "source": "FBI, Crime in the United States 2019, Table 38 (arrests by age) against Census population by age: each age band's arrest share over its population share, for violent and property offenses together.",
+    "spread": "plus or minus 30 percent per band",
+    "bands": [
+      {
+        "from": 12,
+        "below": 18,
+        "ratio": 0.9
+      },
+      {
+        "from": 18,
+        "below": 19,
+        "ratio": 2.3
+      },
+      {
+        "from": 19,
+        "below": 21,
+        "ratio": 2.4
+      },
+      {
+        "from": 21,
+        "below": 25,
+        "ratio": 2.4
+      },
+      {
+        "from": 25,
+        "below": 35,
+        "ratio": 1.6
+      },
+      {
+        "from": 35,
+        "below": 50,
+        "ratio": 0.8
+      },
+      {
+        "from": 50,
+        "below": 130,
+        "ratio": 0.25
+      }
+    ]
+  }
+}

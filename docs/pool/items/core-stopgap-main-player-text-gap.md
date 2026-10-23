@@ -4,13 +4,13 @@ title: "Stopgaps in main (player-text-gap): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: in-pr
-claimed-by: claude/desktop-update-text
+status: open
+claimed-by:
 pr: #5251
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, desktop/main.mjs, kind player-text-gap"
-claimed-at: 2026-10-19T23:11:57.820Z
+claimed-at:
 ---
 
 **What.** Replace or clear the 1 open player-text-gap stopgap row(s) in desktop/main.mjs: SG-PLAY-desktop-update-dialog-text. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
@@ -22,3 +22,9 @@ claimed-at: 2026-10-19T23:11:57.820Z
 **Files.** desktop/main.mjs
 
 **Notes.** First row: The desktop shell's update dialogs (Check for Updates, and the Mac note on what installing does) are written in the shell, not by the English engine.
+
+Looked at Oct 19 (claude/stopgap-rows-notes), not built. The row is one sentence in `desktop/main.mjs` (`installNote`, shown on a Mac update: "When you quit, the new version replaces this one in the same folder and opens. Your saves stay where they are."), a dialog the owner ordered on Oct 14. Replacing it means shipping an English-engine bank beside the client for the shell to read, which has to be built and checked in the packaged Electron app; this container cannot run it. The owner may prefer to close the row as an accepted shell string; that is his call, so I did not guess.
+
+Sent back 2026-10-20 from PR #5251 (branch claude/desktop-update-text): data/english/parts/shell.json adds 19 entries with origin authored and shippable true. The morning check forbids authored bank text shipping before grading. Keep these entries held until graded, update the claimed shipped behavior accordingly, and have the Words session own the data/english changes.; finish on that branch, merge main into it first.
+
+Oct 21 (claude): not finished; this needs the Words session and an owner call. PR #5251 moves the desktop updater's dialog text into `data/english/parts/shell.json` (19 authored entries, `shippable: true`), and the morning check forbids authored pieces shipping before grading. The catch: the shell runs outside the game and reads the bank itself (`desktop/shell-lines.mjs` ignores `shippable` and throws on a missing line), so setting the pieces to `shippable: false` changes nothing the user sees, and removing them would make the updater throw. Either the owner grades these 19 lines in a batch (then the PR ships as is), or the shell is told to read only graded parts and given one graded fallback per dialog. Merging main into the branch conflicts only in `scripts/english-corpus/moves.json` (keep both `shell` and main's entries). Claim released.
