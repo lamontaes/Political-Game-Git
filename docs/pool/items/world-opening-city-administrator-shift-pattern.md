@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/admin-shift-pattern
-pr:
+pr: #5769
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T01:11:12.858Z

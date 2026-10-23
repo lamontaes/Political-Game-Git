@@ -17,7 +17,7 @@ claimed-at: 2026-10-20T18:59:22.078Z
 
 **Rules.** No dice: terms change the pull, never a roll. Research before building: Ballotpedia's counts are the check. One rule, all 56 places. Wire to the world: re-measure in buildBenchWorld places drawn at random with seeds named.
 
-**Done when.** The pooled uncontested share over at least 100 local seats in places drawn at random (seeds named in the PR body) has its centre within 8 points of 70 percent; who-runs.test.ts passes; the parameter citation records the measurement.
+**Done when.** The pooled uncontested share over at least 100 local seats in places drawn at random (seeds named in the PR body) has its center within 8 points of 70 percent; who-runs.test.ts passes; the parameter citation records the measurement.
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/data/candidacy/parameters.json
 
