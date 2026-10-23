@@ -4,9 +4,9 @@ title: "Check for updates in the installed Mac app finds the newest release"
 area: release
 kind: bug
 priority: 2
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5841
 blocked-on:
 milestone:
 size: S
@@ -27,3 +27,5 @@ claimed-at:
 Checked Oct 15 by a Claude session. The release side is right: release.yml requires latest-mac.yml before it publishes, uploads every packaged file to a draft and then publishes it as the latest release. The live v0.7.0 release is marked latest and carries latest-mac.yml, latest.yml, the dmg, the zip and both blockmaps; latest-mac.yml names OurCivicDuty-0.7.0-mac-arm64.zip with the same size (691509502) as the uploaded zip. The updater's decisions (version compare, downgrade and channel refusal) are covered by desktop/tests/updater.test.mjs. What cannot be checked from a cloud session is the installed Mac app moving from one release to the next: only one release exists, and the swap needs the owner's Mac. When v0.7.1 publishes, the owner (or a checker on the Mac) installs v0.7.0, presses Check for updates and confirms it offers and installs v0.7.1.
 
 Oct 20 (pool feeder): spec written; the 'second release' blocker is gone (v0.19.2, v0.19.1 and earlier are published with both feeds), so the feed guard is buildable now; the Mac install step stays with the owner, and desktop/tests/updater.test.mjs says signed automatic installation is unproven until signing credentials exist.
+
+Sent back 2026-10-23 from PR #5841 (branch claude/release-feed-check): The release-feed checker credits a missing-subdirectory installer URL using the root file's hash/size and incorrectly returns no problems; validate the actual published asset name/path and add a negative regression.; finish on that branch, merge main into it first.
