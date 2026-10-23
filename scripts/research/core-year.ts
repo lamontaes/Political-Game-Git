@@ -96,23 +96,37 @@ const women = [...core.people.values()].filter((person) => {
     age <= 44
   );
 });
-const pregnancies = api.moduleState(RENEWAL_MODULE_ID).table("pregnancies");
-const opening = pregnancies
-  .rows()
-  .filter((row) => row.opening === true && row.status === "pregnant");
-const areaName = areaAliases[stateKey] ?? coreStateName(usps) ?? usps;
-const gfr = natality.areas[areaName]?.fertilityPer1000Females15to44;
-const gestation = pregnancy.rows.gestationDaysFromOvulation.value;
-const expected = gfr ? ((gfr / 1000) * gestation) / 365.25 : undefined;
-const womenByTier = new Map<string, number>();
-for (const woman of women)
-  womenByTier.set(woman.tier, (womenByTier.get(woman.tier) ?? 0) + 1);
-console.log(
-  `opening pregnancies: ${opening.length} of ${women.length} full-person women 15-44 (${percent(opening.length, women.length)}); band for ${areaName}: ${gfr} births per 1,000 x ${gestation} / 365.25 days = ${expected ? (100 * expected).toFixed(2) : "n/a"}%; women by tier ${JSON.stringify(Object.fromEntries(womenByTier))}; records ${opening
-    .slice(0, 3)
-    .map((row) => row.id)
-    .join(", ")}`,
-);
+// The renewal module rebuilds the opening's pregnancies on its first day, so
+// they are counted after that day runs.
+const reportPregnancies = () => {
+  const renewal = api.moduleState(RENEWAL_MODULE_ID);
+  const opening = renewal
+    .table("pregnancies")
+    .rows()
+    .filter((row) => row.opening === true);
+  const mothers = new Set(
+    renewal
+      .table("couples")
+      .rows()
+      .map((row) => row.motherId),
+  );
+  const partnered = women.filter((woman) => mothers.has(woman.id)).length;
+  const areaName = areaAliases[stateKey] ?? coreStateName(usps) ?? usps;
+  const gfr = natality.areas[areaName]?.fertilityPer1000Females15to44;
+  const gestation = pregnancy.rows.gestationDaysFromOvulation.value;
+  const expected = gfr ? ((gfr / 1000) * gestation) / 365.25 : undefined;
+  const womenByTier = new Map<string, number>();
+  for (const woman of women)
+    womenByTier.set(woman.tier, (womenByTier.get(woman.tier) ?? 0) + 1);
+  console.log(
+    `opening pregnancies (SG-M1-opening-pregnancies): ${opening.length} of ${women.length} full-person women 15-44 (${percent(opening.length, women.length)}; ${partnered} of the women are in a couple the renewal module tracks); band for ${areaName}: ${gfr} births per 1,000 x ${gestation} / 365.25 days = ${expected ? (100 * expected).toFixed(2) : "n/a"}%; women by tier ${JSON.stringify(Object.fromEntries(womenByTier))}; records ${
+      opening
+        .slice(0, 3)
+        .map((row) => row.id)
+        .join(", ") || "none"
+    }`,
+  );
+};
 
 // Closeness at the opening, for every tie, to compare a year on.
 const startCloseness = new Map<string, { kind: string; level: number }>();
@@ -138,6 +152,7 @@ const visitExample: string[] = [];
 while (core.date < end) {
   dev.advance(addDays(makeIsoDate(core.date), 1));
   day += 1;
+  if (day === 1) reportPregnancies();
   const date = core.date as IsoDate;
   const ran = addDays(makeIsoDate(date), -1);
   for (const person of core.people.values()) {
@@ -222,7 +237,7 @@ for (const [personId, loss] of losses) {
   if (lossExample.length < 3) lossExample.push(`${personId} (${loss.eventId})`);
 }
 console.log(
-  `stress after a death (SG-P8-emotion-model): ${bereaved} people bereaved with six months to follow; stress rose for ${rose}; ${raised} still raised by half the rise or more at ${followDays} days (${percent(raised, rose)}); band ${affectBand.band.low * 100}% to ${affectBand.band.high * 100}% (chronic plus delayed onset, Galatzer-Levy et al. 2018); e.g. ${lossExample.join(", ") || "none"}`,
+  `stress after a death (SG-P8-emotion-model): ${bereaved} people bereaved with six months to follow; stress rose for ${rose}; ${raised} still raised by half the rise or more at ${followDays} days (${percent(raised, rose)}); band ${(affectBand.band.low * 100).toFixed(1)}% to ${(affectBand.band.high * 100).toFixed(1)}% (chronic plus delayed onset, Galatzer-Levy et al. 2018); e.g. ${lossExample.join(", ") || "none"}`,
 );
 
 // Recall: the drawn place's own bars and any petition in the year.
