@@ -296,6 +296,24 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.2
+
+_Released October 23, 2026._
+
+### Improved
+
+- **Townspeople without a local job commute** When you meet someone who works
+  but is not on a local employer's books, they now hold a real job at the
+  place's outside employers, with regular paydays and tax withheld like anyone
+  else. When they drop out of your life and go back into the town's counts, the
+  job ends and the pay returns to the town's pool.
+
+- **Statewide races follow the state's own lean, with incumbency counted once**
+  Statewide races such as governor no longer swing far from how a state votes
+  because voters' liking for incumbents was counted twice. The incumbency
+  advantage now comes once, from the candidate's public standing, and each
+  voter's personality moves them a little around it.
+
 ## PRE-ALPHA 0.22.1
 
 _Released October 23, 2026._

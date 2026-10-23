@@ -1,6 +1,18 @@
 {
   "entries": [
     {
+      "version": "0.22.2",
+      "releasedOn": "2026-10-23",
+      "revision": "e4d37afc3fd4cce2fe04127169e26fe8b82357c7",
+      "changeIds": [
+        "core-commuter-job-fill-in",
+        "gov-two-level-governor-share-flaky",
+        "release-old-core-typecheck-manifest-step",
+        "release-spelling-sweep-red-oct17",
+        "tests-staff-work-times-out"
+      ]
+    },
+    {
       "version": "0.22.1",
       "releasedOn": "2026-10-23",
       "revision": "83bd952890e15a98c903f5b4cbb00094561f7f55",
