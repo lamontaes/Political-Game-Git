@@ -1,0 +1,51 @@
+{
+  "homeLeavingBaseline": {
+    "value": -3,
+    "tag": "TUNABLE",
+    "citation": "Where leaving a parent's home starts for an adult of eighteen with nothing else pulling: well below staying, so it takes age, room and means to tip it. Calibrated against the ACS 2024 share of 18 to 34 year olds living with a parent (table B09021: about 57 percent at 18 to 24 and 17 percent at 25 to 34) in src/core2/home-leaving.test.ts.",
+    "stopgapId": "SG-PEOPLE-home-leaving-weights",
+    "spread": { "low": -4, "high": -2 }
+  },
+  "homeLeavingAgeWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "How much each year of age past eighteen adds to the pull to leave a parent's home. The share living with a parent falls from about 57 percent at 18 to 24 to 17 percent at 25 to 34 (ACS 2024 B09021); the size is a starting value.",
+    "stopgapId": "SG-PEOPLE-home-leaving-weights",
+    "spread": { "low": 0.1, "high": 0.4 }
+  },
+  "homeLeavingMeansWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How much each multiple of the rent their own pay covers (up to the cap) adds to the pull to leave: someone whose pay covers a home easily is freer to go. A starting value.",
+    "stopgapId": "SG-PEOPLE-home-leaving-weights",
+    "spread": { "low": 0.5, "high": 2 }
+  },
+  "homeLeavingMeansCap": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "The multiple of the rent past which more pay adds nothing to the pull to leave. A starting value.",
+    "stopgapId": "SG-PEOPLE-home-leaving-weights",
+    "spread": { "low": 2, "high": 5 }
+  },
+  "homeLeavingCrowdingWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How much each person in the household beyond two adds to the pull to leave: a crowded home pushes people out. A starting value.",
+    "stopgapId": "SG-PEOPLE-home-leaving-weights",
+    "spread": { "low": 0.1, "high": 0.6 }
+  },
+  "homeLeavingKinHold": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "How much closeness to the parent they live with holds a person at home (closeness is zero to one). A starting value.",
+    "stopgapId": "SG-PEOPLE-home-leaving-weights",
+    "spread": { "low": 1, "high": 3 }
+  },
+  "homeLeavingRentHold": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "How much the share of their own pay that rent would take holds a person at home (up to the whole of it). A starting value.",
+    "stopgapId": "SG-PEOPLE-home-leaving-weights",
+    "spread": { "low": 0.5, "high": 3 }
+  }
+}

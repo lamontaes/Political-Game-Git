@@ -178,7 +178,7 @@ function lifeStageRate(
   return byAge[band] ?? api.parameter("zero");
 }
 
-interface Kin {
+export interface Kin {
   parents: Map<PersonId, PersonId[]>;
   children: Map<PersonId, PersonId[]>;
   partner: Map<PersonId, PersonId>;
@@ -187,7 +187,7 @@ interface Kin {
 const kinCache = new WeakMap<CoreState, Kin>();
 
 /** Parents, children and partners from the family links, rebuilt when links change. */
-function kinOf(core: CoreState): Kin {
+export function kinOf(core: CoreState): Kin {
   const held = kinCache.get(core);
   if (held && held.size === core.familyLinks.size) return held;
   const kin: Kin = {

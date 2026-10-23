@@ -4864,6 +4864,18 @@
     "status": "open"
   },
   {
+    "id": "SG-PEOPLE-home-leaving-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/partnerships/parameters.json",
+    "line": 1,
+    "whatItFakes": "How strongly age, means, a crowded home, closeness to a parent and the rent's share of pay pull a young adult out of a parent's home, and where leaving starts.",
+    "why": "The research gives how many young adults live with a parent by age (ACS B09021) but not each reason's size in this model.",
+    "addedBy": "claude/leave-parents-home",
+    "addedAt": "2026-10-17",
+    "replacement": "Weights checked against the ACS B09021 shares by age across drawn places in the people-partnership-rates-check year run.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-committee-day-hooks",
     "kind": "owner-decision",
     "file": "src/core2/modules/legislature.ts",
