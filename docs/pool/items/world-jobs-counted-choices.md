@@ -5,12 +5,13 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: design: an aggregate chooser for counted groups (counted pulls already use the full person's reasons)
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after: world-jobs-counted-chooser,world-counted-chooser-business-credit
 ---
 
 **What.** Counted workers' retirement, quitting and job-search decisions must use the same rule as a full person's decisions with the same traits and money. Apply the shared chooser to a counted group and multiply by its count, or fill a counted person in when they meet an employer. Replace the stand-in apportionment rather than adding a second competing rule.
@@ -21,6 +22,8 @@ claimed-at:
 
 **Files.** src/core2/modules/jobs.ts, src/core2/data/stopgaps.json, src/core2/jobs.test.ts
 
-**Notes.** Split from world-stopgap-jobs-faked-mechanic (an L item) on Oct 19; row SG-WORLD-jobs-counted-choices.
+**Notes.** Oct 20 (pool feeder): spec written; the chooser design call is made in the report: score the shared offer list per counted group (mean needs and traits) and act by selection weight times count, which follows one model two tiers. reviewCountedRetirements, Quits, Looking and Entry already exist; only their scoring changes.
+
+Split from world-stopgap-jobs-faked-mechanic (an L item) on Oct 19; row SG-WORLD-jobs-counted-choices.
 
 Claude, Oct 19: counted retire, quit and look already score with the same reasons and trait lean as a full person (jobs.ts countedSeekers and strongestPulls apportion by the summed pull). What is left is a design call: whether that apportionment counts as the 'aggregate chooser' the stopgap names, or counted workers must run the per-person chooser. Needs the CTO's ruling before building; the retire path no longer uses the place average (PR #5224).

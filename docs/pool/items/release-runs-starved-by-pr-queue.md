@@ -5,15 +5,15 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/release-queue-measured
+pr: #5839
 blocked-on:
 source: added by the CTO from the Oct 20 night check
-claimed-at:
+claimed-at: 2026-10-22T07:45:41.276Z
 ---
 
-**What.** The last successful Release run on main was at 2026-10-20T18:37Z (2321e9aa0). Every run since (for example on 260fb1ae8, f495d2c42 and ff3a41c18 between 23:29 and 23:45Z) ends cancelled. release.yml already ignores docs/pool-only pushes, so pool commits are not the cause. Each run sits pending behind about 255 queued pull-request runs (144 Deterministic validation, 64 M0 guards, 42 Audit scan at 21:40Z, the oldest queued since 13:56Z), and the next merge to main replaces the pending one before a runner frees. Main's own Deterministic validation and M0 guards runs never finish either, so nobody can tell whether main is green.
+**What.** The last successful Release run on main was at 2026-10-20T18:37Z (2321e9aa0). Every run since (for example on 260fb1ae8, f495d2c42 and ff3a41c18 between 23:29 and 23:45Z) ends canceled. release.yml already ignores docs/pool-only pushes, so pool commits are not the cause. Each run sits pending behind about 255 queued pull-request runs (144 Deterministic validation, 64 M0 guards, 42 Audit scan at 21:40Z, the oldest queued since 13:56Z), and the next merge to main replaces the pending one before a runner frees. Main's own Deterministic validation and M0 guards runs never finish either, so nobody can tell whether main is green.
 
 **Rules.** Replace, never layer: reduce runner load through the existing workflow push filters, preserving all other triggers instead of adding a parallel validation path. Fix the cause, not a workaround (owner rule: fix shared systems the same day). Don't make the simulation checks gate packaging again (owner ruling Oct 15). Don't cancel a run on a commit that is still a branch's tip without a stated reason.
 
