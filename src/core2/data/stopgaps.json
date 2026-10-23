@@ -3094,8 +3094,8 @@
     "why": "Ballotpedia and NASS couldn't be fetched, and Wikipedia has no current list for those offices.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
-    "replacement": "Every row checked against Ballotpedia's partisan composition pages or the state's own records.",
-    "status": "open"
+    "replacement": "Resolved Oct 23, 2026 (research-offices-sourced-parameters): the 60 rows were each checked against a fetched page (each office's Ballotpedia page, or the state's or territory's official site, with Wikipedia once for the U.S. Virgin Islands Board of Education roster), and each row in data/research/offices/statewide-executive-parties-2026.json now carries its page, a quote and the holder on January 20, 2025 and January 1, 2026. 54 matched; 6 were corrected (Arizona's lieutenant governor and the Northern Marianas' are partisan-ballot offices, Guam's attorney general is nonpartisan, the Virgin Islands boards of education and elections print party labels, and the Georgia labor commissioner's seat was vacant on the opening day). Read by statewidePartyOf in src/core2/offices-state.ts, which seats each office's party at the opening. Original replacement: Every row checked against Ballotpedia's partisan composition pages or the state's own records.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-outside-revenue-monthly",
