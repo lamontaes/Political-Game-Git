@@ -595,7 +595,16 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
         expect(funded[0]!.positions, where).toBeCloseTo(
           funded[0]!.baseStaff * ((2 * amount) / amount),
         );
-        expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
+        // A town with no jobless adult to hire cannot fill the new positions:
+        // the staffing row says so, in place of hires.
+        if (up > before) expect(hired.length, where).toBeGreaterThan(0);
+        else {
+          const unfilled = employers.map((o) => staffingOf(api, key, o.id)!);
+          expect(
+            unfilled.some((r) => (r.unfilled ?? 0) > 0 && r.unfilledBecause),
+            `${where}: ${key} no hires and no recorded reason`,
+          ).toBe(true);
+        }
         for (const row of hired) {
           const jobId = core.people.get(row.targetId)?.jobId;
           expect(jobId, where).toBeDefined();
@@ -634,8 +643,17 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
         api,
         key,
       ).filter((r) => r.spec === "laid-off").length;
-      if (employers.length && before > 0)
-        expect(down, `${where}: ${key} no layoffs`).toBeLessThan(up);
+      if (employers.length && before > 0) {
+        // Staff go only where the cut line funds fewer positions than the staff
+        // in place (a one-person staff funded at half still has its one position).
+        const funded = employers.reduce(
+          (n, o) => n + Math.round(staffingOf(api, key, o.id)!.positions),
+          0,
+        );
+        if (funded < up)
+          expect(down, `${where}: ${key} no layoffs`).toBeLessThan(up);
+        else expect(down, `${where}: ${key} laid off a funded post`).toBe(up);
+      }
       // Back to the base.
       amendBudget(api, {
         governmentId: gov.id,

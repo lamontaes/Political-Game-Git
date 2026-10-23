@@ -56,6 +56,9 @@ interface StaffingRow {
   readonly setOn: string;
   /** The fiscal year the base staff was taken in; a new year starts from the staff then in place. */
   readonly fiscalYear?: number;
+  /** Positions the line funds that no hire filled, and why (set when a worker run left some open). */
+  readonly unfilled?: number;
+  readonly unfilledBecause?: "no-jobless-adults" | "no-payroll-template";
 }
 
 /** The staffing a budget line funds at one employer, if a change has set it. */
@@ -304,13 +307,27 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
     if (!full.length) fillInPerson(state, counted[0]!.personId);
     const template = currentStaff(api, row.organizationId)[0];
     if (!template) return;
-    for (const personId of [...candidates(api), ...countedCandidates(api)]) {
+    const pool = [...candidates(api), ...countedCandidates(api)];
+    for (const personId of pool) {
       if (headcount + hired.length >= target) break;
       // A counted adult becomes a full person from their records at hire.
       if (!state.people.has(personId)) fillInPerson(state, personId);
       if (hire(api, row, personId, template, work.source)) hired.push(personId);
       else break;
     }
+    // Positions the line funds that nobody filled keep the reason on the row.
+    const open = target - headcount - hired.length;
+    // A reason from an earlier run is dropped once nothing is left open.
+    const next: Record<string, unknown> = {
+      ...row,
+      unfilled: Math.max(0, open),
+    };
+    if (open > 0)
+      next.unfilledBecause = pool.length
+        ? "no-payroll-template"
+        : "no-jobless-adults";
+    else delete next.unfilledBecause;
+    reachTable(api, "staffing").put(next as unknown as ModuleRow);
   } else if (target < headcount) {
     // The newest hires go first; the counted staff follow, last job id first.
     const order = [...[...full].reverse(), ...[...counted].reverse()];
