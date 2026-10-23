@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/garyville
 pr: #5586
 blocked-on:

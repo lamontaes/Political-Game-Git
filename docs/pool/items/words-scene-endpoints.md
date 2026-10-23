@@ -4,7 +4,7 @@ title: "Every scene has an endpoint, stated on the batch page"
 area: words
 kind: feature
 priority: 1
-status: claimed
+status: done
 claimed-by: claude/words-scene-endpoints-2
 pr: #4612
 blocked-on:
@@ -31,3 +31,5 @@ Sent back 2026-10-17 from PR #4612 (branch claude/words-scene-endpoints-2): Merg
 
 Sent back 2026-10-19 from PR #4612 (branch claude/words-scene-endpoints-2): Merge main conflicts require author resolution: scripts/dialogue-batch/coverage-batch.ts; finish on that branch, merge main into it first.
 Sent back 2026-10-19 from PR #4478 (branch claude/words-scene-endpoints): it commits tsconfig.tsbuildinfo and a compiled tooling/root-tsconfig-guard.js; remove both, merge main into it first, then finish.
+
+**Notes.** Done by #4612, merged Oct 20 (reconcile Oct 23).
