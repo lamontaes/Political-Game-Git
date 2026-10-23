@@ -363,7 +363,7 @@ describe(
         )
         .sort();
       const tried: string[] = [];
-      for (let attempt = 0; attempt < 6; attempt += 1) {
+      for (let attempt = 0; attempt < 30; attempt += 1) {
         const { api, key } = town(
           states,
           `project:${attempt}`,
@@ -387,9 +387,19 @@ describe(
               amountMinor: 10_000,
             }),
           );
+        // An appropriations bill is carried by the chamber's majority: a
+        // minority member's bill dies in a committee the majority chairs, by
+        // their recorded party positions. The sponsor is the first member on
+        // the majority side.
+        const seats = members(api, body);
+        const majority = Math.sign(
+          seats.reduce((sum, t) => sum + partySide(t.party), 0),
+        );
+        const sponsorTerm =
+          seats.find((t) => partySide(t.party) === majority) ?? seats[0]!;
         const bill = appropriationsWithProjects(api, {
           bodyOfficeId: body,
-          sponsorId: memberKey(members(api, body)[0]!),
+          sponsorId: memberKey(sponsorTerm),
         });
         const after = requests.map((r) => projectRequestOf(api, r.id)!);
         // Every request is settled on standing, with its reasons kept.
@@ -405,6 +415,22 @@ describe(
         const included = after.filter((r) => r.status === "included");
         if (!bill || !included.length) {
           tried.push(`${key}: none included`);
+          continue;
+        }
+        // The vote follows the members' recorded positions: a chamber whose
+        // members mostly stand against a spending bill buries it in committee
+        // (the chair's own position decides whether it is heard), so a town is
+        // a place to prove the grant in only where more members stand for the
+        // bill than against it. The others are named, with their count.
+        const stand = bill
+          ? members(api, body).filter(
+              (t) => memberPosition(api, bill.id, memberKey(t)).total > 0,
+            ).length
+          : 0;
+        if (bill && stand * 2 <= members(api, body).length) {
+          tried.push(
+            `${key}: ${stand} of ${members(api, body).length} members stand for it`,
+          );
           continue;
         }
         const lines = bill.provisions.filter((p) => p.recipientId === city.id);
