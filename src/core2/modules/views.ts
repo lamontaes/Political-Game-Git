@@ -21,7 +21,7 @@
  * Views form when first read, so a person filled in later gets theirs too.
  */
 import { stableHash, pairKey } from "../kernel/ids";
-import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { ageOnDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
 import {
@@ -230,7 +230,7 @@ export function viewCell(
   seed: string,
 ): { cell: CellKey; shares: Readonly<Record<string, number>>; basis: string } {
   const state = stateOf(person);
-  const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date));
+  const age = ageOnDate(person.birthDate, date);
   const band = ageBand(age);
   const row = state ? VIEWS_KEYS.states[state] : undefined;
   const national = VIEWS_KEYS.national;
@@ -312,10 +312,7 @@ export function countedEngagement(
 ): number {
   const cache = engagementCells.get(api.state) ?? new Map<string, number>();
   engagementCells.set(api.state, cache);
-  const age = ageOnDate(
-    makeIsoDate(voter.birthDate),
-    makeIsoDate(api.state.startedAt),
-  );
+  const age = ageOnDate(voter.birthDate, api.state.startedAt);
   const key = `${voter.placeId}|${age}`;
   let mean = cache.get(key);
   if (mean === undefined) {
@@ -347,9 +344,7 @@ function profileFromAverage(
     fact(PROFILE_FACT_KINDS.education, "level") ?? profile?.education;
   const faith = fact(PROFILE_FACT_KINDS.faith, "group") ?? profile?.faith;
   if (!educ || !faith || !FAITH_IMPORTANCE[faith]) return {};
-  const band = ageBand(
-    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(date)),
-  );
+  const band = ageBand(ageOnDate(person.birthDate, date));
   const state = stateOf(person);
   const row = state ? VIEWS_KEYS.states[state] : undefined;
   const educShares =

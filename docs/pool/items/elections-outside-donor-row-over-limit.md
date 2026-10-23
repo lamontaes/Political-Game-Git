@@ -5,12 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/outside-donor-limit
 pr: #5819
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-22T04:26:02.744Z
 ---
 
 **What.** On main, src/core2/campaign-turn.test.ts fails in drawn places: 'a world candidate's turns raise money' gets a donor total of 7452900 against a 350000 per-donor limit (Chama, New Mexico, seed 0a3ed48041c83fd9…), and the donor running-total test reads 900 where it expects 0. Swapping main's test file onto PR #4925 fails the same way, so the cause is on main. Likely askOutsideDonors in src/core2/modules/campaigns.ts records one gift of donors times each per place group, so one donor row stands for many people and passes the limit.
