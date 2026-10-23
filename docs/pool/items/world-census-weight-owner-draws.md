@@ -3,14 +3,15 @@ id: world-census-weight-owner-draws
 title: "Owner draws of counted owners stand for as many households as the town's weight says"
 area: world
 kind: bug
-priority: 1
+priority: 2
 size: S
-status: claimed
-claimed-by: claude/census-weight-owner-draws
+status: open
+claimed-by:
 pr: #5306
-blocked-on: world-census-scaled-establishments-short
+blocked-on:
+after: world-census-scaled-establishments-short
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T10:57:35.791Z
+claimed-at:
 ---
 
 **What.** In Washington, D.C. opened at 69 times its sample (seed `big1`), a 30-day look at what enters and leaves the counted groups' funds, by journal source (a wrapper on `api.postJournal` summing postings to the `rt.funds` accounts), shows lines that do not track the weight. Per person in the town: owner draws are $11.7 against $427 in the small town (36 times too low), counted wages $26.5 against $170 (6 times; the hiring item in PR 4784 covers wages), retirement pay $143 against $307, and purchases $71 against $95. Rent, mortgage, outside living, unplaced wages and property tax now match the small town to within about 10 percent. Find why each line is short (the owner-draw flow and its payer's books first: `owner-draw:` entries in `src/core2/modules/business.ts` or `residents.ts`) and weight it, one line at a time.
@@ -29,4 +30,13 @@ PR #5306 sent back: Test failed in Susanville, California (seed 6d6c5505b807665f
 
 Checked Oct 20 (claude/census-owner-draws): PR #5306's test (62 days, countScale 3) with the #5373 branch merged in still fails: Tafuna, American Samoa (seed 6a4e34a3da3c4f4d447375cd85f9f6f1a31d5958e2e880331061b67ae66737e9) ratio 0.274; Caldwell, New Jersey (seed afb96112f948934fb4b14a6d870500b5807d3a427ff281c069be51f76abc2220) ratio 0.488. The businesses (and so the draws) are still the sample's count, so the cause is the establishment count (world-census-scaled-establishments-short, PR #5076), not the draw. Take this again after that lands; #5306's test is the done-when.
 
+Oct 20 (pool feeder): spec written; waits only on world-census-scaled-establishments-short (in-pr), which the earlier notes already named as the cause, so the item is the measurement test plus any residual fix.
+
 Sent back 2026-10-20 from PR #5306 (branch claude/pool-owner-draws): The Done when requires a drawn town above 10000 at its actual Census scale versus default size, within 25 percent per resident over 30 days. The body explicitly measured only scale 3 in St. Marys, Alaska, not Census scale in a large town. Run the required scale/place case and retain it beside the drawn-place test before completing this item.; finish on that branch, merge main into it first.
+
+Measured Oct 19 (claude, with the default Census scale of PR #5295): Washington, District of Columbia, seed scale-probe-1, `buildBenchWorld` two-level, 60 days from 2025-01-20. At `countScale` 1 the owners' draws (`business/draws`, sum of `drawnMinor`) are $8,497,144 in 58 rows, about $850 a resident of the 10,000 sample. At the default scale (about 69, a town of 693,645) they are $520,680 in 49 rows, about $0.75 a resident: fewer dollars in total for 69 times the people. So the draws do not follow the weight at all and fall to about a thousandth per resident, worse than the 36 times short recorded on Oct 17. The businesses are the sample's and their customers are now the weighted town, so profit is spread over the same firms while the draws stay with the sample's owners; whichever way the cause is read, a big town opened at Census scale pays its owners almost nothing. This is the blocker for merging #5295 (the uncap).
+
+Built Oct 19 (claude, PR #5295): the firms are sized to the Census town in `src/core2/census-firms.ts` before the outside market is derived, and the default Census scale counts the residents from the sample (not the kin the opening adds). Washington, D.C., seed scale-probe-1, 60 days, per resident against the sample town: sales +14 percent, wages +13, costs +12, owners' draws -6 (a counted owner's draw is stored in one household's units, so it is read times the weight). `src/core2/census-firms.test.ts` states it in a drawn place above 20,000 people. This item closes when #5295 merges; the draws sit in a wider band (Fishers, Indiana came out at 0.39).
+Checked Oct 21 (claude): the blocker world-census-scaled-establishments-short points at PR #5076, an omnibus whose body does not cover establishments (see that item's Oct 21 note), so this item will wait on work that has not been started. The owner-draw line is short for the reason in the Oct 17 note (the businesses are the sample's); the first step is the establishment count.
+
+Oct 21 (CTO merger, PR #5301): the earlier business/draws sums are raw drawnMinor values. For counted owners that value is returned by countedPayment in one household's units, whereas full owners' draws are actual transfers; their unweighted sum is not the town's journal total. Use the group-fund journal measure in this item's What and Done when to establish per-resident draw parity. These historical findings and the proposed #5295 build do not complete either pool item.
