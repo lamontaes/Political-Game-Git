@@ -1619,9 +1619,7 @@ export function coreAPI(core: CoreState): CoreAPI {
           staying.length &&
           !staying.some(
             (row) =>
-              row?.alive &&
-              ageOnDate(makeIsoDate(row.birthDate), makeIsoDate(core.date)) >=
-                adultAge,
+              row?.alive && ageOnDate(row.birthDate, core.date) >= adultAge,
           )
         )
           throw new Error(
