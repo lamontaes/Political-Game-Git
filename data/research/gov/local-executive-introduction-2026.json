@@ -1,0 +1,817 @@
+{
+  "id": "local-executive-introduction-2026",
+  "publisher": "Each state's municipal code and the Council of the District of Columbia's rules; the repository's county-structure and municipal-election baselines for the places not read",
+  "vintage": "statutes and rules in force October 2026",
+  "table": "How a mayor or county executive brings an ordinance of their own to the body that passes it, under the general law of each place",
+  "title": "Local executive bill introduction by state, 2026",
+  "universe": "The general-law default most towns and counties of each place follow; a town's or county's own charter may grant the executive a direct right (the charter is the record for those).",
+  "geography": "state or territory, keyed by postal code; all 56 places",
+  "sourceUrl": "per row (sourceUrl)",
+  "retrievedOn": "2026-10-23",
+  "limits": "Modes: by-request (the executive is not a voting member; a member carries the executive's bill, as proposalRight does today); member (the mayor is a voting member of the council and may move an ordinance like any member); presides (the county executive presides over the board); none (no elected executive under general law). A county row's mode applies to the counties that have an elected executive; electedExecutive says whether all, most, some or none do. A SOURCED row quotes the statute or rule fetched on Oct 23, 2026, for the class of city it names. Every other row is ESTIMATED from the national pattern or the repository's own baselines named in the row. No source read gives the share of places that adopt a charter of their own.",
+  "readBy": "scripts/research/legislature-local-rules-check.ts (checks each ESTIMATED county row against county-governing-bodies.json; reports the places whose mode differs from by-request). No engine reads it yet: gov-legislature-executive-proposal-by-place (proposalRight in src/core2/modules/legislature.ts) is the builder item.",
+  "places": {
+    "AL": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "presides",
+        "electedExecutive": "all",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.AL (electedExecutive all, executivePresidesOverBody true, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "AK": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "most",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.AK (electedExecutive most, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "AZ": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.AZ (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "AR": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "presides",
+        "electedExecutive": "all",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.AR (electedExecutive all, executivePresidesOverBody true, SOURCED): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "CA": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.CA (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "CO": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.CO (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "CT": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.CT (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "DE": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.DE (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "FL": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.FL (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "GA": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "presides",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.GA (electedExecutive some, executivePresidesOverBody true, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "HI": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "all",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.HI (electedExecutive all, executivePresidesOverBody false, SOURCED): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "ID": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "presides-tie-vote",
+        "appliesTo": "every city",
+        "tag": "SOURCED",
+        "statute": "Idaho Code 50-602",
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/title50/t50ch6/sect50-602/",
+        "quote": "The mayor ... shall be the chief administrative official of the city, preside over the meetings of the city council and determine the order of business subject to such rules as the council may prescribe, have a vote only when the council is equally divided"
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.ID (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "IL": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.IL (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "IN": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.IN (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "IA": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.IA (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "KS": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.KS (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "KY": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "presides",
+        "electedExecutive": "all",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.KY (electedExecutive all, executivePresidesOverBody true, SOURCED): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "LA": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.LA (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "ME": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.ME (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "MD": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.MD (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "MA": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.MA (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "MI": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.MI (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "MN": {
+      "mayor": {
+        "mode": "member",
+        "mayorSeat": "voting-member",
+        "appliesTo": "statutory cities (standard and optional plans)",
+        "tag": "SOURCED",
+        "statute": "Minn. Stat. 412.191, subd. 1-2",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/412.191",
+        "quote": "The city council in a standard plan city shall consist of the mayor, the clerk, and the three or five council members. In optional plan cities ... the council shall consist of the mayor and the four council members. ... The mayor or, in the mayor's absence, the acting mayor, shall preside."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.MN (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "MS": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.MS (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "MO": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "presides-tie-vote",
+        "appliesTo": "fourth-class cities",
+        "tag": "SOURCED",
+        "statute": "RSMo 79.120",
+        "sourceUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=79.120",
+        "quote": "The mayor shall have a seat in and preside over the board of aldermen, but shall not vote on any question except in case of a tie"
+      },
+      "countyExecutive": {
+        "mode": "presides",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.MO (electedExecutive some, executivePresidesOverBody true, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "MT": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.MT (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "NE": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "presides-tie-vote",
+        "appliesTo": "cities of the second class",
+        "tag": "SOURCED",
+        "statute": "Neb. Rev. Stat. 17-110(1)",
+        "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=17-110",
+        "quote": "The mayor shall preside at all meetings of the city council of a city of the second class. The mayor may vote on any matter that requires either a majority vote of the city council or a majority vote of all the elected members of the city council if (a) the mayor's vote is required due to the city council members being equally divided"
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.NE (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "NV": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.NV (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "NH": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.NH (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "NJ": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.NJ (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "NM": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.NM (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "NY": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.NY (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "NC": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.NC (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "ND": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.ND (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "OH": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.OH (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "OK": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.OK (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "OR": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.OR (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "PA": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.PA (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "RI": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.RI (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "SC": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.SC (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "SD": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.SD (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "TN": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "presides",
+        "electedExecutive": "all",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.TN (electedExecutive all, executivePresidesOverBody true, SOURCED): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "TX": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "presides",
+        "electedExecutive": "all",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.TX (electedExecutive all, executivePresidesOverBody true, SOURCED): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "UT": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.UT (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "VT": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.VT (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "VA": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.VA (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "WA": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "presides-tie-vote",
+        "appliesTo": "code cities, mayor-council plan",
+        "tag": "SOURCED",
+        "statute": "RCW 35A.12.100",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=35A.12.100",
+        "quote": "The mayor shall preside over all meetings of the city council, when present, but shall have a vote only in the case of a tie in the votes of the councilmembers with respect to matters other than the passage of any ordinance ... shall make recommendations for council consideration and action."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.WA (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "WV": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.WV (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "WI": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass."
+      },
+      "countyExecutive": {
+        "mode": "by-request",
+        "electedExecutive": "some",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.WI (electedExecutive some, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "WY": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern (NLC, Forms of Municipal Government: a mayor-council mayor recommends ordinances to the council), as src/core2/data/legislature/executive-proposal.json holds it; this state's mayor statute was not read in the Oct 23, 2026 pass. Its general law also lets a council choose the mayor from its own members (data/municipal-elections/92O-national-state-baseline.json mayorSelectionOptions), and such a mayor introduces as a member."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "Derived from data/research/local-government/county-governing-bodies.json structure.states.WY (electedExecutive none, executivePresidesOverBody false, ESTIMATED FROM AVERAGE): no elected executive gives none; one who presides over the board brings bills as its presiding member; a separate one brings them by request."
+      }
+    },
+    "DC": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "appliesTo": "the Council of the District of Columbia",
+        "tag": "SOURCED",
+        "statute": "Council Rules, Period 26, Rule 402(f)-(g)",
+        "sourceUrl": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+        "quote": "Proposed legislation transmitted for introduction by the Mayor, the Uniform Law Commission, or an independent agency shall be addressed to the Chairman and filed with the Secretary. ... the Mayor if the measure is introduced at the request of the Mayor"
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No county government row in data/research/local-government/county-governing-bodies.json for this place (D.C. and the territories); none is assumed."
+      }
+    },
+    "PR": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern as src/core2/data/legislature/executive-proposal.json holds it; no municipal-government source for this territory was read in the Oct 23, 2026 pass, and 92O covers only the states and D.C."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No county government row in data/research/local-government/county-governing-bodies.json for this place (D.C. and the territories); none is assumed."
+      }
+    },
+    "GU": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern as src/core2/data/legislature/executive-proposal.json holds it; no municipal-government source for this territory was read in the Oct 23, 2026 pass, and 92O covers only the states and D.C."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No county government row in data/research/local-government/county-governing-bodies.json for this place (D.C. and the territories); none is assumed."
+      }
+    },
+    "VI": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern as src/core2/data/legislature/executive-proposal.json holds it; no municipal-government source for this territory was read in the Oct 23, 2026 pass, and 92O covers only the states and D.C."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No county government row in data/research/local-government/county-governing-bodies.json for this place (D.C. and the territories); none is assumed."
+      }
+    },
+    "AS": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern as src/core2/data/legislature/executive-proposal.json holds it; no municipal-government source for this territory was read in the Oct 23, 2026 pass, and 92O covers only the states and D.C."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No county government row in data/research/local-government/county-governing-bodies.json for this place (D.C. and the territories); none is assumed."
+      }
+    },
+    "MP": {
+      "mayor": {
+        "mode": "by-request",
+        "mayorSeat": "separate-executive",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "National pattern as src/core2/data/legislature/executive-proposal.json holds it; no municipal-government source for this territory was read in the Oct 23, 2026 pass, and 92O covers only the states and D.C."
+      },
+      "countyExecutive": {
+        "mode": "none",
+        "electedExecutive": "none",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "No county government row in data/research/local-government/county-governing-bodies.json for this place (D.C. and the territories); none is assumed."
+      }
+    }
+  }
+}

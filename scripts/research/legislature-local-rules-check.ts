@@ -8,6 +8,13 @@
  *   chamber-leadership.json (Congress aside); a SOURCED row quotes the
  *   chamber's rule; an ESTIMATED row must equal its template's default, so a
  *   stand-in never drifts from the table it names.
+ * - data/research/gov/local-ordinance-style-2026.json: the enacting clause
+ *   and numbering state law gives a town's or county's ordinances, all 56
+ *   places; an ESTIMATED row must equal bill-forms.json's national default.
+ * - data/research/gov/local-executive-introduction-2026.json: how a mayor or
+ *   county executive brings a bill of their own, all 56 places; an ESTIMATED
+ *   county row must follow from county-governing-bodies.json, and an
+ *   ESTIMATED mayor row from executive-proposal.json.
  *
  *   node --import tsx scripts/research/legislature-local-rules-check.ts
  */
@@ -21,6 +28,28 @@ const read = (path: string): unknown =>
 export const COMMITTEE_APPOINTMENT_PATH =
   "data/research/gov/chamber-committee-appointment-2026.json";
 const LEADERSHIP_PATH = "data/research/legislature/chamber-leadership.json";
+export const ORDINANCE_STYLE_PATH =
+  "data/research/gov/local-ordinance-style-2026.json";
+export const EXECUTIVE_INTRODUCTION_PATH =
+  "data/research/gov/local-executive-introduction-2026.json";
+const BILL_FORMS_PATH = "src/core2/data/legislature/bill-forms.json";
+const EXECUTIVE_PROPOSAL_PATH =
+  "src/core2/data/legislature/executive-proposal.json";
+const COUNTY_BODIES_PATH =
+  "data/research/local-government/county-governing-bodies.json";
+
+/** The 56 places: 50 states, D.C. and the five inhabited territories. */
+const PLACES = [
+  ..."AL AK AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(
+    " ",
+  ),
+  "DC",
+  "PR",
+  "GU",
+  "VI",
+  "AS",
+  "MP",
+];
 
 const errors: string[] = [];
 const fail = (message: string) => errors.push(message);
@@ -37,6 +66,7 @@ const APPOINTERS = new Set([
   "chamber-election",
   "seniority",
   "council-chair",
+  "committee-chair",
   "council-president",
   "presiding-officer",
 ]);
@@ -159,7 +189,182 @@ function checkCommittees(): void {
   for (const line of differs) console.log(`  ${line}`);
 }
 
+interface SourcedRow {
+  readonly tag?: unknown;
+  readonly statute?: unknown;
+  readonly sourceUrl?: unknown;
+  readonly quote?: unknown;
+  readonly estimatedFrom?: unknown;
+}
+
+/** A SOURCED row names its statute and URL and quotes it; an ESTIMATED row says what it stands in for. */
+function checkSourced(where: string, row: SourcedRow): boolean {
+  if (row.tag === "SOURCED") {
+    if (!text(row.statute) || !text(row.quote))
+      fail(`${where}: SOURCED without its statute and quote`);
+    if (!text(row.sourceUrl) || !row.sourceUrl.startsWith("https://"))
+      fail(`${where}: SOURCED without an https sourceUrl`);
+    return true;
+  }
+  if (row.tag !== "ESTIMATED") fail(`${where}: tag ${String(row.tag)}`);
+  else if (!text(row.estimatedFrom))
+    fail(`${where}: ESTIMATED without estimatedFrom`);
+  return false;
+}
+
+/** The clause's fixed words (its blanks aside) must appear in the statute it quotes. */
+const fixedWords = (clause: string) =>
+  clause
+    .split(/\{[a-z]+\}/)
+    .map((part) =>
+      part
+        .replace(/[^A-Za-z ]/g, " ")
+        .trim()
+        .toLowerCase(),
+    )
+    .filter((part) => part.length > 0);
+
+function checkOrdinanceStyle(): void {
+  const local = (
+    read(BILL_FORMS_PATH) as {
+      local: { enactingClause: string; template: string; period: string };
+    }
+  ).local;
+  const data = read(ORDINANCE_STYLE_PATH) as {
+    retrievedOn?: unknown;
+    places?: Record<
+      string,
+      Record<
+        "municipal" | "county" | "numbering",
+        SourcedRow & {
+          clause?: string;
+          template?: string;
+          period?: string;
+          alsoSourced?: readonly (SourcedRow & { clause?: string })[];
+        }
+      >
+    >;
+  };
+  if (data.retrievedOn !== "2026-10-23") fail("ordinance style: retrievedOn");
+  const differs: string[] = [];
+  for (const place of PLACES) {
+    const row = data.places?.[place];
+    if (!row) {
+      fail(`ordinance style ${place}: missing`);
+      continue;
+    }
+    for (const level of ["municipal", "county"] as const) {
+      const entry = row[level];
+      const where = `ordinance style ${place} ${level}`;
+      for (const each of [entry, ...(entry?.alsoSourced ?? [])]) {
+        if (!each || !text(each.clause)) {
+          fail(`${where}: no clause`);
+          continue;
+        }
+        const sourced = checkSourced(where, each);
+        if (text(each.quote)) {
+          const quote = each.quote.replace(/[^A-Za-z ]/g, " ").toLowerCase();
+          const squeezed = quote.replace(/\s+/g, " ");
+          for (const words of fixedWords(each.clause))
+            if (!squeezed.includes(words.replace(/\s+/g, " ")))
+              fail(`${where}: "${words}" is not in the quoted statute`);
+        } else if (!sourced && each.clause !== local.enactingClause)
+          fail(`${where}: ESTIMATED clause is not the national default`);
+        if (sourced && each === entry)
+          differs.push(`${place} ${level}: ${each.clause}`);
+      }
+    }
+    const numbering = row.numbering;
+    const sourced =
+      numbering &&
+      checkSourced(`ordinance style ${place} numbering`, numbering);
+    if (
+      numbering &&
+      !sourced &&
+      (numbering.template !== local.template ||
+        numbering.period !== local.period)
+    )
+      fail(
+        `ordinance style ${place} numbering: ESTIMATED is not the national default`,
+      );
+    if (sourced) differs.push(`${place} numbering: ${numbering.template}`);
+  }
+  console.log(
+    `ordinance style: 56 places; ${differs.length} read from their own law instead of the national "${local.enactingClause}" / "${local.template}":`,
+  );
+  for (const line of differs) console.log(`  ${line}`);
+}
+
+const EXECUTIVE_MODES = new Set(["by-request", "member", "presides", "none"]);
+
+function checkExecutiveIntroduction(): void {
+  const national = (
+    read(EXECUTIVE_PROPOSAL_PATH) as {
+      kinds: Record<string, { mode: string }>;
+    }
+  ).kinds;
+  const counties = (
+    read(COUNTY_BODIES_PATH) as {
+      structure: {
+        states: Record<
+          string,
+          { electedExecutive: string; executivePresidesOverBody: boolean }
+        >;
+      };
+    }
+  ).structure.states;
+  const data = read(EXECUTIVE_INTRODUCTION_PATH) as {
+    retrievedOn?: unknown;
+    places?: Record<
+      string,
+      Record<"mayor" | "countyExecutive", SourcedRow & { mode?: unknown }>
+    >;
+  };
+  if (data.retrievedOn !== "2026-10-23") fail("executive: retrievedOn");
+  const differs: string[] = [];
+  for (const place of PLACES) {
+    const row = data.places?.[place];
+    if (!row) {
+      fail(`executive ${place}: missing`);
+      continue;
+    }
+    const mayor = row.mayor;
+    if (!EXECUTIVE_MODES.has(String(mayor?.mode)))
+      fail(`executive ${place} mayor: mode ${String(mayor?.mode)}`);
+    if (mayor && !checkSourced(`executive ${place} mayor`, mayor)) {
+      if (mayor.mode !== national.mayor?.mode)
+        fail(
+          `executive ${place} mayor: ESTIMATED mode is not executive-proposal.json's`,
+        );
+    } else if (mayor && mayor.mode !== national.mayor?.mode)
+      differs.push(`${place} mayor: ${String(mayor.mode)}`);
+    const county = row.countyExecutive;
+    if (!EXECUTIVE_MODES.has(String(county?.mode)))
+      fail(`executive ${place} county: mode ${String(county?.mode)}`);
+    if (county && !checkSourced(`executive ${place} county`, county)) {
+      const c = counties[place];
+      const derived = !c
+        ? "none"
+        : c.electedExecutive === "none"
+          ? "none"
+          : c.executivePresidesOverBody
+            ? "presides"
+            : "by-request";
+      if (county.mode !== derived)
+        fail(
+          `executive ${place} county: ${String(county.mode)}, but county-governing-bodies.json gives ${derived}`,
+        );
+    }
+  }
+  console.log(
+    `executive: 56 places; ${differs.length} mayors read from their own law bring bills otherwise than by request:`,
+  );
+  for (const line of differs) console.log(`  ${line}`);
+}
+
 checkCommittees();
+checkOrdinanceStyle();
+checkExecutiveIntroduction();
 if (errors.length) {
   for (const e of errors) console.error(e);
   process.exit(1);

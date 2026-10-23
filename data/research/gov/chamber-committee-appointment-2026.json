@@ -172,10 +172,12 @@
       "jurisdictionKey": "US-DC",
       "chamberKey": "council",
       "templateId": "elected-president",
-      "membersAppointedBy": "council-president",
-      "chairsAppointedBy": "council-vote",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The elected-president template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "membersAppointedBy": "council-chair",
+      "chairsAppointedBy": "council-chair",
+      "tag": "SOURCED",
+      "rule": "Council Rule 221, Rules of Organization and Procedure for the Council of the District of Columbia, Council Period 26",
+      "sourceUrl": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "quote": "At the organizational meeting convened in accordance with Rule 301 at the beginning of the Council Period, the Chairman shall nominate the chairperson and members of each committee of the Council, and the Council shall, by resolution, act on the Chairman's nominations."
     },
     {
       "jurisdictionKey": "US-FL",
@@ -524,8 +526,10 @@
       "templateId": "unicameral",
       "membersAppointedBy": "committee-on-committees",
       "chairsAppointedBy": "chamber-vote",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The unicameral template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "tag": "SOURCED",
+      "rule": "Rule 3, Sec. 2(a)-(b) and Sec. 8(a), Rules of the Nebraska Unicameral Legislature, One Hundred Ninth Legislature (2025-2026)",
+      "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/109/PDF/Rules/RuleBook.pdf",
+      "quote": "At the commencement of each biennium, the Legislature shall elect a Committee on Committees to consist of thirteen members ... the committee shall meet and, by a majority vote of all its members, submit to the Legislature a preliminary report of appointments to the remaining standing and select committees ... The chairperson of each standing and select committee shall be selected by secret ballot on the floor of the Legislature."
     },
     {
       "jurisdictionKey": "US-NV",
@@ -873,10 +877,12 @@
       "jurisdictionKey": "US-VA",
       "chamberKey": "senate",
       "templateId": "state-senate",
-      "membersAppointedBy": "senate-president",
-      "chairsAppointedBy": "senate-president",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "membersAppointedBy": "chamber-election",
+      "chairsAppointedBy": null,
+      "tag": "SOURCED",
+      "rule": "Virginia General Assembly, Senate Privileges and Elections Committee room page",
+      "sourceUrl": "https://vga.virginia.gov/?p=91",
+      "quote": "The Senate has 11 standing committees. Members are elected to serve on committees by a vote of the Senate."
     },
     {
       "jurisdictionKey": "US-WA",
@@ -972,10 +978,12 @@
       "jurisdictionKey": "US-GU",
       "chamberKey": "legislature",
       "templateId": "state-house",
-      "membersAppointedBy": "speaker",
-      "chairsAppointedBy": "speaker",
-      "tag": "ESTIMATED",
-      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+      "membersAppointedBy": "committee-chair",
+      "chairsAppointedBy": "chamber-vote",
+      "tag": "SOURCED",
+      "rule": "Standing Rules of the 38th Guam Legislature, Section 11.09 and Rule 1 (8) (adopted Jan. 6, 2025)",
+      "sourceUrl": "https://guamlegislature.gov/wp-content/uploads/2026/05/38TH-GL-Otden-Areklamento-050626.pdf",
+      "quote": "Except as otherwise provided in these Rules, Members of a Standing Committee or Subcommittee shall be appointed by the Chairperson. ... the Speaker shall call for the election of Chairpersons of the Standing Committees"
     },
     {
       "jurisdictionKey": "US-VI",

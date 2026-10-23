@@ -1,0 +1,1090 @@
+{
+  "id": "local-ordinance-style-2026",
+  "publisher": "Each state's code (municipal and county law) and the Council of the District of Columbia's rules",
+  "vintage": "statutes in force October 2026",
+  "table": "The enacting clause state law prescribes for a town's or county's ordinances, and the numbering, by place",
+  "title": "Local ordinance enacting clauses and numbering by state, 2026",
+  "universe": "The general law most towns and counties of each place follow when their own charter says nothing; charter and home-rule places set their own (the place's code of ordinances is the record for those).",
+  "geography": "state or territory, keyed by postal code; all 56 places",
+  "sourceUrl": "per row (sourceUrl)",
+  "retrievedOn": "2026-10-23",
+  "limits": "A SOURCED row quotes the state statute as fetched on Oct 23, 2026; {place}, {body} and {kind} mark the blanks the statute leaves for the town's name, its governing body and its kind (city, town, village). A statute often covers one class of city only (appliesTo); other classes and charter cities may differ. An ESTIMATED row is the national default from bill-forms.json, or (Texas) a statute read from a reproduction because the official page renders only by script. The clauses are research for the Words session: they reach no player text until the English engine's banks take them up. No statute read prescribes a local ordinance numbering; only the D.C. Council's rules do.",
+  "nationalDefault": {
+    "clause": "Be it ordained by the {body}",
+    "template": "{yyyy}-{n}",
+    "period": "annual",
+    "from": "src/core2/data/legislature/bill-forms.json (local)"
+  },
+  "readBy": "scripts/research/legislature-local-rules-check.ts (shape check; reports which places differ from the national default). No engine reads it yet: gov-legislature-local-ordinance-form-by-state (bodyNumbering in src/core2/legislature-bill-form.ts) and words-local-enacting-clause-by-state (the English engine's legislation bank) are the items that will.",
+  "places": {
+    "AL": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "AK": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "AZ": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "AR": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "CA": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "CO": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "CT": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "DE": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "FL": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be It Ordained by the Board of County Commissioners of {place} County:",
+        "appliesTo": "every county",
+        "statute": "Fla. Stat. 125.67",
+        "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2024/125.67",
+        "quote": "The enacting clause of every ordinance shall read: \"Be It Ordained by the Board of County Commissioners of County:\"",
+        "tag": "SOURCED"
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "GA": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "HI": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "ID": {
+      "municipal": {
+        "clause": "Be it ordained by the mayor and council of the city of {place}",
+        "appliesTo": "every city",
+        "statute": "Idaho Code 50-901",
+        "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/title50/t50ch9/sect50-901/",
+        "quote": "The style of all ordinances shall be: \"Be it ordained by the mayor and council of the city of ………\"",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "IL": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "IN": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "IA": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "KS": {
+      "municipal": {
+        "clause": "Be it ordained by the governing body of the city of {place}:",
+        "appliesTo": "every city",
+        "statute": "K.S.A. 12-3005",
+        "sourceUrl": "https://www.ksrevisor.org/statutes/chapters/ch12/012_030_0005.html",
+        "quote": "The style or ordaining clause of all ordinances shall be: \"Be it ordained by the governing body of the city of ______________:\"",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "KY": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "LA": {
+      "municipal": {
+        "clause": "Be it ordained by the board of aldermen of the {kind} of {place}",
+        "appliesTo": "Lawrason Act municipalities (no home rule charter)",
+        "statute": "La. R.S. 33:406(A)(1)",
+        "sourceUrl": "https://legis.la.gov/Legis/Law.aspx?d=90492",
+        "quote": "The style of all ordinances shall be: \"Be it ordained by the board of aldermen of the City (or Town or Village, as the case may be) of .......\"",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "ME": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "MD": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "MA": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "MI": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "MN": {
+      "municipal": {
+        "clause": "The City Council of {place} ordains:",
+        "appliesTo": "statutory cities",
+        "statute": "Minn. Stat. 412.191, subd. 4",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/412.191",
+        "quote": "All ordinances shall be suitably entitled and shall be substantially in the style. \"The City Council of ............... ordains:\".",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "MS": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "MO": {
+      "municipal": {
+        "clause": "Be it ordained by the board of aldermen of the city of {place}, as follows:",
+        "appliesTo": "fourth-class cities",
+        "statute": "RSMo 79.130.1",
+        "sourceUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=79.130",
+        "quote": "The style of the ordinances of the city shall be: \"Be it ordained by the board of aldermen of the city of ______, as follows:\"",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "MT": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "NE": {
+      "municipal": {
+        "clause": "Be it ordained by the mayor and city council of the city of {place}",
+        "appliesTo": "cities of the second class and villages",
+        "statute": "Neb. Rev. Stat. 17-613",
+        "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=17-613",
+        "quote": "The style of all ordinances of a city of the second class or village shall be: Be it ordained by the mayor and city council of the city of ......, or the chairperson and board of trustees of the village of ....... .",
+        "tag": "SOURCED",
+        "alsoSourced": [
+          {
+            "clause": "Be it ordained by the mayor and city council of the city of {place}",
+            "appliesTo": "cities of the first class",
+            "statute": "Neb. Rev. Stat. 16-405",
+            "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=16-405",
+            "quote": "The style of ordinances of a city of the first class shall be: \"Be it ordained by the mayor and city council of the city of ................,\"",
+            "tag": "SOURCED"
+          }
+        ]
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "NV": {
+      "municipal": {
+        "clause": "The City Council of the City of {place} do ordain.",
+        "appliesTo": "cities under the general law (NRS chapter 266)",
+        "statute": "NRS 266.115(1)",
+        "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-266.html",
+        "quote": "The style of ordinances must be as follows: \"The City Council of the City of ......................... do ordain.\"",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "NH": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "NJ": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "NM": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "NY": {
+      "municipal": {
+        "clause": "Be it enacted by the {body} of the {place} as follows:",
+        "appliesTo": "every county, city, town and village (local laws)",
+        "statute": "N.Y. Municipal Home Rule Law 20(2)",
+        "sourceUrl": "https://www.nysenate.gov/legislation/laws/MHR/20",
+        "quote": "Be it enacted by the (naming the legislative body) of the (name of local government) as follows:",
+        "tag": "SOURCED",
+        "fetchedWith": "WebFetch (curl returned 403)"
+      },
+      "county": {
+        "clause": "Be it enacted by the {body} of the {place} as follows:",
+        "appliesTo": "every county, city, town and village (local laws)",
+        "statute": "N.Y. Municipal Home Rule Law 20(2)",
+        "sourceUrl": "https://www.nysenate.gov/legislation/laws/MHR/20",
+        "quote": "Be it enacted by the (naming the legislative body) of the (name of local government) as follows:",
+        "tag": "SOURCED",
+        "fetchedWith": "WebFetch (curl returned 403)"
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "NC": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "ND": {
+      "municipal": {
+        "clause": "Be it ordained by the {body} of the city of {place}.",
+        "appliesTo": "every city",
+        "statute": "N.D.C.C. 40-11-01",
+        "sourceUrl": "https://ndlegis.gov/cencode/t40c11.pdf",
+        "quote": "The enacting clause of every ordinance adopted by a municipal corporation shall be: \"Be it ordained by the _____________ (governing body) of the city of _____________.\"",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "OH": {
+      "municipal": {
+        "clause": "Be it ordained by the {body} of {place}, state of Ohio,",
+        "appliesTo": "every city and village",
+        "statute": "Ohio Rev. Code 731.18",
+        "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-731.18",
+        "quote": "The style of all ordinances shall be, \"Be it ordained by the __________ filling the blank with the name of the legislative authority of the city or village) of _______________state of Ohio,\" (filling the blank with the name of the city or village.)",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "OK": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "OR": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "PA": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "RI": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "SC": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "SD": {
+      "municipal": {
+        "clause": "Be it ordained by the {kind} of {place}",
+        "appliesTo": "every city and town",
+        "statute": "SDCL 9-19-6",
+        "sourceUrl": "https://sdlegislature.gov/api/Statutes/9-19-6.html",
+        "quote": "The style of all ordinances shall be as follows: \"An ordinance __________ (inserting the title)\" followed by: \"Be it ordained by the (city or town) of __________ (inserting the name of municipality)\" followed by the substance of the ordinance.",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "TN": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "TX": {
+      "municipal": {
+        "clause": "Be it ordained by the {body} of the {kind} of {place}.",
+        "appliesTo": "Type A general-law municipalities",
+        "statute": "Tex. Local Gov't Code 52.002",
+        "sourceUrl": "https://texas.public.law/statutes/tex._local_gov't_code_section_52.002",
+        "quote": "The style of an ordinance of the municipality must be: \"Be it ordained by the _____________ (insert the name by which the governing body of the municipality is known, such as city council, board of aldermen, or city commission) of the ______________ (insert the type of entity that the municipality is known as, such as city, town, or village) of (insert the name of the municipality).\"",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The official statutes.capitol.texas.gov page renders by script and returned no text; read from the texas.public.law reproduction of the statute."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "UT": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "VT": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "VA": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "WA": {
+      "municipal": {
+        "clause": "The city council of the city of {place} do ordain as follows:",
+        "appliesTo": "code cities (Title 35A RCW, mayor-council plan)",
+        "statute": "RCW 35A.12.130",
+        "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=35A.12.130",
+        "quote": "The enacting clause of all ordinances shall be as follows: \"The city council of the city of . . . . . . do ordain as follows:\"",
+        "tag": "SOURCED"
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "WV": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "WI": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "WY": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "DC": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "Bill {period}-{n}",
+        "period": "council-period",
+        "appliesTo": "the Council of the District of Columbia",
+        "tag": "SOURCED",
+        "statute": "Council Rules, Period 26, Rule 805(b)-(c)",
+        "sourceUrl": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+        "quote": "The Secretary shall assign 2-part numbers to Council documents identified in subsection (b) of this section in the order of introduction, filing, adoption, or approval. The first part of the number consists of the current Council Period, and the second part consists of a consecutive serial number beginning with the number \"1\" in each Council Period."
+      }
+    },
+    "PR": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "GU": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "VI": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "AS": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    },
+    "MP": {
+      "municipal": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's municipal statute was not read in the Oct 23, 2026 pass."
+      },
+      "county": {
+        "clause": "Be it ordained by the {body}",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row); this place's county statute was not read in the Oct 23, 2026 pass."
+      },
+      "numbering": {
+        "template": "{yyyy}-{n}",
+        "period": "annual",
+        "tag": "ESTIMATED",
+        "estimatedFrom": "The national default in src/core2/data/legislature/bill-forms.json (local row). None of the state statutes read on Oct 23, 2026 sets an ordinance numbering; numbering is each clerk's practice."
+      }
+    }
+  }
+}
