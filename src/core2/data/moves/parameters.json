@@ -3,97 +3,137 @@
     "value": 1,
     "tag": "TUNABLE",
     "citation": "Scales the American Community Survey 2024 rate of leaving the county for a person's age band and state (data/research/migration/mover-rates-acs-2024.json) into their monthly pull to leave, so that a town's departures over a year, after each person's own ties hold some back, land on that rate. Calibrated in src/core2/moves.test.ts.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.5,
-      "high": 3
-    }
+      "high": 3,
+      "unit": "multiple of the ACS departure rate",
+      "citation": "Checked range, not a measure: the year run (scripts/research/core-parameters-year.ts) reports a town's departures against the ACS 2024 rate for its adults' ages and state (data/research/migration/mover-rates-acs-2024.json)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesOwnerHold": {
     "value": 1.21,
-    "tag": "SOURCED",
-    "citation": "How much owning the home holds a household in place: in the year to March 2023, 1.85% of people in owner-occupied homes moved to a different county against 6.23% of people in rented homes (Census, CPS ASEC 2023, Table 1 'General Mobility in the Past Year, by Tenure', mig_01_2023_1yr.xlsx, rows 66-67, column I); ln(6.23/1.85) = 1.21.",
+    "tag": "ESTIMATED",
+    "citation": "How much owning the home holds a household in place: in the year to March 2023, 1.85% of people in owner-occupied homes moved to a different county against 6.23% of people in rented homes (Census, CPS ASEC 2023, Table 1 'General Mobility in the Past Year', mig_01_2023_1yr.xlsx, rows 66-67, https://www.census.gov/data/tables/2023/demo/geographic-mobility/cps-2023.html); ln(6.23/1.85) = 1.21 (data/research/core/cps-asec-2023-mobility.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "The log of the renters' different-county move rate over the owners', because the hold is added on the log scale of the leaving rate. The two groups are compared without controls (owners are older), so it stands in for the hold of owning alone; a tenure effect net of age would make it SOURCED.",
+    "spread": {
+      "low": 1.21,
+      "high": 1.32,
+      "unit": "log ratio of move rates",
+      "citation": "CPS ASEC 2023 Table 1: different county ln(6.23/1.85) = 1.21 to different state ln(2.78/0.74) = 1.32 (data/research/core/cps-asec-2023-mobility.json)."
+    },
     "stopgapId": "SG-P15-moves-weights"
   },
   "movesChildrenHold": {
-    "value": 0.4,
-    "tag": "TUNABLE",
-    "citation": "How much school-age children at home hold a household in place. Families with school-age children move less than those without (Census, Current Population Survey ASEC 2023 mobility tables by family type); the size is a starting value.",
-    "stopgapId": "SG-P15-moves-weights",
+    "value": 0.32,
+    "tag": "ESTIMATED",
+    "citation": "How much children under 18 at home hold a household in place: in the year to March 2023, 4.15% of family householders 15 to 54 with no own child under 18 moved to a different county against 3.03% of those with one (Census, CPS ASEC 2023, Table 6 'General Mobility in the Past Year of Family Householders 15 to 54 Years Old, by Presence and Age of Own Children', mig_06_2023_1yr.xlsx, rows 9-10); ln(4.15/3.03) = 0.32 (data/research/core/cps-asec-2023-mobility.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "The log of the different-county move rate without children over the rate with them, on the log scale the holds are added on. Family householders 15 to 54 only, compared without controls; a children effect net of age would make it SOURCED.",
     "spread": {
-      "low": 0.2,
-      "high": 0.7
-    }
+      "low": -0.24,
+      "high": 0.67,
+      "unit": "log ratio of move rates",
+      "citation": "CPS ASEC 2023 Table 6, by the youngest child: under 6 only ln(4.15/5.26) = -0.24 (families with only young children move more), 6 to 17 only ln(4.15/2.11) = 0.67 (data/research/core/cps-asec-2023-mobility.json)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesKinHold": {
-    "value": 0.15,
-    "tag": "TUNABLE",
-    "citation": "How much each close relative living in town holds a person there, up to movesKinHoldCap relatives. People with kin nearby are less likely to leave (Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304).",
-    "stopgapId": "SG-P15-moves-weights",
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "How much each close relative living in town holds a person there, up to movesKinHoldCap relatives. Having a sibling or extended relative within a mile cuts the odds of moving out of the neighborhood to 0.741 (parents 0.530, children 0.644): Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304, Table 4, Model 2 (https://pmc.ncbi.nlm.nih.gov/articles/PMC5734642/); ln(1/0.741) = 0.30 (data/research/core/spring-2017-kin-proximity.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "The log of the inverse odds ratio for one sibling or extended relative nearby, used per relative: the game adds a hold for each relative in town, so a parent and a sibling together hold 0.60, near the parent effect ln(1/0.530) = 0.63. The study measures leaving the tract within a metro area and kin within a mile, not leaving the town; a county-level estimate would make it SOURCED.",
     "spread": {
-      "low": 0.05,
-      "high": 0.3
-    }
+      "low": 0.24,
+      "high": 0.72,
+      "unit": "log odds per relative in town",
+      "citation": "Spring et al. 2017 Table 4, 95 percent bounds from the printed standard errors: siblings or extended kin ln(1/0.786) = 0.24 to parents ln(1/0.489) = 0.72 (data/research/core/spring-2017-kin-proximity.json)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesKinHoldCap": {
     "value": 4,
     "tag": "TUNABLE",
     "citation": "How many relatives in town count toward holding a person there.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 2,
-      "high": 6
-    }
+      "high": 6,
+      "unit": "relatives",
+      "citation": "Checked range, not a measure. A cap: core-moves-caps-and-minimum-age-as-cause replaces it with a sliding hold."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesJobHold": {
     "value": 0.48,
-    "tag": "SOURCED",
-    "citation": "How much a job holds a person in place: 3.66% of employed civilians moved to a different county in the year to March 2023 against 5.93% of the unemployed (Census, CPS ASEC 2023, Table 2 'General Mobility by Labor Force Status', mig_02_2023_1yr.xlsx, rows 9 and 11, column I); ln(5.93/3.66) = 0.48. The unemployed sample is small (6.2 million people).",
+    "tag": "ESTIMATED",
+    "citation": "How much a job holds a person in place: 3.66% of employed civilians moved to a different county in the year to March 2023 against 5.93% of the unemployed (Census, CPS ASEC 2023, Table 2 'General Mobility by Labor Force Status', mig_02_2023_1yr.xlsx, rows 9 and 11, column I); ln(5.93/3.66) = 0.48 (data/research/core/cps-asec-2023-mobility.json, checked by scripts/research/core-parameters-check.ts). The unemployed sample is small (6.2 million people).",
+    "estimatedFrom": "The log of the unemployed's different-county move rate over the employed's, on the log scale the holds are added on, without controls; people not in the labor force move less than either (2.40%), so the hold is read against the unemployed only.",
+    "spread": {
+      "low": 0.48,
+      "high": 0.7,
+      "unit": "log ratio of move rates",
+      "citation": "CPS ASEC 2023 Table 2: different county ln(5.93/3.66) = 0.48 to different state ln(3.10/1.54) = 0.70 (data/research/core/cps-asec-2023-mobility.json)."
+    },
     "stopgapId": "SG-P15-moves-weights"
   },
   "movesOfficeHold": {
     "value": 2.0,
     "tag": "TUNABLE",
     "citation": "How much holding an office holds its holder in town: the strongest hold, above owning a home (movesOwnerHold, 1.21), because moving out of the district gives up the seat (an office becomes vacant when its holder ceases to be an inhabitant of the jurisdiction, e.g. California Government Code section 1770(e)). While they serve, an officeholder's pull builds only from recorded events, never from their stage of life.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 1.3,
-      "high": 4
-    }
+      "high": 4,
+      "unit": "log scale of the holds",
+      "citation": "TUNABLE starting value; no published effect converts to it: no study measures how often officeholders leave their district; checked to sit above the owner hold."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesEvictedPull": {
     "value": 0.35,
-    "tag": "ESTIMATED",
-    "citation": "The push an eviction adds toward leaving town. Most evicted families stay in their city, moving to poorer neighborhoods (Desmond and Shollenberger 2015, Demography 52(5):1751-1772), and 'foreclosure or eviction' is 0.7% of all movers' reasons (Census CPS ASEC 2023, Table 13). A third of the way to leaving.",
-    "estimatedFrom": "Desmond and Shollenberger 2015; spread 0.2 to 0.5",
+    "tag": "TUNABLE",
+    "citation": "The push an eviction adds toward leaving town, a third of the way to leaving. Most evicted families stay in their city, moving to poorer neighborhoods (Desmond and Shollenberger 2015, Demography 52(5):1751-1772), and 'foreclosure or eviction' is 0.7% of all movers' reasons and 0.10% of different-county movers' (11 of 10,480 thousand; Census, CPS ASEC 2023, Table 13, data/research/core/cps-asec-2023-mobility.json). Neither figure converts to the push: they say how few movers were evicted, not how many evicted people leave.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.5,
+      "unit": "share of the way to leaving",
+      "citation": "Checked range around the starting value. The year run (scripts/research/core-parameters-year.ts) reports the share of leavers whose recorded causes include an eviction against the CPS different-county reason share (data/research/core/cps-asec-2023-mobility.json)."
+    },
     "stopgapId": "SG-P15-moves-weights"
   },
   "movesJobLostPull": {
     "value": 0.2,
-    "tag": "ESTIMATED",
-    "citation": "The push a lost job adds toward leaving town. 'To look for work or lost job' is 1.5% of movers' reasons (Census CPS ASEC 2023, Table 13), and displaced workers move across county lines more than others, but most stay.",
-    "estimatedFrom": "CPS ASEC 2023 Table 13; spread 0.1 to 0.35",
+    "tag": "TUNABLE",
+    "citation": "The push a lost job adds toward leaving town. 'To look for work or lost job' is 1.5% of all movers' reasons and 2.1% of different-county movers' (222 of 10,480 thousand; Census, CPS ASEC 2023, Table 13, data/research/core/cps-asec-2023-mobility.json), and most people who lose a job stay. The reason share says how few movers lost a job, not how many who lose one leave, so it does not convert to the push.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.35,
+      "unit": "share of the way to leaving",
+      "citation": "Checked range around the starting value. The year run (scripts/research/core-parameters-year.ts) reports the share of leavers whose recorded causes include a job loss against the CPS different-county reason share (data/research/core/cps-asec-2023-mobility.json)."
+    },
     "stopgapId": "SG-P15-moves-weights"
   },
   "movesKinMovedPull": {
     "value": 0.3,
     "tag": "TUNABLE",
     "citation": "The push a parent, child or sibling moving away adds toward following them. 'Other family reason' is 7.9% of movers' reasons (Census CPS ASEC 2023, Table 13).",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.15,
-      "high": 0.5
-    }
+      "high": 0.5,
+      "unit": "share of the way to leaving",
+      "citation": "TUNABLE starting value; no published effect converts to it; the year run reports leavers following kin against the CPS intercounty 'other family reason' share (9.6%, data/research/core/cps-asec-2023-mobility.json)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesStayPull": {
     "value": 1,
     "tag": "TUNABLE",
     "citation": "What staying weighs against the built-up pull to leave in the monthly choice; the pull is measured on this scale.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 1,
-      "high": 1
-    }
+      "high": 1,
+      "unit": "the unit of the pull scale",
+      "citation": "The unit every pull and hold is measured in; it is not a measure of anything, and movesLifeStageScale sets how fast pulls build against it."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesMinimumAge": {
     "value": 18,
@@ -105,11 +145,13 @@
     "value": 0.3,
     "tag": "TUNABLE",
     "citation": "How much a person's trait lean toward moving away over staying put (every trait through the shared trait table, about -1 to 1; OPUS-TRAITS, Oct 12, 2026) loosens what holds them in town (a lean toward staying tightens it). Personality predicts moving within and between US states (Jokela 2009, Journal of Research in Personality 43(1):79-83); the size is a starting value.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.1,
-      "high": 0.6
-    }
+      "high": 0.6,
+      "unit": "log scale of the holds per unit of trait lean",
+      "citation": "TUNABLE starting value; no published effect converts to it here: Jokela 2009 (Journal of Research in Personality 43(1):79-83) was not reachable (sciencedirect.com HTTP 403); the trait effect it reports is held as moves.move-away in data/research/trait-effect-sizes.json (odds ratio 1.19 per SD for moving between states) for the trait calibration (scripts/traits/trait-calibrate.ts)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesDaysPerYear": {
     "value": 365,
@@ -120,57 +162,73 @@
     "value": 0.8,
     "tag": "TUNABLE",
     "citation": "How much what a home costs, as a share of the household's income, pushes a person toward leaving town (at a share of 0.3 the push is 0.24 on the scale of the holds; at the cap it is 0.8). Renters paying more of their income for housing move more, and 'wanted cheaper housing' is one of the housing reasons movers give (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.3,
-      "high": 1.5
-    }
+      "high": 1.5,
+      "unit": "log scale of the holds per share of income",
+      "citation": "TUNABLE starting value; no published effect converts to it; the year run reports leavers with a housing-cost push against the CPS intercounty 'cheaper housing' share (7.3%, data/research/core/cps-asec-2023-mobility.json)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesHousingCostShareCap": {
     "value": 1,
     "tag": "TUNABLE",
     "citation": "The largest share of income a home's cost counts as when it pushes toward leaving; a household with no income at all reads as this share.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.6,
-      "high": 1.5
-    }
+      "high": 1.5,
+      "unit": "share of household income",
+      "citation": "Checked range, not a measure. A cap: core-moves-caps-and-minimum-age-as-cause replaces it with a sliding push."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesJobElsewherePush": {
     "value": 0.3,
     "tag": "TUNABLE",
     "citation": "The push a job paid from another place adds toward moving nearer to it. 'New job or job transfer' and 'to be closer to work / easier commute' are among the work reasons movers give (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.1,
-      "high": 0.6
-    }
+      "high": 0.6,
+      "unit": "log scale of the holds",
+      "citation": "TUNABLE starting value; no published effect converts to it; the year run reports leavers with a job elsewhere against the CPS intercounty 'new job or job transfer' and 'closer to work' shares (23.0% and 5.3%, data/research/core/cps-asec-2023-mobility.json)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesCloseElsewherePull": {
     "value": 0.5,
     "tag": "TUNABLE",
     "citation": "The push toward leaving from a partner, parent or child living elsewhere, times how close the person is to them now (0 to 1 each, faded since their last contact; up to movesKinHoldCap of closeness). People move toward close kin (Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304), and family reasons are the largest group of movers' reasons (Census, CPS ASEC 2023, Table 13); the size is a starting value.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.2,
-      "high": 1
-    }
+      "high": 1,
+      "unit": "log scale of the holds per unit of closeness",
+      "citation": "TUNABLE starting value; no published effect converts to it; the year run reports leavers with close kin elsewhere against the CPS intercounty 'other family reason' share (9.6%, data/research/core/cps-asec-2023-mobility.json)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesHouseholdLossPull": {
     "value": 0.25,
     "tag": "TUNABLE",
     "citation": "The push a death at home (a partner or someone they live with) adds toward leaving town. 'Change in marital status' and other family reasons are a share of movers' reasons (Census, CPS ASEC 2023, Table 13); most widowed people stay, so the push is a quarter of the way to leaving.",
-    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.1,
-      "high": 0.5
-    }
+      "high": 0.5,
+      "unit": "share of the way to leaving",
+      "citation": "TUNABLE starting value; no published effect converts to it; the year run reports leavers after a death at home against the CPS intercounty 'change in marital status' share (4.9%, data/research/core/cps-asec-2023-mobility.json)."
+    },
+    "stopgapId": "SG-P15-moves-weights"
   },
   "movesUnemploymentGapWeight": {
     "value": 0.043,
     "tag": "ESTIMATED",
     "citation": "How much each point of the region's unemployment above the nation's, beyond the gap it opened with, speeds everyone's pull to leave (and each point below slows it), as a share of the rate on the log scale. Net out-migration of about 0.25% of the population a year per point of relative unemployment (Blanchard and Katz 1992, BPEA; the regional engine's regionalMigrationPerUnemploymentPoint) over adults' county departure rate of about 5.8% a year (ACS 2024, data/research/migration/mover-rates-acs-2024.json): 0.25 / 5.8 = 0.043.",
     "estimatedFrom": "Blanchard and Katz 1992; Dao, Furceri and Loungani 2017 put the migration response at a quarter to a half of a local shock; spread 0.02 to 0.09",
+    "spread": {
+      "low": 0.02,
+      "high": 0.09,
+      "unit": "log change in the leaving rate per point of relative unemployment",
+      "citation": "Dao, Furceri and Loungani 2017 put the migration response at a quarter to a half of a local shock, against Blanchard and Katz 1992 (as the starting value states); not reopened in this research."
+    },
     "stopgapId": "SG-P15-moves-weights"
   }
 }

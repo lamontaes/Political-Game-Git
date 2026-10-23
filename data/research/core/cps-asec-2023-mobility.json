@@ -1,0 +1,115 @@
+{
+  "id": "cps-asec-2023-mobility",
+  "publisher": "U.S. Census Bureau",
+  "vintage": "Current Population Survey, 2023 Annual Social and Economic Supplement (moves in the year before March 2023)",
+  "table": "Tables 1, 2, 6 and 13 (mig_01_2023_1yr.xlsx, mig_02_2023_1yr.xlsx, mig_06_2023_1yr.xlsx, mig_13_2023_1yr.xlsx)",
+  "title": "Geographic Mobility: 2023, general mobility by tenure, labor force status and presence of own children, and reason for move",
+  "universe": "Civilian noninstitutional population 1 year and over in the 50 states and D.C. (Table 1); 16 and over (Table 2); family householders 15 to 54 (Table 6); movers 1 and over (Table 13)",
+  "geography": "United States",
+  "sourceUrl": "https://www.census.gov/data/tables/2023/demo/geographic-mobility/cps-2023.html",
+  "fileUrls": [
+    "https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_01_2023_1yr.xlsx",
+    "https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_02_2023_1yr.xlsx",
+    "https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_06_2023_1yr.xlsx",
+    "https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_13_2023_1yr.xlsx"
+  ],
+  "retrievedOn": "2026-10-23",
+  "limits": "Numbers in thousands. Different county is the table's 'Total different-county' column (different county in the same state plus different state). Each ratio compares two groups without controls (owners are older than renters; householders without children differ in age from those with), so a log ratio stands in for a hold the model adds to other holds. Table 6 covers family householders 15 to 54 only. Reasons are the mover's main reason; 'Intercounty' movers are the row used for leaving a county.",
+  "differentCountyByGroup": {
+    "ownerOccupied": {
+      "table": 1,
+      "row": 66,
+      "total": 226143,
+      "differentCounty": 4184,
+      "differentState": 1681,
+      "quote": ".In an owner-occupied housing unit | 226143 | 216856 | 9287 | 9057 | 7376 | 4873 | 2503 | 4184 | 1681 | 657 | 230 | 794 | 230"
+    },
+    "renterOccupied": {
+      "table": 1,
+      "row": 67,
+      "total": 101024,
+      "differentCounty": 6295,
+      "differentState": 2811,
+      "quote": ".In a renter-occupied housing unit | 101024 | 84687 | 16337 | 15273 | 12462 | 8978 | 3484 | 6295 | 2811 | 855 | 503 | 1454 | 1064"
+    },
+    "employedCivilian": {
+      "table": 2,
+      "row": 9,
+      "total": 160206,
+      "differentCounty": 5862,
+      "differentState": 2469,
+      "quote": "..Employed civilian | 160206 | 145691 | 14515 | 13947 | 11478 | 8085 | 3393 | 5862 | 2469 | 863 | 407 | 1199 | 568"
+    },
+    "unemployed": {
+      "table": 2,
+      "row": 11,
+      "total": 6189,
+      "differentCounty": 367,
+      "differentState": 192,
+      "quote": "...Unemployed | 6189 | 5343 | 846 | 799 | 607 | 432 | 175 | 367 | 192 | 81 | 21 | 90 | 47"
+    },
+    "noOwnChildUnder18": {
+      "table": 6,
+      "row": 9,
+      "total": 18197,
+      "differentCounty": 755,
+      "quote": ".No own child under 18 | 18197 | 16434 | 1763 | 1662 | 1350 | 906 | 444 | 755 | 311 | 113 | 67 | 131 | 102"
+    },
+    "ownChildUnder18": {
+      "table": 6,
+      "row": 10,
+      "total": 31147,
+      "differentCounty": 943,
+      "quote": ".Own child(ren) under 18 | 31147 | 28611 | 2535 | 2404 | 2021 | 1460 | 561 | 943 | 382 | 126 | 53 | 204 | 132"
+    },
+    "childUnder6Only": {
+      "table": 6,
+      "row": 11,
+      "total": 7135,
+      "differentCounty": 375,
+      "quote": "..Under 6 only | 7135 | 6181 | 954 | 918 | 748 | 543 | 205 | 375 | 170 | 36 | 18 | 116 | 36"
+    },
+    "childUnder6And6To17": {
+      "table": 6,
+      "row": 12,
+      "total": 6506,
+      "differentCounty": 198,
+      "quote": "..Under 6 and 6-17 | 6506 | 5953 | 553 | 535 | 478 | 337 | 141 | 198 | 58 | 22 | 16 | 20 | 18"
+    },
+    "child6To17Only": {
+      "table": 6,
+      "row": 13,
+      "total": 17505,
+      "differentCounty": 370,
+      "quote": "..6-17 only | 17505 | 16477 | 1028 | 950 | 796 | 580 | 215 | 370 | 154 | 67 | 19 | 68 | 78"
+    }
+  },
+  "intercountyReasons": {
+    "table": 13,
+    "row": 79,
+    "quote": "..Intercounty | 10480 | 2277 | 509 | 764 | 1005 | 3544 | 2411 | 222 | 558 | 236 | 118 | 2911 | 593 | 899 | 314 | 760 | 11 | 334 | 1747 | 455 | 390 | 104 | 236 | S | 562",
+    "movers": 10480,
+    "changeInMaritalStatus": 509,
+    "otherFamilyReason": 1005,
+    "newJobOrTransfer": 2411,
+    "lookForWorkOrLostJob": 222,
+    "closerToWork": 558,
+    "cheaperHousing": 760,
+    "foreclosureOrEviction": 11
+  },
+  "allMoverReasons": {
+    "table": 13,
+    "row": 6,
+    "quote": "Movers 1+ years old | 25624 | 5821 | 1298 | 2490 | 2034 | 5372 | 3195 | 378 | 1308 | 339 | 153 | 10589 | 1742 | 3537 | 1368 | 2397 | 185 | 1360 | 3841 | 1156 | 725 | 111 | 435 | 44 | 1370",
+    "movers": 25624,
+    "otherFamilyReason": 2034,
+    "lookForWorkOrLostJob": 378,
+    "foreclosureOrEviction": 185
+  },
+  "derived": {
+    "movesOwnerHold": "ln(6295/101024 / (4184/226143)) = 1.21; different state: ln(2811/101024 / (1681/226143)) = 1.32",
+    "movesJobHold": "ln(367/6189 / (5862/160206)) = 0.48; different state: ln(192/6189 / (2469/160206)) = 0.70",
+    "movesChildrenHold": "ln(755/18197 / (943/31147)) = 0.32; by youngest child: under 6 only -0.24, under 6 and 6 to 17 0.31, 6 to 17 only 0.67",
+    "checkedBy": "scripts/research/core-parameters-check.ts"
+  }
+}
