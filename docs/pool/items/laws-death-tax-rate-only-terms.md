@@ -10,7 +10,7 @@ claimed-by:
 pr: #5744
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** A state can adopt an estate or inheritance tax through a bill that sets only its rate. The returned death-tax fix prevents the first estate from reading a missing exemption or heir-class schedule. Complete its bounded proof without the new world test silently timing out at the default limit, retaining the declared rate-only stopgap until full bill terms replace it.
