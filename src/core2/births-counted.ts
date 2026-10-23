@@ -422,9 +422,38 @@ export function applyCountedFlows(
       row.deathCauses[died.cause] =
         (row.deathCauses[died.cause] ?? 0) + weightOfPerson(person);
       row.causeOf[person.id] = died.cause;
+      // Who lived with them and outlives them, still in the counts.
+      const survivors = people
+        .filter(
+          (other) =>
+            other.id !== person.id &&
+            other.householdId === person.householdId &&
+            !row.deaths.includes(other.id),
+        )
+        .map((other) => other.id);
       for (const heir of removeCountedPerson(core, person.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
+      // The death, for the household that outlives them: a private record
+      // the people engines read (a counted death is no public notice).
+      if (survivors.length)
+        api.emit({
+          id: `event:${DEFAULT_HEALTH_DATA.countedDeathEventKind}:${person.id}:${date}`,
+          date,
+          kind: DEFAULT_HEALTH_DATA.countedDeathEventKind,
+          personIds: [],
+          placeId,
+          topic: `${DEFAULT_HEALTH_DATA.topicPrefix}:${died.cause}`,
+          desiredChange: `${DEFAULT_HEALTH_DATA.desiredChangePrefix}:${died.cause}`,
+          ...severityImpulse(api, DEFAULT_HEALTH_DATA.deathSeverity),
+          publicRecord: false,
+          source: { ...DEFAULT_HEALTH_DATA.source, asOf: date },
+          facts: {
+            "counted-subject": person.id,
+            "counted-household": person.householdId,
+            "counted-perceivers": JSON.stringify(survivors),
+          },
+        });
     }
     const well = people.filter(
       (person) => !ill.has(person.id) && !row.deaths.includes(person.id),

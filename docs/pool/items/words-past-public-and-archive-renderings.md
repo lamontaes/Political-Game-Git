@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/political-game-pool-yucp92-bn
 pr: #5704
 blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-23T18:09:13.946Z
 ---
 
 **What.** What a person knows about a public figure, and the year-before news archive, are kept as records but shown on the person card and in the news as raw facts. The English engine should word them as sentences from those records. PR #5704 adds a public-figure bank (data/english/parts/public-figure.json) read by the card and the news; the merger sent its first version back because it held authored shippable player text.

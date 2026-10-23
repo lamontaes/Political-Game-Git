@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fhfa-mortgage-index
-pr:
+pr: #5838
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-22T07:09:35.992Z

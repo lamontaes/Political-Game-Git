@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/speed-main-regression
 pr: #5834
 blocked-on:
@@ -22,4 +22,12 @@ claimed-at: 2026-10-22T05:25:11.697Z
 
 **Files.** src/core2/life.ts, scripts/speed-years/run.ts
 
-**Notes.** TODO
+**Notes.** Measured Oct 22 (claude) on one 4-core cloud container, one process at a time, with `node --cpu-prof` (the profiler adds its own cost, so compare within a column):
+
+| Main at                             | Commit               | Year with profiler | Profile total |
+| ----------------------------------- | -------------------- | ------------------ | ------------- |
+| Oct 20, 01:59 UTC (before the rise) | 1114a7b0f1           | 163.0 s            | 195.6 s       |
+| Oct 20, 14:29 UTC (the rise)        | 25daaa399e           | 147.5 s            | 178.7 s       |
+| Oct 22                              | e5954a72fb and later | 157.9 s            | 186.4 s       |
+
+Without the profiler, main on Oct 22 ran the year in 186.7 s (`npm run speed:year -- --seed m7b --exclusive`). The rise to 279 s does not reproduce: the commit it was measured on is the fastest of the three here, so that reading was the container, not the code. Comparing inclusive time per function, before against the rise, nothing grew by more than 2 s. The rise against Oct 22 names one growth: `staffReview` (src/core2/modules/staff.ts) from 0.9 s to 7.0 s, of it `staffCandidates` from 0.4 s to 4.2 s. It walks every person in the world for each official's review, and is filed as core-speed-staff-candidates-scan.
