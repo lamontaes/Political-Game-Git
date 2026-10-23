@@ -69,7 +69,7 @@
       "citation": "Source: A.S.C.A. title 6 ch. 6, not confirmed",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "Elections are nonpartisan, so no partisan primary; alphabetical assumed."
+      "note": "Elections are nonpartisan, so no partisan primary; alphabetical assumed. No American Samoa Code section on ballot order has been read, so alphabetical stays an assumption."
     },
     "US-AZ": {
       "primary": {
@@ -248,10 +248,10 @@
         "kind": "party",
         "within": "alphabetical"
       },
-      "citation": "Ind. Code 3-11-2-6",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "Ind. Code § 3-11-2-6 (general); primary candidate-name order not found",
+      "url": "https://codes.findlaw.com/in/title-3-elections/in-code-sect-3-11-2-6/",
       "estimate": true,
-      "note": "General: party columns by the secretary of state vote, then petition filing order. Primary and within-party order assumed alphabetical, not confirmed."
+      "note": "General settled (3-11-2-6): the major party whose secretary of state candidate won the most votes in the county goes first on the left, the second major party next, then parties with no candidate for that office and independents in order of petition filing. Primary: 3-10-1-19 orders the offices, not the candidate names; no section found that orders the names within an office, so alphabetical stays an estimate."
     },
     "US-KS": {
       "primary": {
@@ -382,7 +382,7 @@
       "citation": "Source: 1 CMC election law, not confirmed",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "No source found; assumed alphabetical."
+      "note": "No source found; assumed alphabetical. The Commonwealth Code election law has not been read. Specimen ballots on votecnmi.gov.mp list candidates in an order that is not alphabetical, so alphabetical is doubtful; the rule is unconfirmed."
     },
     "US-MS": {
       "primary": {
@@ -559,10 +559,10 @@
         "kind": "party",
         "within": "alphabetical"
       },
-      "citation": "25 Pa. Stat. 2962; 2963",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "Pa. Election Code (25 P.S.) § 2875 (primary); general § 2963 not read",
+      "url": "https://www.legis.state.pa.us/cfdocs/legis/LI/uconsCheck.cfm?txtType=HTM&yr=1937&sessInd=0&smthLwInd=0&act=320",
       "estimate": true,
-      "note": "General: parties by gubernatorial vote, new parties alphabetical by party. Within-party order not confirmed."
+      "note": "The Election Code text for the general-election party order (25 P.S. 2963) and the primary lot (25 P.S. 2875) has not been read; secondary reporting says primary positions are drawn by lot. Both rules stay estimates."
     },
     "US-PR": {
       "primary": {
@@ -678,7 +678,7 @@
       "citation": "Source: 18 V.I.C. ch. 7, not confirmed",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "No source found; assumed alphabetical."
+      "note": "No source found; assumed alphabetical. The Virgin Islands Code (Title 18) has not been read. The Elections System of the Virgin Islands announces that candidate ballot positions are cast by lot, which points to lot rather than alphabetical, but the statute text has not been read."
     },
     "US-VT": {
       "primary": {
@@ -711,10 +711,10 @@
         "kind": "party",
         "within": "lot"
       },
-      "citation": "Wis. Stat. 5.64",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
-      "estimate": true,
-      "note": "General: parties by gubernatorial vote, unaffiliated by draw. Primary (assumed lot) and within-party order not confirmed."
+      "citation": "Wis. Stat. §§ 5.62(3)-(4), 5.60(1)(b), 5.64(1)(b), (e)",
+      "url": "https://docs.legis.wisconsin.gov/statutes/statutes/5/ii/64",
+      "estimate": false,
+      "note": "Primary (5.62(3)-(4), via 5.60(1)(b)): the elections commission, or the county clerk or board, arranges candidate names by the drawing of lots. General (5.64(1)(b)): party columns left to right by each party candidate vote for president or governor at the last general election, then parties qualifying by petition in order of petition filing, then a column of independents; independent candidates for the same county office are ordered by lot (5.64(1)(e)1)."
     },
     "US-WV": {
       "primary": {

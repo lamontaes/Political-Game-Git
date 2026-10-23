@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/port-traits
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "split from core-remaining-port-the-opening-town-builder-population (an L item), Oct 15"
-claimed-at: 2026-10-20T03:55:25.661Z
+claimed-at:
 ---
 
 **What.** `people-traits.ts`, `people-upbringing.ts`, `trait-packs.ts`, `personality-catalog.ts` and `trait-registry.ts` in `src/simulation` define traits, upbringing experiences and the registry of traits. Move them into `src/core2` so they live with the other person engines. No game logic changes. Build only what the golden path needs, and write fresh where that is simpler.
@@ -21,7 +21,7 @@ claimed-at: 2026-10-20T03:55:25.661Z
 
 **Files.** src/simulation/people-traits.ts, src/simulation/people-upbringing.ts, src/simulation/trait-packs.ts, src/simulation/personality-catalog.ts, src/simulation/trait-registry.ts
 
-**Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+**Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same. Claim released Oct 23: branch gone.
 
 Checked Oct 19 (claude), nothing built: this is not a move of five files. people-upbringing.ts (1,702 lines) imports the old life-queries, history-index, household-pay, living-world/town-pay, childhood-record, family-shape, vitality-integrity and types; people-traits.ts (661 lines) imports the old mind, queries, trait-readings and world; trait-registry.ts imports 15 old decision modules (justice, press, careers, mogul and others). Moving them into src/core2 would make the core import the old engine, which is worse than today. trait-packs (70 importers) and personality-catalog are leaves and could move first. The upbringing and traits-reading code needs the opening to stop building an old World (core-port-world-scaffold) or a rewrite on core records. Split into: leaves (trait-packs, personality-catalog), then upbringing on core records, then registry.
 
