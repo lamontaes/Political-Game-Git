@@ -5,9 +5,9 @@ area: docs
 kind: cleanup
 priority: 1
 size: L
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5844
 blocked-on:
 source: added with npm run pool -- add
 ---
