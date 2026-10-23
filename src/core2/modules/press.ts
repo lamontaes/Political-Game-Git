@@ -19,7 +19,7 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
 import { decisionLean, leanedYes } from "../trait-decisions";
 import type {
@@ -2599,7 +2599,7 @@ function ownersLive(api: CoreAPI): void {
     spendLivingCost(
       api,
       row.id,
-      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+      daysBetweenText(row.livedThrough, api.state.date),
     );
     table(api, "staff").put({
       ...row,

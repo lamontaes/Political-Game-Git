@@ -1019,7 +1019,7 @@ export function recordWorkAttendance(
   });
   batch.index(r.field(work, "rollupsByWeek"), week, rollupKey);
   const ageRows = r.array(r.field(data, "activityAgeRows"), zero, one),
-    age = ageOnDate(makeIsoDate(actorView.birthDate), makeIsoDate(date));
+    age = ageOnDate(actorView.birthDate, date);
   const ageRow = ageRows.find(
     (row) =>
       age >= batch.parameter(r.field(row, "minimumAgeParameter")) &&
