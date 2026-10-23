@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/old-imports-jail-term
 pr: #5073
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-19T18:12:30.665Z
 **Files.** src/core2/opening-employment.ts, src/simulation/justice/jail-terms.ts
 
 **Notes.** Split Oct 19 from core-old-imports-opening-employment, which is L in practice.
+
+Reconciled Oct 23: delivered by PR #5073. The old jailTermOn import is gone from src/core2/opening-employment.ts, and the file records that opening sentences do not exist yet, so no opening has a serving prisoner to show; the original Done-when line about a resident serving a jail term applies once sentences exist at the opening (a later item), not to this slice.
