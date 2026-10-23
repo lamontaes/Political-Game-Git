@@ -4,6 +4,7 @@
   "calibrationCategory": "equal-mixture",
   "onsetEventKind": "health.serious-illness",
   "deathEventKind": "life.death",
+  "countedDeathEventKind": "residents.member-died",
   "topicPrefix": "health",
   "desiredChangePrefix": "care-and-cure",
   "unconditionedTopic": "serious-illness",
