@@ -9,7 +9,7 @@ claimed-by: claude/pick-outlet
 pr: #4777
 blocked-on:
 milestone:
-source: 'docs/coordination/OPUS-PEOPLE.md "Needs from other sessions"; triage in people-needs-opus-people-22'
+source: 'docs/archive/2026-10-23/coordination/OPUS-PEOPLE.md "Needs from other sessions"; triage in people-needs-opus-people-22'
 claimed-at: 2026-10-16T16:31:20.504Z
 ---
 

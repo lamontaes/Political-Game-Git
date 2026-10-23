@@ -9,7 +9,7 @@ claimed-by: claude/office-casework-congress
 pr: #4789
 blocked-on:
 milestone:
-source: "docs/coordination/OFFICE-FEDERAL.md line 21 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-FEDERAL.md line 21 (unchecked checklist line)"
 claimed-at: 2026-10-16T18:30:36.812Z
 ---
 

@@ -9,7 +9,7 @@ claimed-by: claude/negotiate-screen
 pr: #4818
 blocked-on:
 milestone:
-source: "docs/coordination/play.md line 134 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/play.md line 134 (unchecked checklist line)"
 claimed-at: 2026-10-16T20:38:59.320Z
 ---
 

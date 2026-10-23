@@ -8,7 +8,7 @@
  * assistance FEMA approved for the town's households (Individuals and
  * Households Program) is paid to the town's residents. Nothing is rolled: a
  * world past the end of the records has no new disasters until the owner
- * rules on what should cause one (question in docs/coordination/core.md).
+ * rules on what should cause one (question in docs/archive/2026-10-23/coordination/core.md).
  */
 import declarations from "../data/disasters/declarations.json" with { type: "json" };
 import assistance from "../data/disasters/assistance.json" with { type: "json" };

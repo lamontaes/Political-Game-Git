@@ -21,6 +21,6 @@ claimed-at:
 
 **Files.** src/simulation/living-world/town-residents.ts, src/core2/town-households.ts, src/core2/population.ts
 
-**Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+**Notes.** Part of the opening town builder port (docs/archive/2026-10-23/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
 
 Sent back 2026-10-16 from PR #4652 (branch claude/core-port-town-residents): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

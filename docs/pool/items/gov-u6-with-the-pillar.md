@@ -9,7 +9,7 @@ claimed-by: claude/gov-bribe-buys
 pr: #4573
 blocked-on:
 milestone:
-source: "docs/coordination/OPUS-GOV.md line 203 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-GOV.md line 203 (unchecked checklist line)"
 claimed-at: 2026-10-16T03:13:55.677Z
 ---
 

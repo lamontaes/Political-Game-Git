@@ -9,7 +9,7 @@ claimed-by: claude/community-projects
 pr: #5170
 blocked-on:
 milestone:
-source: "docs/coordination/OFFICE-FEDERAL.md line 20 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-FEDERAL.md line 20 (unchecked checklist line)"
 claimed-at: 2026-10-19T21:42:56.395Z
 ---
 

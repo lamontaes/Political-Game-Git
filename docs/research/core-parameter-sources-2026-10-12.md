@@ -1,6 +1,6 @@
 # Sources for the core's prototype parameters (October 12, 2026)
 
-Research notes from OPUS-CORE's helper. Nine values were applied on `opus-core` (see `docs/coordination/core.md`); the rest name the real targets each tunable parameter should be calibrated against. Treat unverified rows (marked "not found" or from search snippets) as leads, not sources.
+Research notes from OPUS-CORE's helper. Nine values were applied on `opus-core` (see `docs/archive/2026-10-23/coordination/core.md`); the rest name the real targets each tunable parameter should be calibrated against. Treat unverified rows (marked "not found" or from search snippets) as leads, not sources.
 
 Format: key | current | proposed (code units) | tag | citation | how the source maps to the code.
 "Verified" means I read the number from the primary source in this session. ssa.gov returns HTTP 403 to this sandbox. The SSA claiming table came from a DocumentCloud copy of the official 2022 Supplement PDF; other SSA tables were not reachable and are marked "not retrieved".

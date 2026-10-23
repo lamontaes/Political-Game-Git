@@ -9,7 +9,7 @@ claimed-by: claude/core-needs-fixer-51
 pr: #4497
 blocked-on:
 milestone:
-source: 'docs/coordination/fixer.md "Needs from other sessions" (line 51)'
+source: 'docs/archive/2026-10-23/coordination/fixer.md "Needs from other sessions" (line 51)'
 claimed-at: 2026-10-15T22:50:44.022Z
 ---
 
@@ -52,7 +52,7 @@ Lines (as of 2026-10-15, from the status file):
 
 **Done when.** For each still-open SG-P8 row, the parameter table row carries its source tag and spread and the stopgap row is resolved in stopgaps.json, shown by a test in src/core2/parameters.test.ts or the stopgap tripwire test. For the import moves, a typecheck and the golden path suite (tests/golden-path/runner.mjs) pass in a drawn place with fewer files importing src/simulation. The owner plays it: the web build opens /play from the new entry.
 
-**Files.** src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/stand-in-figures-2026-10-12.json, src/bench/scene.ts, vite.config.ts, docs/coordination/fixer.md
+**Files.** src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/stand-in-figures-2026-10-12.json, src/bench/scene.ts, vite.config.ts, docs/archive/2026-10-23/coordination/fixer.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
 

@@ -21,6 +21,6 @@ claimed-at:
 
 **Files.** src/core2/job-lifecycle.ts, src/core2/finance-state.ts, src/core2/types.ts, src/core2/modules/laws.ts
 
-**Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.
+**Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/archive/2026-10-23/coordination/world.md), checked against main on Oct 16, 2026.
 
 Sent back 2026-10-16 from PR #4696 (branch claude/api-version-labels): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.

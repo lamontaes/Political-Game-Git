@@ -71,13 +71,13 @@ Counts, 12 engines: 2 work, 7 wait on a cause (one of them because of a defect),
 Two open questions sit near these engines. Neither stops one.
 
 1. **An empty race.** When nobody files for a seat, should the ballot allow write-ins, or should the seat fall vacant? The question was raised on October 14 in the body of the electorate pull request (#4154), where a played world had two races with no one on the ballot. It bears on voting, debates and the press. The CTO's reading: follow the law of the place, the way you ruled on ties ("follow the law of the place"). Where the law lets the holder stay until a successor is chosen, they stay. Where it fills the seat by appointment, it is appointed.
-2. **A crime engine.** Should crime from people's own circumstances (theft, larceny, reoffending) be built before early access? The core session asked in `docs/coordination/core.md:164`: "Should I build that before early access? Until you rule, I'm building nothing." It does not hold up corruption, which you already approved. The CTO's reading: no, not before early access. You moved courts and investigations after early access (October 10). You also said on October 14 that a mechanic exists only when the golden path needs it, _The Political Process_ has it, or you asked for it by name. Crime meets none of the three today.
+2. **A crime engine.** Should crime from people's own circumstances (theft, larceny, reoffending) be built before early access? The core session asked in `docs/archive/2026-10-23/coordination/core.md:164`: "Should I build that before early access? Until you rule, I'm building nothing." It does not hold up corruption, which you already approved. The CTO's reading: no, not before early access. You moved courts and investigations after early access (October 10). You also said on October 14 that a mechanic exists only when the golden path needs it, _The Political Process_ has it, or you asked for it by name. Crime meets none of the three today.
 
 ## What to delete or correct
 
 - **Delete** the news engine's own made-up outlet per place. Replace it with the press's outlets. Its stopgap SG-P15-news-habits already names that replacement.
-- **Correct** the tie stopgap SG-GOV-tie-by-lot and the open tie question in `docs/coordination/gov.md:67`. Both say you haven't ruled on lots; you ruled on October 14.
-- **Correct** `docs/coordination/gov.md:25`. It says 17 measures in 13 states; the data has 11 states.
+- **Correct** the tie stopgap SG-GOV-tie-by-lot and the open tie question in `docs/archive/2026-10-23/coordination/gov.md:67`. Both say you haven't ruled on lots; you ruled on October 14.
+- **Correct** `docs/archive/2026-10-23/coordination/gov.md:25`. It says 17 measures in 13 states; the data has 11 states.
 - **Correct** the golden-path test's note that races elsewhere fill state and federal terms (`tests/golden-path/played-world.node-test.ts:117`). That holds only in a year with a November general election.
 - No engine is hollow, and none duplicates another engine, so none should be deleted.
 

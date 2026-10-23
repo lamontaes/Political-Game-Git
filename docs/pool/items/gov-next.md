@@ -10,7 +10,7 @@ pr:
 blocked-on:
 milestone:
 after: words-speech-part-words,play-speech-builder,play-join-party
-source: "docs/coordination/OPUS-GOV.md line 156 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-GOV.md line 156 (unchecked checklist line)"
 claimed-at:
 ---
 

@@ -9,7 +9,7 @@ claimed-by: claude/core-needs-core-172
 pr: #4496
 blocked-on:
 milestone:
-source: 'docs/coordination/core.md "Needs from other sessions" (line 172)'
+source: 'docs/archive/2026-10-23/coordination/core.md "Needs from other sessions" (line 172)'
 claimed-at: 2026-10-15T22:45:41.593Z
 ---
 
@@ -52,7 +52,7 @@ Lines (as of 2026-10-15, from the status file):
 
 **Done when.** For each line, one of: built and read by another engine in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named), shown by record id; verified done on main and noted; or split into its own pool item. The time-use check (scripts/core2-year/time-use.ts) shows caring for household members above 0 percent of person-days in three drawn towns. The test for each changed file passes. The owner plays it: the bench opening and the generated opening give the same town.
 
-**Files.** docs/coordination/core.md, src/bench/world.ts, src/core2/tooling/generated-world.ts, src/core2/modules/counted-drift.ts, src/core2/births-counted.ts, scripts/core2-year/time-use.ts
+**Files.** docs/archive/2026-10-23/coordination/core.md, src/bench/world.ts, src/core2/tooling/generated-world.ts, src/core2/modules/counted-drift.ts, src/core2/births-counted.ts, scripts/core2-year/time-use.ts
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
 

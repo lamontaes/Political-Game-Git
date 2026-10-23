@@ -21,4 +21,4 @@ claimed-at: 2026-10-16T07:32:08.886Z
 
 **Files.** src/simulation/given-name-cohorts.ts, src/simulation/place-name-corpus.ts, src/core2/population.ts
 
-**Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+**Notes.** Part of the opening town builder port (docs/archive/2026-10-23/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.

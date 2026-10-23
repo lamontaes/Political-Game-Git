@@ -9,7 +9,7 @@ claimed-by: claude/world-credit-housing-check
 pr: #4532
 blocked-on:
 milestone:
-source: "docs/coordination/world.md line 53 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/world.md line 53 (unchecked checklist line)"
 claimed-at: 2026-10-15T23:54:16.423Z
 ---
 
@@ -19,7 +19,7 @@ claimed-at: 2026-10-15T23:54:16.423Z
 
 **Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named) the town bank's deposit record ids come from named and counted households and the bank's books balance, and a new home is occupied by an arriving household record id. The tests in src/core2/bank-deposits.test.ts, src/core2/credit.test.ts and src/core2/housing-construction.test.ts pass. The owner plays it: save money in the town bank and see a new house get a family.
 
-**Files.** src/core2/modules/credit.ts, src/core2/credit-deposits.ts, src/core2/modules/housing.ts, src/core2/housing-construction.ts, docs/coordination/world.md
+**Files.** src/core2/modules/credit.ts, src/core2/credit-deposits.ts, src/core2/modules/housing.ts, src/core2/housing-construction.ts, docs/archive/2026-10-23/coordination/world.md
 
 **Notes.** Checklist line from world.md; verify against main before starting.
 

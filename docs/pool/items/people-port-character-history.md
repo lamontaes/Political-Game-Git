@@ -21,4 +21,4 @@ claimed-at: 2026-10-19T21:55:00.778Z
 
 **Files.** src/simulation/character-history.ts, src/core2/population.ts
 
-**Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.
+**Notes.** Part of the opening town builder port (docs/archive/2026-10-23/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same.

@@ -45,4 +45,4 @@ The test bench is on `pool/M0-bench` (#3940), not `main`, so the startup bench c
 
 ## Done
 
-A spec passes only when its finisher has run its test in the test bench in a randomly drawn place, from a generated world, naming the head, seed, place and record ids. Every hand-off records the model and effort, the time taken, and each send-back and its reason. Log one line per event at the top of `docs/roadmap/PROGRESS.md` (via your PR) and in the PR body.
+A spec passes only when its finisher has run its test in the test bench in a randomly drawn place, from a generated world, naming the head, seed, place and record ids. Every hand-off records the model and effort, the time taken, and each send-back and its reason. Log one line per event at the top of `docs/archive/2026-10-23/roadmap/PROGRESS.md` (via your PR) and in the PR body.

@@ -9,7 +9,7 @@ claimed-by: claude/office-governor
 pr: #4871
 blocked-on:
 milestone:
-source: "docs/coordination/OFFICE-STATE.md line 23 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-STATE.md line 23 (unchecked checklist line)"
 claimed-at: 2026-10-20T02:02:07.229Z
 ---
 

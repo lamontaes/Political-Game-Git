@@ -10,7 +10,7 @@ claimed-by:
 pr: #5313
 blocked-on:
 milestone: M5
-source: "docs/roadmap/later-specs-draft.md M5-02"
+source: "docs/archive/2026-10-23/roadmap/later-specs-draft.md M5-02"
 claimed-at:
 ---
 

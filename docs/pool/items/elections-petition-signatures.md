@@ -21,7 +21,7 @@ claimed-at:
 
 **Files.** src/core2/modules/elections.ts, src/bench/filing.ts
 
-**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/archive/2026-10-23/coordination/gov.md), checked against main on Oct 16, 2026.
 
 Checked Oct 16 by a Claude session: this contradicts an owner ruling. `docs/coordination/OWNER-DECISIONS.md` ("Filing", Oct 14) says there is no fee or petition mechanic and filing happens where the place's records say, and `AGENTS.md` ("This is a game, not a spreadsheet") bars building a fee, petition or form because real life has one. A petition by a candidate is not the movements ruling's petition either. The CTO should drop this item unless the owner overrules the ruling.
 

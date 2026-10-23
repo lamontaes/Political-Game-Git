@@ -9,7 +9,7 @@ claimed-by: claude/gov-justice-workload
 pr: #4567
 blocked-on:
 milestone:
-source: "docs/coordination/OPUS-GOV.md line 200 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-GOV.md line 200 (unchecked checklist line)"
 claimed-at: 2026-10-16T02:29:47.584Z
 ---
 

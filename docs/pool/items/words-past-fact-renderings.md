@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr: #5194
 blocked-on:
-source: "split from core-needs-opus-core-23; docs/coordination/OPUS-CORE.md"
+source: "split from core-needs-opus-core-23; docs/archive/2026-10-23/coordination/OPUS-CORE.md"
 claimed-at:
 ---
 

@@ -10,7 +10,7 @@ pr: #5644
 blocked-on:
 after: director-civic-producers-government
 milestone:
-source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
+source: 'docs/archive/2026-10-23/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
 claimed-at:
 ---
 

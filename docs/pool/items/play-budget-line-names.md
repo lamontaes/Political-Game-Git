@@ -9,7 +9,7 @@ claimed-by: claude/budget-line-names
 pr: #4771
 blocked-on:
 milestone:
-source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
+source: 'docs/archive/2026-10-23/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
 claimed-at: 2026-10-16T16:21:22.197Z
 ---
 

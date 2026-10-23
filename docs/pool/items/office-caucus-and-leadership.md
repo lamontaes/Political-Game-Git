@@ -9,7 +9,7 @@ claimed-by: claude/office-caucus-leadership
 pr: #4794
 blocked-on:
 milestone:
-source: "docs/coordination/OFFICE-STATE.md line 20 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-STATE.md line 20 (unchecked checklist line)"
 claimed-at: 2026-10-16T18:43:18.363Z
 ---
 

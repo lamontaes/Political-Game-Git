@@ -9,7 +9,7 @@ claimed-by:
 pr:
 blocked-on:
 milestone:
-source: "docs/coordination/OPUS-GOV.md line 67 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-GOV.md line 67 (unchecked checklist line)"
 ---
 
 **What.** Follow-up: interest groups lobby every seat covering the town on a state or federal bill, town board members included. Limit it to the bill's own chambers.

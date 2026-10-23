@@ -7,7 +7,7 @@ Pay never reaches a spendable account: both players started with a few hundred d
 - **Read first:** `docs/packages/PW-common.md`, then PW-1.
 - **Builder:** one Opus session at **high**: money conservation is one of the three automatic gates, and every fix here moves dollars.
 - **Branch:** `pw/money-paths`, from `main` after PW-1 lands. Pillar: OPUS-WORLD; it reviews the PR. Do not push to `opus-world`.
-- **Owned paths:** `src/core2/modules/jobs.ts`, `src/core2/modules/credit.ts`, `src/core2/modules/business.ts`, `src/core2/modules/housing.ts`, their data under `src/core2/data/{jobs,credit,business,housing}/`, the opening builders `src/core2/opening-economy.ts` and `src/core2/opening-finance.ts` (with OPUS-CORE's review), their tests, `docs/roadmap/PROGRESS.md`, a release note. The cash journal itself (`src/core2/journal-state.ts`, `cash-host.ts`) is OPUS-CORE's; a change there is a request in the PR body.
+- **Owned paths:** `src/core2/modules/jobs.ts`, `src/core2/modules/credit.ts`, `src/core2/modules/business.ts`, `src/core2/modules/housing.ts`, their data under `src/core2/data/{jobs,credit,business,housing}/`, the opening builders `src/core2/opening-economy.ts` and `src/core2/opening-finance.ts` (with OPUS-CORE's review), their tests, `docs/archive/2026-10-23/roadmap/PROGRESS.md`, a release note. The cash journal itself (`src/core2/journal-state.ts`, `cash-host.ts`) is OPUS-CORE's; a change there is a request in the PR body.
 
 ## Build
 

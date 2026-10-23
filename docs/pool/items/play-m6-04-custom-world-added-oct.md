@@ -10,7 +10,7 @@ claimed-by: claude/political-game-pool-76ksvw
 pr: #5180
 blocked-on:
 milestone: M6
-source: "docs/roadmap/later-specs-draft.md M6-04"
+source: "docs/archive/2026-10-23/roadmap/later-specs-draft.md M6-04"
 claimed-at: 2026-10-20T01:14:36.124Z
 ---
 

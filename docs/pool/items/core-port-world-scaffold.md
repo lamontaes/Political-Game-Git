@@ -20,8 +20,8 @@ claimed-at: 2026-10-20T09:47:38.757Z
 
 **Done when.** In a drawn place (name and seed in the PR body) population.ts imports nothing from simulation/world or simulation/types, the same town opens by record id (a fingerprint of people, households and memberships equal before and after), and src/core2/population.test.ts passes; the PR counts old files removed.
 
-**Files.** src/core2/population.ts, src/core2/types.ts, docs/coordination/core.md
+**Files.** src/core2/population.ts, src/core2/types.ts, docs/archive/2026-10-23/coordination/core.md
 
-**Notes.** Part of the opening town builder port (docs/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same. Unblocked Oct 23: core-old-imports-population-town-employment is done (#5508); still waits on core-old-imports-opening-employment through after:.
+**Notes.** Part of the opening town builder port (docs/archive/2026-10-23/coordination/core.md line 27; docs/design/old-core-retirement-map.md). Do the parts in any order; each keeps the town the same. Unblocked Oct 23: core-old-imports-population-town-employment is done (#5508); still waits on core-old-imports-opening-employment through after:.
 
 Oct 20: Switched from blocked to the automatic after: gate on core-old-imports-opening-employment, so it opens by itself the moment those items are done.

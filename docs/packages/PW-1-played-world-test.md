@@ -7,7 +7,7 @@ One script and one test build the world the owner plays, on a seed nobody chose,
 - **Read first:** `docs/packages/PW-common.md`.
 - **Builder:** one Opus session at **high**: this test defines "done" for every other package, so a wrong assertion here costs every later session a night.
 - **Branch:** `pw/played-world-test`, from `main`. **Lands first.** Every other PW package verifies with this.
-- **Owned paths:** `src/bench/played-world-check.ts` (new), `tests/golden-path/played-world.test.ts` (new), `docs/roadmap/features.json` (one new row), `scripts/core2-guard/policies.json` (only if a budget line is needed), `docs/roadmap/PROGRESS.md`, `docs/release/changes/pw-played-world-test.md`. Nothing under `src/core2`. If the check needs a read the core does not offer, read module tables through `coreAPI(core).moduleState(<id>).table(<name>)` as the modules themselves do; if that is not enough, write the request for OPUS-CORE in the PR body and assert on what you can.
+- **Owned paths:** `src/bench/played-world-check.ts` (new), `tests/golden-path/played-world.test.ts` (new), `docs/roadmap/features.json` (one new row), `scripts/core2-guard/policies.json` (only if a budget line is needed), `docs/archive/2026-10-23/roadmap/PROGRESS.md`, `docs/release/changes/pw-played-world-test.md`. Nothing under `src/core2`. If the check needs a read the core does not offer, read module tables through `coreAPI(core).moduleState(<id>).table(<name>)` as the modules themselves do; if that is not enough, write the request for OPUS-CORE in the PR body and assert on what you can.
 
 ## Build
 

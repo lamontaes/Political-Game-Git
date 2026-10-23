@@ -21,4 +21,4 @@ claimed-at: 2026-10-16T17:05:57.660Z
 
 **Files.** src/bench/legislature.ts, src/bench/handler.ts, src/core2/bill-catalog.ts, src/core2/modules/meetings.ts
 
-**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/archive/2026-10-23/coordination/gov.md), checked against main on Oct 16, 2026.

@@ -10,7 +10,7 @@ claimed-by: claude/death-handoff
 pr: #4837
 blocked-on:
 milestone:
-source: "docs/coordination/play.md line 113 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/play.md line 113 (unchecked checklist line)"
 claimed-at: 2026-10-16T21:43:11.890Z
 ---
 

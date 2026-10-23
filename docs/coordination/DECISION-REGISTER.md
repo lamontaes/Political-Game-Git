@@ -21,7 +21,7 @@ Audited October 15, 2026 from `OWNER-DECISIONS.md`, `AGENTS.md`, `BOARD.md`, `do
 - **Early access (owner, Oct 10).** Local and state offices playable, including the executive; federal built in parallel on the same engines; courts after early access. Source: AGENTS.md.
 - **Congress is in early access (owner, Oct 14),** on the same engines as every level. Source: OWNER-DECISIONS.md, overnight Oct 14 list.
 - **Keep it simple (owner, Oct 11).** Build only what the golden path needs; every day ends with something the owner can play; short work orders. Source: AGENTS.md, "Keep it simple".
-- **Take the old engine out (owner, Oct 12, 12:15 p.m.).** The old game beside the new one is bloat; delete what the new game cannot reach. Source: `docs/coordination/fixer.md`; commit 22f158ee40.
+- **Take the old engine out (owner, Oct 12, 12:15 p.m.).** The old game beside the new one is bloat; delete what the new game cannot reach. Source: `docs/archive/2026-10-23/coordination/fixer.md`; commit 22f158ee40.
 - **Fix before building on (owner, Oct 12, 9:15 a.m.).** Each session fixes its audit findings first; an item is done only when it works in play. Source: BOARD.md history, commit 63388a89e3.
 - **Everything built runs in the played world (owner, Oct 12, 7:30 p.m.).** A module not installed in `buildBenchWorld` is not done. Source: BOARD.md history, commit a5be03e8bd, item 1.
 - **This is a game, not a spreadsheet (owner, Oct 14).** No mechanic because real life has it (fees, returns, petitions, forms); a real-world step the game lacks is a question, not a feature. Source: AGENTS.md.
@@ -53,7 +53,7 @@ Audited October 15, 2026 from `OWNER-DECISIONS.md`, `AGENTS.md`, `BOARD.md`, `do
 - **Knowing is a read (owner, Oct 14).** Nobody attributes a change to a law unless they learned of it; a stance cites how. Source: OWNER-DECISIONS.md.
 - **Replacement means every role (owner, Oct 14, morning).** Any role whose holder dies, leaves or is removed is refilled the way life refills it. Source: OWNER-DECISIONS.md.
 - **An every-place runner (owner, Oct 14, morning)** runs all 56 places for years and reports every crash with place, seed and stack. Source: OWNER-DECISIONS.md.
-- **The world has a past (owner, Oct 14).** Laws carry enactment history, every seat has a prior election, officials have voting records, the prior year has news. Source: OWNER-DECISIONS.md. History runs from 2000 by default (owner ruling, M1-14, Oct 12; `docs/coordination/core.md`).
+- **The world has a past (owner, Oct 14).** Laws carry enactment history, every seat has a prior election, officials have voting records, the prior year has news. Source: OWNER-DECISIONS.md. History runs from 2000 by default (owner ruling, M1-14, Oct 12; `docs/archive/2026-10-23/coordination/core.md`).
 - **The opening past may be seeded generation (CTO ruling, Oct 14, pending owner),** consistent with each record; nothing after day one is a draw. Source: OWNER-DECISIONS.md, "Ruled by the CTO overnight".
 - **Seeded starting politics (owner, Oct 14).** Who exists and a person's starting lean may be seeded; every vote and donation follows the person's reasons. Source: OWNER-DECISIONS.md.
 - **A child does not take up a cause (CTO ruling, Oct 14, pending owner);** drives read age and standing on a sliding scale. Source: OWNER-DECISIONS.md.
@@ -98,7 +98,7 @@ Audited October 15, 2026 from `OWNER-DECISIONS.md`, `AGENTS.md`, `BOARD.md`, `do
 - **Arrogance, anger and fear have words (owner, Oct 14, afternoon),** mined from public-domain speech. Source: OWNER-DECISIONS.md.
 - **Words grading (owner, Oct 14).** Lines sound like talk, replies follow their first move, many variants; batches cover legislation, journal, emotion, interviews, meetings and campaigns. Lies and made-up contexts may be graded if the simulation can produce them. A graded part withdraws the rest (Oct 14, morning). One axis per item, thirty different scenes, one place (Oct 14, evening). Source: OWNER-DECISIONS.md.
 - **Batches grade content, not only wording (owner, Oct 15, morning).** Varied situations; proof scenes composed from real records are allowed and labeled; the Words session feeds the engine new situations. Source: OWNER-DECISIONS.md, "Oct 15, morning".
-- **The English engine and director stay with the Claude Words session (owner, Oct 15, 1:05 a.m.).** Source: `docs/work-orders/astra-2026-10-15.md`, Order 4; `docs/coordination/words.md`.
+- **The English engine and director stay with the Claude Words session (owner, Oct 15, 1:05 a.m.).** Source: `docs/archive/2026-10-23/work-orders/astra-2026-10-15.md`, Order 4; `docs/coordination/words.md`.
 
 ## Laws, bills and government
 
@@ -153,10 +153,10 @@ Audited October 15, 2026 from `OWNER-DECISIONS.md`, `AGENTS.md`, `BOARD.md`, `do
 
 ## Art
 
-- **Plain poses first (owner, Oct 13).** Figures in plain poses with empty hands; the simulation decides what they are doing. Source: `docs/coordination/people-art-requests.md`.
-- **Remove all old models, shadows and seated figures (owner, Oct 13, 4:20 p.m.);** figures are chosen by what the person is doing; leaders sit in their own buildings. Source: `docs/coordination/people.md`, `docs/coordination/locations.md`.
-- **People art (CTO order, Oct 15, pending owner).** One figure set, 8 poses by 6 bodies with age, skin, hair, outfit and hands as layers (`art/people-engine/v2/`); the cut-out people go. Supersedes: the Oct 12, 1:50 p.m. ruling that whole-figure people (`art/people-whole/`) are the only people (`docs/coordination/fixer.md`). Source: BOARD.md, "Codex"; `docs/work-orders/astra-2026-10-15.md`.
-- **Use the art already made (owner, Oct 12);** Firefly images may stand in for the polling place and ballot (owner, Oct 14). Source: `docs/coordination/play.md`; OWNER-DECISIONS.md.
+- **Plain poses first (owner, Oct 13).** Figures in plain poses with empty hands; the simulation decides what they are doing. Source: `docs/archive/2026-10-23/coordination/people-art-requests.md`.
+- **Remove all old models, shadows and seated figures (owner, Oct 13, 4:20 p.m.);** figures are chosen by what the person is doing; leaders sit in their own buildings. Source: `docs/archive/2026-10-23/coordination/people.md`, `docs/archive/2026-10-23/coordination/locations.md`.
+- **People art (CTO order, Oct 15, pending owner).** One figure set, 8 poses by 6 bodies with age, skin, hair, outfit and hands as layers (`art/people-engine/v2/`); the cut-out people go. Supersedes: the Oct 12, 1:50 p.m. ruling that whole-figure people (`art/people-whole/`) are the only people (`docs/archive/2026-10-23/coordination/fixer.md`). Source: BOARD.md, "Codex"; `docs/archive/2026-10-23/work-orders/astra-2026-10-15.md`.
+- **Use the art already made (owner, Oct 12);** Firefly images may stand in for the polling place and ballot (owner, Oct 14). Source: `docs/archive/2026-10-23/coordination/play.md`; OWNER-DECISIONS.md.
 
 ## Release and desktop
 
@@ -174,7 +174,7 @@ Audited October 15, 2026 from `OWNER-DECISIONS.md`, `AGENTS.md`, `BOARD.md`, `do
 - **The owner does not read PR bodies (owner, Oct 14, afternoon);** the CTO brings him questions and screenshots in chat. Source: OWNER-DECISIONS.md.
 - **The pool is the only backlog (owner, Oct 15).** Source: AGENTS.md; `docs/pool/README.md`.
 - **Look before you ask; owner decisions flagged, never waited on (owner, Oct 14).** Source: AGENTS.md.
-- **Don't tune to the report's towns (owner, Oct 12);** verify on fresh random seeds. Source: `docs/coordination/HANDOFF-2026-10-12.md`.
+- **Don't tune to the report's towns (owner, Oct 12);** verify on fresh random seeds. Source: `docs/archive/2026-10-23/coordination/HANDOFF-2026-10-12.md`.
 
 ## Open owner questions (October 15)
 

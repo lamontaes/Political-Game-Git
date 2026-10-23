@@ -9,7 +9,7 @@ claimed-by: claude/politics-history-s11
 pr: #5154
 blocked-on:
 milestone:
-source: "docs/coordination/play.md line 95 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/play.md line 95 (unchecked checklist line)"
 claimed-at: 2026-10-19T21:02:46.510Z
 ---
 

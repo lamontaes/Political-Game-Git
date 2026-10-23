@@ -1418,4 +1418,4 @@ Ties: gap U8 (campaign money) also unlocks 9 cases and ties for ninth place; U16
 ## Questions for the owner (not features)
 
 - The 'This is a game, not a spreadsheet' rule means several real steps appear here as causes the engine should _read_, not as forms the player files (a charge, a disclosure, a hearing). If any of U1, U13 or U14 should wait for courts after early access, say so; U1 is written to start with the prosecutor's side only.
-- Movements come after early access (`docs/roadmap/later-specs-draft.md`, speeches). U10 is ranked on case count, not schedule.
+- Movements come after early access (`docs/archive/2026-10-23/roadmap/later-specs-draft.md`, speeches). U10 is ranked on case count, not schedule.

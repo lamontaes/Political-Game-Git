@@ -9,13 +9,14 @@ claimed-by: claude/world-needs-world-98
 pr: #4543
 blocked-on:
 milestone:
-source: 'docs/coordination/world.md "Needs from other sessions" (line 98)'
+source: 'docs/archive/2026-10-23/coordination/world.md "Needs from other sessions" (line 98)'
 claimed-at: 2026-10-16T02:27:28.703Z
 ---
 
 **What.** This list holds 30 requests the world session made of the core, government, people and play sessions. The asking sessions are gone, so each is a wiring job. The ones a player would notice are job offers the play screen cannot answer, small towns' treasuries that cannot pay their officials, households that never move into new homes, counted workers who never die or leave, and the opening and year speed. As of 2026-10-15 several lines are resolved in stopgaps.json. Verify each against main first and split any large line into its own pool item.
 
 Lines (as of 2026-10-15, from the status file):
+
 - **OPUS-PLAY: an answer for job offers on the play screen.** Employers now offer the player's character a job instead of hiring them. The screen should list `jobOffersFor(api, playerId)` with accept and decline controls (`acceptJobOffer`, `declineJobOffer`). Until then an offer stops the clock, cannot be answered, and
 - **OPUS-GOV: small towns' treasuries can't pay their officials (#4234).** Brookford, North Carolina's treasury held $93 at year's end against a finance director at $270 a day, and a Mississippi town's held $0 to $67. Those officials go unpaid and are the first evicted.
 - **OPUS-CORE: the played-world check is red on `main` (#4234 comment).** Staff hiring fills in two people who carry the same counted household id, 11 months apart, and the fill-in cash transfer id is reused. Also, the world build fails in Polebridge, Montana (no resident aged 17).
@@ -51,6 +52,6 @@ Lines (as of 2026-10-15, from the status file):
 
 **Done when.** For each line, either built and read by another engine in a one-year played world (buildBenchWorld, a drawn place from all 56, seed named), shown by record id, or verified done on main, or split into its own pool item. The tests in src/core2/jobs-player-offers.test.ts and src/core2/housing-construction.test.ts pass for the lines built. The owner plays it: accept or decline a job offer on the play screen and see a new home get a family.
 
-**Files.** src/core2/modules/world-panels.ts, src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/births-counted.ts, src/core2/residents-economy.ts, docs/coordination/world.md
+**Files.** src/core2/modules/world-panels.ts, src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/births-counted.ts, src/core2/residents-economy.ts, docs/archive/2026-10-23/coordination/world.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.

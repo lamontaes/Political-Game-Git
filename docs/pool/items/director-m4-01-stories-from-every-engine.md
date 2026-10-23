@@ -10,7 +10,7 @@ claimed-by:
 pr: #5336
 blocked-on:
 milestone: M4
-source: "docs/roadmap/later-specs-draft.md M4-01"
+source: "docs/archive/2026-10-23/roadmap/later-specs-draft.md M4-01"
 claimed-at:
 ---
 

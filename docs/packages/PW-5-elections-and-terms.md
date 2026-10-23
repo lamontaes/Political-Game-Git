@@ -7,7 +7,7 @@ A county voted on all nine seats in 2026 and on eight of them again in 2028, for
 - **Read first:** `docs/packages/PW-common.md`, then PW-1 and PW-3 (shared files).
 - **Builder:** one Opus session at **high**: dates that are wrong by a year break every election after them, in every place.
 - **Branch:** `pw/elections-and-terms`, from `main` after PW-2 lands. Pillar: OPUS-GOV; it reviews the PR. Do not push to `opus-gov`.
-- **Owned paths:** `src/core2/modules/elections.ts`, `src/core2/modules/offices.ts`, `src/core2/data/offices/`, `src/core2/data/elections/`, the contest and term dating in `src/core2/modules/voting.ts` (the result and take-office code near line 1086, the `election-day`, `primary` and `filing-closes` scheduling near lines 160 to 180), the player-ballot path near line 950, `src/core2/player-stops-v1.ts` (only to add the Election Day stop), their tests, `docs/roadmap/PROGRESS.md`, a release note.
+- **Owned paths:** `src/core2/modules/elections.ts`, `src/core2/modules/offices.ts`, `src/core2/data/offices/`, `src/core2/data/elections/`, the contest and term dating in `src/core2/modules/voting.ts` (the result and take-office code near line 1086, the `election-day`, `primary` and `filing-closes` scheduling near lines 160 to 180), the player-ballot path near line 950, `src/core2/player-stops-v1.ts` (only to add the Election Day stop), their tests, `docs/archive/2026-10-23/roadmap/PROGRESS.md`, a release note.
 - **Not yours:** who decides to run and how people vote (PW-3).
 - **Where:** the take-office date is copied from the old term's end near line 1086 of `src/core2/modules/voting.ts`; the player's missing ballot is near line 950 of the same file.
 
