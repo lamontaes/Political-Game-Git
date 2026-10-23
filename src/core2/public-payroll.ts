@@ -74,10 +74,12 @@ export function startPublicJob(
   const templates = input.scheduleFromPlaceId
     ? [...own, ...templatesAt(input.scheduleFromPlaceId)]
     : own;
-  // The schedule and pay calendar of the first job there that has both; with
-  // none (a territory's counted workers hold no recorded schedule) the post
-  // follows a full-time public-office week on the government's pay calendar.
-  let basis: Basis | undefined;
+  // A public post works a full-time public-office week, whatever job it sits
+  // beside: a town's other jobs may run a firefighter's day-long rotation or a
+  // shop's hours that no one on its payroll can attend. Its paydays follow the
+  // first job there that has a pay calendar; with none (a territory's counted
+  // workers hold no recorded calendar) it takes the government's own.
+  const basis = publicOfficeBasis(api, input.employerId);
   for (const template of templates) {
     const commitment = [
       ...(c.work.commitmentsByPerson.get(template.personId) ?? []),
@@ -90,18 +92,13 @@ export function startPublicJob(
       ? c.work.payrollCalendars.get(calendarId)
       : undefined;
     if (!commitment || !calendar) continue;
-    basis = {
-      templateId: template.id,
-      hoursDaily: template.hoursDaily,
-      commitment,
-      calendar,
-    };
+    basis.payTemplateId = template.id;
+    basis.calendar = calendar;
     break;
   }
-  basis ??= publicOfficeBasis(api, input.employerId);
   {
     const { commitment, calendar } = basis;
-    const template = { id: basis.templateId, hoursDaily: basis.hoursDaily };
+    const template = { id: basis.payTemplateId, hoursDaily: basis.hoursDaily };
     // A post's pay is stated for a full-time week, whatever week the
     // schedule it follows runs.
     const postHoursDaily =
@@ -153,7 +150,7 @@ export function startPublicJob(
       asOf: api.state.date,
       citation: input.citation,
       estimatedFrom: template.id
-        ? `The post's pay; schedule and paydays follow ${template.id}.`
+        ? `The post's pay; a full-time public-office week, with paydays that follow ${template.id}.`
         : "The post's pay; a full-time public-office week and the government's biweekly pay calendar.",
     };
     const commitmentId = `work-commitment:${jobId}`;
@@ -179,7 +176,6 @@ export function startPublicJob(
         startsAt,
         endsAt: undefined,
         hourlyMinor,
-        ...(template.id ? { scheduleTemplateJobId: template.id } : {}),
         paySource: source,
         scheduleSource: source,
       },
@@ -201,10 +197,11 @@ export function startPublicJob(
 }
 
 interface Basis {
-  readonly templateId?: string;
+  /** The job whose pay calendar the post follows, when it follows one. */
+  payTemplateId?: string;
   readonly hoursDaily: number;
   readonly commitment: WorkCommitmentInput;
-  readonly calendar: WorkPayrollCalendarInput;
+  calendar: WorkPayrollCalendarInput;
 }
 
 /**
