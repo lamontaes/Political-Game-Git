@@ -184,7 +184,7 @@ it(`plays a year through a disaster with no one to pay for repairs (${place.name
     );
     expect(repaired, `${at} repairs`).toEqual([]);
     console.log(
-      `${where}: disaster ${disaster!.number} (${record!.row.id}, ${record!.damagedHomes} damaged homes), declared ${declared} with the player in ${town}: builders 0, outside market false; repair payments ${repaired.length}; journal debit ${core.cashJournal.totals.grossDebitMinor} credit ${core.cashJournal.totals.grossCreditMinor}`,
+      `${where}: disaster ${disaster!.number} (${record!.row.id}, ${record!.damagedHomes} damaged homes), declared ${declared} with the player in ${town}: builders 0, outside market false; repair payments ${repaired.length}; journal debit ${core.cashJournal.totals.grossDebitMinor} credit ${core.cashJournal.totals.grossCreditMinor} cents`,
     );
     checkLedger(core, where);
   } finally {
@@ -268,9 +268,12 @@ it("a place drawn from all 56 where a disaster damaged homes pays repairs to a r
       const where = `${drawn.name} (${drawn.key}), seed ${drawSeed}:${draw}`;
       const damaged = playYear(core);
       if (!damaged.length) continue;
-      const repaired = new Set(
-        disasterRepairsPaid(coreAPI(core)).map((r) => r.disaster),
-      );
+      const payments = disasterRepairsPaid(coreAPI(core));
+      const repaired = new Set(payments.map((r) => r.disaster));
+      const cents = (number: number) =>
+        payments
+          .filter((r) => r.disaster === number)
+          .reduce((sum, r) => sum + r.cents, 0);
       for (const { row, number, damagedHomes, payees } of damaged) {
         const at = `${where}: disaster ${number} (${row.id}, ${damagedHomes} damaged homes)`;
         expect(payees, `${at} payees noted`).toBeDefined();
@@ -279,7 +282,7 @@ it("a place drawn from all 56 where a disaster damaged homes pays repairs to a r
         expect(repaired.has(number), at).toBe(payee);
       }
       console.log(
-        `${where}: damaged-home disasters ${damaged.map((d) => `${d.number} (${d.row.id}, ${d.damagedHomes} homes, builders ${d.payees?.builders}, outside market ${d.payees?.market}, repaired ${repaired.has(d.number)})`).join(", ")}; ${draw + 1} draws, ${opened} opened; journal debit ${core.cashJournal.totals.grossDebitMinor} credit ${core.cashJournal.totals.grossCreditMinor}`,
+        `${where}: damaged-home disasters ${damaged.map((d) => `${d.number} (${d.row.id}, ${d.damagedHomes} homes, builders ${d.payees?.builders}, outside market ${d.payees?.market}, repairs ${payments.filter((r) => r.disaster === d.number).length} payments of ${cents(d.number)} cents)`).join(", ")}; ${draw + 1} draws, ${opened} opened; journal debit ${core.cashJournal.totals.grossDebitMinor} credit ${core.cashJournal.totals.grossCreditMinor} cents`,
       );
       checkLedger(core, where);
       return;
