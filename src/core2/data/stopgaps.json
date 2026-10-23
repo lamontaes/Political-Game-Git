@@ -1263,12 +1263,12 @@
     "id": "SG-GOV-world-race-lean",
     "kind": "missing-data",
     "file": "src/core2/modules/world-races.ts",
-    "line": 1017,
-    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are each party's typical candidate (the holder stands for their party with the typical campaign) rather than people with records, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
-    "why": "Fictional candidates with records for every seat in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
+    "line": 1066,
+    "whatItFakes": "A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents would on each place's 2024 lean), but its candidates are named people (the seat's holder, and a challenger drawn from the world's seed and the seat, who is seated if they win) with no record or campaign of their own: each stands with the typical campaign, and a state legislative district with no read result is the state's vote over its districts leaning to its holder's party at the typical margin.",
+    "why": "Records and campaigns for every seat's candidates in the country aren't built (PEOPLE's who runs), and state legislative district results aren't read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each race's candidates as fictional people with records and campaigns, and each legislative district's own 2024 result.",
+    "replacement": "Each race's candidates with records and campaigns of their own (the named candidates are already seated when they win), and each legislative district's own 2024 result.",
     "status": "open"
   },
   {

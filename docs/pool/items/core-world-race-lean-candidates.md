@@ -27,3 +27,5 @@ claimed-at:
 Looked at Oct 20 (claude/political-game-pool-3xfqef-6), released unbuilt. The row is SG-GOV-world-race-lean (`world-races.ts`, line 827): races the town does not vote in use each party's typical candidate, and a legislative district with no read result uses the state's vote at a typical margin. The replacement is two things at L size: fictional candidates with records and campaigns for every seat (the people engines' who-runs, seeded generation of who exists), and each legislative district's own 2024 result as sourced data. A builder splits it first: one item for candidates with records for the House seats, one for the legislative-district results data.
 
 Oct 20 (pool feeder): spec written; the earlier note's split already exists (house candidates in a PR, district results in a PR plus a missing-states part); who-runs for Senate and legislature seats is still blocked on a design call, which holds this roll-up.
+
+Split Oct 20 (claude/political-game-pool-yucp92-l): this L item is now two items, core-race-candidates-with-records-house and gov-legislative-district-results-2024. It stays blocked until both are done.
