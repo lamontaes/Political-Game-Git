@@ -96,8 +96,13 @@ it(
         ),
         where,
       ).toBe(true);
+      // Observe the natural cause when it exists, then complete the played year.
+      const witnessedAt = core.date;
+      const yearEnd = addDays(makeIsoDate(start), 365);
+      advanceCore(core, yearEnd);
+      expect(core.date, where).toBe(yearEnd);
       process.stdout.write(
-        `COUNTED BEREAVEMENT ${where}: ${drive.personId} holds ${drive.driveId} from ${drive.sourceEventId} at ${drive.strength.toFixed(3)}; ${held.length} causes, ${perceptions.length} perceptions; places tried: ${tried.join("; ")}\n`,
+        `COUNTED BEREAVEMENT ${where}: ${drive.personId} holds ${drive.driveId} from ${drive.sourceEventId} at ${drive.strength.toFixed(3)}; ${held.length} causes, ${perceptions.length} perceptions; witnessed ${witnessedAt}; played through ${core.date}; places tried: ${tried.join("; ")}\n`,
       );
       return;
     }
