@@ -36,3 +36,5 @@ Applied Oct 20 (claude, PR for D-economy-world): SG-WORLD-housing-shelter-territ
 Oct 21 (claude): the AS and MP shelter-bed row applied in PR 5461 is tracked as housing-shelter-island-areas-estimate; this umbrella stays open for the other rows.
 
 Sent back 2026-10-23 from PR #5466 (branch claude/apply-stopgaps-a): Missing Done-when evidence table; identify a valid bounded spread-only item or provide parent calibration acceptance while preserving unfinished work open; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5478 (branch claude/apply-stopgaps-c2): Missing Done-when evidence table for delegate-size disposition and drawn-world reader proof; keep incomplete parent research work open or use a valid bounded item; finish on that branch, merge main into it first.
