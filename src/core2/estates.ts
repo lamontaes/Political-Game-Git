@@ -49,7 +49,7 @@ import {
   endRecipientIncomeAtDeath,
   handOverContractsAtDeath,
 } from "./finance-state";
-import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { recordEstatePaid, sellHome } from "./housing-sale";
 import type {
   CoreAPI,
@@ -158,8 +158,7 @@ export function willOf(
 ): readonly { id: PersonId; weight: number }[] | null {
   const p = (key: string) => api.parameter(key);
   const age =
-    daysBetween(makeIsoDate(person.birthDate), makeIsoDate(api.state.date)) /
-    p("daysPerMeanYear");
+    daysBetweenText(person.birthDate, api.state.date) / p("daysPerMeanYear");
   const lean = decisionLean(
     api.state,
     person,

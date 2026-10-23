@@ -104,14 +104,20 @@ export function sellHome(
   let toLender = 0;
   let remaining = price;
   for (const mortgage of mortgages) {
-    const paid = transferCash(
-      api,
-      `home-sale:${stamp}:${mortgage.id}`,
-      buyer.id,
-      mortgage.holderId,
-      Math.min(remaining, mortgage.balanceMinor),
-      source,
-    );
+    const owedNow = Math.min(remaining, mortgage.balanceMinor);
+    // The outside market that buys the home can also hold its mortgage: paying
+    // itself moves no cash, and the loan is settled all the same.
+    const paid =
+      mortgage.holderId === buyer.id
+        ? owedNow
+        : transferCash(
+            api,
+            `home-sale:${stamp}:${mortgage.id}`,
+            buyer.id,
+            mortgage.holderId,
+            owedNow,
+            source,
+          );
     toLender += paid;
     remaining -= paid;
   }

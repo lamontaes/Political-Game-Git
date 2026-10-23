@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/estate-sells-home
+status: open
+claimed-by:
 pr: #5735
 blocked-on:
 source: split of world-home-turnover (Oct 18)
-claimed-at: 2026-10-21T06:16:34.691Z
+claimed-at:
 ---
 
 **What.** `sellHome` is called from only one place, a household's last members moving away (`moves.departure`), so a home whose owners have all died stays on the dwellings table as owned forever, its mortgage unpaid or paid by a dead person's account. When the last owner of a home dies, the estate sells it when probate closes: the lender is paid first, the surplus goes to the heirs the estate already names, and the home goes back on the town's market with a `sales` row that gives the reason. This gives the town the sales its deaths really cause and frees the home for a buyer.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-21T06:16:34.691Z
 Oct 20 (claude/estate-sells-home): built for full households. `settleEstate` keeps an estate open when the decedent was the last living member of a household that owns its home, even with no cash in it; `distribute` (probate closes) calls `sellHome` with the estate (`housing-sale.ts`), which pays the lender first from the outside market's price and credits the surplus to the decedent's account, so the estate tax and the heirs count it. The sale row names `decedentId` and `deathEventId`. Test: estate-home-sale.test.ts (drawn place, a household that owns its home, all its members die, 280 days on: `home-sale:<household>:<date>` with reason `estate.probate-closes`, the lender paid, the dwelling `sold`, the mortgage ended, the court record holding the surplus). Not done: a counted household's home (filed as world-counted-estate-sells-the-home; SG-CORE-estate-cash-only now names it), and the heirs are not given the home to live in.
 
 Sent back 2026-10-20 from PR #5735 (branch claude/estate-sells-home): docs/pool/items/world-estate-sells-the-home.md:20 requires a one-year played-world proof with the seed in the body and a sale row naming the estate and heirs paid. src/core2/estate-home-sale.test.ts instead forces household members dead, calls settleEstate directly, and advances 40 plus 280 days; its assertions check estate value but never heirs paid. Add the named ordinary-world proof and heir payment ids; retain this forced-death case as an edge test.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5735 (branch claude/estate-sells-home): Normal main integration conflicts in src/core2/estates.ts and the body explicitly leaves ordinary played-world sale/probate proof unmet; resolve code and supply the natural chain evidence; finish on that branch, merge main into it first.
