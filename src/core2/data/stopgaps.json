@@ -2267,7 +2267,9 @@
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "An association engine with formation steps, registration law per place and membership rules.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "Founding stays one act on a recorded drive (the found-cause-group act in src/core2/data/drives.json): the standing rule 'This is a game, not a spreadsheet' in AGENTS.md admits no charter, registration or dues step the golden path does not need and The Political Process does not have. The group's depth is where it reacts: the members who join and what the interest-groups engine does with it."
   },
   {
     "id": "SG-P10-testify-unbuilt",
