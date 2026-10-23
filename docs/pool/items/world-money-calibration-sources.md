@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Read the PR body and any CTO comment first.
 
 Sent back 2026-10-16 from PR #713 (branch codex/assignments-5-money-sources-safe): scripts/source/regional-money/missing-money-sources.test.ts fails: missing-money-sources.ts imports ../../../src/source/core/archive/zip, which main deleted in 'Delete unused files from the old game and tooling' (595b46a9d3). Replace the zip reader with one that exists on main (or write it fresh) and rerun the test; the PR body also lacks a gate line at the top; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #713 (branch codex/assignments-5-money-sources-safe): PR body lacks the Done-when evidence table mapping every acceptance requirement to proof; add the dependency repair, changed-file test and drawn-place or bounded research evidence, clean main integration, and gate-line rows; finish on that branch, merge main into it first.
