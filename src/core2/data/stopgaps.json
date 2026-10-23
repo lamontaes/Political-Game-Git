@@ -4876,6 +4876,42 @@
     "status": "open"
   },
   {
+    "id": "SG-PEOPLE-home-leaving-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/partnerships/parameters.json",
+    "line": 1,
+    "whatItFakes": "How strongly age, means, a crowded home, closeness to a parent and the rent's share of pay pull a young adult out of a parent's home, and where leaving starts.",
+    "why": "The research gives how many young adults live with a parent by age (ACS B09021) but not each reason's size in this model.",
+    "addedBy": "claude/leave-parents-home",
+    "addedAt": "2026-10-17",
+    "replacement": "Weights checked against the ACS B09021 shares by age across drawn places in the people-partnership-rates-check year run.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-partnership-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/partnerships/parameters.json",
+    "line": 1,
+    "whatItFakes": "How strongly closeness, age gap and means pull two single adults into one household, and where partnering starts.",
+    "why": "The research gives how many marriages and divorces a year per thousand residents (CDC NCHS, ACS) but not each reason's size in this model.",
+    "addedBy": "claude/partnership-forms",
+    "addedAt": "2026-10-17",
+    "replacement": "Weights checked against the CDC and ACS rates across drawn places in the people-partnership-rates-check year run.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-partnership-orientation",
+    "kind": "missing-data",
+    "file": "src/core2/modules/partnerships.ts",
+    "line": 1,
+    "whatItFakes": "Two people become partners only when they are a woman and a man: the people records hold no orientation, so same-sex couples never form in play.",
+    "why": "Nothing in the person record says whom someone is attracted to, and it must not be guessed from anything else.",
+    "addedBy": "claude/partnership-forms",
+    "addedAt": "2026-10-17",
+    "replacement": "An orientation on the person record from the opening generator (owner decision on how it is shown), read by the partnership choice.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-committee-day-hooks",
     "kind": "owner-decision",
     "file": "src/core2/modules/legislature.ts",
