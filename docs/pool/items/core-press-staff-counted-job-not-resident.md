@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-20T07:15:58.730Z
 ---
 
-**What.** In Bascom, Florida with seed 78df996a2a76eb81378fcb7c5c00238bb398b33a, advanceCore throws 'Not in the wider population: person_4f9db9d9b815de95' from fillInPerson (state.ts:1997) called by refreshPressStaff (press.ts, the loop over countedJobsOf(core, outlet.organizationId)) during pressWeek. A counted job names a worker no household in the counts holds and no full person is left to return, so the press week stops the game.
+**What.** In Bascom, Florida with seed 78df996a2a76eb81378fcb7c5c00238bb398b33a, advanceCore throws 'Not in the wider population: person_4f9db9d9b815de95' from fillInPerson (state.ts:1997) called by refreshPressStaff (press.ts, the loop over countedJobsOf(core, outlet.organizationId)) during pressWeek. A counted job names a worker no household in the counts holds and no full person is left to return, so the press week stops the game. Find which step leaves a counted job pointing at a person who has left the counts (a move, a death or a demotion that does not clear the job), and clear or reassign the job at that step rather than catching the error in the press loop.
 
 **Rules.** Find why the counted job outlives its worker (a death, a move or a household returned and renumbered) and fix it where the job is kept, not with a try/catch in press. Wire to the world: prove it in the generated world with the same seed.
 

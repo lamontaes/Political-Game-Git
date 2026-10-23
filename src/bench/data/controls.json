@@ -71,6 +71,10 @@
     "interview": "Ask for an interview",
     "hours": "hours"
   },
+  "campaignContribute": {
+    "give": "Put in your own money",
+    "dollars": "dollars"
+  },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
     "rally-downtown-plaza": "Downtown plaza",
