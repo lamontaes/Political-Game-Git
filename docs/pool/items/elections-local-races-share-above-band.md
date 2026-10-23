@@ -24,3 +24,5 @@ claimed-at: 2026-10-21T13:51:42.529Z
 **Notes.** TODO
 
 - Cloud merger, after #5733 merged: the staying-out pull is recorded at 3.8 to 4.4, but the share of local seats with one candidate is still 85 to 92 percent against the band of 58 to 75, so this item stays open.
+
+Oct 21 (claude): measured to the done-when by two runs. #5756 (merged): 91 of 121 local seats uncontested (75 percent) in 18 places drawn from `drawPlace('unc-batch:<n>', 'unc')`, n = 100 to 127 (places and full seeds in its body), and the parameter's citation records it (`candidacyRecordGapWeight` 2, counted adults now weigh standing and the record gap). #5804: a second, independent run through a new test, `src/core2/local-races-contested.test.ts`, base seed c3e1dee5e088372ab553a4f9d1a0a37d67a291d9, ten drawn places, 26 of 44 uncontested (59 percent). Pooled: 117 of 165 seats, 71 percent, 3 points from 70 (the item's centre test). `who-runs.test.ts` passes. The done-when names `candidacy-calibration.test.ts`, which does not exist; the calibration test is `local-races-contested.test.ts` (#5804), so merge #5804 before this closes.
