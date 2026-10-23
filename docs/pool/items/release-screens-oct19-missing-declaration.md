@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5128
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The returned owner-review PR contains four bench screenshots and their README but no release declaration. The report records the drawn place and world seed for the money, travel, politics and person-card views. Add an impact-none declaration and an accurate evidence table for that report-only delivery without claiming the screen defects it observed have been fixed.
