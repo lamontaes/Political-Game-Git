@@ -11,9 +11,10 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { setBookkeeping } from "./bookkeeping";
+import { BenchPlayer } from "../bench/player";
+import { earliestModuleStopsV1 } from "./player-stops-v1";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   acceptJobOffer,
@@ -36,18 +37,37 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
         "player-job-offers",
       );
       console.log(`player-job-offers: place ${place.key}, seed ${seed}`);
-      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
         twoLevel: true,
         placeKey: place.key,
       });
       const api = coreAPI(core);
       const playerId = core.playerId!;
       const before = core.people.get(playerId)!.jobId;
-      // Eight weeks at a time for up to a year, until an employer picks them
+      // The player lives the days (so an offer registers its clock stops),
+      // eight weeks at a time for up to a year, until an employer picks them
       // (a town's openings and the player's fit decide when, if at all).
-      for (let weeks = 0; weeks < 52; weeks += 8) {
-        advanceCore(core, addDays(makeIsoDate(core.date), 8 * 7));
-        if (jobOffersFor(api, playerId).length) break;
+      const player = new BenchPlayer(core, director);
+      player.select(playerId);
+      for (
+        let weeks = 0;
+        weeks < 52 && !jobOffersFor(api, playerId).length;
+        weeks += 8
+      ) {
+        const target = addDays(makeIsoDate(core.date), 8 * 7 + 1);
+        let step = player.advance("calendar", target);
+        for (let guard = 0; guard < 500; guard += 1) {
+          if (jobOffersFor(api, playerId).length) break;
+          if (player.pollingPlace) {
+            player.leavePolls();
+            step = player.advance("calendar", target);
+          } else if (step.packet.kind === "stop") {
+            step = player.resume({
+              kind: "stop",
+              pauseId: step.packet.pauseId,
+            }) as typeof step;
+          } else break;
+        }
       }
 
       const jobs = api.moduleState(JOBS_MODULE_ID);
@@ -80,6 +100,17 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
           ).offeredTo,
         ).toBe(playerId);
       const offer = open[0]!;
+      // The deadline holds the player's clock until they answer, and the answer releases it.
+      const atDeadline = { date: offer.deadline, minuteOfDay: 0 };
+      const stopsAt = () =>
+        earliestModuleStopsV1(core, {
+          controlledPersonId: playerId,
+          from: atDeadline,
+          through: atDeadline,
+        }).filter((row) => row.recordId === `${offer.id}:deadline`);
+      expect(stopsAt().map((row) => [row.kind, row.hold])).toEqual([
+        ["offer-deadline", true],
+      ]);
       expect(acceptJobOffer(api, offer.id)).toBe(true);
       const job = core.jobs.get(core.people.get(playerId)!.jobId!)!;
       expect(job.organizationId).toBe(offer.organizationId);
@@ -87,6 +118,31 @@ describe("the player's job offers", { timeout: 900_000 }, () => {
       expect(
         (jobs.table("offers").get(offer.id) as unknown as JobOfferRow).status,
       ).toBe("accepted");
+      expect(stopsAt()).toEqual([]);
+      // The director watches the player, so the new job reaches their story: a first-day scene on a following day.
+      // The offer's stops are released by the answer; let any open stop pass, then live ten days.
+      const pass = () => {
+        for (let guard = 0; guard < 200; guard += 1) {
+          if (player.pollingPlace) player.leavePolls();
+          const open = player.packet;
+          if (!open || open.kind !== "stop") return;
+          player.resume({ kind: "stop", pauseId: open.pauseId });
+        }
+      };
+      pass();
+      for (let day = 0; day < 10; day += 1) {
+        player.advance("day");
+        pass();
+      }
+      const firstDay = director.ledger.people
+        .get(playerId)
+        ?.schedule.find((row) =>
+          row.bindings.some((binding) => binding.typeKey === "first-day"),
+        );
+      expect(
+        firstDay,
+        `a first-day scene for ${playerId} after accepting ${offer.id} (${place.key}, seed ${seed})`,
+      ).toBeDefined();
       console.log(`player-job-offers: accepted ${offer.id} as ${job.id}`);
       return;
     }
