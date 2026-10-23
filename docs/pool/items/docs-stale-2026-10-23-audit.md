@@ -7,9 +7,10 @@ priority: 1
 size: L
 status: open
 claimed-by:
-pr:
+pr: #5844
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** On Oct 23 the owner said to stop the stale docs. The live tree still carried 28 ended per-session status files, the BOARD, two handoffs, six work orders, the seven M0 packages, the 4,243-line PROGRESS file, a duplicate specs draft and five old-engine reports, and nothing checked a doc's freshness. This slice archives those 49 files under docs/archive/2026-10-23/ with their originals deleted, rewrites 13 docs whose rules were overruled, stamps 46 checked docs with a Current as of line, repairs every live pointer to a moved path, and adds scripts/docs/freshness.mjs with its skill and npm script so release:check prints the freshness table.
