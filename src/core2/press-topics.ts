@@ -40,6 +40,8 @@ const LEVELS: Readonly<Record<string, WireLevel>> = {
   town: "town",
   municipal: "town",
   county: "county",
+  // A township board governs the town's own township.
+  township: "town",
   state: "state",
   federal: "nation",
   national: "nation",
