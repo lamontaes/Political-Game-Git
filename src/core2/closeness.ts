@@ -9,7 +9,7 @@
  * closeness changes only when people spend time together or time passes.
  */
 import data from "./data/closeness.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import { parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
@@ -56,7 +56,7 @@ function faded(p: Lookup, hours: number, days: number, kind: string): number {
 }
 
 function elapsed(p: Lookup, from: IsoDate, to: IsoDate): number {
-  return Math.max(daysBetween(makeIsoDate(from), makeIsoDate(to)), p("zero"));
+  return Math.max(daysBetweenText(from, to), p("zero"));
 }
 
 /** Closeness today: the closeness at the last contact, faded since. */
@@ -204,8 +204,7 @@ export function openingClosenessHours(
 
   // Childhood at home together, then the years apart since the elder left.
   const adultDays = p("benchmarkAdultMinimumAge") * p("daysPerMeanYear");
-  const age = (birthDate: IsoDate) =>
-    daysBetween(makeIsoDate(birthDate), makeIsoDate(core.date));
+  const age = (birthDate: IsoDate) => daysBetweenText(birthDate, core.date);
   let together = p("zero"),
     apart = p("zero");
   if (tie.sharedChildhood === "parent" || tie.sharedChildhood === "child") {

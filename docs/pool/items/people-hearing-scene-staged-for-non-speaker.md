@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T01:24:31.673Z
 **Notes.** Adds a match condition `causeNames` that requires the cause record to name the moment's person; other scene types are untouched.
 
 Sent back 2026-10-20 from PR #5055 (branch claude/hearing-speaker-named): Merge main 4424a9ec32da into claude/hearing-speaker-named conflicts in: src/director/scheduling.ts. Resolve these files with a normal merge before changed-file validation; no integrated green head exists.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5055 (branch claude/hearing-speaker-named): Missing Done-when evidence table and unnamed failing seed/record IDs; document the listener/speaker assertions, original regression reproduction and director results; finish on that branch, merge main into it first.
