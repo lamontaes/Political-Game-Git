@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Replaces the government and economy share of PR #4146 that is not elections, housing, jobs or law reach. About 21 rows were open on Oct 19.
 
 Sent back 2026-10-20 from PR #5155 (branch claude/standins-other-credit-business): The PR edits six pool/index files but explicitly declares no release declaration, and its changed files contain none under docs/release/changes. Add the required impact-none declaration for the actual planning-only split, then merge main and run the changed-file checks. Keep the unresolved stand-in implementations open; no registry row is completed by this docs change.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5155 (branch claude/standins-other-credit-business): Child credit/business spec reopens resolved rows and contradicts the FHFA ruling; the bare broad-parent marker would prematurely complete implementation acceptance; refresh specs and use bounded planning routing with its evidence table; finish on that branch, merge main into it first.
