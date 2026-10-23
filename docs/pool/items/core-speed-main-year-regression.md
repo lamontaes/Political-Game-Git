@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/speed-main-regression
 pr: #5834
 blocked-on:
