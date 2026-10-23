@@ -18,7 +18,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { setJournalTrace } from "./journal-state";
-import type { CoreAPI, CoreState } from "./types";
+import type { CoreAPI, CoreState, Source } from "./types";
 import { enactLaw, lawChain, LAWS_MODULE_ID } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
 import { amendBudget, budgetsOf, governments } from "./modules/budgets";
@@ -39,7 +39,12 @@ import {
   type TermRow,
 } from "./modules/offices";
 import { lobbyingBarredUntil } from "./law-reach/group-a-voting";
-import { currentStaff, townOrganizations } from "./law-reach/group-a-records";
+import {
+  currentStaff,
+  mechanicRow,
+  townOrganizations,
+} from "./law-reach/group-a-records";
+import { outsideAccountOf } from "./budgets-treasury";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const P = "us-policy-positions:government-operations.";
@@ -422,6 +427,143 @@ describe(`government operations laws are applied by their engines (seed ${seed})
       }
       throw new Error(
         `No drawn place had a subject for the government operations laws (seed ${seed}); tried ${tried.join("; ")}`,
+      );
+    } finally {
+      setJournalTrace(null);
+      setBookkeeping(priorBookkeeping);
+    }
+  }, 300_000);
+
+  it("a cost owed by a treasury short of cash is still paid after the law is repealed", () => {
+    const tried: string[] = [];
+    const posts: { id: string; gross: number }[] = [];
+    setJournalTrace((input) => {
+      let gross = 0;
+      for (const p of input.postings)
+        if (p.deltaMinor > 0) gross += p.deltaMinor;
+      posts.push({ id: `${input.id} ${input.sourceRef.id}`, gross });
+    });
+    const priorBookkeeping = setBookkeeping(false);
+    const testSource: Source = {
+      tag: "SOURCED",
+      asOf: gameStartDate(),
+      citation: "Law-wiring test: the treasury is emptied and refilled",
+    };
+    try {
+      for (let attempt = 0; attempt < 4; attempt++) {
+        const drawn = drawPlace(seed, `law-wiring-government-owed-${attempt}`);
+        const where = `seed ${seed}, ${drawn.name} (${drawn.key}), attempt ${attempt}`;
+        const core = buildBenchWorld(drawn.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: drawn.key,
+        }).core as CoreState;
+        const api = coreAPI(core);
+        // The government that runs the election, as the voting engine picks it.
+        const govs = governments(api);
+        const gov = ["county", "city", "state"]
+          .map((level) => govs.find((g) => g.level === level))
+          .find((g) => g !== undefined);
+        const outside = outsideAccountOf(api);
+        if (!gov || !outside || core.people.size === 0) {
+          tried.push(
+            `${drawn.name} (${drawn.key}): no administering government, outside account or people`,
+          );
+          continue;
+        }
+        const accounts = api.accounts();
+        const treasury = accounts.main(gov.organizationId);
+        const move = (id: string, from: string, to: string, amount: number) =>
+          amount >= 1
+            ? accounts.transfer({
+                id,
+                from,
+                to,
+                amountMinor: amount,
+                reasonKey: "law-wiring-test",
+                source: testSource,
+                partial: true,
+              }).paidMinor
+            : 0;
+
+        // No photo ID law, then the treasury is emptied the day before the
+        // law takes effect, so the ID issuance it brings is owed.
+        setQuestion(api, PHOTO, 0, "owed-clear");
+        advanceCore(core, next(api, 2));
+        let drained = move(
+          `law-wiring-government-drain:${attempt}`,
+          treasury,
+          accounts.main(outside),
+          accounts.balance(treasury),
+        );
+        expect(
+          setQuestion(api, PHOTO, 1, "owed-enact").length,
+          `${where}: photo ID enacted`,
+        ).toBeGreaterThan(0);
+        advanceCore(core, next(api, 2));
+        const owedId = `election-cost-owed:${PHOTO}:${gov.id}`;
+        const owedBefore = Number(
+          mechanicRow(api, owedId)?.facts.owedMinor ?? 0,
+        );
+        if (owedBefore < 1) {
+          tried.push(
+            `${drawn.name} (${drawn.key}): the photo ID issuance was paid in full, nothing owed`,
+          );
+          continue;
+        }
+
+        // Repeal the law while the treasury is still empty: the debt stands.
+        drained += move(
+          `law-wiring-government-drain-again:${attempt}`,
+          treasury,
+          accounts.main(outside),
+          accounts.balance(treasury),
+        );
+        setQuestion(api, PHOTO, 0, "owed-repeal");
+        advanceCore(core, next(api, 1));
+        const atRepeal = mechanicRow(api, owedId);
+        const owedAtRepeal = Number(atRepeal?.facts.owedMinor ?? 0);
+        if (owedAtRepeal < 1) {
+          tried.push(
+            `${drawn.name} (${drawn.key}): the cash that came in paid the photo ID cost before the repeal`,
+          );
+          continue;
+        }
+        expect(
+          atRepeal?.active,
+          `${where}: the ${owedAtRepeal} owed is still collectible after the repeal`,
+        ).toBe(true);
+
+        // The cash comes back, and the debt is paid in full.
+        const repealedAt = posts.length;
+        move(
+          `law-wiring-government-refill:${attempt}`,
+          accounts.main(outside),
+          treasury,
+          drained + owedAtRepeal,
+        );
+        advanceCore(core, next(api, 5));
+        const after = mechanicRow(api, owedId);
+        expect(
+          Number(after?.facts.owedMinor),
+          `${where}: the ${owedAtRepeal} owed at the repeal is paid`,
+        ).toBe(0);
+        expect(after?.active, `${where}: ${owedId} settled`).toBe(false);
+        const repaid = posts
+          .slice(repealedAt)
+          .filter((p) =>
+            p.id.includes(`election-admin:${PHOTO}:${gov.id}:owed:`),
+          )
+          .reduce((n, p) => n + p.gross, 0);
+        expect(repaid, `${where}: repaid after the repeal`).toBe(owedAtRepeal);
+        // The repeal still ended the law's rows; paying the old cost reopens none.
+        expect(
+          open(api, PHOTO).map((r: LawAppliedRow) => r.id),
+          `${where}: photo ID rows ended after repeal`,
+        ).toEqual([]);
+        return;
+      }
+      throw new Error(
+        `No drawn place owed a photo ID cost (seed ${seed}); tried ${tried.join("; ")}`,
       );
     } finally {
       setJournalTrace(null);

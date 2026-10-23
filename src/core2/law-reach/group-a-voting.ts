@@ -253,7 +253,7 @@ const OWED_KIND = "election-cost-owed";
 /**
  * Pay what the election costs out of the administering treasury's line. A
  * treasury short of cash pays what it holds; the rest is owed and paid as
- * cash arrives, day by day, for as long as the law is in force.
+ * cash arrives, day by day, until it is paid, even after a repeal.
  */
 function payElectionCost(
   api: CoreAPI,
@@ -343,8 +343,9 @@ onReachCalendar(OWED_KIND, (api, work) => {
   if (!row?.active) return;
   const key = row.key;
   const gov = governments(api).find((g) => g.id === row.facts.governmentId);
-  // A repealed law owes nothing more.
-  if (!gov || !electionLaws(api).has(key)) {
+  // A repeal stops new charges, not a cost already incurred: the debt is paid
+  // whether or not the law is still in force.
+  if (!gov) {
     putMechanic(api, { ...row, active: false });
     return;
   }
@@ -358,7 +359,8 @@ onReachCalendar(OWED_KIND, (api, work) => {
     owed,
     `owed:${api.state.date}`,
   );
-  if (paid > 0)
+  // After a repeal the payment settles the old cost; the law's ended rows stay ended.
+  if (paid > 0 && electionLaws(api).has(key))
     lawApplied(api, {
       key,
       lawId: String(row.facts.lawId),
