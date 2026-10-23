@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5839
 blocked-on:
 source: added by the CTO from the Oct 20 night check
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Options to weigh: give release jobs priority (a separate runner group or a larger runner), cut per-PR load (skip audit-scan or M0 guards on PRs that change no code, run the long jobs only when a PR is marked ready, or batch them), or run release on a schedule plus workflow_dispatch when the queue is deep. Measure first.
 
 PR #5789 supplies the pool-only push filter for validation and M0 guards. The Oct 21 before-change measurements are in its body. Queue count, oldest queued age and release behavior after the change under a busy queue remain to be measured; this configuration slice does not complete the original Done when.
+
+Sent back 2026-10-23 from PR #5839 (branch claude/release-queue-measured): The notes-only diff lacks the required impact-none release declaration; the first two reported successful Release runs and timestamps were independently verified; finish on that branch, merge main into it first.
