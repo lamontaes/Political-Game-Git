@@ -34,3 +34,5 @@ Sent back 2026-10-21 from PR #5461 (branch claude/apply-stopgaps-d): The merge-c
 Applied Oct 20 (claude, PR for D-economy-world): SG-WORLD-housing-shelter-territory (island-area median 6.18, spread 2.47 to 10.9, data `estimated` block + `shelterRateFor` + test; row kept open with revised text since the replacement is each territory's own count). Next in D: SG-WORLD-housing-foreclosure-steps needs the place's process class plumbed to housing-foreclosure.ts before the 174/2007/2293 fills apply; SG-WORLD-macro-mortgage-spread is a constant-to-table swap in macro-model.ts; rows whose note says Bernoulli (SG-M1-opening-pregnancies) break the no-dice rule and need a rewrite, not a copy.
 
 Oct 21 (claude): the AS and MP shelter-bed row applied in PR 5461 is tracked as housing-shelter-island-areas-estimate; this umbrella stays open for the other rows.
+
+Sent back 2026-10-23 from PR #5466 (branch claude/apply-stopgaps-a): Missing Done-when evidence table; identify a valid bounded spread-only item or provide parent calibration acceptance while preserving unfinished work open; finish on that branch, merge main into it first.
