@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/speed-main-regression
-pr:
+pr: #5834
 blocked-on:
 after: core-speed-public-staff-full-people
 source: added with npm run pool -- add
