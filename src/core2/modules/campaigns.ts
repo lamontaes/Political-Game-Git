@@ -10,9 +10,8 @@
  * canvasser, who told them. Every change is a recorded cause; nothing moves
  * support without one. Polls ask real people and report what they said.
  *
- * A person's view of a question is their own lean (the views engine: their
- * CES cell and household) along the question's measured left-right axis
- * (`campaign-views.ts`).
+ * Views come from a stand-in until OPUS-PEOPLE's views engine lands
+ * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
 import { candidateIdentity } from "../candidate-identity";
 import { customPolitics, registerElectorate } from "../electorate";
@@ -301,7 +300,7 @@ export function parsePlatform(platform: readonly string[]): readonly Stance[] {
   });
 }
 
-/** Register the module and note the town's area lean (its district's 2024 vote). */
+/** Register the module and note the town's starting lean (stand-in for views). */
 export function openCampaigns(core: CoreState): void {
   registerElectorate(core);
   if (!core.modules.has(CAMPAIGNS_MODULE_ID))
@@ -318,6 +317,8 @@ export function openCampaigns(core: CoreState): void {
     "congressional",
     core.date,
   );
+  // stopgapId: SG-GOV-views-stand-in
+  api.stopgap("SG-GOV-views-stand-in");
   table(api, "town").put({
     id: "town",
     ...town,

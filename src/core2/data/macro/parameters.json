@@ -211,16 +211,9 @@
     }
   },
   "macroMortgageSpreadOverTreasuryPct": {
-    "value": 1.768,
-    "tag": "ESTIMATED",
-    "citation": "FHFA Monthly Interest Rate Survey 30-year fixed less the 10-year Treasury (H.15 GS10), monthly 1990-2019: mean 1.768 points. The mortgage rate is the Treasury rate plus this spread, no outside feed.",
-    "estimatedFrom": "Only months past the published series use the spread; data/research/stand-in-figures-2026-10-12.json.",
-    "spread": {
-      "low": 1.22,
-      "high": 2.33,
-      "unit": "percentage points",
-      "citation": "FHFA MIRS less H.15 GS10, 1990-2019, 5th to 95th percentile."
-    }
+    "value": 2.22,
+    "tag": "SOURCED",
+    "citation": "Freddie Mac PMMS 30-year fixed less the 10-year Treasury, monthly May 2019 to September 2026: mean 2.22 points (min 1.34, max 2.96; 2025 mean 2.31). The CTO's stand-in research (data/research/stand-in-figures-2026-10-12.json)."
   },
   "macroPrimeSpreadPct": {
     "value": 3.08,

@@ -1209,7 +1209,10 @@
     "replacement": "Leadership appoints committee members (leadership races and chamber leadership research, #3788's chamber-leadership.json).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-23",
+    "resolvedBy": "gov-world-standins-oct14",
+    "resolution": "A bill's committee is the one the chamber's leadership seated, members and chair (committeeRoster in modules/leadership.ts, sized by committeeSize); where none is seated the bill goes to the floor. The seniority roster in legislature.ts is deleted."
   },
   {
     "id": "SG-GOV-measure-groups-stand-in",
@@ -2195,7 +2198,10 @@
     "addedBy": "CODEX-RENEWAL",
     "addedAt": "2026-10-11",
     "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-23",
+    "resolvedBy": "gov-world-standins-oct14",
+    "resolution": "Removed: the opening no longer reconstructs pre-opening pregnancies from current money, housing and health; every pregnancy comes from a couple's own review in play (renewal.ts). The acting CTO accepted this branch's keep/delete list on Oct 19."
   },
   {
     "id": "SG-P15-candidacy-weights",

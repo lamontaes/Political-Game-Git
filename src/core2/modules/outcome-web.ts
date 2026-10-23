@@ -462,7 +462,8 @@ function announce(api: CoreAPI, row: WebMonth): void {
 function run(api: CoreAPI, announced = false): void {
   const state = webState(api);
   if (!state) return;
-  // Kept outcomes move only by researched links; otherwise they hold at their base.
+  // Kept outcomes hold at their base apart from their causes; see the stopgap.
+  api.stopgap("SG-WEB-outcome-drift");
   // No engine keeps SNAP receipt or food insecurity; they stay ledger numbers.
   api.stopgap("SG-WEB-snap-receipt-ledger");
   api.stopgap("SG-WEB-food-insecurity-ledger");

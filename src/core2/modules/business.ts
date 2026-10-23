@@ -1689,7 +1689,7 @@ function foundings(api: CoreAPI): void {
       // A failed capital check must not block another willing founder.
       if (found(api, person.id, market)) return;
     }
-    // The wider population weighs it by the same reasons, as summed pulls, until filled in.
+    // The wider population weighs it by the same reasons, as summed pulls (stopgap), until filled in.
     if (!c.modules.has("jobs")) continue;
     const rows: { id: string; score: number }[] = [];
     for (const row of countedCandidates(market.placeId)) {

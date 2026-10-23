@@ -292,7 +292,7 @@
     "committeeLeadDays": {
       "value": 7,
       "tag": "ESTIMATED",
-      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it (SG-GOV-committee-structure).",
+      "source": "How many days before its floor sitting a body's committee takes up a scheduled bill: a committee meets and reports a week or so ahead of the floor in legislative and council practice. No dataset in the repository measures it, so the spread is wide.",
       "spread": [3, 28]
     },
     "hearingWitnesses": {

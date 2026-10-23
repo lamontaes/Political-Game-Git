@@ -214,6 +214,8 @@ export function occupyCompletedRentals(api: CoreAPI): void {
   const c = api.state as CoreState;
   // stopgapId: SG-WORLD-new-rental-move-coverage
   api.stopgap("SG-WORLD-new-rental-move-coverage");
+  // stopgapId: SG-WORLD-housing-vacancy
+  api.stopgap("SG-WORLD-housing-vacancy");
   const candidates = tenants(api);
   const occupied = table(api, "occupancy");
   const projects = (table(api, "projects").rows() as unknown as ProjectRow[])

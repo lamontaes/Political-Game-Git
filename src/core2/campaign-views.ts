@@ -1,11 +1,13 @@
 /**
- * What a voter thinks of a platform.
+ * What a voter thinks of a platform: the stand-in for individual views.
  *
- * A person's lean is their own view from PEOPLE's views engine (their CES
- * 2024 cell and household), placed against how their own congressional
- * district voted in 2024 (Clerk of the House). A world run without the views
- * engine (engine tests) orders people by the personality facets the research
- * links to ideology (`data/campaigns/parameters.json`). Their stance on a
+ * OPUS-PEOPLE's views engine will give each person their own stance on each
+ * question, formed from their life. Until it does (SG-GOV-views-stand-in), a
+ * person's lean starts from how their own congressional district voted in
+ * 2024 (Clerk of the House), placed by the personality facets the research
+ * links to ideology, at the small share the research measures, and by the
+ * upbringing and family the facets don't capture
+ * (`data/campaigns/parameters.json`). Their stance on a
  * question is that lean along the question's measured left-right axis
  * (`data/research/campaigns/issue-axes-2026.json`).
  */

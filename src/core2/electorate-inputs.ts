@@ -292,8 +292,10 @@ export function raceConditions(
   },
 ): RaceConditions {
   rememberOpeningElectorate(api);
-  // The national mood is read from its measured fundamentals: the national
-  // economy since the opening and the midterm penalty.
+  // The national mood is the economy and the midterm penalty; no record of
+  // the president's approval exists to read it from.
+  // stopgapId: SG-GOV-electorate-approval
+  api.stopgap("SG-GOV-electorate-approval");
   return {
     cycle: input.cycle,
     federal: input.federal,

@@ -23,6 +23,7 @@ import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
+import { stopgap } from "../stopgaps";
 import { webReach, type Subject } from "../outcome-web-reach";
 import { incomeBandOf } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
@@ -319,7 +320,8 @@ export function monthlyChange(
     }
     case "offer": {
       // Subscribers take the public offer when it's cheaper; the old bill no longer leaves the town.
-      // A household's bill is the town's subscribing share of the price (households as a group).
+      // Each household switches as the subscribing share of one, not by its own choice yet.
+      stopgap("SG-WORLD-prices-household-shares");
       const b = g.broadband;
       if (rule.value >= b.monthlyPriceMinor)
         return { payMinor: 0, refundMinor: 0 };
