@@ -1914,11 +1914,11 @@
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
     "line": 621,
-    "whatItFakes": "For 5 of the 56 places the ballot-order rule is read from a secondary source or assumed: American Samoa, Indiana's primary order, the Northern Mariana Islands, Pennsylvania's primary and general rules, the Virgin Islands (the rows marked estimate in data/research/elections/ballot-order-2026.json). The other 51 rows were checked against statute text.",
+    "whatItFakes": "For 3 of the 56 places the ballot-order rule is read from a secondary source or assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json): American Samoa (alphabetical assumed), the Northern Mariana Islands (lot, from the Commission's reported practice) and the Virgin Islands (lot, from the Elections System's notices citing 18 V.I.C. 419). The other 53 rows were checked against statute text.",
     "why": "The statute text for these places has not been read, or does not state the rule; each row's note says what is known.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each remaining estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
+    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): Pennsylvania read from the Election Code (25 P.S. 2875, 2963) and Indiana's primary from Ind. Code 3-10-1-18, both estimate false; the Virgin Islands and the Northern Mariana Islands changed to lot from official notices and reporting. Still to clear: A.S.C.A. title 6's ballot-order section, the Commonwealth Election Commission's ballot regulation, and the text of 18 V.I.C. 419, each read and its estimate flag cleared. Read by src/core2/ballot-order.ts ballotOrderRule.",
     "status": "open"
   },
   {
