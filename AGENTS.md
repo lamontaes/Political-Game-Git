@@ -1,5 +1,7 @@
 # Our Civic Duty — repository guide
 
+Current as of 2026-10-23 (doc-freshness skill added to the index)
+
 A political and government RPG with a full life simulation underneath. Every agent (Claude, Codex, Cursor, Antigravity or another) follows this file. It holds only what every session needs; procedures live in skills (`.agents/skills/`, mirrored in `.claude/skills/`), the standing rules' self-checks in `.agents/rules/standing-skills/`, and the command and constraint reference in `.agents/rules/repository-reference.md`. The code map is `ARCHITECTURE.md`; the docs map is `docs/README.md`.
 
 ## Where the game is going (owner, Oct 10, 2026)
@@ -82,7 +84,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 
 ## Skills
 
-Load a skill when its trigger fits; descriptions say when. Process: `session-start` (worker loop), `pr-fixer` (finish a sent-back PR), `merger`, `merge-audit`, `wiring-audit`, `researcher`, `played-world-proof`, `ask-why`, `trace-audit`, `cto`. Content: `words-engine`, `civic-prose`, `civic-reports`, `browser-visual-acceptance`, `asset-scene-admission`.
+Load a skill when its trigger fits; descriptions say when. Process: `session-start` (worker loop), `pr-fixer` (finish a sent-back PR), `merger`, `merge-audit`, `wiring-audit`, `researcher`, `played-world-proof`, `ask-why`, `trace-audit`, `cto`, `doc-freshness` (keep every doc true). Content: `words-engine`, `civic-prose`, `civic-reports`, `browser-visual-acceptance`, `asset-scene-admission`.
 
 ## Implementation boundaries
 
