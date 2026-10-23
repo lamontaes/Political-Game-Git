@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/housing-lease-helpers
 pr: #5017
 blocked-on:

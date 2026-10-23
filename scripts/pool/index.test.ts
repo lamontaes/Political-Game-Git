@@ -3,7 +3,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { execFileSync } from "node:child_process";
-import { command, quality, run } from "./index";
+import { command, flags, quality, run } from "./index";
 
 export const GOOD = `**What.** The sales law never reaches the retailer ledger. A buyer pays the old price at the counter. The player would notice, while shopping in any town, that the shelf price never moves after the law passes, in any town they visit.
 
@@ -132,8 +132,11 @@ describe("claims and gates", () => {
       expect(
         command(["claim", "laws-a", "--branch", "b2", "--no-push"]),
       ).toMatch(/already claimed by b1; take the next item/);
-      expect(command(["status", "laws-a", "done", "--no-push"])).toMatch(
-        /--by cto/,
+      expect(
+        command(["claim", "laws-g", "--branch", "b3", "--no-push"], {}),
+      ).toMatch(/laws-g waits on laws-a/);
+      expect(command(["status", "laws-a", "done", "--no-push"], {})).toMatch(
+        /--by=cto/,
       );
       expect(
         command([
@@ -160,6 +163,132 @@ describe("claims and gates", () => {
     } finally {
       process.chdir(cwd);
     }
+  });
+});
+
+/**
+ * A working repo with docs/pool under it and a bare origin whose main holds
+ * the same commit. `reject` is how many pushes the origin's pre-receive hook
+ * refuses before it accepts; the hook counts every attempt in `attempts`.
+ */
+function pushFixture(reject: number): {
+  dir: string;
+  origin: string;
+  attempts: string;
+  pool: string;
+  g: (...a: string[]) => string;
+} {
+  const dir = mkdtempSync(join(tmpdir(), "pool-push-"));
+  const origin = join(dir, "origin.git");
+  const attempts = join(dir, "attempts");
+  const pool = join(dir, "work", "docs", "pool");
+  mkdirSync(join(pool, "items"), { recursive: true });
+  const g = (...a: string[]): string =>
+    execFileSync("git", a, { cwd: join(dir, "work"), encoding: "utf8" });
+  execFileSync("git", ["init", "-q", "--bare", "-b", "main", origin]);
+  g("init", "-q", "-b", "main");
+  g("config", "user.email", "t@t");
+  g("config", "user.name", "t");
+  writeFileSync(join(pool, "items", "laws-a.md"), item("laws-a"));
+  run(pool, false);
+  g("add", ".");
+  g("commit", "-qm", "init");
+  g("remote", "add", "origin", origin);
+  g("push", "-q", "origin", "main");
+  // The hook goes in after the seed push so only the pool command's pushes count.
+  writeFileSync(
+    join(origin, "hooks", "pre-receive"),
+    `#!/bin/sh\nn=$(cat "${attempts}" 2>/dev/null || echo 0)\nn=$((n+1))\necho "$n" > "${attempts}"\nif [ "$n" -le ${reject} ]; then echo "busy" >&2; exit 1; fi\nexit 0\n`,
+    { mode: 0o755 },
+  );
+  writeFileSync(attempts, "0\n");
+  return { dir, origin, attempts, pool, g };
+}
+
+describe("push retries and the nothing-staged path", () => {
+  it("a claim already on main stages nothing and finishes without error", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-noop-"));
+    const pool = join(dir, "docs", "pool");
+    mkdirSync(join(pool, "items"), { recursive: true });
+    const g = (...a: string[]): string =>
+      execFileSync("git", a, { cwd: dir, encoding: "utf8" });
+    g("init", "-q");
+    g("config", "user.email", "t@t");
+    g("config", "user.name", "t");
+    writeFileSync(join(pool, "items", "laws-a.md"), item("laws-a"));
+    run(pool, false);
+    g("add", ".");
+    g("commit", "-qm", "init");
+    const cwd = process.cwd();
+    process.chdir(dir);
+    try {
+      expect(
+        command(["claim", "laws-a", "--branch", "b1", "--no-push"]),
+      ).toBeNull();
+      const after = g("rev-parse", "HEAD");
+      // The same claim again: the edit is a no-op, the index is unchanged,
+      // git has nothing staged, and the command must not report an error.
+      expect(
+        command(["claim", "laws-a", "--branch", "b1", "--no-push"]),
+      ).toBeNull();
+      expect(g("rev-parse", "HEAD")).toBe(after);
+      expect(g("status", "--porcelain")).toBe("");
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+
+  it("gives up after exactly eight rejected pushes and restores the branch", () => {
+    const { dir, attempts, g } = pushFixture(100);
+    const cwd = process.cwd();
+    process.chdir(join(dir, "work"));
+    try {
+      const err = command(["claim", "laws-a", "--branch", "b1"]);
+      expect(err).toMatch(/^push to main failed 8 times: /);
+      expect(readFileSync(attempts, "utf8").trim()).toBe("8");
+      expect(g("rev-parse", "--abbrev-ref", "HEAD").trim()).toBe("main");
+      expect(g("branch", "--list", "pool-claim-laws-a").trim()).toBe("");
+      expect(g("show", "origin/main:docs/pool/items/laws-a.md")).toContain(
+        "status: open",
+      );
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+
+  it("a push refused three times then accepted lands the claim on main", () => {
+    const { dir, origin, attempts } = pushFixture(3);
+    const cwd = process.cwd();
+    process.chdir(join(dir, "work"));
+    try {
+      expect(command(["claim", "laws-a", "--branch", "b1"])).toBeNull();
+      expect(readFileSync(attempts, "utf8").trim()).toBe("4");
+      const onMain = execFileSync(
+        "git",
+        ["show", "main:docs/pool/items/laws-a.md"],
+        { cwd: origin, encoding: "utf8" },
+      );
+      expect(onMain).toContain("status: claimed");
+      expect(onMain).toContain("claimed-by: b1");
+    } finally {
+      process.chdir(cwd);
+    }
+  });
+});
+
+describe("flags", () => {
+  it("reads --key value, --key=value and POOL_BY", () => {
+    expect(flags(["status", "x", "done", "--by", "cto"], {}).f.by).toBe("cto");
+    expect(flags(["status", "x", "done", "--by=cto"], {}).f.by).toBe("cto");
+    expect(flags(["status", "x", "done"], { POOL_BY: "cto" }).f.by).toBe("cto");
+    expect(flags(["status", "x", "done", "--pr=12"], {}).f.pr).toBe("12");
+    expect(flags(["status", "x", "done"], {}).f.by).toBeUndefined();
+    expect(flags(["status", "x", "done", "cto"], {}).pos).toEqual([
+      "status",
+      "x",
+      "done",
+      "cto",
+    ]);
   });
 });
 
@@ -191,5 +320,72 @@ describe("quality gate", () => {
     expect(run(dir, false).warnings.join()).toMatch(/laws-bad: What/);
     expect(run(dir, false).errors).toEqual([]);
     expect(run(dir, true).errors.join()).toMatch(/laws-bad: Rules/);
+  });
+});
+
+describe("add", () => {
+  it("refuses a priority 1 or 2 item without its body and writes one that passes the gate", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-add-"));
+    const pool = join(dir, "docs", "pool");
+    mkdirSync(join(pool, "items"), { recursive: true });
+    const cwd = process.cwd();
+    const g = (...a: string[]): string =>
+      execFileSync("git", a, { cwd: dir, encoding: "utf8" });
+    g("init", "-q");
+    g("config", "user.email", "t@t");
+    g("config", "user.name", "t");
+    writeFileSync(join(pool, "items", "laws-a.md"), item("laws-a"));
+    run(pool, false);
+    g("add", ".");
+    g("commit", "-qm", "init");
+    process.chdir(dir);
+    try {
+      const head = [
+        "add",
+        "laws-new",
+        "--title",
+        "A new item",
+        "--area",
+        "laws",
+      ];
+      const rest = ["--kind", "wiring", "--priority", "2", "--no-push"];
+      const refused = command([...head, ...rest]);
+      expect(refused).toContain("missing --what, --rules, --done, --files");
+      expect(() =>
+        readFileSync(join(pool, "items", "laws-new.md"), "utf8"),
+      ).toThrow();
+      const body = [
+        "--what",
+        "The sales law never reaches the retailer ledger. A buyer pays the old price at the counter. The player would notice, while shopping in any town, that the shelf price never moves after the law passes, in any town they visit.",
+        "--rules",
+        "Wire to the world: the law must move a price and a ledger line for every retailer in the module.",
+        "--done",
+        "A one-year played world in a drawn place shows the retailer ledger record id changing after the law, and the test in tests/pool-x.test.ts proves it. The owner plays it: pass the law and see the shelf price move.",
+        "--files",
+        "src/core2/modules/example.ts",
+      ];
+      expect(command([...head, ...rest, ...body])).toBeNull();
+      const written = readFileSync(join(pool, "items", "laws-new.md"), "utf8");
+      expect(written).not.toContain("TODO\n\n**Rules");
+      expect(run(pool, true).errors).toEqual([]);
+      // Priority 3 may still start from the template.
+      expect(
+        command([
+          "add",
+          "laws-late",
+          "--title",
+          "A later item",
+          "--area",
+          "laws",
+          "--kind",
+          "wiring",
+          "--priority",
+          "3",
+          "--no-push",
+        ]),
+      ).toBeNull();
+    } finally {
+      process.chdir(cwd);
+    }
   });
 });

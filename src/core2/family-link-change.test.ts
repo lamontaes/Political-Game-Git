@@ -63,8 +63,19 @@ function partnersIn(place: ReturnType<typeof drawPlace>): boolean {
     )
     .sort((a, b) => a.id.localeCompare(b.id));
   const mother = single.find((p) => p.looks?.gender === "female");
+  // The partner moves in, so they live elsewhere now and leave an adult behind.
   const other = single.find(
-    (p) => p.id !== mother?.id && !p.familyIds.has(mother?.id ?? ""),
+    (p) =>
+      p.id !== mother?.id &&
+      p.householdId !== mother?.householdId &&
+      !p.familyIds.has(mother?.id ?? "") &&
+      core.households
+        .get(p.householdId)
+        ?.memberIds.some(
+          (id) =>
+            id !== p.id &&
+            age(core.people.get(id)?.birthDate ?? core.date) >= 18,
+        ),
   );
   const couple = [...core.familyLinks.values()].find(
     (row) =>
@@ -107,9 +118,19 @@ function partnersIn(place: ReturnType<typeof drawPlace>): boolean {
     .moduleState(RENEWAL_MODULE_ID)
     .table("couples")
     .get(link.id) as unknown as
-    { status: string; motherId: string } | undefined;
+    { status: string; motherId: string; otherParentId: string } | undefined;
   expect(row?.status, "the couple's row").toBe("active");
   expect(row?.motherId).toBe(mother.id);
+  expect(row?.otherParentId).toBe(other.id);
+  console.info(
+    JSON.stringify({
+      seed,
+      place: place.key,
+      linkId: link.id,
+      motherId: mother.id,
+      otherParentId: other.id,
+    }),
+  );
   expect(() =>
     api.setPartnersV1({
       personIds: [mother.id, other.id],

@@ -16,6 +16,10 @@
 import { execSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
+import type {
+  CalibrationTable,
+  RunningGrade,
+} from "../../src/english/calibration";
 import {
   type AxisGradeCounts,
   heldByGrades,
@@ -36,9 +40,28 @@ export interface BatchFileVariant {
   readonly parts: readonly string[];
 }
 
+/** One line of a bench item with the features the calibration table folds (data/english/batches/batch-12.json). */
+export interface BatchFileLine {
+  /** Its number in the item, from 1. */
+  readonly n: number;
+  readonly parts: readonly string[];
+  readonly move?: string;
+  /** The move before it in the item, for the move-pair weight. */
+  readonly previousMove?: string;
+  readonly register?: string;
+  readonly bearing?: string;
+  /** The speaker's trait levels (-2 to 2), as the profile laid them. */
+  readonly speakerTraits?: Readonly<Record<string, number>>;
+  readonly words?: number;
+  readonly sentences?: number;
+  readonly lie?: boolean;
+}
+
 export interface BatchFileItem {
   readonly i: number;
   readonly parts: readonly string[];
+  /** A bench item's lines, each graded on its own. */
+  readonly lines?: readonly BatchFileLine[];
   readonly variants?: readonly BatchFileVariant[];
   /** A conversation turn's choice set: each reply and lie, by its number on the page. */
   readonly choices?: readonly { n: number; parts: readonly string[] }[];
@@ -56,9 +79,11 @@ export interface GradeFileRow {
   readonly verdict?: string;
   readonly note?: string;
   /** Multi-axis batches: a grade per axis, e.g. { "formality": "GOOD" }. */
-  readonly axes?: Readonly<Record<string, string>>;
+  readonly axes?: Readonly<Record<string, string | number>>;
+  /** A bench grade: the line of the item it grades, from 1. */
+  readonly line?: number;
   /** The variant number that is better: per axis, or one number in a scene batch. */
-  readonly prefer?: Readonly<Record<string, number>> | number;
+  readonly prefer?: Readonly<Record<string, number>> | number | string;
   /** A choice set's grades, reply by reply: { "1": "good", "3": "bad" }. */
   readonly choices?: Readonly<Record<string, string>>;
   /** The part keys of the graded line, when the grade file carries them. */
@@ -160,6 +185,8 @@ function foldAxes(
   where: string,
 ): void {
   for (const [axis, word] of Object.entries(row.axes ?? {})) {
+    // A number from 1 to 5 is a calibration grade, folded by foldCalibration.
+    if (typeof word === "number") continue;
     const grade = ownerGrade({ grade: word }, `${where} axis ${axis}`);
     for (const key of new Set(lineKeys)) addAxisGrade(parts, key, axis, grade);
     const preferred =
@@ -177,6 +204,14 @@ function foldAxes(
   }
 }
 
+/** A grade in the bench shape: numeric axes on one line of an item. */
+export function isBenchGrade(row: GradeFileRow): boolean {
+  return (
+    row.axes !== undefined &&
+    Object.values(row.axes).some((value) => typeof value === "number")
+  );
+}
+
 export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
   const parts: Record<string, PartGradeCounts> = {};
   const batches: string[] = [];
@@ -185,6 +220,9 @@ export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
     batches.push(id);
     const byNumber = new Map(batch?.items.map((item) => [item.i, item]));
     for (const row of rowsOf(grades)) {
+      // A bench grade (1 to 5 per axis) tunes the calibration table, not the
+      // good/bad ledger (`foldCalibration`).
+      if (isBenchGrade(row)) continue;
       const number = row.i ?? row.n;
       const where = `${id} item ${number}`;
       const item = number === undefined ? undefined : byNumber.get(number);
@@ -238,6 +276,145 @@ export function foldGrades(graded: readonly GradedBatch[]): PartGradeLedger {
   return { schema: "english-part-grades/1", batches, parts: sorted };
 }
 
+export const CALIBRATION_FILE = "data/english/calibration.json";
+
+const addRunning = (
+  table: Record<string, RunningGrade>,
+  id: string,
+  grade: number,
+): void => {
+  const was = table[id] ?? { mean: 0, count: 0 };
+  table[id] = {
+    mean: Number(((was.mean * was.count + grade) / (was.count + 1)).toFixed(4)),
+    count: was.count + 1,
+  };
+};
+
+const axisKey = (name: string) => name.toLowerCase().replace(/[^a-z]/g, "");
+const clamp = (value: number, low: number, high: number) =>
+  Math.min(high, Math.max(low, value));
+
+/**
+ * Folds the bench grades of each batch not yet folded into the calibration
+ * table, a small step each (`parameters.step`): a line's axes move its
+ * pieces' running grades; trait fit moves its speaker's traits' pull toward
+ * the line's bearing; "too long" or "too short" moves the register's target
+ * length and the speaker's traits' length pull; a preferred piece takes a 5;
+ * naturalness moves the move pair. Pure; returns a new table. Weights only.
+ */
+export function foldCalibration(
+  graded: readonly GradedBatch[],
+  base: CalibrationTable,
+): CalibrationTable {
+  const step = base.parameters.step!.value;
+  const pieces: Record<string, RunningGrade> = { ...base.pieces };
+  const movePairs: Record<string, RunningGrade> = { ...base.movePairs };
+  const traits: Record<
+    string,
+    { bearing?: Record<string, number>; length?: number }
+  > = Object.fromEntries(
+    Object.entries(base.traits).map(([id, row]) => [
+      id,
+      { ...row, ...(row.bearing ? { bearing: { ...row.bearing } } : {}) },
+    ]),
+  );
+  const registers: Record<
+    string,
+    { targetWords?: number; targetSentences?: number }
+  > = Object.fromEntries(
+    Object.entries(base.registers).map(([id, row]) => [id, { ...row }]),
+  );
+  const folded = [...base.folded];
+  for (const { batch, grades } of graded) {
+    const id = batch?.id ?? grades.batch ?? "batch";
+    if (folded.includes(id)) continue;
+    let any = false;
+    for (const row of rowsOf(grades)) {
+      if (!isBenchGrade(row)) continue;
+      const where = `${id} item ${row.i ?? row.n}`;
+      const item = batch?.items.find((entry) => entry.i === (row.i ?? row.n));
+      // A grade of the whole scene (line 0) names no piece: it is kept in
+      // the grade file for the page and moves no piece or trait weight.
+      if (row.line === 0) continue;
+      const line = item?.lines?.find((entry) => entry.n === row.line);
+      if (!line) throw new Error(`${where}: no line ${row.line} in the item`);
+      any = true;
+      const numeric: Record<string, number> = {};
+      let length: string | undefined;
+      for (const [name, value] of Object.entries(row.axes ?? {})) {
+        if (typeof value === "number") {
+          if (value < 1 || value > 5)
+            throw new Error(`${where}: ${name} is ${value}, not 1 to 5`);
+          numeric[axisKey(name)] = value;
+        } else if (axisKey(name) === "length") length = value.toLowerCase();
+      }
+      const quality = Object.entries(numeric)
+        .filter(([name]) => name !== "traitfit" && name !== "length")
+        .map(([, value]) => value);
+      const mean = quality.length
+        ? quality.reduce((sum, value) => sum + value, 0) / quality.length
+        : undefined;
+      if (mean !== undefined)
+        for (const piece of new Set(line.parts))
+          addRunning(pieces, piece, mean);
+      if (typeof row.prefer === "string") addRunning(pieces, row.prefer, 5);
+      if (numeric.naturalness !== undefined && line.move && line.previousMove)
+        addRunning(
+          movePairs,
+          `${line.previousMove}>${line.move}`,
+          numeric.naturalness,
+        );
+      const levels = Object.entries(line.speakerTraits ?? {}).filter(
+        ([, level]) => level !== 0,
+      );
+      if (numeric.traitfit !== undefined && line.bearing)
+        for (const [trait, level] of levels) {
+          const row2 = (traits[trait] ??= {});
+          const bearing = (row2.bearing ??= {});
+          bearing[line.bearing] = Number(
+            clamp(
+              (bearing[line.bearing] ?? 0) +
+                step * ((numeric.traitfit - 3) / 2) * Math.sign(level),
+              -1,
+              1,
+            ).toFixed(4),
+          );
+        }
+      const direction = /long/.test(length ?? "")
+        ? -1
+        : /short/.test(length ?? "")
+          ? 1
+          : 0;
+      if (direction && line.register) {
+        const register = (registers[line.register] ??= {});
+        const words = register.targetWords ?? line.words ?? 0;
+        if (words)
+          register.targetWords = Number(
+            Math.max(1, words + direction * step * words).toFixed(2),
+          );
+        const sentences = register.targetSentences ?? line.sentences ?? 0;
+        if (sentences)
+          register.targetSentences = Number(
+            Math.max(1, sentences + direction * step * sentences).toFixed(2),
+          );
+        // The speaker's traits that went with a too-long line pull shorter.
+        for (const [trait, level] of levels) {
+          const row2 = (traits[trait] ??= {});
+          row2.length = Number(
+            clamp(
+              (row2.length ?? 0) + direction * step * Math.sign(level),
+              -1,
+              1,
+            ).toFixed(4),
+          );
+        }
+      }
+    }
+    if (any) folded.push(id);
+  }
+  return { ...base, folded, traits, registers, pieces, movePairs };
+}
+
 export const COVERAGE_FILE = "data/english/coverage.json";
 
 /** How many graded items each axis has in each kind of text (CTO 2:23 p.m. Oct 8). */
@@ -284,6 +461,40 @@ export function gradedCoverage(graded: readonly GradedBatch[]): GradedCoverage {
       table[axis] = { ...table[axis], [kind]: (table[axis]?.[kind] ?? 0) + 1 };
     }
   }
+  return table;
+}
+
+/** One batch's graded counts, keyed by the batch's own id. */
+export type GradedCoverageByBatch = Readonly<Record<string, GradedCoverage>>;
+
+/**
+ * The graded count of each batch on its own, so a batch's share stays in the
+ * coverage file after its files are deleted from the repository.
+ */
+export function gradedCoverageByBatch(
+  graded: readonly GradedBatch[],
+): GradedCoverageByBatch {
+  const byBatch: Record<string, GradedCoverage> = {};
+  for (const row of graded) {
+    const id = row.batch?.id ?? row.grades.batch;
+    if (!id) throw new Error("A graded batch names no id.");
+    byBatch[id] = gradedCoverage([row]);
+  }
+  return byBatch;
+}
+
+/** Every batch's graded counts added together, axis by kind. */
+export function sumGradedCoverage(
+  byBatch: GradedCoverageByBatch,
+): GradedCoverage {
+  const table: Record<string, Record<string, number>> = {};
+  for (const id of Object.keys(byBatch).sort())
+    for (const [axis, kinds] of Object.entries(byBatch[id]!))
+      for (const [kind, count] of Object.entries(kinds))
+        table[axis] = {
+          ...table[axis],
+          [kind]: (table[axis]?.[kind] ?? 0) + count,
+        };
   return table;
 }
 
@@ -448,11 +659,28 @@ function main() {
         unknown
       >)
     : {};
+  // Each batch's share is kept by id: one whose files were since deleted
+  // keeps its counts, and one still on disk is counted again from its files.
+  const byBatch = {
+    ...((coverage.gradedByBatch as GradedCoverageByBatch | undefined) ?? {}),
+    ...gradedCoverageByBatch(graded),
+  };
   writeFileSync(
     COVERAGE_FILE,
-    `${JSON.stringify({ ...coverage, graded: gradedCoverage(graded) }, null, 2)}\n`,
+    `${JSON.stringify({ ...coverage, graded: sumGradedCoverage(byBatch), gradedByBatch: byBatch }, null, 2)}\n`,
   );
   execSync(`npx prettier --write ${COVERAGE_FILE}`, { stdio: "ignore" });
+  const table = JSON.parse(
+    readFileSync(CALIBRATION_FILE, "utf8"),
+  ) as CalibrationTable;
+  const folded = foldCalibration(graded, table);
+  if (folded.folded.length !== table.folded.length) {
+    writeFileSync(CALIBRATION_FILE, `${JSON.stringify(folded, null, 2)}\n`);
+    execSync(`npx prettier --write ${CALIBRATION_FILE}`, { stdio: "ignore" });
+    console.log(
+      `Wrote ${CALIBRATION_FILE}: batches folded ${folded.folded.join(", ")}.`,
+    );
+  }
   writeFileSync(LEDGER_FILE, `${JSON.stringify(ledger, null, 2)}\n`);
   // A committed data file, written in the repository's JSON style.
   execSync(`npx prettier --write ${LEDGER_FILE}`, { stdio: "ignore" });

@@ -1,7 +1,8 @@
 /**
- * The director's conversation words, from the mined conversation bank
+ * The director's conversation words, from the conversation bank
  * (`data/english/parts/conversation.json`): sentences real Americans said,
- * each with its public-domain source. Nothing here is written by hand; the
+ * with their public-domain sources, and sentences authored to the calibrated
+ * patterns (`origin: authored`). Nothing here is written by hand; the
  * rules a conversation runs by (`../data/conversation-rules.json`) carry no
  * sentence text.
  *
@@ -43,6 +44,8 @@ export interface MinedPart {
   author?: string;
   date?: string;
   source?: { document: string; date: string; url: string; license?: string };
+  /** The manner the wording carries (tender, guarded, ...). */
+  bearing?: string;
 }
 export interface MinedBank {
   register: string;
@@ -101,6 +104,7 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
       ? { requiresFacts: use.requiresFacts.map((f) => f.replace(/_/g, "-")) }
       : {}),
     ...(pronoun ? { pronoun } : {}),
+    ...(part.bearing ? { bearing: part.bearing } : {}),
   };
 }
 
@@ -110,11 +114,13 @@ function directorMove(key: string, part: MinedPart, use: MinedUse): Move {
  */
 export function conversationDataFromBank(
   bank: MinedBank = CONVERSATION_BANK,
+  /** Grading and tests only: also use parts held back until graded; play never sets it. */
+  includeHeld = false,
 ): ConversationData {
   const subjects: Record<string, SubjectWords> = {};
   for (const part of bank.parts) {
     // A part the owner graded down and never up is not said.
-    if (!part.shippable || heldByGrades(part.key)) continue;
+    if ((!part.shippable && !includeHeld) || heldByGrades(part.key)) continue;
     for (const use of part.uses) {
       const field = ROLE_FIELD[use.role];
       if (!field) continue;

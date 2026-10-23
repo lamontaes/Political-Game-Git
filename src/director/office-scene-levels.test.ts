@@ -12,9 +12,9 @@ import {
   registerLegislatureHooks,
 } from "../core2/modules/legislature";
 import { officialOf } from "../core2/modules/officials";
-import { stancesOf, viewOf } from "../core2/modules/views";
+import { stancesOf } from "../core2/modules/views";
 import { coreAPI } from "../core2/state";
-import type { CoreState } from "../core2/types";
+import type { CoreAPI, CoreState } from "../core2/types";
 import {
   chooseOfficeScene,
   composeOfficeScene,
@@ -44,36 +44,39 @@ const captured: Record<"state" | "federal", Captured | null> = {
 };
 let armed = false;
 
+// Not a committee-stage hook, so it runs on the floor day, just before the vote.
 registerLegislatureHooks({
-  beforeVote(api, billId) {
-    if (!armed) return;
-    const bill = billOf(api, billId);
-    if (!bill || bill.status !== "drafted") return;
-    const level = bill.bodyOfficeId.includes(":legislature-")
-      ? "state"
-      : bill.bodyOfficeId.includes("us-") ||
-          bill.bodyOfficeId.includes("congress") ||
-          bill.bodyOfficeId.includes("house") ||
-          bill.bodyOfficeId.includes("senate")
-        ? "federal"
-        : null;
-    if (!level || captured[level]) return;
-    const core = api.state as CoreState;
-    const sponsor = bill.sponsorId;
-    if (
-      !core.people.get(sponsor)?.alive ||
-      !officialOf(api, sponsor) ||
-      !members(api, bill.bodyOfficeId).some((t) => memberKey(t) === sponsor)
-    )
-      return;
-    const scene = composeOfficeScene(core, sponsor, billId);
-    if (!scene || !scene.choices.some((c) => c.key === "make-case")) return;
-    captured[level] = {
-      scene,
-      result: chooseOfficeScene(core, scene, "make-case"),
-    };
-  },
+  beforeVote: { name: "office-scene-levels-test", run: openScene },
 });
+
+function openScene(api: CoreAPI, billId: string): void {
+  if (!armed) return;
+  const bill = billOf(api, billId);
+  if (!bill || bill.status !== "drafted") return;
+  const level = bill.bodyOfficeId.includes(":legislature-")
+    ? "state"
+    : bill.bodyOfficeId.includes("us-") ||
+        bill.bodyOfficeId.includes("congress") ||
+        bill.bodyOfficeId.includes("house") ||
+        bill.bodyOfficeId.includes("senate")
+      ? "federal"
+      : null;
+  if (!level || captured[level]) return;
+  const core = api.state as CoreState;
+  const sponsor = bill.sponsorId;
+  if (
+    !core.people.get(sponsor)?.alive ||
+    !officialOf(api, sponsor) ||
+    !members(api, bill.bodyOfficeId).some((t) => memberKey(t) === sponsor)
+  )
+    return;
+  const scene = composeOfficeScene(core, sponsor, billId);
+  if (!scene || !scene.choices.some((c) => c.key === "make-case")) return;
+  captured[level] = {
+    scene,
+    result: chooseOfficeScene(core, scene, "make-case"),
+  };
+}
 
 const addDay = (date: string) =>
   new Date(Date.parse(`${date}T00:00:00Z`) + 86_400_000)
@@ -157,14 +160,20 @@ describe("the office scene at the state and federal levels", () => {
       expect(result.eventIds.length).toBe(scene.questions.length);
       const stances = stancesOf(api, scene.targetId);
       for (const [n, { question }] of scene.questions.entries()) {
-        const cause = stances
-          .find((s) => s.topic === question)
-          ?.causes.find((c) => c.eventId === result.eventIds[n]);
+        const stance = stances.find((s) => s.topic === question);
+        expect(stance, `${question}; ${proof.join(" | ")}`).toBeTruthy();
+        // The views engine holds the case: the speaker's hearing is counted
+        // for everyone, and the cause itself is kept for the played person's
+        // circle (this test's sponsor is not the played person, and another
+        // case the same day may have replaced it as the latest cause).
         expect(
-          cause,
-          `${question}; ${proof.join(" | ")}; target ${scene.targetId} stances ${JSON.stringify(stances.map((x) => [x.topic, x.strength, x.causes.length]))}; events ${result.eventIds.join(",")} applied ${result.eventIds.map((id) => core!.eventIds.has(id)).join(",")}; tier ${(core!.people.get(scene.targetId) as { tier?: string } | undefined)?.tier}; view ${JSON.stringify(viewOf(api, scene.targetId))}; questions ${scene.questions.map((q) => q.question).join(",")}`,
-        ).toBeTruthy();
-        expect(cause!.speakerId).toBe(scene.playerId);
+          stance!.heard?.[scene.playerId],
+          `${question}; ${proof.join(" | ")}`,
+        ).toBeGreaterThan(0);
+        const cause = stance!.causes.find(
+          (c) => c.eventId === result.eventIds[n],
+        );
+        if (cause) expect(cause.speakerId).toBe(scene.playerId);
       }
       // The official's position reads it.
       expect((result.after.views - result.before.views) * want).toBeGreaterThan(

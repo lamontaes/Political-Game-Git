@@ -13,7 +13,10 @@ import stateExecutiveGovernments from "../../data/research/local-government/stat
 import countySchedule from "../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
-import { localGoverningBodyRules } from "./gov-rules/local-governing-body-rules";
+import {
+  localGoverningBodyName,
+  localGoverningBodyRules,
+} from "./gov-rules/local-governing-body-rules";
 import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
 import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
@@ -117,6 +120,37 @@ const STATE_LEVEL_GOVERNMENTS = new Set(
   ),
 );
 
+interface NamedBody {
+  readonly value: string;
+}
+/** The usual body of each kind of municipality, nationally and by state. */
+const BODY_BY_KIND = bodyNames.municipalByKind as Readonly<
+  Record<string, NamedBody>
+>;
+const BODY_BY_STATE = bodyNames.municipalByState as Readonly<
+  Record<string, Readonly<Record<string, NamedBody>>>
+>;
+
+/**
+ * The council's name: as its charter names it where the town's government is
+ * compiled, else the usual body of its kind of municipality in its state
+ * ("VILLAGE OF EOLIA" in a state whose villages elect a board of trustees is
+ * "Eolia Board of Trustees"), else the generic municipal name
+ * (SG-GOV-municipal-body-name).
+ */
+function municipalBodyName(unit: GovernmentUnitIdentity): string {
+  const charter = localGoverningBodyName(unit);
+  if (charter) return charter;
+  const words = unit.name.trim().split(" ");
+  const kind = words[1] === "OF" ? words[0]!.toLowerCase() : "";
+  const usual =
+    BODY_BY_STATE[unit.stateUsps]?.[kind] ?? BODY_BY_KIND[kind] ?? null;
+  if (usual)
+    return `${governmentTitleName(words.slice(2).join(" "))} ${usual.value}`;
+  // stopgapId: SG-GOV-municipal-body-name (a listing name that gives no kind)
+  return `${governmentTitleName(unit.name)} ${bodyNames.municipal.value}`;
+}
+
 function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
   const offices: OfficeInput[] = [];
   const body = localGoverningBodyRules(unit);
@@ -132,8 +166,7 @@ function cityOffices(unit: GovernmentUnitIdentity): OfficeInput[] {
       level: "city",
       jurisdiction: unit.id,
       governmentName: unit.name,
-      // stopgapId: SG-GOV-municipal-body-name — charter names not yet in the compiled reader.
-      bodyName: `${governmentTitleName(unit.name)} ${bodyNames.municipal.value}`,
+      bodyName: municipalBodyName(unit),
       kind: "council",
       title: "Council member",
       seats: body.seats.value,

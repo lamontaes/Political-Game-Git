@@ -24,7 +24,9 @@
  * Every line passes the owner's grades and the guard's line rules first; a
  * phrase is shown once in the batch. A scene the world does not produce is
  * written to the page's "OWNER DECISIONS NEEDED", never invented. `--cache`
- * keeps the world reading so a later run rebuilds only the selection.
+ * keeps the world reading so a later run rebuilds only the selection, and
+ * saves the year-end world beside it (`<cache>.world`, v8 format) for the
+ * grading bench (scripts/dialogue-batch/grading-bench.ts).
  */
 import { execSync } from "node:child_process";
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
@@ -38,6 +40,11 @@ import type { CoreState, PersonId } from "../../src/core2/types";
 import { composeJournal } from "../../src/director/journal";
 import { properName } from "../../src/director/words";
 import { composeFromBank } from "./bank-compose";
+import {
+  endpointOf,
+  ENDPOINT_CLASSES,
+  type EndpointClass,
+} from "./scene-endpoint";
 import { composeBill } from "../../src/english/bill-sections";
 import { billForm } from "../../src/core2/modules/legislature";
 import type { EnglishBank } from "./bank-compose";
@@ -74,6 +81,7 @@ import {
   beginSpeech,
   chooseSpeechPart,
 } from "../../src/director/speech-builder";
+import { saveWorld, worldCachePath } from "./grading-bench";
 import interviewJson from "../../data/english/parts/interview.json" with { type: "json" };
 import legislationJson from "../../data/english/parts/legislation.json" with { type: "json" };
 import minutesJson from "../../data/english/parts/minutes.json" with { type: "json" };
@@ -213,6 +221,10 @@ interface Place {
   seed: string;
 }
 
+/** The last world read, kept so `--cache` can also save what the grading bench reads (`<cache>.world`). */
+let lastWorld:
+  { core: CoreState; director: Director; playerId: string } | undefined;
+
 function readWorld(place: Place): {
   raws: Raw[];
   /** The player's talks and the family scenes, each turn's whole choice set. */
@@ -233,9 +245,15 @@ function readWorld(place: Place): {
   const circle = [
     ...new Set([world.playerId!, ...me.familyIds, ...me.knownIds]),
   ].slice(0, 24);
-  for (const person of circle) world.director.watch(core, person);
+  // The director watches every full person (`--watch all`, the default) so
+  // the year's records fire as many situations as the world holds; `--watch
+  // circle` watches only the player's circle, as the batches before 12 did.
+  const watched =
+    option("watch", "all") === "all" ? [...core.people.keys()] : circle;
+  for (const person of watched) world.director.watch(core, person);
   const town = place.name.split(",")[0]!;
   const talks = playYear(core, world.director, world.playerId!, town);
+  lastWorld = { core, director: world.director, playerId: world.playerId! };
   const raws: Raw[] = [];
   const gaps: string[] = [];
   const stood: string[] = [];
@@ -1101,11 +1119,19 @@ function playYear(
           text: line.text,
           parts: [] as string[],
         }));
+        // A family scene is personal, or about the household's own money.
+        const endpoint = endpointOf({
+          kind: "family",
+          topic: talk.topics[0],
+          occasion: moment.label,
+          kin: true,
+        });
         turns.forEach((turn, at) => {
-          if (turn.choices.length < 2) return;
+          if (turn.choices.length < 2 || !endpoint) return;
           items.push({
             i: -1,
             kind: "family",
+            endpoint,
             scene: `A family scene at home in ${town}, ${longDate(core.date)}: ${nameOf(id)}, ${ageOf(id)}, with ${nameOf(scene.talkToId!)}; turn ${at + 1}.`,
             trace: [
               `Fired by the director from the record ${moment.causeId} (${moment.label}), staged at home because it is the household's own news (situation "${binding.typeKey}").`,
@@ -1127,21 +1153,61 @@ function playYear(
     // The player's own talks, opened from the director's ledger.
     if (day % TALK_EVERY !== 0) continue;
     const me = core.people.get(playerId)!;
-    const known = [...new Set([...me.knownIds, ...me.familyIds])]
-      .filter((id) => id !== playerId && core.people.get(id)?.alive)
+    // Family talks are personal and rarely have a topic (owner, Oct 15,
+    // evening), so the player's talks are with people met in town: those
+    // already known, else a townsperson met in a group, as the golden path
+    // does ("turn 18 -> meet people").
+    const family = new Set(me.familyIds);
+    const known = [...me.knownIds]
+      .filter(
+        (id) =>
+          id !== playerId && !family.has(id) && core.people.get(id)?.alive,
+      )
       .sort();
-    if (!known.length) continue;
+    if (!known.length) {
+      const townsfolk = [...(core.peopleByPlace.get(me.placeId) ?? [])]
+        .filter((id) => {
+          const row = core.people.get(id);
+          return (
+            !!row?.alive &&
+            row.tier !== "husk" &&
+            id !== playerId &&
+            row.householdId !== me.householdId &&
+            !family.has(id) &&
+            ageOf(id) >= 18
+          );
+        })
+        .sort();
+      if (!townsfolk.length) continue;
+      const met = townsfolk[hashOf(seed, day, "met") % townsfolk.length]!;
+      api.meet(playerId, met, {
+        placeId: me.placeId,
+        sourceId: "batch-meeting",
+        cause: "met-in-group",
+        hours: 1,
+      });
+      known.push(met);
+    }
     const otherId = known[hashOf(seed, day, "known") % known.length]!;
     const talk = openConversation(core, playerId, otherId, { director });
     const turns = turnsOf(talk, day, false);
     let fromTalk = 0;
+    // A talk with someone outside the family serves the player's political
+    // life through the topic it keeps to; one with nothing to keep to has no
+    // endpoint and is not a scene.
+    const endpoint = endpointOf({
+      kind: "conversation",
+      topic: talk.topics[0],
+      kin: me.familyIds.has(otherId),
+    });
     turns.forEach((turn, at) => {
       // Two turns at most from one talk, so the sets come from different people.
-      if (turn.choices.length < 2 || fromTalk >= 2) return;
+      if (turn.choices.length < 2 || fromTalk >= 2 || !endpoint) return;
       fromTalk += 1;
       items.push({
         i: -1,
         kind: "conversation",
+        endpoint,
         scene: `${nameOf(playerId)} talks with ${nameOf(otherId)}, ${longDate(core.date)}, turn ${at + 1}; the talk's topic: ${talk.topics[0] ?? "none"}.`,
         trace: [
           "The talk opens from the place and occasion, then the biggest recorded event of either person in the director's ledger, else what they share; it keeps to that topic and may lead to one related one.",
@@ -1280,6 +1346,8 @@ interface SceneItem {
   kind: string;
   /** What the scene is, in plain words, and the records behind it. */
   scene: string;
+  /** What the scene is for (a class of scene-endpoints.json); a scene with none is dropped. */
+  endpoint?: string;
   trace: string[];
   sourceRecordIds: string[];
   lines: SceneLine[];
@@ -1344,7 +1412,25 @@ function main() {
     }
     if (!cached)
       throw new Error(`no drawn place passed a local law: ${tried.join("; ")}`);
-    if (cachePath) writeFileSync(cachePath, JSON.stringify(cached));
+    if (cachePath) {
+      writeFileSync(cachePath, JSON.stringify(cached));
+      // The year-end world too, for the grading bench (`npm run words:bench`).
+      if (lastWorld) {
+        const bytes = saveWorld(
+          worldCachePath(cachePath),
+          lastWorld.core,
+          lastWorld.director,
+          {
+            playerId: lastWorld.playerId,
+            placeName: cached.place.name,
+            seed: cached.place.seed,
+          },
+        );
+        console.error(
+          `saved the year-end world for the bench: ${worldCachePath(cachePath)} (${bytes} bytes)`,
+        );
+      }
+    }
   }
   const place = cached.place;
 
@@ -1407,6 +1493,9 @@ function main() {
     const kept = rows.filter(passes);
     if (!kept.length) continue;
     const first = kept[0]!;
+    const endpoint = endpointOf({ kind, context: first.context });
+    // A scene that is for nothing is dropped (owner, Oct 15, evening).
+    if (!endpoint) continue;
     const isPair = kind === "journal" || kind === "campaign";
     // The line tested: the one with alternatives on an axis, a chapter's or a
     // speech's closing line when the test is the opening and closing pair.
@@ -1440,6 +1529,7 @@ function main() {
       {
         i: -1,
         kind,
+        endpoint,
         scene:
           kind === "journal"
             ? `The "My life" journal of ${first.speaker}, chapter "${/chapter "([^"]*)"/.exec(first.context)?.[1] ?? ""}".`
@@ -1653,6 +1743,8 @@ function scenePage(batch: {
       "",
       `The scene: ${cell(item.scene)}`,
       "",
+      `What it is for: ${ENDPOINT_CLASSES[item.endpoint as EndpointClass]}`,
+      "",
       `How it was made: ${item.trace.map(cell).join(" ")}`,
       "",
       `Tests one thing: ${item.test}.`,
@@ -1667,7 +1759,7 @@ function scenePage(batch: {
 
 Thirty different scenes from one place, ${batch.place.name}, played ${batch.days} days from 2026-10-12 (seed \`${batch.place.seed}\`). Its year passed real local laws: ${batch.place.passed.join("; ")}.${batch.place.tried.length ? ` Places drawn before it and passed over: ${batch.place.tried.join("; ")}.` : ""}
 
-Each item is one scene as the engine composed it, with how it was made, and tests one thing (owner, Oct 14, 2026, evening): the wording of the bold line on one axis, a chapter's or a speech's opening and closing pair, or a conversation's choice set (the four replies, the lies and say nothing). A phrase appears once in the whole batch. Every sentence was said in a public-domain record; the names, places, offices and bills are the world's own records.
+Each item is one scene as the engine composed it, with how it was made, and tests one thing (owner, Oct 14, 2026, evening): the wording of the bold line on one axis, a chapter's or a speech's opening and closing pair, or a conversation's choice set (the four replies, the lies and say nothing). A phrase appears once in the whole batch. Every scene states what it is for (owner, Oct 15, evening): money, a bill or the player's political life, and a family talk is a personal scene only; a scene with no endpoint is left out. Every sentence was said in a public-domain record; the names, places, offices and bills are the world's own records.
 
 ## What was screened out first
 

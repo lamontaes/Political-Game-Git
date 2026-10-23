@@ -3,11 +3,11 @@ id: gov-press-outlet-revenue
 title: "An outlet earns from its audience's subscriptions and from local businesses that choose to advertise"
 area: gov
 kind: stopgap
-priority: 2
+priority: 1
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5099
 blocked-on:
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/press.ts, src/core2/press-money.ts, src/core2/data/press/parameters.json, src/core2/data/stopgaps.json
 
 **Notes.** The revenue half of gov-stopgap-press-faked-mechanic. Local advertising needs businesses that choose to advertise, which the business engine does not model yet; that may need its own item first.
+
+Sent back 2026-10-23 from PR #5099 (branch claude/press-outlet-revenue): The 45-day/helper-only revenue proof does not supply the required annual audience-change and named local advertising-payer chain; the broader stopgap remains open. Rechecked unchanged head 9678cefc3d; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5099#issuecomment-6328540445; finish on that branch, merge main into it first.
