@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Travel time between the two people's places once relatives carry a place, from Census Gazetteer place centroids, with visits falli
+blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-parameters-estimated-behavior, core-stopgap-parameters-estimated-data, core-stopgap-parameters-uncalibrated-time-plan, core-stopgap-parameters-uncalibrated-tunable-2, core-stopgap-parameters-uncalibrated-tunable-3, core-stopgap-parameters-uncalibrated-tunable-4"
+claimed-at:
 ---
 
 **What.** Source the numbers behind the core parameter tables (distance, time, past, speech, corruption, moves). Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 6 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -28,5 +29,7 @@ source: "collapsed Oct 19, 2026 from core-stopgap-parameters-estimated-behavior,
 **Files.** src/core2/data/corruption/parameters.json, src/core2/data/moves/parameters.json, src/core2/data/parameters.json, src/core2/data/past/parameters.json, src/core2/data/speech/parameters.json, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
 **Notes.** Folded from: core-stopgap-parameters-estimated-behavior, core-stopgap-parameters-estimated-data, core-stopgap-parameters-uncalibrated-time-plan, core-stopgap-parameters-uncalibrated-tunable-2, core-stopgap-parameters-uncalibrated-tunable-3, core-stopgap-parameters-uncalibrated-tunable-4. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-core-parameters-sourced-parameters.md (6 rows: 2 sourced, 4 estimated, 0 mechanic).
 
 Oct 20 (research-reachable-sources-oct20): the Census Gazetteer place centroids named in the first row (travel time between places) are reachable at https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/ (2023_Gaz_place_national.zip family, HTTP 200); that row can be taken. Check it in a played world (buildBenchWorld) in a drawn place and seed named in the PR body.

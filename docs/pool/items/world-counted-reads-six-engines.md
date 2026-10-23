@@ -5,8 +5,8 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/political-game-pool-8defjq
+status: open
+claimed-by:
 pr: #5080
 blocked-on:
 source: split from world-counted-reads-person-callers
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts, src/core2/jobs-benefits.ts, src/core2/modules/employer-taxes.ts, src/core2/modules/credit.ts, src/core2/modules/business.ts, src/core2/modules/candidacy.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts, src/core2/counted-facts-year.test.ts
 
 **Notes.** Built on PR #5080, branch claude/political-game-pool-8defjq.
+
+Sent back 2026-10-23 from PR #5080 (branch claude/political-game-pool-8defjq): Fresh main integration conflicts in code at src/core2/modules/employer-taxes.ts:22; preserve both current tax readers and residentFacts, then rerun the scoped checks and annual equality proof; finish on that branch, merge main into it first.
