@@ -69,6 +69,7 @@ import {
   specialContestFor,
   ELECTIONS_MODULE_ID,
   ballot,
+  registerWardResidency,
   type ContestRow,
   type FilingRow,
 } from "./elections";
@@ -236,9 +237,9 @@ interface CountedBallotsRow {
   readonly cost: readonly number[];
   /** Real voters each kept ballot stands for (absent on rows kept before the Census weight; one). */
   readonly weight?: readonly number[];
-  /** Each voter's faith and degree against their age band's average (NaN with no profile; absent on rows kept before the loadings). */
-  readonly faith?: readonly number[];
-  readonly college?: readonly number[];
+  /** Each voter's faith and degree against their age band's average (null where none is recorded; absent on rows kept before the loadings). */
+  readonly faith?: readonly (number | null)[];
+  readonly college?: readonly (number | null)[];
 }
 
 /** One voter's turnout on a ballot: its parts and the propensity they came to. */
@@ -353,6 +354,7 @@ export function standAgainReason(
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
+  registerWardResidency(candidateInWard);
   rememberOpeningElectorate(api);
   pollingPlaces(api);
   // A vacancy's special election runs as a real race.
@@ -768,6 +770,11 @@ function contestView(
       recognition: townShareKnowing(api, named.length, heard, f.id),
       platform: facts.platform,
       ballotCues: cues.get(f.personId) ?? [],
+      // The race's standing carries the average incumbency advantage: the
+      // town's average incumbent lean is what each voter's own is read against.
+      ...(standing && facts.isIncumbent
+        ? { incumbentLeanCenter: townIncumbentLean(api) }
+        : {}),
       // A reported scandal as far as its story reached the town's people.
       scandal: scandalAppeal(api, f.personId, named),
     };
@@ -920,6 +927,29 @@ const adultsByDay = new WeakMap<
   object,
   { date: string; size: number; rows: readonly PersonState[] }
 >();
+
+const incumbentLeanByDay = new WeakMap<
+  object,
+  { readonly date: string; readonly mean: number }
+>();
+
+/** The town's adults' average incumbent side of their traits, each counted record weighed by the people it stands for. */
+function townIncumbentLean(api: CoreAPI): number {
+  const held = incumbentLeanByDay.get(api.state);
+  if (held?.date === api.state.date) return held.mean;
+  const { townPlaceId } = town(api);
+  let sum = 0,
+    weight = 0;
+  for (const voter of countedResidents(api.state as CoreState)) {
+    if (voter.placeId !== townPlaceId || ageOn(voter, api.state.date) < 18)
+      continue;
+    sum += incumbentLeanOf(api, voter) * voter.weight;
+    weight += voter.weight;
+  }
+  const mean = weight > 0 ? sum / weight : 0;
+  incumbentLeanByDay.set(api.state, { date: api.state.date, mean });
+  return mean;
+}
 
 /** The incumbent's side of a voter's traits: stay with the known or try someone new. */
 function incumbentLeanOf(
@@ -1752,7 +1782,7 @@ function atThePolls(
 }
 
 /** A second election between the tied candidates, a tunable number of weeks on. */
-function secondElection(
+export function secondElection(
   api: CoreAPI,
   contest: ContestRow,
   tied: readonly string[],
@@ -1948,6 +1978,30 @@ function inWard(
       ? memo.map
       : wardMap(api, wards);
   return (map.get(home) ?? 1) === ward;
+}
+
+/**
+ * The ward a contest's seat represents and the ward a would-be candidate's
+ * household lives in; null for an at-large seat, or for a person whose
+ * household the town's wards do not place.
+ */
+function candidateInWard(
+  api: CoreAPI,
+  contest: ContestRow,
+  person: Readonly<PersonState>,
+): { readonly seatWard: number; readonly homeWard: number } | null {
+  const wards = wardsOf(api, contest);
+  if (!wards) return null;
+  const home = (person as { householdId?: string }).householdId ?? person.id;
+  const memo = wardMemo.get(api.state);
+  const map =
+    memo?.date === api.state.date && memo.wards === wards
+      ? memo.map
+      : wardMap(api, wards);
+  const ward = map.get(home);
+  return ward === undefined
+    ? null
+    : { seatWard: Number(contest.district), homeWard: ward };
 }
 
 /** Every town household's ward, once a day. */
@@ -2198,8 +2252,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     interest: [] as number[],
     cost: [] as number[],
     weight: [] as number[],
-    faith: [] as number[],
-    college: [] as number[],
+    faith: [] as (number | null)[],
+    college: [] as (number | null)[],
   };
   const countedAdults = wards > 0 ? countedAdultsToday(api) : 0;
   let countedAdultIndex = 0;
@@ -2250,8 +2304,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     kept.cost.push(t.cost);
     kept.weight.push(voter.weight);
     const profile = countedStanceProfile(api, voter);
-    kept.faith.push(profile.faithFromAverage ?? NaN);
-    kept.college.push(profile.collegeFromAverage ?? NaN);
+    // Module data holds JSON: a missing distance is kept as null.
+    kept.faith.push(profile.faithFromAverage ?? null);
+    kept.college.push(profile.collegeFromAverage ?? null);
     countedVoted += t.propensity * voter.weight;
     if (choice)
       countedVotes[choice] =
@@ -3008,7 +3063,9 @@ function countedBallotAt(row: CountedBallotsRow, i: number): CountedBallotRow {
         row.faith && row.college && Number.isFinite(row.faith[i])
           ? {
               faithFromAverage: row.faith[i]!,
-              collegeFromAverage: row.college[i]!,
+              ...(Number.isFinite(row.college[i])
+                ? { collegeFromAverage: row.college[i]! }
+                : {}),
             }
           : null,
     }),

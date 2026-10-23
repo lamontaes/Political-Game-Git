@@ -9,7 +9,12 @@ import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "../kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  daysBetweenText,
+  makeIsoDate,
+} from "../kernel/dates";
 import countyNeighbors from "../data/housing/county-neighbors.json" with { type: "json" };
 import { decisionLean } from "../trait-decisions";
 import housingData from "../data/housing/housing.json" with { type: "json" };
@@ -1071,15 +1076,12 @@ function buyHomes(api: CoreAPI): void {
         3,
       age:
         p("housingBuyAgeWeight") *
-        buyingAgeShape(
-          api,
-          ageOnDate(makeIsoDate(head!.birthDate), makeIsoDate(c.date)),
-        ),
+        buyingAgeShape(api, ageOnDate(head!.birthDate, c.date)),
       tenure:
         p("housingBuyTenureWeight") *
         Math.min(
           1,
-          daysBetween(makeIsoDate(lease.firstDueAt), makeIsoDate(c.date)) /
+          daysBetweenText(lease.firstDueAt, c.date) /
             p("daysPerMeanYear") /
             p("housingBuyTenureYears"),
         ),
@@ -1236,10 +1238,7 @@ function review(api: CoreAPI): void {
       continue;
     if (store(api).table("cases").query("openByLease", [id, true]).length)
       continue;
-    const days = daysBetween(
-      makeIsoDate(row.firstUnpaidAt),
-      makeIsoDate(c.date),
-    );
+    const days = daysBetweenText(row.firstUnpaidAt, c.date);
     if (days <= law.gracePeriodDays) continue;
     const owed = row.amountMinor > 0 ? row.arrearsMinor / row.amountMinor : 0;
     const months = days / daysPerMonth(api);

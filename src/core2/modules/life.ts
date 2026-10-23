@@ -1,4 +1,4 @@
-import { daysBetween, makeIsoDate } from "../kernel/dates";
+import { makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { addDays } from "../kernel/dates";
 import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
@@ -282,10 +282,7 @@ export const LIFE_MODULE: CoreModule = {
       api.stopgap("SG-P8-household-shared-time-contact");
       const horizon = definition.parameters.horizon;
       if (!horizon) throw new Error("Company need requires a tagged horizon.");
-      const elapsed = daysBetween(
-        makeIsoDate(actor.lastContactDate),
-        makeIsoDate(api.state.date),
-      );
+      const elapsed = daysBetweenText(actor.lastContactDate, api.state.date);
       return Math.min(p(api, "one"), positive(api, elapsed / p(api, horizon)));
     },
     "stress-pressure": (api, actor) => positive(api, actor.affect.stress),

@@ -4,7 +4,7 @@ title: "The budget season:"
 area: office
 kind: feature
 priority: 2
-status: open
+status: in-pr
 claimed-by:
 pr: #5533
 blocked-on:
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5217 (branch claude/political-game-pool-udtiwn): M
 Sent back 2026-10-21 from PR #5533 (branch claude/political-game-pool-yucp92-tt): `src/core2/modules/legislature.ts:515` invokes all pre-vote hooks directly at the hearing, bypassing the stage selection and hooksRun bookkeeping in runBeforeVote; a scheduled committee/floor pass can therefore run those handlers again on the same bill. Route the hearing through the data-driven stage dispatch and prove each applicable handler runs once. `docs/pool/items/office-the-budget-season.md:20` also requires the proposal/hearing/vote-to-amended-treasury-payment chain by record id in a one-year drawn buildBenchWorld run. The body explicitly says that payment was not newly tested, and the added test only checks the hearing and bill; supply that missing payment/person trace before merge. Morning check blocks this head; no local gate pass is claimed.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-22 from PR #5533 (branch claude/political-game-pool-yucp92-tt): The returned stage dispatcher fixes the prior hook bookkeeping issue, and the test now reaches an employee, but the amended-budget-to-actual-payment acceptance is still not proved.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5533 (branch claude/political-game-pool-yucp92-tt): The hearing dispatcher, nonempty treasury payment, counterfactual budget amount and completed year are valuable repairs. The final person-payment proof still accepts a zero-payment record: src/core2/office-day-budget-season.test.ts:338-340 selects the first owner draw by firm/date without checking drawnMinor, and :354-361 accepts ownerDraw ?? worker merely because it exists. src/core2/modules/business.ts:1342-1356 writes a draw row even when drawn is zero, so this path can pass with no owner cash transfer and no worker witness; its only owner assertion checks identity. Require a positive owner draw or positive worker payroll payment and verify the actual cash posting reaches that named person. Retain the amended-line/provider assertions, stage bookkeeping and full-year completion; the positive Thompsonville receipt is useful evidence to retain beside drawn coverage. Also refresh the PR body: it still says the treasury payment was not newly tested, while the new code and Fixer comment claim it is. The already completed formatting, lint, release, pool, zero-dice and old-import checks passed, but the remaining gate was stopped after this morning-review blocker; no full gate pass or merge is claimed.; finish on that branch, merge main into it first.
