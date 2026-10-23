@@ -3,7 +3,7 @@ id: director-moments-for-a-new-adult
 title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
-priority: 3
+priority: 2
 status: open
 claimed-by:
 pr: #5644

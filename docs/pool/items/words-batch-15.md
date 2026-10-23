@@ -3,7 +3,7 @@ id: words-batch-15
 title: "Batch 15: every scene different, replies that move the talk on, calibrated on real exchanges"
 area: words
 kind: feature
-priority: 1
+priority: 2
 size: M
 status: in-pr
 claimed-by:
