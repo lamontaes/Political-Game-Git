@@ -1278,20 +1278,30 @@ function outsideMarketOf(
   }
 }
 
+/** The place's outside-market account, or undefined where the world records none (a place with no firms to sell outside). */
+export function findOutsideMarket(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  placeId: PlaceId,
+): string | undefined {
+  let id = rt.outsideByPlace.get(placeId);
+  if (!id) {
+    id = [...core.organizations.values()].find(
+      (row) => row.kind === OUTSIDE_MARKET_KIND && row.placeId === placeId,
+    )?.id;
+    if (id) rt.outsideByPlace.set(placeId, id);
+  }
+  return id;
+}
+
 /** The place's outside-market account (buyers and sellers outside the town). */
 export function outsideMarketFor(
   core: CoreState,
   rt: ResidentsRuntime,
   placeId: PlaceId,
 ): string {
-  let id = rt.outsideByPlace.get(placeId);
-  if (!id) {
-    id = [...core.organizations.values()].find(
-      (row) => row.kind === OUTSIDE_MARKET_KIND && row.placeId === placeId,
-    )?.id;
-    if (!id) throw new Error(`No outside market recorded for ${placeId}`);
-    rt.outsideByPlace.set(placeId, id);
-  }
+  const id = findOutsideMarket(core, rt, placeId);
+  if (!id) throw new Error(`No outside market recorded for ${placeId}`);
   return id;
 }
 

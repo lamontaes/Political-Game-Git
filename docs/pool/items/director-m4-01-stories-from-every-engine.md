@@ -22,6 +22,6 @@ claimed-at:
 
 **Files.** see spec
 
-**Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+**Notes.** Verified Oct 19 (branch claude/director-m4-01): the pass condition is met in a played year. A candidate's filing (campaign), an official's recorded vote and the press story of a law taking effect each produce moments for the people they touched, with positive impacts of more than one size (src/director/stories-from-engines.test.ts, a random place and seed). Its first run found the disaster crash fixed in #5327. Callbacks through people and the interrupt-versus-wait sizing are not asserted here. Priority 3 until scheduled. Verify how much is built before starting.
 
 Sent back 2026-10-20 from PR #5336 (branch claude/director-m4-01): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.
