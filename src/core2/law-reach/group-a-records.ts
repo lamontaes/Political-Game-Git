@@ -132,7 +132,11 @@ export function selectorGroup(name: string): readonly string[] {
 
 // --- the module --------------------------------------------------------------
 
-import { runReachCalendar, runReachPayroll } from "./reach-workers";
+import {
+  onReachCalendar,
+  runReachCalendar,
+  runReachPayroll,
+} from "./reach-workers";
 
 interface PremiumRecord {
   readonly id: string;
