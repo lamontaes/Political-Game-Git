@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/political-game-pool-7xkkii
+pr: #5196
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:48:37.925Z
 ---
 
 **What.** liveHouseholds in src/core2/counted-groups.ts, countedResidents in src/core2/electorate.ts and countedHouseholdsByPlace in src/core2/modules/residents.ts walk or copy every counted household for each caller, about 2,900 MB in one played year. It was found by an allocation profile of a played year in Long Hill, Connecticut (seed m7b, 365 days, 60 GB sampled), where it allocated 4.3 percent (2,900 MB) of the bytes. The year takes 194 to 214 seconds against the 120-second limit, and garbage collection is about 19 percent of it. Cut the allocation without changing any result.

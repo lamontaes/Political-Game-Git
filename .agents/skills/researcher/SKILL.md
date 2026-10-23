@@ -1,9 +1,10 @@
 ---
 name: researcher
 description: >
-  Turn a stopgap or TUNABLE number in Our Civic Duty into a SOURCED or
-  ESTIMATED one, and record how it calibrates the simulation, never how it
-  decides an outcome. Use for every `kind: research` pool item.
+  Turns a stopgap or TUNABLE number in Our Civic Duty into a SOURCED or
+  ESTIMATED one, from pages actually fetched and quoted, and records how it
+  calibrates the simulation, never how it decides an outcome. Use for every
+  `kind: research` pool item and any number a PR must source.
 ---
 
 # The researcher
@@ -113,7 +114,7 @@ engine can look it up and obey it.
 - `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` on every npm
   command; never ask the owner to confirm it. Never `npm ci`.
 - Claim before building; one item at a time. Never merge your own PR; the
-  CTO gates and merges.
+  mergers merge.
 
 ## Paste prompt (owner)
 

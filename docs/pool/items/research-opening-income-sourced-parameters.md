@@ -5,10 +5,10 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Matched 2021 award/eligibility/amount/payment-date evidence and an actual source-qualified due provider, preserving local stock pl
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-income-funding-opening-outside-flow-terms-prior, core-stopgap-opening-income-opening-generated-income-prior"
 claimed-at:
 ---

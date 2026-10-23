@@ -11,6 +11,7 @@
  * place's counted tier, so meeting one again brings the same people back.
  * Named officials, the player's household and circle are never demoted.
  */
+import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import {
   COUNTED_PLACE_PREFIX,
   countedPlaceOf,
@@ -18,7 +19,7 @@ import {
 } from "../counted-groups";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
-import { stableHash } from "../kernel/ids";
+import { stableHash, pairKey } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
@@ -27,9 +28,11 @@ import {
   keepCalendar,
   residentsRuntime,
   returnToCounts,
-  returnUnplacedPay,
+  returnCommuterPay,
+  commuterPeriodPay,
 } from "./residents";
-import type { ResidentHouseholdRecord } from "../residents";
+import { admitPublicPayAuthority } from "../public-work-pay";
+import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {
   CoreAPI,
@@ -91,9 +94,12 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
   for (const job of core.jobs.values()) {
     if (job.endsAt !== undefined) continue;
     const employer = core.organizations.get(job.organizationId);
+    // A commuter's employer outside the town is the place's outside account, not a public employer.
     if (
       employer &&
-      (employer.kind !== "employer" || employer.publicPayAuthority)
+      employer.kind !== OUTSIDE_MARKET_KIND &&
+      (employer.kind !== "employer" ||
+        (employer.publicPayAuthority && !isSchoolDistrict(employer)))
     )
       out.add(job.personId);
   }
@@ -106,8 +112,7 @@ function protectedPeople(api: CoreAPI): Set<PersonId> {
 /** When the player last had contact with this person (their relationship), if ever. */
 function lastPlayerContact(core: CoreState, id: PersonId): string | undefined {
   if (!core.playerId) return undefined;
-  return core.relationships.get([core.playerId, id].sort().join(":"))
-    ?.lastContactDate;
+  return core.relationships.get(pairKey(core.playerId, id))?.lastContactDate;
 }
 
 /** A demoted person's record, as the counts keep it. */
@@ -138,6 +143,29 @@ function asCounted(
   };
 }
 
+/**
+ * A demoted worker's commitment at a public employer joins the employer's pay
+ * authority under its new id, as a hire's does (job-lifecycle.ts): the
+ * authority resolves due pay only for the commitments it lists.
+ */
+function joinPublicPayAuthority(
+  core: CoreState,
+  commitment: WorkCommitmentInput,
+): void {
+  if (commitment.publicPayAuthorityId === undefined) return;
+  const employer = core.organizations.get(commitment.organizationId);
+  const authority = employer?.publicPayAuthority;
+  if (!employer || authority?.id !== commitment.publicPayAuthorityId) return;
+  if (authority.workCommitmentIds.includes(commitment.id)) return;
+  employer.publicPayAuthority = admitPublicPayAuthority(
+    {
+      ...authority,
+      workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
+    },
+    core.date,
+  );
+}
+
 /** Demote one filled-in household now. Returns the record. */
 export function demoteHousehold(
   api: CoreAPI,
@@ -165,20 +193,30 @@ export function demoteHousehold(
   // Its jobs stay on the employers' books as counted jobs at the same pay.
   const jobs: JobInput[] = [];
   const commitments: WorkCommitmentInput[] = [];
+  let commuterPay = 0;
   for (const person of people) {
     const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
     if (!job || job.endsAt !== undefined) continue;
+    // A commuter job (an employer outside the town) goes back to the unplaced workers' pay.
+    const commuter = commuterPeriodPay(core, job);
+    if (commuter !== undefined) {
+      api.endJob(job.id, id);
+      commuterPay += commuter;
+      continue;
+    }
     const counted: JobInput = { ...job, id: `${job.id}:counted:${date}` };
     delete (counted as { endsAt?: string }).endsAt;
     // The schedule and payday it worked on come back with it at a later fill-in.
     for (const cid of core.work.commitmentsByPerson.get(person.id) ?? []) {
       const row = core.work.commitments.get(cid);
       if (!row || row.jobId !== job.id || row.endsAt !== undefined) continue;
-      commitments.push({
+      const demoted = {
         ...row,
         id: `${row.id}:counted:${date}`,
         jobId: counted.id,
-      });
+      };
+      commitments.push(demoted);
+      joinPublicPayAuthority(core, demoted);
       const calendar = row.payrollCalendarId
         ? core.work.payrollCalendars.get(row.payrollCalendarId)
         : undefined;
@@ -253,14 +291,8 @@ export function demoteHousehold(
     parts,
     ...(rent ? { rent } : {}),
   });
-  // Its workers without a recorded job are the place's unplaced workers again.
-  for (const flow of [...rt.flows.values()])
-    if (
-      !flow.endedAt &&
-      flow.financeKind === "work.unplaced-residents" &&
-      members.has(flow.payeeId)
-    )
-      returnUnplacedPay(core, householdId, flow.id);
+  // Its commuters are the place's unplaced workers again.
+  returnCommuterPay(core, householdId, commuterPay);
   for (const job of jobs) addCountedJob(core, job);
   // Its money goes to its group's account.
   const fund = countedFundOf(core, householdId);

@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/old-imports-opening-work
-pr:
+status: open
+claimed-by:
+pr: #5035
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T03:02:59.914Z
+claimed-at:
 ---
 
 **What.** The opening's work schedules still import the old work-schedules code. Read the core's own schedule data instead, porting only the part the opening uses. The old import is removed in the same change, so the opening builds schedules from one place.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-18T03:02:59.914Z
 **Files.** src/core2/opening-work.ts
 
 **Notes.** Body filled Oct 19 (claude) from the title and the repo's engine layout; the claimant should sharpen it.
+
+**Looked at Oct 17 (claude/old-imports-town-households), not built, and the size is wrong.** `canonicalOpeningSchedules` calls `workSchedulesFor(world, personId, date)`, which builds a per-world index of every active job from the old World's history (work relationships, roles and rosters, through `currentLifeCutoff`, `organizationProfileAt`, `scheduledActivityState` and `townWorkplaceFor` in town-employment). The schedule shapes (`WORK_PATTERNS`, the title and workplace pattern tables, lines 47 to 240) are data and can move to a core data file as they are. The part that decides a job's pattern (`jobShape`, `scheduleOf`, the rosters for rotations) reads old-engine records that the opening builds before the core exists. It is therefore best ported together with core-old-imports-opening-employment and core-old-imports-population, which build those records, and should be M. Take it after the employment part.
+
+Sent back 2026-10-23 from PR #5035 (branch claude/old-imports-opening-work): The definition-only slice names already-ported helpers and pattern data, while its in-pr PR link would falsely complete the still-unimplemented opening-work task; finish on that branch, merge main into it first.

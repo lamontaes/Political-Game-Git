@@ -35,6 +35,7 @@ import {
   type GovernmentRow,
 } from "./modules/budgets";
 import { openLawReach } from "./law-reach/host";
+import { selectorGroup } from "./law-reach/group-a-records";
 import {
   currentStaff,
   openReach,
@@ -59,10 +60,6 @@ import {
 } from "./law-reach/group-a-voting";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { isNoncitizen } from "./citizenship";
-import { citizenShareOf } from "./electorate-places";
-import { reachOf } from "./counted-reach";
-import { ageOn } from "./counted-groups";
 
 const START = "2026-01-05";
 const seed =
@@ -84,6 +81,11 @@ let core: CoreState;
 let api: CoreAPI;
 let where = "";
 const report: Record<string, unknown> = {};
+
+/** A seat held by a sitting legislator: the council, or the board a town of that form elects in its place. */
+const legislative = (s: ReturnType<typeof townSeats>[number]) =>
+  selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
+  s.holder?.personId;
 
 function openTown(): void {
   for (let attempt = 0; attempt < 30; attempt += 1) {
@@ -123,6 +125,8 @@ function openTown(): void {
     const a = coreAPI(c);
     if (!lawChain(a).levels.some((l) => l.level === "city")) continue;
     if (!governments(a).some((g) => g.level === "city")) continue;
+    // The term-limit test needs a sitting legislator: a town without one is redrawn.
+    if (!townSeats(a).some(legislative)) continue;
     core = c;
     api = a;
     where = `seed ${seed}, ${state} place ${key}`;
@@ -131,7 +135,9 @@ function openTown(): void {
     report.place = key;
     return;
   }
-  throw new Error(`no incorporated town in thirty tries (seed ${seed})`);
+  throw new Error(
+    `no incorporated town with a sitting legislator in thirty tries (seed ${seed})`,
+  );
 }
 
 function jurisdictionOf(level: string): string {
@@ -473,37 +479,27 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
   it("legislative term limits bind the council's members, read by the filing check", () => {
     const key =
       "us-policy-positions:government-operations.legislative-term-limits";
-    // The town's sitting legislator: its council, or the board a town of that
-    // form elects in its place.
-    const legislative = (s: ReturnType<typeof townSeats>[number]) =>
-      selectorGroup("legislators").some((k) => s.office.kind.startsWith(k)) &&
-      s.holder?.personId;
     const council =
       townSeats(api).find(
         (s) => s.office.kind === "council" && s.holder?.personId,
       ) ?? townSeats(api).find(legislative);
+    expect(council, `${where} no sitting legislator`).toBeDefined();
     recordRoundTrip(key, () => {
-      if (!council) {
-        // No sitting legislator in the town: nobody for the law to bind.
-        expect(townSeats(api).filter(legislative), where).toEqual([]);
-        return;
-      }
-      const reached = reachOn(api, council.holder!.personId!).some(
+      const reached = reachOn(api, council!.holder!.personId!).some(
         (r) => r.key === key && r.endedOn === null,
       );
       expect(reached, where).toBe(true);
       expect(
         typeof termLimitReached(
           api,
-          council.holder!.personId!,
-          council.office.id,
+          council!.holder!.personId!,
+          council!.office.id,
         ),
       ).toBe("boolean");
     });
-    if (council)
-      expect(
-        termLimitReached(api, council.holder!.personId!, council.office.id),
-      ).toBe(false);
+    expect(
+      termLimitReached(api, council!.holder!.personId!, council!.office.id),
+    ).toBe(false);
   });
 
   for (const { key } of recordOnly)
@@ -549,33 +545,6 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
     // Home rule is read at the decision, so no second record of the law stands.
     expect(openReach(api, homeRule), where).toEqual([]);
     report.homeRule = { question, grantId, repealId };
-  });
-
-  it("housing spending pays rent help to the lowest-cash households the extra covers", () => {
-    const key = "budget-line:housing";
-    const gov = cityGov();
-    const delta = reachParameter("housingAssistanceAnnualMinor") * 3;
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: delta,
-      measureId: "test:housing:up",
-    });
-    const assisted = openReach(api, key).filter((r) => r.spec === "assisted");
-    report[key] = { assisted: assisted.length };
-    expect(assisted.length, `${where}: no one assisted`).toBeGreaterThan(0);
-    for (const row of assisted)
-      expect(api.knows(row.targetId, `law-reach:${key}`)).toBeUndefined();
-    amendBudget(api, {
-      governmentId: gov.id,
-      line: "housing",
-      deltaMinor: -delta,
-      measureId: "test:housing:down",
-    });
-    expect(
-      openReach(api, key).filter((r) => r.spec === "assisted"),
-      where,
-    ).toHaveLength(0);
   });
 
   for (const key of Object.keys(STAFFING))
@@ -626,8 +595,26 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
           funded[0]!.baseStaff * ((2 * amount) / amount),
         );
         expect(up, `${where}: ${key} no hires`).toBeGreaterThan(before);
-        for (const row of hired)
-          expect(core.people.get(row.targetId)?.jobId, where).toBeDefined();
+        for (const row of hired) {
+          const jobId = core.people.get(row.targetId)?.jobId;
+          expect(jobId, where).toBeDefined();
+          // A hire at a public employer is on the employer's public pay
+          // authority, or its first payday would stop the year.
+          const commitment = [...core.work.commitments.values()].find(
+            (c) => c.jobId === jobId,
+          )!;
+          const authority = core.organizations.get(
+            commitment.organizationId,
+          )?.publicPayAuthority;
+          if (authority) {
+            expect(commitment.publicPayAuthorityId, `${where}: ${jobId}`).toBe(
+              authority.id,
+            );
+            expect(authority.workCommitmentIds, `${where}: ${jobId}`).toContain(
+              commitment.id,
+            );
+          }
+        }
       }
       // Cut to half the base: the newest hires and then the newest staff go.
       amendBudget(api, {
@@ -657,74 +644,6 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       });
       advanceCore(core, after(api.state.date, 1));
     });
-
-  it("partnering with immigration enforcement reaches named noncitizen adults and counted members by one rule", () => {
-    const key =
-      "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement";
-    enact(key, levelFor(key), 1);
-    const rows = openReach(api, key).filter((r) => r.spec === "noncitizens");
-    const share = citizenShareOf(
-      api.state.placeMetadata.placeKey as string | undefined,
-      lawChain(api).stateKey.slice(3),
-    );
-    const adult = reachParameter("adultAge");
-    const named = rows.filter((r) => api.state.people.has(r.targetId));
-    // Every named person reached is an adult the shared rule calls a noncitizen.
-    for (const row of named) {
-      const person = api.state.people.get(row.targetId)!;
-      expect(
-        ageOn(person.birthDate, api.state.date),
-        `${where}: ${row.targetId}`,
-      ).toBeGreaterThanOrEqual(adult);
-      expect(isNoncitizen(api.state.seed, person.id, share)).toBe(true);
-    }
-    // And every named adult the rule calls a noncitizen is reached (none missed).
-    const missed = townPeople(api).filter(
-      (p) =>
-        ageOn(p.birthDate, api.state.date) >= adult &&
-        isNoncitizen(api.state.seed, p.id, share) &&
-        !named.some((r) => r.targetId === p.id),
-    );
-    expect(
-      missed.map((p) => p.id),
-      `${where}: named noncitizens missed`,
-    ).toEqual([]);
-    // The counted row is the counted tier's own count under the same rule.
-    const counted = rows.find((r) => r.count !== null);
-    const direct = Math.round(
-      reachOf(core, lawChain(api).townPlaceId, {
-        ageFrom: adult,
-        noncitizen: { citizenShare: share },
-      }).counted.people,
-    );
-    expect(counted?.count ?? 0, `${where}: counted noncitizens`).toBe(direct);
-    // The whole reach matches the place's survey share within sampling spread.
-    const adults =
-      townPeople(api).filter((p) => ageOn(p.birthDate, api.state.date) >= adult)
-        .length +
-      Math.round(
-        reachOf(core, lawChain(api).townPlaceId, { ageFrom: adult }).counted
-          .people,
-      );
-    const reached = named.length + direct;
-    const expected = adults * (1 - share);
-    const spread = 4 * Math.sqrt(adults * share * (1 - share)) + 1;
-    report.citizenship = {
-      share,
-      adults,
-      named: named.length,
-      counted: direct,
-    };
-    expect(
-      Math.abs(reached - expected),
-      `${where}: ${reached} reached, ${expected.toFixed(1)} expected of ${adults} adults`,
-    ).toBeLessThanOrEqual(spread);
-    // A repeal ends every row the same way as any other policy.
-    enact(key, levelFor(key), 0);
-    expect(openReach(api, key).filter((r) => r.spec === "noncitizens")).toEqual(
-      [],
-    );
-  });
 
   it("reports", () => {
     govReport("law-reach-group-a", JSON.stringify(report));

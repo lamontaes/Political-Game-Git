@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/red-electorate-weight
+status: open
+claimed-by:
 pr: #5318
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:57:24.608Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -21,4 +21,6 @@ claimed-at: 2026-10-19T23:57:24.608Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.
+
+Sent back 2026-10-23 from PR #5318 (branch claude/red-electorate-weight): Superseded by changes already on main; preserve the Oct 20 04:40 returned-open status instead of the older in-pr claim; no new implementation remains to merge; finish on that branch, merge main into it first.

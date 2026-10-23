@@ -19,11 +19,12 @@ import { campaignParameter } from "../campaign-views";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { partyName } from "../appointments";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
+import federalQualifications from "../data/elections/federal-qualifications.json" with { type: "json" };
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
+import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import {
@@ -83,12 +84,14 @@ export interface RequirementCheck {
     | "minimum-age"
     | "residency"
     | "party-member"
-    | "term-limit";
-
+    | "term-limit"
+    | "district-residency";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
   readonly source: string;
+  /** For an unmet minimum age: the day they turn the required age. */
+  readonly metOn?: string;
 }
 
 export interface FilingRow {
@@ -244,11 +247,33 @@ export function filingRulesFor(
   contest: ContestRow,
   side: FilingSide,
 ): FilingRequirements {
-  const rules = filingRequirements(town(api).stateKey, contest.family, side);
-  if (rules.fallbacks.length) {
+  const stateRules = filingRequirements(
+    town(api).stateKey,
+    contest.family,
+    side,
+  );
+  if (stateRules.fallbacks.length) {
     // stopgapId: SG-GOV-filing-fallbacks
     api.stopgap("SG-GOV-filing-fallbacks");
   }
+  // A Senate or presidential candidate meets the Constitution's age, which a
+  // state's age for its own statewide offices cannot lower.
+  const federal = (
+    federalQualifications.minimumAge as Record<
+      string,
+      { value: number; citation: string }
+    >
+  )[contest.officeId.slice(contest.officeId.lastIndexOf(":") + 1)];
+  const rules =
+    federal && federal.value > stateRules.minimumAge
+      ? {
+          ...stateRules,
+          minimumAge: federal.value,
+          source: [federal.citation, stateRules.source]
+            .filter(Boolean)
+            .join(" ; "),
+        }
+      : stateRules;
   // A side's own deadline is read for the 2026 cycle only; other years'
   // contests keep the deadline from their own calendar.
   return contest.electionDate.startsWith("2026-")
@@ -502,6 +527,32 @@ export function filingOfficeFor(
   return filingRulesFor(api, contest, side);
 }
 
+/**
+ * The ward a ward seat represents and the ward a person lives in, null for an
+ * at-large seat or a person whose home is not placed. The voting engine holds
+ * the town's wards and registers the lookup.
+ */
+let wardResidency:
+  | ((
+      api: CoreAPI,
+      contest: ContestRow,
+      person: Readonly<PersonState>,
+    ) => { readonly seatWard: number; readonly homeWard: number } | null)
+  | null = null;
+export function registerWardResidency(
+  lookup: NonNullable<typeof wardResidency>,
+): void {
+  wardResidency = lookup;
+}
+
+/** The day someone born on `birthDate` turns `years` (a February 29 birthday counts on March 1 in a common year). */
+function birthdayOn(birthDate: string, years: number): string {
+  const year = Number(birthDate.slice(0, 4)) + years;
+  const monthDay = birthDate.slice(5);
+  const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  return `${year}-${monthDay === "02-29" && !leap ? "03-01" : monthDay}`;
+}
+
 /** Every rule for one person filing in one contest, checked today. */
 export function checkEligibility(
   api: CoreAPI,
@@ -575,6 +626,9 @@ export function checkEligibility(
       required: String(rules.minimumAge),
       actual: String(age),
       source: rules.source,
+      ...(age < rules.minimumAge
+        ? { metOn: birthdayOn(person.birthDate, rules.minimumAge) }
+        : {}),
     },
     {
       rule: "residency",
@@ -584,6 +638,25 @@ export function checkEligibility(
       source: rules.source,
     },
   ];
+  // A seat chosen by part of town asks its candidate to live in that part.
+  // The check carries the two wards as record data; the clerk's words for it
+  // come from the English engine.
+  // stopgapId: SG-GOV-ward-residency
+  const wards =
+    resident && !holdsSeat
+      ? (wardResidency?.(api, contest, person) ?? null)
+      : null;
+  if (wards !== null) {
+    api.stopgap("SG-GOV-ward-residency");
+    checks.push({
+      rule: "district-residency",
+      met: wards.homeWard === wards.seatWard,
+      required: String(wards.seatWard),
+      actual: String(wards.homeWard),
+      source:
+        "Assumed: most ward and district charters ask it (SG-GOV-ward-residency)",
+    });
+  }
   // Registration is research metadata, not a modeled status. The game has
   // no separate registration step (AGENTS.md: no paperwork); do not report
   // an adult resident as registered without a registration record.

@@ -52,7 +52,10 @@ describe("a vote or signature is filed at its own government's level", () => {
     const town = { placeId: chain.townPlaceId, stateKey: chain.stateKey };
     for (const event of seen) {
       const level = event.facts?.level;
-      expect(["federal", "state", "county", "city"], where).toContain(level);
+      expect(
+        ["federal", "state", "county", "township", "city"],
+        where,
+      ).toContain(level);
       const bill = bills.get(event.facts!.billId!) as unknown as BillRow;
       if (bill.bodyOfficeId.startsWith("federal:"))
         expect(level, `${where}: ${event.id}`).toBe("federal");
@@ -63,11 +66,18 @@ describe("a vote or signature is filed at its own government's level", () => {
         federal: "nation",
         state: "state",
         county: "county",
+        // A township board governs the town's own township: a local story.
+        township: "town",
         city: "town",
       }[level as string];
       expect(item?.level, `${where}: ${event.id}`).toBe(filed);
     }
-  });
+    const township = seen.find((event) => event.facts?.level === "township");
+    process.stdout.write(
+      `VOTE LEVEL ${where}: ${seen.length} votes and signatures${township ? `; a township board's ${township.id} filed as ${wireItem(api, township, town)?.level}` : ""}\n`,
+    );
+    // Five played months took 62 to 74 seconds alone on a 4-core container.
+  }, 600000);
 
   it("a chamber organizing and a committee hearing are filed at their own government's level", () => {
     setBookkeeping(false);
@@ -117,11 +127,14 @@ describe("a vote or signature is filed at its own government's level", () => {
         );
       }
     }
+    // A chamber organized before the test's hook was set is Congress's too.
+    const isFederal = (id: string) =>
+      federal.has(id) || id.startsWith("chamber-organized:federal:");
     // No town outlet printed Congress's business as the town's.
     for (const outlet of outletsHere(api))
       for (const story of storiesPrinted(api, outlet.id))
         if (outlet.tier !== "national")
-          expect(federal.has(story.wireId), `${where}: ${story.wireId}`).toBe(
+          expect(isFederal(story.wireId), `${where}: ${story.wireId}`).toBe(
             false,
           );
     // Where a national outlet exists, it prints one of them by record id.
@@ -130,7 +143,7 @@ describe("a vote or signature is filed at its own government's level", () => {
       expect(
         national
           .flatMap((o) => storiesPrinted(api, o.id))
-          .some((story) => federal.has(story.wireId)),
+          .some((story) => isFederal(story.wireId)),
         where,
       ).toBe(true);
   }, 600000);

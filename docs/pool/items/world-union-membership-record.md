@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/union-membership-record
+status: open
+claimed-by:
 pr: #5302
 blocked-on:
 source: split from core-stopgap-membership-dues-assumed-data, Oct 19
-claimed-at: 2026-10-19T23:58:24.553Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -21,4 +21,6 @@ claimed-at: 2026-10-19T23:58:24.553Z
 
 **Files.** TODO
 
-**Notes.** TODO
+**Notes.** PR #5302 sent back: Merge conflict with main in src/core2/data/stopgaps.json.
+
+Sent back 2026-10-23 from PR #5302 (branch claude/union-membership-record): Missing industry-level BLS acceptance and Done-when evidence table; release impact none omits changed personal dues cash flows; finish on that branch, merge main into it first.

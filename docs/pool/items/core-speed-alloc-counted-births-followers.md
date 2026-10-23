@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/peaceful-ritchie-03780x
+pr: #5076
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-20T01:48:52.575Z
 ---
 
 **What.** An anonymous function in src/core2/births-counted.ts and countedFollowers in src/core2/modules/press.ts allocate 1,265 MB and 1,569 MB in one played year while they walk counted groups. It was found by an allocation profile of a played year in Long Hill, Connecticut (seed m7b, 365 days, 60 GB sampled), where it allocated 4.7 percent (2,830 MB) of the bytes. The year takes 194 to 214 seconds against the 120-second limit, and garbage collection is about 19 percent of it. Cut the allocation without changing any result.
