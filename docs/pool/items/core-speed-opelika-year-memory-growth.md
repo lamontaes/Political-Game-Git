@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5787
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** A played year of Opelika, Alabama (place 0157048, seed op1) at the sample size, buildBenchWorld two-level, took about 27 minutes on a 4-core container, against the two-minute rule. The first six 30-day months ran in 15 to 23 seconds each; from August the live heap after collection grows from about 0.9 GB to about 4.9 GB by October and the months slow down, and a vitest run of the year runs out of memory at a 5 GB heap. Clean main showed the same curve, so it is not from the change that found it. Find what accumulates from August (a table, an index or a history kept per day) and make it act on the day something changed or drop what nothing reads.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/state.ts, src/core2/module-state.ts
 
 **Notes.** Found working world-census-scale-closures-rise (PR #5553), whose pinned Opelika case plays 220 days because of it.
+
+Sent back 2026-10-23 from PR #5787 (branch claude/opelika-memory): The table explicitly leaves the under-two-minute flat-heap year unmet and speed:year unrun; bind the retention slice separately so fallback completion cannot close the unfinished memory item; finish on that branch, merge main into it first.
