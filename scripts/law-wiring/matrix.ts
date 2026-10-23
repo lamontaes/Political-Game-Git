@@ -40,6 +40,7 @@ interface ReachCount {
 }
 interface Result {
   key: string;
+  kind: string;
   error?: string;
   inForceAtOpening: boolean;
   change: string;
@@ -66,6 +67,8 @@ interface Result {
   };
   heard: { people: number; sample: string[] };
   afterUndo: ReachCount;
+  /** Reach still citing the changed row once the old amount is put back (older result files have none). */
+  afterUndoChanged?: ReachCount;
 }
 interface PlaceRun {
   seed: string;
@@ -118,6 +121,12 @@ const DECLARED = (
   }
 ).laws;
 
+/** Laws that grant or withhold a power: the legislature reads them when a body drafts under them. */
+const AUTHORITY_LAWS = new Set([
+  "local-minimum-wage-authority",
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+  "local-income-tax-authority",
+]);
 const isEngine = (file: string) =>
   !NOT_AN_EFFECT.some((p) => file.startsWith(p));
 
@@ -201,9 +210,18 @@ function systemsLink(
   }
   const engines = new Map<string, number>();
   const handlers = new Set<string>();
+  // An authority law's effect is the legislature's check when a body drafts under it.
+  const drafting = AUTHORITY_LAWS.has(law.key);
   for (const { r } of runs)
     for (const [frame, n] of Object.entries(r.readers ?? {})) {
-      if (isEngine(frame)) engines.set(frame, (engines.get(frame) ?? 0) + n);
+      // A law-reach read names the engine that called it ("reach <- caller").
+      const caller = frame.split(" <- ")[1];
+      if (
+        isEngine(frame) ||
+        (caller && caller !== "none" && isEngine(caller)) ||
+        (drafting && frame.startsWith("src/core2/modules/legislature"))
+      )
+        engines.set(frame, (engines.get(frame) ?? 0) + n);
       else if (frame.startsWith("src/core2/law-reach/")) handlers.add(frame);
     }
   if (engines.size)
@@ -357,6 +375,14 @@ function repealLink(runs: { place: string; r: Result }[]): Link {
       if (r.reach.open === 0 && r.afterUndo.open > 0) ok += 1;
       notes.push(
         `${place}: opening ${r.openingReach.open} -> after repeal ${r.reach.open} -> re-enacted ${r.afterUndo.open}`,
+      );
+    } else if (r.kind !== "question" && r.afterUndoChanged) {
+      // Putting the old amount back leaves the law applying to the same people under the old row: the changed row's reach must end.
+      if (r.reach.open === 0) continue;
+      had += 1;
+      if (r.afterUndoChanged.open === 0) ok += 1;
+      notes.push(
+        `${place}: ${r.reach.open} open under the changed row -> after the old amount is put back ${r.afterUndoChanged.open} still cite it`,
       );
     } else {
       if (r.reach.open === 0) continue;

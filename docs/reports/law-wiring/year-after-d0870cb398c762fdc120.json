@@ -1,0 +1,358 @@
+{
+  "summary": {
+    "seed": "d0870cb398c762fdc120",
+    "place": {
+      "seed": "c2bb11adc9d15b5db4b79065092041c2c134c789e21adfeb0e88b86b4ca278b7",
+      "key": "5574500",
+      "name": "Sobieski, Wisconsin",
+      "state": "US-WI"
+    },
+    "days": 365,
+    "lawsTookEffect": 14,
+    "reachedSomeone": 13,
+    "movedMoney": 9,
+    "withOutcomeLinks": 12,
+    "movedOutcome": 3
+  },
+  "laws": [
+    {
+      "lawId": "law:county:55083:county:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-20:2025-1",
+      "series": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "level": "county",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 4,
+      "reach": {
+        "full": 0,
+        "groups": 4,
+        "groupPeople": 4,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 140,
+        "sample": [
+          "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_1d41500994575655:town:adults:income-1:other:65-plus:retired",
+          "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_1d41500994575655:town:with-children:income-1:mortgage:30-44:working",
+          "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_1d41500994575655:town:with-children:income-2:mortgage:30-44:working"
+        ]
+      },
+      "outcomeLinks": 3,
+      "outcomeMoved": 24,
+      "outcomeSample": [
+        "web:jurisdiction_1d41500994575655:2025-02:enforcement-to-undocumented-employment",
+        "web:jurisdiction_1d41500994575655:2025-02:enforcement-to-us-born-employment"
+      ]
+    },
+    {
+      "lawId": "law:county:55083:county:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones:general:2025-02-20:2025-2",
+      "series": "us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones",
+      "level": "county",
+      "value": 1,
+      "effectiveDate": "2025-02-20",
+      "reached": 1,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 1,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "applied|us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones|organization:landlord:jurisdiction_1d41500994575655"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-29:AB 1",
+      "series": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-01-29",
+      "reached": 5,
+      "reach": {
+        "full": 3,
+        "groups": 1,
+        "groupPeople": 0,
+        "organizations": 1,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "us-policy-positions:education.raise-teacher-minimum-salary|person_a3877d9c3bed5f15|2025-01-29",
+          "us-policy-positions:education.raise-teacher-minimum-salary|person_0c69b2217a4af8e4|2025-01-29",
+          "us-policy-positions:education.raise-teacher-minimum-salary|person_e8391c2e12587d70|2025-02-20"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-27:SB 2",
+      "series": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-02-27",
+      "reached": 4,
+      "reach": {
+        "full": 0,
+        "groups": 4,
+        "groupPeople": 4,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 14712,
+        "sample": [
+          "applied|us-policy-positions:justice-public-safety.raise-juvenile-court-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-4:other:45-64:working",
+          "applied|us-policy-positions:justice-public-safety.raise-juvenile-court-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-2:other:45-64:working",
+          "applied|us-policy-positions:justice-public-safety.raise-juvenile-court-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-1:other:45-64:not-working"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:health-human-services.expand-medicaid-eligibility:general:2025-02-27:AB 5",
+      "series": "us-policy-positions:health-human-services.expand-medicaid-eligibility",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-02-27",
+      "reached": 50,
+      "reach": {
+        "full": 48,
+        "groups": 2,
+        "groupPeople": 18,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 2776950,
+        "sample": [
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_cd1b105dd98a867a|2025-02-27",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_cd1b115dd98a882d|2025-02-27",
+          "us-policy-positions:health-human-services.expand-medicaid-eligibility|person_eb883ac1b50ba398|2025-02-27"
+        ]
+      },
+      "outcomeLinks": 3,
+      "outcomeMoved": 17,
+      "outcomeSample": [
+        "web:jurisdiction_1d41500994575655:2025-02:medicaid-expansion-to-coverage",
+        "web:jurisdiction_1d41500994575655:2025-03:medicaid-expansion-to-coverage"
+      ]
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-03-12:AB 12",
+      "series": "us-policy-positions:government-operations.legislative-term-limits",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-03-12",
+      "reached": 409,
+      "reach": {
+        "full": 409,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-03-12:AB 12:legislators:person_4c46a631b548bcf1:2025-03-12",
+          "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-03-12:AB 12:legislators:person_53015ac7570e1c06:2025-03-12",
+          "reach:law:US-WI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-03-12:AB 12:legislators:person_7033ee456cb20150:2025-03-12"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-20:SB 7",
+      "series": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-03-20",
+      "reached": 165,
+      "reach": {
+        "full": 165,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": [
+          "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-20:SB 7:officials:person_32cc8c65aadaea7c:2025-03-20",
+          "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-20:SB 7:officials:person_e8cced5afc045186:2025-03-20",
+          "reach:law:US-WI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-03-20:SB 7:officials:person_fd2f9b74b02f56d0:2025-03-20"
+        ]
+      },
+      "outcomeLinks": 0,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-04-10:AB 13",
+      "series": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-04-10",
+      "reached": 80,
+      "reach": {
+        "full": 0,
+        "groups": 79,
+        "groupPeople": 218,
+        "organizations": 1,
+        "other": 0,
+        "moneyMinor": 6039360,
+        "sample": [
+          "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_497fe93a80287eef",
+          "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_49616a3a800ea993",
+          "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_495a633a80087f00"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-04-16:SB 15",
+      "series": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-04-16",
+      "reached": 246,
+      "reach": {
+        "full": 241,
+        "groups": 2,
+        "groupPeople": 163,
+        "organizations": 3,
+        "other": 0,
+        "moneyMinor": 10188761,
+        "sample": [
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_36355a4fa0919b98|2025-07-20",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_272af093ca8f6f96|2025-08-20",
+          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_36355b4fa0919d4b|2025-08-20"
+        ]
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-04-30:SB 20",
+      "series": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-04-30",
+      "reached": 0,
+      "reach": {
+        "full": 0,
+        "groups": 0,
+        "groupPeople": 0,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 0,
+        "sample": []
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-05-29:AB 22",
+      "series": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-05-29",
+      "reached": 80,
+      "reach": {
+        "full": 0,
+        "groups": 79,
+        "groupPeople": 218,
+        "organizations": 1,
+        "other": 0,
+        "moneyMinor": 2336032,
+        "sample": [
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_497fe93a80287eef",
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_49616a3a800ea993",
+          "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_495a633a80087f00"
+        ]
+      },
+      "outcomeLinks": 0,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-05-29:AB 22",
+      "series": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-05-29",
+      "reached": 107,
+      "reach": {
+        "full": 0,
+        "groups": 79,
+        "groupPeople": 218,
+        "organizations": 28,
+        "other": 0,
+        "moneyMinor": 2728912,
+        "sample": [
+          "applied|us-policy-positions:environment-energy.clean-electricity-standard|organization_ce01e08bceafad3f",
+          "applied|us-policy-positions:environment-energy.clean-electricity-standard|household_497fe93a80287eef",
+          "applied|us-policy-positions:environment-energy.clean-electricity-standard|household_49616a3a800ea993"
+        ]
+      },
+      "outcomeLinks": 2,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:education.universal-preschool:general:2025-06-05:AB 23",
+      "series": "us-policy-positions:education.universal-preschool",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-06-05",
+      "reached": 16,
+      "reach": {
+        "full": 7,
+        "groups": 9,
+        "groupPeople": 15,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 5429534,
+        "sample": [
+          "us-policy-positions:education.universal-preschool|person_2abb5e53dec3cde0|2025-06-05",
+          "us-policy-positions:education.universal-preschool|person_7033f0456cb204b6|2025-06-05",
+          "us-policy-positions:education.universal-preschool|person_e839202e1258843c|2025-08-20"
+        ]
+      },
+      "outcomeLinks": 5,
+      "outcomeMoved": 0,
+      "outcomeSample": []
+    },
+    {
+      "lawId": "law:US-WI:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-06-05:AB 23",
+      "series": "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+      "level": "state",
+      "value": 1,
+      "effectiveDate": "2025-06-05",
+      "reached": 4,
+      "reach": {
+        "full": 0,
+        "groups": 4,
+        "groupPeople": 116,
+        "organizations": 0,
+        "other": 0,
+        "moneyMinor": 171,
+        "sample": [
+          "applied|us-policy-positions:justice-public-safety.raise-handgun-purchase-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-4:other:45-64:working",
+          "applied|us-policy-positions:justice-public-safety.raise-handgun-purchase-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-2:other:45-64:working",
+          "applied|us-policy-positions:justice-public-safety.raise-handgun-purchase-age|group:group:jurisdiction_1d41500994575655:town:with-children:income-1:other:45-64:not-working"
+        ]
+      },
+      "outcomeLinks": 1,
+      "outcomeMoved": 8,
+      "outcomeSample": [
+        "web:jurisdiction_1d41500994575655:2025-06:min-age-to-youth-gun-suicide",
+        "web:jurisdiction_1d41500994575655:2025-07:min-age-to-youth-gun-suicide"
+      ]
+    }
+  ]
+}
