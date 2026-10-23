@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/disaster-no-outside-market
+status: open
+claimed-by:
 pr: #5260
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T01:07:01.156Z
+claimed-at:
 ---
 
 **What.** A declared disaster made the households in a drawn town pay for repairs on the declaration day, and in a town with no open builder the payout had no payee, which stopped the game. Main now sends the repairs to the town's outside market when no builder is open, and pays nothing where no outside market is recorded (src/core2/modules/disasters.ts). This item proves the first case in play: with every builder in town closed, a declared disaster's repairs reach the town's outside market as journal entries.
