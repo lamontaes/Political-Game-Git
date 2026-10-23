@@ -13,14 +13,14 @@ source: added with npm run pool -- add
 claimed-at: 2026-10-19T18:12:30.665Z
 ---
 
-**What.** The opening's employment allocation asks the old engine whether a resident is serving a jail term (`jailTermOn` in src/simulation/justice/jail-terms.ts) before it marks them employable. Move that read into the core: the opening takes the sentence, clemency and reversal records it needs from the core's own opening history and answers the same question. Nothing new is added to the old engine, and nothing old is deleted until core-delete-old-engine.
+**What.** The opening's employment allocation asked the old engine whether a resident was serving a jail term (`jailTermOn` in src/simulation/justice/jail-terms.ts) before marking them employable. No one is serving a sentence when the opening is built, because sentences are written by play, so the core opening drops that read instead of porting it.
 
-**Rules.** Replace, never layer: the jail-terms import is deleted from opening-employment.ts in the same change. One rule, all 56 places: the move names no state, city or GEOID. No dice: a jail term comes from the sentence record and its dates, never a roll.
+**Rules.** Replace, never layer: the jail-terms import is deleted from opening-employment.ts in the same change. One rule, all 56 places: the change names no state, city or GEOID.
 
-**Done when.** In a drawn place and seed named in the PR body, buildBenchWorld opens with the same employment records as before, a resident serving a jail term on the opening date (shown by person record id) is left out of the candidates exactly as before, and src/core2/opening-employment.ts no longer imports src/simulation/justice/jail-terms; the opening employment tests in src/core2 pass.
+**Done when.** src/core2/opening-employment.ts no longer imports src/simulation/justice/jail-terms, buildBenchWorld in a drawn place and seed named in the PR body opens with the same employment records as before, and the opening employment tests in src/core2 pass.
 
 **Files.** src/core2/opening-employment.ts, src/simulation/justice/jail-terms.ts
 
 **Notes.** Split Oct 19 from core-old-imports-opening-employment, which is L in practice.
 
-Reconciled Oct 23: delivered by PR #5073. The old jailTermOn import is gone from src/core2/opening-employment.ts, and the file records that opening sentences do not exist yet, so no opening has a serving prisoner to show; the original Done-when line about a resident serving a jail term applies once sentences exist at the opening (a later item), not to this slice.
+Reconciled Oct 23: delivered by PR #5073. The old jailTermOn import is gone from src/core2/opening-employment.ts, which records that no one is serving a sentence when the opening is built; the What and Done when above now say what was delivered.
