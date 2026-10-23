@@ -129,7 +129,13 @@ const run = (attemptSeed: string): boolean => {
     const action = acted.facts.action;
     const type =
       action === "signed" ? "bill-signed" : action === "vetoed" ? "veto" : null;
-    const sponsorScenes = scenesOf(sponsorId, `executive-action:${bill.id}`);
+    // A veto and the vote to override it come the same day, and one sitting
+    // covers a day (scheduling.ts): the sponsor's scene may stand on either.
+    const actOf = (personId: string) =>
+      [`executive-action:${bill.id}`, `veto-override:${bill.id}`].flatMap(
+        (cause) => scenesOf(personId, cause),
+      );
+    const sponsorScenes = actOf(sponsorId);
     if (type && executiveId && executiveId !== sponsorId) {
       expect(sponsorScenes.map((row) => row.typeKey)).toContain(type);
       const scene = sponsorScenes.find((row) => row.typeKey === type)!;
@@ -138,11 +144,7 @@ const run = (attemptSeed: string): boolean => {
       )!;
       expect(executive.personIds).toEqual([executiveId]);
       // The executive's own moment is not a scene about their own bill.
-      expect(
-        scenesOf(executiveId, `executive-action:${bill.id}`).map(
-          (row) => row.typeKey,
-        ),
-      ).not.toContain(type);
+      expect(actOf(executiveId).map((row) => row.typeKey)).not.toContain(type);
       lines.push(`${action} by ${executiveId}`);
     }
   }

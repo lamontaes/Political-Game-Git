@@ -53,6 +53,19 @@ it(`an heir told by an estate notice has the scene alone, with no teller invente
       const moment = book.momentsById.get(row.momentId);
       if (moment?.label !== "cause:event:law.effect-learned") continue;
       const here = `${where}, ${personId}, ${moment.causeId}`;
+      // One sitting covers a day (scheduling.ts): a second effect learned the
+      // same day joins the scene already staged for it.
+      if (!row.bindings.length && row.outcome === "journal-line") {
+        expect(
+          book.schedule.some(
+            (other) =>
+              other.date === row.date &&
+              other.bindings.some((b) => b.typeKey === "law-takes-effect"),
+          ),
+          here,
+        ).toBe(true);
+        continue;
+      }
       // Only the reached person is in it: nobody is made the teller.
       expect(row.bindings.length, here).toBe(1);
       const binding = row.bindings[0]!;
