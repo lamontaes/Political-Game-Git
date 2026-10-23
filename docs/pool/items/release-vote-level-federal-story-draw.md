@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: glm/vote-level-federal-story-draw
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-23T16:54:36.669Z
 ---
 
 **What.** On clean main 5cfd65f6f19b19855162dd297d88fdd98d0bd269, vote-level.test.ts second case fails its national outlet publication assertion at line 138. GOLDEN_PATH_SEED=dc4ca02829931f61516253751229f4eb270be44f draws place 0815330. The same seed fails identically at line 148 on the main-integrated township fix, head 67c4cef7727d275512b563cabfe178459e56c08e. The vote mapping case passes. Diagnose whether the press never selects a federal item or the test misses the item it printed.
