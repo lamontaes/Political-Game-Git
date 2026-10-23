@@ -3,7 +3,7 @@ id: gov-press-outlet-revenue
 title: "An outlet earns from its audience's subscriptions and from local businesses that choose to advertise"
 area: gov
 kind: stopgap
-priority: 2
+priority: 1
 size: M
 status: in-pr
 claimed-by: claude/press-outlet-revenue
