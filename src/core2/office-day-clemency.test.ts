@@ -13,7 +13,6 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { chargeDecisionDays, dispositionDays } from "./justice-law";
 import { advanceCore } from "./life";
 import { considerBribe } from "./modules/corruption";
 import {
@@ -38,16 +37,8 @@ import {
   stateOfficeOf,
 } from "./office-day-state";
 import { coreAPI } from "./state";
-import type { CoreAPI } from "./types";
 
 const ATTEMPTS = 12;
-
-// Past the hearing of a case opened today: the charge decision, then the
-// state's time to disposition (pleas wait for it as trials do), then a month.
-const pastHearing = (api: CoreAPI) =>
-  chargeDecisionDays(api).days +
-  dispositionDays(api, lawChain(api).stateKey).days +
-  30;
 
 function playPlace(seed: string, skipped: string[]): string | null {
   const place = drawPlace(seed, "office-clemency");
@@ -106,22 +97,32 @@ function playPlace(seed: string, skipped: string[]): string | null {
         stakeMinor: 50_000_000,
         subjectId: `favor:${offerer.id}:${official}`,
       });
-  advanceCore(core, addDays(makeIsoDate(core.date), pastHearing(api)));
-  if (!prisonersServing(api).length) {
-    skipped.push(`${where}: nobody in prison`);
+  // A computer governor takes up each week's petition on its review day, so
+  // the player's petition is the one on the eve of the first review day with a
+  // prisoner serving: play day by day to that eve and read the review day's
+  // calendar before it begins.
+  const reviewWeekday = stateDayParameter("clemencyReviewWeekday");
+  let date = "";
+  let entries: ReturnType<typeof stateDay> = [];
+  for (let day = 0; day < 365 && !entries.length; day += 1) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const next = addDays(makeIsoDate(core.date), 1);
+    if (
+      new Date(`${next}T00:00:00Z`).getUTCDay() !== reviewWeekday ||
+      !prisonersServing(api).length
+    )
+      continue;
+    date = next;
+    entries = stateDay(api, governor, next).filter(
+      (e) => e.kind === "clemency",
+    );
+  }
+  if (!entries.length) {
+    skipped.push(`${where}: nobody in prison on a review day's eve in a year`);
     return null;
   }
-  // The next review day; entries are the governor's calendar for it.
-  let date = makeIsoDate(core.date);
-  while (
-    new Date(`${date}T00:00:00Z`).getUTCDay() !==
-    stateDayParameter("clemencyReviewWeekday")
-  )
-    date = addDays(date, 1);
-  advanceCore(core, date);
-  const entries = stateDay(api, governor, date).filter(
-    (e) => e.kind === "clemency",
-  );
+  // The day the player acts: the eve of the review day.
+  const actDay = makeIsoDate(core.date);
   const served = prisonersServing(api);
   expect(entries.length, `${where}: one petition on the review day`).toBe(1);
   const custodyId = entries[0]!.subject;
@@ -136,7 +137,7 @@ function playPlace(seed: string, skipped: string[]): string | null {
       .table("sentences")
       .get(prisoner.sentenceId) as unknown as SentenceRow
   ).releaseDate;
-  expect(sentenceBefore! > date, `${where}: term not yet ended`).toBe(true);
+  expect(sentenceBefore! > actDay, `${where}: term not yet ended`).toBe(true);
   expect(inCustody(api, prisoner.personId), where).toBe(true);
 
   // The sentence is the governor's own state's: another state's governor
@@ -162,7 +163,9 @@ function playPlace(seed: string, skipped: string[]): string | null {
   const [clemency] = clemenciesOf(api, prisoner.personId);
   expect(clemency, `${where}: clemency on record`).toBeDefined();
   expect(result.recordIds, where).toEqual([clemency!.id, prisoner.sentenceId]);
-  expect(sentenceAfter.releaseDate, `${where}: sentence ends today`).toBe(date);
+  expect(sentenceAfter.releaseDate, `${where}: sentence ends today`).toBe(
+    actDay,
+  );
   expect(clemency!.releaseWas, where).toBe(sentenceBefore);
   expect(clemency!.daysRemitted, where).toBeGreaterThan(0);
   expect(inCustody(api, prisoner.personId), `${where}: free`).toBe(false);

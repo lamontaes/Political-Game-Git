@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/repass-law-in-force
+status: open
+claimed-by:
 pr: #5778
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T02:21:31.090Z
+claimed-at:
 ---
 
 **What.** In Colorado ward charter 0820000 (seed 66bfd7556936bacdd58270aee92c6eddc549823a, law-wiring-government.test.ts), the state legislature passed automatic voter registration four times in one month (HB25-1003, 1015, 1018, 1019) while it was already law, two on the same day. A body should not draft or pass a bill whose answer is the law in force.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-21T02:21:31.090Z
 **Files.** src/core2/legislature*.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5778 (branch claude/repass-law-in-force): New legislature-repass regression fails in St. Leon IN 1866978, seed fc26f909e5d5b49dc5d8a2796b7220e913cc95143777de03a7dccc69445ac090: council bill re-enacts right-to-counsel 0 over existing 0; finish on that branch, merge main into it first.
