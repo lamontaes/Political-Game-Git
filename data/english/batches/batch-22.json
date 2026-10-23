@@ -1,0 +1,2463 @@
+{
+  "id": "batch-22",
+  "title": "Words batch-22: held hand-written lines",
+  "kind": "held-parts-by-move",
+  "items": [
+    {
+      "i": 0,
+      "bank": "bring-it-up.json",
+      "register": "bring-it-up",
+      "move": "change-news.read-read",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "I read in {subject} about {topic}.",
+      "parts": [
+        "bring-it-up.change-news.read-read.i-read-in-subject-about-topic"
+      ],
+      "slots": [
+        {
+          "name": "subject",
+          "from": "The place or business that changed, from the event record."
+        },
+        {
+          "name": "topic",
+          "from": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["change / news.read / read"]
+    },
+    {
+      "i": 1,
+      "bank": "bring-it-up.json",
+      "register": "bring-it-up",
+      "move": "change-news.read-read",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "I saw {subject} ran a story on {topic}.",
+      "parts": [
+        "bring-it-up.change-news.read-read.i-saw-subject-ran-a-story-on-topic"
+      ],
+      "slots": [
+        {
+          "name": "subject",
+          "from": "The place or business that changed, from the event record."
+        },
+        {
+          "name": "topic",
+          "from": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["change / news.read / read"]
+    },
+    {
+      "i": 2,
+      "bank": "bring-it-up.json",
+      "register": "bring-it-up",
+      "move": "change-news.read-read",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{subject} had a story about {topic}.",
+      "parts": [
+        "bring-it-up.change-news.read-read.subject-had-a-story-about-topic"
+      ],
+      "slots": [
+        {
+          "name": "subject",
+          "from": "The place or business that changed, from the event record."
+        },
+        {
+          "name": "topic",
+          "from": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["change / news.read / read"]
+    },
+    {
+      "i": 3,
+      "bank": "bring-it-up.json",
+      "register": "bring-it-up",
+      "move": "change-news.read-read",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "There was something in {subject} about {topic}.",
+      "parts": [
+        "bring-it-up.change-news.read-read.there-was-something-in-subject-about-top"
+      ],
+      "slots": [
+        {
+          "name": "subject",
+          "from": "The place or business that changed, from the event record."
+        },
+        {
+          "name": "topic",
+          "from": "What the story was about: the catalog's name for the policy topic of the story, from the printed story record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["change / news.read / read"]
+    },
+    {
+      "i": 4,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "school-answer-at",
+      "sharedMove": "answer",
+      "text": "I went to school at {school}.",
+      "parts": ["conversation.school-answer-at.i-went-to-school-at"],
+      "slots": [
+        {
+          "name": "school",
+          "from": "A school, from the school record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["school / answer / at"]
+    },
+    {
+      "i": 5,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "school-answer-at",
+      "sharedMove": "answer",
+      "text": "I'm a student at {school}.",
+      "parts": ["conversation.school-answer-at.im-a-student-at"],
+      "slots": [
+        {
+          "name": "school",
+          "from": "A school, from the school record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["school / answer / at"]
+    },
+    {
+      "i": 6,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "election-other-result",
+      "sharedMove": "tell",
+      "text": "{name} lost the race for {office}.",
+      "parts": ["journal.election-other-result.name-lost-the-race"],
+      "slots": [
+        {
+          "name": "name",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["election / other / result"]
+    },
+    {
+      "i": 7,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "election-other-result",
+      "sharedMove": "tell",
+      "text": "{name} was elected to {office}.",
+      "parts": ["journal.election-other-result.name-was-elected-to-office"],
+      "slots": [
+        {
+          "name": "name",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["election / other / result"]
+    },
+    {
+      "i": 8,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "election-other-result",
+      "sharedMove": "tell",
+      "text": "{name} won the race for {office}.",
+      "parts": ["journal.election-other-result.name-won-the-race"],
+      "slots": [
+        {
+          "name": "name",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["election / other / result"]
+    },
+    {
+      "i": 9,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "election-other-result",
+      "sharedMove": "tell",
+      "text": "{other} got elected to {office}.",
+      "parts": ["journal.election-other-result.other-got-elected-to-office"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["election / other / result"]
+    },
+    {
+      "i": 10,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "election-other-result",
+      "sharedMove": "tell",
+      "text": "{other} lost the race for {office}.",
+      "parts": ["journal.election-other-result.other-lost-the-race"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["election / other / result"]
+    },
+    {
+      "i": 11,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "election-other-result",
+      "sharedMove": "tell",
+      "text": "{other} was elected to {office}.",
+      "parts": ["journal.election-other-result.other-was-elected-to-office"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["election / other / result"]
+    },
+    {
+      "i": 12,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "election-other-result",
+      "sharedMove": "tell",
+      "text": "{other} won the race for {office}.",
+      "parts": ["journal.election-other-result.other-won-the-race"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["election / other / result"]
+    },
+    {
+      "i": 13,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "home-line-met",
+      "sharedMove": "tell",
+      "text": "I first met {other} in {place}.",
+      "parts": ["journal.home-line-met.i-first-met-other-in-place"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "place",
+          "from": "A town, from the household or move record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["home / met / met"]
+    },
+    {
+      "i": 14,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "home-line-met",
+      "sharedMove": "tell",
+      "text": "I met {other} in {place}.",
+      "parts": ["journal.home-line-met.i-met-other-in-place"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "place",
+          "from": "A town, from the household or move record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["home / met / met"]
+    },
+    {
+      "i": 15,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "home-line-met",
+      "sharedMove": "tell",
+      "text": "{other} and I met in {place}.",
+      "parts": ["journal.home-line-met.other-and-i-met-in-place"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        },
+        {
+          "name": "place",
+          "from": "A town, from the household or move record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["home / met / met"]
+    },
+    {
+      "i": 16,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "home-line-roots",
+      "sharedMove": "tell",
+      "text": "My family came from {place}.",
+      "parts": ["journal.home-line-roots.my-family-came-from-place"],
+      "slots": [
+        {
+          "name": "place",
+          "from": "A town, from the household or move record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["home / roots / roots"]
+    },
+    {
+      "i": 17,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "home-line-roots",
+      "sharedMove": "tell",
+      "text": "My people came from {place}.",
+      "parts": ["journal.home-line-roots.my-people-came-from-place"],
+      "slots": [
+        {
+          "name": "place",
+          "from": "A town, from the household or move record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["home / roots / roots"]
+    },
+    {
+      "i": 18,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "home-line-roots",
+      "sharedMove": "tell",
+      "text": "Our family came from {place}.",
+      "parts": ["journal.home-line-roots.our-family-came-from-place"],
+      "slots": [
+        {
+          "name": "place",
+          "from": "A town, from the household or move record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["home / roots / roots"]
+    },
+    {
+      "i": 19,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "memoir-hook",
+      "sharedMove": "recall",
+      "text": "Little did I know what {other} would do next.",
+      "parts": ["journal.memoir-hook.little-did-i-know-what-other-would-do"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["memoir / hook / hook"]
+    },
+    {
+      "i": 20,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "memoir-revise",
+      "sharedMove": "recall",
+      "text": "I did not know then what {name} would mean to me.",
+      "parts": [
+        "journal.memoir-revise.i-did-not-know-then-what-name-would-mean-to-me"
+      ],
+      "slots": [
+        {
+          "name": "name",
+          "from": "A person, by name, from the records."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["memoir / revise / revise"]
+    },
+    {
+      "i": 21,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "memoir-revise",
+      "sharedMove": "recall",
+      "text": "I thought little of {name} then.",
+      "parts": ["journal.memoir-revise.i-thought-little-of-name-then"],
+      "slots": [
+        {
+          "name": "name",
+          "from": "A person, by name, from the records."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["memoir / revise / revise"]
+    },
+    {
+      "i": 22,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "memoir-revise",
+      "sharedMove": "recall",
+      "text": "It began with {name}, though I did not see it then.",
+      "parts": [
+        "journal.memoir-revise.it-began-with-name-though-i-did-not-see-it-then"
+      ],
+      "slots": [
+        {
+          "name": "name",
+          "from": "A person, by name, from the records."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["memoir / revise / revise"]
+    },
+    {
+      "i": 23,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "memoir-revise",
+      "sharedMove": "recall",
+      "text": "{name} mattered more than I knew.",
+      "parts": ["journal.memoir-revise.name-mattered-more-than-i-knew"],
+      "slots": [
+        {
+          "name": "name",
+          "from": "A person, by name, from the records."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["memoir / revise / revise"]
+    },
+    {
+      "i": 24,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "moved-other-away",
+      "sharedMove": "tell",
+      "text": "{relation} moved away.",
+      "parts": ["journal.moved-other-away.relation-moved-away"],
+      "slots": [
+        {
+          "name": "relation",
+          "from": "How the writer is related to someone, with the possessive, from the family record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["moved / other / away"]
+    },
+    {
+      "i": 25,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "office-line-interview",
+      "sharedMove": "tell",
+      "text": "I gave an interview.",
+      "parts": ["journal.office-line-interview.i-gave-an-interview"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["office / line / i-gave-an-interview"]
+    },
+    {
+      "i": 26,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "office-line-interview",
+      "sharedMove": "tell",
+      "text": "I sat down with a reporter.",
+      "parts": ["journal.office-line-interview.i-sat-down-with-a-reporter"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["office / line / i-sat-down-with-a-reporter"]
+    },
+    {
+      "i": 27,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "office-line-took-office",
+      "sharedMove": "tell",
+      "text": "I took my seat as {office}.",
+      "parts": ["journal.office-line-took-office.i-took-my-seat-as-office"],
+      "slots": [
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["office / line / i-took-my-seat-as-office"]
+    },
+    {
+      "i": 28,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "office-line-took-office",
+      "sharedMove": "tell",
+      "text": "I took office as {office}.",
+      "parts": ["journal.office-line-took-office.i-took-office-as-office"],
+      "slots": [
+        {
+          "name": "office",
+          "from": "An office, from the candidate filing record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["office / line / i-took-office-as-office"]
+    },
+    {
+      "i": 29,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "office-line-town-hall",
+      "sharedMove": "tell",
+      "text": "I held a town hall.",
+      "parts": ["journal.office-line-town-hall.i-held-a-town-hall"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["office / line / i-held-a-town-hall"]
+    },
+    {
+      "i": 30,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "office-line-town-hall",
+      "sharedMove": "tell",
+      "text": "I hosted a town hall.",
+      "parts": ["journal.office-line-town-hall.i-hosted-a-town-hall"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["office / line / i-hosted-a-town-hall"]
+    },
+    {
+      "i": 31,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "work-line-parent-job",
+      "sharedMove": "tell",
+      "text": "{other} got a new job.",
+      "parts": ["journal.work-line-parent-job.other-got-a-new-job"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["work / parent-job / parent-job"]
+    },
+    {
+      "i": 32,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "work-line-parent-job",
+      "sharedMove": "tell",
+      "text": "{other} started a new job.",
+      "parts": ["journal.work-line-parent-job.other-started-a-new-job"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["work / parent-job / parent-job"]
+    },
+    {
+      "i": 33,
+      "bank": "journal.json",
+      "register": "journal",
+      "move": "work-line-parent-job",
+      "sharedMove": "tell",
+      "text": "{other} went to work somewhere new.",
+      "parts": [
+        "journal.work-line-parent-job.other-went-to-work-somewhere-new"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the records."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["work / parent-job / parent-job"]
+    },
+    {
+      "i": 34,
+      "bank": "news.json",
+      "register": "news",
+      "move": "law-took-effect",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{measure} became law on {date}.",
+      "parts": ["news.law-took-effect.measure-became-law-on-date"],
+      "slots": [
+        {
+          "name": "measure",
+          "from": "The measure, as its record names it."
+        },
+        {
+          "name": "date",
+          "from": "A date from the event record, as people say it."
+        }
+      ],
+      "requires": ["enacted"],
+      "usedFor": ["news / law-took-effect / lede"]
+    },
+    {
+      "i": 35,
+      "bank": "news.json",
+      "register": "news",
+      "move": "law-took-effect",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{measure} took effect on {date}.",
+      "parts": ["news.law-took-effect.measure-took-effect-on-date"],
+      "slots": [
+        {
+          "name": "measure",
+          "from": "The measure, as its record names it."
+        },
+        {
+          "name": "date",
+          "from": "A date from the event record, as people say it."
+        }
+      ],
+      "requires": ["effective"],
+      "usedFor": ["news / law-took-effect / lede"]
+    },
+    {
+      "i": 36,
+      "bank": "newspaper-ledes.json",
+      "register": "newspaper-ledes",
+      "move": "action-next-step",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{actor} took up {record}, and the next step is {result}.",
+      "parts": ["newspaper-ledes.action-next-step.action-and-next-step"],
+      "slots": [
+        {
+          "name": "actor",
+          "from": "The public body or official named in the current record."
+        },
+        {
+          "name": "record",
+          "from": "The ordinance, resolution, application, hearing, or other record item."
+        },
+        {
+          "name": "result",
+          "from": "The recorded outcome or next step."
+        }
+      ],
+      "requires": [],
+      "usedFor": []
+    },
+    {
+      "i": 37,
+      "bank": "newspaper-ledes.json",
+      "register": "newspaper-ledes",
+      "move": "decision-impact",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{actor} {action} {record}, a decision that affects {affected}.",
+      "parts": ["newspaper-ledes.decision-impact.decision-and-impact"],
+      "slots": [
+        {
+          "name": "actor",
+          "from": "The public body or official named in the current record."
+        },
+        {
+          "name": "action",
+          "from": "The recorded action, stated in plain English."
+        },
+        {
+          "name": "record",
+          "from": "The ordinance, resolution, application, hearing, or other record item."
+        },
+        {
+          "name": "affected",
+          "from": "The residents, workers, or services affected, as recorded."
+        }
+      ],
+      "requires": [],
+      "usedFor": []
+    },
+    {
+      "i": 38,
+      "bank": "newspaper-ledes.json",
+      "register": "newspaper-ledes",
+      "move": "denial-consequence",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{actor} rejected {record}, blocking a change to {issue}.",
+      "parts": [
+        "newspaper-ledes.denial-consequence.denial-and-local-consequence"
+      ],
+      "slots": [
+        {
+          "name": "actor",
+          "from": "The public body or official named in the current record."
+        },
+        {
+          "name": "record",
+          "from": "The ordinance, resolution, application, hearing, or other record item."
+        },
+        {
+          "name": "issue",
+          "from": "The local issue the recorded action addresses."
+        }
+      ],
+      "requires": [],
+      "usedFor": []
+    },
+    {
+      "i": 39,
+      "bank": "newspaper-ledes.json",
+      "register": "newspaper-ledes",
+      "move": "grant-benefit",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{actor} granted {record}, allowing {affected} to {result}.",
+      "parts": ["newspaper-ledes.grant-benefit.grant-and-beneficiary"],
+      "slots": [
+        {
+          "name": "actor",
+          "from": "The public body or official named in the current record."
+        },
+        {
+          "name": "record",
+          "from": "The ordinance, resolution, application, hearing, or other record item."
+        },
+        {
+          "name": "affected",
+          "from": "The residents, workers, or services affected, as recorded."
+        },
+        {
+          "name": "result",
+          "from": "The recorded outcome or next step."
+        }
+      ],
+      "requires": [],
+      "usedFor": []
+    },
+    {
+      "i": 40,
+      "bank": "newspaper-ledes.json",
+      "register": "newspaper-ledes",
+      "move": "public-service-impact",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{actor} granted {record} to {affected} and began reviewing {issue}.",
+      "parts": ["newspaper-ledes.public-service-impact.service-and-pay"],
+      "slots": [
+        {
+          "name": "actor",
+          "from": "The public body or official named in the current record."
+        },
+        {
+          "name": "record",
+          "from": "The ordinance, resolution, application, hearing, or other record item."
+        },
+        {
+          "name": "affected",
+          "from": "The residents, workers, or services affected, as recorded."
+        },
+        {
+          "name": "issue",
+          "from": "The local issue the recorded action addresses."
+        }
+      ],
+      "requires": [],
+      "usedFor": []
+    },
+    {
+      "i": 41,
+      "bank": "newspaper-ledes.json",
+      "register": "newspaper-ledes",
+      "move": "vote-purpose",
+      "sharedMove": "deliver-news",
+      "key": "news-received",
+      "text": "{actor} approved {record} to address {issue} in {place}.",
+      "parts": ["newspaper-ledes.vote-purpose.vote-and-public-purpose"],
+      "slots": [
+        {
+          "name": "actor",
+          "from": "The public body or official named in the current record."
+        },
+        {
+          "name": "record",
+          "from": "The ordinance, resolution, application, hearing, or other record item."
+        },
+        {
+          "name": "issue",
+          "from": "The local issue the recorded action addresses."
+        },
+        {
+          "name": "place",
+          "from": "The jurisdiction or location named in the record."
+        }
+      ],
+      "requires": [],
+      "usedFor": []
+    },
+    {
+      "i": 42,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-acquitted-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} has been acquitted.",
+      "parts": ["scene-words.cause-acquitted-other.other-has-been-acquitted"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:justice.acquitted / other"]
+    },
+    {
+      "i": 43,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-acquitted-self",
+      "sharedMove": "deliver-news",
+      "text": "You have been acquitted.",
+      "parts": ["scene-words.cause-acquitted-self.you-have-been-acquitted"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:justice.acquitted / self"]
+    },
+    {
+      "i": 44,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-birth-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} has been born.",
+      "parts": ["scene-words.cause-birth-other.other-has-been-born"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:person-birth / other"]
+    },
+    {
+      "i": 45,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-birth-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} was born.",
+      "parts": ["scene-words.cause-birth-other.other-was-born"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:person-birth / other"]
+    },
+    {
+      "i": 46,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-birth-self",
+      "sharedMove": "deliver-news",
+      "text": "You have a new baby.",
+      "parts": ["scene-words.cause-birth-self.you-have-a-new-baby"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:person-birth / self"]
+    },
+    {
+      "i": 47,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-birth-self",
+      "sharedMove": "deliver-news",
+      "text": "Your baby has been born.",
+      "parts": ["scene-words.cause-birth-self.your-baby-has-been-born"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:person-birth / self"]
+    },
+    {
+      "i": 48,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-charged-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} has been charged with a crime.",
+      "parts": [
+        "scene-words.cause-charged-other.other-has-been-charged-with-a-crime"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:justice.charged / other"]
+    },
+    {
+      "i": 49,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-charged-self",
+      "sharedMove": "deliver-news",
+      "text": "You have been charged with a crime.",
+      "parts": [
+        "scene-words.cause-charged-self.you-have-been-charged-with-a-crime"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:justice.charged / self"]
+    },
+    {
+      "i": 50,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-convicted-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} has been convicted.",
+      "parts": ["scene-words.cause-convicted-other.other-has-been-convicted"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:justice.convicted / other"]
+    },
+    {
+      "i": 51,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-convicted-self",
+      "sharedMove": "deliver-news",
+      "text": "You have been convicted.",
+      "parts": ["scene-words.cause-convicted-self.you-have-been-convicted"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:justice.convicted / self"]
+    },
+    {
+      "i": 52,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-death-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} has died.",
+      "parts": ["scene-words.cause-death-other.other-has-died"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:life.death / other"]
+    },
+    {
+      "i": 53,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-death-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} passed away.",
+      "parts": ["scene-words.cause-death-other.other-passed-away"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:life.death / other"]
+    },
+    {
+      "i": 54,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-eviction-self",
+      "sharedMove": "deliver-news",
+      "text": "Your household has to leave its home.",
+      "parts": [
+        "scene-words.cause-eviction-self.your-household-has-to-leave-its-home"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:housing.eviction / self"]
+    },
+    {
+      "i": 55,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-eviction-self",
+      "sharedMove": "deliver-news",
+      "text": "Your household is being evicted.",
+      "parts": [
+        "scene-words.cause-eviction-self.your-household-is-being-evicted"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:housing.eviction / self"]
+    },
+    {
+      "i": 56,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-illness-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} has fallen seriously ill.",
+      "parts": [
+        "scene-words.cause-illness-other.other-has-fallen-seriously-ill"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:health.serious-illness / other"]
+    },
+    {
+      "i": 57,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-illness-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} is seriously ill.",
+      "parts": ["scene-words.cause-illness-other.other-is-seriously-ill"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:health.serious-illness / other"]
+    },
+    {
+      "i": 58,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-imprisoned-other",
+      "sharedMove": "deliver-news",
+      "text": "{other} has been sent to prison.",
+      "parts": [
+        "scene-words.cause-imprisoned-other.other-has-been-sent-to-prison"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:justice.imprisoned / other"]
+    },
+    {
+      "i": 59,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-imprisoned-self",
+      "sharedMove": "deliver-news",
+      "text": "You have been sent to prison.",
+      "parts": [
+        "scene-words.cause-imprisoned-self.you-have-been-sent-to-prison"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:justice.imprisoned / self"]
+    },
+    {
+      "i": 60,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-job-ended-self",
+      "sharedMove": "deliver-news",
+      "text": "You lost your job at {employer}.",
+      "parts": [
+        "scene-words.cause-job-ended-self.you-lost-your-job-at-employer"
+      ],
+      "slots": [
+        {
+          "name": "employer",
+          "from": "An employer, from the setting's record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / money:job-ended / self"]
+    },
+    {
+      "i": 61,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-job-ended-self",
+      "sharedMove": "deliver-news",
+      "text": "Your job at {employer} has ended.",
+      "parts": [
+        "scene-words.cause-job-ended-self.your-job-at-employer-has-ended"
+      ],
+      "slots": [
+        {
+          "name": "employer",
+          "from": "An employer, from the setting's record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / money:job-ended / self"]
+    },
+    {
+      "i": 62,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-job-started-self",
+      "sharedMove": "deliver-news",
+      "text": "You begin work at {employer}.",
+      "parts": [
+        "scene-words.cause-job-started-self.you-begin-work-at-employer"
+      ],
+      "slots": [
+        {
+          "name": "employer",
+          "from": "An employer, from the setting's record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / money:job-started / self"]
+    },
+    {
+      "i": 63,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-job-started-self",
+      "sharedMove": "deliver-news",
+      "text": "You start a new job at {employer}.",
+      "parts": [
+        "scene-words.cause-job-started-self.you-start-a-new-job-at-employer"
+      ],
+      "slots": [
+        {
+          "name": "employer",
+          "from": "An employer, from the setting's record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / money:job-started / self"]
+    },
+    {
+      "i": 64,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "cause-shared-other",
+      "sharedMove": "deliver-news",
+      "text": "You and {other} are on the same side of an issue.",
+      "parts": [
+        "scene-words.cause-shared-other.you-and-other-are-on-the-same-side-of-an"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["cause / feeling:event:cause.shared / other"]
+    },
+    {
+      "i": 65,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "frame-day",
+      "sharedMove": "narrate",
+      "text": "It is a {weekday} in {month}.",
+      "parts": ["scene-words.frame-day.it-is-a-weekday-in-month"],
+      "slots": [
+        {
+          "name": "weekday",
+          "from": "The day of the week, from the moment's date."
+        },
+        {
+          "name": "month",
+          "from": "The month, from the moment's date."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["frame / day / day"]
+    },
+    {
+      "i": 66,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "frame-day",
+      "sharedMove": "narrate",
+      "text": "It's a {weekday} in {month}.",
+      "parts": ["scene-words.frame-day.it-s-a-weekday-in-month"],
+      "slots": [
+        {
+          "name": "weekday",
+          "from": "The day of the week, from the moment's date."
+        },
+        {
+          "name": "month",
+          "from": "The month, from the moment's date."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["frame / day / day"]
+    },
+    {
+      "i": 67,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "frame-day",
+      "sharedMove": "narrate",
+      "text": "This is a {weekday} in {month}.",
+      "parts": ["scene-words.frame-day.this-is-a-weekday-in-month"],
+      "slots": [
+        {
+          "name": "weekday",
+          "from": "The day of the week, from the moment's date."
+        },
+        {
+          "name": "month",
+          "from": "The month, from the moment's date."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["frame / day / day"]
+    },
+    {
+      "i": 68,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-appointment-any",
+      "sharedMove": "narrate",
+      "text": "An appointment has been made.",
+      "parts": [
+        "scene-words.lead-appointment-any.an-appointment-has-been-made"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / appointment / any"]
+    },
+    {
+      "i": 69,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-argument-alone",
+      "sharedMove": "narrate",
+      "text": "There is a disagreement in the room.",
+      "parts": [
+        "scene-words.lead-argument-alone.there-is-a-disagreement-in-the-room"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / argument / alone"]
+    },
+    {
+      "i": 70,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-argument-other",
+      "sharedMove": "narrate",
+      "text": "Things between you and {other} are not settled.",
+      "parts": [
+        "scene-words.lead-argument-other.things-between-you-and-other-are-not-settled"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / argument / other"]
+    },
+    {
+      "i": 71,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-arrival-alone",
+      "sharedMove": "narrate",
+      "text": "A new child has come into the household.",
+      "parts": [
+        "scene-words.lead-arrival-alone.a-new-child-has-come-into-the-household"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / arrival / alone"]
+    },
+    {
+      "i": 72,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-arrival-other",
+      "sharedMove": "narrate",
+      "text": "A child has been born, and {other} is there.",
+      "parts": [
+        "scene-words.lead-arrival-other.a-child-has-been-born-and-other-is-there"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / arrival / other"]
+    },
+    {
+      "i": 73,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-becoming-friends-alone",
+      "sharedMove": "narrate",
+      "text": "You keep running into the same faces around town.",
+      "parts": [
+        "scene-words.lead-becoming-friends-alone.you-keep-running-into-the-same-faces-around-town"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / becoming-friends / alone"]
+    },
+    {
+      "i": 74,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-becoming-friends-other",
+      "sharedMove": "narrate",
+      "text": "You've been running into {other} around town.",
+      "parts": [
+        "scene-words.lead-becoming-friends-other.youve-been-running-into-other-around-town"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / becoming-friends / other"]
+    },
+    {
+      "i": 75,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-bill-signed-any",
+      "sharedMove": "narrate",
+      "text": "The bill has been signed.",
+      "parts": ["scene-words.lead-bill-signed-any.the-bill-has-been-signed"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / bill-signed / any"]
+    },
+    {
+      "i": 76,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-breakup-alone",
+      "sharedMove": "narrate",
+      "text": "Your relationship has ended.",
+      "parts": ["scene-words.lead-breakup-alone.your-relationship-has-ended"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / breakup / alone"]
+    },
+    {
+      "i": 77,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-breakup-other",
+      "sharedMove": "narrate",
+      "text": "You and {other} are no longer together.",
+      "parts": [
+        "scene-words.lead-breakup-other.you-and-other-are-no-longer-together"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / breakup / other"]
+    },
+    {
+      "i": 78,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-campaign-stop-any",
+      "sharedMove": "narrate",
+      "text": "A campaign event is under way.",
+      "parts": [
+        "scene-words.lead-campaign-stop-any.a-campaign-event-is-under-way"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / campaign-stop / any"]
+    },
+    {
+      "i": 79,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-celebration-alone",
+      "sharedMove": "narrate",
+      "text": "There is something to mark today.",
+      "parts": [
+        "scene-words.lead-celebration-alone.there-is-something-to-mark-today"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / celebration / alone"]
+    },
+    {
+      "i": 80,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-celebration-other",
+      "sharedMove": "narrate",
+      "text": "{other} is part of what is being marked today.",
+      "parts": [
+        "scene-words.lead-celebration-other.other-is-part-of-what-is-being-marked-today"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / celebration / other"]
+    },
+    {
+      "i": 81,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-eviction-notice-any",
+      "sharedMove": "narrate",
+      "text": "A notice has come that you must leave your home.",
+      "parts": [
+        "scene-words.lead-eviction-notice-any.a-notice-has-come-that-you-must-leave-your-home"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / eviction-notice / any"]
+    },
+    {
+      "i": 82,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-eviction-notice-other",
+      "sharedMove": "narrate",
+      "text": "A notice says you must leave, and {other} is there.",
+      "parts": [
+        "scene-words.lead-eviction-notice-other.a-notice-says-you-must-leave-and-other-is-there"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / eviction-notice / other"]
+    },
+    {
+      "i": 83,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-first-day-alone",
+      "sharedMove": "narrate",
+      "text": "It's your first day, and you are expected.",
+      "parts": [
+        "scene-words.lead-first-day-alone.its-your-first-day-and-you-are-expected"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / first-day / alone"]
+    },
+    {
+      "i": 84,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-first-day-other",
+      "sharedMove": "narrate",
+      "text": "It's your first day, and {other} is there when you arrive.",
+      "parts": [
+        "scene-words.lead-first-day-other.its-your-first-day-and-other-is-there-when-you-a"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / first-day / other"]
+    },
+    {
+      "i": 85,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-first-meeting-alone",
+      "sharedMove": "narrate",
+      "text": "Someone new has come over to meet you.",
+      "parts": [
+        "scene-words.lead-first-meeting-alone.someone-new-has-come-over-to-meet-you"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / first-meeting / alone"]
+    },
+    {
+      "i": 86,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-first-meeting-other",
+      "sharedMove": "narrate",
+      "text": "You and {other} are just meeting.",
+      "parts": [
+        "scene-words.lead-first-meeting-other.you-and-other-are-just-meeting"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / first-meeting / other"]
+    },
+    {
+      "i": 87,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-floor-vote-any",
+      "sharedMove": "narrate",
+      "text": "A vote has been called.",
+      "parts": ["scene-words.lead-floor-vote-any.a-vote-has-been-called"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / floor-vote / any"]
+    },
+    {
+      "i": 88,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-funeral-alone",
+      "sharedMove": "narrate",
+      "text": "People have gathered to say goodbye.",
+      "parts": [
+        "scene-words.lead-funeral-alone.people-have-gathered-to-say-goodbye"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / funeral / alone"]
+    },
+    {
+      "i": 89,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-funeral-other",
+      "sharedMove": "narrate",
+      "text": "{other} is among the people who have come to say goodbye.",
+      "parts": [
+        "scene-words.lead-funeral-other.other-is-among-the-people-who-have-come-to-say-g"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / funeral / other"]
+    },
+    {
+      "i": 90,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-hearing-any",
+      "sharedMove": "narrate",
+      "text": "The court is in session.",
+      "parts": ["scene-words.lead-hearing-any.the-court-is-in-session"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / hearing / any"]
+    },
+    {
+      "i": 91,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-last-day-alone",
+      "sharedMove": "narrate",
+      "text": "It's your last day.",
+      "parts": ["scene-words.lead-last-day-alone.its-your-last-day"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / last-day / alone"]
+    },
+    {
+      "i": 92,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-last-day-other",
+      "sharedMove": "narrate",
+      "text": "It's your last day, and {other} is there for it.",
+      "parts": [
+        "scene-words.lead-last-day-other.its-your-last-day-and-other-is-there-for-it"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / last-day / other"]
+    },
+    {
+      "i": 93,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-law-takes-effect-any",
+      "sharedMove": "narrate",
+      "text": "A law that reaches you has taken effect.",
+      "parts": [
+        "scene-words.lead-law-takes-effect-any.a-law-that-reaches-you-has-taken-effect"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / law-takes-effect / any"]
+    },
+    {
+      "i": 94,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-layoff-alone",
+      "sharedMove": "narrate",
+      "text": "Your job has ended.",
+      "parts": ["scene-words.lead-layoff-alone.your-job-has-ended"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / layoff / alone"]
+    },
+    {
+      "i": 95,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-layoff-other",
+      "sharedMove": "narrate",
+      "text": "Your job has ended, and {other} is there.",
+      "parts": [
+        "scene-words.lead-layoff-other.your-job-has-ended-and-other-is-there"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / layoff / other"]
+    },
+    {
+      "i": 96,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-news-arrives-alone",
+      "sharedMove": "narrate",
+      "text": "News has reached you.",
+      "parts": ["scene-words.lead-news-arrives-alone.news-has-reached-you"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / news-arrives / alone"]
+    },
+    {
+      "i": 97,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-news-arrives-other",
+      "sharedMove": "narrate",
+      "text": "{other} has news for you.",
+      "parts": ["scene-words.lead-news-arrives-other.other-has-news-for-you"],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / news-arrives / other"]
+    },
+    {
+      "i": 98,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-office-scene-any",
+      "sharedMove": "narrate",
+      "text": "{name} is the member you need to reach.",
+      "parts": [
+        "scene-words.lead-office-scene-any.name-is-the-member-you-need-to-reach"
+      ],
+      "slots": [
+        {
+          "name": "name",
+          "from": "The member the scene is about, by name, from the member's term."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / office-scene / any"]
+    },
+    {
+      "i": 99,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-office-scene-any",
+      "sharedMove": "narrate",
+      "text": "This bill is about {issue}, and {name} is the one to reach.",
+      "parts": [
+        "scene-words.lead-office-scene-any.this-bill-is-about-issue-and-name-is-the-one-to-"
+      ],
+      "slots": [
+        {
+          "name": "issue",
+          "from": "The bill's question, named as the bill catalog records it."
+        },
+        {
+          "name": "name",
+          "from": "The member the scene is about, by name, from the member's term."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / office-scene / any"]
+    },
+    {
+      "i": 100,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-polling-place-any",
+      "sharedMove": "narrate",
+      "text": "It's election day, and the polls are open.",
+      "parts": [
+        "scene-words.lead-polling-place-any.its-election-day-and-the-polls-are-open"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / polling-place / any"]
+    },
+    {
+      "i": 101,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-press-interview-any",
+      "sharedMove": "narrate",
+      "text": "A reporter is asking questions.",
+      "parts": [
+        "scene-words.lead-press-interview-any.a-reporter-is-asking-questions"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / press-interview / any"]
+    },
+    {
+      "i": 102,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-public-hearing-any",
+      "sharedMove": "narrate",
+      "text": "A public hearing is under way.",
+      "parts": [
+        "scene-words.lead-public-hearing-any.a-public-hearing-is-under-way"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / public-hearing / any"]
+    },
+    {
+      "i": 103,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-race-lost-any",
+      "sharedMove": "narrate",
+      "text": "The count is in, and you lost.",
+      "parts": ["scene-words.lead-race-lost-any.the-count-is-in-and-you-lost"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / race-lost / any"]
+    },
+    {
+      "i": 104,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-race-won-any",
+      "sharedMove": "narrate",
+      "text": "The count is in, and you won.",
+      "parts": ["scene-words.lead-race-won-any.the-count-is-in-and-you-won"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / race-won / any"]
+    },
+    {
+      "i": 105,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-recall-any",
+      "sharedMove": "narrate",
+      "text": "A petition to recall an official has gone around.",
+      "parts": [
+        "scene-words.lead-recall-any.a-petition-to-recall-an-official-has-gone-around"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / recall / any"]
+    },
+    {
+      "i": 106,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-reunion-alone",
+      "sharedMove": "narrate",
+      "text": "Someone you know has turned up.",
+      "parts": [
+        "scene-words.lead-reunion-alone.someone-you-know-has-turned-up"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / reunion / alone"]
+    },
+    {
+      "i": 107,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-reunion-other",
+      "sharedMove": "narrate",
+      "text": "You and {other} are together again.",
+      "parts": [
+        "scene-words.lead-reunion-other.you-and-other-are-together-again"
+      ],
+      "slots": [
+        {
+          "name": "other",
+          "from": "A person, by name, from the tie record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["lead / reunion / other"]
+    },
+    {
+      "i": 108,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-scandal-any",
+      "sharedMove": "narrate",
+      "text": "A story about a scandal has reached you.",
+      "parts": [
+        "scene-words.lead-scandal-any.a-story-about-a-scandal-has-reached-you"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / scandal / any"]
+    },
+    {
+      "i": 109,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-verdict-any",
+      "sharedMove": "narrate",
+      "text": "The verdict has come in.",
+      "parts": ["scene-words.lead-verdict-any.the-verdict-has-come-in"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / verdict / any"]
+    },
+    {
+      "i": 110,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "lead-veto-any",
+      "sharedMove": "narrate",
+      "text": "The bill has been vetoed.",
+      "parts": ["scene-words.lead-veto-any.the-bill-has-been-vetoed"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["lead / veto / any"]
+    },
+    {
+      "i": 111,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-home-home",
+      "sharedMove": "narrate",
+      "text": "You are home in {place}.",
+      "parts": ["scene-words.setting-home-home.you-are-home-in-place"],
+      "slots": [
+        {
+          "name": "place",
+          "from": "A town, from the household or setting record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["setting / home / home"]
+    },
+    {
+      "i": 112,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-home-home",
+      "sharedMove": "narrate",
+      "text": "You're at home.",
+      "parts": ["scene-words.setting-home-home.you-re-at-home"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["setting / home / home"]
+    },
+    {
+      "i": 113,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-home-home",
+      "sharedMove": "narrate",
+      "text": "You're at home in {place}.",
+      "parts": ["scene-words.setting-home-home.you-re-at-home-in-place"],
+      "slots": [
+        {
+          "name": "place",
+          "from": "A town, from the household or setting record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["setting / home / home"]
+    },
+    {
+      "i": 114,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-letter-letter",
+      "sharedMove": "narrate",
+      "text": "A letter has come for you.",
+      "parts": ["scene-words.setting-letter-letter.a-letter-has-come-for-you"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["setting / letter / letter"]
+    },
+    {
+      "i": 115,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-letter-letter",
+      "sharedMove": "narrate",
+      "text": "A letter is in your hands.",
+      "parts": ["scene-words.setting-letter-letter.a-letter-is-in-your-hands"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["setting / letter / letter"]
+    },
+    {
+      "i": 116,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-other-home",
+      "sharedMove": "narrate",
+      "text": "You are at {host} house.",
+      "parts": ["scene-words.setting-other-home.you-are-at-host-house"],
+      "slots": [
+        {
+          "name": "host",
+          "from": "The host's name with its possessive, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["setting / other-home / visit"]
+    },
+    {
+      "i": 117,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-other-home",
+      "sharedMove": "narrate",
+      "text": "You're at {host} home.",
+      "parts": ["scene-words.setting-other-home.you-re-at-host-home"],
+      "slots": [
+        {
+          "name": "host",
+          "from": "The host's name with its possessive, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["setting / other-home / visit"]
+    },
+    {
+      "i": 118,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-venue-out",
+      "sharedMove": "narrate",
+      "text": "You are out in {place}.",
+      "parts": ["scene-words.setting-venue-out.you-are-out-in-place"],
+      "slots": [
+        {
+          "name": "place",
+          "from": "A town, from the household or setting record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["setting / venue / out"]
+    },
+    {
+      "i": 119,
+      "bank": "scene-words.json",
+      "register": "scene-words",
+      "move": "setting-venue-out",
+      "sharedMove": "narrate",
+      "text": "You're out in {place}.",
+      "parts": ["scene-words.setting-venue-out.you-re-out-in-place"],
+      "slots": [
+        {
+          "name": "place",
+          "from": "A town, from the household or setting record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["setting / venue / out"]
+    },
+    {
+      "i": 120,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-children",
+      "sharedMove": "tell",
+      "text": "I'm raising {number} children here in {place}. Every choice we make now is one they'll live with.",
+      "parts": [
+        "speech-stages.stage-children.i-m-raising-number-children-here-in-"
+      ],
+      "slots": [
+        {
+          "name": "number",
+          "from": "The count of children in the speaker's household, from the household record."
+        },
+        {
+          "name": "place",
+          "from": "The speaker's town, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / children / children"]
+    },
+    {
+      "i": 121,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-closer",
+      "sharedMove": "close",
+      "text": "God bless you, and God bless America.",
+      "parts": [
+        "speech-stages.stage-closer.god-bless-you-and-god-bless-america"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / closer / closer"]
+    },
+    {
+      "i": 122,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-closer",
+      "sharedMove": "close",
+      "text": "Let's get to work.",
+      "parts": ["speech-stages.stage-closer.let-s-get-to-work"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / closer / closer"]
+    },
+    {
+      "i": 123,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-closer",
+      "sharedMove": "close",
+      "text": "Thank you all.",
+      "parts": ["speech-stages.stage-closer.thank-you-all"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / closer / closer"]
+    },
+    {
+      "i": 124,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-closer",
+      "sharedMove": "close",
+      "text": "Thank you, and God bless you.",
+      "parts": ["speech-stages.stage-closer.thank-you-and-god-bless-you"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / closer / closer"]
+    },
+    {
+      "i": 125,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-closer",
+      "sharedMove": "close",
+      "text": "Thank you very much.",
+      "parts": ["speech-stages.stage-closer.thank-you-very-much"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / closer / closer"]
+    },
+    {
+      "i": 126,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-closer",
+      "sharedMove": "close",
+      "text": "That's all I have to say.",
+      "parts": ["speech-stages.stage-closer.that-s-all-i-have-to-say"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / closer / closer"]
+    },
+    {
+      "i": 127,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-home",
+      "sharedMove": "tell",
+      "text": "I live in {place}. I know these streets, and I know the people who live on them.",
+      "parts": [
+        "speech-stages.stage-home.i-live-in-place-i-know-these-streets"
+      ],
+      "slots": [
+        {
+          "name": "place",
+          "from": "The speaker's town, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / home / home"]
+    },
+    {
+      "i": 128,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-opener",
+      "sharedMove": "greet",
+      "text": "Good to see you all.",
+      "parts": ["speech-stages.stage-opener.good-to-see-you-all"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / opener / opener"]
+    },
+    {
+      "i": 129,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-opener",
+      "sharedMove": "greet",
+      "text": "I'm glad to be here.",
+      "parts": ["speech-stages.stage-opener.i-m-glad-to-be-here"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / opener / opener"]
+    },
+    {
+      "i": 130,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-opener",
+      "sharedMove": "greet",
+      "text": "It's good to be in {place}.",
+      "parts": ["speech-stages.stage-opener.it-s-good-to-be-in-place"],
+      "slots": [
+        {
+          "name": "place",
+          "from": "The speaker's town, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / opener / opener"]
+    },
+    {
+      "i": 131,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-opener",
+      "sharedMove": "greet",
+      "text": "It's great to be here.",
+      "parts": ["speech-stages.stage-opener.it-s-great-to-be-here"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / opener / opener"]
+    },
+    {
+      "i": 132,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-opener",
+      "sharedMove": "greet",
+      "text": "Thank you all for coming.",
+      "parts": ["speech-stages.stage-opener.thank-you-all-for-coming"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["stage / opener / opener"]
+    },
+    {
+      "i": 133,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-school",
+      "sharedMove": "tell",
+      "text": "I went to {school}. What we teach our kids there is what we leave behind.",
+      "parts": [
+        "speech-stages.stage-school.i-went-to-school-what-we-teach-our-k"
+      ],
+      "slots": [
+        {
+          "name": "school",
+          "from": "The speaker's school, from the school record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / school / school"]
+    },
+    {
+      "i": 134,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-stance-enact",
+      "sharedMove": "tell",
+      "text": "I want to talk about {issue}. {goal}? I'm for it, and I'd like you to hold me to that.",
+      "parts": [
+        "speech-stages.stage-stance-enact.i-want-to-talk-about-issue-goal-i-m-"
+      ],
+      "slots": [
+        {
+          "name": "issue",
+          "from": "The subject of a stand, as the bill catalog names its topic."
+        },
+        {
+          "name": "goal",
+          "from": "What the speaker's recorded stand is about, as the bill catalog names the policy; said as a question, then answered."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / stance-enact / stance-enact"]
+    },
+    {
+      "i": 135,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-stance-enact",
+      "sharedMove": "tell",
+      "text": "Let me talk about {issue}. {goal}? I'm for it, and I'm saying so here in {place}.",
+      "parts": [
+        "speech-stages.stage-stance-enact.let-me-talk-about-issue-goal-i-m-for"
+      ],
+      "slots": [
+        {
+          "name": "issue",
+          "from": "The subject of a stand, as the bill catalog names its topic."
+        },
+        {
+          "name": "goal",
+          "from": "What the speaker's recorded stand is about, as the bill catalog names the policy; said as a question, then answered."
+        },
+        {
+          "name": "place",
+          "from": "The speaker's town, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / stance-enact / stance-enact"]
+    },
+    {
+      "i": 136,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-stance-enact",
+      "sharedMove": "tell",
+      "text": "On {issue}, I'll be plain. {goal}? I'm for it. Ask me why, and I'll tell you.",
+      "parts": [
+        "speech-stages.stage-stance-enact.on-issue-i-ll-be-plain-goal-i-m-for-"
+      ],
+      "slots": [
+        {
+          "name": "issue",
+          "from": "The subject of a stand, as the bill catalog names its topic."
+        },
+        {
+          "name": "goal",
+          "from": "What the speaker's recorded stand is about, as the bill catalog names the policy; said as a question, then answered."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / stance-enact / stance-enact"]
+    },
+    {
+      "i": 137,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-stance-repeal",
+      "sharedMove": "tell",
+      "text": "Let me talk about {issue}. {goal}? I'm against it, and I'm saying so here in {place}.",
+      "parts": [
+        "speech-stages.stage-stance-repeal.let-me-talk-about-issue-goal-i-m-aga"
+      ],
+      "slots": [
+        {
+          "name": "issue",
+          "from": "The subject of a stand, as the bill catalog names its topic."
+        },
+        {
+          "name": "goal",
+          "from": "What the speaker's recorded stand is about, as the bill catalog names the policy; said as a question, then answered."
+        },
+        {
+          "name": "place",
+          "from": "The speaker's town, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / stance-repeal / stance-repeal"]
+    },
+    {
+      "i": 138,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-stance-repeal",
+      "sharedMove": "tell",
+      "text": "On {issue}, I'll be plain. {goal}? I'm against it. Ask me why, and I'll tell you.",
+      "parts": [
+        "speech-stages.stage-stance-repeal.on-issue-i-ll-be-plain-goal-i-m-agai"
+      ],
+      "slots": [
+        {
+          "name": "issue",
+          "from": "The subject of a stand, as the bill catalog names its topic."
+        },
+        {
+          "name": "goal",
+          "from": "What the speaker's recorded stand is about, as the bill catalog names the policy; said as a question, then answered."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / stance-repeal / stance-repeal"]
+    },
+    {
+      "i": 139,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-work",
+      "sharedMove": "tell",
+      "text": "I work at {employer}. I know what a paycheck means in {place}, because I earn mine here.",
+      "parts": [
+        "speech-stages.stage-work.i-work-at-employer-i-know-what-a-pay"
+      ],
+      "slots": [
+        {
+          "name": "employer",
+          "from": "The speaker's employer, from the job record."
+        },
+        {
+          "name": "place",
+          "from": "The speaker's town, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / work / work"]
+    },
+    {
+      "i": 140,
+      "bank": "speech-stages.json",
+      "register": "speech-stages",
+      "move": "stage-work",
+      "sharedMove": "tell",
+      "text": "I worked at {employer} for {years} years. I know what a paycheck means in {place}.",
+      "parts": [
+        "speech-stages.stage-work.i-worked-at-employer-for-years-years"
+      ],
+      "slots": [
+        {
+          "name": "employer",
+          "from": "The speaker's employer, from the job record."
+        },
+        {
+          "name": "years",
+          "from": "Years at that employer, computed from the dated tenure record."
+        },
+        {
+          "name": "place",
+          "from": "The speaker's town, from the household record."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["stage / work / work"]
+    }
+  ]
+}
