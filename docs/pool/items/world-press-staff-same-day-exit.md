@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: blocked
+status: open
 claimed-by: claude/press-staff-exit
 pr: #5353
-blocked-on: "gov-stopgap-press-staff-missing-record"
+blocked-on:
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
 claimed-at: 2026-10-21T02:25:41.551Z
 ---
@@ -21,7 +21,7 @@ claimed-at: 2026-10-21T02:25:41.551Z
 
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/press.ts, src/core2/press-staff.ts
 
-**Notes.** Oct 20: PR #5197 sent back because src/core2/press-staff-departures.test.ts failed in Cedar Point, Kansas (seed 0d0a23928d417025f62bb7f9a47b432362025a7f11d46086fd8df377c5f99d6c): 4 staff left on 2025-02-24 (expected <= 3).
+**Notes.** Oct 20: PR #5197 sent back because src/core2/press-staff-departures.test.ts failed in Cedar Point, Kansas (seed 0d0a23928d417025f62bb7f9a47b432362025a7f11d46086fd8df377c5f99d6c): 4 staff left on 2025-02-24 (expected <= 3). Unblocked Oct 23: people-press-turnover-no-leavers-no-openings is done (#4972).
 
 Traced (Oct 16): it is not a date artifact. The jobs engine's monthly worker review (reviewWorkers in jobs.ts) first ran on December 1, 2026 and each of ten press staff chose to leave work, deciding on strain (time need plus health need) with a savings buffer of zero months. Press staff are generated people with no household life: living costs are 0, their liquid cash just piles up, and their time need sits at about 0.43 against about 0.06 for other working people, so the review reads them all as strained and without savings. The cause is the missing household for the press people, which is gov-stopgap-press-staff-missing-record (give each press person a household drawn the way the opening draws one, with rent, living costs and kin); this item closes when that one does and the proof shows departures spread over the year. Original note:
 
@@ -32,3 +32,5 @@ Sent back 2026-10-20 from PR #5353 (branch claude/press-staff-exit): see the Clo
 Oct 20 (claude, claude/press-staff-exit-spread): the mass exit no longer reproduces now that press staff have households (gov-stopgap-press-staff-missing-record is done). Measured in four drawn places over 365 days (Decaturville, Tennessee 4719900 seed a054b016…; Twin Lakes, Colorado 0879105 seed 6e4052b6…; Danvers, Montana 3019225 seed f004e545…; and a fourth), 27 press staff each: no one left at all, so there is no shared date. A guard test (`press-turnover.test.ts`, "no group of press staff leaves on one shared day…") fails if more than three staff leave on one day for different causes. The owner-play half ("people leave one at a time") needs departures to happen, which is `people-press-turnover-no-leavers-no-openings` (PR #4972).
 
 Sent back 2026-10-20 from PR #5353 (branch claude/press-staff-exit): The formatting feedback is addressed, but the body reports zero departures, which does not establish the Done when proof of departures spread by individual causes, named by record id, or the owner-play staff-list check. The item Notes explicitly defer the no-leavers gap to people-press-turnover-no-leavers-no-openings. Supply the required positive departure/cause proof or separate this completed finding-only note from the unfinished item so it is not marked done.; finish on that branch, merge main into it first.
+
+Oct 21 (claude, claude/press-staff-exit, PR 5353): finding only, the item stays open. On current main the ten-on-one-day exit does not reproduce (Center Moriches, New York, seed s2: 16 press staff, a 400-day run, nobody leaves; four other drawn places the same), because press staff now have households. That means the cause is fixed but the done-when's positive proof (departures spread over the year, each followed from its cause record, and the owner reading the staff list through the year) cannot be shown until press staff leave at all, which is people-press-turnover-no-leavers-no-openings (PR 4972). The guard that no more than three leave on one day is in press-turnover.test.ts. This item is blocked on that one.
