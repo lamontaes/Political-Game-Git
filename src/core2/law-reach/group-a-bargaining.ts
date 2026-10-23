@@ -1,148 +1,202 @@
 /**
- * Law reach, group A: a public-sector bargaining law lets the workers of
- * public employers bargain through a union, and bargained pay runs above what
- * unrepresented public workers earn (the public-sector union wage premium).
- * Where a state adopts the law after the opening, each public job in town is
- * raised toward its pay before the law times the premium, phased in month by
- * month over the first contract years through `rerateJob`. A repeal ends the
- * phase-in and takes no one's pay back (a repeal ends the right, not a
- * contract already paid). A law that stood at the opening is already in the
- * pay the jobs were set from.
+ * Law reach, group A: public-sector bargaining. Where the law is in force at
+ * an employer's level of government or above, the town's jobs at a police,
+ * fire or school employer are one bargaining unit, and the unit's contract is
+ * settled the day after the funding government's budget year begins: the pay
+ * of every job in the unit rises by the growth of the employer's own budget
+ * line over the year before (the budget adopted that day against the last),
+ * applied through the core's `rerateJob`. A line that did not grow settles at
+ * no raise, never a cut. The law is read at each contract date, so a repeal
+ * stops the next contract; pay already raised stays.
  */
+import data from "../data/laws/public-bargaining.json" with { type: "json" };
+import { addDays, makeIsoDate } from "../kernel/dates";
+import {
+  budgetsOf,
+  fiscalYearOf,
+  governments,
+  type GovernmentRow,
+} from "../modules/budgets";
+import { publicEmployerLevel } from "../public-pay-floor";
+import type { LawLevelName } from "../laws-starting";
 import type { CoreAPI, CoreState, Source } from "../types";
-import type { ModuleRow } from "../module-data";
-import { PUBLIC_EMPLOYER_CLASSES } from "../public-pay-floor";
-import type { PolicyHandler } from "./host";
 import { jobsAt } from "./group-b-money";
+import type { PolicyHandler } from "./host";
 import { onReachCalendar } from "./reach-workers";
 import {
   ensureReachA,
-  reachParameter,
-  reachTable,
+  mechanicRow,
+  putMechanic,
   REACH_A_MODULE_ID,
   tomorrow,
+  yesLevels,
 } from "./group-a-records";
 
-const KIND = "law-reach-a-bargaining";
-const ROW = "public-bargaining";
-
-interface BargainingRow {
-  readonly id: string;
-  readonly lawId: string;
-  readonly changedOn: string;
-  /** Each job's hourly pay before the law, by job id. */
-  readonly baseMinor: Readonly<Record<string, number>>;
-}
-
+const KEY = data.series;
+const KIND = data.contractKind;
+const UNITS = data.units as Readonly<Record<string, { line: string }>>;
+const ABOVE = data.levelsUp as readonly string[];
+const RETRY_DAYS = 7;
+const SEASON_DAYS = 120;
 const daysBetween = (from: string, to: string) =>
   (Date.parse(`${to}T00:00:00Z`) - Date.parse(`${from}T00:00:00Z`)) /
   86_400_000;
+const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
 
-const table = (api: CoreAPI) => reachTable(api, "mechanics");
-
-/** The bargaining row, once the law has been enacted after the opening. */
-export function bargainingRow(
+/** The government that pays a unit's line: the employer's own level, else the nearest above that budgets it. */
+function fundingGovernment(
   api: CoreAPI,
-): { active: boolean; facts: BargainingRow } | null {
-  if (!api.state.modules.has(REACH_A_MODULE_ID)) return null;
-  const found = table(api).get(ROW) as unknown as
-    { active: boolean; facts?: BargainingRow } | undefined;
-  return found?.facts ? { active: found.active, facts: found.facts } : null;
+  employerLevel: string,
+  line: string,
+): GovernmentRow | undefined {
+  const levels = [
+    employerLevel,
+    ...ABOVE.slice(ABOVE.indexOf(employerLevel) + 1),
+  ];
+  for (const level of levels)
+    for (const gov of governments(api))
+      if (
+        gov.level === level &&
+        budgetsOf(api, gov.id).some((b) => (b.spendingMinor[line] ?? 0) > 0)
+      )
+        return gov;
+  return undefined;
 }
 
-/** The share of the premium paid on `date`, sliding from 0 to 1. */
-export function premiumShare(row: BargainingRow, date: string): number {
-  return Math.min(
-    1,
-    daysBetween(row.changedOn, date) /
-      (reachParameter("publicBargainingPhaseYears") * 365),
-  );
+/** The day after a government's next budget year begins. */
+function nextContractDate(date: string, gov: GovernmentRow): string {
+  const fy = fiscalYearOf(date, gov.fiscalYearStart);
+  const first = tomorrow(`${fy}-${gov.fiscalYearStart}`);
+  return first > date ? first : tomorrow(`${fy + 1}-${gov.fiscalYearStart}`);
 }
 
-function save(api: CoreAPI, row: BargainingRow, active: boolean): void {
-  table(api).put({
-    id: ROW,
-    key: ROW,
-    active,
-    since: row.changedOn,
-    facts: row,
-  } as unknown as ModuleRow);
-}
-
-/** Raise each public job toward its bargained pay; returns the row with new bases. */
-function apply(api: CoreAPI, row: BargainingRow): BargainingRow {
-  const core = api.state as CoreState;
-  const share = premiumShare(row, core.date);
-  const premium = reachParameter("publicBargainingPayPremium");
-  const base: Record<string, number> = { ...row.baseMinor };
-  const source: Source = {
-    tag: "ESTIMATED",
-    asOf: core.date,
-    citation: `${row.lawId}; public-sector union wage premium`,
-    estimatedFrom:
-      "Public workers who bargain through a union are paid about five percent more than those who do not.",
-  };
-  for (const job of jobsAt(api, PUBLIC_EMPLOYER_CLASSES)) {
-    const hourly = job.hourlyMinor ?? 0;
-    if (hourly <= 0) continue;
-    base[job.id] ??= hourly;
-    const target = Math.ceil(base[job.id]! * (1 + premium * share));
-    // Pay already above the bargained level (a floor, a raise) stays.
-    if (target > hourly) api.rerateJob(job.id, target, source);
-  }
-  return { ...row, baseMinor: base };
-}
-
-function schedule(api: CoreAPI, row: BargainingRow): void {
+function schedule(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  lawId: string,
+  at?: string,
+): void {
   const calendar = api.moduleCalendar(REACH_A_MODULE_ID);
-  const next = new Date(`${api.state.date}T00:00:00Z`);
-  next.setUTCMonth(next.getUTCMonth() + 1, 1);
-  const date = next.toISOString().slice(0, 10);
-  const key = `${ROW}:${date}`;
+  const date = at ?? nextContractDate(api.state.date, gov);
+  const key = `bargaining:${gov.id}:${date}`;
   if (calendar.get(key)) return;
   calendar.schedule({
     key,
-    date: date > tomorrow(api.state.date) ? date : tomorrow(api.state.date),
+    date: makeIsoDate(date),
     kind: KIND,
     source: {
       tag: "ESTIMATED",
       asOf: api.state.date,
-      citation: row.lawId,
-      estimatedFrom: "Public-sector union wage premium, phased in.",
+      citation: `Public-sector bargaining in force (${lawId}).`,
+      estimatedFrom:
+        "A unit's pay follows the growth of its employer's budget line at the budget date.",
     },
-    sourceRecordIds: [ROW],
+    sourceRecordIds: [gov.id],
   });
+}
+
+/** Whether the law covers an employer class today: in force at its level of government or above. */
+function covered(
+  yes: readonly { level: string }[],
+  classification: string,
+): boolean {
+  const level = publicEmployerLevel(classification);
+  if (!level) return false;
+  const at = ORDER.indexOf(level);
+  return yes.some((l) => ORDER.indexOf(l.level as LawLevelName) <= at);
 }
 
 export const publicBargaining: PolicyHandler = (api, change) => {
   ensureReachA(api);
-  const prior = bargainingRow(api);
-  if (!change.inForce) {
-    // A repeal ends the phase-in; pay already bargained stays.
-    if (prior?.active) save(api, prior.facts, false);
-    return;
-  }
-  // A law standing at the opening is already in the pay the jobs opened with.
-  if (change.lawId.endsWith(":starting")) return;
-  if (prior?.active) return;
-  const row = apply(api, {
-    id: ROW,
-    lawId: change.lawId,
-    changedOn: api.state.date,
-    baseMinor: {},
-  });
-  save(api, row, true);
-  schedule(api, row);
+  if (!change.inForce) return;
+  for (const gov of governments(api)) schedule(api, gov, change.lawId);
 };
 
-onReachCalendar(KIND, (api) => {
-  const held = bargainingRow(api);
-  if (!held?.active) return;
-  const next = apply(api, held.facts);
-  save(api, next, true);
-  if (
-    daysBetween(next.changedOn, api.state.date) <
-    reachParameter("publicBargainingPhaseYears") * 365
-  )
-    schedule(api, next);
+onReachCalendar(KIND, (api, work) => {
+  const gov = governments(api).find((g) => g.id === work.sourceRecordIds[0]);
+  if (!gov) return;
+  // The law is read now: a repeal ends the contract cycle.
+  const yes = yesLevels(api, KEY);
+  if (!yes.length) return;
+  schedule(api, gov, yes[0]!.lawId);
+  const core = api.state as CoreState;
+  const fy = fiscalYearOf(core.date, gov.fiscalYearStart);
+  const budgets = budgetsOf(api, gov.id);
+  let waiting = false;
+  for (const [classification, unit] of Object.entries(UNITS)) {
+    if (!covered(yes, classification)) continue;
+    const id = `bargaining:${gov.id}:${classification}:${fy}`;
+    if (mechanicRow(api, id)) continue;
+    if (
+      fundingGovernment(api, publicEmployerLevel(classification)!, unit.line)
+        ?.id !== gov.id
+    )
+      continue;
+    const now = budgets.find((b) => b.fiscalYear === fy)?.spendingMinor[
+      unit.line
+    ];
+    const before = budgets.find((b) => b.fiscalYear === fy - 1)?.spendingMinor[
+      unit.line
+    ];
+    if (!before) continue;
+    // The body adopts its budget on its own date: wait for it, weekly, for a season.
+    if (!now) {
+      waiting = true;
+      continue;
+    }
+    const growth = Math.max(0, now / before - 1);
+    const jobs = jobsAt(api, [classification]).filter(
+      (j) => (j.hourlyMinor ?? 0) > 0,
+    );
+    if (!jobs.length) continue;
+    const source: Source = {
+      tag: "ESTIMATED",
+      asOf: core.date,
+      citation: `${gov.name} ${unit.line} line, fiscal ${fy - 1} to ${fy}: the unit's contract.`,
+      estimatedFrom:
+        "A unit's pay follows the growth of its employer's budget line.",
+    };
+    let raised = 0;
+    // The first named worker raised, so the contract can be followed to a person.
+    let sample: { jobId: string; from: number; to: number } | undefined;
+    for (const job of jobs) {
+      // The job is the live record: read its pay before the re-rate changes it.
+      const from = job.hourlyMinor!;
+      const to = Math.round(from * (1 + growth));
+      if (to <= from) continue;
+      api.rerateJob(job.id, to, source);
+      raised += 1;
+      if (!sample && core.jobs.has(job.id))
+        sample = { jobId: job.id, from, to };
+    }
+    putMechanic(api, {
+      id,
+      key: KEY,
+      active: true,
+      since: core.date,
+      facts: {
+        governmentId: gov.id,
+        classification,
+        line: unit.line,
+        fiscalYear: fy,
+        lineBeforeMinor: before,
+        lineNowMinor: now,
+        raisePct: Math.round(growth * 10_000) / 100,
+        jobs: jobs.length,
+        raised,
+        lawId: yes[0]!.lawId,
+        ...(sample
+          ? {
+              sampleJobId: sample.jobId,
+              sampleFromMinor: sample.from,
+              sampleToMinor: sample.to,
+            }
+          : {}),
+      },
+    });
+  }
+  const start = `${fy}-${gov.fiscalYearStart}`;
+  const retry = addDays(makeIsoDate(core.date), RETRY_DAYS);
+  if (waiting && daysBetween(start, retry) <= SEASON_DAYS)
+    schedule(api, gov, yes[0]!.lawId, retry);
 });

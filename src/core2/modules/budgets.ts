@@ -395,7 +395,7 @@ function budgetFor(
 }
 
 /** The fiscal year a date falls in, named by the year it starts. */
-function fiscalYearOf(date: string, start: string): number {
+export function fiscalYearOf(date: string, start: string): number {
   const year = Number(date.slice(0, 4));
   return date.slice(5) >= start ? year : year - 1;
 }

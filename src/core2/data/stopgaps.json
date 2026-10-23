@@ -1419,7 +1419,8 @@
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
     "replacement": "GOV: a bargaining engine that negotiates the unit's contract with the public employer and applies it with CORE's rerateJob(jobId, hourlyMinor, source); WORLD: union membership on workers' records.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A recognized public unit's contract is bargained at its funding government's budget date: the unit's pay rises by the growth of the employer's own budget line through rerateJob, only where the law is in force, and a repeal stops the next contract (src/core2/law-reach/group-a-bargaining.ts). Strikes and member stances are not built."
   },
   {
     "id": "SG-GOV-REACH-A-union-dues",

@@ -26,6 +26,13 @@ export const PUBLIC_EMPLOYER_CLASSES: readonly string[] =
   Object.keys(EMPLOYER_LEVELS);
 const ORDER: readonly LawLevelName[] = ["federal", "state", "county", "city"];
 
+/** The level of government a public employer class belongs to, if it is one. */
+export function publicEmployerLevel(
+  classification: string,
+): LawLevelName | undefined {
+  return EMPLOYER_LEVELS[classification];
+}
+
 /**
  * The level of government a public employer belongs to: by its class, or, for
  * a government's own treasury (the employer of its aides and appointed heads,

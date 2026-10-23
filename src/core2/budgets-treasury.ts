@@ -35,7 +35,11 @@ import { newsKey, storiesHeard, type Story } from "./modules/news";
 type Tagged = { value: number; tag: string; source: string; spread?: number[] };
 const DATA = spendingData as unknown as {
   parameters: Record<string, Tagged>;
-  postLines: { lines: Record<string, string>; federal: string };
+  postLines: {
+    lines: Record<string, string>;
+    byEmployerClass: Record<string, string>;
+    federal: string;
+  };
   aid: {
     flows: { payer: string; payee: string; revenueLine: string }[];
     fromLines: Record<string, string[]>;
@@ -205,8 +209,16 @@ export function outsideAccountOf(api: CoreAPI): string | undefined {
     )[0]?.id;
 }
 
-/** The line a public post's pay draws on: the longest matching prefix. */
-export function lineForPost(level: string, jobId: string): string {
+/**
+ * The line a public post's pay draws on: the longest matching prefix; a job
+ * whose id names no post (an opening employer's staff) draws on its
+ * employer's line by the employer's class, else general administration.
+ */
+export function lineForPost(
+  level: string,
+  jobId: string,
+  employerClass?: string,
+): string {
   if (level === "federal") return DATA.postLines.federal;
   const post = jobId.startsWith("job:public:")
     ? jobId.slice("job:public:".length)
@@ -216,6 +228,10 @@ export function lineForPost(level: string, jobId: string): string {
   let best = "";
   for (const prefix of Object.keys(DATA.postLines.lines))
     if (post.startsWith(prefix) && prefix.length > best.length) best = prefix;
+  if (!best && employerClass) {
+    const byClass = DATA.postLines.byEmployerClass[employerClass];
+    if (byClass) return byClass;
+  }
   return DATA.postLines.lines[best] ?? DATA.postLines.lines["town:"]!;
 }
 
@@ -271,7 +287,7 @@ export function notePublicPay(
         )),
   );
   if (!gov) return;
-  const line = lineForPost(gov.level, input.jobId);
+  const line = lineForPost(gov.level, input.jobId, employer?.classification);
   const since = (table(api, "sinceClose").get(gov.id) as unknown as
     { lines: Record<string, number> } | undefined) ?? { lines: {} };
   table(api, "sinceClose").put({
@@ -353,14 +369,15 @@ export function publicPayRoom(
   if (!gov) return 0;
   const budget = budgetInForce(api, gov.id);
   if (!budget) return 0;
-  const line = lineForPost(gov.level, post);
   const core = api.state as CoreState;
+  const employerClass = core.organizations.get(employerId)?.classification;
+  const line = lineForPost(gov.level, post, employerClass);
   let committed = 0;
   for (const job of core.jobs.values())
     if (
       job.organizationId === employerId &&
       job.endsAt === undefined &&
-      lineForPost(gov.level, job.id) === line
+      lineForPost(gov.level, job.id, employerClass) === line
     )
       committed += job.wageDailyMinor * treasuryParameter("daysPerYear");
   // Only the part of a line that is wages can pay a post: the rest buys
