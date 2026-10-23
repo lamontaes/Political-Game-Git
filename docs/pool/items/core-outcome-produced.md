@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/outcome-produced
 pr: #5083
 blocked-on:
