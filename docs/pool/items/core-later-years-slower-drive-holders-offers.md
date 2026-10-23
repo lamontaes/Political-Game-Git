@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr: #5090
-blocked-on: owner: meeting the 1.2 times target changes who a holder contacts (rank known people weekly or offer only contacts whose tie pull can top the day); the exact cut does not move the time (PR 5734)
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -53,3 +53,5 @@ Measured Oct 20 (claude/political-game-pool-yucp92-ca): Bedford, Wyoming (key 56
 Tried and not shipped: offers for one act and one drive that score alike (join, donate, volunteer, seek standing: no reason binding reads the target, so ties go to the lowest key) reduced to the lowest-keyed one, for any chooser not shown every score. The three-year world fingerprints were identical to main's (same hash each year), so it is exact, but the time did not move (year 3 124.6 s against 127.3 s) because contact offers dominate and they do not score alike (the fading-tie pull differs by relationship). Meeting the 1.2 times target needs a behavior change: rank a holder's known people for contact once a week instead of scoring each daily, or offer only the contacts whose tie pull can top the day's choice. That changes who contacts whom, so it is the owner's call or a calibrated cut.
 
 Sent back 2026-10-20 from PR #5727 (branch claude/fs11vb-slower): docs/pool/items/core-later-years-slower-drive-holders-offers.md:20 requires year three within 20 percent of year one with offer/profile evidence and unchanged activism acts by record id. The body explicitly reports 45/83/125 seconds and says the fix is not done, so the named acceptance is unmet. The item also repeats Done when/Notes sections at lines 20/33/43 and 24/37/47; consolidate them while finishing the required proof.; finish on that branch, merge main into it first.
+
+Oct 24 (CTO): unblocked under "owner decisions are flagged, never waited on." The question is in OWNER-DECISIONS.md, Open, in plain words (do people with causes contact only people they know?). Build the recommended version, a holder ranks only the people they already know, once a week, behind a registered `owner-decision` stopgap, and prove the time. Part of `speed-year-three-within-band` (order `docs/work-orders/lead-speed-2026-10-24.md`).

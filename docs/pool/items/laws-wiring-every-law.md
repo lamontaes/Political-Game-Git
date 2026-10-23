@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 1
 size: L
-status: open
+status: blocked
 claimed-by:
 pr: #5547
-blocked-on:
+blocked-on: laws-nine-links-labor,laws-nine-links-housing-credit,laws-nine-links-prices,laws-nine-links-government,laws-nine-links-health-schools,laws-nine-links-taxes,laws-nine-links-justice,laws-nine-links-rights-env,laws-end-to-end-proof
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -34,3 +34,5 @@ Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): Electi
 Sent back 2026-10-23 from PR #5589 (branch claude/law-wiring-labor): Missing Done when evidence table for the drawn-place, nine-link checker/matrix and family record-ID acceptance; add verifiable evidence and bound the family scope; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): Debt-repeal fix is present, but the table explicitly leaves family acceptance unmet and committed matrix links missing/partial; complete it or use a valid bounded cost/debt item with full evidence; finish on that branch, merge main into it first.
+
+Oct 24 (CTO): split into one bounded item per family, each with its own done-when, because every family PR cited this L item and no family could meet its done-when, so each PR looped through send-backs. The families: laws-nine-links-labor, laws-nine-links-housing-credit, laws-nine-links-prices, laws-nine-links-government, laws-nine-links-health-schools, laws-nine-links-taxes, laws-nine-links-justice, laws-nine-links-rights-env; the lead's acceptance is `laws-end-to-end-proof`. This item stays blocked on all nine and is done when they are. Family PRs name their own item on line 1, never this id. Order: `docs/work-orders/lead-laws-2026-10-24.md`.

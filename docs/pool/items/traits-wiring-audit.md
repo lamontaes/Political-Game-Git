@@ -5,10 +5,10 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: done
+status: blocked
 claimed-by: claude/trait-wiring-audit
 pr: #5552
-blocked-on:
+blocked-on: traits-wire-money,traits-wire-civic,traits-wire-integrity,traits-decisions-never-run,traits-outcomes-unread,traits-end-to-end-proof
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:10:43.703Z
 ---
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T06:10:43.703Z
 
 **Files.** src/core2/trait-probe.ts, src/core2/choice.ts, src/core2/trait-decisions.ts, scripts/traits/
 
-**Notes.** TODO
+**Notes.** Reopened Oct 24 by the CTO. It flipped to done when the audit PR (#5552) merged on Oct 20, while the wiring the audit found stayed open; the family PRs then put `traits-wiring-audit` as the bare first word of their bodies (#5597, merged Oct 21; #5587, #5657 and #5715, open), which the done-on-merge workflow reads as the item to close (filed as `release-pool-done-bare-id`). The checker and matrix are on main; what stays open is the wiring it found. Split into bounded items: traits-wire-money, traits-wire-civic, traits-wire-integrity, traits-decisions-never-run, traits-outcomes-unread, traits-end-to-end-proof. This item is done when they are. Order: `docs/work-orders/lead-traits-2026-10-24.md`.
