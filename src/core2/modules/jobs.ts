@@ -1746,6 +1746,10 @@ function runWeek(api: CoreAPI): void {
       !nearby ||
       !person ||
       !person.alive ||
+      // A person returned to the counts keeps their seeker row, dormant, until
+      // they are filled in again; hired now they would hold a full job while
+      // counted.
+      isDemoted(person) ||
       inCustody(api, person.id) ||
       controlled(c, person.id)
     )
