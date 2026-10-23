@@ -21,4 +21,7 @@ source: "core-needs-core-172 triage, Oct 15"
 **Files.** docs/coordination/OWNER-DECISIONS.md
 
 **Notes.** core.md line 225, checked Oct 15.
+
+Found Oct 17 (claude): `data/research/core-figures/P0-12/storm-2024-<state>.json` (51 files) holds NOAA Storm Events 2024 annual hazard totals by state with deaths, injuries and property and crop damage, retrieved Oct 11. It is the data a disaster hazard (and the outcome web's "severe disaster", 100 or more deaths in a county) would be calibrated from; no engine reads it. Once the owner rules how disasters arise in play, the first reader is the hazard rate by state from these rows.
+
 Ruled in OWNER-DECISIONS.md, Oct 16/Oct 19.
