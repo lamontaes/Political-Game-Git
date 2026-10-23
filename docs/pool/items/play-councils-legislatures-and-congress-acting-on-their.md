@@ -9,7 +9,7 @@ claimed-by: claude/legislating-speed
 pr: #5059
 blocked-on:
 milestone:
-source: "docs/coordination/play.md line 75 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/play.md line 75 (unchecked checklist line)"
 claimed-at: 2026-10-18T19:18:03.694Z
 ---
 

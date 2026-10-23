@@ -1,5 +1,7 @@
 # Workspaces, branches and takeovers
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 - **Workspace:** a cloud container is the session's workspace. On the owner's Mac, use the registered workspace (`npm run storage -- workspace --owner <owner>`) and never add a worktree or clone (see `storage-and-workspaces.md`).
 - **One writer per branch.** Don't push to a branch another session is working on. Claiming a sent-back pool item transfers its branch to you (`pr-fixer`).
 - **Takeover:** treat the previous session's workspace as read-only. Salvage dirty work as an inspectable patch plus reviewed untracked files. Never clean, reset or stash another agent's tree.

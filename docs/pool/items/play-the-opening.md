@@ -9,7 +9,7 @@ claimed-by: claude/play-the-opening
 pr: #4778
 blocked-on:
 milestone:
-source: "docs/coordination/play.md line 142 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/play.md line 142 (unchecked checklist line)"
 claimed-at: 2026-10-16T16:45:22.060Z
 ---
 

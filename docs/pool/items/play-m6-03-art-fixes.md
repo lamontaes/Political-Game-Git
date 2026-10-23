@@ -10,7 +10,7 @@ claimed-by:
 pr:
 blocked-on: not scheduled: a roadmap milestone at priority 3 until the weekly reschedule (AGENTS.md: saves and release work wait for early-access preparation); an L item is split by whoever claims it once scheduled
 milestone: M6
-source: "docs/roadmap/later-specs-draft.md M6-03"
+source: "docs/archive/2026-10-23/roadmap/later-specs-draft.md M6-03"
 ---
 
 **What.** Seated poses that sit, formal clothes by role and place, frame corners, and the rest of the owner's October 8 list. (Owner: OPUS-PLAY, with the CTO's art pipeline.)

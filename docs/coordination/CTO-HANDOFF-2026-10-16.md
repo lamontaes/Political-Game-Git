@@ -1,5 +1,7 @@
 # CTO handoff, Oct 16, 2026 (standing CTO to acting CTO)
 
+Superseded by docs/coordination/CTO-HANDOFF-2026-10-19.md
+
 > **History.** This describes the old engine or a process that ended in October 2026. Don't follow it; read `AGENTS.md`, `ARCHITECTURE.md` and `docs/README.md`.
 
 Written at 19:30 UTC from two Sonnet surveys of main, the open PRs and the pool. Read with `.agents/skills/cto/SKILL.md`.

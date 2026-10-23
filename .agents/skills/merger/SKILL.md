@@ -5,7 +5,9 @@ description: Merges and validates pull requests for Our Civic Duty: changed-file
 
 # Merger
 
-You are the CTO's merger. The CTO never merges or reads diffs; you do, and return a table. Read `AGENTS.md` ("Process", "Checks stay light") first. Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks, no messages to other sessions.
+Current as of 2026-10-23 (merge-first list added as section 0.5; four lanes named; CTO's role restated for Oct 20; docs check added to the morning check; pool command forms fixed)
+
+Mergers merge (owner, Oct 20). The CTO audits your merges (`merge-audit`) and fixes this skill when a merger slips; it merges only its own docs, skill and pool PRs. You read the diffs, merge, and return a table. Read `AGENTS.md` ("Process", "Checks stay light") first. Use `gh api` (REST, plus the one GraphQL call that marks a draft ready, step 2.6) or the GitHub tools your session provides, plain pushes, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` for npm. No scheduled tasks, no messages to other sessions.
 
 Never: merge a PR you authored, delete anything, close a PR, force-push, rebase, amend, or run the full suite.
 
@@ -36,9 +38,13 @@ At the start of every run, before listing PRs, read the latest release workflow 
 4. Run the same changed-file checks, then open a ready PR. Another merger merges it, never its author.
 5. Then continue with the merging below.
 
+## 0.5 The merge-first list
+
+Before your share, read `docs/coordination/MERGE-FIRST.md` on main. Work its PRs top to bottom regardless of your lane (skip one only if another merger commented on it in the last 45 minutes), then take your share. The CTO is its only writer; a merger that finishes a line comments `done` on the PR and moves on, never edits the file. Your hourly table lists the merge-first PRs first.
+
 ## 1. Your share, and other mergers
 
-Several mergers may run at once. Your prompt gives your share (for example PR number mod 4, even or odd, or one list) and an order (oldest or newest first). Stay in it.
+Several mergers may run at once. Your prompt gives your share (for example PR number mod 4, even or odd, or one list) and an order (oldest or newest first). Stay in it. Four lanes: your prompt gives PR number mod 4 = 0, 1, 2 or 3.
 
 - Skip any PR that got a commit merging main, or a comment from another merger, in the last 45 minutes: someone is on it.
 - Merge with the head pinned: `gh api -X PUT repos/lamontaes/Political-Game-Git/pulls/N/merge -f merge_method=merge -f sha=<the head you checked>`. HTTP 409 means the branch moved: re-check it or move on.
@@ -54,7 +60,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - If the base branch's PR is merged or closed, retarget to main (`gh api -X PATCH repos/lamontaes/Political-Game-Git/pulls/N -f base=main`) and handle it normally.
 2. **Send-backs.** If a merger sent this PR back, merge it only when a commit pushed after that comment (by the author or a merged fixer) fixes what was raised. Compare the commit times to the comment.
 3. **Fetch and merge main.** `git fetch origin <branch> main`, check out the branch, `git merge origin/main` (plain merge).
-   - Resolve docs-only conflicts yourself: `SESSION-*.md` and `PROGRESS.md` by taking both sides; `src/core2/data/stopgaps.json` by keeping every row from both sides, merged by `id`.
+   - Resolve docs-only conflicts yourself: Markdown reports and notes by taking both sides; `src/core2/data/stopgaps.json` by keeping every row from both sides, merged by `id`.
    - Pool item conflicts: keep the newer status, claim and pr fields, keep the written spec over an empty shell, and keep both sides' Notes lines. Regenerate `docs/pool/INDEX.md` with `npm run pool`; never hand-merge it or English banks.
    - A conflict in code goes back to the author: one comment naming the files, and the pool item back to open (step 2.7).
    - Push the merge commit with a plain push.
@@ -99,6 +105,9 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    **Deleted data**
    - Deleted ids, entries or array items that another file still points at. Grep the repo for the removed ids and for index pointers like `#/actions/7`.
 
+   **Docs that still name what the PR removed**
+   - A PR that deletes, renames or moves a file, folder, script, skill, npm command or pool command: grep the live docs for the old name (`grep -rn "<old name>" AGENTS.md ARCHITECTURE.md docs .agents --include=*.md | grep -v '^docs/archive/'`). A live doc that still names it is a send-back naming the doc and line; the PR updates the doc in the same change (`doc-freshness`).
+
    **Player-facing changes**
    - A removed player control or screen action not named in the body with where it moved, or a pool item for it.
 
@@ -117,7 +126,7 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
    - No release declaration in `docs/release/changes/`. Impact none carries only id and impact; patch and minor also need a section and a title.
 
 6. **Merge on green.** If the PR is a draft without "work in progress" in its body, mark it ready first. There is no REST route for this: `pulls/N/ccr/ready_for_review` returns 404, and merging a draft returns 405. Use `gh pr ready N`, or the GraphQL mutation `gh api graphql -f query='mutation($id:ID!){markPullRequestReadyForReview(input:{pullRequestId:$id}){pullRequest{isDraft}}}' -f id="$(gh api repos/lamontaes/Political-Game-Git/pulls/N --jq .node_id)"`, or `update_pull_request` with `draft: false`. Read the PR again and confirm `draft` is false. Then merge with the head pinned (section 1). Right after, post one comment: "<prefix> merged at <sha>. Checks run here: <list>, all passed."
-7. **A send-back goes back to the pool.** After commenting the reason on the PR, set its pool item back to open so any builder can finish it: `npm run pool -- status <id> open --by=cto`. Append one line to the item's Notes: `Sent back <date> from PR #N (branch X): <reason in one sentence>; finish on that branch, merge main into it first.` If the item id is not in the PR, match it by branch name or title. Any defect you find that is not the PR's own (a failing test on main, a stand-in elsewhere) becomes a new pool item: `npm run pool -- add <id> --title ... --area ... --kind bug --priority 1 --size S`.
+7. **A send-back goes back to the pool.** After commenting the reason on the PR, set its pool item back to open so any builder can finish it: `npm run pool -- status <id> open --by=cto`. Append one line to the item's Notes: `Sent back <date> from PR #N (branch X): <reason in one sentence>; finish on that branch, merge main into it first.` If the item id is not in the PR, match it by branch name or title. Any defect you find that is not the PR's own (a failing test on main, a stand-in elsewhere) becomes a new pool item: `npm run pool -- add <id> --title ... --area ... --kind bug --priority 1 --size S --what ... --rules ... --done ... --files ...` (the four body flags are required for priority 1 and 2).
 8. **Pool.** After a merge into main, the pool-done workflow flips the item to done on its own: it reads `Pool item: <id>` on the PR body's first line, or finds the item whose `pr:` field names the PR. Check the item (`grep -l "pr: #N" docs/pool/items/*.md`) a minute later; only if it didn't flip, run `npm run pool -- status <id> done --pr N --by=cto`, which pushes a one-file commit to main. Never flip an item for a merge into a branch other than main.
 
 ## 3. Stale runs

@@ -9,6 +9,8 @@ description: >
 
 # The researcher
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 ## What research is for here
 
 The owner's words (Oct 14 and 16, 2026): research calibrates the simulation

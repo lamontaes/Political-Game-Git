@@ -7,7 +7,7 @@ Both players were already 18 at the opening and turned 19 within three days, bec
 - **Read first:** `docs/packages/PW-common.md`, then PW-1.
 - **Builder:** one Opus session at **high**: the opening is the first thing the owner plays, and the idle character's choices are the "no dice" chooser at its most visible.
 - **Branch:** `pw/player-start`, from `main` after PW-1 lands.
-- **Owned paths:** `src/bench/world.ts` (only `entrantOf` and the player pick, lines 70 to 90), `src/bench/player.ts`, `src/core2/modules/drives.ts` and `src/core2/data/drives.json` (with OPUS-PEOPLE's review), `src/core2/modules/work.ts` (the job-seeking offers only; OPUS-WORLD reviews), `src/director/` (the idle character's offers; OPUS-PEOPLE reviews), their tests, `docs/roadmap/PROGRESS.md`, a release note. Changes to the chooser itself (`src/core2/life.ts`, `availableActs`) are a request to OPUS-CORE in the PR body.
+- **Owned paths:** `src/bench/world.ts` (only `entrantOf` and the player pick, lines 70 to 90), `src/bench/player.ts`, `src/core2/modules/drives.ts` and `src/core2/data/drives.json` (with OPUS-PEOPLE's review), `src/core2/modules/work.ts` (the job-seeking offers only; OPUS-WORLD reviews), `src/director/` (the idle character's offers; OPUS-PEOPLE reviews), their tests, `docs/archive/2026-10-23/roadmap/PROGRESS.md`, a release note. Changes to the chooser itself (`src/core2/life.ts`, `availableActs`) are a request to OPUS-CORE in the PR body.
 - **Where:** the player pick is `entrantOf` in `src/bench/world.ts`, lines 70 to 90.
 
 ## Build

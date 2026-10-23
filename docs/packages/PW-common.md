@@ -4,7 +4,7 @@ Forty module files exist under the new core. The world the owner plays installs 
 
 ## Read first
 
-Every PW package is built by its own Opus builder session. This file holds what they share. Read it before your package, then read `docs/coordination/HANDOFF-2026-10-12.md`, the BOARD's "Owner rulings, Oct 12, 7:30 p.m." in `docs/coordination/BOARD.md`, and the sim-stories report on branch `cto/sim-stories-1905` (`docs/reports/sim-stories-2026-10-12.md`).
+Every PW package is built by its own Opus builder session. This file holds what they share. Read it before your package, then the rulings in `docs/coordination/OWNER-DECISIONS.md` and the pool item you claimed. The Oct 12 handoff and the BOARD's "Owner rulings, Oct 12, 7:30 p.m." are archived at `docs/archive/2026-10-23/coordination/HANDOFF-2026-10-12.md` and `docs/archive/2026-10-23/coordination/BOARD.md`; the rulings they hold are in OWNER-DECISIONS. The sim-stories report is on branch `cto/sim-stories-1905` (`docs/reports/sim-stories-2026-10-12.md`).
 
 ## Why these packages exist
 
@@ -45,7 +45,7 @@ Opus at **high** for every PW package: each one is a correctness problem in the 
    Then run the played-world check from PW-1 (once it exists; see PW-1 for the command) with that seed and the whole module list on. Name the place it drew, the seed, and the record ids your claim rests on. Run it a second time on a second fresh seed before you call anything done. Never tune anything to Greenfields, Pennsylvania or Juliaetta, Idaho, the two towns in the report; the owner said so.
 
 5. **Speed.** A town's game year must stay under two minutes, and your change may not make it more than 20% slower. Measure before and after on the same machine, one process at a time, with the yearly command. Put both numbers in the PR body.
-6. **Finish.** Update `docs/roadmap/PROGRESS.md` with what works now, what failed and why. Add `docs/release/changes/<branch-id>.md` (frontmatter `id`, `impact`, `section`, `title`). Leave the branch mergeable against `main`.
+6. **Finish.** Put what works now, what failed and why in the PR body and the pool item's Notes (`docs/roadmap/PROGRESS.md` is archived at `docs/archive/2026-10-23/roadmap/PROGRESS.md` and is not written). Add `docs/release/changes/<branch-id>.md` (frontmatter `id`, `impact`, `section`, `title`). Leave the branch mergeable against `main`.
 
 ## What counts as finished
 

@@ -8,6 +8,8 @@ description: >
 
 # Wire to the world
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Laws must do something real. Every new law or feature reaches the world —
 money, people, places — in the same pull request that adds it, proven by a
 watched-world test that shows the effect: a paycheck changes, a business

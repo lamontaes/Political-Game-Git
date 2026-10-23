@@ -9,7 +9,7 @@ claimed-by:
 pr: #5180
 blocked-on:
 milestone:
-source: "docs/coordination/OPUS-PEOPLE.md line 19 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-PEOPLE.md line 19 (unchecked checklist line)"
 claimed-at:
 ---
 

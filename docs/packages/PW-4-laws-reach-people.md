@@ -7,7 +7,7 @@ Federal income tax, Social Security tax and state income tax stopped on January 
 - **Read first:** `docs/packages/PW-common.md`, then PW-1.
 - **Builder:** one Opus session at **high**: this is the money the government moves, and every dollar must balance.
 - **Branch:** `pw/laws-reach-people`, from `main` after PW-2 lands. Pillar: OPUS-GOV; it reviews the PR. Do not push to `opus-gov`.
-- **Owned paths:** `src/core2/modules/laws.ts`, `src/core2/data/laws/`, `src/core2/modules/law-effects.ts`, `src/core2/law-reach/`, `src/core2/modules/budgets.ts` (the budget-to-spending path and withholding; not the budget vote itself), `src/core2/data/budgets/`, their tests, `docs/roadmap/PROGRESS.md`, a release note.
+- **Owned paths:** `src/core2/modules/laws.ts`, `src/core2/data/laws/`, `src/core2/modules/law-effects.ts`, `src/core2/law-reach/`, `src/core2/modules/budgets.ts` (the budget-to-spending path and withholding; not the budget vote itself), `src/core2/data/budgets/`, their tests, `docs/archive/2026-10-23/roadmap/PROGRESS.md`, a release note.
 - **Not yours:** `voting.ts`, `elections.ts`, `candidacy.ts` (PW-3, PW-5).
 - **Where:** the eight expiring rows are in `src/core2/data/laws/starting-law.json`; the effect kinds (eligibility, right, compliance, price, rule) are in `src/core2/modules/law-effects.ts`.
 

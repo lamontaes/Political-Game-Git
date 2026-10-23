@@ -9,7 +9,7 @@ claimed-by:
 pr: #5533
 blocked-on:
 milestone:
-source: "docs/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-LOCAL.md line 30 (unchecked checklist line)"
 claimed-at:
 ---
 

@@ -9,6 +9,8 @@ description: >
 
 # Civic reports
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 The owner reads reports between other things, often on a phone, and acts on
 them. A report is finished when a reader who was not there can say what
 happened, why, and what they need to do, after one read. Passing the

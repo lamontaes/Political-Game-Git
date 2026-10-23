@@ -7,7 +7,7 @@ Across two towns and three years, 18 couples made 250 family-planning decisions 
 - **Read first:** `docs/packages/PW-common.md`, then PW-1, and BOARD item 4 (a representative population).
 - **Builder:** one Opus session at **high**: family planning is a "no dice" decision about the most personal thing in the game, and the counted drift is the core's population model.
 - **Branch:** `pw/births-and-counts`, from `main` after PW-1 lands. Pillars: OPUS-PEOPLE owns renewal; OPUS-CORE owns the counted population. Both review the PR; this package builds on its own branch and does not push to theirs.
-- **Owned paths:** `src/core2/modules/renewal.ts`, `src/core2/births-plan.ts`, `src/core2/births-people.ts`, `src/core2/births-parameters.ts`, `src/core2/data/renewal/`, `src/core2/residents.ts` (the counted cadence and flows: `advanceCadence`, `householdOutsideFlow` and what applies them), their tests, `docs/roadmap/PROGRESS.md`, a release note. The two-level collapse (`collapseToTwoLevels`, `fullPeople`) stays OPUS-CORE's: a change there is a request in the PR body.
+- **Owned paths:** `src/core2/modules/renewal.ts`, `src/core2/births-plan.ts`, `src/core2/births-people.ts`, `src/core2/births-parameters.ts`, `src/core2/data/renewal/`, `src/core2/residents.ts` (the counted cadence and flows: `advanceCadence`, `householdOutsideFlow` and what applies them), their tests, `docs/archive/2026-10-23/roadmap/PROGRESS.md`, a release note. The two-level collapse (`collapseToTwoLevels`, `fullPeople`) stays OPUS-CORE's: a change there is a request in the PR body.
 
 ## Build
 

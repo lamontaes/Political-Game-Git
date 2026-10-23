@@ -21,7 +21,7 @@ claimed-at:
 
 **Files.** docs/pool/items/play-politics-term-details.md and the files that pull request #4651 changes on claude/play-politics-term-details
 
-**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/archive/2026-10-23/coordination/gov.md), checked against main on Oct 16, 2026.
 
 Sent back 2026-10-16 from PR #4651 (branch claude/play-politics-term-details): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
 

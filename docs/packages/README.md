@@ -9,7 +9,7 @@ A package is what a session is given to build or finish one piece of the roadmap
 3. **What to build, step by step,** naming the files and interfaces involved.
 4. **Out of scope:** what not to touch, and which session owns it.
 5. **Sources:** the real data and research it must use.
-6. **Hand-off:** where to log progress (`docs/roadmap/PROGRESS.md`, the PR body, or the pillar's status file), and how the owner will play it.
+6. **Hand-off:** where to log progress (the PR body and the pool item's Notes; `docs/roadmap/PROGRESS.md` and the pillar status files are archived under `docs/archive/2026-10-23/`), and how the owner will play it.
 
 ## Rules that apply to every package
 

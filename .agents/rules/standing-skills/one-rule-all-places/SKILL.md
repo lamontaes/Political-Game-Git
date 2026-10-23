@@ -9,6 +9,8 @@ description: >
 
 # One rule, all places
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 One rule covers all 56 places. Logic never names a state, city or GEOID
 (`if (state === 'Kentucky')`, `if (city === 'Lexington')`); place-specific
 facts — tax rate, wage floor, court size — live in data the one rule reads. A

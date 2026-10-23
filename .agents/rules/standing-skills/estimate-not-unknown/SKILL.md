@@ -8,6 +8,8 @@ description: >
 
 # Estimate, never UNKNOWN
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 No value a player can see is ever UNKNOWN. An unresearched value starts from
 the real national (or best-available) average with a per-world spread, marked
 ESTIMATED FROM AVERAGE with its source recorded in data — not shown to the

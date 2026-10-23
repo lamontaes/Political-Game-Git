@@ -9,7 +9,7 @@ claimed-by: claude/gov-follow-up
 pr: #4441
 blocked-on:
 milestone:
-source: "docs/coordination/OPUS-GOV.md line 66 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-GOV.md line 66 (unchecked checklist line)"
 claimed-at: 2026-10-15T20:31:19.842Z
 ---
 

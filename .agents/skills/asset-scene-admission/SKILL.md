@@ -11,6 +11,8 @@ description: >
 
 # Asset fit and scene admission
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Read the relevant contracts before acting:
 
 - `docs/systems/art-assets.md` for candidate versus runtime release;

@@ -9,7 +9,7 @@ claimed-by:
 pr: #4430
 blocked-on:
 milestone:
-source: "docs/coordination/play.md line 87 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/play.md line 87 (unchecked checklist line)"
 ---
 
 **What.** Seed `playtest-0712` hangs New life. On this evening's head it fails in 67 s with a two-level collapse error instead (see Needs, CORE and WORLD).

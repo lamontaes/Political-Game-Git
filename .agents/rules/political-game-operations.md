@@ -1,5 +1,7 @@
 # Operations
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 - `AGENTS.md` is binding. Scope comes from the claimed pool item (`docs/pool/`), never from a historical stage or run label.
 - Verify the actual repository and run state; summaries and a session's own claims are not proof of implementation.
 - Prefer small persistent mechanisms (a skill, a check, a pool item) over larger prompts.

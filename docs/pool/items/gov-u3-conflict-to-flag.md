@@ -9,7 +9,7 @@ claimed-by: claude/gov-u3-scandal-knowledge
 pr: #4495
 blocked-on:
 milestone:
-source: "docs/coordination/OPUS-GOV.md line 202 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-GOV.md line 202 (unchecked checklist line)"
 claimed-at: 2026-10-15T22:47:58.068Z
 ---
 
@@ -24,4 +24,3 @@ claimed-at: 2026-10-15T22:47:58.068Z
 **Notes.** Checklist line from OPUS-GOV.md; verify against main before starting.
 
 **Verified built on main, Oct 15 (claude/gov-u3-scandal-knowledge).** No on/off scandal flag feeds the candidacy inputs. `candidateInputs` (`electorate-inputs.ts`) takes none: the comment there says a scandal is read by each voter from the news that reached them. In `voting.ts`, `appealFor` gives a candidate a scandal term only for a voter who `knows` one of that candidate's scandal stories (`heardScandal`, via `api.knows(personId, newsKey(story))`), weighed by the voter's trust in the press; counted voters get the same term from the town's share who heard (`scandalAppeal`). `justice-chain.ts` `scandalRead` only reports that the conviction's story is among the scandal stories. The flat penalty is gone. What is not shown here is a played-year run with a convicted candidate on a ballot; none was found in a drawn year, so it is filed as `gov-scandal-knowledge-played-proof`.
-

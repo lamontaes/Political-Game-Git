@@ -1,5 +1,7 @@
 # Our Civic Duty — desktop client (DESKTOP-CLIENT1)
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 An installed Mac application and Windows installer that open the compiled
 game without Terminal, npm, a developer checkout, a Vite server, or an
 internet connection. The shell is deliberately thin: it owns application

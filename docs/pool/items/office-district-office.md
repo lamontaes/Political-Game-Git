@@ -9,7 +9,7 @@ claimed-by: claude/office-district-office
 pr: #4786
 blocked-on:
 milestone:
-source: "docs/coordination/OFFICE-STATE.md line 21 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-STATE.md line 21 (unchecked checklist line)"
 claimed-at: 2026-10-16T17:09:05.706Z
 ---
 

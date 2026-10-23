@@ -21,4 +21,4 @@ claimed-at: 2026-10-16T04:17:33.021Z
 
 **Files.** src/director/journal.ts, src/director/scene.ts, src/director/journal.test.ts, src/director/scene.test.ts
 
-**Notes.** Part of words-grading-bench (Order 2 of docs/work-orders/words-and-director-2026-10-15.md); absorbed from the closed words-batch-12 item.
+**Notes.** Part of words-grading-bench (Order 2 of docs/archive/2026-10-23/work-orders/words-and-director-2026-10-15.md); absorbed from the closed words-batch-12 item.

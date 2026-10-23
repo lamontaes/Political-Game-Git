@@ -9,7 +9,7 @@ claimed-by: claude/core-remaining-port-opening-builder
 pr: #4498
 blocked-on: core-port-world-scaffold
 milestone:
-source: "docs/coordination/core.md line 27 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/core.md line 27 (unchecked checklist line)"
 claimed-at: 2026-10-15T22:52:03.121Z
 ---
 
@@ -19,7 +19,7 @@ claimed-at: 2026-10-15T22:52:03.121Z
 
 **Done when.** In a drawn place (name and seed in the PR body) the opening builds with no import from the old engine in population.ts, opening-employment.ts and opening-work.ts, and a one-year played world (buildBenchWorld) shows a job and a pay record id read by the jobs engine. The test in src/core2/population.test.ts and the golden path suite pass and the PR body counts the old files removed. The owner plays it: start a new game and the town looks the same as before.
 
-**Files.** src/core2/population.ts, src/core2/opening-employment.ts, src/core2/opening-work.ts, docs/design/core2-porting-plan.md, docs/coordination/core.md
+**Files.** src/core2/population.ts, src/core2/opening-employment.ts, src/core2/opening-work.ts, docs/design/core2-porting-plan.md, docs/archive/2026-10-23/coordination/core.md
 
 **Notes.** Checklist line from core.md; verify against main before starting.
 

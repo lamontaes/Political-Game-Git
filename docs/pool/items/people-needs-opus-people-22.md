@@ -9,7 +9,7 @@ claimed-by: claude/people-22
 pr: #4549
 blocked-on:
 milestone:
-source: 'docs/coordination/OPUS-PEOPLE.md "Needs from other sessions" (line 22)'
+source: 'docs/archive/2026-10-23/coordination/OPUS-PEOPLE.md "Needs from other sessions" (line 22)'
 claimed-at: 2026-10-16T02:44:30.618Z
 ---
 
@@ -17,9 +17,9 @@ claimed-at: 2026-10-16T02:44:30.618Z
 
 **Rules.** Look before you ask: check docs/ and the register first; the endorsement question (SG-PEOPLE-press-endorsements) is the owner's, read the register before asking; Wire to the world: each line closes when another engine reads what it wrote, by record id; An effect is a read, not a record: the archive reads the press's outlets and the director reads the interview records; No dice: reporter turnover follows the jobs engine's own choices, not a roll; Replace, never layer: the second list of outlets in `past-news.ts` is deleted; No hand-written player text: interview lines come from the English banks; Placeholders: open lines keep their stopgap rows.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): each of the ten lines in `docs/coordination/OPUS-PEOPLE.md` (line 22) is struck with an id or has a pool item, and the year shows an interview opened through the conversation with its answers, one list of outlets used by the archive and the press, and a reporter who left being replaced on the masthead (interview, outlet and hire ids named). The owner plays it: asks the town paper for an interview and reads the story.
+**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): each of the ten lines in `docs/archive/2026-10-23/coordination/OPUS-PEOPLE.md` (line 22) is struck with an id or has a pool item, and the year shows an interview opened through the conversation with its answers, one list of outlets used by the archive and the press, and a reporter who left being replaced on the masthead (interview, outlet and hire ids named). The owner plays it: asks the town paper for an interview and reads the story.
 
-**Files.** src/core2/modules/press.ts, src/core2/past-news.ts, src/core2/press-staff.ts, src/director/conversation.ts, docs/coordination/OPUS-PEOPLE.md
+**Files.** src/core2/modules/press.ts, src/core2/past-news.ts, src/core2/press-staff.ts, src/director/conversation.ts, docs/archive/2026-10-23/coordination/OPUS-PEOPLE.md
 
 **Notes.** Overnight pool item 10: claim one list at a time. Verify.
 

@@ -10,7 +10,7 @@ claimed-by: claude/pool-m7-03
 pr: #5430
 blocked-on:
 milestone: M7
-source: "docs/roadmap/later-specs-draft.md M7-03"
+source: "docs/archive/2026-10-23/roadmap/later-specs-draft.md M7-03"
 claimed-at: 2026-10-20T02:31:16.946Z
 ---
 

@@ -9,7 +9,7 @@ claimed-by:
 pr: #5184
 blocked-on:
 milestone:
-source: "docs/coordination/OFFICE-FEDERAL.md line 19 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-FEDERAL.md line 19 (unchecked checklist line)"
 claimed-at:
 ---
 

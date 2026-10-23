@@ -9,7 +9,7 @@ claimed-by: claude/gov-needs-opus-gov-209
 pr: #4530
 blocked-on:
 milestone:
-source: 'docs/coordination/OPUS-GOV.md "Needs from other sessions" (line 209)'
+source: 'docs/archive/2026-10-23/coordination/OPUS-GOV.md "Needs from other sessions" (line 209)'
 claimed-at: 2026-10-16T11:13:39.769Z
 ---
 

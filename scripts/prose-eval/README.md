@@ -1,5 +1,7 @@
 # Civic-prose blind-evaluation harness
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 Supports the controlled A/B/C/D prose experiment defined by the Drive runbook
 (`01_BLIND_EVAL_RUNBOOK_AND_EVALUATOR_KEY — 2026-09-05`). The held-out fact
 packets live only in Drive

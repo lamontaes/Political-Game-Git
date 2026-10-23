@@ -9,7 +9,7 @@ claimed-by: claude/gov-audit-body
 pr: #4576
 blocked-on:
 milestone:
-source: "docs/coordination/OPUS-GOV.md line 201 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-GOV.md line 201 (unchecked checklist line)"
 claimed-at: 2026-10-16T03:28:57.755Z
 ---
 

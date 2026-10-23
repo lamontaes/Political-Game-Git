@@ -9,6 +9,8 @@ description: >
 
 # Trace audit
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 The audit shows the owner what each of the 56 places actually did in a year, and why. It views the game and changes nothing.
 
 ## Steps

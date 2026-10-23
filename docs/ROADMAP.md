@@ -1,11 +1,13 @@
 # Roadmap to early access
 
+Current as of 2026-10-23 (scope calls brought in line with the Oct 14 rulings; specs now all in `features.json`; Steam dates dropped)
+
 Approved by the owner on October 10, 2026. This replaces the old-core engineering roadmap. Work is tracked in the pool (`docs/pool/`); the owner's new ideas become pool items.
 
 ## Now (owner, Oct 11, 2026)
 
 - **Keep it simple** (see `AGENTS.md`): two-level population with people filled in on click, debug bookkeeping off in play, one run and one number, build only what the golden path needs, and a playable step at the end of every day.
-- **Steam:** the store page goes up by Friday, October 16, with screenshots of real gameplay. The early-access date is set once the owner has played the golden path end to end and wants to keep going; his target is October 30.
+- **Steam:** the early-access date is set once the owner has played the golden path end to end and wants to keep going (owner, Oct 11).
 - **How the work runs:** `AGENTS.md`, "How the work is organized": any agent takes pool items, big cross-system jobs run as an Opus lead with Sonnet helpers, and merger sessions merge.
 - **Checks stay light:** builders test their own work. The client release gate (build, typecheck, declarations) and each PR's changed-file checks block; the golden-path suite, the speed guard and the money balance are the bench's guards. The owner plays the evening build.
 
@@ -116,17 +118,17 @@ Fifteen work orders, owner-approved Oct 10, 2026, in `docs/packages/M1-*.md` (ev
 - **Art in parallel:** modular people, poses, backgrounds.
 - **Specialist roles:** speed, placeholder clearing, docs.
 
-## Early-access scope calls (owner, Oct 10)
+## Early-access scope calls (owner, Oct 10; replaced where his Oct 14 rulings say otherwise)
 
-- **Press:** basic news in early access (local outlets report results, laws and big events, plus word of mouth); reporters, editors, owners and investigations right after.
-- **Speeches** at any moment are in early access; **movements** come after.
+- **Press:** in early access, outlets with biases and owners, and reporters who are people in the world with their own records; the player can influence a paper (owner, Oct 14, "Press").
+- **Speeches** at any moment are in early access. **Movements** are too: marches, petitions, primary challenges, the player speaking, joining and founding; police, the Guard and the military as deciding bodies, boycotts and war are 1.0 (owner, Oct 14, "Movements").
 - **Constituent cases:** in early access, simple.
 - **Corruption:** basic in early access (bribes and favors from people's own traits and money, leaving records that surface later); investigations and prosecutions after.
-- **At early access these run in the world only, and become playable after:** party posts, ballot measures and recalls, and school board seats.
-- **Successors:** the basic handoff is in early access (a save can always continue); inheriting a movement comes after.
+- **At early access these run in the world only, and become playable after:** party posts and school board seats. Ballot measures (the player votes on them) and recalls (the player can be recalled) are in early access (owner, Oct 14).
+- **Successors:** no game over; continue as anyone in the world, and dynasty play is in: an heir can ride the wave of a movement (owner, Oct 14, "No game over").
 - **Courts** come after early access.
 - **The legal check** started on Oct 10.
 
-## Specs and packages
+## Specs
 
-Exact specs for M0 and M1, each with its test, are in `docs/roadmap/features.json` (failing until proven). Draft specs for M2 to M7 are in `docs/roadmap/later-specs-draft.md`; builders take them from the pool under "No stopping" (owner, Oct 12) until the owner approves them. Build packages are in `docs/packages/`. The progress file is `docs/roadmap/PROGRESS.md`.
+Every milestone spec, M0 to M7, each with its test, is in `docs/roadmap/features.json` (failing until proven); builders take them from the pool. The M1 to M7 work packages that remain are in `docs/packages/`; the M0 packages, the progress file and the M2 to M7 draft are archived under `docs/archive/2026-10-23/`.

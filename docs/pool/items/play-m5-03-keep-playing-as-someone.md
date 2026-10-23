@@ -10,7 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 milestone: M5
-source: "docs/roadmap/later-specs-draft.md M5-03"
+source: "docs/archive/2026-10-23/roadmap/later-specs-draft.md M5-03"
 ---
 
 **What.** When your character dies, or when you choose to, continue as a connected existing person (your son, a protégé, anyone eligible) with their own life. Inheriting a movement comes after early access. (Owner: OPUS-PLAY.)

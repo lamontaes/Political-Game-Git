@@ -7,7 +7,7 @@ Three game years, two towns: the candidacy engine recorded 0 decisions. Every fi
 - **Read first:** `docs/packages/PW-common.md`, then PW-1 and PW-5 (shared files).
 - **Builder:** one Opus session at **high**: three "no dice" decisions (who runs, who votes, how they vote) that every election in the game rests on.
 - **Branch:** `pw/candidacy-and-votes`, from `main` after PW-2 lands. Pillar: OPUS-GOV owns these engines; build on your branch, and OPUS-GOV reviews the PR. Do not push to `opus-gov`.
-- **Owned paths:** `src/core2/modules/candidacy.ts`, `src/core2/data/candidacy/`, the ballot code in `src/core2/modules/voting.ts` (who votes and how; functions around `atThePolls`, the counted-vote tally near line 533, and the ballot choice itself), `src/core2/electorate.ts`, `src/core2/opening-voter-groups.ts` (read; change only with OPUS-CORE's answer in the PR), their tests, `docs/roadmap/PROGRESS.md`, a release note.
+- **Owned paths:** `src/core2/modules/candidacy.ts`, `src/core2/data/candidacy/`, the ballot code in `src/core2/modules/voting.ts` (who votes and how; functions around `atThePolls`, the counted-vote tally near line 533, and the ballot choice itself), `src/core2/electorate.ts`, `src/core2/opening-voter-groups.ts` (read; change only with OPUS-CORE's answer in the PR), their tests, `docs/archive/2026-10-23/roadmap/PROGRESS.md`, a release note.
 - **Not yours:** contest and term dating in `voting.ts` and `elections.ts` (PW-5), the player's own ballot on a skip (PW-5).
 
 ## Build

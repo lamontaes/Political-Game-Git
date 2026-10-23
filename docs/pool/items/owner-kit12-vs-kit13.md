@@ -20,4 +20,4 @@ source: "docs/coordination/OWNER-DECISIONS.md, Open"
 
 **Files.** see the question
 
-**Notes.** BUILT. docs/coordination/play.md 'Kit 13 controls': the play page uses Kit 13's approved control set, replacing Kit 12 (src/bench/play.css).
+**Notes.** BUILT. docs/archive/2026-10-23/coordination/play.md 'Kit 13 controls': the play page uses Kit 13's approved control set, replacing Kit 12 (src/bench/play.css).

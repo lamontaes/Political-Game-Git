@@ -1,5 +1,7 @@
 # The pool: every piece of work, in one place
 
+Current as of 2026-10-23 (work orders, status files and the M2 to M7 draft are archived; "What goes in" points at what is live)
+
 Owner, Oct 15, 2026: "the pool needs to have ALL work so nothing is lost or falls through the cracks, from bug fixes to features, everything, all in one place so I can view everything and every session can just pick something up."
 
 This folder is that place. It replaces the pool lists inside work orders, the "Needs from other sessions" lists in status files, the GitHub Project (sessions cannot write it) and the CTO's memory. If work is not here, it does not exist.
@@ -72,11 +74,11 @@ Keep the body short; the rules and checks are usually one line each because AGEN
 ## What goes in
 
 - Every open PR that is not merged: one item saying what finishes it.
-- Every unfinished line of every work order (`docs/work-orders/*`), every "Needs from other sessions" line in `docs/coordination/*.md`, every unchecked checklist line there.
+- Every unfinished line of an order, a handoff or a status file, before that file is archived (the old work orders and status files are under `docs/archive/2026-10-23/`).
 - Every bug: a failing test on `main`, a defect a batch or an audit found, anything the owner saw in play.
 - Every open stopgap, grouped by engine (one item per engine and kind, naming its rows), not one item per row.
 - Every owner decision still open (`kind: owner-decision`, `status: blocked`): the question, in one line, so the CTO can bring the list to him.
-- Roadmap work not yet started (`docs/ROADMAP.md` M2 to M7, `docs/roadmap/later-specs-draft.md`), one item per spec, priority 3 until scheduled.
+- Roadmap work not yet started (`docs/ROADMAP.md` M2 to M7, the specs in `docs/roadmap/features.json`), one item per spec, priority 3 until scheduled.
 
 ## What stays out
 

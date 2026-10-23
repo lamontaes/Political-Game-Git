@@ -9,7 +9,7 @@ claimed-by: claude/political-game-pool-yucp92-ss
 pr:
 blocked-on: words-hearing-chair-question
 milestone:
-source: "docs/coordination/OFFICE-STATE.md line 19 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-STATE.md line 19 (unchecked checklist line)"
 claimed-at: 2026-10-20T04:59:54.277Z
 ---
 

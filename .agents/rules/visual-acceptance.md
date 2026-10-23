@@ -1,5 +1,7 @@
 # Visual Acceptance
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 - green unit/E2E tests do not prove visual quality;
 - fresh live-browser human inspection is required for player-facing visual surfaces;
 - screenshots must be native/lossless enough to judge;

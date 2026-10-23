@@ -9,7 +9,7 @@ claimed-by:
 pr:
 blocked-on:
 milestone:
-source: "docs/coordination/fixer.md line 46 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/fixer.md line 46 (unchecked checklist line)"
 ---
 
 **What.** When no bug is assigned: take open work from `BOARD.md` (write "Taking <item>" here first).

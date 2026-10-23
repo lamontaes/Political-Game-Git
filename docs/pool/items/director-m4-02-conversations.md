@@ -10,7 +10,7 @@ claimed-by: claude/director-m4-verify
 pr: #5345
 blocked-on:
 milestone: M4
-source: "docs/roadmap/later-specs-draft.md M4-02"
+source: "docs/archive/2026-10-23/roadmap/later-specs-draft.md M4-02"
 claimed-at: 2026-10-20T00:45:55.769Z
 ---
 

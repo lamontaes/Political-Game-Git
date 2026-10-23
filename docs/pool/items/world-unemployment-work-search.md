@@ -21,7 +21,7 @@ claimed-at:
 
 **Files.** src/core2/jobs-benefits.ts, src/core2/modules/jobs.ts, src/core2/data/laws/starting-law.json, src/core2/jobs-benefits.test.ts
 
-**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/coordination/gov.md), checked against main on Oct 16, 2026.
+**Notes.** Split out of gov-needs-gov-69 (the "Needs from other sessions" section of docs/archive/2026-10-23/coordination/gov.md), checked against main on Oct 16, 2026.
 
 Looked at Oct 16 (claude/unemployment-work-search), not built. Two things stop it. A seeker's "contacts" today are the openings in their own place they apply to in the weekly matching (`runWeek` in jobs.ts); in a town with few or no openings (the Anon Raices, Puerto Rico year had none open at the end) every claimant would fall short of 1 to 3 contacts a week through no choice of their own and lose the week, because the game has no out-of-town openings to apply to. And the rule is a real-world step (log your contacts) the golden path does not need and The Political Process baseline does not list, which AGENTS.md "a game, not a spreadsheet" sends to the owner as a question rather than a feature. If he wants it: size contacts from the seeker's drive and the labor market the regional engine already reads, pay on a sliding scale of contacts against the requirement (nothing flips at a threshold), and read the requirement from the state's law row. If not: delete `workSearchContactsPerWeek` from `starting-law.json`, since nothing reads it.
 

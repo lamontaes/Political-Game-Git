@@ -10,6 +10,8 @@ description: >
 
 # Merge audit
 
+Current as of 2026-10-23 (checked by the Oct 23 doc audit: every path resolves and no replaced rule is stated)
+
 1. **List the window:** every PR merged since a time T, with base branch, head branch and size (`gh api graphql` search `is:pr is:merged merged:>=T`). Leave out the CTO's own docs PRs.
 2. **Fan out:** three or four Sonnet reviewers, 7 or 8 PRs each. They read only: `gh api repos/lamontaes/Political-Game-Git/pulls/N` and `.../pulls/N/files` (each file has a `patch`). Give each reviewer the checklist below verbatim. Ask for a table of PR, verdict (good, concerns, bad), reason and red flags with `file:line`, then the exact fix for every concerns or bad verdict.
 3. **Checklist:**

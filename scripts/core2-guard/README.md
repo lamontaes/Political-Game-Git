@@ -1,5 +1,7 @@
 # Golden-path regressions and core performance
 
+Current as of 2026-10-23 (removed the ended "Sonnet finishing" status line; every path resolves)
+
 The checks report accepted regressions and slower core changes. Unaccepted
 features remain visible as goals. The CTO approved the contract and deadlines;
 the separate finisher owns acceptance. Game behavior and roadmap tests are
@@ -102,4 +104,3 @@ The oversized-input fixture also failed the existing byte budget.
 
 The [missing-core check](evidence/missing-core.json) exited red and restored
 the checkout when main supplied no core. Roadmap commands remain unregistered.
-Both specs await separate Sonnet finishing; acceptance flags stay unchanged.

@@ -9,7 +9,7 @@ claimed-by: claude/traits-29
 pr: #4523
 blocked-on:
 milestone:
-source: 'docs/coordination/traits.md "Needs from other sessions" (line 29)'
+source: 'docs/archive/2026-10-23/coordination/traits.md "Needs from other sessions" (line 29)'
 claimed-at: 2026-10-15T23:35:54.931Z
 ---
 

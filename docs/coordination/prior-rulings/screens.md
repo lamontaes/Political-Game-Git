@@ -1,5 +1,7 @@
 # Prior rulings: screens, UI and dev mode
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Compiled Oct 14, 2026 from the owner's Google Drive. Read-only; no other files were edited.
 
 ## Method and coverage

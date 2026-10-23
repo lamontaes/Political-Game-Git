@@ -15,7 +15,7 @@ ENGINE: core2-ballot-measures-v1
 
 ```text
 ENGINE: core2-interest-groups-v1
-(a) "Groups form from whoever loses money under a bill's fiscal note; they lobby..." (docs/roadmap/later-specs-draft.md:134-140, M3-07; docs/packages/M3-world-of-governing.md:18-21).
+(a) "Groups form from whoever loses money under a bill's fiscal note; they lobby..." (docs/archive/2026-10-23/roadmap/later-specs-draft.md:134-140, M3-07; docs/packages/M3-world-of-governing.md:18-21).
 (b) No core hook: registers organize and lobbyTerm through registerLegislatureHooks (interest-groups.ts:130-133); holdVote runs beforeVote hooks only for a "drafted" bill (legislature.ts:1616-1620). holdVote callers: world-legislating.ts:444 (policy-question bills only, :431-436) and legislature.ts:2027 (council). Employer/dues path: organize returns unless employerCosts finds a law-amount provision with series "minimum-wage" (interest-groups.ts:172-173; legislature.ts:208-215). Residents path organizeResidents (:386) runs on any policy-question bill.
 (c) Groups 0->6 and meetings 0->240, all us-policy-positions:* questions: the residents path. Dues 0: no minimum-wage bill is ever drafted in the played world (world-legislating drafts only policy-question bills; the council's budget bill carries only budget-line provisions, legislature.ts:260). The census counted no call because the hook goes through the legislature, not the core.
 (d) meetings read by lobbyTerm (interest-groups.ts:360-372) summed into each member's position at legislature.ts:1120-1122: real read. groups read only by organize and groupsHere (:510, tests only). dues read only by the journal source (:43-70).
@@ -48,11 +48,11 @@ ENGINE: core2-constituent-cases-v1
 
 ```text
 ENGINE: corruption (src/core2/modules/corruption.ts)
-(a) "People can offer or take bribes and favors because of their own traits, money and circumstances. It leaves records that can surface later through people or news." (docs/roadmap/later-specs-draft.md:152; docs/packages/M3-world-of-governing.md:33, :49).
+(a) "People can offer or take bribes and favors because of their own traits, money and circumstances. It leaves records that can surface later through people or news." (docs/archive/2026-10-23/roadmap/later-specs-draft.md:152; docs/packages/M3-world-of-governing.md:33, :49).
 (b) considerBribe(api, ask) at corruption.ts:148 is the only writer of a crime row (needs live offerer and official, positive amount, :149-156; offer decision :159-176, take decision :178-196, put :211-215). onRelationshipChange with relationshipKinds ["*"] (:316-317) returns unless both parties are in a taken crime (:319-320; partiesOf :67-76). Reason provider corruption-circumstances (:299-315) runs only inside decide (:136-140), reached only from considerBribe or the tell path (:341-349).
 (c) considerBribe has no caller in src/ except src/core2/corruption.test.ts:52 (fixture stake 50,000,000, subject "fixture-contract"). So crimes stays empty and all 17,419 relationship notices exit at :320.
 (d) crimes/surfaced read by scandalOf at src/core2/electorate-inputs.ts:165-180 feeding candidateInputs (:237), imported by voting.ts:90 and world-races.ts:48. crimesKnownTo (:272) has no caller outside tests.
-(e) docs/packages/M3-world-of-governing.md:90 "Basic in early access: bribes and favors, records that surface later; investigations and prosecutions after (Oct 10)." docs/coordination/core.md:164 open question on crime under no-dice: "Until you rule, I'm building nothing." Stopgap SG-P15-corruption-weights (stopgaps.json ~2192).
+(e) docs/packages/M3-world-of-governing.md:90 "Basic in early access: bribes and favors, records that surface later; investigations and prosecutions after (Oct 10)." docs/archive/2026-10-23/coordination/core.md:164 open question on crime under no-dice: "Until you rule, I'm building nothing." Stopgap SG-P15-corruption-weights (stopgaps.json ~2192).
 (f) NO-CALLER (considerBribe is never called in play).
 (g) Have the engine that holds a favor an official controls (a contract, a permit, a vote on a bill an interest group wants) call considerBribe with offerer, official, stake and record id.
 ```
@@ -63,7 +63,7 @@ ENGINE: beliefs (src/director/conversation.ts)
 (b) Installed via src/director/play-modules.ts:41 (peopleModules) used at src/bench/world.ts:295. Hook onRelationshipChange (conversation.ts:1063) does nothing when believers() is empty (:1066-1068). Only write is in say() when choice.lie && last.subject.own (:883), put at :902-913 for hearers not doubtsClaim. The lie line is offered by offerChoices (:711, :792-822) only about the player's own record.
 (c) say() is called only by the bench's player routes POST /api/talk/open and /api/talk/say (src/bench/server.ts:274, :283) and a grading tool (src/director/tooling/grading-batch.ts:101-104). No NPC-to-NPC conversation exists. The run had no player talk, so no lie. 17,419 relationship notices each found no believers.
 (d) beliefs table read only inside conversation.ts (believers :1035-1041, beliefsOf :1047, used :1071, :1100). The lie also writes api.observe knowledge (:907-912) and the found-out check emits a told event (:1084-1094).
-(e) No owner ruling. docs/coordination/play.md:26 "Press them to lie: they tip, the line glows soft red, and the lie is remembered." docs/design/director-on-core2.md:96 "the new core has no producer for any of the three" (lies, favors, promises).
+(e) No owner ruling. docs/archive/2026-10-23/coordination/play.md:26 "Press them to lie: they tip, the line glows soft red, and the lie is remembered." docs/design/director-on-core2.md:96 "the new core has no producer for any of the three" (lies, favors, promises).
 (f) WAITS-ON-CAUSE (only the player can lie, and the run had no player talk).
 (g) Prove it with a scripted player conversation in a generated world; nothing in the engine is wrong.
 ```
@@ -74,14 +74,14 @@ ENGINE: core2-law-effects-v1
 (b) laws.ts:390-398 schedules law-takes-effect; lawTookEffect (laws.ts:432-457) emits law-took-effect; budgets.ts:885-887 and :1037-1040 emit budget-line-changed. onEvent (law-effects.ts:72) -> applyLaw (:219): runHandlers (:220) first, then returns unless kind is law-took-effect (:221), series is a key in policy-effects.json (:224), the laws row exists (:225-229), inForceHere (:237), value === 1 (:251); then reaches() per person (:124-138, :254). openLawEffects (:75-117) applies opening rows that pass the same gates (:90-92).
 (c) policy-effects.json (:7-43) has five keys, all us-policy-positions:*. The laws taking effect in the window (starting-law.json, 2025-10-01 / 2026-01-01) are rate series (income-tax, sales-tax, snap-maximum, medicaid-match), none cataloged, so all 30 stop at :224. The five cataloged questions start "no" in Mississippi. The 42 budget events run their handlers (law-reach/group-b.ts:453 runBudgetLine writes other engines' tables) and then return at :221 by design.
 (d) [CORRECTED BY OPUS SPOT-CHECK] applied is read by the bench screens: src/bench/card.ts:110 (effectsOn on a person's card) and src/bench/changes.ts:45-46 (the applied table). No other engine reads it. Tests also read it.
-(e) No owner ruling. docs/coordination/play.md:72 "the law-effects records cover cataloged policies, not amounts". AGENTS.md "An effect is a read, not a record".
+(e) No owner ruling. docs/archive/2026-10-23/coordination/play.md:72 "the law-effects records cover cataloged policies, not amounts". AGENTS.md "An effect is a read, not a record".
 (f) WAITS-ON-CAUSE (a cataloged policy question enacted or in force; all five start 'no' in Mississippi and none passed). Screens read it; no engine does.
 (g) Have the engine that enforces each cataloged question (jobs for employment rules, etc.) read applied when it decides, so the record becomes an effect.
 ```
 
 ```text
 ENGINE: core2-world-races-v1
-(a) "every state and federal seat the town only sees from afar is elected on the real general election day" (world-races.ts:2-5; docs/coordination/gov.md:35).
+(a) "every state and federal seat the town only sees from afar is elected on the real general election day" (world-races.ts:2-5; docs/archive/2026-10-23/coordination/gov.md:35).
 (b) openWorldRaces at src/bench/world.ts:328 schedules scheduleElection(api, nextRaceYear(api, year)) (world-races.ts:101-103). nextRaceYear skips odd years not in oddYears (:136-137); oddYears from the town state's legislative seats with an odd electionYear (:113-135). Calendar "general:<year>" on novemberGeneralElectionDay (:141-155; gov-rules/town-election-calendar.ts:20-27). onCalendarWork dispatch :191-215. racesIn :495-596 covers the town state's legislature and Congress (out-of-state Congress in even years).
 (c) Mississippi's legislature next regular election is 2027 (filing-requirements.json US-MS stateLegislative offeredIn2026:false, nextRegularElection "2027"; offices-state.ts:277-301), so nextRaceYear(2025) -> 2026 and the first entry is general:2026 on 2026-11-03, after the run ended.
 (d) races/seats read by worldSeatParty in legislature.ts:853-862 (tracer unsure whether it has a caller; ~:900). racesOf/presidentialOf (:864-878) and raceBlocksOf (:777): no caller outside the module.
@@ -125,7 +125,7 @@ ENGINE: core2-meetings-v1
 
 ```text
 ENGINE: core2-officials-v1
-(a) "Seat every official outside the town as a person" (officials.ts:500-502); take-office handler "A state or federal official, or a newcomer who ran, takes a seat" (:1302-1304); BOARD.md:28; docs/coordination/officials.md:14.
+(a) "Seat every official outside the town as a person" (officials.ts:500-502); take-office handler "A state or federal official, or a newcomer who ran, takes a seat" (:1302-1304); BOARD.md:28; docs/archive/2026-10-23/coordination/officials.md:14.
 (b) eventKinds ["took-office"], onEvent (officials.ts:99-104). Only emitter: takeOffice in voting.ts (:1877-1895), reached from an election result (:1437) or a scheduled take-office entry (:1426-1436, dispatch :268). officials rows also written by openOfficials (:504-516) and seatOfficial (:862-927) via holderOf (:822-855) or legislature.ts:931. candidates rows by officialCandidate (:1155-1300) from fileStandingCandidates (voting.ts:663, :671, :699).
 (c) No election was held in the window (voting results 0), so took-office never fired. officials 1572->1575 from seatOfficial via holderOf (legislature.ts:830, :897, :1049, :1725). candidates 0->2: Democratic challengers for US Senate and House district 1 at the 2025-12-26 federal filing close.
 (d) officials read by legislature.ts:927, :979, :1087, :1094, :1847; world-legislating.ts:326 (officialStance); record.ts:90 (votesAreTownNews). candidates read by nobody outside the module (voting uses the returned personId).
@@ -136,7 +136,7 @@ ENGINE: core2-officials-v1
 
 ## Verifier corrections (Sonnet)
 
-- Ballot measures: the Mississippi process note is near line 440 of `data/research/elections/ballot-measures-2026.json`, not 429. `docs/coordination/gov.md:25` says 13 states; the data has 11.
+- Ballot measures: the Mississippi process note is near line 440 of `data/research/elections/ballot-measures-2026.json`, not 429. `docs/archive/2026-10-23/coordination/gov.md:25` says 13 states; the data has 11.
 - Interest groups: a council bill on the policy question "raise the minimum wage" was drafted on March 6, 2025 and lobbied. What is never drafted outside the player's route is a bill that changes the wage amount (`src/bench/legislature.ts:149-164` is the only one). The council budget bill's provisions are at `legislature.ts:267`.
 - Recalls: a removal is already reported, since `vacateSeat` emits a public "seat-vacated" event (`offices.ts:801-811`). Only the tally is missing. `electorate-inputs.ts:65` reads only the president's seat.
 - Constituent cases: the executive's desk holds bills awaiting signature, not an inbox, so a case list would be new.

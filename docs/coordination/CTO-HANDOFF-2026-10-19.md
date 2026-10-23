@@ -1,5 +1,7 @@
 # CTO handoff, Oct 19, 2026 (acting CTO to the next session)
 
+Current as of 2026-10-19 (the Oct 19 snapshot; the Oct 23 handoff is in the acting CTO's chat until a newer file replaces this one)
+
 Written from the Actions history, the open PRs and the pool. Read with `.agents/skills/cto/SKILL.md` and the Oct 16 handoff.
 
 ## Where we are

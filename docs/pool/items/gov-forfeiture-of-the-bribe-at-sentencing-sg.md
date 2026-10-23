@@ -9,7 +9,7 @@ claimed-by: claude/gov-bribe-forfeiture
 pr: #4491
 blocked-on:
 milestone:
-source: "docs/coordination/OPUS-GOV.md line 196 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OPUS-GOV.md line 196 (unchecked checklist line)"
 claimed-at: 2026-10-15T22:04:48.835Z
 ---
 

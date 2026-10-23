@@ -9,7 +9,7 @@ claimed-by: claude/office-needs-office-state-26
 pr: #4545
 blocked-on:
 milestone:
-source: 'docs/coordination/OFFICE-STATE.md "Needs from other sessions" (line 26)'
+source: 'docs/archive/2026-10-23/coordination/OFFICE-STATE.md "Needs from other sessions" (line 26)'
 claimed-at: 2026-10-16T02:30:58.777Z
 ---
 

@@ -33,7 +33,7 @@ Only the mortgage rate keeps moving, rising a few hundredths of a point a year. 
 - Floyd, New Mexico: $630 million held, $625 million paid in
 - Shumway, Illinois: $531 million held, $525 million paid in
 
-In Absecon, New Jersey (a three-year run on October 12, 2026), most of the growth came from one wholesaler. In 2021 its sales were $157.6 million against $84.0 million of yearly demand for its goods, nearly twice what the market wanted, and it paid none of its $75.5 million operating costs. The same happens with the core alone, without the economy engines. It sits in the core's outside-market stand-in (`SG-CORE-outside-market` in `src/core2/data/stopgaps.json`), and the request to the core team is in `docs/coordination/world.md` under "Needs from other sessions".
+In Absecon, New Jersey (a three-year run on October 12, 2026), most of the growth came from one wholesaler. In 2021 its sales were $157.6 million against $84.0 million of yearly demand for its goods, nearly twice what the market wanted, and it paid none of its $75.5 million operating costs. The same happens with the core alone, without the economy engines. It sits in the core's outside-market stand-in (`SG-CORE-outside-market` in `src/core2/data/stopgaps.json`), and the request to the core team is in `docs/archive/2026-10-23/coordination/world.md` under "Needs from other sessions".
 
 **The town income figure fed to the national economy swung from −22% to +41% a year (measured, fixed).** The calculation compared one month's income with the same month a year earlier, so a month with three biweekly paydays read as growth. It now compares the last twelve months with the twelve before them (`src/core2/modules/macro.ts:109`).
 

@@ -10,7 +10,7 @@ pr: #5134
 blocked-on:
 milestone:
 after: core-disasters-ss-prices
-source: "docs/coordination/OFFICE-LOCAL.md line 32 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/OFFICE-LOCAL.md line 32 (unchecked checklist line)"
 claimed-at: 2026-10-19T19:54:01.773Z
 ---
 

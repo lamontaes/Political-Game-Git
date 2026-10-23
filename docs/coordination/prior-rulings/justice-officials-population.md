@@ -1,5 +1,7 @@
 # Prior rulings: justice, corruption, officials and the wider population
 
+Current as of 2026-10-23 (a frozen digest of the owner's Drive rulings; later rulings in OWNER-DECISIONS.md win)
+
 Research only. Searched the owner's Google Drive (23 `fullText contains` searches, pageSize 15) and read the 10 most relevant files in full or in part. Entries marked **[snippet]** come from a Drive search snippet, not a full read. The repository rule `AGENTS.md` (owner, Oct 11, 2026) is included because it governs the same questions; it is not a Drive file.
 
 Searches run: court, courts, judge, trial, prison, sentencing, bail, corruption, bribe, scandal, ethics, staff, aide, appointment, cabinet, official, population, counted, two-level, registered voters, generated, simulated, husk.

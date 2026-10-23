@@ -9,7 +9,7 @@ claimed-by: claude/play-store-shots-election-night
 pr: #4795
 blocked-on:
 milestone:
-source: "docs/coordination/play.md line 138 (unchecked checklist line)"
+source: "docs/archive/2026-10-23/coordination/play.md line 138 (unchecked checklist line)"
 claimed-at: 2026-10-16T18:55:23.695Z
 ---
 
