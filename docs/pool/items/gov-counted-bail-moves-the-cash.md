@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/public-safety.ts, src/core2/modules/justice.ts, src/core2/counted-money.ts, src/core2/law-wiring-justice.test.ts
 
-**Notes.** Found Oct 23 while finishing justice-bail-moves-the-cash: a played year of the bench world opens dozens of counted adult cases a month with no bail money on the journal, while a full person's posted bail is a journal entry. The full-person bail lives in src/core2/modules/justice.ts (escrowOf, holdBail, returnBail); reuse that escrow account rather than adding a second one.
+**Notes.** Found Oct 23 while finishing justice-bail-moves-the-cash: batchCase records the detained share and the bail law's effect for counted adult defendants each month, but no posting for the share that posts bail, while a full person's posted bail is a journal entry. The full-person bail lives in src/core2/modules/justice.ts (escrowOf, holdBail, returnBail); reuse that escrow account rather than adding a second one.
