@@ -19,7 +19,7 @@ claimed-at:
 
 **Done when.** Every seeded trait value for a drawn place's people matches the old registry's value by person record id and trait key, and the core reads data/content/trait-act-pulls.json or a core trait table rather than src/simulation/trait-registry.ts. In a drawn place and seed named in the PR body, buildBenchWorld produces the same opening records before and after, and src/core2/population.ts has no import from src/simulation for this piece; the opening tests in src/core2 for that place pass.
 
-**Files.** src/core2/population.ts, src/core2/opening-personality.ts, src/simulation/trait-registry.ts, src/simulation/trait-packs.ts, src/simulation/personality-catalog.ts
+**Files.** src/core2/population.ts, src/core2/opening-personality.ts, src/simulation/trait-registry.ts, src/simulation/trait-packs.ts, src/simulation/personality-catalogue.ts <!-- british-spelling-ok: personality-catalogue.ts is the removed old-core file's real name -->
 
 **Notes.** Split Oct 19 from core-old-imports-population, which was sized M but touches five old-engine modules. The sibling slices are core-old-imports-population-org-profile, core-old-imports-population-traits and core-old-imports-population-town-employment.
 
