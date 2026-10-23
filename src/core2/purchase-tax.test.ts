@@ -3,15 +3,12 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
 import { purchaseTaxes, taxInside } from "./modules/purchase-tax";
-import {
-  countedFundOf,
-  countedHouseholdsByPlace,
-  residentsAccountFor,
-} from "./modules/residents";
+import { countedFundOf, residentsAccountFor } from "./modules/residents";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreModule, CoreState, SalesReceiptNotice } from "./types";
 import { daysAfterStart } from "./tooling/test-days";
+import { countedRecords } from "./tooling/counted-records";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-purchase-tax");
@@ -109,7 +106,8 @@ describe(`a sales tax in ${place.name}, ${place.state} (seed ${seed})`, () => {
     // holds each counted group's money in that group's own fund.
     const residents = residentsAccountFor(core, taxPlace)!;
     const funds = new Set(
-      (countedHouseholdsByPlace(core).get(taxPlace) ?? [])
+      [...countedRecords(core).values()]
+        .filter((row) => row.household.placeId === taxPlace)
         .map((row) => countedFundOf(core, row.household.id))
         .filter((id): id is string => id !== undefined),
     );

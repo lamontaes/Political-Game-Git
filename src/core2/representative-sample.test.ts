@@ -2,9 +2,9 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { createLifeCore } from "./life";
-import { residentsRuntime } from "./modules/residents";
 import { representativeWeights } from "./representative-sample";
 import { generatedOpening } from "./tooling/generated-world";
+import { countedRecords } from "./tooling/counted-records";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-representative-sample");
@@ -33,8 +33,8 @@ describe(`the full people sample the town in ${place.name}, ${place.state} (seed
     expect(Math.abs(sum - represented)).toBeLessThan(1e-6);
     // Those people are no longer in the counts.
     const core = createLifeCore(input);
-    const counted = [...residentsRuntime(core)!.households.values()].flatMap(
-      (row) => row.people.map((person) => person.id),
+    const counted = [...countedRecords(core).values()].flatMap((row) =>
+      row.people.map((person) => person.id),
     );
     for (const id of counted) expect(weights[id]).toBeUndefined();
     expect(representativeWeights(core)).toEqual(weights);

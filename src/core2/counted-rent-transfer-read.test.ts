@@ -10,6 +10,7 @@ import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import type * as Money from "./counted-money";
 import type { CoreState } from "./types";
+import { countedRecords } from "./tooling/counted-records";
 
 // Two of the counted-group hooks, read in a played year (one model, two
 // tiers): a counted tenant's rent is renewed by the same rule as a full
@@ -62,7 +63,7 @@ function playYear(attempt: number) {
       row.previousRentMinor !== undefined &&
       row.renewedAt > start &&
       row.householdId !== undefined &&
-      rt.households.has(row.householdId),
+      rt.store.householdOf.has(row.householdId),
   );
   return { place, core, api, start, renewed };
 }
@@ -96,7 +97,7 @@ describe(`counted rent and payments in a played year (${place.name}, seed ${seed
         row.previousRentMinor !== undefined &&
         row.renewedAt > start &&
         row.householdId !== undefined &&
-        rt.households.has(row.householdId),
+        countedRecords(core).has(row.householdId),
     );
     expect(counted.length, `${place.name} from ${start}`).toBeGreaterThan(0);
     for (const row of counted) {

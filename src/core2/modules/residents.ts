@@ -38,8 +38,6 @@ import { registerSnapshotPart } from "../snapshot";
 import {
   ageBandOf,
   ageOn,
-  CountedHouseholdMap,
-  CountedPersonHouseholdMap,
   CountedStore,
   decodeStore,
   encodeStore,
@@ -122,9 +120,6 @@ export interface ResidentsRuntime {
   due: Map<IsoDate, Set<string>>;
   /** The counted groups, their households and their members' packed identities. */
   store: CountedStore;
-  /** Counted households as records, built from the store when read (SG-CORE-counted-person-views). */
-  households: ReadonlyMap<string, ResidentHouseholdRecord>;
-  householdOfPerson: ReadonlyMap<PersonId, string>;
   jobs: Map<string, JobInput>;
   /** Opening cash of everyone still counted, by place (fill-in takes its share). */
   openingCashByPlace: Map<PlaceId, number>;
@@ -199,15 +194,8 @@ registerSnapshotPart("core2-residents", {
   save: (core) => {
     const rt = runtimes.get(core);
     if (!rt) return undefined;
-    const {
-      households: _h,
-      householdOfPerson: _p,
-      store,
-      api: _a,
-      moneyCache,
-      ...rest
-    } = rt;
-    void [_h, _p, _a];
+    const { store, api: _a, moneyCache, ...rest } = rt;
+    void _a;
     return {
       ...rest,
       input: undefined,
@@ -220,8 +208,11 @@ registerSnapshotPart("core2-residents", {
     if (!data || !rebuilt) return void runtimes.delete(core);
     const { moneySerial, ...saved } = data as Omit<
       ResidentsRuntime,
-      "store" | "households" | "householdOfPerson"
-    > & { store: unknown; moneySerial?: number };
+      "store"
+    > & {
+      store: unknown;
+      moneySerial?: number;
+    };
     const store = decodeStore(saved.store);
     runtimes.set(core, {
       ...saved,
@@ -229,8 +220,6 @@ registerSnapshotPart("core2-residents", {
       moneyCache: { serial: moneySerial ?? 0 },
       retirementLevel: saved.retirementLevel ?? new Map(),
       store,
-      households: new CountedHouseholdMap(store),
-      householdOfPerson: new CountedPersonHouseholdMap(store),
     });
   },
 });
@@ -622,8 +611,6 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     flows: new Map(),
     due: new Map(),
     store,
-    households: new CountedHouseholdMap(store),
-    householdOfPerson: new CountedPersonHouseholdMap(store),
     shortfalls: new Map(),
     jobs: new Map(),
     filledIn: new Set(),
@@ -2204,19 +2191,6 @@ export function countedWagesEarned(
  * flows stay one story. Callers decide how many from rates and which record
  * from its circumstances; these only keep the records and flows consistent.
  */
-
-/** Counted households in each place, as recorded today. */
-export function countedHouseholdsByPlace(
-  core: CoreState,
-): Map<PlaceId, ResidentHouseholdRecord[]> {
-  const rt = runtimes.get(core);
-  const byPlace = new Map<PlaceId, ResidentHouseholdRecord[]>();
-  if (!rt) return byPlace;
-  for (const row of rt.input.accounts) byPlace.set(row.placeId, []);
-  for (const record of rt.households.values())
-    byPlace.get(record.household.placeId)?.push(record);
-  return byPlace;
-}
 
 /**
  * Merged maps the drift may edit in place: copied once (the opening input

@@ -97,12 +97,12 @@ export function townMetrics(api: CoreAPI) {
     if (!job || job.endsAt !== undefined || flow.endedAt || !placeId) continue;
     at(placeId).employed += 1;
     if (job.hourlyMinor) at(placeId).hourly.push(job.hourlyMinor);
-    const householdId = rt!.householdOfPerson.get(job.personId);
-    earn(
-      householdId ? rt!.store.liveHousehold(householdId)?.placeId : undefined,
-      householdId,
-      job.wageDailyMinor,
-    );
+    const member = rt!.store.countedMember(job.personId);
+    const home =
+      member === undefined
+        ? undefined
+        : rt!.store.households[rt!.store.household[member]!];
+    earn(home?.placeId, home?.id, job.wageDailyMinor);
   }
   // Eviction orders (judgments) in the month before this one, by where the household lives.
   const lastMonth = addDays(makeIsoDate(`${month}-01`), -1).slice(

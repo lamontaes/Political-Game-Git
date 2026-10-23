@@ -6,8 +6,8 @@ import { isDemoted } from "./counted-groups";
 import { gameStartDate } from "./game-start";
 import { advanceCore } from "./life";
 import { countedDemotions } from "./modules/counted-demotion";
-import { residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
+import { countedRecords } from "./tooling/counted-records";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "jobs-demoted-seeker");
@@ -25,14 +25,13 @@ describe(`a person returned to the counts who is looking for work, ${place.name}
       placeKey: place.key,
     }).core;
     const api = coreAPI(core);
-    const rt = residentsRuntime(core)!;
     const player = core.playerId ? core.people.get(core.playerId) : undefined;
     const circle = new Set([
       ...(player?.familyIds ?? []),
       ...(player?.knownIds ?? []),
     ]);
     // A few counted households nobody in the player's circle belongs to, met and then left alone.
-    const met = [...rt.households.values()]
+    const met = [...countedRecords(core).values()]
       .filter((row) => row.people.every((p) => !circle.has(p.id)))
       .slice(0, 4);
     for (const row of met) fillInPerson(core, row.people[0]!.id);

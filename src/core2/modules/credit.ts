@@ -905,7 +905,15 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
       if (c.households.has(h.id)) continue;
-      const members = rt.store.peopleOf(h);
+      // The household's counted people, read from the group's columns.
+      const members = rt.store.countedMembers(h).map((m) => ({
+        id: rt.store.ids[m]!,
+        birthDate: rt.store.born[m]! as PersonInput["birthDate"],
+        traits: rt.store.packedTraits(m),
+        liquidMinor: rt.store.liquid[m]!,
+        livingCostDailyMinor: rt.store.living[m]!,
+        jobId: rt.store.jobId[m],
+      }));
       if (!members.length) continue;
       rows.push({
         id: h.id,

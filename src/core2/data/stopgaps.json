@@ -3965,10 +3965,10 @@
     "id": "SG-CORE-counted-person-views",
     "kind": "faked-mechanic",
     "file": "src/core2/counted-groups.ts",
-    "line": 471,
-    "whatItFakes": "Engines that still read counted people one by one (jobs, business, campaigns, retirement claims, housing, place prices, candidacy) get a person or household record built on demand from the counted group's packed columns, with no past, no ties outside the household and no sources of their own.",
+    "line": 1,
+    "whatItFakes": "A counted person looked up by id (the counted-person source other engines call, `residentPerson`) is a person record built on demand from the counted group's packed columns, with no past, no ties outside the household and no sources of their own. (Narrowed Oct 17: the household record view, the births engine's and the credit engine's person records are gone; they read the columns. A test-only helper, src/core2/tooling/counted-records.ts, still builds the old household records.)",
     "why": "One model, two tiers (owner, Oct 14): counted people are held once per group; the engines that read them one by one belong to other lanes and move to group reads one at a time.",
-    "replacement": "Each engine reads counted groups and their counts (reachOf, group fields) instead of one counted person at a time; the views are then deleted.",
+    "replacement": "Each engine that looks up a counted person by id reads the groups and their counts (reachOf, group fields) instead; `personInput` then stays only for fill-in and the person the player clicks.",
     "addedBy": "OPUS-CORE (one model, two tiers)",
     "addedAt": "2026-10-14",
     "status": "open"

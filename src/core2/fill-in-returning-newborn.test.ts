@@ -4,13 +4,10 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { createLifeCore } from "./life";
 import { isDemoted } from "./counted-groups";
 import { demoteHousehold } from "./modules/counted-demotion";
-import {
-  addCountedPerson,
-  residentPerson,
-  residentsRuntime,
-} from "./modules/residents";
+import { addCountedPerson, residentPerson } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
+import { countedRecords } from "./tooling/counted-records";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "fill-in-returning-newborn");
@@ -24,13 +21,12 @@ describe(`a household returned to the counts gains a baby, ${place.name} (seed $
       }),
     );
     const api = coreAPI(core);
-    const rt = residentsRuntime(core)!;
     const player = core.playerId ? core.people.get(core.playerId) : undefined;
     const circle = new Set([
       ...(player?.familyIds ?? []),
       ...(player?.knownIds ?? []),
     ]);
-    const record = [...rt.households.values()].find(
+    const record = [...countedRecords(core).values()].find(
       (row) =>
         row.people.length >= 2 && row.people.every((p) => !circle.has(p.id)),
     )!;

@@ -655,7 +655,7 @@ export function occupyRehousedRental(
   const countedIndex = rt?.store.householdOf.get(householdId);
   const counted =
     countedIndex === undefined ? undefined : rt!.store.households[countedIndex];
-  const house = full ?? (counted && !counted.gone ? counted : undefined);
+  const house = full ?? rt?.store.liveHousehold(householdId);
   const lease = full
     ? c.finance.contracts.get(leaseId)
     : rt?.flows.get(leaseId);
@@ -736,7 +736,11 @@ export function occupyRehousedRental(
   table(api, "moves").put({
     id: `housing-move:${householdId}:${c.date}`,
     householdId,
-    personIds: full ? [...full.memberIds] : rt!.store.memberIdsOf(counted!),
+    personIds: full
+      ? [...full.memberIds]
+      : counted
+        ? rt!.store.memberIdsOf(counted)
+        : [],
     tier: full ? "full" : "counted",
     projectId: offer.project.id,
     leaseId,

@@ -5,12 +5,12 @@ import { advanceCore } from "./life";
 import { createRenewalCore } from "./births-setup";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
-import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import { cohortDeathChance } from "./births-counted";
 import { corePlaceByKey } from "./place-lookup";
 import stateMortality from "./data/state-mortality.json" with { type: "json" };
 import { generatedOpening } from "./tooling/generated-world";
+import { countedRecords } from "./tooling/counted-records";
 
 // Counted deaths follow each cohort's hazard, not only the oldest first, and
 // the year's total matches what the life tables expect. A random place from
@@ -31,7 +31,7 @@ describe(`counted deaths in ${place.name} (seed ${seed})`, () => {
     const core = createRenewalCore(generatedOpening(place, { twoLevel: true }));
     const born = new Map<string, string>();
     const starters: { birth: string; gender: string | undefined }[] = [];
-    for (const household of residentsRuntime(core)!.households.values())
+    for (const household of countedRecords(core).values())
       for (const person of household.people) {
         born.set(person.id, person.birthDate);
         starters.push({

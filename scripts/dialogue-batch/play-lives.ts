@@ -19,7 +19,6 @@ import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { traitLean } from "../../src/core2/choice";
 import { advanceCore } from "../../src/core2/life";
-import { residentsRuntime } from "../../src/core2/modules/residents";
 import { personOrFillIn } from "../../src/core2/state";
 import type { CoreState, PersonId } from "../../src/core2/types";
 import { bringItUp } from "../../src/director/bring-it-up";
@@ -33,6 +32,7 @@ import {
 } from "../../src/director/conversation";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
+import { countedHouseholdOfPerson } from "../../src/core2/tooling/counted-records";
 
 /** The bench's opening day (src/bench/m0-check.ts). */
 export const OPENING_DATE = "2026-10-12";
@@ -286,9 +286,7 @@ export function playLife(seed: string, life: number, days: number): PlayedLife {
     const core = world.core;
     const playerId = world.playerId!;
     played.playerId = playerId;
-    const counted = [
-      ...(residentsRuntime(core)?.householdOfPerson.keys() ?? []),
-    ];
+    const counted = [...countedHouseholdOfPerson(core).keys()];
     const runStarted = performance.now();
     for (let day = 0; day < days; day += 1) {
       const me = core.people.get(playerId)!;

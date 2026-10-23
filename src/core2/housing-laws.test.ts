@@ -14,6 +14,7 @@ import { renewRentalLeases } from "./housing-occupancy";
 import { residentsRuntime } from "./modules/residents";
 import { stancesOf } from "./modules/views";
 import parameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
+import { countedRecords } from "./tooling/counted-records";
 
 const draw: DrawnPlace = process.env.LAW_LINK_DRAW
   ? (JSON.parse(readFileSync(process.env.LAW_LINK_DRAW, "utf8")) as DrawnPlace)
@@ -187,7 +188,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
       throw new Error(
         `no drawn world had a renewed tenant in both tiers: ${tried.join("; ")}`,
       );
-    const { core, api, rt, lease, flow, where } = found;
+    const { core, api, lease, flow, where } = found;
     const rentals = [
       {
         id: lease.id,
@@ -235,7 +236,7 @@ describe(`housing laws, ${draw.name}, seed ${draw.seed}`, () => {
       `event:housing.rent-renewal:${lease.id}:`,
     );
     const householdId = flow.id.slice("rent:".length);
-    const counted = rt.households.get(householdId)!;
+    const counted = countedRecords(core).get(householdId)!;
     const paidRent = flow.amountMinor;
     fillInPerson(core, counted.people[0]!.id);
     // A household filled in a second time (it returned to the counts between)
