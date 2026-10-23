@@ -21,6 +21,6 @@ claimed-at:
 
 **Files.** src/core2/estates.ts,src/core2/modules/business.ts,src/core2/data/stopgaps.json
 
-**Notes.** TODO
+**Notes.** Claim released Oct 23: branch gone.
 
 Checked Oct 21 (claude), not built, and the item as filed overstates the gap. A business whose owner dies is already handed on in `src/core2/modules/business.ts` (about line 359: "an owner who has died, hands it on"; an heir or household takes it on, or the household closes it and takes what is left), and `src/core2/estates.ts` already pays a dead person's unpaid contract arrears from the estate before heirs (`payDebts`, `payContractDebts`, Uniform Probate Code 3-805). What looks open is only the unpaid principal of a loan they owed through a credit facility (not a standing contract with arrears) and a loan they held; check `credit.ts` for what happens to a facility whose borrower dies before writing anything. Narrow this item to that, or close it if credit already ends them. Claim released.
