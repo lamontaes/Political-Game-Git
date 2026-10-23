@@ -93,22 +93,26 @@ describe(`pretrial bail, ${where}`, () => {
     expect(poor.length, where).toBeGreaterThan(0);
     setBailLaw(0);
     const held: PretrialRow[] = [];
-    // Pleading or not, every charged defendant waits for the hearing.
+    // Pleading or not, every charged defendant waits for the hearing: a
+    // plea is entered there, not on the day of the charge.
+    const pleaded = (w: PretrialRow) =>
+      (table("cases").get(w.caseId) as unknown as CaseRow).plea;
     for (const person of poor.slice(0, 60)) {
-      if (held.length >= 6) break;
+      if (held.length >= 6 && held.some(pleaded)) break;
       const c = charge(person.id);
-      if (!c || c.status !== "charged") continue;
-      const wait = pretrialOf(c)!;
-      expect(wait.decision, `${where}: ${person.id}`).toBe("held");
-      expect(wait.lawId, where).toBeNull();
+      if (!c || c.status === "no-charge") continue;
+      expect(c.status, `${where}: ${c.id}`).toBe("charged");
+      const wait = pretrialOf(c);
+      expect(wait?.decision, `${where}: ${person.id}`).toBe("held");
+      expect(wait!.lawId, where).toBeNull();
       expect(core.people.get(person.id)!.discretionaryEligibleV1, where).toBe(
         false,
       );
-      held.push(wait);
+      held.push(wait!);
     }
     expect(
-      held.length,
-      `${where}: no defendant waited for trial`,
+      held.filter(pleaded).length,
+      `${where}: no pleading defendant waited for the hearing`,
     ).toBeGreaterThan(0);
 
     // The case is heard: everyone held goes home to their own choices.
