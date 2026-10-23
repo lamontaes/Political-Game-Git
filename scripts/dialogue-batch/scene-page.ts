@@ -873,8 +873,9 @@ for (const typeKey of purposeTypes) {
         type as PurposeType,
         stagedFacts,
         { askerTraits: profile.traits, askedTraits: profile.traits },
-        // Openers, statements and closers used least so far on the page are said.
-        { usage: pageUsage },
+        // Openers, statements and closers used least so far on the page are
+        // said; the page grades the parts held until the owner grades them.
+        { usage: pageUsage, includeHeld: true },
       );
       if (result.kind === "skipped") {
         lastReason = result.reason;

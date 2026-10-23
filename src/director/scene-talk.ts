@@ -26,6 +26,7 @@ import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import { renderLine, type Fact } from "./render";
+import { heldByGrades } from "../english/english-grades";
 import type { Director } from "./ledger";
 
 const zero = P.zero;
@@ -59,10 +60,15 @@ interface BankPart {
   key: string;
   text: string;
   bearing?: string;
+  shippable?: boolean;
   uses: PartUse[];
 }
 
 const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
+/** What play may say: a part held until the owner grades it, or one he failed, is not. */
+const SHIPPED = PARTS.filter(
+  (part) => part.shippable === true && !heldByGrades(part.key),
+);
 
 interface Pull {
   move: string;
@@ -222,6 +228,12 @@ export interface SceneTalkOptions {
    * does not repeat.
    */
   usage?: ReadonlyMap<string, number>;
+  /**
+   * Grading only: compose from the parts held until the owner grades them,
+   * as the review page and the tests do. Play never sets it, so a scene whose
+   * only words are held stays out of play.
+   */
+  includeHeld?: boolean;
 }
 
 export type SceneTalkResult =
@@ -248,9 +260,10 @@ interface FitUse {
 function fitting(
   use: FitUse,
   facts: Readonly<Record<string, Fact>>,
+  parts: readonly BankPart[] = SHIPPED,
 ): BankPart[] {
   const steps = Array.isArray(use.step) ? use.step : [use.step];
-  const fits = PARTS.flatMap((part) => {
+  const fits = parts.flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
     let specific = -one;
     for (const u of part.uses) {
@@ -362,6 +375,7 @@ export function composeSceneTalk(
   if (!purpose || !arc)
     return { kind: "skipped", reason: `${type.key} has no purpose arc` };
   const key = type.tag?.key ?? type.key;
+  const bank = options.includeHeld ? PARTS : SHIPPED;
   const asker = core.people.get(cast.askerId);
   const asked = core.people.get(cast.askedId);
   if (!asker || !asked)
@@ -391,7 +405,7 @@ export function composeSceneTalk(
     moment: string,
     said: ReadonlySet<string>,
   ): SceneTalkLine | null => {
-    const every = fitting(use, facts);
+    const every = fitting(use, facts, bank);
     // A piece already said on this branch is not said again while another fits.
     const fresh = every.filter((part) => !said.has(part.key));
     let parts = fresh.length ? fresh : every;
@@ -597,6 +611,7 @@ export function composeSceneTalk(
           fitting(
             { step: "close", move, role: "asker", ...base, outcome },
             facts,
+            bank,
           ).length,
       );
     const [move] = [...moves].sort((a, b) =>
@@ -614,6 +629,30 @@ export function composeSceneTalk(
     );
     // The close never says again what was just said.
     return line && line.text !== lastAsker?.text ? line : undefined;
+  };
+
+  /**
+   * Ends a node on its close. A question nothing can close is not left
+   * hanging: the asker does not ask it, the scene ends on the answer before
+   * it, and the missing close is listed for the bank.
+   */
+  const endNode = (
+    node: TreeNode,
+    outcome: Outcome,
+    path: Path,
+    lastAsker: SceneTalkLine,
+  ) => {
+    const close = closeFor(outcome, path, lastAsker);
+    const hanging = (line: SceneTalkLine | undefined) =>
+      !!line &&
+      line.role === "asker" &&
+      !RULES.terminalFollow.includes(line.move) &&
+      /\?$/.test(line.text.trim());
+    if (!close && hanging(node.lines.at(-one))) {
+      gap("close", outcome, `${lastAsker.move} (its question left unasked)`);
+      while (hanging(node.lines.at(-one))) node.lines.pop();
+    }
+    node.end = { outcome, ...closed(close) };
   };
 
   interface Pending {
@@ -762,7 +801,7 @@ export function composeSceneTalk(
           kind: "skipped",
           reason: `fewer than two replies of ${moves.join("/")} can be worded for ${purpose}`,
         };
-      node.end = { outcome, ...closed(closeFor(outcome, path, lastAsker)) };
+      endNode(node, outcome, path, lastAsker);
       continue;
     }
     const ranked = [...offered].sort(
@@ -929,10 +968,7 @@ export function composeSceneTalk(
               : lastAnswer.move === "refuse" || lastAnswer.move === "threaten"
                 ? "refused"
                 : "open";
-        next.end = {
-          outcome: settledOutcome,
-          ...closed(closeFor(settledOutcome, answered, lastAnswer)),
-        };
+        endNode(next, settledOutcome, answered, lastAnswer);
         continue;
       }
       queue.push({

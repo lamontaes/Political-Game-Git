@@ -66,6 +66,9 @@ const facts: Record<string, Fact> = {
   party: fact("Democratic"),
   ...Object.fromEntries(flags.map((name) => [name, fact("yes")])),
 };
+// The bank's parts are authored and held until the owner grades them; the
+// engine is tested the way the review page composes, with held parts in.
+const HELD = { includeHeld: true } as const;
 const types = (
   situationFile as unknown as { types: PurposeType[] }
 ).types.filter((row) => row.purpose);
@@ -83,6 +86,8 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         { askerId, askedId },
         type,
         facts,
+        {},
+        HELD,
       );
       expect(result.kind, `${type.key}`).toBe("composed");
       if (result.kind !== "composed") continue;
@@ -101,9 +106,17 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       // The close is never the next line after a question: the asker's last
       // question was answered by a reply first, and the close follows an answer.
       // It ends on the asker's answer or a close, never on a question left hanging.
+      // Where the bank holds no close for that ending, the asker does not ask
+      // a question nothing can close: the scene ends on the answer before
+      // it, and the page lists the missing close.
       const final = talk.lines.at(-1)!;
-      expect(final.role).toBe("asker");
-      expect(/\?$/.test(final.text.trim())).toBe(false);
+      const where = `${type.key}: ${JSON.stringify(talk.lines.slice(-3).map((l) => [l.role, l.move, l.text]))}`;
+      expect(/\?$/.test(final.text.trim()), where).toBe(false);
+      if (final.role !== "asker")
+        expect(
+          talk.gaps.some((row) => row.includes("question left unasked")),
+          where,
+        ).toBe(true);
     }
   });
 
@@ -129,6 +142,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
           type,
           facts,
           { askerTraits: traits, askedTraits: traits },
+          HELD,
         );
         return result.kind === "composed"
           ? result.talk.lines.map((line) => line.text).join("|")
@@ -151,8 +165,22 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       { askerId, askedId },
       type,
       without,
+      {},
+      HELD,
     );
     expect(result.kind).toBe("skipped");
+  });
+  it("keeps a scene out of play while its words are held until graded", () => {
+    for (const type of types) {
+      const result = composeSceneTalk(
+        core,
+        director,
+        { askerId, askedId },
+        type,
+        facts,
+      );
+      expect(result.kind, type.key).toBe("skipped");
+    }
   });
   it("composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes", () => {
     for (const type of types) {
@@ -167,6 +195,8 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         { askerId, askedId },
         type,
         withTruth,
+        {},
+        HELD,
       );
       expect(result.kind, type.key).toBe("composed");
       if (result.kind !== "composed") continue;
