@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibratio
+blocked-on:
 source: "collapsed Oct 19, 2026 from people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model"
+claimed-at:
 ---
 
 **What.** Source the numbers behind births, drives, kin and views. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 4 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/people/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -26,6 +27,6 @@ source: "collapsed Oct 19, 2026 from people-stopgap-births-plan-unmeasured-life-
 
 **Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
-**Files.** src/core2/births-plan.ts, src/core2/data/drives.json, src/core2/data/opening-kin.json, src/core2/modules/views.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/people/
+**Files.** src/core2/births-plan.ts, src/core2/data/drives.json, src/core2/data/opening-kin.json, src/core2/modules/views.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, docs/research/pool-feeder-oct20/research-people-sourced-parameters.md
 
-**Notes.** Folded from: people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+**Notes.** Folded from: people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read. Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-people-sourced-parameters.md (7 rows: 3 sourced, 3 estimated, 1 mechanic).
