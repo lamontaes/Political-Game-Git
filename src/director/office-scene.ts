@@ -184,7 +184,7 @@ function officialsCoverBody(
       : body.kind.startsWith("us-house")
         ? "US:us-house"
         : `${body.jurisdiction}:${body.kind}`;
-  return officialsIn(api, key).length > 0;
+  return Boolean(officialsIn(api, key).length);
 }
 
 /**
@@ -476,6 +476,10 @@ export function chooseOfficeScene(
           facts: {},
           momentKey: `office-scene:${scene.billId}:${scene.targetId}:reply:${choiceKey}`,
           fallbackSourceId: eventIds[P.zero] ?? scene.billId,
+          voice: {
+            traits: core.people.get(scene.targetId)?.traits ?? {},
+            register: "conversation",
+          },
         });
   return {
     choiceKey,
