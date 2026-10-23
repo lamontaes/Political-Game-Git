@@ -1,6 +1,19 @@
 {
   "entries": [
     {
+      "version": "0.22.1",
+      "releasedOn": "2026-10-23",
+      "revision": "83bd952890e15a98c903f5b4cbb00094561f7f55",
+      "changeIds": [
+        "departures-historical-note-5357",
+        "elections-outside-donor-row-limit",
+        "people-drives-counted-bereavement-causes",
+        "people-drives-counted-job-loss-causes",
+        "release-red-vote-level-township",
+        "repo-audit-historical-5125"
+      ]
+    },
+    {
       "version": "0.22.0",
       "releasedOn": "2026-10-21",
       "revision": "5a879161009c4a41ca4c129415f0bb58659fb7ee",
