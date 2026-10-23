@@ -1,0 +1,1026 @@
+{
+  "id": "chamber-committee-appointment-2026",
+  "publisher": "Each state and territorial legislative chamber and the Council of the District of Columbia (its own adopted rules, journals or official legislature pages)",
+  "vintage": "rules in force for the 2023-2026 sessions",
+  "table": "Who appoints the members (and, where the rule says, the chairs) of each chamber's standing committees",
+  "title": "Standing committee appointment rule by chamber, 2026",
+  "universe": "Every state and territorial legislative chamber and the Council of the District of Columbia: the chamber rows of data/research/legislature/chamber-leadership.json other than Congress (108 rows).",
+  "geography": "chamber, keyed by jurisdictionKey (US-<postal code>) and chamberKey as in chamber-leadership.json",
+  "sourceUrl": "per row (sourceUrl)",
+  "retrievedOn": "2026-10-23",
+  "limits": "A SOURCED row quotes the chamber's own rule (or the legislature's official page describing it) as fetched on Oct 23, 2026. An ESTIMATED row is the chamber template's default from chamber-leadership.json because the chamber's own rule was not fetched in this pass; it is a stand-in, not a reading. The Council of State Governments' Book of the States 2023, Table 3.23 was read only to decide which chambers to check first; none of its rows are copied here (its data license is noncommercial). Rules change each session; a chamber can suspend or amend them by resolution. Vocabulary: speaker, senate-president (the chamber's president, elected or the lieutenant governor), president-pro-tempore, majority-leader, party-caucuses (each caucus seats its own members), committee-on-committees (a leadership panel, by whatever name: Committee on Assignments, Committee on Organization, Committee on Rules), chamber-election (the chamber votes the slate), seniority (members choose seats in order of service), council-chair.",
+  "readBy": "scripts/research/legislature-local-rules-check.ts (shape and vocabulary check; reports how many chambers differ from their template). No engine reads it yet: gov-leadership-committee-appointer-by-chamber is the builder item for src/core2/modules/leadership.ts assigner().",
+  "rows": [
+    {
+      "jurisdictionKey": "US-AL",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-AL",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "committee-on-committees",
+      "chairsAppointedBy": "committee-on-committees",
+      "tag": "SOURCED",
+      "rule": "Senate Rule 47(b)",
+      "sourceUrl": "https://alison.legislature.state.al.us/rules-relating-to-presiding-officer",
+      "quote": "There shall be a Senate Committee on Assignments which shall be composed of the President Pro Tempore, the Senate Majority Leader, and four additional members appointed by and serving at the pleasure of the President Pro Tempore. The Committee on Assignments shall appoint the Chairperson, Vice Chairperson, and membership of all Senate Standing Committees and Select Committees."
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "committee-on-committees",
+      "chairsAppointedBy": "committee-on-committees",
+      "tag": "SOURCED",
+      "rule": "Uniform Rule 1(e), Uniform Rules adopted 2021, as amended 2023 (both houses)",
+      "sourceUrl": "https://akleg.gov/docs/pdf/uniform_rules.pdf",
+      "quote": "The presiding officer shall announce, not later than the day following election, the appointment of a Committee on Committees consisting of five members including the presiding officer. The presiding officer chairs the Committee on Committees. The committee is responsible for nominating the members of the standing committees as set out in Rule 20 and the member who is to chair each standing committee"
+    },
+    {
+      "jurisdictionKey": "US-AK",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "committee-on-committees",
+      "chairsAppointedBy": "committee-on-committees",
+      "tag": "SOURCED",
+      "rule": "Uniform Rule 1(e), Uniform Rules adopted 2021, as amended 2023 (both houses)",
+      "sourceUrl": "https://akleg.gov/docs/pdf/uniform_rules.pdf",
+      "quote": "The presiding officer shall announce, not later than the day following election, the appointment of a Committee on Committees consisting of five members including the presiding officer. The presiding officer chairs the Committee on Committees. The committee is responsible for nominating the members of the standing committees as set out in Rule 20 and the member who is to chair each standing committee"
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-AZ",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "SOURCED",
+      "rule": "Senate Rule 2(I)",
+      "sourceUrl": "https://azsenate.gov/alispdfs/SenateRules2023-2024.pdf",
+      "quote": "The President shall appoint all standing committees, and all select committees unless otherwise ordered by the Senate by a majority of the members present, and shall appoint the chairman and vice-chairman of each such committee."
+    },
+    {
+      "jurisdictionKey": "US-AR",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "seniority",
+      "chairsAppointedBy": null,
+      "tag": "SOURCED",
+      "rule": "House Rule 54(a)(2), Rules of the House, 94th General Assembly (2023)",
+      "sourceUrl": "https://www.arkansashouse.org/wp-content/uploads/froala/2023/02/20230203104203-94th-house-rule-book-for-webpdf.pdf",
+      "quote": "Each Class \"A\" standing committee and each Class \"B\" standing committee shall have five (5) members from each of the four (4) House district caucuses. (B)(i) The most senior member of the House of Representatives shall select first and shall choose a position on a Class \"A\" standing committee."
+    },
+    {
+      "jurisdictionKey": "US-AR",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-CA",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-CA",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-CO",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "majority-leader",
+      "minorityMembersBy": "minority-leader",
+      "chairsAppointedBy": "majority-leader",
+      "tag": "SOURCED",
+      "rule": "Colorado General Assembly, Senate page",
+      "sourceUrl": "https://content.leg.colorado.gov/index.php/agencies/senate/senators",
+      "quote": "The majority leader also determines the number of members on each committee, appoints the majority members to each committee, and designates the chair and vice-chair for each committee. The minority leader appoints minority members to the committees."
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-CT",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-DE",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-DE",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-DC",
+      "chamberKey": "council",
+      "templateId": "elected-president",
+      "membersAppointedBy": "council-president",
+      "chairsAppointedBy": "council-vote",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The elected-president template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-FL",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-GA",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-GA",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-HI",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-HI",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-ID",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-IL",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-IN",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-IN",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-IA",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-IA",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-KS",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "minorityMembersBy": "minority-leader-nominates",
+      "chairsAppointedBy": "committee-on-committees",
+      "tag": "SOURCED",
+      "rule": "Senate Rule 7(c), Rules of the Senate 2025-2028 (S.R. 1704, enrolled)",
+      "sourceUrl": "https://kslegislature.gov/li/b2025_26/measures/documents/sr1704_enrolled.pdf",
+      "quote": "The Committee on Organization, Calendar and Rules shall appoint the chairperson and vice chairperson or vice chairpersons thereof and shall designate the ranking minority member of each committee. ... The president of the Senate shall appoint the members of each standing committee of the Senate."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "committee-on-committees",
+      "chairsAppointedBy": "committee-on-committees",
+      "tag": "SOURCED",
+      "rule": "House Rule 39 (text as shown in 2024 RS HR 14, a proposed amendment that keeps the members clause)",
+      "sourceUrl": "https://apps.legislature.ky.gov/recorddocuments/bill/24RS/hr14/orig_bill.pdf",
+      "quote": "Rule 39. Appointment of Committees. The Committee on Committees shall appoint[ the Chair, Vice-Chairs and] the members of all standing and special committees and shall fill any vacancies thereon."
+    },
+    {
+      "jurisdictionKey": "US-KY",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-LA",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-LA",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-ME",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-ME",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MD",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MD",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MA",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MA",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MI",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "majority-leader",
+      "minorityMembersBy": "minority-leader-nominates",
+      "chairsAppointedBy": "majority-leader",
+      "tag": "SOURCED",
+      "rule": "Senate Rule 1.105(a), 2025-2026 Senate Rules (Senate Journal, Jan. 8, 2025)",
+      "sourceUrl": "https://legislature.mi.gov/documents/2025-2026/journal/Senate/htm/2025-SJ-01-08-001.htm",
+      "quote": "The Senate Majority Leader shall make appointments of Senators to committees and subcommittees established under these rules. The Senate Majority Leader shall make appointments of minority party members from a list submitted by the Senate Minority Leader"
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "SOURCED",
+      "rule": "Minnesota Legislature, frequently asked questions: committees",
+      "sourceUrl": "https://www.leg.mn.gov/leg/faq/faq.aspx?id=114",
+      "quote": "In the House, the Speaker chooses the committee chairs and appoints members of each committee."
+    },
+    {
+      "jurisdictionKey": "US-MN",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "party-caucuses",
+      "chairsAppointedBy": "majority-caucus",
+      "tag": "SOURCED",
+      "rule": "Minnesota Legislature, frequently asked questions: committees",
+      "sourceUrl": "https://www.leg.mn.gov/leg/faq/faq.aspx?id=114",
+      "quote": "The number of members on a committee is designated by the majority caucus, and membership on each committee must be in proportion to each caucus. Each caucus appoints their own members to fill the designated number of positions on each committee."
+    },
+    {
+      "jurisdictionKey": "US-MS",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MS",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MO",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MO",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MT",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "SOURCED",
+      "rule": "House Rule H30-10(1)(a)(i), Rules of the Montana Legislature 2025",
+      "sourceUrl": "https://archive.legmt.gov/content/Sessions/69th/2025-Rules-of-MT-Legislature.pdf",
+      "quote": "The Speaker shall determine the total number of members and after good faith consultation with the minority leader shall, with the approval of the House by a majority vote, appoint the chairs, vice chairs, and members to the standing committees."
+    },
+    {
+      "jurisdictionKey": "US-MT",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "committee-on-committees",
+      "minorityMembersBy": "minority-leader-approves",
+      "chairsAppointedBy": "committee-on-committees",
+      "tag": "SOURCED",
+      "rule": "Senate Rule S30-10(1)-(2), Rules of the Montana Legislature 2025",
+      "sourceUrl": "https://archive.legmt.gov/content/Sessions/69th/2025-Rules-of-MT-Legislature.pdf",
+      "quote": "There is a Committee on Committees consisting of six members of the majority party. ... The Committee on Committees shall, with the approval of the Senate, appoint the members of Senate standing committees, joint committees, and interim committees."
+    },
+    {
+      "jurisdictionKey": "US-NE",
+      "chamberKey": "legislature",
+      "templateId": "unicameral",
+      "membersAppointedBy": "committee-on-committees",
+      "chairsAppointedBy": "chamber-vote",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The unicameral template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NV",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NV",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "majority-leader",
+      "minorityMembersBy": "minority-leader",
+      "chairsAppointedBy": "majority-leader",
+      "tag": "SOURCED",
+      "rule": "Senate Standing Rule No. 40(1), 82nd Session (2023), S.R. 1",
+      "sourceUrl": "https://leg.state.nv.us/Session/82nd2023/Bills/SR/SR1.pdf",
+      "quote": "the Majority Leader shall appoint all standing and select committees and shall determine the majority-minority party composition of all standing and select committees. Appointments to committees shall be made by the Majority Leader for the majority party members and by the Minority Leader for the minority party members. The Majority Leader shall designate the Chair and Vice Chair of all standing and select committees."
+    },
+    {
+      "jurisdictionKey": "US-NH",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NH",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NJ",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NJ",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NM",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NM",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NY",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NY",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NC",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-NC",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-ND",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "committee-on-committees",
+      "chairsAppointedBy": null,
+      "tag": "SOURCED",
+      "rule": "Senate Rule 501(1), as amended (Senate Journal, 68th Legislative Assembly, 2nd day, 2023)",
+      "sourceUrl": "https://ndlegis.gov/api/assembly/68-2023/regular/journals/sr-dailyjnl-02.pdf",
+      "quote": "The Committee on Committees consists of eight members. The Majority Leader, by virtue of office, is a member of the committee and shall serve as its chairman. The Majority Leader shall appoint four other members from the majority party and three members from the minority party to the committee. The committee shall appoint standing committees concerned with matters in the fields as indicated and procedural committees."
+    },
+    {
+      "jurisdictionKey": "US-OH",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-OH",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-OK",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-OK",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-OR",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-OR",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-PA",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-PA",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-RI",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-RI",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-SC",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-SC",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "seniority",
+      "chairsAppointedBy": "seniority",
+      "tag": "SOURCED",
+      "rule": "Senate Rule 19 (Committee Selections; chairman)",
+      "sourceUrl": "https://scstatehouse.gov/senatepage/sr19.php",
+      "quote": "in the selection by members of a seat on a Senate Standing Committee, the seniority system from the previous session shall be retained so as to become a part of these rules. ... the senior member of the Committee from the majority party, in terms of seniority within the Committee, shall be the Chairman of the Standing Committee."
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-SD",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-TN",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-TN",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-TX",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-UT",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-UT",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-VT",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-VT",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "committee-on-committees",
+      "chairsAppointedBy": "committee-on-committees",
+      "tag": "SOURCED",
+      "rule": "Senate Rule 6, Rules of the Vermont Senate",
+      "sourceUrl": "https://legislature.vermont.gov/assets/All-Senate-Documents/Senate-Rules.pdf",
+      "quote": "the President of the Senate, the President pro tempore, and one senator elected by the Senate shall comprise the committee to be known as the Committee on Committees. The Committee on Committees shall appoint the members, on the part of the Senate, of the permanent joint standing committee on Joint Rules, and all committees of the Senate"
+    },
+    {
+      "jurisdictionKey": "US-VA",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-VA",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-WA",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-WA",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-WV",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-WV",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-WI",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-WI",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-WY",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-WY",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-PR",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-PR",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-GU",
+      "chamberKey": "legislature",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-VI",
+      "chamberKey": "legislature",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-AS",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-AS",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MP",
+      "chamberKey": "house",
+      "templateId": "state-house",
+      "membersAppointedBy": "speaker",
+      "chairsAppointedBy": "speaker",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-house template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    },
+    {
+      "jurisdictionKey": "US-MP",
+      "chamberKey": "senate",
+      "templateId": "state-senate",
+      "membersAppointedBy": "senate-president",
+      "chairsAppointedBy": "senate-president",
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The state-senate template in data/research/legislature/chamber-leadership.json (NCSL national pattern); this chamber's own adopted rule was not fetched in the Oct 23, 2026 pass."
+    }
+  ]
+}
