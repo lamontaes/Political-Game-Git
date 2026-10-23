@@ -30,3 +30,5 @@ Sent back 2026-10-21 from PR #5649 (branch claude/law-wiring-taxes): src/core2/m
 Sent back 2026-10-22 from PR #5669 (branch claude/law-wiring-rights-env): Fresh normal main integration conflicts in src/core2/modules/business.ts:43; preserve both current readers and the family wiring, and correct the three-row removal count.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): Election-cost repayment at group-a-voting.ts:340-349 stops after repeal even when owedMinor remains positive; preserve and settle incurred debt and add a nonempty repeal regression; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5589 (branch claude/law-wiring-labor): Missing Done when evidence table for the drawn-place, nine-link checker/matrix and family record-ID acceptance; add verifiable evidence and bound the family scope; finish on that branch, merge main into it first.
