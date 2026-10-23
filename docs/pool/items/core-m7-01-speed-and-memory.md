@@ -5,13 +5,13 @@ area: core
 kind: feature
 priority: 3
 size: L
-status: blocked
-claimed-by: claude/m7-speed
+status: open
+claimed-by:
 pr:
 blocked-on: not scheduled: a roadmap milestone at priority 3 until the weekly reschedule (AGENTS.md: saves and release work wait for early-access preparation); an L item is split by whoever claims it once scheduled
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-01"
-claimed-at: 2026-10-20T00:47:48.244Z
+claimed-at:
 ---
 
 **What.** A town's year in under 2 minutes; the new-game load (including the opening) fits a short loading screen; it runs on a minimum PC. (Owner: OPUS-CORE.)
