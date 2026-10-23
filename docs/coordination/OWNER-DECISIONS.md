@@ -396,3 +396,10 @@ The owner reviewed scenes 1 to 28 of batch 13 ("a solid step forward") and asked
 - **Work-recovery hours (#5077):** stays ESTIMATED with its spread until the research carries per-episode lengths; no change to the value on a guess.
 - **Rows with no engine (#4146):** the keep/delete list is accepted under "replace, never layer"; anything deleted that the golden path later needs returns as a pool item.
 - **Questions sent to the owner (Oct 19):** the pairing rule (#4963); whether public contract awards exist (`gov-bribe-buys-a-contract`); the four screens' visual review.
+
+## Oct 24: rulings (owner, via the acting CTO)
+
+- **Activists and who they contact (owner, Oct 24):** "sure, just realistic in a game sense." A drive-holder contacts the people they know and the people those reach; the circle grows from causes (a rally, a story, a meeting), not daily over the whole town. Carried by `core-later-years-slower-drive-holders-offers`.
+- **Protected traits on record (owner, Oct 24):** yes. People carry sex, race, religion, disability and the other categories the law names, seeded from the place's sourced shares, so a discrimination ban has something to refuse. Carried by `owner-employer-bias-source` (unblocked; kind bug, priority 2).
+- **A woman deciding on a birth alone (owner, Oct 24):** "obviously she can decide on her own." As built in #5738.
+- **Questions the rules already answer (owner, Oct 24: "these are stupid questions"):** the acting CTO rules on any builder question that a standing rule answers (realistic in a game sense; people are real people with real records; nobody needs permission to live their life; no dice; estimate never unknown) and logs it here as an acting-CTO ruling; only questions that are genuinely the owner's design call reach him, in plain words, with a recommended default.
