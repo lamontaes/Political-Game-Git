@@ -8,7 +8,7 @@ size: M
 status: blocked
 claimed-by: claude/bring-it-up-law
 pr:
-blocked-on: PR #5647 (the director test rewrite that leaves the slot empty) is not merged, and the line needs sentences mined from a conversation corpus (scripts/english-mining) and graded; no corpus script for neighbors talking about a law exists yet
+blocked-on: PR 5647 (the director test rewrite that leaves the slot empty) is not merged, and the line needs sentences mined from a conversation corpus (scripts/english-mining) and graded; no corpus script for neighbors talking about a law exists yet
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T11:03:35.574Z
 ---
