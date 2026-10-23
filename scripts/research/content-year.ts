@@ -165,8 +165,10 @@ for (const [key, counter] of core.actCounters) {
 }
 
 const tiers = [...new Set(tierOf.values())].sort();
+// Day-one tiers: the core updates a person's record in place over the year.
 const people = (tier: string, only?: Set<string>) =>
-  adults.filter((p) => p.tier === tier && (!only || only.has(p.id))).length;
+  [...tierOf].filter(([id, at]) => at === tier && (!only || only.has(id)))
+    .length;
 const lines: [string, string, Row, Set<string> | undefined][] = [
   ["care", "care-for-relative acts", row("care-household-members"), undefined],
   [
