@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5327
 blocked-on:
@@ -32,3 +32,6 @@ Sent back 2026-10-20 from PR #5327 (branch claude/disaster-repairs-no-market): T
 Sent back 2026-10-20 from PR #5327 (branch claude/disaster-repairs-no-market): The nonempty damaged-home and absent-payee assertions address the previous weakness. The body is stale against the checked diff, however: it says up to 12 draws, but src/core2/disasters-no-market.test.ts uses draw < 24 and played < 6; it says no game code changed, but src/core2/modules/disasters.ts adds townDisastersWithDamage; and check() no longer has the described return shape. Correct those claims. Also the updated merger skill requires a Done when table with one evidence row per acceptance line: https://github.com/lamontaes/Political-Game-Git/blob/f495d2c42735da1465d768954e6e69171a5b2abb/.agents/skills/merger/SKILL.md says a missing table is a send-back. Map the named and drawn cases, full seeds, positive damaged records, actual absent payees, zero repair payments and balanced journal to the item acceptance. No local gate pass is claimed here.; finish on that branch, merge main into it first.
 
 Oct 21 (claude, fixing PR #5336 branch claude/director-m4-01): merged main; main had a try/catch around outsideMarketFor in payHouseholds, replaced by this branch's non-throwing findOutsideMarket (outsideMarketFor stays, now built on it).
+
+Sent back 2026-10-23 from PR #5327 (branch claude/disaster-repairs-no-market): Pool specification is still a TODO shell despite the quoted body acceptance, and the one-hour drawn-test timeout lacks a measured reason; write the actual specification and corresponding evidence; finish on that branch, merge main into it first.
+

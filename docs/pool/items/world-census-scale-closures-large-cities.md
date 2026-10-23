@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/closures-large-cities
+pr: #5803
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-22T02:15:09.636Z
 ---
 
 **What.** The census-scale closures test draws places from 10,000 to 40,000 people because a larger city's year does not fit one test process's memory. Washington, D.C. (census 693,645, scale 69.4), drawn once, closed 5 firms at its Census size against none at the sample size before the payroll-savings and owner-draw fixes of PR #5553, and was not rerun after them. Measure a large city at its Census size after those fixes and fix any remaining reader that does not multiply by the weight.
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/census-scale-closures-support.ts, src/core2/modules/business.ts
 
 **Notes.** Found working world-census-scale-closures-rise (PR #5553).
+
+Sent back 2026-10-21 from PR #5803 (branch claude/closures-large-cities): Merging current main conflicts in src/core2/modules/business.ts in the owner-draw block around line 1324. This is a money/units conflict: the branch splits a full owner draw through businessScaleOf and multiplies a counted payment by heads, while current main changed the counted-owner path to receive the whole group draw and record the journal amount. Reconcile the large-city share change with current countedPayment semantics and preserve conservation rather than taking one side blindly. Parent #5553 is now merged into main (23:10 UTC); this PR should describe the remaining slice against that main. I aborted the local merge without pushing; no integrated head or local gate pass exists. After resolving with a plain main merge, rerun the changed-file checks and the pinned DC plus drawn large-city proof.; finish on that branch, merge main into it first.
