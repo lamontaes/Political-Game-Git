@@ -13,6 +13,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { chargeDecisionDays, dispositionDays } from "./justice-law";
 import { advanceCore } from "./life";
 import { considerBribe } from "./modules/corruption";
 import {
@@ -37,8 +38,16 @@ import {
   stateOfficeOf,
 } from "./office-day-state";
 import { coreAPI } from "./state";
+import type { CoreAPI } from "./types";
 
 const ATTEMPTS = 12;
+
+// Past the hearing of a case opened today: the charge decision, then the
+// state's time to disposition (pleas wait for it as trials do), then a month.
+const pastHearing = (api: CoreAPI) =>
+  chargeDecisionDays(api).days +
+  dispositionDays(api, lawChain(api).stateKey).days +
+  30;
 
 function playPlace(seed: string, skipped: string[]): string | null {
   const place = drawPlace(seed, "office-clemency");
@@ -97,7 +106,7 @@ function playPlace(seed: string, skipped: string[]): string | null {
         stakeMinor: 50_000_000,
         subjectId: `favor:${offerer.id}:${official}`,
       });
-  advanceCore(core, addDays(makeIsoDate(core.date), 240));
+  advanceCore(core, addDays(makeIsoDate(core.date), pastHearing(api)));
   if (!prisonersServing(api).length) {
     skipped.push(`${where}: nobody in prison`);
     return null;
