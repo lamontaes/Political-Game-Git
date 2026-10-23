@@ -1,23 +1,20 @@
 import tuitionRevenue from "../../data/research/money/state-tuition-revenue.json" with { type: "json" };
-import type {
-  EducationEnrollment,
-  OrganizationProfileRecord,
-} from "../simulation/types";
-import { acceptedEducationTerms } from "../simulation/education-study-terms";
-import { TUITION_FREEZE_QUESTION } from "../simulation/law-consequences/tuition-freeze-row";
-export { TUITION_FREEZE_QUESTION } from "../simulation/law-consequences/tuition-freeze-row";
-import { organizationProfileAt } from "../simulation/life-queries";
-import { resourceFlowTermsAt } from "../simulation/resource-queries";
+import type { EducationEnrollment, OrganizationProfileRecord } from "./types";
+import { acceptedEducationTerms } from "./education-study-terms";
+import { TUITION_FREEZE_QUESTION } from "./law-consequences/tuition-freeze-row";
+export { TUITION_FREEZE_QUESTION } from "./law-consequences/tuition-freeze-row";
+import { organizationProfileAt } from "./life-queries";
+import { resourceFlowTermsAt } from "./resource-queries";
 import {
   lawInForce,
   stateJurisdictionOf,
   type LawInForce,
-} from "../simulation/governing/law-in-force";
+} from "./governing/law-in-force";
 
-import { recordWorldEvent } from "../simulation/world";
-import { recordEvidenceArtifact } from "../simulation/evidence";
-import { recordsByStringField } from "../simulation/history-index";
-import type { EntityId, IsoDate, World } from "../simulation/types";
+import { recordWorldEvent } from "./world";
+import { recordEvidenceArtifact } from "./evidence";
+import { recordsByStringField } from "./history-index";
+import type { EntityId, IsoDate, World } from "./types";
 
 export interface SchoolTuitionSourceRef {
   readonly artifactId: string;
