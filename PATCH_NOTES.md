@@ -296,6 +296,18 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.3
+
+_Released October 23, 2026._
+
+### Changed
+
+- **The president's budget signature or veto makes the national news** When the
+  president or a governor signs or vetoes a budget, national and state outlets
+  weigh it as news that touches every reader, and a serving official counts as a
+  public figure in the story, so the papers print it and the people who follow
+  them hear about it.
+
 ## PRE-ALPHA 0.22.2
 
 _Released October 23, 2026._
