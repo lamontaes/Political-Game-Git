@@ -1662,7 +1662,8 @@ export function createDrivesModule(
         const actor = api.state.people.get(actorId)!;
         traceAct(api, actorId, offer, drive);
         const id = `organization:${data.causeGroupKind}:${actorId}:${drive.id}`;
-        api.stopgap("SG-P10-group-name-key");
+        // The name field is the group's key; what a player reads is composed
+        // from the association bank (src/english/association-names.ts).
         api.addOrganization({
           id,
           placeId: actor.placeId,

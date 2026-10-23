@@ -7,6 +7,7 @@ import {
   type BillRow,
 } from "../core2/modules/legislature";
 import { billTitleOf } from "../english/bill-names";
+import { organizationName } from "../english/association-names";
 import type { CoreState, IsoDate, PersonId, PersonState } from "../core2/types";
 import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -452,7 +453,7 @@ export function composeJournal(
       // An organization the event is about is named from its own record.
       const value =
         spec.format === "organization"
-          ? core.organizations.get(logged?.topic ?? "")?.name
+          ? organizationName(core, logged?.topic ?? "")
           : spec.format === "billName"
             ? billName(core, logged?.facts?.[spec.fact])
             : logged?.facts?.[spec.fact];

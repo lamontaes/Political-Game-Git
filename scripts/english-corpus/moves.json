@@ -1023,6 +1023,12 @@
         "move": ".",
         "tag": "announce-result"
       }
+    ],
+    "association-names": [
+      {
+        "move": "^association-name-",
+        "tag": "title"
+      }
     ]
   }
 }

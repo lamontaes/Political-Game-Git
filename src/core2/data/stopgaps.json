@@ -2353,11 +2353,11 @@
     "file": "src/core2/modules/drives.ts",
     "line": 1532,
     "whatItFakes": "A founded cause group carries a structured key in its name field instead of a name.",
-    "why": "Names must come from the English engine; no naming bank for groups exists in core2.",
+    "why": "Names must come from the English engine; no naming bank for groups exists in core2. Resolved Oct 19, 2026 (pool item people-stopgap-drives-player-text-gap): the group's name field stays its key, and every reader that shows an organization's name goes through organizationName (src/english/association-names.ts), which words a founded group from the association-names bank, naming its place and the organization it was founded over.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
     "replacement": "An English-engine naming bank for associations reading topic and place.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P15-news-habits",

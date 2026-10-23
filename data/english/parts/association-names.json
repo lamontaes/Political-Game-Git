@@ -1,0 +1,180 @@
+{
+  "schema": "english-parts/1",
+  "register": "association-names",
+  "description": "Names for associations the residents found: a neighbors' group named for its place, and for what it is about when that is a named organization. The pick between wordings is stable per group.",
+  "slots": {
+    "place": "The group's town, from its place record.",
+    "topic": "What the group is about, the name of the organization it was founded over."
+  },
+  "maxWords": 8,
+  "parts": [
+    {
+      "key": "association-names.association-name-topic.place-neighbors-concerned-about-topic",
+      "move": "association-name-topic",
+      "kind": "written",
+      "text": "{place} Neighbors Concerned About {topic}",
+      "uses": [
+        {
+          "move": "association-name-topic",
+          "subject": "association",
+          "role": "name",
+          "choice": "topic"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-stopgap-drives-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "title"
+      }
+    },
+    {
+      "key": "association-names.association-name-topic.citizens-for-topic-in-place",
+      "move": "association-name-topic",
+      "kind": "written",
+      "text": "Citizens for {topic} in {place}",
+      "uses": [
+        {
+          "move": "association-name-topic",
+          "subject": "association",
+          "role": "name",
+          "choice": "topic"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-stopgap-drives-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "title"
+      }
+    },
+    {
+      "key": "association-names.association-name-topic.place-friends-of-topic",
+      "move": "association-name-topic",
+      "kind": "written",
+      "text": "{place} Friends of {topic}",
+      "uses": [
+        {
+          "move": "association-name-topic",
+          "subject": "association",
+          "role": "name",
+          "choice": "topic"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-stopgap-drives-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "title"
+      }
+    },
+    {
+      "key": "association-names.association-name-topic.place-residents-watching-topic",
+      "move": "association-name-topic",
+      "kind": "written",
+      "text": "{place} Residents Watching {topic}",
+      "uses": [
+        {
+          "move": "association-name-topic",
+          "subject": "association",
+          "role": "name",
+          "choice": "topic"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-stopgap-drives-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "title"
+      }
+    },
+    {
+      "key": "association-names.association-name-plain.place-neighbors-association",
+      "move": "association-name-plain",
+      "kind": "written",
+      "text": "{place} Neighbors Association",
+      "uses": [
+        {
+          "move": "association-name-plain",
+          "subject": "association",
+          "role": "name",
+          "choice": "plain"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-stopgap-drives-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "title"
+      }
+    },
+    {
+      "key": "association-names.association-name-plain.place-residents-together",
+      "move": "association-name-plain",
+      "kind": "written",
+      "text": "{place} Residents Together",
+      "uses": [
+        {
+          "move": "association-name-plain",
+          "subject": "association",
+          "role": "name",
+          "choice": "plain"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-stopgap-drives-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "title"
+      }
+    },
+    {
+      "key": "association-names.association-name-plain.place-civic-association",
+      "move": "association-name-plain",
+      "kind": "written",
+      "text": "{place} Civic Association",
+      "uses": [
+        {
+          "move": "association-name-plain",
+          "subject": "association",
+          "role": "name",
+          "choice": "plain"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-stopgap-drives-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "title"
+      }
+    },
+    {
+      "key": "association-names.association-name-plain.place-community-group",
+      "move": "association-name-plain",
+      "kind": "written",
+      "text": "{place} Community Group",
+      "uses": [
+        {
+          "move": "association-name-plain",
+          "subject": "association",
+          "role": "name",
+          "choice": "plain"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item people-stopgap-drives-player-text-gap)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "title"
+      }
+    }
+  ]
+}
