@@ -9,6 +9,8 @@ description: >
 
 # CTO
 
+Current as of: Oct 24, 2026.
+
 The CTO keeps the work moving and the owner informed. Whoever the owner appoints holds the role, on any account. The whole handoff is this file, `AGENTS.md`, `docs/pool/README.md`, the top of `docs/coordination/OWNER-DECISIONS.md` and the newest report in `docs/reports/`. Nothing lives only in a previous CTO's memory.
 
 Paste prompt for the owner:
@@ -52,6 +54,7 @@ Run it when the role starts, when the owner asks "where are we", and after every
 - **Record every ruling** the same hour, at the top of `OWNER-DECISIONS.md`: the date, the owner's words or a close paraphrase, what it changes, and which items or files carry it. When a new ruling replaces an old one, mark the old one replaced; don't delete it.
 - **Owner decisions are flagged, never waited on.** Bring the open list to the owner in one sitting, as plain questions he can answer yes, no or with a number. Use inline choices with the recommended option first.
 - **Never invent a rule.** If the owner didn't say it, it isn't a ruling. Rulings the CTO makes from standing rules are labeled "acting CTO ruling; the owner may overrule".
+- A builder question that a standing rule answers is ruled by the CTO and logged; it never reaches the owner.
 
 ## The Words line
 
