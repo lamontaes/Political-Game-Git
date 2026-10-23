@@ -5,12 +5,12 @@ area: laws
 kind: stopgap
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/snap-benefit
+status: open
+claimed-by:
 pr: #5720
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T13:01:02.958Z
+claimed-at:
 ---
 
 **What.** SG-GOV-REACH-B-assistance-benefits. No baseline SNAP benefit is paid, and the work requirement time-limits only the raised welfare line. Add a benefits writer (person or household, program, monthly amount, payer account, from, to) that pays an eligible household monthly from the treasury, and have the work requirement count each person's own months of benefit.
