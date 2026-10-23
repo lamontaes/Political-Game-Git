@@ -911,7 +911,7 @@
     "value": 20,
     "tag": "ESTIMATED",
     "citation": "National Center for Education Statistics, National Teacher and Principal Survey 2020-21, Average class size in public K-12 schools, by school level, class type, and selected school characteristics (https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n), in data/research/core/nces-ntps-2021-class-size.json and checked by scripts/research/deep-past-check.ts: elementary 19.1 self-contained and 20.7 departmentalized, middle 16.9 and 22.0, high 17.2 and 21.0, combined 17.1 and 17.9.",
-    "estimatedFrom": "Largest generated peer group, set between the elementary self-contained class (19.1) and the high-school departmentalized class (21.0), the classes of the first and last school stages a cohort record names. A class is not an acquaintance circle (the real circle is the whole grade cohort and no source gives a remembered-peer circle size), so the generated-prior stopgap stays open. Balanced partitioning of the named people who share a cohort record can yield smaller groups.",
+    "estimatedFrom": "Largest generated peer group, set between the elementary self-contained class (19.1) and the high-school departmentalized class (21.0), the classes of the first and last school stages a cohort record names. A class is not an acquaintance circle (the real circle is the whole grade cohort and no source gives a remembered-peer circle size), so the generated-prior stopgap stays open. Balanced partitioning of the named people who share a cohort record yields smaller groups, and the ceiling itself is a cutoff filed as core-opening-peer-network-openingPeerGroupSize-as-cause.",
     "spread": {
       "low": 16.9,
       "high": 22,
