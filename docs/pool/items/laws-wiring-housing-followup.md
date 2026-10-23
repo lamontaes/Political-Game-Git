@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** Never loosen or skip a test: a deleted test's assertions move into the replacement or come back; a typecheck with "apart from" errors is not a pass. Replace, never layer: the coverage goes into law-wiring-housing.test.ts, not a second rent-help file.
 
-**Done when.** The PR body shows `npm run typecheck` on current main with zero errors (or names the art-manifest errors as a separate pool item on main with their first line), and a table with one row per rent-help assertion above naming the line in law-wiring-housing.test.ts that checks it or the hunk added for it; the changed test passes on a drawn place with the place and seed in the body; the laws-wiring-every-law item records #5688 in Notes as the housing and credit family's PR.
+**Done when.** The PR body shows `npm run typecheck` on current main with zero errors (or names the art-manifest errors as a separate pool item on main with their first line), and a table with one row per rent-help assertion above naming the line in law-wiring-housing.test.ts that checks it or the hunk added for it; the changed test passes on a drawn place with the place and seed in the body; the laws-wiring-every-law item records the housing and credit family's carrying PR in Notes (identified in What above).
 
 **Files.** src/core2/law-wiring-housing.test.ts, src/core2/housing-assistance.ts, src/core2/modules/housing.ts, docs/pool/items/laws-wiring-every-law.md
 
