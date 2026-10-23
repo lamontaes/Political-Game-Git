@@ -7,9 +7,10 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5649
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The returned corporate-tax family combines federal and state arrears into one balance and distributes later payments using current-quarter weights. With zero current profit, debts of 100 and 50 are incorrectly split as payments of 75 and 75. Keep ownership of each unpaid tax with its treasury, including after a rate change or repeal, and settle that treasury through the existing journal writer.
