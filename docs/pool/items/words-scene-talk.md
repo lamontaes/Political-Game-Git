@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: in-pr
-claimed-by: words/scene-talk
+status: open
+claimed-by:
 pr: #4459
 blocked-on:
 source: owner, Oct 15, evening: batch 12 rejected; what a scene is
-claimed-at: 2026-10-23T17:10:47.312Z
+claimed-at:
 ---
 
 **What.** Scenes with a purpose: a person wants something, the stakes are clear, and an exchange runs to a result. Fix the root of talk openings so no opener appears without a long-ago record behind it and a yes or no is always followed up. Build the exchange engine with its fifteen-talk test, then batch 13 on top of it.
@@ -39,3 +39,7 @@ Sent back 2026-10-19 from PR #4459 (branch words/scene-talk): merge conflicts in
 Fixer, Oct 20 (PR #4459, branch words/scene-talk): handed back for a Words-line design call. Main now has its own calibration engine (src/english/english-calibration.ts, data/english/calibration.json, commit fc129ba79e) and a different grading-profile schema, so merging main conflicts in 11 files; keep one engine (suggested: main's english-calibration.ts, porting this branch's trait and move-pair weights, which pool item words-calibration-traits-pairs-replies asks for) and finish on the branch.
 
 Looked at Oct 21 (claude, Sonnet session): not taken. The fixer's Oct 20 note is a Words-line design call (keep main's `english-calibration.ts` and port this branch's trait and move-pair weights, 11 conflicting files), which AGENTS.md assigns to an Opus session. Claim released for that session.
+
+Sent back 2026-10-23 from PR #4459 (branch words/scene-talk): Done-when evidence is explicitly partial; supply fifteen talks reaching a result in buildBenchWorld on a drawn place and independent seed, with scene/record IDs and follow-up/opener assertions; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4459 (branch words/scene-talk): the Done-when row is partly met; supply the fifteen-talk buildBenchWorld test naming scene and record IDs, proving earned openers and followed-up replies through results; finish on that branch, merge main into it first.
