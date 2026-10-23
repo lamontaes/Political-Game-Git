@@ -4744,6 +4744,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-ward-residency",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/elections.ts",
+    "line": 644,
+    "whatItFakes": "A candidate for a council seat chosen by part of town must live in that part of town. The rule is assumed for every place: no charter text the repository holds says whether its ward or district seats ask it, and the part of town is the household-order ward of SG-GOV-ward-map.",
+    "why": "The compiled charters (src/core2/gov-rules/municipal-governments.json) carry only the council's composition, and governing-body-seat-qualification.json only the minimum age; most ward and district charters do ask residency in the ward, but no place's own text has been read.",
+    "addedBy": "claude/gov-council-ward-residency",
+    "addedAt": "2026-10-17",
+    "replacement": "Read each place's charter or state law for whether a ward or district candidate must live in it, and apply the check only where it does; the part of town then comes from the dwellings, as SG-GOV-ward-map's replacement draws it.",
+    "status": "open"
+  },
+  {
     "id": "SG-POOL-party-officers-local",
     "kind": "missing-data",
     "file": "src/core2/candidate-pool.ts",

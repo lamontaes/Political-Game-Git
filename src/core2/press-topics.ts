@@ -32,6 +32,8 @@ export interface WireItem {
   readonly ending: boolean;
   /** People the record names: who voted, who filed, who was seated. */
   readonly subjectIds: readonly string[];
+  /** Serving officials the record names who are not full people (a president's term), for renown. */
+  readonly officialIds?: readonly string[];
 }
 
 const LEVELS: Readonly<Record<string, WireLevel>> = {
@@ -101,12 +103,20 @@ export function wireItem(
   } else if (event.placeId === town.stateKey) level = "state";
   if (!level) return null;
   const people = event.personIds.filter((id) => api.state.people.has(id));
+  const officialIds = [
+    ...new Set(
+      event.personIds.filter(
+        (id) => !api.state.people.has(id) && id.startsWith("official:"),
+      ),
+    ),
+  ];
   const base = {
     id: event.id,
     kind: event.kind,
     date: event.date,
     level,
     subjectIds: people,
+    ...(officialIds.length ? { officialIds } : {}),
     facts: { ...facts },
   };
   switch (event.kind) {

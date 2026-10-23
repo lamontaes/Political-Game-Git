@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: blocked
+status: open
 claimed-by: claude/event-platform-stance
 pr:
-blocked-on: PR #5549 deletes the Today list, including the Hold an event control this bug is about; a stance now comes from the speech builder. If #5549 merges the bug closes; if the owner wants events back, they come as a scene that asks for a stance first
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T13:41:41.135Z
 ---
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T13:41:41.135Z
 
 **Files.** src/core2/campaign-day.ts,src/bench/campaign.ts,src/bench/play.mjs
 
-**Notes.** TODO
+**Notes.** Unblocked Oct 23: #5549 merged, so the Today list and its Hold an event control are gone; CTO to confirm the bug is closed and drop, or keep for the stance-first scene.

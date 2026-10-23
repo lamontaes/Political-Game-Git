@@ -5,10 +5,10 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: blocked
+status: done
 claimed-by: claude/release-pool-pushes
-pr:
-blocked-on: PR 5130 (release-skip-pool-only-commits) already adds paths-ignore for docs/pool; merge it, then the CTO can drop this item
+pr: #5130
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T09:40:54.429Z
 ---
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T09:40:54.429Z
 
 **Files.** .github/workflows/release.yml
 
-**Notes.** TODO
+**Notes.** Unblocked Oct 23: #5130 merged with paths-ignore for docs/pool; CTO to verify and drop. Done by #5130 (release.yml paths-ignore docs/pool/** is on main), reconcile Oct 23.
