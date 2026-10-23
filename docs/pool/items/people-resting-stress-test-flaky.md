@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/resting-stress-test
 pr: #4908
 blocked-on:
