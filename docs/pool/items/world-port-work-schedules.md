@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: dropped
+status: done
 claimed-by: claude/port-work-patterns
 pr: #5084
 blocked-on:

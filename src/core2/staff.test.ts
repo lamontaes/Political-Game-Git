@@ -23,6 +23,8 @@ import {
   adviseOnBudget,
   hireStaff,
   openStaff,
+  servingStaffOf,
+  staffOf,
   STAFF_MODULE_ID,
   staffCandidates,
   workOf,
@@ -172,7 +174,35 @@ describe("M3-06 staff", () => {
       advanceCore(core, "2026-02-20");
       // The aide is on the payroll of the government the official serves,
       // and paydays have paid them from its treasury.
-      const aideJob = core.people.get(aide.personId)!.jobId;
+      // An aide the official let go for not coming is replaced: read an aide who has been paid.
+      const paidAide = servingStaffOf(api, official).find((row) => {
+        const job = core.people.get(row.personId)?.jobId;
+        return job ? core.work.latestPayrollByJob.has(job) : false;
+      });
+      if (!paidAide) {
+        // Nobody paid yet is only right after the official let the first aides go for absence (the share
+        // missed on record) and hired replacements who have not had a payday.
+        const rows = staffOf(api, official);
+        const letGo = rows.filter(
+          (row) =>
+            (row as { dismissed?: { absentShare: number } }).dismissed !==
+            undefined,
+        );
+        expect(letGo.length, `${key}: no aide let go`).toBeGreaterThan(0);
+        for (const row of letGo)
+          expect(
+            (row as unknown as { dismissed: { absentShare: number } }).dismissed
+              .absentShare,
+            `${key}: ${row.id}`,
+          ).toBeGreaterThan(0);
+        expect(
+          servingStaffOf(api, official).length,
+          `${key}: the posts were not refilled`,
+        ).toBeGreaterThan(0);
+        continue;
+      }
+      const holder = paidAide;
+      const aideJob = core.people.get(holder.personId)!.jobId;
       const employer = aideJob ? core.jobs.get(aideJob)?.organizationId : null;
       const town = governments(api).find((g) =>
         ["city", "county"].includes(g.level),
@@ -223,7 +253,13 @@ describe("M3-06 staff", () => {
       `no office could hire in ${tried.join(", ")}`,
     ).not.toBeNull();
     govReport("staff", JSON.stringify(report));
-  });
+    // Up to 8 drawn towns, each built in about 0.4 to 1.1 s and played 46
+    // days in 4.9 to 8.2 s on a 4-core container at one worker. Three random
+    // draws played two towns (ending at place 0949880), seven (ending at
+    // 1849950) and two (ending at 2731760): a town is redrawn when its first
+    // aides were let go for missed days and no replacement has been paid yet.
+    // The cases took 10.9, 37.0 and 50.1 s in three later random runs.
+  }, 120_000);
 
   it("weighs age by the working-age pool, sliding, with no cutoff", () => {
     const at = (age: number) => workingAgeWeight(age);

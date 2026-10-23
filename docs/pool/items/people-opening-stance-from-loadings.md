@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: done
 claimed-by: claude/stance-from-loadings
-pr:
+pr: #5489
 blocked-on:
 after: research-opening-stance-loadings
 source: added with npm run pool -- add
@@ -22,4 +22,4 @@ claimed-at: 2026-10-20T04:06:05.232Z
 
 **Files.** src/core2/modules/views.ts, src/core2/campaign-views.ts, src/core2/data/parameters.json, data/research/people/opening-stance-loadings.json
 
-**Notes.** TODO
+**Notes.** PR #5495 closed; its content reached main through #5489 (reconcile Oct 23).

@@ -1,4 +1,9 @@
-import { addDays, ageOnDate, daysBetween, makeIsoDate } from "./kernel/dates";
+import {
+  addDays,
+  ageOnDate,
+  makeIsoDate,
+  daysBetweenText,
+} from "./kernel/dates";
 import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
 import type { EntityId } from "./kernel/brands";
 import { healthReport } from "./modules/health";
@@ -88,7 +93,7 @@ export function birthCircumstances(
   const p = (key: string) => renewalParameter(api, key);
   const mother = api.state.people.get(couple.motherId)!;
   const partner = api.state.people.get(couple.otherParentId)!;
-  const age = ageOnDate(makeIsoDate(mother.birthDate), makeIsoDate(asOf));
+  const age = ageOnDate(mother.birthDate, asOf);
   const births = couple.childIds
     .flatMap((id) => {
       const person = api.state.people.get(id);
@@ -97,11 +102,9 @@ export function birthCircumstances(
     .sort();
   const since = Math.max(
     p("zero"),
-    daysBetween(
-      makeIsoDate(
-        births.at(-p("one")) ?? partnershipStart(api, couple, births),
-      ),
-      makeIsoDate(asOf),
+    daysBetweenText(
+      births.at(-p("one")) ?? partnershipStart(api, couple, births),
+      asOf,
     ) /
       p("daysPerMeanYear") /
       p("renewalTimingPeakYears"),
@@ -156,6 +159,7 @@ export function birthCircumstances(
   const conditions = conditionsOf(api, mother.id);
   const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
   // SG-M1-births-circumstances: record proxies explicitly; no missing medical fact means permission.
+  // stopgapId: SG-WEB-births-full-tier (the outcome web's birth links that full couples' own records do not carry)
   return {
     age:
       p("renewalAgeWeight") *
@@ -171,7 +175,7 @@ export function birthCircumstances(
     recovery: births.length
       ? -p("renewalRecoveryWeight") *
         Math.exp(
-          -daysBetween(makeIsoDate(births.at(-p("one"))!), makeIsoDate(asOf)) /
+          -daysBetweenText(births.at(-p("one"))!, asOf) /
             p("renewalRecoveryDays"),
         )
       : p("zero"),
