@@ -2,7 +2,7 @@
  * Pool item world-census-scale-closures-rise: a town opened at its Census size
  * pays that multiple of wages (its counted workers stand for several), takes
  * in that multiple of sales and holds that multiple of cash, so it closes no
- * more firms than the same town at the sample size. A drawn place above
+ * more job rows than the same town at the sample size. A drawn place above
  * 10,000 people, opened at reference over the 10,000-person sample, played
  * for a year each way.
  */

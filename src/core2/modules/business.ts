@@ -14,7 +14,7 @@ import { countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
@@ -41,7 +41,6 @@ import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
   countedHeadcountOf,
-  countedHeadsOf,
   countedJobsOf,
   weightedPayrollMinor,
   purchaseShareOf,
@@ -413,7 +412,7 @@ function successorOf(
       (person) =>
         person?.alive &&
         !owners.has(person.id) &&
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        daysBetweenText(person.birthDate, c.date) /
           api.parameter("jobsDaysPerYear") >=
           api.parameter("businessFounderMinimumAge"),
     )
@@ -720,7 +719,7 @@ function reviewClosures(api: CoreAPI): void {
     const losses = row.lossMonths ?? 0;
     // A firm based elsewhere weighs a branch's losses; it doesn't age out.
     const age = found
-      ? ageOnDate(makeIsoDate(found.person.birthDate), makeIsoDate(c.date))
+      ? ageOnDate(found.person.birthDate, c.date)
       : p("jobsEarliestRetirementAge");
     const reasons = {
       baseline: p("businessCloseBaseline"),
@@ -879,7 +878,7 @@ function bookedMonth(
         BusinessTradingMonth | undefined)
     : undefined;
   const from = previous?.date ?? row.since;
-  const days = daysBetween(makeIsoDate(from), makeIsoDate(api.state.date));
+  const days = daysBetweenText(from, api.state.date);
   store(api).table("trading").put({
     id: tradingId,
     organizationId: row.id,
@@ -1323,19 +1322,18 @@ function month(api: CoreAPI): void {
         // Only cash past the payroll cushion is spare: a draw never takes the
         // cash the next payroll needs, whatever profit the business has kept.
         const wanted = Math.min(retained * share, Math.max(0, cash - cushion));
-        // The business's cash is already at the town's weight, and a counted
-        // payment multiplies by the owner's household weight: ask for one
-        // household's part so the group receives what the business pays.
-        const heads = found.full ? 1 : countedHeadsOf(c, owner.id);
+        // The business's cash is already at the town's weight: the counted
+        // owner's group receives the whole draw, and the draw on the books is
+        // what the journal moved.
         drawn = found.full
           ? transferCash(api, id, row.id, account, wanted, source)
-          : heads *
-            countedPayment(api, {
+          : countedPayment(api, {
               id,
               placeId: owner.placeId,
               personId: owner.id,
               otherOwnerId: row.id,
-              amountMinor: -Math.floor(wanted / heads),
+              amountMinor: -Math.floor(wanted),
+              whole: true,
               reasonKey: "owner-draw",
               source,
             });
@@ -1588,8 +1586,7 @@ function foundings(api: CoreAPI): void {
       for (const m of counted!.countedMembers(h)) {
         const personId = counted!.ids[m]!;
         const age =
-          daysBetween(makeIsoDate(counted!.born[m]!), makeIsoDate(c.date)) /
-          p("jobsDaysPerYear");
+          daysBetweenText(counted!.born[m]!, c.date) / p("jobsDaysPerYear");
         if (
           owners.has(personId) ||
           age < p("businessFounderMinimumAge") ||
@@ -1659,8 +1656,7 @@ function foundings(api: CoreAPI): void {
     }
     for (const person of peopleInOrder) {
       const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-        p("jobsDaysPerYear");
+        daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
       if (
         !person.alive ||
         person.placeId !== market.placeId ||
@@ -2097,6 +2093,39 @@ const FIPS_OF_USPS = new Map(
   ]),
 );
 
+/** The share of the state's businesses that close in a year (BDS), the nation's where the state has none. */
+export function stateExitShare(api: CoreAPI): number {
+  const usps = core(api).placeMetadata?.housingState ?? "";
+  return (
+    (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
+    api.parameter("macroHundred")
+  );
+}
+
+/** A place's open businesses with their kind and headcount, for sizing the closures of the year before day one. */
+export function businessesIn(
+  api: CoreAPI,
+  placeId: string,
+): readonly { id: string; kindId: string; staff: number }[] {
+  const c = core(api);
+  return [...c.finance.businesses.values()]
+    .filter(
+      (book) =>
+        !book.closedAt &&
+        c.organizations.get(book.organizationId)?.placeId === placeId,
+    )
+    .map((book) => ({
+      id: book.organizationId,
+      kindId: book.kindId,
+      staff:
+        [
+          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
+        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
+        countedHeadcountOf(c, book.organizationId),
+    }))
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 /**
  * Businesses before the start (M1-14): every opening business gets a founding
  * date, so firms have ages. In a steady state where the state's businesses
@@ -2111,10 +2140,7 @@ function businessHistory(
 ): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const usps = c.placeMetadata?.housingState ?? "";
-  const exit =
-    (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
-    p("macroHundred");
+  const exit = stateExitShare(api);
   const firms = [...c.finance.businesses.values()]
     .filter((book) => !book.closedAt)
     .map((book) => ({
