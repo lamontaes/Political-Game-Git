@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5848
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable"
 claimed-at:

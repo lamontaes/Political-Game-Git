@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #5647
 blocked-on: owner: grade the 141 authored lines in a batch, or flip them and let 20 director tests stand on mined/graded parts only
