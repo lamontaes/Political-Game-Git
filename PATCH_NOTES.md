@@ -296,6 +296,179 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.4
+
+_Released October 23, 2026._
+
+### Fixed
+
+- **A foreclosed home whose loan the outside market holds no longer stops the
+  game** When a home is sold at foreclosure to the outside market that also
+  holds its mortgage, the loan is now settled without the market paying itself,
+  and the owner still gets any money left after the loan. Before, the sale
+  stopped the game.
+
+## PRE-ALPHA 0.22.3
+
+_Released October 23, 2026._
+
+### Changed
+
+- **The president's budget signature or veto makes the national news** When the
+  president or a governor signs or vetoes a budget, national and state outlets
+  weigh it as news that touches every reader, and a serving official counts as a
+  public figure in the story, so the papers print it and the people who follow
+  them hear about it.
+
+## PRE-ALPHA 0.22.2
+
+_Released October 23, 2026._
+
+### Improved
+
+- **Townspeople without a local job commute** When you meet someone who works
+  but is not on a local employer's books, they now hold a real job at the
+  place's outside employers, with regular paydays and tax withheld like anyone
+  else. When they drop out of your life and go back into the town's counts, the
+  job ends and the pay returns to the town's pool.
+
+- **Statewide races follow the state's own lean, with incumbency counted once**
+  Statewide races such as governor no longer swing far from how a state votes
+  because voters' liking for incumbents was counted twice. The incumbency
+  advantage now comes once, from the candidate's public standing, and each
+  voter's personality moves them a little around it.
+
+## PRE-ALPHA 0.22.1
+
+_Released October 23, 2026._
+
+### Added
+
+- **Townspeople you haven't met can take up a cause after a death in the
+  family** When someone in town dies, the family they lived with can now come
+  away with a cause, such as fighting the illness that took them, even if you
+  have never met them. Whether they do follows their own temperament, the same
+  way it does for the people you know. If you meet one of them later, they
+  already carry that cause.
+
+- **Townspeople you haven't met can take up a cause when they lose their job**
+  When a business lays someone off or closes, the people who lose their jobs can
+  now come away with a cause to prove themselves or to hold the employer to
+  account, even if you have never met them. Whether they do follows their own
+  temperament, the same way it does for the people you know. If you meet one of
+  them later, they already carry that cause and act on it.
+
+## PRE-ALPHA 0.22.0
+
+_Released October 21, 2026._
+
+### Added
+
+- **A bribe can now buy a public contract.** A business owner who wants a public
+  contract may offer a council or board member a bribe, and the member decides
+  whether to take it. A bribe that is taken counts for the bidder who paid it
+  when the member ranks the bids.
+
+## PRE-ALPHA 0.21.6
+
+_Released October 21, 2026._
+
+### Improved
+
+- **Shops that closed last year are in the news history** A new town's news
+  archive now includes the businesses that closed in the year before day one,
+  and the retired owner of each remembers the day it was reported.
+
+## PRE-ALPHA 0.21.5
+
+_Released October 21, 2026._
+
+### Added
+
+- **Put your own money into your campaign** The Campaigns screen has a control
+  to put an amount of your own money into your campaign. Nothing leaves your
+  savings unless you choose it, and a candidate with savings can then pay for an
+  event venue the donors did not cover.
+
+## PRE-ALPHA 0.21.4
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Selling a home whose loan the outside market holds no longer stops the
+  game** A household that moves away and sells a home whose mortgage is held by
+  the outside market now settles the loan and keeps the surplus, instead of
+  stopping the game with an error.
+
+## PRE-ALPHA 0.21.3
+
+_Released October 21, 2026._
+
+### Changed
+
+- **American Samoa and the Marianas get an island-area shelter estimate**
+  American Samoa and the Northern Mariana Islands now start with the shelter
+  beds per 10,000 that the island areas HUD counts have, instead of the nation's
+  rate.
+
+## PRE-ALPHA 0.21.2
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Voters in the wider population now weigh a candidate's platform by their
+  faith and schooling too.** A voter you have not met is read by the same rule
+  as a person you have: how much they agree with a candidate's platform now
+  depends on their faith and schooling as well as their politics, so a voter
+  agrees the same before and after you meet them.
+
+- **Firms in a big town stop closing for want of cash to pay their workers** In
+  a town opened at its full Census size, shops, offices and local TV stations
+  used to run out of cash and close, taking their workers' jobs with them. Their
+  sales now grow with the town as their wages do, and a shop staffed by a big
+  town's workers can serve as many customers as those workers stand for. A
+  business short of cash on a payday draws the savings it holds at the bank
+  before the payroll goes unpaid, and keeps enough there for its workers' full
+  payroll. An owner no longer draws out the cash the next payroll needs, and a
+  business owned by a resident of a big town pays that owner's draw and profit
+  tax once, not once per household the owner stands for.
+
+## PRE-ALPHA 0.21.1
+
+_Released October 21, 2026._
+
+### Fixed
+
+- **Hand-written journal lines held back** Nine hand-written lines in "My life"
+  about where a family came from, where the partners met and a parent's new job
+  are held back until the English engine grades them.
+
+## PRE-ALPHA 0.21.0
+
+_Released October 21, 2026._
+
+### Improved
+
+- **American Samoa, Guam, the Northern Marianas and the Virgin Islands start
+  with their own housing figures.** Homes in these four island areas now start
+  from their own 2020 Census owner share, rent and home value instead of the
+  nation's. Owners' opening home values in every place also preserve household
+  variation while centering the median on that place's own housing value, moved
+  by its price index to the opening date.
+
+## PRE-ALPHA 0.20.4
+
+_Released October 21, 2026._
+
+### Changed
+
+- **The player's parents no longer move away and leave the player with nothing**
+  When the player lives in a household, the moves engine no longer takes that
+  household apart: the adults who earn and hold its cash stay, so the player is
+  not left alone with a lease, no job and no money.
+
 ## PRE-ALPHA 0.20.3
 
 _Released October 21, 2026._

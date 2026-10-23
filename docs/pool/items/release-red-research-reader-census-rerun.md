@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/research-reader-census-rerun
-pr:
+pr: #5828
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T20:00:30.509Z

@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 3
 size: M
-status: blocked
+status: open
 claimed-by: claude/political-game-pool-yucp92-cc
 pr:
-blocked-on: cto: premise wrong, Merrick's own ACS tenure is 3.4 percent renters, so 3.6 is right; drop it (PR 5685 now checks the ACS share)
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T17:08:04.588Z
 ---
@@ -21,4 +21,4 @@ claimed-at: 2026-10-20T17:08:04.588Z
 
 **Files.** src/core2/modules/housing.ts, src/core2/census-weight-economy.test.ts
 
-**Notes.** Found Oct 20 rebuilding PR 5454 on claude/political-game-pool-yucp92-bc; the test floor was loosened to 0.02 for it.
+**Notes.** Found Oct 20 rebuilding PR 5454 on claude/political-game-pool-yucp92-bc; the test floor was loosened to 0.02 for it. Unblocked Oct 23: #5685 merged and checks the ACS share; the old blocked-on said the premise is wrong (Merrick is 3.4 percent renters), so CTO to drop.
