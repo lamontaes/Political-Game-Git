@@ -51,7 +51,10 @@ it(
         expect(trace.considered.length, where).toBeGreaterThan(0);
         expect(trace.chosen, where).toBeTruthy();
       }
-      const held = countedDrivesHeld(api);
+      // Bereavement is also counted now; this case requires a cause from a job loss.
+      const held = countedDrivesHeld(api).filter((row) =>
+        /^(event:work\.job-lost:|employer-closed:)/.test(row.sourceEventId),
+      );
       tried.push(
         `${where}: ${countedTraces.length} counted perceptions, ${held.length} causes held`,
       );
@@ -71,7 +74,7 @@ it(
         `${where}: ${drive.personId} lost a job (${drive.sourceEventId})`,
       ).toBe(true);
       expect(drive.sourceEventId, where).toMatch(
-        /^event:(work\.job-lost|organization\.closed):/,
+        /^(event:work\.job-lost:|employer-closed:)/,
       );
       expect(drive.strength, where).toBeGreaterThan(0);
       expect(

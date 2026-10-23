@@ -20,7 +20,14 @@ import { countedDrivesHeld, drivesReport } from "./modules/drives";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
-const PLACES = 4;
+/**
+ * A death in a counted household is perceived by its survivors, and about
+ * one perception in eight takes up a drive (Phoenix, Oregon: 3 of 23), so a
+ * small town's two to six a year often form none (seed
+ * d292a20af22f10b93be7f32e029ef070: 2, 2, 0 and 4 perceptions in four
+ * places, none formed). Up to eight places are drawn.
+ */
+const PLACES = 8;
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const KIND = DEFAULT_HEALTH_DATA.countedDeathEventKind;
 
@@ -40,7 +47,17 @@ it(
         placeKey: place.key,
       });
       const api = coreAPI(core);
-      advanceCore(core, addDays(makeIsoDate(core.date), 365));
+      // A played year, read at each month's end: a survivor's cause can later
+      // go with them when they are filled in, move away or die, so the first
+      // month a counted survivor holds one is the witness.
+      const start = core.date;
+      let held: ReturnType<typeof countedDrivesHeld> = [];
+      for (let month = 1; month <= 12 && !held.length; month++) {
+        advanceCore(core, addDays(makeIsoDate(start), month * 30));
+        held = countedDrivesHeld(api).filter((row) =>
+          row.sourceEventId.startsWith(`event:${KIND}:`),
+        );
+      }
       // Every counted survivor's perception of a death is scored by the shared rule, as family or household.
       const perceptions = drivesReport(core as CoreState).decisions.filter(
         (t) => t.counted && t.eventKind === KIND,
@@ -52,11 +69,12 @@ it(
           trace.event.facts?.["counted-subject"],
         );
       }
-      const held = countedDrivesHeld(api).filter((row) =>
-        row.sourceEventId.startsWith(`event:${KIND}:`),
-      );
+      // Formed: a perception that chose a response with a drive. Formed and
+      // then not held: filled in (the full person holds it) or gone from the counts.
+      const formed = perceptions.filter((t) => t.driveId);
+      const filledIn = formed.filter((t) => core.people.has(t.personId));
       tried.push(
-        `${where}: ${perceptions.length} counted perceptions of a death, ${held.length} causes`,
+        `${where}: ${perceptions.length} counted perceptions of a death (${perceptions.map((t) => t.chosen.responseId).join(", ") || "none"}), ${formed.length} formed a drive, ${filledIn.length} of them filled in since, ${held.length} held on ${core.date}`,
       );
       if (!held.length) continue;
       const drive = held[0]!;
@@ -78,15 +96,21 @@ it(
         ),
         where,
       ).toBe(true);
+      // Observe the natural cause when it exists, then complete the played year.
+      const witnessedAt = core.date;
+      const yearEnd = addDays(makeIsoDate(start), 365);
+      advanceCore(core, yearEnd);
+      expect(core.date, where).toBe(yearEnd);
       process.stdout.write(
-        `COUNTED BEREAVEMENT ${where}: ${drive.personId} holds ${drive.driveId} from ${drive.sourceEventId} at ${drive.strength.toFixed(3)}; ${held.length} causes, ${perceptions.length} perceptions\n`,
+        `COUNTED BEREAVEMENT ${where}: ${drive.personId} holds ${drive.driveId} from ${drive.sourceEventId} at ${drive.strength.toFixed(3)}; ${held.length} causes, ${perceptions.length} perceptions; witnessed ${witnessedAt}; played through ${core.date}; places tried: ${tried.join("; ")}\n`,
       );
       return;
     }
     throw new Error(
       `no counted survivor took up a cause from a death in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
     );
-    // A drawn place's played year took about 4 minutes on a 4-core container; up to PLACES of them.
+    // Four drawn years took 492 seconds on a 4-core container (about 2
+    // minutes each, up to 4 in a larger town); up to PLACES of them.
   },
-  PLACES * 400_000,
+  PLACES * 300_000,
 );
