@@ -19,10 +19,9 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, leanedYes } from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -2600,7 +2599,7 @@ function ownersLive(api: CoreAPI): void {
     spendLivingCost(
       api,
       row.id,
-      daysBetween(makeIsoDate(row.livedThrough), makeIsoDate(api.state.date)),
+      daysBetweenText(row.livedThrough, api.state.date),
     );
     table(api, "staff").put({
       ...row,
@@ -2681,21 +2680,21 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (row.status !== "invited" || f.personId === playerId) continue;
       const person = api.state.people.get(f.personId);
       const reporter = row.reporterId ?? "";
-      const willing = person
-        ? // Every trait's lean, on the trait scale the bar was set on, and
-          // how they stand with the reporter who asks.
-          parameter("traitScale") *
-            decisionLean(
-              api.state,
-              person,
-              "press.accept-interview",
-              "accept",
-              "decline",
-            ) +
-          closeness(api, person.id, reporter) -
-          grudge(api, person.id, reporter)
-        : 0;
-      if (willing < pressParameter("interviewShyness")) refuse(api, row);
+      // How they stand with the reporter who asks, past the bar, and every
+      // trait's lean toward accepting.
+      const accepts = person
+        ? leanedYes(
+            api.state,
+            person,
+            "press.accept-interview",
+            "accept",
+            "decline",
+            closeness(api, person.id, reporter) -
+              grudge(api, person.id, reporter) -
+              pressParameter("interviewShyness"),
+          )
+        : true;
+      if (!accepts) refuse(api, row);
       else publish(api, row, candidateAnswers(api, row.questions, f));
     }
 }
