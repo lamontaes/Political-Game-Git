@@ -3,7 +3,7 @@ id: gov-rival-campaign-day-shared-choices
 title: "Rivals take their campaign day through the same choices as the player"
 area: gov
 kind: wiring
-priority: 3
+priority: 2
 size: M
 status: in-pr
 claimed-by: claude/rival-campaign-day

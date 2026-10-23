@@ -4,7 +4,7 @@ title: "Stopgaps in office-day-state (missing-core-api): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: claimed
+status: in-pr
 claimed-by: claude/pool-state-seat-person-2
 pr: #5247
 blocked-on:

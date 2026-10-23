@@ -5,10 +5,11 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: open
 source: effect-web-poverty; stopgap SG-WEB-poverty-graduation-no-engine
-claimed-by: claude/schooling-to-pay
-claimed-at: 2026-10-21T16:18:11.006Z
+claimed-by:
+claimed-at:
+pr: #5822
 ---
 
 **What.** The jobs engine prices a hire from the occupation and the market, not from the person's schooling. Read each seeker's own schooling record when a wage is set, using the researched pay premium by level, so a place whose graduation rises hires better-paid adults a decade later. The poverty measure reads those incomes with no web link.
@@ -20,3 +21,5 @@ claimed-at: 2026-10-21T16:18:11.006Z
 **Files.** src/core2/modules/jobs.ts, src/core2/data/jobs/.
 
 **Notes.** From the poverty family of the effect web. The link graduation-to-poverty no longer runs on the ledger.
+
+Sent back 2026-10-23 from PR #5822 (branch claude/schooling-to-pay): Graduation-to-income proof is explicitly missing, same-job test falls back to different jobs, and the unmeasured within-role pay share lacks its stopgap registration/code marker; finish on that branch, merge main into it first.
