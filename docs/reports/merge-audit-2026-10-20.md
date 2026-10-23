@@ -16,13 +16,13 @@ Three reviewers read the diffs of the 55 PRs the four merger lanes merged late o
 Bad:
 
 1. **#4968 (fixed in #5509):** news.test.ts and office-proof.test.ts still return early or recheck the empty selection. Draw places with bounded retries until one has a county and a state office, assert the feature, fail on exhaustion; keep the no-county case as its own test; put the governor test timeout back near 240,000 ms or state why.
-2. **#4976:** law-reach-group-a/b tests still return when the subject is absent. Redraw until a town has a legislator or a private school and run the filing, reach and closure assertions; correct the pool note that claims every site is fixed.
+2. **#4976 (fixed in #5505):** law-reach-group-a/b tests still return when the subject is absent. Redraw until a town has a legislator or a private school and run the filing, reach and closure assertions; correct the pool note that claims every site is fixed.
 3. **#4886 / #4903:** counted-deaths-opening.test.ts uses a random seed and a loose floor (deaths at least half of expected) and fails on small towns. Pin seed 140bb7872bc46f5202d12ae8c4c52ca2364da2da170593f43aeb7f7810bd5366 (Centennial, Wyoming) as a regression case and make the check statistically sound.
 4. **#4984:** close #5019 as superseded; fix the stopgap row's line number for SG-WORLD-department-government.
 
 Rule breaks that reached main:
 
-5. **#5226:** nine hand-written journal lines are marked `origin: authored`, `shippable: true`. Set them to not shippable until graded, and make the test require the partners-met and parent-job lines.
+5. **#5226 (fixed in #5507):** nine hand-written journal lines are marked `origin: authored`, `shippable: true`. Set them to not shippable until graded, and make the test require the partners-met and parent-job lines.
 6. **#5093, #5097:** src/core2/town-workplaces.ts and src/core2/work-schedules.ts import types from src/simulation (the old engine). Move the types into core2; remove the dangling town-employment-mix.ts line from tsconfig.node.json; close #5084 (duplicate, carried in by #5097).
 7. **#5016, #4972:** pool items with pasted-twice sections (world-corporate-office-staff-never-paid, world-utility-staff-never-paid, people-press-turnover-no-leavers-no-openings). Remove the duplicates.
 8. **#5314, #5294:** owner and date notes added to data citations and stopgap text. Remove them (owner notes must not ship).
