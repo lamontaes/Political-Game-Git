@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: blocked
+status: dropped
 claimed-by:
 pr:
-blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
+blocked-on: duplicate of people-partnership-ends (pool feeder Oct 20); CTO to drop
 after: core-family-link-change,core-household-membership-change
 source: added with npm run pool -- add
 ---
@@ -21,4 +21,6 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/people.ts, src/core2/modules/housing.ts, src/core2/data/people/, src/core2/people-partnerships.test.ts
 
-**Notes.** Split from people-partnerships-form-and-end (L) on Oct 19. Read docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md first for any ruling on how partnerships are shown.
+**Notes.** Split from people-partnerships-form-and-end (L) on Oct 19. Read docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md first for any ruling on how partnerships are shown. Duplicate of people-partnership-ends (feeder report)
+
+**Duplicate check Oct 20 (claude):** the same engine and rule as people-partnership-ends (#4970), added Oct 17 and already in a PR or open. The CTO should decide which one to keep (`pool status people-partnerships-full-people-end dropped --by cto` drops this one); only one should be built.

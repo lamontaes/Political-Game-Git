@@ -1,0 +1,847 @@
+[
+  {
+    "id": "SG-M1-opening-pregnancies",
+    "currentValue": "none: no opening pregnancies; no fertility rate decides pregnancy",
+    "recommended": {
+      "rule": "At opening, each woman aged 15-44 is pregnant with probability = (age-specific births per woman per year) x 0.75 x 1.15; national general fertility rate 53.8 per 1,000 women 15-44 gives about 4.6% of women 15-44 pregnant at a random date",
+      "generalFertilityRate2024": 53.8,
+      "gfr2025provisional": 53.1,
+      "stateScaling": "multiply by state GFR / 53.8 (NVSS state table, not fetched)"
+    },
+    "unit": "share of women 15-44 pregnant on day one",
+    "low": 0.035,
+    "high": 0.055,
+    "basis": "The final 2024 national general fertility rate was 53.8 births per 1,000 women 15-44 (provisional 2025: 53.1), fetched via search of NCHS. A pregnancy lasts about 0.75 year, so live-birth pregnancies in progress are about 4.0% of women 15-44; the 1.15 factor adds pregnancies ending in loss or abortion (assumed ~15%; not fetched). Age-specific rates must come from the NVSS Births report; I did not fetch them.",
+    "sources": [
+      {
+        "title": "Births in the United States, 2024 (NCHS Data Brief 535) and NVSS final data",
+        "url": "https://cdc.gov/nchs/products/databriefs/db535.htm",
+        "publisher": "CDC NCHS",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "final 2024 rate 53.8, decline of about 1%"
+      },
+      {
+        "title": "Pregnancy-loss and age-specific rate factors",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "56 places by state GFR scaling; territories use PR GFR proxy (not fetched)",
+    "builderNote": "In renewal.ts seed opening pregnancies with Bernoulli(ASFR(age)*0.75*1.15) per eligible partnered-or-not woman, ASFR from NVSS table scaled so the mean over 15-44 = 53.8/1000; spread phase dates uniformly over the 273-day term."
+  },
+  {
+    "id": "SG-WORLD-macro-mortgage-spread",
+    "currentValue": "10-year Treasury + 1.66 percentage points (1990-2019 mean spread)",
+    "recommended": {
+      "constantReplacement": 2.22,
+      "spreadByYear": {
+        "2019": 1.8,
+        "2020": 2.21,
+        "2021": 1.51,
+        "2022": 2.39,
+        "2023": 2.85,
+        "2024": 2.51,
+        "2025": 2.3,
+        "2026ytd": 1.97
+      },
+      "preApril2019Mean1990_2019": 1.661,
+      "preSd": 0.29
+    },
+    "unit": "percentage points over the 10-year Treasury",
+    "low": 1.28,
+    "high": 3.26,
+    "basis": "Computed from fetched FRED weekly series: the 1990-2019 mean spread is 1.661 points (matches the game's 1.66), but the mean from May 2019 to now is 2.22 points over 390 weeks (range 1.28 to 3.26), so the game's modeled rates are about 0.6 point too low after 2019 and miss the 2022-2024 widening. FRED's mortgage series is Freddie Mac PMMS, which the CTO excluded, so use these only to check, and ship a government series: FHFA National Mortgage Database quarterly average note rate, or HMDA annual rate_spread, calibrated to this table.",
+    "sources": [
+      {
+        "title": "FRED: 30-Year Fixed Rate Mortgage Average (MORTGAGE30US) and 10-Year Treasury (DGS10)",
+        "url": "https://fred.stlouisfed.org/series/MORTGAGE30US",
+        "publisher": "Federal Reserve Bank of St. Louis (Freddie Mac PMMS; Treasury)",
+        "year": 2026,
+        "retrieved": true,
+        "quote": "observation_date,MORTGAGE30US 2019-01-03,4.51"
+      },
+      {
+        "title": "FHFA National Mortgage Database",
+        "url": "https://www.fhfa.gov/data/dashboard/nmdb",
+        "publisher": "FHFA",
+        "year": 2026,
+        "retrieved": true,
+        "quote": "page fetched (HTML, 76 KB); series values not extracted"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "national",
+    "builderNote": "In macro-model.ts replace the constant 1.66 spread after 2019-04 with the spreadByYear table (linear by month within year) until an FHFA NMDB quarterly series is loaded."
+  },
+  {
+    "id": "SG-WORLD-regional-territory-estimate",
+    "currentValue": "unemployment held flat (GU 3.4, VI 3.5, AS 13.2, MP 10.5), national pay and prices, no industry mix",
+    "recommended": {
+      "unemploymentPct": {
+        "GU": 3.4,
+        "VI": 3.5,
+        "AS": 13.2,
+        "MP": 10.5
+      },
+      "adjustment": "keep unemployment; replace flat national pay and price with proxies below",
+      "payRatioToUS": {
+        "GU": 0.75,
+        "VI": 0.65,
+        "AS": 0.45,
+        "MP": 0.5
+      },
+      "priceRatioToUS": {
+        "GU": 1.15,
+        "VI": 1.2,
+        "AS": 1.15,
+        "MP": 1.15
+      },
+      "industryMixShares": {
+        "GU": {
+          "government_incl_federal": 0.3,
+          "tourism_hospitality_retail": 0.3,
+          "construction_military_contract": 0.12,
+          "other": 0.28
+        },
+        "VI": {
+          "government": 0.25,
+          "tourism_hospitality_retail": 0.35,
+          "other": 0.4
+        },
+        "AS": {
+          "government": 0.4,
+          "tuna_canning_manufacturing": 0.2,
+          "retail_other": 0.4
+        },
+        "MP": {
+          "government": 0.25,
+          "tourism_casino_hospitality": 0.4,
+          "other": 0.35
+        }
+      }
+    },
+    "unit": "ratios and shares (estimates)",
+    "low": null,
+    "high": null,
+    "basis": "No territory labor or price page was fetched this session, so pay ratios, price ratios and industry shares are low-confidence estimates drawn from general knowledge (territorial economies depend on government, tourism, one cannery in American Samoa, military contracts on Guam). Spreads: pay ratio plus or minus 0.15, price ratio plus or minus 0.07, industry shares plus or minus 0.10. The unemployment values are the repo's own cited figures.",
+    "sources": [
+      {
+        "title": "territories.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/src/core2/data/regional/territories.json",
+        "publisher": "Political-Game-Git repo",
+        "year": 2026,
+        "retrieved": true,
+        "quote": "unemploymentPct 60: 13.2, 66: 3.4, 69: 10.5, 78: 3.5"
+      },
+      {
+        "title": "Territory pay, price and industry mix",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "GU, VI, AS, MP",
+    "builderNote": "In territories.json add payRatio, priceRatio and industryMix per place from this row; replace each with BLS-funded Guam/VI labor surveys and the 2020 Island Areas Census when fetched."
+  },
+  {
+    "id": "SG-WORLD-housing-eviction-steps",
+    "currentValue": "per-place values with gaps filled by the median of better-sourced places",
+    "recommended": {
+      "fillMedians": {
+        "noticeDays": 7,
+        "stayAfterJudgmentDays": 5,
+        "hearingDaysMidpoint": 8.75,
+        "cureAllowed": true
+      },
+      "rangeNotice": [
+        0,
+        14
+      ],
+      "rangeStay": [
+        0,
+        21
+      ],
+      "gapPlaces": [
+        "AL",
+        "AR",
+        "CA",
+        "CT",
+        "GA",
+        "IL",
+        "IN",
+        "MS",
+        "NM",
+        "TN",
+        "UT",
+        "GU",
+        "VI",
+        "AS"
+      ]
+    },
+    "unit": "days",
+    "low": 0,
+    "high": 21,
+    "basis": "Computed medians from the repo's own verified fields (eviction-steps-2026.json): notice 7 days (29 verified places, range 0-14), stay after judgment 5 days (34 places, 0-21), hearing midpoint 8.75 days (36 places); cure is allowed in most verified places. No statute text was fetched here, so the 14 gap places keep the median fill with low confidence, and the official statutes still need to be read.",
+    "sources": [
+      {
+        "title": "eviction-steps-2026.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/data/research/housing/eviction-steps-2026.json",
+        "publisher": "Political-Game-Git repo",
+        "year": 2026,
+        "retrieved": true,
+        "quote": "noticeDays 7, cureAllowed true, verifiedFields"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "56 (42 places have a verified field; 14 gaps use medians)",
+    "builderNote": "Keep median fill in housing.ts; set these medians as constants (7, 5, 8.75, cure true) and tag each gap place isEstimate:true until statutes are read."
+  },
+  {
+    "id": "SG-WORLD-housing-county-estimate",
+    "currentValue": "state household-weighted county median, then nation",
+    "recommended": {
+      "rule": "Use the median of the ACS 5-year county medians of all counties that share a border with the missing county, weighted by households; if fewer than 2 neighbors report, use the state fallback",
+      "counties": {
+        "Kalawao HI": "neighbors: Maui County (Molokai) as same island group",
+        "Edwards TX": "Real, Val Verde, Kinney, Sutton, Kimble",
+        "Kenedy TX": "Kleberg, Brooks, Willacy, Cameron",
+        "Loving TX": "Reeves, Winkler, Ward (and Lea/Eddy NM)",
+        "Culberson TX": "Hudspeth, Jeff Davis, Reeves (and Eddy NM)"
+      }
+    },
+    "unit": "rule",
+    "low": null,
+    "high": null,
+    "basis": "api.census.gov now returns a 'Missing Key' page for the ACS queries I tried, so I fetched no county values; the rule uses adjacent-county medians which better capture local housing markets than the state median (Culberson, Loving and Kenedy sit in oil, ranch and border markets unlike the state average). Neighbor lists are geographic facts from memory.",
+    "sources": [
+      {
+        "title": "Census API (ACS 5-year B25077, B25064)",
+        "url": "https://api.census.gov/data/2023/acs/acs5",
+        "publisher": "U.S. Census Bureau",
+        "year": 2023,
+        "retrieved": true,
+        "quote": "Missing Key: a valid key must be included with each request"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "6 withheld counties (all 56 places by rule)",
+    "builderNote": "In housing.ts line ~169 replace the state fallback with a neighbor median using a county adjacency list (Census county adjacency file); keep state then nation as last resorts. A free Census API key is needed to fetch the ACS tables."
+  },
+  {
+    "id": "SG-WORLD-property-tax-rate",
+    "currentValue": "state average effective rate, no cap, to outside account",
+    "recommended": {
+      "effectiveRatePct": {
+        "NJ": 2.21,
+        "IL": 2.05,
+        "NH": 2.03,
+        "HI": 0.3,
+        "WI": 1.25
+      },
+      "anchors": "fetched anchors only; other states need the ACS B25103/B25077 ratio (needs Census key)",
+      "territories": "AS and MP levy no residential property tax (estimate); GU, VI, PR need local rates",
+      "assessmentCapStates": "AZ, AR, CA, FL, IA, MD, MI, NM, NY, OK, OR, SD, TX, WA (limit on yearly growth of assessed value; sizes 2-10 percent, estimate)"
+    },
+    "unit": "percent of home value per year",
+    "low": 0.27,
+    "high": 2.3,
+    "basis": "Search results from the Tax Foundation give 2019-2020 effective rates: New Jersey 2.21, Illinois 2.05, New Hampshire 2.03 and Hawaii 0.30, and a 2025 report puts Wisconsin at 1.25. The full 50-state table was not retrievable (page 404, Census key required), so the rest stays the repo's state averages. Within a state, county rates vary by a factor of 2 or more; caps are listed from general knowledge and are low confidence.",
+    "sources": [
+      {
+        "title": "How high are property taxes in your state?",
+        "url": "https://taxfoundation.org/data/all/property-taxes/how-high-are-property-taxes-in-your-state/",
+        "publisher": "Tax Foundation",
+        "year": 2020,
+        "retrieved": true,
+        "quote": "New Jersey (2.21 percent), Illinois (2.05 percent), New Hampshire (2.03)"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "anchors for 5 states; full 56 not fetched",
+    "builderNote": "Keep the state rate; add per-county rate and cap fields when OPUS-GOV's property-tax law row exists; use ACS B25103/B25077 by county once a key is available."
+  },
+  {
+    "id": "SG-WORLD-business-compliance-cost",
+    "currentValue": 0.008,
+    "recommended": {
+      "manufacturingAverageShare": 0.004,
+      "valueOfShipmentsShareTopTenIndustries": 0.03,
+      "byIndustryMultiplier": {
+        "manufacturing_avg": 1.0,
+        "top_ten_abatement_industries": "up to 7.5x the manufacturing average (3% of shipments for total regulatory cost, per WRI summary)",
+        "nonmanufacturing": "estimate 0.5x"
+      },
+      "compliance duty": "0.004 x industry multiplier x (1 + share of standard missed), cap 0.03"
+    },
+    "unit": "share of operating costs",
+    "low": 0.004,
+    "high": 0.03,
+    "basis": "PACE 2005 manufacturers spent $20.7 billion on abatement operating costs and under 1 percent of revenue; the game's 0.4 percent base and 2x factor stand. A WRI summary says total regulatory cost for the ten highest-abatement industries averages roughly 3 percent of shipments, so industry intensity varies several-fold. The industry names and per-industry operating shares were not fetched.",
+    "sources": [
+      {
+        "title": "Report: U.S. Manufacturers Spending Billions on Pollution Prevention",
+        "url": "https://ohsonline.com/articles/2008/04/report-us-manufacturers-spending-billions-on-pollution-prevention.aspx",
+        "publisher": "OH&S summarizing Census PACE 2005",
+        "year": 2008,
+        "retrieved": true,
+        "quote": "$5.9 billion capital and $20.7 billion operating costs in 2005"
+      },
+      {
+        "title": "Relative Annual Costs and Expenditures for U.S. Manufacturing (2005)",
+        "url": "https://www.wri.org/data/relative-annual-costs-and-expenditures-us-manufacturing-2005",
+        "publisher": "World Resources Institute",
+        "year": 2008,
+        "retrieved": true,
+        "quote": "averages roughly 3% of the sector's value of product shipments"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "national",
+    "builderNote": "Change businessComplianceShareOfCosts to a per-industry lookup: base 0.004 x industry multiplier x (1 + missed share), clamp 0.004..0.03; load PACE 2005 industry tables to set the multipliers."
+  },
+  {
+    "id": "SG-PW8-partnership-start",
+    "currentValue": "one birth-spacing interval before first child, else mother's usual first-union age",
+    "recommended": {
+      "medianAgeAtFirstMarriage2025": {
+        "men": 30.8,
+        "women": 28.4
+      },
+      "rule": "first union age = median first-marriage age for the mother's birth year minus 2 years if cohabitation-first (estimate); start = first birth date minus 2.0 years (low 1.0, high 3.5)"
+    },
+    "unit": "years",
+    "low": 1.0,
+    "high": 3.5,
+    "basis": "Fetched: the 2025 median age at first marriage is 30.8 (men) and 28.4 (women) (CPS via BGSU); the 2024 ACS says 30.8 for men and the sex gap is about two years. The cohort history, cohabitation-first adjustment and birth-to-union interval (2.0 years) are not fetched and stay estimates.",
+    "sources": [
+      {
+        "title": "The Timing of First Marriage: Age Trends and Characteristics",
+        "url": "https://www.bgsu.edu/ncfmr/resources/data/family-profiles/timing-first-marriage-fp-26-13.html",
+        "publisher": "BGSU NCFMR",
+        "year": 2026,
+        "retrieved": true,
+        "quote": "30.8 years among males and 28.4 among females"
+      },
+      {
+        "title": "Interval from union to first birth",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "national, 56 via state ACS if keyed",
+    "builderNote": "In births-plan.ts use mother's cohort median first-marriage age (CPS MS-2 history) minus 2.0 years as the first-union age and first birth minus 2.0 years when a first child exists."
+  },
+  {
+    "id": "SG-OFFICIALS-unrecorded-party",
+    "currentValue": "state's 2024 presidential-winning party; LG takes governor's party",
+    "recommended": {
+      "rule": "party = 2024 presidential winner's party for a statewide executive with probability 0.9 (margin >15 pts), 0.75 (5-15), 0.55 (<5), else the other major party; LG on a joint ticket = governor's party, LG elected separately (about 17 states) follows the same rule"
+    },
+    "unit": "probability",
+    "low": 0.55,
+    "high": 0.97,
+    "basis": "No roster of statewide executives was fetched (Ballotpedia not retrieved this session), so these probabilities are my estimates of how often down-ballot executives match a state's presidential result; the best fix is the actual roster.",
+    "sources": [
+      {
+        "title": "Statewide executive party match rates",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "56 (DC and territories use delegate/governor party)",
+    "builderNote": "Preferred: load Ballotpedia's state executive roster and replace the rule; interim, use the margin-tiered probabilities with the world's seed."
+  },
+  {
+    "id": "SG-PEOPLE-one-look-per-activity",
+    "currentValue": "one activity per look; 4 teen and 4 child looks",
+    "recommended": {
+      "target": {
+        "teenLooksPerSex": 12,
+        "childLooksPerSex": 12,
+        "activityVariantsPerLook": 3,
+        "adultTwinForEachTeenLook": true
+      }
+    },
+    "unit": "counts",
+    "low": null,
+    "high": null,
+    "basis": "This is an art-inventory gap, not a measurable quantity; no data was fetched. The request document's 12 teen and 12 child looks per sex stays the target, and three activity variants (indoor, outdoor, school) is my estimate of the minimum that avoids forced substitution.",
+    "sources": [
+      {
+        "title": "Art coverage target",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "n/a",
+    "builderNote": "No code change; keep the art requests; the fallback in whole-figures.ts stays until art lands."
+  },
+  {
+    "id": "SG-CORE-past-undated-law-age",
+    "currentValue": "uniform 1 to 20 years before day one",
+    "recommended": {
+      "byPolicyType": {
+        "recent_policy_domains (cannabis, paid leave, red-flag, data privacy)": {
+          "low": 1,
+          "median": 6,
+          "high": 15
+        },
+        "mature_policy_domains (tax structure, right-to-work, no-fault divorce, sales tax)": {
+          "low": 10,
+          "median": 35,
+          "high": 75
+        }
+      },
+      "rule": "draw from a lognormal truncated to the type's low..high"
+    },
+    "unit": "years before opening",
+    "low": 1,
+    "high": 75,
+    "basis": "The 1-20 year uniform cap cannot represent settled law (many state tax structures and right-to-work laws date from the 1930s-1970s). No NCSL page was fetched, so the type-level medians and ranges are my estimates from general knowledge of adoption waves; low confidence.",
+    "sources": [
+      {
+        "title": "NCSL policy adoption histories",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "56",
+    "builderNote": "In past/parameters.json set pastUndatedLawAgeYearsHigh by policy type per this table; replace with actual enactment years from NCSL and state code histories."
+  },
+  {
+    "id": "SG-CORE-past-territory-ballots",
+    "currentValue": "town's own ballots only",
+    "recommended": {
+      "2024": {
+        "PR_governor": {
+          "Gonzalez-Colon NPP": 524373,
+          "Dalmau PIP": 391945,
+          "Ortiz PPD": 273162,
+          "Jimenez PD": 81251
+        },
+        "PR_resident_commissioner": {
+          "Hernandez Rivera PPD": 530540,
+          "Villafane PNP": 452615,
+          "total": 1219538
+        },
+        "GU_delegate": {
+          "Moylan R": 15422,
+          "Cruz D": 13703
+        },
+        "AS_delegate": {
+          "Radewagen R": 7394,
+          "Kuaea": 1840,
+          "Lancaster": 469,
+          "Suitonu-Chapman": 185
+        },
+        "AS_governor_runoff": {
+          "Pula": 5846,
+          "Mauga": 3925
+        },
+        "MP_delegate": "not retrieved: estimate about 8,000-12,000 votes (low confidence)",
+        "VI_delegate": "not retrieved: estimate about 15,000-25,000 votes (low confidence)"
+      }
+    },
+    "unit": "votes",
+    "low": null,
+    "high": null,
+    "basis": "Fetched from Wikipedia articles that compile territorial election-commission returns: Puerto Rico governor, resident commissioner, Guam delegate (52.69% to 46.81%), American Samoa delegate and governor runoff. The CNMI and USVI pages returned errors, so those two stay estimates.",
+    "sources": [
+      {
+        "title": "2024 United States House of Representatives election in Guam",
+        "url": "https://en.wikipedia.org/wiki/2024_United_States_House_of_Representatives_election_in_Guam",
+        "publisher": "Wikipedia (compiling official returns)",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "Moylan 15,422 52.69%; Cruz 13,703 46.81%"
+      },
+      {
+        "title": "2024 American Samoan general election",
+        "url": "https://en.wikipedia.org/wiki/2024_American_Samoan_general_election",
+        "publisher": "Wikipedia (compiling official returns)",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "Radewagen 7394; Pula 5846, Mauga 3925"
+      },
+      {
+        "title": "2024 Puerto Rico gubernatorial election",
+        "url": "https://en.wikipedia.org/wiki/2024_Puerto_Rican_general_election",
+        "publisher": "Wikipedia (compiling official returns)",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "González-Colón 524,373; Dalmau 391,945"
+      },
+      {
+        "title": "2024 US House election in Puerto Rico",
+        "url": "https://en.wikipedia.org/wiki/2024_United_States_House_of_Representatives_election_in_Puerto_Rico",
+        "publisher": "Wikipedia (compiling official returns)",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "Resident commissioner total 1,219,538"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "PR, GU, AS (CNMI and USVI estimated)",
+    "builderNote": "Add a territories-2024 table from the object here; read it in past-elections.ts instead of town ballots; fetch the CNMI and USVI returns from their election commissions to close."
+  },
+  {
+    "id": "SG-WORLD-withholding-residence-law",
+    "currentValue": "reads the worker's residence law",
+    "recommended": {
+      "rule": "withhold the work state's income tax unless a reciprocal agreement exists, in which case withhold nothing for the work state and the home state taxes",
+      "reciprocalPairs (work state: resident states exempt)": {
+        "IL": [
+          "IA",
+          "KY",
+          "MI",
+          "WI"
+        ],
+        "IA": [
+          "IL"
+        ],
+        "KY": [
+          "IL",
+          "IN",
+          "MI",
+          "OH",
+          "WV",
+          "WI",
+          "VA"
+        ],
+        "MI": [
+          "IL",
+          "IN",
+          "KY",
+          "MN",
+          "OH",
+          "WI"
+        ],
+        "WI": [
+          "IL",
+          "IN",
+          "KY",
+          "MI"
+        ],
+        "MD": [
+          "DC",
+          "PA",
+          "VA",
+          "WV"
+        ],
+        "PA": [
+          "IN",
+          "MD",
+          "NJ",
+          "OH",
+          "VA",
+          "WV"
+        ],
+        "VA": [
+          "DC",
+          "KY",
+          "MD",
+          "PA",
+          "WV"
+        ]
+      }
+    },
+    "unit": "rule",
+    "low": null,
+    "high": null,
+    "basis": "Search results show payroll withholding follows the work state, with exemption forms for residents of reciprocal states; the game reads residence law for everyone, which is wrong for any cross-state worker outside reciprocity. The eight work states listed were confirmed by fetched results; the remaining pairs (DC, AZ, IN, MN, MT, ND, NJ, OH, WV) are not listed here.",
+    "sources": [
+      {
+        "title": "Which states have tax reciprocity agreements (TaxSlayer, TaxAct, CPA Practice Advisor)",
+        "url": "https://support.taxslayer.com/hc/en-us/articles/360015899831-Which-states-have-tax-reciprocity-agreements",
+        "publisher": "TaxSlayer",
+        "year": 2025,
+        "retrieved": true,
+        "quote": "residents of Illinois, Iowa, Kentucky, Michigan, or Wisconsin"
+      }
+    ],
+    "confidence": "medium",
+    "placesCovered": "8 work states listed; others by same rule",
+    "builderNote": "In budgets.ts line ~969 withhold work-state tax by default and use the reciprocalPairs table to exempt; only then add the resident-state tax at settlement."
+  },
+  {
+    "id": "SG-WORLD-withholding-local-base",
+    "currentValue": "gross pay (wages/AGI base); standard deduction only for taxable-income base",
+    "recommended": {
+      "preTaxDeductionShareOfGross": 0.07,
+      "note": "7% = estimate of average pre-tax retirement plus premiums for covered workers (low 0.04, high 0.12); local bases by place: PA EIT and OH municipal on compensation, MD county on state taxable income, IN county on AGI with per-person exemptions"
+    },
+    "unit": "share of gross pay",
+    "low": 0.04,
+    "high": 0.12,
+    "basis": "No fetched source covers local bases or pre-tax deduction shares. The 7% is my estimate (employee 401k deferral around 6-8% for participants plus health premiums, discounted for workers without plans); local-base descriptions are general knowledge. Estimate only.",
+    "sources": [
+      {
+        "title": "Local tax bases and pre-tax deductions",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "states with local income tax (about 17 plus DC)",
+    "builderNote": "In budgets.ts line ~1035 reduce a wages-base paycheck by preTaxDeductionShareOfGross for workers with a retirement plan; keep gross pay for PA and OH-type compensation bases."
+  },
+  {
+    "id": "SG-CORE-district-placement",
+    "currentValue": "strict income-order fill by district population share",
+    "recommended": {
+      "copulaCorrelationIncomeRankToDistrictOrder": 0.35,
+      "tenureCorrelation": 0.25
+    },
+    "unit": "rank correlation",
+    "low": 0.15,
+    "high": 0.6,
+    "basis": "Strict income-order filling creates perfect segregation (correlation 1). Real within-city income segregation is modest (rank-order information theory indices near 0.1-0.15 in the literature, from my memory, not fetched), so I use a noisy ordering with correlation 0.35. Pull ACS SLD tables (needs a Census key) to replace it.",
+    "sources": [
+      {
+        "title": "Income segregation within cities (Reardon and Bischoff)",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "56",
+    "builderNote": "In residents.ts place households by district order = rank + Gaussian noise with correlation 0.35 (renters 0.25) instead of strict order."
+  },
+  {
+    "id": "SG-WORLD-housing-shelter-beds-state-rate",
+    "currentValue": "state's HIC year-round beds per 10,000 times place people",
+    "recommended": {
+      "stateRatesFromRepoHIC2025": "54 places fetched from repo (min 2.47, median 9.54, max 71.58 per 10,000; nation 14.56)",
+      "placeFactor": {
+        "principal_city_of_CoC": 2.0,
+        "suburban_or_small_town_under_50k": 0.35,
+        "rural_under_5k": 0.1
+      }
+    },
+    "unit": "beds per 10,000 people",
+    "low": 2.47,
+    "high": 71.58,
+    "basis": "The repo's HUD 2025 table gives the state rates (median 9.54, nation 14.56). Beds sit in CoC principal cities, so a state rate times population overstates small towns; the factors 2.0, 0.35 and 0.1 are my estimates (not fetched) normalized so a state's places sum to its beds.",
+    "sources": [
+      {
+        "title": "hic-2025-shelter-beds-by-state.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/data/research/housing/hic-2025-shelter-beds-by-state.json",
+        "publisher": "Political-Game-Git repo",
+        "year": 2026,
+        "retrieved": true,
+        "quote": "national bedsPer10k 14.56; yearRoundBeds 497490"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "56",
+    "builderNote": "In housing-homeless.ts multiply the state rate by the placeFactor class and renormalize across the state's places; replace by HIC provider geocodes later."
+  },
+  {
+    "id": "SG-WORLD-housing-shelter-territory",
+    "currentValue": "nation's beds per 10,000 (14.56)",
+    "recommended": {
+      "AS": 6.2,
+      "MP": 6.2
+    },
+    "unit": "beds per 10,000 people",
+    "low": 2.47,
+    "high": 10.9,
+    "basis": "Fetched from the repo: Guam 6.18, Puerto Rico 2.47 and the U.S. Virgin Islands 10.9 beds per 10,000. American Samoa and the Marianas lack a CoC, so I use the territory median (6.2) instead of the national 14.56, which they likely exceed by 2x or more. Territory governments' own counts are still needed.",
+    "sources": [
+      {
+        "title": "hic-2025-shelter-beds-by-state.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/data/research/housing/hic-2025-shelter-beds-by-state.json",
+        "publisher": "Political-Game-Git repo",
+        "year": 2026,
+        "retrieved": true,
+        "quote": "US-GU bedsPer10k 6.18; US-VI 10.9; US-PR 2.47"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "AS, MP",
+    "builderNote": "In housing-homeless.ts use 6.2 for AS and MP, not the national rate."
+  },
+  {
+    "id": "SG-WORLD-housing-foreclosure-steps",
+    "currentValue": "place steps with national average when none",
+    "recommended": {
+      "typicalDaysFillByProcess": {
+        "nonjudicial": 174,
+        "judicial": 2007,
+        "both": 2293
+      },
+      "fromRepoATTOMValues": "medians from 14 places with published ATTOM days (nonjudicial n=10, judicial n=3, both n=1); nonjudicial includes NV 1507 and RI 1929 as outliers",
+      "redemptionFillDays": 0
+    },
+    "unit": "days from first filing to sale",
+    "low": 155,
+    "high": 3491,
+    "basis": "Computed from the repo's ATTOM days: nonjudicial median 174 days (155-199 for most, with NV and RI at 1507 and 1929), judicial median 2007. Filling a place by its process class beats the national average (about 198 across the 14) because judicial states run 10x longer. No statute text was fetched, so all 56 places stay unverified.",
+    "sources": [
+      {
+        "title": "foreclosure-steps-2026.json",
+        "url": "https://github.com/lamontaes/Political-Game-Git/blob/main/data/research/housing/foreclosure-steps-2026.json",
+        "publisher": "Political-Game-Git repo",
+        "year": 2026,
+        "retrieved": true,
+        "quote": "typicalDaysToComplete 199 Alaska; ATTOM Q2 2026"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "56 (process class where unread)",
+    "builderNote": "In housing-foreclosure.ts use the process-class fill (174 non-judicial, 2007 judicial, 2293 both) instead of nationalTypicalDaysToComplete; read statutes to upgrade each place."
+  },
+  {
+    "id": "SG-POOL-party-officers-local",
+    "currentValue": "town's local party chair stands in",
+    "recommended": {
+      "structure": {
+        "stateParty": {
+          "officers": 5,
+          "roles": [
+            "chair",
+            "vice chair",
+            "secretary",
+            "treasurer",
+            "national committee members"
+          ]
+        },
+        "nationalCommittee": {
+          "RNC_members_per_state_or_territory": 3,
+          "DNC": "about 450 members, state chairs and vice chairs are ex officio"
+        }
+      }
+    },
+    "unit": "officers per committee",
+    "low": 3,
+    "high": 8,
+    "basis": "No party-rules page was fetched; the officer count (5) and committee compositions are from general knowledge of party rules, so this is a low-confidence estimate. Real figures come from the RNC and DNC charters.",
+    "sources": [
+      {
+        "title": "Party rules",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "56",
+    "builderNote": "Create one state committee per party per state with five officers drawn from the pool and, for each state or territory, three RNC and two DNC seats."
+  },
+  {
+    "id": "SG-LAWS-state-party-loyalty-target",
+    "currentValue": "federal party-unity about 0.90",
+    "recommended": {
+      "target": 0.9,
+      "low": 0.8,
+      "high": 0.96
+    },
+    "unit": "share of party votes",
+    "low": 0.8,
+    "high": 0.96,
+    "basis": "No state roll-call source was fetched, and the owner's input governs this row; 0.90 stays as a placeholder with a 0.80-0.96 band based on federal unity scores that usually run in the 0.9s. Not closeable without the owner's input.",
+    "sources": [
+      {
+        "title": "Federal party-unity scores",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "56 chambers",
+    "builderNote": "Leave weights.statePartyLoyalty at 1; set the test target and band from the owner's state roll-call input."
+  },
+  {
+    "id": "SG-WORLD-board-hawk-side",
+    "currentValue": "lived inflation read as hawk equals Republican",
+    "recommended": {
+      "livedInflationToHawkish": "supported (Malmendier-Nagel-Yan: FOMC members' inflation experience shapes hawkishness)",
+      "appointingPartyToHawkish": "weak; use weight 0.2 on party, not 1.0"
+    },
+    "unit": "weight",
+    "low": 0.0,
+    "high": 0.4,
+    "basis": "The NBER paper 'The Making of Hawks and Doves' (fetched as a PDF, text not extracted) studies FOMC members' lived inflation and hawkishness, which supports using lived inflation for hawkishness; the party link is not supported by what I fetched, so I keep it weak (0.2, my estimate).",
+    "sources": [
+      {
+        "title": "The Making of Hawks and Doves (NBER w26490)",
+        "url": "https://www.nber.org/system/files/working_papers/w26490/w26490.pdf",
+        "publisher": "NBER",
+        "year": 2019,
+        "retrieved": true,
+        "quote": "PDF fetched (1.6 MB); text not extracted"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "national",
+    "builderNote": "In board-appointer.ts keep lived inflation as the hawk score, but choose the nominee by a 0.2-weight party-alignment term, not by mapping hawk to Republican."
+  },
+  {
+    "id": "SG-WORLD-board-career-qualification",
+    "currentValue": "small table by career",
+    "recommended": {
+      "careerWeights": {
+        "academic_economist": 1.0,
+        "central_bank_staff": 0.95,
+        "treasury_or_regulator": 0.85,
+        "commercial_banker": 0.7,
+        "investment_finance": 0.65,
+        "business_executive": 0.5,
+        "lawyer": 0.45,
+        "politician_other": 0.4
+      }
+    },
+    "unit": "weight 0..1",
+    "low": 0.4,
+    "high": 1.0,
+    "basis": "No career-history source was fetched; weights are my estimates ordering careers by closeness to monetary-policy work. Calibrate against past governors' careers (Federal Reserve history pages) when fetched.",
+    "sources": [
+      {
+        "title": "Governor career backgrounds",
+        "url": "",
+        "publisher": "none fetched",
+        "year": "2026",
+        "retrieved": false,
+        "quote": "estimate; no source page fetched this session"
+      }
+    ],
+    "confidence": "low",
+    "placesCovered": "national",
+    "builderNote": "In board-appointer.ts replace the table with careerWeights and add a work-history term when histories exist."
+  }
+]

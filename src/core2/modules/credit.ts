@@ -11,7 +11,7 @@ import depositRows from "../../../data/tables/town-deposits.json" with { type: "
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import territoryData from "../data/credit/territories.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
@@ -41,6 +41,7 @@ import { bankDepositLiability } from "../accounts";
 import { reviewBankDeposits } from "../credit-deposits";
 
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
+import { lawApplied } from "../law-reach/applied";
 import lawParameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 
 const CREDIT_PULL = "credit:pull";
@@ -126,7 +127,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
         );
   if (!(townPeople > 0)) return undefined;
   if (!(deposits > 0) || !(countyPeople > 0)) {
-    // No county deposit table for this place (most island areas): deposits per resident, estimated.
+    // No county deposit row for this place (American Samoa has no FDIC branch): deposits per resident, estimated.
     stopgap("SG-WORLD-credit-island-deposits");
     const perPerson = fallbackDeposits(
       place?.stateJurisdictionKey ?? undefined,
@@ -195,6 +196,20 @@ function bankOf(api: CoreAPI) {
   const row = store(api).table("banks").get("credit:bank") as
     { organizationId: string; openingEquityMinor: number } | undefined;
   return row?.organizationId ? row : undefined;
+}
+
+/** The best-paid living full worker of a firm, ties by id: who decides for a firm with no recorded owner. */
+function managerOf(c: CoreState, organizationId: string): string | undefined {
+  let best: { id: string; pay: number } | undefined;
+  for (const jobId of c.finance.jobsByOrganization.get(organizationId) ?? []) {
+    const job = c.jobs.get(jobId);
+    const person = job && c.people.get(job.personId);
+    if (!job || !person?.alive) continue;
+    const pay = job.hourlyMinor ?? 0;
+    if (!best || pay > best.pay || (pay === best.pay && job.personId < best.id))
+      best = { id: job.personId, pay };
+  }
+  return best?.id;
 }
 
 /** Capital is assets less deposit liabilities; a deposit never creates bank equity. */
@@ -432,11 +447,11 @@ function review(api: CoreAPI): void {
       ));
   serviceLoans(api, bank.organizationId);
   let room = lendingRoom(api, book);
-  // The owner decides whether to borrow; a business with no recorded owner applies when its cash runs short.
+  // The owner decides whether to borrow, or the firm's manager where it has no owner.
   const owners = c.modules.has("business")
     ? api.moduleState("business").table("owners")
     : undefined;
-  const wanted: { id: string; requested: number }[] = [];
+  const wanted: { id: string; requested: number; decidedBy?: string }[] = [];
   const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
     a[0].localeCompare(b[0]),
@@ -448,13 +463,13 @@ function review(api: CoreAPI): void {
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
-    const ownerId = (owners?.get(id) as { ownerId?: string } | undefined)
-      ?.ownerId;
-    if (!ownerId) {
-      stopgap("SG-WORLD-credit-business-applies");
-      wanted.push({ id, requested });
-      continue;
-    }
+    // The owner decides; a firm with no recorded owner (a public employer, an
+    // ownerless landlord) is run by its best-paid full worker, who weighs the
+    // same reasons. With no full person to decide, its counted people's summed
+    // pulls do, as a counted owner's do.
+    const ownerId =
+      (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
+      managerOf(c, id);
     const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
     // The owner weighs the rate the bank will charge this borrower, risk spread and all.
     const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
@@ -470,13 +485,13 @@ function review(api: CoreAPI): void {
             Math.max(p("one"), monthlySales),
         ),
     };
-    if (c.people.has(ownerId)) {
+    if (ownerId && c.people.has(ownerId)) {
       const choice = chooseAct(c, ownerId, [
         creditOffer("wait", id, {}),
         creditOffer("borrow", id, reasons),
       ]).selected!;
       if (choice.definition.id === creditData.actions.borrow.id)
-        wanted.push({ id, requested });
+        wanted.push({ id, requested, decidedBy: ownerId });
     } else
       counted.push({
         id,
@@ -485,9 +500,14 @@ function review(api: CoreAPI): void {
       });
   }
   if (counted.length)
-    for (const row of strongestPulls(api, "business-borrow", counted))
+    for (const row of strongestPulls(
+      api,
+      "business-borrow",
+      counted,
+      store(api).table("pulls"),
+    ))
       wanted.push({ id: row.id, requested: row.requested });
-  for (const { id, requested } of wanted.sort((a, b) =>
+  for (const { id, requested, decidedBy } of wanted.sort((a, b) =>
     a.id.localeCompare(b.id),
   )) {
     const books = c.finance.businesses.get(id)!;
@@ -504,6 +524,7 @@ function review(api: CoreAPI): void {
         organizationId: id,
         date: api.state.date,
         reasonKey: creditData.reasons.applied,
+        ...(decidedBy ? { decidedBy } : {}),
         requestedMinor: Math.round(requested),
         cashMinor: cash,
         salesToWages,
@@ -667,6 +688,8 @@ export const CREDIT_MODULE: CoreModule = {
         },
       },
       payments: { indexes: { byLoan: { fields: ["loanId"] } } },
+      // The carry of counted owners who borrow this month (strongestPulls).
+      pulls: {},
       households: { indexes: { byHousehold: { fields: ["householdId"] } } },
     },
   },
@@ -731,6 +754,8 @@ interface LoanRow {
   kind: "personal" | "startup" | "mortgage";
   principalMinor: number;
   balanceMinor: number;
+  marketAnnualRate?: number;
+  rateLawId?: string | null;
   annualRate: number;
   paymentMinor: number;
   openedAt: string;
@@ -798,7 +823,7 @@ function earnedDaily(
     if (!ledger) break;
     const since =
       commitment.startsAt > c.startedAt ? commitment.startsAt : c.startedAt;
-    const days = daysBetween(makeIsoDate(since), makeIsoDate(c.date));
+    const days = daysBetweenText(since, c.date);
     if (days < api.parameter("creditIncomeRecordDays")) break;
     return ledger.earnedMinor / days;
   }
@@ -851,6 +876,8 @@ interface BorrowingHousehold {
     | "jobId"
   >[];
   cash: number;
+  /** The households a counted household stands for; 1 for a full household. */
+  weight: number;
   /** Read only for a household with a real shortfall: it walks jobs and wage flows. */
   income: () => number;
 }
@@ -869,6 +896,7 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
       placeId: h.placeId,
       members,
       cash: members.reduce((sum, person) => sum + person.liquidMinor, 0),
+      weight: 1,
       income: () => monthlyIncome(api, h.memberIds),
     });
   }
@@ -884,6 +912,7 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
         placeId: h.placeId,
         members,
         cash: cashOf(h),
+        weight: rt.store.weightOf(h),
         income: () => {
           let daily = 0;
           for (const member of members) {
@@ -966,6 +995,15 @@ function personalLoanTransfer(
   });
 }
 
+/** The households a loan's borrower stands for: a counted household's weight, else 1. */
+function loanWeight(api: CoreAPI, householdId: string): number {
+  const rt = residentsRuntime(core(api));
+  const ix = rt?.store.householdOf.get(householdId);
+  return rt && ix !== undefined
+    ? rt.store.weightOf(rt.store.households[ix]!)
+    : 1;
+}
+
 /** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
 function serviceLoans(api: CoreAPI, bankId: string): void {
   const c = core(api),
@@ -999,6 +1037,24 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
       },
     );
     const towardInterest = Math.min(paid, interest);
+    // The cap held the rate below the market's: the interest the borrower did not owe this month.
+    if (loan.rateLawId && (loan.marketAnnualRate ?? 0) > loan.annualRate) {
+      const weight = loanWeight(api, loan.householdId);
+      lawApplied(api, {
+        key: CAP_LOAN_RATES,
+        lawId: loan.rateLawId,
+        targetId: loan.householdId,
+        target: weight > 1 ? "group" : "household",
+        count: weight,
+        engine: "credit",
+        what: "interest-capped",
+        amountMinor:
+          (weight *
+            loan.balanceMinor *
+            ((loan.marketAnnualRate ?? 0) - loan.annualRate)) /
+          p("macroMonthsPerYear"),
+      });
+    }
     const balance = Math.max(0, loan.balanceMinor + interest - paid);
     const pastDue = Math.max(0, due - paid);
     const lateDays = loan.firstPastDueAt
@@ -1043,6 +1099,9 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
   }
 }
 
+const CAP_LOAN_RATES =
+  "us-policy-positions:business-commerce.cap-consumer-loan-rates";
+
 /** Households short of money choose whether to borrow; the bank answers from their income and payments, on a sliding scale. */
 function householdApplications(
   api: CoreAPI,
@@ -1061,10 +1120,7 @@ function householdApplications(
     (prime + p("macroPrimeSpreadPct") + p("creditPersonalSpreadPct")) /
     p("macroHundred");
   const cap = c.modules.has(LAWS_MODULE_ID)
-    ? lawInForce(
-        api,
-        "us-policy-positions:business-commerce.cap-consumer-loan-rates",
-      )
+    ? lawInForce(api, CAP_LOAN_RATES)
     : undefined;
   const town = cap ? lawChain(api).townPlaceId : undefined;
   const owing = new Set(
@@ -1083,7 +1139,7 @@ function householdApplications(
         (row) =>
           row.standing === "charged-off" &&
           (!row.chargedOffAt ||
-            daysBetween(makeIsoDate(row.chargedOffAt), makeIsoDate(c.date)) <
+            daysBetweenText(row.chargedOffAt, c.date) <
               p("creditReportYears") * p("jobsDaysPerYear")),
       )
       .map((row) => row.householdId),
@@ -1100,6 +1156,17 @@ function householdApplications(
       : null;
     const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
     const lawId = applicable ? cap.governing!.id : null;
+    // Whom the cap governed at the quote: every household quoted under it, and whether it held the rate below the market.
+    if (lawId)
+      lawApplied(api, {
+        key: CAP_LOAN_RATES,
+        lawId,
+        targetId: household.id,
+        target: household.weight > 1 ? "group" : "household",
+        count: household.weight,
+        engine: "credit",
+        what: rate < marketRate ? "quote-capped" : "quote-within-cap",
+      });
     const members = household.members;
     const head = [...members].sort(
       (a, b) =>

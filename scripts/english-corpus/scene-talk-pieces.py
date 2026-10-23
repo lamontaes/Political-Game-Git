@@ -3,6 +3,7 @@
 # scoped by purpose, step, move and the reply it answers; blocks are applied in order and
 # later DROP sets remove lines the owner cut. Run from the repo root: python3 scripts/english-corpus/scene-talk-pieces.py,
 # then: node --import tsx scripts/english-corpus/tag-moves.ts && npx prettier --write data/english/parts/scene-talk.json
+# Every piece is written held (shippable false) until the owner grades it (AGENTS.md, "No hand-written player text").
 import json,re,collections
 VOTE=['ask-vote','confirm-vote','section-bargain']
 FAVOR=['carry-bill','donor-ask','party-ask']
@@ -2917,7 +2918,7 @@ A_(P,"Here's one: it's law, and it's the right law.",[('thank',"The right law. G
 A_(P,"Give me a week and the first hearing.",[('accept',"A week. I'll hold you to it.")])
 A_(P,"I'll answer that after the hearing, on the record.",[('accept',"After the hearing. On the record. Got it.")])
 A_(P,"Give us a month to get the word out.",[('accept',"A month. I'll check in.")])
-A_(P,"You'll get a sentence at the press conference.",[('accept',"Then I'll be in the front row.")])
+A_(P,"You'll get a sentence at the press conference.",[('accept',"Then I'll be up front.")])
 A_(P,"You came here wanting a fight over it.",[('answer',"I came here wanting an answer. A fight's your choice.")])
 A_(P,"You'd rather have a quote than a law.",[('answer',"I'd rather have both.")])
 A_(P,"You're blaming me for what your paper didn't print.",[('answer',"I'm printing it now. That's why I'm here.")])
@@ -3017,7 +3018,7 @@ L('close','accept',A,P,[("Noon Friday. I'll be right here.","calm")],after='leav
 L('beat','beat',R,P,[("A photographer by the door raises a camera and lowers it again.","calm"),("Behind the counter, a stamp comes down twice.","calm")])
 # ---------------- join-cause ----------------
 P='join-cause'
-L(N,N,R,P,[("{name} was in the third row at your town hall. Now {name} is at your office door with a clipboard about {cause}.","curious",["heard-you"]),
+L(N,N,R,P,[("{name} was at the back of your town hall. Now {name} is at your office door with a clipboard about {cause}.","curious",["heard-you"]),
  ("{name} called your office about {cause} all week. Today there's a knock at your door.","curious"),
  ("{name} stops you on the courthouse steps, holding a sign-up sheet for {cause}.","curious")])
 L('open','greet',A,P,[("{title}, have you got a minute?","calm",["title"]),("I'll be quick, I promise.","nervous"),("Sorry to catch you on the way out.","nervous"),("Do you remember me? From the town hall?","hopeful",["heard-you"])])
@@ -3103,7 +3104,7 @@ A_(P,"What would you want the city to do?",[('answer',"Say out loud whether you'
 A_(P,"Most of it is decided at the state capitol. I won't pretend otherwise.",[('plea',"Then tell the capitol what we said tonight. Somebody has to."),('accept',"All right. At least that's honest.")])
 A_(P,"Give your email to my aide by the door. I'll write you myself.",[('thank',"Your aide, by the door. Okay."),('press',"Last time it was a form. Nobody wrote back.")])
 A_(P,"The council has already taken a position on it.",[('thank',"Then I'd like to read it."),('confront',"{source} goes to every council meeting and never heard that.","braced",["knows-truth"])])
-A_(P,"I'll bring what you've told us to the council next week.",[('thank',"Next week. I'll be in the back row."),('press',"Bring it how? Out loud, with my name?")])
+A_(P,"I'll bring what you've told us to the council next week.",[('thank',"Next week. I'll be at the back."),('press',"Bring it how? Out loud, with my name?")])
 A_(P,"Tell me what you're seeing on your street.",[('answer',"Two families moved out this year. Nobody's moved in.")])
 A_(P,"The city can't change a state law. I won't promise you it can.",[('plea',"Then what can the city do? Anything?"),('accept',"Okay. I'd rather hear that than a promise.")])
 A_(P,"Stay after, and I'll take down every address you can give me.",[('thank',"I've got a list already. I'll wait."),('press',"A list of addresses doesn't help the people at them.")])
@@ -3210,7 +3211,7 @@ for e in E:
             if use not in parts[t]['uses']: parts[t]['uses'].append(use)
             continue
         bm=f"{e['step']}-{e['move']}"
-        parts[t]={"key":textkey[t],"move":bm,"kind":"spoken","text":t,"uses":[use],"bearing":e['bearing'],"shippable":True,"origin":"authored","author":"Words session","date":"2026-10-15"}
+        parts[t]={"key":textkey[t],"move":bm,"kind":"spoken","text":t,"uses":[use],"bearing":e['bearing'],"shippable":False,"origin":"authored","author":"Words session","date":"2026-10-15"}
 p='data/english/parts/scene-talk.json'; bank=json.load(open(p))
 bank['parts']=list(parts.values())
 bank['description']=bank['description'].replace("a generic piece names no purpose, and a piece that only fits one purpose or situation key names it.","each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`.")

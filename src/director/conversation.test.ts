@@ -418,17 +418,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(closed).toBeGreaterThan(0);
   });
-  it("never opens a reunion scene's talk on a school or workplace the two once shared (owner, Oct 15, evening)", () => {
+  it("opens a reunion scene's talk on a school or workplace the two once shared only when decades have passed and the record shows it (owner, Oct 15, evening)", () => {
     const book = director.ledger.people.get(player.id)!;
     const template = book.moments[0]!;
     let checked = 0;
     for (const otherId of others) {
-      if (
-        !subjectsBetween(core, player.id, otherId, director).some(
-          (row) => row.kind === "shared-school" || row.kind === "shared-work",
-        )
-      )
-        continue;
+      const shared = subjectsBetween(core, player.id, otherId, director).filter(
+        (row) => row.kind === "shared-school" || row.kind === "shared-work",
+      );
+      if (!shared.length) continue;
       // Edge case by hand: a re-entry moment whose cause no subject is about.
       const occasion = {
         ...template,
@@ -444,8 +442,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       book.momentsById.delete(occasion.id);
       // "Do you remember <school>?" opens nothing unless a record says
       // something happened to it or decades have passed.
-      for (const line of talk.lines)
-        expect(line.text, otherId).not.toMatch(/\bremember\b/i);
+      for (const line of talk.lines) {
+        const about = shared.find((row) => line.subjectId.includes(row.id));
+        if (about)
+          expect(
+            about.facts["long-ago"],
+            `${otherId}: ${line.text}`,
+          ).toBeTruthy();
+        else expect(line.text, otherId).not.toMatch(/\bremember\b/i);
+      }
       checked += 1;
       if (checked >= 3) break;
     }

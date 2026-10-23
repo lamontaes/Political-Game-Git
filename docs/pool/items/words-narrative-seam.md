@@ -5,21 +5,21 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
-claimed-by: words/narrative-seam
-pr:
+status: done
+claimed-by: claude/narrative-seam
+pr: #5614
 blocked-on:
 after: words-pack-scene-talk
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T22:58:55.622Z
+claimed-at: 2026-10-20T09:10:24.618Z
 ---
 
-**What.** `src/director/scene-talk.ts` picks pieces from `data/english/parts/scene-talk.json` itself, so the director both decides what happens and chooses the words. The CTO ruled that the director and the English engine are two layers under one contract, and this is the one place the seam is blurred. Move the piece-picking into the English engine so the director only emits the situation, the roles, the stakes and the moves at each turn.
+**What.** Piece-picking moves from the director's scene-talk into the English engine. The director should emit only the situation and the moves, and the English engine should choose the pieces that voice each move. Today the director's scene-talk picks the words, which splits the wording between two places.
 
-**Rules.** The director says what is happening and why, by record (roles, purpose, stakes, the move at each turn, the facts by record id), with no words; the English engine fills each move. Replace, never layer: delete what moved and count it in the PR body.
+**Rules.** Replace, never layer: the piece-picking code in the director's scene-talk is deleted in the same change. No hand-written player text: words come from the English engine.
 
-**Done when.** `src/director/` reads nothing under `data/english/`, the scene-talk test and the review page build pass unchanged, a review page staged from a played world reads the same, and the PR body counts the removed lines.
+**Done when.** Scenes in a one-year run of the played world (buildBenchWorld) in a drawn place and seed the builder did not choose read the same on the batch page as before, the director emits only situation and moves by record id, the old piece-picking code in src/director/conversation.ts is gone with the line count in the PR body, and src/director and src/english tests pass.
 
-**Files.** `src/director/scene-talk.ts`, `src/english/`.
+**Files.** src/director/conversation.ts, src/english/english-composition.ts
 
-**Notes.** CTO, Oct 19, "the narrative seam" in `docs/coordination/OWNER-DECISIONS.md`. Its own PR, after #4626.
+**Notes.** Body written Oct 19 from the title when the pool check was red on main; the claiming or next session refines it.

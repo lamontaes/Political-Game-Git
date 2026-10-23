@@ -2212,8 +2212,15 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
       type as PurposeType,
       facts,
       { askerTraits: profile.traits, askedTraits: profile.traits },
-      // No scene says what another scene on the page said as setup, open or statement.
-      { usage: pageUsage, strict: true, shown: shownPieces, freshOnly: true },
+      // No scene says what another scene on the page said as setup, open or
+      // statement; the page grades the parts held until the owner grades them.
+      {
+        usage: pageUsage,
+        strict: true,
+        shown: shownPieces,
+        freshOnly: true,
+        includeHeld: true,
+      },
     );
     if (result.kind === "skipped") {
       reason = result.reason;
