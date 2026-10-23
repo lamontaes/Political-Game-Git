@@ -25,30 +25,28 @@
     "stopgapId": "SG-P15-moves-weights"
   },
   "movesChildrenHold": {
-    "value": 0.32,
-    "tag": "ESTIMATED",
-    "citation": "How much children under 18 at home hold a household in place: in the year to March 2023, 4.15% of family householders 15 to 54 with no own child under 18 moved to a different county against 3.03% of those with one (Census, CPS ASEC 2023, Table 6 'General Mobility in the Past Year of Family Householders 15 to 54 Years Old, by Presence and Age of Own Children', mig_06_2023_1yr.xlsx, rows 9-10); ln(4.15/3.03) = 0.32 (data/research/core/cps-asec-2023-mobility.json, checked by scripts/research/core-parameters-check.ts).",
-    "estimatedFrom": "The log of the different-county move rate without children over the rate with them, on the log scale the holds are added on. Family householders 15 to 54 only, compared without controls; a children effect net of age would make it SOURCED.",
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "How much children under 18 at home hold a household in place; the size is a starting value. The published rates convert to 0.32: in the year to March 2023, 4.15% of family householders 15 to 54 with no own child under 18 moved to a different county against 3.03% of those with one (Census, CPS ASEC 2023, Table 6, mig_06_2023_1yr.xlsx, rows 9-10, https://www.census.gov/data/tables/2023/demo/geographic-mobility/cps-2023.html); ln(4.15/3.03) = 0.32 (data/research/core/cps-asec-2023-mobility.json, checked by scripts/research/core-parameters-check.ts). The value stays at the starting 0.4 because the converted holds move src/core2/moves.test.ts past its departure band while the engine already sends more adults away than the ACS rate; world-town-net-moving-negative applies 0.32 once the departure rate is right.",
+    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": -0.24,
       "high": 0.67,
       "unit": "log ratio of move rates",
-      "citation": "CPS ASEC 2023 Table 6, by the youngest child: under 6 only ln(4.15/5.26) = -0.24 (families with only young children move more), 6 to 17 only ln(4.15/2.11) = 0.67 (data/research/core/cps-asec-2023-mobility.json)."
-    },
-    "stopgapId": "SG-P15-moves-weights"
+      "citation": "Sourced outcome band, CPS ASEC 2023 Table 6 by the youngest child: under 6 only ln(4.15/5.26) = -0.24 (families with only young children move more) to 6 to 17 only ln(4.15/2.11) = 0.67; all own children under 18, 0.32 (data/research/core/cps-asec-2023-mobility.json)."
+    }
   },
   "movesKinHold": {
-    "value": 0.3,
-    "tag": "ESTIMATED",
-    "citation": "How much each close relative living in town holds a person there, up to movesKinHoldCap relatives. Having a sibling or extended relative within a mile cuts the odds of moving out of the neighborhood to 0.741 (parents 0.530, children 0.644): Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304, Table 4, Model 2 (https://pmc.ncbi.nlm.nih.gov/articles/PMC5734642/); ln(1/0.741) = 0.30 (data/research/core/spring-2017-kin-proximity.json, checked by scripts/research/core-parameters-check.ts).",
-    "estimatedFrom": "The log of the inverse odds ratio for one sibling or extended relative nearby, used per relative: the game adds a hold for each relative in town, so a parent and a sibling together hold 0.60, near the parent effect ln(1/0.530) = 0.63. The study measures leaving the tract within a metro area and kin within a mile, not leaving the town; a county-level estimate would make it SOURCED.",
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "How much each close relative living in town holds a person there, up to movesKinHoldCap relatives; the size is a starting value. The published effect converts to 0.30 per relative: having a sibling or extended relative within a mile cuts the odds of moving out of the neighborhood to 0.741 (parents 0.530, children 0.644; Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304, Table 4, Model 2, https://pmc.ncbi.nlm.nih.gov/articles/PMC5734642/); ln(1/0.741) = 0.30 (data/research/core/spring-2017-kin-proximity.json, checked by scripts/research/core-parameters-check.ts). The study measures leaving the tract within a metro area, not the town. The value stays at the starting 0.15, below the band, because the converted holds move src/core2/moves.test.ts past its departure band while the engine already sends more adults away than the ACS rate; world-town-net-moving-negative applies 0.30 once the departure rate is right.",
+    "stopgapId": "SG-P15-moves-weights",
     "spread": {
       "low": 0.24,
       "high": 0.72,
       "unit": "log odds per relative in town",
-      "citation": "Spring et al. 2017 Table 4, 95 percent bounds from the printed standard errors: siblings or extended kin ln(1/0.786) = 0.24 to parents ln(1/0.489) = 0.72 (data/research/core/spring-2017-kin-proximity.json)."
-    },
-    "stopgapId": "SG-P15-moves-weights"
+      "citation": "Sourced outcome band, Spring et al. 2017 Table 4, 95 percent bounds from the printed standard errors: siblings or extended kin ln(1/0.786) = 0.24 to parents ln(1/0.489) = 0.72 (data/research/core/spring-2017-kin-proximity.json)."
+    }
   },
   "movesKinHoldCap": {
     "value": 4,

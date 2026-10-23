@@ -109,7 +109,7 @@
   "derived": {
     "movesOwnerHold": "ln(6295/101024 / (4184/226143)) = 1.21; different state: ln(2811/101024 / (1681/226143)) = 1.32",
     "movesJobHold": "ln(367/6189 / (5862/160206)) = 0.48; different state: ln(192/6189 / (2469/160206)) = 0.70",
-    "movesChildrenHold": "ln(755/18197 / (943/31147)) = 0.32; by youngest child: under 6 only -0.24, under 6 and 6 to 17 0.31, 6 to 17 only 0.67",
+    "movesChildrenHold": "ln(755/18197 / (943/31147)) = 0.32; by youngest child: under 6 only -0.24, under 6 and 6 to 17 0.31, 6 to 17 only 0.67 (converted, not applied: the row keeps its starting 0.4 as TUNABLE with this band as its spread until world-town-net-moving-negative sets the departure rate right)",
     "checkedBy": "scripts/research/core-parameters-check.ts"
   }
 }

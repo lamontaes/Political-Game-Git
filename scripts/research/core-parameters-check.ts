@@ -172,13 +172,20 @@ check("moves/parameters.json", "movesJobHold", moveRows.movesJobHold, {
     Math.log(stateRate(g.unemployed) / stateRate(g.employedCivilian)),
   ),
 });
+// The children and kin holds keep their starting values (TUNABLE) until the
+// departure rate is right (world-town-net-moving-negative); their spreads are
+// the sourced bands, and the converted figure is printed for that item.
+const STARTING = { movesChildrenHold: 0.4, movesKinHold: 0.15 };
+const childrenConverted = round(
+  Math.log(rate(g.noOwnChildUnder18) / rate(g.ownChildUnder18)),
+);
 check(
   "moves/parameters.json",
   "movesChildrenHold",
   moveRows.movesChildrenHold,
   {
-    value: round(Math.log(rate(g.noOwnChildUnder18) / rate(g.ownChildUnder18))),
-    tag: "ESTIMATED",
+    value: STARTING.movesChildrenHold,
+    tag: "TUNABLE",
     low: round(Math.log(rate(g.noOwnChildUnder18) / rate(g.childUnder6Only))),
     high: round(Math.log(rate(g.noOwnChildUnder18) / rate(g.child6To17Only))),
   },
@@ -188,12 +195,16 @@ check(
 const or = spring.oddsRatios;
 const bound = (row: { or: number; se: number }, sign: number) =>
   round(Math.log(1 / (row.or + sign * 1.96 * row.se)));
+const kinConverted = round(Math.log(1 / or.siblingsOrExtended.or));
 check("moves/parameters.json", "movesKinHold", moveRows.movesKinHold, {
-  value: round(Math.log(1 / or.siblingsOrExtended.or)),
-  tag: "ESTIMATED",
+  value: STARTING.movesKinHold,
+  tag: "TUNABLE",
   low: bound(or.siblingsOrExtended, 1),
   high: bound(or.parents, -1),
 });
+console.log(
+  `     converted, not applied: movesChildrenHold ${childrenConverted}, movesKinHold ${kinConverted} (world-town-net-moving-negative applies them).`,
+);
 
 // Bands only: no engine row is set from these.
 const band = coppock.band.stanceChangePerMessage;

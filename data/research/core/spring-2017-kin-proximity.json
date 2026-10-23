@@ -27,7 +27,7 @@
     }
   },
   "derived": {
-    "movesKinHold": "per relative in town: ln(1 / 0.741) = 0.30, the sibling or extended-kin effect (the game adds one hold per relative, so a parent and a sibling together give 0.60, near the parent effect ln(1 / 0.530) = 0.63); spread ln(1 / 0.786) = 0.24 (siblings, upper 95 percent bound) to ln(1 / 0.489) = 0.72 (parents, lower bound)",
+    "movesKinHold": "per relative in town: ln(1 / 0.741) = 0.30, the sibling or extended-kin effect (the game adds one hold per relative, so a parent and a sibling together give 0.60, near the parent effect ln(1 / 0.530) = 0.63); spread ln(1 / 0.786) = 0.24 (siblings, upper 95 percent bound) to ln(1 / 0.489) = 0.72 (parents, lower bound) (converted, not applied: the row keeps its starting 0.15 as TUNABLE with this band as its spread until world-town-net-moving-negative sets the departure rate right)",
     "checkedBy": "scripts/research/core-parameters-check.ts"
   }
 }
