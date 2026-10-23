@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5788
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The renewal engine's renewalUnplannedExposure (0.5, TUNABLE, spread unmeasured) gives almost no full-tier unplanned pregnancies: three drawn towns played a year each with 28 waiting couples between them and none had one. Guttmacher puts unintended pregnancies at about 4 in 100 women aged 15 to 44 a year. Play a batch of drawn towns for a year, compare the town's unplanned total (full and counted) with that rate times its women, and set the parameter and its spread from the comparison.
