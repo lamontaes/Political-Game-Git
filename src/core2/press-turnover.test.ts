@@ -142,4 +142,42 @@ describe("press staff turnover", () => {
       `No drawn place had a local outlet with a reporter (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 1_800_000);
+
+  it("no group of press staff leaves on one shared day without one cause naming them", () => {
+    setBookkeeping(false);
+    const report: string[] = [];
+    for (let i = 0; i < 2; i += 1) {
+      const place = drawPlace(i ? `${seed}:${i}` : seed, "press-exits");
+      const world = buildBenchWorld(place.seed, "2026-10-12", {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const start = world.core.date;
+      for (let day = 0; day < 365; day += 1)
+        advanceCore(world.core, addDays(makeIsoDate(world.core.date), 1));
+      const staff = coreAPI(world.core)
+        .moduleState(PRESS_MODULE_ID)
+        .table("staff")
+        .rows() as unknown as Staff[];
+      const left = staff.filter((row) => row.leftOn && row.leftOn > start);
+      const byDay = new Map<string, Staff[]>();
+      for (const row of left)
+        byDay.set(row.leftOn!, [...(byDay.get(row.leftOn!) ?? []), row]);
+      // Who leaves on a shared day without one cause naming them all (an
+      // outlet closing) is a shared date, not a cause.
+      const shared = [...byDay.values()].filter(
+        (group) =>
+          group.length > 3 &&
+          new Set(group.map((row) => row.leftBecause)).size > 1,
+      );
+      report.push(
+        `${place.name} (${place.key}, seed ${place.seed}): ${staff.length} staff, ${left.length} left on ${byDay.size} days, most on one day ${Math.max(0, ...[...byDay.values()].map((g) => g.length))}`,
+      );
+      expect(
+        shared.map((g) => `${g[0]!.leftOn}: ${g.length}`),
+        report.at(-1),
+      ).toEqual([]);
+    }
+    console.log(`press exits: ${report.join(" | ")}`);
+  }, 1_800_000);
 });

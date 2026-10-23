@@ -3,15 +3,15 @@ id: director-moments-for-a-new-adult
 title: "An 18-year-old played for eight months gets director moments"
 area: director
 kind: bug
-priority: 3
+priority: 2
 status: open
 claimed-by:
-pr:
+pr: #5644
 blocked-on:
 after: director-civic-producers-government
 milestone:
 source: 'docs/coordination/play.md "Needs from other sessions" (line 147); triage in play-needs-play-147'
-claimed-at: 2026-10-16T16:42:43.654Z
+claimed-at:
 ---
 
 **What.** A play-test of an 18-year-old from October 12, 2026 got no director moments in eight months in a two-level town, and none in five months in a normal one. So no big moment ever stops a skip and the staged scenes never play. Find out whether the director measures only people in households, jobs or offices, or something on the merged stack is not reaching a new adult at home. Recheck on main first, since several producers have landed since.
@@ -31,3 +31,7 @@ Checked Oct 16 (claude/director-moments-for-a-new-adult): "no moments" does not 
 Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cleared.
 
 Oct 20: Switched from blocked to the automatic after: gate on director-civic-producers-government, so it opens by itself the moment those items are done.
+
+Sent back 2026-10-20 from PR #5644 (branch claude/political-game-pool-yucp92-ak): the new test redraws past places where the director never stops the skip (Point of Rocks, Wyoming), so it passes while the bug reproduces, and the moment's trace is not asserted to resolve; the test also sits under src/director, which only the Words session edits; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5644 (branch claude/political-game-pool-yucp92-ak): The unsafe test and Words-area edits are removed, which addresses the previous review. The remaining diff is a finding only: docs/pool/items/director-moments-for-a-new-adult.md explicitly says the Point of Rocks bug and unresolved trace remain. Its done-when still requires the director moments and trace to work in play. Merging this PR under that item would automatically mark unfinished work done. Keep that item open; either finish its named proof or track this completed finding-only delivery under a separate pool item and update the PR title/body to its actual docs-only scope.; finish on that branch, merge main into it first.

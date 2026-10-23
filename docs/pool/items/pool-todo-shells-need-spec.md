@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/todo-shells
 pr: #5199
 blocked-on:

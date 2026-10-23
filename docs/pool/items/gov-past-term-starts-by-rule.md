@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/past-term-starts-by-rule
 pr: #5164
 blocked-on:
