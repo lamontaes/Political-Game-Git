@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/gracious-edison-eu0prk
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-23T19:43:05.431Z
 ---
 
 **What.** The words-authored-parts-shippable-sweep holds the 141 hand-written lines in the English engine's banks until the owner grades them. Build batch 22 as a grading page that shows each held line by bank and move, with every slot it fills and where that slot's value comes from in the records. The batch file must fold into the part ledger through apply-grades, so a line graded good can be released and a line graded bad is never said.
