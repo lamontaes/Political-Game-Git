@@ -4723,12 +4723,12 @@
     "id": "SG-CORE-counted-death-relations",
     "kind": "missing-record",
     "file": "src/core2/births-counted.ts",
-    "status": "open",
+    "status": "resolved",
     "whatItFakes": "A known counted relative can receive a death notice, but opening full-to-counted family ties lack recorded closeness; grief is supported only where a relationship record already exists. No closeness is invented by the notifier.",
     "why": "The core opening skips relationship initialization when the other person is a husk. The bench also retains the full family closure; the drawn Garden City year had zero known counted deaths, so the notification path has no played-year acceptance yet.",
     "addedBy": "Session D / pool-counted-death-notices",
     "addedAt": "2026-10-15",
-    "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
+    "replacement": "Resolved Oct 23: the core opening records each full person's tie to a counted relative with openingClosenessHours (state.ts), the bench builds its relatives as counted records through the same opening, births-counted.test.ts fails on a tie without closeness, and births-counted-death-notice.test.ts follows a counted relative's death in a played year to the notice and the full relative's grief.",
     "line": 89
   },
   {
