@@ -159,7 +159,7 @@ for (const group of groups) {
   const opening = group.rows.map((r) => r.bufferDays!);
   const example = drew[0];
   console.log(
-    `  ${group.name}: ${group.rows.length} employers, opening median ${group.rows.length ? median(opening).toFixed(1) : "n/a"} days; year-end median cash ${cashDays.length ? median(cashDays).toFixed(1) : "n/a"} days of planned outflow; ${drew.length} paid their owner a draw${example ? ` (e.g. ${draws.get(example.organizationId)![0]})` : ""}; ${closed.length} closed${closed[0] ? ` (e.g. ${closed[0].organizationId} on ${core.finance.businesses.get(closed[0].organizationId)!.closedAt})` : ""}.`,
+    `  ${group.name}: ${group.rows.length} employers, opening median ${group.rows.length ? median(opening).toFixed(1) : "n/a"} days; year-end median cash ${cashDays.length ? median(cashDays).toFixed(1) : "n/a"} days of planned outflow; ${drew.length} paid their owner a draw${example ? ` (e.g. ${draws.get(example.organizationId)![0]})` : ""}; ${closed.length} closed${closed.map((r) => ` ${r.organizationId} opened with ${r.bufferDays!.toFixed(1)} days, closed ${core.finance.businesses.get(r.organizationId)!.closedAt} (reason ${core.finance.businesses.get(r.organizationId)!.closingReasonKey ?? "not recorded"})`).join(";")}.`,
   );
 }
 console.log(
