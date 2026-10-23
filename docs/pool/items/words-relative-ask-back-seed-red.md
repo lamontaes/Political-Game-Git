@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** On Washington Mills, New York (GOLDEN_PATH_SEED=e2ddb122b8bfe482, GOLDEN_PATH_PLACE_KEY=3678454), src/director/conversation.test.ts 'answers a question about the player's relative, and may ask back about theirs' fails on clean main: the player's lean is carry-on, yet no talk offered a their-family ask-back among the four replies (turned is 0). Find why the ask-back reply is not offered there (no recorded event for the neighbor's relative, the reply not ranked in the four, or the family opener not chosen) and fix it at the root.
+**What.** On Washington Mills, New York (GOLDEN_PATH_SEED=e2ddb122b8bfe482, GOLDEN_PATH_PLACE_KEY=3678454), src/director/conversation.test.ts 'answers a question about the player's relative, and may ask back about theirs' fails on clean main. The player's lean is to carry talk on, yet no talk offered the ask-back about the neighbor's relative among the four replies, so the count of turned talks is zero. Find why the ask-back reply is not offered there: no recorded event for the neighbor's relative, the reply ranked out of the four, or the family opener not chosen. Fix it at the root, not in the test.
 
 **Rules.** No dice: the player's traits rank the four replies. Ask why: the ask-back cites the neighbor's family record. One rule, all 56 places: the test passes on any drawn place and seed.
 
