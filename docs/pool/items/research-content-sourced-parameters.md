@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui
-pr:
+pr: #5848
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable"
 claimed-at: 2026-10-23T20:18:44.568Z
