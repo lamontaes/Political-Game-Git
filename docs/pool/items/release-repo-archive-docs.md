@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -22,3 +22,5 @@ source: "docs/reports/repo-audit-2026-10-19.md sections B4, C and G3"
 **Files.** docs/codex/ui-logo-packet/01_kit12_ui/kit12.css, src/bench/dev-api.ts, src/bench/*.browser.mjs, scripts/audit/autoscan.ts, tests/assumption-markers.test.ts, tests/golden-path/played-world.node-test.ts, AGENTS.md, docs/coordination/OWNER-DECISIONS.md, docs/archive/2026-10-19/, public/education/, scripts/source/place-name-corpora.ts
 
 **Notes.** Covers the audit's pool rows `release-docs-archive-oct19`, `release-one-rulings-log` and `release-browser-shots-out-of-docs`, and the `public/education` part of `release-ship-weight`. The audit notes deletion is equally safe since Git keeps history; archive is the acting CTO's call for Oct 19.
+
+Dropped Oct 24 by the CTO: the owner ruled delete, not archive. Replaced by `release-repo-delete-stale-docs` (order `docs/work-orders/repo-delete-2026-10-24.md`), which carries the same list.
