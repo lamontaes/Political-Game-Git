@@ -1,3 +1,7 @@
+import { randomBytes } from "node:crypto";
+import { mkdtempSync, rmSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   composeGroundedLine,
@@ -17,11 +21,16 @@ import {
 } from "./apply-grades";
 import {
   BARE_ACK,
+  composeBench,
   DATE_IN_SPEECH,
   dedupe,
+  GRADING_PROFILES,
+  loadWorld,
   orderForPage,
+  saveWorld,
   type DedupeItem,
 } from "./grading-bench";
+import { stageWorldHeld } from "./stage-world";
 
 const item = (over: Partial<DedupeItem>): DedupeItem => ({
   sceneId: "s1",
@@ -307,4 +316,60 @@ describe("the engine reads the table (weights only)", () => {
     // Deterministic: the same table gives the same picks.
     expect(tally(table)).toEqual(after);
   });
+});
+
+describe("the bench composes each staged scene once per profile", () => {
+  it("words every line from pieces and records, profiles change the pieces, and the world is left as it was", () => {
+    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const held = stageWorldHeld({ id: "test", seed, days: 365 });
+    const where = `${held.report.place.name}, seed ${seed}`;
+    const dir = mkdtempSync(join(tmpdir(), "grading-bench-"));
+    try {
+      const path = join(dir, "world");
+      saveWorld(path, held.core, held.director, {
+        playerId: held.playerId,
+        placeName: held.report.place.name,
+        seed,
+      });
+      const profiles = GRADING_PROFILES.slice(0, 4);
+      expect(profiles.length, where).toBe(4);
+      const run = composeBench(path, profiles);
+      expect(run.items.length, where).toBeGreaterThan(0);
+      // Every scene composed is composed once under each profile.
+      const byScene = new Map<string, Map<string, string>>();
+      for (const item of run.items) {
+        const row = byScene.get(item.sceneId) ?? new Map<string, string>();
+        expect(row.has(item.profileId), `${where}: ${item.sceneId}`).toBe(
+          false,
+        );
+        row.set(item.profileId, JSON.stringify(item.pieces));
+        byScene.set(item.sceneId, row);
+      }
+      for (const [sceneId, row] of byScene)
+        expect([...row.keys()].sort(), `${where}: ${sceneId}`).toEqual(
+          profiles.map((profile) => profile.id).sort(),
+        );
+      // Every line cites the records that filled it; every spoken line names its pieces.
+      for (const item of run.items)
+        for (const line of item.lines) {
+          const what = `${where}: ${item.sceneId} ${item.profileId} "${line.text}"`;
+          expect(line.slotRecordIds.length, what).toBeGreaterThan(0);
+          if (line.role !== "narrator" && line.role !== "journal")
+            expect(line.parts.length, what).toBeGreaterThan(0);
+        }
+      // Two profiles on one scene choose different pieces, in at least one scene.
+      const differing = [...byScene.values()].filter(
+        (row) => new Set(row.values()).size > 1,
+      );
+      expect(differing.length, where).toBeGreaterThan(0);
+      // A profile is laid over for the compose only: the people keep their own traits.
+      const fresh = loadWorld(path);
+      for (const [id, person] of run.first.core.people)
+        expect(person.traits, `${where}: ${id}`).toEqual(
+          fresh.core.people.get(id)?.traits,
+        );
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  }, 900_000);
 });

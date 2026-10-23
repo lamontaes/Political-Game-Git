@@ -142,6 +142,10 @@ export interface SceneTalkLine {
   slotRecordIds: string[];
   /** For a reply drawn from the player's own life, what it draws on ("Out of work"). */
   tag?: string;
+  /** The English engine says the line asks a question, so it wants an answer. */
+  asks: boolean;
+  /** The English engine says the line hands the floor over ("Go ahead."). */
+  invites: boolean;
 }
 
 export interface SceneTalkRound {
@@ -252,6 +256,12 @@ export interface SceneTalkOptions {
   shown?: ReadonlySet<string>;
   /** With `shown`, a seen piece is never said: a review page is all new. */
   freshOnly?: boolean;
+  /**
+   * Grading only: compose from the parts held until the owner grades them,
+   * as the review page and the tests do. Play never sets it, so a scene whose
+   * only words are held stays out of play.
+   */
+  includeHeld?: boolean;
 }
 
 export type SceneTalkResult =
@@ -421,6 +431,8 @@ export function composeSceneTalk(
       parts: [worded.pieceKey],
       slotRecordIds: [...worded.slotRecordIds],
       ...(worded.tag ? { tag: worded.tag } : {}),
+      asks: worded.asks,
+      invites: worded.invites,
     };
   };
   let unusedGap = "";
@@ -675,6 +687,7 @@ export function composeSceneTalk(
         sceneMoveFits(
           { step: "close", move, role: "asker", ...base, outcome },
           facts,
+          options,
         ),
       );
     const [move] = [...moves].sort((a, b) =>
@@ -691,7 +704,33 @@ export function composeSceneTalk(
       path.said,
     );
     // The close never says again what was just said.
-    return line && line.text !== lastAsker?.text ? line : undefined;
+    return line && line.parts[zero] !== lastAsker?.parts[zero]
+      ? line
+      : undefined;
+  };
+
+  /**
+   * Ends a node on its close. A question nothing can close is not left
+   * hanging: the asker does not ask it, the scene ends on the answer before
+   * it, and the missing close is listed for the bank.
+   */
+  const endNode = (
+    node: TreeNode,
+    outcome: Outcome,
+    path: Path,
+    lastAsker: SceneTalkLine,
+  ) => {
+    const close = closeFor(outcome, path, lastAsker);
+    const hanging = (line: SceneTalkLine | undefined) =>
+      !!line &&
+      line.role === "asker" &&
+      !RULES.terminalFollow.includes(line.move) &&
+      line.asks;
+    if (!close && hanging(node.lines.at(-one))) {
+      gap("close", outcome, `${lastAsker.move} (its question left unasked)`);
+      while (hanging(node.lines.at(-one))) node.lines.pop();
+    }
+    node.end = { outcome, ...closed(close) };
   };
 
   interface Pending {
@@ -902,7 +941,7 @@ export function composeSceneTalk(
       gap("menu", path.askerMove, `fewer than three replies at ${path.id}`);
     // A question the asker just asked is always answerable: the menu stays
     // open with what fits rather than the talk ending on it.
-    const asked = /\?$/.test(lastAsker?.text ?? "");
+    const asked = lastAsker?.asks ?? false;
     // Owner rules (Oct 16): a confront or a threat is answered in kind (the menu
     // can mirror it), and a scene that asks, offers or tells a decision lets the
     // player ask back at the root.
@@ -935,7 +974,7 @@ export function composeSceneTalk(
           kind: "skipped",
           reason: `fewer than two replies of ${moves.join("/")} can be worded for ${purpose}`,
         };
-      node.end = { outcome, ...closed(closeFor(outcome, path, lastAsker)) };
+      endNode(node, outcome, path, lastAsker);
       continue;
     }
     const ranked = [...offered].sort(
@@ -1038,8 +1077,7 @@ export function composeSceneTalk(
       const answers = closest(unsaid, (row) => row.line, reply);
       const settled = answers.filter(
         (row) =>
-          RULES.terminalFollow.includes(row.candidate.move) ||
-          !row.line.text.trim().endsWith("?"),
+          RULES.terminalFollow.includes(row.candidate.move) || !row.line.asks,
       );
       const pool = last && settled.length ? settled : answers;
       const [best] = [...pool].sort(
@@ -1052,8 +1090,7 @@ export function composeSceneTalk(
           ),
       );
       // On the last round a question would hang: the asker closes instead.
-      const answer =
-        last && best && /\?$/.test(best.line.text) ? undefined : best?.line;
+      const answer = last && best?.line.asks ? undefined : best?.line;
       if (!answer && best) {
         next.end = {
           outcome: replyOutcome,
@@ -1149,10 +1186,7 @@ export function composeSceneTalk(
               : lastAnswer.move === "refuse" || lastAnswer.move === "threaten"
                 ? "refused"
                 : "open";
-        next.end = {
-          outcome: settledOutcome,
-          ...closed(closeFor(settledOutcome, answered, lastAnswer)),
-        };
+        endNode(next, settledOutcome, answered, lastAnswer);
         continue;
       }
       queue.push({
@@ -1223,12 +1257,8 @@ export function composeSceneTalk(
       // An end never leaves the asker's question hanging or invites speech.
       const lastAsk =
         node.end.close ?? node.lines.filter((l) => l.role === "asker").at(-one);
-      const text = lastAsk?.text.trim() ?? "";
-      if (
-        /\?$/.test(text) ||
-        /^(go|go ahead|go on|say it|speak)[.!]?$/i.test(text)
-      )
-        gap("end", "dangling", `"${text}"`);
+      if (lastAsk?.asks || lastAsk?.invites)
+        gap("end", "dangling", `"${lastAsk.text.trim()}"`);
     }
     if (!node.end || !arc.endings) return;
     const last = context.replies.at(-one);

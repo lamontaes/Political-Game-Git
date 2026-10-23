@@ -207,6 +207,27 @@ export function countedHeadcountOf(
   return heads;
 }
 
+/**
+ * An employer's annual payroll for the weight of its counted workers: the
+ * book's payroll plus what each counted job's household stands for beyond one
+ * (the book counts one worker per counted job). Readers that size a cushion
+ * for the next paydays read this.
+ */
+export function weightedPayrollMinor(
+  core: CoreState,
+  organizationId: string,
+  annualPayrollMinor: number,
+  daysPerYear: number,
+): number {
+  let payroll = annualPayrollMinor;
+  for (const job of countedJobsOf(core, organizationId))
+    payroll +=
+      (countedHeadsOf(core, job.personId) - 1) *
+      job.wageDailyMinor *
+      daysPerYear;
+  return payroll;
+}
+
 /** How many people one counted person's record stands for: their household's weight (one where the counts no longer hold them). */
 export function countedHeadsOf(core: CoreState, personId: string): number {
   const store = residentsRuntime(core)?.store;
@@ -504,75 +525,6 @@ export function endFlowPart(
   flow.amountMinor = Math.max(0, flow.amountMinor - amount);
   return true;
 }
-
-/**
- * A counted worker retires: their place's retirees' income (Social Security
- * and pensions, paid from outside the town) gains them, at the average the
- * place's opening retirees draw. One flow per place carries every retiree
- * added during play, a part each.
- */
-export function addCountedRetiree(
-  core: CoreState,
-  placeId: string,
-  personId: string,
-): number {
-  const rt = residentsRuntime(core);
-  if (!rt) return 0;
-  const opening = [...rt.flows.values()].filter(
-    (flow) =>
-      flow.kind === "retirement" &&
-      !flow.endedAt &&
-      flow.placeId === placeId &&
-      !flow.id.startsWith(RETIREES_ADDED),
-  );
-  const parts = opening.reduce(
-    (n, flow) => n + Object.keys(flow.amountByContract ?? {}).length,
-    0,
-  );
-  const template = opening[0];
-  if (!template || !parts) return 0;
-  const monthly = Math.round(
-    opening.reduce((n, flow) => n + flow.amountMinor, 0) / parts,
-  );
-  const id = `${RETIREES_ADDED}${placeId}`;
-  const flow = rt.flows.get(id);
-  const key = `retiree:${personId}`;
-  // The average is at the benefit level the opening flows are paid at now
-  // (the federal line in force); the retiree's flow keeps its awards at its
-  // own recorded level, so a later change to the line moves them like the rest.
-  const level = rt.retirementLevel.get(template.id) ?? 1;
-  if (flow) {
-    if (flow.amountByContract?.[key] !== undefined) return 0;
-    const part = Math.round(
-      (monthly * (rt.retirementLevel.get(id) ?? 1)) / level,
-    );
-    flow.amountByContract = {
-      ...(flow.amountByContract ?? {}),
-      [key]: part,
-    };
-    flow.amountMinor += part;
-  } else {
-    rt.retirementLevel.set(id, level);
-    addResidentFlow(core, {
-      id,
-      kind: "retirement",
-      financeKind: template.financeKind,
-      payerId: template.payerId,
-      payeeId: template.payeeId,
-      residentsId: template.residentsId,
-      placeId,
-      amountMinor: monthly,
-      firstAt: template.nextAt,
-      cadence: template.cadence,
-      salesReceipt: false,
-      marketAdjusted: false,
-      amountByContract: { [key]: monthly },
-      source: template.source,
-    });
-  }
-  return monthly;
-}
-const RETIREES_ADDED = "residents:retirement:added:";
 
 /**
  * A counted household's standing flow (its rent) pays a new amount from its

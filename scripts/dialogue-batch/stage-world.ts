@@ -124,6 +124,19 @@ export function stageWorld(
   options: { id: string; seed: string; days: number },
   log: (line: string) => void = () => {},
 ): StageReport {
+  return stageWorldHeld(options, log).report;
+}
+
+/** `stageWorld`, with the world and the director kept for composing the staged scenes. */
+export function stageWorldHeld(
+  options: { id: string; seed: string; days: number },
+  log: (line: string) => void = () => {},
+): {
+  report: StageReport;
+  core: CoreState;
+  director: Director;
+  playerId: string;
+} {
   const place = drawPlace(options.seed, "grading-bench");
   setBookkeeping(false);
   log(`building ${place.name}`);
@@ -182,12 +195,17 @@ export function stageWorld(
     }
   }
   return {
-    id: options.id,
-    seed: options.seed,
-    place: { name: place.name, key: place.key, seed: place.seed },
-    days: options.days,
-    staged,
-    types: typeStatuses(SITUATION_LIBRARY.types, staged),
-    stoodIn,
+    report: {
+      id: options.id,
+      seed: options.seed,
+      place: { name: place.name, key: place.key, seed: place.seed },
+      days: options.days,
+      staged,
+      types: typeStatuses(SITUATION_LIBRARY.types, staged),
+      stoodIn,
+    },
+    core,
+    director,
+    playerId: world.playerId!,
   };
 }

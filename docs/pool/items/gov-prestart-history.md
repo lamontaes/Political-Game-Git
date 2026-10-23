@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/gov-prestart-history
-pr:
+pr: #5234
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at: 2026-10-19T22:52:58.134Z
+claimed-at: 2026-10-21T15:26:37.991Z
 ---
 
 **What.** The pre-start contract has no `government` pass: laws' dated phases, prior budgets and how officials reached their seats. Add it.
@@ -21,4 +21,6 @@ claimed-at: 2026-10-19T22:52:58.134Z
 
 **Files.** src/core2/pre-start.ts, src/core2/modules/offices.ts, src/core2/modules/budgets.ts
 
-**Notes.** core.md line 214, checked Oct 15.
+**Notes.** Sent back 2026-10-20 from PR #5234 (branch claude/gov-prestart-history): Refused under morning check (a feature that writes a record nothing reads); another engine must read the seat-reached records in play; finish on that branch, merge main into it first. core.md line 214, checked Oct 15.
+
+Sent back 2026-10-20 from PR #5234 (branch claude/gov-prestart-history): src/core2/pre-start-government.test.ts:31-32 continues when a seat-reached row has no holder. Every card-reader assertion can therefore be skipped while the test still passes its nonempty history/date checks. Assert a holder for each relevant record, or a positive number of card records actually checked, and require the card to name the original seat-reached record id. Preserve the drawn-place case and rerun the complete changed test after merging main.; finish on that branch, merge main into it first.

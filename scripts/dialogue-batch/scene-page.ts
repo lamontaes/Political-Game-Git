@@ -31,6 +31,7 @@ import {
 } from "../../src/director/scene-talk";
 import type { Fact } from "../../src/english/bank-line";
 import { properName, spoken, spokenWhen } from "../../src/director/words";
+import { composeScene } from "../../src/director/scene";
 import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { policyNames } from "../../src/bench/words";
 import { filingClerkFor } from "../../src/core2/modules/filing-clerk";
@@ -39,6 +40,7 @@ import situationFile from "../../src/director/data/situation-types.json" with { 
 import rulesFile from "../../src/director/data/scene-talk-rules.json" with { type: "json" };
 import profilesFile from "../../src/director/data/grading-profiles.json" with { type: "json" };
 import { sentenceCount, wordCount } from "../../src/english/calibration";
+import { questionAbout } from "../../src/english/question-names";
 import { CATALOGUE_SCALES } from "../../src/simulation/personality-catalogue.generated";
 import {
   directorScenes,
@@ -104,6 +106,11 @@ const offices = new Map<string, any>(
 const terms: any[] = rows("core2-offices-v1", "terms");
 const termsById = new Map<string, any>(terms.map((row) => [row.id, row]));
 const names = policyNames();
+/** A policy question said as a noun ("a ban on discrimination in housing and work"), else the catalog's name. */
+const spokenIssue = (question: string): string | undefined => {
+  const name = questionAbout(question) ?? names[question];
+  return name ? name.charAt(0).toLowerCase() + name.slice(1) : undefined;
+};
 
 /** A record id that names a person in the world, whether it is a person or an official's term. */
 const realPerson = (value: string | undefined | null): string | undefined => {
@@ -2205,8 +2212,15 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
       type as PurposeType,
       facts,
       { askerTraits: profile.traits, askedTraits: profile.traits },
-      // No scene says what another scene on the page said as setup, open or statement.
-      { usage: pageUsage, strict: true, shown: shownPieces, freshOnly: true },
+      // No scene says what another scene on the page said as setup, open or
+      // statement; the page grades the parts held until the owner grades them.
+      {
+        usage: pageUsage,
+        strict: true,
+        shown: shownPieces,
+        freshOnly: true,
+        includeHeld: true,
+      },
     );
     if (result.kind === "skipped") {
       reason = result.reason;
@@ -2315,6 +2329,7 @@ const LIFE_WORDS: readonly [RegExp, string][] = [
   [/^cause:event:executive-action$/, "acted on a bill at the desk"],
   [/^cause:event:veto-override$/, "a veto went to an override vote"],
   [/^cause:event:town-hall$/, "a town hall"],
+  [/^cause:event:president\.address$/, "gave the address"],
   [/^cause:event:candidate-filed$/, "filed to run for office"],
   [/^cause:event:election-result$/, "an election result"],
   [/^cause:event:took-office$/, "took office"],
@@ -2535,18 +2550,27 @@ const lifeCauseFacts = (
     if (held && held.title === spokenPost(facts.office))
       out.incumbent = flag([id, held.term.id]);
   }
+  if (cause?.kind === "cause.shared") {
+    // The cause, in plain words, and where the one asking first heard it:
+    // from the person they are asking, at that person's own town hall.
+    const entries = Object.entries(facts as Record<string, string>);
+    const drive = entries.find(([key]) => key.endsWith(":drive"))?.[1];
+    const question = drive?.replace(/^cause:/, "");
+    const name = question ? spokenIssue(question) : undefined;
+    if (name) out.cause = fact(name, [id, String(question)]);
+    const origin = entries.find(([key]) => key.endsWith(":origin"))?.[1];
+    if (origin?.includes(":town-hall:") && origin.includes(askedId))
+      out["heard-you"] = flag([id, origin]);
+  }
   if (cause?.kind === "town-hall") {
     out.townhall = flag([id]);
     const hall = rows("core2-meetings-v1", "townHalls").find(
       (row) => row.id === facts.townHallId,
     );
     const asked = hall?.questions?.find((q: any) => q.askedBy === askerId);
-    const issue = asked ? names[String(asked.question)] : undefined;
+    const issue = asked ? spokenIssue(String(asked.question)) : undefined;
     if (issue)
-      out.issue = fact(issue.charAt(0).toLowerCase() + issue.slice(1), [
-        String(hall.id),
-        String(asked.question),
-      ]);
+      out.issue = fact(issue, [String(hall.id), String(asked.question)]);
   }
   return out;
 };
@@ -2586,9 +2610,22 @@ const lifeWhy = (
         .replace(/ \(.*\)$/, "")
         .toLowerCase()}.`,
     );
+  else if (cause?.kind === "president.address")
+    lines.push(
+      `${asked} gave the ${String(facts["address:kind"] ?? "")} address on ${when}; the English engine composed it from the world's records.`.replace(
+        "the  address",
+        "the address",
+      ),
+    );
   else if (cause?.kind === "town-hall")
     lines.push(
-      `${asked} held a town hall on ${when}; ${facts.attendees ?? "some"} residents came, and ${asker} asked a question.`,
+      `${asked} held a town hall on ${when}; ${facts.attendees ?? "some"} residents came, and ${asker} ${
+        rows("core2-meetings-v1", "townHalls")
+          .find((row) => row.id === facts.townHallId)
+          ?.questions?.some((q: any) => q.askedBy === askerId)
+          ? "asked a question"
+          : "was among them"
+      }.`,
     );
   else {
     const words = lifeWords(String(moment.label));
@@ -2699,7 +2736,11 @@ const pageTypes = lifeIds.length
           .filter((spec) => spec.typeKey === typeKey)
           .map((spec) => [spec.askerId, spec.askedId].sort().join("|")),
       );
-      return Array.from({ length: Math.max(1, casts.size) }, () => typeKey);
+      // Two at most of one situation, so one busy purpose doesn't fill the page.
+      return Array.from(
+        { length: Math.min(2, Math.max(1, casts.size)) },
+        () => typeKey,
+      );
     })
   : [...purposeTypes, ...fallbackKeys];
 for (const typeKey of pageTypes) {
@@ -2855,6 +2896,78 @@ const testsOf = (scene: ComposedScene) => {
   };
 };
 
+/**
+ * A life's narrated scenes (no purpose, no exchange): the narrator's
+ * paragraph, and a speech in the speaker's own words where the scene is about
+ * one (the President's address). One per situation type.
+ */
+const narrated = lifeIds.flatMap((lifeId) => {
+  const book = world.director.ledger.people.get(lifeId as never) as any;
+  const seenTypes = new Set<string>();
+  return (book?.schedule ?? []).flatMap((entry: any) => {
+    if (entry.outcome === "journal-line") return [];
+    const binding = entry.bindings?.[0];
+    const type = binding ? typeOf.get(binding.typeKey) : undefined;
+    if (!binding || !type || type.purpose || seenTypes.has(binding.typeKey))
+      return [];
+    const scene = composeScene(core, world.director, lifeId as never, entry);
+    if (!scene?.narration.length) return [];
+    seenTypes.add(binding.typeKey);
+    const moment = book.momentsById.get(entry.momentId);
+    const lines = [
+      ...scene.narration.map((line) => ({
+        role: "narrator",
+        speaker: "Narrator",
+        text: line.text,
+        move: "narrate",
+      })),
+      ...(scene.speech
+        ? [
+            {
+              role: "asker",
+              speaker: nameOf(lifeId),
+              text: scene.speech.text,
+              move: "speech",
+            },
+          ]
+        : []),
+    ];
+    return [
+      {
+        id: `narrated:${entry.momentId}`,
+        kind: "narrated",
+        type: binding.typeKey,
+        purpose: "",
+        place: world.placeName,
+        seed: world.seed,
+        context: {
+          asker: {
+            name: nameOf(lifeId),
+            facts: contextOf(lifeId, undefined, moment?.date),
+          },
+          asked: { name: nameOf(lifeId), facts: [] },
+          relation: "",
+          why: lifeWhy(
+            moment,
+            moment ? core.durableLog.get(moment.causeId) : undefined,
+            // The other person in the scene (who turned up at a reunion), else the life itself.
+            (binding.roles ?? [])
+              .flatMap((row: any) => row.personIds ?? [])
+              .find((pid: string) => pid !== lifeId) ?? lifeId,
+            lifeId,
+            undefined,
+            undefined,
+            undefined,
+          ).filter((line) => !/ is (a|an) /.test(line)),
+          records: [moment?.causeId ?? entry.momentId],
+        },
+        narration: [],
+        root: { lines, replies: [], end: { outcome: "resolved" } },
+      },
+    ];
+  });
+});
+
 const json = {
   id,
   title: `Scenes with a purpose, ${id}`,
@@ -2908,6 +3021,7 @@ const json = {
       },
       root: slim(leadOf(scene).talk.tree, scene.sourceText),
     })),
+    ...narrated,
     ...directorChosen.map((row) => ({
       id: row.item.sceneId,
       kind: "director",

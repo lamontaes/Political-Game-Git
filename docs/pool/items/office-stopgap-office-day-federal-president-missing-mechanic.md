@@ -4,10 +4,10 @@ title: "Stopgaps in office-day-federal-president (missing-mechanic): 2 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: duplicate of office-presidential-orders-pardons-the-situation-room (same two rows; pool feeder Oct 20); CTO to drop
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts, kind missing-mechanic"
 ---
@@ -20,4 +20,4 @@ source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts
 
 **Files.** src/core2/office-day-federal-president.ts
 
-**Notes.** First row: The president has no executive order an engine carries: the list is empty.
+**Notes.** First row: The president has no executive order an engine carries: the list is empty. Duplicate of office-presidential-orders-pardons-the-situation-room (feeder report)

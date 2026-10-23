@@ -20,6 +20,7 @@ import { P } from "../core2/parameters";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
 import { renderLine, type Fact } from "./bank-line";
+import { heldByGrades } from "./english-grades";
 
 const zero = P.zero;
 const one = P.one;
@@ -57,10 +58,15 @@ interface BankPart {
   key: string;
   text: string;
   bearing?: string;
+  shippable?: boolean;
   uses: PartUse[];
 }
 
 const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
+/** What play may say: a part held until the owner grades it, or one he failed, is not. */
+const SHIPPED = PARTS.filter(
+  (part) => part.shippable === true && !heldByGrades(part.key),
+);
 const PART_BY_KEY = new Map(PARTS.map((part) => [part.key, part]));
 const TAGS = (tagsFile as unknown as { tags: Record<string, string> }).tags;
 
@@ -88,6 +94,12 @@ export interface SceneWordingOptions {
   shown?: ReadonlySet<string>;
   /** Seen pieces are never said (a review page shows only new wording). */
   freshOnly?: boolean;
+  /**
+   * Grading only: word from the parts held until the owner grades them, as
+   * the review page and the tests do. Play never sets it, so a scene whose
+   * only words are held stays out of play.
+   */
+  includeHeld?: boolean;
 }
 
 /** A worded turn: its text, the piece it came from and what the piece carries. */
@@ -99,8 +111,15 @@ export interface WordedMove {
   bearing?: string;
   /** The tag shown on an extra option drawn from the player's own life ("Out of work"). */
   tag?: string;
+  /** The line asks a question, so the director knows it wants an answer. */
+  asks: boolean;
+  /** The line invites the other to speak ("Go ahead."), so it cannot end a scene. */
+  invites: boolean;
   slotRecordIds: readonly string[];
 }
+
+/** A line that hands the floor to the other person. */
+const INVITES = /^(go|go ahead|go on|say it|speak)[.!]?$/i;
 
 /** The steps whose pieces vary with how often the page has used them. */
 const VARIED: readonly SceneTalkStep[] = ["narrate", "open", "state", "close"];
@@ -121,9 +140,10 @@ function fitting(
   use: SceneMove,
   facts: Readonly<Record<string, Fact>>,
   keep: (part: BankPart) => boolean = () => true,
+  parts: readonly BankPart[] = SHIPPED,
 ): BankPart[] {
   const steps = Array.isArray(use.step) ? use.step : [use.step];
-  const fits = PARTS.filter(keep).flatMap((part) => {
+  const fits = parts.filter(keep).flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
     let specific = -one;
     for (const u of part.uses) {
@@ -176,14 +196,27 @@ export function wordSceneMove(input: {
   const options = input.options ?? {};
   const onlyTagged = input.tagged ?? false;
   const steps = Array.isArray(use.step) ? use.step : [use.step];
+  // A strict page never repeats a setup piece another scene said: a used
+  // piece is out before the closest fit is chosen, so a cast whose record
+  // holds a fact falls back to a general line rather than to nothing.
+  const strictSetup =
+    !!options.usage &&
+    !!options.strict &&
+    steps.some(
+      (step) => step === "narrate" || step === "open" || step === "state",
+    );
   // Tagged pieces are only ever the extra option.
   const every = fitting(
     use,
     facts,
     (part) =>
       !!taggedBy(part) === onlyTagged &&
-      !(options.freshOnly && options.shown?.has(part.key)),
+      !(options.freshOnly && options.shown?.has(part.key)) &&
+      !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
+    options.includeHeld ? PARTS : SHIPPED,
   );
+  if (!every.length && strictSetup)
+    return { unused: `${use.purpose}/${steps[zero]}/${use.move}` };
   // A piece already said on this branch is not said again while another fits.
   const fresh = every.filter((part) => !input.said.has(part.key));
   let parts = fresh.length ? fresh : every;
@@ -191,23 +224,15 @@ export function wordSceneMove(input: {
   const unseen = parts.filter((part) => !options.shown?.has(part.key));
   if (unseen.length || options.freshOnly) parts = unseen;
   if (!parts.length) return null;
-  if (options.usage && steps.some((step) => VARIED.includes(step))) {
+  if (
+    options.usage &&
+    !strictSetup &&
+    steps.some((step) => VARIED.includes(step))
+  ) {
+    // Variety across the page: the least used fitting piece.
     const used = (part: BankPart) => options.usage!.get(part.key) ?? zero;
-    if (
-      options.strict &&
-      steps.some(
-        (step) => step === "narrate" || step === "open" || step === "state",
-      )
-    ) {
-      // Strict: only a piece no other scene used.
-      parts = parts.filter((part) => used(part) === zero);
-      if (!parts.length)
-        return { unused: `${use.purpose}/${steps[zero]}/${use.move}` };
-    } else {
-      // Variety across the page: the least used fitting piece.
-      const least = Math.min(...parts.map(used));
-      parts = parts.filter((part) => used(part) === least);
-    }
+    const least = Math.min(...parts.map(used));
+    parts = parts.filter((part) => used(part) === least);
   }
   const line = renderLine({
     seed: input.seed,
@@ -239,6 +264,8 @@ export function wordSceneMove(input: {
       steps[zero]) as SceneTalkStep,
     ...(part?.bearing ? { bearing: part.bearing } : {}),
     ...(tag ? { tag: TAGS[tag] ?? tag } : {}),
+    asks: /\?$/.test(line.text.trim()),
+    invites: INVITES.test(line.text.trim()),
     slotRecordIds: [...line.sourceRecordIds],
   };
 }
@@ -247,8 +274,12 @@ export function wordSceneMove(input: {
 export function sceneMoveFits(
   use: SceneMove,
   facts: Readonly<Record<string, Fact>>,
+  options: Pick<SceneWordingOptions, "includeHeld"> = {},
 ): boolean {
-  return fitting(use, facts).length > zero;
+  return (
+    fitting(use, facts, undefined, options.includeHeld ? PARTS : SHIPPED)
+      .length > zero
+  );
 }
 
 /**

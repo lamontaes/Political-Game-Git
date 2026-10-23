@@ -22,7 +22,10 @@ import {
   type Conversation,
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { MINED_CONVERSATION } from "../english/mined/conversation-bank";
+import {
+  CONVERSATION_RULES,
+  MINED_CONVERSATION,
+} from "../english/mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
@@ -156,7 +159,9 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         turns += 1;
       }
     }
-    expect(turns).toBeGreaterThan(15);
+    // Relatives talk personal subjects only and often have nothing to say
+    // (owner, Oct 15, evening), so fewer turns run than before.
+    expect(turns).toBeGreaterThan(8);
   });
 
   it("lets the player say nothing, and the other person carries on or the talk ends", () => {
@@ -230,6 +235,29 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       expect(lie.wording?.parts.length).toBeGreaterThan(0);
       expect(talk.choices.map((row) => row.text)).not.toContain(lie.text);
     }
+  });
+
+  it("talks personal subjects only between relatives: no work, school, home or mutual friends", () => {
+    const dropped = CONVERSATION_RULES.familyTalk.dropped;
+    const kin = [...me.familyIds].filter((id) => core.people.get(id)?.alive);
+    expect(kin.length).toBeGreaterThan(0);
+    for (const id of kin) {
+      for (const [from, to] of [
+        [me.id, id],
+        [id, me.id],
+      ] as const)
+        for (const row of subjectsBetween(core, from, to))
+          expect(dropped).not.toContain(row.kind);
+      const talk = openConversation(core, me.id, id);
+      for (const line of talk.lines)
+        expect(line.text).not.toMatch(/Have you talked to|Where do you work/);
+    }
+    // Outside the family the same subjects are still there.
+    expect(
+      strangers
+        .flatMap((row) => subjectsBetween(core, me.id, row.id))
+        .some((row) => dropped.includes(row.kind)),
+    ).toBe(true);
   });
 
   it("names another place when the player lies about where they are from, and says no calendar date", () => {
@@ -390,17 +418,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(closed).toBeGreaterThan(0);
   });
-  it("never opens a reunion scene's talk on a school or workplace the two once shared (owner, Oct 15, evening)", () => {
+  it("opens a reunion scene's talk on a school or workplace the two once shared only when decades have passed and the record shows it (owner, Oct 15, evening)", () => {
     const book = director.ledger.people.get(player.id)!;
     const template = book.moments[0]!;
     let checked = 0;
     for (const otherId of others) {
-      if (
-        !subjectsBetween(core, player.id, otherId, director).some(
-          (row) => row.kind === "shared-school" || row.kind === "shared-work",
-        )
-      )
-        continue;
+      const shared = subjectsBetween(core, player.id, otherId, director).filter(
+        (row) => row.kind === "shared-school" || row.kind === "shared-work",
+      );
+      if (!shared.length) continue;
       // Edge case by hand: a re-entry moment whose cause no subject is about.
       const occasion = {
         ...template,
@@ -416,8 +442,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       book.momentsById.delete(occasion.id);
       // "Do you remember <school>?" opens nothing unless a record says
       // something happened to it or decades have passed.
-      for (const line of talk.lines)
-        expect(line.text, otherId).not.toMatch(/\bremember\b/i);
+      for (const line of talk.lines) {
+        const about = shared.find((row) => line.subjectId.includes(row.id));
+        if (about)
+          expect(
+            about.facts["long-ago"],
+            `${otherId}: ${line.text}`,
+          ).toBeTruthy();
+        else expect(line.text, otherId).not.toMatch(/\bremember\b/i);
+      }
       checked += 1;
       if (checked >= 3) break;
     }

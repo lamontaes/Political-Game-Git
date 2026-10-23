@@ -2898,7 +2898,7 @@
       "endings": [
         {
           "id": "thursday",
-          "label": "They'll be there Thursday",
+          "label": "They said they'd come",
           "keeps": "meeting-set",
           "when": {
             "asker": ["accept"],
@@ -3983,7 +3983,7 @@
       "endings": [
         {
           "id": "joined",
-          "label": "You'll be there Thursday",
+          "label": "You said you'd come",
           "keeps": "promise",
           "when": {
             "reply": ["agree"]

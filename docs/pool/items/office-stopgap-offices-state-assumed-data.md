@@ -4,10 +4,10 @@ title: "Stopgaps in offices-state (assumed-data): 1 open"
 area: office
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
-blocked-on:
+blocked-on: research-offices-sourced-parameters
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/offices-state.ts, kind assumed-data"
 ---
@@ -21,3 +21,5 @@ source: "src/core2/data/stopgaps.json, src/core2/offices-state.ts, kind assumed-
 **Files.** src/core2/offices-state.ts
 
 **Notes.** First row: 60 of 261 statewide executive offices (superintendents, insurance, labor and land commissioners, commissions and boards, D.C. and the territories) take their holder's party from rows not verified against a live source (d
+
+Folded into research-offices-sourced-parameters (CTO, Oct 19, 2026).

@@ -1005,6 +1005,24 @@
         "ref": "WORDS-TALK-ADDRESS-IMPACT"
       }
     },
+    "directorFloorVoteImpact": {
+      "value": 0.29,
+      "tag": "ESTIMATED",
+      "citation": "A floor vote on a bill a member sits in, sized as the Social Readjustment Rating Scale's 'Change in responsibilities at work', 29 life-change units divided by 100 (Holmes and Rahe 1967), the scale the filing and election impacts use.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorExecutiveActionImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "A bill signed or vetoed reaches its sponsor at the size of the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967); a veto falls between that and 'Trouble with boss' (23).",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorRecallImpact": {
+      "value": 0.23,
+      "tag": "ESTIMATED",
+      "citation": "A recall petition against an official, sized as the Social Readjustment Rating Scale's 'Trouble with boss', 23 life-change units divided by 100 (Holmes and Rahe 1967), a public dispute with those one answers to.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.15 to 0.3"
+    },
     "directorLawLearnedImpact": {
       "value": 0.11,
       "tag": "ESTIMATED",
@@ -1231,6 +1249,16 @@
       "impactParameter": "directorOfficeReplyImpact"
     },
     {
+      "eventKind": "legislative-vote",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "executive-action",
+      "channel": "cause",
+      "impactParameter": "directorExecutiveActionImpact"
+    },
+    {
       "eventKind": "office.introduced",
       "channel": "cause",
       "impactParameter": "directorOfficeActImpact"
@@ -1320,6 +1348,21 @@
       "eventKind": "justice.released",
       "channel": "feeling",
       "impactParameter": "directorReleasedImpact"
+    },
+    {
+      "eventKind": "interview-published",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "press.exposed",
+      "channel": "feeling",
+      "impactParameter": "directorChargedImpact"
+    },
+    {
+      "eventKind": "recall-petition",
+      "channel": "cause",
+      "impactParameter": "directorRecallImpact"
     }
   ]
 }

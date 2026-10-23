@@ -4,7 +4,7 @@ title: "Stopgaps in executive (missing-engine): 1 open"
 area: gov
 kind: stopgap
 priority: 3
-status: in-pr
+status: done
 claimed-by: claude/state-cabinet-pay
 pr: #5221
 blocked-on:

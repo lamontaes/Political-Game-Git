@@ -76,6 +76,8 @@
       "adult": 4
     },
     "trailingDays": 365,
+    "repeatDays": 30,
+    "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running (owner review, Oct 20).",
     "openDays": {
       "at-cause": 7,
       "effective-date": 3,
@@ -1408,7 +1410,10 @@
             "label": "feeling:event:health.serious-illness",
             "counterpart": "none"
           },
-          "bind": { "cared-for": "subject", "caregiver": "kin" },
+          "bind": {
+            "cared-for": "subject",
+            "caregiver": "kin"
+          },
           "opener": "cared-for"
         }
       ],
@@ -1861,7 +1866,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFact": { "key": "winnerId", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -1924,7 +1934,12 @@
         {
           "match": {
             "label": "cause:event:election-result",
-            "causeFact": { "key": "winnerId", "is": "other" }
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
@@ -1997,7 +2012,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "legislative-vote",
+          "match": {
+            "label": "cause:event:legislative-vote"
+          },
           "causeEngine": "legislature",
           "causeRecord": "legislative-vote",
           "bind": {
@@ -2060,9 +2077,15 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-            "causeFact": [
-              { "key": "action", "equals": "signed" },
-              { "key": "executiveId", "is": "other" }
+            "causeFacts": [
+              {
+                "key": "action",
+                "equals": ["signed"]
+              },
+              {
+                "key": "executiveId",
+                "is": "other"
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -2126,9 +2149,15 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-            "causeFact": [
-              { "key": "action", "equals": "vetoed" },
-              { "key": "executiveId", "is": "other" }
+            "causeFacts": [
+              {
+                "key": "action",
+                "equals": ["vetoed"]
+              },
+              {
+                "key": "executiveId",
+                "is": "other"
+              }
             ]
           },
           "causeEngine": "legislature",
@@ -2144,7 +2173,12 @@
         {
           "match": {
             "label": "cause:event:veto-override",
-            "causeFact": { "key": "sponsorId", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "sponsorId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "veto-override",
@@ -2199,7 +2233,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:economy.board-appointment" },
+          "match": {
+            "label": "cause:event:economy.board-appointment"
+          },
           "causeEngine": "macro",
           "causeRecord": "economy.board-appointment",
           "bind": {
@@ -2211,7 +2247,10 @@
           "opening": "announce-result"
         },
         {
-          "match": { "label": "cause:event:official-appointed" },
+          "match": {
+            "label": "cause:event:official-appointed",
+            "counterpart": "none"
+          },
           "causeEngine": "executive",
           "causeRecord": "official-appointed",
           "bind": {
@@ -2265,7 +2304,6 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "recall-petition",
           "causeEngine": "recalls",
           "causeRecord": "recall-petition",
           "bind": {
@@ -2274,7 +2312,16 @@
             "family": "household"
           },
           "opener": "petitioners",
-          "opening": "blame"
+          "opening": "blame",
+          "match": {
+            "label": "cause:event:recall-petition",
+            "causeFacts": [
+              {
+                "key": "memberId",
+                "is": "subject"
+              }
+            ]
+          }
         },
         {
           "match": {
@@ -2333,7 +2380,9 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:public-comment" },
+          "match": {
+            "label": "cause:event:public-comment"
+          },
           "causeEngine": "meetings",
           "causeRecord": "public-comment",
           "bind": {
@@ -2388,7 +2437,12 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-            "causeFact": { "key": "executiveId", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
@@ -2402,7 +2456,12 @@
         {
           "match": {
             "label": "cause:event:veto-override",
-            "causeFact": { "key": "executiveId", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "veto-override",
@@ -2414,7 +2473,10 @@
           "opening": "greet"
         },
         {
-          "match": { "label": "cause:event:office.introduced" },
+          "match": {
+            "label": "cause:event:office.introduced",
+            "counterpart": "none"
+          },
           "causeEngine": "legislature",
           "causeRecord": "office.introduced",
           "bind": {
@@ -2423,6 +2485,20 @@
           },
           "opener": "reporter",
           "opening": "greet"
+        },
+        {
+          "causeEngine": "press",
+          "causeRecord": "interview-published",
+          "bind": {
+            "reporter": "press",
+            "official": "subject"
+          },
+          "opener": "reporter",
+          "opening": "greet",
+          "match": {
+            "label": "cause:event:interview-published",
+            "selfNamed": true
+          }
         }
       ],
       "tag": {
@@ -2467,7 +2543,6 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "scandal-story-received",
           "causeEngine": "press",
           "causeRecord": "press.exposed",
           "bind": {
@@ -2476,7 +2551,11 @@
             "family": "household"
           },
           "opener": "reporter",
-          "opening": "confront"
+          "opening": "confront",
+          "match": {
+            "label": "feeling:event:press.exposed",
+            "selfNamed": true
+          }
         }
       ],
       "tag": {
@@ -2505,29 +2584,22 @@
           "moves": ["ask", "blame", "tell"],
           "wants": ["change"],
           "bearing": "anxious"
-        },
-        {
-          "key": "teller",
-          "fill": "teller",
-          "count": "one",
-          "moves": ["deliver-news", "tell", "blame"],
-          "wants": ["engage"],
-          "bearing": "calm"
         }
       ],
       "setting": ["home", "workplace", "public"],
       "timing": "effective-date",
       "causes": [
         {
-          "match": { "label": "cause:event:law.effect-learned" },
+          "match": {
+            "label": "cause:event:law.effect-learned"
+          },
           "causeEngine": "budgets",
           "causeRecord": "law.effect-learned",
           "bind": {
-            "reached": "subject",
-            "teller": "teller"
+            "reached": "subject"
           },
-          "opener": "teller",
-          "opening": "deliver-news"
+          "opener": "reached",
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -2574,7 +2646,12 @@
         {
           "match": {
             "label": "cause:event:president.address",
-            "causeFact": { "key": "address:president", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "address:president",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "opening-story",
           "causeRecord": "president.address",
@@ -2632,7 +2709,13 @@
         {
           "match": {
             "causeKind": "event:speech.heard",
-            "causeFact": { "key": "views:speaker", "is": "subject" }
+            "occasion": "campaign",
+            "causeFacts": [
+              {
+                "key": "views:speaker",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "speech",
           "causeRecord": "speech.heard",
@@ -2679,7 +2762,10 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:candidate-filed" },
+          "match": {
+            "label": "cause:event:candidate-filed",
+            "counterpart": "none"
+          },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -2735,7 +2821,12 @@
           "match": {
             "label": "money:job-ended",
             "counterpart": "none",
-            "causeFact": { "key": "decidedBy", "is": "other" }
+            "causeFacts": [
+              {
+                "key": "decidedBy",
+                "is": "other"
+              }
+            ]
           },
           "causeEngine": "work",
           "causeRecord": "work.job-lost",
@@ -3071,7 +3162,12 @@
         {
           "match": {
             "label": "cause:event:town-hall",
-            "causeFact": { "key": "hostId", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "hostId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "meetings",
           "causeRecord": "town-hall",
@@ -3338,7 +3434,12 @@
         {
           "match": {
             "label": "cause:event:executive-action",
-            "causeFact": { "key": "executiveId", "is": "subject" }
+            "causeFacts": [
+              {
+                "key": "executiveId",
+                "is": "subject"
+              }
+            ]
           },
           "causeEngine": "legislature",
           "causeRecord": "executive-action",
@@ -3511,6 +3612,7 @@
           "bearing": "eager"
         }
       ],
+      "waits": true,
       "setting": ["public", "other-home"],
       "timing": "next-together",
       "causes": [

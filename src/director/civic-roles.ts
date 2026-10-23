@@ -37,8 +37,6 @@ import {
   CAMPAIGNS_MODULE_ID,
   type CampaignRow,
 } from "../core2/modules/campaigns";
-import { learnedStoryOf } from "../core2/budgets-treasury";
-import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { retellingsOf } from "../core2/modules/speech";
@@ -46,7 +44,11 @@ import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
 import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
+import { P } from "../core2/parameters";
 import type { Moment } from "./types";
+
+const zero = P.zero;
+const one = P.one;
 
 /** The fills this module answers; `scheduling.ts` asks it for each. */
 export const CIVIC_FILLS: ReadonlySet<string> = new Set([
@@ -56,7 +58,6 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "members",
   "executive",
   "appointer",
-  "teller",
   "press",
   "press-corps",
   "staff",
@@ -69,6 +70,11 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
 interface BillRow {
   readonly id: string;
   readonly bodyOfficeId: string;
+}
+interface OutletRow {
+  readonly id: string;
+  readonly tier?: string;
+  readonly reporterIds?: readonly string[];
 }
 interface InterviewRow {
   readonly id: string;
@@ -95,6 +101,18 @@ const living = (core: Readonly<CoreState>, ids: readonly (string | null)[]) =>
   ids.filter(
     (id): id is string => !!id && core.people.get(id)?.alive === true,
   ) as PersonId[];
+
+/** The bill a moment's cause is about: its record names it, else the cause is the bill. */
+function billOf(
+  api: ReturnType<typeof coreAPI>,
+  moment: Moment,
+): BillRow | undefined {
+  const named = api.state.durableLog.get(moment.causeId)?.facts?.billId;
+  return api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(named || moment.causeId) as unknown as BillRow | undefined;
+}
 
 /**
  * The people who fill a civic role for a moment, or none where the records
@@ -164,11 +182,46 @@ export function civicFill(
     }
     case "press": {
       if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
+      // The interview the cause is, or the one its record names.
+      const facts = core.durableLog.get(moment.causeId)?.facts;
       const row = api
         .moduleState(PRESS_MODULE_ID)
         .table("interviews")
-        .get(moment.causeId) as unknown as InterviewRow | undefined;
-      return free(living(core, [row?.reporterId ?? null]));
+        .get(facts?.interviewId || moment.causeId) as unknown as
+        InterviewRow | undefined;
+      if (row) return free(living(core, [row.reporterId ?? null]));
+      // A story's own outlet: the outlet its record names covers it.
+      const named = facts?.outletId
+        ? (api
+            .moduleState(PRESS_MODULE_ID)
+            .table("outlets")
+            .get(facts.outletId) as unknown as OutletRow | undefined)
+        : undefined;
+      if (named?.reporterIds?.length)
+        return free(living(core, named.reporterIds)).sort().slice(zero, one);
+      // A public act (a signing, a veto) is covered by the town's own
+      // outlet: its first reporter living.
+      const outlets = (
+        api
+          .moduleState(PRESS_MODULE_ID)
+          .table("outlets")
+          .rows() as unknown as OutletRow[]
+      )
+        .filter((outlet) => outlet.tier !== "national")
+        .sort((a, b) => a.id.localeCompare(b.id));
+      return free(
+        living(
+          core,
+          outlets.flatMap((o) => o.reporterIds ?? []),
+        ),
+      )
+        .sort()
+        .slice(zero, one);
+    }
+    case "executive": {
+      // The executive who signed or vetoed, named by the act's own record.
+      const named = core.durableLog.get(moment.causeId)?.facts?.executiveId;
+      return free(living(core, named ? [named] : []));
     }
     case "press-corps": {
       // The reporters who cover an officeholder's act on the bill it names:
@@ -223,20 +276,6 @@ export function civicFill(
         ]),
       );
     }
-    case "teller": {
-      // stopgapId: SG-DIRECTOR-owner-decision-law-teller (the head of the
-      // outlet whose story taught them stands for the one who told them)
-      if (!api.state.modules.has(BUDGETS_MODULE_ID)) return [];
-      if (!api.state.modules.has(PRESS_MODULE_ID)) return [];
-      const story = learnedStoryOf(api, moment.personId, moment.causeId);
-      if (!story) return [];
-      const outlet = api
-        .moduleState(PRESS_MODULE_ID)
-        .table("outlets")
-        .get(story.outletId) as unknown as
-        { headId: string | null } | undefined;
-      return free(living(core, [outlet?.headId ?? null]));
-    }
     case "appointer": {
       // A town post's record names who appointed to it.
       const named = core.durableLog.get(moment.causeId)?.facts?.appointedBy;
@@ -268,14 +307,7 @@ export function civicFill(
     case "chair":
     case "members": {
       if (!api.state.modules.has(LEGISLATURE_MODULE_ID)) return [];
-      // A public comment's record names its bill; a bill's own record is
-      // the bill.
-      const billId = core.durableLog.get(moment.causeId)?.facts?.billId;
-      const bill = api
-        .moduleState(LEGISLATURE_MODULE_ID)
-        .table("bills")
-        .get(typeof billId === "string" ? billId : moment.causeId) as
-        BillRow | undefined;
+      const bill = billOf(api, moment);
       if (!bill) return [];
       if (fill === "members")
         return free(
@@ -293,12 +325,6 @@ export function civicFill(
       return free(
         living(core, [presiding ?? (executive ? memberKey(executive) : null)]),
       );
-    }
-    case "executive": {
-      // The executive who signed or vetoed: the president, a governor or a
-      // mayor, as the desk's own record names them.
-      const id = core.durableLog.get(moment.causeId)?.facts?.executiveId;
-      return free(living(core, [typeof id === "string" ? id : null]));
     }
     case "clerk": {
       if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
