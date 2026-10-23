@@ -13,7 +13,7 @@ after: people-full-couples-plan-share-fell
 source: added with npm run pool -- add
 ---
 
-**What.** Measured Oct 21 in three drawn one-year runs (seed f43822a678303738, Blountsville AL, Marlboro Meadows MD, South Greeley WY): full births 51 against 41.5 expected, but ages 25 to 29 give 30 against about 6 and 35 to 44 give 0 against about 15. The age term of the plan score (renewalAgeCenter 30, renewalAgeSpread) is fitted to couples and is too narrow for the CDC shape, which peaks at 25 to 34 and has a long tail to 44.
+**What.** Measured Oct 21 in three drawn one-year runs (seed f43822a678303738, Blountsville AL, Marlboro Meadows MD, South Greeley WY). Full births were 51 against 41.5 expected, but ages 25 to 29 give 30 against about 6 and 35 to 44 give 0 against about 15. The age term of the plan score (renewalAgeCenter 30, renewalAgeSpread) is fitted to couples and is too narrow for the CDC shape, which peaks at 25 to 34 and has a long tail to 44.
 
 **Rules.** No dice: the age term stays a sliding scale; CDC rates check band totals only. One model, two tiers: counted and full women share the shape.
 
