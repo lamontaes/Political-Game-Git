@@ -21,3 +21,5 @@ source: "astra order 5; PR #4283 branch codex/seat-slots-person-masks"
 **Files.** art/people-engine/v2/
 
 **Notes.** None.
+
+Sent back 2026-10-23 from PR #4283 (branch codex/seat-slots-person-masks): No fixing commit follows the Prettier/release-check send-back on this head. Rechecked unchanged head acb62cfcd1; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/4283#issuecomment-6281003298; finish on that branch, merge main into it first.
