@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/words-bench-page
+status: open
+claimed-by:
 pr:
 blocked-on:
 after: words-bench-datapoints
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:11:02.771Z
+claimed-at:
 ---
 
 **What.** Render `docs/grading/words-batch-12.md` from the batch data: each item as the game would show it, the narrator's paragraph, then the lines with speaker names, then the four replies and the lies, with a small footer of the feature row under each item. The top of the page lists the items dropped and the situations skipped, with reasons. The page keeps the owner's ten batch-12 rulings (Order 2 section 7 of `docs/work-orders/words-and-director-2026-10-15.md`): state each scene's endpoint, open with a narrator paragraph of a few sentences, replies that continue the conversation, journal lines with their subject, staged speeches, a bill's text beside its real name, lies that name another place, no dates in speech, no say-nothing row, and no school, workplace, notice or public hearing scene until something new is said in it. The CTO builds the grading artifact from the Markdown.
@@ -22,4 +22,4 @@ claimed-at: 2026-10-19T23:11:02.771Z
 
 **Files.** scripts/dialogue-batch/grading-bench.ts, docs/grading/words-batch-12.md (new), scripts/dialogue-batch/grading-batch.ts
 
-**Notes.** Part of words-grading-bench. The owner grades thirty different moments from this page.
+**Notes.** Part of words-grading-bench. The owner grades thirty different moments from this page. Claim released Oct 23: branch gone.

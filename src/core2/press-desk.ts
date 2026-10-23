@@ -20,6 +20,8 @@ import { closenessBetween } from "./closeness";
 import { isPolicyTopic, type WireItem, type WireLevel } from "./press-topics";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 import { printStory, type Story } from "./modules/news";
+import { LEGISLATURE_MODULE_ID } from "./modules/legislature";
+import { OFFICES_MODULE_ID } from "./modules/offices";
 import { isPublicFigure } from "./past-public";
 import { reachedBy } from "./law-reach/host";
 import {
@@ -449,6 +451,34 @@ export function archiveItem(
   };
 }
 
+/** Whether a record is about a budget bill. */
+function isBudgetBill(api: CoreAPI, item: WireItem): boolean {
+  const billId = item.facts?.billId;
+  if (!billId || !api.state.modules.has(LEGISLATURE_MODULE_ID)) return false;
+  const bill = api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("bills")
+    .get(billId) as unknown as { kind?: string } | undefined;
+  return bill?.kind === "budget";
+}
+
+/**
+ * Whether a named official serves in a federal or state office (a president, a
+ * governor): public figures by their office, though they are not full people.
+ */
+function holdsHighOffice(api: CoreAPI, id: string): boolean {
+  if (!api.state.modules.has(OFFICES_MODULE_ID)) return false;
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const term = offices
+    .table("terms")
+    .get(id.slice("official:".length)) as unknown as
+    { status?: string; officeId: string } | undefined;
+  if (term?.status !== "serving") return false;
+  const office = offices.table("offices").get(term.officeId) as unknown as
+    { level?: string } | undefined;
+  return office?.level === "federal" || office?.level === "state";
+}
+
 /**
  * One week at an outlet: each reporter, in turn, weighs the fresh items its
  * outlet has not printed and files their best, up to their week's count.
@@ -476,6 +506,10 @@ export function runDesk(
   // town) and the counted followers, who are read by the same rule as a
   // full follower.
   const involved = (item: WireItem): number => {
+    // A budget the executive signs or vetoes binds the whole town as much as
+    // a law in force: every follower, named or counted, is involved.
+    if (item.kind === "executive-action" && isBudgetBill(api, item))
+      return followers.length + ctx.countedFollowers(outlet);
     // A month's move in the town's conditions reaches every follower in
     // proportion to its size (the largest relative move among its facts).
     if (item.kind === OUTCOME_MONTH_KIND)
@@ -502,7 +536,9 @@ export function runDesk(
       Math.max(item.subjectIds.filter(inTown).length, involved(item)),
     ),
     renown: Math.log1p(
-      item.subjectIds.filter((id) => isPublicFigure(api, id)).length,
+      item.subjectIds.filter((id) => isPublicFigure(api, id)).length +
+        (item.officialIds ?? []).filter((id) => holdsHighOffice(api, id))
+          .length,
     ),
   }));
   const taken = new Set<string>();

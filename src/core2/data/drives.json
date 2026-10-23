@@ -29,6 +29,7 @@
       "actionId": "approach-office"
     }
   ],
+  "closureEventKind": "organization.closed",
   "factKeys": {
     "responsible": "responsible",
     "drive": "drive",
@@ -41,7 +42,10 @@
     "strengthAdded": "strength-added",
     "response": "response",
     "role": "role",
-    "originEvent": "origin-event"
+    "originEvent": "origin-event",
+    "countedSubject": "counted-subject",
+    "countedPerceivers": "counted-perceivers",
+    "countedHousehold": "counted-household"
   },
   "driveKinds": [
     {
@@ -385,6 +389,18 @@
     {
       "id": "bereavement",
       "eventKind": "life.death",
+      "roles": ["family", "household", "acquaintance"],
+      "channels": ["loss", "others-distress"],
+      "responses": [
+        "take-up-cause",
+        "guard-family",
+        "answer-calling",
+        "carry-on"
+      ]
+    },
+    {
+      "id": "bereavement-counted",
+      "eventKind": "residents.member-died",
       "roles": ["family", "household", "acquaintance"],
       "channels": ["loss", "others-distress"],
       "responses": [
