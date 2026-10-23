@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/data/jobs/entry-requirements.json, src/core2/modules/jobs.ts, src/core2/jobs.test.ts
 
 **Notes.** Written Oct 20 (claude/entry-spec) from the code. `experienceYears` (jobs.ts about line 2271) sums a person's commitments in the occupation; the counted tier keeps its own `countedExperience`. The follow-up is `jobs-occupation-entry-experience`. Waits on `jobs-no-openings-in-small-towns` per its `after:`.
+
+Split from world-player-jobless-no-offers (Oct 19). That item measured four towns: with few openings and about 32 applicants each, the experience term alone decides, and the player has none. It also waits on jobs-no-openings-in-small-towns, because a town that opens four positions a year gives no ranking rule an offer to make.

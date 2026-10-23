@@ -4801,7 +4801,8 @@
     "addedBy": "claude/laws-party-loyalty",
     "addedAt": "2026-10-16",
     "replacement": "Run the owner's state roll-call input against the simulated chambers (src/core2/party-loyalty.test.ts measures them), set statePartyLoyalty and the test's target from it, and close this row.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Replaced by each state chamber's own party-pressure multiple in src/core2/data/officials/state-chamber-loyalty.json, read at the member's vote by chamberFactor in src/core2/modules/officials.ts and checked against the federal party-unity target in src/core2/party-loyalty.test.ts."
   },
   {
     "id": "SG-WORLD-board-hawk-side",
