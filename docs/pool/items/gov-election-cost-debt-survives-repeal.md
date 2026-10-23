@@ -7,9 +7,10 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5582
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The returned government law family deactivates an election-cost debt when the law that incurred it is no longer in force. That happens before the code reads the amount owed or attempts settlement. Repeal must stop new ballot, identification or registration charges while leaving the already-incurred payable collectible from the treasury that owes it.
