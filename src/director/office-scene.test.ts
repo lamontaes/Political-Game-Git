@@ -5,10 +5,12 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../core2/life";
 import {
   billOf,
+  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
   registerLegislatureHooks,
   votesOn,
+  type CommitteeRecord,
   type MemberPosition,
 } from "../core2/modules/legislature";
 import { officialOf } from "../core2/modules/officials";
@@ -57,42 +59,76 @@ const townBody = (api: CoreAPI, officeId: string) =>
 
 const proof: string[] = [];
 let captured: Captured | null = null;
-// Scenes whose bill died in committee, with no floor vote held on it.
+// Bills that died in their first chamber's committee, each with no floor
+// vote; sceneOpened marks one the scene opened on before it died.
 const committeeDeaths: {
   billId: string;
   status: string | undefined;
   votes: number;
+  sceneOpened: boolean;
 }[] = [];
 let armed = false;
+// Not a committee-stage hook, so it runs on the floor day, just before the vote.
 registerLegislatureHooks({
-  beforeVote(api, billId) {
-    if (!armed || captured) return;
-    const core = api.state as CoreState;
-    const bill = billOf(api, billId);
-    if (!bill || bill.status !== "drafted" || !townBody(api, bill.bodyOfficeId))
-      return;
-    const sponsor = bill.sponsorId;
-    if (
-      !core.people.get(sponsor)?.alive ||
-      officialOf(api, sponsor) ||
-      !members(api, bill.bodyOfficeId).some((t) => memberKey(t) === sponsor)
-    )
-      return;
-    const scene = composeOfficeScene(core, sponsor, billId);
-    if (!scene || !scene.choices.some((c) => c.key === "make-case")) return;
-    const before = core.eventIds.size;
-    const silent = chooseOfficeScene(core, scene, "silent");
-    const silentEvents = { before, after: core.eventIds.size };
-    const caseResult = chooseOfficeScene(core, scene, "make-case");
-    captured = { scene, silent, silentEvents, caseResult };
-  },
+  beforeVote: { name: "office-scene-test", run: openScene },
 });
 
+function openScene(api: CoreAPI, billId: string): void {
+  if (!armed || captured) return;
+  const core = api.state as CoreState;
+  const bill = billOf(api, billId);
+  if (!bill || bill.status !== "drafted" || !townBody(api, bill.bodyOfficeId))
+    return;
+  const sponsor = bill.sponsorId;
+  if (
+    !core.people.get(sponsor)?.alive ||
+    officialOf(api, sponsor) ||
+    !members(api, bill.bodyOfficeId).some((t) => memberKey(t) === sponsor)
+  )
+    return;
+  const scene = composeOfficeScene(core, sponsor, billId);
+  if (!scene || !scene.choices.some((c) => c.key === "make-case")) return;
+  const before = core.eventIds.size;
+  const silent = chooseOfficeScene(core, scene, "silent");
+  const silentEvents = { before, after: core.eventIds.size };
+  const caseResult = chooseOfficeScene(core, scene, "make-case");
+  captured = { scene, silent, silentEvents, caseResult };
+}
+
+/** Bills the first chamber's committee held, from the committee records. */
+function collectCommitteeDeaths(core: CoreState): void {
+  const api = coreAPI(core);
+  for (const row of api
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("committees")
+    .rows() as unknown as CommitteeRecord[]) {
+    const bill = billOf(api, row.billId);
+    if (row.reported || !bill || row.chamber !== bill.bodyOfficeId) continue;
+    if (committeeDeaths.some((d) => d.billId === row.billId)) continue;
+    committeeDeaths.push({
+      billId: row.billId,
+      status: bill.status,
+      votes: votesOn(api, row.billId).length,
+      sceneOpened: false,
+    });
+  }
+}
+
+/**
+ * Plays drawn places until both cases are in hand: a town vote with a scene
+ * (kept in its own world) and a bill its committee killed. Once the scene is
+ * found, a later place is played only for a committee death.
+ */
 function play(): {
   place: ReturnType<typeof drawPlace>;
   core: CoreState;
   date: string;
 } {
+  let found: {
+    place: ReturnType<typeof drawPlace>;
+    core: CoreState;
+    date: string;
+  } | null = null;
   for (let i = 0; i < maxPlaces; i += 1) {
     const place = drawPlace(i ? `${seed}:${i}` : seed, "office-scene");
     const world = buildBenchWorld(place.seed, opening, {
@@ -100,15 +136,18 @@ function play(): {
       placeKey: place.key,
     });
     let date = opening;
-    armed = true;
-    for (let day = 0; day < maxDays && !captured; day += 1) {
+    const scenePlace = !found;
+    armed = scenePlace;
+    for (let day = 0; day < maxDays; day += 1) {
+      if (scenePlace ? captured : committeeDeaths.length) break;
       date = addDay(date);
       advanceCore(world.core, date);
+      if (!scenePlace) collectCommitteeDeaths(world.core);
       // The scene opens just before the body votes. A bill its committee did
       // not report dies there with no floor vote at all, so no member's vote
       // is ever recorded: that scene is kept apart (it is the committee-failure
       // case) and the search goes on to a bill that reaches the floor.
-      if (captured) {
+      if (scenePlace && captured) {
         const held = captured as Captured;
         const voted = votesOn(coreAPI(world.core), held.scene.billId).some(
           (row) => row.memberId === held.scene.targetId,
@@ -118,18 +157,30 @@ function play(): {
             billId: held.scene.billId,
             status: billOf(coreAPI(world.core), held.scene.billId)?.status,
             votes: votesOn(coreAPI(world.core), held.scene.billId).length,
+            sceneOpened: true,
           });
           captured = null;
         }
       }
     }
     armed = false;
+    collectCommitteeDeaths(world.core);
+    const outcome = !scenePlace
+      ? `played for a committee death to ${date}`
+      : captured
+        ? `scene on ${date}`
+        : `no town vote with a scene in ${maxDays} days`;
     proof.push(
-      `office scene: seed ${seed}, try ${i}, ${place.name} (${place.key}), ${captured ? `scene on ${date}` : `no town vote with a scene in ${maxDays} days`}`,
+      `office scene: seed ${seed}, try ${i}, ${place.name} (${place.key}), ${outcome}; committee deaths so far ${committeeDeaths.length}${committeeDeaths[0] ? `, first ${committeeDeaths[0].billId}` : ""}`,
     );
-    if (captured) return { place, core: world.core, date };
+    if (scenePlace && captured) found = { place, core: world.core, date };
+    if (found && committeeDeaths.length) return found;
   }
-  throw new Error(`No town vote with an office scene in ${maxPlaces} places.`);
+  throw new Error(
+    found
+      ? `No bill its committee killed in ${maxPlaces} places: ${proof.join("; ")}`
+      : `No town vote with an office scene in ${maxPlaces} places: ${proof.join("; ")}`,
+  );
 }
 
 const sum = (p: MemberPosition) => p.total;
@@ -170,7 +221,7 @@ describe("the office scene", () => {
   );
 
   it("logs the place, seed, bill, target and events", () => {
-    console.log(proof.join("\n"));
+    process.stdout.write(`${proof.join("\n")}\n`);
     expect(proof.length).toBeGreaterThan(1);
   });
 
@@ -237,9 +288,16 @@ describe("the office scene", () => {
   });
 
   it("a bill its committee did not report has no floor vote, and its scene is not taken for the vote", () => {
+    expect(
+      committeeDeaths.length,
+      "a bill its committee killed in the places played",
+    ).toBeGreaterThan(0);
     for (const death of committeeDeaths) {
       expect(death.status, death.billId).toBe("failed");
       expect(death.votes, death.billId).toBe(0);
     }
+    // The scene opened on one is not the captured one.
+    for (const death of committeeDeaths.filter((d) => d.sceneOpened))
+      expect(death.billId).not.toBe(scene.billId);
   });
 });

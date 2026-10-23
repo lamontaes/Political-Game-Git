@@ -5,12 +5,13 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: blocked
-claimed-by: claude/speed-regression
-pr:
-blocked-on: core-speed-public-staff-full-people
+status: in-pr
+claimed-by: claude/speed-main-regression
+pr: #5834
+blocked-on:
+after: core-speed-public-staff-full-people
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T05:01:48.088Z
+claimed-at: 2026-10-22T05:25:11.697Z
 ---
 
 **What.** On Oct 20, 2026 the played year in Long Hill, Connecticut (seed m7b, key 0943580, npm run speed:year -- --seed m7b --exclusive, one process at a time on a 4-core cloud container) took 196 to 233 s in my runs before about 02:00 UTC and 279.2 s on origin/main at about 14:30 UTC (284.8 s with the arrears write-off change on top). Other changes landed on main in between, and this container's noise is about plus or minus 10 percent, so the rise is larger than noise. Find which merged change raised the year, from the commits between the two and a CPU profile (node --cpu-prof) of the year compared by inclusive time per function, and fix it or file it as its own item.
