@@ -5,10 +5,10 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: core-old-engine-01-zero-dice-guard-repoint (PR 5832 adds six of the seven allowlist entries this item removes)
 source: added with npm run pool -- add
 ---
 

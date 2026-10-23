@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/year-speed-activate
 pr: #5109
 blocked-on:
@@ -38,3 +38,7 @@ Step 11 run Oct 18 (same branch; `GOLDEN_PATH_TO_NEXT_ELECTION=1`, three seeds i
 All 56 places, Oct 18 (claude, main at the time, `node --import tsx scripts/core2-year/all-places.mjs --years 1 --seed oct18c --workers 2`, two workers on a 4-core container so each time is inflated): 56 places, 0 crashed, and the money, ended-job, seat and ballot checks pass in every one. 18 of the 56 take more than 120 seconds a year. Slowest: Lodi, New Jersey 540 s, Dawsonville, Georgia 314 s, Omaha, Nebraska 243 s, Haiku-Pauwela, Hawaii 232 s, McNair, Virginia 216 s, Thibodaux, Louisiana 214 s, Washington, D.C. 197 s, Agana Heights, Guam 195 s.
 
 Path-check sweep, second batch Oct 18 (seeds pc25 to pc44, one process at a time): all 20 finished in under 12 minutes, none hung; 14 reached step 10 and 6 stopped at step 8 (a failed or vetoed bill). In Yona, Guam (pc39) the 18-year-old had no contest to enter (offices there ask for more than 18), so the path took a sitting member's bill instead; see `play-nothing-to-enter-at-eighteen`.
+
+Audit Oct 18 (claude/audit-oct18-note), main at cc5839a66a, `node --import tsx scripts/core2-year/all-places.mjs --years 1 --seed audit-oct18b --workers 2` on the same four-core container: 56 places, 0 crashed, and every check passes in every place (money balances, no ended job re-rated, seats filled by their rule, contests on the ballot). 23 of 56 take more than two minutes with two workers sharing the machine. Slowest: The Hills, New Jersey 260 s (3.2 GB), North Myrtle Beach, South Carolina 254 s, Hilo, Hawaii 252 s, Roswell, Georgia 244 s, New Rochelle, New York 225 s, Richmond, Texas 217 s, Agat, Guam 213 s, Frederiksted, U.S. Virgin Islands 201 s, Washington, D.C. 199 s, Louisville, Ohio 198 s. Fastest: Millersburg, Illinois 23 s, Tomales, California 27 s, Ashland, Louisiana 31 s. Years two and three are slower again (see core-later-years-slower-drive-holders-offers: Bedford, Wyoming 37, 55 and 82 s).
+
+Path-check sweep Oct 18 (seeds sw1 to sw13, `GOLDEN_PATH_TO_NEXT_ELECTION=1`, two at a time): 12 of 13 finished, every one reached step 8 or later (step 11 in Heeney, Colorado; Felton, Pennsylvania; Hampton Beach, New Hampshire). The thirteenth, seed sw7, is Steamboat Springs, Colorado (0873825): it did not finish in 15 or in 25 minutes, and it is not stuck. A plain one-year run of that town takes 240 s alone (the day-by-day trace of the path check advances steadily), the first 140 days take 97 s with the player stepping a week at a time against 91 s without, and in the path check's second year the days from September to the November election cost 4 to 5 s each: the 10 days to the general election took 52 s, of which campaigns (`makeStatements`, `debateWeek`, `deliverSpeech`, 17 s), the race count (`countPlaces`, 8 s) and the garbage collector (24 s of 100) are the largest. So a played year in a town this size runs 4 to 5 minutes and an election year longer, against the two-minute rule.
