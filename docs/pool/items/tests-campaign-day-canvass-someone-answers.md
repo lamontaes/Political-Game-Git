@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/canvass-answers
 pr: #5793
 blocked-on:
