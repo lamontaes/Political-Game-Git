@@ -41,11 +41,11 @@
     "file": "src/core2/modules/life.ts",
     "line": 282,
     "whatItFakes": "Shared residence and need for company do not yet reliably produce household contact before distant acquaintance offers.",
-    "why": "P13 reported no contact with the player's husband or two children during the measured year. CTO REVIEW 10 requires household time to arise from shared home and company needs.",
+    "why": "P13 reported no contact with the player's husband or two children during the measured year. CTO REVIEW 10 requires household time to arise from shared home and company needs. Resolved Oct 19, 2026: in a played quarter, 857 of 869 household pairs (99 percent) had met within 14 days (Hanahan, South Carolina, seed hh-probe-2e1); src/core2/household-contact.test.ts holds it for a drawn place.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Causal shared-home availability and family contact offers checked against household time-use and tie-contact evidence, with actual chosen contact outcomes retained.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-marriageReferenceAge",

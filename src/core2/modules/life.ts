@@ -279,7 +279,6 @@ export const LIFE_MODULE: CoreModule = {
     "affect-load": (api, actor) =>
       positive(api, actor.affect.stress - actor.affect.mood) / p(api, "two"),
     "contact-gap": (api, actor, definition) => {
-      api.stopgap("SG-P8-household-shared-time-contact");
       const horizon = definition.parameters.horizon;
       if (!horizon) throw new Error("Company need requires a tagged horizon.");
       const elapsed = daysBetweenText(actor.lastContactDate, api.state.date);
