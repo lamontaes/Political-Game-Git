@@ -64,68 +64,76 @@ describe("foodAidDollars", () => {
 });
 
 describe("the baseline benefit in a played year", () => {
-  const draw = drawPlace(randomBytes(32).toString("hex"), "food-aid");
-  it(`pays qualifying households from the federal treasury (place ${draw.key}, seed ${draw.seed})`, () => {
+  const base = randomBytes(32).toString("hex");
+  it(`pays qualifying households from the federal treasury (draws from seed ${base})`, () => {
     setBookkeeping(false);
-    const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: draw.key,
-    });
-    const api = coreAPI(core);
-    const where = `place ${draw.key}, seed ${draw.seed}`;
-    const federal = governments(api).find((g) => g.level === "federal");
-    expect(federal, `${where}: no federal government`).toBeDefined();
-    const accounts = api.accounts();
-    const open = () =>
-      rowsOf<{
-        key: string;
-        recipientId: string;
-        obligationId: string;
-        amountMinor: number;
-        governmentId: string;
-      }>(api, "taken").filter(
-        (r) =>
-          r.key === "benefit|snap-baseline" &&
-          !accounts.obligation(r.obligationId)?.endedAt,
+    const skipped: string[] = [];
+    // A place with no SNAP law in force (a territory on a block grant) owes nothing; draw again until one has it.
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const draw = drawPlace(`${base}:${attempt}`, "food-aid");
+      const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(core);
+      const where = `place ${draw.key}, seed ${draw.seed}`;
+      if (!lawInForce(api, "snap-maximum").value) {
+        skipped.push(where);
+        continue;
+      }
+      const federal = governments(api).find((g) => g.level === "federal");
+      expect(federal, `${where}: no federal government`).toBeDefined();
+      const accounts = api.accounts();
+      const open = () =>
+        rowsOf<{
+          key: string;
+          recipientId: string;
+          obligationId: string;
+          amountMinor: number;
+          governmentId: string;
+        }>(api, "taken").filter(
+          (r) =>
+            r.key === "benefit|snap-baseline" &&
+            !accounts.obligation(r.obligationId)?.endedAt,
+        );
+      advanceCore(core, nextMonth(core.date));
+      advanceCore(core, nextMonth(core.date));
+      const rows = open();
+      expect(rows.length, `${where}: no SNAP obligations`).toBeGreaterThan(0);
+      for (const row of rows) expect(row.governmentId).toBe(federal!.id);
+      // Each named recipient's amount is the formula on their household's records.
+      const facts = townFacts(api, lawChain(api).townPlaceId);
+      const named = rows.filter((r) => api.state.people.has(r.recipientId));
+      for (const row of named) {
+        const person = api.state.people.get(row.recipientId)!;
+        const home = facts.households.get(person.householdId)!;
+        expect(
+          home,
+          `${where}: ${row.recipientId} has no household`,
+        ).toBeDefined();
+        expect(row.amountMinor).toBeGreaterThan(0);
+        expect(
+          home.incomeDollars,
+          `${where}: ${row.recipientId} paid above 130% of poverty`,
+        ).toBeLessThanOrEqual(
+          1.3 * povertyLineDollars(lawChain(api).stateKey, home.size) + 1,
+        );
+      }
+      // The treasury paid: a recipient's obligation has moved money into their account.
+      const paid = rows.reduce(
+        (n, r) => n + (accounts.obligation(r.obligationId)?.paidMinor ?? 0),
+        0,
       );
-    advanceCore(core, nextMonth(core.date));
-    advanceCore(core, nextMonth(core.date));
-    const rows = open();
-    // Where no SNAP law is in force (a territory on a block grant) nothing is owed.
-    if (!lawInForce(api, "snap-maximum").value) {
-      expect(rows, `${where}: paid with no SNAP law`).toEqual([]);
+      expect(
+        paid,
+        `${where}: no SNAP payment reached a household`,
+      ).toBeGreaterThan(0);
       return;
     }
-    expect(rows.length, `${where}: no SNAP obligations`).toBeGreaterThan(0);
-    for (const row of rows) expect(row.governmentId).toBe(federal!.id);
-    // Each named recipient's amount is the formula on their household's records.
-    const facts = townFacts(api, lawChain(api).townPlaceId);
-    const named = rows.filter((r) => api.state.people.has(r.recipientId));
-    for (const row of named) {
-      const person = api.state.people.get(row.recipientId)!;
-      const home = facts.households.get(person.householdId)!;
-      expect(
-        home,
-        `${where}: ${row.recipientId} has no household`,
-      ).toBeDefined();
-      expect(row.amountMinor).toBeGreaterThan(0);
-      expect(
-        home.incomeDollars,
-        `${where}: ${row.recipientId} paid above 130% of poverty`,
-      ).toBeLessThanOrEqual(
-        1.3 * povertyLineDollars(lawChain(api).stateKey, home.size) + 1,
-      );
-    }
-    // The treasury paid: a recipient's obligation has moved money into their account.
-    const paid = rows.reduce(
-      (n, r) => n + (accounts.obligation(r.obligationId)?.paidMinor ?? 0),
-      0,
+    throw new Error(
+      `no drawn place had a SNAP law in force (seed ${base}): ${skipped.join("; ")}`,
     );
-    expect(
-      paid,
-      `${where}: no SNAP payment reached a household`,
-    ).toBeGreaterThan(0);
-  }, 240_000);
+  }, 900_000);
 });
 
 function nextMonth(date: string): never {
