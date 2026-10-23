@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/worker-unpaid-four-months
+status: open
+claimed-by:
 pr: #5011
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-18T00:04:58.775Z
+claimed-at:
 ---
 
 **What.** A worker earns $2,092 over 120 days and is paid nothing because their employer pays no wages (La Liga, Puerto Rico, seed 4b22c467924caecf). Find why that employer's payroll does not run and fix it at the cause. Any worker whose employer owes wages is paid on payday.
