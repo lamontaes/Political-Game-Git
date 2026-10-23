@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T11:06:36.982Z
 **Files.** src/core2/modules/jobs.ts, src/core2/public-pay-floor-hire.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Split from release-merge-audit-oct20-morning-fixes fix 3 (PR #5285). Found Oct 20 by claude/political-game-pool-yucp92-aq.
+
+Sent back 2026-10-23 from PR #5679 (branch claude/opening-floor-proof): The public-refill design conflicts with main's staff-hire route and the old owner/date code note remains; the author must reconcile the current engines before this can land. Rechecked unchanged head 139b028f98; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5679#issuecomment-6311786454; finish on that branch, merge main into it first.
