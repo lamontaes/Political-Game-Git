@@ -46,6 +46,8 @@ One family per helper (Sonnet), each with its own paths, branch and check. The l
 - owner or date notes in data;
 - claims the diff doesn't make.
 
+A lead that also lands the fixes follows `lead-session`: at most two Sonnet helpers at once, its own send-backs fixed on their branches, the matrix rebuilt on main after each merge, and its status in the leads' channel every two hours.
+
 Write one test per item that fails when nothing moved. When several PRs share a file such as `outcome-web-model.ts`, land them one at a time. A truly unbuildable point gets a specific stopgap row, never silence.
 
 ## 5. Finish

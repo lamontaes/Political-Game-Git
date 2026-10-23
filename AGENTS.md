@@ -26,7 +26,7 @@ This section overrides anything heavier elsewhere in this file, in a skill or in
 - **Anyone takes items** (Claude, Codex, Cursor, Antigravity or another). An item's `area` says whose engine it touches. Don't edit files another open PR is changing; one writer per branch. A sent-back item's Notes name its branch, and claiming the item transfers that branch to you.
 - **Nothing waits** (owner, Oct 12). If you need another area's piece, build against the smallest registered stopgap on your own branch and say so in the PR body. If a design is the owner's call, follow "Owner decisions are flagged, never waited on" below. The only stop is running out of usage; then set your item back to open with a one-line note and push.
 - **Mergers merge** (owner, Oct 20). Merger sessions follow `merger` in their own share (PR number parity or mod 4, newest or oldest first) and pin each merge to the head they checked. Nobody merges their own PR. The CTO merges only its own docs, skill and pool PRs, and audits the mergers' work (`merge-audit`).
-- **Lead sessions** (owner, Oct 20). A big cross-system job (wiring every law, the outcome web, personality) runs as one Opus lead with Sonnet helpers. It writes a checker and a matrix (`wiring-audit`), opens one PR per family, and never says "wired" without the matrix row.
+- **Lead sessions** (owner, Oct 20 and Oct 24). A big cross-system job (wiring every law, the outcome web, personality, speed) runs as one Opus lead with at most two Sonnet helpers at once, each in its own files (`lead-session`). It works from its order in `docs/work-orders/`, writes a checker and a matrix (`wiring-audit`), opens one PR per family naming `Lead: <line>` in its body, writes its status to its own section of `docs/coordination/LEADS-<date>.md` every two hours (`.agents/rules/leads-channel.md`), and never says "wired" without the matrix row. Its acceptance is an end-to-end proof in a played year.
 - **Status lives in the work:** the pool item's Notes and the PR body. A lead session also keeps `docs/reports/<job>-<date>.md`. Per-session status files in `docs/coordination/` are history.
 
 ## Models, effort and helpers
@@ -83,6 +83,8 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 ## Skills
 
 Load a skill when its trigger fits; descriptions say when. Process: `session-start` (worker loop), `pr-fixer` (finish a sent-back PR), `merger`, `merge-audit`, `wiring-audit`, `researcher`, `played-world-proof`, `ask-why`, `trace-audit`, `cto`. Content: `words-engine`, `civic-prose`, `civic-reports`, `browser-visual-acceptance`, `asset-scene-admission`.
+
+Leads: `lead-session` (a lead that builds through helpers and is accepted by its end-to-end proof).
 
 ## Implementation boundaries
 
