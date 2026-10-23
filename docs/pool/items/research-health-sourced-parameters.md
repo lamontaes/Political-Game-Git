@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pick-research-health-sourced-parameters
-pr:
+pr: #5790
 blocked-on:
 source: "collapsed Oct 19, 2026 from people-stopgap-health-estimated-behavior, people-stopgap-health-estimated-calibration"
 claimed-at: 2026-10-21T07:55:17.850Z

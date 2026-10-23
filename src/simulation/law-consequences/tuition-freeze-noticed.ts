@@ -2,7 +2,7 @@ import { recordById } from "../history-index";
 import { recordLawExposure } from "../law-exposure";
 import { resourceFlowTermsAt } from "../resource-queries";
 import { money } from "../resources";
-import { TUITION_FREEZE_QUESTION } from "../../education/tuition-prices";
+import { TUITION_FREEZE_QUESTION } from "../tuition-prices";
 import type { EntityId, World } from "../types";
 
 export const TUITION_FREEZE_NOTICE_VERSION = "tuition-freeze-noticed/v1";
