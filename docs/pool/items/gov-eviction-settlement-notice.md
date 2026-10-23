@@ -7,9 +7,10 @@ priority: 3
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5390
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** Finish the existing implementation on claude/eviction-settlement-notice. A tenant represented by a lawyer should receive the settlement notice that reflects the recorded payment plan.
