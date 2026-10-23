@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/director-watch-all
+status: open
+claimed-by:
 pr: #5808
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T13:00:46.198Z
+claimed-at:
 ---
 
 **What.** src/director/stories-from-engines.test.ts times out at its 30-minute limit on main (Coventry, Vermont, seed 0fc1c044eef41a1c22a597a9d1846533367bca84). With all 1,720 people watched, the first 30 days took about 8 seconds on #5336's branch before it merged main (about 50 seconds for a year) and 834 seconds on plain origin/main with the same script. Something main added since makes watching everyone scan far more per day.
