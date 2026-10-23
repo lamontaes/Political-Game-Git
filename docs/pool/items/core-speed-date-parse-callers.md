@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5381
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split from core-speed-date-parse (PR 5381), which took the parse itself from 5.0 s to 2.4 s.
 
 Sent back 2026-10-21 from PR #5766 (branch claude/speed-date-callers): The required table is present, but its Replace, never layer row and Removed claim say 18 makeIsoDate wrapper pairs. The checked diff actually removes wrapper pairs at 24 ageOnDate call sites (including tooling/measure.ts, tooling/world-prepare.ts and work-attendance.ts). Correct the count in both places so the evidence table matches the diff. Local checks passed here on main merged at bcca767c89: typecheck, eslint and prettier on changed files, dates-civil-day.test.ts (3 tests), zero-dice, release:check -- --mode pr and old-imports. The pool check has only the same unrelated failures on clean main. This fixer remains based on open parent #5381; no item was marked done.; finish on that branch, merge main into it first.
+
+Reopened Oct 23 by release-pr-5766-off-main (claude/sleepy-carson-f8omzd-5766). The work is on main: PR #5766 (branch claude/speed-date-callers, head bcca767c) merged on Oct 21 into claude/speed-date-parse, which reached main with #5381 (merge 8ec9297a2b, Oct 22), so `pr:` stays #5381. All 6 lines #5766 added to news.ts, work.ts and births-check.ts are on main, and its closeness.ts and work-pay-period.ts changes came through the parent (45e99f2fb8, 240892262b), both on main. But the done-when no longer holds on main: `npm run speed:year -- --seed m7b --exclusive` with `--cpu-prof` in Long Hill, Connecticut on Oct 23 (main d2ae2f302d, year 159.4 s) shows civilDay 2.09 s and makeIsoDate 0.07 s of 207.2 s sampled, 1.04 percent. The largest callers: the pay period's `date` (work-pay-period.ts, 0.32 s through makeIsoDate) and closeness's `elapsed` (0.24 s through daysBetween); the rest is a long tail under 0.1 s each.

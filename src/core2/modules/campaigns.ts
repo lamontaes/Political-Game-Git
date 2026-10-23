@@ -122,6 +122,12 @@ export interface GiftRow {
   readonly donorId: string;
   readonly totalMinor: number;
   readonly lastDate: string;
+  /**
+   * How many people one row stands for: 1 (absent) for a named donor, the
+   * count of an outside place's donors for an `outside:` row, whose limit is
+   * read per person (total over donors).
+   */
+  readonly donors?: number;
 }
 
 export interface ImpressionRow {
@@ -1269,6 +1275,50 @@ export function askForDonation(
  * outside account to the campaign's, so the dollars balance on the journal.
  * Returns the minor units raised.
  */
+/**
+ * The candidate puts their own money into their campaign: an amount the
+ * player chose, from their own cash, never more than they hold. A
+ * candidate's own money has no contribution limit (Buckley v. Valeo, 424
+ * U.S. 1, 1976). Returns what moved; it counts as the candidate's own gift.
+ */
+export function contributeOwnMoney(
+  api: CoreAPI,
+  filingId: string,
+  amountMinor: number,
+): number {
+  const campaign = campaignFor(api, filingId);
+  const candidate = api.state.people.get(campaign.candidateId);
+  if (!candidate?.alive) return 0;
+  const amount = Math.min(
+    Math.max(0, Math.floor(amountMinor)),
+    Math.max(0, candidate.liquidMinor),
+  );
+  if (amount <= 0) return 0;
+  const given = giftOf(api, filingId, candidate.id)?.totalMinor ?? 0;
+  postMoney(
+    api,
+    DONATION_KIND,
+    `donation:${filingId}:${candidate.id}:${api.state.date}:${given}`,
+    candidate.id,
+    campaign.organizationId,
+    amount,
+    "The candidate's own money, which no contribution limit covers (Buckley v. Valeo, 424 U.S. 1, 1976).",
+    false,
+  );
+  table(api, "gifts").put({
+    id: `${filingId}|${candidate.id}`,
+    campaignId: filingId,
+    donorId: candidate.id,
+    totalMinor: given + amount,
+    lastDate: api.state.date,
+  } satisfies GiftRow as unknown as ModuleRow);
+  save(api, {
+    ...campaignFor(api, filingId),
+    raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
+  });
+  return amount;
+}
+
 export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const campaign = campaignFor(api, filingId);
   const reached = campaign.outsideReached ?? 0;
@@ -1339,6 +1389,7 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
       donorId,
       totalMinor: given + paid,
       lastDate: api.state.date,
+      donors: (giftOf(api, filingId, donorId)?.donors ?? 0) + donors,
     } satisfies GiftRow as unknown as ModuleRow);
     total += paid;
   }

@@ -5,12 +5,13 @@ area: world
 kind: wiring
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-vv
+status: open
+claimed-by:
 pr:
-blocked-on: world-lodes-commutes-split-flow
+blocked-on:
+after: world-lodes-commutes-split-flow
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at: 2026-10-20T05:29:37.570Z
+claimed-at:
 ---
 
 **What.** Residents' pay from jobs the opening could not place is a stand-in (`SG-CORE-unplaced-workers-income`). Make them jobs: commutes from LEHD LODES for work outside the town, and the town's missing industries. The workers then show an employer or commute destination in their pay record. The commute shares come from the LODES tables the place data already carries.

@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/apply-buy-reasons
-pr:
+pr: #5812
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-21T14:47:26.266Z

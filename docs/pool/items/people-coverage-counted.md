@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/coverage.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts
 
 **Notes.** Follow-up of people-coverage-record-monthly-pass, which covers full people only.
+
+Sent back 2026-10-23 from PR #5475 (branch claude/coverage-counted): The Done-when table omits the required one-year run and named premium journal posting; the cited test advances only 44 days and checks lastDueMinor, not the weighted money-chain acceptance; finish on that branch, merge main into it first.

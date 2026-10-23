@@ -151,3 +151,23 @@ export function scaleOutsideSales(factor: number, input: CoreInput): CoreInput {
     },
   };
 }
+
+/**
+ * A town opened at a multiple of its sample runs that multiple of sales and
+ * wages, so each business's opening cash (its estimated days of payroll and
+ * costs) is that multiple too: the same cover for the same days.
+ */
+export function scaleBusinessCash(factor: number, input: CoreInput): CoreInput {
+  if (factor === 1 || !input.finance) return input;
+  const businesses = new Set(
+    input.finance.businesses.map((book) => book.organizationId),
+  );
+  return {
+    ...input,
+    organizations: input.organizations.map((org) =>
+      businesses.has(org.id)
+        ? { ...org, liquidMinor: Math.round(org.liquidMinor * factor) }
+        : org,
+    ),
+  };
+}
