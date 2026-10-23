@@ -538,12 +538,18 @@ export function createDirector(
     return Math.pow(P.two, -nearest / param("directorAnniversaryHalfDays"));
   }
 
+  /** The kept-fact key of a pair of people, built once per thread. */
+  const factKeys = new WeakMap<Thread, string>();
+
   function fadingOf(thread: Thread, book: PersonLedger, date: IsoDate): number {
     // Living in one home is contact, whether or not the core records it.
     if (thread.sharedHome) return zero;
-    const fact = book.keptFacts.get(
-      `knew-each-other:${[thread.personId, thread.otherId].sort().join(":")}`,
-    );
+    let factKey = factKeys.get(thread);
+    if (factKey === undefined) {
+      factKey = `knew-each-other:${[thread.personId, thread.otherId].sort().join(":")}`;
+      factKeys.set(thread, factKey);
+    }
+    const fact = book.keptFacts.get(factKey);
     const known = thread.lastContact ?? fact?.since;
     const last =
       thread.renewedAt && (!known || thread.renewedAt > known)
@@ -584,12 +590,32 @@ export function createDirector(
     );
   }
 
+  /**
+   * The moments that came from a broad event, kept as the person's moments
+   * grow: a person's moments only ever grow by push, or are replaced by a
+   * filtered copy, so each array is scanned once for its new entries.
+   */
+  const broadScans = new WeakMap<
+    Moment[],
+    { scanned: number; list: Moment[] }
+  >();
+  function broadMoments(book: PersonLedger): readonly Moment[] {
+    let held = broadScans.get(book.moments);
+    if (!held) {
+      held = { scanned: zero, list: [] };
+      broadScans.set(book.moments, held);
+    }
+    for (; held.scanned < book.moments.length; held.scanned += one) {
+      const moment = book.moments[held.scanned]!;
+      if (moment.broadEventId !== undefined) held.list.push(moment);
+    }
+    return held.list;
+  }
+
   /** The pair's own moments, plus broad events that hit both of them. */
   function pairHistory(book: PersonLedger, otherId: PersonId): Moment[] {
-    const shared = book.moments.filter(
-      (moment) =>
-        moment.broadEventId !== undefined &&
-        ledger.hitBy.get(moment.broadEventId)?.has(otherId) === true,
+    const shared = broadMoments(book).filter(
+      (moment) => ledger.hitBy.get(moment.broadEventId!)?.has(otherId) === true,
     );
     return [...new Set([...pairMoments(book, otherId), ...shared])];
   }
@@ -701,19 +727,42 @@ export function createDirector(
     }
   }
 
+  /**
+   * Rescore the moments a pair shares by hindsight. `pass` holds what one
+   * pass has already worked out: each counterpart's importance, and the
+   * moments rescored, so a moment with many counterparts, stored for each of
+   * them, is scored once and each counterpart's importance is worked out once.
+   */
+  interface RescorePass {
+    readonly importance: Map<PersonId, number>;
+    readonly done: Set<string>;
+  }
+
   function rescoreHindsight(
     book: PersonLedger,
     otherId: PersonId,
     date: IsoDate,
+    pass: RescorePass = { importance: new Map(), done: new Set() },
   ) {
+    const importanceFor = (id: PersonId) => {
+      let value = pass.importance.get(id);
+      if (value === undefined) {
+        const thread = book.threads.get(id);
+        value = thread ? importanceOf(book, thread, date) : zero;
+        pass.importance.set(id, value);
+      }
+      return value;
+    };
     for (const moment of pairMoments(book, otherId)) {
+      if (pass.done.has(moment.id)) continue;
+      pass.done.add(moment.id);
       moment.hindsight =
         moment.impact *
         (one +
-          moment.counterpartIds.reduce((sum, id) => {
-            const thread = book.threads.get(id);
-            return sum + (thread ? importanceOf(book, thread, date) : zero);
-          }, zero));
+          moment.counterpartIds.reduce(
+            (sum, id) => sum + importanceFor(id),
+            zero,
+          ));
       moment.hindsightAt = date;
     }
   }
@@ -1202,8 +1251,12 @@ export function createDirector(
           momentId: moment.id,
           closeness: thread.closeness,
         });
-      rescoreHindsight(book, otherId, date);
     }
+    // Every counterpart holds the moment before any is rescored, and each
+    // counterpart's importance is worked out once for the moment.
+    const pass: RescorePass = { importance: new Map(), done: new Set() };
+    for (const otherId of counterpartIds)
+      rescoreHindsight(book, otherId, date, pass);
     const filter = ledger.sceneFilters.get(moment.personId);
     const entry = scheduleMoment(core, book, moment, {
       mode,
