@@ -19,7 +19,13 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, type LawAppliedRow } from "./law-reach/applied";
 import { advanceCore } from "./life";
 import type { LawRowInput } from "./laws-starting";
-import { EMPLOYER_TAXES_MODULE_ID } from "./modules/employer-taxes";
+import {
+  EMPLOYER_TAXES_MODULE_ID,
+  profitTaxesOf,
+} from "./modules/employer-taxes";
+import { governments } from "./modules/budgets";
+import { ownerOf } from "./modules/business";
+import { outsideAccountOf } from "./budgets-treasury";
 import {
   bodyOf,
   draftBill,
@@ -28,7 +34,7 @@ import {
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { coreAPI } from "./state";
-import type { CoreAPI, CoreState } from "./types";
+import type { CoreAPI, CoreState, Source } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const TRIES = 4;
@@ -405,6 +411,200 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           open("property-tax").filter((r) => r.lawId === ids.property).length,
           `${where}: property tax rows at ${ids.property} after ${propertyOff}`,
         ).toBe(0);
+      } finally {
+        setBookkeeping(true);
+      }
+    },
+  );
+
+  it(
+    "keeps a corporation's unpaid profit tax owed to each treasury, through a zero-profit quarter and a repealed state rate",
+    // Each attempt builds a town and runs to October 1 (three quarter days).
+    { timeout: 900_000 },
+    () => {
+      setBookkeeping(false);
+      const testSource: Source = {
+        tag: "SOURCED",
+        asOf: gameStartDate(),
+        citation: "Law-wiring test: a corporation's arrears and cash are set",
+      };
+      try {
+        const tried: string[] = [];
+        for (let i = 0; i < TRIES; i++) {
+          const drawn = drawPlace(seed, `law-wiring-taxes-arrears:${i}`);
+          const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
+          const core = buildBenchWorld(drawn.seed, gameStartDate(), {
+            twoLevel: true,
+            placeKey: drawn.key,
+          }).core;
+          const api = coreAPI(core);
+          // A federal and a state corporate rate, each paid to its own treasury.
+          const levels = lawInForce(api, "corporate-income-tax").levels.filter(
+            (l) => !l.setAside && l.row && (l.row.value ?? 0) > 0,
+          );
+          const gov = (level: string) =>
+            governments(api).find(
+              (g) =>
+                g.id === levels.find((l) => l.level === level)?.jurisdiction,
+            );
+          const federal = gov("federal");
+          const state = gov("state");
+          const outside = outsideAccountOf(api);
+          // April 1 opens the quarter's books; a corporation's location (a
+          // business an organization owns, open by the end of June) is chosen then.
+          const year = core.date.slice(0, 4);
+          if (federal && state && outside)
+            advanceCore(core, makeIsoDate(`${year}-06-30`));
+          const corporation = (not?: string) =>
+            [...core.finance.businesses.entries()]
+              .filter(([id, books]) => !books.closedAt && id !== not)
+              .map(([id]) => id)
+              .sort()
+              .find((id) => {
+                const owner = ownerOf(api, id);
+                return !!owner && core.organizations.has(owner);
+              });
+          const business = corporation();
+          if (!federal || !state || !outside || !business) {
+            tried.push(
+              `${where}: ${!state ? "no state corporate rate" : !business ? "no business an organization owns" : "no federal treasury or outside account"}`,
+            );
+            continue;
+          }
+          const accounts = api.accounts();
+          const setCash = (id: string, tag: string, minor: number) => {
+            const cash = accounts.main(id);
+            const held = accounts.balance(cash);
+            const [from, to] =
+              held > minor
+                ? [cash, accounts.main(outside)]
+                : [accounts.main(outside), cash];
+            if (held !== minor)
+              accounts.transfer({
+                id: `law-wiring-taxes-cash:${tag}:${i}`,
+                from,
+                to,
+                amountMinor: Math.abs(held - minor),
+                reasonKey: "law-wiring-test",
+                source: testSource,
+                partial: true,
+              });
+          };
+          const taxes = api.moduleState(EMPLOYER_TAXES_MODULE_ID);
+          // The day before a quarter day: what each treasury is owed is set,
+          // and the quarter shows no profit, so only the arrears are due.
+          const owe = (
+            id: string,
+            owed: Record<string, number>,
+            cashMinor: (held: number) => number,
+          ) => {
+            taxes.table("arrears").put({
+              id: `${id}:profit`,
+              minor: Object.values(owed).reduce((n, o) => n + o, 0),
+              byGovernment: owed,
+            });
+            taxes
+              .table("quarters")
+              .put({ id, minor: Number.MAX_SAFE_INTEGER / 4 });
+            setCash(
+              id,
+              core.date,
+              cashMinor(accounts.balance(accounts.main(id))),
+            );
+          };
+          const paidOn = (id: string, date: string) => {
+            const record = profitTaxesOf(api).find(
+              (r) => r.businessId === id && r.date === date,
+            );
+            const to = (g: { organizationId: string }) =>
+              (record?.postings ?? [])
+                .filter(
+                  (p) => p.accountId === `cash:${g.organizationId}:residual`,
+                )
+                .reduce((n, p) => n + p.deltaMinor, 0);
+            return { record, federal: to(federal), state: to(state) };
+          };
+
+          // July 1, no profit: federal 2,000,000 and state 1,000,000 owed, and
+          // cash for about half. Each treasury is paid its share of what it is owed.
+          owe(
+            business,
+            { [federal.id]: 2_000_000, [state.id]: 1_000_000 },
+            () => 1_500_000,
+          );
+          advanceCore(core, makeIsoDate(`${year}-07-01`));
+          const july = paidOn(business, `${year}-07-01`);
+          expect(
+            july.record,
+            `${where}: ${business} July record`,
+          ).toBeDefined();
+          expect(july.record!.taxMinor, `${where}: no profit, no new tax`).toBe(
+            0,
+          );
+          expect(
+            july.record!.paidMinor,
+            `${where}: arrears paid`,
+          ).toBeGreaterThan(0);
+          expect(
+            july.federal + july.state,
+            `${where}: paid in full to the two`,
+          ).toBe(july.record!.paidMinor);
+          expect(
+            Math.abs(july.federal - 2 * july.state),
+            `${where}: federal ${july.federal} and state ${july.state} paid two to one`,
+          ).toBeLessThanOrEqual(2);
+          expect(
+            july.record!.arrearsAfterByGovernment,
+            `${where}: each treasury still owed its own rest`,
+          ).toEqual(
+            Object.fromEntries(
+              [
+                [federal.id, 2_000_000 - july.federal],
+                [state.id, 1_000_000 - july.state],
+              ].filter(([, o]) => Number(o) > 0),
+            ),
+          );
+
+          // The state's rate is repealed; on October 1 it is still paid what
+          // it was owed, and the federal treasury takes nothing of it.
+          enactLaw(api, {
+            jurisdiction: state.id,
+            level: "state",
+            series: "corporate-income-tax",
+            value: 0,
+            effectiveDate: addDays(makeIsoDate(core.date), 1),
+            measureId: "test:corporate-income-tax:state-repeal",
+            citation: "Test repeal",
+          });
+          advanceCore(core, makeIsoDate(`${year}-09-30`));
+          // A location still open (the one above may have closed short of
+          // cash), given the cash to pay.
+          const second = corporation(business) ?? corporation();
+          if (!second) {
+            tried.push(`${where}: no corporation location open in September`);
+            continue;
+          }
+          owe(second, { [state.id]: 1_000_000 }, (held) => held + 1_000_000);
+          advanceCore(core, makeIsoDate(`${year}-10-01`));
+          const october = paidOn(second, `${year}-10-01`);
+          expect(october.record, `${where}: October record`).toBeDefined();
+          expect(
+            october.state,
+            `${where}: state arrears after its repeal`,
+          ).toBe(1_000_000);
+          expect(october.federal, `${where}: federal takes none of it`).toBe(0);
+          expect(
+            october.record!.arrearsAfterByGovernment,
+            `${where}: nothing left owed`,
+          ).toEqual({});
+          console.info(
+            `law-wiring-taxes arrears ${where}: ${business} in July paid federal ${july.federal} and state ${july.state} of 2,000,000 and 1,000,000; ${second} on October 1 paid the repealed state ${october.state}`,
+          );
+          return;
+        }
+        throw new Error(
+          `No drawn place had a corporation under a state corporate rate (seed ${seed}); tried ${tried.join("; ")}`,
+        );
       } finally {
         setBookkeeping(true);
       }

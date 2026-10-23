@@ -46,6 +46,8 @@ export interface ProfitTaxRecord {
   readonly taxMinor: number;
   readonly paidMinor: number;
   readonly arrearsAfterMinor: number;
+  /** What each government is still owed after this payment, by government id. */
+  readonly arrearsAfterByGovernment: Readonly<Record<string, number>>;
   readonly lawIds: readonly string[];
   readonly postings: readonly {
     id: string;
@@ -190,7 +192,6 @@ function payProfitTaxes(api: CoreAPI): void {
       const gov = governments(api).find((g) => g.id === level.jurisdiction);
       return gov ? [{ row: level.row!, level: level.level, gov }] : [];
     });
-  if (!levels.length) return;
   // stopgapId: SG-WORLD-business-premises-property-tax
   api.stopgap(PREMISES_STOPGAP);
   const core = api.state as CoreState;
@@ -232,29 +233,44 @@ function payProfitTaxes(api: CoreAPI): void {
       tax: profit > 0 ? Math.round((profit * l.row.value!) / 100) : 0,
     }));
     const tax = taxes.reduce((n, l) => n + l.tax, 0);
-    const owed = tax + arrearsOf(api, key);
+    // Each treasury is owed its own arrears and this quarter's tax at its own
+    // rate; a treasury whose rate was repealed or lowered keeps what it was owed.
+    const before = profitArrearsOf(api, key);
+    const govs = [
+      ...taxes.map((l) => l.gov),
+      ...Object.keys(before)
+        .filter((g) => !taxes.some((l) => l.gov.id === g))
+        .sort()
+        .flatMap((g) => governments(api).filter((row) => row.id === g)),
+    ];
+    const owedBy = govs.map(
+      (g) =>
+        (before[g.id] ?? 0) + (taxes.find((l) => l.gov.id === g.id)?.tax ?? 0),
+    );
+    const owed = owedBy.reduce((n, o) => n + o, 0);
     if (owed <= 0) continue;
     const from = `cash:${id}:residual`;
     const paid = Math.min(owed, Math.max(0, api.accounts().balance(from)));
+    // What is paid goes to each treasury in proportion to what it is owed.
+    const shares = splitOwed(paid, owedBy);
+    const arrearsAfter: Record<string, number> = {};
+    for (const [index, g] of govs.entries())
+      if (owedBy[index]! - shares[index]! > 0)
+        arrearsAfter[g.id] = owedBy[index]! - shares[index]!;
     table(api, "arrears").put({
       id: key,
       minor: owed - paid,
+      byGovernment: arrearsAfter,
     } as unknown as ModuleRow);
     const recordId = `profit-tax:${id}:${api.state.date}`;
-    // What is paid goes to the treasuries by their share of what is owed
-    // (arrears are the federal's first, being the oldest rows).
-    const shares = splitByWeight(
-      paid,
-      taxes.map((l) => l.tax || 1),
-    );
     const postings =
       paid > 0
         ? [
             { id: `${recordId}:out`, accountId: from, deltaMinor: -paid },
-            ...taxes
-              .map((l, index) => ({
-                id: `${recordId}:in:${l.level}`,
-                accountId: `cash:${l.gov.organizationId}:residual`,
+            ...govs
+              .map((g, index) => ({
+                id: `${recordId}:in:${g.id}`,
+                accountId: `cash:${g.organizationId}:residual`,
                 deltaMinor: shares[index]!,
               }))
               .filter((p) => p.deltaMinor > 0),
@@ -270,7 +286,7 @@ function payProfitTaxes(api: CoreAPI): void {
         target: "organization",
         engine: EMPLOYER_TAXES_MODULE_ID,
         what: "profit-taxed",
-        amountMinor: shares[index]!,
+        amountMinor: shares[govs.indexOf(l.gov)]!,
       });
     const record: ProfitTaxRecord = {
       id: recordId,
@@ -280,6 +296,7 @@ function payProfitTaxes(api: CoreAPI): void {
       taxMinor: tax,
       paidMinor: paid,
       arrearsAfterMinor: owed - paid,
+      arrearsAfterByGovernment: arrearsAfter,
       lawIds: taxes.map((l) => l.row.id),
       postings,
       source: {
@@ -299,12 +316,13 @@ function payProfitTaxes(api: CoreAPI): void {
     table(api, "profits").put(record as unknown as ModuleRow);
     if (!postings.length) continue;
     // The corporate line's outside payers owe that much less at their next installment.
-    for (const [index, l] of taxes.entries())
-      noteTownRevenue(api, {
-        governmentId: l.gov.id,
-        line: "corporateIncomeTax",
-        paidMinor: shares[index]!,
-      });
+    for (const [index, g] of govs.entries())
+      if (shares[index]! > 0)
+        noteTownRevenue(api, {
+          governmentId: g.id,
+          line: "corporateIncomeTax",
+          paidMinor: shares[index]!,
+        });
     api.postJournal({
       id: `journal:${api.state.date}:${core.cashJournal.nextSequence}`,
       date: api.state.date,
@@ -315,20 +333,28 @@ function payProfitTaxes(api: CoreAPI): void {
   }
 }
 
-/** Split `whole` by weights in whole minor units; the last share takes the remainder. */
-function splitByWeight(whole: number, weights: readonly number[]): number[] {
-  const sum = weights.reduce((n, w) => n + w, 0);
-  const out: number[] = [];
-  let given = 0;
-  for (const [index, w] of weights.entries()) {
-    const share =
-      index === weights.length - 1
-        ? whole - given
-        : Math.floor((whole * w) / sum);
-    out.push(share);
-    given += share;
-  }
+/**
+ * Split a payment across what each treasury is owed, in proportion, in whole
+ * minor units: each share is rounded down, and the cents left go one at a
+ * time to the first treasuries still owed. No share exceeds what is owed.
+ */
+function splitOwed(paid: number, owed: readonly number[]): number[] {
+  const sum = owed.reduce((n, o) => n + o, 0);
+  const out = owed.map((o) => (sum > 0 ? Math.floor((paid * o) / sum) : 0));
+  let left = paid - out.reduce((n, o) => n + o, 0);
+  for (let index = 0; left > 0 && index < owed.length; index++)
+    if (out[index]! < owed[index]!) {
+      out[index] = out[index]! + 1;
+      left -= 1;
+    }
   return out;
+}
+
+/** A business's unpaid corporate tax, by the government it is owed to. */
+function profitArrearsOf(api: CoreAPI, key: string): Record<string, number> {
+  const row = table(api, "arrears").get(key) as unknown as
+    { minor: number; byGovernment?: Record<string, number> } | undefined;
+  return { ...(row?.byGovernment ?? {}) };
 }
 
 /**
