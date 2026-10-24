@@ -505,7 +505,8 @@ function followTheMoney(
  * How full a prosecutor's desk is, as a share of what the office carries: its
  * open investigations and its charged cases not yet decided, read when it
  * weighs opening or charging another (the indexes are by office, so nothing
- * scans the world).
+ * scans the world). A desk at capacity weighs fully and no more, so a strong
+ * case on a busy desk is still pursued (prosecutorCaseloadCapacity).
  */
 function workload(api: CoreAPI, officeId: string): number {
   const open = (
@@ -516,7 +517,7 @@ function workload(api: CoreAPI, officeId: string): number {
   const pending = (
     table(api, "cases").query("byOffice", [officeId]) as unknown as CaseRow[]
   ).filter((row) => row.status === "charged").length;
-  return (open + pending) / p(api, "prosecutorCaseloadCapacity");
+  return clamp01(api, (open + pending) / p(api, "prosecutorCaseloadCapacity"));
 }
 
 function lossShare(api: CoreAPI, officeId: string): number {
@@ -657,8 +658,12 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
     const { pleads: weighed, ...plea } = pleaOn(strength, target.personId);
     const witness = witnesses.get(target.personId);
     const pleads = weighed || !!witness;
+    // The plea is entered, or the trial opens, after the place's time to
+    // disposition, which counts pleas and trials alike; the defendant waits
+    // for that day at home on bail or in custody.
     const days = dispositionDays(api, stateKey);
-    const trialDate = pleads ? null : addDays(api.state.date, days.days);
+    const heard = addDays(api.state.date, days.days);
+    const trialDate = pleads ? null : heard;
     const row: CaseRow = {
       id,
       investigationId: inv.id,
@@ -704,36 +709,33 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
       },
       days.source,
     );
-    if (pleads) convict(api, row, true);
-    else {
-      const wait = decidePretrial(api, JUSTICE_MODULE_ID, id, target.personId);
-      const bailTreasury = treasuryFor(api, inv.prosecutorOfficeId);
-      if (wait?.decision === "posted" && bailTreasury)
-        holdBail(api, id, target.personId, bailTreasury, wait.bailMinor);
-      if (wait)
-        emit(
-          api,
-          wait.decision === "held"
-            ? "justice.held-before-trial"
-            : "justice.bail-set",
-          `justice.pretrial:${id}`,
-          [target.personId],
-          {
-            caseId: id,
-            decision: wait.decision,
-            bailMinor: String(wait.bailMinor),
-            ...(wait.lawId ? { lawId: wait.lawId } : {}),
-          },
-          days.source,
-        );
-      api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
-        key: `trial:${id}`,
-        date: trialDate!,
-        kind: "trial",
-        source: days.source,
-        sourceRecordIds: [id],
-      });
-    }
+    const wait = decidePretrial(api, JUSTICE_MODULE_ID, id, target.personId);
+    const bailTreasury = treasuryFor(api, inv.prosecutorOfficeId);
+    if (wait?.decision === "posted" && bailTreasury)
+      holdBail(api, id, target.personId, bailTreasury, wait.bailMinor);
+    if (wait)
+      emit(
+        api,
+        wait.decision === "held"
+          ? "justice.held-before-trial"
+          : "justice.bail-set",
+        `justice.pretrial:${id}`,
+        [target.personId],
+        {
+          caseId: id,
+          decision: wait.decision,
+          bailMinor: String(wait.bailMinor),
+          ...(wait.lawId ? { lawId: wait.lawId } : {}),
+        },
+        days.source,
+      );
+    api.moduleCalendar(JUSTICE_MODULE_ID).schedule({
+      key: `hearing:${id}`,
+      date: heard,
+      kind: "hearing",
+      source: days.source,
+      sourceRecordIds: [id],
+    });
   }
   table(api, "investigations").put({
     ...inv,
@@ -742,9 +744,10 @@ export function chargeDecision(api: CoreAPI, investigationId: string): void {
 }
 
 // ---------------------------------------------------------------------------
-// 4. Trial
+// 4. Hearing
 
-function trial(api: CoreAPI, caseId: string): void {
+/** The case is heard: the wait ends, the bail comes back, and the plea is entered or the trial held. */
+function hearing(api: CoreAPI, caseId: string): void {
   const row = table(api, "cases").get(caseId) as unknown as CaseRow | undefined;
   if (!row || row.status !== "charged") return;
   endPretrial(api, JUSTICE_MODULE_ID, caseId);
@@ -755,6 +758,10 @@ function trial(api: CoreAPI, caseId: string): void {
       ...row,
       status: "dismissed",
     } as unknown as ModuleRow);
+    return;
+  }
+  if (row.plea) {
+    convict(api, row, true);
     return;
   }
   const verdict = verdictMargin(api, row.evidence, row.defendantId);
@@ -979,9 +986,9 @@ function fineSlot(api: CoreAPI, id: string): CashJournalSourceSlot | undefined {
         row.reason === "forfeiture"
           ? "The bribe money a court forfeits on a bribery conviction, paid to the treasury."
           : row.reason === "bail"
-            ? "A defendant's bail, held in the court escrow under the prosecuting government's treasury until the trial."
+            ? "A defendant's bail, held in the court escrow under the prosecuting government's treasury until the case is heard."
             : row.reason === "bail-return"
-              ? "A defendant's bail, returned in full from the court escrow when the trial opens."
+              ? "A defendant's bail, returned in full from the court escrow when the case is heard."
               : "A court's fine on a bribery conviction, paid to the treasury.",
       asOf: row.date,
     },
@@ -1039,7 +1046,7 @@ function payToTreasury(
 
 /**
  * The court escrow fund under a treasury's owner: bail sits here, apart from
- * the cash the government can spend, until the trial returns it.
+ * the cash the government can spend, until the hearing returns it.
  */
 function escrowOf(api: CoreAPI, treasuryId: string): string {
   const state = api.state as CoreState;
@@ -1060,7 +1067,7 @@ function escrowOf(api: CoreAPI, treasuryId: string): string {
   return id;
 }
 
-/** Bail posted: the bail leaves the defendant's cash for the court escrow under the treasury, held until the trial. */
+/** Bail posted: the bail leaves the defendant's cash for the court escrow under the treasury, held until the hearing. */
 function holdBail(
   api: CoreAPI,
   caseId: string,
@@ -1079,7 +1086,7 @@ function holdBail(
   );
 }
 
-/** The trial opens: the escrow hands the whole bail back, whatever the treasury has spent since. */
+/** The case is heard: the escrow hands the whole bail back, whatever the treasury has spent since. */
 function returnBail(api: CoreAPI, caseId: string): void {
   const held = table(api, "fines").get(`bail:${caseId}`) as unknown as
     FineRecord | undefined;
@@ -1479,7 +1486,7 @@ function onTold(api: CoreAPI, event: Readonly<CoreEventInput>): void {
 function justiceWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const id = work.sourceRecordIds[0]!;
   if (work.kind === "charge-decision") chargeDecision(api, id);
-  else if (work.kind === "trial") trial(api, id);
+  else if (work.kind === "hearing") hearing(api, id);
   else if (work.kind === "release") release(api, id);
   else if (work.kind === "keep-from-work") {
     const jobId = work.sourceRecordIds[1]!;

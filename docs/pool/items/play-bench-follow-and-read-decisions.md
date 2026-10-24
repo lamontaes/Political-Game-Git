@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/play-bench-follow-decisions
 pr: #5889
 blocked-on:

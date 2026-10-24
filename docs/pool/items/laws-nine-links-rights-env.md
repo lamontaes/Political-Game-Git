@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/law-wiring-rights-env
 pr: #5669
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"

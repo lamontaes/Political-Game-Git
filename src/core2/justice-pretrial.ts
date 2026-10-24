@@ -1,6 +1,7 @@
 /**
- * Waiting for trial. A charged defendant who does not plead waits for the
- * trial date at home if they can post bail, and in custody if they cannot.
+ * Waiting for the hearing. A charged defendant waits for the day the plea is
+ * entered or the trial opens at home if they can post bail, and in custody if
+ * they cannot.
  * Where the place has ended cash bail, nobody waits in custody for want of
  * money. One reader for every place: the law comes from the laws engine.
  */
@@ -67,7 +68,7 @@ export function decidePretrial(
   return row;
 }
 
-/** The trial opens or the case ends: a defendant held for want of bail goes home. */
+/** The case is heard: a defendant held for want of bail goes home. */
 export function endPretrial(
   api: CoreAPI,
   moduleId: string,

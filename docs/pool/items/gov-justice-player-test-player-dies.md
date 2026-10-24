@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/justice-player-death
+status: open
+claimed-by:
 pr: #5936
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T10:34:37.657Z
+claimed-at:
 ---
 
 **What.** One run of src/core2/justice-player.test.ts failed at load with 'Controlled person is no longer alive; unresolved intentions remain unposted.' from src/core2/player-v1.ts:217: the player character died during the test's run of up to three played years, and the bench player's next advance threw. The test draws its seed at random and prints it only in test names and its JUSTICE_PRINT file, so a failure at load loses the seed and the run cannot be repeated. Two runs with fixed seeds (p1aa11bb22cc33dd, p2ee44ff55aa66bb) passed the same day on the branch that made pleas wait for the hearing.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T10:34:37.657Z
 **Files.** src/core2/justice-player.test.ts, src/bench/player.ts, src/core2/player-v1.ts
 
 **Notes.** Found Oct 23 by claude/sleepy-carson-f8omzd (pool item justice-bail-moves-the-cash). Whether that change raised the chance of the death was not established: a defendant held before the hearing now has their own choices off for the state's time to disposition; deaths come from the health engine's hazard (src/core2/modules/health.ts:769).
+
+Sent back 2026-10-24 from PR #5936 (branch claude/justice-player-death): world-build errors omit the place and bribe/module setup remains outside the seed/place wrapper before test registration; wrap complete load/setup and prove injected failures retain context on that branch, merge main into it first.
