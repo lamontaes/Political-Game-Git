@@ -40,3 +40,5 @@ Sent back 2026-10-20 from PR #4146 (branch stopgaps/gov-world): src/core2/module
 Sent back 2026-10-23 from PR #4146 (branch stopgaps/gov-world): Missing Done-when table and current integrated played-year proof; restate which stand-ins the remaining diff resolves or use a valid bounded item; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #4146 (branch stopgaps/gov-world): src/core2/data/stopgaps.json:2204 adds a dated CTO note in shipped data; retain the mechanical resolution and move the dated decision citation to documentation; local test attempts ended after container OOM kills, so no test pass is claimed; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #4146 (branch stopgaps/gov-world): New src/core2/jobs-benefits.test.ts imports ../simulation/life-places; replace it with the current core place lookup/draw path while preserving the independent draw and unemployment-law assertions, without an allowlist bypass; finish on that branch, merge main into it first.

@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/law-reach/group-b.ts, src/core2/modules/health.ts, src/core2/data/stopgaps.json
 
 **Notes.** Part 3 of 3 split from missing-engine-health-coverage-and-medical-spending (Oct 20).
+
+Folded in from the withdrawn people-health-coverage-reader (PR #5450), which named the same chain: (1) a lost job or a raise that moves an adult over the income limit ends the coverage and raises the bill again, the same sliding rule in both directions, never a cutoff; (2) the chain reaches the director's line (the smaller bill cites the coverage record, and nobody credits the law unless they learned of it). The monthly flow this reads is the CE health insurance and medical services flow; two open items describe it, world-medical-spending-categories and people-health-spending-flows, so whoever claims one should read the other first and one of them should be closed as the duplicate (a CTO call, not made here).

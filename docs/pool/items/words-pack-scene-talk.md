@@ -5,13 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
-claimed-by: words/word-pack
+status: open
+claimed-by:
 pr: #4626
 blocked-on:
 after: words-scene-talk
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T08:12:06.585Z
+claimed-at:
 ---
 
 **What.** Word pack: the scene-talk pieces the owner kept, folded into the bank and calibrated on real exchanges. The owner kept some pieces from the rejected batches, and they must live in the bank as data so scenes can use them. Fold the kept pieces into data/english/parts with their moves, registers and bearings, and calibrate their use on the corpus.
@@ -32,3 +32,5 @@ Sent back 2026-10-19 from PR #4626 (branch words/word-pack): No in-session chang
 Sent back 2026-10-19 from PR #4626 (branch words/word-pack): same conflicts as words-batch-15; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 UTC from PR #4626 (branch words/word-pack): Morning check: scene-talk.test.ts:133-136 now permits a final reply question and drops the missing-close gap assertion, while line 225 lowers minimum depth from 2 to 1; restore the closing and branch coverage and satisfy it; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #4626 (branch words/word-pack): law-reached-scenes.test.ts:58-70 skips cast/cause assertions for a bindingless effect based on any same-day scene, while scheduling.ts only discards duplicate bindings rather than associating both causes; prove the recipient and both cause record IDs or preserve distinct scenes; finish on that branch, merge main into it first.
