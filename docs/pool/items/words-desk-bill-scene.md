@@ -5,13 +5,13 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5953
 blocked-on:
 after: words-bargain-scenes
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** When a passed bill waits on the player's desk as mayor, county executive, governor or president, the legislature puts it in a desk table and the office day stops the player, but no record says the bill was presented, so the director never stages the desk-bill scene; its cause waits on a producer. Presentment of a bill to the executive is a public record in every state and town. This item has the legislature record the presentment, the director size it for the executive, and the desk-bill scene fire from it with the executive's own aide from the staff module, or the clerk where the executive has no aide, the talk naming the bill from the record.
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-24 from PR #5953 (branch words/desk-scene): new desk-scene.test.ts:27 and carried bargain/purpose source comments and producer-data note embed dated owner instructions prohibited by the merger morning check; retain that history in docs; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5953 (branch words/desk-scene): dated-owner-note repair accepted, but corrective 2f2bc1015c explicitly carries separate parent features #5949, #5914 and #5942, all still open/unmerged; await their reviewed main delivery, then finish on this branch, merge main into it first. No completed local scene gate or new runtime defect claimed.
