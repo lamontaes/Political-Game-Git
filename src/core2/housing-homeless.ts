@@ -351,12 +351,7 @@ export function reviewHomeless(
     "statuses",
   ).rows() as unknown as HousingStatusRow[]) {
     const household = c.households.get(row.id);
-    // Those still alive and still in this household: a member who moved out or
-    // married away does not sign or pay the lease, and a household whose
-    // homeless members all left it has nobody to rehouse.
-    const living = row.memberIds.filter(
-      (id) => c.people.get(id)?.alive && household?.memberIds.includes(id),
-    );
+    const living = row.memberIds.filter((id) => c.people.get(id)?.alive);
     if (!household || !living.length) {
       setStatus(
         api,
