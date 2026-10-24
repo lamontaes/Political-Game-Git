@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.23.3",
+      "releasedOn": "2026-10-24",
+      "revision": "6a647abc41c7725770263e30def1322cd8c43d61",
+      "changeIds": ["jobs-counted-hire-other-employer-calendar"]
+    },
+    {
       "version": "0.23.2",
       "releasedOn": "2026-10-24",
       "revision": "b0664a04bf477d8489e10e8ee7ec9c56980a6924",
