@@ -64,7 +64,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | partner with federal immigration enforcement | justice | yes | yes | yes | yes | yes | yes | yes | yes | yes | wired |
 | end cash bail | justice | yes | yes | yes | yes | yes | yes | yes | yes | yes | wired |
 | Spending: corrections | justice | yes | yes | yes | yes | yes | n/a | NO | yes | yes | partly |
-| restore voting after sentence | justice | yes | yes | yes | part | yes | SG | yes | yes | yes | partly |
+| restore voting after sentence | justice | yes | yes | yes | yes | yes | SG | yes | yes | yes | stopgapped |
 | raise juvenile court age | justice | yes | yes | yes | yes | yes | n/a | yes | yes | yes | wired |
 | child access prevention | justice | yes | yes | yes | yes | yes | yes | yes | yes | yes | wired |
 | permit to carry concealed | justice | yes | yes | yes | yes | yes | yes | yes | yes | yes | wired |
@@ -459,7 +459,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **restore voting after sentence** (`us-policy-positions:justice-public-safety.restore-voting-after-sentence`)
 
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-convictions)
 
 **raise juvenile court age** (`us-policy-positions:justice-public-safety.raise-juvenile-court-age`)

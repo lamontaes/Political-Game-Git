@@ -1,0 +1,133 @@
+{
+ "seed": "7c6e6a3aa5e6453d",
+ "place": {
+  "seed": "ce4e067963f4acb2a47d38f5467589c83cb81f3ea8ee0542b00f2d22cf6cc697",
+  "key": "1863432",
+  "name": "Reddington, Indiana",
+  "state": "US-IN"
+ },
+ "window": 35,
+ "after": 10,
+ "results": [
+  {
+   "key": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+   "lawIds": [
+    "law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+    "law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+    "law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 374,
+    "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/elections.ts:693": 16,
+    "src/core2/modules/outcome-web.ts:158": 12,
+    "src/core2/modules/world-legislating.ts:183": 10,
+    "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:483": 8,
+    "src/core2/modules/world-legislating.ts:253": 8,
+    "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:625": 8,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2
+   },
+   "openingRow": "law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "restore-voting-to-turnout",
+      "status": "built",
+      "to": "voting.turnout-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_3b0af1776b1a0862:2025-01",
+      "month": "2025-01",
+      "link": "restore-voting-to-turnout",
+      "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "lagMonths": 0,
+      "treated": 0,
+      "control": 1
+     },
+     {
+      "id": "web:jurisdiction_3b0af1776b1a0862:2025-02",
+      "month": "2025-02",
+      "link": "restore-voting-to-turnout",
+      "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "lagMonths": 0,
+      "treated": 0,
+      "control": 1
+     }
+    ],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 1,
+    "sample": [
+     "reach:law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b:restored:estimated:restored:2025-02-26"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 13
+  }
+ ]
+}

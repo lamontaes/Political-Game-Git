@@ -12,13 +12,19 @@
    "key": "3149425",
    "name": "Uehling, Nebraska",
    "state": "US-NE"
+  },
+  {
+   "seed": "ce4e067963f4acb2a47d38f5467589c83cb81f3ea8ee0542b00f2d22cf6cc697",
+   "key": "1863432",
+   "name": "Reddington, Indiana",
+   "state": "US-IN"
   }
  ],
  "summary": {
   "laws": 89,
   "wired": 10,
-  "partly": 74,
-  "stopgapped": 5,
+  "partly": 73,
+  "stopgapped": 6,
   "byLink": {
    "exists": {
     "wired": 88,
@@ -42,8 +48,8 @@
     "n/a": 2
    },
    "systems": {
-    "wired": 49,
-    "partial": 17,
+    "wired": 50,
+    "partial": 16,
     "missing": 13,
     "stopgap": 10,
     "n/a": 0
@@ -4233,7 +4239,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "voting",
-   "overall": "partly",
+   "overall": "stopgapped",
    "links": {
     "exists": {
      "status": "wired",
@@ -4247,13 +4253,13 @@
     },
     "reach": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 1/2 people, households 0, orgs 0, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 1/2 people, households 0, orgs 0, govts 0) e.g. reach:law:US-MI:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20; Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d): 1 open (full 0, counted groups 1/1 people, households 0, orgs 0, govts 0) e.g. reach:law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20",
      "why": ""
     },
     "systems": {
-     "status": "partial",
-     "evidence": "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:625, src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:467, src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:483",
-     "why": "only law reach's own handler reads it; no engine reads the law at the moment it decides or pays"
+     "status": "wired",
+     "evidence": "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/elections.ts:693",
+     "why": ""
     },
     "money": {
      "status": "wired",
@@ -4272,12 +4278,12 @@
     },
     "repeal": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 1 -> after repeal 0 -> re-enacted 1",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 1 -> after repeal 0 -> re-enacted 1; Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d): opening 1 -> after repeal 0 -> re-enacted 1",
      "why": ""
     },
     "allPlaces": {
      "status": "wired",
-     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+     "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d)",
      "why": ""
     }
    },
@@ -4289,6 +4295,11 @@
     },
     {
      "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
+     "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+     "inForceAtOpening": true
+    },
+    {
+     "place": "Reddington, Indiana, US-IN (seed 7c6e6a3aa5e6453d)",
      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
      "inForceAtOpening": true
     }
