@@ -969,6 +969,9 @@ async function atTheOffer(stopRow) {
     $("job-offer-take").onclick = () => answer("accept");
     $("job-offer-turn").onclick = () => answer("decline");
     $("job-offer-wait").onclick = () => close(false);
+    // A later offer's moment must not inherit a answered one's disabled buttons.
+    for (const button of $("job-offer").querySelectorAll("button"))
+      button.disabled = false;
     show("job-offer", true);
     $("job-offer-take").focus();
   });

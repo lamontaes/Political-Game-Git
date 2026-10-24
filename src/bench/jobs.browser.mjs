@@ -116,7 +116,10 @@ try {
 
   // The offer moment on the play screen: a stop the jobs engine holds shows
   // the offer itself — employer, job, pay — with Take it and Turn it down;
-  // either answer releases the hold and Day works again.
+  // either answer releases the hold and Day works again. (The Jobs sheet
+  // closes first: the moment plays over the scene, not over a sheet.)
+  await page.locator("#sheet-close").click();
+  await page.waitForFunction(() => document.getElementById("sheet").hidden);
   const jobsStop = (pauseId, hold) => ({
     packet: {
       kind: "stop",
@@ -166,7 +169,7 @@ try {
     });
   });
   offers = pendingOffer();
-  await page.locator("#week").click();
+  await page.locator("#week").evaluate((e) => e.click());
   await page.locator("#job-offer:not([hidden])").waitFor();
   assert.equal(await page.locator("#job-offer-title").innerText(), "Clerk");
   assert.equal(
@@ -185,7 +188,7 @@ try {
   // Turn it down releases the hold the same way.
   heldStop = jobsStop("stop-held-2", true);
   offers = pendingOffer();
-  await page.locator("#week").click();
+  await page.locator("#week").evaluate((e) => e.click());
   await page.locator("#job-offer:not([hidden])").waitFor();
   await page.locator("#job-offer-turn").click();
   await page.waitForFunction(() => document.getElementById("job-offer").hidden);
@@ -196,7 +199,7 @@ try {
   // still open, and nothing answered.
   heldStop = jobsStop("stop-new", false);
   offers = pendingOffer();
-  await page.locator("#week").click();
+  await page.locator("#week").evaluate((e) => e.click());
   await page.locator("#job-offer:not([hidden])").waitFor();
   assert.ok(await page.locator("#job-offer-wait").isVisible());
   await page.locator("#job-offer-wait").click();
