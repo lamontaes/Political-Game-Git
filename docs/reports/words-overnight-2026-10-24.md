@@ -26,13 +26,13 @@ The scene fired from the filing's own record, `candidate-filed:filing:contest:se
 
 **The opening address changes with the world (#5902).** The President's personality now steers the wording: a combative President leans on "The time for action is now" and "Pass it," a warm one on "The best is yet to come" and "We're with you." Congress and the states hear what that President wants, from their own views. Before, most Presidents asked for nothing. Two worlds drawn tonight:
 
-| | Bowers, Delaware (President Gary Caldwell) | Belleair Bluffs, Florida (President Anthony Bryant) |
-| --- | --- | --- |
-| Opening | "My fellow Americans. The time is now." | "My fellow citizens. We are a nation of immigrants." |
-| The country | "The unemployment rate is 4.1 percent." (macro-month:2024-12) | the same, from the same month |
-| Congress | "I ask Congress to remove the duty to retreat before using force. Pass it." | "I ask Congress to remove the duty to retreat before using force. We can do this together." |
-| The states | "States should restrict abortion." | the same |
-| Families and close | "I know it's hard. So help me God." | "I hear you. God bless you all." |
+|                    | Bowers, Delaware (President Gary Caldwell)                                  | Belleair Bluffs, Florida (President Anthony Bryant)                                         |
+| ------------------ | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| Opening            | "My fellow Americans. The time is now."                                     | "My fellow citizens. We are a nation of immigrants."                                        |
+| The country        | "The unemployment rate is 4.1 percent." (macro-month:2024-12)               | the same, from the same month                                                               |
+| Congress           | "I ask Congress to remove the duty to retreat before using force. Pass it." | "I ask Congress to remove the duty to retreat before using force. We can do this together." |
+| The states         | "States should restrict abortion."                                          | the same                                                                                    |
+| Families and close | "I know it's hard. So help me God."                                         | "I hear you. God bless you all."                                                            |
 
 What still reads wrong: both Republican Presidents ask for the same two things, because their party's strongest positions win and most of their drawn signature issues are ones they oppose, and the bank can't yet say "block this." Every world opens on the same day with the same published numbers, so the one country figure is the same everywhere. Your Oct 19 ruling asks speeches to work in real figures naturally and to fit the speaker's craft, and both are the next step for the speech.
 
