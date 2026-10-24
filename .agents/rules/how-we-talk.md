@@ -6,11 +6,11 @@ Sessions cannot message each other, and nobody tries. Three files on `main` carr
 
 ## The three files
 
-| File                                        | What it is                                                                                      | Who writes it                                                                                      |
-| ------------------------------------------- | ----------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `docs/coordination/LEADS-2026-10-24.md`     | **The channel.** One section per role (Laws, Traits, Speed, M0–M2, Effects, Words, Play-first, Delete, CTO). | Every role, its own section only, newest block at the top. Commit to main: `leads: <role> status <HH:MM UTC>`. |
-| `docs/coordination/MERGE-FIRST.md`          | **The CTO's merge order.** Mergers read it before their share; the pr-fixer reads it to know what to finish first. | The CTO only.                                                                                      |
-| `docs/play-first/PROGRESS.md`               | **The lane's handoff log.** Where the last play-first agent stopped, `needs-from:` lines, newest first. | Every play-first agent before it stops; the CTO reads it first at every pass.                     |
+| File                                    | What it is                                                                                                         | Who writes it                                                                                                  |
+| --------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| `docs/coordination/LEADS-2026-10-24.md` | **The channel.** One section per role (Laws, Traits, Speed, M0–M2, Effects, Words, Play-first, Delete, CTO).       | Every role, its own section only, newest block at the top. Commit to main: `leads: <role> status <HH:MM UTC>`. |
+| `docs/coordination/MERGE-FIRST.md`      | **The CTO's merge order.** Mergers read it before their share; the pr-fixer reads it to know what to finish first. | The CTO only.                                                                                                  |
+| `docs/play-first/PROGRESS.md`           | **The lane's handoff log.** Where the last play-first agent stopped, `needs-from:` lines, newest first.            | Every play-first agent before it stops; the CTO reads it first at every pass.                                  |
 
 ## The rules
 

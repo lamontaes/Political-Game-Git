@@ -10,10 +10,12 @@ description: >
 
 # Session start: the pool worker loop
 
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: play first; the lane owns `src/bench`; "simulate it, don't ask"; "sessions never message each other")
+
 Copy this checklist and keep it current:
 
 ```
-- [ ] Open: AGENTS.md, item, rulings, install, golden path
+- [ ] Open: AGENTS.md, pool item, the channel's CTO section, rulings (LAW.md for play-first items), install, golden path
 - [ ] Red main? claim release-main-red first
 - [ ] Claim the top of Next up (or a sent-back item: use pr-fixer)
 - [ ] Copy the item's done-when lines into a scratch list
@@ -26,7 +28,7 @@ Copy this checklist and keep it current:
 
 ## Open
 
-1. Read `AGENTS.md`, `docs/pool/README.md`, the item file and its Notes, and the newest rulings at the top of `docs/coordination/OWNER-DECISIONS.md`.
+1. Read `AGENTS.md`, `docs/pool/README.md`, the item file and its Notes, then the CTO section of the channel `docs/coordination/LEADS-2026-10-24.md` (`.agents/rules/how-we-talk.md`), then the newest rulings at the top of `docs/coordination/OWNER-DECISIONS.md`. An item with `milestone: play-first` or `lead: play-first` is the lane's: follow `play-first`, whose law is `docs/play-first/LAW.md`.
 2. In a cloud environment, set `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"` in every shell. Install with `npm install` (in a cloud container, `npm ci` is fine too). On the owner's Mac, follow "Workspaces and storage" in `AGENTS.md`.
 3. Run `node --import tsx tests/golden-path/runner.mjs` before changing anything.
 4. Read the latest release run on main: `gh api 'repos/lamontaes/Political-Game-Git/actions/workflows/release.yml/runs?branch=main&per_page=1'`. If its conclusion is `failure`, claim `release-main-red` and fix it at the root on its own PR first.
@@ -38,7 +40,7 @@ Copy this checklist and keep it current:
 3. An L item: split it into S or M items with their own done-when before building, and mark the L item `blocked-on` them.
 4. Copy every line of the item's **Done when** into a scratch list before writing code. Each line is a thing you will show, not a thing you will describe. Read every function, export and field you plan to use on current `origin/main` first; names change daily, and code written from memory of an older main is the most common unverified assumption.
 5. Branch from `origin/main` and build to the done-when. Prove it in a played world (`played-world-proof`), in a place drawn from all 56, naming place, seed and record ids.
-6. Register every shortcut as a stopgap. For an owner's call, register an `owner-decision` stopgap and ask under **OWNER DECISIONS NEEDED**. Add a pool item for anything you find that isn't yours.
+6. Register every shortcut as a stopgap. **Simulate it, don't ask** (owner, Oct 24): a mechanic real life has that the simulation needs is built from research in the background, calibrated not hardcoded; only a design call about the player's own experience is an owner question. For that, register an `owner-decision` stopgap and ask under **OWNER DECISIONS NEEDED**. Add a pool item for anything you find that isn't yours, with `lead:` set to the role that owns it; a `src/bench` change is the play-first lane's.
 
 ## Self-check before the PR
 
@@ -57,7 +59,7 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
    - **Research values:** reopen the page. The quote must contain the number, and the URL must be the page you read. For an election, record the deciding round, which may be a runoff, not the first round.
 5. **Rules the merger checks:**
    - Don't touch guard allowlists or skip lists to clear a red check.
-   - Authored English is never `shippable: true` before grading, and only the Words session edits `data/english/`, `src/english/` or `src/director/`.
+   - Hand-written lines ship once the owner has graded or liked them (Oct 24); only the Words session and the play-first lane (with `Review: words`) edit `data/english/`, `src/english/` or `src/director/`; only the lane edits `src/bench`.
    - No state, city or GEOID in logic.
    - No record that nothing reads.
 6. **If a line can't be met,** don't open the PR as done. Either keep building, or file what blocks you as its own pool item, set your item `blocked-on` it with one Notes line, and open the PR only for what it really finishes, under a separate item whose done-when matches.
@@ -74,6 +76,6 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
 ## Rules
 
 - Never force-push, rebase or amend a pushed branch. A merged PR carries no new work; open a new branch.
-- Workers don't message other sessions or start schedules: the PR body and the item's Notes are the channel. Lead sessions may run their own helpers (`AGENTS.md`, "Helpers").
+- Workers don't message other sessions or start schedules: the PR body and the item's Notes are a worker's voice; leads and the CTO talk through the three files in `.agents/rules/how-we-talk.md`. Lead sessions may run their own helpers (`AGENTS.md`, "Helpers").
 - Treat a permission prompt as denied. Don't retry it; work around it or note it in the PR body.
 - Out of usage or stopping: push what you have, set the item back to `open` with one Notes line saying where you stopped, and stop.

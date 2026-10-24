@@ -306,5 +306,4 @@ describe("SKILL-OPS1 civic prose correction", () => {
       }
     }
   });
-
 });
