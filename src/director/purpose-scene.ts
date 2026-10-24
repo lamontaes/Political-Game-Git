@@ -9,9 +9,12 @@
  * the cause record, its kind and date, and every fact with the records it
  * came from.
  */
+import { LEGISLATURE_MODULE_ID, billOf } from "../core2/modules/legislature";
 import { P } from "../core2/parameters";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
+import { spokenDesignation } from "../english/bill-names";
 import type { Director } from "./ledger";
 import type { Fact } from "./render";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
@@ -95,11 +98,17 @@ export function purposeScene(
   if (town)
     facts.place = { text: spoken(town), sourceRecordIds: [asked.placeId] };
   // A bill the record names, by its number, and the section a trade added.
-  if (said.number)
+  if (said.number) {
+    // Said as a clerk reads it: a bare number takes its form's word first.
+    const bill =
+      said.billId && core.modules.has(LEGISLATURE_MODULE_ID)
+        ? billOf(coreAPI(core as CoreState), said.billId)
+        : undefined;
     facts.bill = {
-      text: said.number,
+      text: spokenDesignation(said.number, bill?.form.kind ?? ""),
       sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
     };
+  }
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
   // A vote trade puts the holdout's own section in (legislature.ts adopt()):

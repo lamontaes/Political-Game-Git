@@ -3597,6 +3597,33 @@ function executiveAction(
         source: deadline.source,
         sourceRecordIds: [bill.id],
       });
+      // Presentment: the bill on the executive's desk is public record, and
+      // the scene where it is brought to them stands on it.
+      api.emit({
+        id: `bill-presented:${bill.id}`,
+        date: api.state.date,
+        kind: "bill-presented",
+        personIds: [key, bill.sponsorId].filter(
+          (id, index, ids) =>
+            api.state.people.has(id) && ids.indexOf(id) === index,
+        ),
+        placeId: lawChain(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `${bill.number} presented for signature by ${deadline.date}`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        news: true,
+        facts: {
+          billId: bill.id,
+          number: bill.number,
+          level: billReach(api, bill).level,
+          executiveId: key,
+          officeId: executiveOffice!.id,
+          signBy: deadline.date,
+        },
+      });
       for (const hook of deskHooks)
         hook(api, {
           bill: waiting,

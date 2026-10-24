@@ -384,6 +384,13 @@ function resolveSetting(
         ? { kind, recordId: chamber }
         : undefined;
     }
+    case "office": {
+      // The office the cause record names (the executive's, for a bill on the desk).
+      const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
+      return typeof office === "string" && office
+        ? { kind, recordId: office }
+        : undefined;
+    }
     default:
       // School and letter need records the new core does not keep yet.
       return undefined;

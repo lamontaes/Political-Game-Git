@@ -3191,11 +3191,29 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "bill-on-desk",
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.sign-or-veto",
+          "causeRecord": "bill-presented",
           "bind": {
             "aide": "staff",
+            "you": "subject"
+          },
+          "opener": "aide"
+        },
+        {
+          "match": {
+            "label": "cause:event:bill-presented",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "executiveId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-presented",
+          "bind": {
+            "aide": "clerk",
             "you": "subject"
           },
           "opener": "aide"

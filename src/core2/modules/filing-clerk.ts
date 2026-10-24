@@ -124,10 +124,23 @@ export function filingClerkFor(
     .table("contests")
     .get(contestId) as unknown as ContestRow | undefined;
   if (!contest) return null;
+  if (contest.family !== "municipalOffice" && contest.family !== "countyOffice")
+    return stateClerkFor(api, contest);
+  return localClerkFor(api, contest.family);
+}
+
+/**
+ * The town's clerk (`municipalOffice`) or the county's (`countyOffice`), from
+ * the records that name one, or null where they name no one. The same clerk
+ * takes the place's filings and keeps its council's or board's papers.
+ */
+export function localClerkFor(
+  api: CoreAPI,
+  family: "municipalOffice" | "countyOffice",
+): FilingClerk | null {
   const core = api.state as CoreState;
-  const municipal = contest.family === "municipalOffice";
-  const county = contest.family === "countyOffice";
-  if (!municipal && !county) return stateClerkFor(api, contest);
+  const municipal = family === "municipalOffice";
+  const county = family === "countyOffice";
 
   // A clerk the place elects.
   for (const row of townSeats(api)) {

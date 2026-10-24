@@ -6,9 +6,10 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { memberKey, members } from "../core2/modules/legislature";
+import { billOf, memberKey, members } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
+import { spokenDesignation } from "../english/bill-names";
 import { purposeScene } from "./purpose-scene";
 
 // A vote trade is a scene for both sides (owner, Oct 24: "passing along his
@@ -90,14 +91,17 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
         if (result?.kind !== "composed") continue;
         const fact = (key: string) =>
           result.scene.facts.find((row) => row.key === key);
-        expect(fact("bill")?.text).toBe(trade.facts!.number);
+        // Said as a clerk reads it: a bare ordinance number takes its form's word.
+        const said = spokenDesignation(
+          trade.facts!.number!,
+          billOf(api, trade.facts!.billId!).form.kind,
+        );
+        expect(fact("bill")?.text).toBe(said);
         expect(fact("bill")?.recordIds).toContain(trade.id);
         expect(fact("section")?.text).toBe(trade.facts!.section);
         expect(result.scene.cause.id).toBe(trade.id);
         expect(
-          result.scene.talk.lines.some((line) =>
-            line.text.includes(trade.facts!.number!),
-          ),
+          result.scene.talk.lines.some((line) => line.text.includes(said)),
           `${where}: ${personId}`,
         ).toBe(true);
         // The trade put the holdout's section in: nothing in the whole tree
