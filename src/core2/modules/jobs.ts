@@ -2067,6 +2067,26 @@ export function moveLabel(
     : other;
 }
 
+/**
+ * The payday calendar a hire at an employer keeps, as a full hire's is the
+ * employer's own: the role's calendar where the employer runs it, else the
+ * employer's copy of it (a new business takes its roles from an existing
+ * one), one copy per employer and calendar.
+ */
+export function employerPayrollCalendar(
+  calendar: WorkPayrollCalendarInput,
+  organizationId: string,
+): WorkPayrollCalendarInput {
+  return calendar.organizationId === organizationId
+    ? calendar
+    : {
+        ...calendar,
+        id: `${calendar.id}:at:${organizationId}`,
+        organizationId,
+        basisRecordIds: [organizationId],
+      };
+}
+
 function hireCounted(
   api: CoreAPI,
   position: PositionRow,
@@ -2100,22 +2120,24 @@ function hireCounted(
   // The role's schedule and payday, as a full hire takes them, kept with the
   // household so the worker is on that payroll the day they are met.
   const role = roleTemplate(c, { ...position, templateJobId: template.id });
-  const commitment: WorkCommitmentInput | undefined = role && {
-    ...role.commitment,
+  const calendar =
+    role && employerPayrollCalendar(role.calendar, position.organizationId);
+  const commitment: WorkCommitmentInput | undefined = calendar && {
+    ...role!.commitment,
     organizationId: position.organizationId,
     id: `work-commitment:${jobId}`,
     jobId,
     personId: seeker.personId,
-    payrollCalendarId: role.calendar.id,
+    payrollCalendarId: calendar.id,
     startsAt: addDays(makeIsoDate(api.state.date), 1),
     endsAt: undefined,
     hourlyMinor: position.hourlyMinor,
-    scheduleTemplateJobId: role.template.id,
+    scheduleTemplateJobId: role!.template.id,
     paySource: job.source,
     scheduleSource: job.source,
   };
   if (!addCountedJob(c, job, template.id, commitment)) return false;
-  if (role) keepCalendar(c, role.calendar);
+  if (calendar) keepCalendar(c, calendar);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
