@@ -86,12 +86,6 @@
       "stopgapId": "SG-SCHOOL-links-not-running"
     },
     {
-      "link": "emission-rules-to-particulates",
-      "outcome": "env.particulates",
-      "reason": "engine doesn't read the factor: env.particulates moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-particulates"
-    },
-    {
       "link": "energy-price-to-ac-use",
       "outcome": "housing.ac-share",
       "reason": "engine doesn't read the factor: housing.ac-share moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it",
@@ -132,12 +126,6 @@
       "outcome": "health.blood-pressure",
       "reason": "no measure: the web does not keep health.blood-pressure and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
       "stopgapId": "SG-WEB-unread-health-blood-pressure"
-    },
-    {
-      "link": "work-requirement-to-coverage",
-      "outcome": "health.uninsured-pct",
-      "reason": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-uninsured-pct"
     },
     {
       "link": "work-requirement-to-employment",
@@ -356,12 +344,6 @@
       "stopgapId": "SG-WEB-unread-family-same-sex-marriages"
     },
     {
-      "link": "marriage-equality-to-coverage",
-      "outcome": "health.uninsured-pct",
-      "reason": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, law.marriage-equality",
-      "stopgapId": "SG-WEB-unread-health-uninsured-pct"
-    },
-    {
       "link": "abortion-denied-to-financial-distress",
       "outcome": "finance.past-due-debt",
       "reason": "no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied",
@@ -420,12 +402,6 @@
       "outcome": "approval.incumbent",
       "reason": "no measure: the web does not keep approval.incumbent and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-voting-relief-approval"
-    },
-    {
-      "link": "medicaid-expansion-to-coverage",
-      "outcome": "health.uninsured-pct",
-      "reason": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-uninsured-pct"
     },
     {
       "link": "medicaid-expansion-to-medical-debt",
@@ -500,12 +476,6 @@
       "stopgapId": "SG-WEB-unread-env-container-recycling-pct"
     },
     {
-      "link": "unemployment-to-uninsured",
-      "outcome": "health.uninsured-pct",
-      "reason": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-uninsured-pct"
-    },
-    {
       "link": "mandatory-minimum-cut-to-federal-prisoners",
       "outcome": "justice.federal-incarcerated-per-100k",
       "reason": "engine doesn't read the factor: justice.federal-incarcerated-per-100k moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces justice.federal-incarcerated-per-100k",
@@ -516,12 +486,6 @@
       "outcome": "env.emissions",
       "reason": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-env-emissions"
-    },
-    {
-      "link": "power-plant-carbon-to-particulates",
-      "outcome": "env.particulates",
-      "reason": "engine doesn't read the factor: env.particulates moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-particulates"
     },
     {
       "link": "drug-negotiation-to-out-of-pocket",
@@ -552,18 +516,6 @@
       "outcome": "crime.vandalism",
       "reason": "engine doesn't read the factor: crime.vandalism moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-CORE-crime-vandalism"
-    },
-    {
-      "link": "clean-electricity-to-particulates",
-      "outcome": "env.particulates",
-      "reason": "engine doesn't read the factor: env.particulates moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-particulates"
-    },
-    {
-      "link": "carbon-price-to-particulates",
-      "outcome": "env.particulates",
-      "reason": "engine doesn't read the factor: env.particulates moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-particulates"
     },
     {
       "link": "immigration-to-crime",
@@ -626,12 +578,6 @@
       "stopgapId": "SG-WEB-unread-government-member-market-returns"
     },
     {
-      "link": "highway-money-for-transit-to-service",
-      "outcome": "transit.service-access",
-      "reason": "engine doesn't read the factor: transit.service-access moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-transit-service-access"
-    },
-    {
       "link": "farmland-easements-to-farmland-lost",
       "outcome": "farmland.developed-acres",
       "reason": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it",
@@ -654,12 +600,6 @@
       "outcome": "gov.borrowing-cost",
       "reason": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-gov-borrowing-cost"
-    },
-    {
-      "link": "fix-it-first-to-poor-roads",
-      "outcome": "roads.poor-condition-pct",
-      "reason": "engine doesn't read the factor: roads.poor-condition-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-roads-poor-condition-pct"
     },
     {
       "link": "federal-rail-expansion-to-riders",
