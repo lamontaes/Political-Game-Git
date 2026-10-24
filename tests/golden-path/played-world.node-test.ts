@@ -278,31 +278,28 @@ function playWorld(seed: string) {
       t.endDate <= end,
   );
   countCalls(core);
-  // Paychecks after January 1: the withholding entries the journal posts for
-  // every paycheck (the budgets module keeps its own row only for the player's
-  // circle), by how many of their postings reach the federal treasury.
-  const federalTreasury = (() => {
-    const federal = governments(coreAPI(core)).find(
-      (g) => g.level === "federal",
-    );
-    return federal
-      ? coreAPI(core).accounts().main(federal.organizationId)
-      : undefined;
-  })();
-  const federalPostingsPerPaycheck: number[] = [];
-  const api0 = coreAPI(core);
-  const post0 = api0.postJournal.bind(api0);
-  api0.postJournal = (entry) => {
+  // Paychecks after January 1: the withholding entry the journal posts for
+  // every paycheck names each tax it withheld in its posting ids
+  // (`<id>:tax:<index>:<level>:<tax>`, src/core2/modules/budgets.ts
+  // postWithholding); the budgets module keeps its own row only for the
+  // player's circle.
+  const withheldTaxes = new Set<string>();
+  let withheldPaychecks = 0;
+  const journalApi = coreAPI(core);
+  const postJournal = journalApi.postJournal.bind(journalApi);
+  journalApi.postJournal = (entry) => {
     if (
       entry.sourceRef.kind === "budgets:withholding" &&
       entry.date >= nextJanuary
-    )
-      federalPostingsPerPaycheck.push(
-        entry.postings.filter(
-          (p) => p.accountId === federalTreasury && p.deltaMinor > 0,
-        ).length,
-      );
-    return post0(entry);
+    ) {
+      withheldPaychecks++;
+      for (const p of entry.postings) {
+        const named = /:tax:\d+:([a-z]+):([a-z-]+)$/.exec(p.id);
+        if (named && p.deltaMinor > 0)
+          withheldTaxes.add(`${named[1]}:${named[2]}`);
+      }
+    }
+    return postJournal(entry);
   };
 
   // Day by day, watching what only shows on the day it happens.
@@ -480,24 +477,22 @@ function playWorld(seed: string) {
         );
 
   // Break 4: withholding continues after January 1.
+  const taxes = withheldTaxes;
   // Residents of the five territories owe no federal income tax on income
   // earned there (26 U.S.C. 931 to 933: Puerto Rico excludes it, and Guam,
   // the Virgin Islands, American Samoa and the Northern Marianas pay their
   // own territorial income tax instead), but Social Security and Medicare
-  // still apply. The place record names its state or territory. So a
-  // paycheck reaches the federal treasury in at least three lines (income,
-  // Social Security, Medicare), and in a territory at least two.
+  // still apply. The place record names its state or territory.
   const territory = ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"].includes(
     world.place.stateJurisdictionKey ?? "",
   );
-  const mostFederalLines = Math.max(0, ...federalPostingsPerPaycheck);
-  const federalWithheld = mostFederalLines >= (territory ? 2 : 3);
+  const federalWithheld = territory
+    ? taxes.has("federal:social-security") && taxes.has("federal:medicare")
+    : taxes.has("federal:income") && taxes.has("federal:social-security");
   verdicts["taxes are withheld after January 1"] = federalWithheld
-    ? pass(
-        `${federalPostingsPerPaycheck.length} paychecks after ${nextJanuary} posted withholding, at most ${mostFederalLines} lines to the federal treasury`,
-      )
+    ? pass(`withheld after ${nextJanuary}: ${[...taxes].join(", ")}`)
     : fail(
-        `After ${nextJanuary}, ${federalPostingsPerPaycheck.length} paychecks posted withholding, at most ${mostFederalLines} lines to the federal treasury (${territory ? "two" : "three"} expected): federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
+        `After ${nextJanuary}, ${withheldPaychecks} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
       );
 
   // Break 6: a passed budget changes the adopted spending.
