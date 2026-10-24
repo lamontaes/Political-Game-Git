@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: blocked
-claimed-by:
-pr:
-blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Per-city and per-county charter research on who may introduce legislation, read by proposalRight.
+status: in-pr
+claimed-by: claude/dreamy-tesla-bgi3ui-legislature
+pr: #5862
+blocked-on:
 source: "collapsed Oct 19, 2026 from gov-stopgap-executive-proposal-assumed-data, gov-stopgap-legislature-assumed-data, gov-stopgap-legislature-estimated-rule"
+claimed-at: 2026-10-23T20:24:18.715Z
 ---
 
 **What.** Source the numbers behind the legislature and executive proposals. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 3 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/gov/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -22,6 +23,6 @@ source: "collapsed Oct 19, 2026 from gov-stopgap-executive-proposal-assumed-data
 
 **Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
 
-**Files.** src/core2/data/legislature/executive-proposal.json, src/core2/modules/legislature.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/gov/
+**Files.** src/core2/data/legislature/executive-proposal.json, src/core2/data/legislature/enacting-clauses.json, src/core2/data/legislature/committees.json, src/core2/modules/legislature.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, docs/research/pool-feeder-oct20/research-legislature-sourced-parameters.md
 
-**Notes.** Folded from: gov-stopgap-executive-proposal-assumed-data, gov-stopgap-legislature-assumed-data, gov-stopgap-legislature-estimated-rule. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+**Notes.** Folded from: gov-stopgap-executive-proposal-assumed-data, gov-stopgap-legislature-assumed-data, gov-stopgap-legislature-estimated-rule. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read. Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-legislature-sourced-parameters.md (3 rows: 0 sourced, 3 estimated, 0 mechanic).

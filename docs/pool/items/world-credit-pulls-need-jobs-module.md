@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/credit-pulls-own-state
 pr: #5607
 blocked-on:

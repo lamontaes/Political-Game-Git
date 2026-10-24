@@ -990,6 +990,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
+  $("talk-gap").classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1027,6 +1028,12 @@ async function talkTo(otherId, momentId) {
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
+// A line that does not read right is marked where it is said; no time passes.
+$("talk-gap").addEventListener("click", async () => {
+  if (!talk) return;
+  await post("/api/gap");
+  $("talk-gap").classList.add("marked");
+});
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
   lying = false;
@@ -1290,9 +1297,15 @@ async function campaignRows() {
     causes,
     debates,
   } of v.campaigns) {
-    const goOut = async (outing) => {
+    const goOut = async (outing, outletId) => {
+      const kindOf = {
+        doors: "canvass",
+        calls: "raise-money",
+        event: "event",
+        interview: "interview",
+      };
       const result = await post(
-        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: outing === "doors" ? "canvass" : "raise-money" })}`,
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
       campaignResult = [
         controls.campaignOutings[outing],
@@ -1368,7 +1381,9 @@ async function campaignRows() {
               textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
               disabled: !choice.available,
             });
-            b.addEventListener("click", () => goOut(choice.outing));
+            b.addEventListener("click", () =>
+              goOut(choice.outing, choice.outletId),
+            );
             return b;
           }),
         ),
@@ -1381,6 +1396,26 @@ async function campaignRows() {
           button("Ad", "ad", { amountMinor: "5000" }),
           button("Poll", "poll", { sampleSize: "50" }),
         ),
+        // The player's own money into the campaign: the amount is theirs to set.
+        (() => {
+          const dollarsIn = el("input", {
+            type: "number",
+            min: "0",
+            step: "1",
+            value: "0",
+            ariaLabel: controls.campaignContribute.dollars,
+          });
+          const give = el("button", {
+            type: "button",
+            textContent: controls.campaignContribute.give,
+          });
+          give.addEventListener("click", () =>
+            act("contribute", {
+              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+            }),
+          );
+          return el("div", {}, dollarsIn, give);
+        })(),
         speechPanel(filing, venue),
         // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
         ...(debates ?? []).map((debate) => debatePanel(debate)),
@@ -1671,6 +1706,41 @@ async function officeRows() {
         })(),
       ),
     ),
+    // The budget you may send now: the change to each line, in steps of its amount.
+    ...(v.budget
+      ? [
+          el(
+            "div",
+            { className: "row campaign" },
+            el("b", { textContent: controls.budgetEditor.title }),
+            ...v.budget.lines.map((row) => {
+              const pick = el(
+                "select",
+                {},
+                ...[-20, -10, 0, 10, 20].map((pct) => {
+                  const minor = Math.round((row.amountMinor * pct) / 100);
+                  return el("option", {
+                    value: String(minor),
+                    selected: row.changeMinor === minor,
+                    textContent: controls.budgetEditor[String(pct)],
+                  });
+                }),
+              );
+              pick.addEventListener("change", async () => {
+                await post(
+                  `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor: pick.value })}`,
+                );
+              });
+              return el(
+                "label",
+                {},
+                ` ${row.name} ${dollars(row.amountMinor)} `,
+                pick,
+              );
+            }),
+          ),
+        ]
+      : []),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
       el(
@@ -3597,7 +3667,7 @@ const sheets = {
               el("h3", { textContent: first.title }),
               el("p", {
                 className: "government-place",
-                textContent: first.government ?? "",
+                textContent: first.body ?? first.government ?? "",
               }),
             );
             if (first.presentation?.chamberUrl)
@@ -3707,6 +3777,14 @@ const sheets = {
     // The key people the opening names: one list for both screens.
     const keyPeople = v.keyPeople.map((k) => {
       const line = row(k.officeTitle, k.name);
+      // The President and Vice President a territory's voters do not choose.
+      if (k.chosenByHere === false)
+        line.append(
+          el("span", {
+            className: "label",
+            textContent: controls.politics.notChosenHere,
+          }),
+        );
       // Play anyone: a resident officeholder can be taken over (bench only).
       if (k.resident && k.personId !== me.id) {
         const b = el("button", {

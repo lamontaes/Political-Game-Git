@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/bail-cash
-pr:
+status: in-pr
+claimed-by: claude/sleepy-carson-f8omzd
+pr: #5847
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T00:52:41.074Z
+claimed-at: 2026-10-23T21:46:09.809Z
 ---
 
 **What.** Pretrial bail from PR 5200 marks a bail posted but moves no money: liquidMinor >= pretrialBailMinor decides held or posted, and nothing moves from the person's account to the court's. Posting bail should be a movement on the journal from the person's account to the court's, returned at disposition, so the other engines read a real dollar. If that cannot land now, register a stopgap row with a marker and name it in the item notes.
@@ -21,4 +21,10 @@ claimed-at: 2026-10-20T00:52:41.074Z
 
 **Files.** src/core2/justice-pretrial.ts, src/core2/modules/justice.ts, src/core2/justice-pretrial.test.ts, src/core2/data/justice/parameters.json, src/core2/data/stopgaps.json
 
-**Notes.** Found from PR 5200, merged Oct 19 23:26 UTC. The files are the ones that PR touched: gh api repos/lamontaes/Political-Game-Git/pulls/5200/files. The id uses the justice prefix from the owner's ask; its area is gov.
+**Notes.** Found from PR 5200, merged Oct 19 23:26 UTC. The files are the ones that PR touched: gh api repos/lamontaes/Political-Game-Git/pulls/5200/files. The id uses the justice prefix from the owner's ask; its area is gov. Claim released Oct 23: branch idle since Oct 20.
+
+Built: posted bail posts a journal entry person to treasury (`bail:<case>`), returned at trial (`bail-return:<case>`); test in src/core2/justice-pretrial.test.ts. Held by the prosecuting government's treasury, not a separate court account (none exists).
+
+Taken over Oct 23 at the owner's request from glm/justice-bail-moves-the-cash, whose session ran out of usage with no branch pushed. Its last finding: a played year of its drawn place opened no justice case at all, so no bail was posted; the remaining work is that witness, not the journal code.
+
+Sent back 2026-10-23 from PR #5847 (branch claude/sleepy-carson-f8omzd): Normal main integration conflicts in src/core2/office-day-clemency.test.ts after the Eaton repair #5779; preserve its pinned/random review-eve proof together with the new hearing timing, and rerun the bail/plea chain checks; finish on that branch, merge main into it first.

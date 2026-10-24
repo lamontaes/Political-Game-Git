@@ -355,6 +355,9 @@ function applyAndCommit(id: string, edit: () => void, message: string): void {
   const { errors } = run(POOL(), false);
   if (errors.length) throw new Error(errors.join("\n"));
   git("add", "docs/pool/INDEX.md", `docs/pool/items/${id}.md`);
+  // Another writer (a merger, the CTO) may have made the same change on main
+  // between the read and the fetch; nothing to commit is then a finished job.
+  if (!git("diff", "--cached", "--name-only")) return;
   git(
     "commit",
     "-m",
@@ -376,7 +379,9 @@ function mutate(
   const tmp = `pool-claim-${id}`;
   let last: unknown;
   try {
-    for (let n = 0; n < 3; n++) {
+    // A merge burst runs many flips at once; each loses the push race to the
+    // one before it, so the retries cover a burst, not just a pair.
+    for (let n = 0; n < 8; n++) {
       git("fetch", "origin", "main");
       git("checkout", "-B", tmp, "origin/main");
       applyAndCommit(id, edit, message);
@@ -387,7 +392,7 @@ function mutate(
         last = e;
       }
     }
-    throw new Error(`push to main failed 3 times: ${String(last)}`);
+    throw new Error(`push to main failed 8 times: ${String(last)}`);
   } finally {
     try {
       git("checkout", prev === "HEAD" ? "-" : prev);
@@ -448,6 +453,13 @@ export function command(
           );
         if (fm.status !== "open")
           throw new Error(`${id} is ${fm.status}, not open`);
+        const waiting = ids(fm.after).filter(
+          (a) => readItem(a).status !== "done",
+        );
+        if (waiting.length)
+          throw new Error(
+            `${id} waits on ${waiting.join(", ")}; take the top of Next up`,
+          );
         writeFileSync(
           itemPath(id),
           setFields(readFileSync(itemPath(id), "utf8"), {

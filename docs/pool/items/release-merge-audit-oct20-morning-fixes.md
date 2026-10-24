@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/political-game-pool-yucp92-ao
-pr:
+status: open
+claimed-by:
+pr: #5703
 blocked-on:
 source: CTO merge audit, Oct 20 morning
-claimed-at: 2026-10-20T10:36:14.534Z
+claimed-at:
 ---
 
 **What.** Three reviewers read the diffs of the 22 PRs merged into main between 05:00 and 07:00 UTC on October 20: 14 are good, 7 have concerns and 1 is bad. The bad one went to TRAIT-WIRING: #5289 left trait-decisions.json pointing at three deleted drive actions, so trait-coverage.test.ts throws on main. So did the concerns on #5552, its trait-weight code with no callers and a research row in the wrong unit. This item fixes the other six with concerns, plus two release notes that misstate their change, listed below. Each numbered fix is small and can land as its own PR that names this item and the number; the item is done when all seven are merged.
@@ -30,3 +30,17 @@ claimed-at: 2026-10-20T10:36:14.534Z
 **Files.** src/core2/data/elections/term-starts.json, src/core2/elections-law.test.ts, scripts/audit/research-data-allowlist.json, data/research/jobs/employer-callback-gaps.json, src/core2/modules/jobs.ts, src/core2/public-pay-floor-hire.test.ts, src/bench/campaign.ts, src/bench/campaign-day-controls.test.ts, src/core2/staff.ts, src/core2/staff-paid-every-place.test.ts, src/core2/snapshot.ts, src/core2/saves.test.ts, src/core2/opening-customers-township-owner.test.ts, src/core2/term-start-history.test.ts, docs/release/changes/
 
 **Notes.** Audit reports from the three reviewers are summarized in the CTO's Oct 20 morning report. Good merges, for the record: #5402, #5406, #5267, #5124, #5410, #5293, #5414, #5164 (apart from its note), #4942, #5539, #5544, #5550, #5566, #5548 (apart from its note).
+
+Oct 20 (fs11vb): fix 1 merged (#5655). Fix 7 is PR #5697 (the notes of #5548 and #5164, and a measured reason for the term-start timeout). Fix 5: the pinned case the audit asked for (territory:VI:charlotte-amalie-east, seed p3) does not pass on main, so #5559 does not hold in that place: 19 aides stay unpaid because no job in that world has a payroll calendar for the schedule to follow. Filed as `staff-paid-territory-no-payroll-template` (gov, bug, priority 1), which carries the repro; the pinned test goes in with its fix. Fixes 2, 3, 4 and 6 are untouched by this session.
+
+Sent back 2026-10-20 from PR #5656 (branch claude/political-game-pool-yucp92-ap): data/research/jobs/employer-callback-gaps.json:63 attributes the older-applicants percentages to an unnamed press summary but links only the paper that was not read. The body explicitly says the summary URL is not recorded. The research morning check requires the source URL to be the page actually read. Supply that summary citation or read the original and revise the figures from it; the awaitingReader move and ceiling reason do not cure the missing source.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5703 (branch claude/fs11vb-f2): data/research/jobs/employer-callback-gaps.json:66 says the 18% and 35% figures came from a press summary that was read, but its only URL points to the paper explicitly not read. The actual summary URL is still missing, so audit fix 2 is incomplete under the source-page rule. Supply the summary citation or verify and revise the figures from the original paper. The awaitingReader category and stated ceiling reason are acceptable.; finish on that branch, merge main into it first.
+
+Oct 21 (claude): where each fix stands. 1 merged (#5655). 2 is #5703: the older-applicant figures now quote NBER w21669 p. 27, read from the PDF, and the date note in the guard is gone; it waits on a merger. 3 merged (#5658 wording, #5748 code: the floor reaches a public hire on the day it is made). 4: the households test merged (#5707). The browser check's "lists no acts" assertion is #5818. The interview and event controls for a candidate without a seat are on main (a30b7d3071), and in a played world in #5710. Every canvass is checked, with redraws until someone answers, in #5793. 5: the schedule fix merged (#5668). The pinned case (territory:VI:charlotte-amalie-east, seed p3) is in #5712 with the fix that makes it pass; its public-office fallback leaves no path where a post gets no job. 6 merged (#5705). 7 merged (#5697). Superseded duplicates still open: #5656 (fix 2), #5659 (fix 7), #5670 (fix 6), #5671 (fix 4).
+
+Sent back 2026-10-21 from PR #5703 (branch claude/fs11vb-f2): scripts/audit/research-data-allowlist.json:89-94 adds the island-place population and economic-context binding files to rawSource with reasons that say no engine reads them yet. The latest fixer comment explicitly says the additions clear a red guard for ten unread research files. That is the bypass the merger rule rejects; no engine reads it yet belongs to a justified awaiting-reader category or a real reader, not automatic rawSource immunity. Keep the repaired callback citation and its justified rawSource-to-awaitingReader move, but remove the unrelated red-guard bypasses and account for each new entry in the correct category. No local gate pass is claimed.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5703 (branch claude/fs11vb-f2): The broad completion marker and table would close the seven-fix umbrella while public-hire/browser/aide proof remains open; use bounded fix-2 routing and correct the NBER citation to printed p.26 (PDF p.28); finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5818 (branch claude/audit-fix4-browser): Browser row assertion can check zero rows and four duplicate outings satisfy its length-only test; require nonempty applicable rows and exactly one of each outing; finish on that branch, merge main into it first.

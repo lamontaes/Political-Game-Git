@@ -5,12 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/outcome-links-research
+status: open
+claimed-by:
 pr: #5653
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T10:04:05.886Z
+claimed-at:
 ---
 
 **What.** Twenty-seven laws reach people and move money but move no outcome-web measure, because no researched link starts from the law or from a measure an engine sets from it. src/core2/data/laws/outcome-research-gaps.json lists each law with the outcome its research would measure. Research each link's strength, shape and lag from the literature and add it to links.json, then build it in the outcome web.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-20T10:04:05.886Z
 **Files.** data/research/outcome-web/links.json, src/core2/data/laws/outcome-research-gaps.json, src/core2/modules/outcome-web.ts
 
 **Notes.** TODO
+
+Oct 20 (claude, Sonnet): claimed and released unbuilt. `src/core2/data/laws/outcome-research-gaps.json`, the list of the 27 laws this item names, is not on main or on any branch I could find (searched every remote branch with "outcome" or "laws" in its name, and the repository history for the file name). Without that list there is nothing to research against. Whoever filed this item holds the file on an unpushed branch; push it, or re-derive it from the law-wiring checker's "moves no outcome" rows, then reopen.
+
+Sent back 2026-10-21 from PR #5653 (branch claude/outcome-links-research): docs/pool/items/laws-outcome-links-unresearched.md:20 requires a built, played-world-proven link for every law in outcome-research-gaps.json. The current diff removes only budget-line:higherEducation from src/core2/data/laws/outcome-research-gaps.json (the former row around line 24); the body explicitly says 1 of 27 and 26 remain. A do-not-mark-done instruction does not provide the completed acceptance for this pool item. Track the one-link slice under a bounded item with its actual full place/seed and month record proof, while retaining the umbrella for the remaining laws. The conflict repair is present. No local gate pass is claimed.; finish on that branch, merge main into it first.

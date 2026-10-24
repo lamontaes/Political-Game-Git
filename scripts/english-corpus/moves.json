@@ -41,7 +41,16 @@
     "provision": "A law's operative text.",
     "record": "A body's minutes recording what happened.",
     "notice": "A public notice's heading and text.",
-    "control-name": "The name of a choice the player can take."
+    "control-name": "The name of a choice the player can take.",
+    "plea": "Ask again, from the heart: what it means to the asker.",
+    "press": "Ask again, harder: hold the other to the point.",
+    "threaten": "Say what it will cost the other to refuse.",
+    "boast": "Claim credit or strength for oneself.",
+    "bargain": "Offer a condition or a trade.",
+    "relent": "Give way after holding out.",
+    "withdraw": "Go back on something one said before.",
+    "accept": "Take the other's answer as final.",
+    "stall": "Put off an answer."
   },
   "keys": {
     "loss": "Someone or something is lost: a death, a lost job, a lost race, an eviction.",
@@ -339,6 +348,156 @@
     ],
     "conversation": [
       {
+        "move": "^charge-raise$",
+        "tag": "tell",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-ask$",
+        "tag": "ask",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-answer-confess$",
+        "tag": "confess",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-answer-deflect$",
+        "tag": "deflect",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-answer-refuse$",
+        "tag": "refuse",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-answer-tell$",
+        "tag": "tell",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-reply-answer-comfort$",
+        "tag": "comfort",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-reply-answer-promise$",
+        "tag": "promise",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-reply-answer-ask$",
+        "tag": "ask",
+        "key": "threat"
+      },
+      {
+        "move": "^charge-reply-answer-blame$",
+        "tag": "blame",
+        "key": "threat"
+      },
+      {
+        "move": "^conviction-raise$",
+        "tag": "deliver-news",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-ask$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-answer-tell$",
+        "tag": "tell",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-answer-apologize$",
+        "tag": "apologize",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-answer-confess$",
+        "tag": "confess",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-answer-refuse$",
+        "tag": "refuse",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-reply-answer-comfort$",
+        "tag": "comfort",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-reply-answer-promise$",
+        "tag": "promise",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-reply-answer-ask$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^conviction-reply-answer-blame$",
+        "tag": "blame",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-raise$",
+        "tag": "deliver-news",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-ask$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-answer-tell$",
+        "tag": "tell",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-answer-thank$",
+        "tag": "thank",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-answer-refuse$",
+        "tag": "refuse",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-answer-deflect$",
+        "tag": "deflect",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-reply-answer-congratulate$",
+        "tag": "congratulate",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-reply-answer-comfort$",
+        "tag": "comfort",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-reply-answer-ask$",
+        "tag": "ask",
+        "key": "news-received"
+      },
+      {
+        "move": "^acquittal-reply-answer-blame$",
+        "tag": "blame",
+        "key": "news-received"
+      },
+      {
         "move": "-lie-",
         "tag": "lie"
       },
@@ -377,6 +536,76 @@
       {
         "move": "^(eviction|eviction-cause|eviction-where|job-cause)-reply-answer-(ask|where)$",
         "tag": "ask",
+        "key": "loss"
+      },
+      {
+        "move": "^job-new-told-raise",
+        "tag": "congratulate",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-told-reply-answer-thank$",
+        "tag": "thank",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-told-reply-answer-tell$",
+        "tag": "tell",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-raise",
+        "tag": "deliver-news",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-congratulate$",
+        "tag": "congratulate",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-ask$",
+        "tag": "ask",
+        "key": "honor"
+      },
+      {
+        "move": "^job-new-reply-answer-brief$",
+        "tag": "react",
+        "key": "honor"
+      },
+      {
+        "move": "^(death|illness|prison)-news-raise",
+        "tag": "deliver-news",
+        "key": "loss"
+      },
+      {
+        "move": "^death-news-reply-answer-condole$",
+        "tag": "condole",
+        "key": "loss"
+      },
+      {
+        "move": "^(death|illness|prison)-news-reply-answer-(help|comfort|brief)$",
+        "tag": "comfort",
+        "key": "loss"
+      },
+      {
+        "move": "^prison-news-reply-answer-promise$",
+        "tag": "promise",
+        "key": "loss"
+      },
+      {
+        "move": "^(death|illness|prison)-news-reply-answer-ask$",
+        "tag": "ask",
+        "key": "loss"
+      },
+      {
+        "move": "^eviction-reply-answer-help$",
+        "tag": "offer",
+        "key": "loss"
+      },
+      {
+        "move": "^eviction-reply-answer-reassure$",
+        "tag": "comfort",
         "key": "loss"
       },
       {
@@ -859,6 +1088,10 @@
         "tag": "close"
       },
       {
+        "move": "^stage-stance-",
+        "tag": "promise"
+      },
+      {
         "move": "^stage-",
         "tag": "tell"
       }
@@ -872,6 +1105,136 @@
       {
         "move": ".",
         "tag": "announce-result"
+      }
+    ],
+    "scene-talk": [
+      {
+        "move": "^[a-z]+-congratulate$",
+        "tag": "congratulate"
+      },
+      {
+        "move": "^[a-z]+-deliver-news$",
+        "tag": "deliver-news"
+      },
+      {
+        "move": "^[a-z]+-apologize$",
+        "tag": "apologize"
+      },
+      {
+        "move": "^[a-z]+-threaten$",
+        "tag": "threaten"
+      },
+      {
+        "move": "^[a-z]+-confront$",
+        "tag": "confront"
+      },
+      {
+        "move": "^[a-z]+-disagree$",
+        "tag": "disagree"
+      },
+      {
+        "move": "^[a-z]+-withdraw$",
+        "tag": "withdraw"
+      },
+      {
+        "move": "^[a-z]+-bargain$",
+        "tag": "bargain"
+      },
+      {
+        "move": "^[a-z]+-promise$",
+        "tag": "promise"
+      },
+      {
+        "move": "^[a-z]+-request$",
+        "tag": "request"
+      },
+      {
+        "move": "^[a-z]+-deflect$",
+        "tag": "deflect"
+      },
+      {
+        "move": "^[a-z]+-narrate$",
+        "tag": "narrate"
+      },
+      {
+        "move": "^[a-z]+-decline$",
+        "tag": "decline"
+      },
+      {
+        "move": "^[a-z]+-comfort$",
+        "tag": "comfort"
+      },
+      {
+        "move": "^[a-z]+-answer$",
+        "tag": "answer"
+      },
+      {
+        "move": "^[a-z]+-relent$",
+        "tag": "relent"
+      },
+      {
+        "move": "^[a-z]+-refuse$",
+        "tag": "refuse"
+      },
+      {
+        "move": "^[a-z]+-accept$",
+        "tag": "accept"
+      },
+      {
+        "move": "^[a-z]+-offer$",
+        "tag": "offer"
+      },
+      {
+        "move": "^[a-z]+-thank$",
+        "tag": "thank"
+      },
+      {
+        "move": "^[a-z]+-press$",
+        "tag": "press"
+      },
+      {
+        "move": "^[a-z]+-blame$",
+        "tag": "blame"
+      },
+      {
+        "move": "^[a-z]+-boast$",
+        "tag": "boast"
+      },
+      {
+        "move": "^[a-z]+-greet$",
+        "tag": "greet"
+      },
+      {
+        "move": "^[a-z]+-agree$",
+        "tag": "agree"
+      },
+      {
+        "move": "^[a-z]+-stall$",
+        "tag": "stall"
+      },
+      {
+        "move": "^[a-z]+-warn$",
+        "tag": "warn"
+      },
+      {
+        "move": "^[a-z]+-tell$",
+        "tag": "tell"
+      },
+      {
+        "move": "^[a-z]+-plea$",
+        "tag": "plea"
+      },
+      {
+        "move": "^[a-z]+-ask$",
+        "tag": "ask"
+      },
+      {
+        "move": "^[a-z]+-confess$",
+        "tag": "confess"
+      },
+      {
+        "move": "^[a-z]+-lie$",
+        "tag": "lie"
       }
     ]
   }

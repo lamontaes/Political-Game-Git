@@ -35,7 +35,13 @@ interface Run {
   >;
   formula: Record<
     string,
-    { calls: number; absLeanSum: number; nonzero: number }
+    {
+      calls: number;
+      absLeanSum: number;
+      nonzero: number;
+      turned?: number;
+      samples?: unknown[];
+    }
   >;
   events: Record<string, number>;
   people: {
@@ -62,7 +68,7 @@ type DecisionRow = (typeof decisions.decisions)[number] & {
 const GAPS = JSON.parse(
   readFileSync("data/content/trait-decision-gaps.json", "utf8"),
 ) as {
-  formulaSiteAliases: Record<string, string>;
+  formulaSiteAliases?: Record<string, string>;
   gaps: Record<string, { class: string; why: string; fix: string }>;
 };
 const PARAMETERS = JSON.parse(
@@ -107,17 +113,29 @@ function chooserFor(run: Run, decision: DecisionRow) {
 function formulaFor(run: Run, decision: DecisionRow) {
   let calls = 0,
     absLean = 0,
-    nonzero = 0;
+    nonzero = 0,
+    leaned = 0,
+    turned = 0;
   const sites: string[] = [];
   for (const [key, row] of Object.entries(run.formula)) {
-    if (key !== decision.id && GAPS.formulaSiteAliases[key] !== decision.id)
+    if (key !== decision.id && GAPS.formulaSiteAliases?.[key] !== decision.id)
       continue;
     calls += row.calls;
     absLean += row.absLeanSum;
     nonzero += row.nonzero;
+    // Calls through leanedYes, leanedScore or leanedByKinds keep a sample and say whether personality turned them.
+    leaned += row.samples?.length ? row.calls : 0;
+    turned += row.turned ?? 0;
     sites.push(key);
   }
-  return { calls, meanAbsLean: calls ? absLean / calls : 0, nonzero, sites };
+  return {
+    calls,
+    meanAbsLean: calls ? absLean / calls : 0,
+    nonzero,
+    leaned,
+    turned,
+    sites,
+  };
 }
 
 const rows = decisions.decisions.map((decision: DecisionRow) => {
@@ -138,6 +156,8 @@ const rows = decisions.decisions.map((decision: DecisionRow) => {
       ? { option: best.option, lowThird: best.low, highThird: best.high }
       : null,
     formulaMeanAbsLean: f.calls ? f.meanAbsLean : null,
+    formulaTurnedShare: f.leaned ? f.turned / f.leaned : null,
+    formulaLeanedCalls: f.leaned,
     research: researchById.get(decision.id) ?? null,
     gap: GAPS.gaps[decision.id] ?? null,
     weight: PARAMETERS[decision.traitWeightParameter]?.value ?? null,
@@ -148,7 +168,7 @@ const rows = decisions.decisions.map((decision: DecisionRow) => {
 
 /** Caller sites of traitLeanBetween that no table id names (formula reads by file:line). */
 const unnamedFormulaSites = Object.entries(played.formula)
-  .filter(([key]) => key.startsWith("src/") && !GAPS.formulaSiteAliases[key])
+  .filter(([key]) => key.startsWith("src/") && !GAPS.formulaSiteAliases?.[key])
   .map(([site, row]) => ({
     site,
     calls: row.calls,

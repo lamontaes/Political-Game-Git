@@ -5,12 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/reach-stale
+status: open
+claimed-by:
 pr: #5403
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T01:43:21.366Z
+claimed-at:
 ---
 
 **What.** A law's reach rows for a person are written when the law takes effect and stay as they were. A row chosen by age or by a child in the home (the child access prevention storage duty, concealed carry age, juvenile age) is never ended when the last child turns 18 and never opened for a household that gains a child or an adult who turns of age. Measured on the household-firearms seed 2724fc27c0417f7c: the adults of household_024d52d706dd18ce keep a storage duty the day after their youngest member turned 18.
@@ -22,3 +22,11 @@ claimed-at: 2026-10-20T01:43:21.366Z
 **Files.** src/core2/law-reach/group-a-records.ts, src/core2/law-reach/group-a.ts, src/core2/household-firearms.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-20 from PR #5403 (branch claude/reach-stale): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5403 (branch claude/reach-stale): src/core2/law-reach/group-a-records.ts:588 returns when open.length is zero, treating an active law with no eligible people as repealed. Its refresh then stops forever, so a later birthday or birth can never add the first eligible row. Determine whether the law is still in force independently of its rows and add that empty-to-eligible regression. Also, the first-of-month refresh does not prove the items required eligibility change on the actual birthday or household-change date; retain named row-id evidence for that acceptance.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-20 from PR #5403 (branch claude/reach-stale): The in-force/empty-row repair fixes that part of the earlier return. src/core2/law-reach/group-a-records.ts scheduleRefresh still sets the next month to day 1, and the new law-reach-aging.test.ts explicitly waits until that later refresh. The item Rules require a birthday, birth or household-change cause, never a schedule, and Done when requires the named age-gated row and child-at-home duty to change on the actual date. The monthly scan and delayed-row proof do not meet that acceptance. Preserve the governing-law fix, implement and prove the change on its cause date, and reconcile the storage-duty proof with its current owning public-safety engine rather than dropping the requirement.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5403 (branch claude/reach-stale): Normal main integration conflicts in src/core2/law-reach/group-a-records.ts; resolve code and rerun exact-date birthday and household refresh evidence; finish on that branch, merge main into it first.
