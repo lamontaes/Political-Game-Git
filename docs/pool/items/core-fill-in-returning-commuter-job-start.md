@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/returning-fill-in-commuter-start
 pr: #5900
 blocked-on:
