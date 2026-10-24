@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.22.7",
+      "releasedOn": "2026-10-24",
+      "revision": "b02f41afca7363e0e9ec27e3386e24bb3942ad96",
+      "changeIds": ["territory-budget"]
+    },
+    {
       "version": "0.22.6",
       "releasedOn": "2026-10-24",
       "revision": "6d44c8b61042e7c744bd3ee72bcee8fcdf65d570",
