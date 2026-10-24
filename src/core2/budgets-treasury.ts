@@ -319,6 +319,22 @@ export function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
   return Math.round(reserve);
 }
 
+/** A month of the open standing payments out of a treasury's account, from their cadences. */
+export function standingReserve(api: CoreAPI, accountId: string): number {
+  const monthDays =
+    treasuryParameter("daysPerYear") / treasuryParameter("monthsPerYear");
+  let reserve = 0;
+  for (const row of api.accounts().obligationsFrom(accountId)) {
+    const cadence = row.cadence;
+    if (!cadence) continue;
+    reserve +=
+      cadence.kind === "months"
+        ? row.amountMinor / cadence.every
+        : (row.amountMinor * monthDays) / cadence.every;
+  }
+  return Math.round(reserve);
+}
+
 /**
  * A tax the town's own payers paid straight to a treasury (a corporation's
  * profit tax): kept against that line so the outside group that pays the
@@ -784,9 +800,15 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     // The next month's wages, and any earned and unpaid, are kept back from
     // the lines so the payroll is paid first (a treasury that spent it all at
     // each close left its own employees unpaid).
+    // The federal treasury keeps back a month of the standing payments laws
+    // set up from its account (a Medicaid share, a benefit): they fall due on
+    // their own dates between closes, and its daily receipts alone do not
+    // cover them in a small town, so the month's borrowing leaves them funded.
     let have =
       accounts.balance(main) -
-      (gov.level === "federal" ? 0 : payrollReserve(api, gov));
+      (gov.level === "federal"
+        ? standingReserve(api, main)
+        : payrollReserve(api, gov));
     let borrowed = 0;
     const borrowedByHolder: Record<string, number> = {};
     const interestByHolder: Record<string, number> = {};
@@ -795,7 +817,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       // it holds, issued to the groups that hold its debt in their shares.
       const holders = federalDebtOf(api);
       const wanted = splitBy(
-        need - Math.max(0, have),
+        need - have,
         DEBT.holders.map((h) => h.share),
       );
       holders.forEach((holder, i) => {
