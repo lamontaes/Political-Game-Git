@@ -344,7 +344,7 @@
     "why": "The authored cadence is an explicit coarse prototype default. One scored act per activation does not establish a complete calendar or empirical activity distribution.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads.",
+    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. Oct 23, 2026 (research-content-sourced-parameters): the ATUS activity totals the plan is to be checked against are in data/research/core/bls-atus-table-a1-2025.json (2018 to 2025: caring for household members 21.6 to 24.1 percent of people a day, household adults 4.6 to 6.2, socializing 28.7 to 35.0, volunteering 4.0 to 5.7, household management 16.0 to 19.1), and scripts/research/content-year.ts reports a played year against them. careNeedHalfExcessHazard stays TUNABLE: no source measures care asked per unit of condition hazard, and values of 3 and 6 give the same care share. Still open: one scored act per activation instead of a time-budget plan (builder item core-stopgap-content-estimated-behavior).",
     "status": "open"
   },
   {
@@ -356,7 +356,7 @@
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Oct 23, 2026 (research-content-sourced-parameters): lookupHours is now ESTIMATED from ATUS 2025 Table A-1 Government services (0.91 hours for the people who did it; 0.72 to 1.06 across published years), recorded in data/research/core/bls-atus-table-a1-2025.json with ATUS volunteering (4.0 to 5.7 percent of people a day) for the civic acts. Still open: the join, organize, approach and look-up acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable), and lookupHours stays ESTIMATED until a time-use source measures looking up an office itself.",
     "status": "open"
   },
   {
