@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/serene-mccarthy-ae8xo9
 pr: #5885
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T05:07:33.782Z
 ---
 
 **What.** The first part of the traits lead's acceptance (traits-end-to-end-proof), split so the test can land while the opposite-neighbors gap is worked. A test plays one year of the played world in a place drawn from all 56, picks by rule the two working adults in the same situation (age band, household size, savings band) with the most opposite temperaments, and puts them in focus as a player's contacts are, so their acts keep their reasons. It names the decisions where their recorded trait reasons pulled opposite ways and the outcomes their years ended with.
