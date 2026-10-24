@@ -5,12 +5,12 @@ area: elections
 kind: research
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/dreamy-tesla-bgi3ui-elections
+status: open
+claimed-by:
 pr: #5851
 blocked-on:
 source: "split Oct 24, 2026 from research-elections-sourced-parameters (PR #5851)"
-claimed-at: 2026-10-24T01:40:00.000Z
+claimed-at:
 ---
 
 **What.** Reads law into the place tables the engines already use. Filing deadlines for New York, Guam and Puerto Rico are SOURCED in src/core2/data/elections/filing-deadlines.json. In data/research/elections/filing-requirements.json, the U.S. House voter-registration rule is set false for the 50 states and Vermont's legislature minimum age is set to 18. In data/research/elections/ballot-order-2026.json, Pennsylvania's and Indiana's primary rows lose their estimate flag, and the Virgin Islands and the Northern Mariana Islands change to lot (still marked estimate). It adds two research files, data/research/elections/cbp-2023-campaign-sellers.json (County Business Patterns 2023 establishments for nine industries, all 56 places and by county) and data/research/elections/eavs-2024-polling-places.json (the EAC's 2024 EAVS precincts, polling places and early-voting sites for all 56 places, building kinds measured in one state and ESTIMATED elsewhere), read by scripts/research/elections-sources-check.ts and scripts/research/elections-year.ts. The replacements of `SG-GOV-campaign-pollster-seller`, `SG-GOV-campaign-mail-seller`, `SG-GOV-campaign-venue-seller`, `SG-GOV-polling-place-kind`, `SG-GOV-filing-deadline-estimate`, `SG-GOV-filing-fallbacks` and `SG-GOV-ballot-order-estimates` in src/core2/data/stopgaps.json are narrowed to what is left, and all seven stay open. A played year in Tarpon Springs, Florida (seed 2eadf2dbc7e6) reports each band and where the town landed. Split from research-elections-sourced-parameters, which stays open for the three seller rows and the polling-place row (mechanics waiting on builder items), the charter-place deadlines and ESTIMATED deadline rows, 35 registration rules that say not specified, and three territory ballot orders.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T01:40:00.000Z
 **Files.** src/core2/data/elections/filing-deadlines.json, data/research/elections/filing-requirements.json, data/research/elections/ballot-order-2026.json, data/research/elections/cbp-2023-campaign-sellers.json, data/research/elections/eavs-2024-polling-places.json, src/core2/data/stopgaps.json, scripts/research/elections-sources-check.ts, scripts/research/elections-year.ts
 
 **Notes.** Split Oct 24, 2026 from research-elections-sourced-parameters, after the merger's send-back of PR 5848 asked for a bounded item matching what a PR delivers. Delivered by PR #5851 on branch claude/dreamy-tesla-bgi3ui-elections.
+
+Sent back 2026-10-24 from PR #5851 (branch claude/dreamy-tesla-bgi3ui-elections): New York party April deadline is marked sourced and applied to independents whose May deadline has no override; wire the side-specific rule or retain the bounded gap and supply exact source URLs; finish on that branch, merge main into it first.
