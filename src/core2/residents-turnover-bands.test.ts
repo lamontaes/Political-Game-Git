@@ -12,6 +12,8 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { residentsRuntime } from "./modules/residents";
+import { countedHeadsOf } from "./residents-economy";
 import { absenceRate, joltsRate, turnoverReport } from "./turnover-check";
 
 const seed = process.env.TURNOVER_SEED ?? randomBytes(8).toString("hex");
@@ -65,4 +67,32 @@ it("reports a played year's monthly turnover rates against JOLTS, by record id",
   expect(Object.keys(report.counts).length, where).toBeGreaterThan(0);
   for (const r of Object.values(report.rates))
     expect(Number.isFinite(r.town), where).toBe(true);
-}, 3_600_000);
+}, 600_000);
+
+it("counts a counted worker's job as the household weight it stands for, as the jobs engine does", () => {
+  setBookkeeping(false);
+  // The drawn place opened at three times its sample size, so counted
+  // households stand for more than one person each.
+  const place = drawPlace(`${seed}:weighted`, "residents-turnover");
+  const where = `seed ${seed}:weighted, ${place.name} (${place.key}), world seed ${place.seed}`;
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+    countScale: 3,
+  });
+  let records = 0;
+  let people = 0;
+  for (const job of core.jobs.values())
+    if (!job.endsAt) {
+      records += 1;
+      people += 1;
+    }
+  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+    if (!job.endsAt) {
+      records += 1;
+      people += countedHeadsOf(core, job.personId);
+    }
+  expect(people, where).toBeGreaterThan(records);
+  const report = turnoverReport(core, core.date, core.date);
+  expect(report.employed, where).toBe(people);
+}, 600_000);

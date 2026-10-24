@@ -7,6 +7,7 @@
  */
 import bands from "../../data/research/people/jolts-cps-turnover-absence-2025.json" with { type: "json" };
 import { residentsRuntime } from "./modules/residents";
+import { countedHeadsOf } from "./residents-economy";
 import { JOBS_MODULE_ID } from "./modules/jobs";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -27,9 +28,9 @@ export function absenceRate(industry = "Private sector"): number | undefined {
 }
 
 export interface TurnoverReport {
-  /** Jobs open at the end of the year, named and counted. */
+  /** People employed at the end of the year: a full person's job is one, a counted worker's is the household weight it stands for. */
   readonly employed: number;
-  /** Changes in the year by kind, with the record ids of the first few. */
+  /** Changes in the year by kind, in people (a counted worker's change is the household weight it stands for), with the record ids of the first few. */
   readonly counts: Readonly<Record<string, number>>;
   readonly ids: Readonly<Record<string, readonly string[]>>;
   /** Monthly rates, percent of employment: what the town did and what JOLTS says. */
@@ -48,19 +49,33 @@ export function turnoverReport(
   const changes = api
     .moduleState(JOBS_MODULE_ID)
     .table("changes")
-    .rows() as unknown as { id: string; kind: string; date?: string }[];
+    .rows() as unknown as {
+    id: string;
+    kind: string;
+    date?: string;
+    jobId?: string;
+    personId?: string;
+  }[];
   const counts: Record<string, number> = {};
   const ids: Record<string, string[]> = {};
   for (const row of changes) {
     const date = row.date ?? row.id.split(":")[1] ?? "";
     if (date < from || date >= to) continue;
-    counts[row.kind] = (counts[row.kind] ?? 0) + 1;
-    (ids[row.kind] ??= []).length < 3 && ids[row.kind]!.push(row.id);
+    // The jobs engine's own rule: one for a full person's job, the household
+    // weight for a counted worker's, so the JOLTS denominator and the event
+    // counts are in the same population units.
+    const heads =
+      row.jobId && !core.jobs.has(row.jobId) && row.personId
+        ? countedHeadsOf(core, row.personId)
+        : 1;
+    counts[row.kind] = (counts[row.kind] ?? 0) + heads;
+    const seen = (ids[row.kind] ??= []);
+    if (seen.length < 3) seen.push(row.id);
   }
   let employed = 0;
   for (const job of core.jobs.values()) if (!job.endsAt) employed += 1;
   for (const job of residentsRuntime(core)?.jobs.values() ?? [])
-    if (!job.endsAt) employed += 1;
+    if (!job.endsAt) employed += countedHeadsOf(core, job.personId);
   const months = 12;
   const rate = (n: number) => (employed ? (100 * n) / months / employed : 0);
   const separations =
