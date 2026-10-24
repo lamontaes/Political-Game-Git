@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5592 (branch claude/pool-elections-local-races-too
 Sent back 2026-10-23 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): the body claims measurement only/no engine change, but the diff also changes housing-homeless.ts and adds a rehousing test/declaration; no bounded measurement item or Done-when evidence table is supplied; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5804 (branch claude/local-races-closeout): The calibration test omits contest IDs, filing counts and candidacy-decision traces, permits 85 percent versus the required 80-percent ceiling, and lacks a row-per-acceptance evidence table; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5592 (branch claude/pool-elections-local-races-too-uncontested): unrelated housing scope removed, but pooled calibration share and contest-to-filing decision proof remain explicitly NOT MET; finish acceptance or supply a valid bounded reporting specification; finish on that branch, merge main into it first.

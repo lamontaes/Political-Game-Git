@@ -682,8 +682,13 @@ function pastTerms(
       } as unknown as ModuleRow);
     return;
   }
-  // A term read as ending more than a full term out began at the opening.
-  if (start > opening) {
+  // A term read as ending more than a full term out began at the opening, and
+  // so did one whose holder was too young to begin it a full term back.
+  const born = Number(term.identity.birthDate.slice(0, 4));
+  if (
+    start > opening ||
+    Number(start.slice(0, 4)) - born < tenureYears("minimumAgeAtFirstTerm")
+  ) {
     table(api, "terms").put({
       ...term,
       serviceStart: term.startDate,
@@ -708,7 +713,6 @@ function pastTerms(
   const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
   let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
   // No one first served younger than the minimum age.
-  const born = Number(term.identity.birthDate.slice(0, 4));
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
     prior > 0 &&
