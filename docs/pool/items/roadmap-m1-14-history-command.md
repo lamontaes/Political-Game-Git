@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-m1-14
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T03:01:51.231Z
 ---
 
 **What.** Roadmap M1-14, history before your start, reads passes: false with command null on main. The bench world runs every module's pre-start pass when it builds (src/core2/pre-start.ts), writing dated records for people, the economy, laws, budgets and how officials reached their seats. A check on a new game in the runner's drawn place can read each clause of the spec from those records and measure the load time and size.
