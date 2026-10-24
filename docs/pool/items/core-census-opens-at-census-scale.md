@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5295
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The part of core-census-uncap-opening that PR 5295 finishes. A town above 10,000 people opens with its generated 10,000-person sample and each counted household weighted so the town holds its Census count, by default rather than only when a count scale is asked for. Each firm's yearly demand, capacity, payroll, costs, supplier contracts and cash are sized to the same scale before the outside market is derived from its books, replacing the separate outside-sales and business-cash multipliers. The year in the largest towns may take no more than 20 percent longer than the same town opened at its sample on main.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/world.ts, src/core2/census-firms.ts, src/core2/world-settings.ts, src/core2/census-firms.test.ts
 
 **Notes.** Split from core-census-uncap-opening on Oct 23 by claude/sleepy-carson-f8omzd: the parent's two-minute line for the largest town cannot be met by that PR, because clean main's own New York year takes 335.2 s on the 4-core container; that line now waits on core-speed-year-over-limit-dense-town.
+
+Sent back 2026-10-23 from PR #5295 (branch claude/uncap): Remove dated owner notes from the new engine code and reconcile the release no-extra-wait promise with the documented 10.9 percent slowdown; finish on that branch, merge main into it first.
