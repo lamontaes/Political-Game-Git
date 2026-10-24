@@ -27,7 +27,7 @@ import {
  * Meeting scenes, committee hearings and the bill paper's screens are
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
-import { policyAuthority } from "../policy-authority";
+import { policyAuthority, recordHomeRule } from "../policy-authority";
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import committeeDayData from "../data/legislature/committee-day.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
@@ -1445,6 +1445,12 @@ export function draftBill(
   };
   const titled = { ...bill, title: billTitle(bill) };
   table(api, "bills").put(titled as unknown as ModuleRow);
+  // A local body drafting under the state's grant of home rule is in that
+  // law's reach; a screen's check of what a body may do records nothing.
+  const level = bodyLevel(api, input.bodyOfficeId);
+  if (level === "city" || level === "county")
+    for (const authority of bill.authority)
+      recordHomeRule(api, authority, level);
   // A sponsor who is a full person introduced it: a record their journal reads.
   const sponsor = api.state.people.get(input.sponsorId);
   if (sponsor)
@@ -1664,6 +1670,21 @@ function payProjectGrant(
  * state allows it) and what it costs; blocked while any section is beyond
  * the body's power.
  */
+/** The level of government a lawmaking body belongs to. */
+function bodyLevel(
+  api: CoreAPI,
+  bodyOfficeId: string,
+): "federal" | "state" | "county" | "city" {
+  const body = bodyOf(api, bodyOfficeId);
+  return body?.kind === "us-house" || body?.kind === "us-senate"
+    ? "federal"
+    : body?.kind.startsWith("legislature-")
+      ? "state"
+      : body?.kind === "county-board"
+        ? "county"
+        : "city";
+}
+
 function checkedText(
   api: CoreAPI,
   bodyOfficeId: string,
@@ -1673,15 +1694,7 @@ function checkedText(
     throw new Error("A bill must have at least one provision.");
   if (provisions.some((p) => !subjectKey(p).trim()))
     throw new Error("Every bill provision must name its subject.");
-  const body = bodyOf(api, bodyOfficeId);
-  const level =
-    body?.kind === "us-house" || body?.kind === "us-senate"
-      ? "federal"
-      : body?.kind.startsWith("legislature-")
-        ? "state"
-        : body?.kind === "county-board"
-          ? "county"
-          : "city";
+  const level = bodyLevel(api, bodyOfficeId);
   const stateBody = level === "state" || level === "federal";
   const authority = provisions.map((p) =>
     p.kind === "policy-question" && p.question
@@ -4249,6 +4262,7 @@ function enact(
         line: provision.line,
         deltaMinor: enactedValue,
         measureId: bill.number,
+        carry: true,
       });
       if (provision.requestId && provision.recipientId)
         payProjectGrant(api, {
