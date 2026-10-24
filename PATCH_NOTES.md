@@ -296,6 +296,61 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.10
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Someone charged with bribery now waits for the hearing before a guilty plea
+  is entered.** A guilty plea no longer ends a bribery case on the day of the
+  charge. Everyone charged waits for the hearing, as long as cases take in that
+  state: at home if they post bail, in jail if they cannot, and at home without
+  bail where the law has ended cash bail. Posted bail leaves the defendant's own
+  money for the court and comes back in full on the day the plea is entered or
+  the trial opens, so a defendant has less to spend while the case is open. A
+  prosecutor with a full desk still charges the strongest cases: a busy office
+  weighs its caseload against a new charge only up to its capacity, so an
+  official caught taking a bribe is charged even while other cases wait.
+
+## PRE-ALPHA 0.22.9
+
+_Released October 24, 2026._
+
+### Changed
+
+- **Campaign choices use recalibrated personality effects** Personality has a
+  recalibrated influence on volunteering, giving, answering the door, retelling
+  a campaign story, answering a poll, speaking to a reporter and holding a
+  party's line. Each weight uses the trait's own measured spread.
+
+## PRE-ALPHA 0.22.8
+
+_Released October 24, 2026._
+
+### Improved
+
+- **Students' test scores and graduation follow the town they live in** Each
+  spring every eighth grader in town gets a math and a reading result, and each
+  June every senior graduates or does not. How many do comes from the place's
+  real level moved by the laws and conditions that reach it, and who does comes
+  from each student's own household income, attendance and study habits, so
+  children from poorer households fall short more often. The town's graduation
+  rate then feeds the things that depend on it, such as turnout and poverty.
+
+- **Couples' plans for a child follow their town's conditions** A couple's
+  choice to plan a child now moves with the town's own conditions, such as
+  unemployment and home prices, the same way the births of the rest of the town
+  do.
+
+### Fixed
+
+- **Someone you meet keeps the job they were hired into this year** A household
+  that isn't yet known to you now earns what its jobs pay after hires, raises,
+  layoffs and closures. Before, it kept its opening pay forever, so a laid-off
+  family still counted as well off, and a worker hired during the year lost that
+  job the moment you met them. Now they keep it, on their employer's payroll.
+
 ## PRE-ALPHA 0.22.7
 
 _Released October 24, 2026._
