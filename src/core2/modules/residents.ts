@@ -2707,7 +2707,11 @@ function startCommuterJob(
       "A filled-in household's share of the place's unplaced workers' pay, as a job with an employer outside the town (the place's commute shares).",
     estimatedFrom: `Flow ${flow.id}: ${amount} minor units every ${cadence} days over a ${weekHours}-hour week.`,
   };
-  const jobId = commuterJobId(personId, startsAt);
+  const plain = commuterJobId(personId, startsAt);
+  // A household filled in, returned to the counts and filled in again the
+  // same day already has an ended job under that id: this one also names
+  // the fill-in that starts it.
+  const jobId = core.jobs.has(plain) ? `${plain}:${rt.fillIns}` : plain;
   const job: JobInput = {
     id: jobId,
     personId,
