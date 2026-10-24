@@ -21,7 +21,7 @@ after: play-stop-12-status-card-covers-menu-after-canvass
 
 **Done when.** In a bench world drawn from all 56 (place and seed named), with a stop pending, a real pointer click on each ring opens it, shown by a Playwright run with a screenshot in the PR.
 
-**Time box.** 1 hours; if not done, push what exists, open the draft PR, write the handoff.
+**Time box.** 1 hour; if not done, push what exists, open the draft PR, write the handoff.
 
 **You will see.** With a stop pending, each icon in the menu rail opens with one click, without pressing Continue first.
 

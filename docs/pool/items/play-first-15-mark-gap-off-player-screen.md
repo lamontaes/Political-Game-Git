@@ -20,7 +20,7 @@ milestone: play-first
 
 **Done when.** In a drawn place, no talk box in play shows Mark gap, and a test fails if the player's play.html renders a Mark gap control outside dev mode, shown by a screenshot of a talk box.
 
-**Time box.** 1 hours; if not done, push what exists, open the draft PR, write the handoff.
+**Time box.** 1 hour; if not done, push what exists, open the draft PR, write the handoff.
 
 **You will see.** No Mark gap button in any talk box; Say nothing and Leave are the only small controls under the replies.
 

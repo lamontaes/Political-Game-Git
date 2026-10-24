@@ -20,7 +20,7 @@ milestone: play-first
 
 **Done when.** In the creator on the bench at 1440×900 in a drawn place's new game, month, day and year share one top and bottom edge and every text field shows its box empty or filled, shown by a screenshot.
 
-**Time box.** 1 hours; if not done, push what exists, open the draft PR, write the handoff.
+**Time box.** 1 hour; if not done, push what exists, open the draft PR, write the handoff.
 
 **You will see.** In the creator, month, day and year sit on one line at one height, lined up with the fields above them.
 

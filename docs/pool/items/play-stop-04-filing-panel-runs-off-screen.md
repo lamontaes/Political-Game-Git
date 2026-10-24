@@ -20,7 +20,7 @@ milestone: play-first
 
 **Done when.** The owner does the same steps on the next build and is not stopped: on a 1440 by 900 window the filing panel scrolls or fits, the party picker and each issue's For and Against can be reached with the mouse, and the filed party and platform match what was picked. Shown by a screenshot from the installed build in a drawn place, with the place and seed named.
 
-**Time box.** 1 hours; if not done, push what exists, open the draft PR, write the handoff.
+**Time box.** 1 hour; if not done, push what exists, open the draft PR, write the handoff.
 
 **You will see.** At the city secretary the filing panel fits the window, its platform list scrolls inside it, and the party picker and every For and Against are on screen.
 
