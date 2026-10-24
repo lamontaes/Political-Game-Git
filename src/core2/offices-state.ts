@@ -88,6 +88,8 @@ interface ResearchExecutive {
   readonly title: string;
   readonly termYears?: number;
   readonly nextRegularElectionYear?: number;
+  /** The first day of the office's first term, for an office created after the game opens. */
+  readonly firstTermStart?: string;
   readonly vacancyRule?: ResearchVacancy;
   readonly source?: string;
   readonly citation?: string;
@@ -484,13 +486,12 @@ const STATEWIDE = statewideParties as unknown as {
 };
 /**
  * The party holding a statewide executive office at the start, where its
- * election carries party labels (null for a nonpartisan office). The research
- * was compiled without live sources: SG-GOV-statewide-parties-unverified.
+ * election carries party labels (null for a nonpartisan office, or a body no
+ * party holds a majority of). Every row was checked against a live page.
  */
 function statewidePartyOf(stateKey: string, key: string): string | null {
   const row = STATEWIDE.places[stateKey]?.[key];
   if (!row?.partisanElection) return null;
-  stopgap("SG-GOV-statewide-parties-unverified");
   return row.party;
 }
 
@@ -529,6 +530,9 @@ export function stateOffices(
         elected: true,
         districted: false,
         coversTown: true,
+        ...(executive.firstTermStart
+          ? { firstTermStart: executive.firstTermStart }
+          : {}),
         source: [executive.citation, executive.source]
           .filter(Boolean)
           .join(" "),

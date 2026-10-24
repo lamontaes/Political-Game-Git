@@ -139,6 +139,8 @@ function attemptPlace(attempt: number): { proven: string } | { tried: string } {
       if (before >= 0.9) continue;
       const lessKnown = share();
       const doorsBefore = doorsKnockedOf(api, campaign.id).length;
+      const peopleBefore = core.people.size;
+      const countedBefore = campaignFor(api, filing.id).countedReached ?? 0;
       const doors = takeCampaignDayChoice(api, filing.id, "canvass", {
         world: true,
         hours: 400,
@@ -147,13 +149,28 @@ function attemptPlace(attempt: number): { proven: string } | { tried: string } {
         doorsKnockedOf(api, campaign.id).length,
         `${where}: doors knocked`,
       ).toBeGreaterThan(doorsBefore);
+      // A world candidate's doors reach the wider population as a count: no
+      // counted resident who opened was filled in as a full person.
+      expect(
+        core.people.size,
+        `${where}: a rival's doors filled in no counted resident`,
+      ).toBe(peopleBefore);
+      // Recognition grows only from someone reached: a heard-of impression or
+      // a counted household. A day that reached neither (nobody home) has no
+      // recognition to show, so the next candidate is tried.
+      const countedReach =
+        (campaignFor(api, filing.id).countedReached ?? 0) - countedBefore;
+      if (doors.causeIds.length + countedReach === 0) {
+        seen.push(`${filing.id}: 400 h of doors reached no one`);
+        continue;
+      }
       const after = campaignRecognition(api, filing.id);
       expect(after, `${where}: doors made them known`).toBeGreaterThan(before);
       bank.liquidMinor = 0;
       expect(share(), `${where}: better known, fewer doors`).toBeLessThan(
         lessKnown,
       );
-      known = `filing ${filing.id}: recognition ${before.toFixed(4)} to ${after.toFixed(4)}, door share ${lessKnown.toFixed(3)} to ${share().toFixed(3)}, doors record ${doors.causeIds[0]}`;
+      known = `filing ${filing.id}: recognition ${before.toFixed(4)} to ${after.toFixed(4)}, door share ${lessKnown.toFixed(3)} to ${share().toFixed(3)}, doors record ${doors.causeIds[0]}, full people ${peopleBefore} before and after, counted households reached ${countedReach}`;
       break;
     }
     if (shown && known) {

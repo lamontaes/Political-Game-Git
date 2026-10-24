@@ -38,7 +38,6 @@
     "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
-    "snap-work-requirement-to-participation",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
     "end-cash-bail-to-pretrial-detention",
@@ -387,11 +386,8 @@
       "waitingOn": ["press.local-newspaper", "voting.local-turnout"]
     },
     "exposed-corruption-to-reelection": {
-      "waitingOn": [
-        "gov.corruption-exposed",
-        "press.local-outlets",
-        "election.incumbent-reelection"
-      ]
+      "waitingOn": [],
+      "carriedBy": "the voting engine's scandal term (scandalTerm and scandalAppeal in src/core2/modules/voting.ts), which reads a candidate's bribes reported to the press and convictions the court made public (scandalStoriesOf) and lowers the candidate's appeal with each voter the story reached, weighed by how far they trust the press; counted voters take it at the share of the town's named adults it reached. It uses its own size, the 5 points of the two-party vote a tainted U.S. incumbent loses (scandalShare in src/core2/data/electorate/parameters.json), not this row's 17% fall in a Brazilian mayor's chance of reelection"
     },
     "press-attacks-to-media-trust": {
       "waitingOn": ["official.press-hostility", "press.media-trust"],
@@ -409,8 +405,12 @@
       "needsSize": true
     },
     "economy-to-approval": {
-      "waitingOn": ["economy.real-income-growth", "approval.incumbent"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
+    },
+    "snap-work-requirement-to-participation": {
+      "waitingOn": [],
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
     },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],
@@ -581,10 +581,6 @@
       "owner": "OPUS-GOV",
       "links": 2
     },
-    "approval.incumbent": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
     "budget.parks-added-pct": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -617,14 +613,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "economy.real-income-growth": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "election.incumbent-reelection": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
     "env.carbon-monoxide": {
       "owner": "OPUS-CORE",
       "links": 1
@@ -654,10 +642,6 @@
       "links": 1
     },
     "federal.rail-expansion-pct": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "gov.corruption-exposed": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -843,10 +827,6 @@
     },
     "police.killing-nearby": {
       "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "press.local-outlets": {
-      "owner": "OPUS-PEOPLE",
       "links": 1
     },
     "press.media-trust": {

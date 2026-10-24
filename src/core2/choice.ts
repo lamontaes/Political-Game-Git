@@ -4,7 +4,7 @@ import { initialPersonState } from "./person-state";
 import { countedPersonOf } from "./counted-actor";
 import { parameter } from "./parameters";
 import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
-import { coreAPI } from "./state";
+import { coreAPI, retainLog } from "./state";
 import { traitProbe } from "./trait-probe";
 import type {
   ActOffer,
@@ -417,12 +417,14 @@ export function chooseAct(
   offers: readonly ActOffer[],
   context?: DecisionContext,
   captureOriginalScores = false,
+  keepWeighed = true,
 ): DecisionResult {
   return decisionFromScores(
     core,
     personId,
     scoreOffers(core, personId, offers, context, captureOriginalScores),
     captureOriginalScores,
+    keepWeighed,
   );
 }
 
@@ -457,12 +459,19 @@ function compact(row: ScoredOffer): Readonly<CompactChoiceScoreV1> {
   });
 }
 
-/** The chooser's pick from a scoring pass: the highest score, ties to the lowest key. */
+/**
+ * The chooser's pick from a scoring pass: the highest score, ties to the
+ * lowest key. A choice among two or more options by the player or someone in
+ * focus is kept as a `person.weighed` record (why-kept), unless the caller
+ * commits it as an act, whose record keeps the same reasons (`keepWeighed`
+ * false), or only predicts it.
+ */
 export function decisionFromScores(
   core: CoreState,
   personId: string,
   scored: readonly ScoredOffer[],
   captureOriginalScores = false,
+  keepWeighed = true,
 ): DecisionResult {
   const actor = decisionActor(core, personId);
   const traced = savesReasons(core, actor.id);
@@ -485,7 +494,7 @@ export function decisionFromScores(
   const probe = traitProbe();
   if (probe?.chooser && best && runnerUp)
     probeChooser(core, probe, personId, scored, best);
-  return {
+  const decision: DecisionResult = {
     actorId: personId,
     date: core.date,
     selected: best?.offer,
@@ -525,6 +534,47 @@ export function decisionFromScores(
         }
       : {}),
   };
+  if (keepWeighed && best && runnerUp) keepChoice(core, decision, best);
+  return decision;
+}
+
+/**
+ * The player and the people in focus keep a record of a choice they weighed
+ * among options (why-kept: the player and the people they deal with), as
+ * their acts do: every option's score and reasons, on a `person.weighed` log
+ * record. The debug observer alone keeps none, so a full-trace run does not
+ * keep one for everyone.
+ */
+function keepChoice(
+  core: CoreState,
+  decision: DecisionResult,
+  best: ScoredOffer,
+): void {
+  const id = decision.actorId;
+  if (!core.focusPersonIds.has(id) && id !== core.playerId) return;
+  const actor = core.people.get(id);
+  if (!actor || !decision.scores) return;
+  const actionId = best.offer.definition.id;
+  const base = `weighed:${core.date}:${actionId}:${id}`;
+  let recordId = base;
+  for (let n = 2; core.durableLog.has(recordId); n++) recordId = `${base}:${n}`;
+  retainLog(core, {
+    id: recordId,
+    date: core.date,
+    kind: "person.weighed",
+    personIds: [id],
+    placeId: actor.placeId,
+    source: {
+      tag: "SOURCED",
+      asOf: core.date,
+      citation: "A choice weighed by the shared chooser.",
+    },
+    actorId: id,
+    actionId,
+    targetId: best.offer.targetId,
+    reasonKey: decision.reasonKey,
+    decision,
+  });
 }
 
 /** The audit probe's view of one pick: what the chooser would pick with the trait term removed. */

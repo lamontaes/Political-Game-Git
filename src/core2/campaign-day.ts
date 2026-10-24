@@ -381,7 +381,14 @@ export function takeCampaignDayChoice(
   if (choice === "canvass") {
     const before = doorsKnockedOf(api, campaign.id).length;
     // knockDoors records the player's hours itself.
-    const met = knockDoors(api, { filingId, canvasserId: player, hours });
+    const met = knockDoors(api, {
+      filingId,
+      canvasserId: player,
+      hours,
+      // A world candidate's door reaches residents as a count; only the
+      // player's own campaign fills them in on meeting.
+      fillCounted: !world,
+    });
     return {
       ...base,
       causeIds: met.map((c) => c.id),

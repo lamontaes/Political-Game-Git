@@ -150,6 +150,12 @@
       "source": "How much more a rival who holds the seat leans on press and their record than a challenger.",
       "spread": [0, 2]
     },
+    "rivalHoursLeanShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a candidate's own inclination to campaign slides their door hours around the base, as a share of it: at 0.5 the least campaign-minded walks half the base hours and the most walks one and a half times. Below 1 so that no one's hours reach zero.",
+      "spread": [0.25, 0.75]
+    },
     "minimumVolunteerAge": {
       "value": 16,
       "tag": "ESTIMATED",
