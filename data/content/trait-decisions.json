@@ -1180,6 +1180,23 @@
       ]
     },
     {
+      "id": "press.shade-answer",
+      "site": "src/core2/modules/press.ts",
+      "owner": "OPUS-GOV",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightPressShadeAnswer",
+      "options": [
+        {
+          "id": "own",
+          "actKinds": ["follow-rules", "concede"]
+        },
+        {
+          "id": "shade",
+          "actKinds": ["bend-rules", "self-interest"]
+        }
+      ]
+    },
+    {
       "id": "press.dig",
       "site": "src/core2/modules/press.ts",
       "owner": "OPUS-PEOPLE",

@@ -1985,7 +1985,10 @@ function checkClaim(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 /**
  * How a candidate who isn't the player answers: their platform's position,
  * else where their own view and their party's put them (`candidateStance`),
- * else (no view and no party) they decline.
+ * else (no view and no party) they decline. A candidate who has voted on the
+ * question answers from the vote, or shades the answer toward where the town
+ * stands (`shadesAnswer`); a shaded answer names the vote it contradicts,
+ * which a reporter may check.
  */
 export function candidateAnswers(
   api: CoreAPI,
@@ -1994,17 +1997,89 @@ export function candidateAnswers(
 ): readonly InterviewAnswer[] {
   const { personId, party } = asSpeaker(who);
   const platform = platformOf(api, who);
-  return questions.map((question) => {
+  // An officeholder known only by their record weighs it with no lean.
+  const person = api.state.people.get(personId) ?? { traits: {} };
+  const votes = votesOf(api, personId);
+  const round = (x: number) => Math.round(x * 1000) / 1000;
+  return questions.map((question): InterviewAnswer => {
     const stated = platform.find((s) => s.question === question);
     if (stated) return { question, position: stated.position, move: "plain" };
-    // Their own view blended with their party's; none only with neither.
-    const stance = candidateStance(api, personId, party, question);
-    return {
-      question,
-      position: stance === null ? null : Math.round(stance * 1000) / 1000,
-      move: "plain",
-    };
+    const vote = votes.filter((v) => v.stance.question === question).at(-1);
+    if (!vote) {
+      // Their own view blended with their party's; none only with neither.
+      const stance = candidateStance(api, personId, party, question);
+      return {
+        question,
+        position: stance === null ? null : round(stance),
+        move: "plain",
+      };
+    }
+    const town = townStand(api, question);
+    return shadesAnswer(api, person, town, vote.stance.position)
+      ? { question, position: round(town), move: "lie", recordId: vote.id }
+      : {
+          question,
+          position: round(vote.stance.position),
+          move: "plain",
+          recordId: vote.id,
+        };
   });
+}
+
+/**
+ * Whether a candidate shades an answer about their own vote toward where the
+ * town stands rather than owning the vote: the further apart the two stand
+ * (half the distance, 0 to 1), the more the vote costs with the people
+ * listening, and their own lean toward bending the truth over owning it
+ * (every trait).
+ */
+export function shadesAnswer(
+  api: CoreAPI,
+  person: Pick<PersonState, "traits"> & { id?: string },
+  town: number,
+  voted: number,
+): boolean {
+  return leanedYes(
+    api.state,
+    person,
+    "press.shade-answer",
+    "shade",
+    "own",
+    pressParameter("shadeBase") +
+      (pressParameter("shadeGapWeight") * Math.abs(town - voted)) / 2,
+  );
+}
+
+const standCache = new WeakMap<
+  object,
+  { date: string; map: Map<string, number> }
+>();
+
+/**
+ * Where the town's adults stand on a question, -1 to 1: the mean of where
+ * each one's lean puts them on its axis (as the press reads an outlet's
+ * readers), read once a day.
+ */
+function townStand(api: CoreAPI, question: string): number {
+  const held = standCache.get(api.state);
+  const map =
+    held?.date === api.state.date ? held.map : new Map<string, number>();
+  if (held?.date !== api.state.date)
+    standCache.set(api.state, { date: api.state.date, map });
+  const hit = map.get(question);
+  if (hit !== undefined) return hit;
+  let sum = 0;
+  let adults = 0;
+  for (const id of api.state.peopleByPlace.get(lawChain(api).townPlaceId) ??
+    []) {
+    const p = api.state.people.get(id);
+    if (!p?.alive || ageOn(p, api.state.date) < 18) continue;
+    sum += (leanOf(api, id) / 2) * questionAxis(question);
+    adults += 1;
+  }
+  const stand = adults ? sum / adults : 0;
+  map.set(question, stand);
+  return stand;
 }
 
 /**

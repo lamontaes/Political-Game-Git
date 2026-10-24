@@ -268,6 +268,18 @@
       "source": "Days a reporter takes to check a candidate's claim against the record before printing what they found.",
       "spread": [7, 42]
     },
+    "shadeBase": {
+      "value": -1.82,
+      "tag": "ESTIMATED",
+      "source": "Where a candidate asked about their own vote starts, before how far the vote stands from where the town stands and their temperament. A town's stand on a question is the mean of its adults' leans on the question's axis, so it reaches at most half way to either end, and the largest gap a town allows between vote and town is 0.75. Fitted so that at that gap the share of adults who would shade matches the share prepared to lie for gain in an incentivized one-shot cheating task: 26.1% (95% interval 19.2% to 34.4%), Heck, Thielmann, Moshagen and Hilbig (2018), Who lies? A large-scale reanalysis linking basic personality traits to unethical decision making, Judgment and Decision Making 13(4):356-371, 16 studies, N = 5,002. Measured across the 9,561 adults of 16 towns drawn from all 56 places (seeds shadefit1 and shadefit2) at shadeGapWeight 2: 26% shade where the town stands as far against the vote as a town can, 8% where the town is split (gap 0.5), none where the town stands fully with the vote (gap 0.25). The study's interval gives the spread.",
+      "spread": [-1.97, -1.65]
+    },
+    "shadeGapWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much more a candidate leans toward shading an answer about their own vote the further the vote stands from where the town stands on the question (half the distance between the two positions): the vote costs more with the people listening the further it sits from them. Checked with shadeBase moved to keep the share at the largest gap at the study's (16 towns, seeds shadefit1 and shadefit2): at 1.5, 3.7% shade a vote the town fully agrees with and 11.6% where the town is split; at 2, none and 8.3%; at 2.5, none and 5.8%.",
+      "spread": [1.5, 2.5]
+    },
     "moveWeightPlain": {
       "value": 1,
       "tag": "TUNABLE",
