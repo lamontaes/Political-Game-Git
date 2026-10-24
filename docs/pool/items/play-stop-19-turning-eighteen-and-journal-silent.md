@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2, words
+milestone: play-first
 ---
 
 **What.** I started at 17 with a February 3 birthday on the v0.22.10 release. The calendar's Coming up lists three family birthdays but not mine. Pressing Week across February 3 showed nothing; only Who you are changed to "Age 18". The Journal stayed blank from January 20 until the day after I filed, when it said "I ran for Council member." (past tense, 21 months before the election). I expected my 18th birthday to be a moment (I can vote and run now) and the journal to record my first weeks.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/calendar.ts, src/director/journal.ts, src/bench/story.ts, src/bench/play.mjs
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:56, 16:02, 16:03, 16:05; screenshots 19, 40, 41, 42, 52. assigned: Play fixer (calendar and birthday screen); Words lead (journal lines) (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:56, 16:02, 16:03, 16:05; screenshots 19, 40, 41, 42, 52. Lead: m0-m2 (calendar and birthday screen); words (journal lines) (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).

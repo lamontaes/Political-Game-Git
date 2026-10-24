@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #5932
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json, src/director/hearing-scenes.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5932 (branch words/hearing-scene-sponsor): normal main integration conflicts in src/director/data/situation-types.json; the Words author must resolve the director-data conflict on that branch, merge main into it first.

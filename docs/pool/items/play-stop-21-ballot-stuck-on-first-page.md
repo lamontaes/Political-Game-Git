@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2
+milestone: play-first
 ---
 
 **What.** On election day, November 3, 2026, on the v0.22.10 release, pressing Day took me to a polling place with a ballot panel showing five races: Tax assessor-collector and four Commissioner races, two of which have no candidate. The ballot holds 25 races (county offices, three Council member races including mine, Mayor, statewide offices, the legislature, U.S. House and U.S. Senate), but the other 20 are paged out. Continue does nothing, before or after marking every race on the page, and sends nothing to the game; the mouse wheel and Page Down do nothing. The game recorded my ballot only for the five visible races. I expected Continue to show the next page and to vote for myself.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/play.mjs, src/bench/play.html, src/bench/polling.ts, src/director/polling-place.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:30, 16:31; screenshots 73, 74-ballot-page-2, 75, 76. Stopper 1 of 3. assigned: Play fixer (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:30, 16:31; screenshots 73, 74-ballot-page-2, 75, 76. Stopper 1 of 3. Lead: m0-m2 (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
