@@ -3,6 +3,7 @@
   "stopgapId": "SG-P10-health-minimal-port",
   "calibrationCategory": "equal-mixture",
   "onsetEventKind": "health.serious-illness",
+  "countedOnsetEventKind": "residents.member-fell-ill",
   "deathEventKind": "life.death",
   "countedDeathEventKind": "residents.member-died",
   "topicPrefix": "health",
