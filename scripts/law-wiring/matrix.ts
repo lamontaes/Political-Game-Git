@@ -63,6 +63,17 @@ interface Result {
     links: { key: string; status: string; to: string }[];
     fired: { id: string; link: string; effect: number }[];
     firedCount: number;
+    /** The run's window in days, and the law causes the web read differently from the control world (older result files have neither). */
+    windowDays?: number;
+    cause?: {
+      id: string;
+      month: string;
+      link: string;
+      from: string;
+      lagMonths: number;
+      treated: number;
+      control: number;
+    }[];
   };
   heard: { people: number; sample: string[] };
   afterUndo: ReachCount;
@@ -410,6 +421,35 @@ function webLink(
       evidence: links.map((l) => `${l.key}: ${l.status}`).join(", "),
       why: `every link is unbuilt: ${[...new Set(notBuilt.map((l) => l.status))].join(", ")}`,
     };
+  // A built, sized link to a kept measure whose lag outlasts the run cannot
+  // show its effect in it. It counts when the web read the law's cause as
+  // changed in the run (differently from the control world): the effect then
+  // lands the lag's months after that month row.
+  const lagged = runs.flatMap(({ place, r }) =>
+    (r.web?.cause ?? [])
+      .filter(
+        (c) =>
+          c.lagMonths > (r.web.windowDays ?? 35) / 30 &&
+          built.some((l) => l.key === c.link),
+      )
+      .map((c) => ({ place, c })),
+  );
+  if (lagged.length) {
+    const ev = lagged
+      .slice(0, 3)
+      .map(
+        ({ place, c }) =>
+          `${place}: ${c.link} lags ${c.lagMonths} months, past the run's window; the web read ${c.from} as ${c.treated} (control ${c.control}) in ${c.id} (${c.month})`,
+      )
+      .join("; ");
+    return notBuilt.length
+      ? {
+          status: "partial",
+          evidence: ev,
+          why: `links not built: ${notBuilt.map((l) => `${l.key} (${l.status})`).join(", ")}`,
+        }
+      : { status: "wired", evidence: ev, why: "" };
+  }
   return {
     status: "missing",
     evidence: built.map((l) => l.key).join(", "),

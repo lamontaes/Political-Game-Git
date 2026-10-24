@@ -1,0 +1,347 @@
+{
+ "seed": "5e27b0c4196fd3a8",
+ "place": {
+  "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+  "key": "3149425",
+  "name": "Uehling, Nebraska",
+  "state": "US-NE"
+ },
+ "window": 35,
+ "after": 10,
+ "results": [
+  {
+   "key": "us-policy-positions:transportation-infrastructure.public-broadband",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-02-26:law-wiring-6d3c33c8-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 145,
+    "households": 38,
+    "organizations": 0,
+    "governments": 1,
+    "other": 0,
+    "open": 73,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_b1a74e583922519a",
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_b1a74b5839224c81",
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_b1a74758392245b5",
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_019bcce91550c8f7"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 458,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 28,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/place-prices.ts:688": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:transportation-infrastructure.public-broadband:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9529220,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1853",
+       "journal:2025-02-01:1854",
+       "journal:2025-02-01:1855"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1455387,
+      "control": 1097499,
+      "ids": [
+       "journal:2025-02-03:7682",
+       "journal:2025-02-03:7684",
+       "journal:2025-02-03:7686"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 45211019,
+      "control": 44920649,
+      "ids": [
+       "journal:2025-01-24:1557",
+       "journal:2025-01-25:1558",
+       "journal:2025-01-25:1560"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4436595,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8252",
+       "journal:2025-02-19:8253",
+       "journal:2025-02-19:8254"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+      "treatment": 1014112,
+      "control": 1011316,
+      "ids": [
+       "journal:2025-02-06:7944",
+       "journal:2025-02-14:8154",
+       "journal:2025-02-21:8317"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+      "treatment": 35,
+      "control": 33,
+      "ids": [
+       "journal:2025-02-24:8372"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+      "gross": 1270782,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "gross": 1270782,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "law-wiring-6d3c33c8",
+      "gross": 1270782,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "public-broadband-to-home-access",
+      "status": "built",
+      "to": "broadband.home-access"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "public-broadband-to-home-access",
+      "from": "law:us-policy-positions:transportation-infrastructure.public-broadband",
+      "lagMonths": 36,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "public-broadband-to-home-access",
+      "from": "law:us-policy-positions:transportation-infrastructure.public-broadband",
+      "lagMonths": 36,
+      "treated": 1,
+      "control": 0
+     }
+    ]
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+    "law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-02-26:law-wiring-16f91ec9-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization:landlord:jurisdiction_45a3b3ebe97fe71d"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/policy-authority.ts:45": 6,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/housing.ts:1654": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9081700,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "gas-hookup-ban-to-child-asthma",
+      "status": "built",
+      "to": "health.child-asthma-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "gas-hookup-ban-to-child-asthma",
+      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "lagMonths": 120,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "gas-hookup-ban-to-child-asthma",
+      "from": "law:us-policy-positions:environment-energy.ban-new-gas-hookups",
+      "lagMonths": 120,
+      "treated": 1,
+      "control": 0
+     }
+    ]
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  }
+ ]
+}

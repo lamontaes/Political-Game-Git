@@ -51,6 +51,7 @@ import { draftBill, type Provision } from "../../src/core2/modules/legislature";
 import powersCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import powerQuestions from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
+import { linkCoverage, WEB_LINKS } from "../../src/core2/outcome-web-model";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
 
 const ROOT = `${process.cwd()}/`;
@@ -331,6 +332,44 @@ function webEffects(
     }
   }
   return out;
+}
+
+/**
+ * The law causes the web read, month by month, for the links of these laws
+ * that run on core2 (a built, sized link to a kept measure whose cause is a
+ * law). A link with a long lag moves its outcome that many months after the
+ * cause changes; what a run can show of it is the cause the web read.
+ */
+function webCauses(
+  core: CoreState,
+  placeId: string,
+  laws: readonly LawEntry[],
+) {
+  const links = laws.flatMap((law) =>
+    WEB_LINKS.filter(
+      (l) =>
+        l.from.startsWith("law:") &&
+        linkCoverage(l).wired &&
+        webLinksOf(law).some((w) => w.key === l.key),
+    ),
+  );
+  if (!core.modules.has(OUTCOME_WEB_MODULE_ID) || !links.length) return [];
+  const rows = coreAPI(core)
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months")
+    .query("byPlace", [placeId]) as unknown as {
+    id: string;
+    date: string;
+    values: Record<string, number>;
+  }[];
+  return rows.flatMap((row) =>
+    links.flatMap((link) => {
+      const value = row.values?.[link.from];
+      return typeof value === "number"
+        ? [{ id: row.id, date: row.date, link, value }]
+        : [];
+    }),
+  );
 }
 
 function heardOf(
@@ -705,6 +744,8 @@ interface Control {
   money: Map<string, { gross: number; posts: number; ids: string[] }>;
   reads: Map<string, Map<string, number>>;
   web: Map<string, number>;
+  /** The law causes the web read in the control world, by month row and link. */
+  cause: Map<string, number>;
   /** Each law's reach at the end of the control window, where nothing changed it. */
   reach: Map<string, ReachCount>;
 }
@@ -750,10 +791,14 @@ function runControl(
     for (const l of webLinksOf(law))
       for (const e of webEffects(w.core, placeId, [l.key], "0000"))
         web.set(`${e.id}|${e.link}`, e.effect);
+  const cause = new Map<string, number>();
+  for (const law of laws)
+    for (const c of webCauses(w.core, placeId, [law]))
+      cause.set(`${c.id}|${c.link.key}`, c.value);
   const reach = new Map(
     laws.map((law) => [law.key, reachOf(w.core, law.key, null)] as const),
   );
-  return { money, reads, web, reach };
+  return { money, reads, web, cause, reach };
 }
 
 function checkLaw(
@@ -870,6 +915,26 @@ function checkLaw(
     )
       web.push({ id, link, effect: 0 });
   }
+  // The law cause the web read differently from the control world, per link
+  // (what a link whose lag outlasts this window can show of itself).
+  const cause = webCauses(core, placeId, [law])
+    .filter((c) => c.date >= since)
+    .flatMap((c) => {
+      const held = control.cause.get(`${c.id}|${c.link.key}`);
+      return held !== undefined && held !== c.value
+        ? [
+            {
+              id: c.id,
+              month: c.id.slice(-"YYYY-MM".length),
+              link: c.link.key,
+              from: c.link.from,
+              lagMonths: c.link.lagMonths,
+              treated: c.value,
+              control: held,
+            },
+          ]
+        : [];
+    });
   const heard = heardOf(core, ids, law.key, since);
   // Money: each journal source kind whose total differs from the control's.
   const moneyDiff: {
@@ -945,6 +1010,8 @@ function checkLaw(
       links: links.map((l) => ({ key: l.key, status: l.status, to: l.to })),
       fired: web.slice(0, 12),
       firedCount: web.length,
+      windowDays: WINDOW,
+      cause: cause.slice(0, 12),
     },
     heard,
     afterUndo: after,
