@@ -32,11 +32,6 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "sales-tax",
-      "outcome": "household prices and local retail sales",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "estate-tax",
       "outcome": "wealth transfers and charitable giving",
       "stopgapId": "SG-LAW-outcome-link-unresearched"

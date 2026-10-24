@@ -4921,6 +4921,28 @@
       "shape": {
         "kind": "linear"
       },
+      "group": "households",
+      "owner": "B-cloud",
+      "key": "sales-tax-to-prices",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "to": "household.prices",
+      "size": 0,
+      "per": "percentage point of the combined state and local sales tax rate",
+      "lagMonths": 3,
+      "evidence": "about-zero",
+      "anchor": "Retail prices of taxed goods rise by about the amount of the sales tax: the shopper's price goes up point for point and the price before tax does not move. The tax is added at the register, so the price level the businesses set (before tax) is unchanged by a rate change",
+      "source": "Poterba 1996, National Tax Journal 49(2), pp. 165-176, abstract and Table 3; Besley and Rosen 1999, National Tax Journal 52(2), NBER Working Paper 6667",
+      "from": "law:sales-tax",
+      "range": [0, 0],
+      "rangeSource": "Poterba 1996 abstract: \"retail prices rise by approximately the amount of the sales tax\" (eight cities, 1947-77); Table 3 total responses of tax-inclusive clothing and personal-care prices to a one-point rate change are 1.33, 0.84 and 1.17, and the paper says it is \"never possible to reject the null hypothesis that prices rise point-for-point with changes in the retail sales tax\". Point-for-point pass-through to the price with tax means no change in the price before tax, so the pre-tax level is zero. The Depression-era estimate (0.62, 1925-39) and Besley and Rosen's overshifting for some goods are the spread on either side, and neither is a pre-tax move the web can attach to one direction. Besley and Rosen 1999 abstract: \"For some commodities, the after-tax price increases by exactly the amount of the tax.\"",
+      "notes": "Read by nothing, on purpose: the purchase-tax engine charges the tax at each sale (src/core2/modules/purchase-tax.ts collect), so a link that also raised the pre-tax price level would charge households twice. household.prices is the pre-tax level businesses set (finance-state.ts reads its factor at their price review)."
+    },
+    {
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
       "group": "place",
       "owner": "B-cloud",
       "key": "mandatory-minimums-to-violent-crime",
