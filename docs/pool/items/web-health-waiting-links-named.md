@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/data/stopgaps.json, src/core2/data/outcome-web/unwired.json, src/core2/outcome-web-health-waiting.test.ts
 
 **Notes.** Split Oct 24 by the effects lead from web-reach-health, as civic's audit was from web-reach-civic.
+
+Sent back 2026-10-24 from PR #5980 (branch claude/web-reach-health): the six unsized-link tests never check for a new engine reader despite the Done-when, and fourteen generic stopgaps falsely say their links now reach engines when they remain unwired under specific open rows; check readers for all sixteen, name the superseding IDs truthfully and preserve that history on regeneration; finish on that branch, merge main into it first.
