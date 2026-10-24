@@ -60,7 +60,7 @@ interface Move {
   readonly stance: Stance;
   readonly today: readonly (Stance["causes"][number] & {
     readonly knewSource: boolean;
-    /** They hold, from this reading, which outlet printed the story: what the director's bring-it-up lists. */
+    /** They hold, from reading it, which outlet printed the story: what the director's bring-it-up lists. */
     readonly rememberedPrint: boolean;
   })[];
   readonly viewNow: number;
@@ -99,7 +99,7 @@ registerStanceListener((api, personId, topic) => {
           (fact) =>
             fact.key.startsWith("printed:") &&
             fact.key.endsWith(":story") &&
-            fact.sourceId === cause.eventId &&
+            fact.value === storyOfReadEvent(cause.eventId) &&
             fact.access === "perceived",
         ),
       })),
@@ -363,8 +363,11 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
           `${where}: a condition of ${topic}`,
         ).toBeGreaterThan(0);
         expect(cause.learnedFrom, where).toBe(newsKey(storyId));
-        expect(cause.knewSource, where).toBe(true);
-        expect(cause.rememberedPrint, where).toBe(true);
+        expect(cause.knewSource, `${where}: knew the story`).toBe(true);
+        expect(
+          cause.rememberedPrint,
+          `${where}: remembers who printed it`,
+        ).toBe(true);
         expect(cause.change, where).toBeGreaterThan(0);
         expect(Math.sign(viewNow), where).toBe(
           stance.desiredChange === "enact" ? 1 : -1,
