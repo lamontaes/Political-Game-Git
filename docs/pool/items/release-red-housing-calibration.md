@@ -13,12 +13,14 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** TODO
+**What.** The housing calibration can judge an eviction-burden curve from only a handful of court cases, producing an unstable result. Requiring ten cases must not silently skip every burden assertion in a small town. Draw a bounded number of additional places and pool their recorded court cases until the curve has a meaningful sample, failing with the replay seed and places when that sample cannot be reached.
 
-**Rules.** TODO
+**Rules.** Wire to the world: the calibration reads actual court cases from generated played worlds. No dice: the measurement checks aggregate behavior and does not pick an actor's outcome. Preserve the existing burden bounds and HUD comparison rather than clearing a red check by skipping its assertions.
 
-**Done when.** TODO
+**Done when.** The test in src/core2/housing-calibration.test.ts pools at least ten recorded cases from no more than four drawn places, fails with the seed and attempted places on exhaustion, and executes all three burden-curve assertions unconditionally after that positive sample check. Its log names every place and replay seed. The HUD comparison is retained; any claimed main-only failure is replayed on clean main and recorded separately.
 
-**Files.** TODO
+**Files.** src/core2/housing-calibration.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5324 (branch claude/release-red-housing): the PR body lacks the mandatory Done-when evidence table and still says the failure was not reproduced; put the bounded ten-case proof, replay seed and main-only HUD result in the body and replace the item TODO acceptance; finish on that branch, merge main into it first.
