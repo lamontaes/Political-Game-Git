@@ -1,1644 +1,1632 @@
 {
- "seed": "a91c03e7d2b84f10",
- "place": {
-  "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
-  "key": "2666300",
-  "name": "Prescott, Michigan",
-  "state": "US-MI"
- },
- "window": 35,
- "after": 10,
- "results": [
-  {
-   "key": "budget-line:highways",
-   "kind": "budget-line",
-   "family": "infrastructure",
-   "inForceAtOpening": false,
-   "change": "place:2666300 highways 3994165 -> 13994165 by law-wiring-c8a99055",
-   "lawIds": [
-    "law-wiring-c8a99055"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 88,
-    "countedGroups": 1,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 4,
-    "governments": 0,
-    "other": 0,
-    "open": 93,
-    "ended": 0,
-    "sample": [
-     "budget-line:highways|person_0161274dc68d50d8|2025-01-20",
-     "budget-line:highways|person_0161284dc68d528b|2025-01-20",
-     "budget-line:highways|person_02518394bd09bf0a|2025-01-20",
-     "budget-line:highways|person_02518494bd09c0bd|2025-01-20"
-    ]
-   },
-   "readers": {},
-   "openingRow": null,
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-      "treatment": 31019525,
-      "control": 30776517,
-      "ids": [
-       "journal:2025-01-23:1639",
-       "journal:2025-01-24:1640",
-       "journal:2025-01-25:1641"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 2010602,
-      "control": 1930999,
-      "ids": [
-       "journal:2025-02-01:1905",
-       "journal:2025-02-01:1906",
-       "journal:2025-02-01:1907"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
-      "treatment": 5856763,
-      "control": 5825510,
-      "ids": [
-       "journal:2025-02-19:8370",
-       "journal:2025-02-19:8371",
-       "journal:2025-02-19:8373"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
-      "treatment": 1115082,
-      "control": 1092668,
-      "ids": [
-       "journal:2025-02-03:7494",
-       "journal:2025-02-03:7495",
-       "journal:2025-02-03:7496"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 79992261,
-      "control": 79997800,
-      "ids": [
-       "journal:2025-01-21:1595",
-       "journal:2025-01-21:1596",
-       "journal:2025-01-21:1597"
-      ]
-     },
-     {
-      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
-      "treatment": 2258,
-      "control": 2238,
-      "ids": [
-       "journal:2025-02-07:8124",
-       "journal:2025-02-08:8140",
-       "journal:2025-02-09:8145"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
-      "treatment": 59223958957317,
-      "control": 59223958957320,
-      "ids": [
-       "journal:2025-02-01:1741",
-       "journal:2025-02-01:1742",
-       "journal:2025-02-01:1743"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
-      "treatment": 28999,
-      "control": 29000,
-      "ids": [
-       "journal:2025-02-06:8107",
-       "journal:2025-02-06:8108"
-      ]
-     }
-    ],
-    "diffKinds": 8,
-    "cited": [
-     {
-      "token": "budget-line:highways",
-      "gross": 248860,
-      "ids": [
-       "journal:2025-02-03:7414",
-       "journal:2025-02-03:7415",
-       "journal:2025-02-03:7416"
-      ]
-     }
-    ]
-   },
-   "web": {
-    "links": [
-     {
-      "key": "road-condition-to-vehicle-costs",
-      "status": "size-not-set",
-      "to": "household.vehicle-costs"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 0,
-    "sample": []
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 93,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 92,
-    "sample": []
-   },
-   "seconds": 15
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
   },
-  {
-   "key": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
-   "kind": "question",
-   "family": "infrastructure",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at city effective 2025-02-26",
-   "lawIds": [
-    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
-    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-02-26:law-wiring-fb34464e-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 2,
-    "countedPeople": 227,
-    "households": 0,
-    "organizations": 0,
-    "governments": 1,
-    "other": 0,
-    "open": 3,
-    "ended": 0,
-    "sample": [
-     "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|jurisdiction_971998ff58477430",
-     "applied|us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|place:2666300",
-     "applied|us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|residents:place:2666300"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/legislature.ts:2081": 75,
-    "src/core2/modules/outcome-web.ts:158": 48,
-    "src/core2/modules/world-legislating.ts:253": 32,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/law-reach/group-b.ts:231 <- src/core2/life.ts:549": 4,
-    "src/core2/modules/world-legislating.ts:333": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
-      "treatment": 1100841,
-      "control": 1092668,
-      "ids": [
-       "journal:2025-02-03:7437",
-       "journal:2025-02-03:7438",
-       "journal:2025-02-03:7439"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 1935641,
-      "control": 1930999,
-      "ids": [
-       "journal:2025-02-01:1908",
-       "journal:2025-02-01:1909",
-       "journal:2025-02-01:1910"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-      "treatment": 30772968,
-      "control": 30776517,
-      "ids": [
-       "journal:2025-01-23:1639",
-       "journal:2025-01-24:1640",
-       "journal:2025-01-25:1641"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
-      "treatment": 5823973,
-      "control": 5825510,
-      "ids": [
-       "journal:2025-02-19:8316",
-       "journal:2025-02-19:8317",
-       "journal:2025-02-19:8319"
-      ]
-     },
-     {
-      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
-      "treatment": 2231,
-      "control": 2238,
-      "ids": [
-       "journal:2025-02-07:8070",
-       "journal:2025-02-08:8086",
-       "journal:2025-02-09:8091"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
-      "treatment": 59223958957319,
-      "control": 59223958957320,
-      "ids": [
-       "journal:2025-02-01:1741",
-       "journal:2025-02-01:1742",
-       "journal:2025-02-01:1743"
-      ]
-     }
-    ],
-    "diffKinds": 6,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "highway-money-for-transit-to-service",
-      "status": "built",
-      "to": "transit.service-access"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 53,
-    "sample": [
-     "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
-     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
-     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 1,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 13
-  },
-  {
-   "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
-   "kind": "question",
-   "family": "energy-environment",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
-   "lawIds": [
-    "law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
-    "law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-02-26:law-wiring-fbc8b216-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/modules/outcome-web.ts:158": 48,
-    "src/core2/modules/world-legislating.ts:253": 32,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/legislature.ts:2081": 2,
-    "src/core2/modules/world-legislating.ts:333": 2,
-    "src/core2/modules/business.ts:922": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [],
-    "diffKinds": 0,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "emission-rules-to-particulates",
-      "status": "built",
-      "to": "env.particulates"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 53,
-    "sample": [
-     "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
-     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
-     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 13
-  },
-  {
-   "key": "budget-line:naturalResources",
-   "kind": "budget-line",
-   "family": "energy-environment",
-   "inForceAtOpening": false,
-   "change": "place:2666300 naturalResources 0 -> 10000000 by law-wiring-8d04ad08",
-   "lawIds": [
-    "law-wiring-8d04ad08"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 106,
-    "countedGroups": 1,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 2,
-    "governments": 0,
-    "other": 0,
-    "open": 109,
-    "ended": 0,
-    "sample": [
-     "budget-line:naturalResources|person_0161274dc68d50d8|2025-01-20",
-     "budget-line:naturalResources|person_0161284dc68d528b|2025-01-20",
-     "budget-line:naturalResources|person_02518394bd09bf0a|2025-01-20",
-     "budget-line:naturalResources|person_02518494bd09c0bd|2025-01-20"
-    ]
-   },
-   "readers": {},
-   "openingRow": null,
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-      "treatment": 30766965,
-      "control": 30776517,
-      "ids": [
-       "journal:2025-01-23:1639",
-       "journal:2025-01-24:1640",
-       "journal:2025-01-25:1641"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 79992261,
-      "control": 79997800,
-      "ids": [
-       "journal:2025-01-21:1595",
-       "journal:2025-01-21:1596",
-       "journal:2025-01-21:1597"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
-      "treatment": 5824471,
-      "control": 5825510,
-      "ids": [
-       "journal:2025-02-19:8276",
-       "journal:2025-02-19:8277",
-       "journal:2025-02-19:8279"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
-      "treatment": 59223958957317,
-      "control": 59223958957320,
-      "ids": [
-       "journal:2025-02-01:1741",
-       "journal:2025-02-01:1742",
-       "journal:2025-02-01:1743"
-      ]
-     }
-    ],
-    "diffKinds": 4,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 0,
-    "sample": []
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 109,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 108,
-    "sample": []
-   },
-   "seconds": 12
-  },
-  {
-   "key": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
-   "kind": "question",
-   "family": "rights",
-   "inForceAtOpening": true,
-   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-   "lawIds": [
-    "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
-    "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
-    "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 35,
-    "governments": 0,
-    "other": 0,
-    "open": 35,
-    "ended": 0,
-    "sample": [
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_382d8445c99fb630:2025-01-20",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_382d8545c99fb7e3:2025-01-20",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_abf6fde4ca9851f5:2025-01-20",
-     "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|organization_e3b28d186bf443d7"
-    ]
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 3,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/modules/legislature.ts:2081": 375,
-    "src/core2/jobs-age-bias.ts:35": 64,
-    "src/core2/modules/world-legislating.ts:253": 24,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/modules/outcome-web.ts:158": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/world-legislating.ts:333": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [],
-    "diffKinds": 0,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "anti-discrimination-to-poverty",
-      "status": "about-zero",
-      "to": "household.poverty-pct"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 63,
-    "sample": [
-     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
-     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
-     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 35,
-    "governments": 0,
-    "other": 0,
-    "open": 35,
-    "ended": 3,
-    "sample": [
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b:landlords:organization_382d8445c99fb630:2025-02-26",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b:landlords:organization_382d8545c99fb7e3:2025-02-26",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b:landlords:organization_abf6fde4ca9851f5:2025-02-26",
-     "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|organization_e3b28d186bf443d7"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 3,
-    "sample": []
-   },
-   "seconds": 12
-  },
-  {
-   "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
-   "kind": "question",
-   "family": "rights",
-   "inForceAtOpening": true,
-   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-   "lawIds": [
-    "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
-    "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4",
-    "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b"
-   ],
-   "openingReach": {
-    "fullPeople": 49,
-    "countedGroups": 2,
-    "countedPeople": 10140638,
-    "households": 0,
-    "organizations": 1,
-    "governments": 1,
-    "other": 0,
-    "open": 53,
-    "ended": 0,
-    "sample": [
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_6bfeefad73e308c6:2025-01-20",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_ae720410206893b1:2025-01-20",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_ae720310206891fe:2025-01-20",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_7b570565dc6dd202:2025-01-20"
-    ]
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 51,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/life.ts:549": 5
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
-      "treatment": 59223599983787,
-      "control": 59223958957320,
-      "ids": [
-       "journal:2025-02-01:1741",
-       "journal:2025-02-01:1742",
-       "journal:2025-02-01:1743"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 79995791,
-      "control": 79997800,
-      "ids": [
-       "journal:2025-01-21:1595",
-       "journal:2025-01-21:1596",
-       "journal:2025-01-21:1597"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-      "treatment": 30774508,
-      "control": 30776517,
-      "ids": [
-       "journal:2025-01-23:1639",
-       "journal:2025-01-24:1640",
-       "journal:2025-01-25:1641"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
-      "treatment": 5825133,
-      "control": 5825510,
-      "ids": [
-       "journal:2025-02-19:8274",
-       "journal:2025-02-19:8275",
-       "journal:2025-02-19:8277"
-      ]
-     }
-    ],
-    "diffKinds": 4,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 71,
-    "sample": [
-     "person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
-     "person_7b570465dc6dd04f:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
-     "person_983237255625a068:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 106,
-    "countedGroups": 2,
-    "countedPeople": 10140581,
-    "households": 0,
-    "organizations": 1,
-    "governments": 1,
-    "other": 0,
-    "open": 110,
-    "ended": 51,
-    "sample": [
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:recreation:organization_6bfeefad73e308c6:2025-02-26",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_ae720410206893b1:2025-02-26",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_ae720310206891fe:2025-02-26",
-     "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_7b570565dc6dd202:2025-02-26"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 51,
-    "sample": []
-   },
-   "seconds": 12
-  },
-  {
-   "key": "us-policy-positions:civil-family-community.restrict-abortion",
-   "kind": "question",
-   "family": "rights",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c) effective 2025-01-21; then repealed at city effective 2025-02-26",
-   "lawIds": [
-    "law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
-    "law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 19,
-    "countedGroups": 2,
-    "countedPeople": 74,
-    "households": 0,
-    "organizations": 2,
-    "governments": 0,
-    "other": 0,
-    "open": 23,
-    "ended": 0,
-    "sample": [
-     "reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_ae720410206893b1:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_7b570665dc6dd3b5:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_182e4b917b4e10f7:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_ab15cbd6aec6d97c:2025-01-21"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/legislature.ts:2081": 876,
-    "src/core2/modules/outcome-web.ts:158": 80,
-    "src/core2/modules/world-legislating.ts:253": 32,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/world-legislating.ts:333": 2,
-    "src/core2/births-counted.ts:697": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [],
-    "diffKinds": 0,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "abortion-ban-to-births",
-      "status": "built",
-      "to": "births.rate"
-     },
-     {
-      "key": "abortion-ban-to-infant-deaths",
-      "status": "built",
-      "to": "health.infant-mortality"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 53,
-    "sample": [
-     "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
-     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
-     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 22,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 22,
-    "sample": []
-   },
-   "seconds": 11
-  },
-  {
-   "key": "us-policy-positions:technology-privacy.age-verification-for-social-media",
-   "kind": "question",
-   "family": "technology",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2025-02-26",
-   "lawIds": [
-    "law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
-    "law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-02-26:law-wiring-03d2708e-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 4,
-    "countedGroups": 1,
-    "countedPeople": 7,
-    "households": 0,
-    "organizations": 4,
-    "governments": 0,
-    "other": 0,
-    "open": 9,
-    "ended": 0,
-    "sample": [
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b218ebc09c07:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b118ebc09a54:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_3f9b11502a79c02a:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_da397af8e8a3550c:2025-01-21"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/world-legislating.ts:253": 32,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/business.ts:1335": 4,
-    "src/core2/modules/legislature.ts:2081": 2,
-    "src/core2/modules/world-legislating.ts:333": 2,
-    "src/core2/modules/business.ts:1273": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [],
-    "diffKinds": 0,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 53,
-    "sample": [
-     "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
-     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
-     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 5,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 5,
-    "sample": []
-   },
-   "seconds": 11
-  },
-  {
-   "key": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
-   "kind": "question",
-   "family": "technology",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at city effective 2025-02-26",
-   "lawIds": [
-    "law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
-    "law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-02-26:law-wiring-7d767e2c-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 1,
-    "countedGroups": 1,
-    "countedPeople": 227,
-    "households": 0,
-    "organizations": 1,
-    "governments": 1,
-    "other": 0,
-    "open": 4,
-    "ended": 0,
-    "sample": [
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:department:organization_c8c4bd3ade9bbdd0:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:officers:person_95f684085236b198:2025-01-21",
-     "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|place:2666300",
-     "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|residents:place:2666300"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/outcome-web.ts:158": 48,
-    "src/core2/modules/world-legislating.ts:253": 32,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/law-reach/group-a-records.ts:251 <- src/core2/life.ts:549": 4,
-    "src/core2/modules/legislature.ts:2081": 2,
-    "src/core2/modules/world-legislating.ts:333": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
-      "treatment": 29058,
-      "control": 29000,
-      "ids": [
-       "journal:2025-02-06:8011",
-       "journal:2025-02-06:8012"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-      "treatment": 30776497,
-      "control": 30776517,
-      "ids": [
-       "journal:2025-01-23:1639",
-       "journal:2025-01-24:1640",
-       "journal:2025-01-25:1641"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 79997788,
-      "control": 79997800,
-      "ids": [
-       "journal:2025-01-21:1595",
-       "journal:2025-01-21:1596",
-       "journal:2025-01-21:1597"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
-      "treatment": 5825508,
-      "control": 5825510,
-      "ids": [
-       "journal:2025-02-19:8274",
-       "journal:2025-02-19:8275",
-       "journal:2025-02-19:8277"
-      ]
-     }
-    ],
-    "diffKinds": 4,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "facial-recognition-limit-to-crime",
-      "status": "built",
-      "to": "crime.violent"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 53,
-    "sample": [
-     "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
-     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
-     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 2,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 2,
-    "sample": []
-   },
-   "seconds": 11
-  },
-  {
-   "key": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
-   "kind": "question",
-   "family": "technology",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6) effective 2025-01-21; then repealed at city effective 2025-02-26",
-   "lawIds": [
-    "law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
-    "law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 50,
-    "countedGroups": 1,
-    "countedPeople": 143,
-    "households": 0,
-    "organizations": 15,
-    "governments": 0,
-    "other": 0,
-    "open": 66,
-    "ended": 0,
-    "sample": [
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_ae720410206893b1:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_ae720310206891fe:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_7b570565dc6dd202:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_7b570665dc6dd3b5:2025-01-21"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/outcome-web.ts:158": 48,
-    "src/core2/modules/world-legislating.ts:253": 32,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/modules/business.ts:1335": 15,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/legislature.ts:2081": 2,
-    "src/core2/modules/world-legislating.ts:333": 2,
-    "src/core2/modules/business.ts:1273": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 2538246,
-      "control": 1930999,
-      "ids": [
-       "journal:2025-02-01:1905",
-       "journal:2025-02-01:1906",
-       "journal:2025-02-01:1907"
-      ]
-     }
-    ],
-    "diffKinds": 1,
-    "cited": [
-     {
-      "token": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
-      "gross": 1184148,
-      "ids": [
-       "journal:2025-02-01:1905",
-       "journal:2025-02-01:1906",
-       "journal:2025-02-01:1907"
-      ]
-     }
-    ]
-   },
-   "web": {
-    "links": [
-     {
-      "key": "privacy-law-to-earnings",
-      "status": "built",
-      "to": "labor.median-earnings"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 53,
-    "sample": [
-     "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
-     "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
-     "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 51,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 51,
-    "sample": []
-   },
-   "seconds": 11
-  },
-  {
-   "key": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
-   "kind": "question",
-   "family": "agriculture",
-   "inForceAtOpening": true,
-   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-   "lawIds": [
-    "law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
-    "law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
-    "law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-02-26:law-wiring-70bb716f-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 1,
-    "governments": 0,
-    "other": 0,
-    "open": 1,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a"
-    ]
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/modules/outcome-web.ts:158": 64,
-    "src/core2/modules/world-legislating.ts:253": 24,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/legislature.ts:2081": 2,
-    "src/core2/modules/world-legislating.ts:333": 2,
-    "src/core2/modules/business.ts:1153": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
-      "treatment": 129070835,
-      "control": 128752679,
-      "ids": [
-       "journal:2025-01-21:1565",
-       "journal:2025-01-21:1566",
-       "journal:2025-01-21:1567"
-      ]
-     }
-    ],
-    "diffKinds": 1,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "groundwater-limits-to-irrigation-pumping",
-      "status": "built",
-      "to": "water.irrigation-groundwater"
-     }
-    ],
-    "fired": [
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-01",
-      "link": "groundwater-limits-to-irrigation-pumping",
-      "effect": 0.31
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-02",
-      "link": "groundwater-limits-to-irrigation-pumping",
-      "effect": 0.31
-     }
-    ],
-    "firedCount": 2
-   },
-   "heard": {
-    "people": 67,
-    "sample": [
-     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
-     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
-     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 1,
-    "governments": 0,
-    "other": 0,
-    "open": 1,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 12
-  },
-  {
-   "key": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
-   "kind": "question",
-   "family": "agriculture",
-   "inForceAtOpening": true,
-   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-   "lawIds": [
-    "law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
-    "law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
-    "law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-02-26:law-wiring-cdbf4067-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 1,
-    "governments": 0,
-    "other": 0,
-    "open": 1,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_971998ff58477430"
-    ]
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/modules/outcome-web.ts:158": 64,
-    "src/core2/modules/world-legislating.ts:253": 24,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/legislature.ts:2081": 2,
-    "src/core2/modules/world-legislating.ts:333": 2,
-    "src/core2/modules/housing.ts:1658": 2
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [],
-    "diffKinds": 0,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "farmland-easements-to-farmland-lost",
-      "status": "built",
-      "to": "farmland.developed-acres"
-     }
-    ],
-    "fired": [
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-01",
-      "link": "farmland-easements-to-farmland-lost",
-      "effect": 0.47
-     },
-     {
-      "id": "web:jurisdiction_971998ff58477430:2025-02",
-      "link": "farmland-easements-to-farmland-lost",
-      "effect": 0.47
-     }
-    ],
-    "firedCount": 2
-   },
-   "heard": {
-    "people": 67,
-    "sample": [
-     "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
-     "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
-     "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 1,
-    "governments": 0,
-    "other": 0,
-    "open": 1,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_971998ff58477430"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 13
-  },
-  {
-   "key": "budget-line:parks",
-   "kind": "budget-line",
-   "family": "parks-culture",
-   "inForceAtOpening": false,
-   "change": "place:2666300 parks 1915528 -> 11915528 by law-wiring-17ac6c1b",
-   "lawIds": [
-    "law-wiring-17ac6c1b"
-   ],
-   "openingReach": {
-    "fullPeople": 49,
-    "countedGroups": 1,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 1,
-    "governments": 0,
-    "other": 0,
-    "open": 51,
-    "ended": 0,
-    "sample": [
-     "budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20",
-     "budget-line:parks|person_0bbe6b59b6ca59ff|2025-01-20",
-     "budget-line:parks|person_0bbe6d59b6ca5d65|2025-01-20",
-     "budget-line:parks|person_0e958e70e62d2b8a|2025-01-20"
-    ]
-   },
-   "reach": {
-    "fullPeople": 106,
-    "countedGroups": 1,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 1,
-    "governments": 0,
-    "other": 0,
-    "open": 108,
-    "ended": 0,
-    "sample": [
-     "budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20",
-     "budget-line:parks|person_0bbe6b59b6ca59ff|2025-01-20",
-     "budget-line:parks|person_0bbe6d59b6ca5d65|2025-01-20",
-     "budget-line:parks|person_0e958e70e62d2b8a|2025-01-20"
-    ]
-   },
-   "readers": {},
-   "openingRow": null,
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 80029174,
-      "control": 79997800,
-      "ids": [
-       "journal:2025-01-21:1595",
-       "journal:2025-01-21:1596",
-       "journal:2025-01-21:1597"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-      "treatment": 30803878,
-      "control": 30776517,
-      "ids": [
-       "journal:2025-01-23:1639",
-       "journal:2025-01-24:1640",
-       "journal:2025-01-25:1641"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
-      "treatment": 5831392,
-      "control": 5825510,
-      "ids": [
-       "journal:2025-02-19:8274",
-       "journal:2025-02-19:8275",
-       "journal:2025-02-19:8277"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
-      "treatment": 59223958957319,
-      "control": 59223958957320,
-      "ids": [
-       "journal:2025-02-01:1741",
-       "journal:2025-02-01:1742",
-       "journal:2025-02-01:1743"
-      ]
-     }
-    ],
-    "diffKinds": 4,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "parks-spending-to-exercise-access",
-      "status": "built",
-      "to": "parks.access-to-exercise"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 49,
-    "sample": [
-     "person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
-     "person_7b570465dc6dd04f:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
-     "person_983237255625a068:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 106,
-    "countedGroups": 1,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 107,
-    "ended": 1,
-    "sample": [
-     "budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20",
-     "budget-line:parks|person_0bbe6b59b6ca59ff|2025-01-20",
-     "budget-line:parks|person_0bbe6d59b6ca5d65|2025-01-20",
-     "budget-line:parks|person_0e958e70e62d2b8a|2025-01-20"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 12
-  }
- ]
+  "window": 35,
+  "after": 10,
+  "results": [
+    {
+      "key": "budget-line:highways",
+      "kind": "budget-line",
+      "family": "infrastructure",
+      "inForceAtOpening": false,
+      "change": "place:2666300 highways 3994165 -> 13994165 by law-wiring-c8a99055",
+      "lawIds": ["law-wiring-c8a99055"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 88,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 4,
+        "governments": 0,
+        "other": 0,
+        "open": 93,
+        "ended": 0,
+        "sample": [
+          "budget-line:highways|person_0161274dc68d50d8|2025-01-20",
+          "budget-line:highways|person_0161284dc68d528b|2025-01-20",
+          "budget-line:highways|person_02518394bd09bf0a|2025-01-20",
+          "budget-line:highways|person_02518494bd09c0bd|2025-01-20"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 31019525,
+            "control": 30776517,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 2010602,
+            "control": 1930999,
+            "ids": [
+              "journal:2025-02-01:1905",
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 5856763,
+            "control": 5825510,
+            "ids": [
+              "journal:2025-02-19:8370",
+              "journal:2025-02-19:8371",
+              "journal:2025-02-19:8373"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+            "treatment": 1115082,
+            "control": 1092668,
+            "ids": [
+              "journal:2025-02-03:7494",
+              "journal:2025-02-03:7495",
+              "journal:2025-02-03:7496"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 79992261,
+            "control": 79997800,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 2258,
+            "control": 2238,
+            "ids": [
+              "journal:2025-02-07:8124",
+              "journal:2025-02-08:8140",
+              "journal:2025-02-09:8145"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 59223958957317,
+            "control": 59223958957320,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
+            "treatment": 28999,
+            "control": 29000,
+            "ids": ["journal:2025-02-06:8107", "journal:2025-02-06:8108"]
+          }
+        ],
+        "diffKinds": 8,
+        "cited": [
+          {
+            "token": "budget-line:highways",
+            "gross": 248860,
+            "ids": [
+              "journal:2025-02-03:7414",
+              "journal:2025-02-03:7415",
+              "journal:2025-02-03:7416"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "road-condition-to-vehicle-costs",
+            "status": "size-not-set",
+            "to": "household.vehicle-costs"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 93,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 92,
+        "sample": []
+      },
+      "seconds": 15
+    },
+    {
+      "key": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "kind": "question",
+      "family": "infrastructure",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
+        "law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-02-26:law-wiring-fb34464e-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 2,
+        "countedPeople": 227,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|jurisdiction_971998ff58477430",
+          "applied|us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|place:2666300",
+          "applied|us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|residents:place:2666300"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2081": 75,
+        "src/core2/modules/outcome-web.ts:158": 48,
+        "src/core2/modules/world-legislating.ts:253": 32,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/law-reach/group-b.ts:231 <- src/core2/life.ts:549": 4,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+            "treatment": 1100841,
+            "control": 1092668,
+            "ids": [
+              "journal:2025-02-03:7437",
+              "journal:2025-02-03:7438",
+              "journal:2025-02-03:7439"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1935641,
+            "control": 1930999,
+            "ids": [
+              "journal:2025-02-01:1908",
+              "journal:2025-02-01:1909",
+              "journal:2025-02-01:1910"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 30772968,
+            "control": 30776517,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 5823973,
+            "control": 5825510,
+            "ids": [
+              "journal:2025-02-19:8316",
+              "journal:2025-02-19:8317",
+              "journal:2025-02-19:8319"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 2231,
+            "control": 2238,
+            "ids": [
+              "journal:2025-02-07:8070",
+              "journal:2025-02-08:8086",
+              "journal:2025-02-09:8091"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 59223958957319,
+            "control": 59223958957320,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          }
+        ],
+        "diffKinds": 6,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "highway-money-for-transit-to-service",
+            "status": "built",
+            "to": "transit.service-access"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 53,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 13
+    },
+    {
+      "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+      "kind": "question",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+        "law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-02-26:law-wiring-fbc8b216-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 48,
+        "src/core2/modules/world-legislating.ts:253": 32,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/legislature.ts:2081": 2,
+        "src/core2/modules/world-legislating.ts:333": 2,
+        "src/core2/modules/business.ts:922": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "emission-rules-to-particulates",
+            "status": "built",
+            "to": "env.particulates"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 53,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 13
+    },
+    {
+      "key": "budget-line:naturalResources",
+      "kind": "budget-line",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "place:2666300 naturalResources 0 -> 10000000 by law-wiring-8d04ad08",
+      "lawIds": ["law-wiring-8d04ad08"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 106,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 109,
+        "ended": 0,
+        "sample": [
+          "budget-line:naturalResources|person_0161274dc68d50d8|2025-01-20",
+          "budget-line:naturalResources|person_0161284dc68d528b|2025-01-20",
+          "budget-line:naturalResources|person_02518394bd09bf0a|2025-01-20",
+          "budget-line:naturalResources|person_02518494bd09c0bd|2025-01-20"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 30766965,
+            "control": 30776517,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 79992261,
+            "control": 79997800,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 5824471,
+            "control": 5825510,
+            "ids": [
+              "journal:2025-02-19:8276",
+              "journal:2025-02-19:8277",
+              "journal:2025-02-19:8279"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 59223958957317,
+            "control": 59223958957320,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          }
+        ],
+        "diffKinds": 4,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 109,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 108,
+        "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "kind": "question",
+      "family": "rights",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
+        "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+        "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 35,
+        "governments": 0,
+        "other": 0,
+        "open": 35,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_382d8445c99fb630:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_382d8545c99fb7e3:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_abf6fde4ca9851f5:2025-01-20",
+          "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|organization_e3b28d186bf443d7"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 3,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2081": 375,
+        "src/core2/jobs-age-bias.ts:35": 64,
+        "src/core2/modules/world-legislating.ts:253": 24,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/modules/outcome-web.ts:158": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "anti-discrimination-to-poverty",
+            "status": "about-zero",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 63,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 35,
+        "governments": 0,
+        "other": 0,
+        "open": 35,
+        "ended": 3,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b:landlords:organization_382d8445c99fb630:2025-02-26",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b:landlords:organization_382d8545c99fb7e3:2025-02-26",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-02-26:law-wiring-ca2a5d7b-b:landlords:organization_abf6fde4ca9851f5:2025-02-26",
+          "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|organization_e3b28d186bf443d7"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 3,
+        "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
+      "kind": "question",
+      "family": "rights",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+        "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-01-21:law-wiring-39b393c4",
+        "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b"
+      ],
+      "openingReach": {
+        "fullPeople": 49,
+        "countedGroups": 2,
+        "countedPeople": 10140638,
+        "households": 0,
+        "organizations": 1,
+        "governments": 1,
+        "other": 0,
+        "open": 53,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:recreation:organization_6bfeefad73e308c6:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_ae720410206893b1:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_ae720310206891fe:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting:residents:person_7b570565dc6dd202:2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 51,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/life.ts:549": 5
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 59223599983787,
+            "control": 59223958957320,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 79995791,
+            "control": 79997800,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 30774508,
+            "control": 30776517,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 5825133,
+            "control": 5825510,
+            "ids": [
+              "journal:2025-02-19:8274",
+              "journal:2025-02-19:8275",
+              "journal:2025-02-19:8277"
+            ]
+          }
+        ],
+        "diffKinds": 4,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 71,
+        "sample": [
+          "person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+          "person_7b570465dc6dd04f:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+          "person_983237255625a068:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 106,
+        "countedGroups": 2,
+        "countedPeople": 10140581,
+        "households": 0,
+        "organizations": 1,
+        "governments": 1,
+        "other": 0,
+        "open": 110,
+        "ended": 51,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:recreation:organization_6bfeefad73e308c6:2025-02-26",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_ae720410206893b1:2025-02-26",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_ae720310206891fe:2025-02-26",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:2025-02-26:law-wiring-39b393c4-b:residents:person_7b570565dc6dd202:2025-02-26"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 51,
+        "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "us-policy-positions:civil-family-community.restrict-abortion",
+      "kind": "question",
+      "family": "rights",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
+        "law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-02-26:law-wiring-38f1507c-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 19,
+        "countedGroups": 2,
+        "countedPeople": 74,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 23,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_ae720410206893b1:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_7b570665dc6dd3b5:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_182e4b917b4e10f7:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c:women:person_ab15cbd6aec6d97c:2025-01-21"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2081": 876,
+        "src/core2/modules/outcome-web.ts:158": 80,
+        "src/core2/modules/world-legislating.ts:253": 32,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 2,
+        "src/core2/births-counted.ts:697": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:civil-family-community.restrict-abortion:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "abortion-ban-to-births",
+            "status": "built",
+            "to": "births.rate"
+          },
+          {
+            "key": "abortion-ban-to-infant-deaths",
+            "status": "built",
+            "to": "health.infant-mortality"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 53,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:civil-family-community.restrict-abortion:general:2025-01-21:law-wiring-38f1507c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 22,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 22,
+        "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+      "kind": "question",
+      "family": "technology",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+        "law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-02-26:law-wiring-03d2708e-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 4,
+        "countedGroups": 1,
+        "countedPeople": 7,
+        "households": 0,
+        "organizations": 4,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b218ebc09c07:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b118ebc09a54:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_3f9b11502a79c02a:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_da397af8e8a3550c:2025-01-21"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/world-legislating.ts:253": 32,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/business.ts:1335": 4,
+        "src/core2/modules/legislature.ts:2081": 2,
+        "src/core2/modules/world-legislating.ts:333": 2,
+        "src/core2/modules/business.ts:1273": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 53,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 5,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 5,
+        "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "kind": "question",
+      "family": "technology",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+        "law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-02-26:law-wiring-7d767e2c-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 1,
+        "countedGroups": 1,
+        "countedPeople": 227,
+        "households": 0,
+        "organizations": 1,
+        "governments": 1,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:department:organization_c8c4bd3ade9bbdd0:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c:officers:person_95f684085236b198:2025-01-21",
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|place:2666300",
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|residents:place:2666300"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 48,
+        "src/core2/modules/world-legislating.ts:253": 32,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/life.ts:549": 4,
+        "src/core2/modules/legislature.ts:2081": 2,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
+            "treatment": 29058,
+            "control": 29000,
+            "ids": ["journal:2025-02-06:8011", "journal:2025-02-06:8012"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 30776497,
+            "control": 30776517,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 79997788,
+            "control": 79997800,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 5825508,
+            "control": 5825510,
+            "ids": [
+              "journal:2025-02-19:8274",
+              "journal:2025-02-19:8275",
+              "journal:2025-02-19:8277"
+            ]
+          }
+        ],
+        "diffKinds": 4,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "facial-recognition-limit-to-crime",
+            "status": "built",
+            "to": "crime.violent"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 53,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+      "kind": "question",
+      "family": "technology",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
+        "law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-02-26:law-wiring-7b10c9c6-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 50,
+        "countedGroups": 1,
+        "countedPeople": 143,
+        "households": 0,
+        "organizations": 15,
+        "governments": 0,
+        "other": 0,
+        "open": 66,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_ae720410206893b1:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_ae720310206891fe:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_7b570565dc6dd202:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_7b570665dc6dd3b5:2025-01-21"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 48,
+        "src/core2/modules/world-legislating.ts:253": 32,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/modules/business.ts:1335": 15,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/legislature.ts:2081": 2,
+        "src/core2/modules/world-legislating.ts:333": 2,
+        "src/core2/modules/business.ts:1273": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 2538246,
+            "control": 1930999,
+            "ids": [
+              "journal:2025-02-01:1905",
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": [
+          {
+            "token": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
+            "gross": 1184148,
+            "ids": [
+              "journal:2025-02-01:1905",
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "privacy-law-to-earnings",
+            "status": "built",
+            "to": "labor.median-earnings"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 53,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 51,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 51,
+        "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "kind": "question",
+      "family": "agriculture",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+        "law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+        "law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-02-26:law-wiring-70bb716f-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 64,
+        "src/core2/modules/world-legislating.ts:253": 24,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/legislature.ts:2081": 2,
+        "src/core2/modules/world-legislating.ts:333": 2,
+        "src/core2/modules/business.ts:1153": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 129070835,
+            "control": 128752679,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          }
+        ],
+        "diffKinds": 1,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "groundwater-limits-to-irrigation-pumping",
+            "status": "built",
+            "to": "water.irrigation-groundwater"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "groundwater-limits-to-irrigation-pumping",
+            "effect": 0.31
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "groundwater-limits-to-irrigation-pumping",
+            "effect": 0.31
+          }
+        ],
+        "firedCount": 2
+      },
+      "heard": {
+        "people": 67,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
+      "kind": "question",
+      "family": "agriculture",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
+        "law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+        "law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-02-26:law-wiring-cdbf4067-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_971998ff58477430"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 64,
+        "src/core2/modules/world-legislating.ts:253": 24,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/legislature.ts:2081": 2,
+        "src/core2/modules/world-legislating.ts:333": 2,
+        "src/core2/modules/housing.ts:1658": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "farmland-easements-to-farmland-lost",
+            "status": "built",
+            "to": "farmland.developed-acres"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "farmland-easements-to-farmland-lost",
+            "effect": 0.47
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "farmland-easements-to-farmland-lost",
+            "effect": 0.47
+          }
+        ],
+        "firedCount": 2
+      },
+      "heard": {
+        "people": 67,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_971998ff58477430"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 13
+    },
+    {
+      "key": "budget-line:parks",
+      "kind": "budget-line",
+      "family": "parks-culture",
+      "inForceAtOpening": false,
+      "change": "place:2666300 parks 1915528 -> 11915528 by law-wiring-17ac6c1b",
+      "lawIds": ["law-wiring-17ac6c1b"],
+      "openingReach": {
+        "fullPeople": 49,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 51,
+        "ended": 0,
+        "sample": [
+          "budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20",
+          "budget-line:parks|person_0bbe6b59b6ca59ff|2025-01-20",
+          "budget-line:parks|person_0bbe6d59b6ca5d65|2025-01-20",
+          "budget-line:parks|person_0e958e70e62d2b8a|2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 106,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 108,
+        "ended": 0,
+        "sample": [
+          "budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20",
+          "budget-line:parks|person_0bbe6b59b6ca59ff|2025-01-20",
+          "budget-line:parks|person_0bbe6d59b6ca5d65|2025-01-20",
+          "budget-line:parks|person_0e958e70e62d2b8a|2025-01-20"
+        ]
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 80029174,
+            "control": 79997800,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 30803878,
+            "control": 30776517,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 5831392,
+            "control": 5825510,
+            "ids": [
+              "journal:2025-02-19:8274",
+              "journal:2025-02-19:8275",
+              "journal:2025-02-19:8277"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 59223958957319,
+            "control": 59223958957320,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          }
+        ],
+        "diffKinds": 4,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "parks-spending-to-exercise-access",
+            "status": "built",
+            "to": "parks.access-to-exercise"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 49,
+        "sample": [
+          "person_7b570565dc6dd202:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+          "person_7b570465dc6dd04f:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
+          "person_983237255625a068:budget-line-changed:budget:US-MI:2024:parks:law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 106,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 107,
+        "ended": 1,
+        "sample": [
+          "budget-line:parks|person_0bbe6a59b6ca584c|2025-01-20",
+          "budget-line:parks|person_0bbe6b59b6ca59ff|2025-01-20",
+          "budget-line:parks|person_0bbe6d59b6ca5d65|2025-01-20",
+          "budget-line:parks|person_0e958e70e62d2b8a|2025-01-20"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
+    }
+  ]
 }
