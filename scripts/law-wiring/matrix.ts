@@ -23,6 +23,8 @@ interface Link {
   status: Status;
   evidence: string;
   why: string;
+  /** Money graded only by posts that differ from the control world, with no post citing the law or a direct flow: a statute-based not-applicable declaration overrides it. */
+  untraced?: boolean;
 }
 
 interface ReachCount {
@@ -333,6 +335,7 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
         )
         .join("; "),
       why: "",
+      untraced: true,
     };
   return {
     status: "missing",
@@ -692,8 +695,15 @@ function main(): void {
     // A link the statute itself does not have (declared.json: a law that moves
     // no money, a rule with no researched outcome), or a stopgap registered
     // for exactly this law and link, explains a link that is not wired.
+    // A law that moves no money by its terms is declared so even where some
+    // post differed from the control world without citing it: that money is
+    // not the law's (a traced post, direct or citing the law, still wins).
     for (const [k, d] of Object.entries(DECLARED[law.key] ?? {}))
-      if (links[k] && links[k]!.status !== "wired") {
+      if (
+        links[k] &&
+        (links[k]!.status !== "wired" ||
+          (k === "money" && links[k]!.untraced && d.status === "n/a"))
+      ) {
         const sgRow = d.id ? stopgapOf(d.id) : null;
         if (d.status === "stopgap" && !sgRow?.open) continue;
         links[k] = {
