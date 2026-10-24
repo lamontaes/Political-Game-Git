@@ -26,3 +26,5 @@ claimed-at:
 Merged #5490 on 2026-10-20 (git ls-files buffer, research "ward" rule, notes respelled), but both spelling tests are still red on main from newer files: census place names under data/research/stopgaps-oct19/census/ (Center, Ward, Gray) that the new rule does not cover, and British forms in pool items, INDEX.md, docs/release/changes/port-trait-effects.md, docs/reports/merge-audit-2026-10-20.md and docs/reports/trait-wiring-2026-10-20.json (canceled, catalog, Harbor, Labor). Open for the rest.
 
 Sent back 2026-10-23 from PR #5678 (branch claude/political-game-pool-yucp92-ay): Missing Done-when evidence table for spelling tests and spelling-command acceptance; keep the final count/list consistent with the integrated diff; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5678 (branch claude/political-game-pool-yucp92-ay): american-english-scope.ts:70-74 bypasses every trait-wiring JSON report to preserve published titles; use a narrow title/word/field allowance and keep other report text checked; finish on that branch, merge main into it first.

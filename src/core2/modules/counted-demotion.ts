@@ -366,6 +366,14 @@ export function demotionDays(seed: string): number {
   return low + (draw % (high - low + 1));
 }
 
+/** Whether the counts hold a population, and its residents account, in a place. */
+function countsKeptAt(
+  rt: NonNullable<ReturnType<typeof residentsRuntime>>,
+  placeId: string,
+): boolean {
+  return rt.input.accounts.some((row) => row.placeId === placeId);
+}
+
 /** The monthly review: every filled-in household long out of the player's life goes back. */
 function review(api: CoreAPI): void {
   const core = api.state as CoreState;
@@ -380,6 +388,10 @@ function review(api: CoreAPI): void {
     if (daysBetween(filledAt, api.state.date) < days) continue;
     const home = core.households.get(householdId);
     if (!home || home.placeId.startsWith(COUNTED_PLACE_PREFIX)) continue;
+    // Only a household living where the counts are kept can return to them:
+    // a relative met in a place beyond the town's counted places has no
+    // counted group or residents account there, and stays as filled in.
+    if (!countsKeptAt(rt, home.placeId)) continue;
     let last = filledAt;
     let eligible = true;
     for (const id of home.memberIds) {
