@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-24 from PR #5953 (branch words/desk-scene): new desk-scene.test.ts:27 and carried bargain/purpose source comments and producer-data note embed dated owner instructions prohibited by the merger morning check; retain that history in docs; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5953 (branch words/desk-scene): dated-owner-note repair accepted, but corrective 2f2bc1015c explicitly carries separate parent features #5949, #5914 and #5942, all still open/unmerged; await their reviewed main delivery, then finish on this branch, merge main into it first. No completed local scene gate or new runtime defect claimed.
