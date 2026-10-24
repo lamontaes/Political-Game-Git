@@ -125,15 +125,23 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         expect(line.parts[0]).toMatch(/^scene-talk\./);
         expect(line.slotRecordIds.length).toBeGreaterThan(0);
       }
-      // The page gate (scene-page.ts) reports an end that leaves a question
-      // hanging. The engine never ends on the asker's own question: where the
-      // bank holds no close for that ending, the asker does not ask it.
+      // The close is never the next line after a question: the asker's last
+      // question was answered by a reply first, and the close follows an answer.
+      // It ends on the asker's answer or a close, never on a question left hanging.
+      // Where the bank holds no close for that ending, the asker does not ask
+      // a question nothing can close: the scene ends on the answer before
+      // it, and the page lists the missing close. A closing beat (the
+      // narrator) may follow the close; nobody's last line is a question.
       const final = talk.lines.at(-1)!;
+      const spoken = talk.lines.filter((l) => l.role !== "narrator").at(-1)!;
       const where = `${type.key}: ${JSON.stringify(talk.lines.slice(-3).map((l) => [l.role, l.move, l.text]))}`;
-      expect(
-        final.role === "asker" && /\?$/.test(final.text.trim()),
-        where,
-      ).toBe(false);
+      expect(/\?$/.test(final.text.trim()), where).toBe(false);
+      expect(/\?$/.test(spoken.text.trim()), where).toBe(false);
+      if (spoken.role !== "asker")
+        expect(
+          talk.gaps.some((row) => row.includes("question left unasked")),
+          where,
+        ).toBe(true);
     }
   });
 
@@ -222,7 +230,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(talk.nodes).toBeLessThanOrEqual(
         RULES_BOUND.tree.maxNodes.value + 10,
       );
-      expect(talk.depth).toBeGreaterThanOrEqual(1);
+      expect(talk.depth).toBeGreaterThanOrEqual(2);
       const numbers: number[] = [];
       let lies = 0;
       const walk = (node: typeof talk.tree) => {
