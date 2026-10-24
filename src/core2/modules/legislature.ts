@@ -3033,9 +3033,12 @@ function committeeStage(
     id: `committee:${bill.id}:${chamber}`,
     date: api.state.date,
     kind: heard ? "committee-hearing" : "bill-held-in-committee",
-    personIds: witnesses
-      .map((w) => w.personId)
-      .filter((id) => api.state.people.has(id)),
+    personIds: [
+      // The people the record names: the committee's members and chair (its
+      // roll call), then the witnesses it heard.
+      ...record.memberIds,
+      ...witnesses.map((w) => w.personId),
+    ].filter((id) => api.state.people.has(id)),
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "ESTIMATED",

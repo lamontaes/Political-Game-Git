@@ -655,7 +655,7 @@ export function checkEligibility(
       required: String(wards.seatWard),
       actual: String(wards.homeWard),
       source:
-        "Assumed: most ward and district charters ask it (SG-GOV-ward-residency)",
+        "Assumed: most charters with district seats ask it (SG-GOV-ward-residency)",
     });
   }
   // Registration is research metadata, not a modeled status. The game has
