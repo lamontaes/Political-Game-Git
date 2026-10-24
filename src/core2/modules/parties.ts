@@ -15,6 +15,7 @@
  * the opening and stay put while views stay put; changing parties waits on
  * PEOPLE's views engine moving someone's views (until then views don't move).
  */
+import { declareSnapshotCovered } from "../snapshot";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import delegates from "../../../data/research/elections/house-delegates-2024.json" with { type: "json" };
@@ -789,3 +790,6 @@ export function partyMeetings(
     .table("meetings")
     .query("byParty", [partyId]) as unknown as PartyMeetingRow[];
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered(PARTIES_MODULE_ID);

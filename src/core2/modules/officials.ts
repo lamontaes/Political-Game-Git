@@ -19,6 +19,7 @@
  * independent. Nothing is rolled: who each person is was drawn once when the
  * world was made, and every vote follows from it.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { stateStake } from "../budget-stakes";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
@@ -1571,3 +1572,6 @@ export function votesAreTownNews(api: CoreAPI, personId: string): boolean {
     .get(row.seatId) as unknown as { coversTown?: boolean } | undefined;
   return seat?.coversTown === true;
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-officials-v1");

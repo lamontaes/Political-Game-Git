@@ -11,6 +11,7 @@
  * relative's grief is their closeness to the person who died, halving every
  * half-life of their own.
  */
+import { registerWorldMapPart } from "./snapshot";
 import { daysBetweenText } from "./kernel/dates";
 import { stableHash, pairKey } from "./kernel/ids";
 import { inverseStandardNormal } from "./kernel/deterministic-math";
@@ -37,7 +38,9 @@ export interface Bereavement {
 }
 
 const bereavements = new WeakMap<object, Map<string, Bereavement[]>>();
+registerWorldMapPart("grief-bereavements", bereavements);
 const halfLives = new WeakMap<object, Map<string, number>>();
+registerWorldMapPart("grief-half-lives", halfLives);
 
 function byPerson<T>(store: WeakMap<object, Map<string, T>>, key: object) {
   let rows = store.get(key);

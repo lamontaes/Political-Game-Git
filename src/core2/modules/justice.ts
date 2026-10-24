@@ -26,6 +26,7 @@
  * Every step is an event the news and the director read: the hearing and the
  * verdict play as scenes when the person is the player or in their circle.
  */
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 import { registerModule } from "../state";
 import { completedMonthsBetween, makeIsoDate } from "../kernel/dates";
 import { decisionLean } from "../trait-decisions";
@@ -246,6 +247,7 @@ function emit(
 
 /** New crimes since the last day read: the corruption engine's table only grows. */
 const seen = new WeakMap<object, number>();
+registerWorldMapPart("justice-seen", seen);
 
 function intake(api: CoreAPI): void {
   if (!api.state.modules.has(CORRUPTION_MODULE_ID)) return;
@@ -1549,3 +1551,6 @@ export function openJustice(core: CoreState): void {
   if (!core.modules.has(JUSTICE_MODULE_ID))
     registerModule(core, JUSTICE_MODULE);
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-justice-v1");

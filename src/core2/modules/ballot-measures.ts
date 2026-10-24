@@ -14,6 +14,7 @@
  * otherwise), and an approved measure becomes the state's law on its
  * effective date, reaching named residents through the law-effects module.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import measuresData from "../data/elections/ballot-measures.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -345,3 +346,6 @@ export function measureVoteOf(
 }
 
 export { coreAPI };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-ballot-measures-v1");

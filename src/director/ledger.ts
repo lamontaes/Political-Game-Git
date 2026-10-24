@@ -9,6 +9,7 @@
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
+import { declareSnapshotCovered } from "../core2/snapshot";
 import { addDays, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { appraiseEvent } from "../core2/emotion";
 import { closenessBetween } from "../core2/closeness";
@@ -1500,3 +1501,6 @@ export function createDirector(
     },
   };
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("p13-story-director");

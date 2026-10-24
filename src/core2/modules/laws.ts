@@ -8,6 +8,7 @@
  * record; for a minimum wage, every job in the town paying under the new floor
  * is raised to it that day. Later engines read law through `lawInForce`.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type {
   HistoryWriter,
@@ -719,3 +720,6 @@ export function raiseOne(
   });
   return true;
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-laws-v1");

@@ -16,6 +16,7 @@
  * (`onCountedWages`), and the same share is posted for those workers: the
  * law's rates and wage bases per worker, times the workers the flow pays.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -626,3 +627,6 @@ function payEmployerShare(
     postings,
   });
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-employer-taxes-v1");

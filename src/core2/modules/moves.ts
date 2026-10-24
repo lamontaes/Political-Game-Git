@@ -18,6 +18,7 @@
  * same inactive tier as relatives who live elsewhere). The ACS rates check a
  * year's totals.
  */
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
@@ -762,6 +763,7 @@ function leave(
 }
 
 const pending = new WeakMap<object, { pull: Pull }>();
+registerWorldMapPart("moves-pending", pending);
 
 /** How fast this person's pull builds against no ties and no pushes: their pushes over their holds. */
 function netFactor(
@@ -1356,3 +1358,6 @@ export const movesModule: CoreModule = {
     },
   },
 };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("moves");

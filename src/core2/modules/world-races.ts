@@ -15,6 +15,7 @@
  * rolled: the same inputs always give the same winner, and every race keeps
  * its votes by place and its reasons.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -1268,3 +1269,6 @@ export function presidentialOf(
       PresidentialRow | undefined) ?? null
   );
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-world-races-v1");

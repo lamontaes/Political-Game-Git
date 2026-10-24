@@ -8,6 +8,7 @@
  * group decides (`initialPersonState`), so nothing here is special to full
  * people.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { affectAt } from "../emotion";
 import { careNeedOf } from "./health";
 import { restingStress } from "../resting-stress";
@@ -47,3 +48,6 @@ export const RESTING_STRESS_MODULE: CoreModule = {
     return undefined;
   },
 };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-resting-stress-v1");

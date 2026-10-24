@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 import { candidateIdentity } from "../candidate-identity";
 import { customPolitics, registerElectorate } from "../electorate";
 import { partySide } from "../appointments";
@@ -2499,6 +2500,7 @@ export function campaignTurn(
 }
 
 const contestsSeen = new WeakMap<object, number>();
+registerWorldMapPart("campaigns-contests-seen", contestsSeen);
 
 /**
  * Every few days, each world candidate on the ballot of a contest the town
@@ -2590,3 +2592,6 @@ export function campaignRecognition(api: CoreAPI, filingId: string): number {
 }
 
 export type { ContestRow };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-campaigns-v1");

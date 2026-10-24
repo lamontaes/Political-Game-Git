@@ -5,6 +5,7 @@
  * changes it is recorded, publicly, with the month before; the press takes
  * every public record onto its wire and its reporters decide what to print.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { registerModule } from "../state";
 import { housingStatusCounts } from "../housing-homeless";
 import type { ModuleRow } from "../module-data";
@@ -85,3 +86,6 @@ export function openHomelessCount(core: CoreState): void {
   if (core.modules.has(HOMELESS_COUNT_MODULE_ID)) return;
   registerModule(core, HOMELESS_COUNT_MODULE);
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-homeless-count-v1");

@@ -5,6 +5,7 @@
  * demand reach every business as dated conditions; a decision reprices
  * prime-linked credit lines on its effective date.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { chooseAct } from "../choice";
 import { reviewBoardTerms } from "../central-bank-appointments";
@@ -702,3 +703,6 @@ export function nationalPanel(api: CoreAPI) {
     repricings: snap.tables.repricings,
   };
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("macro");

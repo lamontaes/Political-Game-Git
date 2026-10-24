@@ -10,6 +10,7 @@
  * Replaces the law-effects module (M3-04), whose five catalog effects
  * duplicated what law-reach already does for the same questions.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
@@ -320,3 +321,6 @@ export function reachedBy(
         out.push({ personId: row.targetId, what: row.what });
   return out.sort((a, b) => a.personId.localeCompare(b.personId));
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-law-effects-v1");

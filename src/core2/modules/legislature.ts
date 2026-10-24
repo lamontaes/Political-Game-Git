@@ -1,3 +1,4 @@
+import { declareSnapshotCovered } from "../snapshot";
 import type { OfficeInput } from "../offices-local";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 import {
@@ -4511,3 +4512,6 @@ export function votesOn(
 
 export type { PersonState };
 export { OFFICES_MODULE_ID };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-legislature-v1");

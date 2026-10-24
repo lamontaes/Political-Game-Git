@@ -7,6 +7,7 @@
  * adults choose whether to found one. Chains are repeated growth, never
  * scripted. Every payment moves through the ledger.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
@@ -2309,3 +2310,6 @@ export function addBusinessComplianceCost(
 export function endBusinessOperatingRule(api: CoreAPI, id: string): void {
   endOperatingRule(api, store(api).table("operating"), id);
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("business");

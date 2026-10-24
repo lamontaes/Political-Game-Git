@@ -15,6 +15,7 @@
  * vacant the line is read the same day; the successor holds the seat as a
  * full person, and the record and a news event follow.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import succession from "../../../data/research/offices/presidential-succession.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
@@ -444,3 +445,6 @@ export function cabinet(api: CoreAPI): readonly CabinetRow[] {
 export function successions(api: CoreAPI): readonly SuccessionRow[] {
   return table(api, "successions").rows() as unknown as SuccessionRow[];
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-succession-v1");

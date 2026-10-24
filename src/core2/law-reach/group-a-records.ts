@@ -6,6 +6,7 @@
  * gets a legal reach record; counted groups get one row
  * with their count. A repeal ends every open row the same day.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
 import { registerModule } from "../state";
@@ -575,3 +576,6 @@ export function endRows(
     table.put({ ...row, endedOn: api.state.date } as unknown as ModuleRow);
   }
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-law-reach-a-v1");

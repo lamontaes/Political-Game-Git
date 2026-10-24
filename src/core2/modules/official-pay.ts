@@ -19,6 +19,7 @@
  * pay keeps (official-living). Each payday they spend that month's cost out
  * of what they hold, to the outside account (their sellers are not in town).
  */
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 import salaries from "../../../data/research/offices/official-salaries-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
@@ -353,6 +354,7 @@ function review(api: CoreAPI): void {
 }
 
 const seenOfficials = new WeakMap<object, number>();
+registerWorldMapPart("official-pay-seen", seenOfficials);
 
 export const OFFICIAL_PAY_MODULE: CoreModule = {
   id: OFFICIAL_PAY_MODULE_ID,
@@ -377,3 +379,6 @@ export function openOfficialPay(core: CoreState): void {
   registerModule(core, OFFICIAL_PAY_MODULE);
   review(coreAPI(core));
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-official-pay-v1");

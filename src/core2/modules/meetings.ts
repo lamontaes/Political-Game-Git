@@ -18,6 +18,7 @@
  *   all. A race the player runs in waits for the player's answers
  *   (`answerDebate`).
  */
+import { declareSnapshotCovered } from "../snapshot";
 import rows from "../data/meetings/parameters.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -929,3 +930,6 @@ function debateWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     if (!filings.some((f) => f.personId === playerId)) holdDebate(api, row);
   }
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-meetings-v1");

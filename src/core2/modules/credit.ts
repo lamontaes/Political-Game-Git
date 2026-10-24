@@ -6,6 +6,7 @@
  * reprice it. Draws, interest and repayment move through the existing
  * conserving credit writer. Bank books are recorded monthly.
  */
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
@@ -266,6 +267,7 @@ function lendingRoom(api: CoreAPI, book: ReturnType<typeof equity>): number {
 }
 
 const openingHeld = new WeakMap<CoreState, number>();
+registerWorldMapPart("credit-opening-held", openingHeld);
 
 /** What the opening's mortgages held by the bank owe now, and owed at the opening. */
 function heldMortgages(api: CoreAPI, bankId: string) {
@@ -1430,3 +1432,6 @@ export function lendForFounding(
     });
   return lent;
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("credit");

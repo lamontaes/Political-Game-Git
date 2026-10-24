@@ -8,6 +8,7 @@
  * same way. The wording of the speech is GOV's (`giveSpeech`) and the English
  * engine's; this engine records who heard it and what it did.
  */
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/speech/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -79,6 +80,7 @@ export const KEEP = action("speech-keep", false);
 const table = (api: CoreAPI) =>
   api.moduleState(SPEECH_MODULE_ID).table("retellings");
 const moved = new WeakMap<object, number>();
+registerWorldMapPart("speech-moved", moved);
 
 function movedBy(
   api: CoreAPI,
@@ -260,3 +262,6 @@ export function makeCase(
     source: { tag: "SOURCED", citation: input.citation, asOf: api.state.date },
   });
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("speech");

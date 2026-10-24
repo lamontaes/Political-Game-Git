@@ -14,6 +14,7 @@
  * changed (after an election seats new members), read the first time it's
  * needed, so no day scans every chamber.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import leadershipData from "../../../data/research/legislature/chamber-leadership.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { closenessBetween } from "../closeness";
@@ -687,3 +688,6 @@ export function voteForPost(
   });
   table(api, "organized").remove(chamber);
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-leadership-v1");

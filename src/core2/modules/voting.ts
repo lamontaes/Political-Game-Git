@@ -15,6 +15,7 @@
  * seat on the term's start date. Exit polls ask named voters leaving the
  * polls and report what they said.
  */
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
 import {
   NATIONAL_ENGAGEMENT,
@@ -1035,6 +1036,7 @@ interface TurnoutRecordRow {
 }
 
 const decisions = new WeakMap<object, Map<string, TurnoutDecision>>();
+registerWorldMapPart("voting-decisions", decisions);
 
 /**
  * Decide one voter's turnout for a day, once: a named voter from their own
@@ -3103,3 +3105,6 @@ export function resultOf(api: CoreAPI, contestId: string): ResultRow | null {
 }
 
 export { campaignFor };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-voting-v1");

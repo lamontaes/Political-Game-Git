@@ -13,6 +13,7 @@
  * back from outside the town when it falls. Businesses pay a dearer energy
  * price on their own energy costs the same way.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import goods from "../data/prices/goods.json" with { type: "json" };
 import pricesParameters from "../data/prices/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -1163,3 +1164,6 @@ export const PLACE_PRICES_MODULE: CoreModule = {
     scheduleMonth(api);
   },
 };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("place-prices");

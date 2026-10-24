@@ -19,6 +19,7 @@
  * their reasons, and every vote is each member's. The session's filings,
  * hearings and votes are counted together on its floor day.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
@@ -1278,3 +1279,6 @@ export function sessionsOf(api: CoreAPI): readonly SessionRecord[] {
     .table("sessions")
     .rows() as unknown as SessionRecord[];
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-world-legislating-v1");

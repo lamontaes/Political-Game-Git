@@ -17,6 +17,7 @@
  * to the workforce office. Either way the resident's view of the official
  * moves, as a cause their next ballot reads.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { fundBalance } from "../counted-money";
 import { closenessBetween } from "../closeness";
@@ -545,3 +546,6 @@ export function casesFor(api: CoreAPI, officialId: string): readonly CaseRow[] {
 export function allCases(api: CoreAPI): readonly CaseRow[] {
   return table(api).rows() as unknown as CaseRow[];
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-constituent-cases-v1");

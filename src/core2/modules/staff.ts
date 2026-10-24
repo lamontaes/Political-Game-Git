@@ -15,6 +15,7 @@
  * reads the record of as many members as their work covers), and handling a
  * constituent case in the official's office.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { workedToday } from "../job-lifecycle";
 import {
   coreAPI,
@@ -1190,3 +1191,6 @@ function briefBeforeVote(api: CoreAPI, billId: string): void {
 }
 
 export { coreAPI };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-staff-v1");

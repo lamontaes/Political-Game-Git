@@ -5,6 +5,7 @@
  * reaches. A repeal ends each record on its date; a monthly review keeps the
  * reach current as ages, incomes and work hours change.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -296,3 +297,6 @@ function runReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   review?.(api);
   if (reachTable(api, "active").rows().length) scheduleReview(api);
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-law-reach-b-v1");

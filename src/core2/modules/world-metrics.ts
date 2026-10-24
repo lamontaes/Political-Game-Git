@@ -5,6 +5,7 @@
  * engines' own records. Screens and the outcome web (M3-04) read these rows;
  * nothing here moves money or decides anything.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { residentsRuntime } from "./residents";
@@ -260,3 +261,6 @@ export const WORLD_METRICS_MODULE: CoreModule = {
     schedule(api);
   },
 };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("world-metrics");

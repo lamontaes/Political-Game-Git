@@ -19,6 +19,7 @@
  * what happened is generated once from the world's seed, and every choice in
  * it (a vote, a split) follows a person's or group's recorded lean.
  */
+import { declareSnapshotCovered } from "./snapshot";
 import { createHash } from "node:crypto";
 import rows from "./data/past/parameters.json" with { type: "json" };
 import type { Parameter } from "./parameters";
@@ -222,3 +223,6 @@ export function pastBills(api: CoreAPI, body: string): readonly PastBillRow[] {
     body,
   ]) as unknown as PastBillRow[];
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-past-v1");

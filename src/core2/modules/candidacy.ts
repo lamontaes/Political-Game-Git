@@ -1,3 +1,4 @@
+import { registerWorldMapPart } from "../snapshot";
 import {
   standingPool,
   partyOf,
@@ -384,6 +385,7 @@ export const RUN = action("candidacy-run", true);
 export const STAY_OUT = action("candidacy-stay-out", false);
 
 const pending = new WeakMap<object, OpenContest>();
+registerWorldMapPart("candidacy-pending", pending);
 
 function table(api: CoreAPI) {
   return api.moduleState(CANDIDACY_MODULE_ID).table("decisions");
@@ -532,6 +534,7 @@ interface Queues {
   opening: ContestRow[];
 }
 const queues = new WeakMap<object, Queues>();
+registerWorldMapPart("candidacy-queues", queues);
 
 /** Contests to weigh and runners to file, soonest first; rebuilt when contests are added. */
 function queuesFor(api: CoreAPI): Queues | null {

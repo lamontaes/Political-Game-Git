@@ -12,6 +12,7 @@
  * Congress); a member they met weighs the group's case among their reasons,
  * in proportion to how many of the bill's losers the group speaks for.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { coreAPI, registerModule } from "../state";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
@@ -819,3 +820,6 @@ export function meetingsOn(
 }
 
 export { coreAPI };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-interest-groups-v1");

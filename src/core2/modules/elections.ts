@@ -1,3 +1,4 @@
+import { declareSnapshotCovered } from "../snapshot";
 /**
  * Elections, part one: contests and filing (golden path step 3).
  *
@@ -865,3 +866,6 @@ export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
         .get(contest.incumbentTermId) as unknown as TermRow)
     : null;
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-elections-v1");

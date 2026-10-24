@@ -1,3 +1,4 @@
+import { registerWorldMapPart } from "../snapshot";
 import type { ItemVetoSelection } from "../state-item-veto";
 /**
  * The officeholder's day (office play, OFFICE-LOCAL; one engine for every
@@ -165,6 +166,7 @@ export const OFFICE_DAY_MODULE: CoreModule = {
   },
 };
 const seenTerms = new WeakMap<object, number>();
+registerWorldMapPart("office-day-seen-terms", seenTerms);
 
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(OFFICE_DAY_MODULE_ID).table(name);

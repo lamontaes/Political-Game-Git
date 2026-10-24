@@ -13,6 +13,7 @@
  * Nothing here draws a level or limits a factor. Engines that set a measure
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import regions from "../data/regional/regions.json" with { type: "json" };
 import {
   baseOf,
@@ -596,3 +597,6 @@ export function outcomeWebFactor(
   if (!record || !record.base) return 1;
   return scaleOf(measure) === "level" ? 1 : record.value / record.base;
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-outcome-web-v1");

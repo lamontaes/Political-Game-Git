@@ -1,3 +1,4 @@
+import { declareSnapshotCovered } from "../snapshot";
 import { workedToday } from "../job-lifecycle";
 import { snapshotExplicitControlV1 } from "../player-control-state-v1";
 /**
@@ -1237,6 +1238,9 @@ export function pendingGovernorOrders(
     },
   );
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-executive-v1");
 
 /** Who holds a state's pardon and commutation power, from the research (`governor-alone`, `governor-with-board-advice`, `board-alone`, ...). */
 export function clemencyAuthority(stateKey: string): string | null {

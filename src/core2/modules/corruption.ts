@@ -8,6 +8,7 @@
  * rolls to catch anyone: it surfaces only through a real route, such as one
  * party falling out with the other and deciding to tell someone.
  */
+import { registerWorldMapPart, declareSnapshotCovered } from "../snapshot";
 import { scoreOffers, decisionFromScores } from "../choice";
 import { closenessBetween, currentCloseness } from "../closeness";
 import { decisionKinds, decisionLean } from "../trait-decisions";
@@ -66,7 +67,9 @@ const pending = new WeakMap<
   object,
   { role: "offer" | "take" | "tell"; values: Record<string, number> }
 >();
+registerWorldMapPart("corruption-pending", pending);
 const journalRecords = new WeakMap<object, Map<string, unknown>>();
+registerWorldMapPart("corruption-journal-records", journalRecords);
 /** People party to a taken bribe, rebuilt from the table when first read. */
 const partySets = new WeakMap<object, Set<PersonId>>();
 function partiesOf(api: CoreAPI): Set<PersonId> {
@@ -569,3 +572,6 @@ export function scandalsOf(
     .filter((row) => row.date <= date)
     .map((row) => row.id);
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("corruption");

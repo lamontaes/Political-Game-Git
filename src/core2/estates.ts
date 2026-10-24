@@ -29,6 +29,7 @@
  * Stopgap: SG-CORE-estate-cash-only (homes, loans and businesses are not
  * settled).
  */
+import { declareSnapshotCovered } from "./snapshot";
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { outsideGovernment } from "./outside-governments";
@@ -688,3 +689,6 @@ export function openEstates(core: CoreState): void {
   if (core.modules.has(ESTATES_MODULE_ID)) return;
   registerModule(core, ESTATES_MODULE);
 }
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-estates-v1");

@@ -16,6 +16,7 @@
  * on the voter's ballot as a reason. An attack ad carries a rival's record to
  * the people it reaches.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { votesAreTownNews } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -221,3 +222,6 @@ export function recordAppeal(
 }
 
 export { coreAPI };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("core2-record-v1");

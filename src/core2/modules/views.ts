@@ -20,6 +20,7 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import { declareSnapshotCovered } from "../snapshot";
 import { stableHash, pairKey } from "../kernel/ids";
 import { ageOnDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
@@ -798,3 +799,6 @@ export const viewsModule: CoreModule = {
     }
   },
 };
+
+// Every table this engine keeps is in the snapshot; see scripts/core2-guard/snapshot-roundtrip.mjs.
+declareSnapshotCovered("views");
