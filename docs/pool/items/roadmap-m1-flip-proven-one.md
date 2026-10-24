@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-m1-flags
+pr: #5875
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T14:40:22.636Z
 ---
 
 **What.** PR #5875 now accepts only M1-01 (laws in force) after its M1-02 send-back. M1-01's command passed in the place the golden-path runner draws for it, and its test covers the whole spec text. Give that one flag its own item so merging the PR does not complete the two-flag parent, whose M1-02 half stays open until its loan-cost witness exists.
