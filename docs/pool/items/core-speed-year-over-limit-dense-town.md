@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/compassionate-volta-hsx73w
 pr: #5820
 blocked-on: its children, the core-speed-* items (alloc, journal, date parse, gc churn, pair key); this umbrella is done when they bring the year under 120 s
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T00:14:22.093Z
 ---
 
 **What.** Measured Oct 20, 2026 on a 4-core cloud container with nothing else running: npm run speed:year -- --seed m7b --exclusive, a played year in Long Hill, Connecticut, takes 194, 200 and 214 seconds in three runs, over the 120-second limit in AGENTS.md. The same command on seed m7a, Discovery Harbor, Hawaii, takes 52 seconds, so the cost follows the town's size. A CPU profile of the 251 seconds shows no single hotspot: garbage collection is 52 seconds, and the largest named functions are 3 to 6 seconds each. This umbrella item is done when the parts filed beside it, found by that profile, bring the year under the limit.
@@ -50,5 +50,26 @@ Follow-up status: core-speed-alloc-opening-temperaments is already done in PR #5
 Sent back 2026-10-21 from PR #5383 (branch claude/speed-dense-note): The new note contradicts its own numbers at docs/pool/items/core-speed-year-over-limit-dense-town.md:34: it lists inclusive runModuleCalendar time 17.6 s inside advanceCore 38.8 s, then says no function is above 20 percent of advanceCore. That listed dispatcher is about 45.4 percent. Distinguish dispatcher envelopes from individual callbacks or supply self-time figures, and make the conclusion match the stated denominator in both the note and body. Also the first-line bare umbrella ID is a completion marker recognized by scripts/pool/done-on-merge.ts; despite stays open, merging would mark the unfinished umbrella tracked by #5820 done. Identify this as a note without that completion marker, or use a bounded profiling item. No local gate pass is claimed for this source review.; finish on that branch, merge main into it first.
 
 Measured Oct 20 (claude, main at the time): `npm run speed:year -- --seed m7b --exclusive` took 173.2 s for the Long Hill, Connecticut year (built in 27.8 s). A CPU profile of the first 120 days after the build (50.8 s of play, inclusive times from the profile tree): `advanceCore` 38.8 s, of which `runModuleCalendar` 17.6 s (the calendar work of every module), `onDay` in `modules/work.ts` 6.6 s, `postJournal` 5.8 s (`postCashJournal` 5.5), `fillInPerson` 3.7 s, `settleWorkPayroll` 2.8 s, `releaseResidentHousehold` 2.9 s, `transferSplit` 2.8 s, `countedPayment` 2.4 s, `relationship` 2.2 s; the garbage collector 17.9 s across the whole run. Of the 3.7 s in `fillInPerson`, 3.4 s is called from `bringCases` in `modules/constituent-cases.ts`: a resident who brings a case to an official is filled in first, so office hours fill in people by design. `runModuleCalendar` is a dispatcher, not one callback: its 17.6 s (45 percent of `advanceCore`) is the sum of every module's calendar work, which this inclusive profile does not split by module. Of the individual functions named, the largest is `onDay` in `modules/work.ts` at 6.6 s (17 percent of `advanceCore`), and nothing named here is an accidental scan. A heap-allocation profile run (`--heap-prof`) shows only what is live at the end (module code, place tables) and does not show churn; a useful allocation view needs `--trace-gc` counts by phase or an allocation timeline. The cut has to come from the several 2 to 6 s items together (fill-in cost, payroll posting, the cash journal) or from an allocation timeline.
+
+Speed lead, Oct 24 (claude, `claude/compassionate-volta-hsx73w`). Base on main b09ba675cd, fixed machine (4-core Xeon 2.8 GHz, 16 GB, Node 22.22.0), 64 MiB young generation, one process: Long Hill (key 0943580, seed m7b) year one 219.3, 223.3 and 205.3 s; 248.3 s at V8's default 16 MiB. Fingerprint `fcdd81f3359b` in every run. Profile of the same year (inspector CPU profile at 1 ms, sampling heap profile with objects collected by minor and major GC included, and a counter on every call that walks one of the core's big Maps, the counted store or a module table whole; 263 s under the profilers, 58 GB allocated). "Owner" is the innermost `src/core2/modules/*.ts` frame on the stack, so kernel helpers count toward the module that called them.
+
+| Module (owner) | CPU s | Allocated | Where |
+| --- | --- | --- | --- |
+| work | 51.2 | 9.6 GB | daily attendance `recordWorkAttendance` 24.1 s (per-call copies and checks: `shallow` 4.1, the read guard's pass-through `field`/`mapGet`/`keys` 6, `guardSourceData`); payroll `settleWorkPayroll` 22.3 s (journal 6.8, `prepare` 4.4, `prepareWorkPayAccrual` 4.2) |
+| kernel (no module frame) | 49.5 | 7.0 GB | garbage collection 20.7 s; `activate` 18 s of its own (people's choices; with module providers 32.2 s); `availableActs` allocates 2.4 GB |
+| news | 16.9 | 3.8 GB | `onRelationshipChange` 13.4 s: every contact runs `hear` 6.0 and `recentStoriesHeard` 5.1 |
+| residents | 12.9 | 4.8 GB | `runResidentsDay` 7.3 s (`settle` 6.1, `transferSplit` 3.3) |
+| life | 10.9 | 1.3 GB | acts performed 7.7 s (relationship writes 4.2) |
+| budgets | 9.3 | 1.7 GB | withholding per paycheck 4.4 s; `governments()` copies and freezes the whole table on each of 65,968 calls a year |
+| renewal | 8.7 | 2.5 GB | `applyCountedFlows` 8.3 s, rebuilding the town's people list each counted pass |
+| place-prices | 8.1 | 2.9 GB | monthly `settle` 6.6 s, of which journal posting 4.6 |
+| press | 6.5 | 1.4 GB | `pressWeek` 6.0 s, `countedFollowers` 4.2 |
+| people, counted-moves, official-pay, jobs, laws, housing, views, credit | 4.8 to 6.2 each | 1 to 2.7 GB each | official pay's living costs 3.1 s and housing's property tax 4.0 s are mostly journal posting |
+
+Across modules: the dated calendar work of every module is 72.6 s (renewal 10.0, place-prices 9.1, press 7.3, world-legislating 6.5, jobs 5.7, housing 4.8, business foundings 4.0, credit 4.3, constituent cases 2.9). Cash-journal posting is 28.8 s inclusive from every caller: 26,433 postings in the first 60 days (21,208 of them `accounts.transfer`), so about 160,000 a year at roughly 180 microseconds each. Relationship writes are 18.7 s (14,561 in 60 days), most of it news reacting to each.
+
+Scans (whole-collection walks a year, by caller): nothing daily is large. Largest: credit's `monthlyIncome` walks every job once per household, 6,032 times (12.1 million job reads) on 25 days; residents' `unplacedShare` 199 walks of the counted households (4.2 million) and `returnCommuterPay` 145 (3.2 million); place prices' month 66 (1.4 million); `weightedPeople` 63. Daily: the school day walks every full person (180 days, 435,000 reads) and `countedResidents` walks the counted households on 53 days. Module-table copies: `budgets.governments` 65,968 `rows()` copies, `offices.offices` 25,434. These cost seconds, not tens of seconds; the year is flat per-person work, so the cut is a dozen bounded items, each measured alone, plus the garbage collection they remove. Items filed today, one module each: see the speed lead's channel section.
+
+Bedford, Wyoming (key 5606045, seed 9a4dd331ace7), same machine: years 59.5, 80.5, 81.5 s. By owner, year one to three: kernel 8.6 to 17.8 s, drives 1.0 to 10.6 (performing activists' acts and the events they emit, 8.6 s in year three), people 1.4 to 4.9, life 3.2 to 5.4, work flat (14.2 to 11.5). That growth is `speed-year-three-within-band`.
 
 Sent back 2026-10-23 from PR #5820 (branch claude/speed-year-policy-semi-space): The measurement-command flag alignment has no bounded item or evidence table, while the dense-town three-run and m7a performance acceptance explicitly remains unmet; finish on that branch, merge main into it first.
