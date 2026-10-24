@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/state.ts, src/core2/modules/staff.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5929 (branch claude/staff-hire-counted-relocation): health-demoted.test.ts:120 can return before personOrFillIn and all returned-household assertions, allowing the crash-path regression to pass unexercised; require a mandatory living-household fill-in case; finish on that branch, merge main into it first.
