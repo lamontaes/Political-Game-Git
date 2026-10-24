@@ -21,10 +21,31 @@ let groups: GroupRow[];
 // Building and playing a drawn town 120 days takes about 30 seconds, inside
 // the 60 second hook limit.
 beforeAll(() => {
-  ({ core, api } = drawnRaceWorld((attempt) => {
-    const seed = `${SEED}:${attempt}`;
-    return { seed, place: drawPlace(seed, "trait-wiring") };
-  }, 120));
+  ({ core, api } = drawnRaceWorld(
+    (attempt) => {
+      const seed = `${SEED}:${attempt}`;
+      return { seed, place: drawPlace(seed, "trait-wiring") };
+    },
+    120,
+    undefined,
+    2,
+    // Both tests read a group residents joined, one with a resident speaker:
+    // a town where none formed in the window moves the draw on.
+    (world) => {
+      const rows = world.api
+        .moduleState(INTEREST_GROUPS_MODULE_ID)
+        .table("groups")
+        .rows() as unknown as GroupRow[];
+      return rows.some(
+        (g) =>
+          (g.memberPersonIds ?? []).length &&
+          g.lobbyistId &&
+          world.core.people.has(g.lobbyistId),
+      )
+        ? null
+        : "no group of residents with a resident speaker";
+    },
+  ));
   groups = api
     .moduleState(INTEREST_GROUPS_MODULE_ID)
     .table("groups")
