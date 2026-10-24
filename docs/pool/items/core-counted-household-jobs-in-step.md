@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T08:18:33.607Z
 **Files.** src/core2/modules/residents.ts, src/core2/residents-economy.ts, src/core2/modules/jobs.ts, src/core2/counted-household-jobs.test.ts
 
 **Notes.** Found Oct 24 by the effects lead: #5609's fill-in income-fifth regression failed on seed 99129b78328b41a6 for this cause.
+
+Verified 2026-10-24 by Merger 1: delivered by merged PR #5609 (f1f23098bd147b18f08c173535dd21a03ca098b7) and released in v0.22.8. PR #5933 is closed without merge; its merge API returned 405, so this item is correctly done against #5609. Independent local year test passes 1/1 on code-identical 4d0fe0e50b, final branch 0d4982ebba equals main tree dbabe901da09d1c03dee9842411f9b3665f03c19 after dropping the consumed declaration. This does not record a new PR #5933 merge.
