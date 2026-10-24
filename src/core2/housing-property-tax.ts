@@ -14,6 +14,7 @@
 import taxData from "./data/housing/property-tax.json" with { type: "json" };
 import { countedPayment } from "./counted-money";
 import type { ModuleTable } from "./module-state";
+import { townOutsideOf } from "./opening-outside-market";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -166,10 +167,7 @@ export function billPropertyTax(
     return row;
   };
   const payee = (placeId: string, t: PropertyTaxTerms) =>
-    t.payeeId ??
-    [...c.organizations.values()].find(
-      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-    )?.id;
+    t.payeeId ?? townOutsideOf(c.organizations.values(), placeId)?.id;
   let total = 0;
   for (const home of homes) {
     const t = termsFor(home.placeId);
