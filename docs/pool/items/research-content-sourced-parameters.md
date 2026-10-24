@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/dreamy-tesla-bgi3ui
-pr: #5848
+status: open
+claimed-by:
+pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable"
-claimed-at: 2026-10-23T20:18:44.568Z
+claimed-at:
 ---
 
 **What.** Source the numbers behind the content engine's life utility and civic progress. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 2 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -27,3 +27,5 @@ claimed-at: 2026-10-23T20:18:44.568Z
 **Notes.** Folded from: core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
 Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-content-sourced-parameters.md (2 rows: 0 sourced, 2 estimated, 0 mechanic).
+
+Oct 24, 2026: split. PR 5848 (item research-content-atus-lookup-hours) delivers lookupHours as ESTIMATED at 0.91 hours (spread 0.72 to 1.06, BLS American Time Use Survey 2025), its research file and a played-year check. Still open here: careNeedHalfExcessHazard stays TUNABLE because no published figure measures care per unit of condition hazard. SG-P8-civic-progress stays open because the look-up, join, organize and approach acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable). SG-P8-life-utility stays open because the engine still scores one act per activation instead of a day's time plan (builder item core-stopgap-content-estimated-behavior).
