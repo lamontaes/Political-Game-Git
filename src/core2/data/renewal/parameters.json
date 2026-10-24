@@ -290,5 +290,69 @@
       "unit": "days",
       "citation": "Two to four e-folds within the recommended 24 months."
     }
+  },
+  "renewalUnplannedExposure": {
+    "value": 0.27,
+    "tag": "ESTIMATED",
+    "citation": "Exposure a couple that chose to wait adds each review when it has no cushion at all, scaled by the mother's age curve and the cushion; it checks the town's total and never picks a couple. Guttmacher Institute, 'Unintended Pregnancy in the United States' (fact sheet, January 2019, https://www.guttmacher.org/sites/default/files/factsheet/fb-unintended-pregnancy-us_0_4.pdf): \"In 2011, there were 45 unintended pregnancies for every 1,000 women aged 15–44 in the United States. In other words, nearly 5% of reproductive-age women have an unintended pregnancy each year.\"",
+    "estimatedFrom": "Played years in drawn towns, counting named and counted unplanned pregnancies (each counted decision times the households it stands for) per 1,000 women aged 15 to 44: seven towns gave 71.4 at 0.5; at 0.315 the same seven gave 50.7 and eight more 68.5; at 0.27 eight fresh towns gave 59.7, inside the band. Weighted by women over all four batches (23,529), the rate is about 169 per 1,000 per unit of exposure, so 45 / 169 = 0.266, rounded to 0.27; single towns run from 0 to 81, so the town's total, not one town, is what this checks.",
+    "spread": {
+      "low": 0.19,
+      "high": 0.37,
+      "unit": "unit of exposure per review",
+      "citation": "The states' 2006 range scaled to the 2011 national rate: \"In 2006, the median U.S. rate of unintended pregnancies was 51 per 1,000 women ages 15 to 44... The state with the highest rate of unintended pregnancies was Mississippi, 69 per 1,000 women... New Hampshire had the lowest rate, 36 per 1,000 women\" (Journalist's Resource on Guttmacher, 'Unintended Pregnancy Rates at the State Level', Perspectives on Sexual and Reproductive Health, 2011, https://journalistsresource.org/politics-and-government/u-s-state-rates-unintended-pregnancy/); 36 and 69 times 45/51 are 32 and 61 per 1,000, so 0.27 x 32/45 and 0.27 x 61/45."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalUnplannedAcceptance": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Pull toward carrying a pregnancy that has already begun, added to the circumstances a planned birth weighs.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 0 to 1.5 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalEndingBase": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "What ending a pregnancy weighs against, apart from travel: the decision itself, recorded as a sliding weight, never a rate.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 0.5 to 2 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalTravelWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "How hard travel to a provider weighs on ending a pregnancy, scaled by distance and the household's cash.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 1 to 4 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalTravelHalfMiles": {
+    "value": 100,
+    "tag": "TUNABLE",
+    "citation": "Miles at which travel weighs half as much as it ever will; a smooth curve, no cutoff.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 50 to 200."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+  },
+  "renewalTravelCostPerMileMinor": {
+    "value": 60,
+    "tag": "ESTIMATED",
+    "citation": "Cost of getting there per mile, in cents (round trip fuel and a share of lodging); used only to weigh the cost against her cash.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "40 to 90 cents."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-pregnancy",
+    "estimatedFrom": "IRS 2026 mileage rate plus lodging share."
   }
 }
