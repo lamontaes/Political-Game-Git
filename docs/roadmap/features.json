@@ -19,7 +19,7 @@
       "package": "M0-bench",
       "test": "Three different seeds give three different places in three different states or territories; each builds without error; and every resident on the list exists in the core's records.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-01",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-02",
@@ -29,7 +29,7 @@
       "package": "M0-bench",
       "test": "Over 7 days, every act on the chosen person's record is the character's own recorded answer (Day and Week open no choice list, owner Oct 14, 2026), other residents' lives continue, and an answer nobody was asked for is refused and changes no record.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-02",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-03",
@@ -39,7 +39,7 @@
       "package": "M0-bench",
       "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment that needs the player (a routine work shift the character attends on its own never stops a skip; owner, Oct 12), or an offer with a deadline; it says which one; nothing was skipped past.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-03",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-04",
@@ -69,7 +69,7 @@
       "package": "M0-people",
       "test": "In a random place, the 18-year-old's parents and siblings follow the kin rules; schools are real schools from the place data (real naming patterns where none exists); every fact shown has a record behind it.",
       "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-life-at-18.test.ts",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-07",
