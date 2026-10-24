@@ -266,9 +266,12 @@ function expectAboutResearch(
   rows: readonly Row[],
   w: number,
   slack = ONE_TOWN_SLACK,
+  share?: number,
 ) {
   const target = targetOddsRatio(id);
-  const reached = crossOdds(rows, w);
+  const at = (weight: number) =>
+    share === undefined ? 0 : shiftForShare(rows, weight, share);
+  const reached = crossOdds(rows, w, at(w));
   expect(rows.length, `${placeName}: ${id} calls`).toBeGreaterThan(50);
   expect(
     reached,
@@ -279,7 +282,7 @@ function expectAboutResearch(
     `${placeName}: ${id} odds ratio, target ${target.toFixed(2)}`,
   ).toBeLessThan(target * slack);
   // Personality is the cause: with the weight flat the same calls show no gap.
-  expect(crossOdds(rows, 0)).toBeCloseTo(1, 5);
+  expect(crossOdds(rows, 0, at(0))).toBeCloseTo(1, 5);
 }
 
 describe("personality in campaigns and candidacy (a played slice of a drawn place)", () => {
@@ -318,11 +321,17 @@ describe("personality in campaigns and candidacy (a played slice of a drawn plac
     );
   });
 
-  it("running for office follows honesty-humility at about the researched rate", () => {
+  it("running for office follows honesty-humility at about the researched rate, among newcomers", () => {
+    // A serving incumbent weighs standing again (voting.stand-again), so only
+    // newcomers weigh running here, and so few of them run that the thirds'
+    // rates would sit at the floor; the slope is read with every reason total
+    // moved so one in twenty would run, as volunteering is read.
     expectAboutResearch(
       "candidacy.run",
       chooser,
       decisionTraitWeight(core, "candidacy.run"),
+      ONE_TOWN_SLACK,
+      VOLUNTEER_SHARE,
     );
   });
 
