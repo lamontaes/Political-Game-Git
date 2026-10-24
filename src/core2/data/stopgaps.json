@@ -5348,6 +5348,54 @@
     "status": "open"
   },
   {
+    "id": "SG-PEOPLE-unplanned-pregnancy",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 1,
+    "whatItFakes": "A couple that chose to wait carries exposure each review from the mother's age curve and the household's cushion; a whole unit is an unplanned pregnancy, and the mother weighs carrying it against ending it. Ending a pregnancy pays the trip from the household's cash to the place's outside account (no provider is paid or recorded). Counted households follow the same rule from their own record, times the households each stands for.",
+    "why": "No ruling existed on what causes an unplanned pregnancy or whether the player's household can have one.",
+    "addedBy": "claude/political-game-pool-pdqjm6",
+    "addedAt": "2026-10-19",
+    "replacement": "Resolved Oct 20 by the owner's ruling on #5220: unplanned pregnancies happen to people in the background from their own records and the law where they live, never to the player's own character or household, with nothing new shown to the player. The player's household is left out in renewal.ts.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PEOPLE-counted-opening-exposure",
+    "kind": "estimated-behavior",
+    "file": "src/core2/births-counted.ts",
+    "line": 747,
+    "whatItFakes": "A counted woman first seen starts with the part of a whole exposure that her years since she could first be a parent would leave at today's rate (her age curve and her household's cushion now), not the exposure her own past would have left.",
+    "why": "Counted records keep no past, and starting every woman at zero would give no unplanned pregnancy for years and then the whole tier at once.",
+    "addedBy": "claude/unplanned-counted-tier",
+    "addedAt": "2026-10-24",
+    "replacement": "Her exposure since her last birth or partnering, read from a counted past once the opening reconstructs one (as SG-M1-opening-pregnancies does for full couples).",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-unplanned-counted-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 183,
+    "whatItFakes": "Only full people in couples carry exposure toward an unplanned pregnancy; the counted households, who are most of a town, have none, so the rule applies only to the full tier.",
+    "why": "This change sources the trip to a provider for the full-tier rule; the counted tier's own exposure, per woman and couple times the households each record stands for, is its own piece of work.",
+    "addedBy": "claude/provider-distance",
+    "addedAt": "2026-10-24",
+    "replacement": "Resolved: counted households follow the same rule from their own records, each woman carrying her own exposure times the households her record stands for, kept across fill-in (pool item people-unplanned-counted-tier, PR #5757).",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PEOPLE-unplanned-provider-distance",
+    "kind": "missing-mechanic",
+    "file": "src/core2/births-unplanned.ts",
+    "line": 1,
+    "whatItFakes": "Miles to the nearest abortion provider are two national averages, one where the law restricts and one where it does not, not the place's own geography.",
+    "why": "The core has no places-to-providers geography (Myers 2024 gives national figures only).",
+    "addedBy": "claude/political-game-pool-pdqjm6",
+    "addedAt": "2026-10-19",
+    "replacement": "Resolved: the trip is read from data/research/people/abortion-provider-distance.json, Myers County-by-month travel distances to nearest abortion provider (osf.io/pfxq3), for 51 of the 56 places, with the five territories estimated and labeled (pool item people-abortion-provider-distance).",
+    "status": "resolved"
+  },
+  {
     "id": "SG-LABOR-counted-partner-proxy",
     "kind": "estimated-behavior",
     "file": "src/core2/jobs-web.ts",
@@ -6449,6 +6497,18 @@
     "addedBy": "claude/quirky-ride-vrwwz4-campaigns-small-place",
     "addedAt": "2026-10-24",
     "replacement": "The owner's ruling on how a campaign orders the doors it knocks (docs/coordination/OWNER-DECISIONS.md), built as the campaign's own choice of list.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-unplanned-calibration",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/births-unplanned.ts",
+    "line": 144,
+    "whatItFakes": "The five weights of an unplanned pregnancy (renewalUnplannedExposure, renewalUnplannedAcceptance, renewalEndingBase, renewalTravelWeight, renewalTravelHalfMiles) are TUNABLE values set by hand. Their spreads are written as sensitivity windows, but no generated-year run has measured how the town's unplanned pregnancies and endings move across those windows.",
+    "why": "No study publishes these as coefficients: the decision is a weighed choice from each woman's own records. Real rates (Guttmacher's about 4 unintended pregnancies a year per 100 women 15 to 44, and the share ended) can only check the town's totals, never pick a woman.",
+    "addedBy": "claude/provider-distance",
+    "addedAt": "2026-10-24",
+    "replacement": "A generated-year sensitivity check in drawn places: each weight run across its window, the town's unplanned pregnancies and endings per 1,000 women 15 to 44 against the state's published rates, and each spread replaced by the measured window (pool item people-unplanned-calibration).",
     "status": "open"
   }
 ]
