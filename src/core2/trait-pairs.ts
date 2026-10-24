@@ -25,6 +25,8 @@ export interface PlayedCall {
   /** The actor's trait lean toward yes over no. */
   lean: number;
   yes: boolean;
+  /** Whether the trait term changed the outcome the case alone would give. */
+  turned: boolean;
 }
 
 /** Two people, about the same case, opposite leans, different decisions. */
@@ -74,7 +76,8 @@ export function playWeighing(
         !wanted.has(row.decisionId) ||
         !row.actorId ||
         row.bare === undefined ||
-        row.yes === undefined
+        row.yes === undefined ||
+        row.turned === undefined
       )
         return;
       calls.push({
@@ -84,6 +87,7 @@ export function playWeighing(
         bare: row.bare,
         lean: row.lean,
         yes: row.yes,
+        turned: row.turned,
       });
     },
     chooser(row) {
@@ -102,6 +106,7 @@ export function playWeighing(
         bare: best(decision.yes, row.bareScores) - best(no, row.bareScores),
         lean: best(decision.yes, row.leans) - best(no, row.leans),
         yes: row.chosen === decision.yes,
+        turned: row.chosen !== row.withoutTrait,
       });
     },
   });
@@ -116,10 +121,11 @@ export function playWeighing(
 /**
  * For each decision, the pair of different people whose cases sit within
  * `caseWithin` of each other where the one who said yes leaned furthest
- * above the one who said no, kept when that gap is at least `leanApart`
- * and the yes side leaned toward yes while the no side leaned away. `among`
- * keeps the people a test names to the ones it asks about (a town's own
- * residents, say).
+ * above the one who said no, kept when that gap is at least `leanApart`,
+ * the yes side leaned toward yes while the no side leaned away, and the
+ * trait term turned at least one of the two (the case alone would have
+ * given that person the other answer). `among` keeps the people a test
+ * names to the ones it asks about (a town's own residents, say).
  */
 export function opposedPairs(
   calls: readonly PlayedCall[],
@@ -133,38 +139,50 @@ export function opposedPairs(
     among?: (actorId: string) => boolean;
   } = {},
 ): OpposedPair[] {
-  const best = new Map<string, OpposedPair>();
-  const buckets = new Map<
-    string,
-    { yes?: PlayedCall; no?: PlayedCall; decisionId: string }
-  >();
+  interface Bucket {
+    decisionId: string;
+    yes?: PlayedCall;
+    no?: PlayedCall;
+    yesTurned?: PlayedCall;
+    noTurned?: PlayedCall;
+  }
+  const buckets = new Map<string, Bucket>();
+  const higher = (call: PlayedCall, held?: PlayedCall) =>
+    !held || call.lean > held.lean;
+  const lower = (call: PlayedCall, held?: PlayedCall) =>
+    !held || call.lean < held.lean;
   for (const call of calls) {
     if (!among(call.actorId)) continue;
     const key = `${call.decisionId}|${Math.floor(call.bare / caseWithin)}`;
     let bucket = buckets.get(key);
     if (!bucket) buckets.set(key, (bucket = { decisionId: call.decisionId }));
-    if (
-      call.yes &&
-      call.lean > 0 &&
-      (!bucket.yes || call.lean > bucket.yes.lean)
-    )
-      bucket.yes = call;
-    if (
-      !call.yes &&
-      call.lean < 0 &&
-      (!bucket.no || call.lean < bucket.no.lean)
-    )
-      bucket.no = call;
+    if (call.yes && call.lean > 0) {
+      if (higher(call, bucket.yes)) bucket.yes = call;
+      if (call.turned && higher(call, bucket.yesTurned))
+        bucket.yesTurned = call;
+    }
+    if (!call.yes && call.lean < 0) {
+      if (lower(call, bucket.no)) bucket.no = call;
+      if (call.turned && lower(call, bucket.noTurned)) bucket.noTurned = call;
+    }
   }
-  for (const bucket of buckets.values()) {
-    const { yes, no, decisionId } = bucket;
-    if (!yes || !no || yes.actorId === no.actorId) continue;
-    const gap = yes.lean - no.lean;
-    if (gap < leanApart) continue;
-    const held = best.get(decisionId);
-    if (!held || gap > held.yes.lean - held.no.lean)
-      best.set(decisionId, { decisionId, yes, no });
-  }
+  const best = new Map<string, OpposedPair>();
+  for (const bucket of buckets.values())
+    for (const [yes, no] of [
+      [bucket.yesTurned, bucket.no],
+      [bucket.yes, bucket.noTurned],
+    ] as const) {
+      if (!yes || !no || yes.actorId === no.actorId) continue;
+      const gap = yes.lean - no.lean;
+      if (gap < leanApart) continue;
+      const held = best.get(bucket.decisionId);
+      if (!held || gap > held.yes.lean - held.no.lean)
+        best.set(bucket.decisionId, {
+          decisionId: bucket.decisionId,
+          yes,
+          no,
+        });
+    }
   return [...best.values()];
 }
 
@@ -180,7 +198,7 @@ export function livesIn(
 /** One line naming a pair: the decision, the day each decided, both people, their cases and leans. */
 export function describePair(pair: OpposedPair, record?: string): string {
   const side = (c: PlayedCall) =>
-    `${c.actorId} on ${c.date} (case ${c.bare.toFixed(3)}, lean ${c.lean.toFixed(3)})`;
+    `${c.actorId} on ${c.date} (case ${c.bare.toFixed(3)}, lean ${c.lean.toFixed(3)}${c.turned ? ", turned by temperament" : ""})`;
   return `${pair.decisionId}: yes ${side(pair.yes)}${record ? `, wrote ${record}` : ""}; no ${side(pair.no)}`;
 }
 
