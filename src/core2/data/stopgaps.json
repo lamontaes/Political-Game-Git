@@ -332,7 +332,7 @@
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A source-calibrated actor-specific affect model checked against documented adult trajectories.",
+    "replacement": "A source-calibrated actor-specific affect model checked against documented adult trajectories. Researched Oct 23, 2026 (research-core-sourced-parameters): the documented adult trajectories after a potentially traumatic event (Galatzer-Levy, Huang and Bonanno, Clinical Psychology Review, 2018: resilience 65.7%, recovery 20.8%, chronic 10.6%, delayed onset 8.9%) and next-day carryover of a daily stressor (Leger, Charles and Almeida, Psychological Science, 2018) are in data/research/core/affect-trajectories-2018.json; scripts/research/core-year.ts reports the share of a town's bereaved still raised six months on. Still open: one fixed half-life returns every person to baseline, so no chronic or delayed course can occur; the builder item core-emotion-chronic-affect-trajectories adds the slower course and checks it against the file.",
     "status": "open"
   },
   {
@@ -1227,7 +1227,7 @@
     "id": "SG-GOV-recall-signature-groups",
     "kind": "missing-data",
     "file": "src/core2/modules/recalls.ts",
-    "line": 311,
+    "line": 312,
     "whatItFakes": "A recall petition's required signatures read the state's named base from the world's records where it holds them (votes cast for the office, or at the town's last election of that level, from the recorded results). Where it holds none, the base is sized from the real averages: registered voters (the town's eligible voters times the national registration share), the last gubernatorial vote (the town's population times the voting share, scaled to a midterm), and votes cast before the town has held an election.",
     "why": "The world keeps no voter rolls and does not keep a statewide race's votes by town, and a new town has held no election yet. The counted residents sign and vote by the same rule as named people, and the base is a whole count of voters.",
     "addedBy": "OPUS-GOV",
@@ -2038,7 +2038,7 @@
     "why": "No survey measures closeness in hours or its decay without contact; Hall (2019) gives hour thresholds and Roberts and Dunbar (2015) only the direction of decay.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Closeness calibrated against a panel of measured tie strength and contact (for example, the Roberts and Dunbar network data or a US panel), with per-pair opening histories from the shared past.",
+    "replacement": "Closeness calibrated against a panel of measured tie strength and contact (for example, the Roberts and Dunbar network data or a US panel), with per-pair opening histories from the shared past. Researched Oct 23, 2026 (research-core-sourced-parameters): Roberts and Dunbar (Human Nature, 2015) slopes, kin +0.27 and friends -0.62 points a wave on a 1 to 10 scale, and inner-layer retention over 18 months (kin 70.3%, friends 48.6%), with Hall's hours to friendship (KU News, 2018), are in data/research/core/tie-decay-panels-2015.json; scripts/research/core-year.ts reports a town's yearly closeness change by tie kind against them. Still open: no source read gives a half-life of closeness without contact or a pair's own opening history; the builder item core-stopgap-closeness-relationship-closeness-model reads the file.",
     "status": "open"
   },
   {
@@ -2122,7 +2122,7 @@
     "why": "The CTO's part 2b decision (October 10, 2026): one scoring pass per free block for daily-tier people and a week planned forward for weekly-tier people, within 20% of part 2's speed.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "A complete daily time budget that reserves the ATUS time of activities the game does not model, needs that evolve on each planned day from their own causes, and plans saved with the world.",
+    "replacement": "A complete daily time budget that reserves the ATUS time of activities the game does not model, needs that evolve on each planned day from their own causes, and plans saved with the world. Researched Oct 23, 2026 (research-core-sourced-parameters): the ATUS time of unmodeled activities is already reserved (src/core2/data/free-block.json, BLS ATUS 2025 Table 3); the visit band is ATUS 2025 Table 1 socializing and communicating (30.4% of people a day, men 28.2%, women 32.5%) in data/research/core/atus-2025-socializing.json, reported by scripts/research/core-year.ts. unmodeledLeisureValuePerHour stays TUNABLE: no published effect converts to its score units. Still open: one act per need a day, needs held between planned days and plans kept out of the save; the builder item core-free-block-daily-budget.",
     "status": "open"
   },
   {
@@ -2189,12 +2189,12 @@
     "id": "SG-M1-opening-pregnancies",
     "kind": "opening-prehistory-estimate",
     "file": "src/core2/modules/renewal.ts",
-    "line": 324,
+    "line": 339,
     "whatItFakes": "Opening still-pregnant plans use current opening money, housing, health and temperament as pre-opening proxies, with real recorded partnership and child dates. Reviews occur at 91-day phases anchored to partnership or youngest child; both partners must agree through the chooser. No surveyed fertility rate decides pregnancy.",
     "why": "No prenatal records exist in P15 opening population; starting with none depresses the entire first year and synchronizes deliveries.",
     "addedBy": "CODEX-RENEWAL",
     "addedAt": "2026-10-11",
-    "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration.",
+    "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration. Researched Oct 23, 2026 (research-core-sourced-parameters): the share of women 15 to 44 carrying a pregnancy to a live birth on a given day is the place's fertility rate (NCHS 2024, data/research/renewal/natality-2024.json, all 56 places; 53.8 per 1,000 nationally) times the median 268 days from ovulation to birth (Jukic et al., Human Reproduction, 2013): about 3.9% nationally and 2.2% to 5.7% across places, in data/research/core/opening-pregnancy-2024.json; scripts/research/core-year.ts reports a town's opening pregnancies against it. The rate checks the town and never decides who is pregnant. Still open: no dated pre-opening history; the builder item people-opening-pregnancy-first-year-calibration.",
     "status": "open"
   },
   {
@@ -3929,12 +3929,36 @@
     "id": "SG-GOV-recall-bars-national",
     "kind": "assumed-data",
     "file": "src/core2/modules/recalls.ts",
-    "line": 203,
+    "line": 380,
     "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed), not each state's own statute.",
     "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window.",
+    "replacement": "Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window. Oct 23, 2026 (research-core-sourced-parameters): twelve more places read from statute (AK, DC, FL, GA, LA, MT, NE, NV, ND, SD, WA, WY; 5 SOURCED and 7 ESTIMATED: ND and WA where the bar counts from an election, FL where the bar is a fraction of the term, SG-GOV-recall-bars-term-fraction, and LA, MT, NE and NV where the bar is counted in calendar months and stored as days, SG-GOV-recall-bars-calendar-months) into src/core2/data/campaigns/recall-bars.json, read by recallBarsFor in src/core2/modules/recalls.ts, with the quotes and each state's bar after a failed recall in data/research/core/recall-timing-statutes-2026.json (checked by scripts/research/check-core-research.ts); 21 of the 22 places with a petitioned local recall now have a bar read from their own statute, seven of the twelve new ones estimates. Still open: no Mississippi timing bar was read, so the national estimate stands there; bars counted from an election (NE, WA, ND) and each state's rule after a failed recall wait on the builder item gov-recall-bars-election-clock.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recall-bars-calendar-months",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/recalls.ts",
+    "line": 207,
+    "whatItFakes": "A recall bar that a statute counts in calendar months is stored in src/core2/data/campaigns/recall-bars.json as a fixed number of days: six months as 182 days (Louisiana's closing bar, Nebraska's and Nevada's opening bars, and the earlier Arizona and Oregon opening bars and California's closing bar) and two months as 61 days (Montana's opening bar). Six calendar months run 181 to 184 days and two run 59 to 62, depending on the date counted from, so the stored bar can admit a date the statute bars or bar one it admits by up to three days: for a term ending January 1, 2027, July 2, 2026 is inside six months but 183 days away, and Louisiana's 182-day bar admits it. Each of these rows is ESTIMATED with its spread.",
+    "why": "The bar table and recallBarsFor count days into the term and days before its end; a calendar month has no fixed length in days, and counting by months changes engine logic, which is builder work, not research.",
+    "addedBy": "claude/dreamy-tesla-bgi3ui research",
+    "addedAt": "2026-10-24",
+    "replacement": "Builder item gov-recall-bars-calendar-months: a bar row may state calendar months (opening and closing), and the recall engine compares the date with the term's start plus those months, or its end less them, so the rows are SOURCED from their statute quotes. Until then they are ESTIMATED in src/core2/data/campaigns/recall-bars.json and data/research/core/recall-timing-statutes-2026.json, and scripts/research/check-core-research.ts recomputes each spread from the calendar.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recall-bars-term-fraction",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/recalls.ts",
+    "line": 208,
+    "whatItFakes": "A recall bar that a statute sets as a fraction of the term (Florida: one-fourth of the term, Fla. Stat. 100.361(8)) is stored as two day counts: one for terms of up to longTermAboveYears years and one for longer terms. recallBarsFor returns the same 365 days for a three-year term as for a four-year term, 91 days more than one-fourth of three years (273.75 days), and about 183 days fewer than one-fourth of a six-year term (547.5 days). The row is ESTIMATED with a spread of 182 to 365 days, the statute's bar for terms of 2, 3 and 4 years. Today every Florida council, mayor and county commission seat takes four years, where the value is exact.",
+    "why": "recall-bars.json holds days into the term, with one value per term band; every other bar in it is counted in days or months, so no row had to scale with the term until Florida's statute was read on Oct 23, 2026. Encoding a fraction of the term changes engine logic, which is builder work, not research.",
+    "addedBy": "claude/dreamy-tesla-bgi3ui research",
+    "addedAt": "2026-10-24",
+    "replacement": "Builder item gov-recall-bars-fraction-of-term: a bar row may state a fraction of the term, and recallBarsFor in src/core2/modules/recalls.ts turns it into days for the term at hand (term years x 365.25 x the fraction), so the row is SOURCED from the statute's own quote. Until then the row is ESTIMATED in src/core2/data/campaigns/recall-bars.json and data/research/core/recall-timing-statutes-2026.json, and scripts/research/check-core-research.ts checks that the statute's days for terms of 2, 3 and 4 years fall inside its spread.",
     "status": "open"
   },
   {
@@ -4618,7 +4642,7 @@
     "line": 114,
     "whatItFakes": "Inherited game-profile powers cells are provisional estimates; a cell explicitly marked limited retains a disputed grant while its qualitative conditions are not yet all executable predicates. A territory's unread cell is its state cell (data/research/powers-catalog/territory-grant.json), an estimate.",
     "why": "The shared research catalog includes unsourced game-profile cells and records some conditional powers in prose rather than structured constraints.",
-    "replacement": "Sourced per-place cells and structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive order.",
+    "replacement": "Sourced per-place cells and structured conditions for each limited power, evaluated by the same authority reader before introduction or an executive order. Researched Oct 23, 2026 (research-core-sourced-parameters): NACo Research (2022) county authority by state (a level from 1, Dillon's Rule, to 6, home rule, with the home rule option and Dillon's Rule flexibilities) for all 56 places in data/research/core/naco-2022-county-authority.json, the per-place input for the county cells whose condition is home rule or Dillon's Rule. Still open: no limited cell's condition is an executable predicate yet; the builder item core-policy-authority-limited-cell-predicates reads the file in src/core2/policy-authority.ts. Territory cells stay with laws-territory-powers-research.",
     "addedBy": "Session D (second pool worker)",
     "addedAt": "2026-10-15",
     "status": "open"
