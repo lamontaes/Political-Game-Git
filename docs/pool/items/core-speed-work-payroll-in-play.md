@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/speed-work-payroll
+status: open
+claimed-by:
 pr: #5925
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T06:37:52.911Z
+claimed-at:
 ---
 
 **What.** Settling work payroll takes 22.3 of 264 profiled seconds of a played year in Long Hill, Connecticut (seed m7b), 6.8 of them in the cash journal and the rest in preparing the settlement. The cash source provider, prepare, copy and same in work-payroll-cash.ts and prepareWorkPayAccrual in work-pay-period.ts rebuild and compare detached copies of each commitment's period and ledger for every payday, with bookkeeping off. Play should read the live period and ledger and post the payment; the copies and comparisons stay under the bookkeeping switch so tests keep them.
