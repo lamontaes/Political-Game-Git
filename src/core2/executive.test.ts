@@ -221,7 +221,8 @@ describe("the executive's desk", () => {
   it("a governor who may restore voting rights by order does, and it becomes the state's law", () => {
     const states = ["US-IA", "US-KY", "US-VA"];
     const { core, api, where } = world(states, "order");
-    if (!orderableBy(api).includes("restore-voting-after-sentence")) return;
+    // The three states are those whose governors may restore voting by order.
+    expect(orderableBy(api), where).toContain("restore-voting-after-sentence");
     const governor = townSeats(api).find(
       (s) => s.office.kind === "governor",
     )!.holder!;

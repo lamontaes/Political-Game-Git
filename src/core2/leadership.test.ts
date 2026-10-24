@@ -51,15 +51,15 @@ const states = [...corePlaceStateIdentities()]
   )
   .sort();
 
-function world() {
-  const state = pick(states, "state");
+function world(attempt = 0) {
+  const state = pick(states, attempt ? `state:${attempt}` : "state");
   const places = [
     ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
       stateJurisdictionKey: state,
       scope: "locality",
     }),
   ].sort((a, b) => a.key.localeCompare(b.key));
-  const key = pick(places, "place").key;
+  const key = pick(places, attempt ? `place:${attempt}` : "place").key;
   const where = `seed ${seed}, ${state} place ${key}`;
   const core = createLifeCore(
     buildPopulation({
@@ -205,22 +205,36 @@ describe("chamber leadership and committees", () => {
     // party), and the smaller caucus longer serving, so a tie broken by
     // service went its way. A tie is not a majority; the larger caucus keeps
     // the chair unless a coalition holds a majority of the whole body.
-    const { state, where, api } = world();
-    const chamber = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .query("byJurisdiction", [state]) as unknown as {
-        id: string;
-        kind: string;
-      }[]
-    )
-      .filter((o) => o.kind.startsWith("legislature-"))
-      .map((o) => o.id)
-      .sort()
-      // A nonpartisan chamber elects its chair without caucuses.
-      .find((c) => members(api, c).some((t) => partySide(t.party) !== 0));
-    if (!chamber) return;
+    // A nonpartisan chamber elects its chair without caucuses, so places are
+    // drawn until one has a chamber with partisan members.
+    const tried: string[] = [];
+    let found: { world: ReturnType<typeof world>; chamber: string } | undefined;
+    for (let attempt = 0; attempt < 6 && !found; attempt += 1) {
+      const drawn = world(attempt);
+      const chamber = (
+        drawn.api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("offices")
+          .query("byJurisdiction", [drawn.state]) as unknown as {
+          id: string;
+          kind: string;
+        }[]
+      )
+        .filter((o) => o.kind.startsWith("legislature-"))
+        .map((o) => o.id)
+        .sort()
+        .find((c) =>
+          members(drawn.api, c).some((t) => partySide(t.party) !== 0),
+        );
+      if (chamber) found = { world: drawn, chamber };
+      else tried.push(drawn.where);
+    }
+    if (!found)
+      throw new Error(
+        `no drawn place had a partisan chamber: ${tried.join("; ")}`,
+      );
+    const { api, where } = found.world;
+    const { chamber } = found;
     const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
     const all = members(api, chamber);
     const half = Math.floor((all.length - 2) / 2);

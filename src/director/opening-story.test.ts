@@ -240,7 +240,8 @@ describe("the opening story", () => {
 
   it("is printed by the press as national news within weeks, for readers to read", () => {
     const api = coreAPI(core);
-    if (!core.modules.has(PRESS_MODULE_ID)) return;
+    // The played world installs the press.
+    expect(core.modules.has(PRESS_MODULE_ID)).toBe(true);
     const press = api.moduleState(PRESS_MODULE_ID);
     expect(
       (press.table("wire").get(story.id) as unknown as { level: string })
