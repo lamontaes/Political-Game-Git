@@ -481,12 +481,13 @@
           "requiresFacts": ["effective"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-archive-law-budget-ledes)",
       "date": "2026-10-19",
       "tag": {
-        "move": "deliver-news"
+        "move": "deliver-news",
+        "key": "news-received"
       }
     },
     {
@@ -503,12 +504,13 @@
           "requiresFacts": ["enacted"]
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-archive-law-budget-ledes)",
       "date": "2026-10-19",
       "tag": {
-        "move": "deliver-news"
+        "move": "deliver-news",
+        "key": "news-received"
       }
     }
   ]

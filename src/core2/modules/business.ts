@@ -14,7 +14,7 @@ import { countedPayment } from "../counted-money";
 import { depositsHeld, withdrawSavings } from "../accounts";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
@@ -42,6 +42,7 @@ import {
   addResidentFlow,
   countedHeadcountOf,
   countedJobsOf,
+  weightedPayrollMinor,
   purchaseShareOf,
   shiftPurchaseShare,
 } from "../residents-economy";
@@ -411,7 +412,7 @@ function successorOf(
       (person) =>
         person?.alive &&
         !owners.has(person.id) &&
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        daysBetweenText(person.birthDate, c.date) /
           api.parameter("jobsDaysPerYear") >=
           api.parameter("businessFounderMinimumAge"),
     )
@@ -718,7 +719,7 @@ function reviewClosures(api: CoreAPI): void {
     const losses = row.lossMonths ?? 0;
     // A firm based elsewhere weighs a branch's losses; it doesn't age out.
     const age = found
-      ? ageOnDate(makeIsoDate(found.person.birthDate), makeIsoDate(c.date))
+      ? ageOnDate(found.person.birthDate, c.date)
       : p("jobsEarliestRetirementAge");
     const reasons = {
       baseline: p("businessCloseBaseline"),
@@ -877,7 +878,7 @@ function bookedMonth(
         BusinessTradingMonth | undefined)
     : undefined;
   const from = previous?.date ?? row.since;
-  const days = daysBetween(makeIsoDate(from), makeIsoDate(api.state.date));
+  const days = daysBetweenText(from, api.state.date);
   store(api).table("trading").put({
     id: tradingId,
     organizationId: row.id,
@@ -1181,8 +1182,24 @@ function readGroundwaterLaw(api: CoreAPI): void {
  * the business's other operating costs (paid monthly like any compliance
  * cost, so the books and a closure review read it); a repeal ends it.
  */
-const DATA_PRIVACY_QUESTION =
+export const DATA_PRIVACY_QUESTION =
   "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+
+/**
+ * What a consumer data privacy law costs an employing business in a year: the
+ * share of its other operating costs the monthly cost review charges while
+ * the law stands (null for any other law).
+ */
+export function businessDataPrivacyCostYear(
+  api: CoreAPI,
+  question: string,
+  annualOtherCostsMinor: number,
+): number | null {
+  if (question !== DATA_PRIVACY_QUESTION) return null;
+  return Math.round(
+    annualOtherCostsMinor * api.parameter("businessDataPrivacyShareOfCosts"),
+  );
+}
 
 function readDataPrivacyLaw(api: CoreAPI): void {
   const c = core(api);
@@ -1259,9 +1276,16 @@ function month(api: CoreAPI): void {
     // Losses carry: an owner draws only from profit the business has kept, net of losses since.
     const retained = row.retainedMinor + profit;
     const cash = c.organizations.get(row.id)!.liquidMinor;
+    // The payroll the next paydays draw on: the book's, plus what its counted
+    // workers' households stand for beyond one each.
+    const weightedPayroll = weightedPayrollMinor(
+      c,
+      row.id,
+      book.annualPayrollMinor,
+      p("jobsDaysPerYear"),
+    );
     const cushion = Math.round(
-      (book.annualPayrollMinor / p("macroMonthsPerYear")) *
-        p("businessCushionMonths"),
+      (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
     );
     const ownerDays =
       owner.livingCostDailyMinor > 0
@@ -1295,14 +1319,21 @@ function month(api: CoreAPI): void {
           citation: businessData.source.citation,
           estimatedFrom: `The owner's draw: ${share} of ${retained} minor units of profit kept, chosen from their own money and the business's cash.`,
         };
+        // Only cash past the payroll cushion is spare: a draw never takes the
+        // cash the next payroll needs, whatever profit the business has kept.
+        const wanted = Math.min(retained * share, Math.max(0, cash - cushion));
+        // The business's cash is already at the town's weight: the counted
+        // owner's group receives the whole draw, and the draw on the books is
+        // what the journal moved.
         drawn = found.full
-          ? transferCash(api, id, row.id, account, retained * share, source)
+          ? transferCash(api, id, row.id, account, wanted, source)
           : countedPayment(api, {
               id,
               placeId: owner.placeId,
               personId: owner.id,
               otherOwnerId: row.id,
-              amountMinor: -Math.floor(retained * share),
+              amountMinor: -Math.floor(wanted),
+              whole: true,
               reasonKey: "owner-draw",
               source,
             });
@@ -1488,37 +1519,96 @@ function foundings(api: CoreAPI): void {
         a.row.kindId.localeCompare(b.row.kindId),
     )
     .map(({ row }) => row);
+  // Nothing below changes between markets (a founding returns out of this
+  // function), so what does not depend on the market is worked out once.
+  const monthlyPay = new Map<string, number>();
+  const rt = residentsRuntime(c);
+  for (const jobId of rt?.wageFlowByJob.keys() ?? []) {
+    const job = rt!.jobs.get(jobId);
+    if (job && job.endsAt === undefined)
+      monthlyPay.set(
+        job.personId,
+        (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
+      );
+  }
+  for (const job of c.jobs.values())
+    if (job.endsAt === undefined)
+      monthlyPay.set(
+        job.personId,
+        (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
+      );
+  const incomeOf = (personId: string) => monthlyPay.get(personId) ?? 0;
+  // Counted people have no chooser, so their personality enters here once, on the chooser's weight; full people get it from the chooser alone.
+  const foundLean = (person: Pick<PersonState, "traits">) =>
+    traitLeanBetween(
+      c,
+      person,
+      businessData.actions.found.actKinds,
+      businessData.actions.notFound.actKinds,
+    );
+  const ownerRows = store(api)
+    .table("owners")
+    .query("all", [true]) as unknown as OwnerRow[];
+  const owners = new Set(ownerRows.map((row) => row.ownerId));
+  const seekers = c.modules.has("jobs")
+    ? api.moduleState("jobs").table("seekers")
+    : undefined;
+  const peopleInOrder = [...c.people.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  );
+  /** A place's counted people of founding age: what weighs on them does not depend on the market. */
+  const candidatesByPlace = new Map<
+    string,
+    {
+      id: string;
+      lean: number;
+      unemployed: number;
+      income: number;
+      cash: number;
+    }[]
+  >();
+  const countedCandidates = (placeId: string) => {
+    const held = candidatesByPlace.get(placeId);
+    if (held) return held;
+    const out: {
+      id: string;
+      lean: number;
+      unemployed: number;
+      income: number;
+      cash: number;
+    }[] = [];
+    candidatesByPlace.set(placeId, out);
+    if (!c.modules.has("jobs")) return out;
+    const countedSeekers = api.moduleState("jobs").table("countedSeekers");
+    const counted = residentsRuntime(c)?.store;
+    for (const h of counted?.liveHouseholds() ?? []) {
+      if (h.placeId !== placeId) continue;
+      for (const m of counted!.countedMembers(h)) {
+        const personId = counted!.ids[m]!;
+        const age =
+          daysBetweenText(counted!.born[m]!, c.date) / p("jobsDaysPerYear");
+        if (
+          owners.has(personId) ||
+          age < p("businessFounderMinimumAge") ||
+          age >= p("businessFounderMaximumAge")
+        )
+          continue;
+        const seeker = countedSeekers.get(personId) as
+          { employed: boolean } | undefined;
+        out.push({
+          id: personId,
+          lean: foundLean({ traits: counted!.packedTraits(m) }),
+          unemployed: seeker && !seeker.employed ? 1 : 0,
+          income: incomeOf(personId),
+          cash: counted!.liquid[m]! + founderSavings(c, personId).minor,
+        });
+      }
+    }
+    return out;
+  };
   // An unaffordable market does not prevent an entrant in another market.
   for (const market of markets) {
     const gaps = gapsOf(market);
-    const monthlyPay = new Map<string, number>();
-    const rt = residentsRuntime(c);
-    for (const jobId of rt?.wageFlowByJob.keys() ?? []) {
-      const job = rt!.jobs.get(jobId);
-      if (job && job.endsAt === undefined)
-        monthlyPay.set(
-          job.personId,
-          (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
-        );
-    }
-    for (const job of c.jobs.values())
-      if (job.endsAt === undefined)
-        monthlyPay.set(
-          job.personId,
-          (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
-        );
-    const incomeOf = (personId: string) => monthlyPay.get(personId) ?? 0;
-    // Counted people have no chooser, so their personality enters here once, on the chooser's weight; full people get it from the chooser alone.
-    const foundLean = (person: Pick<PersonState, "traits">) =>
-      traitLeanBetween(
-        c,
-        person,
-        businessData.actions.found.actKinds,
-        businessData.actions.notFound.actKinds,
-      );
-    const ownerRows = store(api)
-      .table("owners")
-      .query("all", [true]) as unknown as OwnerRow[];
     // Owners of the kind's businesses anywhere, strongest books first.
     const growers = ownerRows
       .map((row) => {
@@ -1564,16 +1654,9 @@ function foundings(api: CoreAPI): void {
       });
       if (opened) return;
     }
-    const owners = new Set(ownerRows.map((row) => row.ownerId));
-    const seekers = c.modules.has("jobs")
-      ? api.moduleState("jobs").table("seekers")
-      : undefined;
-    for (const person of [...c.people.values()].sort((a, b) =>
-      a.id.localeCompare(b.id),
-    )) {
+    for (const person of peopleInOrder) {
       const age =
-        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
-        p("jobsDaysPerYear");
+        daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
       if (
         !person.alive ||
         person.placeId !== market.placeId ||
@@ -1608,42 +1691,19 @@ function foundings(api: CoreAPI): void {
     }
     // The wider population weighs it by the same reasons, as summed pulls (stopgap), until filled in.
     if (!c.modules.has("jobs")) continue;
-    const countedSeekers = api.moduleState("jobs").table("countedSeekers");
     const rows: { id: string; score: number }[] = [];
-    const counted = residentsRuntime(c)?.store;
-    for (const h of counted?.liveHouseholds() ?? []) {
-      if (h.placeId !== market.placeId) continue;
-      for (const m of counted!.countedMembers(h)) {
-        const personId = counted!.ids[m]!;
-        const age =
-          daysBetween(makeIsoDate(counted!.born[m]!), makeIsoDate(c.date)) /
-          p("jobsDaysPerYear");
-        if (
-          owners.has(personId) ||
-          age < p("businessFounderMinimumAge") ||
-          age >= p("businessFounderMaximumAge")
-        )
-          continue;
-        const seeker = countedSeekers.get(personId) as
-          { employed: boolean } | undefined;
-        rows.push({
-          id: personId,
-          score:
-            p("businessCountedFoundBaseline") +
-            p("businessFoundRoomWeight") * gaps +
-            p("traitWeight") * foundLean({ traits: counted!.packedTraits(m) }) +
-            p("businessFoundUnemployedWeight") *
-              (seeker && !seeker.employed ? 1 : 0) +
-            p("businessFoundProspectWeight") *
-              prospect(market, incomeOf(personId)) -
-            p("businessFoundCapitalWeight") *
-              capital(
-                market,
-                incomeOf(personId),
-                counted!.liquid[m]! + founderSavings(c, personId).minor,
-              ),
-        });
-      }
+    for (const row of countedCandidates(market.placeId)) {
+      rows.push({
+        id: row.id,
+        score:
+          p("businessCountedFoundBaseline") +
+          p("businessFoundRoomWeight") * gaps +
+          p("traitWeight") * row.lean +
+          p("businessFoundUnemployedWeight") * row.unemployed +
+          p("businessFoundProspectWeight") * prospect(market, row.income) -
+          p("businessFoundCapitalWeight") *
+            capital(market, row.income, row.cash),
+      });
     }
     for (const founder of strongestPulls(api, "found", rows)) {
       if (found(api, founder.id, market)) return;
@@ -2033,6 +2093,39 @@ const FIPS_OF_USPS = new Map(
   ]),
 );
 
+/** The share of the state's businesses that close in a year (BDS), the nation's where the state has none. */
+export function stateExitShare(api: CoreAPI): number {
+  const usps = core(api).placeMetadata?.housingState ?? "";
+  return (
+    (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
+    api.parameter("macroHundred")
+  );
+}
+
+/** A place's open businesses with their kind and headcount, for sizing the closures of the year before day one. */
+export function businessesIn(
+  api: CoreAPI,
+  placeId: string,
+): readonly { id: string; kindId: string; staff: number }[] {
+  const c = core(api);
+  return [...c.finance.businesses.values()]
+    .filter(
+      (book) =>
+        !book.closedAt &&
+        c.organizations.get(book.organizationId)?.placeId === placeId,
+    )
+    .map((book) => ({
+      id: book.organizationId,
+      kindId: book.kindId,
+      staff:
+        [
+          ...(c.finance.jobsByOrganization.get(book.organizationId) ?? []),
+        ].filter((jobId) => c.jobs.get(jobId)?.endsAt === undefined).length +
+        countedHeadcountOf(c, book.organizationId),
+    }))
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 /**
  * Businesses before the start (M1-14): every opening business gets a founding
  * date, so firms have ages. In a steady state where the state's businesses
@@ -2047,10 +2140,7 @@ function businessHistory(
 ): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const usps = c.placeMetadata?.housingState ?? "";
-  const exit =
-    (BDS.states[FIPS_OF_USPS.get(usps) ?? ""]?.exitPct ?? BDS.nationExitPct) /
-    p("macroHundred");
+  const exit = stateExitShare(api);
   const firms = [...c.finance.businesses.values()]
     .filter((book) => !book.closedAt)
     .map((book) => ({
