@@ -1,7 +1,7 @@
 /** Exact JSON snapshots; legacy readers continue using the generated modules. */
 import type * as TownPay from "../../src/core2/reference/town-pay.generated";
 import type * as TownRent from "../../src/core2/reference/town-rent.generated";
-import type * as TownEmployment from "../../src/simulation/living-world/town-employment.generated";
+import type * as TownEmployment from "../../src/core2/reference/town-employment.generated";
 import type * as TownBankShapes from "../../src/simulation/living-world/town-bank-shapes.generated";
 import type * as TownDeposits from "../../src/simulation/living-world/town-deposits.generated";
 import type * as LocalBusinessCounts from "../../src/simulation/local-business-counts.generated";

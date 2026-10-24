@@ -160,17 +160,23 @@
       "source": "A local paper's subscription and advertising revenue per reader per year (Pew State of the News Media 2023: about $20 billion of newspaper revenue against roughly 20 million weekday print and digital subscribers, about $1,000 per subscriber across a household's readers; a small-town paper earns far less, so about $150 per adult reader).",
       "spread": [8000, 30000]
     },
-    "televisionRevenuePerFollowerYear": {
-      "value": 6000,
+    "newspaperCirculationShare": {
+      "value": 0.542,
       "tag": "ESTIMATED",
-      "source": "A local television station's revenue per adult viewer in one town, for the town's share of its newsroom (Pew local TV fact sheet 2023: about $18 billion of local station advertising across roughly 250 million adults, about $70 per adult, of which the news share is about $60).",
-      "spread": [3000, 12000]
+      "source": "The part of a paper's revenue its readers pay (subscriptions and single copies) rather than advertisers: Pew Research Center, Newspapers fact sheet (2022): \"Total estimated circulation revenue was $11.6 billion\" and \"The total estimated advertising revenue for the newspaper industry in 2022 was $9.8 billion\"; 11.6 / (11.6 + 9.8). https://www.pewresearch.org/journalism/fact-sheet/newspapers/",
+      "spread": [0.45, 0.6]
     },
-    "radioRevenuePerFollowerYear": {
-      "value": 3000,
+    "advertisingShareOfCosts": {
+      "value": 0.01145,
       "tag": "ESTIMATED",
-      "source": "A news radio station's revenue per adult listener in one town (Pew audio fact sheet 2023: about $10 billion of local radio advertising across about 230 million weekly listeners; news and talk stations' share, about $30 per listener).",
-      "spread": [1500, 6000]
+      "source": "The part of a business's costs spent on advertising: IRS Statistics of Income, Returns of Active Corporations, Table 2.1, Tax Year 2022: advertising $473,153,216 thousand of total deductions $41,318,667,736 thousand. Spread across its size-of-assets columns, 0.81 to 1.23 percent. https://www.irs.gov/pub/irs-soi/22co21ccr.xlsx",
+      "spread": [0.0081, 0.0123]
+    },
+    "localNewsShareOfAdvertising": {
+      "value": 0.064,
+      "tag": "ESTIMATED",
+      "source": "The part of businesses' advertising bought from local news outlets: newspapers' $9.8 billion of advertising revenue (Pew Newspapers fact sheet 2022) and local TV's $20.5 billion over the air (Pew Local TV news fact sheet: \"In 2022, an election year, local TV over-the-air advertising revenue totaled $20.5 billion\") of the $473.2 billion corporations deducted for advertising (IRS SOI 2022 Table 2.1). Radio's part has no published total, so the spread runs above the value. https://www.pewresearch.org/journalism/fact-sheet/local-tv-news/",
+      "spread": [0.05, 0.09]
     },
     "storiesPerReporterWeek": {
       "value": 2,
