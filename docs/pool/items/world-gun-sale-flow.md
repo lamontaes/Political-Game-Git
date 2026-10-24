@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
+blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** No handgun, and no other age-restricted good, is sold anywhere in the economy, so the handgun-age and age-verification laws have no sale to refuse (stopgaps SG-GOV-REACH-A-handgun-age and SG-GOV-REACH-A-age-verification). Add the sale of these goods as ordinary purchase flows from a seller's books to a buyer's account. The sale then reads the law in force and the buyer's own age when it is made.
