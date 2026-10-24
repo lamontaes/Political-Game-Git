@@ -19,9 +19,10 @@
  * the victims' own views are what move them, never a roll.
  *
  * Played in the bench world with every module, in a place drawn from all 56
- * on a seed nobody chose. A year in which no full household is victimized
- * while the link runs is drawn again, a bounded number of times, and the
- * draw says why.
+ * on a seed nobody chose. A town's few hundred full households see a handful
+ * of crimes a year, often none, so a year with no victimization that moved
+ * someone while the link ran is drawn again, a bounded number of times, and
+ * the draw says why.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -48,7 +49,7 @@ import type { CoreState } from "./types";
 
 const seed =
   process.env.EFFECTS_END_TO_END_SEED || randomBytes(8).toString("hex");
-const DRAWS = 6;
+const DRAWS = 12;
 const CAUSE = "labor.unemployment-pct";
 const POLICE = livedQuestion(CRIME_EVENT)!;
 /** The researched links from unemployment to a kind of crime the engine decides. */
@@ -160,7 +161,7 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
       for (let draw = 1; draw < DRAWS && !run.found; draw += 1) {
         const victims = run.months.reduce((n, m) => n + m.victims.length, 0);
         tried.push(
-          `${run.place.name}, ${run.place.state} (${drawSeed}): ${victims} full-household victimizations, none on a month an unemployment link raised its kind`,
+          `${run.place.name}, ${run.place.state} (${drawSeed}): ${victims} full-household victimizations, none that moved someone on a month an unemployment link raised its kind`,
         );
         drawSeed = `${seed}-${draw}`;
         run = play(drawSeed);
