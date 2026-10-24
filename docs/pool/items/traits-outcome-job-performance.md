@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/traits-outcome-job-performance
+pr: #5901
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T03:41:48.246Z
 ---
 
 **What.** An ordinary worker's performance shapes two employer choices today, whom to hire and whom to lay off first (src/core2/modules/jobs.ts, the applicant fit and layOff's keep score), but both read one raw trait (reliability) at a weight nobody sized (jobsFitReliabilityWeight 0.5, TUNABLE), outside data/content/trait-decisions.json. Give the employer's valuation a decision row whose options carry act kinds, read the worker's lean through the shared helper, and size the weight from Barrick and Mount 1991 (conscientiousness and job performance, rho 0.22, 2.44 between the thirds), so the trait-shaped outcome outcome.job-performance is read by its owning engine. Counted workers must be valued by the same rule, times their count.

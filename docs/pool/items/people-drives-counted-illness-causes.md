@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/births-counted.ts, src/core2/modules/drives.ts, src/core2/data/drives.json, src/core2/data/health.json
 
 **Notes.** Split from people-drives-counted-tier-causes. Built stacked on the bereavement wiring (#5821).
+
+Sent back 2026-10-23 from PR #5824 (branch claude/counted-illness-causes): The illness test can skip every held-cause fill-in assertion and every household-role assertion; require positive witnesses, add the Done-when evidence table and a release declaration; finish on that branch, merge main into it first.
