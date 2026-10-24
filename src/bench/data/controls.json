@@ -28,6 +28,7 @@
     "start": "Shift starts",
     "end": "Shift ends",
     "moment": "Something needs you",
+    "job-offered": "A job offer",
     "results": "Election results",
     "law": "A law took effect",
     "office-day.meeting": "The meeting",
@@ -269,6 +270,7 @@
     "deadline": "Answer by",
     "accept": "Take it",
     "decline": "Turn it down",
+    "notNow": "Not now",
     "noJob": "No current job",
     "unavailable": "Offer no longer available",
     "failed": "Could not send your answer. Try again."

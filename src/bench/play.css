@@ -1679,7 +1679,8 @@ body.dev .dev-ring {
    heading and actions; positions only. */
 #ballot,
 #meeting,
-#desk {
+#desk,
+#job-offer {
   top: var(--gutter);
   right: var(--gutter);
   bottom: calc(9vh + 18px);
@@ -1687,6 +1688,18 @@ body.dev .dev-ring {
   width: min(420px, calc(100vw - 2 * var(--gutter)));
   padding: 20px 24px;
   overflow: hidden;
+}
+/* A job offer's moment (jobs): the employer's offer over the scene. */
+#job-offer-employer {
+  font: 500 20px var(--speech);
+  margin: 4px 0 2px;
+}
+#job-offer-facts {
+  margin: 8px 0 18px;
+}
+#job-offer-status {
+  min-height: 18px;
+  margin: 12px 0 0;
 }
 #ballot {
   display: flex;
