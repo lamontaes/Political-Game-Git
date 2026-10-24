@@ -41,7 +41,6 @@
     "snap-work-requirement-to-participation",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
-    "end-cash-bail-to-pretrial-detention",
     "concealed-carry-permit-to-firearm-homicide",
     "automatic-registration-to-turnout",
     "restore-voting-to-turnout",
@@ -411,6 +410,10 @@
     "economy-to-approval": {
       "waitingOn": ["economy.real-income-growth", "approval.incumbent"],
       "needsSize": true
+    },
+    "end-cash-bail-to-pretrial-detention": {
+      "waitingOn": [],
+      "carriedBy": "the justice engine's pretrial decision (decidePretrial in src/core2/justice-pretrial.ts, called from src/core2/modules/justice.ts), which reads the end-cash-bail law in force and the defendant's cash when each charged defendant waits for trial: where the law has ended cash bail nobody is held for want of money (released-no-bail-law), elsewhere they are held or post bail"
     },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],

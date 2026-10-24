@@ -4970,7 +4970,8 @@
     "addedBy": "effect-web-crime",
     "addedAt": "2026-10-20",
     "replacement": "The death engine reading the web's factor for firearm homicide on each person's cause-specific mortality.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The death engine's firearm-homicide cause reads the web's factor for crime.firearm-homicide at every age (death-causes.json `reads`, src/core2/death-cause.ts causeMix), so both links move the cause's share of deaths and the death hazard of full and counted people alike; proved by src/core2/death-cause-firearm-homicide.test.ts."
   },
   {
     "id": "SG-WEB-births-full-tier",
