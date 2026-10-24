@@ -3748,13 +3748,37 @@
   {
     "id": "SG-PEOPLE-press-outlet-revenue",
     "kind": "faked-mechanic",
-    "file": "src/core2/modules/press.ts",
-    "line": 589,
-    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers, sized at the opening from its audience and an estimated amount per follower per year by kind; local businesses do not buy ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks. The estimate also anchors employer demand; nonpayroll supplier contracts are not modeled.",
+    "file": "src/core2/press-money.ts",
+    "line": 1,
+    "whatItFakes": "An outlet's revenue (its audience's subscriptions and the advertising they see) is one standing monthly payment from the town's outside customers. It is re-sized each month to the outlet's audience now and its people's cost (src/core2/press-money.ts), but local businesses still buy no ads, households' own reading spending still goes to the outside account, and the payer is not the readers or the advertisers by name. The estimate also anchors employer demand; nonpayroll supplier contracts are not modeled.",
     "why": "Local advertising needs businesses that choose to advertise, which the business engine (OPUS-WORLD) does not model; the outlet's people must be paid from its own cash now.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "Business advertising bought by each business from its own books and the outlet's reach, and subscriptions that follow the outlet's follower count.",
+    "replacement": "Resolved: an outlet's revenue is its readers' subscriptions, paid from each reader household's living cost (the counted households by the same rule times their readers), and the ads the town's businesses buy from their own outside costs, on a sliding scale to their cash and split by audience (src/core2/press-money.ts); the standing outside payment is deleted. Shown in src/core2/press-money.test.ts (pool item gov-press-outlet-revenue).",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PEOPLE-press-bureau-shortfall",
+    "kind": "owner-decision",
+    "file": "src/core2/press-money.ts",
+    "line": 370,
+    "whatItFakes": "Where a town's readers and advertisers pay an outlet less than its people in the town cost, the town's outside customers pay it the rest each press week, in advance, as the outlet's audience elsewhere. Whether that wider audience covers the gap, or the outlet cuts its staff and may close as real papers do, is the owner's call.",
+    "why": "Most towns' papers and stations are bureaus of an outlet that serves a wider area; the game models only the town's own payers, and no ruling says what happens when they fall short.",
+    "addedBy": "claude/press-outlet-revenue",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's ruling on an outlet whose town pays less than its people cost (docs/coordination/OWNER-DECISIONS.md).",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-press-outlet-other-costs",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/press.ts",
+    "line": 733,
+    "whatItFakes": "An outlet's books carry its people's pay and no other costs: no printing, broadcast, rent or supplier contracts.",
+    "why": "The press records an outlet's staff; its nonpayroll costs have no data yet.",
+    "addedBy": "claude/press-outlet-revenue",
+    "addedAt": "2026-10-24",
+    "replacement": "An outlet's nonpayroll costs from a sourced cost structure for newspapers and stations, as supplier contracts on its books.",
     "status": "open"
   },
   {
