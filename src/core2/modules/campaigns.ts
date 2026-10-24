@@ -620,9 +620,9 @@ const addressCache = new WeakMap<
 /**
  * The town's addresses, full households and counted ones alike, with how many
  * counted adults live in them, in the order a campaign's walk list stands:
- * households with the oldest member first (a canvass list cut from the voter
- * file puts the likeliest voters at the top, and older residents answer a
- * knock most; Green and Gerber 2019), then by id. Rebuilt
+ * households with the oldest member first (older residents answer a knock
+ * most, by the door-opening rule below), then by id. The walk order is the
+ * owner's call (SG-GOV-campaign-walk-order). Rebuilt
  * only when a household is added, filled in or leaves.
  */
 function townAddresses(api: CoreAPI): {
@@ -636,6 +636,8 @@ function townAddresses(api: CoreAPI): {
   const key = `${core.households.size}|${named?.size ?? 0}|${rt?.store.version ?? 0}|${rt?.filledIn.size ?? 0}`;
   const held = addressCache.get(core);
   if (held?.key === key) return held;
+  // stopgapId: SG-GOV-campaign-walk-order
+  api.stopgap("SG-GOV-campaign-walk-order");
   const ids = new Map<string, { counted: boolean; eldest: string }>();
   for (const id of named ?? []) {
     const person = core.people.get(id);
