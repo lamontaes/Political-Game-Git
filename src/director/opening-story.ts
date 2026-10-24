@@ -55,9 +55,9 @@ import {
   NEWSCAST_BANK,
   type StoryKind,
 } from "../english/english-newscast";
-import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import openingData from "./data/opening-story.json" with { type: "json" };
 import { ADDRESS_FACT } from "./opening-facts";
+import { NAMED_QUESTIONS, questionTo } from "../english/question-names";
 import {
   openingChambers,
   openingSequence,
@@ -144,13 +144,11 @@ export interface OpeningStory {
 }
 
 interface OpeningData {
-  stopgapId: string;
   numbers: {
     decimals: number;
     jobsPerSeriesUnit: number;
     jobsPerMillion: number;
   };
-  actionWords: readonly string[];
   townStoryKinds: Readonly<Record<string, StoryKind>>;
   speechTitles: Readonly<Record<OpeningSpeechKind, string>>;
   named: {
@@ -286,38 +284,31 @@ function countryFacts(core: CoreState, kind: OpeningSpeechKind): Facts {
   return facts;
 }
 
-/** The bill catalog's name for each policy question. */
-const QUESTION_NAMES: ReadonlyMap<string, string> = (() => {
-  const names = new Map<string, string>();
-  const walk = (value: unknown): void => {
-    if (Array.isArray(value)) value.forEach(walk);
-    else if (value && typeof value === "object") {
-      const row = value as { kind?: string; name?: string; question?: string };
-      if (row.kind === "policy-question" && row.name && row.question)
-        names.set(row.question, row.name);
-      Object.values(value).forEach(walk);
-    }
-  };
-  walk(billCatalog);
-  return names;
-})();
-
 /**
- * The President's own issues they would ask for, in their order: a question
- * the President supports whose catalog name reads as an action ("raise
- * minimum wage"), each with the official record it comes from.
+ * What the President would ask for, most wanted first: every policy question
+ * with a spoken ask (`questionTo`, "raise the minimum wage") that the
+ * President supports (`ownStance`, from their recorded views). Their own
+ * signature issues come first, then the rest by how strongly they hold
+ * them. Each comes with the official record and the question it reads, so
+ * two Presidents with different views or issues ask for different things.
  */
 function presidentGoals(official: OfficialRow): GroundedEnglishFact[] {
-  // stopgapId: SG-PEOPLE-opening-goal-words
-  markWordsStopgap(DATA.stopgapId);
-  return official.signature.flatMap(({ question }) => {
-    const name = QUESTION_NAMES.get(question);
-    if (!name) return [];
-    if (ownStance(official.ideal, official.signature, question) <= P.zero)
-      return [];
-    if (!DATA.actionWords.includes(name.split(" ")[P.zero]!)) return [];
-    return [fact(name, official.id, `question:${question}`)];
-  });
+  const own = new Set(official.signature.map((row) => row.question));
+  return NAMED_QUESTIONS.map((question) => ({
+    question,
+    signature: own.has(question),
+    stance: ownStance(official.ideal, official.signature, question),
+  }))
+    .filter((row) => row.stance > P.zero)
+    .sort(
+      (a, b) =>
+        Number(b.signature) - Number(a.signature) ||
+        b.stance - a.stance ||
+        a.question.localeCompare(b.question),
+    )
+    .map((row) =>
+      fact(questionTo(row.question)!, official.id, `question:${row.question}`),
+    );
 }
 
 /**
@@ -443,7 +434,10 @@ function composeAddressOf(
     );
     // stopgapId: SG-PEOPLE-address-register
     markWordsStopgap("SG-PEOPLE-address-register");
-    const address = composeAddress(base, "election-night", moves);
+    // In the President's own voice: their recorded traits pull each pick.
+    const address = composeAddress(base, "election-night", moves, {
+      speakerTraits: president.traits,
+    });
     if (address.kind !== "rendered") {
       if (section.required) return null;
       continue;
