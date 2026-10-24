@@ -23,6 +23,57 @@ registerWorldMapPart("core2-decision-detail-drop-queue", dropQueues);
 const playerQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-player-queue", playerQueues);
 
+/**
+ * A circle member's decision as the log keeps it (owner, Oct 11: reasons are
+ * saved for the player and the people they deal with, and bookkeeping is a
+ * debug switch): every alternative keeps its score and reason numbers, but
+ * only the chosen and runner-up options keep their reason terms, which the
+ * compact choice also holds. The player, anyone a controller drives and the
+ * debug observer keep every term. Returns the decision unchanged when
+ * nothing is trimmed; never edits the caller's copy.
+ */
+export function keptDecision(
+  core: CoreState,
+  decision: DecisionResult,
+  controlled: boolean,
+): DecisionResult {
+  const scores = decision.scores;
+  if (
+    !scores ||
+    core.observer ||
+    controlled ||
+    decision.actorId === core.playerId ||
+    decision.controlledChoice !== undefined
+  )
+    return decision;
+  const compact = decision.compactChoice as
+    | {
+        chosen?: { actionId: string; targetId: string };
+        runnerUp?: { actionId: string; targetId: string };
+      }
+    | undefined;
+  const keep = new Set<string>();
+  for (const row of [compact?.chosen, compact?.runnerUp])
+    if (row) keep.add(`${row.actionId}\u0000${row.targetId}`);
+  if (!compact?.chosen && decision.selected)
+    keep.add(
+      `${decision.selected.definition.id}\u0000${decision.selected.targetId}`,
+    );
+  let trimmed = false;
+  const kept = scores.map((row) => {
+    if (!row.reasonTerms || keep.has(`${row.actionId}\u0000${row.targetId}`))
+      return row;
+    trimmed = true;
+    return {
+      actionId: row.actionId,
+      targetId: row.targetId,
+      score: row.score,
+      reasons: row.reasons,
+    };
+  });
+  return trimmed ? { ...decision, scores: kept } : decision;
+}
+
 /** A kept act record with full reasons, to condense once it ages out. */
 export function queueDecisionDetail(
   core: CoreState,
