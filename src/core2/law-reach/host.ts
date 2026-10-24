@@ -135,6 +135,8 @@ export type PolicyHandler = (
     readonly level: string;
     readonly value: number | null;
     readonly placeId: string;
+    /** The law was already in force when the world opened (no change happened today). */
+    readonly opening?: boolean;
   },
 ) => void;
 const handlers = new Map<string, PolicyHandler[]>();
@@ -174,6 +176,7 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       level: facts.level ?? "",
       value: Number.isFinite(value) ? value : null,
       placeId: event.placeId,
+      ...(event.id.startsWith("law-in-force:") ? { opening: true } : {}),
     });
 }
 

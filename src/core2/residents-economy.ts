@@ -89,6 +89,15 @@ export function addCountedJob(
     const account =
       rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
       template.payeeId;
+    // A public employer's wages come from the treasury that owns its pay
+    // authority, as its named staff's do (and a school district's counted
+    // staff's at the opening); any other employer pays its own.
+    const authorityOwner = core.organizations.get(job.organizationId)
+      ?.publicPayAuthority?.ownerId;
+    const payerId =
+      authorityOwner && core.organizations.has(authorityOwner)
+        ? authorityOwner
+        : job.organizationId;
     // A twice-monthly payroll starts as both paydays.
     const paydays = wageHalves(rt, template),
       base = `residents:wages:${job.organizationId}:${core.date}`,
@@ -100,7 +109,7 @@ export function addCountedJob(
         id: ids[index]!,
         kind: "wages",
         financeKind: payday.financeKind,
-        payerId: job.organizationId,
+        payerId,
         payeeId: account,
         residentsId: account,
         placeId: placeId ?? payday.placeId,
