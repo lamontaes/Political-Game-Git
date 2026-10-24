@@ -1575,7 +1575,7 @@
           "id": "classroom:spot:14"
         }
       ],
-      "measuredFrom": "teacher's desk 0.75 m foot 57.3 top 43.2 (0.74); first-row student desk 0.75 m foot about 65 top 44.4 (0.80); October 7 ART-5: ten student chairs with in-frame floor contacts and teacher chair recorded; nine added student positions estimated from native midday painting, about 1–2 percentage points uncertainty, larger on hidden cushions; two foreground chair backs extend beyond the picture and require off-frame foot calibration before admission; original spots and floor scale retained",
+      "measuredFrom": "teacher's desk 0.75 m foot 57.3 top 43.2 (0.74); first-row student desk 0.75 m foot about 65 top 44.4 (0.80); ten student chairs with in-frame floor contacts and teacher chair recorded; nine added student positions estimated from native midday painting, about 1–2 percentage points uncertainty, larger on hidden cushions; two foreground chair backs extend beyond the picture and require off-frame foot calibration before admission; original spots and floor scale retained",
       "surfaceSlots": [
         {
           "surfaceId": "classroom-whiteboard",
@@ -10529,7 +10529,7 @@
           "id": "public-library:spot:23"
         }
       ],
-      "measuredFrom": "reading table 0.75 m foot 82 top 64.5 (0.52); far table foot 66; reference desk about 1.1 m; 12 added chair anchors are visual estimates from public-library__midday.jpg (about ±2 percentage points); October 7 ART-5 added the reading-table, reference and cushion positions (about 1–2 percentage points uncertainty, larger on hidden far-side cushions), and a position within 3 percentage points of an anchor already recorded was kept once, from the earlier measurement",
+      "measuredFrom": "reading table 0.75 m foot 82 top 64.5 (0.52); far table foot 66; reference desk about 1.1 m; 12 added chair anchors are visual estimates from public-library__midday.jpg (about ±2 percentage points); the reading-table, reference and cushion positions (about 1–2 percentage points uncertainty, larger on hidden far-side cushions), and a position within 3 percentage points of an anchor already recorded was kept once, from the earlier measurement",
       "surfaceSlots": []
     },
     "public-meeting-room": {
