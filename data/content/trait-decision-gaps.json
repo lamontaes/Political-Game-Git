@@ -182,6 +182,11 @@
       "class": "no trigger (fill-in only)",
       "why": "Runs only when a counted household behind on rent is filled in as full people (src/core2/modules/housing.ts, settleFilledInArrears), and counted households' rent is pooled with no arrears of their own (src/core2/modules/housing.ts, the counted rent pool), so an ordinary played year never reaches it.",
       "fix": "Give counted households arrears of their own so a filled-in household can carry them; until then it runs only when the player meets such a household."
+    },
+    "jobs.raise-for-opening": {
+      "class": "no study number",
+      "why": "How much an owner adds to an unfilled seat's pay is a size, not a two-way choice, so scripts/traits/trait-calibrate.ts cannot fit it, and no study gives a size; the general weight of 1 stands (src/core2/data/parameters.json, traitWeightJobsRaiseForOpening).",
+      "fix": "Set when a study gives how far an employer's agreeableness moves a wage offer."
     }
   }
 }
