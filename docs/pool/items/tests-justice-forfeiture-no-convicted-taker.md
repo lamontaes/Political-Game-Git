@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/sleepy-carson-f8omzd
+pr: #5847
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T10:31:17.500Z
 ---
 
 **What.** The forfeiture test forces large bribes from a town's richest residents to its serving officials, plays 240 days and looks, over up to six drawn worlds, for a convicted taker whose sentence carries the bribe money. With the take side calibrated to honesty (the honest-pull fix in the traits integrity family), fewer officials take the forced bribes, and one of four runs found no convicted taker (Terral, Oklahoma: 31 bribes taken, 11 sentences, none of a taker). The test should reach a convicted taker by the engines' own chain every run: let the forced offers reach the officials most likely to take, or follow a taken bribe's report and prosecution to its sentence, rather than hoping six worlds hold one.

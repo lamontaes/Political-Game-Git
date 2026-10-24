@@ -87,26 +87,6 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "us-policy-positions:government-operations.ban-lobbying-after-office",
-      "outcome": "lobbying spending and policy capture",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "public-pay-floor",
-      "outcome": "public-sector vacancies and turnover",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "budget-line:administration",
-      "outcome": "government service quality",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "us-policy-positions:government-operations.broaden-local-authority",
-      "outcome": "local ordinances passed and local spending",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
       "outcome": "park access and exercise",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
