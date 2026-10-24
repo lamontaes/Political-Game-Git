@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/staff-hire-counted-relocation
 pr: #5929
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T15:55:24.635Z
 ---
 
 **What.** In a played world with no law changed, an official's staff review hires a counted resident and the fill-in throws: staffReview calls hireStaff, which calls fillInPerson, and state.ts:1542 throws 'Invalid relocation: one living household, no job held'. The taxes helper reproduced it in Audubon Park, Kentucky (drawPlace 'law-wiring-taxes:0', seed taxes-oct24-fixed) on 2026-01-15. A throw in the daily loop stops the year for anyone playing that town, so it blocks play, not only the test.
