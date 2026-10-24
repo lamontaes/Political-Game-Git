@@ -46,7 +46,6 @@ import {
 } from "../jobs-web";
 import { residentFacts, residentsRuntime } from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
-import { webFactorFor } from "../outcome-web-reach";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
@@ -1494,7 +1493,6 @@ function reviewWorkers(api: CoreAPI): void {
               baseline: p("jobsRetireBaseline"),
               ...(stay ? { web: -stay } : {}),
               age: p("jobsRetireAgeWeight") * pastRetirementAge,
-              web: retireWebTerm(api, person, age),
               savings:
                 p("jobsMoneyBufferWeight") *
                 Math.log1p(Math.max(0, bufferMonths)),
@@ -2175,27 +2173,6 @@ export function strongestPulls<T extends { id: string; score: number }>(
     .slice(0, count);
 }
 
-/**
- * What the outcome web's retirement-age link adds to a worker's pull toward
- * retiring: a law that raises the retirement age raises older workers'
- * employment, so the score falls by the weight times the log of the web's
- * factor for the worker's age and sex. Zero where no law moves it.
- */
-export function retireWebTerm(
-  api: CoreAPI,
-  person: { placeId: string; looks?: { gender?: string } },
-  age: number,
-): number {
-  const gender = person.looks?.gender;
-  const factor = webFactorFor(api, person.placeId, "labor.older-employment", {
-    age,
-    ...(gender === "female" || gender === "male" ? { sex: gender } : {}),
-  });
-  return factor === 1
-    ? 0
-    : -api.parameter("jobsRetireWebWeight") * Math.log(factor);
-}
-
 const onsetToday = new WeakMap<object, { date: string; years: number }>();
 
 /**
@@ -2240,7 +2217,6 @@ function reviewCountedRetirements(api: CoreAPI): void {
           -countedShift(api, job.personId, person.placeId, p) +
           p("jobsRetireBaseline") +
           p("jobsRetireAgeWeight") * past +
-          retireWebTerm(api, person, age) +
           p("traitWeight") *
             traitLeanBetween(
               c,

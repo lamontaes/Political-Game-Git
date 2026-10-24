@@ -5508,11 +5508,11 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "The size of the web's participation effects on who is at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size.",
+    "whatItFakes": "The size of the web's participation effects on mothers and married women at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size. The older workers' term has its own fitted weight (jobsOlderWorkWebWeight).",
     "why": "Measured in a played town: an older-work effect of +0.3 (a 30% change in the researched outcome) moved the share of 62 to 67 year olds at work from 0.656 to 0.677, about 3%, because the choice scores are logistic and the entry and exit pulls are small.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women, ages 62 to 67).",
+    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women), as jobsOlderWorkWebWeight is for ages 62 to 66.",
     "status": "open"
   },
   {

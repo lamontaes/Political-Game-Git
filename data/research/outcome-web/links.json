@@ -3727,8 +3727,7 @@
       "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "to": "labor.older-employment",
       "range": [0.04, 0.22],
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers.",
-      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working",
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers. The jobs engine reads this link's factor in participationShift (src/core2/jobs-web.ts), on the retire, leave and enter choices of people from 62 to 66, weighted by jobsOlderWorkWebWeight.",
       "varies": [
         {
           "by": "sex",
