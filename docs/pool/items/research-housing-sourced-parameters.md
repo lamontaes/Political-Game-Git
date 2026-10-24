@@ -5,12 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/dreamy-tesla-bgi3ui-housing
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data"
-claimed-at: 2026-10-23T20:24:07.373Z
+claimed-at:
 ---
 
 **What.** Source the numbers behind housing prices, eviction, foreclosure, shelters and mortgages. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 5 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -35,3 +35,5 @@ Figures found Oct 20 for SG-WORLD-housing-island-areas (claude/political-game-po
 Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-housing-sourced-parameters.md (7 rows: 1 sourced, 5 estimated, 1 mechanic).
 
 Oct 20: the island-areas row moved to its own item, world-housing-island-areas-sourced.
+
+Oct 24, 2026: split. PR 5873 (item research-housing-eviction-in-force-pr-index) delivers 46 eviction steps in 21 places read from statute text in force on January 20, 2025, Puerto Rico's FHFA price index, Minnesota and Texas foreclosure rows, and research files for shelter beds and mortgage shares. Still open here: 25 places' eviction steps (14 code sites the cloud could not reach), the later laws waiting on world-housing-eviction-law-dated-phases, 55 places' foreclosure statutes, and three reads not confirmed in force (Massachusetts, the Northern Marianas and Wyoming). Also open: prices for the four island areas, territory shelter counts (none found), and two mechanics, world-housing-shelter-beds-by-place and world-housing-mortgages-county-shares.
