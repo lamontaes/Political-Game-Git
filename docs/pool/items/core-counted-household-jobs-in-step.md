@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: done
 claimed-by: claude/counted-household-jobs-in-step
-pr: #5933
+pr: #5609
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T08:18:33.607Z
