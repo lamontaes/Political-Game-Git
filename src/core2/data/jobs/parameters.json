@@ -98,6 +98,17 @@
       "citation": "A seeker without work wants work."
     }
   },
+  "jobsSearchFatigueWeeks": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "Weeks of looking after which a jobless seeker's push to apply is half its starting size. Krueger and Mueller 2011 (Brookings Papers on Economic Activity, a weekly survey of 6,025 unemployed workers) report that the time devoted to job search declines sharply over the spell of unemployment (from the abstract; their earlier time-use paper finds it flat for workers ineligible for benefits, so the size is not sourced). Set near the CPS median spell of about nine weeks.",
+    "spread": {
+      "low": 4,
+      "high": 26,
+      "unit": "weeks",
+      "citation": "From a month, when search effort is still near its start, to the CPS long-term cutoff of 26 weeks."
+    }
+  },
   "jobsAcceptBaseline": {
     "value": 0.5,
     "tag": "TUNABLE",

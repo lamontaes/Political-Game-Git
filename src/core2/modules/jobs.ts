@@ -445,6 +445,28 @@ function noteCountedLeavers(api: CoreAPI): void {
   }
 }
 
+/**
+ * A seeker's push to apply: a jobless seeker needs work, and the push fades
+ * as the search drags on (a long search wears down the effort a seeker puts
+ * in: Krueger and Mueller 2011 report search time falling sharply through
+ * the spell). It is half its starting size after `jobsSearchFatigueWeeks`; a
+ * worker looking while employed has none. The one reason full and counted
+ * seekers weigh, so a seeker's own search length, not a flat constant, sets
+ * where personality can tip the choice.
+ */
+export function applyNeed(
+  p: (key: string) => number,
+  seeker: Pick<SeekerRow, "employed" | "since">,
+  today: string,
+): number {
+  if (seeker.employed) return p("zero");
+  const weeks = daysBetweenText(seeker.since, today) / p("daysPerWeek");
+  return (
+    p("jobsUnemployedNeedWeight") /
+    (p("one") + weeks / p("jobsSearchFatigueWeeks"))
+  );
+}
+
 function startSeeking(
   api: CoreAPI,
   personId: string,
@@ -1756,6 +1778,7 @@ function runWeek(api: CoreAPI): void {
     )
       continue;
     const reference = seeker.referenceHourlyMinor;
+    const needWork = applyNeed(p, seeker, c.date);
     const scored = scoreOffers(c, person.id, [
       offer("wait", seeker.id, {}),
       ...nearby.map((position) =>
@@ -1763,7 +1786,7 @@ function runWeek(api: CoreAPI): void {
           pay:
             p("jobsApplyPayWeight") *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
-          needWork: seeker.employed ? 0 : p("jobsUnemployedNeedWeight"),
+          needWork,
         }),
       ),
     ]);
@@ -1805,6 +1828,7 @@ function runWeek(api: CoreAPI): void {
       traits: traitsOf(api, seeker.personId),
     };
     const reference = seeker.referenceHourlyMinor;
+    const needWork = applyNeed(p, seeker, c.date);
     for (const position of byPlace.get(seeker.placeId) ?? [])
       if (
         leanedByKinds(
@@ -1816,7 +1840,7 @@ function runWeek(api: CoreAPI): void {
           p("jobsRateWeight") *
             (p("jobsApplyPayWeight") *
               (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
-              (seeker.employed ? 0 : p("jobsUnemployedNeedWeight"))),
+              needWork),
         )
       )
         apply(position.id, seeker);
