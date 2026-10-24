@@ -1,0 +1,112 @@
+{
+ "seed": "a037862e83d7bbf9",
+ "place": {
+  "seed": "b4e34e8adc6bec172cc23ef63f9a43e0d6811b639ac11f53bc3ad06dc24ec54e",
+  "key": "3426010",
+  "name": "Germania, New Jersey",
+  "state": "US-NJ"
+ },
+ "window": 35,
+ "after": 10,
+ "results": [
+  {
+   "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3426010:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3426010:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+    "law:place:3426010:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-02-26:law-wiring-fbc8b216-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 2,
+    "governments": 0,
+    "other": 0,
+    "open": 2,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e7e00b6f2a449123",
+     "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e7e00a6f2a448f70"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/world-legislating.ts:253": 70,
+    "src/core2/modules/outcome-web.ts:158": 24,
+    "src/core2/modules/world-legislating.ts:183": 22,
+    "src/core2/life.ts:549": 6,
+    "src/core2/modules/business.ts:1341": 4,
+    "src/core2/modules/legislature.ts:2081": 2,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/business.ts:922": 2
+   },
+   "openingRow": "law:US-NJ:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "emission-rules-to-particulates",
+      "status": "built",
+      "to": "env.particulates"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 97,
+    "sample": [
+     "person_c9df898f4f3186e6:printed:outlet:newspaper:0:jurisdiction_13ee211b4d10cf51:law-took-effect:law:place:3426010:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+     "person_a88cdeacc4cf49b9:printed:outlet:newspaper:0:jurisdiction_13ee211b4d10cf51:law-took-effect:law:place:3426010:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+     "person_1bccf4eceb92bdfa:printed:outlet:newspaper:2:jurisdiction_13ee211b4d10cf51:law-took-effect:law:place:3426010:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 26
+  }
+ ]
+}

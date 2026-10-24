@@ -54,6 +54,14 @@ declare const data: {
       value: number;
       note: string;
     };
+    "budget.parks-added-pct": {
+      value: number;
+      note: string;
+    };
+    "budget.highways-added-pct": {
+      value: number;
+      note: string;
+    };
   };
   links: Array<{
     key: string;

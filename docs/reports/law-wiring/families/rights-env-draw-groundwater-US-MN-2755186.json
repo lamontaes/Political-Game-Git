@@ -1,0 +1,153 @@
+{
+ "seed": "e9eb268bae7fd1b7",
+ "place": {
+  "seed": "6c436c09a5cdafb05b1fefb46af176787eac0d5bd88fe21df51da71244a25c90",
+  "key": "2755186",
+  "name": "Rogers, Minnesota",
+  "state": "US-MN"
+ },
+ "window": 35,
+ "after": 10,
+ "results": [
+  {
+   "key": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+   "kind": "question",
+   "family": "agriculture",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+   "lawIds": [
+    "law:US-MN:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+    "law:US-MN:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+    "law:US-MN:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-02-26:law-wiring-70bb716f-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_ce731ab3b55bc28b"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 497,
+    "src/core2/modules/outcome-web.ts:158": 72,
+    "src/core2/modules/world-legislating.ts:253": 50,
+    "src/core2/modules/world-legislating.ts:183": 26,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/business.ts:1153": 2
+   },
+   "openingRow": "law:US-MN:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+      "treatment": 3478000152,
+      "control": 3477826984,
+      "ids": [
+       "journal:2025-01-21:1651",
+       "journal:2025-01-21:1652",
+       "journal:2025-01-21:1653"
+      ]
+     },
+     {
+      "kind": "interest-group-dues @ src/core2/modules/interest-groups.ts:433",
+      "treatment": 150000,
+      "control": 100000,
+      "ids": [
+       "journal:2025-02-05:11707",
+       "journal:2025-02-05:11708",
+       "journal:2025-02-12:14878"
+      ]
+     }
+    ],
+    "diffKinds": 2,
+    "cited": [
+     {
+      "token": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+      "gross": 50000,
+      "ids": [
+       "journal:2025-02-12:14878"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "groundwater-limits-to-irrigation-pumping",
+      "status": "built",
+      "to": "water.irrigation-groundwater"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_0d4059f9dad34113:2025-01",
+      "link": "groundwater-limits-to-irrigation-pumping",
+      "effect": 0.31
+     },
+     {
+      "id": "web:jurisdiction_0d4059f9dad34113:2025-02",
+      "link": "groundwater-limits-to-irrigation-pumping",
+      "effect": 0.31
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 185,
+    "sample": [
+     "person_af2a80c10847cbeb:printed:outlet:cable:0:national:law-took-effect:law:US-MN:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+     "person_b17c10985cda4531:printed:outlet:cable:0:national:law-took-effect:law:US-MN:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+     "person_ddb7d999ca2a1d1b:printed:outlet:cable:0:national:law-took-effect:law:US-MN:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_ce731ab3b55bc28b"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 78
+  }
+ ]
+}

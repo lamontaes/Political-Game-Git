@@ -1,0 +1,106 @@
+{
+ "seed": "fef58596ff8d9c31",
+ "place": {
+  "seed": "3ab2700c436b7fe0ffb0e9ffd9472dcc9e18c50270926aa3d7754fc67756eec8",
+  "key": "2267215",
+  "name": "St. Francisville, Louisiana",
+  "state": "US-LA"
+ },
+ "window": 35,
+ "after": 10,
+ "results": [
+  {
+   "key": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
+   "kind": "question",
+   "family": "agriculture",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2267215:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:2267215:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+    "law:place:2267215:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-02-26:law-wiring-70bb716f-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/modules/outcome-web.ts:158": 18,
+    "src/core2/modules/world-legislating.ts:183": 12,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/business.ts:1153": 2
+   },
+   "openingRow": "law:US-LA:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [],
+    "diffKinds": 0,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "groundwater-limits-to-irrigation-pumping",
+      "status": "built",
+      "to": "water.irrigation-groundwater"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 115,
+    "sample": [
+     "person_fe510af896349988:printed:outlet:television:0:jurisdiction_9b4ccc419b82772c:law-took-effect:law:place:2267215:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+     "person_007f339a0df2b528:printed:outlet:television:0:jurisdiction_9b4ccc419b82772c:law-took-effect:law:place:2267215:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f",
+     "person_c2c290214ae88955:printed:outlet:television:0:jurisdiction_9b4ccc419b82772c:law-took-effect:law:place:2267215:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 25
+  }
+ ]
+}
