@@ -13,6 +13,7 @@
  * back from outside the town when it falls. Businesses pay a dearer energy
  * price on their own energy costs the same way.
  */
+import { townOutsideOf } from "../opening-outside-market";
 import goods from "../data/prices/goods.json" with { type: "json" };
 import pricesParameters from "../data/prices/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -381,9 +382,7 @@ function scaleFor(api: CoreAPI, monthlyPayMinor: number, good: Good): number {
 }
 
 function outsideOf(c: CoreState, placeId: string): string | undefined {
-  return [...c.organizations.values()].find(
-    (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-  )?.id;
+  return townOutsideOf(c.organizations.values(), placeId)?.id;
 }
 
 interface Seller {

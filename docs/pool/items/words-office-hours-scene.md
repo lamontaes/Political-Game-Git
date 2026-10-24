@@ -5,9 +5,9 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5955
 blocked-on:
 after: words-desk-bill-scene
 source: added with npm run pool -- add

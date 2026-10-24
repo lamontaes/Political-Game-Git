@@ -204,6 +204,8 @@ export function recallBarsFor(
 ): { openingDays: number; closingDays: number } | null {
   const row = (recallBarData.states as Record<string, RecallBarRow>)[stateUsps];
   if (!row) return null;
+  // stopgapId: SG-GOV-recall-bars-calendar-months (a bar the statute counts in calendar months is stored as a fixed number of days, though six calendar months run 181 to 184 days and two run 59 to 62)
+  // stopgapId: SG-GOV-recall-bars-term-fraction (every term over longTermAboveYears takes one long-term value, though a bar that is a fraction of the term scales with the term: one-fourth of a three-year term is 91 days less than the value taken)
   const long =
     termYears !== undefined &&
     row.longTermAboveYears !== undefined &&

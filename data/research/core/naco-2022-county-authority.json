@@ -1,0 +1,537 @@
+{
+  "id": "naco-2022-county-authority",
+  "publisher": "National Association of Counties (NACo Research)",
+  "vintage": "2022",
+  "table": "County Authority: authority level, home rule option and Dillon's Rule flexibilities by state (Counties 101, Module 2 charts)",
+  "title": "County structure, authority and finances: county authority state profiles",
+  "universe": "County governments in the 48 states that have them",
+  "geography": "All 56 places, keyed by postal code; CT and RI have no county government; DC and the five territories have no county tier",
+  "sourceUrl": "https://e.infogram.com/0fd96873-f1cb-4b09-bfa3-610247b3fed4?src=embed",
+  "pageUrl": "https://www.naco.org/page/county-structure-authority-and-finances",
+  "retrievedOn": "2026-10-23",
+  "limits": "A state's overall rating on NACo's six-point scale from 1 (most restrictive, Dillon's Rule) to 6 (most flexible, home rule); it describes the state's counties as a whole, not each county or each subject. Mixed states (levels 2 and 5) hold both home rule and Dillon's Rule counties; which county is which is in each state's profile PDF, not read here. The chart's own note reads \"Source: NACo Research, 2022\".",
+  "pageQuotes": [
+    "Currently, in 14 states, all counties operate under the more restrictive Dillon's Rule",
+    "13 states grant all counties Home Rule authority.",
+    "The remaining 21 states with county governments have a mix of Home Rule and Dillon's Rule counties."
+  ],
+  "readBy": "scripts/research/check-core-research.ts (checks coverage and scale); the builder item core-policy-authority-limited-cell-predicates reads it into the county cells' conditions.",
+  "places": {
+    "AL": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - Only Larger Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_01000.pdf",
+      "quote": "Most Alabama counties are governed by general law authority, and therefore have only the powers and structures provided to them by the state legislature."
+    },
+    "AK": {
+      "tag": "SOURCED",
+      "authorityLevel": 5,
+      "authorityLabel": "Mixed/Flexible (Optional Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_02000.pdf",
+      "quote": "Boroughs in Alaska may adopt a home rule charter, with the approval of voters, which allows the boroughs’ government broad legislative powers not prohibited by state law."
+    },
+    "AZ": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - Only Larger Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "Y: Other",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_04000.pdf",
+      "quote": "All Arizona counties are governed under Dillon’s Rule, and are limited to the authorities the state legislature explicitly grants."
+    },
+    "AR": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_05000.pdf",
+      "quote": "Counties in the state of Arkansas are authorized to determine their own government structure."
+    },
+    "CA": {
+      "tag": "SOURCED",
+      "authorityLevel": 4,
+      "authorityLabel": "Somewhat Flexible (Restrictive Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Services; Finances",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_06000.pdf"
+    },
+    "CO": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Services",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_08000.pdf",
+      "quote": "Most Colorado counties are governed by Dillon’s Rule authority and are limited to the authorities the state legislature explicitly grants."
+    },
+    "CT": {
+      "tag": "SOURCED",
+      "countyGovernment": false,
+      "note": "No county government: NACo's profiles cover the 48 states with county governments (14 all Dillon's Rule, 13 all home rule, 21 mixed), and this place is not among them."
+    },
+    "DE": {
+      "tag": "SOURCED",
+      "authorityLevel": 1,
+      "authorityLabel": "Most Restrictive (Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_10000.pdf",
+      "quote": "Delaware counties do not have charters, home rule authority or power to alter their government structure."
+    },
+    "DC": {
+      "tag": "ESTIMATED",
+      "countyGovernment": false,
+      "note": "No county government in NACo's 48 states; the authority reader reads this place's own column (dc or territory), never a county cell, so no county level applies."
+    },
+    "FL": {
+      "tag": "SOURCED",
+      "authorityLevel": 5,
+      "authorityLabel": "Mixed/Flexible (Optional Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_12000.pdf",
+      "quote": "Counties in Florida may submit to its voters the option of adopting a home rule charter."
+    },
+    "GA": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_13000.pdf",
+      "quote": "Georgia counties are granted home rule powers through the Georgia Constitution."
+    },
+    "HI": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Finances",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_15000.pdf",
+      "quote": "The four counties within the state of Hawaii all operate under home rule, an option granted in the state’s constitution for all political subdivisions."
+    },
+    "ID": {
+      "tag": "SOURCED",
+      "authorityLevel": 3,
+      "authorityLabel": "Somewhat Restrictive (Flexible Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "Y: Structure",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_16000.pdf",
+      "quote": "All counties in Idaho are governed under Dillon’s Rule."
+    },
+    "IL": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - Only Larger Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_17000.pdf",
+      "quote": "Illinois counties are under Dillon’s Rule, with only the powers expressly granted to them by the state, whether they have a county executive or not."
+    },
+    "IN": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_18000.pdf",
+      "quote": "Counties in Indiana have home rule power and the authority to determine their local affairs and government structure so long as it is consistent with state law."
+    },
+    "IA": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "Y: Finances",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_19000.pdf",
+      "quote": "Counties or joint county-municipal corporation governments in Iowa have home rule power and authority to determine their local affairs and government so long as it is consistent with state law."
+    },
+    "KS": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_20000.pdf"
+    },
+    "KY": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - Only Larger Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "Y: Services; Finances",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_21000.pdf",
+      "quote": "Most counties in Kentucky are governed under general law and therefore only have powers specifically granted by the state legislature."
+    },
+    "LA": {
+      "tag": "SOURCED",
+      "authorityLevel": 5,
+      "authorityLabel": "Mixed/Flexible (Optional Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_22000.pdf",
+      "quote": "Twenty-six (26) of the 64 parishes in Louisiana operate under a home rule charter which grants them the authority to determine their local affairs, organization, powers, functions and structure so long as they are consistent with state law."
+    },
+    "ME": {
+      "tag": "SOURCED",
+      "authorityLevel": 4,
+      "authorityLabel": "Somewhat Flexible (Restrictive Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Services; Finances",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_23000.pdf",
+      "quote": "All counties in Maine have adopted a home rule charter which empowers them to determine their structure of government, officers, departments and more."
+    },
+    "MD": {
+      "tag": "SOURCED",
+      "authorityLevel": 5,
+      "authorityLabel": "Mixed/Flexible (Optional Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "Y: Structure",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_24000.pdf",
+      "quote": "Counties in Maryland may operate under a traditional commissioner form of government, a code home rule form or a home rule charter."
+    },
+    "MA": {
+      "tag": "SOURCED",
+      "authorityLevel": 5,
+      "authorityLabel": "Mixed/Flexible (Optional Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Services; Finances",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_25000.pdf",
+      "quote": "Massachusetts has four Dillon’s rule counties, one Dillon’s rule city-county consolidated government, one home rule county and one home rule city-county consolidated government."
+    },
+    "MI": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_26000.pdf",
+      "quote": "Counties in Michigan may have one of four structures – general law, unified with a county manager, unified with an elected executive and a charter government."
+    },
+    "MN": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - Only Larger Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_27000.pdf",
+      "quote": "All county governments, except for Ramsey County, are under general law and therefore only have the powers and structures prescribed to them by Minnesota state law."
+    },
+    "MS": {
+      "tag": "SOURCED",
+      "authorityLevel": 4,
+      "authorityLabel": "Somewhat Flexible (Restrictive Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "Y: Structure; Finances",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_28000.pdf",
+      "quote": "The Mississippi state legislature adopted a home rule provision in 1989, delegating greater authority to counties in determining local affairs, property and finances if it is not expressly forbidden by state law."
+    },
+    "MO": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - Only Larger Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "Y: Structure; Services; Finances",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_29000.pdf",
+      "quote": "Most counties in Missouri are subject to general law and therefore are only allowed the powers, structure and authority granted by the state legislature."
+    },
+    "MT": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "Y: Structure",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_30000.pdf",
+      "quote": "Counties in Montana may opt for either a charter or non-charter form of government."
+    },
+    "NE": {
+      "tag": "SOURCED",
+      "authorityLevel": 1,
+      "authorityLabel": "Most Restrictive (Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_31000.pdf"
+    },
+    "NV": {
+      "tag": "SOURCED",
+      "authorityLevel": 4,
+      "authorityLabel": "Somewhat Flexible (Restrictive Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "Y: Structure; Finances",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_32000.pdf",
+      "quote": "All counties in Nevada have been granted limited administrative “Home Rule.” Counties have a limited authority to pass ordinances and provide services and functions to address local matters that are not otherwise governed or addressed by state legislation."
+    },
+    "NH": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_33000.pdf",
+      "quote": "All counties within New Hampshire are governed under Dillon’s Rule and therefore have only the authority that is explicitly extended by state law."
+    },
+    "NJ": {
+      "tag": "SOURCED",
+      "authorityLevel": 3,
+      "authorityLabel": "Somewhat Restrictive (Flexible Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Finances",
+      "dillonsRuleFlexibilities": "Y: Structure; Services",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_34000.pdf",
+      "quote": "Despite home rule not being granted by name, the New Jersey constitution establishes that constitutional and statutory provisions for county governance are construed liberally in the favor of counties."
+    },
+    "NM": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "Y: Services",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_35000.pdf",
+      "quote": "Counties in New Mexico are governed under general law."
+    },
+    "NY": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "Y: Finances",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_36000.pdf"
+    },
+    "NC": {
+      "tag": "SOURCED",
+      "authorityLevel": 3,
+      "authorityLabel": "Somewhat Restrictive (Flexible Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "Y: Structure; Services",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_37000.pdf",
+      "quote": "In general, counties or joint city-county governments in North Carolina are not granted home rule power and may only exercise the powers that have been explicitly granted by the state."
+    },
+    "ND": {
+      "tag": "SOURCED",
+      "authorityLevel": 5,
+      "authorityLabel": "Mixed/Flexible (Optional Home Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Finances",
+      "dillonsRuleFlexibilities": "Y: Structure",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_38000.pdf",
+      "quote": "In North Dakota, 12 counties have adopted a home rule charter and 41 are governed under Dillon’s Rule."
+    },
+    "OH": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Services; Finances",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_39000.pdf",
+      "quote": "Almost all counties in Ohio are governed under Dillon’s rule and therefore have only the authority that is explicitly extended to them by state law."
+    },
+    "OK": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_40000.pdf",
+      "quote": "All counties within Oklahoma are governed under general law and therefore have only the authority that is explicitly extended to them by the state."
+    },
+    "OR": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_41000.pdf",
+      "quote": "All 36 Oregon counties have home rule power, meaning counties may take any action consistent with federal or state law."
+    },
+    "PA": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "Y: Finances",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_42000.pdf",
+      "quote": "Most Pennsylvania counties are governed under Dillon’s Rule and therefore only have powers authorized by the state legislature, but the state also allows counties to adopt home rule charters."
+    },
+    "RI": {
+      "tag": "SOURCED",
+      "countyGovernment": false,
+      "note": "No county government: NACo's profiles cover the 48 states with county governments (14 all Dillon's Rule, 13 all home rule, 21 mixed), and this place is not among them."
+    },
+    "SC": {
+      "tag": "SOURCED",
+      "authorityLevel": 6,
+      "authorityLabel": "Most Flexible (Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "Y: Finances",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_45000.pdf",
+      "quote": "Counties in South Carolina were granted constitutional home rule in 1975."
+    },
+    "SD": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_46000.pdf",
+      "quote": "Most counties in South Dakota are governed under general law and therefore only have powers explicitly granted by the state legislature."
+    },
+    "TN": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "Y: Services; Finances",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_47000.pdf",
+      "quote": "Most counties in Tennessee are governed under general law, but counties are also permitted to adopt a home rule charter through a vote by qualified electors."
+    },
+    "TX": {
+      "tag": "SOURCED",
+      "authorityLevel": 1,
+      "authorityLabel": "Most Restrictive (Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_48000.pdf",
+      "quote": "Texas counties are all governed by Dillon’s rule and therefore may only exercise the powers and authorities that have been explicitly granted by the state legislature and those reasonably implied therefrom."
+    },
+    "UT": {
+      "tag": "SOURCED",
+      "authorityLevel": 3,
+      "authorityLabel": "Somewhat Restrictive (Flexible Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "Y: Structure; Services; Finances",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_49000.pdf",
+      "quote": "Utah counties are unique in that they are governed under Hutchinson’s Rule, named after a seminal 1980 case, State v."
+    },
+    "VT": {
+      "tag": "SOURCED",
+      "authorityLevel": 1,
+      "authorityLabel": "Most Restrictive (Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_50000.pdf",
+      "quote": "Vermont counties are governed under Dillon’s Rule and therefore are only afforded the authorities that are explicitly provided by state legislature."
+    },
+    "VA": {
+      "tag": "SOURCED",
+      "authorityLevel": 1,
+      "authorityLabel": "Most Restrictive (Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_51000.pdf",
+      "quote": "Counties in Virginia are governed by Dillon’s rule."
+    },
+    "WA": {
+      "tag": "SOURCED",
+      "authorityLevel": 2,
+      "authorityLabel": "Mixed/Restrictive (Mostly Dillon's Rule)",
+      "homeRuleOption": "Y - All Counties",
+      "homeRuleRestrictions": "N",
+      "dillonsRuleFlexibilities": "Y: Structure; Finances",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_53000.pdf",
+      "quote": "Washington counties may create a home rule charter subject to state laws."
+    },
+    "WV": {
+      "tag": "SOURCED",
+      "authorityLevel": 1,
+      "authorityLabel": "Most Restrictive (Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "Y: Structure; Services",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_54000.pdf",
+      "quote": "All counties in West Virginia are governed under Dillon’s Rule and therefore have only the authority and government structure explicitly provided by state legislature."
+    },
+    "WI": {
+      "tag": "SOURCED",
+      "authorityLevel": 4,
+      "authorityLabel": "Somewhat Flexible (Restrictive Home Rule)",
+      "homeRuleOption": "N/A - All Counties Already Under Home Rule",
+      "homeRuleRestrictions": "Y: Services; Finances",
+      "dillonsRuleFlexibilities": "N/A - All Counties Under Home Rule",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_55000.pdf",
+      "quote": "Wisconsin counties have administrative home rule and therefore have the authority to exercise both organizational and administrative power."
+    },
+    "WY": {
+      "tag": "SOURCED",
+      "authorityLevel": 1,
+      "authorityLabel": "Most Restrictive (Dillon's Rule)",
+      "homeRuleOption": "N - Dillon's Rule Only",
+      "homeRuleRestrictions": "N/A - All Counties Under Dillon's Rule",
+      "dillonsRuleFlexibilities": "N",
+      "profileUrl": "https://ce.naco.org/app/profiles/CountyGov/CountyGov_56000.pdf",
+      "quote": "Counties are authorized only with the power expressly granted by state law."
+    },
+    "PR": {
+      "tag": "ESTIMATED",
+      "countyGovernment": false,
+      "note": "No county government in NACo's 48 states; the authority reader reads this place's own column (dc or territory), never a county cell, so no county level applies."
+    },
+    "GU": {
+      "tag": "ESTIMATED",
+      "countyGovernment": false,
+      "note": "No county government in NACo's 48 states; the authority reader reads this place's own column (dc or territory), never a county cell, so no county level applies."
+    },
+    "VI": {
+      "tag": "ESTIMATED",
+      "countyGovernment": false,
+      "note": "No county government in NACo's 48 states; the authority reader reads this place's own column (dc or territory), never a county cell, so no county level applies."
+    },
+    "AS": {
+      "tag": "ESTIMATED",
+      "countyGovernment": false,
+      "note": "No county government in NACo's 48 states; the authority reader reads this place's own column (dc or territory), never a county cell, so no county level applies."
+    },
+    "MP": {
+      "tag": "ESTIMATED",
+      "countyGovernment": false,
+      "note": "No county government in NACo's 48 states; the authority reader reads this place's own column (dc or territory), never a county cell, so no county level applies."
+    }
+  }
+}
