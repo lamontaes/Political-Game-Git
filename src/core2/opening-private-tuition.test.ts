@@ -1,8 +1,15 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
+import { setBookkeeping } from "./bookkeeping";
+import { residentsRuntime } from "./modules/residents";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { parameter as p } from "./parameters";
+import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
+import homeschool from "../../data/research/people/census-household-pulse-homeschool-share-2023.json" with { type: "json" };
+import { privateShareOf } from "./opening-private-tuition";
 import { generatedOpening } from "./tooling/generated-world";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -27,6 +34,19 @@ describe(`private tuition in ${place.name}, ${place.state} (seed ${seed})`, () =
     }
     expect(tuition.length).toBeGreaterThan(0);
     const homes = new Map(input.households.map((row) => [row.id, row]));
+    // The homeschool share is taken out of the state's enrolled children first.
+    const hs =
+      homeschool.states[place.state as keyof typeof homeschool.states].share;
+    expect(hs).toBeGreaterThan(0);
+    expect(
+      privateShareOf(undefined, input.placeMetadata?.placeKey),
+    ).toBeCloseTo(
+      shares.states[place.state as keyof typeof shares.states].share * (1 - hs),
+      10,
+    );
+    console.log(
+      `private share used in ${place.name} (${place.key}, ${place.state}), seed ${seed}: ${privateShareOf(undefined, input.placeMetadata?.placeKey)} (NCES ${shares.states[place.state as keyof typeof shares.states].share} x (1 - homeschool ${hs}))`,
+    );
     const people = new Map(input.people.map((row) => [row.id, row]));
     const perChild =
       (p("openingPrivateTuitionAnnualUsd") * p("minorPerDollar")) /
@@ -83,3 +103,62 @@ describe(`private tuition in ${place.name}, ${place.state} (seed ${seed})`, () =
     }
   }, 300_000);
 });
+
+it(`a drawn played world uses the homeschool factor with a positive tuition contract, seed ${seed}`, () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  try {
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const here = drawPlace(seed, `homeschool-private-positive:${attempt}`);
+      const { core } = buildBenchWorld(here.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: here.key,
+      });
+      // Counted households carry the same tuition in the residents flow store.
+      const tuition = [
+        ...[...core.finance.contracts.values()].filter(
+          (row) => row.kind === "household.customer.private-school",
+        ),
+        ...[...(residentsRuntime(core)?.flows.values() ?? [])].filter(
+          (row) => row.financeKind === "household.customer.private-school",
+        ),
+      ];
+      tried.push(
+        `${here.name} (${here.key}): ${tuition.length} tuition contracts`,
+      );
+      if (!tuition.length) continue;
+      const hs =
+        homeschool.states[here.state as keyof typeof homeschool.states];
+      const nces = shares.states[here.state as keyof typeof shares.states];
+      const used = privateShareOf(undefined, core.placeMetadata?.placeKey);
+      const where = `${here.name} (${here.key}), seed ${here.seed}`;
+      expect(hs.share, where).toBeGreaterThan(0);
+      expect(used, where).toBeCloseTo(nces.share * (1 - hs.share), 10);
+      expect(tuition[0]!.amountMinor, where).toBeGreaterThan(0);
+      expect(JSON.stringify(tuition[0]!.source), where).toContain(String(used));
+      expect(core.organizations.has(tuition[0]!.payeeId), where).toBe(true);
+      process.stdout.write(
+        `HOMESCHOOL_PLAYED ${JSON.stringify({
+          place: here.name,
+          placeKey: here.key,
+          worldSeed: here.seed,
+          drawSeed: seed,
+          nces: nces.share,
+          homeschool: hs.share,
+          used,
+          contract: tuition[0]!.id,
+          payee: tuition[0]!.payeeId,
+          amountMinor: tuition[0]!.amountMinor,
+          contracts: tuition.length,
+        })}\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `No positive tuition case in six drawn worlds: ${tried.join("; ")}; seed ${seed}`,
+    );
+  } finally {
+    setBookkeeping(true);
+  }
+  // Six generated openings, previously measured at 13–46 seconds each.
+}, 360_000);

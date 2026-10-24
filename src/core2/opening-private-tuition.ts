@@ -10,6 +10,7 @@
  */
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import shares from "../../data/research/people/nces-private-enrollment-share-fall-2021.json" with { type: "json" };
+import homeschool from "../../data/research/people/census-household-pulse-homeschool-share-2023.json" with { type: "json" };
 import { corePlaceByJurisdictionId, corePlaceByKey } from "./place-lookup";
 import data from "./data/opening-private-tuition.json" with { type: "json" };
 import { parameter as p } from "./parameters";
@@ -18,9 +19,22 @@ import type { FinanceContractInput } from "./finance-types";
 import type { EntityId } from "./kernel/brands";
 import type { CoreInput, Source } from "./types";
 
+/** A state's share from a research table; the table's median where the state has no row. */
+function shareIn(
+  table: {
+    readonly states: Readonly<Record<string, { share: number }>>;
+    readonly median: number;
+  },
+  state: string,
+): number {
+  return table.states[state]?.share ?? table.median;
+}
+
 /**
- * The private share of students in a place's state (NCES, fall 2021); the
- * median where the state has no row. A town's own households keep their
+ * The private share of enrolled children in a place's state: NCES (fall 2021)
+ * counts private against public students only, so the families who homeschool
+ * (Census Household Pulse, 2023) are taken out of the whole first. The median
+ * stands where the state has no row. A town's own households keep their
  * governing unit's id, which the place lookup may not know, so the world's
  * own place stands in for its state.
  */
@@ -35,10 +49,7 @@ export function privateShareOf(
     (worldPlaceKey
       ? corePlaceByKey(worldPlaceKey)?.stateJurisdictionKey
       : undefined);
-  const row = (shares.states as Readonly<Record<string, { share: number }>>)[
-    state ?? ""
-  ];
-  return row?.share ?? shares.median;
+  return shareIn(shares, state ?? "") * (1 - shareIn(homeschool, state ?? ""));
 }
 
 export function withPrivateTuition(input: CoreInput): CoreInput {
