@@ -1,431 +1,431 @@
 {
- "seed": "5e27b0c4196fd3a8",
- "place": {
-  "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
-  "key": "3149425",
-  "name": "Uehling, Nebraska",
-  "state": "US-NE"
- },
- "window": 300,
- "after": 10,
- "results": [
-  {
-   "key": "unemployment-weekly-maximum",
-   "kind": "amount",
-   "family": "assistance",
-   "inForceAtOpening": false,
-   "change": "unemployment-weekly-maximum 582 -> 640 at state (law:US-NE:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21",
-   "lawIds": [
-    "law:US-NE:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df",
-    "law:US-NE:state:unemployment-weekly-maximum:general:2026-01-01:from-start",
-    "law:US-NE:state:unemployment-weekly-maximum:general:2025-11-18:law-wiring-efd150df-undo"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 1,
-    "countedPeople": 1,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 1,
-    "ended": 0,
-    "sample": [
-     "applied|unemployment-weekly-maximum|counted-claimants:person_23062fa91ecdf07d"
-    ]
-   },
-   "readers": {
-    "src/core2/jobs-benefits.ts:134": 10,
-    "src/core2/life.ts:549": 2
-   },
-   "openingRow": "law:US-NE:state:unemployment-weekly-maximum:general:2026-01-01:from-start",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 249047161,
-      "control": 248704963,
-      "ids": [
-       "journal:2025-01-21:1507",
-       "journal:2025-01-21:1508",
-       "journal:2025-01-21:1509"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 205061661,
-      "control": 205146143,
-      "ids": [
-       "journal:2025-02-01:1844",
-       "journal:2025-02-01:1845",
-       "journal:2025-02-01:1846"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 378442189,
-      "control": 378369008,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
-      "treatment": 151360549885575,
-      "control": 151360549907800,
-      "ids": [
-       "journal:2025-02-01:1649",
-       "journal:2025-02-01:1650",
-       "journal:2025-02-01:1651"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 2575069864,
-      "control": 2575049056,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 421437638,
-      "control": 421418808,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 30151238,
-      "control": 30144202,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
-      "treatment": 3427418256,
-      "control": 3427412986,
-      "ids": [
-       "journal:2025-01-21:1476",
-       "journal:2025-01-21:1477",
-       "journal:2025-01-21:1478"
-      ]
-     },
-     {
-      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
-      "treatment": 374626,
-      "control": 372163,
-      "ids": [
-       "journal:2025-02-24:8220",
-       "journal:2025-02-25:8285",
-       "journal:2025-02-26:8291"
-      ]
-     },
-     {
-      "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
-      "treatment": 295663,
-      "control": 293332,
-      "ids": [
-       "journal:2025-05-01:25952",
-       "journal:2025-05-01:25953",
-       "journal:2025-06-01:33876"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 157371447,
-      "control": 157373535,
-      "ids": [
-       "journal:2025-02-01:3033",
-       "journal:2025-02-01:3034",
-       "journal:2025-02-01:3035"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 164387524,
-      "control": 164388515,
-      "ids": [
-       "journal:2025-02-01:1889",
-       "journal:2025-02-01:1890",
-       "journal:2025-02-01:1891"
-      ]
-     }
-    ],
-    "diffKinds": 27,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 0,
-    "sample": []
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 60
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
   },
-  {
-   "key": "unemployment-insurance",
-   "kind": "amount",
-   "family": "starting law",
-   "inForceAtOpening": false,
-   "change": "unemployment-insurance 1 -> 2 at state (law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21",
-   "lawIds": [
-    "law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403",
-    "law:US-NE:state:unemployment-insurance:general:2026-01-01:from-start",
-    "law:US-NE:state:unemployment-insurance:general:2025-11-18:law-wiring-989c1403-undo"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 2,
-    "countedGroups": 3,
-    "countedPeople": 3,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 5,
-    "ended": 0,
-    "sample": [
-     "applied|unemployment-insurance|counted-claimants:person_23062fa91ecdf07d",
-     "applied|unemployment-insurance|counted-claimants:person_742262bc73a4e587",
-     "applied|unemployment-insurance|person_323072f66e2ae5b8",
-     "applied|unemployment-insurance|person_57205fbf262dbbec"
-    ]
-   },
-   "readers": {
-    "src/core2/jobs-benefits.ts:120": 10,
-    "src/core2/life.ts:549": 2
-   },
-   "openingRow": "law:US-NE:state:unemployment-insurance:general:2026-01-01:from-start",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 249035051,
-      "control": 248704963,
-      "ids": [
-       "journal:2025-01-21:1507",
-       "journal:2025-01-21:1508",
-       "journal:2025-01-21:1509"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 205061661,
-      "control": 205146143,
-      "ids": [
-       "journal:2025-02-01:1844",
-       "journal:2025-02-01:1845",
-       "journal:2025-02-01:1846"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 378442189,
-      "control": 378369008,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
-      "treatment": 151360549885575,
-      "control": 151360549907800,
-      "ids": [
-       "journal:2025-02-01:1649",
-       "journal:2025-02-01:1650",
-       "journal:2025-02-01:1651"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 2575069864,
-      "control": 2575049056,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 30151238,
-      "control": 30144202,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
-      "treatment": 3427418256,
-      "control": 3427412986,
-      "ids": [
-       "journal:2025-01-21:1476",
-       "journal:2025-01-21:1477",
-       "journal:2025-01-21:1478"
-      ]
-     },
-     {
-      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
-      "treatment": 374626,
-      "control": 372163,
-      "ids": [
-       "journal:2025-02-24:8220",
-       "journal:2025-02-25:8285",
-       "journal:2025-02-26:8291"
-      ]
-     },
-     {
-      "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
-      "treatment": 295663,
-      "control": 293332,
-      "ids": [
-       "journal:2025-05-01:25952",
-       "journal:2025-05-01:25953",
-       "journal:2025-06-01:33876"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 157371447,
-      "control": 157373535,
-      "ids": [
-       "journal:2025-02-01:3033",
-       "journal:2025-02-01:3034",
-       "journal:2025-02-01:3035"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 164387524,
-      "control": 164388515,
-      "ids": [
-       "journal:2025-02-01:1889",
-       "journal:2025-02-01:1890",
-       "journal:2025-02-01:1891"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 421417820,
-      "control": 421418808,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     }
-    ],
-    "diffKinds": 27,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 0,
-    "sample": []
-   },
-   "afterUndo": {
-    "fullPeople": 2,
-    "countedGroups": 1,
-    "countedPeople": 1,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 3,
-    "ended": 0,
-    "sample": [
-     "applied|unemployment-insurance|person_57205fbf262dbbec",
-     "applied|unemployment-insurance|counted-claimants:person_ce9adfcbf9472251",
-     "applied|unemployment-insurance|person_1f0aec3215325f79"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 1,
-    "countedGroups": 1,
-    "countedPeople": 1,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 2,
-    "ended": 0,
-    "sample": [
-     "applied|unemployment-insurance|person_57205fbf262dbbec",
-     "applied|unemployment-insurance|counted-claimants:person_ce9adfcbf9472251"
-    ]
-   },
-   "seconds": 54
-  }
- ]
+  "window": 300,
+  "after": 10,
+  "results": [
+    {
+      "key": "unemployment-weekly-maximum",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "unemployment-weekly-maximum 582 -> 640 at state (law:US-NE:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df",
+        "law:US-NE:state:unemployment-weekly-maximum:general:2026-01-01:from-start",
+        "law:US-NE:state:unemployment-weekly-maximum:general:2025-11-18:law-wiring-efd150df-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|unemployment-weekly-maximum|counted-claimants:person_23062fa91ecdf07d"
+        ]
+      },
+      "readers": {
+        "src/core2/jobs-benefits.ts:134": 10,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US-NE:state:unemployment-weekly-maximum:general:2026-01-01:from-start",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 249047161,
+            "control": 248704963,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 205061661,
+            "control": 205146143,
+            "ids": [
+              "journal:2025-02-01:1844",
+              "journal:2025-02-01:1845",
+              "journal:2025-02-01:1846"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 378442189,
+            "control": 378369008,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
+            "treatment": 151360549885575,
+            "control": 151360549907800,
+            "ids": [
+              "journal:2025-02-01:1649",
+              "journal:2025-02-01:1650",
+              "journal:2025-02-01:1651"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 2575069864,
+            "control": 2575049056,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 421437638,
+            "control": 421418808,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 30151238,
+            "control": 30144202,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
+            "treatment": 3427418256,
+            "control": 3427412986,
+            "ids": [
+              "journal:2025-01-21:1476",
+              "journal:2025-01-21:1477",
+              "journal:2025-01-21:1478"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 374626,
+            "control": 372163,
+            "ids": [
+              "journal:2025-02-24:8220",
+              "journal:2025-02-25:8285",
+              "journal:2025-02-26:8291"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
+            "treatment": 295663,
+            "control": 293332,
+            "ids": [
+              "journal:2025-05-01:25952",
+              "journal:2025-05-01:25953",
+              "journal:2025-06-01:33876"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 157371447,
+            "control": 157373535,
+            "ids": [
+              "journal:2025-02-01:3033",
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 164387524,
+            "control": 164388515,
+            "ids": [
+              "journal:2025-02-01:1889",
+              "journal:2025-02-01:1890",
+              "journal:2025-02-01:1891"
+            ]
+          }
+        ],
+        "diffKinds": 27,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 60
+    },
+    {
+      "key": "unemployment-insurance",
+      "kind": "amount",
+      "family": "starting law",
+      "inForceAtOpening": false,
+      "change": "unemployment-insurance 1 -> 2 at state (law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403",
+        "law:US-NE:state:unemployment-insurance:general:2026-01-01:from-start",
+        "law:US-NE:state:unemployment-insurance:general:2025-11-18:law-wiring-989c1403-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 2,
+        "countedGroups": 3,
+        "countedPeople": 3,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 5,
+        "ended": 0,
+        "sample": [
+          "applied|unemployment-insurance|counted-claimants:person_23062fa91ecdf07d",
+          "applied|unemployment-insurance|counted-claimants:person_742262bc73a4e587",
+          "applied|unemployment-insurance|person_323072f66e2ae5b8",
+          "applied|unemployment-insurance|person_57205fbf262dbbec"
+        ]
+      },
+      "readers": {
+        "src/core2/jobs-benefits.ts:120": 10,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US-NE:state:unemployment-insurance:general:2026-01-01:from-start",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 249035051,
+            "control": 248704963,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 205061661,
+            "control": 205146143,
+            "ids": [
+              "journal:2025-02-01:1844",
+              "journal:2025-02-01:1845",
+              "journal:2025-02-01:1846"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 378442189,
+            "control": 378369008,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
+            "treatment": 151360549885575,
+            "control": 151360549907800,
+            "ids": [
+              "journal:2025-02-01:1649",
+              "journal:2025-02-01:1650",
+              "journal:2025-02-01:1651"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 2575069864,
+            "control": 2575049056,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 30151238,
+            "control": 30144202,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
+            "treatment": 3427418256,
+            "control": 3427412986,
+            "ids": [
+              "journal:2025-01-21:1476",
+              "journal:2025-01-21:1477",
+              "journal:2025-01-21:1478"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 374626,
+            "control": 372163,
+            "ids": [
+              "journal:2025-02-24:8220",
+              "journal:2025-02-25:8285",
+              "journal:2025-02-26:8291"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
+            "treatment": 295663,
+            "control": 293332,
+            "ids": [
+              "journal:2025-05-01:25952",
+              "journal:2025-05-01:25953",
+              "journal:2025-06-01:33876"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 157371447,
+            "control": 157373535,
+            "ids": [
+              "journal:2025-02-01:3033",
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 164387524,
+            "control": 164388515,
+            "ids": [
+              "journal:2025-02-01:1889",
+              "journal:2025-02-01:1890",
+              "journal:2025-02-01:1891"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 421417820,
+            "control": 421418808,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          }
+        ],
+        "diffKinds": 27,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 2,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|unemployment-insurance|person_57205fbf262dbbec",
+          "applied|unemployment-insurance|counted-claimants:person_ce9adfcbf9472251",
+          "applied|unemployment-insurance|person_1f0aec3215325f79"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 1,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|unemployment-insurance|person_57205fbf262dbbec",
+          "applied|unemployment-insurance|counted-claimants:person_ce9adfcbf9472251"
+        ]
+      },
+      "seconds": 54
+    }
+  ]
 }

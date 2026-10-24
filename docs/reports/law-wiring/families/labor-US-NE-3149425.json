@@ -1,1989 +1,1983 @@
 {
- "seed": "5e27b0c4196fd3a8",
- "place": {
-  "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
-  "key": "3149425",
-  "name": "Uehling, Nebraska",
-  "state": "US-NE"
- },
- "window": 35,
- "after": 10,
- "results": [
-  {
-   "key": "medicare-tax",
-   "kind": "amount",
-   "family": "healthcare",
-   "inForceAtOpening": false,
-   "change": "medicare-tax 1.45 -> 1.6 at federal (law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411) effective 2025-01-21",
-   "lawIds": [
-    "law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
-    "law:US:federal:medicare-tax:general:2013-01-01",
-    "law:US:federal:medicare-tax:general:2025-02-26:law-wiring-a89e7411-undo"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 1530,
-    "countedGroups": 55,
-    "countedPeople": 82.18581657006479,
-    "households": 0,
-    "organizations": 36,
-    "governments": 0,
-    "other": 0,
-    "open": 1621,
-    "ended": 0,
-    "sample": [
-     "applied|medicare-tax|official:term:seat:US:president:2025-01-20",
-     "applied|medicare-tax|official:term:seat:US:vice-president:2025-01-20",
-     "applied|medicare-tax|official:term:seat:US-NE:us-senate:0:2025-01-20",
-     "applied|medicare-tax|official:term:seat:US-NE:us-senate:1:2025-01-20"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/budgets.ts:1172": 2954,
-    "src/core2/modules/employer-taxes.ts:527": 318,
-    "src/core2/modules/budgets.ts:1164": 198,
-    "src/core2/counted-money.ts:404": 134,
-    "src/core2/life.ts:549": 2
-   },
-   "openingRow": "law:US:federal:medicare-tax:general:2013-01-01",
-   "money": {
-    "direct": [
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 108600991,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2910020,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45318849,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 12273346,
-      "control": 12273558,
-      "ids": [
-       "journal:2025-02-01:3033",
-       "journal:2025-02-01:3034",
-       "journal:2025-02-01:3035"
-      ]
-     }
-    ],
-    "diff": [
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 108600991,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2910020,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16341351,
-      "control": 16370202,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
-      "treatment": 18562078957135,
-      "control": 18562078963402,
-      "ids": [
-       "journal:2025-02-01:1649",
-       "journal:2025-02-01:1650",
-       "journal:2025-02-01:1651"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
-      "treatment": 3573694,
-      "control": 3577397,
-      "ids": [
-       "journal:2025-02-19:8098",
-       "journal:2025-02-19:8099",
-       "journal:2025-02-19:8100"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/official-living.ts:102",
-      "treatment": 116184209,
-      "control": 116187345,
-      "ids": [
-       "journal:2025-01-27:1559",
-       "journal:2025-01-27:1560",
-       "journal:2025-01-27:1561"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 34535438,
-      "control": 34538063,
-      "ids": [
-       "journal:2025-01-21:1507",
-       "journal:2025-01-21:1508",
-       "journal:2025-01-21:1509"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 9377986,
-      "control": 9379843,
-      "ids": [
-       "journal:2025-02-01:1844",
-       "journal:2025-02-01:1845",
-       "journal:2025-02-01:1846"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45318849,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 12273346,
-      "control": 12273558,
-      "ids": [
-       "journal:2025-02-01:3033",
-       "journal:2025-02-01:3034",
-       "journal:2025-02-01:3035"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 14780382,
-      "control": 14780490,
-      "ids": [
-       "journal:2025-02-01:1889",
-       "journal:2025-02-01:1890",
-       "journal:2025-02-01:1891"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 3565855,
-      "control": 3565960,
-      "ids": [
-       "journal:2025-02-01:1920",
-       "journal:2025-02-01:1922",
-       "journal:2025-02-01:1925"
-      ]
-     }
-    ],
-    "diffKinds": 14,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 80,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 1547,
-    "countedGroups": 52,
-    "countedPeople": 73.79236276849642,
-    "households": 0,
-    "organizations": 33,
-    "governments": 0,
-    "other": 0,
-    "open": 1632,
-    "ended": 0,
-    "sample": [
-     "applied|medicare-tax|organization_34499de6d84b79d6",
-     "applied|medicare-tax|person_02977a76e9a4e1c1",
-     "applied|medicare-tax|person_19d08872d5de309a",
-     "applied|medicare-tax|organization_01b157d5b2d5f916"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 14
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
   },
-  {
-   "key": "federal-unemployment-tax",
-   "kind": "amount",
-   "family": "assistance",
-   "inForceAtOpening": false,
-   "change": "federal-unemployment-tax 0.6 -> 0.66 at federal (law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655) effective 2025-01-21",
-   "lawIds": [
-    "law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655",
-    "law:US:federal:federal-unemployment-tax:general:2011-07-01",
-    "law:US:federal:federal-unemployment-tax:general:2025-02-26:law-wiring-142e6655-undo"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 25,
-    "countedPeople": 53,
-    "households": 0,
-    "organizations": 36,
-    "governments": 0,
-    "other": 0,
-    "open": 61,
-    "ended": 0,
-    "sample": [
-     "applied|federal-unemployment-tax|organization_8af18928e3f7b74e",
-     "applied|federal-unemployment-tax|organization:public-schools:jurisdiction_45a3b3ebe97fe71d",
-     "applied|federal-unemployment-tax|counted-workers:organization_5d0cad02dd56207a",
-     "applied|federal-unemployment-tax|counted-workers:organization_8af18928e3f7b74e"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/employer-taxes.ts:536": 318,
-    "src/core2/life.ts:549": 2
-   },
-   "openingRow": "law:US:federal:federal-unemployment-tax:general:2011-07-01",
-   "money": {
-    "direct": [
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2886235,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     }
-    ],
-    "diff": [
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16341351,
-      "control": 16370202,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2886235,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107891445,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
-      "treatment": 18562078962149,
-      "control": 18562078963402,
-      "ids": [
-       "journal:2025-02-01:1649",
-       "journal:2025-02-01:1650",
-       "journal:2025-02-01:1651"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 9379098,
-      "control": 9379843,
-      "ids": [
-       "journal:2025-02-01:1844",
-       "journal:2025-02-01:1845",
-       "journal:2025-02-01:1846"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 34537598,
-      "control": 34538063,
-      "ids": [
-       "journal:2025-01-21:1507",
-       "journal:2025-01-21:1508",
-       "journal:2025-01-21:1509"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45319058,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     }
-    ],
-    "diffKinds": 7,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 80,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 22,
-    "countedPeople": 46,
-    "households": 0,
-    "organizations": 33,
-    "governments": 0,
-    "other": 0,
-    "open": 55,
-    "ended": 0,
-    "sample": [
-     "applied|federal-unemployment-tax|organization_34499de6d84b79d6",
-     "applied|federal-unemployment-tax|organization_01b157d5b2d5f916",
-     "applied|federal-unemployment-tax|organization_0b67d044f31d8f60",
-     "applied|federal-unemployment-tax|organization_31edf11019233409"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 13
-  },
-  {
-   "key": "state-unemployment-tax",
-   "kind": "amount",
-   "family": "assistance",
-   "inForceAtOpening": false,
-   "change": "state-unemployment-tax 2.7 -> 2.97 at state (law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d) effective 2025-01-21",
-   "lawIds": [
-    "law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d",
-    "law:US-NE:state:state-unemployment-tax:general:2025-01-01",
-    "law:US-NE:state:state-unemployment-tax:general:2025-02-26:law-wiring-85b9b28d-undo"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 25,
-    "countedPeople": 53,
-    "households": 0,
-    "organizations": 36,
-    "governments": 0,
-    "other": 0,
-    "open": 61,
-    "ended": 0,
-    "sample": [
-     "applied|state-unemployment-tax|organization_8af18928e3f7b74e",
-     "applied|state-unemployment-tax|organization:public-schools:jurisdiction_45a3b3ebe97fe71d",
-     "applied|state-unemployment-tax|counted-workers:organization_5d0cad02dd56207a",
-     "applied|state-unemployment-tax|counted-workers:organization_8af18928e3f7b74e"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/employer-taxes.ts:536": 318,
-    "src/core2/life.ts:549": 2
-   },
-   "openingRow": "law:US-NE:state:state-unemployment-tax:general:2025-01-01",
-   "money": {
-    "direct": [
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2946783,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     }
-    ],
-    "diff": [
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2946783,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16407678,
-      "control": 16370202,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107905985,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 9376499,
-      "control": 9379843,
-      "ids": [
-       "journal:2025-02-01:1844",
-       "journal:2025-02-01:1845",
-       "journal:2025-02-01:1846"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 34535972,
-      "control": 34538063,
-      "ids": [
-       "journal:2025-01-21:1507",
-       "journal:2025-01-21:1508",
-       "journal:2025-01-21:1509"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45318570,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     }
-    ],
-    "diffKinds": 6,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 72,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 22,
-    "countedPeople": 46,
-    "households": 0,
-    "organizations": 33,
-    "governments": 0,
-    "other": 0,
-    "open": 55,
-    "ended": 0,
-    "sample": [
-     "applied|state-unemployment-tax|organization_34499de6d84b79d6",
-     "applied|state-unemployment-tax|organization_01b157d5b2d5f916",
-     "applied|state-unemployment-tax|organization_0b67d044f31d8f60",
-     "applied|state-unemployment-tax|organization_31edf11019233409"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 13
-  },
-  {
-   "key": "social-security-tax",
-   "kind": "amount",
-   "family": "assistance",
-   "inForceAtOpening": false,
-   "change": "social-security-tax 6.2 -> 6.82 at federal (law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913) effective 2025-01-21",
-   "lawIds": [
-    "law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913",
-    "law:US:federal:social-security-tax:general:2026-01-01:from-start",
-    "law:US:federal:social-security-tax:general:2025-02-26:law-wiring-20473913-undo"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 1530,
-    "countedGroups": 55,
-    "countedPeople": 82.18581657006479,
-    "households": 0,
-    "organizations": 36,
-    "governments": 0,
-    "other": 0,
-    "open": 1621,
-    "ended": 0,
-    "sample": [
-     "applied|social-security-tax|official:term:seat:US:president:2025-01-20",
-     "applied|social-security-tax|official:term:seat:US:vice-president:2025-01-20",
-     "applied|social-security-tax|official:term:seat:US-NE:us-senate:0:2025-01-20",
-     "applied|social-security-tax|official:term:seat:US-NE:us-senate:1:2025-01-20"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/budgets.ts:1172": 2954,
-    "src/core2/modules/employer-taxes.ts:514": 318,
-    "src/core2/modules/budgets.ts:1164": 198,
-    "src/core2/counted-money.ts:403": 134,
-    "src/core2/life.ts:549": 2
-   },
-   "openingRow": "law:US:federal:social-security-tax:general:2026-01-01:from-start",
-   "money": {
-    "direct": [
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 110830133,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 3037614,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45317759,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 12272688,
-      "control": 12273558,
-      "ids": [
-       "journal:2025-02-01:3033",
-       "journal:2025-02-01:3034",
-       "journal:2025-02-01:3035"
-      ]
-     }
-    ],
-    "diff": [
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 110830133,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 3037614,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
-      "treatment": 18562078937532,
-      "control": 18562078963402,
-      "ids": [
-       "journal:2025-02-01:1649",
-       "journal:2025-02-01:1650",
-       "journal:2025-02-01:1651"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
-      "treatment": 3562091,
-      "control": 3577397,
-      "ids": [
-       "journal:2025-02-19:8098",
-       "journal:2025-02-19:8099",
-       "journal:2025-02-19:8100"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/official-living.ts:102",
-      "treatment": 116174529,
-      "control": 116187345,
-      "ids": [
-       "journal:2025-01-27:1559",
-       "journal:2025-01-27:1560",
-       "journal:2025-01-27:1561"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 34527233,
-      "control": 34538063,
-      "ids": [
-       "journal:2025-01-21:1507",
-       "journal:2025-01-21:1508",
-       "journal:2025-01-21:1509"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 9372170,
-      "control": 9379843,
-      "ids": [
-       "journal:2025-02-01:1844",
-       "journal:2025-02-01:1845",
-       "journal:2025-02-01:1846"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45317759,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 12272688,
-      "control": 12273558,
-      "ids": [
-       "journal:2025-02-01:3033",
-       "journal:2025-02-01:3034",
-       "journal:2025-02-01:3035"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 14780042,
-      "control": 14780490,
-      "ids": [
-       "journal:2025-02-01:1889",
-       "journal:2025-02-01:1890",
-       "journal:2025-02-01:1891"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 3565523,
-      "control": 3565960,
-      "ids": [
-       "journal:2025-02-01:1920",
-       "journal:2025-02-01:1922",
-       "journal:2025-02-01:1925"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-      "treatment": 804556,
-      "control": 804921,
-      "ids": [
-       "journal:2025-02-01:7569",
-       "journal:2025-02-01:7570",
-       "journal:2025-02-01:7571"
-      ]
-     }
-    ],
-    "diffKinds": 13,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 80,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 1547,
-    "countedGroups": 52,
-    "countedPeople": 73.79236276849642,
-    "households": 0,
-    "organizations": 33,
-    "governments": 0,
-    "other": 0,
-    "open": 1632,
-    "ended": 0,
-    "sample": [
-     "applied|social-security-tax|organization_34499de6d84b79d6",
-     "applied|social-security-tax|person_02977a76e9a4e1c1",
-     "applied|social-security-tax|person_19d08872d5de309a",
-     "applied|social-security-tax|organization_01b157d5b2d5f916"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 11
-  },
-  {
-   "key": "minimum-wage",
-   "kind": "amount",
-   "family": "labor",
-   "inForceAtOpening": false,
-   "change": "minimum-wage 1350 -> 1485 at state (law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca) effective 2025-01-21",
-   "lawIds": [
-    "law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
-    "law:US-NE:state:minimum-wage:general:2025-01-01",
-    "law:US-NE:state:minimum-wage:general:2025-02-26:law-wiring-e84af4ca-undo"
-   ],
-   "openingReach": {
-    "fullPeople": 4,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 4,
-    "ended": 0,
-    "sample": [
-     "applied|minimum-wage|person_571e973828a92105",
-     "applied|minimum-wage|person_9984d00729495afe",
-     "applied|minimum-wage|person_6fbcb9e4fb891b2e",
-     "applied|minimum-wage|person_e855af1ca8e2ee43"
-    ]
-   },
-   "reach": {
-    "fullPeople": 10,
-    "countedGroups": 6,
-    "countedPeople": 11,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 16,
-    "ended": 0,
-    "sample": [
-     "applied|minimum-wage|person_d3ebde8c7d2740d8",
-     "applied|minimum-wage|person_eadfeb9a418d1e3a",
-     "applied|minimum-wage|person_996f882c4bc316c6",
-     "applied|minimum-wage|person_571e973828a92105"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/constituent-cases.ts:151": 136,
-    "src/core2/wage-floor.ts:144": 74,
-    "src/core2/gov-measures.ts:243": 48,
-    "src/core2/wage-floor.ts:102": 16,
-    "src/core2/gov-measures.ts:100": 16,
-    "src/core2/gov-measures.ts:104": 16,
-    "src/core2/gov-measures.ts:112": 16,
-    "src/core2/gov-measures.ts:176": 16,
-    "src/core2/life.ts:549": 2,
-    "src/core2/modules/constituent-cases.ts:256": 2,
-    "src/core2/wage-floor.ts:31": 1,
-    "src/core2/wage-floor.ts:36": 1
-   },
-   "openingRow": "law:US-NE:state:minimum-wage:general:2025-01-01",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16487766,
-      "control": 16370202,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45408661,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107921126,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2896215,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 3577938,
-      "control": 3565960,
-      "ids": [
-       "journal:2025-02-01:1920",
-       "journal:2025-02-01:1922",
-       "journal:2025-02-01:1925"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
-      "treatment": 3584759,
-      "control": 3577397,
-      "ids": [
-       "journal:2025-02-19:8098",
-       "journal:2025-02-19:8099",
-       "journal:2025-02-19:8100"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 14787044,
-      "control": 14780490,
-      "ids": [
-       "journal:2025-02-01:1889",
-       "journal:2025-02-01:1890",
-       "journal:2025-02-01:1891"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 34539610,
-      "control": 34538063,
-      "ids": [
-       "journal:2025-01-21:1507",
-       "journal:2025-01-21:1508",
-       "journal:2025-01-21:1509"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 12274938,
-      "control": 12273558,
-      "ids": [
-       "journal:2025-02-01:3033",
-       "journal:2025-02-01:3034",
-       "journal:2025-02-01:3035"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
-      "treatment": 18562078962065,
-      "control": 18562078963402,
-      "ids": [
-       "journal:2025-02-01:1649",
-       "journal:2025-02-01:1650",
-       "journal:2025-02-01:1651"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-      "treatment": 1171791,
-      "control": 1170873,
-      "ids": [
-       "journal:2025-02-01:1921",
-       "journal:2025-02-01:1923",
-       "journal:2025-02-01:1924"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
-      "treatment": 804025,
-      "control": 804921,
-      "ids": [
-       "journal:2025-02-01:7569",
-       "journal:2025-02-01:7570",
-       "journal:2025-02-01:7571"
-      ]
-     }
-    ],
-    "diffKinds": 12,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "minimum-wage-to-poverty",
-      "status": "built",
-      "to": "household.poverty-pct"
-     },
-     {
-      "key": "minimum-wage-to-low-wage-jobs",
-      "status": "built",
-      "to": "labor.low-wage-jobs"
-     }
-    ],
-    "fired": [
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
-      "link": "minimum-wage-to-low-wage-jobs",
-      "effect": -0.01540039491004827
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
-      "link": "minimum-wage-to-low-wage-jobs",
-      "effect": -0.04056990881458966
-     }
-    ],
-    "firedCount": 2
-   },
-   "heard": {
-    "people": 72,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 2,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 2,
-    "ended": 0,
-    "sample": [
-     "applied|minimum-wage|person_40727f8dbeca0ea4",
-     "applied|minimum-wage|person_ced624a0f6648f33"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 11
-  },
-  {
-   "key": "us-policy-positions:labor-workforce.raise-minimum-wage",
-   "kind": "question",
-   "family": "labor",
-   "inForceAtOpening": true,
-   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-   "lawIds": [
-    "law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
-    "law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
-    "law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b"
-   ],
-   "openingReach": {
-    "fullPeople": 41,
-    "countedGroups": 1,
-    "countedPeople": 75,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 42,
-    "ended": 0,
-    "sample": [
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_eadfec9a418d1fed:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_eadfeb9a418d1e3a:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_328f136709e7c650:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_328f146709e7c803:2025-01-20"
-    ]
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 42,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/modules/legislature.ts:2113": 341,
-    "src/core2/modules/world-legislating.ts:253": 18,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/law-reach/group-a-records.ts:253 <- src/core2/question-wages.ts:134": 4,
-    "src/core2/modules/world-legislating.ts:333": 2
-   },
-   "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16436529,
-      "control": 16370202,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107912212,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2880803,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     }
-    ],
-    "diffKinds": 3,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "minimum-wage-to-poverty",
-      "status": "built",
-      "to": "household.poverty-pct"
-     },
-     {
-      "key": "minimum-wage-to-low-wage-jobs",
-      "status": "built",
-      "to": "labor.low-wage-jobs"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 73,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 78,
-    "countedGroups": 7,
-    "countedPeople": 67,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 85,
-    "ended": 42,
-    "sample": [
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_eadfec9a418d1fed:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_eadfeb9a418d1e3a:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_328f136709e7c650:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_328f146709e7c803:2025-02-26"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 42,
-    "sample": []
-   },
-   "seconds": 12
-  },
-  {
-   "key": "us-policy-positions:labor-workforce.right-to-work",
-   "kind": "question",
-   "family": "labor",
-   "inForceAtOpening": true,
-   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-   "lawIds": [
-    "law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
-    "law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
-    "law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b"
-   ],
-   "openingReach": {
-    "fullPeople": 41,
-    "countedGroups": 2,
-    "countedPeople": 86,
-    "households": 0,
-    "organizations": 2,
-    "governments": 0,
-    "other": 0,
-    "open": 45,
-    "ended": 0,
-    "sample": [
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_eadfec9a418d1fed:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_eadfeb9a418d1e3a:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_328f136709e7c650:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_328f146709e7c803:2025-01-20"
-    ]
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 43,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/modules/legislature.ts:2113": 438,
-    "src/core2/modules/outcome-web.ts:158": 64,
-    "src/core2/modules/world-legislating.ts:253": 30,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/right-to-work-dues.ts:66": 3,
-    "src/core2/modules/world-legislating.ts:333": 2
-   },
-   "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45169197,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16436659,
-      "control": 16370202,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 9329843,
-      "control": 9379843,
-      "ids": [
-       "journal:2025-02-01:1848",
-       "journal:2025-02-01:1849",
-       "journal:2025-02-01:1850"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
-      "treatment": 3556550,
-      "control": 3577397,
-      "ids": [
-       "journal:2025-02-19:8098",
-       "journal:2025-02-19:8099",
-       "journal:2025-02-19:8100"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107912225,
-      "control": 107897672,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2880803,
-      "control": 2873541,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 12273652,
-      "control": 12273558,
-      "ids": [
-       "journal:2025-02-01:3034",
-       "journal:2025-02-01:3035",
-       "journal:2025-02-01:3036"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 14780470,
-      "control": 14780490,
-      "ids": [
-       "journal:2025-02-01:1890",
-       "journal:2025-02-01:1891",
-       "journal:2025-02-01:1892"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-      "treatment": 1170870,
-      "control": 1170873,
-      "ids": [
-       "journal:2025-02-01:1922",
-       "journal:2025-02-01:1924",
-       "journal:2025-02-01:1925"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
-      "treatment": 26379,
-      "control": 26378,
-      "ids": [
-       "journal:2025-02-06:7818",
-       "journal:2025-02-06:7819"
-      ]
-     }
-    ],
-    "diffKinds": 10,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "right-to-work-to-turnout",
-      "status": "built",
-      "to": "voting.turnout-pct"
-     }
-    ],
-    "fired": [
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
-      "link": "right-to-work-to-turnout",
-      "effect": 0.031
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
-      "link": "right-to-work-to-turnout",
-      "effect": 0.031
-     }
-    ],
-    "firedCount": 2
-   },
-   "heard": {
-    "people": 71,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 67,
-    "countedGroups": 2,
-    "countedPeople": 72,
-    "households": 0,
-    "organizations": 2,
-    "governments": 0,
-    "other": 0,
-    "open": 71,
-    "ended": 43,
-    "sample": [
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b:workers:person_eadfec9a418d1fed:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b:workers:person_eadfeb9a418d1e3a:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b:workers:person_328f136709e7c650:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b:workers:person_328f146709e7c803:2025-02-26"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 43,
-    "sample": []
-   },
-   "seconds": 11
-  },
-  {
-   "key": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
-   "kind": "question",
-   "family": "labor",
-   "inForceAtOpening": true,
-   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-   "lawIds": [
-    "law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
-    "law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
-    "law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-02-26:law-wiring-d994f5d4-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 1,
-    "governments": 2,
-    "other": 0,
-    "open": 3,
-    "ended": 0,
-    "sample": [
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting:city:organization_66aa7ca5030a42f2:2025-01-20",
-     "applied|us-policy-positions:labor-workforce.local-minimum-wage-authority|place:3149425",
-     "applied|us-policy-positions:labor-workforce.local-minimum-wage-authority|office:gus2025:130224:council"
-    ]
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 1,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/modules/legislature.ts:2113": 207,
-    "src/core2/modules/world-legislating.ts:253": 30,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/law-reach/group-a-records.ts:260 <- src/core2/life.ts:549": 4,
-    "src/core2/modules/world-legislating.ts:333": 2
-   },
-   "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 45169197,
-      "control": 45319197,
-      "ids": [
-       "journal:2025-01-24:1556",
-       "journal:2025-01-25:1557",
-       "journal:2025-01-27:1569"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16192909,
-      "control": 16126582,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 9329843,
-      "control": 9379843,
-      "ids": [
-       "journal:2025-02-01:1848",
-       "journal:2025-02-01:1849",
-       "journal:2025-02-01:1850"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
-      "treatment": 3556564,
-      "control": 3577397,
-      "ids": [
-       "journal:2025-02-19:8103",
-       "journal:2025-02-19:8104",
-       "journal:2025-02-19:8105"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107890403,
-      "control": 107875863,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2890261,
-      "control": 2882999,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
-      "treatment": 26377,
-      "control": 26376,
-      "ids": [
-       "journal:2025-02-06:7818",
-       "journal:2025-02-06:7819"
-      ]
-     }
-    ],
-    "diffKinds": 7,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "minimum-wage-to-poverty",
-      "status": "built",
-      "to": "household.poverty-pct"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 72,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 1,
-    "governments": 2,
-    "other": 0,
-    "open": 3,
-    "ended": 1,
-    "sample": [
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-02-26:law-wiring-d994f5d4-b:city:organization_66aa7ca5030a42f2:2025-02-26",
-     "applied|us-policy-positions:labor-workforce.local-minimum-wage-authority|place:3149425",
-     "applied|us-policy-positions:labor-workforce.local-minimum-wage-authority|office:gus2025:130224:council"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 1,
-    "sample": []
-   },
-   "seconds": 19
-  },
-  {
-   "key": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
-   "kind": "question",
-   "family": "labor",
-   "inForceAtOpening": true,
-   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-   "lawIds": [
-    "law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
-    "law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
-    "law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b"
-   ],
-   "openingReach": {
-    "fullPeople": 14,
-    "countedGroups": 1,
-    "countedPeople": 2,
-    "households": 0,
-    "organizations": 10,
-    "governments": 0,
-    "other": 0,
-    "open": 25,
-    "ended": 0,
-    "sample": [
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_328f136709e7c650:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_02977976e9a4e00e:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_d3ad419b84e922af:2025-01-20",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_ef80385ec313a65e:2025-01-20"
-    ]
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 25,
-    "sample": []
-   },
-   "readers": {
-    "src/core2/modules/legislature.ts:2113": 5572,
-    "src/core2/modules/outcome-web.ts:158": 96,
-    "src/core2/modules/world-legislating.ts:253": 18,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/world-legislating.ts:333": 2,
-    "src/core2/public-bargaining.ts:26": 1
-   },
-   "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16192909,
-      "control": 16126582,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107890403,
-      "control": 107875863,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2890261,
-      "control": 2882999,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     }
-    ],
-    "diffKinds": 3,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "public-bargaining-to-graduation",
-      "status": "built",
-      "to": "school.graduation-pct"
-     },
-     {
-      "key": "public-bargaining-to-earnings",
-      "status": "built",
-      "to": "labor.median-earnings"
-     }
-    ],
-    "fired": [
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
-      "link": "public-bargaining-to-earnings",
-      "effect": 0.01
-     },
-     {
-      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
-      "link": "public-bargaining-to-earnings",
-      "effect": 0.01
-     }
-    ],
-    "firedCount": 2
-   },
-   "heard": {
-    "people": 73,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 23,
-    "countedGroups": 2,
-    "countedPeople": 4,
-    "households": 0,
-    "organizations": 10,
-    "governments": 0,
-    "other": 0,
-    "open": 35,
-    "ended": 25,
-    "sample": [
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_328f136709e7c650:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_02977976e9a4e00e:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_d3ad419b84e922af:2025-02-26",
-     "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_ef80385ec313a65e:2025-02-26"
-    ]
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 25,
-    "sample": []
-   },
-   "seconds": 18
-  },
-  {
-   "key": "local-minimum-wage-authority",
-   "kind": "amount",
-   "family": "starting law",
-   "inForceAtOpening": false,
-   "change": "local-minimum-wage-authority 1 -> 2 at state (law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21",
-   "lawIds": [
-    "law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
-    "law:US-NE:state:local-minimum-wage-authority:general:2000-01-01",
-    "law:US-NE:state:local-minimum-wage-authority:general:2025-02-26:law-wiring-d5735231-undo"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 1,
-    "other": 0,
-    "open": 1,
-    "ended": 0,
-    "sample": [
-     "applied|local-minimum-wage-authority|office:gus2025:130224:council"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/retirement-claims.ts:92": 10668,
-    "src/core2/modules/budgets.ts:1172": 8862,
-    "src/core2/modules/employer-taxes.ts:536": 640,
-    "src/core2/modules/budgets.ts:1164": 600,
-    "src/core2/paid-leave.ts:23": 356,
-    "src/core2/modules/employer-taxes.ts:514": 320,
-    "src/core2/modules/employer-taxes.ts:527": 320,
-    "src/core2/modules/constituent-cases.ts:151": 138,
-    "src/core2/counted-money.ts:402": 134,
-    "src/core2/counted-money.ts:403": 134,
-    "src/core2/counted-money.ts:404": 134,
-    "src/core2/modules/counted-moves.ts:183": 124,
-    "src/core2/public-pay-floor.ts:67": 58,
-    "src/core2/gov-measures.ts:243": 48,
-    "src/core2/public-safety.ts:124": 20,
-    "src/core2/life.ts:549": 18,
-    "src/core2/modules/budgets.ts:675": 18,
-    "src/core2/modules/budgets.ts:683": 18,
-    "src/core2/gov-measures.ts:100": 16,
-    "src/core2/gov-measures.ts:104": 16,
-    "src/core2/gov-measures.ts:112": 16,
-    "src/core2/gov-measures.ts:176": 16,
-    "src/core2/modules/place-prices.ts:688": 14,
-    "src/core2/modules/jobs.ts:2190": 6,
-    "src/core2/modules/credit.ts:1123": 4,
-    "src/core2/law-reach/group-b-money.ts:657 <- src/core2/life.ts:549": 4,
-    "src/core2/modules/legislature.ts:862": 2,
-    "src/core2/right-to-work-dues.ts:66": 2,
-    "src/core2/modules/business.ts:1138": 2,
-    "src/core2/modules/business.ts:1207": 2,
-    "src/core2/modules/business.ts:920": 2,
-    "src/core2/modules/housing.ts:1636": 2,
-    "src/core2/modules/housing.ts:1640": 2,
-    "src/core2/modules/housing.ts:1644": 2,
-    "src/core2/modules/housing.ts:1648": 2,
-    "src/core2/modules/constituent-cases.ts:256": 2,
-    "src/core2/law-reach/group-b-food-aid.ts:54 <- src/core2/life.ts:549": 2,
-    "src/core2/law-reach/group-b-food-aid.ts:159 <- src/core2/life.ts:549": 2,
-    "unknown": 1,
-    "src/core2/modules/legislature.ts:890": 1
-   },
-   "openingRow": "law:US-NE:state:local-minimum-wage-authority:general:2000-01-01",
-   "money": {
-    "direct": [
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107884176,
-      "control": 107875863,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2887102,
-      "control": 2882999,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     }
-    ],
-    "diff": [
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-      "treatment": 16164058,
-      "control": 16126582,
-      "ids": [
-       "journal:2025-01-28:1571",
-       "journal:2025-01-29:1609",
-       "journal:2025-01-30:1614"
-      ]
-     },
-     {
-      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
-      "treatment": 107884176,
-      "control": 107875863,
-      "ids": [
-       "journal:2025-01-28:1572",
-       "journal:2025-01-29:1610",
-       "journal:2025-01-30:1615"
-      ]
-     },
-     {
-      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
-      "treatment": 2887102,
-      "control": 2882999,
-      "ids": [
-       "journal:2025-01-25:1558",
-       "journal:2025-01-27:1570",
-       "journal:2025-01-28:1573"
-      ]
-     }
-    ],
-    "diffKinds": 3,
-    "cited": []
-   },
-   "web": {
-    "links": [],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 72,
-    "sample": [
-     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
-     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
-     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 17
-  }
- ]
+  "window": 35,
+  "after": 10,
+  "results": [
+    {
+      "key": "medicare-tax",
+      "kind": "amount",
+      "family": "healthcare",
+      "inForceAtOpening": false,
+      "change": "medicare-tax 1.45 -> 1.6 at federal (law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
+        "law:US:federal:medicare-tax:general:2013-01-01",
+        "law:US:federal:medicare-tax:general:2025-02-26:law-wiring-a89e7411-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 1530,
+        "countedGroups": 55,
+        "countedPeople": 82.18581657006479,
+        "households": 0,
+        "organizations": 36,
+        "governments": 0,
+        "other": 0,
+        "open": 1621,
+        "ended": 0,
+        "sample": [
+          "applied|medicare-tax|official:term:seat:US:president:2025-01-20",
+          "applied|medicare-tax|official:term:seat:US:vice-president:2025-01-20",
+          "applied|medicare-tax|official:term:seat:US-NE:us-senate:0:2025-01-20",
+          "applied|medicare-tax|official:term:seat:US-NE:us-senate:1:2025-01-20"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/budgets.ts:1172": 2954,
+        "src/core2/modules/employer-taxes.ts:527": 318,
+        "src/core2/modules/budgets.ts:1164": 198,
+        "src/core2/counted-money.ts:404": 134,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US:federal:medicare-tax:general:2013-01-01",
+      "money": {
+        "direct": [
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 108600991,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2910020,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45318849,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 12273346,
+            "control": 12273558,
+            "ids": [
+              "journal:2025-02-01:3033",
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 108600991,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2910020,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16341351,
+            "control": 16370202,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
+            "treatment": 18562078957135,
+            "control": 18562078963402,
+            "ids": [
+              "journal:2025-02-01:1649",
+              "journal:2025-02-01:1650",
+              "journal:2025-02-01:1651"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
+            "treatment": 3573694,
+            "control": 3577397,
+            "ids": [
+              "journal:2025-02-19:8098",
+              "journal:2025-02-19:8099",
+              "journal:2025-02-19:8100"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/official-living.ts:102",
+            "treatment": 116184209,
+            "control": 116187345,
+            "ids": [
+              "journal:2025-01-27:1559",
+              "journal:2025-01-27:1560",
+              "journal:2025-01-27:1561"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 34535438,
+            "control": 34538063,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 9377986,
+            "control": 9379843,
+            "ids": [
+              "journal:2025-02-01:1844",
+              "journal:2025-02-01:1845",
+              "journal:2025-02-01:1846"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45318849,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 12273346,
+            "control": 12273558,
+            "ids": [
+              "journal:2025-02-01:3033",
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 14780382,
+            "control": 14780490,
+            "ids": [
+              "journal:2025-02-01:1889",
+              "journal:2025-02-01:1890",
+              "journal:2025-02-01:1891"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 3565855,
+            "control": 3565960,
+            "ids": [
+              "journal:2025-02-01:1920",
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1925"
+            ]
+          }
+        ],
+        "diffKinds": 14,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 80,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:medicare-tax:general:2025-01-21:law-wiring-a89e7411"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 1547,
+        "countedGroups": 52,
+        "countedPeople": 73.79236276849642,
+        "households": 0,
+        "organizations": 33,
+        "governments": 0,
+        "other": 0,
+        "open": 1632,
+        "ended": 0,
+        "sample": [
+          "applied|medicare-tax|organization_34499de6d84b79d6",
+          "applied|medicare-tax|person_02977a76e9a4e1c1",
+          "applied|medicare-tax|person_19d08872d5de309a",
+          "applied|medicare-tax|organization_01b157d5b2d5f916"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 14
+    },
+    {
+      "key": "federal-unemployment-tax",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "federal-unemployment-tax 0.6 -> 0.66 at federal (law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655",
+        "law:US:federal:federal-unemployment-tax:general:2011-07-01",
+        "law:US:federal:federal-unemployment-tax:general:2025-02-26:law-wiring-142e6655-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 25,
+        "countedPeople": 53,
+        "households": 0,
+        "organizations": 36,
+        "governments": 0,
+        "other": 0,
+        "open": 61,
+        "ended": 0,
+        "sample": [
+          "applied|federal-unemployment-tax|organization_8af18928e3f7b74e",
+          "applied|federal-unemployment-tax|organization:public-schools:jurisdiction_45a3b3ebe97fe71d",
+          "applied|federal-unemployment-tax|counted-workers:organization_5d0cad02dd56207a",
+          "applied|federal-unemployment-tax|counted-workers:organization_8af18928e3f7b74e"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/employer-taxes.ts:536": 318,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US:federal:federal-unemployment-tax:general:2011-07-01",
+      "money": {
+        "direct": [
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2886235,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16341351,
+            "control": 16370202,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2886235,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107891445,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
+            "treatment": 18562078962149,
+            "control": 18562078963402,
+            "ids": [
+              "journal:2025-02-01:1649",
+              "journal:2025-02-01:1650",
+              "journal:2025-02-01:1651"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 9379098,
+            "control": 9379843,
+            "ids": [
+              "journal:2025-02-01:1844",
+              "journal:2025-02-01:1845",
+              "journal:2025-02-01:1846"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 34537598,
+            "control": 34538063,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45319058,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          }
+        ],
+        "diffKinds": 7,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 80,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-unemployment-tax:general:2025-01-21:law-wiring-142e6655"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 22,
+        "countedPeople": 46,
+        "households": 0,
+        "organizations": 33,
+        "governments": 0,
+        "other": 0,
+        "open": 55,
+        "ended": 0,
+        "sample": [
+          "applied|federal-unemployment-tax|organization_34499de6d84b79d6",
+          "applied|federal-unemployment-tax|organization_01b157d5b2d5f916",
+          "applied|federal-unemployment-tax|organization_0b67d044f31d8f60",
+          "applied|federal-unemployment-tax|organization_31edf11019233409"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 13
+    },
+    {
+      "key": "state-unemployment-tax",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "state-unemployment-tax 2.7 -> 2.97 at state (law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d",
+        "law:US-NE:state:state-unemployment-tax:general:2025-01-01",
+        "law:US-NE:state:state-unemployment-tax:general:2025-02-26:law-wiring-85b9b28d-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 25,
+        "countedPeople": 53,
+        "households": 0,
+        "organizations": 36,
+        "governments": 0,
+        "other": 0,
+        "open": 61,
+        "ended": 0,
+        "sample": [
+          "applied|state-unemployment-tax|organization_8af18928e3f7b74e",
+          "applied|state-unemployment-tax|organization:public-schools:jurisdiction_45a3b3ebe97fe71d",
+          "applied|state-unemployment-tax|counted-workers:organization_5d0cad02dd56207a",
+          "applied|state-unemployment-tax|counted-workers:organization_8af18928e3f7b74e"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/employer-taxes.ts:536": 318,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US-NE:state:state-unemployment-tax:general:2025-01-01",
+      "money": {
+        "direct": [
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2946783,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2946783,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16407678,
+            "control": 16370202,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107905985,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 9376499,
+            "control": 9379843,
+            "ids": [
+              "journal:2025-02-01:1844",
+              "journal:2025-02-01:1845",
+              "journal:2025-02-01:1846"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 34535972,
+            "control": 34538063,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45318570,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          }
+        ],
+        "diffKinds": 6,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 72,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:state-unemployment-tax:general:2025-01-21:law-wiring-85b9b28d"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 22,
+        "countedPeople": 46,
+        "households": 0,
+        "organizations": 33,
+        "governments": 0,
+        "other": 0,
+        "open": 55,
+        "ended": 0,
+        "sample": [
+          "applied|state-unemployment-tax|organization_34499de6d84b79d6",
+          "applied|state-unemployment-tax|organization_01b157d5b2d5f916",
+          "applied|state-unemployment-tax|organization_0b67d044f31d8f60",
+          "applied|state-unemployment-tax|organization_31edf11019233409"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 13
+    },
+    {
+      "key": "social-security-tax",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "social-security-tax 6.2 -> 6.82 at federal (law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913",
+        "law:US:federal:social-security-tax:general:2026-01-01:from-start",
+        "law:US:federal:social-security-tax:general:2025-02-26:law-wiring-20473913-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 1530,
+        "countedGroups": 55,
+        "countedPeople": 82.18581657006479,
+        "households": 0,
+        "organizations": 36,
+        "governments": 0,
+        "other": 0,
+        "open": 1621,
+        "ended": 0,
+        "sample": [
+          "applied|social-security-tax|official:term:seat:US:president:2025-01-20",
+          "applied|social-security-tax|official:term:seat:US:vice-president:2025-01-20",
+          "applied|social-security-tax|official:term:seat:US-NE:us-senate:0:2025-01-20",
+          "applied|social-security-tax|official:term:seat:US-NE:us-senate:1:2025-01-20"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/budgets.ts:1172": 2954,
+        "src/core2/modules/employer-taxes.ts:514": 318,
+        "src/core2/modules/budgets.ts:1164": 198,
+        "src/core2/counted-money.ts:403": 134,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US:federal:social-security-tax:general:2026-01-01:from-start",
+      "money": {
+        "direct": [
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 110830133,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 3037614,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45317759,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 12272688,
+            "control": 12273558,
+            "ids": [
+              "journal:2025-02-01:3033",
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 110830133,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 3037614,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
+            "treatment": 18562078937532,
+            "control": 18562078963402,
+            "ids": [
+              "journal:2025-02-01:1649",
+              "journal:2025-02-01:1650",
+              "journal:2025-02-01:1651"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
+            "treatment": 3562091,
+            "control": 3577397,
+            "ids": [
+              "journal:2025-02-19:8098",
+              "journal:2025-02-19:8099",
+              "journal:2025-02-19:8100"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/official-living.ts:102",
+            "treatment": 116174529,
+            "control": 116187345,
+            "ids": [
+              "journal:2025-01-27:1559",
+              "journal:2025-01-27:1560",
+              "journal:2025-01-27:1561"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 34527233,
+            "control": 34538063,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 9372170,
+            "control": 9379843,
+            "ids": [
+              "journal:2025-02-01:1844",
+              "journal:2025-02-01:1845",
+              "journal:2025-02-01:1846"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45317759,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 12272688,
+            "control": 12273558,
+            "ids": [
+              "journal:2025-02-01:3033",
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 14780042,
+            "control": 14780490,
+            "ids": [
+              "journal:2025-02-01:1889",
+              "journal:2025-02-01:1890",
+              "journal:2025-02-01:1891"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 3565523,
+            "control": 3565960,
+            "ids": [
+              "journal:2025-02-01:1920",
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1925"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+            "treatment": 804556,
+            "control": 804921,
+            "ids": [
+              "journal:2025-02-01:7569",
+              "journal:2025-02-01:7570",
+              "journal:2025-02-01:7571"
+            ]
+          }
+        ],
+        "diffKinds": 13,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 80,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-tax:general:2025-01-21:law-wiring-20473913"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 1547,
+        "countedGroups": 52,
+        "countedPeople": 73.79236276849642,
+        "households": 0,
+        "organizations": 33,
+        "governments": 0,
+        "other": 0,
+        "open": 1632,
+        "ended": 0,
+        "sample": [
+          "applied|social-security-tax|organization_34499de6d84b79d6",
+          "applied|social-security-tax|person_02977a76e9a4e1c1",
+          "applied|social-security-tax|person_19d08872d5de309a",
+          "applied|social-security-tax|organization_01b157d5b2d5f916"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "minimum-wage",
+      "kind": "amount",
+      "family": "labor",
+      "inForceAtOpening": false,
+      "change": "minimum-wage 1350 -> 1485 at state (law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+        "law:US-NE:state:minimum-wage:general:2025-01-01",
+        "law:US-NE:state:minimum-wage:general:2025-02-26:law-wiring-e84af4ca-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 4,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|minimum-wage|person_571e973828a92105",
+          "applied|minimum-wage|person_9984d00729495afe",
+          "applied|minimum-wage|person_6fbcb9e4fb891b2e",
+          "applied|minimum-wage|person_e855af1ca8e2ee43"
+        ]
+      },
+      "reach": {
+        "fullPeople": 10,
+        "countedGroups": 6,
+        "countedPeople": 11,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 16,
+        "ended": 0,
+        "sample": [
+          "applied|minimum-wage|person_d3ebde8c7d2740d8",
+          "applied|minimum-wage|person_eadfeb9a418d1e3a",
+          "applied|minimum-wage|person_996f882c4bc316c6",
+          "applied|minimum-wage|person_571e973828a92105"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/constituent-cases.ts:151": 136,
+        "src/core2/wage-floor.ts:144": 74,
+        "src/core2/gov-measures.ts:243": 48,
+        "src/core2/wage-floor.ts:102": 16,
+        "src/core2/gov-measures.ts:100": 16,
+        "src/core2/gov-measures.ts:104": 16,
+        "src/core2/gov-measures.ts:112": 16,
+        "src/core2/gov-measures.ts:176": 16,
+        "src/core2/life.ts:549": 2,
+        "src/core2/modules/constituent-cases.ts:256": 2,
+        "src/core2/wage-floor.ts:31": 1,
+        "src/core2/wage-floor.ts:36": 1
+      },
+      "openingRow": "law:US-NE:state:minimum-wage:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16487766,
+            "control": 16370202,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45408661,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107921126,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2896215,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 3577938,
+            "control": 3565960,
+            "ids": [
+              "journal:2025-02-01:1920",
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1925"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
+            "treatment": 3584759,
+            "control": 3577397,
+            "ids": [
+              "journal:2025-02-19:8098",
+              "journal:2025-02-19:8099",
+              "journal:2025-02-19:8100"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 14787044,
+            "control": 14780490,
+            "ids": [
+              "journal:2025-02-01:1889",
+              "journal:2025-02-01:1890",
+              "journal:2025-02-01:1891"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 34539610,
+            "control": 34538063,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 12274938,
+            "control": 12273558,
+            "ids": [
+              "journal:2025-02-01:3033",
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
+            "treatment": 18562078962065,
+            "control": 18562078963402,
+            "ids": [
+              "journal:2025-02-01:1649",
+              "journal:2025-02-01:1650",
+              "journal:2025-02-01:1651"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+            "treatment": 1171791,
+            "control": 1170873,
+            "ids": [
+              "journal:2025-02-01:1921",
+              "journal:2025-02-01:1923",
+              "journal:2025-02-01:1924"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+            "treatment": 804025,
+            "control": 804921,
+            "ids": [
+              "journal:2025-02-01:7569",
+              "journal:2025-02-01:7570",
+              "journal:2025-02-01:7571"
+            ]
+          }
+        ],
+        "diffKinds": 12,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "minimum-wage-to-poverty",
+            "status": "built",
+            "to": "household.poverty-pct"
+          },
+          {
+            "key": "minimum-wage-to-low-wage-jobs",
+            "status": "built",
+            "to": "labor.low-wage-jobs"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "minimum-wage-to-low-wage-jobs",
+            "effect": -0.01540039491004827
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "minimum-wage-to-low-wage-jobs",
+            "effect": -0.04056990881458966
+          }
+        ],
+        "firedCount": 2
+      },
+      "heard": {
+        "people": 72,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 2,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|minimum-wage|person_40727f8dbeca0ea4",
+          "applied|minimum-wage|person_ced624a0f6648f33"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "kind": "question",
+      "family": "labor",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
+        "law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
+        "law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b"
+      ],
+      "openingReach": {
+        "fullPeople": 41,
+        "countedGroups": 1,
+        "countedPeople": 75,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 42,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_eadfec9a418d1fed:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_eadfeb9a418d1e3a:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_328f136709e7c650:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting:workers:person_328f146709e7c803:2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 42,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2113": 341,
+        "src/core2/modules/world-legislating.ts:253": 18,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/law-reach/group-a-records.ts:253 <- src/core2/question-wages.ts:134": 4,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16436529,
+            "control": 16370202,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107912212,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2880803,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          }
+        ],
+        "diffKinds": 3,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "minimum-wage-to-poverty",
+            "status": "built",
+            "to": "household.poverty-pct"
+          },
+          {
+            "key": "minimum-wage-to-low-wage-jobs",
+            "status": "built",
+            "to": "labor.low-wage-jobs"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 73,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-01-21:law-wiring-d15486c4"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 78,
+        "countedGroups": 7,
+        "countedPeople": 67,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 85,
+        "ended": 42,
+        "sample": [
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_eadfec9a418d1fed:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_eadfeb9a418d1e3a:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_328f136709e7c650:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.raise-minimum-wage:general:2025-02-26:law-wiring-d15486c4-b:workers:person_328f146709e7c803:2025-02-26"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 42,
+        "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.right-to-work",
+      "kind": "question",
+      "family": "labor",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
+        "law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
+        "law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b"
+      ],
+      "openingReach": {
+        "fullPeople": 41,
+        "countedGroups": 2,
+        "countedPeople": 86,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 45,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_eadfec9a418d1fed:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_eadfeb9a418d1e3a:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_328f136709e7c650:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting:workers:person_328f146709e7c803:2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 43,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2113": 438,
+        "src/core2/modules/outcome-web.ts:158": 64,
+        "src/core2/modules/world-legislating.ts:253": 30,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/right-to-work-dues.ts:66": 3,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45169197,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16436659,
+            "control": 16370202,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 9329843,
+            "control": 9379843,
+            "ids": [
+              "journal:2025-02-01:1848",
+              "journal:2025-02-01:1849",
+              "journal:2025-02-01:1850"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
+            "treatment": 3556550,
+            "control": 3577397,
+            "ids": [
+              "journal:2025-02-19:8098",
+              "journal:2025-02-19:8099",
+              "journal:2025-02-19:8100"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107912225,
+            "control": 107897672,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2880803,
+            "control": 2873541,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 12273652,
+            "control": 12273558,
+            "ids": [
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035",
+              "journal:2025-02-01:3036"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 14780470,
+            "control": 14780490,
+            "ids": [
+              "journal:2025-02-01:1890",
+              "journal:2025-02-01:1891",
+              "journal:2025-02-01:1892"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+            "treatment": 1170870,
+            "control": 1170873,
+            "ids": [
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1924",
+              "journal:2025-02-01:1925"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
+            "treatment": 26379,
+            "control": 26378,
+            "ids": ["journal:2025-02-06:7818", "journal:2025-02-06:7819"]
+          }
+        ],
+        "diffKinds": 10,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "right-to-work-to-turnout",
+            "status": "built",
+            "to": "voting.turnout-pct"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "right-to-work-to-turnout",
+            "effect": 0.031
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "right-to-work-to-turnout",
+            "effect": 0.031
+          }
+        ],
+        "firedCount": 2
+      },
+      "heard": {
+        "people": 71,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-01-21:law-wiring-358194bb"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 67,
+        "countedGroups": 2,
+        "countedPeople": 72,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 71,
+        "ended": 43,
+        "sample": [
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b:workers:person_eadfec9a418d1fed:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b:workers:person_eadfeb9a418d1e3a:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b:workers:person_328f136709e7c650:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.right-to-work:general:2025-02-26:law-wiring-358194bb-b:workers:person_328f146709e7c803:2025-02-26"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 43,
+        "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "kind": "question",
+      "family": "labor",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
+        "law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+        "law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-02-26:law-wiring-d994f5d4-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 2,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting:city:organization_66aa7ca5030a42f2:2025-01-20",
+          "applied|us-policy-positions:labor-workforce.local-minimum-wage-authority|place:3149425",
+          "applied|us-policy-positions:labor-workforce.local-minimum-wage-authority|office:gus2025:130224:council"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2113": 207,
+        "src/core2/modules/world-legislating.ts:253": 30,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/life.ts:549": 4,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 45169197,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16192909,
+            "control": 16126582,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 9329843,
+            "control": 9379843,
+            "ids": [
+              "journal:2025-02-01:1848",
+              "journal:2025-02-01:1849",
+              "journal:2025-02-01:1850"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
+            "treatment": 3556564,
+            "control": 3577397,
+            "ids": [
+              "journal:2025-02-19:8103",
+              "journal:2025-02-19:8104",
+              "journal:2025-02-19:8105"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107890403,
+            "control": 107875863,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2890261,
+            "control": 2882999,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
+            "treatment": 26377,
+            "control": 26376,
+            "ids": ["journal:2025-02-06:7818", "journal:2025-02-06:7819"]
+          }
+        ],
+        "diffKinds": 7,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "minimum-wage-to-poverty",
+            "status": "built",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 72,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 2,
+        "other": 0,
+        "open": 3,
+        "ended": 1,
+        "sample": [
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-02-26:law-wiring-d994f5d4-b:city:organization_66aa7ca5030a42f2:2025-02-26",
+          "applied|us-policy-positions:labor-workforce.local-minimum-wage-authority|place:3149425",
+          "applied|us-policy-positions:labor-workforce.local-minimum-wage-authority|office:gus2025:130224:council"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "seconds": 19
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "kind": "question",
+      "family": "labor",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
+        "law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+        "law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b"
+      ],
+      "openingReach": {
+        "fullPeople": 14,
+        "countedGroups": 1,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 10,
+        "governments": 0,
+        "other": 0,
+        "open": 25,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_328f136709e7c650:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_02977976e9a4e00e:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_d3ad419b84e922af:2025-01-20",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting:public-workers:person_ef80385ec313a65e:2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 25,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2113": 5572,
+        "src/core2/modules/outcome-web.ts:158": 96,
+        "src/core2/modules/world-legislating.ts:253": 18,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 2,
+        "src/core2/public-bargaining.ts:26": 1
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16192909,
+            "control": 16126582,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107890403,
+            "control": 107875863,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2890261,
+            "control": 2882999,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          }
+        ],
+        "diffKinds": 3,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "public-bargaining-to-graduation",
+            "status": "built",
+            "to": "school.graduation-pct"
+          },
+          {
+            "key": "public-bargaining-to-earnings",
+            "status": "built",
+            "to": "labor.median-earnings"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+            "link": "public-bargaining-to-earnings",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+            "link": "public-bargaining-to-earnings",
+            "effect": 0.01
+          }
+        ],
+        "firedCount": 2
+      },
+      "heard": {
+        "people": 73,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 23,
+        "countedGroups": 2,
+        "countedPeople": 4,
+        "households": 0,
+        "organizations": 10,
+        "governments": 0,
+        "other": 0,
+        "open": 35,
+        "ended": 25,
+        "sample": [
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_328f136709e7c650:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_02977976e9a4e00e:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_d3ad419b84e922af:2025-02-26",
+          "reach:law:US-NE:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-02-26:law-wiring-8c69b2e8-b:public-workers:person_ef80385ec313a65e:2025-02-26"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 25,
+        "sample": []
+      },
+      "seconds": 18
+    },
+    {
+      "key": "local-minimum-wage-authority",
+      "kind": "amount",
+      "family": "starting law",
+      "inForceAtOpening": false,
+      "change": "local-minimum-wage-authority 1 -> 2 at state (law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+        "law:US-NE:state:local-minimum-wage-authority:general:2000-01-01",
+        "law:US-NE:state:local-minimum-wage-authority:general:2025-02-26:law-wiring-d5735231-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|local-minimum-wage-authority|office:gus2025:130224:council"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/retirement-claims.ts:92": 10668,
+        "src/core2/modules/budgets.ts:1172": 8862,
+        "src/core2/modules/employer-taxes.ts:536": 640,
+        "src/core2/modules/budgets.ts:1164": 600,
+        "src/core2/paid-leave.ts:23": 356,
+        "src/core2/modules/employer-taxes.ts:514": 320,
+        "src/core2/modules/employer-taxes.ts:527": 320,
+        "src/core2/modules/constituent-cases.ts:151": 138,
+        "src/core2/counted-money.ts:402": 134,
+        "src/core2/counted-money.ts:403": 134,
+        "src/core2/counted-money.ts:404": 134,
+        "src/core2/modules/counted-moves.ts:183": 124,
+        "src/core2/public-pay-floor.ts:67": 58,
+        "src/core2/gov-measures.ts:243": 48,
+        "src/core2/public-safety.ts:124": 20,
+        "src/core2/life.ts:549": 18,
+        "src/core2/modules/budgets.ts:675": 18,
+        "src/core2/modules/budgets.ts:683": 18,
+        "src/core2/gov-measures.ts:100": 16,
+        "src/core2/gov-measures.ts:104": 16,
+        "src/core2/gov-measures.ts:112": 16,
+        "src/core2/gov-measures.ts:176": 16,
+        "src/core2/modules/place-prices.ts:688": 14,
+        "src/core2/modules/jobs.ts:2190": 6,
+        "src/core2/modules/credit.ts:1123": 4,
+        "src/core2/law-reach/group-b-money.ts:657 <- src/core2/life.ts:549": 4,
+        "src/core2/modules/legislature.ts:862": 2,
+        "src/core2/right-to-work-dues.ts:66": 2,
+        "src/core2/modules/business.ts:1138": 2,
+        "src/core2/modules/business.ts:1207": 2,
+        "src/core2/modules/business.ts:920": 2,
+        "src/core2/modules/housing.ts:1636": 2,
+        "src/core2/modules/housing.ts:1640": 2,
+        "src/core2/modules/housing.ts:1644": 2,
+        "src/core2/modules/housing.ts:1648": 2,
+        "src/core2/modules/constituent-cases.ts:256": 2,
+        "src/core2/law-reach/group-b-food-aid.ts:54 <- src/core2/life.ts:549": 2,
+        "src/core2/law-reach/group-b-food-aid.ts:159 <- src/core2/life.ts:549": 2,
+        "unknown": 1,
+        "src/core2/modules/legislature.ts:890": 1
+      },
+      "openingRow": "law:US-NE:state:local-minimum-wage-authority:general:2000-01-01",
+      "money": {
+        "direct": [
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107884176,
+            "control": 107875863,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2887102,
+            "control": 2882999,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16164058,
+            "control": 16126582,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1406",
+            "treatment": 107884176,
+            "control": 107875863,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2887102,
+            "control": 2882999,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          }
+        ],
+        "diffKinds": 3,
+        "cited": []
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 72,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 17
+    }
+  ]
 }

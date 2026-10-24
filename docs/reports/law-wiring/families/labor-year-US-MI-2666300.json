@@ -1,272 +1,272 @@
 {
- "seed": "a91c03e7d2b84f10",
- "place": {
-  "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
-  "key": "2666300",
-  "name": "Prescott, Michigan",
-  "state": "US-MI"
- },
- "window": 400,
- "after": 10,
- "results": [
-  {
-   "key": "us-policy-positions:labor-workforce.paid-family-leave",
-   "kind": "question",
-   "family": "labor",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c) effective 2025-01-21; then repealed at city effective 2026-02-26",
-   "lawIds": [
-    "law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
-    "law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2026-02-26:law-wiring-fdb9f24c-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 96,
-    "countedGroups": 34,
-    "countedPeople": 22.397039148715344,
-    "households": 0,
-    "organizations": 8,
-    "governments": 0,
-    "other": 0,
-    "open": 138,
-    "ended": 0,
-    "sample": [
-     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_474c2f7aee205efe:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_8820139c2233ecf6:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_8db452f4bbb5edf6:2025-01-21",
-     "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_a5824fb48f17bfe5:2025-01-21"
-    ]
-   },
-   "readers": {
-    "src/core2/paid-leave.ts:23": 6803,
-    "src/core2/modules/world-legislating.ts:253": 320,
-    "src/core2/modules/outcome-web.ts:158": 301,
-    "src/core2/modules/legislature.ts:2113": 221,
-    "src/core2/modules/world-legislating.ts:183": 96,
-    "src/core2/life.ts:549": 5,
-    "src/core2/modules/world-legislating.ts:333": 4,
-    "src/core2/law-reach/group-a-records.ts:253 <- src/core2/life.ts:549": 4
-   },
-   "openingRow": "law:US-MI:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting",
-   "money": {
-    "direct": [
-     {
-      "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:159 <- src/core2/work-payroll-dispatch.ts:545",
-      "treatment": 1444514,
-      "control": 0,
-      "ids": [
-       "journal:2025-01-26:1651",
-       "journal:2025-01-26:1655",
-       "journal:2025-01-28:1676"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/life.ts:551",
-      "treatment": 50602376,
-      "control": 50560277,
-      "ids": [
-       "journal:2025-01-23:1634",
-       "journal:2025-02-06:8044",
-       "journal:2025-02-21:8412"
-      ]
-     }
-    ],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
-      "treatment": 769319189980658,
-      "control": 769319187303838,
-      "ids": [
-       "journal:2025-02-01:1754",
-       "journal:2025-02-01:1755",
-       "journal:2025-02-01:1756"
-      ]
-     },
-     {
-      "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:159 <- src/core2/work-payroll-dispatch.ts:545",
-      "treatment": 1444514,
-      "control": 0,
-      "ids": [
-       "journal:2025-01-26:1651",
-       "journal:2025-01-26:1655",
-       "journal:2025-01-28:1676"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
-      "treatment": 2125434099,
-      "control": 2126732040,
-      "ids": [
-       "journal:2025-01-21:1565",
-       "journal:2025-01-21:1566",
-       "journal:2025-01-21:1567"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 205434576,
-      "control": 206551896,
-      "ids": [
-       "journal:2025-01-21:1595",
-       "journal:2025-01-21:1596",
-       "journal:2025-01-21:1597"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-      "treatment": 209001985,
-      "control": 209755688,
-      "ids": [
-       "journal:2025-02-01:2669",
-       "journal:2025-02-01:2670",
-       "journal:2025-02-01:2672"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 269069145,
-      "control": 268511952,
-      "ids": [
-       "journal:2025-02-01:1950",
-       "journal:2025-02-01:1951",
-       "journal:2025-02-01:1952"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
-      "treatment": 2339409411,
-      "control": 2338918692,
-      "ids": [
-       "journal:2025-02-10:8099",
-       "journal:2025-02-28:8639",
-       "journal:2025-03-18:15875"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-      "treatment": 422190347,
-      "control": 421777075,
-      "ids": [
-       "journal:2025-01-24:1635",
-       "journal:2025-01-25:1636",
-       "journal:2025-01-25:1638"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 49691146,
-      "control": 50099647,
-      "ids": [
-       "journal:2025-02-01:1926",
-       "journal:2025-02-01:1927",
-       "journal:2025-02-01:1928"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:351",
-      "treatment": 1218167,
-      "control": 1512575,
-      "ids": [
-       "journal:2025-04-01:16741",
-       "journal:2025-05-01:24701",
-       "journal:2025-07-01:40782"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
-      "treatment": 11696082,
-      "control": 11985150,
-      "ids": [
-       "journal:2025-02-19:8340",
-       "journal:2025-02-19:8341",
-       "journal:2025-02-19:8343"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-      "treatment": 80937110,
-      "control": 81180774,
-      "ids": [
-       "journal:2025-02-01:1969",
-       "journal:2025-02-01:1971",
-       "journal:2025-02-01:1973"
-      ]
-     }
-    ],
-    "diffKinds": 36,
-    "cited": [
-     {
-      "token": "us-policy-positions:labor-workforce.paid-family-leave",
-      "gross": 1363,
-      "ids": [
-       "journal:2026-01-19:100727",
-       "journal:2026-01-22:101005",
-       "journal:2026-01-23:101031"
-      ]
-     }
-    ]
-   },
-   "web": {
-    "links": [
-     {
-      "key": "paid-leave-to-mothers-work",
-      "status": "built",
-      "to": "labor.mothers-participation"
-     }
-    ],
-    "fired": [
-     {
-      "id": "web:jurisdiction_971998ff58477430:2026-02",
-      "link": "paid-leave-to-mothers-work",
-      "effect": 0.02
-     }
-    ],
-    "firedCount": 1
-   },
-   "heard": {
-    "people": 1,
-    "sample": [
-     "person_2dc9b118ebc09a54:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
-     "person_2dc9b118ebc09a54:printed:outlet:television:3:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
-     "person_2dc9b118ebc09a54:printed:outlet:television:2:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 8,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 8,
-    "sample": []
-   },
-   "seconds": 109
-  }
- ]
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 400,
+  "after": 10,
+  "results": [
+    {
+      "key": "us-policy-positions:labor-workforce.paid-family-leave",
+      "kind": "question",
+      "family": "labor",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c) effective 2025-01-21; then repealed at city effective 2026-02-26",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+        "law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2026-02-26:law-wiring-fdb9f24c-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 96,
+        "countedGroups": 34,
+        "countedPeople": 22.397039148715344,
+        "households": 0,
+        "organizations": 8,
+        "governments": 0,
+        "other": 0,
+        "open": 138,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_474c2f7aee205efe:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_8820139c2233ecf6:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_8db452f4bbb5edf6:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c:employers:organization_a5824fb48f17bfe5:2025-01-21"
+        ]
+      },
+      "readers": {
+        "src/core2/paid-leave.ts:23": 6803,
+        "src/core2/modules/world-legislating.ts:253": 320,
+        "src/core2/modules/outcome-web.ts:158": 301,
+        "src/core2/modules/legislature.ts:2113": 221,
+        "src/core2/modules/world-legislating.ts:183": 96,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 4,
+        "src/core2/law-reach/group-a-records.ts:253 <- src/core2/life.ts:549": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:labor-workforce.paid-family-leave:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:159 <- src/core2/work-payroll-dispatch.ts:545",
+            "treatment": 1444514,
+            "control": 0,
+            "ids": [
+              "journal:2025-01-26:1651",
+              "journal:2025-01-26:1655",
+              "journal:2025-01-28:1676"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 50602376,
+            "control": 50560277,
+            "ids": [
+              "journal:2025-01-23:1634",
+              "journal:2025-02-06:8044",
+              "journal:2025-02-21:8412"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+            "treatment": 769319189980658,
+            "control": 769319187303838,
+            "ids": [
+              "journal:2025-02-01:1754",
+              "journal:2025-02-01:1755",
+              "journal:2025-02-01:1756"
+            ]
+          },
+          {
+            "kind": "law-reach-a:leave-premium @ src/core2/law-reach/group-a-money.ts:159 <- src/core2/work-payroll-dispatch.ts:545",
+            "treatment": 1444514,
+            "control": 0,
+            "ids": [
+              "journal:2025-01-26:1651",
+              "journal:2025-01-26:1655",
+              "journal:2025-01-28:1676"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
+            "treatment": 2125434099,
+            "control": 2126732040,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 205434576,
+            "control": 206551896,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 209001985,
+            "control": 209755688,
+            "ids": [
+              "journal:2025-02-01:2669",
+              "journal:2025-02-01:2670",
+              "journal:2025-02-01:2672"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 269069145,
+            "control": 268511952,
+            "ids": [
+              "journal:2025-02-01:1950",
+              "journal:2025-02-01:1951",
+              "journal:2025-02-01:1952"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+            "treatment": 2339409411,
+            "control": 2338918692,
+            "ids": [
+              "journal:2025-02-10:8099",
+              "journal:2025-02-28:8639",
+              "journal:2025-03-18:15875"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 422190347,
+            "control": 421777075,
+            "ids": [
+              "journal:2025-01-24:1635",
+              "journal:2025-01-25:1636",
+              "journal:2025-01-25:1638"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 49691146,
+            "control": 50099647,
+            "ids": [
+              "journal:2025-02-01:1926",
+              "journal:2025-02-01:1927",
+              "journal:2025-02-01:1928"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:351",
+            "treatment": 1218167,
+            "control": 1512575,
+            "ids": [
+              "journal:2025-04-01:16741",
+              "journal:2025-05-01:24701",
+              "journal:2025-07-01:40782"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
+            "treatment": 11696082,
+            "control": 11985150,
+            "ids": [
+              "journal:2025-02-19:8340",
+              "journal:2025-02-19:8341",
+              "journal:2025-02-19:8343"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 80937110,
+            "control": 81180774,
+            "ids": [
+              "journal:2025-02-01:1969",
+              "journal:2025-02-01:1971",
+              "journal:2025-02-01:1973"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": [
+          {
+            "token": "us-policy-positions:labor-workforce.paid-family-leave",
+            "gross": 1363,
+            "ids": [
+              "journal:2026-01-19:100727",
+              "journal:2026-01-22:101005",
+              "journal:2026-01-23:101031"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "paid-leave-to-mothers-work",
+            "status": "built",
+            "to": "labor.mothers-participation"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2026-02",
+            "link": "paid-leave-to-mothers-work",
+            "effect": 0.02
+          }
+        ],
+        "firedCount": 1
+      },
+      "heard": {
+        "people": 1,
+        "sample": [
+          "person_2dc9b118ebc09a54:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+          "person_2dc9b118ebc09a54:printed:outlet:television:3:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c",
+          "person_2dc9b118ebc09a54:printed:outlet:television:2:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.paid-family-leave:general:2025-01-21:law-wiring-fdb9f24c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 8,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 8,
+        "sample": []
+      },
+      "seconds": 109
+    }
+  ]
 }
