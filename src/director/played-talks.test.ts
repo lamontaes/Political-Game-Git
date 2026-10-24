@@ -9,14 +9,14 @@ import {
   subjectsBetween,
   type Conversation,
 } from "./conversation";
-import { composeScene } from "./scene";
 
 // Scenes with a purpose, the root fix (owner, Oct 15, evening: batch 12
 // rejected). In a played year of the bench's world, in a place drawn from all
 // 56 and a seed nobody chose, fifteen talks the director's own scenes open
-// run to their close. No talk opens on a school or a workplace the two shared
-// unless decades have passed and the record shows it, and a question the
-// player answered is followed up, never answered with goodbye.
+// run to their close on the day each scene is staged. No talk opens on a
+// school or a workplace the two shared unless decades have passed and the
+// record shows it, and a question the player answered is followed up, never
+// answered with goodbye.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const TALKS = 15;
 const TURNS = 12;
@@ -113,98 +113,106 @@ describe("talks in a played year", () => {
   });
 
   it(`fifteen talks run to their close, open only on what the records earn and follow up every answer (seed ${seed})`, () => {
-    const rows: string[] = [];
-    const types = new Set<string>();
     let where = "";
     let notCounted = 0;
+    let checked = 0;
+    let named: { typeKey: string; row: string }[] = [];
     for (
       let attempt = 0;
-      attempt < ATTEMPTS && rows.length < TALKS;
+      attempt < ATTEMPTS && named.length < TALKS;
       attempt += 1
     ) {
-      const held = stageWorldHeld({
+      // Each talk opens on the day its scene is staged and runs to its close
+      // before the world moves on, so it reads what the two know that day and
+      // the rest of the year reads what was said. One talk per pair of people.
+      const pairs = new Set<string>();
+      const played: { typeKey: string; row: string; problems: string[] }[] = [];
+      const { report } = stageWorldHeld({
         id: "played-talks",
         seed: attempt ? `${seed}:${attempt}` : seed,
         days: 365,
-      });
-      const { core, director, report } = held;
-      where = `${report.place.name}, seed ${report.seed}`;
-      // One talk per pair of people, and every situation type the year staged
-      // before any type a second time, so the fifteen are not one sitting.
-      const pairs = new Set<string>();
-      const done = new Set<string>();
-      const order = [
-        ...report.staged.filter(
-          (row, at, all) =>
-            all.findIndex((other) => other.typeKey === row.typeKey) === at,
-        ),
-        ...report.staged,
-      ];
-      for (const staged of order) {
-        if (rows.length >= TALKS) break;
-        const key = `${staged.watchedId}:${staged.momentId}:${staged.typeKey}`;
-        if (done.has(key)) continue;
-        done.add(key);
-        const watched = staged.watchedId as PersonId;
-        const entry = director.ledger.people
-          .get(watched)
-          ?.schedule.find((row) => row.momentId === staged.momentId);
-        if (!entry) continue;
-        const scene = composeScene(core, director, watched, entry);
-        const otherId = scene?.talkToId;
-        if (!scene || !otherId) continue;
-        const pair = [watched, otherId].sort().join("|");
-        if (pairs.has(pair)) continue;
-        const here = `${where}: ${staged.typeKey} ${staged.momentId}`;
-        const shared = subjectsBetween(core, watched, otherId, director).filter(
-          (row) => row.kind === "shared-school" || row.kind === "shared-work",
-        );
-        const talk = openConversation(core, watched, otherId, {
-          presentIds: scene.presentIds,
-          director,
-          occasionId: staged.momentId,
-        });
-        const turns: Turn[] = [];
-        for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1) {
-          // A yes or a no where one is offered, else the first reply.
-          const choice =
-            talk.choices.find((row) => YES_NO.test(row.text)) ??
-            talk.choices[0]!;
-          turns.push({
-            yesNo: YES_NO.test(choice.text),
-            text: choice.text,
-            before: talk.lines.length,
+        onStaged: (staged, scene, core, director) => {
+          const watched = staged.watchedId as PersonId;
+          const otherId = scene?.talkToId;
+          if (!scene || !otherId) return;
+          const pair = [watched, otherId].sort().join("|");
+          if (pairs.has(pair)) return;
+          const shared = subjectsBetween(
+            core,
+            watched,
+            otherId,
+            director,
+          ).filter(
+            (row) => row.kind === "shared-school" || row.kind === "shared-work",
+          );
+          const talk = openConversation(core, watched, otherId, {
+            presentIds: scene.presentIds,
+            director,
+            occasionId: staged.momentId,
           });
-          say(core, talk, choice.key);
-        }
-        // An opener on a shared school or workplace is earned by decades on record.
-        const earned = (line: Conversation["lines"][number]) => {
-          const about = shared.find((row) => line.subjectId.includes(row.id));
-          return !about || !!about.facts["long-ago"];
-        };
-        const judged = judge(talk, turns, watched, earned);
-        if (!judged.counts) {
-          // A scene whose talk the player never answered is not one of the fifteen.
-          notCounted += 1;
-          continue;
-        }
-        expect(judged.problems, here).toEqual([]);
-        pairs.add(pair);
-        types.add(staged.typeKey);
-        const records = [
-          ...new Set(talk.lines.flatMap((line) => line.sourceRecordIds)),
-        ];
-        rows.push(
-          `${staged.typeKey} | moment ${staged.momentId} | cause ${staged.causeId} | ${watched} and ${otherId} | ${talk.lines.length} lines, ${turns.length} replies (${turns.filter((t) => t.yesNo).length} yes or no) | records ${records.slice(0, 4).join(", ")}`,
-        );
-      }
+          const turns: Turn[] = [];
+          for (let turn = 0; turn < TURNS && talk.choices.length; turn += 1) {
+            // A yes or a no where one is offered, else the first reply.
+            const choice =
+              talk.choices.find((row) => YES_NO.test(row.text)) ??
+              talk.choices[0]!;
+            turns.push({
+              yesNo: YES_NO.test(choice.text),
+              text: choice.text,
+              before: talk.lines.length,
+            });
+            say(core, talk, choice.key);
+          }
+          // An opener on a shared school or workplace is earned by decades on record.
+          const earned = (line: Conversation["lines"][number]) => {
+            const about = shared.find((row) => line.subjectId.includes(row.id));
+            return !about || !!about.facts["long-ago"];
+          };
+          const judged = judge(talk, turns, watched, earned);
+          if (!judged.counts) {
+            // A scene whose talk the player never answered is not one of the fifteen.
+            notCounted += 1;
+            return;
+          }
+          pairs.add(pair);
+          const records = [
+            ...new Set(talk.lines.flatMap((line) => line.sourceRecordIds)),
+          ];
+          // A talk opens on its scene's day, never after the world moved on.
+          const late =
+            String(core.date) === staged.date
+              ? []
+              : [`opened on ${core.date}, staged for ${staged.date}`];
+          played.push({
+            typeKey: staged.typeKey,
+            problems: [...judged.problems, ...late],
+            row: `${staged.typeKey} | ${core.date} | moment ${staged.momentId} | cause ${staged.causeId} | ${watched} and ${otherId} | ${talk.lines.length} lines, ${turns.length} replies (${turns.filter((t) => t.yesNo).length} yes or no) | records ${records.slice(0, 4).join(", ")}`,
+          });
+        },
+      });
+      where = `${report.place.name}, seed ${report.seed}`;
+      // Every talk that counts is checked, not only the fifteen named.
+      for (const talk of played)
+        expect(talk.problems, `${where}: ${talk.row}`).toEqual([]);
+      checked = played.length;
+      // The fifteen named take every situation type before any type a second
+      // time, so they are not one sitting.
+      const firsts = played.filter(
+        (talk, at, all) =>
+          all.findIndex((other) => other.typeKey === talk.typeKey) === at,
+      );
+      named = [
+        ...firsts,
+        ...played.filter((talk) => !firsts.includes(talk)),
+      ].slice(0, TALKS);
     }
-    const named = `TALKS ${where}, ${rows.length} talks in ${types.size} situation types (${notCounted} staged talks the player never answered, not counted)\n${rows.join("\n")}\n`;
-    console.log(named);
+    const types = new Set(named.map((talk) => talk.typeKey));
+    const text = `TALKS ${where}: ${checked} talks checked, ${named.length} named in ${types.size} situation types (${notCounted} staged talks the player never answered, not counted)\n${named.map((talk) => talk.row).join("\n")}\n`;
+    console.log(text);
     // The talks and their record ids, for a PR body or a grading page.
     if (process.env.PLAYED_TALKS_OUT)
-      writeFileSync(process.env.PLAYED_TALKS_OUT, named);
-    expect(rows.length, `${where}: talks the director's scenes opened`).toBe(
+      writeFileSync(process.env.PLAYED_TALKS_OUT, text);
+    expect(named.length, `${where}: talks the director's scenes opened`).toBe(
       TALKS,
     );
   }, 2_400_000);
