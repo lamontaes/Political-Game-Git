@@ -25,7 +25,6 @@ test("paired medians tolerate one outlier and enforce strict twenty-percent limi
 });
 test("unmatched worlds, hosts and revisions cannot produce green comparisons", () => {
   for (const extra of [
-    { inputHash: "changed" },
     { host: { fixture: false } },
     { seed: "different" },
     { days: 30 },
@@ -35,6 +34,29 @@ test("unmatched worlds, hosts and revisions cannot produce green comparisons", (
   const changed = rows([10, 10, 10]);
   changed[1].revision = "other";
   assert.throws(() => compare(changed, rows([10, 10, 10])));
+});
+test("a changed opening is timed and reported, not refused", () => {
+  const result = compare(
+    rows([10, 10, 10]),
+    rows([11, 11, 11], { inputHash: "changed" }),
+  );
+  assert.equal(result.passed, true);
+  assert.equal(result.ratio, 1.1);
+  assert.deepEqual(result.inputHash, {
+    base: "fixture",
+    head: "changed",
+    changed: true,
+  });
+  assert.equal(
+    compare(rows([10, 10, 10]), rows([10, 10, 10])).inputHash.changed,
+    false,
+  );
+  const mixed = rows([10, 10, 10]);
+  mixed[2].inputHash = "changed";
+  assert.throws(
+    () => compare(rows([10, 10, 10]), mixed),
+    /inputHash inside a revision/,
+  );
 });
 test("incomplete or invalid receipts fail closed", () => {
   assert.throws(() => compare(rows([10]), rows([10, 10, 10])));

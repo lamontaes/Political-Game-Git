@@ -10,18 +10,27 @@
  *     owner's loss record, the choice's recorded reason);
  *   - a budget line change: the measure and the law behind it, and the line's
  *     history;
- *   - a person: the year's ledger (pay, hours, taxes, rent, spending);
+ *   - a person: the year's ledger (pay, hours, taxes, rent, spending), and
+ *     their kept decisions (each act's offered options with every reason, the
+ *     trait reason first, or the chosen option's reasons once condensed);
  *   - a credit line's repricing: the line's rate history, each change with
  *     the central bank meeting behind it.
  */
 import { coreAPI } from "../core2/state";
+import { parameter } from "../core2/parameters";
+import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import {
   LEGISLATURE_MODULE_ID,
   votesOn,
   type MemberPosition,
 } from "../core2/modules/legislature";
-import type { CoreState } from "../core2/types";
+import type {
+  CoreState,
+  DecisionReason,
+  DecisionResult,
+  LogRecord,
+} from "../core2/types";
 
 export interface WhyRow {
   readonly label: string;
@@ -451,6 +460,122 @@ function ledgerPanels(core: CoreState, personId: string): WhyPanel[] {
   ];
 }
 
+// ---- A person's decisions --------------------------------------------------
+
+/** Trait first: it is what two residents differ on; then the rest in the chooser's order. */
+const REASONS = [
+  "trait",
+  "need",
+  "goal",
+  "drive",
+  "emotion",
+  "effort",
+  "module",
+] as const;
+
+const signed = (value: number) => `${value > 0 ? "+" : ""}${number(value)}`;
+
+const reasonsText = (reasons: Partial<DecisionReason> | undefined) =>
+  reasons
+    ? REASONS.flatMap((key) =>
+        typeof reasons[key] === "number"
+          ? [`${key} ${signed(reasons[key] as number)}`]
+          : [],
+      ).join(", ")
+    : "no reasons kept";
+
+/** " with <who>" for an option aimed at someone or something; nothing when it is aimed at the actor. */
+const withText = (core: CoreState, actorId: string, id: string | undefined) => {
+  if (!id || id === actorId) return "";
+  const name = core.people.has(id)
+    ? nameOf(core, id)
+    : core.organizations.get(id)?.name;
+  return ` with ${name || id}`;
+};
+
+/** Whether this person's acts save their reasons today (the rule `recordAct` applies). */
+const savesActs = (core: CoreState, personId: string) =>
+  core.observer ||
+  core.focusPersonIds.has(personId) ||
+  personId === core.playerId ||
+  isExplicitlyControlledPersonV1(core, personId);
+
+function actRow(
+  core: CoreState,
+  row: LogRecord,
+  condensedDays: number,
+): WhyRow {
+  const decision = row.decision as DecisionResult | undefined;
+  const lines: string[] = [];
+  if (decision?.scores?.length) {
+    const at = decision.scores.findIndex(
+      (score) =>
+        score.actionId === row.actionId && score.targetId === row.targetId,
+    );
+    lines.push(
+      ...decision.scores.map(
+        (score, index) =>
+          `${index === at ? "picked " : "offered"} ${score.actionId}${withText(core, row.actorId!, score.targetId)}: score ${number(score.score)}; ${reasonsText(score.reasons)}`,
+      ),
+    );
+    // The chosen option leads, so the row reads "what was picked, and why".
+    if (at > 0) lines.unshift(...lines.splice(at, 1));
+    else if (at < 0)
+      lines.unshift(
+        `picked ${row.actionId}${withText(core, row.actorId!, row.targetId)}: not among the scored options`,
+      );
+  } else
+    lines.push(
+      `picked ${row.actionId}${withText(core, row.actorId!, row.targetId)}; only the chosen option's reasons are kept after ${condensedDays} days: ${reasonsText(decision?.selectedReasons)}`,
+    );
+  return {
+    label: `${row.date} picked ${row.actionId} (${row.id})`,
+    value: lines.join("\n"),
+    id: row.id,
+  };
+}
+
+/**
+ * A person's kept decisions, newest first: each `person.acted` record's date,
+ * the option picked and every offered option's reasons. Records exist only for
+ * people the player deals with and people in focus, so an unfollowed person
+ * gets the gap line instead of rows.
+ */
+export function decisionPanels(core: CoreState, personId: string): WhyPanel[] {
+  const condensedDays = parameter(
+    "circleDecisionDetailDays",
+    core.data.parameters,
+  );
+  const kept: { row: LogRecord; order: number }[] = [];
+  let order = 0;
+  for (const id of core.logByPerson.get(personId) ?? []) {
+    const row = core.durableLog.get(id);
+    if (row?.kind === "person.acted" && row.actorId === personId)
+      kept.push({ row, order: order++ });
+  }
+  kept.sort(
+    (a, b) => b.row.date.localeCompare(a.row.date) || b.order - a.order,
+  );
+  const saves = savesActs(core, personId);
+  return [
+    {
+      title: `${nameOf(core, personId)}: decisions`,
+      rows: kept
+        .slice(0, MAX_ROWS)
+        .map(({ row }) => actRow(core, row, condensedDays)),
+      ...(saves
+        ? kept.length
+          ? {}
+          : {
+              gap: "No act of this person has been kept yet; their acts keep every option's reasons from the day they are followed, so time has to pass.",
+            }
+        : {
+            gap: "This person's acts keep no reasons until followed (why-kept): follow them on this page, then let time pass.",
+          }),
+    },
+  ];
+}
+
 // ---- A credit line's repricing ---------------------------------------------
 
 /** Every time the line's rate moved with the prime rate, each with its meeting. */
@@ -509,7 +634,8 @@ export function whyPanels(
     return Object.keys((record.spendingMinor ?? {}) as object).map((line) =>
       linePanel(core, String(record.governmentId), line),
     );
-  if (found.kind === "person") return ledgerPanels(core, id);
+  if (found.kind === "person")
+    return [...ledgerPanels(core, id), ...decisionPanels(core, id)];
   if (found.engine === `${MACRO_MODULE_ID}.repricings`)
     return repricingPanels(core, String(record.facilityId));
   return [];
