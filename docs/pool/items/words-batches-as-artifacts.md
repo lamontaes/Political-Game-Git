@@ -22,3 +22,5 @@ claimed-at:
 **Files.** scripts/dialogue-batch/held-page/build.py, scripts/dialogue-batch/held-page/template.html, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5917 (branch words/batches-as-artifacts): newly added table-read.ts:2, held-first.test.ts:7 and template JavaScript comments embed dated owner instructions prohibited by the merger morning check; keep the quotes in docs and remove the dated owner notes from source; finish on that branch, merge main into it first.
