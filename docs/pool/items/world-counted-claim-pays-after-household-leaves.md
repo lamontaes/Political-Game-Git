@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/counted-claim-household-leaves
 pr: #5973
 blocked-on:
