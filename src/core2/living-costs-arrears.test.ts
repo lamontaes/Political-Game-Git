@@ -8,6 +8,7 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
+import { setJournalTrace } from "./journal-state";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -199,7 +200,6 @@ it("a full household and a counted group each carry a living cost across a day w
       // Every journal entry a living-cost settlement posts today, by the
       // settlement id it carries (the flow id, @, the day, and for a second
       // payer in a household, its id).
-      const api = coreAPI(core);
       const posted = new Map<
         string,
         {
@@ -207,15 +207,12 @@ it("a full household and a counted group each carry a living cost across a day w
           postings: { accountId: string; deltaMinor: number }[];
         }[]
       >();
-      const post = api.postJournal.bind(api);
-      api.postJournal = (entry) => {
-        if (entry.sourceRef.id.includes("household.outside-living-costs")) {
-          const list = posted.get(entry.sourceRef.id) ?? [];
-          list.push({ journalId: entry.id, postings: [...entry.postings] });
-          posted.set(entry.sourceRef.id, list);
-        }
-        return post(entry);
-      };
+      setJournalTrace((entry) => {
+        if (!entry.sourceRef.id.includes(":outside-living:")) return;
+        const list = posted.get(entry.sourceRef.id) ?? [];
+        list.push({ journalId: entry.id, postings: [...entry.postings] });
+        posted.set(entry.sourceRef.id, list);
+      });
       /** A settlement's entries today: the flow's own id and any second payer's. */
       const entriesOf = (flowId: string, date: string) =>
         [...posted]
@@ -384,6 +381,7 @@ it("a full household and a counted group each carry a living cost across a day w
       `no drawn place showed a carried and a repaid living cost in both tiers: ${tried.join("; ")}`,
     );
   } finally {
+    setJournalTrace(null);
     setBookkeeping(true);
   }
 }, 3_600_000);
