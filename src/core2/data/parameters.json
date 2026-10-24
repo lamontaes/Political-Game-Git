@@ -5948,7 +5948,7 @@
     }
   },
   "traitWeightConstituentCasesHandleCase": {
-    "value": 1,
+    "value": 0.15,
     "tag": "TUNABLE",
     "citation": "The trait weight of the constituent-cases.handle-case decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
@@ -5957,7 +5957,7 @@
     }
   },
   "traitWeightStaffFollowThrough": {
-    "value": 1,
+    "value": 0.3,
     "tag": "TUNABLE",
     "citation": "The trait weight of the staff.follow-through decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
     "spread": {
