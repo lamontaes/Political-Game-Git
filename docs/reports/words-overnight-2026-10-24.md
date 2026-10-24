@@ -14,7 +14,7 @@ And later: "The character creator should just be whatever people are being used 
 
 ## What you can do now
 
-**Scenes fire from the records (#5908).** File for any office and press Day. The day stops at home, and someone you live with opens with a reason. Then you pick a reply, and each reply leads somewhere different. A real one from tonight, in Edina, Missouri, the day after Jordan Mullins filed for U.S. Representative:
+**Scenes fire from the records (#5914).** File for any office and press Day. The day stops at home, and someone you live with opens with a reason. Then you pick a reply, and each reply leads somewhere different. A real one from tonight, in Edina, Missouri, the day after Jordan Mullins filed for U.S. Representative:
 
 - Arjun Mullins (partner): "So. You did it." / "So you're really doing this?"
 - Jordan, unprompted: "Who told you?"
@@ -53,7 +53,7 @@ These are other sessions' work, in review tonight; nothing here is mine.
 1. #5898, the people: no dependencies.
 2. #5902, the opening address: no dependencies.
 3. #5906, the voice-note grades: no dependencies.
-4. #5908, scenes in play: plays the most once #5906 has released lines; it works without it in the grading view.
+4. #5914, scenes in play: plays the most once #5906 has released lines; it works without it in the grading view.
 5. #4626, the word pack: when it lands after #5906, the ledger and the bank are regenerated, never hand-merged.
 
 One check is red on clean main as well, so it doesn't block these: `trait-coverage.test.ts`, "finds every decision in code that weighs traits".
