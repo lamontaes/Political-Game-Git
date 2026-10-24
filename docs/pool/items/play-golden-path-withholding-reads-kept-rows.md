@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-23 from PR #5782 (branch claude/withholding-kept-rows): Journal credit counts replace named-tax assertions and can pass on repeated credits of one kind; preserve live income-tax/Social-Security/Medicare identities and test one missing required kind; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5782 (branch claude/withholding-kept-rows): Superseded: main commit cd602d57949cfc83dd1f722525722ac8def930ed ports the named-tax posting/check fix and declaration; integration leaves an empty diff, so verify the existing main implementation rather than merging duplicate changes; finish on that branch, merge main into it first.

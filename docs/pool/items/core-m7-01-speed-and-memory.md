@@ -23,3 +23,5 @@ claimed-at:
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting. Oct 23: blocked-on was empty; set to the same not-scheduled reason as the other M7 items. #5364 (claude/m7-speed) is a note-only split proposal.
+
+Sent back 2026-10-23 from PR #5364 (branch claude/m7-speed): the first-line bare item ID would auto-complete the performance umbrella even though this is only a profile/Notes update and load/memory acceptance is explicitly unmeasured; retain the umbrella open and use a bounded evidence table; finish on that branch, merge main into it first.
