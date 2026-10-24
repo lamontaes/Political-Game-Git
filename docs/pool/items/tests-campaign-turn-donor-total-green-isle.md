@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/campaign-donor-total
+pr: #5940
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T12:19:44.804Z
 ---
 
 **What.** src/core2/campaign-turn.test.ts, 'a donor's running total is read from its indexed row, not from the history of payments', fails on main at line 279 in Green Isle, Minnesota (place key 2725658, seed 3d29bb4ba93ab238770ab3570ad393b0144d225cabba0415b78f6a7fd4ccb5bc): askForDonation returns 1300 where 0 is expected. Found by the M0-M2 lead's helper on the campaigns small-place fix; identical with that fix reverted.
