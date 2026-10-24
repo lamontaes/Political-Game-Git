@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: laws
+milestone: play-first
 ---
 
 **What.** On the v0.22.10 release, the November 3, 2026 results in Texas show U.S. Senator, Governor, Lieutenant Governor, Attorney General, Comptroller, Land Commissioner, Agriculture Commissioner, Railroad Commission, my state senator and state representative all "UNOPPOSED", each won by a Republican with about 4.15 million votes. No Democrat or other party ran for any of them. The U.S. Representative (19) result reads "113,807" in its header and "TX-19 Joe Richardson · 213,727" under it. Every race shows "Turnout 50 / 138" and "You —". On my own ballot two of four county commissioner races had no candidate at all. I expected contested statewide races and one total per race.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/modules/elections.ts, src/bench/results.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:30, 16:33; screenshots 73, 79, 80-results-page-1 to 3. assigned: Gov fixer (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:30, 16:33; screenshots 73, 79, 80-results-page-1 to 3. Lead: laws (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).

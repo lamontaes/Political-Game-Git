@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2
+milestone: play-first
 ---
 
 **What.** I made Bo Snider, born February 3, 2007, in Anson, Texas on the v0.22.10 release. My sister Madison Stein lives in the same household and was born February 10, 2007, seven days later; she is not listed as a twin. On the first night she is a teenager in a letterman jacket; by December 2025, at 18 with no college shown, she is "Public Works Director · CITY OF ANSON treasury", a department head filed under the treasury. When she came to see me she said only "How's John?" about our father, by his first name, with him standing in the room. I expected siblings born at least months apart, a department head with experience, and a sister who calls our father Dad.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/town-households.ts, src/core2/opening-employment.ts, src/core2/modules/jobs.ts, src/bench/family.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:19, 16:20; screenshot 63. Madison's card: person_fe994fe2c35f9900. assigned: M0–M2 lead (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:19, 16:20; screenshot 63. Madison's card: person_fe994fe2c35f9900. Lead: m0-m2 (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).

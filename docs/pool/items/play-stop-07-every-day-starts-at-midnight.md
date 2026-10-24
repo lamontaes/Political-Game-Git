@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2
+milestone: play-first
 ---
 
 **What.** On the v0.22.10 release, pressing Day on Monday January 20 at 8:30 PM went to Wednesday January 22 at 12:00 AM, so Tuesday never happened on screen. Every later Day and Week press also lands at 12:00 AM, alone in the bedroom, for 21 weeks of play. Knock on doors says "3 hours" but the clock stays at 12:00 AM while the scene is a sunny afternoon. Travel to the city secretary at midnight on a Sunday opens the office in daylight. I expected days to start in the morning, to see school or work, and the clock to move with what I do.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/player-v1.ts, src/bench/handler.ts, src/bench/play.mjs, src/bench/scene.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:00, 16:01, 16:02, 16:05; screenshots 36, 37, 43, 49. assigned: M0–M2 lead (core clock); Play fixer (screen half) (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:00, 16:01, 16:02, 16:05; screenshots 36, 37, 43, 49. Lead: m0-m2 (core clock and screen half) (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).

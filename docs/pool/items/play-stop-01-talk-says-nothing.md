@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: words
+milestone: play-first
 ---
 
 **What.** On the v0.22.10 release I clicked my father John Stein at home and pressed Talk; he said "Talk to you soon." and the only buttons were Mark gap, Say nothing and Leave. My mother Paula Stein, the city treasury's Chief Administrative Officer, said "See you later." with the same three buttons. Eleven weeks into my campaign the game stopped me for a moment in a café with Noah Chan ("SOMETHING NEEDS YOU"); Talk gave "Hi." and "Have a good day." and nothing else, though the game opened that talk from a shared-cause moment about right to counsel in eviction. I expected a few things to say: ask my mother about the city, tell Noah why I am running, ask a voter for support. Say nothing changes nothing on screen.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/conversation.ts, src/director/scene-talk.ts, src/bench/handler.ts, src/bench/play.mjs
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md, log 15:54, 15:55, 16:09; screenshots 14, 17, 59). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. assigned: Words lead (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md, log 15:54, 15:55, 16:09; screenshots 14, 17, 59). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Lead: words (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
