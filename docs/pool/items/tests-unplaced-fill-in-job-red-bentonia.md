@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/unplaced-return-share
+pr: #5938
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T12:10:42.980Z
 ---
 
 **What.** src/core2/unplaced-fill-in-job.test.ts fails on clean main at 1312ffd17d with GOLDEN_PATH_SEED=250e0a499c5f34e9 in Bentonia, Mississippi (place 2805380). The failing check is "the household's unplaced workers are back in its group: expected 0 to be greater than 0", after 65 seconds. The commuter worker's household returns to the counts, but its group holds none of the unplaced workers it should take back. Whether returnCommuterPay or the test's reading of the group is wrong was not traced.
