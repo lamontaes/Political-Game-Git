@@ -7,6 +7,7 @@ import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
+import { setTraitProbe, traitProbe } from "../trait-probe";
 import { bookkeeping } from "../bookkeeping";
 import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
@@ -88,6 +89,12 @@ export interface DrivesData {
     responses: readonly string[];
     /** The impact used when the event's record holds no appraised impulse. */
     impulseParameter?: string;
+    /**
+     * How much harder this kind of event pushes toward a lasting drive than
+     * the responses' own fits say (a multiple of each drive response's fit,
+     * one when absent). Carrying on is not scaled.
+     */
+    fitScaleParameter?: string;
   }[];
   actions: readonly ActionDefinition[];
   gaps: readonly string[];
@@ -227,6 +234,12 @@ interface DrivesRuntime {
   /** The same count for drives formed in the wider population. */
   countedFormedByYearKind: Map<string, number>;
   responsesByRule: Map<string, number>;
+  /**
+   * The same count by the role the person held toward the event and whether
+   * they are old enough to form a drive of their own (agency at least half
+   * an adult's, from `responseAgencyTurnAge` on): rule:role:grown|young:response.
+   */
+  responsesByRole: Map<string, number>;
   perceived: number;
   decisions: FormationTrace[];
   /** Today's scored choice for each drive holder, matched against the act recorded. */
@@ -266,6 +279,7 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       formedByYearKind: new Map(),
       countedFormedByYearKind: new Map(),
       responsesByRule: new Map(),
+      responsesByRole: new Map(),
       perceived: zero,
       decisions: [],
       predicted: new Map(),
@@ -682,6 +696,9 @@ export function respond(
         : p(rule.impulseParameter) *
           (p("lifeEventMoodScale") + p("lifeEventStressScale"));
     const pressure = seen.attention * magnitude;
+    const fitScale = rule.fitScaleParameter
+      ? p(rule.fitScaleParameter)
+      : p("one");
     // Agency to form a lasting drive of one's own rises smoothly through adolescence.
     const age =
       daysBetweenText(actor.birthDate, api.state.date) / p("daysPerMeanYear");
@@ -723,7 +740,7 @@ export function respond(
       const alone = chooseAct(core(api), actor.id, [offer]);
       const lean =
         (alone.selectedReasons?.trait ?? p("zero")) / p("traitWeight");
-      const fit = p(row.fitParameter);
+      const fit = p(row.fitParameter) * (row.driveKind ? fitScale : p("one"));
       return {
         responseId: row.id,
         fit,
@@ -755,6 +772,54 @@ export function respond(
     const decision = chooseAct(core(api), actor.id, decided, context);
     const chosen = scored(decision);
     if (!chosen) continue;
+    // A debug switch, off in play: would the same person, with the same event
+    // and no trait lean, have answered differently? (the trait-wiring audit)
+    const probe = traitProbe();
+    if (probe?.formula) {
+      setTraitProbe(undefined);
+      const flat = scored(
+        chooseAct(
+          core(api),
+          actor.id,
+          decided,
+          chooserContext(
+            actor,
+            rows.map((row, position) => {
+              const entry = considered[position]!;
+              const [goalKind] = row.goalKinds;
+              const leaned = Math.max(
+                p("zero"),
+                entry.fit + p("responseTraitLeanGain") * entry.lean,
+              );
+              return {
+                id: goalKind!,
+                kind: goalKind!,
+                urgency:
+                  entry.urgency -
+                  pressure *
+                    (row.driveKind ? agency : p("one")) *
+                    (leaned - Math.max(p("zero"), entry.fit)),
+              };
+            }),
+          ),
+          false,
+          false,
+        ),
+      );
+      setTraitProbe(probe);
+      probe.formula({
+        decisionId: "drives.respond",
+        actorId: actor.id,
+        lean: considered.find(
+          (entry) => entry.responseId === chosen.responseId,
+        )!.lean,
+        bare: flat?.score ?? p("zero"),
+        yes:
+          rows.find((row) => row.id === chosen.responseId)!.driveKind !==
+          undefined,
+        turned: flat?.responseId !== chosen.responseId,
+      });
+    }
     // The runner-up is a second look at the same choice, not a choice of its own.
     const runnerUp = scored(
       chooseAct(
@@ -797,6 +862,11 @@ export function respond(
     };
     const runtime = runtimeFor(api.state);
     bump(runtime.responsesByRule, `${rule.id}:${row.id}`, api);
+    bump(
+      runtime.responsesByRole,
+      `${rule.id}:${seen.role}:${agency >= p("one") / p("two") ? "grown" : "young"}:${row.id}`,
+      api,
+    );
     runtime.perceived += p("one");
     const kind = row.driveKind
       ? data.driveKinds.find((entry) => entry.id === row.driveKind)
@@ -1925,6 +1995,7 @@ export function drivesReport(core: Readonly<CoreState>) {
       runtime?.countedFormedByYearKind ?? [],
     ),
     responsesByRule: Object.fromEntries(runtime?.responsesByRule ?? []),
+    responsesByRole: Object.fromEntries(runtime?.responsesByRole ?? []),
     perceived: runtime?.perceived,
     decisions: runtime?.decisions ?? [],
     groups: runtime
