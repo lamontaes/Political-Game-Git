@@ -8585,7 +8585,7 @@
           "choice": "at"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-school-answers-more)",
       "date": "2026-10-15",
@@ -8606,7 +8606,7 @@
           "choice": "at"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-school-answers-more)",
       "date": "2026-10-15",
