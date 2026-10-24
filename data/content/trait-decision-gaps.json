@@ -169,9 +169,9 @@
       "fix": "Let the case's difficulty vary against the staffer's quality, then calibrate (traits-integrity-cases-vary)."
     },
     "staff.hire": {
-      "class": "no study number",
-      "why": "No study gives the odds of an official hiring staff by trait, so the general weight of 1 stands; the case varies only with the office's budget, so the willing and unwilling thirds split at overwhelming odds (net 20 in Jerry City, Ohio).",
-      "fix": "Calibrate to the single-decision range once the case varies (traits-integrity-cases-vary)."
+      "class": "circumstances saturate the choice",
+      "why": "An official's case varies only with the office's budget, so the willing and unwilling thirds split at lopsided odds whatever the weight (net 20 in Jerry City, Ohio at the general weight). The weight is set from Kardaslar et al. 2026 (odds ratio 1.74 between thirds) over the lean gap between thirds, 0.65.",
+      "fix": "A case that reads the office's workload (traits-integrity-cases-vary)."
     },
     "staff.dismiss": {
       "class": "no study number",
@@ -179,9 +179,9 @@
       "fix": "Add a weight row when a study gives a size."
     },
     "constituent-cases.bring-case": {
-      "class": "no study number",
-      "why": "No study gives the odds of bringing a problem to an official by trait, so the general weight of 1 stands; at that weight the willing third brings cases at overwhelming odds over the unwilling third (net 44 in Jerry City, Ohio).",
-      "fix": "Calibrate to the single-decision range (traits-integrity-cases-vary)."
+      "class": "circumstances saturate the choice",
+      "why": "Most residents out of work weigh a case at the same severity (no savings left), so where caseEffort falls in that pile temperament alone sorts them, and the thirds split at lopsided odds whatever the weight (net 44 in Jerry City, Ohio at the general weight). The weight is set from Mondak et al. 2010 (odds ratio 1.68 between thirds) over the lean gap between thirds, 0.51.",
+      "fix": "Cases that vary, so a problem's own weight spreads the pile (traits-integrity-cases-vary)."
     },
     "appointments.weigh": {
       "class": "rare",
