@@ -6,9 +6,9 @@
  * view holds on the question crime ties to, the police line, by the views
  * engine's amount for an event about the person themselves, citing the
  * record; no one else moves from it. Played for a year in the bench world in
- * a place drawn from all 56 on a seed nobody chose; a place where no full
- * household is victimized in the year is drawn again, a bounded number of
- * times.
+ * a place drawn from all 56 on a seed nobody chose, the player having met the
+ * town's first households; a place where no full household is victimized in
+ * the year is drawn again, a bounded number of times.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -27,32 +27,36 @@ import {
   VIEWS_MODULE_ID,
   type Stance,
 } from "./modules/views";
+import { lawChain } from "./modules/laws";
+import { countedHouseholdsByPlace } from "./modules/residents";
 import { livedQuestion } from "./outcome-news";
-import { coreAPI } from "./state";
+import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
 const seed = process.env.LIVED_CRIME_SEED || randomBytes(8).toString("hex");
 const REDRAWS = 5;
 const POLICE = livedQuestion(CRIME_EVENT)!;
 
-/** A stance move on the police line whose cause that day is a victimization record. */
+/** One write of a stance on the police line whose cause is a victimization record. */
 interface Move {
   readonly personId: string;
   readonly date: string;
+  /** The cause this write added (the views engine appends it last). */
   readonly cause: Stance["causes"][number];
   /** The side the person's view holds after the move: a lived crime only firms it up. */
   readonly side: "enact" | "repeal" | null;
   readonly viewNow: number;
   /**
-   * The stance as a signed amount (enact positive, repeal negative) before and
-   * after the day's write. A reason for the other side of a stance weakens it
-   * and keeps its side while strength is left (`modules/views.ts`), so the
-   * direction of a move is read from this, not from the stance's side.
+   * The stance as a signed amount (enact positive, repeal negative) just
+   * before this write and just after it. The views engine is the stances'
+   * only writer and calls the listener after every write, so the value after
+   * the person's previous write is the value before this one (zero with no
+   * stance yet). A reason for the other side of a stance weakens it and keeps
+   * its side while strength is left (`modules/views.ts`), so the direction of
+   * a move is read from these, not from the stance's side.
    */
-  readonly signedBefore: number | undefined;
+  readonly signedBefore: number;
   readonly signedNow: number;
-  /** How many of the stance's causes are dated that day. */
-  readonly causesToday: number;
   /** Their household when they moved: a household can change within the year. */
   readonly householdId: string | undefined;
 }
@@ -72,27 +76,20 @@ registerStanceListener((api, personId, topic) => {
   const viewNow = view ? viewOn(api, personId, topic, view.lean) : 0;
   const last = SIGNED.get(api.state) ?? new Map<string, number>();
   SIGNED.set(api.state, last);
-  const signedBefore = last.get(personId);
+  const signedBefore = last.get(personId) ?? 0;
   last.set(personId, signed(stance));
-  const causesToday = stance.causes.filter(
-    (cause) => cause.date === api.state.date,
-  ).length;
-  for (const cause of stance.causes)
-    if (
-      cause.date === api.state.date &&
-      cause.eventId.startsWith(`${CRIME_EVENT}:`)
-    )
-      moves.push({
-        personId,
-        date: api.state.date,
-        cause,
-        side: viewNow > 0 ? "enact" : viewNow < 0 ? "repeal" : null,
-        viewNow,
-        signedBefore,
-        signedNow: signed(stance),
-        causesToday,
-        householdId: (api.state as CoreState).people.get(personId)?.householdId,
-      });
+  const cause = stance.causes.at(-1);
+  if (cause?.eventId.startsWith(`${CRIME_EVENT}:`))
+    moves.push({
+      personId,
+      date: api.state.date,
+      cause,
+      side: viewNow > 0 ? "enact" : viewNow < 0 ? "repeal" : null,
+      viewNow,
+      signedBefore,
+      signedNow: signed(stance),
+      householdId: (api.state as CoreState).people.get(personId)?.householdId,
+    });
 });
 
 /**
@@ -107,6 +104,16 @@ interface Expected {
   readonly atMostOne: boolean;
 }
 
+/**
+ * A town's own full households (the player's circle, officials) are a few
+ * dozen, and a crime engine that owes each household its share victimizes a
+ * handful of them a year, often none. The player meets the town's first
+ * households by id at the opening (filling them in, as clicking on a neighbor
+ * does), as the effects lead's end-to-end proof does: it gives the year more
+ * named people a record can reach and changes no rate.
+ */
+const MET_HOUSEHOLDS = Number(process.env.LIVED_CRIME_MET || 150);
+
 function play(drawSeed: string) {
   const place = drawPlace(drawSeed, "views-lived-crime");
   const core = buildBenchWorld(drawSeed, gameStartDate(), {
@@ -114,6 +121,12 @@ function play(drawSeed: string) {
     placeKey: place.key,
   }).core as CoreState;
   const api = coreAPI(core);
+  const town = lawChain(api).townPlaceId;
+  for (const record of [...(countedHouseholdsByPlace(core).get(town) ?? [])]
+    .sort((a, b) => a.household.id.localeCompare(b.household.id))
+    .slice(0, MET_HOUSEHOLDS))
+    if (record.people[0] && !core.people.has(record.people[0].id))
+      fillInPerson(core, record.people[0].id);
   const crimeMonths = () =>
     api
       .moduleState(CRIME_MODULE_ID)
@@ -172,6 +185,7 @@ describe(`a victimization moves its victims' view on the police (seed ${seed})`,
           ...(byEvent.get(move.cause.eventId) ?? []),
           move,
         ]);
+      const strictly: Move[] = [];
       for (const victim of victims) {
         const moved = byEvent.get(victim.eventId) ?? [];
         const at = `${where}: ${victim.eventId}`;
@@ -192,26 +206,35 @@ describe(`a victimization moves its victims' view on the police (seed ${seed})`,
           );
           expect(move.cause.speakerId, at).toBeUndefined();
           expect(move.cause.change, at).toBeGreaterThan(0);
-          // Toward the side their own view holds (a stance at full strength
-          // cannot move further; on a day with other causes the move is
-          // theirs too).
+          // Toward the side their own view holds, by exactly the cause's
+          // change: the write moves the signed stance that far toward that
+          // side, and a stance already at full strength stays there.
           expect(move.side, at).not.toBeNull();
-          if (move.signedBefore !== undefined && move.causesToday === 1)
-            expect(
-              (move.signedNow - move.signedBefore) *
-                (move.side === "enact" ? 1 : -1),
-              at,
-            ).toBeGreaterThanOrEqual(0);
+          const toward = move.side === "enact" ? 1 : -1;
+          expect(
+            move.signedNow * toward,
+            `${at}: ${move.personId}`,
+          ).toBeCloseTo(
+            Math.min(1, move.signedBefore * toward + move.cause.change),
+            12,
+          );
+          if ((move.signedNow - move.signedBefore) * toward > 0)
+            strictly.push(move);
         }
       }
+      // A year of lived crimes moves at least one stance, not only its causes.
+      expect(
+        strictly.length,
+        `${where}: no victim's stance moved toward their view`,
+      ).toBeGreaterThan(0);
       // A victimization record moves no one outside the household it names.
       const recorded = new Set(victims.map((victim) => victim.eventId));
       for (const move of moves)
         expect(recorded.has(move.cause.eventId), move.cause.eventId).toBe(true);
-      const first = victims.find((v) => byEvent.get(v.eventId)?.length)!;
-      const move = byEvent.get(first.eventId)![0]!;
+      const move = strictly[0]!;
+      const first = victims.find((v) => v.eventId === move.cause.eventId)!;
       console.log(
-        `lived crime: ${where}${tried.length ? ` (drawn again after ${tried.join("; ")})` : ""}: ${victims.length} victimizations of full households, ${moves.length} stance moves on ${POLICE}; e.g. ${first.eventId} (web month ${first.month.webRecordId}, links ${first.month.types[first.type].links.join(", ") || "none"}) moved ${move.personId} toward ${move.side} by ${move.cause.change.toFixed(4)}`,
+        `lived crime: ${where}${tried.length ? ` (drawn again after ${tried.join("; ")})` : ""}: ${victims.length} victimizations of full households, ${moves.length} stance moves on ${POLICE}; e.g. ${first.eventId} (web month ${first.month.webRecordId}, links ${first.month.types[first.type].links.join(", ") || "none"}) moved ${move.personId} toward ${move.side} by ${move.cause.change.toFixed(4)}, stance ${move.signedBefore.toFixed(4)} -> ${move.signedNow.toFixed(4)}; ${strictly.length} of ${moves.length} writes moved a stance`,
       );
     } finally {
       setBookkeeping(priorBookkeeping);

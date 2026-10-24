@@ -1048,7 +1048,7 @@ function payToTreasury(
  * The court escrow fund under a treasury's owner: bail sits here, apart from
  * the cash the government can spend, until the hearing returns it.
  */
-function escrowOf(api: CoreAPI, treasuryId: string): string {
+export function escrowOf(api: CoreAPI, treasuryId: string): string {
   const state = api.state as CoreState;
   const id = `account:${treasuryId}:court-escrow`;
   if (!state.cashJournal.accounts.has(id))

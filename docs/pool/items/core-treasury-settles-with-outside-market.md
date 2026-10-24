@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-city-treasury
 pr: #5891
 blocked-on:

@@ -710,6 +710,7 @@ export const viewsModule: CoreModule = {
       if (!view) continue;
       let desiredChange = event.desiredChange;
       if (lived) {
+        // stopgapId: SG-PEOPLE-counted-victims-lived-crime (a counted group's victimizations are a tally row; its view on the police does not move)
         if (!event.personIds.includes(personId)) continue;
         const current = viewOn(api, personId, lived, view.lean);
         if (current === v("zero")) continue;
