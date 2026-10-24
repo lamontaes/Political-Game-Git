@@ -1,0 +1,11 @@
+{
+  "about": "Justice and public safety family: links a law lacks by its own terms (scripts/law-wiring/matrix.ts reads every file here). Each why says what in the statute makes it so.",
+  "laws": {
+    "us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "money": {
+        "status": "n/a",
+        "why": "the law restores the right to vote to a person who has finished their sentence; it charges, pays and taxes no one by its own terms, so no money flows because of it (what it changes is who may vote, read by the board of elections when it builds the roll)"
+      }
+    }
+  }
+}
