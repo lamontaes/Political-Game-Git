@@ -5,11 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/law-tests-positive-witnesses
+pr: #5870
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-23T23:46:55.676Z
 ---
 
 **What.** The played-world groundwater and paid-leave tests on main collect law-specific evidence without requiring it to exist. Groundwater can pass its controlled restriction comparison with no affected rule or sales flow, while paid leave can pass without any native full-person premium or counted withholding. Add positive witnesses so a green run demonstrates the claimed law effects, retaining the controlled boundary cases and drawing inputs independently of the effect being tested.
