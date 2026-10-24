@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/civic-inputs-clerk-staff
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T06:56:46.400Z
 ---
 
 **What.** The test 'preserves the generated people, kinship, jobs, employers and money exactly' in src/core2/civic-inputs.test.ts fails on clean main (Moorhead, Mississippi, seed p8-recorded-civic-targets): a job classified profession:municipal-clerk titled City clerk, at an employer with government facts, has no matching staff row on the public office that enrichCivicInputs in src/core2/civic-inputs.ts builds for that employer. The office exists in the town's public organizations but its staff list misses the clerk, so a player looking for the clerk at the town office finds nobody. The failure was found Oct 23, 2026 while running the engine tests for research-deep-past-sourced-parameters; it reproduces on main at 59ae953607 with person person_be840bc348debcfb.

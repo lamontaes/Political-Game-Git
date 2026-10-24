@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-m1-flags
 pr: #5875
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T04:56:00.796Z
 ---
 
 **What.** The M0-M2 lead's baseline on main b09ba675cd ran every M1 command in the place the golden-path runner draws for it. M1-01 (laws in force) and M1-02 (the national economy and central bank) passed, and their tests cover their whole spec text. This item flips those two flags with each run and a bench screenshot, so the owner can see what of M1 is finished.
