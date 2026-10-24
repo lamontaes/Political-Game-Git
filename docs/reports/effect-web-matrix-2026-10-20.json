@@ -80,7 +80,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:92"
+          "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:93"
         },
         "varied": {
           "status": "fail",
@@ -174,7 +174,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:86"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:87"
         },
         "varied": {
           "status": "fail",
@@ -220,7 +220,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:80"
+          "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:81"
         },
         "varied": {
           "status": "fail",
@@ -315,7 +315,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:562, src/core2/modules/crime.ts:575, src/core2/public-safety.ts:98"
+          "evidence": "src/core2/modules/crime.ts:562, src/core2/modules/crime.ts:575, src/core2/public-safety.ts:99"
         },
         "varied": {
           "status": "fail",
@@ -708,7 +708,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:373, src/core2/public-safety.ts:1522"
+          "evidence": "src/core2/death-cause.ts:373, src/core2/public-safety.ts:1601"
         },
         "varied": {
           "status": "fail",
@@ -803,7 +803,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/death-cause.ts:416, src/core2/public-safety.ts:1532"
+          "evidence": "src/core2/death-cause.ts:416, src/core2/public-safety.ts:1611"
         },
         "varied": {
           "status": "fail",
@@ -7430,7 +7430,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:92"
+          "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:93"
         },
         "varied": {
           "status": "fail",
@@ -7476,7 +7476,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:86"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:87"
         },
         "varied": {
           "status": "fail",
@@ -7522,7 +7522,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:80"
+          "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:81"
         },
         "varied": {
           "status": "fail",
@@ -10775,7 +10775,7 @@
     {
       "measure": "crime.assault",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:80",
+      "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:81",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-assault", "crime-level-to-assault"]
@@ -10783,7 +10783,7 @@
     {
       "measure": "crime.burglary",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:92",
+      "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:93",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-burglary", "crime-level-to-burglary"]
@@ -10821,7 +10821,7 @@
     {
       "measure": "crime.property",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:562, src/core2/modules/crime.ts:575, src/core2/public-safety.ts:98",
+      "evidence": "src/core2/modules/crime.ts:562, src/core2/modules/crime.ts:575, src/core2/public-safety.ts:99",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-property-crime"]
@@ -10859,7 +10859,7 @@
     {
       "measure": "crime.robbery",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:86",
+      "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:87",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-robbery", "crime-level-to-robbery"]
@@ -11449,7 +11449,7 @@
     {
       "measure": "health.youth-firearm-deaths",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:373, src/core2/public-safety.ts:1522",
+      "evidence": "src/core2/death-cause.ts:373, src/core2/public-safety.ts:1601",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["child-access-law-to-youth-gun-deaths"]
@@ -11457,7 +11457,7 @@
     {
       "measure": "health.youth-firearm-suicide",
       "status": "engine-reads-web",
-      "evidence": "src/core2/death-cause.ts:416, src/core2/public-safety.ts:1532",
+      "evidence": "src/core2/death-cause.ts:416, src/core2/public-safety.ts:1611",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["min-age-to-youth-gun-suicide"]
