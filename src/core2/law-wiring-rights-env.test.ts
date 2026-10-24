@@ -14,6 +14,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { countyNonattainment } from "./business-operating-rules";
 import { gameStartDate } from "./game-start";
+import { govReport } from "./gov-test-report";
 import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -371,7 +372,7 @@ it("names, for each law, the record, the journal entry and who it reached", () =
       expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
         core.cashJournal.totals.grossCreditMinor,
       );
-      console.info(`law chains ${where}\n${JSON.stringify(chains, null, 1)}`);
+      govReport("law-wiring-rights-env", JSON.stringify({ where, chains }));
       return;
     }
     throw new Error(

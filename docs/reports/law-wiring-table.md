@@ -82,7 +82,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | broaden local authority                      | government         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | legislative term limits                      | government         | yes    | yes    | part  | part    | NO    | n/a | yes     | yes    | yes       | partly     |
 | ban discrimination in housing and work       | rights             | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
-| dedicated parks funding                      | rights             | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| dedicated parks funding                      | rights             | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | restrict abortion                            | rights             | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | age verification for social media            | technology         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | restrict government facial recognition       | technology         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
@@ -567,10 +567,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
 - money: no money flow: nobody pays or receives anything because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
-
-**dedicated parks funding** (`us-policy-positions:civil-family-community.dedicated-parks-funding`)
-
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure park access and exercise (SG-LAW-outcome-link-unresearched)
 
 **age verification for social media** (`us-policy-positions:technology-privacy.age-verification-for-social-media`)
 

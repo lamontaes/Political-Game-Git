@@ -1,113 +1,113 @@
 {
- "seed": "b4a5a92e4a6dbb63",
- "place": {
-  "seed": "732796d7bd753de5883fe6fc0819de11682290ac026404e84781c9b34357473e",
-  "key": "0974655",
-  "name": "Suffield Depot, Connecticut",
-  "state": "US-CT"
- },
- "window": 35,
- "after": 10,
- "results": [
-  {
-   "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
-   "kind": "question",
-   "family": "energy-environment",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
-   "lawIds": [
-    "law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
-    "law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-02-26:law-wiring-fbc8b216-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 3,
-    "governments": 0,
-    "other": 0,
-    "open": 3,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_20996f3258865741",
-     "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_20996e325886558e",
-     "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_8a84cdf32ef9c509"
-    ]
-   },
-   "readers": {
-    "src/core2/modules/outcome-web.ts:158": 12,
-    "src/core2/modules/world-legislating.ts:183": 10,
-    "src/core2/modules/world-legislating.ts:253": 10,
-    "src/core2/life.ts:549": 6,
-    "src/core2/modules/business.ts:1341": 6,
-    "src/core2/modules/legislature.ts:2081": 2,
-    "src/core2/modules/world-legislating.ts:333": 2,
-    "src/core2/modules/business.ts:922": 2
-   },
-   "openingRow": "law:US-CT:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [],
-    "diffKinds": 0,
-    "cited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "emission-rules-to-particulates",
-      "status": "built",
-      "to": "env.particulates"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0
-   },
-   "heard": {
-    "people": 98,
-    "sample": [
-     "person_93c1e8f74571274e:printed:outlet:television:1:jurisdiction_12605b7f5e8d6725:law-took-effect:law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
-     "person_73e1d18328a39f47:printed:outlet:television:1:jurisdiction_12605b7f5e8d6725:law-took-effect:law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
-     "person_452afc5d6bb03226:printed:outlet:television:1:jurisdiction_12605b7f5e8d6725:law-took-effect:law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 31
-  }
- ]
+  "seed": "b4a5a92e4a6dbb63",
+  "place": {
+    "seed": "732796d7bd753de5883fe6fc0819de11682290ac026404e84781c9b34357473e",
+    "key": "0974655",
+    "name": "Suffield Depot, Connecticut",
+    "state": "US-CT"
+  },
+  "window": 35,
+  "after": 10,
+  "results": [
+    {
+      "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+      "kind": "question",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+        "law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-02-26:law-wiring-fbc8b216-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_20996f3258865741",
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_20996e325886558e",
+          "applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_8a84cdf32ef9c509"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 12,
+        "src/core2/modules/world-legislating.ts:183": 10,
+        "src/core2/modules/world-legislating.ts:253": 10,
+        "src/core2/life.ts:549": 6,
+        "src/core2/modules/business.ts:1341": 6,
+        "src/core2/modules/legislature.ts:2081": 2,
+        "src/core2/modules/world-legislating.ts:333": 2,
+        "src/core2/modules/business.ts:922": 2
+      },
+      "openingRow": "law:US-CT:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "emission-rules-to-particulates",
+            "status": "built",
+            "to": "env.particulates"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 98,
+        "sample": [
+          "person_93c1e8f74571274e:printed:outlet:television:1:jurisdiction_12605b7f5e8d6725:law-took-effect:law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+          "person_73e1d18328a39f47:printed:outlet:television:1:jurisdiction_12605b7f5e8d6725:law-took-effect:law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+          "person_452afc5d6bb03226:printed:outlet:television:1:jurisdiction_12605b7f5e8d6725:law-took-effect:law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 31
+    }
+  ]
 }

@@ -14,23 +14,35 @@
       "state": "US-NE"
     },
     {
-      "seed": "1cb5c5b0413db07c65185a25114cc7f5c6792e8f3d5e942e3387ef9c0f7922e6",
-      "key": "2655020",
-      "name": "Monroe, Michigan",
-      "state": "US-MI"
+      "seed": "732796d7bd753de5883fe6fc0819de11682290ac026404e84781c9b34357473e",
+      "key": "0974655",
+      "name": "Suffield Depot, Connecticut",
+      "state": "US-CT"
     },
     {
-      "seed": "4c6cff883056374fe8444098b0fd1b3a478cd379fe946cccee3f169691e13172",
-      "key": "4972280",
-      "name": "Springville, Utah",
+      "seed": "b4e34e8adc6bec172cc23ef63f9a43e0d6811b639ac11f53bc3ad06dc24ec54e",
+      "key": "3426010",
+      "name": "Germania, New Jersey",
+      "state": "US-NJ"
+    },
+    {
+      "seed": "6c436c09a5cdafb05b1fefb46af176787eac0d5bd88fe21df51da71244a25c90",
+      "key": "2755186",
+      "name": "Rogers, Minnesota",
+      "state": "US-MN"
+    },
+    {
+      "seed": "c722d618bddd220afd09aea992075fb313c69f509c220c8da7a6790800c75ea1",
+      "key": "4971070",
+      "name": "South Salt Lake, Utah",
       "state": "US-UT"
     }
   ],
   "summary": {
     "laws": 89,
-    "wired": 8,
+    "wired": 9,
     "partly": 77,
-    "stopgapped": 4,
+    "stopgapped": 3,
     "byLink": {
       "exists": {
         "wired": 88,
@@ -68,10 +80,10 @@
         "n/a": 0
       },
       "web": {
-        "wired": 33,
+        "wired": 34,
         "partial": 0,
         "missing": 10,
-        "stopgap": 38,
+        "stopgap": 37,
         "n/a": 8
       },
       "knowing": {
@@ -134,7 +146,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-07 highways-spending-to-poor-roads 0.0582; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-08 highways-spending-to-poor-roads 0.0582; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-09 highways-spending-to-poor-roads 0.0582",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 highways-spending-to-poor-roads -0.0582; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 highways-spending-to-poor-roads -0.0582; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 highways-spending-to-poor-roads -0.0582",
           "why": ""
         },
         "knowing": {
@@ -156,12 +168,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "place:2666300 highways 3994165 -> 13994165 by law-wiring-c8a99055; web read from the 760-day run of the same seed",
+          "change": "place:2666300 highways 3994165 -> 13994165 by law-wiring-c8a99055; web read from the 420-day run of the same seed",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "place:3149425 highways 8149686 -> 18149686 by law-wiring-c8a99055; web read from the 760-day run of the same seed",
+          "change": "place:3149425 highways 8149686 -> 18149686 by law-wiring-c8a99055; web read from the 420-day run of the same seed",
           "inForceAtOpening": false
         }
       ],
@@ -3638,7 +3650,7 @@
         },
         "reach": {
           "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): 3 open (full 0, counted groups 0/0 people, households 0, orgs 3, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_ae06f5ff6bfb40de; Springville, Utah, US-UT (seed 0dd3c8c9317c636f): 3 open (full 0, counted groups 0/0 people, households 0, orgs 3, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_7b7a29d84308dd73",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Suffield Depot, Connecticut, US-CT (seed b4a5a92e4a6dbb63): 3 open (full 0, counted groups 0/0 people, households 0, orgs 3, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_20996f3258865741; Germania, New Jersey, US-NJ (seed a037862e83d7bbf9): 2 open (full 0, counted groups 0/0 people, households 0, orgs 2, govts 0) e.g. applied|us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties|organization_e7e00b6f2a449123",
           "why": "reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10), Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
         },
         "systems": {
@@ -3648,7 +3660,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): interest-group-dues @ src/core2/modules/interest-groups.ts:433 400000 -> 250000 (journal:2025-02-01:1885); Springville, Utah, US-UT (seed 0dd3c8c9317c636f): interest-group-dues @ src/core2/modules/interest-groups.ts:433 100000 -> 0 (journal:2025-02-06:12561)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): interest-group-dues @ src/core2/modules/interest-groups.ts:433 400000 -> 250000 (journal:2025-02-01:1885)",
           "why": ""
         },
         "web": {
@@ -3658,17 +3670,17 @@
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 53 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 82 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): 154 people heard (person_177035dcf2bef6be:printed:outlet:newspaper:1:jurisdiction_5ff502636d722e5d:law-took-effect:law:place:2655020:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Springville, Utah, US-UT (seed 0dd3c8c9317c636f): 138 people heard (person_004ee499c9f7f423:printed:outlet:newspaper:2:jurisdiction_bf1c372b70e6f9e5:law-took-effect:law:place:4972280:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 53 people heard (person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 82 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Suffield Depot, Connecticut, US-CT (seed b4a5a92e4a6dbb63): 98 people heard (person_93c1e8f74571274e:printed:outlet:television:1:jurisdiction_12605b7f5e8d6725:law-took-effect:law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216); Germania, New Jersey, US-NJ (seed a037862e83d7bbf9): 97 people heard (person_c9df898f4f3186e6:printed:outlet:newspaper:0:jurisdiction_13ee211b4d10cf51:law-took-effect:law:place:3426010:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): 3 open -> after repeal 0 open, 0 ended; Springville, Utah, US-UT (seed 0dd3c8c9317c636f): 3 open -> after repeal 0 open, 0 ended",
+          "evidence": "Suffield Depot, Connecticut, US-CT (seed b4a5a92e4a6dbb63): 3 open -> after repeal 0 open, 0 ended; Germania, New Jersey, US-NJ (seed a037862e83d7bbf9): 2 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
           "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e); Springville, Utah, US-UT (seed 0dd3c8c9317c636f)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Suffield Depot, Connecticut, US-CT (seed b4a5a92e4a6dbb63); Germania, New Jersey, US-NJ (seed a037862e83d7bbf9)",
           "why": "reached people in one drawn place and not the other"
         }
       },
@@ -3684,13 +3696,13 @@
           "inForceAtOpening": false
         },
         {
-          "place": "Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e)",
-          "change": "enacted at city (law:place:2655020:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "place": "Suffield Depot, Connecticut, US-CT (seed b4a5a92e4a6dbb63)",
+          "change": "enacted at city (law:place:0974655:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
           "inForceAtOpening": false
         },
         {
-          "place": "Springville, Utah, US-UT (seed 0dd3c8c9317c636f)",
-          "change": "enacted at city (law:place:4972280:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
+          "place": "Germania, New Jersey, US-NJ (seed a037862e83d7bbf9)",
+          "change": "enacted at city (law:place:3426010:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2025-02-26",
           "inForceAtOpening": false
         }
       ],
@@ -5497,7 +5509,7 @@
       "family": "rights",
       "reachGroup": "A",
       "mechanic": "parks-funding",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -5525,9 +5537,9 @@
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure park access and exercise (SG-LAW-outcome-link-unresearched)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 parks-spending-to-exercise-access 0.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 parks-spending-to-exercise-access 0.0000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-04 parks-spending-to-exercise-access 0.0000",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
@@ -5548,12 +5560,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26; web read from the 420-day run of the same seed",
           "inForceAtOpening": true
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26; web read from the 420-day run of the same seed",
           "inForceAtOpening": true
         }
       ],
@@ -5856,7 +5868,7 @@
         },
         "reach": {
           "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_96b22b9029b41648; Springville, Utah, US-UT (seed 0dd3c8c9317c636f): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_8b4f91858c640dff",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_4b47f062ac052d9a; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 0 open (full 0, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. -; Rogers, Minnesota, US-MN (seed e9eb268bae7fd1b7): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_ce731ab3b55bc28b; South Salt Lake, Utah, US-UT (seed b0cba32127d3ec31): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal|organization_51b9e4d35affeb46",
           "why": "reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)"
         },
         "systems": {
@@ -5866,27 +5878,27 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (journal:2025-02-11:7856)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (journal:2025-02-11:7856); Rogers, Minnesota, US-MN (seed e9eb268bae7fd1b7): posts citing us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal: 50000 (journal:2025-02-12:14878)",
           "why": ""
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 groundwater-limits-to-irrigation-pumping 0.3100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 groundwater-limits-to-irrigation-pumping 0.3100; Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): web:jurisdiction_5ff502636d722e5d:2025-01 groundwater-limits-to-irrigation-pumping 0.3100",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 groundwater-limits-to-irrigation-pumping 0.3100; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 groundwater-limits-to-irrigation-pumping 0.3100; Rogers, Minnesota, US-MN (seed e9eb268bae7fd1b7): web:jurisdiction_0d4059f9dad34113:2025-01 groundwater-limits-to-irrigation-pumping 0.3100",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 82 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): 161 people heard (person_177035dcf2bef6be:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Springville, Utah, US-UT (seed 0dd3c8c9317c636f): 158 people heard (person_004ee499c9f7f423:printed:outlet:cable:0:national:law-took-effect:law:US-UT:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 82 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); Rogers, Minnesota, US-MN (seed e9eb268bae7fd1b7): 185 people heard (person_af2a80c10847cbeb:printed:outlet:cable:0:national:law-took-effect:law:US-MN:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f); South Salt Lake, Utah, US-UT (seed b0cba32127d3ec31): 137 people heard (person_42df4d444f0444bf:printed:outlet:cable:0:national:law-took-effect:law:US-UT:state:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal:general:2025-01-21:law-wiring-70bb716f)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): opening 1 -> after repeal 0 -> re-enacted 1; Springville, Utah, US-UT (seed 0dd3c8c9317c636f): opening 1 -> after repeal 0 -> re-enacted 1",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Rogers, Minnesota, US-MN (seed e9eb268bae7fd1b7): opening 1 -> after repeal 0 -> re-enacted 1; South Salt Lake, Utah, US-UT (seed b0cba32127d3ec31): opening 1 -> after repeal 0 -> re-enacted 1",
           "why": ""
         },
         "allPlaces": {
           "status": "partial",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e); Springville, Utah, US-UT (seed 0dd3c8c9317c636f)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Rogers, Minnesota, US-MN (seed e9eb268bae7fd1b7); South Salt Lake, Utah, US-UT (seed b0cba32127d3ec31)",
           "why": "reached people in one drawn place and not the other"
         }
       },
@@ -5902,12 +5914,12 @@
           "inForceAtOpening": false
         },
         {
-          "place": "Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e)",
+          "place": "Rogers, Minnesota, US-MN (seed e9eb268bae7fd1b7)",
           "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
           "inForceAtOpening": true
         },
         {
-          "place": "Springville, Utah, US-UT (seed 0dd3c8c9317c636f)",
+          "place": "South Salt Lake, Utah, US-UT (seed b0cba32127d3ec31)",
           "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
           "inForceAtOpening": true
         }
@@ -5935,7 +5947,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_971998ff58477430; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_45a3b3ebe97fe71d; Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): 2 open (full 0, counted groups 0/0 people, households 0, orgs 2, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_5ff502636d722e5d; Springville, Utah, US-UT (seed 0dd3c8c9317c636f): 2 open (full 0, counted groups 0/0 people, households 0, orgs 2, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_bf1c372b70e6f9e5",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_971998ff58477430; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|us-policy-positions:agriculture-natural-resources.protect-farmland-from-development|organization:landlord:jurisdiction_45a3b3ebe97fe71d",
           "why": ""
         },
         "systems": {
@@ -5945,27 +5957,27 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.protect-farmland-from-development: 200000 (journal:2025-02-05:7677); Springville, Utah, US-UT (seed 0dd3c8c9317c636f): posts citing us-policy-positions:agriculture-natural-resources.protect-farmland-from-development: 200000 (journal:2025-02-25:13392)",
+          "evidence": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:agriculture-natural-resources.protect-farmland-from-development: 200000 (journal:2025-02-05:7677)",
           "why": ""
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 farmland-easements-to-farmland-lost 0.4700; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 farmland-easements-to-farmland-lost 0.4700; Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): web:jurisdiction_5ff502636d722e5d:2025-01 farmland-easements-to-farmland-lost 0.4700",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 farmland-easements-to-farmland-lost 0.4700; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 farmland-easements-to-farmland-lost 0.4700",
           "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067); Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): 161 people heard (person_177035dcf2bef6be:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067); Springville, Utah, US-UT (seed 0dd3c8c9317c636f): 158 people heard (person_004ee499c9f7f423:printed:outlet:cable:0:national:law-took-effect:law:US-UT:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 81 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067)",
           "why": ""
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open -> after repeal 0 open, 0 ended; Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e): opening 2 -> after repeal 0 -> re-enacted 2; Springville, Utah, US-UT (seed 0dd3c8c9317c636f): opening 2 -> after repeal 0 -> re-enacted 2",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 1 -> after repeal 0 -> re-enacted 1; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 1 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8); Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e); Springville, Utah, US-UT (seed 0dd3c8c9317c636f)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "why": ""
         }
       },
@@ -5979,16 +5991,6 @@
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
           "change": "enacted at city (law:place:3149425:city:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development:general:2025-01-21:law-wiring-cdbf4067) effective 2025-01-21; then repealed at city effective 2025-02-26",
           "inForceAtOpening": false
-        },
-        {
-          "place": "Monroe, Michigan, US-MI (seed 2fdb9e956dc03d7e)",
-          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-          "inForceAtOpening": true
-        },
-        {
-          "place": "Springville, Utah, US-UT (seed 0dd3c8c9317c636f)",
-          "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
-          "inForceAtOpening": true
         }
       ],
       "errors": []
@@ -6029,7 +6031,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-07 parks-spending-to-exercise-access -0.0821; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-08 parks-spending-to-exercise-access -0.0821; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2026-09 parks-spending-to-exercise-access -0.0821",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 parks-spending-to-exercise-access 0.0546; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 parks-spending-to-exercise-access 0.0546; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 parks-spending-to-exercise-access 0.0546",
           "why": ""
         },
         "knowing": {
@@ -6051,12 +6053,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "place:2666300 parks 1915528 -> 11915528 by law-wiring-17ac6c1b; web read from the 760-day run of the same seed",
+          "change": "place:2666300 parks 1915528 -> 11915528 by law-wiring-17ac6c1b; web read from the 420-day run of the same seed",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "place:3149425 parks 3599296 -> 13599296 by law-wiring-17ac6c1b; web read from the 760-day run of the same seed",
+          "change": "place:3149425 parks 3599296 -> 13599296 by law-wiring-17ac6c1b; web read from the 420-day run of the same seed",
           "inForceAtOpening": false
         }
       ],
