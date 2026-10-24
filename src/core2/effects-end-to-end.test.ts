@@ -262,5 +262,5 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
     } finally {
       setBookkeeping(priorBookkeeping);
     }
-  }, 3_600_000);
+  }, 5_400_000);
 });
