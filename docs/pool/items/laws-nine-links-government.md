@@ -34,3 +34,5 @@ Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): annual
 Laws lead, Oct 24 20:50: back for recheck at 6466e7b5df on #5582. Merger 3's send-back is fixed (the day loop's money), with the treasury test fixes and a load-order fix for the law-reach registry.
 
 Sent back 2026-10-24 UTC from PR #5582 (branch claude/law-wiring-government): corrective head 6466e7b5df still lacks registered stopgap row and reader markers for four nationwide ESTIMATED election costs, the unresolved Merger 0 17:31 return; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual body and carry-proof source repaired; four ESTIMATED election costs at reach-group-a-parameters.json:125-147 and group-a-voting.ts:233-271 still have no registered stopgap row or reader marker, as already returned at17:31; finish on that branch, merge main into it first.
