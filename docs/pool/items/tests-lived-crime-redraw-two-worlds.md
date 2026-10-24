@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/lived-crime-redraw-memory
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T18:34:01.995Z
 ---
 
 **What.** src/core2/views-lived-crime.test.ts redraws a place, up to five times, when a year victimizes no full household. Its loop still holds the last draw's played world while it builds the next, so two worlds sit in memory at once. The counted-jobs test with the same loop ran out of CI's 4 GB heap on October 24, so this test can too on a large draw.
