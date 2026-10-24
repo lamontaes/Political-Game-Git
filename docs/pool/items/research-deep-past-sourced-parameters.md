@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
-blocked-on: researcher: the Census API answers 'Missing Key' from the cloud network, so ACS B15001/B05/B11 state tables cannot be fetched; needs a key or a bulk download
+status: in-pr
+claimed-by: claude/dreamy-tesla-bgi3ui-deep-past
+pr: #5854
+blocked-on:
 source: "collapsed Oct 19, 2026 from art-stopgap-opening-partnership-estimated-behavior, core-stopgap-civic-inputs-civic-data-vintage-and-permission, core-stopgap-deep-past-generated-history-proxy, core-stopgap-deep-past-shared-past-generation-gap, core-stopgap-opening-peer-network-generated-historical-social-prior, core-stopgap-opening-profile-partial-model"
-claimed-at:
+claimed-at: 2026-10-23T20:23:55.403Z
 ---
 
 **What.** Source the numbers behind the deep past, peer networks, profiles and partnerships. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 6 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -30,4 +30,12 @@ claimed-at:
 
 **Notes.** Folded from: art-stopgap-opening-partnership-estimated-behavior, core-stopgap-civic-inputs-civic-data-vintage-and-permission, core-stopgap-deep-past-generated-history-proxy, core-stopgap-deep-past-shared-past-generation-gap, core-stopgap-opening-peer-network-generated-historical-social-prior, core-stopgap-opening-profile-partial-model. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
+Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-deep-past-sourced-parameters.md (6 rows: 0 sourced, 4 estimated, 2 mechanic).
+
+Oct 20 (research-reachable-sources-oct20): unblocked. The ACS B15001, B05 and B11 state tables come from the bulk table-based summary files at https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/ (HTTP 200 from a cloud session); api.census.gov is not needed. Check each fetched table in a played world (buildBenchWorld) in a drawn place and seed named in the PR body.
+
+Fetched Oct 20 (research-reachable-sources-oct20): the 2023 ACS 5-year table-based summary files, downloaded in full from https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/ (U.S. Census Bureau, 2024-10-31). B15001 (acsdt5y2023-b15001.dat, 160,422,985 bytes, SHA-256 90a66ecbfb1c944650df98ee3ca68088693f76c2b6f308e99c2e99af1e69b688): U.S. row 0100000US E001 258,742,302 (margin 4,128), with 52 state-level rows (the 50 states, D.C. and Puerto Rico, GEO_ID prefix 0400000US), 85,381 tract and 32,325 place rows. B05002 (acsdt5y2023-b05002.dat, 57,603,352 bytes, SHA-256 48bbc708638cc7d83d63bd003f6c0517d75888c16a47c8248e737ce5fcb02ceb): U.S. total 332,387,540. B11001 (acsdt5y2023-b11001.dat, 45,754,553 bytes, SHA-256 e7e08fc142c94611413e263f6c33a31cb7b5d6dcd08d76725acd4bbce51b6b01): U.S. households 127,482,865 (margin 208,633). The files are kept out of the repository; the builder re-downloads them and records the row values it uses with these citations.
+
 Looked at Oct 21 (claude): the Oct 19 research (`data/research/stopgaps-oct19/`) already covers two of the six rows. `SG-P8-opening-peer-network`: it confirms `openingPeerGroupSize` 20 [17, 22] as already set (NCES class sizes), and recommends recognition of a cohort peer falling from about 0.9 to about 0.7 over adult life (Bahrick 1975, summaries disagree). The engine keeps every peer's name for good (`opening-peer-network.json`, `recognitionStatus: generated-remembered-name`), so using that figure means a recognition decay by years since school, a builder change that must read it as a fade in memory strength, not a chance per person (no dice). `SG-P15-partnership-model`: the research could not fetch ACS or Island Areas tables because the Census API needs a key; no sourced value exists to apply. So no number changes here. Claim released; the next person should start from a Census API key in the cloud environment (environment secrets) and the recognition-fade mechanic as its own small `people` item.
+
+Merge verification (Oct 21, Codex merger A): the Census bulk B01003 file downloads without an API key; its SHA-256, 85,381 tract rows, 242,296 block-group rows and Autauga County tract total match the fetched-data receipt. The API-key limitation in the earlier note does not block these bulk tables.

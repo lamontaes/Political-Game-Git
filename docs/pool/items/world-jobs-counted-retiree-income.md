@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr: #5455
+pr: #5224
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -27,4 +27,7 @@ Oct 20 (claude/retiree-note): nothing left to build. Merging main into the PR #5
 
 Sent back 2026-10-20 from PR #5250 (branch claude/pool-retiree-income): The body explicitly says the new retirement-claims.test.ts case returns early in a place with no qualifying retired person. That permits the retirement-award regression to pass without an assertion. Draw with bounded retries that throw on exhaustion, assert a positive counted retirement award and its credited residents flow through the ordinary jobs retirement path, and keep a named place/seed/record proof before resolving the stopgap.; finish on that branch, merge main into it first.
 
+Oct 21 (claude, fixing PR #5224 branch claude/political-game-pool-yucp92-c): merged main, which already holds the same change (claimRetirementNow, stopgap resolved); took main for jobs.ts, retirement-claims.ts, residents.test.ts, stopgaps.json and kept this PR's only unique piece, src/core2/jobs-counted-retire-claim.test.ts (no residents:retirement:added flow).
 Oct 21 (claude): already done on main by another change. `claimRetirementNow` (`src/core2/modules/retirement-claims.ts`) gives a counted worker who retires their own award from their record; the place-average stand-in is gone and its stopgap row is resolved; `retirement-claims.test.ts` has the no-early-return case (a counted person of 70 or more, fails by name if none). PR #5250 now carries no diff after merging main and should be closed as superseded. A merger can mark this item done after checking those three. Claim released.
+
+Split from world-stopgap-jobs-faked-mechanic (an L item) on Oct 19; row SG-WORLD-jobs-counted-retiree-income.

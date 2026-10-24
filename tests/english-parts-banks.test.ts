@@ -2,6 +2,10 @@ import { readdirSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import { checkAmericanEnglish } from "../scripts/prose-eval/american-english";
+import {
+  PART_GRADES,
+  type PartGradeLedger,
+} from "../src/english/english-grades";
 
 /**
  * Part banks: pieces mined from public records (EM-1) and pieces authored to
@@ -65,6 +69,22 @@ export function provenanceProblems(part: Part): string[] {
   return problems;
 }
 
+/**
+ * An authored part is hand-written player text: it ships only once the owner
+ * has graded it good (words-authored-parts-shippable-sweep). Empty when the
+ * part is mined, not shippable, or graded good at least once.
+ */
+export function gradeProblems(
+  part: Part,
+  ledger: PartGradeLedger = PART_GRADES,
+): string[] {
+  if (part.origin !== "authored" || !part.shippable) return [];
+  const counts = ledger.parts[part.key];
+  return (counts?.good ?? 0) > 0 || (counts?.sharedGood ?? 0) > 0
+    ? []
+    : ["an authored part ships only once it is graded good"];
+}
+
 type Bank = {
   schema: string;
   register: string;
@@ -117,8 +137,33 @@ describe("English part banks", () => {
     ).toEqual([]);
   });
 
+  it("refuses an authored part marked shippable with no good grade, and accepts it once graded", () => {
+    const part: Part = {
+      key: "x.y.1",
+      move: "y",
+      kind: "spoken",
+      text: "Hello.",
+      shippable: true,
+      origin: "authored",
+      author: "the Words session",
+      date: "2026-10-20",
+    };
+    const ledger = (good: number) =>
+      ({
+        parts: { "x.y.1": { good, bad: 0, fix: 0 } },
+      }) as unknown as PartGradeLedger;
+    expect(gradeProblems(part, ledger(0))).toHaveLength(1);
+    expect(gradeProblems(part, ledger(1))).toEqual([]);
+    expect(gradeProblems({ ...part, shippable: false }, ledger(0))).toEqual([]);
+  });
+
   for (const { name, bank } of banks) {
     describe(name, () => {
+      it("ships no authored part before the owner has graded it good", () => {
+        for (const part of bank.parts)
+          expect(gradeProblems(part), part.key).toEqual([]);
+      });
+
       it("validates against the bank schema", () => {
         expect(bank.schema).toBe("english-parts/1");
         expect(`${bank.register}.json`).toBe(name);

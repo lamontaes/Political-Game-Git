@@ -5,13 +5,13 @@ area: core
 kind: feature
 priority: 3
 size: M
-status: claimed
-claimed-by: claude/private-tuition-counted
+status: open
+claimed-by:
 pr: #5633
 blocked-on:
 after: core-private-tuition-yearly-reenrollment
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T15:12:14.936Z
+claimed-at:
 ---
 
 **What.** Full families hold tuition contracts the yearly re-ranking can start and end, but counted families have no such contract, so the wider population never pays private tuition and the town's private share is met by full families alone. Give each counted group the same rule times its weight: the counted households are ranked with the full families on cash per child, and the private-school seats they take come out of the same town share, paid as a purchase flow that fill-in takes back contract by contract.
@@ -29,3 +29,6 @@ Oct 20 (claude, claimed and released, nothing built). The premise above is out o
 
 Sent back 2026-10-20 from PR #5633 (branch claude/tuition-counted): src/core2/data/stopgaps.json adds the dated session note Resolved Oct 20 in SG-CORE-private-tuition-counted-reenroll; describe the replacement without that date note. More importantly, docs/pool/items/core-private-tuition-counted.md:21 requires a full and counted household with the same cash per child to enroll or stay out together in a one-year played world. The new test compares medians only among counted families and never proves that named full-versus-counted pair or cites the tuition journal record id. Add those required proofs.; finish on that branch, merge main into it first.
 Oct 21 (fixer): sent-back fixes. The stopgap note no longer carries a date. The test now ranks the full and counted families on the list the engine itself ordered (lastTuitionRanking, kept while bookkeeping is on) and asserts, per town, that a full and a counted household rank on one list and enroll together (the one ranked first is in whenever the other is), with the closest enrolled-together and stayed-out-together pairs and the school's journal record id printed.
+
+
+Sent back 2026-10-21 from PR #5633 (branch claude/tuition-counted): src/core2/private-tuition-counted.test.ts:47 advances only to the day after the August ranking, then line 178 advances another 45 days and returns. With the named 2025 start and September 16 receipt this is 239 played days, not the one-year world required by docs/pool/items/core-private-tuition-counted.md:21 and the previous send-back. The new real full/counted enrollment, purchase-flow and fill-in assertions improve the proof, but keep them through a complete 365-day run, add an exact equal-cash-per-child pair rather than only nearest pairs with gaps, and report the final record ids. Keep the date-note repair. No local gate pass is claimed.; finish on that branch, merge main into it first.
