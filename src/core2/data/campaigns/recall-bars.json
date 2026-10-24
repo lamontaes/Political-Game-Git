@@ -11,15 +11,21 @@
     },
     "AZ": {
       "openingDays": 182,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "citation": "A.R.S. 19-202 and Ariz. Const. art. 8, pt. 1, sec. 5: no recall petition is circulated against an officer until the officer has held office six months (taken as 182 days); the six months are not renewed by a later term in the same office.",
+      "estimatedFrom": "The statute counts six calendar months after the term begins; the bar table holds days (openingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on July 1, 181 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "spread": [181, 184],
       "url": "https://www.azleg.gov/ars/19/00202.htm"
     },
     "CA": {
       "openingDays": 90,
       "closingDays": 182,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "citation": "Cal. Elec. Code 11007: no recall proceedings against a city, county or district officer who has held office in the current term for 90 days or less, or whose term ends within six months (closing bar taken as 182 days).",
+      "estimatedFrom": "The statute counts six calendar months before the term ends; the bar table holds days (closingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term ending January 1, six months before is July 1, 184 days earlier, so 182 days admits two days the statute bars. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "spread": [181, 184],
       "url": "https://california.public.law/codes/elections_code_section_11007"
     },
     "CO": {
@@ -70,8 +76,11 @@
     "LA": {
       "openingDays": 0,
       "closingDays": 182,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "citation": "La. R.S. 18:1300.1: \"no recall petition may be submitted for certification to or accepted for certification by the registrar of voters or any other official if less than six months remain in the term of office.\" No bar at the start of the term in the section read; six months taken as 182 days. Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "estimatedFrom": "The statute counts six calendar months before the term ends; the bar table holds days (closingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term ending January 1, six months before is July 1, 184 days earlier, so 182 days admits two days the statute bars. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "spread": [181, 184],
       "url": "https://www.legis.la.gov/Legis/Law.aspx?d=81315"
     },
     "MI": {
@@ -88,8 +97,11 @@
     "MT": {
       "openingDays": 61,
       "closingDays": 0,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "citation": "Mont. Code Ann. 2-16-613 (2025): \"A recall petition against an officer may not be approved for circulation, as required in 2-16-617 (3), until an officer has held office for 2 months.\" \"A recall petition may not be filed against an officer for whom a recall election has been held for a period of 2 years during the officer's term of office unless the state or political subdivision or subdivisions financing the recall election are first reimbursed for all expenses of the preceding recall election.\" Two months taken as 61 days. Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "estimatedFrom": "The statute counts two calendar months after the term begins; the bar table holds days (openingDays), so the row stores 61. Two calendar months span 59 to 62 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 61 days is up to 2 days longer or 1 day shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on March 1, 59 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "spread": [59, 62],
       "url": "https://leg.mt.gov/bills/mca/title_0020/chapter_0160/part_0060/section_0130/0020-0160-0060-0130.html"
     },
     "ND": {
@@ -104,8 +116,11 @@
     },
     "NE": {
       "openingDays": 182,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "citation": "Neb. Rev. Stat. 32-1309: \"No recall petition filing form shall be filed against an elected official within twelve months after a recall election has failed to remove him or her from office or within six months after the beginning of his or her term of office or within six months prior to the incumbent filing deadline for the office.\" Six months taken as 182 days. The closing bar counts back from the incumbent filing deadline, not the term's end; the bar table holds days before the term's end only, so it is not encoded (builder item gov-recall-bars-election-clock). Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "estimatedFrom": "The statute counts six calendar months after the term begins; the bar table holds days (openingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on July 1, 181 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "spread": [181, 184],
       "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-1309"
     },
     "NJ": {
@@ -116,14 +131,20 @@
     },
     "NV": {
       "openingDays": 182,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "citation": "Nev. Const. art. 2, sec. 9: \"No such petition shall be circulated or filed against any officer until he has actually held his office six (6) months\" \"After one such petition and special election, no further recall petition shall be filed against the same officer during the term for which he was elected, unless such further petitioners shall pay into the public treasury from which the expenses of said special election have been paid, the whole amount paid out of said public treasury as expenses for the preceding special election.\" Six months taken as 182 days. Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "estimatedFrom": "The statute counts six calendar months after the term begins; the bar table holds days (openingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on July 1, 181 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "spread": [181, 184],
       "url": "https://www.leg.state.nv.us/Const/NvConst.html"
     },
     "OR": {
       "openingDays": 182,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "citation": "Or. Const. art. II, sec. 18 and the Secretary of State's recall page: most public officials can be the subject of a recall petition only after six months of their current term (taken as 182 days).",
+      "estimatedFrom": "The statute counts six calendar months after the term begins; the bar table holds days (openingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on July 1, 181 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "spread": [181, 184],
       "url": "https://sos.oregon.gov/elections/Pages/recall.aspx"
     },
     "SD": {

@@ -3910,14 +3910,26 @@
     "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window. Oct 23, 2026 (research-core-sourced-parameters): twelve more places read from statute (AK, DC, FL, GA, LA, MT, NE, NV, ND, SD, WA, WY; 9 SOURCED and 3 ESTIMATED: ND and WA where the bar counts from an election, FL where the bar is a fraction of the term, SG-GOV-recall-bars-term-fraction) into src/core2/data/campaigns/recall-bars.json, read by recallBarsFor in src/core2/modules/recalls.ts, with the quotes and each state's bar after a failed recall in data/research/core/recall-timing-statutes-2026.json (checked by scripts/research/check-core-research.ts); 21 of the 22 places with a petitioned local recall now have a bar read from their own statute, three of them estimates. Still open: no Mississippi timing bar was read, so the national estimate stands there; bars counted from an election (NE, WA, ND) and each state's rule after a failed recall wait on the builder item gov-recall-bars-election-clock.",
+    "replacement": "Each state's recall timing bars read into the municipal rule pack and resolved like its threshold and window. Oct 23, 2026 (research-core-sourced-parameters): twelve more places read from statute (AK, DC, FL, GA, LA, MT, NE, NV, ND, SD, WA, WY; 5 SOURCED and 7 ESTIMATED: ND and WA where the bar counts from an election, FL where the bar is a fraction of the term, SG-GOV-recall-bars-term-fraction, and LA, MT, NE and NV where the bar is counted in calendar months and stored as days, SG-GOV-recall-bars-calendar-months) into src/core2/data/campaigns/recall-bars.json, read by recallBarsFor in src/core2/modules/recalls.ts, with the quotes and each state's bar after a failed recall in data/research/core/recall-timing-statutes-2026.json (checked by scripts/research/check-core-research.ts); 21 of the 22 places with a petitioned local recall now have a bar read from their own statute, seven of the twelve new ones estimates. Still open: no Mississippi timing bar was read, so the national estimate stands there; bars counted from an election (NE, WA, ND) and each state's rule after a failed recall wait on the builder item gov-recall-bars-election-clock.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recall-bars-calendar-months",
+    "kind": "estimated-rule",
+    "file": "src/core2/modules/recalls.ts",
+    "line": 207,
+    "whatItFakes": "A recall bar that a statute counts in calendar months is stored in src/core2/data/campaigns/recall-bars.json as a fixed number of days: six months as 182 days (Louisiana's closing bar, Nebraska's and Nevada's opening bars, and the earlier Arizona and Oregon opening bars and California's closing bar) and two months as 61 days (Montana's opening bar). Six calendar months run 181 to 184 days and two run 59 to 62, depending on the date counted from, so the stored bar can admit a date the statute bars or bar one it admits by up to three days: for a term ending January 1, 2027, July 2, 2026 is inside six months but 183 days away, and Louisiana's 182-day bar admits it. Each of these rows is ESTIMATED with its spread.",
+    "why": "The bar table and recallBarsFor count days into the term and days before its end; a calendar month has no fixed length in days, and counting by months changes engine logic, which is builder work, not research.",
+    "addedBy": "claude/dreamy-tesla-bgi3ui research",
+    "addedAt": "2026-10-24",
+    "replacement": "Builder item gov-recall-bars-calendar-months: a bar row may state calendar months (opening and closing), and the recall engine compares the date with the term's start plus those months, or its end less them, so the rows are SOURCED from their statute quotes. Until then they are ESTIMATED in src/core2/data/campaigns/recall-bars.json and data/research/core/recall-timing-statutes-2026.json, and scripts/research/check-core-research.ts recomputes each spread from the calendar.",
     "status": "open"
   },
   {
     "id": "SG-GOV-recall-bars-term-fraction",
     "kind": "estimated-rule",
     "file": "src/core2/modules/recalls.ts",
-    "line": 207,
+    "line": 208,
     "whatItFakes": "A recall bar that a statute sets as a fraction of the term (Florida: one-fourth of the term, Fla. Stat. 100.361(8)) is stored as two day counts: one for terms of up to longTermAboveYears years and one for longer terms. recallBarsFor returns the same 365 days for a three-year term as for a four-year term, 91 days more than one-fourth of three years (273.75 days), and about 183 days fewer than one-fourth of a six-year term (547.5 days). The row is ESTIMATED with a spread of 182 to 365 days, the statute's bar for terms of 2, 3 and 4 years. Today every Florida council, mayor and county commission seat takes four years, where the value is exact.",
     "why": "recall-bars.json holds days into the term, with one value per term band; every other bar in it is counted in days or months, so no row had to scale with the term until Florida's statute was read on Oct 23, 2026. Encoding a fraction of the term changes engine logic, which is builder work, not research.",
     "addedBy": "claude/dreamy-tesla-bgi3ui research",

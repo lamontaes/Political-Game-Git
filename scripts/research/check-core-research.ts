@@ -99,7 +99,25 @@ interface RecallPlace {
   spread?: [number, number];
   /** A bar the statute sets as a fraction of the term, for the term lengths it serves. */
   fractionOfTerm?: { of: [number, number]; termYears: number[] };
+  /** A bar the statute counts in calendar months, stored as days. */
+  calendarMonths?: { field: (typeof BAR_FIELDS)[number]; months: number };
   estimatedFrom?: string;
+}
+/** The fewest and most days that `months` calendar months run, over every start date of a four-year cycle (a day past the month's end lands on its last day). */
+function calendarMonthSpan(months: number): [number, number] {
+  let low = Infinity;
+  let high = 0;
+  for (let day = 0; day < 1461; day++) {
+    const start = new Date(Date.UTC(2024, 0, 1 + day));
+    const year = start.getUTCFullYear();
+    const month = start.getUTCMonth() + months;
+    const last = new Date(Date.UTC(year, month + 1, 0)).getUTCDate();
+    const end = Date.UTC(year, month, Math.min(start.getUTCDate(), last));
+    const days = Math.round((end - start.getTime()) / 86_400_000);
+    low = Math.min(low, days);
+    high = Math.max(high, days);
+  }
+  return [low, high];
 }
 const recall = read<{ places: Record<string, RecallPlace> }>(
   "data/research/core/recall-timing-statutes-2026.json",
@@ -125,7 +143,9 @@ for (const [code, row] of Object.entries(recall.places)) {
   if (row.tag === "ESTIMATED") {
     const spread = engine.spread as [number, number] | undefined;
     const values = [
-      row.encoded?.closingDays ?? row.encoded?.openingDays ?? 0,
+      row.calendarMonths
+        ? (row.encoded?.[row.calendarMonths.field] ?? 0)
+        : (row.encoded?.closingDays ?? row.encoded?.openingDays ?? 0),
       ...(row.encoded?.longTermOpeningDays !== undefined
         ? [row.encoded.longTermOpeningDays]
         : []),
@@ -146,6 +166,21 @@ for (const [code, row] of Object.entries(recall.places)) {
         problems.push(
           `${code}: estimated bar ${value} outside spread ${spread}`,
         );
+  }
+  // A bar counted in calendar months: the spread is exactly the shortest and
+  // longest that many months run from any date in a four-year cycle, so the
+  // stored days are an estimate inside what the statute's months can be.
+  if (row.calendarMonths) {
+    const spread = engine.spread as [number, number] | undefined;
+    const [low, high] = calendarMonthSpan(row.calendarMonths.months);
+    if (row.tag !== "ESTIMATED")
+      problems.push(
+        `${code}: a bar in calendar months stored as days is ESTIMATED`,
+      );
+    if (!spread || spread[0] !== low || spread[1] !== high)
+      problems.push(
+        `${code}: spread ${spread} for ${row.calendarMonths.months} calendar months, which run ${low} to ${high} days`,
+      );
   }
   // A bar set as a fraction of the term: the statute's days for each term
   // length it serves (term years x 365 x fraction) fall inside the spread, and

@@ -8,7 +8,7 @@
   "geography": "All 56 places, keyed by postal code",
   "sourceUrl": "https://www.akleg.gov/basis/statutes.asp",
   "retrievedOn": "2026-10-23",
-  "limits": "Statute text only, no case law. Places whose rule pack gives no petitioned local recall carry no bar. \"encoded\" is the row written to src/core2/data/campaigns/recall-bars.json (days; six months taken as 182 days, two months as 61); scripts/research/check-core-research.ts fails when the two differ. \"afterFailed\" is what each statute says about a later petition; the recall engine still applies one rule everywhere (none again in the term after one failed) until the builder item gov-recall-bars-election-clock reads it.",
+  "limits": "Statute text only, no case law. Places whose rule pack gives no petitioned local recall carry no bar. \"encoded\" is the row written to src/core2/data/campaigns/recall-bars.json (days; six calendar months stored as 182 days and two as 61, ESTIMATED with the 181 to 184 and 59 to 62 days those months span, SG-GOV-recall-bars-calendar-months); scripts/research/check-core-research.ts fails when the two differ. \"afterFailed\" is what each statute says about a later petition; the recall engine still applies one rule everywhere (none again in the term after one failed) until the builder item gov-recall-bars-election-clock reads it.",
   "places": {
     "AL": {
       "localRecall": false,
@@ -87,7 +87,10 @@
         "longTermOpeningDays": 365,
         "longTermAboveYears": 2
       },
-      "fractionOfTerm": { "of": [1, 4], "termYears": [2, 3, 4] },
+      "fractionOfTerm": {
+        "of": [1, 4],
+        "termYears": [2, 3, 4]
+      },
       "spread": [182, 365],
       "estimatedFrom": "The statute bars a petition until one-fourth of the term is served: term years x 365 / 4 days, which is 182.5 days of a two-year term, 273.75 of a three-year term and 365 of a four-year term. The engine's day count is two values, 183 days for a term of two years or less and 365 for a longer one (longTermOpeningDays), so it equals the statute for a two-year term (within half a day) and a four-year term, is 91 days long (365 against 273.75) for a three-year term, and would be 183 days short (365 against 547.5) for a six-year term. The spread, 182 to 365 days, is the statute's bar for terms of 2, 3 and 4 years, the lengths the game reads for local seats: the 18 seat terms in src/core2/gov-rules/municipal-governments.json are all 2, 3 or 4 years, and the modal council term (ICMA 2018, 63.6% of at-large councils), the default mayor term and the state's county schedule (data/research/government/county-election-schedule-by-state.json) are each 4 years. No compiled charter reading for this state carries a term length, so today its council, mayor and county commission seats take four years, where the engine is exact; the 91-day gap appears for a three-year term (13.1% of at-large councils in the ICMA 2018 table). Registered as SG-GOV-recall-bars-term-fraction; the builder item gov-recall-bars-fraction-of-term encodes a fraction-of-term bar.",
       "afterFailed": "not stated in the sections read"
@@ -138,7 +141,7 @@
     },
     "LA": {
       "localRecall": true,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "statute": "La. R.S. 18:1300.1",
       "url": "https://www.legis.la.gov/Legis/Law.aspx?d=81315",
       "quotes": [
@@ -149,7 +152,14 @@
         "closingDays": 182
       },
       "encodingNote": "No bar at the start of the term in the section read; six months taken as 182 days.",
-      "afterFailed": "not stated in the sections read"
+      "afterFailed": "not stated in the sections read",
+      "estimatedFrom": "The statute counts six calendar months before the term ends; the bar table holds days (closingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term ending January 1, six months before is July 1, 184 days earlier, so 182 days admits two days the statute bars. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "spread": [181, 184],
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "calendarMonths": {
+        "field": "closingDays",
+        "months": 6
+      }
     },
     "ME": {
       "localRecall": false,
@@ -183,7 +193,7 @@
     },
     "MT": {
       "localRecall": true,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "statute": "Mont. Code Ann. 2-16-613 (2025)",
       "url": "https://leg.mt.gov/bills/mca/title_0020/chapter_0160/part_0060/section_0130/0020-0160-0060-0130.html",
       "quotes": [
@@ -195,11 +205,18 @@
         "closingDays": 0
       },
       "encodingNote": "Two months taken as 61 days.",
-      "afterFailed": "two years after a recall election, unless its cost is reimbursed"
+      "afterFailed": "two years after a recall election, unless its cost is reimbursed",
+      "estimatedFrom": "The statute counts two calendar months after the term begins; the bar table holds days (openingDays), so the row stores 61. Two calendar months span 59 to 62 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 61 days is up to 2 days longer or 1 day shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on March 1, 59 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "spread": [59, 62],
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "calendarMonths": {
+        "field": "openingDays",
+        "months": 2
+      }
     },
     "NE": {
       "localRecall": true,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "statute": "Neb. Rev. Stat. 32-1309",
       "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=32-1309",
       "quotes": [
@@ -209,11 +226,18 @@
         "openingDays": 182
       },
       "encodingNote": "Six months taken as 182 days. The closing bar counts back from the incumbent filing deadline, not the term's end; the bar table holds days before the term's end only, so it is not encoded (builder item gov-recall-bars-election-clock).",
-      "afterFailed": "twelve months after a failed recall election"
+      "afterFailed": "twelve months after a failed recall election",
+      "estimatedFrom": "The statute counts six calendar months after the term begins; the bar table holds days (openingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on July 1, 181 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "spread": [181, 184],
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "calendarMonths": {
+        "field": "openingDays",
+        "months": 6
+      }
     },
     "NV": {
       "localRecall": true,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "statute": "Nev. Const. art. 2, sec. 9",
       "url": "https://www.leg.state.nv.us/Const/NvConst.html",
       "quotes": [
@@ -224,7 +248,14 @@
         "openingDays": 182
       },
       "encodingNote": "Six months taken as 182 days.",
-      "afterFailed": "rest of the term after a recall election, unless the next petitioners pay its cost"
+      "afterFailed": "rest of the term after a recall election, unless the next petitioners pay its cost",
+      "estimatedFrom": "The statute counts six calendar months after the term begins; the bar table holds days (openingDays), so the row stores 182. Six calendar months span 181 to 184 days depending on the date counted from (month lengths and leap years, computed over a four-year cycle), so a bar of 182 days is up to 1 day longer or 2 days shorter than the statute's on a given date: for a term beginning January 1 of a common year the statute's bar ends on July 1, 181 days in. Registered as SG-GOV-recall-bars-calendar-months; the builder item gov-recall-bars-calendar-months reads bars in calendar months.",
+      "spread": [181, 184],
+      "stopgapId": "SG-GOV-recall-bars-calendar-months",
+      "calendarMonths": {
+        "field": "openingDays",
+        "months": 6
+      }
     },
     "NH": {
       "localRecall": false,
