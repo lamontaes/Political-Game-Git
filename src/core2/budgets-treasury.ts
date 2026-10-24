@@ -810,7 +810,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       // it holds, issued to the groups that hold its debt in their shares.
       const holders = federalDebtOf(api);
       const wanted = splitBy(
-        need - Math.max(0, have),
+        need - have,
         DEBT.holders.map((h) => h.share),
       );
       holders.forEach((holder, i) => {

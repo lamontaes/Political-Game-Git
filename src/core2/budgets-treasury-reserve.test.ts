@@ -11,7 +11,12 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openLaws } from "./modules/laws";
 import { governments, openBudgets } from "./modules/budgets";
-import { outsideAccountOf, standingReserve } from "./budgets-treasury";
+import {
+  budgetInForce,
+  outsideAccountOf,
+  standingReserve,
+  treasuryMonthsOf,
+} from "./budgets-treasury";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import type { IsoDate } from "./kernel/dates";
 
@@ -94,6 +99,81 @@ describe(
       expect(accounts.balance(main), where).toBeGreaterThanOrEqual(
         standingReserve(api, main),
       );
+    });
+
+    it("a reserve larger than the cash on hand is borrowed on top of the month's due spending, and the lines are paid in full", () => {
+      const state = pick(states, "state-big");
+      const places = [
+        ...searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const place = pick(places, "place-big").key;
+      const where = `seed ${seed}, ${state} place ${place}`;
+      const core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: place,
+          startedAt: START,
+          minimumPeople: 30,
+        }),
+      );
+      openLaws(core);
+      openBudgets(core);
+      const api = coreAPI(core);
+      const accounts = api.accounts();
+      const us = governments(api).find((g) => g.level === "federal")!;
+      const main = accounts.main(us.organizationId);
+      const outside = accounts.main(outsideAccountOf(api)!);
+      // A standing payment worth a tenth of a year of the federal budget:
+      // large against the cash on hand and against the month's due spending,
+      // so a close that borrowed only the due spending would pay the lines short.
+      const budget = budgetInForce(api, us.id)!;
+      const reserve = Math.round(
+        Object.values(budget.spendingMinor).reduce((n, m) => n + m, 0) / 10,
+      );
+      accounts.addObligation({
+        id: "reserve-test:big",
+        from: main,
+        to: outside,
+        amountMinor: reserve,
+        firstDueAt: "2026-02-20" as IsoDate,
+        cadence: { kind: "months", every: 1 },
+        accruesArrears: false,
+        reasonKey: "test",
+        source: {
+          tag: "SOURCED" as const,
+          citation: "test",
+          asOf: START as IsoDate,
+        },
+      });
+      expect(standingReserve(api, main), where).toBe(reserve);
+      expect(
+        accounts.balance(main),
+        `${where}: reserve exceeds cash`,
+      ).toBeLessThan(reserve);
+      advanceCore(core, "2026-02-01");
+      const closes = treasuryMonthsOf(api, us.id);
+      expect(
+        closes.length,
+        `${where}: the federal treasury closed`,
+      ).toBeGreaterThan(0);
+      const close = closes[closes.length - 1]!;
+      const due = Object.values(close.lines).reduce(
+        (n, l) => n + l.dueMinor,
+        0,
+      );
+      expect(due, `${where}: the close had spending due`).toBeGreaterThan(0);
+      // The reserve is kept AND the due spending is paid in full, the
+      // difference borrowed.
+      expect(
+        accounts.balance(main),
+        `${where}: reserve kept`,
+      ).toBeGreaterThanOrEqual(reserve);
+      for (const [line, row] of Object.entries(close.lines))
+        expect(row.shortMinor, `${where}: ${line} paid in full`).toBe(0);
+      expect(close.borrowedMinor, `${where}: borrowed`).toBeGreaterThan(0);
     });
   },
 );
