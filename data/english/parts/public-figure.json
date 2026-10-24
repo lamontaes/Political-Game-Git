@@ -1,0 +1,183 @@
+{
+  "schema": "english-parts/1",
+  "register": "public-figure",
+  "description": "What the town knows of a public figure it may never have met (the president, its governor, its members of Congress, its mayor), one sentence per recorded fact: party, service, votes, laws sponsored, laws signed. Authored to the journal's patterns; every fact is a slot from the figure's public record (src/core2/past-public.ts).",
+  "slots": {
+    "name": "The figure's name, from the person record.",
+    "party": "The figure's party, from the public record.",
+    "office": "The office held, with its article, from the office record.",
+    "date": "The date service began, from the public record, as people say a date.",
+    "count": "A count from the public record."
+  },
+  "maxWords": 14,
+  "parts": [
+    {
+      "key": "public-figure.figure-party.name-is-a-party",
+      "move": "figure-party",
+      "kind": "spoken",
+      "text": "{name} is a {party}.",
+      "uses": [
+        {
+          "move": "figure-party",
+          "subject": "figure",
+          "role": "line",
+          "choice": "party"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-public-and-archive-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "public-figure.figure-service.name-has-been-office-since-date",
+      "move": "figure-service",
+      "kind": "spoken",
+      "text": "{name} has been {office} since {date}.",
+      "uses": [
+        {
+          "move": "figure-service",
+          "subject": "figure",
+          "role": "line",
+          "choice": "service"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-public-and-archive-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "public-figure.figure-votes.name-has-cast-votes",
+      "move": "figure-votes",
+      "kind": "spoken",
+      "text": "{name} has cast {count} votes on the record.",
+      "uses": [
+        {
+          "move": "figure-votes",
+          "subject": "figure",
+          "role": "line",
+          "choice": "votes"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-public-and-archive-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "public-figure.figure-votes.name-has-cast-one-vote",
+      "move": "figure-votes",
+      "kind": "spoken",
+      "text": "{name} has cast one vote on the record.",
+      "uses": [
+        {
+          "move": "figure-votes",
+          "subject": "figure",
+          "role": "line",
+          "choice": "one-vote"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-public-and-archive-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "public-figure.figure-sponsored.name-has-sponsored-laws",
+      "move": "figure-sponsored",
+      "kind": "spoken",
+      "text": "{name} has sponsored {count} laws.",
+      "uses": [
+        {
+          "move": "figure-sponsored",
+          "subject": "figure",
+          "role": "line",
+          "choice": "sponsored"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-public-and-archive-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "public-figure.figure-sponsored.name-has-sponsored-one-law",
+      "move": "figure-sponsored",
+      "kind": "spoken",
+      "text": "{name} has sponsored one law.",
+      "uses": [
+        {
+          "move": "figure-sponsored",
+          "subject": "figure",
+          "role": "line",
+          "choice": "one-sponsored"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-public-and-archive-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "public-figure.figure-signed.name-has-signed-laws",
+      "move": "figure-signed",
+      "kind": "spoken",
+      "text": "{name} has signed {count} laws.",
+      "uses": [
+        {
+          "move": "figure-signed",
+          "subject": "figure",
+          "role": "line",
+          "choice": "signed"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-public-and-archive-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "public-figure.figure-signed.name-has-signed-one-law",
+      "move": "figure-signed",
+      "kind": "spoken",
+      "text": "{name} has signed one law.",
+      "uses": [
+        {
+          "move": "figure-signed",
+          "subject": "figure",
+          "role": "line",
+          "choice": "one-signed"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Sonnet (pool item words-past-public-and-archive-renderings)",
+      "date": "2026-10-19",
+      "tag": {
+        "move": "tell"
+      }
+    }
+  ]
+}
