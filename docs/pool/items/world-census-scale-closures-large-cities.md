@@ -28,3 +28,5 @@ Sent back 2026-10-21 from PR #5803 (branch claude/closures-large-cities): Mergin
 Sent back 2026-10-23 from PR #5803 (branch claude/closures-large-cities): The required pinned Washington, D.C. Census-size closure proof still fails on the published merged head; no fixing commit follows the fixer's failure report. Rechecked unchanged head f6c98748e4; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5803#issuecomment-6331948796; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): A sole counted job loses its 68.3645 remaining heads at fill-in in the DC repro because releaseWeight deletes the job-head entry when no keeper exists; preserve the remainder and add this boundary regression; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Current main conflicts in src/core2/counted-groups.ts and src/core2/modules/employer-taxes.ts, plus stopgaps registry; code integration aborted without a gate pass; finish on that branch, merge main into it first.

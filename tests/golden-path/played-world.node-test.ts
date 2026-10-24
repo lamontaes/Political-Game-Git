@@ -41,11 +41,7 @@ import {
   residentsRuntime,
 } from "../../src/core2/modules/residents";
 import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
-import {
-  BUDGETS_MODULE_ID,
-  budgetsOf,
-  governments,
-} from "../../src/core2/modules/budgets";
+import { budgetsOf, governments } from "../../src/core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import {
@@ -53,7 +49,11 @@ import {
   ballot,
   incumbentOf,
 } from "../../src/core2/modules/elections";
-import { officialCandidateId, resultOf } from "../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  officialCandidateId,
+  resultOf,
+} from "../../src/core2/modules/voting";
 import { WORLD_RACES_MODULE_ID } from "../../src/core2/modules/world-races";
 import { WORLD_LEGISLATING_MODULE_ID } from "../../src/core2/modules/world-legislating";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
@@ -268,6 +268,12 @@ function playWorld(seed: string) {
     [...core.people.values()].map((p) => [p.id, new Map(p.actsByKind)]),
   );
   const countedAtStart = residentCounts(core).reduce((n, r) => n + r.people, 0);
+  // Counted adults are read from the residents' own books, not from the
+  // voting engine's output, so a missing counted ballot can't hide itself.
+  const countedAdultsAtStart = residentCounts(core).reduce(
+    (n, r) => n + r.adults,
+    0,
+  );
   const countedIdsAtStart = new Set(
     [...(residentsRuntime(core)?.households.values() ?? [])].flatMap((h) =>
       h.people.map((p) => p.id),
@@ -282,6 +288,29 @@ function playWorld(seed: string) {
       t.endDate <= end,
   );
   countCalls(core);
+  // Paychecks after January 1: the withholding entry the journal posts for
+  // every paycheck names each tax it withheld in its posting ids
+  // (`<id>:tax:<index>:<level>:<tax>`, src/core2/modules/budgets.ts
+  // postWithholding); the budgets module keeps its own row only for the
+  // player's circle.
+  const withheldTaxes = new Set<string>();
+  let withheldPaychecks = 0;
+  const journalApi = coreAPI(core);
+  const postJournal = journalApi.postJournal.bind(journalApi);
+  journalApi.postJournal = (entry) => {
+    if (
+      entry.sourceRef.kind === "budgets:withholding" &&
+      entry.date >= nextJanuary
+    ) {
+      withheldPaychecks++;
+      for (const p of entry.postings) {
+        const named = /:tax:\d+:([a-z]+):([a-z-]+)$/.exec(p.id);
+        if (named && p.deltaMinor > 0)
+          withheldTaxes.add(`${named[1]}:${named[2]}`);
+      }
+    }
+    return postJournal(entry);
+  };
 
   // Day by day, watching what only shows on the day it happens.
   const cashYesterday = new Map<string, number>();
@@ -328,6 +357,10 @@ function playWorld(seed: string) {
     day = next;
   }
   const runSeconds = (performance.now() - runStarted) / 1000;
+  const countedAdultsAtEnd = residentCounts(core).reduce(
+    (n, r) => n + r.adults,
+    0,
+  );
   const endHeapMiB = heapMiB();
   const heapMB = (endHeapMiB * 2 ** 20) / 1e6;
   const growthMiBPerMonth =
@@ -458,16 +491,7 @@ function playWorld(seed: string) {
         );
 
   // Break 4: withholding continues after January 1.
-  const withheld = rowsOf(core, BUDGETS_MODULE_ID, "withholding").filter(
-    (r) => String(r.date) >= nextJanuary,
-  );
-  const taxes = new Set(
-    withheld.flatMap((r) =>
-      (r.lines as { tax: string; level: string; minor: number }[])
-        .filter((l) => l.minor > 0)
-        .map((l) => `${l.level}:${l.tax}`),
-    ),
-  );
+  const taxes = withheldTaxes;
   // Residents of the five territories owe no federal income tax on income
   // earned there (26 U.S.C. 931 to 933: Puerto Rico excludes it, and Guam,
   // the Virgin Islands, American Samoa and the Northern Marianas pay their
@@ -482,7 +506,7 @@ function playWorld(seed: string) {
   verdicts["taxes are withheld after January 1"] = federalWithheld
     ? pass(`withheld after ${nextJanuary}: ${[...taxes].join(", ")}`)
     : fail(
-        `After ${nextJanuary}, ${withheld.length} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
+        `After ${nextJanuary}, ${withheldPaychecks} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
       );
 
   // Break 6: a passed budget changes the adopted spending.
@@ -645,15 +669,45 @@ function playWorld(seed: string) {
   );
   // A race nobody filed for has no one to vote for: that is a candidacy
   // matter (who runs), counted under "a named challenger runs", not a silent
-  // counted population.
-  const silent = local.filter(
-    (c) =>
-      ballot(api, String(c.id)).length > 0 &&
-      Object.values(resultOf(api, String(c.id))!.countedVotes).reduce(
-        (n, v) => n + v,
-        0,
-      ) === 0,
-  );
+  // counted population. Whether counted adults live in the town is read from
+  // the residents' books at the start and the end of the run; when they do,
+  // every local race with someone on its ballot must keep a counted ballot
+  // record. Each record keeps every counted voter's choice, the share of the
+  // people they stand for who turn out, and how many they stand for; a race
+  // is silent when its record is missing, when no counted voter chose
+  // anyone, or when the counted votes those ballots add up to are missing
+  // from the result. A town whose counted adults add up to under two
+  // expected voters (a tiny town is nearly all full people; the result also
+  // takes out non-citizens) can record zero votes honestly: that is
+  // rounding, not a silent counted population.
+  const countedOf = (contestId: string) =>
+    rowsOf(core, VOTING_MODULE_ID, "countedBallots").find(
+      (r) => r.contestId === contestId,
+    ) as
+      | {
+          choice: number[];
+          voted: number[];
+          weight: number[];
+        }
+      | undefined;
+  const countedAdultsLive = countedAdultsAtStart > 0 && countedAdultsAtEnd > 0;
+  const judged = countedAdultsLive
+    ? local.filter((c) => ballot(api, String(c.id)).length > 0)
+    : [];
+  const unkept = judged.filter((c) => !countedOf(String(c.id)));
+  const silent = judged.filter((c) => {
+    const kept = countedOf(String(c.id));
+    if (!kept) return true;
+    const chose = kept.choice.some((x) => x >= 0);
+    const expected = kept.choice.reduce(
+      (n, x, i) => (x >= 0 ? n + kept.voted[i]! * kept.weight[i]! : n),
+      0,
+    );
+    const recorded = Object.values(
+      resultOf(api, String(c.id))!.countedVotes,
+    ).reduce((n, v) => n + v, 0);
+    return !chose || (expected >= 2 && recorded === 0);
+  });
   const empty = held.filter((c) => !ballot(api, String(c.id)).length);
   verdicts["every race has someone on the ballot"] = !held.length
     ? unobserved("no race was decided in the run")
@@ -669,16 +723,22 @@ function playWorld(seed: string) {
       : pass(`all ${held.length} races had someone on the ballot`);
   verdicts["counted voters vote in local races"] = !local.length
     ? unobserved("no local race was decided in the run")
-    : !silent.length
-      ? pass(`counted voters voted in all ${local.length} local races`)
-      : fail(
-          `${silent.length} of ${local.length} local races decided in the run had no votes from the counted population (for example ${silent
-            .slice(0, 3)
-            .map((c) => c.title)
-            .join(
-              "; ",
-            )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
-        );
+    : !judged.length
+      ? unobserved(
+          countedAdultsLive
+            ? `${local.length} local races decided and none had anyone on its ballot`
+            : `${local.length} local races decided and the residents' books show no counted adult in the town (${countedAdultsAtStart} at the start, ${countedAdultsAtEnd} at the end)`,
+        )
+      : !silent.length
+        ? pass(`counted voters voted in all ${judged.length} local races`)
+        : fail(
+            `${silent.length} of ${judged.length} local races decided in the run had no votes from the counted population, ${unkept.length} of them with no counted ballot record although the town has ${countedAdultsAtEnd} counted adults (for example ${silent
+              .slice(0, 3)
+              .map((c) => c.title)
+              .join(
+                "; ",
+              )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
+          );
 
   // Break 12: the counted population changes.
   // A full couple's own decision, not a counted birth: counted births are

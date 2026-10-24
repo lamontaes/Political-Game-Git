@@ -17,6 +17,7 @@ import {
   enterResidentMarket,
   countedSinceOpening,
   releaseResidentHousehold,
+  residentFacts,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
@@ -2092,7 +2093,7 @@ export function personOrFillIn(
   const full = core.people.get(personId);
   // Someone returned to the counts comes back as the same person.
   if (full && !isDemoted(full)) return full;
-  if (!residentPerson(core, personId)) return full;
+  if (!residentFacts(core, personId)) return full;
   return fillInPerson(core, personId);
 }
 
@@ -2417,6 +2418,17 @@ export interface RecordedIdentity {
   tier?: string;
   /** What they hold on the opening day, from the survey rule for their pay; only then, since later cash would come from nowhere. */
   openingLiquidMinor?: number;
+  /**
+   * A person met in a place kept as counts: the job its counts show, kept as a
+   * fact with no payroll behind it (stopgap SG-WORLD-coarse-place-no-payroll).
+   */
+  work?: {
+    readonly workplace: string;
+    readonly title: string;
+    readonly occupation: string;
+    readonly hourlyMinor: number | null;
+    readonly weeklyHours: number;
+  };
   source: Source;
 }
 
@@ -2482,6 +2494,26 @@ export function fillInIdentity(
             summary: identity.seatKey,
             source: identity.source,
             facts: { seatKey: identity.seatKey },
+          },
+        ]
+      : []),
+    ...(identity.work
+      ? [
+          {
+            id: `${identity.id}:work`,
+            date: core.date,
+            kind: "identity:work",
+            summary: identity.work.title,
+            source: identity.source,
+            facts: {
+              workplace: identity.work.workplace,
+              title: identity.work.title,
+              occupation: identity.work.occupation,
+              weeklyHours: String(identity.work.weeklyHours),
+              ...(identity.work.hourlyMinor === null
+                ? {}
+                : { hourlyMinor: String(identity.work.hourlyMinor) }),
+            },
           },
         ]
       : []),

@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts, src/core2/modules/housing.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5812 (branch claude/apply-buy-reasons): Apply-only changes point at an umbrella with TODO acceptance and an explicitly unfinished home-buying row; give the slice bounded written acceptance and resolve or baseline the reported opening-seekers failure; finish on that branch, merge main into it first.

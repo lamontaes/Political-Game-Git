@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/law-wiring-government
 pr: #5582
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** The returned government law family deactivates an election-cost debt when the law that incurred it is no longer in force. That happens before the code reads the amount owed or attempts settlement. Repeal must stop new ballot, identification or registration charges while leaving the already-incurred payable collectible from the treasury that owes it.
@@ -22,3 +22,7 @@ claimed-at:
 **Files.** src/core2/law-reach/group-a-voting.ts, src/core2/law-wiring-government.test.ts
 
 **Notes.** Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): group-a-voting.ts deactivates existing positive debt on repeal before settlement; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5582 (branch claude/law-wiring-government): the body routes the ten-law family to nonexistent laws-nine-links-government and cites absent docs/work-orders/lead-laws-2026-10-24.md for the audit towns; publish the matching item and correct its evidence pointer, preserving the debt item and unfinished umbrella; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): PR held: family Done-when requires played years but committed evidence windows are 35/300 days; family pool id remains absent from main while #5858 is open, without claiming the repaired debt path failed; finish on that branch, merge main into it first.

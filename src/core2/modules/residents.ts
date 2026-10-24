@@ -23,6 +23,7 @@ import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifyCountedWages, notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
+import { admitPublicPayAuthority } from "../public-work-pay";
 import type {
   CoreAPI,
   CoreModule,
@@ -33,12 +34,14 @@ import type {
   PersonId,
   PlaceId,
   Source,
+  WorkCommitmentInput,
 } from "../types";
 import { registerSnapshotPart } from "../snapshot";
 import {
   ageBandOf,
   ageOn,
   CountedHouseholdMap,
+  type CountedFacts,
   CountedPersonHouseholdMap,
   CountedStore,
   decodeStore,
@@ -1468,6 +1471,20 @@ export function residentPerson(
     .find((row) => row.id === id);
 }
 
+/** What the engines read about someone still counted: their columns, with no person record built. */
+export type ResidentFacts = CountedFacts;
+
+/** A counted person's place, birth date, job and traits read from the columns; undefined once they are filled in, dead or moved. */
+export function residentFacts(
+  core: CoreState,
+  personId: PersonId,
+): ResidentFacts | undefined {
+  const store = runtimes.get(core)?.store;
+  const m = store?.countedMember(personId);
+  if (!store || m === undefined) return undefined;
+  return store.factsOf(m);
+}
+
 registerCountedPersonSource(residentPerson);
 
 /** Whether a counted (or filled-in) person was in the opening's counts, so has a past before it. */
@@ -2302,6 +2319,51 @@ function dropCountedContracts(
 }
 
 /**
+ * A counted worker's job started, ended or was re-rated in the jobs engine:
+ * their own job and their household's jobs and yearly wages follow, so every
+ * reader of the household's income, and a fill-in (which hands over the
+ * household's jobs), sees the jobs the employer's books pay. A hire's
+ * `commitment` (its schedule and payday) goes with it, so the worker is on
+ * that payroll when met; an ended job's commitment ends with it.
+ */
+export function countedHouseholdJobChanged(
+  core: CoreState,
+  job: JobInput,
+  commitment?: WorkCommitmentInput,
+): void {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(job.personId);
+  if (!rt || m === undefined) return;
+  const store = rt.store;
+  const h = store.households[store.household[m]!]!;
+  const others = h.jobs.filter((row) => row.id !== job.id);
+  h.jobs = job.endsAt === undefined ? [...others, job] : others;
+  if (commitment) {
+    h.workCommitments = [
+      ...h.workCommitments.filter((row) => row.jobId !== job.id),
+      commitment,
+    ];
+    joinPublicPayAuthority(core, commitment);
+  } else if (job.endsAt !== undefined)
+    h.workCommitments = h.workCommitments.map((row) =>
+      row.jobId === job.id && row.endsAt === undefined
+        ? { ...row, endsAt: job.endsAt }
+        : row,
+    );
+  // The member's own job: the one just started, or another they still hold.
+  if (job.endsAt === undefined) store.jobId[m] = job.id;
+  else if (store.jobId[m] === job.id)
+    store.jobId[m] = h.jobs.find((row) => row.personId === job.personId)?.id;
+  h.wagesMinorYear = Math.round(
+    h.jobs
+      .filter((row) => row.endsAt === undefined)
+      .reduce((n, row) => n + row.wageDailyMinor * DAYS_PER_YEAR, 0),
+  );
+  store.version++;
+  store.touch(h);
+}
+
+/**
  * A counted person died: they leave their household, their job leaves the
  * employer's books and their retirement award stops. Their cash stays with
  * the counted residents (their heirs). A household left empty leaves the
@@ -2633,6 +2695,29 @@ export function countedFundOf(
   if (!rt || ix === undefined || !rt.api) return undefined;
   const h = rt.store.households[ix]!;
   return h.gone || h.group < 0 ? undefined : fundOf(rt.api, rt, h.group);
+}
+
+/**
+ * A counted worker's commitment at a public employer joins the employer's pay
+ * authority under its own id, as a hire's does (job-lifecycle.ts): the
+ * authority resolves due pay only for the commitments it lists.
+ */
+export function joinPublicPayAuthority(
+  core: CoreState,
+  commitment: WorkCommitmentInput,
+): void {
+  if (commitment.publicPayAuthorityId === undefined) return;
+  const employer = core.organizations.get(commitment.organizationId);
+  const authority = employer?.publicPayAuthority;
+  if (!employer || authority?.id !== commitment.publicPayAuthorityId) return;
+  if (authority.workCommitmentIds.includes(commitment.id)) return;
+  employer.publicPayAuthority = admitPublicPayAuthority(
+    {
+      ...authority,
+      workCommitmentIds: [...authority.workCommitmentIds, commitment.id],
+    },
+    core.date,
+  );
 }
 
 /** A payday calendar a returning worker was paid on, kept so a later fill-in pays them on it again. */
