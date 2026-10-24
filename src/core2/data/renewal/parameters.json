@@ -47,6 +47,18 @@
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
+  "renewalWebWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Fitted in played years so that a full couple's choice to plan a child moves with the outcome web's birth-rate factor for the mother's own age and home about as the counted women's births do (elasticity 1). Bench worlds of four drawn places (Key Vista, Florida; Red Rock, Arizona; Camden, Alabama; Baxter, Iowa; place draws scratch:6 to scratch:9 on web-births-full) review 77 couples through a year, and 3 of them plan a child. Read from the couples' recorded plan scores, a factor swing of 0.1, 0.2, 0.3 and 0.4 reaches 1, 2, 3 and 7 more couples at weight 7.5 (elasticity 3.3 to 5.8) and 0, 1, 1 and 2 more at weight 3 (elasticity 0 to 1.7, 1.1 on average). A town's year cannot resolve a response finer than a couple, so the weight rests on this pooled count. The web's factor is the place's own unemployment, home-price and abortion-law effect on births (data/research/outcome-web/links.json); never a rate on the individual.",
+    "spread": {
+      "low": 2,
+      "high": 5,
+      "unit": "score per unit of factor change",
+      "citation": "The pooled count's average elasticity over factor swings of 0.1 to 0.4 is 0.5 at weight 2 and 1.6 at weight 5, inside the band of 0.5 to 2. src/core2/births-full-web.test.ts follows a shifted web month row to the couples it tips, by record id."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
   "renewalAgeWeight": {
     "value": 4,
     "tag": "TUNABLE",
@@ -287,7 +299,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 0.25 to 1 pending a generated-year check against the town's total."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalUnplannedAcceptance": {
     "value": 0.5,
@@ -297,7 +309,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 0 to 1.5 pending a generated-year check."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalEndingBase": {
     "value": 1,
@@ -307,7 +319,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 0.5 to 2 pending a generated-year check."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalTravelWeight": {
     "value": 2,
@@ -317,7 +329,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 1 to 4 pending a generated-year check."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalTravelHalfMiles": {
     "value": 100,
@@ -327,7 +339,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 50 to 200."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalTravelCostPerMileMinor": {
     "value": 60,
