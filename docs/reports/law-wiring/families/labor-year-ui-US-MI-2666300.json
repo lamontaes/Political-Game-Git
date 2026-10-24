@@ -1,0 +1,525 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "unemployment-weekly-maximum",
+      "kind": "amount",
+      "family": "assistance",
+      "inForceAtOpening": false,
+      "change": "unemployment-weekly-maximum 446 -> 491 at state (law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df",
+        "law:US-MI:state:unemployment-weekly-maximum:general:2025-01-01",
+        "law:US-MI:state:unemployment-weekly-maximum:general:2026-01-22:law-wiring-efd150df-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 3,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|unemployment-weekly-maximum|person_7578dae5b41b45d0",
+          "applied|unemployment-weekly-maximum|person_02518394bd09bf0a",
+          "applied|unemployment-weekly-maximum|person_050bfb0ce0ab8e28"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 3,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "applied|unemployment-weekly-maximum|person_7578dae5b41b45d0",
+          "applied|unemployment-weekly-maximum|person_02518394bd09bf0a",
+          "applied|unemployment-weekly-maximum|person_050bfb0ce0ab8e28"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-MI:state:unemployment-weekly-maximum:general:2026-01-01",
+          "level": "state",
+          "effectiveDate": "2026-01-01",
+          "value": 530
+        }
+      ],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 100,
+        "src/core2/jobs-benefits.ts:137": 12,
+        "src/core2/life.ts:556": 6
+      },
+      "openingRow": "law:US-MI:state:unemployment-weekly-maximum:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
+            "treatment": 1939904414,
+            "control": 1942653660,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 351432380,
+            "control": 348934695,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 58884079,
+            "control": 59928516,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 241058848,
+            "control": 242007556,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
+            "treatment": 5065366,
+            "control": 4289861,
+            "ids": [
+              "journal:2025-09-01:55172",
+              "journal:2025-09-01:55173",
+              "journal:2025-09-01:55174"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 178218552,
+            "control": 177467502,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 372452745,
+            "control": 373201924,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 424668298,
+            "control": 424039081,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
+            "treatment": 9874085,
+            "control": 9365607,
+            "ids": [
+              "journal:2025-02-19:8275",
+              "journal:2025-02-19:8276",
+              "journal:2025-02-19:8278"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1551",
+            "treatment": 3332853341,
+            "control": 3333269179,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:882",
+            "treatment": 177079579482029,
+            "control": 177079579773746,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:407",
+            "treatment": 893691,
+            "control": 1177695,
+            "ids": [
+              "journal:2025-10-01:63261",
+              "journal:2025-10-01:63262",
+              "journal:2025-11-01:71425"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": [
+          {
+            "token": "unemployment-weekly-maximum",
+            "gross": 2602300,
+            "ids": [
+              "journal:2025-05-12:30710",
+              "journal:2025-05-19:30938",
+              "journal:2025-05-26:31225"
+            ]
+          }
+        ],
+        "controlCited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "unemployment-weekly-maximum-to-poverty",
+            "status": "size-not-set",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 71,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:unemployment-weekly-maximum:general:2025-01-21:law-wiring-efd150df"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 85
+    },
+    {
+      "key": "unemployment-insurance",
+      "kind": "amount",
+      "family": "starting law",
+      "inForceAtOpening": false,
+      "change": "unemployment-insurance 1 -> 2 at state (law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403",
+        "law:US-MI:state:unemployment-insurance:general:2026-01-01:from-start",
+        "law:US-MI:state:unemployment-insurance:general:2026-01-22:law-wiring-989c1403-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 3,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|unemployment-insurance|counted-claimants:person_56cdad056fceb659",
+          "applied|unemployment-insurance|person_02518394bd09bf0a",
+          "applied|unemployment-insurance|person_7578dae5b41b45d0",
+          "applied|unemployment-insurance|person_050bfb0ce0ab8e28"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 3,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|unemployment-insurance|counted-claimants:person_56cdad056fceb659",
+          "applied|unemployment-insurance|person_02518394bd09bf0a",
+          "applied|unemployment-insurance|person_7578dae5b41b45d0",
+          "applied|unemployment-insurance|person_050bfb0ce0ab8e28"
+        ]
+      },
+      "inPlay": [
+        {
+          "id": "law:US-MI:state:unemployment-insurance:general:2026-01-01",
+          "level": "state",
+          "effectiveDate": "2026-01-01",
+          "value": 1
+        }
+      ],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 100,
+        "src/core2/jobs-benefits.ts:123": 12,
+        "src/core2/life.ts:556": 6
+      },
+      "openingRow": "law:US-MI:state:unemployment-insurance:general:2026-01-01:from-start",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
+            "treatment": 1939899910,
+            "control": 1942653660,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 351432380,
+            "control": 348934695,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 58884079,
+            "control": 59928516,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 241058848,
+            "control": 242007556,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
+            "treatment": 5047366,
+            "control": 4289861,
+            "ids": [
+              "journal:2025-09-01:55172",
+              "journal:2025-09-01:55173",
+              "journal:2025-09-01:55174"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
+            "treatment": 178218552,
+            "control": 177467502,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 372452745,
+            "control": 373201924,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1812",
+            "treatment": 9853816,
+            "control": 9365607,
+            "ids": [
+              "journal:2025-02-19:8275",
+              "journal:2025-02-19:8276",
+              "journal:2025-02-19:8278"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 64727342,
+            "control": 65149734,
+            "ids": [
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907",
+              "journal:2025-02-01:1908"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 424455129,
+            "control": 424039081,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1551",
+            "treatment": 3332853342,
+            "control": 3333269179,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:407",
+            "treatment": 871159,
+            "control": 1177695,
+            "ids": [
+              "journal:2025-10-01:63261",
+              "journal:2025-10-01:63262",
+              "journal:2025-11-01:71425"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": [
+          {
+            "token": "unemployment-insurance",
+            "gross": 2363800,
+            "ids": [
+              "journal:2025-05-12:30710",
+              "journal:2025-05-19:30938",
+              "journal:2025-05-26:31225"
+            ]
+          }
+        ],
+        "controlCited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "unemployment-insurance-to-poverty",
+            "status": "cause-not-recorded",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 71,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:unemployment-insurance:general:2025-01-21:law-wiring-989c1403"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 78
+    }
+  ]
+}

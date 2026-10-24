@@ -7,7 +7,7 @@
     "state": "US-MI"
   },
   "window": 760,
-  "after": 10,
+  "after": 31,
   "results": [
     {
       "key": "us-federal-positions:labor-commerce.raise-federal-minimum-wage",
@@ -32,9 +32,9 @@
         "sample": []
       },
       "reach": {
-        "fullPeople": 64,
-        "countedGroups": 11,
-        "countedPeople": 86,
+        "fullPeople": 65,
+        "countedGroups": 10,
+        "countedPeople": 90,
         "households": 0,
         "organizations": 0,
         "governments": 0,
@@ -42,15 +42,33 @@
         "open": 75,
         "ended": 0,
         "sample": [
-          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_33f81e3b0c5194c6:2025-01-21",
-          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_a4689d4c0a9e7f13:2025-01-21",
-          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_ae720310206891fe:2025-01-21",
-          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_7b570565dc6dd202:2025-01-21"
+          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_ae720410206893b1:2025-01-21",
+          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_7b570565dc6dd202:2025-01-21",
+          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_983238255625a21b:2025-01-21",
+          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_983237255625a068:2025-01-21"
         ]
       },
+      "reachAtEnd": {
+        "fullPeople": 65,
+        "countedGroups": 10,
+        "countedPeople": 90,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 75,
+        "ended": 0,
+        "sample": [
+          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_ae720410206893b1:2025-01-21",
+          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_7b570565dc6dd202:2025-01-21",
+          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_983238255625a21b:2025-01-21",
+          "reach:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e:workers:person_983237255625a068:2025-01-21"
+        ]
+      },
+      "inPlay": [],
       "readers": {
-        "src/core2/modules/outcome-web.ts:158": 538,
-        "src/core2/law-reach/group-a-records.ts:253 <- src/core2/question-wages.ts:115": 4,
+        "src/core2/modules/outcome-web.ts:158": 541,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/question-wages.ts:169": 4,
         "src/core2/wage-floor.ts:127": 3,
         "src/core2/life.ts:549": 2
       },
@@ -59,40 +77,50 @@
         "direct": [
           {
             "kind": "accounts.transfer @ src/core2/life.ts:551",
-            "treatment": 158018929,
-            "control": 160525406,
+            "treatment": 156237402,
+            "control": 161088182,
             "ids": [
-              "journal:2025-01-23:1634",
-              "journal:2025-02-06:8022",
-              "journal:2025-02-21:8353"
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:7975",
+              "journal:2025-02-21:8301"
             ]
           }
         ],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-            "treatment": 3743179634,
-            "control": 3869899298,
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+            "treatment": 7023319631,
+            "control": 4692969102,
             "ids": [
-              "journal:2025-02-01:1920",
-              "journal:2025-02-01:1921",
-              "journal:2025-02-01:1922"
+              "journal:2025-02-10:8017",
+              "journal:2025-03-01:8735",
+              "journal:2025-03-21:15708"
             ]
           },
           {
-            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
-            "treatment": 1819895613,
-            "control": 1930313424,
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 829681132,
+            "control": 797040348,
             "ids": [
-              "journal:2025-05-01:25578",
-              "journal:2025-06-01:33432",
-              "journal:2025-06-04:38652"
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
-            "treatment": 4179294057,
-            "control": 4137919785,
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 398659236,
+            "control": 429855767,
+            "ids": [
+              "journal:2025-02-01:1896",
+              "journal:2025-02-01:1897",
+              "journal:2025-02-01:1898"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 4278714208,
+            "control": 4253181625,
             "ids": [
               "journal:2025-01-21:1565",
               "journal:2025-01-21:1566",
@@ -100,29 +128,9 @@
             ]
           },
           {
-            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-            "treatment": 445602159,
-            "control": 482654486,
-            "ids": [
-              "journal:2025-02-01:1944",
-              "journal:2025-02-01:1945",
-              "journal:2025-02-01:1946"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
-            "treatment": 777135859,
-            "control": 760242149,
-            "ids": [
-              "journal:2025-01-24:1635",
-              "journal:2025-01-25:1636",
-              "journal:2025-01-25:1638"
-            ]
-          },
-          {
             "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-            "treatment": 411374851,
-            "control": 394984611,
+            "treatment": 741216054,
+            "control": 756307097,
             "ids": [
               "journal:2025-01-21:1595",
               "journal:2025-01-21:1596",
@@ -130,67 +138,77 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/counted-money.ts:662",
-            "treatment": 384271723,
-            "control": 371404080,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 1478149198707165,
+            "control": 1478149208946393,
             "ids": [
-              "journal:2025-02-01:2663",
-              "journal:2025-02-01:2664",
-              "journal:2025-02-01:2666"
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
-            "treatment": 1478149195115490,
-            "control": 1478149202442614,
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 371174393459012,
+            "control": 371174402216987,
             "ids": [
-              "journal:2025-02-01:1749",
-              "journal:2025-02-01:1750",
-              "journal:2025-02-01:1751"
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
-            "treatment": 161788696,
-            "control": 167930380,
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 707498451,
+            "control": 715266885,
             "ids": [
-              "journal:2025-02-01:1963",
-              "journal:2025-02-01:1965",
-              "journal:2025-02-01:1967"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 826939036,
-            "control": 821175065,
-            "ids": [
-              "journal:2025-01-26:1648",
-              "journal:2025-01-26:1651",
-              "journal:2025-01-28:1671"
-            ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:796",
-            "treatment": 371174440378997,
-            "control": 371174445507883,
-            "ids": [
-              "journal:2025-02-01:1739",
-              "journal:2025-02-01:1740",
-              "journal:2025-02-01:1741"
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/life.ts:551",
-            "treatment": 158018929,
-            "control": 160525406,
+            "treatment": 156237402,
+            "control": 161088182,
             "ids": [
-              "journal:2025-01-23:1634",
-              "journal:2025-02-06:8022",
-              "journal:2025-02-21:8353"
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:7975",
+              "journal:2025-02-21:8301"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 140059099,
+            "control": 135300804,
+            "ids": [
+              "journal:2025-02-01:1913",
+              "journal:2025-02-01:1915",
+              "journal:2025-02-01:1917"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1462",
+            "treatment": 7092410209,
+            "control": 7088205166,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2591",
+            "treatment": 5161760,
+            "control": 1057148,
+            "ids": [
+              "journal:2025-12-01:85905",
+              "journal:2026-02-01:102770",
+              "journal:2026-02-01:102771"
             ]
           }
         ],
-        "diffKinds": 39,
+        "diffKinds": 42,
         "cited": []
       },
       "web": {
@@ -213,14 +231,126 @@
             "effect": -0.08
           }
         ],
-        "firedCount": 1
+        "firedCount": 1,
+        "windowDays": 760,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "federal-minimum-wage-to-low-wage-jobs",
+            "from": "law:us-federal-positions:labor-commerce.raise-federal-minimum-wage",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
       },
       "heard": {
-        "people": 1,
+        "people": 77,
         "sample": [
-          "person_2dc9b118ebc09a54:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e",
-          "person_2dc9b118ebc09a54:printed:outlet:magazine:0:national:law-took-effect:law:US:federal:minimum-wage:general:2025-01-22:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e",
-          "person_2dc9b118ebc09a54:printed:outlet:cable:1:national:law-took-effect:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e"
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:labor-commerce.raise-federal-minimum-wage:general:2025-01-21:law-wiring-540dbb8e"
         ]
       },
       "afterUndo": {
@@ -232,7 +362,7 @@
         "governments": 0,
         "other": 0,
         "open": 0,
-        "ended": 38,
+        "ended": 39,
         "sample": []
       },
       "afterUndoChanged": {
@@ -244,10 +374,10 @@
         "governments": 0,
         "other": 0,
         "open": 0,
-        "ended": 38,
+        "ended": 39,
         "sample": []
       },
-      "seconds": 248
+      "seconds": 225
     }
   ]
 }
