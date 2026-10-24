@@ -726,7 +726,7 @@ const groupIdFor = (town: string, question: string, side: number) =>
  * the group's members already draw them in (their closest tie to one), against
  * the bar, and their traits toward joining on top.
  */
-function joinsGroup(
+export function joinsGroup(
   api: CoreAPI,
   person: Readonly<PersonState>,
   toward: number,
@@ -751,7 +751,7 @@ function joinsGroup(
  * today of their closest tie to a member (0 with no member among their ties,
  * or no group yet). The group's stake in the person is their friends in it.
  */
-function groupDraw(
+export function groupDraw(
   state: CoreState,
   personId: string,
   members: ReadonlySet<string>,

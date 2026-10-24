@@ -56,6 +56,7 @@ export function homeDistanceMiles(
   const held = byHousehold.get(householdId);
   if (held !== undefined) return held;
   const p = (key: string) => parameter(key, core.data.parameters);
+  // stopgapId: SG-TRAITS-household-distance-estimate
   const radius = Math.sqrt(
     placeLandSquareMiles(core.placeMetadata.placeKey) / Math.PI,
   );

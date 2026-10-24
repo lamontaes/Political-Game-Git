@@ -10,7 +10,7 @@ import { ageOnDate, makeIsoDate } from "../kernel/dates";
 import { createLifeCore } from "../life";
 import { buildPopulation } from "../population";
 import { coreAPI } from "../state";
-import { believesClaim } from "../heard-claims";
+import { believesClaim, claimFit } from "../heard-claims";
 import { decisionLean } from "../trait-decisions";
 import { thirdsLogOdds, withTraitWeight, RUN_SEED } from "../trait-test-kit";
 import { drawPlace } from "../../../tests/golden-path/place";
@@ -79,14 +79,28 @@ describe(`a speech heard in ${place.name} (seed ${SEED})`, () => {
     expect(net).toBeGreaterThan(0.2);
   });
 
-  it("reaches only the household members who take a claim in, by their own lean", () => {
+  it("reaches only the household members who take a claim in, by their own lean and how close the listener is", () => {
     const told = played.retellings.filter((row) => row.toIds.length > 0);
     expect(told.length).toBeGreaterThan(0);
+    // A hearer who would doubt a stranger's retelling, told by someone they live with: [listener, hearer].
+    const trusted: string[] = [];
     for (const row of told)
-      for (const id of row.toIds)
+      for (const id of row.toIds) {
+        const hearer = played.core.people.get(id)!;
+        // The retelling reaches them as the listener's word, to the speech's side as it fits where they stand.
         expect(
-          believesClaim(played.core, played.core.people.get(id)!),
+          believesClaim(played.core, hearer, {
+            tellerId: row.listenerId,
+            fit: claimFit(played.api, hearer, "fixture:park", "build-park"),
+          }),
           `${row.id} -> ${id}`,
         ).toBe(true);
+        if (!believesClaim(played.core, hearer))
+          trusted.push(`${row.listenerId} -> ${id} (${row.id})`);
+      }
+    console.log(
+      `retold at home: ${trusted.length} hearers who would doubt a stranger took in a household member's retelling, e.g. ${trusted[0]}`,
+    );
+    expect(trusted.length).toBeGreaterThan(0);
   });
 });

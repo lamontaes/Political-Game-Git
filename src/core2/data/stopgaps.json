@@ -5634,5 +5634,17 @@
     "addedAt": "2026-10-24",
     "replacement": "Counted students' attendance from the counted tier's own school days (the same attendance choice full students make, read for the group times its count), so the standing reads one recorded rule in both tiers.",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-household-distance-estimate",
+    "kind": "estimated-data",
+    "file": "src/core2/home-distance.ts",
+    "line": 59,
+    "whatItFakes": "How far a household lives from the middle of town is an estimate: a point spread evenly over a disc the size of the place's land area (2020 Census place-county parts), fixed by the world's seed. There are no home addresses or street map, so two households that are neighbors can be recorded far apart. Only the party meeting's attendance reads it.",
+    "why": "No generated household has an address or a position; the party meeting's distance cost needs a number that differs between households and grows with the size of the place.",
+    "addedBy": "traits-civic",
+    "addedAt": "2026-10-24",
+    "replacement": "Households placed on the town's real streets or tracts (the housing engine's dwellings), and the meeting hall placed with them; the distance cost then reads the real trip.",
+    "status": "open"
   }
 ]

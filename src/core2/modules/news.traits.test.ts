@@ -15,6 +15,7 @@ import {
 } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { believesClaim } from "../heard-claims";
+import { closenessBetween } from "../closeness";
 import { newsKey, storiesOwedAtContact } from "./news";
 import type { CoreAPI, CoreState, PersonState } from "../types";
 
@@ -63,30 +64,46 @@ describe("news.pass-on reads one calibrated trait term", () => {
   });
 });
 
-describe("conversation.believe-claim reads the hearer's lean where a neighbor passes a story on", () => {
-  it("hearers whose traits lean hard toward doubt took no story in from a neighbor, and the rest did", () => {
-    const told = new Map<string, number>();
-    for (const p of adults) {
-      let count = 0;
-      for (const [key, fact] of core.knowledgeByPerson.get(p.id) ?? [])
-        if (
-          key.startsWith(newsKey("")) &&
-          !key.endsWith(":outlet") &&
-          fact.access === "told"
-        )
-          count += 1;
-      told.set(p.id, count);
-    }
+describe("conversation.believe-claim reads the teller's closeness where a neighbor passes a story on", () => {
+  it("hearers who would doubt a stranger's word took in stories from the neighbors they are close to", () => {
     const doubters = adults.filter((p) => !believesClaim(core, p));
     const believers = adults.filter((p) => believesClaim(core, p));
-    const meanTold = (who: PersonState[]) =>
-      who.reduce((sum, p) => sum + told.get(p.id)!, 0) / who.length;
+    // The closest tie a doubter took a told story from, by record: the story, the tie and the teller.
+    let best:
+      | {
+          hearer: PersonState;
+          tellerId: string;
+          tieId: string;
+          storyKey: string;
+          closeness: number;
+        }
+      | undefined;
+    let tellings = 0;
+    for (const hearer of doubters)
+      for (const [key, fact] of core.knowledgeByPerson.get(hearer.id) ?? []) {
+        if (
+          !key.startsWith(newsKey("")) ||
+          key.endsWith(":outlet") ||
+          fact.access !== "told"
+        )
+          continue;
+        const tie = core.relationships.get(fact.sourceId ?? "");
+        if (!tie) continue;
+        tellings += 1;
+        const tellerId = tie.actorId === hearer.id ? tie.otherId : tie.actorId;
+        const closeness = closenessBetween(core, hearer.id, tellerId);
+        if (!best || closeness > best.closeness)
+          best = { hearer, tellerId, tieId: tie.id, storyKey: key, closeness };
+      }
     console.log(
-      `believe: ${doubters.length} doubters took in ${meanTold(doubters).toFixed(2)} told stories each; ${believers.length} others ${meanTold(believers).toFixed(2)}`,
+      `believe: ${doubters.length} doubt a stranger's word and took in ${tellings} told stories between them; the closest: ${best?.hearer.id} took ${best?.storyKey} from ${best?.tellerId} (tie ${best?.tieId}, closeness ${best?.closeness.toFixed(2)}); ${believers.length} others`,
     );
-    expect(doubters.length).toBeGreaterThan(10);
-    expect(doubters.every((p) => told.get(p.id) === 0)).toBe(true);
-    // A quiet town passes fewer stories on; the believers still take in some.
-    expect(meanTold(believers)).toBeGreaterThan(0.2);
+    expect(doubters.length).toBeGreaterThan(5);
+    expect(best).toBeDefined();
+    // The doubter believes this teller, and doubts a stranger.
+    expect(
+      believesClaim(core, best!.hearer, { tellerId: best!.tellerId }),
+    ).toBe(true);
+    expect(believesClaim(core, best!.hearer)).toBe(false);
   });
 });

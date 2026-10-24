@@ -6,9 +6,16 @@
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
-import { drawnRaceWorld, RUN_SEED } from "../trait-test-kit";
+import { adultsOf, drawnRaceWorld, RUN_SEED } from "../trait-test-kit";
+import { campaignParameter } from "../campaign-views";
+import { homeDistanceMiles } from "../home-distance";
 import { decisionLean } from "../trait-decisions";
-import { PARTIES_MODULE_ID, partyMeetings, type PartyRow } from "./parties";
+import {
+  attendCase,
+  PARTIES_MODULE_ID,
+  partyMeetings,
+  type PartyRow,
+} from "./parties";
 import type { CoreAPI, CoreState } from "../types";
 
 const SEED = `${RUN_SEED}:parties`;
@@ -33,37 +40,51 @@ beforeAll(() => {
 
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
 
-describe("parties.attend reads the member's calibrated lean toward taking part", () => {
-  it("those who came to a party meeting lean more toward attending than the members who never did", () => {
-    const attendedBy = new Set<string>();
-    let meetings = 0;
+describe("parties.attend weighs the member's free time and distance", () => {
+  const attended = () => {
+    const out = new Set<string>();
     for (const party of parties)
-      for (const meeting of partyMeetings(api, party.id)) {
-        meetings += 1;
+      for (const meeting of partyMeetings(api, party.id))
         for (const id of meeting.attendeeIds)
-          if (id !== meeting.leaderId) attendedBy.add(id);
-      }
-    const members = new Set<string>();
-    for (const party of parties)
-      for (const id of core.people.keys())
-        if (core.memberships.has(`${id}:${party.organizationId}`))
-          members.add(id);
-    const lean = (id: string) =>
-      decisionLean(
-        core,
-        core.people.get(id)!,
-        "parties.attend",
-        "attend",
-        "stay-home",
-      );
-    const came = [...attendedBy].map(lean);
-    const stayed = [...members].filter((id) => !attendedBy.has(id)).map(lean);
-    console.log(
-      `party meetings: ${meetings}, ${came.length} members came (mean lean ${came.length ? mean(came).toFixed(3) : "-"}), ${stayed.length} never did (${stayed.length ? mean(stayed).toFixed(3) : "-"})`,
+          if (id !== meeting.leaderId) out.add(id);
+    return out;
+  };
+
+  it("a member's case for going falls with the hours their work takes and with how far they live", () => {
+    // Every adult in town has a case for going (a member weighs it each meeting), so the whole town shows how it varies.
+    const people = adultsOf(core);
+    const weeklyWork = (id: string) =>
+      [...(core.work.commitmentsByPerson.get(id) ?? [])]
+        .map((c) => core.work.commitments.get(c)?.expectedWeeklyMinutes ?? 0)
+        .reduce((a, b) => a + b, 0);
+    const cases = people.map((p) => attendCase(core, p));
+    const work = people.map((p) => weeklyWork(p.id));
+    const miles = people.map((p) => homeDistanceMiles(core, p.householdId));
+    const correlation = (xs: number[], ys: number[]) => {
+      const mx = mean(xs),
+        my = mean(ys);
+      const cov = mean(xs.map((x, i) => (x - mx) * (ys[i]! - my)));
+      const sx = Math.sqrt(mean(xs.map((x) => (x - mx) ** 2)));
+      const sy = Math.sqrt(mean(ys.map((y) => (y - my) ** 2)));
+      return sx && sy ? cov / (sx * sy) : 0;
+    };
+    const byWork = correlation(cases, work);
+    // Among adults whose work already takes a full week the case varies only with distance.
+    const full = people
+      .map((_, i) => i)
+      .filter((i) => work[i]! >= campaignParameter("turnoutWorkWeekMinutes"));
+    const byMiles = correlation(
+      full.map((i) => cases[i]!),
+      full.map((i) => miles[i]!),
     );
-    expect(came.length).toBeGreaterThan(0);
-    expect(stayed.length).toBeGreaterThan(0);
-    expect(mean(came)).toBeGreaterThan(mean(stayed));
+    const came = attended();
+    console.log(
+      `adults: ${people.length}, ${came.size} members came to a meeting; the case falls with work hours (correlation ${byWork.toFixed(2)}) and, for those whose work takes a full week, with distance (${byMiles.toFixed(2)})`,
+    );
+    expect(people.length).toBeGreaterThan(100);
+    expect(byWork).toBeLessThan(-0.2);
+    expect(full.length).toBeGreaterThan(50);
+    expect(byMiles).toBeLessThan(-0.9);
   });
 });
 

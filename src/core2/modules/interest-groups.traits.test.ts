@@ -18,11 +18,13 @@ import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
 import { ownerOf } from "./business";
 import {
+  groupDraw,
   INTEREST_GROUPS_MODULE_ID,
+  joinsGroup,
   ownerJoins,
   type GroupRow,
 } from "./interest-groups";
-import type { CoreAPI, CoreState } from "../types";
+import type { CoreAPI, CoreState, PersonState } from "../types";
 
 const SEED = `${RUN_SEED}:interest-groups`;
 
@@ -95,6 +97,37 @@ describe("interest-groups.member-join reads the resident's calibrated lean towar
       `joined: ${joined.length}, mean lean ${mean(joined).toFixed(3)}; adults who did not: ${outsiders.length}, ${mean(outsiders).toFixed(3)}`,
     );
     expect(mean(joined)).toBeGreaterThan(mean(outsiders));
+  });
+});
+
+describe("interest-groups.member-join weighs how strongly the group's members draw the resident in", () => {
+  it("a resident with a close tie to a member joins on a question that pulls them too little to join alone", () => {
+    const adults = [...core.people.values()].filter((p) => p.alive);
+    let best:
+      | {
+          resident: PersonState;
+          group: GroupRow;
+          draw: number;
+        }
+      | undefined;
+    for (const group of groups) {
+      const members = new Set(group.memberPersonIds ?? []);
+      if (members.size < 3) continue;
+      for (const resident of adults) {
+        if (members.has(resident.id)) continue;
+        const draw = groupDraw(core, resident.id, members);
+        if (!best || draw > best.draw) best = { resident, group, draw };
+      }
+    }
+    console.log(
+      `group draw: ${best?.resident.id} has a tie of closeness ${best?.draw.toFixed(2)} to a member of ${best?.group.id}`,
+    );
+    expect(best?.draw).toBeGreaterThan(0.3);
+    // A pull of 0.3 is under the bar alone (0.44), whatever the resident's temperament (at most 0.115 of weight); with the member's tie it clears the bar.
+    expect(joinsGroup(api, best!.resident, 0.3, false, 0)).toBe(false);
+    expect(joinsGroup(api, best!.resident, 0.3, false, best!.draw)).toBe(true);
+    // Nobody with no tie to a member is drawn.
+    expect(groupDraw(core, best!.resident.id, new Set())).toBe(0);
   });
 });
 

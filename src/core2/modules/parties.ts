@@ -641,7 +641,10 @@ export function chooseChair(
  * a trip the most). Both slide: a retiree across town and a worker next door
  * are each in between.
  */
-function attendCase(core: CoreState, member: Readonly<PersonState>): number {
+export function attendCase(
+  core: CoreState,
+  member: Readonly<PersonState>,
+): number {
   const weeklyWork = [...(core.work.commitmentsByPerson.get(member.id) ?? [])]
     .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
     .reduce((a, b) => a + b, 0);

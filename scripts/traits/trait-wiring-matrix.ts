@@ -220,7 +220,8 @@ function formulaThirds(run: Run, decision: DecisionRow, weight: number) {
  */
 function outcomeThirds(run: Run, decision: DecisionRow) {
   const kept = run.outcomes?.[decision.id];
-  if (!kept || kept.samples.length < 30) return null;
+  // A decision that runs for few people (following the news in a small town) still shows its rates, with how many calls they rest on.
+  if (!kept || kept.samples.length < 12) return null;
   const sorted = [...kept.samples].sort((a, b) => a.lean - b.lean);
   const n = Math.floor(sorted.length / 3);
   const mean = (part: typeof sorted, key: "value" | "flat") =>
@@ -245,6 +246,10 @@ function outcomeThirds(run: Run, decision: DecisionRow) {
   };
   const ratio = (high: number, low: number) =>
     measure(high) / Math.max(measure(low), Number.MIN_VALUE);
+  // A size that can sit at or below zero (a habit centered on the nation's) has no ratio, only a shift.
+  const positive = [lo.withTraits, hi.withTraits, lo.flat, hi.flat].every(
+    (v) => v > 0,
+  );
   return {
     unit: kept.unit,
     calls: kept.calls,
@@ -253,7 +258,12 @@ function outcomeThirds(run: Run, decision: DecisionRow) {
     highThird: hi,
     ratioWithTraits: ratio(hi.withTraits, lo.withTraits),
     ratioFlat: ratio(hi.flat, lo.flat),
-    netRatio: ratio(hi.withTraits, lo.withTraits) / ratio(hi.flat, lo.flat),
+    netRatio:
+      kept.unit === "size" && !positive
+        ? null
+        : ratio(hi.withTraits, lo.withTraits) / ratio(hi.flat, lo.flat),
+    /** The gap between the thirds with the trait term, less the same gap flat, in the decision's own units. */
+    netShift: hi.withTraits - lo.withTraits - (hi.flat - lo.flat),
   };
 }
 

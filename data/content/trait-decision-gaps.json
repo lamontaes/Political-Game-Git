@@ -59,24 +59,24 @@
       "fix": "Same as recalls.organize."
     },
     "ballot-measures.vote": {
-      "class": "runs only on a date outside the year",
-      "why": "The earliest measure in data/elections/ballot-measures.json is June 16, 2026; the audit year ends January 20, 2026. The decision runs in a November 2026 count (src/core2/modules/ballot-measures.traits.test.ts), not in the audit year.",
-      "fix": "Add odd-year measures or let an ordinance refer a local measure."
+      "class": "no study number",
+      "why": "Runs on a measure's election day: 123 and 0 voters weighed it in the two election-window years (the place's own next race, TRAIT_AUDIT_ELECTION=1). No study gives a size, so the general weight of 1 stands, and at weight 1 the trait term settles the vote: the third leaning most toward change backed the measure 0.80 of the time and the third leaning least 0.00 in Halfway, Missouri (2929962, seed 3e9ed70a5fb7) (flat 0.78 and 0.61), an overwhelming odds ratio.",
+      "fix": "Calibrate to the single-decision range (1.1 to 1.3 per standard deviation) once the vote weighs more of the voter's own circumstances than their view of the question."
     },
     "voting.turnout": {
-      "class": "runs only on a date outside the year",
-      "why": "The audit year runs January 20, 2025 to January 20, 2026; most places hold no election in 2025, so turnout runs only where a 2025 local or state election exists. It runs in a drawn town's race in src/core2/modules/voting.traits.test.ts.",
-      "fix": "Seed odd-year local elections where the place holds them; measure in a second year otherwise (traits-decisions-never-run)."
+      "class": "runs only where a race falls in the year",
+      "why": "The default audit year (January 20, 2025 to January 20, 2026) holds a race in few places; with TRAIT_AUDIT_ELECTION=1 the audit plays the year around the drawn place's own next race and turnout ran 594 and 1349 times in the two places. Its weight is cited to Mondak et al. 2010.",
+      "fix": "Run the audit with TRAIT_AUDIT_ELECTION=1."
     },
     "voting.back-incumbent": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout. No study gives a size either, so the general weight of 1 stands.",
-      "fix": "Same as voting.turnout."
+      "class": "no study number",
+      "why": "Runs where a race with an incumbent falls in the played year (TRAIT_AUDIT_ELECTION=1; 3413 and 4712 appeals weighed in the two years). No study gives a size either, so the general weight of 1 stands. At weight 1 the third leaning most toward the incumbent backs them 0.71 of the time and the third leaning least 0.64 (flat 0.50 and 0.59).",
+      "fix": "Calibrate when a study gives the size."
     },
     "voting.exit-poll": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout. No study gives a size either, so the general weight of 1 stands.",
-      "fix": "Same as voting.turnout."
+      "class": "runs only where a race falls in the year",
+      "why": "Runs after a race in the played year (TRAIT_AUDIT_ELECTION=1; 94 and 12 voters told or declined in the two places). No study gives a size, so the general weight of 1 stands; at weight 1 the third leaning most toward telling told 1.00 of the time and the third leaning least 0.65 in Halfway, Missouri (2929962, seed 3e9ed70a5fb7).",
+      "fix": "Calibrate when a study gives the size."
     },
     "campaigns.answer-poll": {
       "class": "rare by nature",
@@ -158,60 +158,35 @@
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
     },
-    "parties.join": {
-      "class": "no study number",
-      "why": "The research row (data/research/trait-effect-sizes.json) gives a direction and no size for joining a party, so the general trait weight of 1 stands. In two drawn years personality turned none of the 17 and 5 calls: a person's tie to the party settles most of them.",
-      "fix": "Calibrate when a study gives the odds of party membership by trait."
-    },
-    "parties.attend": {
-      "class": "no study number",
-      "why": "No study gives the odds of going to a party meeting by trait, so the general weight of 1 stands. The member's case barely varies, so at weight 1 the most and least willing thirds attend at overwhelming odds (2 percent against 75 percent in Ora, Indiana).",
-      "fix": "Give the case its own circumstances (distance, the member's free time), then calibrate to the single-decision range (traits-civic-overwhelming-odds)."
-    },
-    "interest-groups.member-join": {
-      "class": "no study number",
-      "why": "No study gives the odds of joining a policy group by trait, so the general weight of 1 stands. At weight 1 the willing third joins at overwhelming odds over the unwilling third (25 percent against 0.2 percent in Ora, Indiana).",
-      "fix": "Give the case its own circumstances, then calibrate to the single-decision range (traits-civic-overwhelming-odds)."
-    },
     "interest-groups.employer-join": {
-      "class": "rare",
-      "why": "Runs only when a bill before the council costs the town's employers (src/core2/modules/interest-groups.ts, employerStakes) and the employer's owner is a full person; neither drawn year had such a bill. No study gives a size either, so the general weight of 1 stands.",
-      "fix": "Runs where a costly bill comes up (traits-decisions-never-run)."
-    },
-    "interest-groups.lobbyist": {
       "class": "no study number",
-      "why": "No study gives the odds of serving as a group's lobbyist by trait, so the general weight of 1 stands; the stake settles every call in the drawn years.",
-      "fix": "Calibrate when a study gives a size."
+      "why": "Runs when a bill before the council costs the town's employers (src/core2/modules/interest-groups.ts, employerStakes) and the employer's owner is a person: most owners are counted until met, and they now weigh joining through the same formula as a named owner. 3 and 2 employers weighed joining in the two played years. No study gives a size, so the general weight of 1 stands.",
+      "fix": "Calibrate when a study gives the odds of an owner joining a trade association by trait."
     },
     "jobs-benefits.file-claim": {
-      "class": "no study number",
-      "why": "No study gives the odds of filing for unemployment benefits by trait, so the general weight of 1 stands; few full people lose a job in a played year (1 and 0 calls in two drawn years).",
-      "fix": "Calibrate when a study gives the take-up odds by trait."
+      "class": "too few calls to fit",
+      "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds), but only 6 and 14 eligible people weighed filing in a played year, so trait-calibrate has too few calls and the general weight of 1 stands. Temperament turned 1 of 6 and 1 of 14 of them.",
+      "fix": "Calibrate when a run weighs 30 or more claims (several places pooled, or a year with layoffs)."
     },
     "press.follow-news": {
-      "class": "no study number",
-      "why": "The research row gives no size for following the news, so the general weight of 1 stands.",
-      "fix": "Calibrate when a study gives a size."
+      "class": "size, not a choice",
+      "why": "Sindermann 2021 gives extraversion r 0.16 with the number of news sources a person uses (odds ratio 1.90 between the thirds). The decision is a habit score added to the person's engagement, a size, not a yes or no, so trait-calibrate cannot fit it from the audit's kept calls and the general weight of 1 stands. At weight 1 the third leaning most toward following over the third leaning least differs by a shift of +1.26 habit-score units and a shift of +1.15 habit-score units net of flat (the trait term is larger than the whole spread of engagement between people) (26 and 103 people).",
+      "fix": "Fit the weight from the kept outcomes (the matrix's outcome thirds) once the calibration script can fit a size."
     },
     "speech.retell": {
-      "class": "no study number",
-      "why": "No study gives the odds of retelling a speech at home by trait, so the general weight of 1 stands.",
-      "fix": "Calibrate when a study gives a size."
-    },
-    "conversation.believe-claim": {
-      "class": "no study number",
-      "why": "No study gives a one-occasion size for believing an uncheckable claim by trait (the Pennycook and Rand row gives a direction), so the general weight of 1 stands against the truth-default pull of 0.75. The case is the same for every claim, so the most suspicious hearers doubt every claim and everyone else believes every claim: overwhelming odds between the thirds.",
-      "fix": "Let the case vary with the teller (trust, closeness) and the claim (fit with the hearer's views), then calibrate (traits-civic-overwhelming-odds)."
+      "class": "circumstances saturate the choice",
+      "why": "Hibbing, Ritchie and Anderson 2011 give conscientiousness 0.63 on talking about local politics with family (odds ratio 1.49 between the thirds). The listener keeps a fixed reason to stay quiet (0.6) against a retelling reason of 0.01 to 0.04 for how far the speech moved them, so temperament alone sorts who retells: the third leaning most toward retelling retold 0.26 and the third leaning least 0.00 at weight 1, and no weight up to 0.2 in steps of 0.005 comes near the study (trait-calibrate cannot reach it). The general weight of 1 stands.",
+      "fix": "Give the retelling its own circumstances (how close the household members are, how much the speech matters to them), then calibrate to the study."
     },
     "views.persuasion": {
-      "class": "no study number",
-      "why": "No study gives a one-occasion size for how much a hearer's traits scale a view move (stopgap SG-TRAITS-persuasion-size), so the general weight of 1 stands.",
-      "fix": "Set when a study reports a one-occasion size."
+      "class": "size, not a choice",
+      "why": "Hibbing, Ritchie and Anderson 2011 give openness 0.66 of the full range on being moved toward a discussion partner's view (odds ratio 1.37 between the thirds). The decision scales how far an argument moves a view, a size, so trait-calibrate cannot fit it and the general weight of 1 stands (stopgap SG-TRAITS-persuasion-size). At weight 1 the move is larger in the third leaning most toward yielding by a factor of 2.76 and a factor of 2.53 net of flat, within a factor of 3 of the study.",
+      "fix": "Fit the weight from the kept outcomes once the calibration script can fit a size."
     },
     "views.trust": {
-      "class": "no study number",
-      "why": "No study gives a one-occasion size for how much generalized trust scales a speaker's standing (stopgap SG-TRAITS-persuasion-size), so the general weight of 1 stands.",
-      "fix": "Set when a study reports a one-occasion size."
+      "class": "size, not a choice",
+      "why": "Sindermann 2021 gives agreeableness r 0.20 with general trust (odds ratio 2.24 between the thirds). The decision scales a speaker's standing with the hearer, a size, so trait-calibrate cannot fit it and the general weight of 1 stands (stopgap SG-TRAITS-persuasion-size). At weight 1 the standing differs between the thirds by a factor of 1.63 and a factor of 1.38 net of flat.",
+      "fix": "Fit the weight from the kept outcomes once the calibration script can fit a size."
     }
   }
 }
