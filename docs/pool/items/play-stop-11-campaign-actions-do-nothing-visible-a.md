@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** On the v0.22.10 release Call donors added the words "Call donors" and the total stayed $0.00 for 21 months. Hold an event stayed grayed with no reason. The owner ruled Oct 16 that an ask reads whether the person has the money and likes the candidate. This part makes Call donors reach named people, raise what they choose to give, and say why when nobody gives.
 
-**Rules.** No dice: whether a person gives comes from their money and their view of the candidate on record. Wire to the world: the gift moves money into the campaign's account that the Campaigns screen reads.
+**Rules.** Serves LAW.md §4, Scenes and conversations; LAW.md §11, The world on screen makes sense. No dice: whether a person gives comes from their money and their view of the candidate on record. Wire to the world: the gift moves money into the campaign's account that the Campaigns screen reads.
 
 **Done when.** In a drawn place in the first week after filing, Call donors shows each person reached and what they gave or why not, and the campaign's raised total on Campaigns changes by the sum, checked by a test on the campaign record.
+
+**Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** After Call donors, Campaigns names who gave and how much, or says in a sentence why nobody did; a grayed act says why it is grayed.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/bench/campaign.ts, src/core2/modules/campaigns.ts, src/bench/play.mjs
 
