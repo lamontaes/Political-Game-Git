@@ -58,7 +58,9 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
       const looking = new Map<string, Seeker>();
       let retired: Change | undefined;
       let date = makeIsoDate(start);
-      for (let day = 0; day < 365 && !(retired && looking.size); day += 1) {
+      // The whole played year: the first witnesses are kept as they appear,
+      // and the year runs on to its end before their reasons are read.
+      for (let day = 0; day < 365; day += 1) {
         date = addDays(date, 1);
         advanceCore(world.core, date);
         for (const row of jobs
@@ -78,6 +80,9 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
             row.values.counted === 1,
         );
       }
+      expect(date, `${where}: the played year`).toBe(
+        addDays(makeIsoDate(start), 365),
+      );
       if (!retired || !looking.size) continue;
       const searcher = [...looking.values()][0]!;
       console.log(

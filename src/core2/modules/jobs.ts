@@ -2370,7 +2370,7 @@ function reviewCountedWorkers(
     for (const job of countedJobsOf(c, organizationId)) {
       if (inCustody(api, job.personId)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       if (!person) continue;
       const { offers, age } = workerOffers(api, going, {
         job,
@@ -2486,7 +2486,7 @@ function reviewCountedEntry(api: CoreAPI): void {
       if (days === undefined) {
         let liquid = 0,
           cost = 0;
-        for (const member of counted.peopleOf(h)) {
+        for (const member of counted.factsOfHousehold(h)) {
           liquid += member.liquidMinor;
           cost += member.livingCostDailyMinor;
         }
