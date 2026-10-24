@@ -28,3 +28,5 @@ claimed-at:
 Sent back 2026-10-23 from PR #5774 (branch claude/uncontested-note): Missing release declaration (impact none is appropriate for notes) and bounded measurement-note Done-when table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5806 (branch claude/share-above-band): Required prerequisite #5804 is still open and its calibration test absent; update the stale acceptance test path in place and rerun after integrating that prerequisite; finish on that branch, merge main into it first.
+
+Merger 2: Left PR #5774 pending on 2026-10-24 UTC (branch claude/uncontested-note, integrated head d1dd2f5bba69457d3c4131a5fd6f9009dac57de6): the cloud environment became unavailable during the local gate, so its final result is unknown. No merge or done flip was attempted. Merge current main and rerun the local gate when an environment is available; the calibration item remains open.
