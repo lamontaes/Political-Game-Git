@@ -108,6 +108,15 @@ Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordi
 
 (OD:24)
 
+## 11. The world on screen makes sense
+
+- "Why, every time. Recall petitions against every board member at once, a legislature passing its whole year on one day, a nineteen-year-old cashier with $9,900 saved, a governor unopposed, a defeated state House member with no next chapter, every winner taking office on January 1: each is a defect until the record answers why." (owner, Oct 14, morning; OD:190)
+- "Statewide races draw statewide candidates. The state's party leaders and officeholders are the pool for governor, lieutenant governor, attorney general and the like; a race with only the town's people weighing it is wrong." (owner, Oct 14, morning; OD:191)
+- "Taking office follows the law of the place, from data (constitution or statute, cited), not a single date." (owner, Oct 14, morning; OD:192)
+- "Town size (day-one audit): a town opens at its real Census size; nothing pads it to 10,000." (OD:95)
+- "Standard for the morning build: the behind-the-scenes logic makes sense and every system works as intended; what remains is graphics, English and the human feel. The player can run for office, debate, read the news." (owner, Oct 14; OD:123)
+- "Estimate, never UNKNOWN. A value a player can see starts from the real average with a per-world spread, marked as an estimate with its source." (standing rule; AGENTS.md)
+
 ## Also binding on the lane
 
 - "Play first (owner, Oct 24): "Only the bare minimum needs to be put in the game right now. I still can't play the game."" (OD:20)
@@ -118,4 +127,5 @@ Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordi
 - **Budgets.** The Oct 20 menu lists Budgets under Politics at all times (OD:76); the Oct 24 read says "No budgets for a 17-year-old" (OD:24). Oct 24 wins: Budgets shows once the player holds a seat or files (item `play-first-14-budgets-hidden-until-relevant`).
 - **Custom world on New game.** Oct 14 lists Start a life, Custom world, New world (OD:215) and puts a custom start in dev mode (OD:142); Oct 24 says Start a life goes first and the two world modes are combined or explained (OD:24). Oct 24 wins on order and merging.
 - **Issues.** REG:149 says "Issues follows this register, not its mockup"; MOCKS:29 records the owner rejecting a plain list. Both hold: Issues is never a plain list; its contents follow the register.
+- **Populations on the town list.** The Oct 24 read asks for "the populations shown are the simulated ones" (OD:24); a town opens at its real Census size (OD:95). Both hold: the list shows the count the world opens with, from the one source the world builds from.
 - **State legislators on Politics.** The Oct 16 ruling keeps every legislator behind a division filter (OD:373); `play-stop-05`'s done-when asks for one per chamber. OD:373 wins: the player's own come first, everyone stays behind the filter.
