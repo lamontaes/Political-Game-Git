@@ -19,7 +19,7 @@
  *   (`answerDebate`).
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
-import { coreAPI, registerModule } from "../state";
+import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
@@ -29,6 +29,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
 import { residentsRuntime } from "./residents";
 import { isDemoted } from "../counted-groups";
+import { countedResidents } from "../electorate";
 import {
   ballot,
   ELECTIONS_MODULE_ID,
@@ -141,7 +142,10 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
  * Every trait's lean toward taking part in a public meeting over staying
  * away, on the trait scale the meeting bars were set on.
  */
-const civic = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
+const civic = (
+  p: Readonly<Pick<PersonState, "traits">>,
+  core: Pick<CoreState, "data">,
+) =>
   parameter("traitScale") *
   decisionLean(core, p, "meetings.take-part", "take-part", "stay-away");
 
@@ -257,12 +261,19 @@ function publicComment(api: CoreAPI, billId: string): void {
       t.personId ? [t.personId] : [],
     ),
   );
-  const speakers = townAdults(api)
+  const core = api.state as CoreState;
+  const town = lawChain(api).townPlaceId;
+  // The town's adults still in the wider population stand up by the same
+  // rule, read from their counted record (one model, two tiers).
+  const counted = countedResidents(core).filter(
+    (v) =>
+      v.placeId === town &&
+      !core.people.has(v.id) &&
+      ageOn(v, api.state.date) >= 18,
+  );
+  const speakers = [...townAdults(api), ...counted]
     .filter(
-      (p) =>
-        !already.has(p.id) &&
-        !seated.has(p.id) &&
-        p.id !== (api.state as CoreState).playerId,
+      (p) => !already.has(p.id) && !seated.has(p.id) && p.id !== core.playerId,
     )
     .map((p) => {
       const view =
@@ -273,7 +284,9 @@ function publicComment(api: CoreAPI, billId: string): void {
     .filter((s) => s.view !== 0 && s.drive >= meetingParameter("commentBar"))
     .sort((a, b) => b.drive - a.drive || a.p.id.localeCompare(b.p.id))
     .slice(0, meetingParameter("publicCommentSpeakers"));
-  for (const s of speakers)
+  for (const s of speakers) {
+    // A speaker on the public record is a named person.
+    if (!core.people.has(s.p.id)) fillInPerson(core, s.p.id);
     table(api, "remarks").put({
       id: `remark:${bill.id}:${s.p.id}`,
       billId: bill.id,
@@ -284,6 +297,7 @@ function publicComment(api: CoreAPI, billId: string): void {
       signedUp: false,
       date: api.state.date,
     } as unknown as ModuleRow);
+  }
   const said = remarksOn(api, billId);
   if (!said.length) return;
   // Each comment is a speech to the room: the members and the others who
