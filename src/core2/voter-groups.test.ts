@@ -60,7 +60,7 @@ function digest(core: CoreState): string {
 
 it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}`, () => {
   setBookkeeping(false);
-  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+  const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: place.key,
   });
@@ -103,17 +103,32 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
   expect(weighted, where).toBeGreaterThan(0);
 
   // The sample is the town's counted adults, in lean order by real voters.
+  // The eligible set is read here from the counted rows checked above (the
+  // town is the player's place), not from the sample: every counted adult of
+  // the town is in it once, with their household's weight, and nobody else.
+  // Only a town with no counted adult falls back to its named adults.
   const sample = electorateSample(api, core.date, 0);
   expect(sample.length, where).toBeGreaterThan(0);
+  const townId = core.people.get(playerId!)!.placeId;
   const adults = new Map(
     voters
-      .filter((v) => ageOn(v, core.date) >= 18)
+      .filter((v) => v.placeId === townId && ageOn(v, core.date) >= 18)
       .map((v) => [v.id, v.weight]),
   );
-  for (const s of sample) {
-    if (!adults.has(s.id)) continue; // a named adult stands in where nobody is counted
-    expect(s.weight, where).toBe(adults.get(s.id));
-  }
+  const sampled = new Map(sample.map((s) => [s.id, s.weight]));
+  expect(sampled.size, `${where}: one row per voter`).toBe(sample.length);
+  if (adults.size) {
+    expect([...sampled.keys()].sort(), where).toEqual(
+      [...adults.keys()].sort(),
+    );
+    for (const [id, weight] of adults)
+      expect(sampled.get(id), `${where}: ${id}`).toBe(weight);
+  } else
+    for (const s of sample) {
+      const p = core.people.get(s.id);
+      expect(p?.placeId, `${where}: ${s.id} is a named adult`).toBe(townId);
+      expect(s.weight, where).toBe(1);
+    }
   let last = 0;
   for (const s of sample) {
     expect(s.rank, where).toBeGreaterThan(0);
@@ -151,5 +166,7 @@ it(`voter groups are the counted electorate in ${place.name}, seed ${place.seed}
 
   // Reading it all changed no record.
   expect(digest(core), where).toBe(before);
-  console.log(`voter-groups: ${where}, ${voters.length} counted voters`);
+  console.log(
+    `voter-groups: ${where}, ${voters.length} counted voters, ${adults.size} counted town adults all in the sample of ${sample.length}`,
+  );
 }, 600_000);
