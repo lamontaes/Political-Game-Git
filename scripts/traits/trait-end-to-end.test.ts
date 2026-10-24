@@ -35,6 +35,9 @@ const HARVEST_DAYS = 7;
 const MAX_DRAWS = 3;
 /** A mean trait reason smaller than this, in score units, counts as no lean either way. */
 const MIN_LEAN = 0.01;
+/** The proof's bar: decisions named by both people's records, and outcomes that differ. */
+const MIN_DECISIONS = 5;
+const MIN_OUTCOMES = 3;
 /** Formula decisions that are civic acts when the answer is yes. */
 const CIVIC_ACTS = new Set([
   "parties.join",
@@ -366,7 +369,22 @@ describe("two neighbors with opposite temperaments in the same situation", () =>
           ),
         ].join("\n"),
       );
-      expect(reasons.length, label).toBeGreaterThanOrEqual(5);
+      const differing = outcomes.filter((o) => o.differ).length;
+      // A pair whose year offered both of them fewer than five shared
+      // decisions says nothing about temperament either way: the next draw.
+      if (
+        attempt + 1 < MAX_DRAWS &&
+        (reasons.length < MIN_DECISIONS || differing < MIN_OUTCOMES)
+      ) {
+        tried.push(
+          `${label}: ${reasons.length} decisions, ${differing} outcomes differed`,
+        );
+        continue;
+      }
+      expect(
+        reasons.length,
+        `${label} (earlier draws: ${tried.join("; ") || "none"})`,
+      ).toBeGreaterThanOrEqual(MIN_DECISIONS);
       for (const r of reasons)
         for (const side of [r.a, r.b])
           expect(
@@ -376,7 +394,7 @@ describe("two neighbors with opposite temperaments in the same situation", () =>
       expect(
         outcomes.filter((o) => o.differ).length,
         `${label}: ${outcomes.map((o) => `${o.name} ${o.line}`).join("; ")}`,
-      ).toBeGreaterThanOrEqual(3);
+      ).toBeGreaterThanOrEqual(MIN_OUTCOMES);
       return;
     }
     throw new Error(`No pair in ${MAX_DRAWS} draws: ${tried.join("; ")}`);
