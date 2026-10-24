@@ -6,9 +6,9 @@ kind: bug
 priority: 1
 size: M
 status: in-pr
-claimed-by:
+claimed-by: claude/speed-work-payroll
 pr: #5925
-blocked-on: core-speed-work-attendance-in-play
+blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 ---
