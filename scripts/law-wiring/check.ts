@@ -935,6 +935,33 @@ function checkLaw(
           ]
         : [];
     });
+  // The law row a body (not the checker) put the law back with in the window:
+  // a cause the world itself reversed did not last the lag.
+  const reenacted =
+    cause.length > 0
+      ? (lawChain(api)
+          .levels.flatMap(
+            ({ jurisdiction }) =>
+              api
+                .moduleState(LAWS_MODULE_ID)
+                .table("laws")
+                .query("bySeries", [
+                  jurisdiction,
+                  law.key,
+                ]) as unknown as LawRowInput[],
+          )
+          .filter((r) => r.effectiveDate > since && !ids.has(r.id))
+          .sort(
+            (a, b) =>
+              a.effectiveDate.localeCompare(b.effectiveDate) ||
+              a.id.localeCompare(b.id),
+          )
+          .map((r) => ({
+            id: r.id,
+            effectiveDate: r.effectiveDate,
+            value: Number(r.value),
+          }))[0] ?? null)
+      : null;
   const heard = heardOf(core, ids, law.key, since);
   // Money: each journal source kind whose total differs from the control's.
   const moneyDiff: {
@@ -1012,6 +1039,7 @@ function checkLaw(
       firedCount: web.length,
       windowDays: WINDOW,
       cause: cause.slice(0, 12),
+      reenacted,
     },
     heard,
     afterUndo: after,

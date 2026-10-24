@@ -74,6 +74,8 @@ interface Result {
       treated: number;
       control: number;
     }[];
+    /** The first law row a body (not the checker) enacted on the law's key in the window, which can put a changed cause back. */
+    reenacted?: { id: string; effectiveDate: string; value: number } | null;
   };
   heard: { people: number; sample: string[] };
   afterUndo: ReachCount;
@@ -425,22 +427,39 @@ function webLink(
   // show its effect in it. It counts when the web read the law's cause as
   // changed in the run (differently from the control world): the effect then
   // lands the lag's months after that month row.
+  // It also counts when the world itself changed the law back before the lag
+  // ended: the cause the web read as changed did not last the link's lag, and
+  // the law row that reversed it is named.
+  const monthIndex = (month: string) =>
+    Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7));
   const lagged = runs.flatMap(({ place, r }) =>
     (r.web?.cause ?? [])
-      .filter(
-        (c) =>
-          c.lagMonths > (r.web.windowDays ?? 35) / 30 &&
-          built.some((l) => l.key === c.link),
-      )
-      .map((c) => ({ place, c })),
+      .filter((c) => built.some((l) => l.key === c.link))
+      .flatMap((c) => {
+        if (c.lagMonths > (r.web.windowDays ?? 35) / 30)
+          return [
+            {
+              place,
+              text: `${c.link} lags ${c.lagMonths} months, past the run's window; the web read ${c.from} as ${c.treated} (control ${c.control}) in ${c.id} (${c.month})`,
+            },
+          ];
+        const back = r.web.reenacted;
+        return back &&
+          back.value === c.control &&
+          monthIndex(back.effectiveDate) - monthIndex(c.month) < c.lagMonths
+          ? [
+              {
+                place,
+                text: `${c.link} lags ${c.lagMonths} months; the web read ${c.from} as ${c.treated} (control ${c.control}) in ${c.id} (${c.month}), but the world put it back with ${back.id} on ${back.effectiveDate}, before the lag ended`,
+              },
+            ]
+          : [];
+      }),
   );
   if (lagged.length) {
     const ev = lagged
       .slice(0, 3)
-      .map(
-        ({ place, c }) =>
-          `${place}: ${c.link} lags ${c.lagMonths} months, past the run's window; the web read ${c.from} as ${c.treated} (control ${c.control}) in ${c.id} (${c.month})`,
-      )
+      .map(({ place, text }) => `${place}: ${text}`)
       .join("; ");
     return notBuilt.length
       ? {
