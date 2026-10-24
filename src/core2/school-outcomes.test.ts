@@ -1,7 +1,9 @@
 /**
  * School outcomes in a played world. Two worlds from one seed and place,
  * identical but for the web's equalized-funding effect, shifted in the web
- * month rows (on the 3rd, as the outcome-web twins do). Every enrolled
+ * month rows (as the outcome-web twins do). A place whose web month was
+ * rewritten (a law taking effect) on the day a measure was decided, before
+ * the shift could be laid again, is drawn again, a bounded number of times. Every enrolled
  * eighth grader gets a math and a reading record in the testing month and
  * every senior a graduation record on the last day of the year; the place's
  * share follows the web's factor, differs across income fifths, and reaches
@@ -57,6 +59,11 @@ const LINKS = [
   "equalized-funding-to-math-proficiency",
   "equalized-funding-to-graduation",
 ];
+/** The measures those links move. */
+const LINKS_INTO = ["school.math-proficient-pct", "school.graduation-pct"];
+
+/** Days the shifted world's engines read a web month without the shift. */
+const UNSHIFTED = new WeakMap<object, Set<string>>();
 
 function play(shift: boolean) {
   const opening = gameStartDate();
@@ -66,17 +73,28 @@ function play(shift: boolean) {
   });
   const core = world.core;
   const api = coreAPI(core);
+  const unshifted = new Set<string>();
+  UNSHIFTED.set(core, unshifted);
   let day = makeIsoDate(opening);
   const end = addDays(day, 165);
   while (day < end) {
     day = addDays(day, 1);
     advanceCore(core, day);
     // The web writes its month on the 3rd, and writes it again whenever a
-    // law takes effect, which drops a shift laid earlier; from the 3rd on,
-    // the twin raises the effect again in any of the month's rows without
-    // it, so the school engine reads it afterwards.
-    if (shift && Number(core.date.slice(8)) >= 3) {
+    // law takes effect, which drops a shift laid earlier; each day the twin
+    // raises the effect again in any of the month's rows without it, so the
+    // school engine reads it afterwards. A day whose rows ended without it
+    // was a day the engines read the unshifted month.
+    if (shift) {
       const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
+      if (
+        (months.rows() as unknown as WebMonth[]).some(
+          (row) =>
+            row.month === core.date.slice(0, 7) &&
+            LINKS.some((key) => row.effects[key] !== SHIFT),
+        )
+      )
+        unshifted.add(core.date);
       for (const row of months.rows() as unknown as WebMonth[])
         if (
           row.month === core.date.slice(0, 7) &&
@@ -119,22 +137,45 @@ describe(`school outcomes (seed ${seed})`, () => {
       ["school.math-proficient-pct", "school.graduation-pct"].every((m) =>
         groupsOf(core, m).some((g) => g.incomeFifth <= 1),
       );
+    // The days a measure was decided, and whether the shifted world's web
+    // month was rewritten that day (a law taking effect) before the twin
+    // could lay the shift again: then the engine read the unshifted month,
+    // and the twin says nothing about the effect there.
+    const lostOn = (core: CoreState) =>
+      rows<SchoolMeasureRow>(core, "measures")
+        .filter((m) => LINKS_INTO.includes(m.measure))
+        .filter((m) => UNSHIFTED.get(core)?.has(m.date))
+        .map((m) => `${m.measure} on ${m.date}`);
     const tried: string[] = [];
-    let base = play(false);
-    for (let draw = 1; draw < REDRAWS && !hasLowFifths(base); draw += 1) {
-      tried.push(`${place.name}, ${place.state} (${drawSeed})`);
-      drawSeed = `${seed}-${draw}`;
-      place = drawPlace(drawSeed, "school-outcomes");
-      base = play(false);
-    }
-    if (!hasLowFifths(base))
-      throw new Error(
-        `no drawn place in ${REDRAWS} draws has eighth graders and seniors in the low income fifths (${[...tried, `${place.name}, ${place.state} (${drawSeed})`].join("; ")})`,
+    let baseTry: CoreState | undefined, movedTry: CoreState | undefined;
+    for (let draw = 0; draw < REDRAWS; draw += 1) {
+      if (draw) {
+        drawSeed = `${seed}-${draw}`;
+        place = drawPlace(drawSeed, "school-outcomes");
+      }
+      const where = `${place.name}, ${place.state} (${drawSeed})`;
+      baseTry = play(false);
+      if (!hasLowFifths(baseTry)) {
+        tried.push(`${where}: no eighth graders and seniors in the low fifths`);
+        continue;
+      }
+      movedTry = play(true);
+      const lost = lostOn(movedTry);
+      if (!lost.length) break;
+      tried.push(
+        `${where}: the web rewrote its month the day ${lost.join(" and ")} was decided`,
       );
+      movedTry = undefined;
+    }
+    if (!baseTry || !movedTry)
+      throw new Error(
+        `no drawn place in ${REDRAWS} draws could show the funding effect (${tried.join("; ")})`,
+      );
+    const base = baseTry,
+      moved = movedTry;
     console.log(
       `school: ${place.name}, ${place.state}, seed ${drawSeed}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}`,
     );
-    const moved = play(true);
     for (const measure of [
       "school.math-proficient-pct",
       "school.reading-proficient-pct",
@@ -166,7 +207,11 @@ describe(`school outcomes (seed ${seed})`, () => {
       expect(Math.abs(passed - expected)).toBeLessThanOrEqual(bound);
     }
     // The shifted world: the funding effect reached the low fifths' factor
-    // and moved their counts; the top fifths (weight 0) did not move.
+    // and moved their counts; the top fifths (weight 0) did not move. A
+    // group whose share is already 100% cannot rise (the engine caps a share
+    // at 1), so it keeps its count; every other low group's count rises, and
+    // at least one does.
+    let rose = 0;
     for (const measure of [
       "school.math-proficient-pct",
       "school.graduation-pct",
@@ -178,7 +223,11 @@ describe(`school outcomes (seed ${seed})`, () => {
       for (const g of low) {
         const before = a.find((x) => x.id === g.id)!;
         expect(g.factor, g.id).toBeGreaterThan(before.factor);
-        expect(g.expected, g.id).toBeGreaterThan(before.expected);
+        if (before.expected < before.students - 1e-9) {
+          expect(g.expected, g.id).toBeGreaterThan(before.expected);
+          rose += 1;
+        } else
+          expect(g.expected, `${g.id} at 100%`).toBeCloseTo(before.expected, 9);
       }
       for (const g of b.filter((x) => x.incomeFifth >= 3))
         expect(g.factor, g.id).toBeCloseTo(
@@ -186,6 +235,7 @@ describe(`school outcomes (seed ${seed})`, () => {
           9,
         );
     }
+    expect(rose, `low groups below 100% in ${place.name}`).toBeGreaterThan(0);
     // The share differs across income fifths: the lowest fifth with students
     // clears at a lower share than the highest.
     const math = groupsOf(base, "school.math-proficient-pct");
