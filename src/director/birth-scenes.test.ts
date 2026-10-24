@@ -73,7 +73,7 @@ it(`a birth is a new-baby visit for each parent, citing the birth and the plan b
       // (The sentence about the new baby was hand-written and is held until
       // graded; pool item words-birth-scene-lead. Until the
       // engine writes it, the scene is the engine's own sentences.)
-      expect(scene.typeKey, where).toBe("celebration");
+      expect(scene.typeKey, where).toBe("new-baby");
       expect(text.trim().length, `${where}: ${text}`).toBeGreaterThan(0);
       expect(text, where).not.toMatch(/\{\{|\}\}|undefined/);
       // The scene stands on the birth moment, whose cause is the birth record,
