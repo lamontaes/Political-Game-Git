@@ -5434,12 +5434,24 @@
     "kind": "owner-decision",
     "file": "src/core2/modules/renewal.ts",
     "line": 1,
-    "whatItFakes": "A couple that chose to wait carries exposure each review from the mother's age curve and the household's cushion; a whole unit is an unplanned pregnancy, and the mother weighs carrying it against ending it. Ending a pregnancy pays the trip from the household's cash to the place's outside account (no provider is paid or recorded), and only full people in couples are covered.",
+    "whatItFakes": "A couple that chose to wait carries exposure each review from the mother's age curve and the household's cushion; a whole unit is an unplanned pregnancy, and the mother weighs carrying it against ending it. Ending a pregnancy pays the trip from the household's cash to the place's outside account (no provider is paid or recorded).",
     "why": "No ruling existed on what causes an unplanned pregnancy or whether the player's household can have one.",
     "addedBy": "claude/political-game-pool-pdqjm6",
     "addedAt": "2026-10-19",
     "replacement": "Resolved Oct 20 by the owner's ruling on #5220: unplanned pregnancies happen to people in the background from their own records and the law where they live, never to the player's own character or household, with nothing new shown to the player. The player's household is left out in renewal.ts.",
     "status": "resolved"
+  },
+  {
+    "id": "SG-PEOPLE-unplanned-counted-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 183,
+    "whatItFakes": "Only full people in couples carry exposure toward an unplanned pregnancy; the counted households, who are most of a town, have none, so the rule applies only to the full tier.",
+    "why": "This change sources the trip to a provider for the full-tier rule; the counted tier's own exposure, per woman and couple times the households each record stands for, is its own piece of work.",
+    "addedBy": "claude/provider-distance",
+    "addedAt": "2026-10-24",
+    "replacement": "Counted households follow the same rule from their own record, times the households each stands for, with each woman's and couple's exposure kept as their own (pool item people-unplanned-counted-tier, PR #5757).",
+    "status": "open"
   },
   {
     "id": "SG-PEOPLE-unplanned-provider-distance",

@@ -179,6 +179,8 @@ function conceiveUnplanned(
     api.state.people.get(row.motherId)?.householdId === playerHome
   )
     return;
+  // Full couples only: the counted households do not carry exposure yet.
+  api.stopgap("SG-PEOPLE-unplanned-counted-tier");
 
   const carryRow = table(api, "exposure").get(row.id);
   const carry =
