@@ -399,6 +399,9 @@ function run(
         journal: sellerRemittance(seller.targetId)!,
         reached: buyer.targetId,
       };
+      // The sales tax is every level's rate together: a state with no rate of
+      // its own (its row at zero) is named by the level that taxes the sale.
+      evidence[SALES_TAX] ??= evidence[l.row.series];
     }
   }
 
@@ -469,13 +472,23 @@ function run(
   {
     const old = lawInForce(api, SALES_TAX);
     const level = old.levels.find((l) => l.row && l.level === "state")!;
-    // Sellers are recorded at their next sales (a new yearly rate row takes effect on January 1).
-    advanceUntilRecorded(core, level.row!.id, 0);
-    const oldRows = open(applied(core, SALES_TAX));
-    expect(
-      oldRows.length,
-      `${where}: sellers recorded under the rate in force ${level.row!.id} on ${core.date}`,
-    ).toBeGreaterThan(0);
+    // A state with no sales tax of its own has a state row at zero, which
+    // taxes no sale (syncSalesTax collects under positive rates only): the
+    // raise below then starts from zero, and the restore taxes nobody again.
+    const oldRate = level.row!.value ?? 0;
+    if (oldRate > 0) {
+      // Sellers are recorded at their next sales (a new yearly rate row takes effect on January 1).
+      advanceUntilRecorded(core, level.row!.id, 0);
+      const oldRows = open(applied(core, SALES_TAX));
+      expect(
+        oldRows.length,
+        `${where}: sellers recorded under the rate in force ${level.row!.id} on ${core.date}`,
+      ).toBeGreaterThan(0);
+    } else
+      expect(
+        open(applied(core, SALES_TAX)).filter((r) => r.lawId === level.row!.id),
+        `${where}: the state rate ${level.row!.id} is ${oldRate}, so it taxes no sale`,
+      ).toHaveLength(0);
     enactLaw(api, {
       jurisdiction: level.jurisdiction,
       level: level.level,
@@ -514,8 +527,10 @@ function run(
     const rows = open(applied(core, SALES_TAX));
     expect(
       rows.some((r) => r.lawId === restored),
-      `${where}: sellers recorded under the restored rate ${restored}`,
-    ).toBe(true);
+      oldRate > 0
+        ? `${where}: sellers recorded under the restored rate ${restored}`
+        : `${where}: the restored rate ${restored} is ${oldRate}, so it taxes no sale`,
+    ).toBe(oldRate > 0);
     expect(
       rows.some((r) => r.lawId === raised),
       `${where}: the raised rate ${raised} still open after restoring`,
