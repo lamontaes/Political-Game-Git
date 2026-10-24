@@ -283,21 +283,20 @@ function record(
     tradingId?: string;
   },
 ): void {
+  // The people the change stands for when it happens (a counted worker's
+  // household weight, one for a full person), kept on the change so a later
+  // fill-in doesn't rewrite it.
+  const heads = headsOf(core(api), { id: row.jobId, personId: row.personId });
   // A worker who leaves (a quit, retirement, move or death) is replaced: the employer's need grows by one at once.
   if (row.kind === "quit" || row.kind === "left-work")
-    noteLeaver(
-      api,
-      row.organizationId,
-      row.jobId,
-      row.personId,
-      headsOf(core(api), { id: row.jobId, personId: row.personId }),
-    );
+    noteLeaver(api, row.organizationId, row.jobId, row.personId, heads);
   store(api)
     .table("changes")
     .put({
       id: `job-change:${api.state.date}:${row.jobId}:${row.kind}`,
       date: api.state.date,
       ...row,
+      heads,
       values: { ...(row.values ?? {}) },
     });
 }
@@ -2100,13 +2099,25 @@ function hireCounted(
   // The role's schedule and payday, as a full hire takes them, kept with the
   // household so the worker is on that payroll the day they are met.
   const role = roleTemplate(c, { ...position, templateJobId: template.id });
+  // A founded firm hires from another employer's role: its hire is paid on the
+  // firm's own calendar with that role's payday, one per firm and role, as a
+  // full hire's calendar names its own employer (hire, below).
+  const calendar: WorkPayrollCalendarInput | undefined =
+    role &&
+    (role.calendar.organizationId === position.organizationId
+      ? role.calendar
+      : {
+          ...role.calendar,
+          id: `${role.calendar.id}:at:${position.organizationId}`,
+          organizationId: position.organizationId,
+        });
   const commitment: WorkCommitmentInput | undefined = role && {
     ...role.commitment,
     organizationId: position.organizationId,
     id: `work-commitment:${jobId}`,
     jobId,
     personId: seeker.personId,
-    payrollCalendarId: role.calendar.id,
+    payrollCalendarId: calendar!.id,
     startsAt: addDays(makeIsoDate(api.state.date), 1),
     endsAt: undefined,
     hourlyMinor: position.hourlyMinor,
@@ -2115,7 +2126,7 @@ function hireCounted(
     scheduleSource: job.source,
   };
   if (!addCountedJob(c, job, template.id, commitment)) return false;
-  if (role) keepCalendar(c, role.calendar);
+  if (calendar) keepCalendar(c, calendar);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
