@@ -39,6 +39,7 @@ import {
   ageBandOf,
   ageOn,
   CountedHouseholdMap,
+  type CountedFacts,
   CountedPersonHouseholdMap,
   CountedStore,
   decodeStore,
@@ -1466,6 +1467,20 @@ export function residentPerson(
   return store
     .peopleOf(store.households[store.household[m]!]!)
     .find((row) => row.id === id);
+}
+
+/** What the engines read about someone still counted: their columns, with no person record built. */
+export type ResidentFacts = CountedFacts;
+
+/** A counted person's place, birth date, job and traits read from the columns; undefined once they are filled in, dead or moved. */
+export function residentFacts(
+  core: CoreState,
+  personId: PersonId,
+): ResidentFacts | undefined {
+  const store = runtimes.get(core)?.store;
+  const m = store?.countedMember(personId);
+  if (!store || m === undefined) return undefined;
+  return store.factsOf(m);
 }
 
 registerCountedPersonSource(residentPerson);
