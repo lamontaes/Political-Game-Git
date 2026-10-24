@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr: #5079
 blocked-on:
+after: core-light-opening-kin-at-fill-in
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at:
 ---
@@ -31,3 +32,5 @@ Looked at Oct 18 (claude/light-opening, nothing built). Timed a drawn opening (b
 Two ways forward that change no output: speed up `buildOpeningKin` (`moveHazard` is 0.8 s, recomputed in loops) and `openingTemperaments` and prove it by hash on three drawn places, or rule that the county and state counted population is generated from the census directly, not from residents' relatives, and then build this item against that.
 
 Oct 22, merger A: PR #5079 splits the proposed kin-opening work into three tasks; it does not implement the opening or fill-in acceptance. This parent stays open with its own Done when intact.
+
+Split Oct 19 (claude): proposed parts, in order: core-light-opening-kin-households, core-light-opening-kin-only-kept, core-light-opening-kin-at-fill-in. This parent retains its own Done when; child statuses alone do not waive its opening-time, count/trait consistency or named fill-in proof.
