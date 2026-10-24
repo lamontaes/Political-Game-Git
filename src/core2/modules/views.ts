@@ -21,6 +21,7 @@
  * Views form when first read, so a person filled in later gets theirs too.
  */
 import { stableHash, pairKey } from "../kernel/ids";
+import { livedQuestion } from "../outcome-news";
 import { ageOnDate } from "../kernel/dates";
 import { corePlaceByJurisdictionId } from "../place-lookup";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
@@ -689,10 +690,16 @@ export const viewsModule: CoreModule = {
   },
   eventKinds: ["*"],
   onEvent(api, event, learnedBy) {
-    // Only an event with a topic and a wanted change carries a stance. A
-    // drive forming or growing restates a change the event behind it already
-    // made, so it moves nothing again.
-    if (!event.topic || !event.desiredChange) return;
+    // Only an event with a topic and a wanted change carries a stance, or a
+    // condition someone lives (their household burglarized): that argues no
+    // change, so each person it happened to takes it as a reason for the
+    // side their own view already holds on the question it ties to, as a
+    // reader of a story about it does. A drive forming
+    // or growing restates a change the event behind it already made, so it
+    // moves nothing again.
+    const lived = event.desiredChange ? null : livedQuestion(event.kind);
+    const topic = lived ?? event.topic;
+    if (!topic || (!event.desiredChange && !lived)) return;
     if (DRIVE_MOMENTS.has(event.kind)) return;
     const impulse =
       Math.abs(event.moodImpulse ?? v("zero")) +
@@ -701,7 +708,14 @@ export const viewsModule: CoreModule = {
     for (const personId of learnedBy) {
       const view = viewOf(api, personId);
       if (!view) continue;
-      const id = `${personId}:${event.topic}`;
+      let desiredChange = event.desiredChange;
+      if (lived) {
+        const current = viewOn(api, personId, lived, view.lean);
+        if (current === v("zero")) continue;
+        desiredChange = current > v("zero") ? "enact" : "repeal";
+      }
+      if (!desiredChange) continue;
+      const id = `${personId}:${topic}`;
       const prior = stancesTable(api).get(id) as unknown as Stance | undefined;
       // A case made by a speaker moves the listener by the speaker's
       // standing with them: the speaker the event names, or for someone who
@@ -731,7 +745,7 @@ export const viewsModule: CoreModule = {
       )
         continue;
       const nearness = speakerId
-        ? standingWith(api, view, speakerId, event.topic, event.desiredChange)
+        ? standingWith(api, view, speakerId, topic, desiredChange)
         : v("one");
       // The same case from the same speaker again persuades less each time.
       const heard = speakerId
@@ -744,7 +758,7 @@ export const viewsModule: CoreModule = {
           (v("one") - v("tightness") * view.engagement)) /
         (v("one") + v("repeatWearOut") * heard);
       if (change <= v("zero")) continue;
-      const same = prior?.desiredChange === event.desiredChange;
+      const same = prior?.desiredChange === desiredChange;
       const strength = Math.min(
         v("one"),
         prior
@@ -756,12 +770,12 @@ export const viewsModule: CoreModule = {
       const stance: Stance = {
         id,
         personId,
-        topic: event.topic,
+        topic,
         // A stance pushed past zero turns toward the new change.
         desiredChange:
           prior && !same && strength > v("zero")
             ? prior.desiredChange
-            : event.desiredChange,
+            : desiredChange,
         strength: Math.abs(strength),
         // The player's circle (and every person when bookkeeping is on) keeps
         // why the stance is what it is: one cause per source, the speaker and
@@ -793,8 +807,7 @@ export const viewsModule: CoreModule = {
           : {}),
       };
       stancesTable(api).put(stance as unknown as { id: string });
-      for (const listener of stanceListeners)
-        listener(api, personId, event.topic);
+      for (const listener of stanceListeners) listener(api, personId, topic);
     }
   },
 };

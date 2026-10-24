@@ -38,6 +38,21 @@ export function conditionQuestion(topic: string): string | null {
   return QUESTIONS[topic]?.question ?? null;
 }
 
+const LIVED = (
+  data as unknown as {
+    lived: { kinds: Readonly<Record<string, string>> };
+  }
+).lived.kinds;
+
+/**
+ * The question an event of this kind ties to when it is a person living the
+ * condition themselves (a household's victimization is crime), or null.
+ */
+export function livedQuestion(kind: string): string | null {
+  const topic = LIVED[kind];
+  return topic ? conditionQuestion(topic) : null;
+}
+
 /** The questions the conditions a month's story reports tie to, each once, in order. */
 export function conditionQuestions(
   facts: Readonly<Record<string, string>>,

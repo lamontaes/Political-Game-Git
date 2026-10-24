@@ -40,5 +40,11 @@
       "question": "us-policy-positions:housing-land-use.rent-stabilization",
       "why": "Rent rising is the case for or against rent stabilization, the housing question voters tie most to rent."
     }
+  },
+  "lived": {
+    "about": "Event kinds that are a person living one of these conditions themselves, by the subject they live: the people the event names take it as a reason for the side their own view already holds on that subject's question, as a reader of a story about it does.",
+    "kinds": {
+      "crime.victimized": "crime"
+    }
   }
 }
