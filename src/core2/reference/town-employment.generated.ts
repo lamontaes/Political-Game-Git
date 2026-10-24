@@ -7,22 +7,28 @@
  */
 
 export const TOWN_EMPLOYMENT_META = {
-  "countyBusinessPatterns": {
-    "source": "Census Bureau, 2023 County Business Patterns, county file, March employment by two-digit NAICS sector (private employers).",
-    "corpusSha256": "9a64d1b08deaa2233803629498fe73db7744ade79b3e0f5ff66ab657b8fde32e",
-    "asOf": "2026-09-26"
+  countyBusinessPatterns: {
+    source:
+      "Census Bureau, 2023 County Business Patterns, county file, March employment by two-digit NAICS sector (private employers).",
+    corpusSha256:
+      "9a64d1b08deaa2233803629498fe73db7744ade79b3e0f5ff66ab657b8fde32e",
+    asOf: "2026-09-26",
   },
-  "stateEmployment": {
-    "source": "BLS Occupational Employment and Wage Statistics, May 2025, state tables, all occupations.",
-    "corpusSha256": "ed7601c3361eb58a7b1bc8589f5e009fe4b90b473b5bad7b8fd4e3b8d6fd0a7a",
-    "asOf": "2026-09-26"
+  stateEmployment: {
+    source:
+      "BLS Occupational Employment and Wage Statistics, May 2025, state tables, all occupations.",
+    corpusSha256:
+      "ed7601c3361eb58a7b1bc8589f5e009fe4b90b473b5bad7b8fd4e3b8d6fd0a7a",
+    asOf: "2026-09-26",
   },
-  "publicEmployment": {
-    "source": "BLS OEWS May 2025 state ownership research estimates: federal, state and local government, including schools and hospitals. BLS notes these carry more model error than standard estimates.",
-    "corpusSha256": "bf40cd57efa6e8196105812486ec0e04a6b03934aa4aa3c08c724fec426197af",
-    "asOf": "2026-09-26"
+  publicEmployment: {
+    source:
+      "BLS OEWS May 2025 state ownership research estimates: federal, state and local government, including schools and hospitals. BLS notes these carry more model error than standard estimates.",
+    corpusSha256:
+      "bf40cd57efa6e8196105812486ec0e04a6b03934aa4aa3c08c724fec426197af",
+    asOf: "2026-09-26",
   },
-  "sectors": [
+  sectors: [
     "11",
     "21",
     "22",
@@ -41,9 +47,9 @@ export const TOWN_EMPLOYMENT_META = {
     "62",
     "71",
     "72",
-    "81"
+    "81",
   ],
-  "localGroups": [
+  localGroups: [
     "11",
     "13",
     "21",
@@ -55,8 +61,8 @@ export const TOWN_EMPLOYMENT_META = {
     "43",
     "47",
     "49",
-    "53"
-  ]
+    "53",
+  ],
 } as const;
 
 /** `county:employment per sector, in TOWN_EMPLOYMENT_META.sectors order`. */
