@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Built on PR #5080, branch claude/political-game-pool-8defjq.
 
 Sent back 2026-10-23 from PR #5080 (branch claude/political-game-pool-8defjq): Fresh main integration conflicts in code at src/core2/modules/employer-taxes.ts:22; preserve both current tax readers and residentFacts, then rerun the scoped checks and annual equality proof; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5080 (branch claude/political-game-pool-8defjq): PR introduces duplicated What/Rules/Done-when/Files/Notes blocks in release-red-vote-level-organizing-filed.md and duplicate Notes headings in release-red-electorate-weight.md; keep one current spec, preserve Notes, merge main and regenerate INDEX; finish on that branch, merge main into it first.
