@@ -59,6 +59,9 @@ it("opening seekers are chosen per place, from the place's own rate", () => {
     return;
   }
   throw new Error(`no drawn place had counted seekers: ${tried.join("; ")}`);
+  // Measured: building a drawn place and playing its first day took 8 to 10 s in
+  // most towns and 88 s in the largest of six drawn (Langley Park, Maryland), so
+  // twelve draws can take up to about 1,060,000 ms; 1,800,000 ms leaves margin.
 }, 1_800_000);
 
 it("the opening's named seekers follow the place's labor force by age band", () => {
