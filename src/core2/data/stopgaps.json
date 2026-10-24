@@ -6212,6 +6212,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WEB-unread-env-emissions",
+    "kind": "missing-mechanic",
+    "file": "src/core2/data/outcome-web/unwired.json",
+    "line": 458,
+    "whatItFakes": "carbon-price-to-emissions, power-plant-carbon-to-emissions move env.emissions only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
+  },
+  {
     "id": "SG-WEB-unread-env-litter",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
@@ -6234,6 +6246,18 @@
     "addedAt": "2026-10-20",
     "replacement": "An engine that records disaster.flood-damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-unread-env-container-recycling-pct",
+    "kind": "missing-mechanic",
+    "file": "src/core2/data/outcome-web/unwired.json",
+    "line": 476,
+    "whatItFakes": "container-deposit-to-recycling moves env.container-recycling-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: env.container-recycling-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-justice-federal-incarcerated-per-100k",
@@ -6318,6 +6342,30 @@
     "addedAt": "2026-10-20",
     "replacement": "An engine that records government.member-market-returns for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-unread-farmland-developed-acres",
+    "kind": "missing-mechanic",
+    "file": "src/core2/data/outcome-web/unwired.json",
+    "line": 584,
+    "whatItFakes": "farmland-easements-to-farmland-lost moves farmland.developed-acres only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-WEB-unread-water-irrigation-groundwater",
+    "kind": "missing-mechanic",
+    "file": "src/core2/data/outcome-web/unwired.json",
+    "line": 590,
+    "whatItFakes": "groundwater-limits-to-irrigation-pumping moves water.irrigation-groundwater only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-farmland-value-per-acre",
