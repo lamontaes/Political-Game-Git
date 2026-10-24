@@ -460,11 +460,11 @@
     "kind": "missing-local-observation",
     "file": "src/core2/data/resident-employment.json",
     "line": 726,
-    "whatItFakes": "Uses national pre-opening CPS age ratios and a tunable local scale for the four island areas (Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, which have no ACS five-year table) and for a county whose own cell for an age is empty. Every county and Puerto Rico municipio now reads its ACS 2020-2024 B23001 rows (resident-employment-counties.json).",
-    "why": "Census estimate API requires a key; national and territorial comparability and local spread remain unmeasured.",
+    "whatItFakes": "Uses national pre-opening CPS age ratios and a tunable local scale for a county whose own ACS cell for an age is empty. Every county and Puerto Rico municipio reads its ACS 2020-2024 B23001 rows (resident-employment-counties.json), and Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands read their own 2020 Census table PCT47 (the same file, keys 60, 66, 69 and 78).",
+    "why": "A cell for an age can be empty or suppressed in a small county or municipio; the island-area rows are island-wide, so a village or district is not told apart from its island.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "The island areas' own employment-by-age observations (the 2020 Decennial Census island-area tables) and suppression/MOE handling.",
+    "replacement": "A nearest-neighbor or state-level rate for an empty county cell, and village-level island-area rows from the same PCT47 table with its suppression and margin handling, in place of the national ratio with a tunable scale.",
     "status": "open"
   },
   {
@@ -1040,7 +1040,7 @@
     "why": "Real election calendars and term-start dates for each office are M2's filing and election work.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "The other states' governor start clauses and the state-legislature start days read into data/elections/term-starts.json, and municipal timing from the 92O baselines (county bodies are read: county-election-schedule-by-state.json).",
+    "replacement": "Oct 23, 2026 (research-offices-sourced-parameters): every place's governor clause (the mayor's for D.C.) and the day its legislators take their seats are now read into src/core2/data/elections/term-starts.json, with the URL and quoted text of each (48 governor rows and 43 legislature rows SOURCED; 8 and 13 ESTIMATED where the text sets no day and an inauguration or session date stands in, or, for Florida, Hawaii and Tennessee, where the text starts the term on election day itself and ruleStartAfter, which takes the first start after election day, uses the day after: one day late). Still open: municipal offices, whose start day is each charter's or the state's municipal law's, and county offices where county-election-schedule-by-state.json has no row, still start on the table's default of January 1. Earlier text: The other states' governor start clauses and the state-legislature start days read into data/elections/term-starts.json, and municipal timing from the 92O baselines (county bodies are read: county-election-schedule-by-state.json).",
     "status": "open"
   },
   {
@@ -1095,36 +1095,36 @@
     "id": "SG-GOV-campaign-pollster-seller",
     "kind": "missing-data",
     "file": "src/core2/modules/campaigns.ts",
-    "line": 892,
+    "line": 915,
     "whatItFakes": "Where the town records no professional-services business (NAICS 5419 includes public opinion polling), a campaign's poll interviews are paid to a stand-in pollster organization in town.",
     "why": "Small towns often have no polling firm; the region's businesses outside the town aren't recorded as sellers a campaign can reach.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The region's or state's real polling firms (County Business Patterns NAICS 541910 by county) as recorded organizations a campaign buys from.",
+    "replacement": "The region's or state's real polling firms as recorded organizations a campaign buys from. Researched Oct 23, 2026 (research-elections-sourced-parameters): data/research/elections/cbp-2023-campaign-sellers.json holds the U.S. Census Bureau's County Business Patterns 2023 establishment counts for NAICS 541910 (polling) and 541820 (public relations) for all 56 places and by county: 4,419 polling establishments nationally, published in only 260 of 3,246 county equivalents, so a town's own pollster is the exception. The builder item elections-campaign-sellers-beyond-town reads it in src/core2/modules/campaigns.ts seller() (town, then county, then state) in place of the stand-in.",
     "status": "open"
   },
   {
     "id": "SG-GOV-campaign-mail-seller",
     "kind": "missing-data",
     "file": "src/core2/modules/campaigns.ts",
-    "line": 895,
+    "line": 918,
     "whatItFakes": "Where the town records no professional-services or manufacturing business (direct mail advertising, NAICS 54186; printing, NAICS 323), a campaign's mailers are paid to a stand-in mail house in town, postage included.",
     "why": "The region's printers and mail houses outside the town aren't recorded as sellers, and postage isn't paid to a postal organization.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The region's printers and mail houses (County Business Patterns) as recorded sellers, with postage paid to the Postal Service's account.",
+    "replacement": "The region's printers and mail houses as recorded sellers, with postage paid to the Postal Service's account. Researched Oct 23, 2026 (research-elections-sourced-parameters): data/research/elections/cbp-2023-campaign-sellers.json holds County Business Patterns 2023 counts for NAICS 541860 (direct mail, 1,705 establishments in 166 county equivalents) and 323111 (commercial printing, 15,271 in 837) for all 56 places and by county. The builder item elections-campaign-sellers-beyond-town reads it in src/core2/modules/campaigns.ts seller() and sendMail(), and pays the postage share to a Postal Service organization.",
     "status": "open"
   },
   {
     "id": "SG-GOV-campaign-venue-seller",
     "kind": "missing-data",
     "file": "src/core2/modules/campaigns.ts",
-    "line": 898,
+    "line": 921,
     "whatItFakes": "Where the town records no recreation, lodging or food-service business, a campaign event's venue rent is paid to a stand-in venue in town.",
     "why": "Public halls (a town's own community center, a school gym) aren't recorded as places a campaign rents.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "The town's public buildings and halls as rentable places with their fee schedules, and the region's venues.",
+    "replacement": "The town's public buildings and halls as rentable places with their fee schedules, and the region's venues. Researched Oct 23, 2026 (research-elections-sourced-parameters): data/research/elections/cbp-2023-campaign-sellers.json holds County Business Patterns 2023 counts for NAICS 713, 721, 722, 722320 and 813410 for all 56 places: food services and drinking places are published in 3,152 of 3,246 county equivalents, so a stand-in is needed only where the town records none. No public hall fee schedule was sourced; the builder item elections-campaign-sellers-beyond-town reads the counts in src/core2/modules/campaigns.ts seller() and records the town's own halls.",
     "status": "open"
   },
   {
@@ -1793,12 +1793,12 @@
     "id": "SG-GOV-polling-place-kind",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 1799,
+    "line": 1887,
     "whatItFakes": "Where the town's records hold no government building, its polling places have no building and a kind of \"unread\"; where they hold one, every precinct votes in it.",
-    "why": "Polling place facility types (schools, churches, community centers, government buildings) by state are not read yet; the EAVS national brief reports the count of voting locations, not their kinds.",
+    "why": "The EAC's EAVS counts precincts and polling places by jurisdiction but does not ask what kind of building each polling place is; facility kinds are measured for one state only.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each state's polling place facility types from the EAC's full EAVS dataset and the town's own buildings of those kinds (its schools, churches and halls) as recorded places, one per precinct.",
+    "replacement": "Each precinct votes in one of the town's own buildings of a fitting kind (schools, churches, halls, government buildings), sharing a building as the place's precincts do. Researched Oct 23, 2026 (research-elections-sourced-parameters): data/research/elections/eavs-2024-polling-places.json holds the EAC's 2024 EAVS (public release V2) precincts, election-day polling places and early-voting sites for all 56 places, and facility shares measured in one state (County Commissioners Association of Pennsylvania, May 2026: religious 31 percent, government 19, schools and libraries 15, public safety 14, community and club 12, commercial and other 9), ESTIMATED for the rest. The builder item elections-polling-places-by-building-kind reads it in src/core2/modules/voting.ts pollingPlaces().",
     "status": "open"
   },
   {
@@ -1878,11 +1878,11 @@
     "kind": "estimated-calendar",
     "file": "src/core2/modules/elections.ts",
     "line": 402,
-    "whatItFakes": "A town's filing deadline where the state's municipal rule is unread (its row in filing-deadlines.json is 'unread'): the median number of days between the candidate filing deadline and the primary over the places with a 2026 row (85 days before the election). Rows tagged ESTIMATED there were read from search excerpts or summaries, not the current code.",
+    "whatItFakes": "For 4 of the 56 places a town's filing deadline is the estimate, because each municipality's charter or code sets it (Alaska, Delaware, Florida and Maryland, the rows marked unread in src/core2/data/elections/filing-deadlines.json): the median number of days between the candidate filing deadline and the primary over the places with a 2026 row (85 days before the election). 39 more rows there are tagged ESTIMATED (New York's among them: its party date, the first Thursday in April, is read, but an independent's petition closes 24 to 23 weeks before the general election and the row holds one date, so independents close about eight weeks early): read from search excerpts or summaries, not the current code.",
     "why": "Many states write the deadline against a primary, a charter or a window the town calendar does not hold, and each statute must be read to structure it.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each unread state's deadline rule read from its code into src/core2/data/elections/filing-deadlines.json, and each ESTIMATED row checked against the current statute.",
+    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): Guam (3 GCA 15201, 15206) and Puerto Rico (Electoral Code art. 7.14) read from their codes and tagged SOURCED, and New York (Elec. Law 6-158, 8-100) read for the party date and tagged ESTIMATED until a side-specific deadline is wired, read by src/core2/elections-calendar.ts municipalFilingDeadline. Still to do, in research-elections-filing-rules-statutes: each charter place's deadline estimated from a sample of its own municipal codes, and each ESTIMATED row checked against the current statute.",
     "status": "open"
   },
   {
@@ -1890,11 +1890,11 @@
     "kind": "missing-data",
     "file": "src/core2/modules/elections.ts",
     "line": 257,
-    "whatItFakes": "Where a place's filing row carries no filing office, minimum age or voter-registration rule (county offices in Alaska, Connecticut, Rhode Island, D.C. and the territories; municipal offices in Hawaii and two territories; Vermont's legislature), the median of the read values for that office family and the generic clerk title stand in.",
+    "whatItFakes": "Where a place's filing row carries no filing office, minimum age or voter-registration rule, the median of the read values for that office family and the generic clerk title stand in: the voter-registration rule of 27 statewide-executive rows and 8 state-legislative rows that say 'not specified' in data/research/elections/filing-requirements.json (the fallback requires registration), and every rule of the county rows of places with no county government (Alaska, Connecticut, Rhode Island, D.C. and the territories) and the municipal rows of Hawaii and two territories, where a contest of that family would have no law to read.",
     "why": "The place's law was not read into filing-requirements.json.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each place's own rule read into data/research/elections/filing-requirements.json.",
+    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): the 50 state U.S. House rows now read registeredVoterRequired false from U.S. Const. art. I, sec. 2, cl. 2 and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995), and Vermont's legislature takes 18 (Vt. Const. ch. II, sec. 15 sets no age), read by src/core2/modules/elections.ts filingRequirements. Still to do, in research-elections-filing-rules-statutes: each 'not specified' registration rule read from its state constitution or code.",
     "status": "open"
   },
   {
@@ -1913,12 +1913,12 @@
     "id": "SG-GOV-ballot-order-estimates",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 621,
-    "whatItFakes": "For 5 of the 56 places the ballot-order rule is read from a secondary source or assumed: American Samoa, Indiana's primary order, the Northern Mariana Islands, Pennsylvania's primary and general rules, the Virgin Islands (the rows marked estimate in data/research/elections/ballot-order-2026.json). The other 51 rows were checked against statute text.",
+    "line": 667,
+    "whatItFakes": "For 3 of the 56 places the ballot-order rule is read from a secondary source or assumed (the rows marked estimate in data/research/elections/ballot-order-2026.json): American Samoa (alphabetical assumed), the Northern Mariana Islands (lot, from the Commission's reported practice) and the Virgin Islands (lot, from the Elections System's notices citing 18 V.I.C. 419). The other 53 rows were checked against statute text.",
     "why": "The statute text for these places has not been read, or does not state the rule; each row's note says what is known.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Each remaining estimated row checked against its statute (the state election code, or the territory's) and its estimate flag cleared.",
+    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): Pennsylvania read from the Election Code (25 P.S. 2875, 2963) and Indiana's primary from Ind. Code 3-10-1-18, both estimate false; the Virgin Islands and the Northern Mariana Islands changed to lot from official notices and reporting. Still to clear, in research-elections-filing-rules-statutes: A.S.C.A. title 6's ballot-order section, the Commonwealth Election Commission's ballot regulation, and the text of 18 V.I.C. 419, each read and its estimate flag cleared. Read by src/core2/ballot-order.ts ballotOrderRule.",
     "status": "open"
   },
   {
@@ -3094,8 +3094,8 @@
     "why": "Ballotpedia and NASS couldn't be fetched, and Wikipedia has no current list for those offices.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-13",
-    "replacement": "Every row checked against Ballotpedia's partisan composition pages or the state's own records.",
-    "status": "open"
+    "replacement": "Resolved Oct 23, 2026 (research-offices-sourced-parameters): the 60 rows were each checked against a fetched page (each office's Ballotpedia page, or the state's or territory's official site, with Wikipedia once for the U.S. Virgin Islands Board of Education roster), and each row in data/research/offices/statewide-executive-parties-2026.json now carries its page, a quote and the holder on January 20, 2025 and January 1, 2026. 54 matched; 6 were corrected (Arizona's lieutenant governor and the Northern Marianas' are partisan-ballot offices, Guam's attorney general is nonpartisan, the Virgin Islands boards of education and elections print party labels, and the Georgia labor commissioner's seat was vacant on the opening day). Read by statewidePartyOf in src/core2/offices-state.ts, which seats each office's party at the opening. Original replacement: Every row checked against Ballotpedia's partisan composition pages or the state's own records.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-outside-revenue-monthly",
@@ -4193,10 +4193,10 @@
     "id": "SG-OFFICE-FED-trip-residents",
     "kind": "missing-record",
     "file": "src/core2/office-day-federal-president.ts",
-    "line": 719,
+    "line": 729,
     "whatItFakes": "The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.",
     "why": "Only the player's town has a counted population; other places are kept coarser.",
-    "replacement": "The other places' coarser populations (OPUS-CORE's wider world) fill in a met person from that place's own counts, as the player's town does.",
+    "replacement": "The other places' coarser populations fill in a met person from that place's own counts with a household, a job with an employer and pay that moves money (world-other-places-coarse-population). The age, job and wage a met person now takes from the place's counts (src/core2/coarse-place.ts) are the first part; the payroll and household are SG-WORLD-coarse-place-no-payroll.",
     "addedBy": "OFFICE-FEDERAL",
     "addedAt": "2026-10-14",
     "status": "open"
@@ -4723,12 +4723,12 @@
     "id": "SG-CORE-counted-death-relations",
     "kind": "missing-record",
     "file": "src/core2/births-counted.ts",
-    "status": "open",
+    "status": "resolved",
     "whatItFakes": "A known counted relative can receive a death notice, but opening full-to-counted family ties lack recorded closeness; grief is supported only where a relationship record already exists. No closeness is invented by the notifier.",
     "why": "The core opening skips relationship initialization when the other person is a husk. The bench also retains the full family closure; the drawn Garden City year had zero known counted deaths, so the notification path has no played-year acceptance yet.",
     "addedBy": "Session D / pool-counted-death-notices",
     "addedAt": "2026-10-15",
-    "replacement": "Initialize full-to-counted family relationship records through the shared core rule and reconcile the bench with the core opening; then prove a native counted death, notice and reaction in the same drawn played world.",
+    "replacement": "Resolved Oct 23: the core opening records each full person's tie to a counted relative with openingClosenessHours (state.ts), the bench builds its relatives as counted records through the same opening, births-counted.test.ts fails on a tie without closeness, and births-counted-death-notice.test.ts follows a counted relative's death in a played year to the notice and the full relative's grief.",
     "line": 89
   },
   {
@@ -5333,6 +5333,18 @@
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine prices schooling into hires and wages from the person's own schooling record (pool item world-schooling-to-pay).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-coarse-place-no-payroll",
+    "kind": "missing-mechanic",
+    "file": "src/core2/office-day-federal-president.ts",
+    "line": 727,
+    "whatItFakes": "A person met in a place other than the player's has the age, job and wage that place's counts show, kept as a fact on the person (identity:work), but no employer organization, payroll or household beyond themselves exists there, so no money moves for them and no engine reads the job yet.",
+    "why": "Only the player's town has employers with accounts and payroll; paying a visited town's workers means a money design for places the regional economy does not step person by person.",
+    "replacement": "The regional economy pays other places' workers from the place's counts (a wage flow per place, as the player's town has for its unplaced workers), and an engine that decides about a person (a view, a price, an eligibility) reads their job and wage.",
+    "addedBy": "world-other-places-coarse-population",
+    "addedAt": "2026-10-20",
     "status": "open"
   },
   {
@@ -6413,6 +6425,18 @@
     "addedBy": "claude/territory-admin-line",
     "addedAt": "2026-10-18",
     "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-counted-readers-stories",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/news.ts",
+    "line": 554,
+    "whatItFakes": "A printed story reaches an outlet's counted followers only as a count (the press engine's countedFollowers at delivery). Their groups' views do not move, so a story about the town's conditions, a policy or a law moves only the full readers it reached.",
+    "why": "A counted group's view is read from its opening profile alone; the views engine keeps no per-group stance that a story could move, and filling a member in would have to carry that moved stance.",
+    "addedBy": "effects lead (web-views-hear-conditions-full-readers)",
+    "addedAt": "2026-10-24",
+    "replacement": "people-counted-readers-stances-from-stories: each counted group a story reached moves by the full reader's rule times its count, citing the story's news record, and a member filled in from that group holds the moved view.",
     "status": "open"
   },
   {
