@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/traits-money
 pr: #5587
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 2026-10-24T16:31:51.741Z
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the jobs, money and housing family: borrowing, quitting, accepting a job, founding a business, moving, applying for a job, buying a home and an owner's draw must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
@@ -21,3 +22,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** src/core2/trait-decisions.ts, src/core2/choice.ts, src/core2/modules/credit.ts, src/core2/modules/business.ts, src/core2/data/parameters.json
 
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`). PR #5587 (branch claude/traits-money) holds most of it and has conflicted with main since Oct 21. Applying, buying a home and the owner's draw were saturated by circumstances on Oct 20 (founding's market-room reason weighs 6 against a lean held within -1 to 1, so personality turned 0 of 36,326 weighings); fix their reasons so circumstances vary, then calibrate. A PR for this family names this item on line 1 (`Pool item: traits-wire-money`) and `Lead: traits` in its body; a bare `traits-wiring-audit` on line 1 marked the audit done on merge, which is the auto-done bug.
+
+Sent back 2026-10-24 from PR #5587 (branch claude/traits-money): Family completion still defers saturated applying/buying/owner-draw/founding choices explicitly required by item Notes, with 0 percent turned and zero housing arrears calls despite the positive-call Done-when row; finish on that branch, merge main into it first.

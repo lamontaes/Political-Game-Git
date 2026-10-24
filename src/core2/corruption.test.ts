@@ -212,13 +212,24 @@ function corruptionCases(seed: string, placeKey?: string): void {
             !crimesKnownTo(api, row.id).length,
         )
         .sort((a, b) => b.liquidMinor - a.liquidMinor)[0]!;
-      const ask = (officialId: string, subjectId: string) =>
-        considerBribe(api, {
+      // A favor worth the outsider's own cash: a bribe is a share of it, so a
+      // taken one leaves them the money to ask again. At the fixed stake one
+      // taken bribe moved all of it in Dulac, Louisiana, and the next ask had
+      // nothing to offer.
+      const stakeMinor = core.people.get(outsider.id)!.liquidMinor;
+      const ask = (officialId: string, subjectId: string) => {
+        const record = considerBribe(api, {
           offererId: outsider.id,
           officialId,
-          stakeMinor: 50000000,
+          stakeMinor,
           subjectId,
-        })!;
+        });
+        expect(
+          record,
+          `${input.placeMetadata?.placeName}, seed ${seed}: ${outsider.id} asks ${officialId} (${subjectId}) with ${core.people.get(outsider.id)!.liquidMinor} cents`,
+        ).not.toBeNull();
+        return record!;
+      };
       const unheard = ask(taken.officialId, "reputation-before");
       expect(unheard.reasons.offer!.reputation, `${seed}`).toBe(0);
       expect(unheard.heardOf).toBeUndefined();
@@ -253,6 +264,13 @@ function corruptionCases(seed: string, placeKey?: string): void {
 corruptionCases(
   "7d4c701fc31a10350bc60db43d6af340a651c33e02de11d1a30d3b6d12e6dec6",
   "0937490",
+);
+
+// The regression: in Dulac, Louisiana one taken bribe spent the outsider's
+// whole cash before their last ask.
+corruptionCases(
+  "85dd5f6c7746eccd0c937fe4f99a09c9b2b151392136efcb5109e58c9de16b86",
+  "2221940",
 );
 
 // Three places drawn from all 56 on a fresh seed (set CORRUPTION_SEED to
