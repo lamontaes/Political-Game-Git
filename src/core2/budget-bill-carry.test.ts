@@ -33,18 +33,27 @@ it("a passed bill's line change carries into the next fiscal year, and a one-tim
       placeKey: place.key,
     });
     const api = coreAPI(core);
-    const gov = governments(api).find((g) => g.level === "state");
-    expect(gov, `${where}: a state government`).toBeDefined();
-    const current = () =>
-      budgetsOf(api, gov!.id)
+    // The town's governments, state first: the first whose budget this year
+    // funds at least two lines (a territory's or a district's state level
+    // may fund fewer).
+    const order = ["state", "county", "city"];
+    const currentOf = (id: string) =>
+      budgetsOf(api, id)
         .filter((b) => b.startsOn <= api.state.date)
         .sort((a, b) => a.startsOn.localeCompare(b.startsOn))
-        .at(-1)!;
+        .at(-1);
+    const funded = (id: string) =>
+      Object.keys(currentOf(id)?.spendingMinor ?? {})
+        .filter((line) => (currentOf(id)!.spendingMinor[line] ?? 0) > 0)
+        .sort();
+    const gov = governments(api)
+      .filter((g) => order.includes(g.level))
+      .sort((a, b) => order.indexOf(a.level) - order.indexOf(b.level))
+      .find((g) => funded(g.id).length >= 2);
+    expect(gov, `${where}: a government funding two lines`).toBeDefined();
+    const current = () => currentOf(gov!.id)!;
     const before = current();
-    const [carried, once] = Object.keys(before.spendingMinor)
-      .filter((line) => (before.spendingMinor[line] ?? 0) > 0)
-      .sort();
-    expect(once, `${where}: two funded lines`).toBeDefined();
+    const [carried, once] = funded(gov!.id);
     const enactedBefore = { ...enactedBudgetChanges(api, gov!.id) };
     const delta = 100_000_000;
     amendBudget(api, {
