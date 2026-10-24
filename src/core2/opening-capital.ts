@@ -35,7 +35,6 @@ export interface OpeningCapitalData {
   openingPriorNamespace: string;
   tailSpanParameter: string;
   spreadStopgapId: string;
-  spreadTargetRef: string;
   unsupportedOpening: {
     stopgapId: string;
     status: string;
@@ -119,8 +118,9 @@ function openingCapitalUnits(registry: Readonly<Record<string, Parameter>>) {
 
 /**
  * Continuous estimated opening-state quantile curve, not an empirical CDF.
- * Only its q25/median/q75 anchors are observed. Linear interpolation, uniform
- * startup ranks and extrapolated endpoints remain explicit open assumptions.
+ * Only its q25/median/q75 anchors are observed; the tail span that sets its
+ * endpoints is estimated from the report's drawn distribution. Linear
+ * interpolation and uniform startup ranks remain explicit open assumptions.
  * This pure calculator has no future year, deficit, refill or outcome input.
  */
 export function openingEmployerCashBufferAtQuantile(
@@ -168,22 +168,25 @@ export function openingEmployerCashBufferAtQuantile(
       `Opening capital requires a sourced estimated median and observed spread: ${industry}`,
     );
   const tail = registry[data.tailSpanParameter];
+  const tailSpread = tail?.spread;
   if (
     !tail ||
-    tail.tag !== "TUNABLE" ||
+    tail.tag !== "ESTIMATED" ||
     !tail.citation.trim() ||
     !tail.estimatedFrom?.trim() ||
     tail.stopgapId !== data.spreadStopgapId ||
-    !tail.spread ||
-    !("status" in tail.spread) ||
-    tail.spread.status !== "unmeasured" ||
-    !tail.spread.reason.trim() ||
-    !tail.checkRange ||
-    Object.keys(tail.checkRange).length !== one ||
-    tail.checkRange.ref !== data.spreadTargetRef
+    tail.checkRange !== undefined ||
+    !tailSpread ||
+    !("low" in tailSpread) ||
+    !Number.isFinite(tailSpread.low) ||
+    !Number.isFinite(tailSpread.high) ||
+    tailSpread.low < zero ||
+    tailSpread.low > tailSpread.high ||
+    !tailSpread.unit.trim() ||
+    !tailSpread.citation.trim()
   )
     throw new Error(
-      "Opening employer tail span requires its genuine open TUNABLE source and target",
+      "Opening employer tail span requires its estimated source and spread",
     );
   const tailSpan = p(data.tailSpanParameter);
   if (tailSpan < zero)
@@ -568,7 +571,7 @@ export function createOpeningEmployerCapital(
       asOf: at,
       generationPriorVintage: `${data.source.vintage}; ${projected.books.source.generationPriorVintage}`,
       citation: `${projected.books.source.citation} ${data.source.citation} ${row.citation} ${tail.citation}`,
-      estimatedFrom: `Fresh generated opening WHO stock: ${bufferDays} ${industry} cash-buffer days at stable firm startup quantile ${prior.startupQuantile}, times planned payroll plus compatible IRS accounting-cost proxy per actual calendar day from ${at} through ${through}. Scheduled terms are plans, not future paid wages. ${data.source.limit} ${projected.books.source.estimatedFrom} Real observed q25/median/q75 anchors are ${prior.observedBufferDays.percentile25}/${prior.observedBufferDays.median}/${prior.observedBufferDays.percentile75} days. Uniform identity-keyed ranks, continuous piecewise-linear interpolation and estimated endpoints ${prior.estimatedBufferEndpoints.low}/${prior.estimatedBufferEndpoints.high} days with tail span ${prior.tailSpan} are unmeasured assumptions, not observed minima/maxima or a fitted full distribution. No individual cash measurement, survival floor or identified owner-capital contribution is established.`,
+      estimatedFrom: `Fresh generated opening WHO stock: ${bufferDays} ${industry} cash-buffer days at stable firm startup quantile ${prior.startupQuantile}, times planned payroll plus compatible IRS accounting-cost proxy per actual calendar day from ${at} through ${through}. Scheduled terms are plans, not future paid wages. ${data.source.limit} ${projected.books.source.estimatedFrom} Real observed q25/median/q75 anchors are ${prior.observedBufferDays.percentile25}/${prior.observedBufferDays.median}/${prior.observedBufferDays.percentile75} days. Estimated endpoints ${prior.estimatedBufferEndpoints.low}/${prior.estimatedBufferEndpoints.high} days come from tail span ${prior.tailSpan}, estimated from the report's drawn all-industries distribution; they are not observed minima/maxima or a fitted full distribution. Uniform identity-keyed ranks and continuous piecewise-linear interpolation are unmeasured assumptions. No individual cash measurement, survival floor or identified owner-capital contribution is established.`,
     };
     gaps.add(
       `opening-capital:cash-debit-denominator-and-individual-crosswalk-unmeasured:${organization.id}`,
