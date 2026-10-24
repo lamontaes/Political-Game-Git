@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/candidacy-runner-files
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T12:58:37.578Z
 ---
 
 **What.** src/core2/candidacy-in-play.test.ts fails on clean main with PW3_SEED=0c6014c02a3b7d48 (Las Piedras, Puerto Rico): decision contest:seat:municipio:72085:board:0:2027-11-02:person_0e46e525eaeeb56b says run, the contest's filing day came, and the decision has no filing record. fileRunners (src/core2/modules/candidacy.ts) weighs the contest again when filing opens and files only that second weighing's runIds, so a runner from the first weighing who is not in the second keeps run true with no filing and no refusal. The laws lead found it in its gate on Oct 24 and confirmed it on main with the same seed.
