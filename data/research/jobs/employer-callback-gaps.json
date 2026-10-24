@@ -64,7 +64,7 @@
         "boundsNote": "Value: all four occupations, applicants 64 to 66 (about 35% lower). High: all four occupations, applicants 49 to 51 (about 18% lower). Low: administrative jobs, applicants 64 to 66 (7.6% against 14.4%, 0.53)."
       },
       "ratioMeaning": "Callbacks for applicants aged 64 to 66 relative to applicants aged 29 to 31 with otherwise matched resumes, all four occupations combined; the study's middle-aged (49 to 51) figure and its lowest occupation ratio bound the spread.",
-      "source": "Neumark, Burn and Button, \"Is It Harder for Older Workers to Find Jobs? New and Improved Evidence from a Field Experiment\", NBER Working Paper 21669 (the version published in the Journal of Political Economy, 2019), p. 27, read from https://www.nber.org/system/files/working_papers/w21669/w21669.pdf",
+      "source": "Neumark, Burn and Button, \"Is It Harder for Older Workers to Find Jobs? New and Improved Evidence from a Field Experiment\", NBER Working Paper 21669 (the version published in the Journal of Political Economy, 2019), printed p. 26 (PDF p. 28), read from https://www.nber.org/system/files/working_papers/w21669/w21669.pdf",
       "spreadAcrossPlaces": {
         "note": "Study range, not a place measure. The study's design has been debated (identical resumes leave older applicants with gaps in their history).",
         "tag": "ESTIMATED"
