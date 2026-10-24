@@ -1,6 +1,6 @@
 ---
 id: owner-employer-bias-source
-title: "What makes an employer pass over an applicant, so the discrimination ban has something to refuse"
+title: "Protected traits and owner views of groups, so the ruled employer pass-over has an input the ban can refuse"
 area: gov
 kind: owner-decision
 priority: 3
@@ -8,16 +8,16 @@ size: S
 status: blocked
 claimed-by: claude/political-game-pool-yucp92-f
 pr:
-blocked-on: spec: people carry no protected traits except age, so a ban has nothing to refuse
+blocked-on: spec: which protected traits a person carries, where they come from and how an owner forms a view of a group
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:02:36.413Z
 ---
 
-**What.** What makes an employer pass over an applicant? The discrimination ban (SG-GOV-REACH-A-discrimination) has nothing to refuse, because hiring in jobs.ts picks by fit (experience and reliability) and the applicant's own answer, and nothing records an employer's bias against a group. A refusal drawn from the law alone would be a dice roll. The question is which recorded thing makes an employer pass over someone: a trait of the owner or hiring manager, a view about a group, or a record of past complaints.
+**What.** The owner has ruled (OWNER-DECISIONS.md, "Employer passing over an applicant", #5102): an employer's pass-over comes from the owner's or hiring manager's traits and views read against the applicant's record, with the reasons recorded, and the discrimination ban (SG-GOV-REACH-A-discrimination) refuses a decision whose recorded reasons cite a protected trait. No dice. What is still missing is the population input: a person (`PersonInput` in src/core2/types.ts) carries no protected trait except age (`birthDate`), and the owner's views of groups do not exist, and the hire pick in src/core2/modules/jobs.ts (experience, reliability, referral) reads neither.
 
-**Rules.** No dice. Owner decisions are flagged, never waited on: until he rules, the discrimination ban stays an open stopgap and nothing is built on a guess.
+**Rules.** No dice: the pass-over comes from recorded traits, views and the applicant's record, never a roll. Owner decisions are flagged, never waited on: the open work is the population spec below, not the question of the source. Until it is built the ban stays an open stopgap.
 
-**Done when.** The owner has named the source of an employer's bias in OWNER-DECISIONS.md, and a build item exists that reads it. Nothing in this item is built.
+**Done when.** A spec names which protected traits a person has, where they come from (census data, per place), and how an owner's view of a group is formed; a build item exists that reads it in the hire pick and records the reasons. Nothing in this item is built.
 
 **Files.** docs/coordination/OWNER-DECISIONS.md
 
