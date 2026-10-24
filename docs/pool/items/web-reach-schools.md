@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/web-reach-schools
+status: open
+claimed-by:
 pr: #5934
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-24T09:04:23.795Z
+claimed-at:
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the school outcomes family: 15 unwired links, 2 where the owning engine does not read the factor and 13 where nothing keeps the outcome. Their outcomes: school.test-scores, school.graduation, school.absence, school.learning, school.years-completed, school.college-completion-pct and the rest. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T09:04:23.795Z
 **Files.** src/core2/modules/school.ts, src/core2/school-outcomes.ts (on branch effect-web-schools), src/core2/outcome-web-reach.ts
 
 **Notes.** Split Oct 24 by the CTO from the effect-web audit (order `docs/work-orders/lead-effects-2026-10-24.md`). Counts from the capstone branch's unwired list on Oct 23 (effect-web-integration). The school outcomes engine is in review on branch effect-web-schools, with the income-fifth fix `world-school-income-same-tiers`; most of the 13 "no measure" links are measures that engine keeps. A PR names this item on line 1 and `Lead: effects` in its body.
+
+Sent back 2026-10-24 UTC from PR #5934 (branch claude/web-reach-schools): three carried reaching links lack the per-link played outside-web record IDs explicitly required in the PR body; add records and place/seed tied to matrix/twin proof; finish on that branch, merge main into it first.
