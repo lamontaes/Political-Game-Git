@@ -3101,9 +3101,9 @@
     "id": "SG-GOV-outside-revenue-monthly",
     "kind": "faked-mechanic",
     "file": "src/core2/data/outside-flows.json",
-    "line": 210,
-    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes come from named groups of payers on their due dates), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
-    "why": "Real payers outside the town (the rest of the state's taxpayers, fee payers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
+    "line": 228,
+    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes, and charges and fees, come from named groups of payers on their due dates), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
+    "why": "Real payers outside the town (the rest of the state's taxpayers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each revenue line from its real payer on its real dates, and each spending line to its real payees on theirs.",
@@ -3118,7 +3118,7 @@
     "why": "gov-outside-revenue-fees-wiring (p1): the fees line was an even twelfth from the outside account that no household or business paid. The game does not yet model each service's use (a student's tuition, a hospital stay, a sewer bill by dwelling), so the charges follow what a household spends.",
     "addedBy": "CLAUDE-GOV",
     "addedAt": "2026-10-16",
-    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines.",
+    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines. (pool item gov-service-charges-by-use).",
     "status": "open"
   },
   {
@@ -6534,6 +6534,18 @@
     "addedBy": "effects lead (web-views-lived-crime-moves-stance)",
     "addedAt": "2026-10-24",
     "replacement": "people-counted-victims-lived-crime: each counted group a tally row names moves its view on the police by the full victim's rule times the tally's count, citing the tally row, and a member filled in from that group holds the moved view.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-fee-level-by-bill",
+    "kind": "owner-decision",
+    "file": "src/core2/budgets-service-charges.ts",
+    "line": 129,
+    "whatItFakes": "A government's charges and fees follow its budget's charges line; no council or legislature bill sets a fee's level (a transit fare, a park fee), so a player cannot raise one by bill.",
+    "why": "Whether councils set fees by bill is the owner's call: a real-world step the game lacks is a question, not a feature (DECISION-REGISTER, Oct 14). Asked in OWNER-DECISIONS.md, Open.",
+    "addedBy": "claude/outside-revenue-fees",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's ruling: either the charges line stays the budget's, or a fee-schedule provision on a bill that the budget's charges line and the households' payments read. (pool item gov-fee-level-by-bill).",
     "status": "open"
   }
 ]
