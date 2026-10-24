@@ -3599,7 +3599,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -3645,7 +3645,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -4081,7 +4081,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -4225,7 +4225,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -4274,7 +4274,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -4420,7 +4420,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -5910,7 +5910,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:3290 size -0.04, range [-0.13, 0.1], Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerd\u00e1 et al. 2017 (JAMA Pediatrics)"
+          "evidence": "data/research/outcome-web/links.json:3290 size -0.04, range [-0.13, 0.1], Anderson, Hansen, Rees and Sabia 2019 (JAMA Pediatrics); Cerdá et al. 2017 (JAMA Pediatrics)"
         },
         "reaches": {
           "status": "fail",
@@ -7620,7 +7620,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -10712,7 +10712,7 @@
     {
       "measure": "births.rate",
       "status": "engine-reads-web",
-      "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604",
+      "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
