@@ -975,6 +975,8 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   let requested =
     base + (flow.kind === "wages" || carries ? flow.arrearsMinor : 0);
   let paid: number;
+  let groupsCarried = 0;
+  let groupsWrittenOff = 0;
   if (countedPays) {
     // Each counted group pays its own part from its own account: purchases
     // that follow income at its month's scale, rent and mortgages as owed.
@@ -984,7 +986,12 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       id: `${flow.id}@${date}`,
       flow,
       requested: base,
-      ...(carries ? { carry: rt.livingArrears } : {}),
+      ...(carries
+        ? {
+            carry: rt.livingArrears,
+            carryCeilingBills: api.parameter("livingCostWriteOffBills"),
+          }
+        : {}),
       reasonKey: flow.financeKind,
       source: flow.source,
       ...(scaled
@@ -1035,6 +1042,8 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
         ];
       },
     });
+    groupsCarried = charged.carried;
+    groupsWrittenOff = charged.writtenOff;
     requested = 0;
     for (const [group, row] of charged.byGroup) {
       requested += row.asked;
@@ -1103,13 +1112,17 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     // monthly bills) is written off: it stays on the books as written off and
     // is not asked again, so a household with no job and no cash does not owe
     // a growing sum forever.
+    // Counted groups each hold their own balance, charged off at the same age.
     const owed = requested - paid;
     const ceiling = Math.round(
       flow.amountMinor * api.parameter("livingCostWriteOffBills"),
     );
-    flow.arrearsMinor = Math.min(owed, ceiling);
-    if (owed > ceiling)
-      flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + (owed - ceiling);
+    flow.arrearsMinor = countedPays ? groupsCarried : Math.min(owed, ceiling);
+    const written = countedPays
+      ? groupsWrittenOff
+      : Math.max(0, owed - ceiling);
+    if (written > 0)
+      flow.writtenOffMinor = (flow.writtenOffMinor ?? 0) + written;
   }
   flow.lastRequestedMinor = requested;
   flow.lastPaidMinor = paid;

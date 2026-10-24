@@ -176,40 +176,112 @@ it("writes off a jobless household's living cost unpaid past the charge-off age,
   }
 }, 3_600_000);
 
-it("the wider population carries what a group could not pay of its living cost, and the books balance", () => {
+it("a full household and a counted group each carry a living cost across a day with no new bill and repay it when cash arrives, and the books balance", () => {
   setBookkeeping(false);
   try {
-    const draw = drawPlace(seed, "living-costs-arrears-counted");
-    const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: draw.key,
-    });
-    const where = `${draw.key} [${draw.state}], seed ${draw.seed}`;
-    advanceCore(core, addDays(makeIsoDate(core.date), 90));
-    const rt = residentsRuntime(core)!;
-    // A counted living-cost flow holds as arrears exactly what its groups owe.
-    const counted = [...rt.flows.values()].filter(
-      (flow) =>
-        flow.financeKind === "household.outside-living-costs" &&
-        !flow.endedAt &&
-        flow.payerId === flow.residentsId,
-    );
-    expect(
-      counted.length,
-      `${where}: counted living-cost flows`,
-    ).toBeGreaterThan(0);
-    const owedByGroups = [...rt.livingArrears.values()].reduce(
-      (n, v) => n + v,
-      0,
-    );
-    const owedByFlows = counted.reduce((n, flow) => n + flow.arrearsMinor, 0);
-    expect(owedByFlows, `${where}: flows carry what groups owe`).toBe(
-      owedByGroups,
-    );
-    expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
-      core.cashJournal.totals.grossCreditMinor,
+    // A year, a day at a time, in places drawn from all 56 until one shows all
+    // four witnesses; every place tried is named when none does.
+    const tried: string[] = [];
+    for (let n = 0; n < 6; n += 1) {
+      const draw = drawPlace(`${seed}:${n}`, "living-costs-arrears-both-tiers");
+      const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const where = `${draw.key} [${draw.state}], seed ${draw.seed}`;
+      const rt = residentsRuntime(core)!;
+      const living = () =>
+        [...rt.flows.values()].filter(
+          (flow) =>
+            flow.financeKind === "household.outside-living-costs" &&
+            !flow.endedAt,
+        );
+      // Yesterday's owed amount and next bill date, by full flow and by
+      // counted group.
+      const flowBefore = new Map<string, { owed: number; nextAt: string }>();
+      const groupBefore = new Map<number, number>();
+      const seen: Record<
+        "fullCarried" | "fullRepaid" | "countedCarried" | "countedRepaid",
+        string | undefined
+      > = {
+        fullCarried: undefined,
+        fullRepaid: undefined,
+        countedCarried: undefined,
+        countedRepaid: undefined,
+      };
+      for (const flow of living())
+        flowBefore.set(flow.id, {
+          owed: flow.arrearsMinor,
+          nextAt: flow.nextAt,
+        });
+      for (const [group, owed] of rt.livingArrears)
+        groupBefore.set(group, owed);
+      for (let day = 0; day < 365; day += 1) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        const flows = living();
+        // A day with no new bill: no living-cost flow moved its next bill date.
+        const noNewBill = flows.every(
+          (flow) => flowBefore.get(flow.id)?.nextAt === flow.nextAt,
+        );
+        if (noNewBill) {
+          for (const flow of flows) {
+            const before = flowBefore.get(flow.id);
+            if (!before || flow.payerId === flow.residentsId) continue;
+            if (before.owed > 0 && flow.arrearsMinor > 0)
+              seen.fullCarried ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}`;
+            if (before.owed > 0 && flow.arrearsMinor < before.owed)
+              seen.fullRepaid ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}, settled as ${flow.id}@${core.date}`;
+          }
+          for (const [group, owed] of rt.livingArrears) {
+            const before = groupBefore.get(group) ?? 0;
+            const flowId = flows.find((f) => f.payerId === f.residentsId)?.id;
+            if (before > 0 && owed > 0)
+              seen.countedCarried ??= `group ${group} on ${core.date}: owed ${before} then ${owed}`;
+            if (before > 0 && owed < before)
+              seen.countedRepaid ??= `group ${group} on ${core.date}: owed ${before} then ${owed}, settled as ${flowId}@${core.date}`;
+          }
+        }
+        for (const flow of flows)
+          flowBefore.set(flow.id, {
+            owed: flow.arrearsMinor,
+            nextAt: flow.nextAt,
+          });
+        for (const [group, owed] of rt.livingArrears)
+          groupBefore.set(group, owed);
+        // Every day: the flow's arrears hold exactly what its groups owe, and
+        // the journal balances.
+        if (day % 30 === 0 || day === 364) {
+          const counted = flows.filter((f) => f.payerId === f.residentsId);
+          const byGroups = [...rt.livingArrears.values()].reduce(
+            (a, v) => a + v,
+            0,
+          );
+          expect(
+            counted.reduce((a, f) => a + f.arrearsMinor, 0),
+            `${where} on ${core.date}: counted flows carry what groups owe`,
+          ).toBe(byGroups);
+          expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
+            core.cashJournal.totals.grossCreditMinor,
+          );
+        }
+      }
+      if (Object.values(seen).every(Boolean)) {
+        process.stdout.write(
+          `living-cost arrears: ${where}\n  full carried: ${seen.fullCarried}\n  full repaid: ${seen.fullRepaid}\n  counted carried: ${seen.countedCarried}\n  counted repaid: ${seen.countedRepaid}\n`,
+        );
+        return;
+      }
+      tried.push(
+        `${where}: ${Object.entries(seen)
+          .filter(([, v]) => !v)
+          .map(([k]) => k)
+          .join(", ")} missing`,
+      );
+    }
+    throw new Error(
+      `no drawn place showed a carried and a repaid living cost in both tiers: ${tried.join("; ")}`,
     );
   } finally {
     setBookkeeping(true);
   }
-}, 600_000);
+}, 3_600_000);
