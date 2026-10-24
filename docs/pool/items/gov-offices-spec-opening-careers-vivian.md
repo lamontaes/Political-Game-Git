@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/offices-careers-vivian
 pr: #5910
 blocked-on:

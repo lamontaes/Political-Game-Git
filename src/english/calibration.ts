@@ -178,12 +178,16 @@ export function sentenceCount(text: string): number {
 
 /**
  * Re-weights a bank's variants by the table: the piece's running grade, the
- * length it suits and the move before it. Returns the same array untouched
- * when every factor is 1 (so an empty table changes no pick). Weights are
- * integers, which the stable pick needs.
+ * length and bearing the speaker's traits favor, and the move before it.
+ * Returns the same array untouched when every factor is 1 (so an empty table
+ * changes no pick). Weights are integers, which the stable pick needs.
  */
 export function calibratedVariants<
-  V extends { readonly key: string; readonly weight?: number },
+  V extends {
+    readonly key: string;
+    readonly weight?: number;
+    readonly bearing?: string;
+  },
 >(
   variants: readonly V[],
   context: {
@@ -213,6 +217,7 @@ export function calibratedVariants<
             context.traits,
             table,
           )) *
+      bearingFactor(variant.bearing, context.traits, table) *
       movePairFactor(context.previousMove, context.moveOf?.(variant), table)
     );
   });

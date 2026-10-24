@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-drives
 pr: #5909
 blocked-on:
