@@ -2986,7 +2986,7 @@
     "why": "knockDoors walks only the households already in the core; in the two-level world most of the town is counts.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-GOV\u2019s knockDoors (with OPUS-CORE\u2019s fillInPerson) filling in each household it actually reaches. Resolved by Second Session D, October 15, 2026: removed bench fillDoors; campaigns.walkDoors already visits both population tiers and knockDoors fills only the household whose adult actually opens.",
+    "replacement": "OPUS-GOV’s knockDoors (with OPUS-CORE’s fillInPerson) filling in each household it actually reaches. Resolved by Second Session D, October 15, 2026: removed bench fillDoors; campaigns.walkDoors already visits both population tiers and knockDoors fills only the household whose adult actually opens.",
     "status": "resolved"
   },
   {
@@ -4556,8 +4556,8 @@
     "kind": "missing-record",
     "file": "src/core2/data/offices/body-names.json",
     "line": 6,
-    "whatItFakes": "A municipal collective in a town whose government the game has not compiled is named after the town and \"Council\"; a compiled town's body takes the name its charter gives it.",
-    "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name.",
+    "whatItFakes": "A municipal collective whose listing name gives no kind of municipality (no \"CITY OF\", \"TOWN OF\", \"VILLAGE OF\" or \"BOROUGH OF\") and whose government the game has not compiled is named after the town and \"Council\"; a compiled town's body takes the name its charter gives it, and any other town the usual body of its kind in its state (municipalByState and municipalByKind in the same file).",
+    "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
     "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
