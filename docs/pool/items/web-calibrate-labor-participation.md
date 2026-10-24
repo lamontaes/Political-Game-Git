@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts,src/core2/data/outcome-web/coverage.json,src/core2/data/outcome-web/outcome-web.json
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5776 (branch claude/labor-participation-web): the first Done-when row explicitly says Not met (0.4 percent observed versus the researched calibration), and the body still presents the disputed full/count employment-share comparison corrected in a later comment; give the wiring-only slice a bounded item/table and correct the body; finish on that branch, merge main into it first.
