@@ -3257,6 +3257,17 @@
       "timing": "at-cause",
       "causes": [
         {
+          "match": {
+            "label": "cause:event:bill-failed",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "sponsorId", "is": "subject" }]
+          },
+          "causeEngine": "legislature",
+          "causeRecord": "bill-failed",
+          "bind": { "aide": "staff", "you": "subject" },
+          "opener": "aide"
+        },
+        {
           "awaitingProducer": "staff-news",
           "causeEngine": "press",
           "causeRecord": "press.exposed",

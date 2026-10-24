@@ -122,6 +122,18 @@ export function purposeScene(
       text: said.problem,
       sourceRecordIds: [moment.causeId],
     };
+  // A bill that lost a vote (legislature.ts recordFailure): the lines about a
+  // lost vote need it, where it lost, and the count, against to for.
+  if (record?.kind === "bill-failed") {
+    const lost = { text: said.number ?? "", sourceRecordIds: [moment.causeId] };
+    facts["bill-lost"] = lost;
+    facts[said.stage === "committee" ? "lost-in-committee" : "lost-on-floor"] =
+      lost;
+    facts.tally = {
+      text: `${said.no} to ${said.yes}`,
+      sourceRecordIds: [moment.causeId],
+    };
+  }
   if (said.office)
     facts.office = {
       text: said.office,

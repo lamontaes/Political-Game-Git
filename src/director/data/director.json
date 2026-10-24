@@ -1269,6 +1269,11 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "bill-failed",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "executive-action",
       "channel": "cause",
       "impactParameter": "directorExecutiveActionImpact"
