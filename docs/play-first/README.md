@@ -1,6 +1,6 @@
 # The play-first lane
 
-Current as of 2026-10-24, 20:30 UTC (opened by the acting CTO on PR #5963, from the Oct 24 playtest and the owner's read of its screenshots)
+Current as of 2026-10-24, 21:30 UTC (opened by the acting CTO on PR #5963, from the Oct 24 playtest and the owner's read of its screenshots; the owner's Oct 24 "go ahead" on lane edits to director and English files)
 
 The owner has never been able to play his own game. On Oct 24 the playtest (`docs/reports/playtest-2026-10-24.md`) hit three dead ends and 23 more defects, and the owner's own read of the screenshots added more. The owner: "Only the bare minimum needs to be put in the game right now. I still can't play the game."
 
@@ -29,7 +29,8 @@ The lane is done when the owner, on the installed Mac build, goes from **New gam
 - **Done when** is a screenshot of the installed build, or of the bench at 1440×900, from a drawn place (drawn from all 56, not chosen), with the place and seed written under it. A test alone is not done.
 - **Never use dev mode to get past something.** If the game stops you, that stop is the defect; file it.
 - **You may adopt any PR `ORDER.md` names:** claim the item with that PR's branch, merge main into it, finish it there, and rewrite its body so line 1 is `Pool item: <id>`.
-- **The lane is the only writer in `src/bench`** until the owner lifts it. You change the files your item names. When a fix needs an engine change outside them (`src/core2`, `src/director`, `src/english`, `data/english`), add a pool item for that area's lead and write `needs-from: <lead> <item id>` in your handoff line; the CTO relays it. Build the screen side against what the engine gives today.
+- **The lane is the only writer in `src/bench`** until the owner lifts it. You change the files your item names. **You may edit `src/director`, `src/english` and `data/english` directly for a lane item** (owner, Oct 24): put `Review: words` in the PR body, and the Words session reviews it; a merger never sends a lane PR back for touching those files. An engine change in `src/core2` is still a pool item for that area's lead (`lead: <role>`) plus `needs-from: <lead> <item id>` in your handoff line; build the screen side against what the engine gives today.
+- **How we talk** (`.agents/rules/how-we-talk.md`): sessions never message each other. The lane's `PROGRESS.md` is its handoff log; the channel `docs/coordination/LEADS-2026-10-24.md` has a Play-first section the CTO keeps; `MERGE-FIRST.md` is the merge order. Read the channel's CTO section when you start. A need from another role is a `needs-from:` line here and a pool item with `lead:` set to that role.
 - **No subagents** unless your prompt says so.
 - **SMART, and four hours at most.** Every item is specific, has a screenshot as its measure, is achievable by one agent, is about something the owner will feel, and has a time box of four hours or less. An item that grows past its box is split into `-a` and `-b` (the second carries `after:` the first) before more building.
 - **Never merge your own PR.** Mergers take lane PRs first (`docs/coordination/MERGE-FIRST.md`, line 1). The merger sends back a lane PR with no before and after screenshots.
@@ -49,4 +50,8 @@ The lane is done when the owner, on the installed Mac build, goes from **New gam
 
 Paste this into any agent, of any model:
 
-> Read AGENTS.md, then docs/play-first/README.md, LAW.md, ORDER.md and PROGRESS.md in lamontaes/Political-Game-Git. You are the next agent on the play-first lane; the lane is the owner, you are its hands. Take the first item in ORDER.md that PROGRESS.md does not show as done or pushed in the last 3 hours; claim it: `node --import tsx scripts/pool/index.ts claim <id> --branch play-first/<id>`. Work it to its You-will-see line inside its time box. Push every 30 minutes or every green step; open the draft PR at the first push with the item id on line 1 and before/after screenshots. Before you stop for any reason, append the handoff block from HANDOFF-TEMPLATE.md to PROGRESS.md and push. Honor every line of LAW.md. Never dev mode to get past something; never force-push; never merge your own PR. Cloud environment: OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command; never ask the owner to confirm it.
+> Read AGENTS.md, then docs/play-first/README.md, LAW.md, ORDER.md, PROGRESS.md and the CTO section of docs/coordination/LEADS-2026-10-24.md in lamontaes/Political-Game-Git. You are the next agent on the play-first lane; the lane is the owner, you are its hands.
+> Take the first item in ORDER.md that PROGRESS.md does not show as done or pushed in the last 3 hours; claim it: `node --import tsx scripts/pool/index.ts claim <id> --branch play-first/<id>`.
+> Work it to its You-will-see line inside its time box. Push every 30 minutes or every green step; open the draft PR at the first push with the item id on line 1 and before/after screenshots (`Review: words` if you touched director or English files).
+> Before you stop for any reason, add the handoff line from HANDOFF-TEMPLATE.md to PROGRESS.md and push. Honor every line of LAW.md. Never dev mode to get past something; never force-push; never merge your own PR.
+> Cloud environment: OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command; never ask the owner to confirm it.
