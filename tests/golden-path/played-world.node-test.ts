@@ -53,7 +53,11 @@ import {
   ballot,
   incumbentOf,
 } from "../../src/core2/modules/elections";
-import { officialCandidateId, resultOf } from "../../src/core2/modules/voting";
+import {
+  VOTING_MODULE_ID,
+  officialCandidateId,
+  resultOf,
+} from "../../src/core2/modules/voting";
 import { WORLD_RACES_MODULE_ID } from "../../src/core2/modules/world-races";
 import { WORLD_LEGISLATING_MODULE_ID } from "../../src/core2/modules/world-legislating";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
@@ -645,15 +649,41 @@ function playWorld(seed: string) {
   );
   // A race nobody filed for has no one to vote for: that is a candidacy
   // matter (who runs), counted under "a named challenger runs", not a silent
-  // counted population.
-  const silent = local.filter(
+  // counted population. Each counted ballot keeps the voter's choice, the
+  // share of the people they stand for who turn out, and how many they stand
+  // for; a race is silent when no counted voter chose anyone, or when the
+  // counted votes those ballots add up to are missing from the result. A
+  // town whose counted adults add up to under two expected voters (a tiny
+  // town is nearly all full people; the result also takes out non-citizens)
+  // can record zero votes honestly: that is rounding, not a silent counted
+  // population.
+  const countedOf = (contestId: string) =>
+    rowsOf(core, VOTING_MODULE_ID, "countedBallots").find(
+      (r) => r.contestId === contestId,
+    ) as
+      | {
+          choice: number[];
+          voted: number[];
+          weight: number[];
+        }
+      | undefined;
+  const judged = local.filter(
     (c) =>
       ballot(api, String(c.id)).length > 0 &&
-      Object.values(resultOf(api, String(c.id))!.countedVotes).reduce(
-        (n, v) => n + v,
-        0,
-      ) === 0,
+      (countedOf(String(c.id))?.choice.length ?? 0) > 0,
   );
+  const silent = judged.filter((c) => {
+    const kept = countedOf(String(c.id))!;
+    const chose = kept.choice.some((x) => x >= 0);
+    const expected = kept.choice.reduce(
+      (n, x, i) => (x >= 0 ? n + kept.voted[i]! * kept.weight[i]! : n),
+      0,
+    );
+    const recorded = Object.values(
+      resultOf(api, String(c.id))!.countedVotes,
+    ).reduce((n, v) => n + v, 0);
+    return !chose || (expected >= 2 && recorded === 0);
+  });
   const empty = held.filter((c) => !ballot(api, String(c.id)).length);
   verdicts["every race has someone on the ballot"] = !held.length
     ? unobserved("no race was decided in the run")
@@ -669,16 +699,20 @@ function playWorld(seed: string) {
       : pass(`all ${held.length} races had someone on the ballot`);
   verdicts["counted voters vote in local races"] = !local.length
     ? unobserved("no local race was decided in the run")
-    : !silent.length
-      ? pass(`counted voters voted in all ${local.length} local races`)
-      : fail(
-          `${silent.length} of ${local.length} local races decided in the run had no votes from the counted population (for example ${silent
-            .slice(0, 3)
-            .map((c) => c.title)
-            .join(
-              "; ",
-            )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
-        );
+    : !judged.length
+      ? unobserved(
+          `${local.length} local races decided and no counted adult lives in the town`,
+        )
+      : !silent.length
+        ? pass(`counted voters voted in all ${judged.length} local races`)
+        : fail(
+            `${silent.length} of ${judged.length} local races decided in the run had no votes from the counted population (for example ${silent
+              .slice(0, 3)
+              .map((c) => c.title)
+              .join(
+                "; ",
+              )}). Voting (src/core2/modules/voting.ts holdElection) must give counted voters choices in races without party labels (a race with no one on its ballot is not counted).`,
+          );
 
   // Break 12: the counted population changes.
   // A full couple's own decision, not a counted birth: counted births are
