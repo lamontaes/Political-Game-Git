@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/budgets-public-pay.test.ts, src/core2/modules/budgets.ts
 
-**Notes.** TODO
+**Notes.** The failing run was on PR #5845's branch with PR #5782's change applied (each withholding posting's id names its tax, src/core2/modules/budgets.ts). The same test passed on that branch without the change once, and with it twice, so whether the change matters was not established.
