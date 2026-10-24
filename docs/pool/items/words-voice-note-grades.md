@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: words/voice-note-grades
 pr: #5906
 blocked-on:

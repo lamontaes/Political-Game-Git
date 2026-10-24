@@ -1517,7 +1517,19 @@ body.dev .dev-ring {
   top: var(--gutter);
   right: var(--gutter);
   width: 380px;
+  max-height: calc(100% - 2 * var(--gutter));
+  display: flex;
+  flex-direction: column;
   padding: 14px 18px;
+}
+/* The platform questions scroll inside the panel; the panel fits the screen. */
+#filing-platform {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+}
+#game.filing-open #news-surface {
+  visibility: hidden;
 }
 #filing-overlay .name {
   margin-bottom: 8px;
