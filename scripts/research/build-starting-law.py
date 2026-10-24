@@ -11,7 +11,6 @@ Inputs (all under data/research):
   money/state-income-tax-2026.json              state single-filer schedules
   money/state-corporate-income-tax-2026.json    state corporate income tax rates and brackets
   money/death-taxes-2026.json                   estate and inheritance taxes
-  money/minimum-wage-dated-matrix-2026.json     also the public pay floor (the federal minimum wage over a full-time year)
   laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
 
@@ -435,35 +434,11 @@ def property_taxes():
     }
 
 
-FULL_TIME_HOURS_A_YEAR = 2080  # 40 hours a week for 52 weeks
-
-
-def public_pay_floor(rows):
-    """The public pay floor in force everywhere at the opening: public agencies
-    are covered by the federal minimum wage (FLSA), so no public job pays less
-    than the federal minimum wage over a full-time year. One federal row; a
-    federal floor binds every level under it, as the FLSA binds every public
-    agency (src/core2/public-pay-floor.ts)."""
-    matrix = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")
-    federal = matrix["federalFloor"]
-    rows.append(row(
-        "US", "federal", "public-pay-floor",
-        round(federal["value"] * FULL_TIME_HOURS_A_YEAR / 100),
-        federal["operativeAt"], FOREVER,
-        "U.S. Department of Labor, Wage and Hour Division, Fact Sheet #7, State and Local Governments Under the Fair Labor Standards Act "
-        "(https://www.dol.gov/agencies/whd/fact-sheets/7-flsa-state-local-government): covered nonexempt public employees must receive the federal "
-        "minimum wage (29 U.S.C. 203(x), 206(a)(1)(C)); " + federal["source"] + ". Annualized over a 2,080-hour full-time year "
-        "(40 hours a week for 52 weeks), an estimate of the yearly pay that wage guarantees.",
-        True, unit="dollars/year",
-        terms={"fullTimeHours": FULL_TIME_HOURS_A_YEAR, "hourlyMinor": federal["value"]}))
-
-
 def main():
     rows = []
     minimum_wages(rows)
     local_wage_authority(rows)
     payroll_taxes(rows)
-    public_pay_floor(rows)
     business_taxes(rows)
     death_taxes(rows)
     income_taxes(rows)

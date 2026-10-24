@@ -44,19 +44,6 @@
       },
       {
         "level": "federal",
-        "series": "public-pay-floor",
-        "tier": "general",
-        "value": 15080,
-        "effectiveDate": "2009-07-24",
-        "endDate": null,
-        "source": "U.S. Department of Labor, Wage and Hour Division, Fact Sheet #7, State and Local Governments Under the Fair Labor Standards Act (https://www.dol.gov/agencies/whd/fact-sheets/7-flsa-state-local-government): covered nonexempt public employees must receive the federal minimum wage (29 U.S.C. 203(x), 206(a)(1)(C)); https://www.dol.gov/agencies/whd/minimum-wage/history/chart. Annualized over a 2,080-hour full-time year (40 hours a week for 52 weeks), an estimate of the yearly pay that wage guarantees.",
-        "retrieved": "2026-10-12",
-        "estimate": true,
-        "unit": "dollars/year",
-        "terms": { "fullTimeHours": 2080, "hourlyMinor": 725 }
-      },
-      {
-        "level": "federal",
         "series": "federal-unemployment-tax",
         "tier": "general",
         "value": 0.6,

@@ -262,17 +262,6 @@ function run(specId: string) {
   const enacted: Record<string, string[]> = {};
   for (const [name, key] of Object.entries(KEYS))
     if (name !== "raise") enacted[name] = setQuestion(api, key, 1, name);
-  const publicFloor = enactLaw(api, {
-    jurisdiction: lawChain(api).levels.find((l) => l.level === "city")!
-      .jurisdiction,
-    level: "city",
-    series: "public-pay-floor",
-    value: 90_000,
-    unit: "dollars/year",
-    effectiveDate: addDays(makeIsoDate(api.state.date), 1),
-    measureId: "labor-public-pay-floor",
-    citation: "Labor law-wiring test",
-  });
   step(3);
   // Day 5: the local wage bill is drafted under the state's grant; claims are
   // filed by the jobs engine for a full and a counted worker.
@@ -335,7 +324,7 @@ function run(specId: string) {
     authority.some((r) => r.targetId === draftedAt),
     `authority: the drafting body ${draftedAt} was not reached`,
   );
-  // ---- paid leave, bargaining, right to work, teacher, public floor --------
+  // ---- paid leave, bargaining, right to work, teacher ---------------------
   const leave = rows(api, KEYS.leave);
   need(
     leave.some((r) => r.target === "person" && r.amountMinor > 0),
@@ -358,11 +347,6 @@ function run(specId: string) {
   );
   const teacher = rows(api, KEYS.teacher);
   need(teacher.length > 0, "teacher: no teacher raised");
-  const floor = rows(api, "public-pay-floor");
-  need(
-    floor.some((r) => r.amountMinor > 0),
-    `public-pay-floor: no public worker raised (${publicFloor.id})`,
-  );
   // ---- payroll taxes and unemployment ---------------------------------------
   for (const s of taxes) {
     const list = rows(api, s);
@@ -516,7 +500,6 @@ function run(specId: string) {
       "none: the grant moves no money; the wage a council then enacts is the minimum-wage law's",
   );
   cite("public-sector-collective-bargaining", KEYS.bargaining, raised, paid);
-  cite("public-pay-floor", "public-pay-floor", raised, paid);
   cite(
     "paid-family-leave",
     KEYS.leave,
@@ -572,8 +555,8 @@ function run(specId: string) {
     (r) => benefit(r.targetId),
   );
   need(
-    evidence.length === 15,
-    `evidence for ${evidence.length} of 15 laws: ${evidence.map((e) => e.law).join("; ")}`,
+    evidence.length === 14,
+    `evidence for ${evidence.length} of 14 laws: ${evidence.map((e) => e.law).join("; ")}`,
   );
   // One line a PR body can cite: law, applied row, reached, journal entry.
   console.info(
@@ -586,7 +569,7 @@ function run(specId: string) {
   );
 
   // ---- money moved -----------------------------------------------------------
-  const moved = [wage, bargaining, floor, teacher].reduce(
+  const moved = [wage, bargaining, teacher].reduce(
     (total, list) => total + sum(list),
     0,
   );

@@ -10,7 +10,6 @@ import data from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { jobsAt } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
-import { payReach } from "./law-reach/pay-reach";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import type { LawLevelName } from "./laws-starting";
@@ -120,7 +119,6 @@ export function holdPublicPay(
   if (!floors.size) return [];
   const core = api.state as CoreState;
   const raised = [];
-  const reached = new Map<string, ReturnType<typeof payReach>>();
   for (const job of [
     ...jobsAt(api, PUBLIC_EMPLOYER_CLASSES),
     ...treasuryJobs(api),
@@ -135,19 +133,6 @@ export function holdPublicPay(
     if (hourly <= 0 || job.wageDailyMinor >= floorDaily) continue;
     const to = Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
     api.rerateJob(job.id, to, { ...source, asOf: core.date });
-    if (!reached.has(floor.lawId))
-      reached.set(
-        floor.lawId,
-        payReach(api, {
-          key: PUBLIC_PAY_FLOOR,
-          lawId: floor.lawId,
-          engine: "core2-laws-v1",
-          what: "public-pay-raised-to-floor",
-        }),
-      );
-    reached
-      .get(floor.lawId)!
-      .add(job, (job.wageDailyMinor * (to - hourly)) / hourly);
     raised.push({
       jobId: job.id,
       personId: job.personId,
@@ -156,7 +141,6 @@ export function holdPublicPay(
       lawId: floor.lawId,
     });
   }
-  for (const reach of reached.values()) reach.flush();
   const next = new Date(`${core.date}T00:00:00Z`);
   next.setUTCMonth(next.getUTCMonth() + 1);
   const date = makeIsoDate(next.toISOString().slice(0, 10));
