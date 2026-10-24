@@ -51,6 +51,10 @@
     "labor.minimum-wage-to-median": {
       "value": 0,
       "note": "Not a starting level. The one link that reads this measure is a threshold: it acts only on how far the ratio sits above its own threshold (0.59), so no change from a start is taken and zero only lets the link be read."
+    },
+    "budget.schools-added-pct": {
+      "value": 0,
+      "note": "Not a starting level. The measure is already counted from the schools lines' Census base, so zero is the base and only a change a body enacted moves the link; a line changed before the web's first month still counts."
     }
   },
   "links": [
@@ -665,7 +669,7 @@
       "source": "Currie, Hanushek, Kahn, Neidell and Rivkin 2009 (REStat)",
       "from": "env.carbon-monoxide",
       "evidence": "researched",
-      "notes": "Unsupported as a straight line: the study finds absences rise on days near the federal limit, a threshold effect rather than a per-ppm slope, and the game records no carbon monoxide or absence rate by place."
+      "notes": "Left unwired: no carbon monoxide reading is recorded (no code in src/core2 holds one). The study finds absences rise on days near the federal limit, a threshold on daily readings and not a slope on a place rate, and a student's absence in the core is their own day-by-day choice (src/core2/modules/school.ts), which a place rate does not set."
     },
     {
       "key": "emission-rules-to-particulates",
@@ -1176,21 +1180,21 @@
     },
     {
       "key": "school-spending-to-attainment",
-      "status": "person-level",
-      "unsupportedReason": "size-not-set",
-      "to": "school.years-completed",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "to": "school.graduation-pct",
       "strength": "strong",
       "shape": {
-        "kind": "exposure-years"
+        "kind": "linear"
       },
-      "size": null,
-      "per": "10% more every year for 12 years: +0.31 years",
+      "size": 0.0111,
+      "per": "percent the schools lines of the town's city and county budgets stand above their Census base, as the mean over a cohort's twelve school years",
       "lagMonths": 0,
       "group": "children, much larger for low-income",
       "owner": "M",
-      "anchor": "+0.31 years, +7% wages, -3.2 points adult poverty",
-      "source": "Jackson, Johnson and Persico 2016 (QJE)",
-      "from": "school.spending-per-student",
+      "anchor": "A 10% rise in per-pupil spending in all 12 school-age years raises the probability of high school graduation 9.5 points (11.6 for low-income children, 6.0 for the rest) on graduation rates of 86% (79% and 92%), and completed schooling 0.27 years (0.44 for low-income children) in the working-paper version; the published article's headline is +0.31 years, +7% wages and -3.2 points of adult poverty.",
+      "source": "Jackson, Johnson and Persico 2016 (QJE); graduation estimates from Table 3 of NBER Working Paper 20847 (January 2015)",
+      "from": "budget.schools-added-pct",
       "evidence": "researched",
       "why": [
         "A sustained funding increase can purchase school staff, time and resources.",
@@ -1212,15 +1216,55 @@
       },
       "reverseOnRepeal": "Repeal can stop future spending. Years already completed remain; the sustained treatment contrast cannot simply reverse in one month.",
       "who": "Pupils exposed to the district spending reform over childhood, with larger reported effects among low-income children.",
-      "lagWhy": "The link currently has lag0 but shape exposure-years. The cited12-year exposure must accumulate across the actual school-age cohort; zero lag does not mean instant attainment.",
+      "lagWhy": "The effect builds as a cohort's years of exposure accumulate. The web reads the mean of the cause over the previous 144 months (phaseInMonths), so a change moves a graduating class by the share of its twelve school years the change covered, and the full effect arrives twelve years after a sustained change.",
       "aboutZero": false,
-      "notes": "Person-level: it acts through each student's years of higher spending, so it waits on the person pipeline, not on a place rate."
+      "notes": "Runs in the new core (src/core2/data/outcome-web/coverage.json lists it as wired). The status above is the old engine's classifier, which does not know the schools line, and that engine does not run this link. Retargeted from school.years-completed, which no engine keeps, to the graduation share the school engine decides (decideSchoolOutcome in src/core2/school-outcomes.ts reads this link's factor by income fifth for each senior). The cause is the schools line of the town's city and county budgets above its Census base (budget.schools-added-pct in src/core2/gov-measures.ts): zero until a mayor or council enacts a change, so nothing moves until one does. Conversion: the paper's 2SLS coefficient on the log of average spending over ages 5 to 17 is 0.9523 for the probability of graduating, and it reads a 0.10 change as 10 percent, so 10 percent more in all twelve years is 9.5 points; per percent of spending that is 0.9523 points, and against the paper's 86% graduation rate a proportional change of 0.0111 per percent, the unit the web applies to a share outcome. The graduation columns are from the working paper (one version); its years-of-schooling estimate (0.27) differs from the published article's headline (0.31), and the published table was not reachable. Overlap: equalized-funding-to-graduation is the reduced form of the same chain through the equalize-school-funding law. The law does not move the schools line today (stopgap SG-SCHOOL-equalized-funding-budget), so the two do not count one dollar twice; when a handler moves the line for the law, that link must go.",
+      "range": [0.0045, 0.0177],
+      "rangeSource": "Jackson, Johnson and Persico, NBER Working Paper 20847 (January 2015), Table 3 column 5 (2SLS, all children, probability of high school graduation): \"Ln(Spending)(age 5-17) 0.9523*** (0.2898)\". The 95% interval 0.9523 +/- 1.96 x 0.2898 is [0.384, 1.520] points of graduation per unit of log spending; per percent of spending, over the 0.86 graduation rate of the paper's Table 1, that is [0.0045, 0.0177] as a proportional change per percent.",
+      "phaseInMonths": 144,
+      "phaseInSource": "Jackson, Johnson and Persico, NBER Working Paper 20847, section \"Creating an Instrument for School Spending\": \"our endogenous treatment variable is the natural log of average school spending over the previous 12 years. This measures average school spending across all school-age years (5 to 17) for expected high school graduates that year.\" A graduating class's exposure is the mean of its twelve years, so the cause is read as the mean of the previous 144 months.",
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 0.1468,
+              "share": 0.2
+            },
+            {
+              "is": 1,
+              "weight": 0.1468,
+              "share": 0.2
+            },
+            {
+              "is": 2,
+              "weight": 0.0652,
+              "share": 0.2
+            },
+            {
+              "is": 3,
+              "weight": 0.0652,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0.0652,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Jackson, Johnson and Persico, NBER Working Paper 20847 (January 2015), Table 3 columns 5 and 6 and the results text after it (https://www.nber.org/papers/w20847)",
+          "quote": "\"increasing per-pupil spending by 10 percent in all 12 school-age years increases the probability of high school graduation by 11.6 percentage points (p-value<0.01) for low income children and 6 percentage points (p-value<0.10) for non-poor children. ... The high school graduation rates for low-income and non-poor children were 79 and 92 percent, respectively.\"",
+          "estimatedFrom": "The paper calls a child low income when the family's income fell below twice the poverty line in any childhood year. The second national household-income fifth ends at $62,200 (U.S. Census Bureau, Income in the United States: 2023, P60-282, Table A-4), about twice the 2023 poverty threshold for a family of four ($31,200 weighted average; Census Bureau, Poverty Thresholds for 2023), so the two lowest fifths are taken as the low-income children and the three highest as the non-poor, with equal national shares. Each band's weight is its gain in points over its own graduation rate (11.6/79 and 6.0/92), because the engine multiplies each fifth's own share; the weights are scaled so the national average is the researched size."
+        }
+      ]
     },
     {
       "key": "child-coverage-to-graduation",
       "status": "person-level",
       "unsupportedReason": "size-not-set",
-      "to": "school.graduation",
+      "to": "school.graduation-pct",
       "strength": "moderate",
       "shape": {
         "kind": "exposure-years"
@@ -1234,7 +1278,8 @@
       "source": "Cohodes, Grossman, Kleiner and Lovenheim 2016 (JHR)",
       "from": "health.child-coverage-years",
       "evidence": "researched",
-      "notes": "Person-level: it acts through each child's years of coverage, so it waits on the person pipeline, not on a place rate."
+      "notes": "Not run as its own link. The core records no childhood Medicaid or CHIP eligibility: coverage records belong to full people and cover a child through a parent's plan (src/core2/modules/coverage.ts), so a per-child years-of-coverage link would count the same expansion twice with uninsured-to-graduation.",
+      "carriedBy": "the web's uninsured-to-graduation link (the same Cohodes, Grossman, Kleiner and Lovenheim 2016 effect, read from the place's uninsured share five years earlier), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
     },
     {
       "key": "teacher-quality-to-earnings",
@@ -1296,13 +1341,13 @@
       "who": "Kindergarten-through-third-grade pupils assigned to the relevant small/regular classrooms; schoolmates outside exposure are not treated.",
       "lagWhy": "The link has lag0, but the anchor describes four years of exposure. Assessments must follow the actual exposure; the cited contrast/CI is required before switch-on.",
       "aboutZero": false,
-      "notes": "Unsupported until measured: the +0.22 standard deviations is for a small class against a regular one, but the game records no K-3 class size by place and keeps no test-score outcome by that name."
+      "notes": "Left unwired: the core records no class size. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), a district's teachers are jobs and counted staff, and the opening uses openingPupilTeacherRatio only to generate them, so no K-3 roster or pupil-teacher ratio exists to read. The study's +0.22 SD is for K-3 pupils in a small class against a regular one, after four years in it, while the school engine decides grade 8; once a roster is recorded, size the link by converting the standard deviations to the shift in the share above the proficiency line under a normal distribution at the place's base."
     },
     {
       "key": "prek-to-graduation",
       "status": "size-not-set",
       "unsupportedReason": "size-not-set",
-      "to": "school.graduation",
+      "to": "school.graduation-pct",
       "strength": "moderate",
       "shape": {
         "kind": "linear"
@@ -1338,7 +1383,8 @@
       "who": "Attending four-year-old cohorts in the evaluated quality settings, later observed at high-school completion.",
       "lagWhy": "The existing lag0 is not an immediate completion effect. Cohort age and the study follow-up must determine the graduation date.",
       "aboutZero": false,
-      "notes": "Superseded for places by universal-prek-to-graduation, which carries the Boston and Tennessee size. This quality measure has no place-level series in the cited studies, so it remains inactive unless a program-quality reader supplies that series."
+      "notes": "Not run as its own link. The program-quality measure (school.prek-quality) has no series in the core, and a second link on it would count the same program twice: universal-prek-to-graduation already carries the Boston and Tennessee size, with quality deciding where in its range a world lands.",
+      "carriedBy": "the web's universal-prek-to-graduation link (the same Gray-Lobe, Pathak and Walters 2023 Boston and Tennessee estimates, read from the universal-preschool law in force with a 14-year lag and a range from Tennessee's loss to Boston's gain), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
     },
     {
       "key": "family-income-to-scores",
@@ -1358,7 +1404,8 @@
       "source": "Dahl and Lochner 2012 (AER)",
       "from": "household.income",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game keeps no test-score outcome by that name, and the +0.06 standard deviations per $1,000 is a child-level short-run effect."
+      "notes": "Not run as its own link. Median household earnings (household.income) is a nominal figure, so a link per $1,000 of it would move scores with inflation alone; the study's $1,000 is a real family income change, and the poverty share is the web's reading of it. The engine's income fifths cannot carry a place's level: the place's share is its base times the web's factor, and the gradient only spreads that over the fifths. Dahl and Lochner (NBER w14599, abstract) estimate that a $1,000 rise in income raises combined math and reading test scores by 6% of a standard deviation in the short run, so the reading half has no counterpart yet; a reading link would need the poverty-to-math link's per-point size confirmed first.",
+      "carriedBy": "for math, the web's poverty-to-math-proficiency link (the same Dahl and Lochner 2012 income effect, read as the place's poverty share into the share of eighth graders proficient in math), which the school engine reads when it decides each eighth grader's math result (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.math-proficient-pct, by income fifth); the engine's income-fifth gradient (gradientOf) then spreads the place's result over the fifths. Reading is not carried: no link moves reading proficiency by family income"
     },
     {
       "key": "neighborhood-years-to-adult-outcomes",
@@ -1399,7 +1446,7 @@
       "source": "Sharkey 2010 (PNAS)",
       "from": "crime.homicide-on-block",
       "evidence": "researched",
-      "notes": "Person-level: it acts on a child's scores right after a homicide on their block, decaying after, so it waits on the person pipeline, not on a place rate."
+      "notes": "Left unwired: it needs each student's own exposure, and no homicide has a location below the place. The crime engine's victimizations leave homicide out (stopgap SG-CORE-crime-firearm-homicide) and a death by homicide carries no block group; the effect (about -0.5 SD for the week after a homicide on a child's block) is for a child tested right after it."
     },
     {
       "key": "police-killing-to-graduation",
@@ -1419,7 +1466,7 @@
       "source": "Ang 2021 (QJE)",
       "from": "police.killing-nearby",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the 3.5% is for ninth graders living near a police killing, and the game records neither the killing nor the share of students exposed."
+      "notes": "Left unwired: the core records no police killing (no code in src/core2 holds one), and the 3.5% is for ninth graders who live near a killing, so it needs each student's distance to one; a place-wide rate would put the effect on students who were not exposed."
     },
     {
       "key": "school-move-to-scores",
@@ -1439,7 +1486,7 @@
       "source": "Hanushek, Kain and Rivkin 2004",
       "from": "housing.mid-year-school-move",
       "evidence": "researched",
-      "notes": "Unsupported until measured: the game records no mid-year school moves by place and keeps no test-score outcome by that name."
+      "notes": "Left unwired: no mid-year school move is recorded. Every student of a place attends its one school district (schoolFor in src/core2/modules/school.ts), and the moves module records only departures from the town (src/core2/modules/moves.ts), so there is no switch to count; the effect (about -0.03 SD in math per switch, for the mover and for classmates) needs each student's own switch."
     },
     {
       "key": "lead-to-reading",
@@ -1460,7 +1507,7 @@
       "from": "health.blood-lead",
       "evidence": "provisional",
       "range": [0.065, 0.26],
-      "notes": "Unsupported until measured: the game records no blood lead levels by place, and the share far below proficient is not a kept place outcome. CDC publishes only the share of tested children at or above 3.5 micrograms per deciliter, not the mean level this link is sized on; filed as research question state-average-child-blood-lead-level."
+      "notes": "Left unwired: the core records no blood lead (no code in src/core2 holds it), and the study's cause is the mean blood lead of children before school, which CDC does not publish by state (research question state-average-child-blood-lead-level). The outcome, the share far below proficient, is not what the school engine decides, so a recorded lead level would also need the 3.1-point rise on a 12% base converted to the proficiency share."
     },
     {
       "key": "heat-to-learning",
@@ -1485,7 +1532,7 @@
       "from": "env.school-year-temperature",
       "evidence": "researched",
       "range": [-0.0125, -0.0075],
-      "notes": "Unsupported until measured: the game records no school-year temperature by place, and learning is not a kept place outcome."
+      "notes": "Left unwired: the core records no school-year temperature and no share of schools with air conditioning (no weather or temperature in src/core2). Learning is not what the school engine decides either: it decides proficiency and graduation."
     },
     {
       "key": "home-internet-to-scores",
@@ -1525,7 +1572,7 @@
       "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
       "evidence": "researched",
       "range": [-0.1, -0.073],
-      "notes": "Unsupported until a producer computes Hispanic school enrollment: the cause is now the law on local 287(g) partnerships, a question the game asks, but Hispanic school enrollment is not a kept place outcome."
+      "notes": "Runs on the web's ledger: school.hispanic-enrollment is a kept outcome, so the link moves that number from the 287(g) partnership law in force. No engine decides enrollment by ethnicity (the core records no ethnicity on a student; stopgap SG-SCHOOL-hispanic-enrollment), so no student or school record moves with it. The status above is the old engine's classifier, which does not produce this outcome."
     },
     {
       "key": "daca-to-graduation",
@@ -1545,7 +1592,7 @@
       "source": "Kuka, Shenhav and Shih 2020",
       "from": "immigration.deferred-action",
       "evidence": "researched",
-      "notes": "Unsupported until a unit adapter exists: the +15% is for eligible youth, and the game records neither deferred action nor the eligible share of a place's students."
+      "notes": "Left unwired: deferred action is not recorded and is not a policy question the game asks, and no student's immigration status is recorded, so the eligible share of a place's students is unknown; the +15% is for eligible youth only."
     },
     {
       "key": "graduation-to-earnings",
@@ -4119,7 +4166,8 @@
           "quote": "\"reforms lead to sharp, immediate, and sustained increases in spending in low-income school districts.\" The abstract finds that achievement rose in \"these districts\" and that the rise phases in gradually over the years after each reform; it reports no gain for higher-income districts.",
           "estimatedFrom": "The paper's gains are for students in low-income districts. The two lowest national household-income fifths are taken as the students of those districts, the middle fifth as half in them, and the two highest as none, with equal national shares; the paper gives no finer split, so the weights are scaled so the national average is the researched size."
         }
-      ]
+      ],
+      "notes": "The reduced form of the spending chain through the law. school-spending-to-attainment is the same study (Jackson, Johnson and Persico) read from the schools budget line, which the law does not move today (stopgap SG-SCHOOL-equalized-funding-budget); when a handler moves the line for the law, this link goes in the same change so the funding is not counted twice."
     },
     {
       "key": "vouchers-to-math-proficiency",

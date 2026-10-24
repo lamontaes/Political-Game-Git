@@ -4933,7 +4933,7 @@
     "why": "No handler in src/core2/law-reach moves the education budget for education.equalize-school-funding (law handlers belong to the law-wiring area).",
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "A law-reach handler that moves the schools line of the budget in force (moveBudget), which the school engine's spending measure then reads.",
+    "replacement": "A law-reach handler that moves the schools line of the budget in force (moveBudget), which the school engine's spending measure then reads. The graduation effect of that spending then runs through school-spending-to-attainment (the schools line above its Census base), so equalized-funding-to-graduation, the reduced form of the same study through the law, is dropped in the same change.",
     "status": "open"
   },
   {
@@ -4965,11 +4965,23 @@
     "kind": "missing-engine",
     "file": "src/core2/school-outcomes.ts",
     "line": 1,
-    "whatItFakes": "Thirteen researched links into school outcomes do not run: carbon-monoxide-to-absence, class-size-to-scores, prek-to-graduation, family-income-to-scores, police-killing-to-graduation, school-move-to-scores, daca-to-graduation (no researched size yet); school-spending-to-attainment, child-coverage-to-graduation, homicide-nearby-to-scores (person-level exposure over years or an acute event, which needs a per-student exposure record); lead-to-reading, heat-to-learning, home-internet-to-scores (the cause is not recorded, or the size is about zero).",
-    "why": "Each lacks a size from research, a recorded cause, or a per-student exposure history; the school engine reads only links that run.",
+    "whatItFakes": "Eight researched links into school outcomes do not run, each because its cause is not recorded: class-size-to-scores (no K-3 class size), school-move-to-scores (no mid-year school move), police-killing-to-graduation (no police killing, and the effect is for students who live near one), daca-to-graduation (no deferred action and no student immigration status), homicide-nearby-to-scores (no homicide below the place, and the effect is for a child tested right after one on their block), lead-to-reading (no blood lead), heat-to-learning (no school-year temperature) and carbon-monoxide-to-absence (no carbon monoxide). Family income reaches only math: family-income-to-scores is carried by poverty-to-math-proficiency, and nothing moves reading proficiency by family income.",
+    "why": "Each needs a cause or a per-student exposure record the core does not keep; the school engine reads only links that run. The other links in the family are settled: school-spending-to-attainment runs on the schools budget line, prek-to-graduation, child-coverage-to-graduation and family-income-to-scores are carried by built links from the same studies, and home-internet-to-scores and tuition-freeze-to-college-completion are about zero in the research.",
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "Size each from its research, record its cause (class size, blood lead, school-year heat, broadband) or a per-student exposure record, and the engine's existing read of the web factor reaches it.",
+    "replacement": "Record each cause (class size, school moves, blood lead, school-year heat, carbon monoxide, a police killing or homicide with a place below the town, deferred action with student status) or a per-student exposure record, size the link from its study in the engine's units, and the engine's existing read of the web factor reaches it. A reading link from family income needs the poverty-to-math-proficiency per-point size confirmed first.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-spending-line-for-per-pupil",
+    "kind": "faked-mechanic",
+    "file": "src/core2/school-budget-line.ts",
+    "line": 27,
+    "whatItFakes": "The cause of school-spending-to-attainment is the schools line of the town's city and county budgets above its Census base, standing for the study's change in per-pupil spending. It equals that change only while enrollment stays at the base the line was drawn for: enrollment growth that outruns the line, which lowers spending per student, does not register.",
+    "why": "The Census base lines scale with the government's residents at the opening and the school engine's per-student spending (recordSchoolSpending) is not a base-relative series the web can read, so the budget line is the one recorded cause of school money that a mayor or council changes.",
+    "addedBy": "web-reach-schools",
+    "addedAt": "2026-10-24",
+    "replacement": "The school engine's spending per enrolled student as the cause, measured against its first reading, once the schools line follows enrollment (and the equalized-funding law moves it), so students leaving or arriving change spending per student as the study's treatment does.",
     "status": "open"
   },
   {

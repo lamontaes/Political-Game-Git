@@ -17,6 +17,7 @@
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
+    "school-spending-to-attainment",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
@@ -246,16 +247,9 @@
       "waitingOn": ["justice.parent-incarcerated", "household.income"],
       "needsSize": true
     },
-    "school-spending-to-attainment": {
-      "waitingOn": [
-        "person:school.spending-per-student",
-        "school.years-completed"
-      ],
-      "needsSize": true
-    },
     "child-coverage-to-graduation": {
-      "waitingOn": ["person:health.child-coverage-years", "school.graduation"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the web's uninsured-to-graduation link (the same Cohodes, Grossman, Kleiner and Lovenheim 2016 effect, read from the place's uninsured share five years earlier), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
     },
     "teacher-quality-to-earnings": {
       "waitingOn": [
@@ -269,12 +263,12 @@
       "needsSize": true
     },
     "prek-to-graduation": {
-      "waitingOn": ["school.prek-quality", "school.graduation"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the web's universal-prek-to-graduation link (the same Gray-Lobe, Pathak and Walters 2023 Boston and Tennessee estimates, read from the universal-preschool law in force with a 14-year lag and a range from Tennessee's loss to Boston's gain), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
     },
     "family-income-to-scores": {
-      "waitingOn": ["school.test-scores"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "for math, the web's poverty-to-math-proficiency link (the same Dahl and Lochner 2012 income effect, read as the place's poverty share into the share of eighth graders proficient in math), which the school engine reads when it decides each eighth grader's math result (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.math-proficient-pct, by income fifth); the engine's income-fifth gradient (gradientOf) then spreads the place's result over the fifths. Reading is not carried: no link moves reading proficiency by family income"
     },
     "neighborhood-years-to-adult-outcomes": {
       "waitingOn": [
@@ -523,11 +517,11 @@
   "measuresWanted": {
     "school.graduation": {
       "owner": "OPUS-GOV",
-      "links": 6
+      "links": 4
     },
     "school.test-scores": {
       "owner": "OPUS-GOV",
-      "links": 5
+      "links": 4
     },
     "crime.rate-index": {
       "owner": "OPUS-CORE",
@@ -570,10 +564,6 @@
       "links": 2
     },
     "program.child-benefit-dollars": {
-      "owner": "OPUS-GOV",
-      "links": 2
-    },
-    "school.years-completed": {
       "owner": "OPUS-GOV",
       "links": 2
     },
@@ -805,10 +795,6 @@
       "owner": "OPUS-CORE",
       "links": 1
     },
-    "person:health.child-coverage-years": {
-      "owner": "OPUS-PEOPLE",
-      "links": 1
-    },
     "person:health.coverage-pct": {
       "owner": "OPUS-PEOPLE",
       "links": 1
@@ -826,10 +812,6 @@
       "links": 1
     },
     "person:program.snap-years-in-childhood": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "person:school.spending-per-student": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -889,7 +871,7 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
-    "school.prek-quality": {
+    "school.years-completed": {
       "owner": "OPUS-GOV",
       "links": 1
     },

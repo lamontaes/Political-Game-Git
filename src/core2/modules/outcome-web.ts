@@ -41,6 +41,7 @@ import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { schoolMeasure } from "../school-measures";
 import { propertyTaxRateInForce } from "../housing-property-tax";
+import { schoolsLineAboveBase } from "../school-budget-line";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
 
@@ -194,6 +195,10 @@ const ENGINE_READERS: Readonly<
   "property-tax-rate": (api, placeId) => {
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
+  },
+  "schools-line-above-base": (api, placeId) => {
+    const line = schoolsLineAboveBase(api, placeId);
+    return line ? { value: line.pct, recordId: line.recordId } : null;
   },
 };
 
