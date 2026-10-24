@@ -5536,5 +5536,17 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-eviction-day-counting",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 693,
+    "whatItFakes": "Eviction notice, hearing and stay periods are counted in calendar days everywhere. Ten statute reads count other days: business days (Alabama notice 7, Hawaii notice 5, the Northern Marianas notice 3, Utah notice 3 and hearing 3, North Carolina hearing 7), court days (California notice 3, hearing 10), judicial days (West Virginia hearing 5) and days excluding Sundays and legal holidays (the District's summons 30). The table holds the statute's number, so the engine's period is shorter than the statute's for those.",
+    "why": "The steps table has one number per step and the engine adds days to a date; it has no calendar of business days, court days or legal holidays to count on.",
+    "addedBy": "claude/dreamy-tesla-bgi3ui-housing",
+    "addedAt": "2026-10-24",
+    "replacement": "A day-type per step (calendar, business, court, excluding Sundays and holidays) in the steps table and a counter that skips non-counting days on the place's calendar, read where the engine adds days for the notice, hearing and stay (data/research/world/eviction-statute-reads-2026.json already records each read's dayType).",
+    "status": "open"
   }
 ]
