@@ -5,11 +5,12 @@ area: people
 kind: owner-decision
 priority: 2
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 blocked-on: owner
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** Today a worker's pay is the job's own rate, so temperament changes earnings only through who is hired first and who is laid off last. Real pay grows with tenure and performance: Gensowski 2018 finds about 16.7 percent of lifetime earnings per standard deviation of conscientiousness. A raise or promotion step would let the trait-shaped outcome outcome.earnings be read, but it is a new step in a worker's life, which the standing rules leave to the owner. The traits lead builds nothing for it until the owner decides.
