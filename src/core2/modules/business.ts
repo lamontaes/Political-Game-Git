@@ -18,7 +18,7 @@ import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import { ageOnDate } from "../kernel/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import { traitLeanBetween } from "../trait-decisions";
+import { decisionTraitTerm } from "../trait-decisions";
 import type {
   ActOffer,
   CoreAPI,
@@ -1538,11 +1538,12 @@ function foundings(api: CoreAPI): void {
         (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
       );
   const incomeOf = (personId: string) => monthlyPay.get(personId) ?? 0;
-  // Counted people have no chooser, so their personality enters here once, on the chooser's weight; full people get it from the chooser alone.
-  const foundLean = (person: Pick<PersonState, "traits">) =>
-    traitLeanBetween(
+  // Counted people have no chooser, so their personality enters here once, on the counted-founding decision's calibrated weight; full people get it from the chooser alone.
+  const foundTerm = (person: Pick<PersonState, "traits">) =>
+    decisionTraitTerm(
       c,
       person,
+      "business.counted-found",
       businessData.actions.found.actKinds,
       businessData.actions.notFound.actKinds,
     );
@@ -1561,7 +1562,7 @@ function foundings(api: CoreAPI): void {
     string,
     {
       id: string;
-      lean: number;
+      trait: number;
       unemployed: number;
       income: number;
       cash: number;
@@ -1572,7 +1573,7 @@ function foundings(api: CoreAPI): void {
     if (held) return held;
     const out: {
       id: string;
-      lean: number;
+      trait: number;
       unemployed: number;
       income: number;
       cash: number;
@@ -1597,7 +1598,7 @@ function foundings(api: CoreAPI): void {
           { employed: boolean } | undefined;
         out.push({
           id: personId,
-          lean: foundLean({ traits: counted!.packedTraits(m) }),
+          trait: foundTerm({ traits: counted!.packedTraits(m) }),
           unemployed: seeker && !seeker.employed ? 1 : 0,
           income: incomeOf(personId),
           cash: counted!.liquid[m]! + founderSavings(c, personId).minor,
@@ -1698,7 +1699,7 @@ function foundings(api: CoreAPI): void {
         score:
           p("businessCountedFoundBaseline") +
           p("businessFoundRoomWeight") * gaps +
-          p("traitWeight") * row.lean +
+          row.trait +
           p("businessFoundUnemployedWeight") * row.unemployed +
           p("businessFoundProspectWeight") * prospect(market, row.income) -
           p("businessFoundCapitalWeight") *

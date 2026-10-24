@@ -16,7 +16,7 @@ import {
 } from "../social-security-law";
 import { LAWS_MODULE_ID, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
-import { decisionLean } from "../trait-decisions";
+import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { residentsRuntime } from "./residents";
 import type {
   CoreAPI,
@@ -103,13 +103,14 @@ function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
         cost > 0
           ? person.liquidMinor / ((cost * p("daysPerMeanYear")) / 12)
           : p(incomeData.parameters.claimFullBufferMonths),
-      patience: decisionLean(
-        api.state,
-        person,
-        "retirement.claim-age",
-        "wait-to-claim",
-        "claim-now",
-      ),
+      patience:
+        decisionLean(
+          api.state,
+          person,
+          "retirement.claim-age",
+          "wait-to-claim",
+          "claim-now",
+        ) * decisionTraitWeight(api.state, "retirement.claim-age"),
     },
     {
       anchorYearsBeforeFull: p(

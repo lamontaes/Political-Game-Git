@@ -5536,5 +5536,17 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-pay-growth-by-performance",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1247,
+    "whatItFakes": "A worker's pay is the rate their job was posted at, so temperament changes earnings only through who is hired first and who is let go last; nobody's pay grows with their tenure or how they work.",
+    "why": "Real pay grows with tenure and performance (Gensowski 2018: about 16.7 percent of lifetime earnings per standard deviation of conscientiousness), but a raise or promotion is a new step in a worker's life, which the standing rules leave to the owner. OWNER-DECISIONS.md rules only on raising an unfilled opening's pay (Oct 16).",
+    "addedBy": "claude/traits-outcome-job-performance",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's ruling on owner-pay-growth-by-performance (docs/coordination/OWNER-DECISIONS.md): on yes, raises and promotions read from the worker's record and temperament; on no, earnings graded read through hiring and layoffs alone and this row resolved.",
+    "status": "open"
   }
 ]

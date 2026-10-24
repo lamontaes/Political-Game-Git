@@ -124,29 +124,44 @@
       "fix": "In flight elsewhere."
     },
     "housing.buy-home": {
-      "class": "weight too small",
-      "why": "Runs at the housing review but every household keeps renting (the buy baseline and down-payment terms outweigh any lean).",
-      "fix": "Calibrate the buy reasons so some households buy, then the trait weight."
+      "class": "circumstances saturate the choice",
+      "why": "In 651 weighings in a played year nobody bought a home at the general weight: households that can afford the down payment still score about half a point below keeping the rent. No study of personality and becoming a homeowner was found, so the trait weight is not raised to manufacture purchases.",
+      "fix": "Fix the buy reasons against the homeownership transition rate (pool item world-counted-renters-buy and world-home-turnover), then calibrate."
     },
     "jobs.apply": {
-      "class": "weight too small",
-      "why": "Ran 545 times; the pick never changed with personality.",
-      "fix": "Calibrate against job-search research."
-    },
-    "jobs.review-worker": {
-      "class": "weight too small",
-      "why": "Ran 2,059 times; the pick never changed with personality.",
-      "fix": "Calibrate against turnover research."
+      "class": "circumstances saturate the choice",
+      "why": "Every full seeker's application scores exactly the unemployed need of 3 above waiting (src/core2/modules/jobs.ts:1586), so no trait weight short of an overwhelming one changes an application. The weight stays at the general 1 until the apply reasons vary with the seeker's circumstances (time out of work, benefits, offers seen).",
+      "fix": "Give the apply decision circumstance reasons that vary between seekers, then calibrate against Kanfer et al. 2001."
     },
     "drives.respond": {
       "class": "circumstances saturate the choice",
       "why": "Personality turned none of 1,471 drive responses in Ely, Nevada at any weight up to 8: the drive's own strength separates the options. No study gives a size (neuroticism and rumination is the direction).",
       "fix": "None until the options score closer or a study gives a size; the general trait weight of 1 stands."
     },
+    "business.found": {
+      "class": "weight too small",
+      "why": "Full people found about 2 times in 13,000 weighings a year (their capital and room scores sit 2 to 25 below keeping), so the odds ratio cannot be measured; counted adults found on the study's weight (2.04) through business.counted-found.",
+      "fix": "Measure on a larger sample of full people or in a place with more full adults."
+    },
+    "business.open-location": {
+      "class": "weight too small",
+      "why": "Owners never open a second location in 282 weighings: the expand score sits 6 to 9 below keeping (baseline -3, room term, src/core2/modules/business.ts:1551), and no study of owners' expansion by personality has a number.",
+      "fix": "Find a study of owner expansion and calibrate the expand baseline against it."
+    },
+    "business.owner-draw": {
+      "class": "circumstances saturate the choice",
+      "why": "Owners draw in 200 of 200 weighings (the draw scores 0.7 to 4 above keeping) and no study of owners' draws by personality has a number, so the weight stays at the general 1.",
+      "fix": "None until a study gives a size."
+    },
+    "retirement.claim-age": {
+      "class": "no study number",
+      "why": "Claiming age moves by weight times lean times claimTraitPullYears; the only study found is an unverified abstract (data/research/trait-effect-sizes.json), so the weight stays at the general 1.",
+      "fix": "Find a claim-age study with a number and set the weight."
+    },
     "credit.borrow": {
-      "class": "rare",
-      "why": "Ran 16 times in the year.",
-      "fix": "Check what triggers borrowing; calibrate."
+      "class": "no study number",
+      "why": "Brown and Taylor 2014 report extraversion's link to the level of unsecured debt (21.70 percentage points per standard deviation), not to the probability of borrowing, so the study gives no size for this decision; the general trait weight of 1 stands. Borrowing now goes through the shared two-way formula for full and counted people alike.",
+      "fix": "Calibrate against a study that reports the probability of taking on consumer credit by trait."
     },
     "school.attend": {
       "class": "circumstances saturate the choice",
@@ -162,6 +177,16 @@
       "class": "circumstances tie",
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
+    },
+    "housing.settle-arrears": {
+      "class": "no trigger (fill-in only)",
+      "why": "Runs only when a counted household behind on rent is filled in as full people (src/core2/modules/housing.ts, settleFilledInArrears), and counted households' rent is pooled with no arrears of their own (src/core2/modules/housing.ts, the counted rent pool), so an ordinary played year never reaches it.",
+      "fix": "Give counted households arrears of their own so a filled-in household can carry them; until then it runs only when the player meets such a household."
+    },
+    "jobs.raise-for-opening": {
+      "class": "no study number",
+      "why": "How much an owner adds to an unfilled seat's pay is a size, not a two-way choice, so scripts/traits/trait-calibrate.ts cannot fit it, and no study gives a size; the general weight of 1 stands (src/core2/data/parameters.json, traitWeightJobsRaiseForOpening).",
+      "fix": "Set when a study gives how far an employer's agreeableness moves a wage offer."
     }
   }
 }
