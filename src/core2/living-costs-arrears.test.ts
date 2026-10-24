@@ -266,20 +266,26 @@ it("a full household and a counted group each carry a living cost across a day w
               const payee = core.cashJournal.residualAccountByOwner.get(
                 flow.payeeId,
               );
-              const paid = entries
-                .flatMap((e) => e.postings)
-                .filter((p) => p.accountId === payee && p.deltaMinor > 0)
-                .reduce((n, p) => n + p.deltaMinor, 0);
-              const debited = entries
-                .flatMap((e) => e.postings)
+              const lines = entries.flatMap((e) => e.postings);
+              // What the household paid: the debits out of its members'
+              // accounts. The payee is credited its share and the governments
+              // their part of the living cost, in the same entries.
+              const paid = lines
                 .filter((p) => p.deltaMinor < 0)
                 .reduce((n, p) => n - p.deltaMinor, 0);
+              const credited = lines
+                .filter((p) => p.deltaMinor > 0)
+                .reduce((n, p) => n + p.deltaMinor, 0);
+              const toPayee = lines
+                .filter((p) => p.accountId === payee && p.deltaMinor > 0)
+                .reduce((n, p) => n + p.deltaMinor, 0);
               const written = (flow.writtenOffMinor ?? 0) - before.written;
               const at = `${where}: flow ${flow.id} on ${core.date}`;
               expect(before.owed - flow.arrearsMinor, at).toBe(paid + written);
               if (paid > 0) {
-                expect(debited, `${at}: the payer's debit`).toBe(paid);
-                seen.fullRepaid ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}; paid ${paid} by journal ${entries.map((e) => e.journalId).join(", ")}`;
+                expect(credited, `${at}: the credits`).toBe(paid);
+                expect(toPayee, `${at}: the payee's credit`).toBeGreaterThan(0);
+                seen.fullRepaid ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}; paid ${paid} (${toPayee} to the payee) by journal ${entries.map((e) => e.journalId).join(", ")}`;
               }
             }
           }
