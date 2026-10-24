@@ -205,6 +205,13 @@ export class CountedStore {
     number,
     { rev: number; people: readonly PersonInput[] }
   >();
+  /**
+   * How many real jobs a counted job stands for where that is not its
+   * worker's household weight: kept when the household's weight grows by
+   * another record's release, or when an employer sheds part of it, so an
+   * employer's heads move only with its own staffing (`headsOfJob`).
+   */
+  readonly jobHeads = new Map<string, number>();
   /** Bumped by every change to who is counted or how they are grouped. */
   version = 0;
   /** Bumped only when someone joins or leaves the counts (not on a regroup). */
@@ -382,6 +389,17 @@ export class CountedStore {
     return h.weight ?? 1;
   }
 
+  /** How many real jobs one of a record's counted jobs stands for. */
+  headsOfJob(h: CountedHousehold, jobId: string): number {
+    return this.jobHeads.get(jobId) ?? this.weightOf(h);
+  }
+
+  /** Set the jobs a counted job stands for, as its employer's staffing decided. */
+  setJobHeads(jobId: string, heads: number): void {
+    this.version++;
+    this.jobHeads.set(jobId, heads);
+  }
+
   /** The people a household record stands for: its counted members times its weight. */
   weightedCount(h: CountedHousehold): number {
     return this.countedCount(h) * (h.weight ?? 1);
@@ -432,9 +450,51 @@ export class CountedStore {
     if (!found.size) return people;
     const added = people / found.size;
     this.version++;
-    for (const other of found.targets)
+    // The households it stood for move; the jobs they held stay with their
+    // employers. A target's own jobs keep the heads they stood for, and each
+    // of this record's jobs leaves its heads beyond the one filled in on
+    // another counted job at the same employer.
+    for (const other of found.targets) {
+      for (const job of other.jobs)
+        if (!this.jobHeads.has(job.id))
+          this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
+    }
+    for (const job of h.jobs) {
+      if (job.endsAt !== undefined) continue;
+      const left = this.headsOfJob(h, job.id) - 1;
+      const keeper = left > 0 ? this.jobAt(job.organizationId, h) : undefined;
+      if (keeper)
+        this.jobHeads.set(
+          keeper.job.id,
+          this.headsOfJob(keeper.home, keeper.job.id) + left,
+        );
+      this.jobHeads.delete(job.id);
+    }
     return 0;
+  }
+
+  /** Another counted record's open job at an employer: its group's first, then any, by record order. */
+  private jobAt(
+    organizationId: string,
+    not: CountedHousehold,
+  ): { home: CountedHousehold; job: JobInput } | undefined {
+    const pick = (pool: Iterable<CountedHousehold>) => {
+      for (const home of pool) {
+        if (home === not || home.gone) continue;
+        const job = home.jobs.find(
+          (row) =>
+            row.endsAt === undefined && row.organizationId === organizationId,
+        );
+        if (job) return { home, job };
+      }
+      return undefined;
+    };
+    const group = not.group >= 0 ? this.groups[not.group] : undefined;
+    return (
+      pick([...(group?.households ?? [])].map((i) => this.households[i]!)) ??
+      pick(this.liveHouseholds())
+    );
   }
 
   /** A household still counted, by id. */

@@ -51,7 +51,7 @@ import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
   addCountedJob,
-  countedHeadsOf,
+  countedJobHeads,
   countedJobsOf,
   endCountedJob,
   rerateCountedJobs,
@@ -197,7 +197,7 @@ function currentJobs(api: CoreAPI, organizationId: string) {
 
 /** How many jobs a job record stands for: one for a full person's, the household weight for a counted worker's. */
 function headsOf(c: CoreState, job: Pick<JobInput, "id" | "personId">): number {
-  return c.jobs.has(job.id) ? 1 : countedHeadsOf(c, job.personId);
+  return c.jobs.has(job.id) ? 1 : countedJobHeads(c, job);
 }
 
 /** The jobs a staff holds, a counted worker's record standing for its household's weight. */
@@ -278,7 +278,7 @@ function record(
     personId: string;
     organizationId: string;
     jobId: string;
-    kind: "hire" | "quit" | "layoff" | "closure" | "left-work";
+    kind: "hire" | "quit" | "layoff" | "staff-shed" | "closure" | "left-work";
     reasonKey: string;
     decidedBy: string;
     values?: Readonly<Record<string, number>>;
@@ -436,7 +436,7 @@ function noteCountedLeavers(api: CoreAPI): void {
     const fresh = (employers.get(row.id) as unknown as EmployerRow) ?? row;
     const heads: Record<string, number> = {};
     for (const [id, personId] of Object.entries(now)) {
-      const weight = countedHeadsOf(c, personId);
+      const weight = countedJobHeads(c, { id, personId });
       if (weight !== 1) heads[id] = weight;
     }
     employers.put({
@@ -1337,9 +1337,38 @@ function layOff(
     (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
   )[0];
   if (!job) return;
-  // The jobs this record stands for may not exceed what the staff is over by.
+  // The jobs this record stands for may not exceed what the staff is over by:
+  // a counted job standing for more sheds as many of its jobs as the staff is
+  // over by, and its worker's record keeps the rest.
   const heads = headsOf(c, job);
-  if (heads > budget + 1e-9) return "over";
+  if (heads > budget + 1e-9) {
+    const shed = Math.floor(budget + 1e-9);
+    const rt = residentsRuntime(c);
+    if (c.jobs.has(job.id) || shed < 1 || !rt) return "over";
+    rt.store.setJobHeads(job.id, heads - shed);
+    record(api, {
+      personId: job.personId,
+      organizationId,
+      jobId: job.id,
+      kind: "staff-shed",
+      reasonKey: jobsData.reasons.layoff,
+      decidedBy:
+        ownerOf(api, organizationId) ??
+        managerOf(c, staff, job) ??
+        organizationId,
+      values: {
+        ...values,
+        keepScore: keep(job),
+        headsShed: shed,
+        headsLeft: heads - shed,
+      },
+      ...(tradingId ? { tradingId } : {}),
+    });
+    return {
+      heads: shed,
+      id: `job-change:${api.state.date}:${job.id}:staff-shed`,
+    };
+  }
   const keepScore = keep(job);
   // Which book holds the job decides how it ends: a person filled in since
   // the hire can still have a job row only in the counted books.
