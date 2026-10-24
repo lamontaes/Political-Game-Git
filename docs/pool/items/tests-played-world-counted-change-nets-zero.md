@@ -21,4 +21,4 @@ claimed-at: 2026-10-24T19:03:39.807Z
 
 **Files.** tests/golden-path/played-world.node-test.ts
 
-**Notes.** Found Oct 24 while checking lamontaes/Python-Game-Git#5967's golden-path-year failure. Measured with bookkeeping off on main at cb2f1c5aaf: start 950, end 902, filled in 48, counted births 7, counted moves 58.
+**Notes.** Found Oct 24 while checking lamontaes/Political-Game-Git#5967's golden-path-year failure. Measured with bookkeeping off on main at cb2f1c5aaf: start 950, end 902, filled in 48, counted births 7, counted moves 58.
