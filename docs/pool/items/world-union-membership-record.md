@@ -5,12 +5,12 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/union-membership
+status: open
+claimed-by:
 pr: #5302
 blocked-on:
 source: split from core-stopgap-membership-dues-assumed-data, Oct 19
-claimed-at: 2026-10-20T03:36:34.011Z
+claimed-at:
 ---
 
 **What.** Record a union membership on each full person and counted worker group whose industry and state the BLS Union Members tables cover, so the count of members in a place is the sum of those records, not a rate times the employed. The records at the opening add up to the BLS rate for the industry and state, as a check, never as the per-person rule.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-20T03:36:34.011Z
 **Files.** src/core2/membership-dues.ts, src/core2/data/business/union-membership.json
 
 **Notes.** Built in PR #5302 (simplest rule, flagged as SG-WORLD-business-union-members-rule; full members pay from own cash). Parent: core-stopgap-membership-dues-assumed-data. Today src/core2/membership-dues.ts takes members as the place's employed times the state's BLS rate and draws dues from pooled cash.
+
+Sent back 2026-10-23 from PR #5302 (branch claude/union-membership-record): Missing industry-level BLS acceptance and Done-when evidence table; release impact none omits changed personal dues cash flows; finish on that branch, merge main into it first.

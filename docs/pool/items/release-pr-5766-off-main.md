@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/sleepy-carson-f8omzd-5766
+pr: #5850
 blocked-on:
 source: added by the acting CTO, Oct 22 merge sample
-claimed-at:
+claimed-at: 2026-10-23T20:55:36.164Z
 ---
 
 **What.** PR #5766 (branch claude/speed-date-callers) was merged on 2026-10-21T00:40Z with its base set to claude/speed-date-parse, the branch of PR #5381, not main. Its pool item core-speed-date-parse-callers was marked done with pr #5381 at that moment, although nothing had reached main. A merge into a side branch counts for nothing: the game, the release build and every other session read main alone. On 2026-10-22T03:04Z #5381 itself merged into main (merge commit 8ec9297a2b), and compare main...92cc09f567 (the #5766 merge commit) now reads ahead 0, behind, so the work should be on main through that merge. This item verifies that landing rather than trusting it, and corrects the item if the proof fails.
