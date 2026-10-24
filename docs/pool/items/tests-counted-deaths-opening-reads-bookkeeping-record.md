@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/counted-deaths-opening-bookkeeping
 pr: #5904
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T17:06:17.014Z
 ---
 
 **What.** src/core2/counted-deaths-opening.test.ts turns bookkeeping off, plays four months in up to six drawn places, and reads the renewal engine's monthly counts table to find a place that expected at least 10 counted deaths. Since Oct 17 (commit d3e204ac90, 'keep the monthly counted record only under bookkeeping') that table is written only with bookkeeping on, so every draw reads an empty table, skips, and the test fails with none of 6 drawn places. It fails on clean main for seed 9277978b6837717a (run Oct 24 by the speed lead) and for any seed. The test should read what play keeps (the counted illness and death records) or run its world with bookkeeping on, without narrowing what it checks.
