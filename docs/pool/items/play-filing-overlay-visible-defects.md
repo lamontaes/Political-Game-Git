@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-filing-overlay
 pr: #5888
 blocked-on:
