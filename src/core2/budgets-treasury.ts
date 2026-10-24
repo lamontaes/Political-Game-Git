@@ -571,7 +571,6 @@ export function aidedLines(
   );
 }
 
-/** The month's close for every treasury: revenue in, then each budget line out, top down. */
 /**
  * What an account's standing payments ask of it from today to the next
  * monthly close: each obligation due by then, with what it already owes.
@@ -657,6 +656,7 @@ export function fundFederalStanding(api: CoreAPI): void {
   if (short > 0) borrowFederal(api, gov, outside, short);
 }
 
+/** The month's close for every treasury: revenue in, then each budget line out, top down. */
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
