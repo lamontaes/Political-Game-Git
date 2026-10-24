@@ -58,5 +58,10 @@
     "lifeChangeUnitsParameter": "srrsForeclosure",
     "maximumUnitsParameter": "srrsMaximumUnits",
     "stopgapId": "SG-P10-event-severity"
+  },
+  "missedPaymentSeverity": {
+    "lifeChangeUnitsParameter": "srrsFiredAtWork",
+    "maximumUnitsParameter": "srrsMaximumUnits",
+    "stopgapId": "SG-P10-event-severity"
   }
 }

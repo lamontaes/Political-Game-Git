@@ -5691,6 +5691,42 @@
       "citation": "Jokela's interval for openness, 1.04 to 1.36 per standard deviation, gives weights 0.08 to 0.65."
     }
   },
+  "hardshipWeightMovesMoveAway": {
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "citation": "Huttunen, Moen and Salvanes 2018, Job loss and regional mobility (Journal of Labor Economics 36(2); IZA DP 8780, Table 2 and p. 5): job displacement raises the probability of moving to a new region within two years by 0.6 percentage points for men (2% base) and 0.7 for women, about 30 percent, an odds ratio of 1.31 and 1.34. How much a lost job or a lost home speeds a person's pull to leave, per unit of the stress it left them, on the log scale the holds and pushes are added on (moves.ts pushesOf). The study sets only the mean effect of a job loss; the layoff stress it is divided by is the model's, not the study's. The studies of personality and moving (Jokela 2009) find no neuroticism effect, so the temperament in this term comes only from how hard the person is hit.",
+    "estimatedFrom": "ln(1.325), the mean log odds ratio of the two sexes, 0.284, divided by the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.47,
+      "high": 0.78,
+      "unit": "log hazard of leaving per unit of stress",
+      "citation": "Women's interval in Table 2, 0.007 with standard error 0.001 on a 2.10% base: odds ratios 1.25 to 1.44, log 0.22 to 0.36, over 0.47."
+    }
+  },
+  "hardshipWeightJobsBenefitsFileClaim": {
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "Whittaker, Der, Cook and Saunders 2010, Predicting which people with psychosocial distress are at risk of becoming dependent on state benefits (BMJ 341:c3838): GHQ-12 psychological distress caseness rose before people started claiming incapacity benefit, odds ratio 1.6 (95% CI 1.3 to 1.9) from two years before. No study of stress and filing for unemployment insurance was found; this is the closest published size for how much distress raises claiming a state benefit, from a British panel of a disability benefit, so it names the direction (stress pulls toward claiming) and a size, not a measured effect on this filing. How much the stress a layoff left pulls an eligible worker toward filing, in the same score as the base and the traits' lean (jobs-benefits.ts fileClaim).",
+    "estimatedFrom": "ln(1.6), 0.47, for the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.56,
+      "high": 1.37,
+      "unit": "score per unit of stress",
+      "citation": "The study's interval, odds ratios 1.3 to 1.9, log 0.26 to 0.64, over 0.47."
+    }
+  },
+  "hardshipWeightCreditBorrow": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "Sullivan 2008, Borrowing during unemployment: unsecured debt as a safety net (Journal of Human Resources 43(2)): households with some assets that lose earnings to unemployment borrow, raising unsecured debt by more than 11 cents per dollar lost, while the poorest and the wealthy do not. The study gives an amount, not odds, so it sets the direction (a hardship pulls toward borrowing) and the size comes from the two studies that convert: the mean of the move weight's and the claim weight's log odds, 0.28 and 0.47. How much the stress a layoff, an eviction or a missed payment left pulls a household with a shortfall toward asking for a loan (credit.ts personalBorrowingDecision), in the same score as the baseline, need and cost.",
+    "estimatedFrom": "The mean of ln(1.325) and ln(1.6), 0.377, over the average layoff's stress 0.47. A layoff for a person of average temperament raises stress by 0.47 (47 of 100 Holmes and Rahe units, srrsFiredAtWork over srrsMaximumUnits, times lifeEventStressScale 1, with no closeness to themselves), so a weight is the study's log odds ratio divided by 0.47: the study's effect for the average layoff, and more or less for a person hit harder or softer (emotion.ts scales the impulse by their traits, Bolger and Schilling 1991). If lifeEventStressScale is recalibrated, divide these again.",
+    "spread": {
+      "low": 0.6,
+      "high": 1.0,
+      "unit": "score per unit of stress",
+      "citation": "The move weight (0.6) and the claim weight (1.0) it averages."
+    }
+  },
   "traitWeightVotingTurnout": {
     "value": 1,
     "tag": "TUNABLE",

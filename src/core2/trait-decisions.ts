@@ -7,15 +7,20 @@
  */
 import table from "../../data/content/trait-decisions.json" with { type: "json" };
 import { traitLean } from "./choice";
-import { parameter } from "./parameters";
+import { affectAt } from "./emotion";
+import { parameter, parameterValues } from "./parameters";
+import { stopgap } from "./stopgaps";
 import { probeCallerSite, traitProbe } from "./trait-probe";
-import type { CoreState, PersonState } from "./types";
+import type { Affect, CoreState, PersonState } from "./types";
 
 interface OptionRow {
   id: string;
   actKinds?: readonly string[];
   from?: string;
 }
+
+/** Counted people carry no stored stress, so a rule that reads it stands at none for them (registered). */
+const COUNTED_HARDSHIP_STOPGAP = "SG-TRAITS-counted-hardship-stress";
 
 const OPTIONS = new Map(
   (
@@ -300,3 +305,68 @@ export function termOfLean(
 ): number {
   return reportLeaned(core, person, decisionId, lean, bare) - bare;
 }
+
+/**
+ * The stress a hardship (a layoff, an eviction, a missed payment) has put on a
+ * person and not yet let go: the part of their stress those events raised
+ * (`Affect.hardship`, decayed to today at the stress half-life by `affectAt`,
+ * so a day-old layoff reads its full size and a month-old one almost none),
+ * and never more than the stress they carry above rest, so a rest or a visit
+ * that eased them eases the read. Slides with the event's appraised size,
+ * which is the person's own (emotion.ts scales it by their traits). Stress
+ * from anywhere else (a cause shared, an illness) is not read. A person still
+ * in the counted population has no stored stress and reads none until filled
+ * in (registered stopgap).
+ */
+export function hardshipStress(
+  core: Pick<CoreState, "data" | "date">,
+  person: { affect?: Affect },
+): number {
+  const zero = parameter("zero", core.data.parameters);
+  if (!person.affect) {
+    stopgap(COUNTED_HARDSHIP_STOPGAP);
+    return zero;
+  }
+  const now = affectAt(
+    person.affect,
+    core.date,
+    parameterValues(core.data.parameters),
+  );
+  return Math.min(
+    now.hardship ?? zero,
+    Math.max(zero, now.stress - now.stressBaseline),
+  );
+}
+
+/**
+ * What a coping decision reads of the person's hardship stress: the stress
+ * itself and the term it adds to the case for the decision's coping option,
+ * the stress times the decision's weight (`hardshipWeightParameter` on its
+ * row in the shared table, sized from a study in
+ * `data/research/trait-effect-sizes.json`). A reason in the case, never a
+ * roll: it grows smoothly with the stress and is nothing without it.
+ */
+export function hardshipReason(
+  core: Pick<CoreState, "data" | "date">,
+  person: { affect?: Affect },
+  decisionId: string,
+): { stress: number; term: number } {
+  const key = HARDSHIP_KEYS.get(decisionId);
+  if (!key)
+    throw new Error(`Trait decision ${decisionId} reads no hardship stress.`);
+  const stress = hardshipStress(core, person);
+  return { stress, term: stress * parameter(key, core.data.parameters) };
+}
+
+const HARDSHIP_KEYS = new Map(
+  (
+    table.decisions as readonly {
+      id: string;
+      hardshipWeightParameter?: string;
+    }[]
+  ).flatMap((row) =>
+    row.hardshipWeightParameter
+      ? [[row.id, row.hardshipWeightParameter] as const]
+      : [],
+  ),
+);

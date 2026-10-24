@@ -5610,5 +5610,17 @@
     "addedAt": "2026-10-24",
     "replacement": "Counted students' attendance from the counted tier's own school days (the same attendance choice full students make, read for the group times its count), so the standing reads one recorded rule in both tiers.",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-counted-hardship-stress",
+    "kind": "partial-model",
+    "file": "src/core2/trait-decisions.ts",
+    "line": 327,
+    "whatItFakes": "The stress a layoff, an eviction or a missed payment leaves is read by the loan and move decisions for full people only; a counted person's decision reads none, because the wider population stores no stress (a counted worker laid off feels the layoff's appraisal for the day of their claim only).",
+    "why": "A counted person's stress impulses are appraised when the event reaches them (drives.ts) and not kept, and their resting stress is recomputed from their situation each time their group decides; there is no stored stress above rest to read a month later.",
+    "addedBy": "traits-outcome-hardship-coping",
+    "addedAt": "2026-10-24",
+    "replacement": "Keep a counted person's appraised hardship impulse with the date it landed (a row beside the counted record, written where drives.ts appraises it) and read it, decayed by emotion.ts, in hardshipStress; a person filled in from a group would take it into their affect.",
+    "status": "open"
   }
 ]

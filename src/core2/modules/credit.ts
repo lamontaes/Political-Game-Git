@@ -18,6 +18,7 @@ import creditParameters from "../data/credit/parameters.json" with { type: "json
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import type {
+  Affect,
   CoreAPI,
   CoreInput,
   CoreModule,
@@ -34,7 +35,12 @@ import {
   residentFacts,
 } from "./residents";
 import { chooseAct, traitLean } from "../choice";
-import { decisionTraitWeight, leanedByKinds } from "../trait-decisions";
+import {
+  decisionTraitWeight,
+  hardshipReason,
+  leanedByKinds,
+} from "../trait-decisions";
+import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { transferCash } from "../world-transfer";
 import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
@@ -838,7 +844,7 @@ function earnedDaily(
  */
 export function personalBorrowingDecision(
   api: CoreAPI,
-  actor: Pick<PersonInput, "traits"> & { id?: string },
+  actor: Pick<PersonInput, "traits"> & { id?: string; affect?: Affect },
   need: number,
   burden: number,
 ) {
@@ -848,13 +854,18 @@ export function personalBorrowingDecision(
     (traitLean(api.state, actor, creditData.actions.borrow.actKinds) -
       traitLean(api.state, actor, creditData.actions.wait.actKinds)) *
     decisionTraitWeight(api.state, "credit.borrow");
+  // Stress a layoff, an eviction or a missed payment left and has not let go
+  // of them pulls toward borrowing, by the stress itself (no step, no roll).
+  const hardship = hardshipReason(api.state, actor, "credit.borrow");
   const reasons = {
     trait: traitTerm,
     baseline: p("creditBorrowBaseline"),
     need: p("creditBorrowNeedWeight") * need,
     cost: -p("creditBorrowCostWeight") * Math.min(burden, p("two")),
+    hardshipStress: hardship.term,
   };
-  const bare = reasons.baseline + reasons.need + reasons.cost;
+  const bare =
+    reasons.baseline + reasons.need + reasons.cost + reasons.hardshipStress;
   // The core chooser breaks ties by action id (borrow sorts before do-without).
   const borrow =
     leanedByKinds(
@@ -1086,6 +1097,25 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         cashBeforeMinor: cashBefore,
         employed: Boolean(person?.jobId),
         standing,
+      });
+    // A missed payment is a hardship of the same Holmes and Rahe size as a
+    // layoff, and the borrower's appraisal scales it by who they are
+    // (emotion.ts). The coping decisions that follow read the stress it left.
+    if (pastDue > 0 && c.people.has(loan.borrowerId))
+      api.emit({
+        id: `event:credit.payment-missed:${loan.id}:${c.date}`,
+        date: c.date,
+        kind: "credit.payment-missed",
+        personIds: [loan.borrowerId],
+        placeId: c.people.get(loan.borrowerId)!.placeId,
+        publicRecord: false,
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: creditData.source.citation,
+          estimatedFrom: `${loan.id}: the borrower's cash covered ${paid} of the ${Math.round(due)} due.`,
+        },
+        ...severityImpulse(api, DEFAULT_HEALTH_DATA.missedPaymentSeverity),
       });
     const { firstPastDueAt: previousPastDueAt, ...rest } = loan;
     store(api)

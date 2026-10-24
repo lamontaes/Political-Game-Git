@@ -1546,6 +1546,70 @@
       "quote": "",
       "quoteVerified": false,
       "notes": "Jensen-Campbell & Graziano (2001, Journal of Personality 69(2), 323-362, doi 10.1111/1467-6494.00148) and Bono, Boles, Judge & Lauver (2002) were found, but their abstracts could not be retrieved (one repository returned 503, the other abstract was for an unrelated paper), so there is no verified quote or number. Search summaries say agreeableness was the Big Five trait most closely tied to conflict processes and outcomes."
+    },
+    {
+      "id": "outcome.hardship-coping",
+      "trait": "job loss (displacement), the hardship whose stress the move weight reads; not a personality trait",
+      "outcome": "moves.move-away: moving to a new region within two years of a plant closure or downsizing, workers 25-50, Norway (probit marginal effects, men 0.006 on a 1.97% base, women 0.007 on 2.10%)",
+      "effect": {
+        "kind": "odds-ratio-per-event",
+        "value": 1.33,
+        "low": 1.25,
+        "high": 1.44
+      },
+      "baseRate": 0.02,
+      "source": {
+        "authors": "Huttunen, K., Moen, J., & Salvanes, K. G.",
+        "year": 2018,
+        "title": "Job loss and regional mobility",
+        "venue": "Journal of Labor Economics 36(2); text read from IZA Discussion Paper 8780 (2015)",
+        "url": "https://docs.iza.org/dp8780.pdf"
+      },
+      "quote": "Displaced male workers have a 0.6 percentage point increase in the probability of moving to a new region within two years after job loss while displaced female workers have a 0.7 percentage point increase. Since an average non-displaced male worker has a 1.97% probability of moving to a new region by year 2, and an average non-displaced female worker has a 2.10% probability of moving to a new region by year 2 (cf. Figure 2), each of these increases represents an increase in the moving probability of approximately a 30%.",
+      "quoteVerified": true,
+      "notes": "Read from the IZA working paper's text (Table 2, panel A and B, column 1; the Journal of Labor Economics version was not retrieved). Odds ratios computed here: men (0.0197+0.006)/(1-0.0257) over 0.0197/(1-0.0197) = 1.31; women 1.34; value is exp of the mean log, 1.33. low/high are the women's interval, 0.007 +/- 1.96 x 0.001 on the 2.10% base (the men's standard error rounds to 0.000). Not a personality effect: it sizes the job loss itself, which the model carries as the stress a layoff raises (0.47 for an average temperament), so hardshipWeightMovesMoveAway = ln(1.33)/0.47. Norwegian administrative data, regions are commuting-based labor market regions, not US counties. The increase takes place in the first two years after displacement; displaced men with a parent in the region move 0.2 points less (Table 2, column 6). No study of neuroticism and moving after a job loss was found; Jokela 2009 (moves.move-away rows) finds neuroticism null for migration."
+    },
+    {
+      "id": "outcome.hardship-coping",
+      "trait": "psychological distress (GHQ-12 caseness), the stress the claim weight reads; not a personality trait",
+      "outcome": "jobs-benefits.file-claim: GHQ-12 distress caseness in the two years before people start claiming a state benefit (incapacity benefit), British Household Panel Survey 1991-2007, against more than five years before",
+      "effect": {
+        "kind": "odds-ratio-per-event",
+        "value": 1.6,
+        "low": 1.3,
+        "high": 1.9
+      },
+      "source": {
+        "authors": "Whittaker, W., Der, G., Cook, S., & Saunders, B.",
+        "year": 2010,
+        "title": "Predicting which people with psychosocial distress are at risk of becoming dependent on state benefits: analysis of routinely available data",
+        "venue": "BMJ 341:c3838",
+        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2923293/"
+      },
+      "quote": "There was a significant increase in rates of GHQ-12 caseness from two years before the start of claiming incapacity benefit (odds ratio 1.6, 95% confidence interval 1.3 to 1.9)",
+      "quoteVerified": true,
+      "notes": "Abstract text of the open-access article, read in full on 2026-10-24. This is the closest published size found for distress and claiming a state benefit: no study of stress and filing for unemployment insurance turned up (searches for UI take-up and distress returned only stigma and the reverse direction, benefits easing distress: Young, PSID). It is a disability benefit in Britain, and the odds are of distress among people about to claim, not of claiming among the distressed, so it fixes the direction and an order of size, not an effect on this filing. Used as the size of a layoff's distress effect on help sought: hardshipWeightJobsBenefitsFileClaim = ln(1.6)/0.47. In the model almost every eligible worker already files (benefitsFileBase 0.6), so the term moves the few whose traits lean hard toward skipping."
+    },
+    {
+      "id": "outcome.hardship-coping",
+      "trait": "unemployment-induced earnings loss, the hardship whose stress the borrow weight reads; not a personality trait",
+      "outcome": "credit.borrow: change in unsecured debt per dollar of earnings lost to unemployment, low-asset (not the poorest decile) US households, PSID and SIPP panels",
+      "effect": {
+        "kind": "cents-per-dollar",
+        "value": 11,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Sullivan, J. X.",
+        "year": 2008,
+        "title": "Borrowing during unemployment: unsecured debt as a safety net",
+        "venue": "Journal of Human Resources 43(2), 383-412",
+        "url": "https://jhr.uwpress.org/content/43/2/383"
+      },
+      "quote": "Results indicate that very low-asset households—those in the bottom decile of total assets—do not borrow in response to these shortfalls. However, other low-asset households do borrow, increasing unsecured debt by more than 11 cents per dollar of earnings lost. In contrast, wealthy households do not increase unsecured debt during unemployment.",
+      "quoteVerified": true,
+      "notes": "Abstract text of the published article, read 2026-10-24 (full text is behind a subscription and was not retrieved, so the 'more than 11 cents' is a floor and the sample sizes are unread). The study gives an amount borrowed, not the odds of borrowing, so it does not convert to a weight: it sets the sign (a job loss pulls toward borrowing where the household has some assets and the credit to borrow) and the pathway. hardshipWeightCreditBorrow is therefore the mean of the two converted sizes, (ln 1.33 + ln 1.6)/2/0.47 = 0.8, with the move weight (0.6) and claim weight (1.0) as its spread. The model's lender gates (the debt-to-income and residual-income slides in credit.ts) shut out a household with no income, as the study finds for the poorest."
     }
   ]
 }

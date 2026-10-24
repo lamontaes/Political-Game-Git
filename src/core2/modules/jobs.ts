@@ -65,6 +65,7 @@ import type {
   ActOffer,
   ActionDefinition,
   CoreAPI,
+  CoreEventInput,
   CoreModule,
   CoreState,
   JobInput,
@@ -1381,7 +1382,7 @@ function layOff(
   // the counts no longer hold them.
   const placeId = (c.people.get(job.personId) ??
     residentFacts(c, job.personId))!.placeId;
-  api.emit({
+  const lost: CoreEventInput = {
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
     kind: "work.job-lost",
@@ -1402,7 +1403,8 @@ function layOff(
       organizationId,
       ...(counted ? { "counted-subject": job.personId } : {}),
     },
-  });
+  };
+  api.emit(lost);
   // Laid off through no choice of their own: a claim under the state's program.
   fileClaim(
     api,
@@ -1410,6 +1412,7 @@ function layOff(
     job,
     jobsData.reasons.layoff,
     weeksWorked,
+    lost,
   );
   if (inCustody(api, job.personId)) return { heads };
   if (counted)

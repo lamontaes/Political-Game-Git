@@ -89,6 +89,8 @@ export interface HealthData {
   onsetSeverity: Severity;
   jobLossSeverity: Severity;
   evictionSeverity: Severity;
+  /** A missed debt payment weighs as a layoff does (pool item traits-outcome-hardship-coping): the same Holmes and Rahe units. */
+  missedPaymentSeverity: Severity;
   deathSeverity: Severity;
   source: Source & { asOf?: string };
   gaps: readonly string[];
