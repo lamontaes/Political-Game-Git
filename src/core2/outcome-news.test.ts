@@ -47,15 +47,18 @@ const RENT = "housing.rent";
 const RENT_QUESTION = conditionQuestion(NEWS_MEASURES[RENT]!.topic)!;
 
 /**
- * Each stance move on the rent question as the views engine stored it, with
- * what the person knew of its latest cause's record and their view on the
- * question at that moment.
+ * Each stance move on the rent question as the views engine stored it: the
+ * causes recorded that day (a reader in the player's circle keeps every
+ * source's latest, so older ones ride along), whether the person knew each
+ * one's record, and their view on the question at that moment.
  */
 interface Move {
   readonly personId: string;
   readonly date: string;
   readonly stance: Stance;
-  readonly knewSource: boolean;
+  readonly today: readonly (Stance["causes"][number] & {
+    readonly knewSource: boolean;
+  })[];
   readonly viewNow: number;
 }
 const MOVES = new WeakMap<object, Move[]>();
@@ -67,13 +70,18 @@ registerStanceListener((api, personId, topic) => {
     .moduleState(VIEWS_MODULE_ID)
     .table("stances")
     .get(`${personId}:${topic}`) as unknown as Stance;
-  const learnedFrom = stance.causes.at(-1)?.learnedFrom;
   const view = viewOf(api, personId);
   moves.push({
     personId,
     date: api.state.date,
     stance,
-    knewSource: !!learnedFrom && !!api.knows(personId, learnedFrom),
+    today: stance.causes
+      .filter((cause) => cause.date === api.state.date)
+      .map((cause) => ({
+        ...cause,
+        knewSource:
+          !!cause.learnedFrom && !!api.knows(personId, cause.learnedFrom),
+      })),
     viewNow: view ? viewOn(api, personId, topic, view.lean) : 0,
   });
 });
@@ -231,9 +239,9 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
       .query("byWire", [wireId]) as unknown as { id: string }[];
     expect(printed.length, "outlets that printed the month").toBeGreaterThan(0);
     const storyIds = new Set(printed.map((story) => story.id));
-    // Moves whose cause is a day's reading of that month's story.
+    // Moves whose cause that day is a reading of that month's story.
     const read = moves.flatMap((move) =>
-      move.stance.causes
+      move.today
         .filter((cause) => storyIds.has(storyOfReadEvent(cause.eventId) ?? ""))
         .map((cause) => ({ ...move, cause })),
     );
@@ -241,7 +249,7 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
       read.length,
       `readers moved by ${[...storyIds].join(", ")}`,
     ).toBeGreaterThan(0);
-    for (const { personId, date, stance, cause, knewSource, viewNow } of read) {
+    for (const { personId, date, stance, cause, viewNow } of read) {
       const storyId = storyOfReadEvent(cause.eventId)!;
       // `news.read:<story>:<date>:<side>:<question>`.
       const side = /:\d{4}-\d{2}-\d{2}:(enact|repeal):/.exec(
@@ -251,7 +259,7 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
       // Read in print: the cause names the story's news record, which the
       // reader knew when their stance moved.
       expect(cause.learnedFrom, where).toBe(newsKey(storyId));
-      expect(knewSource, where).toBe(true);
+      expect(cause.knewSource, where).toBe(true);
       expect(cause.change, where).toBeGreaterThan(0);
       // Toward the side their own view held: the stance and the view sit on
       // the side the read event carried.
