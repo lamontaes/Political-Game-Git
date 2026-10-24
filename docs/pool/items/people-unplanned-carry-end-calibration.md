@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/data/renewal/parameters.json, src/core2/births-unplanned.ts, src/core2/data/stopgaps.json, data/research/people/
 
-**Notes.** Filed Oct 24, 2026 from the merger's send-back of PR 5749 (claude/provider-distance): the five unplanned coefficients pointed at the resolved SG-PEOPLE-unplanned-pregnancy; the fixer registered SG-PEOPLE-unplanned-coefficients, whose replacement names this item and people-unplanned-exposure-calibration.
+**Notes.** Filed Oct 24, 2026 from the merger's send-back of PR 5749 (claude/provider-distance): the five unplanned coefficients pointed at the resolved SG-PEOPLE-unplanned-pregnancy; the fixer registered SG-PEOPLE-unplanned-coefficients, whose replacement names this item and people-unplanned-exposure-calibration. Dropped the same day: a duplicate of people-unplanned-calibration, filed by the session that fixed PR 5749 first.
