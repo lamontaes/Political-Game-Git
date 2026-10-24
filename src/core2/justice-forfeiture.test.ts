@@ -12,6 +12,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { chargeDecisionDays, dispositionDays } from "./justice-law";
 import { advanceCore } from "./life";
 import {
   CORRUPTION_MODULE_ID,
@@ -22,9 +23,16 @@ import { JUSTICE_MODULE_ID, type SentenceRow } from "./modules/justice";
 import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { coreAPI } from "./state";
+import type { CoreAPI } from "./types";
 
 const ATTEMPTS = 6;
-const DAYS = 240;
+
+// Past the hearing of a case opened today: the charge decision, then the
+// state's time to disposition (pleas wait for it as trials do), then a month.
+const pastHearing = (api: CoreAPI) =>
+  chargeDecisionDays(api).days +
+  dispositionDays(api, lawChain(api).stateKey).days +
+  30;
 
 function play(seed: string) {
   setBookkeeping(false);
@@ -70,7 +78,7 @@ function play(seed: string) {
         })?.taken
       )
         taken += 1;
-  advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
+  advanceCore(core, addDays(makeIsoDate(core.date), pastHearing(api)));
   const sentences = api
     .moduleState(JUSTICE_MODULE_ID)
     .table("sentences")
@@ -136,6 +144,11 @@ it("forfeits the bribe money a convicted official took, to the treasury, before 
     ).toBe(true);
     expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
       core.cashJournal.totals.grossCreditMinor,
+    );
+    // The convicted taker's sentence and the forfeiture's journal record.
+    const paid = forfeits.find((s) => s.forfeiturePaidMinor > 0)!;
+    console.info(
+      `justice-forfeiture ${where}, world ${attempt + 1}: ${taken} bribes taken, ${sentences.length} sentences; ${paid.id} forfeited ${paid.forfeiturePaidMinor} as forfeiture:${paid.id}`,
     );
     return;
   }
