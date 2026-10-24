@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: dropped
 claimed-by: claude/speed-alike-offers
 pr:
 blocked-on:

@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/office-before-it-exists
+pr: #5952
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T14:56:01.343Z
 ---
 
 **What.** stateOffices in src/core2/offices-state.ts seats a holder in every executive office data/research/offices/state-offices.json lists, including a lieutenant governor's office whose research row says it is first elected in 2026 and takes office in January 2027 (a 2022 constitutional amendment created it). The game opens on January 20, 2025, so a person holds an office that does not yet exist, takes the governor's party through the ticket rule in unrecordedParty, and can act in the line of succession two years early. Found by research-gov-sourced-parameters while reading which holders the rosters leave unrecorded.
