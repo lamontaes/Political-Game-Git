@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
-claimed-by: words/batches-as-artifacts
+status: open
+claimed-by:
 pr: #5917
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T04:17:41.986Z
+claimed-at:
 ---
 
 **What.** The owner, Oct 24, to the Words session: You're supposed to give me the batches in an artifact. Batch 22 went to him only as a Markdown page and JSON, because the words-engine skill said the CTO builds the grading artifact from the Markdown. The Words session now publishes each batch itself: batch 22 is a claude.ai artifact whose grades save to its own store as he taps Good, Bad or Fix. The page builder lives in the repo so the next held-line batch is built the same way, and the skill says who publishes and how the grades come back into data/english/grades.
