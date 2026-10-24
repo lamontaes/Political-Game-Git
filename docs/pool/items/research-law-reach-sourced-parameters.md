@@ -5,12 +5,12 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/dreamy-tesla-bgi3ui-law-reach
+pr: #5863
 blocked-on:
 source: "collapsed Oct 19, 2026 from laws-stopgap-group-b-money-missing-data, laws-stopgap-laws-data-gap, laws-stopgap-reach-group-a-missing-mechanic"
-claimed-at:
+claimed-at: 2026-10-23T20:24:22.294Z
 ---
 
 **What.** Source the numbers behind law reach (group A, group B money, starting law). Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 3 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/laws/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).

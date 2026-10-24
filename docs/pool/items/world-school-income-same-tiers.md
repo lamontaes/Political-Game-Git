@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: effect-web-schools
 pr: #5609
 blocked-on:
 source: "Merger review of PR #5609, branch effect-web-schools"
-claimed-at:
+claimed-at: 2026-10-24T00:10:38.601Z
 ---
 
 **What.** PR #5609's school-outcomes reader classifies a full student from household job wages alone. Its counted path reads the household's wages, retirement and unplaced-worker pay through groupKeyOf, so meeting a student can change their income fifth while their recorded pay continues. Use the same recorded household-income basis in both paths instead of dropping income when a person is filled in.
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found on integrated PR head 594af331c36318993f7de85cc9cd317453d63d89. A focused diagnostic built Del Carmen, Puerto Rico (7223341), world seed 718c331a508c5960947ad3e6371198f3e092ae9140152916aafc788f9c41a2ea, draw seed 81ea428901414bdc90c9471c9ecc60ff, and invoked the school reader on the generated household after fill-in. Student person_827435f90b691499 in household_790279f07f0744fd changed from counted income fifth 1 (about 3,398,000 annual cents) to full fifth 0 (about 1,205,300 wage cents). Live flow residents:unplaced-wages:jurisdiction_0a25325f78916101:household_790279f07f0744fd still paid 84,134 cents every 14 days. School result school.math-proficient-pct:person_827435f90b691499:2024 omitted that pay. This was a classification diagnostic, not a completed annual acceptance run.
 
 Sent back 2026-10-21 from PR #5609 (branch effect-web-schools): Full students use job wages only while counted students include retirement and unplaced pay; Del Carmen student person_827435f90b691499 changes from income fifth 1 to 0 after fill-in while the 84,134-cent fourteen-day unplaced-pay flow remains live. Use one household-income basis and add a transition regression.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5639 (branch effect-web-integration): The capstone carries the same full-wages-only versus counted total-income school classification defect at school-outcomes.ts:128-169; use one income basis and prove fill-in preserves the fifth with positive non-job income; finish on that branch, merge main into it first.
