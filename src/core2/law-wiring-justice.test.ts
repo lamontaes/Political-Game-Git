@@ -17,7 +17,10 @@ import { gameStartDate } from "./game-start";
 import { setJournalTrace } from "./journal-state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { electorateChange } from "./electorate-inputs";
 import { inForceHere } from "./law-reach/host";
+import { RESTORE_VOTE } from "./law-reach/group-a-voting";
+import { openReach } from "./law-reach/group-a-records";
 import { appliedOn, type LawAppliedRow } from "./law-reach/applied";
 import {
   amendBudget,
@@ -118,6 +121,8 @@ interface Attempt {
   readonly where: string;
   readonly rows: Map<string, LawAppliedRow[]>;
   readonly posts: Map<string, number>;
+  /** The first journal entry of each kind of public-safety money. */
+  readonly postIds: Map<string, string>;
   readonly web: Map<string, number[]>;
   readonly after: Map<string, LawAppliedRow[]>;
   readonly monthsRun: SafetyMonth[];
@@ -137,6 +142,7 @@ function attempt(trySeed: string, index: number): Attempt {
   const core = world.core;
   const api = coreAPI(core);
   const posts = new Map<string, number>();
+  const postIds = new Map<string, string>();
   setJournalTrace((input) => {
     const id = input.sourceRef.id;
     if (!id.startsWith("public-safety:")) return;
@@ -146,14 +152,32 @@ function attempt(trySeed: string, index: number): Attempt {
       0,
     );
     posts.set(kind, (posts.get(kind) ?? 0) + gross);
+    if (gross > 0 && !postIds.has(kind)) postIds.set(kind, input.id);
   });
   const rows = new Map<string, LawAppliedRow[]>();
   const after = new Map<string, LawAppliedRow[]>();
   const web = new Map<string, number[]>();
   const cutService: number[] = [];
   const keys = [...QUESTIONS, HANDGUN_AGE];
+  const lines = [POLICE_LINE, FIRE_LINE, CORRECTIONS_LINE];
   const startedNo = new Set(keys.filter((key) => !inForceHere(api, key)));
   try {
+    // The three service lines are raised a tenth by a measure of their own, so
+    // the departments' service has a statute to stand on.
+    const lineGov =
+      governments(api).find((g) => g.level === "city") ??
+      governments(api).find((g) => g.level === "county") ??
+      governments(api).find((g) => g.level === "state")!;
+    for (const line of ["police", "fire", "corrections"])
+      amendBudget(api, {
+        governmentId: lineGov.id,
+        line,
+        deltaMinor: Math.max(
+          1_000_000,
+          Math.round(lineAmount(api, lineGov, line) * 0.1),
+        ),
+        measureId: `test:${line}:raise`,
+      });
     // Phase one: the age limit on handgun sales is not law, so young adults buy.
     setQuestion(api, HANDGUN_AGE, 0);
     for (const key of QUESTIONS) setQuestion(api, key, 1);
@@ -162,8 +186,11 @@ function attempt(trySeed: string, index: number): Attempt {
     // Phase two: the limit is law, the sale is refused.
     setQuestion(api, HANDGUN_AGE, 1);
     run(core, 35);
-    for (const key of keys) rows.set(key, [...appliedOn(api, key)]);
+    for (const key of [...keys, ...lines])
+      rows.set(key, [...appliedOn(api, key)]);
     for (const [kind, gross] of noLimit) posts.set(`first:${kind}`, gross);
+    for (const kind of noLimit.keys())
+      if (postIds.has(kind)) postIds.set(`first:${kind}`, postIds.get(kind)!);
     // The outcome web's month rows for the measures the engine reads.
     const webTable = api
       .moduleState("core2-outcome-web-v1")
@@ -205,25 +232,35 @@ function attempt(trySeed: string, index: number): Attempt {
     for (const key of keys) after.set(key, [...appliedOn(api, key)]);
     // Cases are fractions of a person a month in a small town, so the arrest
     // laws need a counted group row; the laws on people need a count above one.
+    const refusedOrPaid = (key: string, what: string) =>
+      rows
+        .get(key)
+        ?.some((r) => r.target === "group" && r.what === what && r.count > 1);
     const missing = [
-      ...keys.filter((key) => !rows.get(key)?.length),
+      ...[...keys, ...lines].filter((key) => !rows.get(key)?.length),
       ...(rows.get(OVERSIGHT)?.some((r) => r.target === "organization")
         ? []
         : [`${OVERSIGHT} (a police department)`]),
       ...[CASH_BAIL, IMMIGRATION]
         .filter((key) => !rows.get(key)?.some((r) => r.target === "group"))
         .map((key) => `${key} (counted groups)`),
-      ...[CHILD_ACCESS, CARRY_PERMIT, HANDGUN_AGE]
-        .filter(
-          (key) =>
-            !rows.get(key)?.some((r) => r.target === "group" && r.count > 1),
-        )
-        .map((key) => `${key} (counted groups above one)`),
+      // The groups must be the ones the engine applied the law to (a refused sale,
+      // a permit fee, a lock), not the youth measure's read of the whole town.
+      ...(
+        [
+          [CHILD_ACCESS, "storage-duty"],
+          [CARRY_PERMIT, "permit-fee"],
+          [HANDGUN_AGE, "sale-refused-under-age"],
+        ] as const
+      )
+        .filter(([key, what]) => !refusedOrPaid(key, what))
+        .map(([key]) => `${key} (counted groups above one)`),
     ];
     return {
       where,
       rows,
       posts,
+      postIds,
       web,
       after,
       monthsRun: months(api),
@@ -372,13 +409,104 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
           (a.after.get(key) ?? []).filter((r) => !r.endedOn).map((r) => r.id),
           `${a.where}: ${key} after repeal`,
         ).toEqual([]);
-      void [
-        POLICE_LINE,
-        FIRE_LINE,
-        CORRECTIONS_LINE,
-        STAND_GROUND,
-        JUVENILE_AGE,
-      ];
+      // The three service lines were raised by a measure of their own, and
+      // each reached the counted people its department serves.
+      for (const line of [POLICE_LINE, FIRE_LINE, CORRECTIONS_LINE])
+        expect(
+          groups(line).some((r) => !r.endedOn && r.count >= 1),
+          `${a.where}: ${line} groups`,
+        ).toBe(true);
+
+      // Each law by record id: the applied row, the journal entry of its
+      // money, and who it reached (a named person or household where the
+      // engine reached one, else the counted group, which stands for its
+      // households).
+      const moneyKind: Record<string, string> = {
+        [OVERSIGHT]: "oversight",
+        [IMMIGRATION]: "detainer",
+        [CASH_BAIL]: "jail",
+        [JUVENILE_AGE]: "court",
+        [CHILD_ACCESS]: "storage",
+        [CARRY_PERMIT]: "permit-fee",
+        [HANDGUN_AGE]: "first:handgun-sales",
+        [STAND_GROUND]: "court",
+        [POLICE_LINE]: "court",
+        [FIRE_LINE]: "fire-loss",
+        [CORRECTIONS_LINE]: "jail",
+      };
+      const evidence = Object.entries(moneyKind).map(([key, kind]) => {
+        const rows = a.rows.get(key) ?? [];
+        const row = rows.find((r) => r.amountMinor !== 0) ?? rows[0]!;
+        const named = rows.find((r) => r.target === "person");
+        return {
+          law: key.replace(/^.*[.:]/, ""),
+          applied: row.id,
+          journal: a.postIds.get(kind) ?? "none",
+          reached: (named ?? row).targetId,
+          count: (named ?? row).count,
+        };
+      });
+      console.log(
+        `law-wiring-justice evidence in ${a.where}:\n${evidence
+          .map(
+            (e) =>
+              `  ${e.law}: ${e.applied} | ${e.journal} | ${e.reached} x${e.count}`,
+          )
+          .join("\n")}`,
+      );
+      for (const e of evidence) {
+        expect(e.applied, `${a.where}: ${e.law} applied row`).toBeTruthy();
+        expect(e.journal, `${a.where}: ${e.law} journal entry`).not.toBe(
+          "none",
+        );
+      }
+    } finally {
+      setBookkeeping(true);
+    }
+  }, 300_000);
+
+  it("restoring the vote after a sentence changes who the electorate counts as barred", () => {
+    setBookkeeping(false);
+    try {
+      const tried: string[] = [];
+      for (let i = 0; i < TRIES; i++) {
+        const drawn = drawPlace(seed, `law-wiring-justice:restore:${i}`);
+        const where = `${drawn.name} (${drawn.key}), seed ${seed}`;
+        const world = buildBenchWorld(drawn.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: drawn.key,
+        });
+        const core = world.core;
+        const api = coreAPI(core);
+        // A day after each change, the election engine's read of the law.
+        setQuestion(api, RESTORE_VOTE, 0);
+        run(core, 2);
+        const without = electorateChange(api).barred;
+        setQuestion(api, RESTORE_VOTE, 1);
+        run(core, 2);
+        const withLaw = electorateChange(api).barred;
+        // Maine, Vermont, D.C. and Puerto Rico bar no one: nothing to restore.
+        if (!(without > 0)) {
+          tried.push(`${where}: nobody barred`);
+          continue;
+        }
+        const rows = openReach(api, RESTORE_VOTE);
+        console.log(
+          `law-wiring-justice restore voting in ${where}: barred share ${without} -> ${withLaw}; reach rows ${rows
+            .slice(0, 2)
+            .map((r) => r.id)
+            .join(", ")}`,
+        );
+        expect(withLaw, where).toBeLessThan(without);
+        expect(rows.length, `${where}: restored-voter rows`).toBeGreaterThan(0);
+        // Repealed, the share goes back and the rows end.
+        setQuestion(api, RESTORE_VOTE, 0);
+        run(core, 2);
+        expect(electorateChange(api).barred, where).toBe(without);
+        expect(openReach(api, RESTORE_VOTE), where).toHaveLength(0);
+        return;
+      }
+      throw new Error(`no drawn place barred anyone: ${tried}`);
     } finally {
       setBookkeeping(true);
     }

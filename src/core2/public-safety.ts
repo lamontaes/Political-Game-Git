@@ -31,13 +31,14 @@ import {
 import { transfer, transferSplit } from "./accounts";
 import { justiceParameter } from "./justice-law";
 import { END_CASH_BAIL } from "./justice-pretrial";
-import { lawApplied } from "./law-reach/applied";
+import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
   adoptedLine,
   budgetsOf,
   governments,
+  lineChangedBy,
   type GovernmentRow,
 } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
@@ -140,46 +141,55 @@ function govAt(
 }
 
 interface Service {
-  /** The line today against its adopted base year, bounded. */
+  /** The town's lines today against their adopted base year, bounded. */
   readonly ratio: number;
-  /** The statute that last changed the line, when one did. */
+  /** The measure that last changed the line (a bill, an ordinance, an adoption), when one did. */
   readonly lawId: string | null;
 }
 
-/** A department's service: its budget line today against the line the town began with. */
+/**
+ * A department's service: the town's own governments' budget lines today
+ * against the lines they began the year with (a city's and a county's police
+ * lines both police the town), or the state's line where neither the city
+ * nor the county has one. The measure that last changed any of them is the
+ * statute the service stands on.
+ */
 function serviceOf(
   api: CoreAPI,
   line: string,
   levels: readonly GovernmentRow["level"][],
 ): Service {
-  const gov = govAt(api, levels);
   const floor = safetyParameter("serviceFloor");
   const ceiling = safetyParameter("serviceCeiling");
-  if (!gov) return { ratio: 1, lawId: null };
+  const local = levels
+    .filter((l) => l !== "state")
+    .map((l) => govAt(api, [l]))
+    .filter((g): g is GovernmentRow => g !== null);
+  const state = govAt(api, ["state"]);
+  const govs = local.length ? local : state ? [state] : [];
   const date = api.state.date;
-  const budget = budgetsOf(api, gov.id)
-    .filter((b) => b.startsOn <= date)
-    .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
-  if (!budget) return { ratio: 1, lawId: null };
   const name = line.slice("budget-line:".length);
-  const base = adoptedLine(api, gov, budget.fiscalYear, name);
-  const now = budget.spendingMinor[name] ?? 0;
+  let base = 0;
+  let now = 0;
+  let changed: { measureId: string; date: string } | null = null;
+  for (const gov of govs) {
+    const budget = budgetsOf(api, gov.id)
+      .filter((b) => b.startsOn <= date)
+      .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
+    if (!budget) continue;
+    base += adoptedLine(api, gov, budget.fiscalYear, name);
+    now += budget.spendingMinor[name] ?? 0;
+    const change = lineChangedBy(api, gov.id, name);
+    if (
+      change &&
+      (!changed ||
+        change.date > changed.date ||
+        (change.date === changed.date && change.measureId > changed.measureId))
+    )
+      changed = change;
+  }
   const ratio = base > 0 ? Math.min(ceiling, Math.max(floor, now / base)) : 1;
-  return { ratio, lawId: lineLawId(api, line) };
-}
-
-/** The statute that last amended a budget line, from the staffing it set. */
-function lineLawId(api: CoreAPI, line: string): string | null {
-  if (!api.state.modules.has("core2-law-reach-a-v1")) return null;
-  const rows = api
-    .moduleState("core2-law-reach-a-v1")
-    .table("staffing")
-    .rows() as unknown as { key: string; lawId: string; setOn: string }[];
-  return (
-    rows
-      .filter((r) => r.key === line)
-      .sort((a, b) => b.setOn.localeCompare(a.setOn))[0]?.lawId ?? null
-  );
+  return { ratio, lawId: changed?.measureId ?? null };
 }
 
 // ---- the town's people, both tiers ------------------------------------------
@@ -489,6 +499,11 @@ interface TermRow {
 export interface SafetyMonth {
   readonly id: string;
   readonly month: string;
+  /** The town and day the month stands for (the outcome web reads engine rows by place). */
+  readonly placeId: string;
+  readonly date: string;
+  /** Sworn officers per 1,000 residents: the state's recorded rate times the town's police service. */
+  readonly officersPer1000: number;
   readonly arrests: number;
   readonly juvenileCases: number;
   readonly detained: number;
@@ -609,12 +624,16 @@ export function runSafetyMonth(api: CoreAPI): void {
   const fireIncidents = fireService(api, census, fire);
   const youth = youthHarm(api, census);
   policeApplied(api, census, police);
+  retireGoneGroups(api, census);
   const open = (
     table(api, "cases").query("byStatus", ["open"]) as unknown as CaseRow[]
   ).reduce((n, c) => n + c.detained, 0);
   table(api, "months").put({
     id: `safety:${month}`,
     month,
+    placeId: census.placeId,
+    date: core.date,
+    officersPer1000: officersPer1000(census.stateKey, police),
     ...tally,
     policeService: police.ratio,
     correctionsService: corrections.ratio,
@@ -625,6 +644,42 @@ export function runSafetyMonth(api: CoreAPI): void {
     pretrialDetainedPer100k: census.residents
       ? (open / census.residents) * 100000
       : 0,
+  } satisfies SafetyMonth as unknown as ModuleRow);
+}
+
+/** The officers the town's police lines fund per 1,000 residents: the state's recorded rate, scaled by the lines against where they began the year. */
+function officersPer1000(stateKey: string, police: Service): number {
+  return baseOf("police.officers-per-1000", stateKey).value * police.ratio;
+}
+
+/**
+ * The opening month's row: no line has changed yet, so the town's police
+ * stand at the state's recorded rate. The outcome web reads this as the
+ * level every later change is measured from.
+ */
+export function openingSafetyMonth(api: CoreAPI): void {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return;
+  const chain = lawChain(api);
+  table(api, "months").put({
+    id: `safety:opening`,
+    month: monthOf(api.state.date),
+    placeId: chain.townPlaceId,
+    date: api.state.date,
+    officersPer1000: baseOf("police.officers-per-1000", chain.stateKey).value,
+    arrests: 0,
+    juvenileCases: 0,
+    detained: 0,
+    convicted: 0,
+    incarcerated: 0,
+    jailDays: 0,
+    detainerHolds: 0,
+    policeService: 1,
+    correctionsService: 1,
+    fireService: 1,
+    fireIncidents: 0,
+    youthFirearmDeathsExpected: 0,
+    youthFirearmSuicidesExpected: 0,
+    pretrialDetainedPer100k: 0,
   } satisfies SafetyMonth as unknown as ModuleRow);
 }
 
@@ -1021,10 +1076,29 @@ function serveTerms(
   const terms = table(api, "terms");
   const cases = table(api, "cases");
   const owed = { jail: 0, prison: 0, juvenile: 0 };
+  // Who the corrections line houses this month, by counted group: the people
+  // in pretrial custody and serving a term, with what their days cost.
+  const housed = new Map<string, { people: number; amount: number }>();
+  const house = (c: CaseRow | undefined, people: number, amount: number) => {
+    const total = c ? Object.values(c.groups).reduce((n, v) => n + v, 0) : 0;
+    if (!c || total <= 0 || people <= 0) return;
+    for (const [gid, n] of Object.entries(c.groups)) {
+      const held = housed.get(gid) ?? { people: 0, amount: 0 };
+      held.people += (people * n) / total;
+      held.amount += (amount * n) / total;
+      housed.set(gid, held);
+    }
+  };
   // Pretrial custody: detained defendants of every open adult case.
   let pretrialDays = 0;
-  for (const c of cases.query("byStatus", ["open"]) as unknown as CaseRow[])
+  for (const c of cases.query("byStatus", ["open"]) as unknown as CaseRow[]) {
     pretrialDays += c.detained * days;
+    house(
+      c,
+      c.detained,
+      c.detained * days * safetyParameter("jailPerDiemMinor") * share,
+    );
+  }
   owed.jail += pretrialDays * safetyParameter("jailPerDiemMinor") * share;
   for (const t of terms.query("byStatus", [
     "serving",
@@ -1037,6 +1111,11 @@ function serveTerms(
           ? safetyParameter("juvenilePerDiemMinor")
           : safetyParameter("jailPerDiemMinor");
     owed[t.court] += t.count * billed * served * perDiem * share;
+    house(
+      cases.get(t.caseId) as unknown as CaseRow | undefined,
+      t.count * served,
+      t.count * billed * served * perDiem * share,
+    );
     tally.jailDays += t.count * billed * served;
     const left = t.daysLeft - billed;
     terms.put({
@@ -1075,7 +1154,9 @@ function serveTerms(
     owed.juvenile,
     source,
   );
-  if (corrections.lawId && owed.jail + owed.prison > 0)
+  // The corrections line's capacity is applied to the government that pays
+  // for the days and to the counted people whose days they are.
+  if (corrections.lawId) {
     lawApplied(api, {
       key: CORRECTIONS_LINE,
       lawId: corrections.lawId,
@@ -1085,6 +1166,18 @@ function serveTerms(
       what: "jail-capacity-served",
       amountMinor: owed.jail + owed.prison,
     });
+    for (const [gid, held] of housed)
+      lawApplied(api, {
+        key: CORRECTIONS_LINE,
+        lawId: corrections.lawId,
+        targetId: `group:${gid}`,
+        target: "group",
+        engine: PUBLIC_SAFETY_MODULE_ID,
+        what: "jail-capacity-served",
+        count: Math.max(1, Math.round(held.people)),
+        amountMinor: held.amount,
+      });
+  }
 }
 
 /** Arrested noncitizens held for immigration agents: a short hold at the county jail's cost. */
@@ -1566,6 +1659,33 @@ function youthCount(api: CoreAPI, from: number): number {
     if (a >= from && a < 20) n += 1;
   }
   return n;
+}
+
+/**
+ * A law's row on a counted group ends when the group has no residents left
+ * in the town (its households moved, aged into another group or changed
+ * work): the engine no longer applies the law to it.
+ */
+function retireGoneGroups(api: CoreAPI, census: Census): void {
+  const live = new Set(["named-residents", ...census.groups.map((g) => g.id)]);
+  for (const key of [
+    POLICE_LINE,
+    FIRE_LINE,
+    CORRECTIONS_LINE,
+    CASH_BAIL,
+    IMMIGRATION,
+    JUVENILE_AGE,
+    CHILD_ACCESS,
+    CARRY_PERMIT,
+    HANDGUN_AGE,
+    STAND_GROUND,
+  ])
+    for (const row of appliedOn(api, key)) {
+      if (row.target !== "group" || !row.targetId.startsWith("group:"))
+        continue;
+      const id = row.targetId.slice("group:".length).replace(/:under-age$/, "");
+      if (!live.has(id)) lawNoLongerApplies(api, key, row.targetId);
+    }
 }
 
 /** The police line's service, applied to the people it polices. */

@@ -281,6 +281,15 @@
       "reader": "property-tax-rate",
       "field": "",
       "unitScale": 100
+    },
+    "police.officers-per-1000": {
+      "owner": "OPUS-GOV",
+      "record": "public-safety months.officersPer1000 (sworn officers per 1,000 residents: the state's recorded rate times the town's police service, its police lines against where they began the year)",
+      "module": "core2-public-safety-v1",
+      "table": "months",
+      "field": "officersPer1000",
+      "unitScale": 1,
+      "ownsOutcome": true
     }
   },
   "measureOwners": {
