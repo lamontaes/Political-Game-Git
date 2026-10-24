@@ -146,17 +146,30 @@ function play(
     day = addDays(day, 1);
     advanceCore(core, day);
     // The web's own rows are written on the 3rd: shift the first one after
-    // the opening, so the next month reads rent back at its level.
-    const row = (months.rows() as unknown as WebMonth[]).find(
+    // the opening, so the next month reads rent back at its level. A law
+    // taking effect that month makes the web write the month's row again, so
+    // the shift is laid again until the next month's row is written.
+    const rows = months.rows() as unknown as WebMonth[];
+    const row = rows.find(
       (r) => r.placeId === town && r.date === day && r.date > opening,
     );
-    if (shiftRent && !shifted && row && row.values[RENT] !== undefined) {
-      months.put({
-        ...row,
-        values: { ...row.values, [RENT]: row.values[RENT]! * 0.9 },
-      } as never);
+    if (shiftRent && !shifted && row && row.values[RENT] !== undefined)
       shifted = row;
-    }
+    const current = shifted
+      ? rows.find((r) => r.id === shifted!.id && r.placeId === town)
+      : undefined;
+    const nextWritten =
+      shifted &&
+      rows.some((r) => r.placeId === town && r.month > shifted!.month);
+    if (
+      current &&
+      !nextWritten &&
+      current.values[RENT] !== shifted!.values[RENT]! * 0.9
+    )
+      months.put({
+        ...current,
+        values: { ...current.values, [RENT]: shifted!.values[RENT]! * 0.9 },
+      } as never);
   }
   return { core, api, town, shifted, moves: MOVES.get(core) ?? [] };
 }
