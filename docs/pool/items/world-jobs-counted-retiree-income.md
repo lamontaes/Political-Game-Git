@@ -5,9 +5,9 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr: #5455
+pr: #5224
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
