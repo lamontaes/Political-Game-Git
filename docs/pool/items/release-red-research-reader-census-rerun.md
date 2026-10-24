@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/research-reader-census-rerun
+status: open
+claimed-by:
 pr: #5828
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T20:00:30.509Z
+claimed-at:
 ---
 
 **What.** On main, tests/guards/research-data-has-reader.test.ts fails in two cases. (1) data/research/stopgaps-oct19/census/ holds nine files (census-rerun.results.json and eight census-SG-*.json) that nothing in src/ or scripts/ reads and the allowlist does not name. (2) data/research/people/ lists 1 unread file where the scan finds 2: census-household-pulse-homeschool-replicate-errors-2023.json has no reader. Decide for each file whether it is raw source (a rerun result builders apply into the game's own data, like the other stopgaps-oct19 files already in rawSource) or research waiting for a reader, and account for it in the right category with a reason that says why.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-21T20:00:30.509Z
 **Files.** scripts/audit/research-data-allowlist.json, tests/guards/research-data-has-reader.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5828 (branch claude/research-reader-census-rerun): Ten rawSource additions clear a red research-reader guard through a bypass list, explicitly disallowed by the merger Guards rule; supply the reader/accounting repair; finish on that branch, merge main into it first.
