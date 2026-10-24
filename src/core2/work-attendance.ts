@@ -630,7 +630,7 @@ export function recordWorkAttendance(
     ordinaryRow(job);
     if (previous) ordinaryRow(previous);
     actorView = shallow(r, actor);
-    commitment = {
+    const commitmentView = {
       id: r.field(row, "id"),
       jobId: r.field(row, "jobId"),
       personId: r.field(row, "personId"),
@@ -647,6 +647,7 @@ export function recordWorkAttendance(
           startMinute: r.field(slot, "startMinute"),
           minutes: r.field(slot, "minutes"),
         };
+        commitment = commitmentView;
       }),
     };
     if (
@@ -815,28 +816,30 @@ export function recordWorkAttendance(
     const rawCompact = r.field(input.decision, "compactChoice");
     compactChoice =
       rawCompact === undefined ? undefined : detached(r, rawCompact);
-    if (compactChoice) validateCompactChoice(compactChoice);
+    const compact = compactChoice,
+      why = reasons;
+    if (compact) validateCompactChoice(compact);
     if (
-      compactChoice &&
-      (compactChoice.version !== "core2-compact-choice-v1" ||
-        compactChoice.actorId !== actorView.id ||
-        compactChoice.date !== date ||
-        compactChoice.chosen.actionId !== actionView.id ||
-        compactChoice.chosen.targetId !== checkedOffer.targetId ||
-        compactChoice.chosen.availableHours !== checkedOffer.availableHours ||
-        compactChoice.chosen.driveId !== checkedOffer.driveId ||
-        compactChoice.chosen.effortHours !==
+      compact &&
+      (compact.version !== "core2-compact-choice-v1" ||
+        compact.actorId !== actorView.id ||
+        compact.date !== date ||
+        compact.chosen.actionId !== actionView.id ||
+        compact.chosen.targetId !== checkedOffer.targetId ||
+        compact.chosen.availableHours !== checkedOffer.availableHours ||
+        compact.chosen.driveId !== checkedOffer.driveId ||
+        compact.chosen.effortHours !==
           (checkedOffer.effortHours ??
             batch.parameter(r.field(checkedDefinition, "effortParameter"))) ||
-        !reasons ||
-        Object.keys(compactChoice.chosen.contributions).length !==
-          Object.keys(reasons).length ||
-        compactChoice.chosen.score !==
-          Object.values(reasons).reduce((sum, value) => sum + value, zero) ||
-        Object.keys(reasons).some(
+        !why ||
+        Object.keys(compact.chosen.contributions).length !==
+          Object.keys(why).length ||
+        compact.chosen.score !==
+          Object.values(why).reduce((sum, value) => sum + value, zero) ||
+        Object.keys(why).some(
           (key) =>
-            compactChoice.chosen.contributions[key as keyof typeof reasons] !==
-            reasons[key as keyof typeof reasons],
+            compact.chosen.contributions[key as keyof typeof why] !==
+            why[key as keyof typeof why],
         ))
     )
       throw new Error(
