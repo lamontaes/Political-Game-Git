@@ -65,7 +65,7 @@ it("awards a line's work to a bidder by the body's members and pays the winner m
       for (const id of award.paymentIds)
         expect(id, where).toMatch(
           new RegExp(
-            `^treasury:${award.governmentId}:${award.line}:${award.organizationId}:`,
+            `^treasury:${award.governmentId}:budget-line:${award.line}:${award.organizationId}:`,
           ),
         );
       // The firm that was paid pays its workers: its books show a payroll.

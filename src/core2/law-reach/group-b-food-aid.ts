@@ -205,6 +205,7 @@ export function runFoodAid(
     rowKind: "benefit",
     key: FOOD_AID_KEY,
     want,
+    cites: () => ["snap-maximum"],
     reasonKey: "law-reach:food-aid",
     citation: "7 U.S.C. 2017(a); 7 CFR 273.9 and 273.10",
   });

@@ -58,6 +58,7 @@ const LINES = [
 const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const TRIES = 12;
 const ENACTED_DAYS = 40;
+const WORK_REQUIREMENT_DAYS = 10;
 // The slowest link lags six months and reads the law as it stood that long ago
 // on the web's own row day, so a hold needs the lag plus three rows to show it
 // whatever day of the month the law changed.
@@ -247,8 +248,13 @@ function tryPlace(where: string, seed: string, key: string): string | null {
   }
   advance(core, 2);
   const enactedOn = api.state.date;
-  for (const q of QUESTIONS) enact(api, q, "on");
-  advance(core, ENACTED_DAYS);
+  // The Medicaid work requirement comes a month after the expansion, so the
+  // coverage it ends was being paid first and the payment it stops is on the
+  // journal.
+  for (const q of QUESTIONS) if (q !== MEDICAID_WORK) enact(api, q, "on");
+  advance(core, ENACTED_DAYS - WORK_REQUIREMENT_DAYS);
+  enact(api, MEDICAID_WORK, "on");
+  advance(core, WORK_REQUIREMENT_DAYS);
 
   const taken = () => rowsOf<Taken>(api, "taken");
   const open = (prefix: string) =>
@@ -580,7 +586,10 @@ function tryPlace(where: string, seed: string, key: string): string | null {
       ) ??
       posts
         .find(
-          (p) => p.date > raisedOn && p.gross > 0 && p.id.includes(`:${line}:`),
+          (p) =>
+            p.date > raisedOn &&
+            p.gross > 0 &&
+            p.id.includes(`budget-line:${line}`),
         )
         ?.id.split(" ")[0] ??
       null;

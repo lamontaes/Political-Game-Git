@@ -373,6 +373,13 @@ export function reconcileObligations(
     readonly line?: string;
     readonly reasonKey: string;
     readonly citation: string;
+    /**
+     * The laws a payment from this government carries the keys of in its id,
+     * so the journal entry of its money names them (the policy's key unless
+     * the payment is set by other laws too: the federal share of Medicaid is
+     * the match's, the SNAP benefit the maximum's).
+     */
+    readonly cites?: (governmentId: string) => readonly string[];
   },
 ): void {
   const accounts = api.accounts();
@@ -400,7 +407,8 @@ export function reconcileObligations(
     const [governmentId, recipientId] = pair.split("|") as [string, string];
     const gov = governments(api).find((g) => g.id === governmentId)!;
     // A second change the same day (two amendments) opens a new obligation beside the one it ended.
-    const today = `reach-b:${input.rowKind}:${pair}:${api.state.date}`;
+    const cited = (input.cites?.(governmentId) ?? [input.key]).join("+");
+    const today = `reach-b:${input.rowKind}:${cited}:${pair}:${api.state.date}`;
     let obligationId = today;
     for (let n = 2; accounts.obligation(obligationId); n += 1)
       obligationId = `${today}#${n}`;
@@ -786,6 +794,10 @@ export function payCoverage(
     key: input.key,
     want,
     line: "welfareAndMedicaid",
+    cites: (governmentId) =>
+      governmentId === federal?.id
+        ? [input.key, "medicaid-match"]
+        : [input.key],
     reasonKey: "law-reach:medicaid-coverage",
     citation: `Medicaid expansion (${input.key}): the state and, at the federal match, the federal government pay a covered adult's medical spending`,
   });
