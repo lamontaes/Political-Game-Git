@@ -12,7 +12,7 @@
  */
 
 import { daysBetween, makeIsoDate } from "./kernel/dates";
-import type { EntityId, IsoDate } from "../simulation/types";
+import type { EntityId, IsoDate } from "./kernel/brands";
 import {
   WORK_PATTERNS,
   type WorkPatternKey,
