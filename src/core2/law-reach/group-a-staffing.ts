@@ -222,6 +222,17 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
       over -= 1;
     }
   }
+  // Someone the line hired who has since left every employer it funds
+  // (quit, moved, died) no longer holds a job it pays for.
+  const rule = STAFFING[row.key];
+  const funded = new Set<string>();
+  for (const org of rule ? townOrganizations(api, rule.employers) : []) {
+    for (const s of currentStaff(api, org.id)) funded.add(s.personId);
+    for (const job of countedJobsOf(state, org.id)) funded.add(job.personId);
+  }
+  for (const r of appliedOn(api, row.key))
+    if (r.what === "hired-on-budget-line" && !funded.has(r.targetId))
+      lawNoLongerApplies(api, row.key, r.targetId);
   for (const s of laidOff)
     lawApplied(api, {
       key: row.key,

@@ -127,9 +127,13 @@ export const votingLaw: PolicyHandler = (api, change) => {
     return;
   }
   if (!change.inForce || !api.state.modules.has(ELECTIONS_MODULE_ID)) return;
-  applyElectionLaws(api, "registration", electorateRoll(api), null, [
-    change.key,
-  ]);
+  applyElectionLaws(
+    api,
+    change.opening ? "opening" : "registration",
+    electorateRoll(api),
+    null,
+    [change.key],
+  );
 };
 
 /**
@@ -205,7 +209,12 @@ const ELECTION_LINE = "administration";
 /** Levels in the order the government that runs the town's elections is looked for. */
 const ADMINISTRATOR_LEVELS = ["county", "city", "state"] as const;
 
-type Moment = "registration" | "vote";
+/**
+ * When the roll is brought up to the election laws: the day one changes, an
+ * election day, or the opening, when the laws already in force are applied
+ * to the roll at no cost (those registrations and IDs predate the game).
+ */
+type Moment = "registration" | "vote" | "opening";
 
 interface LawSpec {
   readonly key: string;

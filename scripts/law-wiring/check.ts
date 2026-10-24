@@ -782,11 +782,15 @@ function checkLaw(
     trace.on = false;
   }
   // A law in force at the opening reaches whom the engines apply it to as
-  // they act, so its reach is what the control world (nothing changed)
-  // shows at the end of the window, not the opening day alone.
-  const openingReach = opening
-    ? (control.reach.get(law.key) ?? reachOf(core, law.key, null))
-    : reachOf(core, law.key, null);
+  // they act: its reach is the opening day's or what the control world
+  // (nothing changed) shows at the end of the window, whichever is more (a
+  // body in play may repeal it during a long window).
+  const dayOne = reachOf(core, law.key, null);
+  const controlled = control.reach.get(law.key);
+  const openingReach =
+    opening && controlled && controlled.open > dayOne.open
+      ? controlled
+      : dayOne;
   let how: string;
   let undo: () => void;
   if (law.kind === "question") {
