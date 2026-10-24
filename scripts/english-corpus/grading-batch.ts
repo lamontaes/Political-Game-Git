@@ -33,7 +33,7 @@ import {
   CONVERSATION_BANK,
   MINED_CONVERSATION,
   type MinedPart,
-} from "../../src/director/mined/conversation-bank";
+} from "../../src/english/mined/conversation-bank";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {

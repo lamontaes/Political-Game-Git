@@ -7,8 +7,8 @@
  * passed in as plain data; the filing itself is GOV's `fileCandidacy`.
  */
 import type { CoreState, PersonId } from "../core2/types";
-import { renderLine, type Fact, type Variant } from "./render";
-import { filingWordsFromBank } from "./mined/filing-bank";
+import { renderLine, type Fact, type Variant } from "../english/bank-line";
+import { filingWordsFromBank } from "../english/mined/filing-bank";
 
 export interface VisitWords {
   version: string;

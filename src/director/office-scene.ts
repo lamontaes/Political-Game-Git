@@ -15,14 +15,12 @@
  * Saying nothing records nothing. No roll and no fixed share decides
  * anything here.
  *
- * Every line is a mined sentence (data/english/parts) with record facts in
- * its slots, chosen by part key in `data/office-scene.json`; a moment with no
- * mined sentence is left unsaid.
+ * Every line is a mined sentence with record facts in its slots, named by
+ * part key in `data/office-scene.json` and given by the English engine
+ * (`src/english/mined-part-words.ts`); a moment with no mined sentence is
+ * left unsaid.
  */
 import type { EnglishSurface } from "../english/grounded-english";
-import addressJson from "../../data/english/parts/address.json" with { type: "json" };
-import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
-import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
 import speechParameters from "../core2/data/speech/parameters.json" with { type: "json" };
 import { closenessBetween } from "../core2/closeness";
 import {
@@ -40,11 +38,11 @@ import { VIEWS_SPEAKER_KEY } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
-import { heldByGrades } from "../english/english-grades";
+import { minedPartVariants } from "../english/mined-part-words";
 import { questionAbout } from "../english/question-names";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
-import { renderLine, type Fact, type RenderedLine } from "./render";
+import { renderLine, type Fact, type RenderedLine } from "../english/bank-line";
 import { spoken } from "./words";
 
 type Side = "yes" | "no";
@@ -72,42 +70,13 @@ export interface OfficeSceneRows {
 }
 export const OFFICE_SCENE_ROWS = rowsJson as unknown as OfficeSceneRows;
 
-interface MinedPart {
-  key: string;
-  text: string;
-  shippable: boolean;
-}
-const BANKS: Readonly<Record<string, ReadonlyMap<string, MinedPart>>> = {
-  address: partsOf(addressJson),
-  "choice-names": partsOf(choiceNamesJson),
-  "scene-words": partsOf(sceneWordsJson),
-};
-function partsOf(bank: unknown): ReadonlyMap<string, MinedPart> {
-  return new Map(
-    (bank as { parts: MinedPart[] }).parts.map((part) => [part.key, part]),
-  );
-}
-
 /** The mined parts a row names, as renderer variants (bank slots as `{{slot}}`). */
 function variantsFor(
   ref: PartRef | undefined,
   keys: readonly string[] | undefined,
 ) {
   if (!ref || !keys) return [];
-  const bank = BANKS[ref.bank];
-  return keys.flatMap((key) => {
-    const part = bank?.get(key);
-    if (!part?.shippable || heldByGrades(key)) return [];
-    return [
-      {
-        key,
-        text: part.text.replace(
-          /\{(\w+)\}/g,
-          (_all, slot: string) => `{{${slot.replace(/_/g, "-")}}}`,
-        ),
-      },
-    ];
-  });
+  return minedPartVariants(ref.bank, keys);
 }
 
 const parameter = (rows: OfficeSceneRows, key: string): number => {

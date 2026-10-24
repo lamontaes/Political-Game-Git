@@ -12,9 +12,9 @@
  * OPUS-WORDS owns the banks and these adapters; OPUS-PEOPLE owns the engine.
  */
 import { addressMoves, composeTurn } from "./address-bank";
-import { MINED_CONVERSATION } from "../../src/director/mined/conversation-bank";
-import { filingWordsFromBank } from "../../src/director/mined/filing-bank";
-import { journalDataFromBank } from "../../src/director/mined/journal-bank";
+import { MINED_CONVERSATION } from "../../src/english/mined/conversation-bank";
+import { filingWordsFromBank } from "../../src/english/mined/filing-bank";
+import { journalDataFromBank } from "../../src/english/mined/journal-bank";
 import { benchControlNames, stanceWords } from "./choice-names-bank";
 import { composeCounterVisit } from "./counter-bank";
 import { composeNewsStory } from "./newscast-bank";
@@ -22,7 +22,7 @@ import { composeOpeningSpeech, openingSpeechKind } from "./opening-speech-bank";
 import {
   bringDataFromBank,
   sceneWordsFromBank,
-} from "../../src/director/mined/scene-bank";
+} from "../../src/english/mined/scene-bank";
 
 export const MINED_WORDS = {
   /** Every wording of every choice; the renderer's stable pick chooses one per moment. */

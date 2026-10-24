@@ -20,9 +20,9 @@
  * shipped code reads it without importing scripts.
  */
 import bankJson from "../../../data/english/parts/conversation.json" with { type: "json" };
-import { heldByGrades } from "../../english/english-grades";
-import rulesJson from "../data/conversation-rules.json" with { type: "json" };
-import type { ConversationData, Move } from "../conversation";
+import { heldByGrades } from "../english-grades";
+import rulesJson from "../../director/data/conversation-rules.json" with { type: "json" };
+import type { ConversationData, Move } from "../../director/conversation";
 
 export interface MinedUse {
   subject: string;

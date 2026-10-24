@@ -4,7 +4,7 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
-import { conversationDataFromBank } from "./mined/conversation-bank";
+import { conversationDataFromBank } from "../english/mined/conversation-bank";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -26,7 +26,7 @@ import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
 import {
   CONVERSATION_RULES,
   MINED_CONVERSATION,
-} from "./mined/conversation-bank";
+} from "../english/mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices

@@ -22,22 +22,22 @@ import { applyCoreEvent } from "../../src/core2/state";
 import { bringItUp } from "../../src/director/bring-it-up";
 import { composeJournal } from "../../src/director/journal";
 import { createDirector } from "../../src/director/ledger";
-import { renderLine } from "../../src/director/render";
+import { renderLine } from "../../src/english/bank-line";
 import { composeScene } from "../../src/director/scene";
 import {
   FILING_BANK,
   filingWordsFromBank,
-} from "../../src/director/mined/filing-bank";
+} from "../../src/english/mined/filing-bank";
 import {
   JOURNAL_BANK,
   journalDataFromBank,
-} from "../../src/director/mined/journal-bank";
+} from "../../src/english/mined/journal-bank";
 import {
   BRING_BANK,
   bringDataFromBank,
   SCENE_BANK,
   sceneWordsFromBank,
-} from "../../src/director/mined/scene-bank";
+} from "../../src/english/mined/scene-bank";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {

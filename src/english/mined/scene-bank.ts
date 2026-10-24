@@ -10,11 +10,11 @@
  */
 import sceneJson from "../../../data/english/parts/scene-words.json" with { type: "json" };
 import bringJson from "../../../data/english/parts/bring-it-up.json" with { type: "json" };
-import { heldByGrades } from "../../english/english-grades";
-import bringRowsJson from "../data/bring-it-up-rows.json" with { type: "json" };
-import sceneRowsJson from "../data/scene-rows.json" with { type: "json" };
-import type { BringData, BringRows } from "../bring-it-up";
-import type { SceneRows, SceneWords } from "../scene";
+import { heldByGrades } from "../english-grades";
+import bringRowsJson from "../../director/data/bring-it-up-rows.json" with { type: "json" };
+import sceneRowsJson from "../../director/data/scene-rows.json" with { type: "json" };
+import type { BringData, BringRows } from "../../director/bring-it-up";
+import type { SceneRows, SceneWords } from "../../director/scene";
 
 interface Use {
   subject: string;

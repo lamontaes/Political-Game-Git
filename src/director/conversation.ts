@@ -55,9 +55,9 @@ import { viewOf } from "../core2/modules/views";
 import {
   CONVERSATION_RULES,
   MINED_CONVERSATION,
-} from "./mined/conversation-bank";
+} from "../english/mined/conversation-bank";
 import { fitMoves, moveVariantKey } from "../english/move-fit";
-import { renderLine, type Fact } from "./render";
+import { renderLine, type Fact } from "../english/bank-line";
 import rulesFile from "./data/conversation-rules.json" with { type: "json" };
 import { properName, spoken, spokenMonth, spokenWhen } from "./words";
 

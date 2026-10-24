@@ -8,7 +8,7 @@ import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { createDirector } from "./ledger";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
-import type { Fact } from "./render";
+import type { Fact } from "../english/bank-line";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 
 // Scenes with a purpose (owner, Oct 15, evening): a setup, a person with a

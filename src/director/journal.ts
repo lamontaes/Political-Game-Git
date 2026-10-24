@@ -17,7 +17,7 @@ import {
 } from "../english/grounded-english";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { properName } from "./words";
-import { journalDataFromBank } from "./mined/journal-bank";
+import { journalDataFromBank } from "../english/mined/journal-bank";
 import type { Moment } from "./types";
 import {
   OFFICE_DAY_MODULE_ID,

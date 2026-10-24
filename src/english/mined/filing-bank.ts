@@ -10,10 +10,10 @@
  * the place), the filing office is `{{filing-office}}` (GOV's `filedWith`).
  */
 import bankJson from "../../../data/english/parts/filing-visit.json" with { type: "json" };
-import { heldByGrades } from "../../english/english-grades";
-import rowsJson from "../data/filing-visit-rows.json" with { type: "json" };
-import type { VisitWords } from "../filing-visit";
-import type { Variant } from "../render";
+import { heldByGrades } from "../english-grades";
+import rowsJson from "../../director/data/filing-visit-rows.json" with { type: "json" };
+import type { VisitWords } from "../../director/filing-visit";
+import type { Variant } from "../bank-line";
 
 interface Use {
   subject: string;

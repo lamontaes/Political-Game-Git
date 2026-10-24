@@ -29,7 +29,7 @@ import {
   type PurposeType,
   type SceneTalkLine,
 } from "../../src/director/scene-talk";
-import type { Fact } from "../../src/director/render";
+import type { Fact } from "../../src/english/bank-line";
 import { properName, spoken, spokenWhen } from "../../src/director/words";
 import { composeScene } from "../../src/director/scene";
 import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";

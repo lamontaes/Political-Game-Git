@@ -4,17 +4,19 @@
  * longer parts at the core on different subjects, and a short closer. The
  * subjects are the speaker's own: the stands they hold (the views engine's
  * stances, named as the bill catalog names them), their work, their town,
- * their children and their school. Nothing is typed here; the sentences are
- * the authored pieces in `data/english/parts/speech-stages.json`, filled
- * from the speaker's records, and a subject with no record for its slots is
- * never offered.
+ * their children and their school. Nothing is typed here, and no bank is
+ * read here: the English engine (`src/english/speech-stage-words.ts`) gives
+ * the pieces for each stage, filled from the speaker's records, and a subject
+ * with no record for its slots is never offered.
  *
  * Giving the speech (`giveBuiltSpeech`) hands each stand the speaker took to
  * the speech engine, so the audience's views move by the speaker's standing
  * with them: the chosen words are read by another engine, not only shown.
  */
-import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
-import { heldByGrades } from "../english/english-grades";
+import {
+  SPEECH_STAGES_VERSION as VERSION,
+  speechStageVariants as variantsOf,
+} from "../english/speech-stage-words";
 import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { deliverSpeech } from "../core2/modules/speech";
@@ -24,8 +26,12 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { allQuestions, questionName, questionTopic } from "./question-names";
-import { renderLine, type Fact } from "./render";
+import {
+  allQuestions,
+  questionName,
+  questionTopic,
+} from "../english/policy-names";
+import { renderLine, type Fact } from "../english/bank-line";
 import { properName, spoken } from "./words";
 
 export type SpeechStage = "opener" | "core" | "closer";
@@ -36,15 +42,6 @@ export const SPEECH_STAGES: readonly SpeechStage[] = [
   "core",
   "closer",
 ];
-
-interface BankPart {
-  key: string;
-  text: string;
-  uses: { subject: string; role: string }[];
-  shippable: boolean;
-}
-const BANK = stagesJson as unknown as { parts: BankPart[] };
-const VERSION = "words-speech-stages-v1";
 
 export interface SpeechChoice {
   key: string;
@@ -69,19 +66,6 @@ export interface SpeechBuild {
   choices: SpeechChoice[];
   done: boolean;
 }
-
-const variantsOf = (role: string) =>
-  BANK.parts
-    .filter(
-      (part) =>
-        part.shippable &&
-        !heldByGrades(part.key) &&
-        part.uses.some((use) => use.subject === "stage" && use.role === role),
-    )
-    .map((part) => ({
-      key: part.key,
-      text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
-    }));
 
 /** The facts a speaker's own records give a part. */
 function factsOf(

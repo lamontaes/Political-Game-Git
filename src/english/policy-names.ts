@@ -1,4 +1,8 @@
-/** What the bill catalog calls a policy question and the topic it sits under. */
+/**
+ * What the bill catalog calls a policy question and the topic it sits under,
+ * in the English engine (CTO, Oct 19): the director asks for a name, never
+ * reads the catalog's words itself.
+ */
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import billSections from "../../data/english/bill-sections.json" with { type: "json" };
 

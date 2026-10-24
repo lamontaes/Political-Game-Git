@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   CONVERSATION_BANK,
   MINED_CONVERSATION,
-} from "./mined/conversation-bank";
+} from "../english/mined/conversation-bank";
 
 // "Where did you go to school?" has different replies in the stage it is
 // asked in, whether the person has graduated or is still enrolled. No text the

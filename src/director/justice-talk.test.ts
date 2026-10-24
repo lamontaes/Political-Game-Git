@@ -16,7 +16,7 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { openConversation, subjectsBetween } from "./conversation";
 import bankJson from "../../data/english/parts/conversation.json" with { type: "json" };
-import { conversationDataFromBank } from "./mined/conversation-bank";
+import { conversationDataFromBank } from "../english/mined/conversation-bank";
 
 // The new parts are held until the owner grades them, so the talk reads them through the grading-only option.
 const HELD_DATA = conversationDataFromBank(undefined, true);

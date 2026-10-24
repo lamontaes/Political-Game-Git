@@ -11,7 +11,7 @@ import {
 import { JOURNAL_DATA } from "./journal";
 import type { Director } from "./ledger";
 import type { SceneBinding, ScheduleEntry } from "./scheduling";
-import { sceneWordsFromBank } from "./mined/scene-bank";
+import { sceneWordsFromBank } from "../english/mined/scene-bank";
 import { properName, spoken } from "./words";
 
 const zero = P.zero;
