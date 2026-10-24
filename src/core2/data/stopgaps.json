@@ -4347,6 +4347,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-REACH-A-discrimination-protected-traits",
+    "kind": "owner-decision",
+    "file": "src/core2/jobs-age-bias.ts",
+    "line": 26,
+    "whatItFakes": "The ban on discrimination in housing and work is wired through age alone: small employers weigh older applicants down where no ban is law, and the ban removes it. The world records a gender and a birth date for each person and no race, so a ban on discrimination by race or sex has nothing to bar.",
+    "why": "Whether the game records race (and sex beyond the gender it carries) on people and counted groups, and so lets the ban bar a decision that cites them, is the owner's call: it decides what a person's record shows and what a complaint can rest on. Built the simplest version that follows AGENTS.md (age, which the world already records, from sourced shares), and flagged the question rather than waiting on it.",
+    "addedBy": "Claude (laws lead helper, rights-env)",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's ruling on recording race and sex, then protected traits on people and counted groups (sourced shares), read by the hiring step and the rental applicant pool the ban refuses on, and by a complaint the justice engine hears (pool items world-hiring-discrimination-ban-refusal, justice-discrimination-complaint). OWNER DECISIONS NEEDED: should the game record race (and sex beyond gender) on people, so a discrimination ban can bar a decision that cites them?",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-REACH-A-abortion",
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
@@ -4363,7 +4375,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
     "line": 645,
-    "whatItFakes": "Telecommunications employers pay a share of their costs to verify new accounts (business.ts, monthly); minors' account opening, parental consent and refusals are not recorded.",
+    "whatItFakes": "Telecommunications businesses (online platforms and internet providers) with an operating cost base pay a share of their other operating costs to verify new accounts (business.ts, monthly), whether or not they employ anyone in the town; minors' account opening, parental consent and refusals are not recorded.",
     "why": "No minor account-opening or consent record exists; the cost is an estimated share of operating costs, not a count of verifications.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",

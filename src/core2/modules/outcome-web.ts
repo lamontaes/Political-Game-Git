@@ -187,6 +187,13 @@ const ENGINE_READERS: Readonly<
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
   },
+  // The city's parks line above its Census base (gov-measures keeps the reading).
+  "parks-added-pct": (api) => {
+    const value = govMeasure(api, "budget.parks-added-pct");
+    return value === null
+      ? null
+      : { value, recordId: govMeasureRecord(api, "budget.parks-added-pct") };
+  },
 };
 
 /** An engine's record for a measure in a place today, or null where it keeps none. */
@@ -238,7 +245,12 @@ const GOV_CAUSES = [
     WEB_LINKS.flatMap((link) => [link.from, link.moderator?.measure ?? ""]),
   ),
 ]
-  .filter((measure) => (GOV_MEASURES as readonly string[]).includes(measure))
+  .filter(
+    (measure) =>
+      (GOV_MEASURES as readonly string[]).includes(measure) &&
+      // One that is also an engine measure is read as one (ENGINE_READERS).
+      !engineMeasure(measure),
+  )
   .sort();
 const LAW_CAUSES = [
   ...new Set(

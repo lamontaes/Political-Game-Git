@@ -15,7 +15,7 @@ import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import type { PolicyHandler } from "./host";
-import { appliedOn, lawApplied } from "./applied";
+import { lawApplied } from "./applied";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
@@ -199,7 +199,7 @@ function lineAddition(input: {
   readonly records: boolean;
 }): PolicyHandler {
   return (api, change) => {
-    if (input.records)
+    if (input.records && !change.standing)
       applyRecords(api, input.key, change.lawId, change.inForce);
     const yes = change.inForce ? yesLevels(api, input.key) : [];
     const rows = reachTable(api, "mechanics").query("byKey", [
@@ -209,17 +209,23 @@ function lineAddition(input: {
       active: boolean;
       facts: Record<string, string | number>;
     }[];
-    // Take back what a level that no longer says yes added.
+    const govOf = (id: string | number | undefined) =>
+      governments(api).find((g) => g.id === id);
+    // Take back what a level that no longer says yes added to the budget in force.
     for (const row of rows) {
       if (!row.active) continue;
       const still = yes.some((l) => `${input.key}:${l.level}` === row.id);
       if (still) continue;
-      amendBudget(api, {
-        governmentId: String(row.facts.governmentId),
-        line: input.line,
-        deltaMinor: -Number(row.facts.deltaMinor),
-        measureId: change.lawId,
-      });
+      const gov = govOf(row.facts.governmentId);
+      const budget = gov ? budgetToday(api, gov) : null;
+      // A later year's budget never held it: nothing to take back there.
+      if (gov && budget?.id === row.facts.budgetId)
+        amendBudget(api, {
+          governmentId: gov.id,
+          line: input.line,
+          deltaMinor: -Number(row.facts.deltaMinor),
+          measureId: change.lawId,
+        });
       putMechanic(api, {
         id: row.id,
         key: input.key,
@@ -229,12 +235,15 @@ function lineAddition(input: {
       });
     }
     if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
+    const added = new Map<string, number>();
     for (const level of yes) {
       const id = `${input.key}:${level.level}`;
-      if (mechanicRow(api, id)?.active) continue;
       const gov = governments(api).find((g) => g.level === level.level);
       const budget = gov ? budgetToday(api, gov) : null;
       if (!gov || !budget) continue;
+      // Each fiscal year's budget starts without it: the law in force adds it again.
+      const held = mechanicRow(api, id);
+      if (held?.active && held.facts.budgetId === budget.id) continue;
       const delta = Math.round(
         (budget.spendingMinor[input.line] ?? 0) * reachParameter(input.share),
       );
@@ -249,38 +258,41 @@ function lineAddition(input: {
         id,
         key: input.key,
         active: true,
-        since: api.state.date,
-        facts: { governmentId: gov.id, deltaMinor: delta, lawId: level.lawId },
+        since: held?.active ? held.since : api.state.date,
+        facts: {
+          governmentId: gov.id,
+          budgetId: budget.id,
+          deltaMinor: delta,
+          lawId: level.lawId,
+        },
       });
+      added.set(id, delta);
     }
-    // Record every active level under the law row now taking effect: a new
-    // row ends the applied rows citing an older one.
-    const active = reachTable(api, "mechanics").query("byKey", [
+    // The treasury pays the line; record each level that says yes under its own law row.
+    for (const row of reachTable(api, "mechanics").query("byKey", [
       input.key,
     ]) as unknown as {
+      id: string;
       active: boolean;
       facts: Record<string, string | number>;
-    }[];
-    for (const row of active) {
+    }[]) {
       if (!change.inForce || !row.active) continue;
-      const gov = governments(api).find((g) => g.id === row.facts.governmentId);
+      const gov = govOf(row.facts.governmentId);
       if (!gov) continue;
-      const recorded = appliedOn(api, input.key).some(
-        (r) => r.targetId === gov.id && r.lawId === change.lawId,
-      );
+      const lawId = String(row.facts.lawId);
       lawApplied(api, {
         key: input.key,
-        lawId: change.lawId,
+        lawId,
         targetId: gov.id,
         target: "government",
         engine: BUDGETS_MODULE_ID,
         what: input.what,
-        amountMinor: recorded ? 0 : Number(row.facts.deltaMinor),
+        amountMinor: added.get(row.id) ?? 0,
       });
       // The residents the line serves are one counted group, read like a full person.
       lawApplied(api, {
         key: input.key,
-        lawId: change.lawId,
+        lawId,
         targetId: `residents:${gov.id}`,
         target: "group",
         engine: BUDGETS_MODULE_ID,

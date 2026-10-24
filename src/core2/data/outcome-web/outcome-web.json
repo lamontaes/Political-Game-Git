@@ -281,6 +281,13 @@
       "reader": "property-tax-rate",
       "field": "",
       "unitScale": 100
+    },
+    "budget.parks-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "gov-measures budget.parks-added-pct: the city's parks line above its Census base this fiscal year, in percent (the budgets module's budget row in force)",
+      "reader": "parks-added-pct",
+      "field": "",
+      "unitScale": 1
     }
   },
   "measureOwners": {

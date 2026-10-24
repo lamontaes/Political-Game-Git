@@ -1231,8 +1231,10 @@ const AGE_VERIFICATION_QUESTION =
 
 interface BusinessDuty {
   readonly question: string;
-  /** The classifications it binds; every employing enterprise where empty. */
+  /** The classifications it binds; every enterprise where empty. */
   readonly classifications: readonly string[];
+  /** Whether only a business with workers in the town is bound (a platform verifying accounts needs none here). */
+  readonly employingOnly: boolean;
   readonly parameter: keyof typeof businessParameters;
 }
 
@@ -1240,11 +1242,13 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
   {
     question: DATA_PRIVACY_QUESTION,
     classifications: [],
+    employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
   },
   {
     question: AGE_VERIFICATION_QUESTION,
     classifications: businessData.ageVerification.classifications,
+    employingOnly: false,
     parameter: "businessAgeVerificationShareOfCosts",
   },
 ];
@@ -1290,7 +1294,9 @@ function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
       !classification.startsWith("enterprise:") ||
       (duty.classifications.length > 0 &&
         !duty.classifications.includes(classification)) ||
-      !employing ||
+      (duty.employingOnly && !employing) ||
+      // A business whose books carry no other operating costs (a press outlet) has nothing a duty could take a share of.
+      !(book.annualOtherCostsMinor > 0) ||
       law.value !== 1 ||
       !law.governing
     ) {

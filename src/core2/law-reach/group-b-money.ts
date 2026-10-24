@@ -966,6 +966,8 @@ interface MoveRow {
   readonly budgetId: string;
   readonly moves: Readonly<Record<string, number>>;
   readonly undone: boolean;
+  /** Set on the row returned the moment the move is made (not kept): money is counted once. */
+  readonly fresh?: boolean;
 }
 
 /**
@@ -1027,7 +1029,7 @@ export function moveBudget(
     undone: false,
   };
   putRow(api, "taken", row);
-  return row;
+  return { ...row, fresh: true };
 }
 
 /** Debt interest lines: the state and local name, and the federal one. */

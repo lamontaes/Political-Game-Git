@@ -23,6 +23,7 @@ export interface AgeBias {
   readonly penaltyOf: (birthDate: string) => number;
 }
 
+// stopgapId: SG-GOV-REACH-A-discrimination-protected-traits
 /** The bias that applies to an employer of this size in this place, or null where the federal law reaches it or the place is not the town. */
 export function ageBiasAt(
   api: CoreAPI,

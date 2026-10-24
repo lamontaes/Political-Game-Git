@@ -121,7 +121,8 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "parks-spending-to-exercise-access"
   ],
   "waiting": {
     "police-to-low-level-arrests": {
@@ -515,9 +516,6 @@
     },
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
-    },
-    "parks-spending-to-exercise-access": {
-      "waitingOn": ["budget.parks-added-pct"]
     }
   },
   "measuresWanted": {
@@ -582,10 +580,6 @@
       "links": 2
     },
     "approval.incumbent": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "budget.parks-added-pct": {
       "owner": "OPUS-GOV",
       "links": 1
     },

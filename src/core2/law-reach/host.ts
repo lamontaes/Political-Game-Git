@@ -135,8 +135,12 @@ export type PolicyHandler = (
     readonly level: string;
     readonly value: number | null;
     readonly placeId: string;
+    /** The treasury read the standing law at its close: only the budget line follows, not the people's records. */
+    readonly standing?: boolean;
   },
 ) => void;
+/** The id prefix of the event the treasury raises when it reads a standing law. */
+const STANDING_EVENT = "law-standing:";
 const handlers = new Map<string, PolicyHandler[]>();
 export function registerPolicyHandler(
   key: string,
@@ -174,7 +178,54 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       level: facts.level ?? "",
       value: Number.isFinite(value) ? value : null,
       placeId: event.placeId,
+      standing: event.id.startsWith(STANDING_EVENT),
     });
+}
+
+/**
+ * The laws that set a budget line's level are read again by the treasury each
+ * month it closes and each year a budget is adopted: every level of the town's
+ * chain whose latest row says yes runs the key's handlers once more, so a new
+ * fiscal year's budget carries what the law in force sets, and a law that has
+ * since been repealed is read as such. The handlers keep no duplicate of
+ * what they already did.
+ */
+export function reassertStandingLaws(
+  api: CoreAPI,
+  keys: readonly string[],
+): void {
+  if (!api.state.modules.has(LAWS_MODULE_ID)) return;
+  const date = api.state.date;
+  const town = lawChain(api).townPlaceId;
+  const table = api.moduleState(LAWS_MODULE_ID).table("laws");
+  for (const key of keys)
+    for (const { level, jurisdiction } of lawChain(api).levels) {
+      const latest = (
+        table.query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
+      )
+        .filter((r) => r.effectiveDate <= date)
+        .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+      if (latest?.value !== 1) continue;
+      runHandlers(api, {
+        id: `${STANDING_EVENT}${latest.id}:${date}`,
+        date,
+        kind: "law-took-effect",
+        personIds: [],
+        placeId: town,
+        source: {
+          tag: "SOURCED",
+          citation: `${String(latest.source)} (read by the treasury at its close)`,
+          asOf: date,
+        },
+        facts: {
+          lawId: latest.id,
+          series: key,
+          level,
+          jurisdiction,
+          value: String(latest.value),
+        },
+      } as unknown as CoreEventInput);
+    }
 }
 
 /**
