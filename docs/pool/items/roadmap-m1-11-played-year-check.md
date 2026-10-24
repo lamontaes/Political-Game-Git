@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/quirky-ride-vrwwz4-m1-11-check
+status: open
+claimed-by:
 pr: #5959
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T17:20:51.204Z
+claimed-at:
 ---
 
 **What.** M1-11 reads 'Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.' Its command, src/core2/drives-economy.test.ts, injects a fixture closure of every employer and fixture layoffs and evictions on one day in a drives-only world, the same proof the mergers rejected for M1-10. This item adds a check that plays a year of the world the player gets with the ordinary producers and holds the engine's own responses to those events to the spec.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T17:20:51.204Z
 **Files.** src/bench/m1-11-check.ts, docs/roadmap/features.json
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5959 (branch claude/quirky-ride-vrwwz4-m1-11-check): m1-11-check.ts:110 exempts every counted response from the named-person or household/family check; validate actual counted relationships and reject an unrelated counted responder; finish on that branch, merge main into it first.
