@@ -3245,6 +3245,8 @@ function floorAmendments(
         kind,
         question: section.question!,
         direction: section.value > 0 ? "yes" : "no",
+        // The section's number in the bill as amended, counted from one.
+        section: String(current.provisions.length),
       },
     });
   };

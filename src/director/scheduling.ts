@@ -377,6 +377,13 @@ function resolveSetting(
       return { kind, recordId: subject.placeId };
     case "venue":
       return moment.placeId ? { kind, recordId: moment.placeId } : undefined;
+    case "chamber": {
+      // The body the cause record names (the chamber a vote trade was made in).
+      const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
+      return typeof chamber === "string" && chamber
+        ? { kind, recordId: chamber }
+        : undefined;
+    }
     default:
       // School and letter need records the new core does not keep yet.
       return undefined;

@@ -94,6 +94,21 @@ export function purposeScene(
   const town = corePlaceByJurisdictionId(asked.placeId as never);
   if (town)
     facts.place = { text: spoken(town), sourceRecordIds: [asked.placeId] };
+  // A bill the record names, by its number, and the section a trade added.
+  if (said.number)
+    facts.bill = {
+      text: said.number,
+      sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
+    };
+  if (said.section)
+    facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
+  // A vote trade puts the holdout's own section in (legislature.ts adopt()):
+  // the talk says it goes in, not that a section comes out.
+  if (said.kind === "trade-amendment" && said.section)
+    facts["section-added"] = {
+      text: said.section,
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.office)
     facts.office = {
       text: said.office,

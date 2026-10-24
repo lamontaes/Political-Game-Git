@@ -2687,11 +2687,18 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "vote-sought",
+          "match": {
+            "label": "cause:event:bill-amendment",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "kind", "equals": ["trade-amendment"] },
+              { "key": "movedBy", "is": "subject" }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.member-position",
+          "causeRecord": "bill-amendment",
           "bind": {
-            "colleague": "members",
+            "colleague": "counterpart",
             "you": "subject"
           },
           "opener": "colleague"
@@ -3272,11 +3279,18 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "section-bargain",
+          "match": {
+            "label": "cause:event:bill-amendment",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "kind", "equals": ["trade-amendment"] },
+              { "key": "movedBy", "is": "other" }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.poison-pill",
+          "causeRecord": "bill-amendment",
           "bind": {
-            "member": "members",
+            "member": "counterpart",
             "you": "subject"
           },
           "opener": "member"
