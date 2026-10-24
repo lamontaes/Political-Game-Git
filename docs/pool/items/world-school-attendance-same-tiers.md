@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 
 ---
 
-**What.** PR #5639 substitutes all full students average attendance for every counted student, and defaults that average to 1. The new shortcut is not registered.
+**What.** PR #5639 substitutes all full students average attendance for every counted student, and defaults that average to 1. The new shortcut is not registered. Its comment calls the average local to the student's place, but the calculation pools full students across places, so meeting someone can change the attendance basis their school standing reads.
 
 **Rules.** One model, two tiers; every behavioral shortcut needs its exact stopgap row and code marker.
 
