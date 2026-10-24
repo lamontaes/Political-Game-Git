@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-bail-cash
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T17:31:10.522Z
 ---
 
 **What.** The public-safety engine's monthly case flow (src/core2/public-safety.ts, batchCase and unableToPost) splits a counted group's adult defendants into those who cannot post bail, who are detained, and the rest, who are released on bail, but nothing moves for the ones who post: no money leaves the group's fund and nothing is held for the court. Full people who post bail move it on the journal from their own cash into the court escrow under the prosecuting government's treasury, and get it back when the case is heard (src/core2/modules/justice.ts, holdBail and returnBail). Under one model, two tiers, the counted group should post the same bail from its fund, times the count that posts, into the same court escrow, and get it back at the case's due month when the batch case closes.
