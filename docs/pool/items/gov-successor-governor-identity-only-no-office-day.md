@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/office-day-state.ts, src/core2/modules/offices.ts, src/core2/modules/officials.ts
 
 **Notes.** Found Oct 24 from PR 5847's unit run; that PR's clemency test now leaves the governor out of its bribes, so this gap no longer fails the test.
+
+Sent back 2026-10-24 from PR #5941 (branch claude/successor-governor-person): the table names only a 240-plus-21-day (261-day) regression, not the required completed played year; supply full-year successor/office-day record evidence; finish on that branch, merge main into it first.
