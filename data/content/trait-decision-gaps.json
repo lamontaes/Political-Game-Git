@@ -177,6 +177,11 @@
       "class": "circumstances tie",
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
+    },
+    "housing.settle-arrears": {
+      "class": "no trigger (fill-in only)",
+      "why": "Runs only when a counted household behind on rent is filled in as full people (src/core2/modules/housing.ts, settleFilledInArrears), and counted households' rent is pooled with no arrears of their own (src/core2/modules/housing.ts, the counted rent pool), so an ordinary played year never reaches it.",
+      "fix": "Give counted households arrears of their own so a filled-in household can carry them; until then it runs only when the player meets such a household."
     }
   }
 }
