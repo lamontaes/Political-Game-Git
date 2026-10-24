@@ -416,7 +416,33 @@ function heardOf(
       if (sample.length < 3) sample.push(row.id);
     }
   }
-  return { people: people.size, sample };
+  return { people: people.size, sample, ids: people };
+}
+
+/**
+ * Plays a window in steps shorter than the news engine's memory (it forgets
+ * who heard a story after 30 days), so everyone who heard about the law at
+ * any point in a long window is counted, not only those still remembered on
+ * its last day.
+ */
+function stepHearing(
+  core: CoreState,
+  days: number,
+  heard: { people: Set<string>; sample: string[] },
+  lawIds: ReadonlySet<string>,
+  key: string,
+  since: string,
+): void {
+  for (let left = days; left > 0;) {
+    const d = Math.min(28, left);
+    step(core, d);
+    left -= d;
+    const now = heardOf(core, lawIds, key, since);
+    for (const id of now.ids) heard.people.add(id);
+    for (const id of now.sample)
+      if (heard.sample.length < 3 && !heard.sample.includes(id))
+        heard.sample.push(id);
+  }
 }
 
 function snapshotMoney() {
@@ -709,6 +735,8 @@ function changeBudget(
     line,
     deltaMinor: delta,
     measureId: `law-wiring-${tag}`,
+    // As a passed budget bill's change does, it carries into later years.
+    carry: true,
   });
   ids.add(`law-wiring-${tag}`);
   return {
@@ -722,6 +750,7 @@ function changeBudget(
         line,
         deltaMinor: -delta,
         measureId: `law-wiring-${tag}-undo`,
+        carry: true,
       });
     },
   };
@@ -872,14 +901,15 @@ function checkLaw(
   }
   citeTokens = [...ids, law.key, `law-wiring-${tag}`];
   const since = core.date;
+  const heardInWindow = { people: new Set<string>(), sample: [] as string[] };
   trace.on = true;
   if (drafts) {
     // An authority law is read when a body drafts a bill under it: once the
     // change has taken effect, a council member drafts one.
-    step(core, 2);
+    stepHearing(core, 2, heardInWindow, ids, law.key, since);
     draftUnder(api, drafts);
-    step(core, WINDOW - 1);
-  } else step(core, 1 + WINDOW);
+    stepHearing(core, WINDOW - 1, heardInWindow, ids, law.key, since);
+  } else stepHearing(core, 1 + WINDOW, heardInWindow, ids, law.key, since);
   trace.on = false;
   const money = snapshotMoney();
   const reads = trace.reads.get(law.key) ?? new Map();
@@ -962,7 +992,10 @@ function checkLaw(
             value: Number(r.value),
           }))[0] ?? null)
       : null;
-  const heard = heardOf(core, ids, law.key, since);
+  const heard = {
+    people: heardInWindow.people.size,
+    sample: heardInWindow.sample,
+  };
   // Money: each journal source kind whose total differs from the control's.
   const moneyDiff: {
     kind: string;

@@ -1,0 +1,167 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 35,
+  "after": 10,
+  "results": [
+    {
+      "key": "public-pay-floor",
+      "kind": "amount",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "public-pay-floor 0 -> 70000 at federal (law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+        "law:US:federal:public-pay-floor:general:1985-02-19",
+        "law:US:federal:public-pay-floor:general:2025-02-26:law-wiring-cbc3c613-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 46,
+        "countedGroups": 1,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 47,
+        "ended": 0,
+        "sample": [
+          "applied|public-pay-floor|person_ec73f444cf6e19d8",
+          "applied|public-pay-floor|person_e42124b4628148ed",
+          "applied|public-pay-floor|person_12c6e055ec0ef146",
+          "applied|public-pay-floor|person_02977976e9a4e00e"
+        ]
+      },
+      "readers": {
+        "src/core2/public-pay-floor.ts:70": 60,
+        "src/core2/modules/outcome-web.ts:158": 16,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US:federal:public-pay-floor:general:1985-02-19",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 18027127,
+            "control": 16134816,
+            "ids": [
+              "journal:2025-01-28:1570",
+              "journal:2025-01-29:1608",
+              "journal:2025-01-30:1613"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
+            "treatment": 3739795,
+            "control": 3509143,
+            "ids": [
+              "journal:2025-02-19:8108",
+              "journal:2025-02-19:8109",
+              "journal:2025-02-19:8110"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1398",
+            "treatment": 108066182,
+            "control": 107876987,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 45372957,
+            "control": 45319197,
+            "ids": [
+              "journal:2025-01-24:1555",
+              "journal:2025-01-25:1556",
+              "journal:2025-01-27:1568"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+            "treatment": 2909544,
+            "control": 2883902,
+            "ids": [
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569",
+              "journal:2025-01-28:1572"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
+            "treatment": 26376,
+            "control": 26377,
+            "ids": ["journal:2025-02-06:7822", "journal:2025-02-06:7823"]
+          }
+        ],
+        "diffKinds": 6,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "public-pay-floor-to-other-employers-wages",
+            "status": "about-zero",
+            "to": "labor.wages"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 78,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 19
+    }
+  ]
+}

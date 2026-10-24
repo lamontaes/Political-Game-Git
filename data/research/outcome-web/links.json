@@ -5873,6 +5873,118 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "revolving-door-ban-to-ex-legislator-lobbyists",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:us-policy-positions:government-operations.ban-lobbying-after-office",
+      "to": "politics.ex-legislator-lobbyists",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force (a cooling-off period before a former legislator may lobby)",
+      "lagMonths": 0,
+      "group": "former state legislators",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"Other factors, such as longer cooling-off periods or increased legislative staff resources, produce slight or no substantive effects on rates of revolving.\" The ban delays a former member's lobbying; it barely changes how many end up lobbying.",
+      "source": "Strickland 2020, The Declining Value of Revolving-Door Lobbyists: Evidence from the American States, American Journal of Political Science 64(1):67-81 (doi 10.1111/ajps.12485); abstract read at https://ideas.repec.org/a/wly/amposc/v64y2020i1p67-81.html",
+      "notes": "Carried by the engine: the interest-groups engine chooses each group's lobbyist and passes over anyone the ban still bars (lobbyingBarredUntil in src/core2/law-reach/group-a-voting.ts, read in src/core2/modules/interest-groups.ts), so during the cooling-off period no former member lobbies and after it they may. The research puts the lasting effect on the rate of revolving at about zero, so the web adds nothing.",
+      "carriedBy": "src/core2/modules/interest-groups.ts passes over a former officeholder the ban still bars (lobbyingBarredUntil, src/core2/law-reach/group-a-voting.ts) when it chooses a group's lobbyist",
+      "range": [-0.05, 0.05],
+      "rangeSource": "Strickland 2020 reports cooling-off periods produce slight or no substantive effects on rates of revolving; the band allows a small effect either way"
+    },
+    {
+      "key": "revolving-door-ban-to-candidate-entry",
+      "status": "outcome-not-produced",
+      "unsupportedReason": "outcome-not-produced",
+      "from": "law:us-policy-positions:government-operations.ban-lobbying-after-office",
+      "to": "elections.new-candidate-entry",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.182,
+      "range": [-0.25, -0.11],
+      "per": "law in force (a revolving-door law, most often a one- or two-year cooling-off period)",
+      "lagMonths": 0,
+      "group": "would-be candidates for the state legislature who do not hold the seat",
+      "owner": "GOV",
+      "evidence": "researched",
+      "anchor": "\"We find that fewer new candidates enter politics in treated states and that incumbent legislators are less likely to leave office, leading to an increase in uncontested elections.\" Entry falls 18.2% against its base; the probability an election is unopposed rises 8.5 points from 31%; incumbents rerun 3.1 points more often from 78%.",
+      "source": "Fisman, Leder-Luis, O'Donnell and Vannutelli 2025, Revolving Door Laws and Political Selection, NBER Working Paper 33626 (https://www.nber.org/system/files/working_papers/w33626/w33626.pdf), abstract and section V; state legislative candidates 1968 to 2022, staggered adoption",
+      "notes": "Carried by the engine: the candidacy chooser reads the law when someone who does not hold a legislative seat weighs running for it, so fewer newcomers enter; the web does not move a rate on top. The range is the paper's entry estimates across specifications (0.11 to 0.25 of the base).",
+      "carriedBy": "src/core2/modules/candidacy.ts weighs the law when a would-be newcomer, named or counted, decides whether to run for a legislative seat (afterOffice, read through revolvingDoorFor in src/core2/law-reach/group-a-voting.ts; candidacyRevolvingDoorWeight is calibrated to the paper's 18.2% fewer entrants)"
+    },
+    {
+      "key": "public-jobs-to-private-employment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "budget.administration-added-pct",
+      "to": "labor.unemployment-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "public sector job added",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"public sector employment has no identifiable effect on total private sector employment\": each public job creates 0.5 jobs in non-tradables and crowds out 0.4 in tradables (English local authorities, 2003 to 2007).",
+      "source": "Faggio and Overman 2014, The effect of public sector employment on local labour markets, Journal of Urban Economics 79:91-107 (doi 10.1016/j.jue.2013.05.002); abstract read at https://openaccess.city.ac.uk/id/eprint/16534/",
+      "notes": "Carried by the engine: the administration line funds positions at the town's government employer (src/core2/law-reach/group-a-staffing.ts), which posts openings that the jobs engine fills from named and counted seekers (postFundedOpenings, src/core2/modules/jobs.ts); each hire leaves the unemployed and the unemployment measure counts it. The research puts the spillover on private jobs at about zero, so the web adds nothing on top. Over 1999 to 2007 the paper finds some crowding out of private jobs; the 2003 to 2007 estimate is the one it leads with.",
+      "carriedBy": "src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire",
+      "range": [-0.05, 0.05],
+      "rangeSource": "Faggio and Overman 2014: no identifiable effect on total private employment over 2003 to 2007, some crowding out over 1999 to 2007; the band allows a small effect either way"
+    },
+    {
+      "key": "home-rule-to-local-spending",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "from": "law:us-policy-positions:government-operations.broaden-local-authority",
+      "to": "gov.local-spending-mix",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "law in force (the state grants home rule)",
+      "lagMonths": 0,
+      "group": "towns and counties",
+      "owner": "GOV",
+      "evidence": "researched",
+      "anchor": "Adopting home rule has significant and positive effects on allocational expenditures, and developmental expenditures fall (Illinois, fuzzy regression discontinuity); home rule cities expand their boundaries and tax bases more than general law cities (Texas).",
+      "source": "Chen 2024, Local autonomy and service delivery: how does home rule shape the provision of local public services?, Public Management Review 26(1):1-24 (doi 10.1080/14719037.2022.2039953); Zhang, Nguyen-Hoang and Chen 2022, The impact of home rule on municipal boundary and fiscal expansion: Evidence from Texas, Journal of Regional Science 62(5):1442-1466 (doi 10.1111/jors.12610); abstracts read at ideas.repec.org",
+      "notes": "Carried by the engine: home rule is what lets a town or county body legislate on what the state's law leaves to it (policyAuthority, src/core2/policy-authority.ts, read when the legislature drafts a bill), so the ordinances and the spending they fund come from the bodies' own bills, not from a rate the web moves. The abstracts give no effect size, so none is set.",
+      "carriedBy": "src/core2/policy-authority.ts lets a town or county body legislate on what the state leaves to home rule, read by src/core2/modules/legislature.ts when a bill is drafted; the bills it passes set the ordinances and spending"
+    },
+    {
+      "key": "public-pay-floor-to-other-employers-wages",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:public-pay-floor",
+      "to": "labor.wages",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force (an employer-wide pay floor for the public employers it binds)",
+      "lagMonths": 0,
+      "group": "workers at other employers in the town",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"we find that VMWs result in sizable wage increases and reductions in turnover at the companies that implemented them. Turning to wages at other companies, including those connected to the large retailer by worker flows, we estimate precise, economically negligible spillover effects.\" An employer-wide pay floor raises its own staff's pay; other employers' wages do not follow.",
+      "source": "Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023)",
+      "notes": "Carried by the engine: the floor raises the pay of the public employers it binds (holdPublicPay in src/core2/public-pay-floor.ts re-rates each named and counted job under it the day it takes effect and at each monthly review; the jobs engine posts a public opening at it, payFor in src/core2/modules/jobs.ts), and the wages measure reads that pay. Whether private employers follow is the owner's what-if question (OWNER-DECISIONS.md, the $70,000 public pay base); the research, on employer-wide minimums at the largest retailers, puts the spillover on other employers' wages at about zero, so the web adds nothing on top. The study's own-employer drop in turnover has no measure the web keeps (a missing measure, not a link).",
+      "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay",
+      "range": [-0.05, 0.05],
+      "rangeSource": "Derenoncourt and Weil 2024 estimate precise zero cross-employer wage elasticities in the six months after an employer-wide minimum; the band allows a small effect either way"
     }
   ],
   "calibratedAt": "2024-07-01"

@@ -4,10 +4,13 @@
  * in force, so later public hires are held to it too. A floor at a level binds
  * that government's own employers and every level under it; each job is
  * raised to the highest floor in force at its employer's level or above, the
- * way the teacher minimum salary raises teachers (through `rerateJob`).
+ * way the teacher minimum salary raises teachers (through `rerateJob`). Each
+ * worker the floor raises or holds is recorded as its reach (`lawApplied`):
+ * a full person by name, the counted workers of each employer as a group.
  */
 import data from "./data/laws/public-pay-floor.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import { jobsAt } from "./law-reach/group-b-money";
 import { reachParameter } from "./law-reach/group-b-people";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
@@ -103,6 +106,9 @@ export function publicPayFloorHourly(
 
 /**
  * Raise every public job in town paid under its floor; returns the raises.
+ * Every job the floor holds (raised today, or already paid at it) is the
+ * law's reach: a full worker by name, an employer's counted workers as one
+ * group; a worker it no longer holds (left, or paid above it) leaves it.
  * Schedules the next monthly review while any floor is in force.
  */
 export function holdPublicPay(
@@ -119,6 +125,8 @@ export function holdPublicPay(
   if (!floors.size) return [];
   const core = api.state as CoreState;
   const raised = [];
+  const held = new Set<string>();
+  const counted = new Map<string, { count: number; lawId: string }>();
   for (const job of [
     ...jobsAt(api, PUBLIC_EMPLOYER_CLASSES),
     ...treasuryJobs(api),
@@ -130,17 +138,55 @@ export function holdPublicPay(
       (floor.dollars * reachParameter("centsPerDollar")) /
       reachParameter("daysPerYear");
     const hourly = job.hourlyMinor ?? 0;
-    if (hourly <= 0 || job.wageDailyMinor >= floorDaily) continue;
-    const to = Math.ceil((hourly * floorDaily) / job.wageDailyMinor);
-    api.rerateJob(job.id, to, { ...source, asOf: core.date });
-    raised.push({
-      jobId: job.id,
-      personId: job.personId,
-      fromMinor: hourly,
-      toMinor: to,
-      lawId: floor.lawId,
+    if (hourly <= 0 || job.wageDailyMinor <= 0) continue;
+    // The hourly pay at which the job's daily wage meets the floor. A job
+    // within a cent an hour of it is held at it (a raise's own rounding
+    // leaves it there); one a cent or more under it is raised.
+    const exact = (hourly * floorDaily) / job.wageDailyMinor;
+    if (exact <= hourly - 1) continue;
+    const to = exact >= hourly + 1 ? Math.ceil(exact) : hourly;
+    if (to > hourly) {
+      api.rerateJob(job.id, to, { ...source, asOf: core.date });
+      raised.push({
+        jobId: job.id,
+        personId: job.personId,
+        fromMinor: hourly,
+        toMinor: to,
+        lawId: floor.lawId,
+      });
+    }
+    const what = to > hourly ? "raised-to-pay-floor" : "held-at-pay-floor";
+    if (core.jobs.has(job.id)) {
+      held.add(job.personId);
+      lawApplied(api, {
+        key: PUBLIC_PAY_FLOOR,
+        lawId: floor.lawId,
+        targetId: job.personId,
+        target: "person",
+        engine: LAWS_MODULE_ID,
+        what,
+      });
+    } else {
+      const group = `${job.organizationId}:counted-staff`;
+      const at = counted.get(group);
+      counted.set(group, { count: (at?.count ?? 0) + 1, lawId: floor.lawId });
+    }
+  }
+  for (const [group, at] of counted) {
+    held.add(group);
+    lawApplied(api, {
+      key: PUBLIC_PAY_FLOOR,
+      lawId: at.lawId,
+      targetId: group,
+      target: "group",
+      engine: LAWS_MODULE_ID,
+      what: "held-at-pay-floor",
+      count: at.count,
     });
   }
+  for (const row of appliedOn(api, PUBLIC_PAY_FLOOR))
+    if (!held.has(row.targetId))
+      lawNoLongerApplies(api, PUBLIC_PAY_FLOOR, row.targetId);
   const next = new Date(`${core.date}T00:00:00Z`);
   next.setUTCMonth(next.getUTCMonth() + 1);
   const date = makeIsoDate(next.toISOString().slice(0, 10));
