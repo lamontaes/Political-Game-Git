@@ -24,9 +24,8 @@ const playerQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-player-queue", playerQueues);
 
 /**
- * A circle member's decision as the log keeps it (owner, Oct 11: reasons are
- * saved for the player and the people they deal with, and bookkeeping is a
- * debug switch): every alternative keeps its score and reason numbers, but
+ * A circle member's decision as the log keeps it: every alternative keeps
+ * its score and reason numbers, but
  * only the chosen and runner-up options keep their reason terms, which the
  * compact choice also holds. The player, anyone a controller drives and the
  * debug observer keep every term. Returns the decision unchanged when

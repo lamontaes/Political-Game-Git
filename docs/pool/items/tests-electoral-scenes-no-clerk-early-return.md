@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/electoral-scenes.test.ts
 
 **Notes.** Merger 0 found the unchanged early return at lines 142-145 while reviewing #5928 on 2026-10-24; this is a main defect, not introduced by its eligibility filter.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
