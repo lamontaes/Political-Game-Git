@@ -104,6 +104,28 @@ describe(`a counted household's jobs follow its workers' jobs (seed ${seed})`, (
         }
       expect(households, where).toBeGreaterThan(0);
 
+      // Every open commitment a household keeps is paid on its own employer's
+      // calendar, a founded firm's hire from another employer's role included:
+      // a fill-in refuses any other calendar.
+      const calendars = new Map(
+        (rt.input.calendars ?? []).map((row) => [row.id, row]),
+      );
+      let kept = 0,
+        borrowed = 0;
+      for (const h of rt.store.households)
+        for (const commitment of h?.workCommitments ?? []) {
+          const calendar = commitment.payrollCalendarId
+            ? calendars.get(commitment.payrollCalendarId)
+            : undefined;
+          if (commitment.endsAt !== undefined || !calendar) continue;
+          expect(
+            calendar.organizationId,
+            `${where}: ${commitment.id} paid on ${calendar.id}`,
+          ).toBe(commitment.organizationId);
+          kept += 1;
+          if (calendar.id.includes(":at:")) borrowed += 1;
+        }
+
       // A member hired during the year keeps that job, with its pay, when met.
       const job = hired
         .filter((row) => core.people.has(row.personId) === false)
@@ -124,7 +146,7 @@ describe(`a counted household's jobs follow its workers' jobs (seed ${seed})`, (
       expect(calendarId, `${where}: ${job!.id} on a payroll`).toBeDefined();
       const pay = (full?.wageDailyMinor ?? 0) * DAYS_PER_YEAR;
       console.log(
-        `counted household jobs: ${where}${tried.length ? ` (drawn again after ${tried.join("; ")})` : ""}: ${households} counted households read the books; ${hired.length} counted hires, ${ended.length} opening jobs ended; ${job!.personId} hired as ${job!.id} keeps it when met, on payroll ${calendarId} (household ${person.householdId}, income ${pay})`,
+        `counted household jobs: ${where}${tried.length ? ` (drawn again after ${tried.join("; ")})` : ""}: ${households} counted households read the books; ${kept} kept commitments on their employers' calendars (${borrowed} from another employer's role); ${hired.length} counted hires, ${ended.length} opening jobs ended; ${job!.personId} hired as ${job!.id} keeps it when met, on payroll ${calendarId} (household ${person.householdId}, income ${pay})`,
       );
     } finally {
       setBookkeeping(priorBookkeeping);
