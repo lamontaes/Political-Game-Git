@@ -13,6 +13,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { baseLine } from "./law-reach/group-a-money";
+import { lineRaisedByBills } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
 import {
   amendBudget,
@@ -107,6 +108,24 @@ it("a passed bill's line change carries into the next fiscal year, and a one-tim
         (enactedBefore[carried!] ?? 0),
       `${where}: ${carried} still carried in fiscal ${before.fiscalYear + 1}`,
     ).toBe(delta);
+    // A bill's raise still counts in the new year (a staffing line's hires
+    // stay its reach), and putting the old amount back leaves none, whatever
+    // the new year's own adoption added to the line.
+    expect(
+      lineRaisedByBills(api, gov!, carried!),
+      `${where}: ${carried} raised by a bill in fiscal ${before.fiscalYear + 1}`,
+    ).toBe(true);
+    amendBudget(api, {
+      governmentId: gov!.id,
+      line: carried!,
+      deltaMinor: -delta,
+      measureId: "test:passed-bill-repealed",
+      carry: true,
+    });
+    expect(
+      lineRaisedByBills(api, gov!, carried!),
+      `${where}: ${carried} back at its amount without the bill`,
+    ).toBe(false);
   } finally {
     setBookkeeping(true);
   }
