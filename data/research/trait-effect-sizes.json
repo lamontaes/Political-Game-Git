@@ -1492,7 +1492,8 @@
         "kind": "logit-coef-full-range",
         "value": 1.92,
         "low": 1.195,
-        "high": 2.645
+        "high": 2.645,
+        "traitSd": 0.26
       },
       "source": {
         "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
@@ -1503,7 +1504,7 @@
       },
       "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
       "quoteVerified": true,
-      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE.  No study of officials who host a town hall was found, so the attendee coefficient stands in for the host: the same extraversion pull toward being in the room."
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE.  No study of officials who host a town hall was found, so the attendee coefficient stands in for the host: the same extraversion pull toward being in the room. Extraversion's standard deviation is 0.26 of its full range (the paper's Table 1, as in the meetings.take-part row)."
     }
   ]
 }

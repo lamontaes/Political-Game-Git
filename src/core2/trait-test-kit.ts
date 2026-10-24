@@ -20,15 +20,13 @@ import type { CoreAPI, CoreState, PersonState } from "./types";
 
 /** The top and bottom thirds of a normal trait sit about 2.18 standard deviations apart. */
 export const THIRDS_APART = 2.18;
-/** A trait scored 0 to 1 over its full range has a standard deviation of about a fifth of it. */
-const SD_OF_FULL_RANGE = 0.2;
 /** A logistic latent shift of one standard deviation is pi over root 3 logits. */
 const LOGIT_PER_SD = Math.PI / Math.sqrt(3);
 
 interface Row {
   id: string;
   trait: string;
-  effect: { kind: string; value: number } | null;
+  effect: { kind: string; value: number; traitSd?: number } | null;
 }
 
 /** The log odds between the top and bottom thirds that a study row reports (null when it gives no size). */
@@ -44,8 +42,12 @@ export function studyLogOdds(
   );
   const e = row?.effect;
   if (!e) return null;
+  // A trait scored over its full range converts with its own standard
+  // deviation, from the study's table, as the calibration script does.
   if (e.kind === "logit-coef-full-range")
-    return Math.abs(e.value) * SD_OF_FULL_RANGE * THIRDS_APART;
+    return e.traitSd === undefined
+      ? null
+      : Math.abs(e.value) * e.traitSd * THIRDS_APART;
   if (e.kind === "standardized-beta" || e.kind === "correlation")
     return Math.abs(
       ((LOGIT_PER_SD * e.value) / Math.sqrt(1 - e.value ** 2)) * THIRDS_APART,

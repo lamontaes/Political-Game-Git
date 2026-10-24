@@ -70,12 +70,12 @@
     },
     "voting.back-incumbent": {
       "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout.",
+      "why": "Same as voting.turnout. No study gives a size either, so the general weight of 1 stands.",
       "fix": "Same as voting.turnout."
     },
     "voting.exit-poll": {
       "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout.",
+      "why": "Same as voting.turnout. No study gives a size either, so the general weight of 1 stands.",
       "fix": "Same as voting.turnout."
     },
     "campaigns.answer-poll": {
@@ -157,6 +157,61 @@
       "class": "circumstances tie",
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
+    },
+    "parties.join": {
+      "class": "no study number",
+      "why": "The research row (data/research/trait-effect-sizes.json) gives a direction and no size for joining a party, so the general trait weight of 1 stands. In two drawn years personality turned none of the 17 and 5 calls: a person's tie to the party settles most of them.",
+      "fix": "Calibrate when a study gives the odds of party membership by trait."
+    },
+    "parties.attend": {
+      "class": "no study number",
+      "why": "No study gives the odds of going to a party meeting by trait, so the general weight of 1 stands. The member's case barely varies, so at weight 1 the most and least willing thirds attend at overwhelming odds (2 percent against 75 percent in Ora, Indiana).",
+      "fix": "Give the case its own circumstances (distance, the member's free time), then calibrate to the single-decision range (traits-civic-overwhelming-odds)."
+    },
+    "interest-groups.member-join": {
+      "class": "no study number",
+      "why": "No study gives the odds of joining a policy group by trait, so the general weight of 1 stands. At weight 1 the willing third joins at overwhelming odds over the unwilling third (25 percent against 0.2 percent in Ora, Indiana).",
+      "fix": "Give the case its own circumstances, then calibrate to the single-decision range (traits-civic-overwhelming-odds)."
+    },
+    "interest-groups.employer-join": {
+      "class": "rare",
+      "why": "Runs only when a bill before the council costs the town's employers (src/core2/modules/interest-groups.ts, employerStakes) and the employer's owner is a full person; neither drawn year had such a bill. No study gives a size either, so the general weight of 1 stands.",
+      "fix": "Runs where a costly bill comes up (traits-decisions-never-run)."
+    },
+    "interest-groups.lobbyist": {
+      "class": "no study number",
+      "why": "No study gives the odds of serving as a group's lobbyist by trait, so the general weight of 1 stands; the stake settles every call in the drawn years.",
+      "fix": "Calibrate when a study gives a size."
+    },
+    "jobs-benefits.file-claim": {
+      "class": "no study number",
+      "why": "No study gives the odds of filing for unemployment benefits by trait, so the general weight of 1 stands; few full people lose a job in a played year (1 and 0 calls in two drawn years).",
+      "fix": "Calibrate when a study gives the take-up odds by trait."
+    },
+    "press.follow-news": {
+      "class": "no study number",
+      "why": "The research row gives no size for following the news, so the general weight of 1 stands.",
+      "fix": "Calibrate when a study gives a size."
+    },
+    "speech.retell": {
+      "class": "no study number",
+      "why": "No study gives the odds of retelling a speech at home by trait, so the general weight of 1 stands.",
+      "fix": "Calibrate when a study gives a size."
+    },
+    "conversation.believe-claim": {
+      "class": "no study number",
+      "why": "No study gives a one-occasion size for believing an uncheckable claim by trait (the Pennycook and Rand row gives a direction), so the general weight of 1 stands against the truth-default pull of 0.75. The case is the same for every claim, so the most suspicious hearers doubt every claim and everyone else believes every claim: overwhelming odds between the thirds.",
+      "fix": "Let the case vary with the teller (trust, closeness) and the claim (fit with the hearer's views), then calibrate (traits-civic-overwhelming-odds)."
+    },
+    "views.persuasion": {
+      "class": "no study number",
+      "why": "No study gives a one-occasion size for how much a hearer's traits scale a view move (stopgap SG-TRAITS-persuasion-size), so the general weight of 1 stands.",
+      "fix": "Set when a study reports a one-occasion size."
+    },
+    "views.trust": {
+      "class": "no study number",
+      "why": "No study gives a one-occasion size for how much generalized trust scales a speaker's standing (stopgap SG-TRAITS-persuasion-size), so the general weight of 1 stands.",
+      "fix": "Set when a study reports a one-occasion size."
     }
   }
 }

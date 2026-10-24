@@ -5290,12 +5290,12 @@
     }
   },
   "traitWeightVotingTurnout": {
-    "value": 0.72,
+    "value": 0.79,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): openness to experience raises the log odds of reporting having voted by 1.26 across the trait's full 0-to-1 range (2006 CES, N about 1,060), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward voting, that is a log odds gap of 0.549 (odds ratio 1.73). Weight found by measuring the turnout propensity (turnoutReasons through the turnout logistic) of every adult over six drawn places (seeds c1, d1, d3, d12, c2, d2 with the label trait-wiring, buildBenchWorld, 60 days) at weights 0 to 1.2, net of the same gap at weight 0, and solving for 0.549: 0.716. The emotional-stability row (-1.42) is not used: its sign runs against the trait's lean and the authors flag it as inconsistent with earlier work.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): openness to experience raises the log odds of reporting having voted by 1.26 across the trait's full 0-to-1 range (2006 CES, N about 1,060), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward voting, that is a log odds gap of 0.604 (odds ratio 1.83). Weight found by measuring the turnout propensity (turnoutReasons through the turnout logistic) of every adult over six drawn places (seeds c1, d1, d3, d12, c2, d2 with the label trait-wiring, buildBenchWorld, 60 days) at weights 0 to 1.2, net of the same gap at weight 0, and solving for 0.549: 0.716. The emotional-stability row (-1.42) is not used: its sign runs against the trait's lean and the authors flag it as inconsistent with earlier work. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.22 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.1: 0.716 became 0.79.",
     "spread": {
-      "low": 0.215,
-      "high": 1.217,
+      "low": 0.237,
+      "high": 1.339,
       "unit": "weight",
       "citation": "Weight scales with the coefficient: the study's 95% interval for the openness coefficient is 0.378 to 2.142."
     }
@@ -5646,12 +5646,12 @@
     }
   },
   "traitWeightMeetingsTakePart": {
-    "value": 0.12,
+    "value": 0.16,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward taking part, that is a log odds gap of 0.837 (odds ratio 2.31). Weight found by measuring who would stand up at a bill's public comment (standUpDrive, the most driven tenth of adults on each of twelve policy questions) among every adult of four drawn places (seeds c1, d1, d3, d12 with the label trait-wiring, 60 days) at weights 0 to 1.2, net of the same gap at weight 0, and solving for 0.837: 0.123. A town hall's room reads the same weight.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES), which Mondak et al. call among the largest effects in their Table 2. Carried to the thirds of people leaning most and least toward taking part, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found by measuring who would stand up at a bill's public comment (standUpDrive, the most driven tenth of adults on each of twelve policy questions) among every adult of four drawn places (seeds c1, d1, d3, d12 with the label trait-wiring, 60 days) at weights 0 to 1.2, net of the same gap at weight 0, and solving for 0.837: 0.123. A town hall's room reads the same weight. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.123 became 0.16.",
     "spread": {
-      "low": 0.075,
-      "high": 0.165,
+      "low": 0.098,
+      "high": 0.215,
       "unit": "weight",
       "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 1.195 to 2.645."
     }
@@ -5693,12 +5693,12 @@
     }
   },
   "traitWeightMeetingsHoldTownHall": {
-    "value": 0.61,
+    "value": 0.79,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES). No study of officials who host town halls was found, so the attendee coefficient stands in for the host (the same extraversion pull toward being in the room). Carried to the thirds of people leaning most and least toward holding one, that is a log odds gap of 0.837 (odds ratio 2.31). Weight found by crossing the real cases the decision weighed (the host's reasons without personality, cause plus effort, from played years of drawn places with the label trait-wiring) with every adult's lean toward holding one, at weights 0 to 3, net of the gap at weight 0, and solving for 0.837: 0.61.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior, American Political Science Review 104(1): extraversion raises the log odds of having attended a public meeting with a House member or senator by 1.92 across the trait's full range (2006 CES). No study of officials who host town halls was found, so the attendee coefficient stands in for the host (the same extraversion pull toward being in the room). Carried to the thirds of people leaning most and least toward holding one, that is a log odds gap of 1.088 (odds ratio 2.97). Weight found by crossing the real cases the decision weighed (the host's reasons without personality, cause plus effort, from played years of drawn places with the label trait-wiring) with every adult's lean toward holding one, at weights 0 to 3, net of the gap at weight 0, and solving for 0.837: 0.61. Rescaled Oct 24 by the trait's own standard deviation from the paper's Table 1 (0.26 of its full range, against the 0.2 first assumed), so the target and the weight both grow by 1.3: 0.61 became 0.79.",
     "spread": {
-      "low": 0.38,
-      "high": 0.84,
+      "low": 0.494,
+      "high": 1.092,
       "unit": "weight",
       "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 1.195 to 2.645."
     }
