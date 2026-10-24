@@ -5,10 +5,10 @@ area: release
 kind: cleanup
 priority: 1
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: owner: plays the game
 source: added with npm run pool -- add
 ---
 
