@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-circle-turnover
-pr:
+pr: #5913
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T15:25:34.409Z
