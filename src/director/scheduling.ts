@@ -95,6 +95,8 @@ export interface SituationLibrary {
     householdScenes: readonly string[];
     /** Records of the whole household that stage a family scene for each member. */
     householdRecordScenes?: readonly string[];
+    /** Records of the subject's own life the household meets at home: a filing, the count of their race. */
+    ownRecordScenes?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -375,6 +377,20 @@ function resolveSetting(
       return { kind, recordId: subject.placeId };
     case "venue":
       return moment.placeId ? { kind, recordId: moment.placeId } : undefined;
+    case "chamber": {
+      // The body the cause record names (the chamber a vote trade was made in).
+      const chamber = core.durableLog.get(moment.causeId)?.facts?.chamber;
+      return typeof chamber === "string" && chamber
+        ? { kind, recordId: chamber }
+        : undefined;
+    }
+    case "office": {
+      // The office the cause record names (the executive's, for a bill on the desk).
+      const office = core.durableLog.get(moment.causeId)?.facts?.officeId;
+      return typeof office === "string" && office
+        ? { kind, recordId: office }
+        : undefined;
+    }
     default:
       // School and letter need records the new core does not keep yet.
       return undefined;
@@ -522,7 +538,9 @@ export function scheduleMoment(
         (id) => core.people.get(id)?.householdId === household,
       )) ||
       (library.scheduling.householdRecordScenes?.includes(moment.label) ??
-        false)) &&
+        false) ||
+      ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
+        moment.selfNamed === true)) &&
     bindings.some((row) => row.setting.kind === "home");
   const interrupt =
     (moment.impact >= options.interruptImpact || familyNews) && !filteredOut;
