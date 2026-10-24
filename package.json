@@ -89,7 +89,7 @@
     "test:modular:public": "node scripts/art-asset-factory/modular_fit/verify.mjs public",
     "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private",
     "secrets:scan": "node scripts/secrets/scan-tracked-secrets.mjs",
-    "bench": "node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx src/bench/server.ts",
+    "bench": "node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --max-semi-space-size=128 --import tsx src/bench/server.ts",
     "check:data-shipping": "node scripts/world/check-data-shipping.mjs"
   },
   "dependencies": {
