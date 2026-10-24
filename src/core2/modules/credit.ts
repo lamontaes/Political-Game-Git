@@ -1038,7 +1038,12 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
     );
     const towardInterest = Math.min(paid, interest);
     // The cap held the rate below the market's: the interest the borrower did not owe this month.
-    if (loan.rateLawId && (loan.marketAnnualRate ?? 0) > loan.annualRate) {
+    // A repeal leaves the loan at the rate it was written at (nothing is repriced or forgiven), but the law no longer applies to it.
+    if (
+      loan.rateLawId &&
+      lawInForce(api, CAP_LOAN_RATES).value === 1 &&
+      (loan.marketAnnualRate ?? 0) > loan.annualRate
+    ) {
       const weight = loanWeight(api, loan.householdId);
       lawApplied(api, {
         key: CAP_LOAN_RATES,
@@ -1154,6 +1159,9 @@ function householdApplications(
     const ceiling = applicable
       ? lawParameters.parameters.consumerLoanRateCap.value
       : null;
+    // stopgapId: SG-WORLD-credit-rate-cap-no-small-lender — the cap binds only
+    // this bank loan, which sits far below the ceiling in an ordinary rate year.
+    if (applicable) api.stopgap("SG-WORLD-credit-rate-cap-no-small-lender");
     const rate = ceiling === null ? marketRate : Math.min(marketRate, ceiling);
     const lawId = applicable ? cap.governing!.id : null;
     // Whom the cap governed at the quote: every household quoted under it, and whether it held the rate below the market.

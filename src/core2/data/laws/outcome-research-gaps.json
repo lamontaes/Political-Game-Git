@@ -77,11 +77,6 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "budget-line:housing",
-      "outcome": "homelessness and rent burden",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "budget-line:naturalResources",
       "outcome": "land conservation and park visits",
       "stopgapId": "SG-LAW-outcome-link-unresearched"

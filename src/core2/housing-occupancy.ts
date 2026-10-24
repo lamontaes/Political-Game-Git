@@ -11,6 +11,7 @@ import {
 } from "./modules/residents";
 import { fundBalance, peopleInGroup } from "./counted-money";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
+import { stableHash } from "./kernel/ids";
 import { nextDue } from "./housing-homeless";
 import { addResidentFlow, setResidentFlowAmount } from "./residents-economy";
 import { lawApplied } from "./law-reach/applied";
@@ -209,6 +210,34 @@ function appliedSetAside(
   });
 }
 
+/**
+ * A household takes a unit in a building the by-right zoning law governed:
+ * the law reached it. The money the law moved is the building's cost the
+ * outcome web's factor added, on the builder's row (housing-construction.ts);
+ * the household's own money is its rent, in the journal.
+ */
+function appliedByRight(
+  api: CoreAPI,
+  project: ProjectRow,
+  household: {
+    readonly id: string;
+    readonly tier: "full" | "counted";
+    readonly weight: number;
+  },
+): void {
+  const lawId = project.lawIds?.multifamily;
+  if (!lawId || !inForceHere(api, CONSTRUCTION_LAW_KEYS.multifamily)) return;
+  lawApplied(api, {
+    key: CONSTRUCTION_LAW_KEYS.multifamily,
+    lawId,
+    targetId: household.id,
+    target: household.tier === "full" ? "household" : "group",
+    count: household.weight,
+    engine: "housing",
+    what: "moved-into-by-right-building",
+  });
+}
+
 /** Monthly matching reviews live offers, never schedules a household to move. */
 export function occupyCompletedRentals(api: CoreAPI): void {
   const c = api.state as CoreState;
@@ -309,6 +338,7 @@ export function occupyCompletedRentals(api: CoreAPI): void {
         since: c.date,
         basis: "completed-project",
       });
+      appliedByRight(api, project, tenant);
       if (affordable) {
         table(api, "affordable").put({
           id: tenant.id,
@@ -367,6 +397,36 @@ export function occupyCompletedRentals(api: CoreAPI): void {
   }
 }
 
+/**
+ * The date an opening lease was last renewed. A lease that exists when the
+ * housing records open is some way through its year: its anniversary falls in
+ * one of the twelve months after this first review, fixed by the lease (the
+ * hash of its id, a seeded fact about a lease that already exists, not a
+ * chance). Leases are signed through the year, so their renewals spread over
+ * it instead of all falling a year after the opening.
+ */
+function openingAnniversary(api: CoreAPI, leaseId: string): string {
+  // stopgapId: SG-WORLD-housing-lease-anniversary
+  api.stopgap("SG-WORLD-housing-lease-anniversary");
+  const c = api.state as CoreState;
+  const months = api.parameter("macroMonthsPerYear");
+  const anniversary =
+    Number.parseInt(
+      stableHash(`${c.seed}:lease-anniversary:${leaseId}`).slice(0, 8),
+      16,
+    ) % months;
+  // Renewed (months - anniversary) months before this review: renewal falls due `anniversary` months from now.
+  const at =
+    Number(c.date.slice(0, 4)) * months +
+    Number(c.date.slice(5, 7)) -
+    1 -
+    (months - anniversary);
+  const year = Math.floor(at / months);
+  const month = at - year * months + 1;
+  const day = Math.min(Number(c.date.slice(8, 10)), 28);
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
 /** Both tiers renew the rent their payment writer actually reads. */
 export function renewRentalLeases(api: CoreAPI): void {
   if (!regionalRegistered(api)) return;
@@ -406,7 +466,7 @@ export function renewRentalLeases(api: CoreAPI): void {
         id: tenant.leaseId,
         webFactor: webFactor(tenant.placeId),
         regionPay: level.hourlyEarnings,
-        renewedAt: c.date,
+        renewedAt: openingAnniversary(api, tenant.leaseId),
         rentMinor: tenant.rentMinor,
         ...(vacancy === undefined ? {} : { vacancy }),
       });

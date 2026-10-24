@@ -5536,5 +5536,29 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-lease-anniversary",
+    "kind": "assumed-data",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 409,
+    "whatItFakes": "Every lease that exists when the housing records open has its yearly renewal in one of the twelve months after the first review, the month fixed by the hash of the lease id, evenly across the year. No data says when each opening lease was signed.",
+    "why": "Without it every opening lease renewed on the same review, a year after the opening, so a rent law could reach no tenant in the first year and rents stepped once a year. Leases are signed through the year; the Census table of renters by year moved in (ACS B25038) would give the true spread but is not in the data yet.",
+    "addedBy": "claude/laws-nine-links-housing-credit",
+    "addedAt": "2026-10-24",
+    "replacement": "Each opening lease's anniversary drawn from the place's renters by year moved in (ACS B25038), by the same lease-id hash.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-credit-rate-cap-no-small-lender",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/credit.ts",
+    "line": 1162,
+    "whatItFakes": "The cap-consumer-loan-rates law applies only to the bank's consumer loan, which sits near 13 percent against a 36 percent ceiling and never reaches it in an ordinary rate year, so no borrower's rate changes and the law moves no dollar. The game has no lender the cap could bind.",
+    "why": "Whether the game should have a payday-style lender is the owner's call: should the game have a payday-style lender, so a rate cap has a loan to bind? Until it does, the law is read at every quote and records each household it governed (credit.ts), and its outcome-web link moves lender counts, but no loan is repriced.",
+    "addedBy": "claude/laws-nine-links-housing-credit",
+    "addedAt": "2026-10-24",
+    "replacement": "If the owner wants one: a small-dollar lender product (payday or installment) whose rate and fees the cap binds, offered where the place's law allows it, with the cap's ceiling read from the law in force.",
+    "status": "open"
   }
 ]

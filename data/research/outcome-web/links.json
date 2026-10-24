@@ -3287,6 +3287,29 @@
       "notes": " The engine reads this link's factor in a homeless household's way back to a lease (src/core2/housing-homeless.ts reviewHomeless). The cited trials report no difference by household kind, so the link is not varied."
     },
     {
+      "key": "housing-line-to-evictions",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.174,
+      "per": "percentage point of renter households receiving rent assistance (the average of the current and previous two months)",
+      "lagMonths": 0,
+      "group": "renter households",
+      "owner": "M",
+      "anchor": "Among US jurisdictions with their own emergency rental assistance allocation, \"a 1 percentage point increase in the average share of renters receiving assistance during the current and previous two months results in a decline of 17 percent in the eviction filing index\" (Table 1: -17.4, one star, p<0.1, with jurisdiction and time fixed effects). The same table's estimate for assistance three to five months earlier is +14.4 and statistically uncertain, so the drop may fade; no standard error is published. Direction is corroborated in a randomized trial: priority access to a long-term rent subsidy, mostly Housing Choice Vouchers, \"more than halved self-reported homelessness and doubling up at the 20-month follow-up point\" for families recruited in shelters (20.2% against 48.6% for usual care, -28.4 points).",
+      "source": "Martin 2022, Federal Reserve Bank of Cleveland, Economic Commentary 2022-12, Making Sense of Eviction Trends during the Pandemic (https://www.clevelandfed.org/en/newsroom-and-events/publications/economic-commentary/2022-economic-commentaries/ec-202212-making-sense-of-eviction-trends-during-the-pandemic.aspx), read October 24, 2026; Gubits, Shinn, Wood, Brown, Dastrup and Bell 2018, Journal of Policy Analysis and Management 37(4), Family Options Study (https://pmc.ncbi.nlm.nih.gov/articles/PMC6168747), read October 24, 2026",
+      "evidence": "contested",
+      "from": "budget:housing",
+      "to": "housing.eviction",
+      "range": [-0.174, 0],
+      "rangeSource": "Martin 2022, Table 1: the estimate (-17.4) is significant only at the 10 percent level and carries no published interval, so the range runs from the estimate to zero, the null.",
+      "notes": "Not hooked by design: the housing engine produces this effect from its own records, so a web factor on filings as well would count the line twice. The housing line above its adopted base pays rent assistance each month to the lowest-income renting households (src/core2/housing-assistance.ts payRentAssistance, full and counted alike); the payment lands in the household's cash and the lease is paid from it, so the arrears that lead a landlord to serve notice and file (src/core2/modules/housing.ts) do not build. Nothing reads the web's kept housing.eviction number for this link; the research size is the check a played year's filings among helped and unhelped renters is read against. The cited aid was paid to renters behind on rent, as this line's vouchers go to the lowest-income renters first. The repo's researched link housing-vouchers-to-homelessness (this file; data/research/outcome-web/landing-plan.json) sizes a national voucher law on homelessness from the same Family Options Study, a different law with its own cause; no researched link in this file, in unsized-links-source-checks-2026-10-05.json or in the lw05 to lw09 readiness files starts from the housing budget line.",
+      "carriedBy": "src/core2/housing-assistance.ts pays the line's rent assistance into the helped household's cash; src/core2/modules/housing.ts files an eviction case only for rent owed"
+    },
+    {
       "key": "cannabis-sales-to-youth-use",
       "status": "built",
       "unsupportedReason": null,
