@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/standins-other
+status: open
+claimed-by:
 pr: #5155
 blocked-on: gov-standin-budgets-adopted-by-rule
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T09:40:00.785Z
+claimed-at:
 ---
 
 **What.** The credit, business, staff, budgets, legislature and macro engines still hold open stand-ins (for example SG-WORLD-credit-business-applies, SG-WORLD-macro-mortgage-spread, SG-GOV-staff-hire-out-of-work, SG-GOV-staff-unpaid, SG-GOV-budget-adopted-by-rule, SG-GOV-committee-structure, SG-P8-business-books-priors and SG-WORLD-business-compliance-cost in src/core2/data/stopgaps.json). Redo them one area at a time against main's current files, as the closed branch stopgaps/gov-world did against an older main. Each row ends replaced, or relabeled as an ESTIMATED value with its source and spread.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-21T09:40:00.785Z
 **Notes.** Replaces the government and economy share of PR #4146 that is not elections, housing, jobs or law reach. About 21 rows were open on Oct 19.
 
 Sent back 2026-10-20 from PR #5155 (branch claude/standins-other-credit-business): The PR edits six pool/index files but explicitly declares no release declaration, and its changed files contain none under docs/release/changes. Add the required impact-none declaration for the actual planning-only split, then merge main and run the changed-file checks. Keep the unresolved stand-in implementations open; no registry row is completed by this docs change.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5155 (branch claude/standins-other-credit-business): Child credit/business spec reopens resolved rows and contradicts the FHFA ruling; the bare broad-parent marker would prematurely complete implementation acceptance; refresh specs and use bounded planning routing with its evidence table; finish on that branch, merge main into it first.

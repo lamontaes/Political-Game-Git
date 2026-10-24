@@ -5,11 +5,12 @@ area: world
 kind: research
 priority: 2
 size: M
-status: blocked
-claimed-by:
+status: claimed
+claimed-by: claude/dreamy-tesla-bgi3ui-housing
 pr:
-blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: A house price step in the economy (the region's incomes, rates and vacancy), territorial price data, and sellers who are the town'
+blocked-on:
 source: "collapsed Oct 19, 2026 from world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data"
+claimed-at: 2026-10-23T20:24:07.373Z
 ---
 
 **What.** Source the numbers behind housing prices, eviction, foreclosure, shelters and mortgages. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 5 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -29,6 +30,8 @@ source: "collapsed Oct 19, 2026 from world-stopgap-housing-assumed-data, world-s
 
 **Notes.** Folded from: world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
-Oct 20: the island-areas row moved to its own item, world-housing-island-areas-sourced.
-
 Figures found Oct 20 for SG-WORLD-housing-island-areas (claude/political-game-pool-b6g0dl; read through Census Bureau pages by search and fetch, not from the DHC tables on data.census.gov; nothing built, the item is blocked). 2020 Census Island Areas, median home value (Census story "New 2020 Island Areas Censuses Data Show Homeownership and Median Home Values", July 2023): U.S. Virgin Islands $290,600, Guam $277,800, Northern Mariana Islands $184,200, American Samoa $84,400. Owner share of occupied units (Census 2020 DHC and cross-tabulation press releases): Guam 52.0 percent, Northern Mariana Islands 29.0, American Samoa 71.1, U.S. Virgin Islands 47.8. Median gross rent for all units is only partly found: Guam $1,057 (DHC summary file); for units built in 2019 or 2020 only, Northern Mariana Islands $502, American Samoa $658, U.S. Virgin Islands $926 (a different universe, not comparable). A builder needs the all-units gross rent for the other three from data.census.gov (DHC rent tables), a per-island research file under data/research/housing/ with a reader in nationTenure and the rent/value fallback in src/core2/modules/housing.ts, and the Census notes on data quality (pandemic collection effects; high allocation rates in Guam).
+
+Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-housing-sourced-parameters.md (7 rows: 1 sourced, 5 estimated, 1 mechanic).
+
+Oct 20: the island-areas row moved to its own item, world-housing-island-areas-sourced.
