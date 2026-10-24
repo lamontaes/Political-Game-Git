@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/law-wiring-government
+status: open
+claimed-by:
 pr: #5582
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at:
 ---
 
 **What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the government and elections family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): all-mail-voting, automatic-voter-registration, independent-redistricting, require-photo-id-to-vote, same-day-voter-registration, ban-lobbying-after-office, public-pay-floor, budget-line:administration, broaden-local-authority and legislative-term-limits.
@@ -21,3 +22,11 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** src/core2/law-reach/group-a-voting.ts, src/core2/modules/voting.ts, src/core2/law-reach/applied.ts
 
 **Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: open, #5582 (branch claude/law-wiring-government), sent back twice on Oct 23: election-cost debt after repeal (item `gov-election-cost-debt-survives-repeal`) and family acceptance unmet. A PR for this family names this item on line 1 (`Pool item: laws-nine-links-government`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. The public pay floor had no starting row in any of the 56 places on Oct 20; give it one or a declared reason.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual family evidence still missing on corrective c64f3feaf9: committed runs use 35/300-day windows and after10, while current checker now uses after31; rerun full annual two-town evidence and refresh matrix/table; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual windows now supplied, but check.ts:1053-1061 falsely credits generic life.ts day-loop transfers as direct money for unrelated laws (already filed as laws-checker-day-loop-money-counted-as-reader); repair attribution and refresh annual reports/matrix plus the stale 35/300-day body evidence before claiming all nine links; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Prior annual and day-loop money returns fixed; own7-file gate35pass1fail: budget-bill-carry.test.ts:105-110 in Milan MO2948062, worldseed813de60a5b6a98fd8a1ae48c7f3c4a678865467f7907f157a23499dfb45181cf expects100000000 administration carry, reads-1218048401. Fix failing carry proof/root and log draw root; update stale body annual pointers; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): annual windows and generic day-loop exclusion are now supplied, but four new ESTIMATED election costs lack registered stopgap coverage/reader markers and the Done-when body still cites removed 35/300-day reports; register the estimates and refresh annual evidence references on that branch, merge main into it first.
