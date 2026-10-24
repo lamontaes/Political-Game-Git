@@ -47,7 +47,7 @@ import {
 import {
   countedHouseholdJobChanged,
   keepCalendar,
-  residentPerson,
+  residentFacts,
   residentsRuntime,
 } from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
@@ -216,7 +216,7 @@ function traitsOf(
 ): Readonly<Record<string, number>> {
   return (
     core(api).people.get(personId)?.traits ??
-    residentPerson(core(api), personId)?.traits ??
+    residentFacts(core(api), personId)?.traits ??
     {}
   );
 }
@@ -1358,7 +1358,7 @@ function layOff(
   // Read before the event: an event can fill a counted worker in, after which
   // the counts no longer hold them.
   const placeId = (c.people.get(job.personId) ??
-    residentPerson(c, job.personId))!.placeId;
+    residentFacts(c, job.personId))!.placeId;
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
@@ -1794,7 +1794,7 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
-    if (!c.people.has(seeker.personId) && !residentPerson(c, seeker.personId)) {
+    if (!c.people.has(seeker.personId) && !residentFacts(c, seeker.personId)) {
       store(api).table("countedSeekers").remove(seeker.personId);
       continue;
     }
@@ -2226,7 +2226,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
     for (const job of countedJobsOf(c, organizationId)) {
       // An owner retires through their business (the business module's closing choice), not off its payroll.
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       if (!person) continue;
       const age =
         daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
@@ -2482,7 +2482,7 @@ function reviewCountedQuits(api: CoreAPI): void {
     for (const job of countedJobsOf(c, organizationId)) {
       if (inCustody(api, job.personId)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
       const payGap = Math.max(0, (going.get(roleOf(job)) ?? pay) / pay - 1);
@@ -2558,7 +2558,7 @@ function reviewCountedLooking(api: CoreAPI): void {
       if (seekers.get(job.personId) || inCustody(api, job.personId)) continue;
       // An owner runs their own business; they don't look for a job elsewhere.
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
       const payGap = Math.max(
@@ -3164,7 +3164,7 @@ export const JOBS_MODULE: CoreModule = {
         rt!.jobs.set(job.id, ended);
         countedHouseholdJobChanged(core(api), ended);
       }
-      const person = residentPerson(core(api), job.personId);
+      const person = residentFacts(core(api), job.personId);
       if (!person) continue;
       record(api, {
         personId: job.personId,
