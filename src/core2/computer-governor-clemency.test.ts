@@ -67,11 +67,20 @@ function playPlace(seed: string, skipped: string[]): string | null {
   const alive = (id: string) =>
     core.people.get(id)?.alive &&
     core.cashJournal.residualAccountByOwner.has(id);
+  // The bribes fill the prisons; the governor is not offered one, so the
+  // governor who takes up the petitions is the one the run opened with. A
+  // governor convicted at the same hearing as everyone else can leave the
+  // seat to a successor on record only by identity, whose days nobody plays
+  // (Sinajana, Guam, seed 449d6cfb96d84c74:0).
   const officials = [
     ...new Set(
       terms
         .filter(
-          (t) => t.status === "serving" && t.personId && alive(t.personId),
+          (t) =>
+            t.status === "serving" &&
+            t.personId &&
+            t.personId !== governor.personId &&
+            alive(t.personId),
         )
         .map((t) => t.personId!),
     ),
@@ -101,9 +110,9 @@ function playPlace(seed: string, skipped: string[]): string | null {
   }
   // Nobody plays the governor: the weekly petitions come up by themselves.
   advanceCore(core, addDays(makeIsoDate(core.date), 120));
-  // The seat's holders, not only the governor the run opened with: one
-  // convicted of a bribe the test offered leaves office, and the successor
-  // takes up the petitions.
+  // The seat's holders, not only the governor the run opened with: one who
+  // leaves office during the run is followed by a successor who takes up the
+  // petitions.
   const holders = [
     ...new Set(
       (
