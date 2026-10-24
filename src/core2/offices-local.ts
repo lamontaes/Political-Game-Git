@@ -72,6 +72,8 @@ export interface OfficeInput {
   readonly termYears: number | null;
   /** The next regular election for a single-seat office, where read. */
   readonly nextElectionYear?: number;
+  /** An office created after the opening exists from this day: no one holds it before (its first election fills it). */
+  readonly firstTermStart?: string;
   /** The month and day a new term starts (MM-DD), where read. */
   readonly termStarts?: string;
   readonly elected: boolean;

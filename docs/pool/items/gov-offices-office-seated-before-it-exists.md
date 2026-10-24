@@ -20,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/offices-state.ts, data/research/offices/state-offices.json, src/core2/modules/officials.ts
 
-**Notes.** TODO
+**Notes.** October 24, 2026, claude/office-before-it-exists. The research row now carries the office's first-term start (`firstTermStart`, read in src/core2/offices-state.ts for every place). openOffices puts the office but seats no one and writes no past before that date. Its seat's first contest is the last regular election before the start (2026-11-03 for the Arizona row), with no incumbent. An empty first race used to resolve as a holdover with no one to hold over; resolveEmptyRace in src/core2/modules/voting.ts now treats a seat no one holds as vacant, so the office's vacancy rule fills it. Measured: Crystal Beach, Arizona (seed 1c33e639a46693d9) elected `term:seat:US-AZ:lieutenant-governor:2027-01-04:elected`; Pirtleville, Arizona (seed officelater01) had nobody file and filled `vacancy:seat:US-AZ:lieutenant-governor:2027-01-04` by appointment. Nobody filing for an open statewide seat is gov-wider-race-counted-candidates.

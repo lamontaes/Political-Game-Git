@@ -524,6 +524,10 @@ export function openOffices(core: CoreState, worldSeed: string): void {
     ...stateOffices(stateKey, geoid, date),
   ]) {
     putOffice(api, entry);
+    // An office its law creates later has no holder and no past until its
+    // first term: its first election fills it.
+    if (entry.office.firstTermStart && entry.office.firstTermStart > date)
+      continue;
     for (const seat of entry.seats)
       pastTerms(
         api,

@@ -2517,8 +2517,18 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput;
+  // A holdover needs someone to hold over: a seat no one holds (an office
+  // its law created since the last election) is vacant.
+  const method =
+    row.method === "holdover" &&
+    !api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [contest.seatId, "serving"]).length
+      ? "vacancy"
+      : row.method;
   const vacancy =
-    row.method === "vacancy"
+    method === "vacancy"
       ? unfilledTerm(
           api,
           contest.seatId,
@@ -2537,6 +2547,7 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
       : null;
   table(api, "emptyRaces").put({
     ...row,
+    method,
     status: "resolved",
     resolvedOn: api.state.date,
     vacancyId: vacancy?.id ?? repeated?.id ?? null,
