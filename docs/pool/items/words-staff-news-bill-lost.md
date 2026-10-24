@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/staff-news-bill-lost
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T17:25:06.641Z
 ---
 
 **What.** The staff-news scene, where an aide comes in and closes the door with bad news, waits on a press record that needs a bribe and a tip, so it never fires. A bill that loses its vote is the bad news most sponsors actually get, but the legislature writes nothing about the loss except the roll call, which doesn't say the bill failed or who sponsored it. This item has the legislature record a bill's failure (held in committee or voted down on the floor) for the sponsor, the director size it, and the staff-news scene fire from it with one of the sponsor's own aides as the one bringing the news. The talk names the bill from the record and uses lines about a lost vote, which outrank the lines about a news story exactly when the bill-lost fact is present.
