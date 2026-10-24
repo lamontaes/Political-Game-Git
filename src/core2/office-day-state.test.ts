@@ -467,12 +467,15 @@ it("seats the player in the town's state legislature seat for the rest of the si
     )!;
     expect(mine.seatId, where).toBe(held.seatId);
     const replaced = before.find((t) => t.seatId === mine.seatId);
-    if (replaced) {
-      const ended = terms.get(replaced.id) as unknown as TermRow;
-      expect(ended.status, where).toBe("ended");
-      expect(ended.endedBy, where).toContain("player took the seat");
-      expect(mine.endDate, where).toBe(replaced.endDate);
+    // The seat had a serving holder to replace: another draw if it was empty.
+    if (!replaced) {
+      tried.push(`${where}: seat ${mine.seatId} had no serving holder`);
+      continue;
     }
+    const ended = terms.get(replaced.id) as unknown as TermRow;
+    expect(ended.status, where).toBe("ended");
+    expect(ended.endedBy, where).toContain("player took the seat");
+    expect(mine.endDate, where).toBe(replaced.endDate);
     // The party is the one the parties engine records for the player.
     const tie = partyTie(api, world.playerId!);
     const expected =
