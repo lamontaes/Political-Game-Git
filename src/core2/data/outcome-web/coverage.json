@@ -41,7 +41,6 @@
     "snap-work-requirement-to-participation",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
-    "end-cash-bail-to-pretrial-detention",
     "concealed-carry-permit-to-firearm-homicide",
     "automatic-registration-to-turnout",
     "restore-voting-to-turnout",
@@ -75,8 +74,6 @@
     "poverty-to-math-proficiency",
     "uninsured-to-graduation",
     "crime-level-to-burglary",
-    "crime-level-to-robbery",
-    "crime-level-to-assault",
     "crime-level-to-vandalism",
     "births-level-to-births",
     "right-to-work-to-turnout",
@@ -412,6 +409,10 @@
       "waitingOn": ["economy.real-income-growth", "approval.incumbent"],
       "needsSize": true
     },
+    "end-cash-bail-to-pretrial-detention": {
+      "waitingOn": [],
+      "carriedBy": "the justice engine's pretrial decision (decidePretrial in src/core2/justice-pretrial.ts, called from src/core2/modules/justice.ts), which reads the end-cash-bail law in force and the defendant's cash when each charged defendant waits for trial: where the law has ended cash bail nobody is held for want of money (released-no-bail-law), elsewhere they are held or post bail"
+    },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],
       "needsSize": true
@@ -441,6 +442,14 @@
     "graduation-to-poverty": {
       "waitingOn": [],
       "carriedBy": "none yet: no engine path (stopgap SG-WEB-poverty-graduation-no-engine); the measure reads the pay once the jobs engine prices schooling"
+    },
+    "crime-level-to-robbery": {
+      "waitingOn": [],
+      "carriedBy": "the victimization records themselves: the index this link reads (crime months.violentIndex, src/core2/modules/crime.ts) is robbery and assault per person 12 and older, so every move in it is already these offenses' own; scaling them by it again would count each move twice and feed the next month's index one for one, a loop that grows without end"
+    },
+    "crime-level-to-assault": {
+      "waitingOn": [],
+      "carriedBy": "the victimization records themselves: the index this link reads (crime months.violentIndex, src/core2/modules/crime.ts) is robbery and assault per person 12 and older, so every move in it is already these offenses' own; scaling them by it again would count each move twice and feed the next month's index one for one, a loop that grows without end"
     },
     "grocery-exemption-to-poverty": {
       "waitingOn": [],
