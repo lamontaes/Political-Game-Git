@@ -48,8 +48,12 @@ import {
   countedHouseholdJobChanged,
   keepCalendar,
   residentFacts,
+  residentPerson,
   residentsRuntime,
 } from "./residents";
+import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
+import { graduationOf } from "../school-outcomes";
+import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -2067,6 +2071,53 @@ export function moveLabel(
     : other;
 }
 
+/**
+ * What a hire is paid per hour: the position's pay, moved by the person's own
+ * schooling (their graduation record from a senior year in play, else their
+ * education record, or the profile it is drawn from) by the
+ * share of the BLS earnings gap that holds within one role. A person with no
+ * schooling record (a child) takes the position's pay as it stands. The same
+ * rule prices a full and a counted hire.
+ */
+export function hirePay(
+  api: CoreAPI,
+  position: PositionRow,
+  personId: string,
+): number {
+  const c = core(api);
+  const person = c.people.get(personId) ?? residentPerson(c, personId);
+  if (!person) return position.hourlyMinor;
+  // A senior year decided in play is the person's schooling: a graduate
+  // holds a high school diploma, a senior who did not graduate holds none.
+  const graduation = api.state.modules.has(SCHOOL_MODULE_ID)
+    ? graduationOf(api, personId, person.birthDate)
+    : undefined;
+  const level = graduation
+    ? graduation.passed
+      ? "no-college"
+      : "less-than-high-school"
+    : (person.pastFacts?.find(
+        (row) => row.kind === PROFILE_FACT_KINDS.education,
+      )?.facts?.level ?? profileFor(person, c.seed, c.date)?.education);
+  const weekly =
+    level === "less-than-high-school"
+      ? api.parameter("jobsWeeklyEarningsLessThanHighSchool")
+      : level === "college"
+        ? api.parameter("jobsWeeklyEarningsCollege")
+        : level === "some-college"
+          ? api.parameter("jobsWeeklyEarningsSomeCollege")
+          : level === "no-college"
+            ? api.parameter("jobsWeeklyEarningsNoCollege")
+            : undefined;
+  if (weekly === undefined) return position.hourlyMinor;
+  const gap = weekly / api.parameter("jobsWeeklyEarningsAllWorkers") - 1;
+  // stopgapId: SG-WORLD-jobs-schooling-pay-share (the within-role share of the schooling pay gap is assumed)
+  stopgap("SG-WORLD-jobs-schooling-pay-share");
+  return Math.round(
+    position.hourlyMinor * (1 + api.parameter("jobsSchoolingPayShare") * gap),
+  );
+}
+
 function hireCounted(
   api: CoreAPI,
   position: PositionRow,
@@ -2082,15 +2133,16 @@ function hireCounted(
   if (!template) return false;
   const jobId = `job:${position.id}:${seeker.personId}`;
   const hours = template.hoursDaily;
+  const pay = hirePay(api, position, seeker.personId);
   const job: JobInput = {
     id: jobId,
     personId: seeker.personId,
     organizationId: position.organizationId,
     title: position.title,
     occupationClassification: template.occupationClassification,
-    hourlyMinor: position.hourlyMinor,
+    hourlyMinor: pay,
     hoursDaily: hours,
-    wageDailyMinor: Math.round(position.hourlyMinor * hours),
+    wageDailyMinor: Math.round(pay * hours),
     source: source(api, `A counted worker hired to ${position.id}.`),
   };
   const previous = seeker.employed
@@ -2164,7 +2216,7 @@ function hireCounted(
     values: {
       fit,
       referral: referralStanding(api, seeker.personId),
-      hourlyMinor: position.hourlyMinor,
+      hourlyMinor: pay,
       counted: 1,
     },
   });
@@ -2799,7 +2851,8 @@ function offerToPlayer(
     positionId: position.id,
     organizationId: position.organizationId,
     title: position.title,
-    hourlyMinor: position.hourlyMinor,
+    // The pay offered is what the person would be hired at, schooling included.
+    hourlyMinor: hirePay(api, position, personId),
     fit,
     offeredAt: c.date,
     deadline,
@@ -2979,6 +3032,7 @@ function hire(
       },
     });
   }
+  const pay = hirePay(api, position, person.id);
   const startsAt = addDays(makeIsoDate(api.state.date), 1);
   const coworkerIds = fullJobs(api, position.organizationId).map(
     (row) => row.personId,
@@ -3003,9 +3057,9 @@ function hire(
     organizationId: position.organizationId,
     title: position.title,
     occupationClassification: template.occupationClassification,
-    hourlyMinor: position.hourlyMinor,
+    hourlyMinor: pay,
     hoursDaily,
-    wageDailyMinor: Math.round(position.hourlyMinor * hoursDaily),
+    wageDailyMinor: Math.round(pay * hoursDaily),
     source: jobSource,
   };
   const newCalendar: WorkPayrollCalendarInput = {
@@ -3031,7 +3085,7 @@ function hire(
       payrollCalendarId: newCalendar.id,
       startsAt,
       endsAt: undefined,
-      hourlyMinor: position.hourlyMinor,
+      hourlyMinor: pay,
       scheduleTemplateJobId: template.id,
       paySource: jobSource,
       scheduleSource: jobSource,
@@ -3078,7 +3132,7 @@ function hire(
     values: {
       fit,
       referral: referralStanding(api, seeker.personId),
-      hourlyMinor: position.hourlyMinor,
+      hourlyMinor: pay,
     },
   });
 }
