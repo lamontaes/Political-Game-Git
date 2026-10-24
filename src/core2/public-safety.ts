@@ -35,7 +35,7 @@ import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
-  adoptedLine,
+  lineBeforeBill,
   budgetsOf,
   governments,
   lineChangedBy,
@@ -177,7 +177,9 @@ function serviceOf(
       .filter((b) => b.startsOn <= date)
       .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
     if (!budget) continue;
-    base += adoptedLine(api, gov, budget.fiscalYear, name);
+    // Against the line before this year's bill: a change a bill carries into
+    // the adopted lines still moves the service this year.
+    base += lineBeforeBill(api, gov, budget.fiscalYear, name);
     now += budget.spendingMinor[name] ?? 0;
     const change = lineChangedBy(api, gov.id, name);
     if (
