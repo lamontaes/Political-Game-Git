@@ -344,7 +344,7 @@
     "why": "The authored cadence is an explicit coarse prototype default. One scored act per activation does not establish a complete calendar or empirical activity distribution.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads.",
+    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. Oct 23, 2026 (research-content-sourced-parameters): the ATUS activity totals the plan is to be checked against are in data/research/core/bls-atus-table-a1-2025.json (2018 to 2025: caring for household members 21.6 to 24.1 percent of people a day, household adults 4.6 to 6.2, socializing 28.7 to 35.0, volunteering 4.0 to 5.7, household management 16.0 to 19.1), and scripts/research/content-year.ts reports a played year against them. careNeedHalfExcessHazard stays TUNABLE: no source measures care asked per unit of condition hazard, and values of 3 and 6 give the same care share. Still open: one scored act per activation instead of a time-budget plan (builder item core-stopgap-content-estimated-behavior).",
     "status": "open"
   },
   {
@@ -356,7 +356,7 @@
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Oct 23, 2026 (research-content-sourced-parameters): lookupHours is now ESTIMATED from ATUS 2025 Table A-1 Government services (0.91 hours for the people who did it; 0.72 to 1.06 across published years), recorded in data/research/core/bls-atus-table-a1-2025.json with ATUS volunteering (4.0 to 5.7 percent of people a day) for the civic acts. Still open: the join, organize, approach and look-up acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable), and lookupHours stays ESTIMATED until a time-use source measures looking up an office itself.",
     "status": "open"
   },
   {
@@ -932,31 +932,31 @@
     "why": "The observed bank-account/all-debit sample differs from a generated local/territorial employer and accounting-cost proxy. Firm legal form, total size, cash-debit coverage, banking coverage, actual owner capital and individual crosswalk remain unmeasured; observed quartiles do not establish them.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded firm opening balances and capital provenance, or a matched ALL-debit/balance cohort adapter with honest distributions and measured crosswalk evidence. No survival-based stock tuning or fictional contribution.",
+    "replacement": "Open Oct 23, 2026: the thirteen openingEmployerCashBufferDays* rows were reopened against the JPMorgan Chase Institute PDF (same SHA256, Figures 6 and 7) and stay ESTIMATED: they are Chase-sample medians and quartiles of balance over ALL cash outflows, applied to generated employers whose outflow is planned payroll plus an IRS accounting-cost proxy. The Census Small Business Pulse Survey (April 2022, employer firms, data/research/core/census-sbps-cash-on-hand-2022.json) agrees on the lower tail but counts pandemic aid and loans, so it cannot replace them. They become SOURCED with a measured cash-buffer distribution for employer firms by industry on a payroll-and-operating-cost denominator, or recorded firm opening balances. Earlier replacement: Recorded firm opening balances and capital provenance, or a matched ALL-debit/balance cohort adapter with honest distributions and measured crosswalk evidence. No survival-based stock tuning or fictional contribution.",
     "status": "open"
   },
   {
     "id": "SG-P8-opening-private-cash-buffer-spread",
     "kind": "unmeasured-opening-private-cash-buffer-distribution",
     "file": "src/core2/data/opening-capital.json",
-    "line": 49,
-    "whatItFakes": "A WHO-only stable per-firm startup cash-buffer rank and continuous quantile curve with one authored tail-span coefficient. Published q25/median/q75 are real observations; the full CDF and endpoints are estimates.",
+    "line": 48,
+    "whatItFakes": "A WHO-only stable per-firm startup cash-buffer rank and continuous quantile curve whose tail span is estimated from one drawn all-industries distribution. Published q25/median/q75 are real observations; the straight tail segments, endpoints and full CDF are estimates.",
     "why": "Observed cohort quartiles do not identify individual firm liquidity, uniform identity ranks, piecewise-linear interpolation, tail extrema or a coefficient uncertainty interval. Generated legal form, location, vintage and ALL-cash-debit denominator differ from the selected employer/nonemployer Chase sample.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded individual firm liquidity/capital provenance or an independently observed matched ALL-cash-debit/balance cohort distribution with identified crosswalk and tail evidence. Never calibrate to future closures or wages surviving a requested year.",
+    "replacement": "Open Oct 23, 2026: openingEmployerCashBufferTailSpan is now ESTIMATED 2.7 (spread 2.6 to 2.85) from JPMorgan Chase Institute, Cash Is King (2016), Figure 5, the cohort's own drawn distribution of cash buffer days (data/research/core/jpmci-cash-buffer-days-2016.json, derived and checked by scripts/research/opening-capital-tail-span.ts), read by src/core2/opening-capital.ts openingEmployerCashBufferAtQuantile; the Census Small Business Pulse Survey (April 2022) confirms the lower tail. It becomes SOURCED with a published table of cash-buffer-day percentiles beyond the quartiles (the 90th and 95th, by industry) or recorded individual firm liquidity; until then straight tail segments and uniform startup ranks stay assumptions. Earlier replacement: Recorded individual firm liquidity/capital provenance or an independently observed matched ALL-cash-debit/balance cohort distribution with identified crosswalk and tail evidence. Never calibrate to future closures or wages surviving a requested year.",
     "status": "open"
   },
   {
     "id": "SG-P8-opening-unsupported-owner-funding",
     "kind": "modeled-unfunded-unsupported-opening-owner",
     "file": "src/core2/data/opening-capital.json",
-    "line": 56,
+    "line": 55,
     "whatItFakes": "Fresh generated public, institution, nonbusiness and unknown owners open with modeled zero-funded prototype journal cash pending genuine dated funding. The technical zero is not an observed zero balance and has no private-business calibration.",
     "why": "The superseded six-month payroll stock has no observed institutional balance, dated appropriation or funding receipt. Private JPMC employer/nonemployer cash evidence cannot supply those missing public or other unsupported owner facts.",
     "addedBy": "SOL-1258/customer_default_recover",
     "addedAt": "2026-10-09",
-    "replacement": "REVIEW16 public-budget and national modules must supply genuine dated funding authority, appropriations and treasury/account receipts for represented institutions; other unsupported owners need separately source-qualified recorded funding. Preserve actual supplied balances. Never infer a measured zero, private JPMC reserve, survival stock or synthetic owner contribution.",
+    "replacement": "Open Oct 23, 2026: a mechanic, not a number. The builder items that give these owners dated funding from a named payer on the journal are world-corporate-office-staff-never-paid (regional offices and other branch-or-institution owners), world-public-employer-staff-never-paid and world-town-public-works-staff-never-paid (town, state and national departments paid through their government's treasury); the row resolves when every owner in this branch is funded that way in a played year. What they must not read: the U.S. Census Bureau 2022 State and Local Government Finances Table 1 'Cash and security holdings' line (data/research/money/state-local-finances-2022.json, cashAndSecurityHoldings) equals its 'Insurance trust funds' line exactly ($5.60 trillion nationally, $5.41 trillion of it employee retirement), so it is pension, unemployment and workers' compensation trust assets, not an institution's or treasury's operating cash, and cannot seed an opening balance. Earlier replacement: REVIEW16 public-budget and national modules must supply genuine dated funding authority, appropriations and treasury/account receipts for represented institutions; other unsupported owners need separately source-qualified recorded funding. Preserve actual supplied balances. Never infer a measured zero, private JPMC reserve, survival stock or synthetic owner contribution.",
     "status": "open"
   },
   {
@@ -2363,12 +2363,12 @@
     "id": "SG-P15-news-habits",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/news/parameters.json",
-    "line": 6,
+    "line": 13,
     "whatItFakes": "How fast outlets reach people by how closely they follow politics, how long a story stays news, and how many stories pass at a contact; one generic local outlet stands for all.",
     "why": "Basic news (M2-09) needs a first version before outlets and media habits are modeled.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread.",
+    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread. Oct 23, 2026 (research-gov-sourced-parameters): newsOutletDelayDays is ESTIMATED at 1 day (spread 1 to 2) from The Media Insight Project's 2014 news-frequency split and Pew's 2022 share who follow the news most of the time (data/research/news/apnorc-2014-news-frequency.json, data/research/news/pew-2024-2025-news-habits.json), read by scheduleDeliveries in src/core2/modules/news.ts and heardOn in src/core2/past-news.ts; it becomes SOURCED with a measured delay from print to reading by how closely people follow the news. newsMaxAgeDays is read as a cutoff, so it is not sourced: people-news-newsMaxAgeDays-as-cause. newsStoriesPerContact has no convertible source; the share of adults word of mouth reaches is checked against Pew's 2025 Local News Fact Sheet by scripts/research/gov-year.ts.",
     "status": "open"
   },
   {
@@ -3281,12 +3281,12 @@
     "id": "SG-OFFICIALS-unrecorded-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 342,
+    "line": 389,
     "whatItFakes": "A holder whose party the roster doesn't record (a statewide executive such as an attorney general or treasurer, or a legislative seat with no roster row) sits in the party that carried the state in 2024; a lieutenant governor on the governor's ticket takes the governor's party.",
     "why": "The offices research records each statewide office's term and vacancy rule but not its holder's party, and the legislative roster has no row for a few seats.",
     "addedBy": "OPUS-OFFICIALS",
     "addedAt": "2026-10-13",
-    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results).",
+    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results). Oct 23, 2026 (research-gov-sourced-parameters): unrecordedParty in src/core2/modules/officials.ts now reads data/research/offices/unrecorded-holder-parties-2026.json first: the five territory governors (National Governors Association), the American Samoa and Northern Marianas lieutenant governors and attorney general (Wikipedia), ten offices elected without party labels, whose holders sit with no party (Wikipedia, Ballotpedia), the Guam, Virgin Islands, Northern Marianas and American Samoa legislatures (Wikipedia party counts, assigned to their at-large seats in order), and 42 state legislative seats the Open States roster leaves vacant (Ballotpedia's 2025 and 2026 vacancy tables: the departing member's party). Still estimated (the file's unreadSeats): six vacant seats with no Ballotpedia vacancy row, the Virgin Islands boards of education and of elections, and the seats the game creates when a Census district name does not match the roster's (gov-offices-roster-district-name-mismatch, which removes them).",
     "status": "open"
   },
   {
@@ -3677,12 +3677,12 @@
     "id": "SG-GOV-justice-bribery-grade",
     "kind": "assumed-data",
     "file": "src/core2/justice-law.ts",
-    "line": 204,
+    "line": 213,
     "whatItFakes": "Bribery is sentenced on the place's lowest felony-assault range from the sentencing research, not on the place's own bribery statute.",
     "why": "The sentencing research has not read bribery statutes yet (its campaign-funds row is unread in every place).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each place's bribery-of-a-public-official grade and range read into data/research/justice/sentencing-ranges-2026.json, read by offense key.",
+    "replacement": "Each place's bribery-of-a-public-official grade and range read into data/research/justice/sentencing-ranges-2026.json, read by offense key. Oct 23, 2026 (research-gov-sourced-parameters): briberyRange in src/core2/justice-law.ts now reads each place's crime:bribery row; 43 places are read from their own statutes (official code sites; Arizona, New Hampshire and New York through the WebFetch reader) and sentenced on them, tagged SOURCED. Still estimated: 13 places whose code could not be fetched from the cloud take the mean of the 43 (8 to 98 months, ESTIMATED FROM AVERAGE, each row's unreadReason naming the site and error); this stopgap closes when those statutes are read.",
     "status": "open"
   },
   {
