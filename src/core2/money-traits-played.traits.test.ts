@@ -8,6 +8,7 @@
 import { describe, expect, it } from "vitest";
 import { testPlace } from "./money-traits-kit";
 import { coreAPI } from "./state";
+import { decisionTraitWeight } from "./trait-decisions";
 import { describePair, playedPairs } from "./trait-pairs";
 
 /** The money decisions a played window weighs for named actors, with the chooser's yes option. */
@@ -19,6 +20,7 @@ const MONEY = {
   "jobs.apply": "jobs-apply",
   "jobs.accept-offer": "jobs-accept",
   "business.found": "business-found",
+  "business.owner-draw": "business-owner-draw",
   "housing.buy-home": "housing-buy",
 } as const;
 
@@ -55,6 +57,15 @@ describe("money decisions in a played window", () => {
     expect(pairs.length, `places tried: ${tried.join("; ")}`).toBeGreaterThan(
       0,
     );
+    // Founding's best case sits within reach of a trait lean (at most 2 times the weight): at the old baseline the best of a year's weighings sat 1.1 below not starting, and personality turned none.
+    const founding = calls.filter(
+      (call) => call.decisionId === "business.found",
+    );
+    if (founding.length >= 1000)
+      expect(
+        Math.max(...founding.map((call) => call.bare)),
+        `founding's best case of ${founding.length} weighings at ${label}`,
+      ).toBeGreaterThan(-2 * decisionTraitWeight(world.core, "business.found"));
     const borrow = pairs.find((p) => p.decisionId === "credit.borrow");
     if (borrow)
       expect(

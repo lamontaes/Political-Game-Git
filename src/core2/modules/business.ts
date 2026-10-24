@@ -1287,22 +1287,15 @@ function month(api: CoreAPI): void {
     const cushion = Math.round(
       (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
     );
-    const ownerDays =
-      owner.livingCostDailyMinor > 0
-        ? owner.liquidMinor / owner.livingCostDailyMinor
-        : Number.POSITIVE_INFINITY;
-    // What the owner weighs the business's cash against: a month of everything it pays out, not only payroll (a firm with no payroll would otherwise have no cushion and all its cash spare).
-    const buffer = Math.max(
-      cushion,
-      Math.round(
-        (annualOutflowsMinor(api, book) / p("macroMonthsPerYear")) *
-          p("businessCushionMonths"),
-      ),
-    );
-    const short = buffer > 0 ? Math.max(0, 1 - cash / buffer) : 0;
-    // Cash beyond the buffer is profit the business doesn't need: on a sliding scale toward 1.
-    const spare = cash > buffer ? 1 - buffer / cash : 0;
-    const need = 1 / (1 + ownerDays / p("businessDaysPerMonth"));
+    const { need, short, spare } = ownerDrawCase(p, {
+      cashMinor: cash,
+      payrollCushionMinor: cushion,
+      annualOutflowsMinor: annualOutflowsMinor(api, book),
+      ownerDays:
+        owner.livingCostDailyMinor > 0
+          ? owner.liquidMinor / owner.livingCostDailyMinor
+          : Number.POSITIVE_INFINITY,
+    });
     let drawn = 0,
       share = 0;
     if (retained > 0) {
@@ -1366,6 +1359,38 @@ function month(api: CoreAPI): void {
         netThrough: net - drawn,
       });
   }
+}
+
+/**
+ * The three circumstances an owner's draw weighs, each sliding with the cash
+ * in hand and none a bar. `need`: the owner's cash against a month of their
+ * living costs (1 with none, toward 0 as it grows). `short` and `spare`: the
+ * business's cash against a buffer of a month of everything it pays out, not
+ * only payroll (a firm with no payroll would otherwise have no cushion and
+ * all its cash spare, so every owner drew), the shortfall below it and the
+ * share above it.
+ */
+export function ownerDrawCase(
+  p: (key: string) => number,
+  c: {
+    cashMinor: number;
+    payrollCushionMinor: number;
+    annualOutflowsMinor: number;
+    ownerDays: number;
+  },
+): { need: number; short: number; spare: number } {
+  const buffer = Math.max(
+    c.payrollCushionMinor,
+    Math.round(
+      (c.annualOutflowsMinor / p("macroMonthsPerYear")) *
+        p("businessCushionMonths"),
+    ),
+  );
+  return {
+    need: 1 / (1 + c.ownerDays / p("businessDaysPerMonth")),
+    short: buffer > 0 ? Math.max(0, 1 - c.cashMinor / buffer) : 0,
+    spare: c.cashMinor > buffer ? 1 - buffer / c.cashMinor : 0,
+  };
 }
 
 /**

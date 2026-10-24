@@ -125,7 +125,7 @@
     },
     "housing.buy-home": {
       "class": "no study number",
-      "why": "No study of personality and becoming a homeowner was found, so the target is assumed (an odds ratio of 1.49 between the thirds). A renter now weighs the share of the down payment it is short, from none to all of it (homeBuyReasons, src/core2/modules/housing.ts), instead of a log that ran to minus thirty, and buying sits 0.6 below renting before cost, so households that can pay the down payment sit within reach of a lean. The fit is one town's (Holualoa, 341 weighings, 3 buyers: weight 2.05, odds ratio 1.68); Peacham had 140 weighings and one purchase. Counted renter households do not buy at all yet (pool item world-counted-renters-buy), so this decision has no counted counterpart.",
+      "why": "No study of personality and becoming a homeowner was found, so the weight stays at the general 1 and the fits against an assumed 1.49 between the thirds are kept here: Holualoa, Hawaii 2.05 (341 weighings, 3 buyers, odds ratio 1.68); Peacham, Vermont none reachable (140 weighings, 1 purchase); place key 2371780 0.1 (791 weighings, 16 buyers, odds ratio 11 at weight 1). A renter now weighs the share of the down payment it is short, from none to all of it (homeBuyReasons, src/core2/modules/housing.ts), instead of a log that ran to minus thirty, and buying sits 0.6 below renting before cost, so households that can pay the down payment sit within reach of a lean. Counted renter households do not buy at all yet (pool item world-counted-renters-buy), so this decision has no counted counterpart.",
       "fix": "A homeownership study with a trait number, and the counted renters' purchase path."
     },
     "jobs.apply": {
