@@ -1,15 +1,21 @@
 {
-  "about": "Who pays each revenue line no flow in the town pays, and when. A line here is paid by a named group of payers (a counted group at the coarser level: businesses, importers, estates, vehicle owners elsewhere) in installments on its due month and day, as a transfer to the treasury that records the payer and the due date. A line not here is still the monthly stand-in (stopgap SG-GOV-outside-revenue-monthly).",
+  "about": "Who pays each revenue line no flow in the town pays, and when. A line here is paid by a named group of payers (a counted group at the coarser level: businesses, importers, estates, vehicle owners elsewhere) in installments on its due month and day, as a transfer to the treasury that records the payer and the due date (`treasury-tax`, or the row's own `transfer` kind for a line that is not a tax). A line not here is still the monthly stand-in (stopgap SG-GOV-outside-revenue-monthly).",
   "lines": {
     "corporateIncomeTax": {
-      "payer": { "id": "corporations", "name": "Corporations" },
+      "payer": {
+        "id": "corporations",
+        "name": "Corporations"
+      },
       "dueMonths": [4, 6, 9, 12],
       "dueDay": 15,
       "tag": "SOURCED",
       "source": "Internal Revenue Code section 6655(c) and (i): a calendar-year corporation pays estimated tax in four installments due on the 15th of April, June, September and December. State and local corporate taxes follow the federal dates."
     },
     "customsDuties": {
-      "payer": { "id": "importers", "name": "Importers of record" },
+      "payer": {
+        "id": "importers",
+        "name": "Importers of record"
+      },
       "dueMonths": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       "dueDay": 21,
       "tag": "SOURCED",
@@ -27,7 +33,10 @@
       "spread": "Any day from the 14th to the 29th."
     },
     "estateAndGiftTaxes": {
-      "payer": { "id": "estates-and-donors", "name": "Estates and donors" },
+      "payer": {
+        "id": "estates-and-donors",
+        "name": "Estates and donors"
+      },
       "dueMonths": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
       "dueDay": 15,
       "tag": "ESTIMATED",
@@ -55,6 +64,18 @@
       "tag": "ESTIMATED",
       "source": "Registrations and licenses renew through the year, so the revenue arrives in monthly installments (state motor vehicle agencies).",
       "spread": "Any day of the month."
+    },
+    "chargesAndFees": {
+      "payer": {
+        "id": "service-users",
+        "name": "People elsewhere who use the government's services"
+      },
+      "dueMonths": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "dueDay": 1,
+      "tag": "ESTIMATED",
+      "source": "Charges for services are paid as the services are used through the year (fares and utility bills monthly, tuition by term, hospital bills as care is given), so the part paid by people outside the town arrives in monthly installments. The town's own households pay their part out of their living costs (budgets-service-charges.ts), and that comes off each installment.",
+      "spread": "Tuition lands at the start of each term; fares and utility bills are monthly.",
+      "transfer": "treasury-charges"
     }
   }
 }

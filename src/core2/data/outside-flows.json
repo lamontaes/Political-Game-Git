@@ -169,6 +169,12 @@
       "what": "A tax with named payers (corporate income, customs, excise, estate and gift, selective sales, vehicle and other) paid to a treasury by its group of payers on the due date, one transfer per line and installment (taxPayments)."
     },
     {
+      "kind": "accounts.transfer",
+      "idPrefix": "treasury-charges",
+      "matchedBy": "goods-and-services",
+      "what": "People elsewhere who use a state or local government's services paying its charges and fees (tuition, fares, hospital and utility bills), less what the town's own households paid out of their living costs (taxPayments)."
+    },
+    {
       "kind": "budgets:withholding",
       "matchedBy": "tax-payment",
       "what": "Income tax withheld from a paycheck and paid to a government with no treasury in the world (another state's, a county or city the world does not model), against the due record the withholding itself writes (budgets withholding)."
