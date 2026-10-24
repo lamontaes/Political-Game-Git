@@ -423,8 +423,8 @@ function openingAnniversary(api: CoreAPI, leaseId: string): string {
     (months - anniversary);
   const year = Math.floor(at / months);
   const month = at - year * months + 1;
-  const day = Math.min(Number(c.date.slice(8, 10)), 28);
-  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+  // Only the month matters to a renewal; the first of it is a date every month has.
+  return `${year}-${String(month).padStart(2, "0")}-01`;
 }
 
 /** Both tiers renew the rent their payment writer actually reads. */

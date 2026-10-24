@@ -213,14 +213,19 @@ function play(
   // The journal posts these cases cite, by the id of the payment that made them; for a lease, the latest settlement.
   const posts: Post[] = [];
   const leasePosts = new Map<string, Post>();
+  /** Rent or lease payments the trail did not recognize, for the failure message. */
+  const otherRefs: string[] = [];
   setJournalTrace((input) => {
     const ref = input.sourceRef.id;
     // A full household's lease settles as a finance contract; a counted household's rent is paid by its groups.
     const lease =
       /^finance:\d{4}-\d{2}-\d{2}:(lease:.+)$/.exec(ref)?.[1] ??
       /^(rent:[^@]+)@\d{4}-\d{2}-\d{2}/.exec(ref)?.[1];
-    if (!lease && !/^(counsel|rent-assistance|construction|loan):/.test(ref))
+    if (!lease && !/^(counsel|rent-assistance|construction|loan):/.test(ref)) {
+      if (/rent|lease/.test(ref) && otherRefs.length < 6)
+        otherRefs.push(ref.replace(/\d{4}-\d{2}-\d{2}/g, "D"));
       return;
+    }
     let gross = 0;
     for (const p of input.postings) if (p.deltaMinor > 0) gross += p.deltaMinor;
     const post = {
@@ -318,7 +323,7 @@ function play(
     check(
       "rent",
       Boolean(trails.rent),
-      "no household's lease was held below the market and paid at the held rent",
+      `no household's lease was held below the market and paid at the held rent (${renewals.filter((r) => r.tier !== "counted").length} full and ${renewals.filter((r) => r.tier === "counted").length} counted renewals, ${leasePosts.size} rent payments kept, e.g. ${[...leasePosts.keys()].slice(0, 2).join(", ")}; other rent refs ${otherRefs.join(", ")})`,
     );
   }
 
