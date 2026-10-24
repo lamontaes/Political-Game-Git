@@ -73,7 +73,7 @@ By point, after the fixes:
 
 ## Shifting one cause in a copy of the town
 
-The twin check plays Paris, Arkansas, twice for three months, shifting one cause in one copy, and compares every record. Before the fixes, no engine record moved for any of 15 causes. After them, 12 of 16 causes move records outside the web:
+The twin check plays Paris, Arkansas, twice for three months, shifting one cause in one copy, and compares every record. Before the fixes, no engine record moved for any of 15 causes. After them, 12 of 16 causes moved records outside the web; rerun on Oct 24 with main merged, it shifts 17 causes and the same 12 move:
 
 - Unemployment, police staffing and the crime index change the month's crimes.
 - Violent crime moves families out.
@@ -81,7 +81,7 @@ The twin check plays Paris, Arkansas, twice for three months, shifting one cause
 - The corporate tax, broadband, road condition and transit change pay, prices and the budgets that follow.
 - Home prices change only the economy's own figures.
 
-The other four do not move in three months. The uninsured share, poverty and graduation act after 12 to 120 months, and SNAP receipt has no engine reader, which its stopgap records. The counts of moved record kinds include knock-on changes, since one changed record moves others. Earlier runs undercounted for two reasons, both now fixed: the check lost its shift whenever the web rewrote a month's row, and it could not see nested fields.
+The other five do not move in three months. The uninsured share, poverty and graduation act after 12 to 120 months. SNAP receipt has no engine reader, and drinking-water violations reach only infants' birthweight, which no engine records; their stopgaps say so. The counts of moved record kinds include knock-on changes, since one changed record moves others. Earlier runs undercounted for two reasons, both now fixed: the check lost its shift whenever the web rewrote a month's row, and it could not see nested fields.
 
 ## What happens next
 
