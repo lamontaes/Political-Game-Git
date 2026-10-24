@@ -296,6 +296,43 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.8
+
+_Released October 24, 2026._
+
+### Improved
+
+- **Students' test scores and graduation follow the town they live in** Each
+  spring every eighth grader in town gets a math and a reading result, and each
+  June every senior graduates or does not. How many do comes from the place's
+  real level moved by the laws and conditions that reach it, and who does comes
+  from each student's own household income, attendance and study habits, so
+  children from poorer households fall short more often. The town's graduation
+  rate then feeds the things that depend on it, such as turnout and poverty.
+
+- **Couples' plans for a child follow their town's conditions** A couple's
+  choice to plan a child now moves with the town's own conditions, such as
+  unemployment and home prices, the same way the births of the rest of the town
+  do.
+
+### Fixed
+
+- **Someone you meet keeps the job they were hired into this year** A household
+  that isn't yet known to you now earns what its jobs pay after hires, raises,
+  layoffs and closures. Before, it kept its opening pay forever, so a laid-off
+  family still counted as well off, and a worker hired during the year lost that
+  job the moment you met them. Now they keep it, on their employer's payroll.
+
+## PRE-ALPHA 0.22.7
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Island-area governments have a budget** American Samoa, Guam, the Northern
+  Marianas, the Virgin Islands and Puerto Rico now have a government budget, so
+  their officials and agencies can be paid.
+
 ## PRE-ALPHA 0.22.6
 
 _Released October 24, 2026._
