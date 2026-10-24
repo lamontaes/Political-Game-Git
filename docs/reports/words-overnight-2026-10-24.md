@@ -40,6 +40,16 @@ What still reads wrong: both Republican Presidents ask for the same two things, 
 
 **The old people are gone (#5898).** Every room, the opening and conversations now draw people from the Codex standing set (art/people-engine/v2). People are dressed by who they are and where: a blazer or vest for an official at a government building, work clothes at work, everyday clothes elsewhere. The character creator offers the same figures, by build and clothes, and the look you pick is the one you wear in every room. The old picker and the old paper-doll assembler are deleted, about 3,400 lines, and the art files stay in the repository. The new set is all bald adults in one skin tone, so people tell apart by sex, build and clothes until it grows hair and skin; a child has no figure.
 
+**Batch 22 is ready to read in its scenes (#5917).** Same link as before: https://claude.ai/artifact/GtikjUNAVU8eNDk8NB8W62. Each held line now sits in the scene, journal page or speech that play says it in. The scene shows who you play, who is across from you and the record that made it happen. Each line has a label like "1.a" for your voice notes, and every held line is underlined with its number. Four towns drawn at random, about eleven months each, put 71 of the 141 held lines in front of you: 18 of the 21 speech lines, 16 of the 28 journal lines, 33 of the 78 scene lines and all 4 bring-it-up lines.
+
+The other 70 aren't there for three reasons:
+
+- Most need something that didn't happen to anyone watched in those four towns: a birth, an eviction, a court case, a breakup, a town hall in office.
+- Nothing in the game reads the six newspaper lines, so play can never say them.
+- The two news lines wait on archived laws getting names (an open item).
+
+Five lines were tapped on the old page before you asked for scenes: "You have been acquitted." good, "You have a new baby." bad, "Your baby has been born." bad, "You have been charged with a crime." good and "You have been convicted." good. They are saved but not applied. Say the word and they go in.
+
 ## Traits and laws, from the other sessions
 
 These are other sessions' work, in review tonight; nothing here is mine.
@@ -55,8 +65,14 @@ These are other sessions' work, in review tonight; nothing here is mine.
 3. #5906, the voice-note grades: no dependencies.
 4. #5914, scenes in play: plays the most once #5906 has released lines; it works without it in the grading view.
 5. #4626, the word pack: when it lands after #5906, the ledger and the bank are regenerated, never hand-merged.
+6. #5917, batch 22 in its scenes: grading tooling only, no dependencies.
 
-One check is red on clean main as well, so it doesn't block these: `trait-coverage.test.ts`, "finds every decision in code that weighs traits".
+These checks are red on clean main as well, so they don't block these:
+
+- `trait-coverage.test.ts`, "finds every decision in code that weighs traits".
+- The speech screen, which can't build a speech until you grade a speech line, since all 21 are held (filed as `words-speech-screen-no-shipped-stage-line`).
+- Archived laws, which have no names, so no law story is worded (`words-archive-law-catalog-name`).
+- The one-year world check in a large town: Sandy, Utah ends its year at 2,343 MB against a 2,000 MB limit (filed as `core-played-year-large-town-heap-bound`). It turned #5914's year check red because that commit happened to draw Sandy.
 
 ## How this was checked
 
