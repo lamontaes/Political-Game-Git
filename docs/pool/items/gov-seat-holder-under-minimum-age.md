@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-seat-age
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T14:10:50.586Z
 ---
 
 **What.** The accepted spec M2-01 (src/core2/offices.test.ts) fails on main 663a38fedf in Neibert, West Virginia (place key 5457916, seed 0196ae8e1ee4a483b092eeea1982822b23a90619612511f7fad5eac98ab07a88) at offices.test.ts:219: 'seat:gus2025:136371:prosecutor:0: expected 20 to be greater than or equal to 21'. The opening seats an official younger than the office's minimum age. Golden-path turned red on #5888 by this draw.
