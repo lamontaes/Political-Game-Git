@@ -10,7 +10,7 @@ claimed-by:
 pr: #5892
 blocked-on:
 source: CTO weekend leads, Oct 24; copied unchanged from cto/leads-2026-10-24 at 7eabe893e2b27151c39c5d853a7c74ed33bafca6
-claimed-at: 
+claimed-at:
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the crime and justice family: 17 unwired links, 7 where the owning engine does not read the factor and 10 where nothing keeps the outcome. Their outcomes: crime.all, crime.larceny, crime.vandalism, crime.firearm-homicide, crime.reoffense, crime.rate-index, justice.conviction, justice.low-level-arrests, justice.pretrial-detained, justice.incarcerated-per-100k and the rest. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.

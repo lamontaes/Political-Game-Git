@@ -200,15 +200,18 @@ function targetOddsRatio(id: string): number {
   let best = 0;
   for (const row of research.rows as {
     id: string;
-    effect: { kind: string; value: number } | null;
+    effect: { kind: string; value: number; traitSd?: number } | null;
   }[]) {
     if (row.id !== id || !row.effect) continue;
     const e = row.effect;
+    // A trait scored over its full range converts with its own standard
+    // deviation from the study's table, as the calibration script does.
+    const sd = e.traitSd ?? 0;
     const log =
       e.kind === "logit-coef-full-range"
-        ? e.value * 0.2 * THIRDS_APART
+        ? e.value * sd * THIRDS_APART
         : e.kind === "pp-full-range"
-          ? swing(e.value) * 0.2 * THIRDS_APART
+          ? swing(e.value) * sd * THIRDS_APART
           : e.kind === "pp-per-iqr"
             ? (swing(e.value) / 1.35) * THIRDS_APART
             : 0;
