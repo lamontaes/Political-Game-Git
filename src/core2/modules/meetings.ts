@@ -25,6 +25,7 @@ import {
   decisionLean,
   decisionTraitWeight,
   leanedYesWithTerm,
+  reportOutcome,
 } from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -141,13 +142,34 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   Number(p.birthDate.slice(0, 4)) -
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 /**
- * Every trait's lean toward taking part in a public meeting over staying
- * away, at the decision's weight (extraversion and attending meetings,
- * Mondak et al. 2010): what a resident's drive to stand up is multiplied by.
+ * What a resident's feeling (`base`) comes to as a drive to stand up: the
+ * feeling times one plus every trait's lean toward taking part in a public
+ * meeting over staying away, at the decision's weight (extraversion and
+ * attending meetings, Mondak et al. 2010). The audit's probe (off in play)
+ * sees the drive with and without that temperament.
  */
-const civic = (p: Readonly<PersonState>, core: Pick<CoreState, "data">) =>
-  decisionTraitWeight(core, "meetings.take-part") *
-  decisionLean(core, p, "meetings.take-part", "take-part", "stay-away");
+function driveOf(
+  base: number,
+  p: Readonly<PersonState>,
+  core: Pick<CoreState, "data">,
+): number {
+  const lean = decisionLean(
+    core,
+    p,
+    "meetings.take-part",
+    "take-part",
+    "stay-away",
+  );
+  const term = decisionTraitWeight(core, "meetings.take-part") * lean;
+  reportOutcome(
+    "meetings.take-part",
+    p.id,
+    lean,
+    "size",
+    (withTerm) => base * (1 + (withTerm ? term : 0)),
+  );
+  return base * (1 + term);
+}
 
 export function openMeetings(core: CoreState): void {
   registerLegislatureHooks({
@@ -264,7 +286,7 @@ export function standUpDrive(
   const view =
     viewOn(api, p.id, stance.question, personLean(api.state.people, p, 0)) *
     stance.position;
-  return { view, drive: Math.abs(view) * (1 + civic(p, api.state)) };
+  return { view, drive: driveOf(Math.abs(view), p, api.state) };
 }
 
 /**
@@ -537,7 +559,7 @@ export function townHallDrives(
       return {
         p,
         question,
-        drive: question ? salience(question) * (1 + civic(p, api.state)) : 0,
+        drive: question ? driveOf(salience(question), p, api.state) : 0,
       };
     })
     .filter((row) => row.drive > 0)

@@ -235,6 +235,33 @@ function reportLeaned(
 }
 
 /**
+ * For a decision whose trait term joins a sum or scales a size with no
+ * yes-or-no of its own: reports to the audit's probe what the decision came
+ * to with the term and with it left out, so the matrix can show how far the
+ * term moves the outcome between the people leaning most and least toward the
+ * option. A debug switch: with the probe off nothing is computed and play
+ * reads nothing new (`result` runs only when the probe is on).
+ */
+export function reportOutcome(
+  decisionId: string,
+  actorId: string | undefined,
+  lean: number,
+  unit: "probability" | "size",
+  result: (withTerm: boolean) => number,
+): void {
+  const probe = traitProbe();
+  if (!probe?.outcome) return;
+  probe.outcome({
+    decisionId,
+    ...(actorId === undefined ? {} : { actorId }),
+    lean,
+    unit,
+    value: result(true),
+    flat: result(false),
+  });
+}
+
+/**
  * The trait term of a counted person's summed pull: the decision's calibrated
  * weight times the lean toward the first act kinds less the second's, unscaled,
  * as the chooser adds it for a full person.

@@ -5123,34 +5123,34 @@
     }
   },
   "truthDefaultPull": {
-    "value": -0.1,
+    "value": 0.1,
     "tag": "TUNABLE",
-    "citation": "How strongly a hearer leans toward believing a claim from a stranger with nothing to go on, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest, which a teller close to the hearer and a claim that fits supply (below); the stranger's bare word with nothing argued sits just under even, set so that about 85% of the stories and speeches heard are taken in. A teller the hearer is close to (believeClosenessWeight) and a claim that argues as the hearer already leans (believeFitWeight) add to it, and every trait's lean toward doubting, at the decision's weight, is weighed against it.",
+    "citation": "How strongly a hearer leans toward believing a claim from a stranger with nothing to go on, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest, so a stranger's bare word sits a little above even. With the decision's weight (traitWeightConversationBelieveClaim), only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a stranger's claim; a teller the hearer is close to (believeClosenessWeight) and a claim that fits where the hearer already leans (believeFitWeight) add to it, so about 95% of the stories and speeches heard in a played election-window year (Halfway, Missouri, seed 3e9ed70a5fb7) are taken in.",
     "spread": {
-      "low": -0.3,
+      "low": 0,
       "high": 0.3,
       "unit": "scaled trait lean",
-      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps most told claims believed once the teller's closeness and the claim's fit are added."
+      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps a stranger's word believed by a clear majority."
     }
   },
   "believeClosenessWeight": {
-    "value": 1.5,
+    "value": 3,
     "tag": "TUNABLE",
-    "citation": "How much the closeness of a teller to the hearer (0 to 1, the one closeness read, closenessBetween) adds to taking a claim in: people take the word of those close to them (trust in a source is the strongest cue to accepting what it says; Levine 2014 truth-default theory names a prior relationship as a main reason the default is not overturned).",
+    "citation": "How much the closeness of a teller to the hearer (0 to 1, the one closeness read, closenessBetween) adds to taking a claim in: people take the word of those close to them (Levine 2014 truth-default theory names a prior relationship as a main reason the default is not overturned). No study gives the size against the hearer's temperament; it is set so a hearer who leans hard toward doubt still believes a tie as faint as a first conversation (closeness about 0.1 adds 0.3, twice the largest trait term) and the typical contact (closeness about 0.25) carries the claim.",
     "spread": {
-      "low": 0.75,
-      "high": 3,
+      "low": 1.5,
+      "high": 6,
       "unit": "scaled trait lean per unit of closeness",
-      "citation": "Checked so a hearer who leans hard toward doubt (the most suspicious tenth) still believes a close friend or relative and doubts a stranger, and everyone else believes nearly every claim from someone close."
+      "citation": "Checked so a close friend or relative is believed by every hearer and a stranger's word is left to the hearer's temperament and what the claim argues."
     }
   },
   "believeFitWeight": {
-    "value": 1.5,
+    "value": 3,
     "tag": "TUNABLE",
-    "citation": "How much a claim that argues the way the hearer already leans (their current view on its question times the side it argues, -1 to 1) adds to taking it in, and one that argues against subtracts: people accept claims that fit their prior views more readily (motivated reasoning; Kunda 1990, Psychological Bulletin 108(3)).",
+    "citation": "How much a claim that argues the way the hearer already leans (their current view on its question times the side it argues, -1 to 1) adds to taking it in, and one that argues against subtracts: people accept claims that fit their prior views more readily (motivated reasoning; Kunda 1990, Psychological Bulletin 108(3)). No study gives the size; it is set so a claim that argues hard against a hearer's view (fit -0.5) is doubted even from a fairly close tie, as the closeness weight alone would carry it.",
     "spread": {
-      "low": 0.25,
-      "high": 1.5,
+      "low": 1,
+      "high": 6,
       "unit": "scaled trait lean per unit of fit",
       "citation": "Checked so fit moves a hearing by about as much as a middling tie does (believeClosenessWeight times a closeness of about 0.5)."
     }
@@ -5659,14 +5659,14 @@
     }
   },
   "traitWeightConversationBelieveClaim": {
-    "value": 0.05,
+    "value": 0.155,
     "tag": "ESTIMATED",
-    "citation": "Sindermann, Schmitt, Rozgonjuk, Elhai and Montag 2021, The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption, Heliyon 7(3): extraversion correlates 0.09 with the number of 16 fake headlines a person judged true (N = 530 German adults; row conversation.believe-claim in data/research/trait-effect-sizes.json, a proxy: headlines, not a told claim). Carried to the thirds of hearers leaning most and least toward believing, that is a log odds gap of 0.357 (odds ratio 1.43). Goreis and Voracek 2019 (conspiracy belief, all five traits within 0.03 of zero) and the same paper's agreeableness (-0.03) say the pull is small. Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 10,570 calls: stories told at a contact, speeches retold at home): 0.05 reaches 1.53. The case it weighs against is the teller's closeness and the claim's fit with the hearer's views (believeClosenessWeight, believeFitWeight), so a doubter still believes a trusted friend.",
+    "citation": "Sindermann, Schmitt, Rozgonjuk, Elhai and Montag 2021, The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption, Heliyon 7(3): extraversion correlates 0.09 with the number of 16 fake headlines a person judged true (N = 530 German adults; row conversation.believe-claim in data/research/trait-effect-sizes.json, a proxy: headlines, not a told claim). Carried to the thirds of hearers leaning most and least toward believing, that is a log odds gap of 0.357 (odds ratio 1.43). Goreis and Voracek 2019 (conspiracy belief, all five traits within 0.03 of zero) and the same paper's agreeableness (-0.03) say the pull is small. Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 10,448 calls: stories told at a contact, speeches retold at home): 0.155 reaches 1.45. The case it weighs against is the teller's closeness and the claim's fit with the hearer's views (believeClosenessWeight, believeFitWeight), so a doubter still believes a trusted friend.",
     "spread": {
-      "low": 0.003,
-      "high": 0.1,
+      "low": 0.009,
+      "high": 0.3,
       "unit": "weight",
-      "citation": "Weight scales with the correlation: the study's 95% interval for extraversion is 0.005 to 0.174 (0.09 gives 0.05)."
+      "citation": "Weight scales with the correlation: the study's 95% interval for extraversion is 0.005 to 0.174 (0.09 gives 0.155)."
     }
   },
   "traitWeightConversationReplyReach": {
@@ -5846,14 +5846,14 @@
     }
   },
   "traitWeightPartiesAttend": {
-    "value": 0.5,
+    "value": 0.55,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having attended political meetings or election rallies by 1.65 across the trait's full 0-to-1 range (2006 CES, N about 1,066; row parties.attend in data/research/trait-effect-sizes.json, a proxy: the survey does not separate a party's own meeting). Carried to the thirds of members leaning most and least toward attending with the trait's own standard deviation from their Table 1 (0.26 of its range), that is a log odds gap of 0.935 (odds ratio 2.55; Gerber et al. 2011's campaign-rally coefficient 1.049 gives 1.94). Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 6,211 calls, party meetings and candidate events together since both read this decision): 0.5 reaches 2.57. The case it weighs against is the member's free time and distance from the meeting (partyMeetingFreeTimeWeight, partyMeetingDistanceWeight), so no temperament decides alone.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having attended political meetings or election rallies by 1.65 across the trait's full 0-to-1 range (2006 CES, N about 1,066; row parties.attend in data/research/trait-effect-sizes.json, a proxy: the survey does not separate a party's own meeting). Carried to the thirds of members leaning most and least toward attending with the trait's own standard deviation from their Table 1 (0.26 of its range), that is a log odds gap of 0.935 (odds ratio 2.55; Gerber et al. 2011's campaign-rally coefficient 1.049 gives 1.94). Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 5,248 calls, party meetings and candidate events together since both read this decision): 0.55 reaches 2.58. The case it weighs against is the member's free time and distance from the meeting (partyMeetingFreeTimeWeight, partyMeetingDistanceWeight), so no temperament decides alone.",
     "spread": {
-      "low": 0.2,
-      "high": 0.8,
+      "low": 0.22,
+      "high": 0.88,
       "unit": "weight",
-      "citation": "Weight scales with the coefficient: the study's 95% interval for the Mondak extraversion coefficient is 0.67 to 2.63 (1.65 gives 0.5)."
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the Mondak extraversion coefficient is 0.67 to 2.63 (1.65 gives 0.55)."
     }
   },
   "traitWeightStaffHire": {
@@ -5866,14 +5866,14 @@
     }
   },
   "traitWeightInterestGroupsMemberJoin": {
-    "value": 0.1,
+    "value": 0.115,
     "tag": "ESTIMATED",
-    "citation": "Bekkers 2005, Participation in Voluntary Associations: Relations with Resources, Personality, and Political Values, Political Psychology 26(3), model 1: per standard deviation of agreeableness the odds of belonging to a (quasi-)political association (parties, unions, professional, religious and similar groups) against none fall to 0.79 (conscientiousness 0.81, extraversion 1.14; row interest-groups.member-join in data/research/trait-effect-sizes.json, a proxy: the category pools seven kinds of organization and the paper prints no interval). Carried to the thirds of residents leaning most and least toward joining (2.18 standard deviations apart), that is a log odds gap of 0.514 (odds ratio 1.67). Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 3,089 calls): 0.1 reaches 1.45. The case it weighs against is how hard the question pulls the resident plus how strongly the group's members already draw them in (groupDrawWeight), against the bar.",
+    "citation": "Bekkers 2005, Participation in Voluntary Associations: Relations with Resources, Personality, and Political Values, Political Psychology 26(3), model 1: per standard deviation of agreeableness the odds of belonging to a (quasi-)political association (parties, unions, professional, religious and similar groups) against none fall to 0.79 (conscientiousness 0.81, extraversion 1.14; row interest-groups.member-join in data/research/trait-effect-sizes.json, a proxy: the category pools seven kinds of organization and the paper prints no interval). Carried to the thirds of residents leaning most and least toward joining (2.18 standard deviations apart), that is a log odds gap of 0.514 (odds ratio 1.67). Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 3,172 calls): 0.115 reaches 1.65. The case it weighs against is how hard the question pulls the resident plus how strongly the group's members already draw them in (groupDrawWeight), against the bar.",
     "spread": {
       "low": 0.05,
       "high": 0.2,
       "unit": "weight",
-      "citation": "The paper prints no interval; the other two traits' odds ratios per standard deviation (0.81 and 1.14) fit weights of 0.09 and 0.07, and its model 2 with resources controlled (agreeableness 0.90) fits 0.05."
+      "citation": "The paper prints no interval; the other two traits' odds ratios per standard deviation (0.81 and 1.14) fit weights of 0.10 and 0.08, and its model 2 with resources controlled (agreeableness 0.90) fits 0.05."
     }
   },
   "traitWeightInterestGroupsEmployerJoin": {
@@ -5886,12 +5886,14 @@
     }
   },
   "traitWeightInterestGroupsLobbyist": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the interest-groups.lobbyist decision. A member speaks for the group when their stake plus their lean toward serving is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "Gerber, Huber, Doherty, Dowling, Raso and Ha 2011, Personality Traits and Participation in Political Processes, Journal of Politics 73(3), on-line appendix Table A12a: extraversion raises the log odds of having spoken at a local public meeting by 0.978 across the trait's full 0-to-1 range (CT Survey 2008, N = 1,924; row interest-groups.lobbyist in data/research/trait-effect-sizes.json, a proxy: no study of who serves as a group's spokesperson was found). Carried to the thirds of members leaning most and least toward serving with the survey's own standard deviation (0.29), that is a log odds gap of 0.618 (odds ratio 1.86). Weight found with scripts/traits/trait-calibrate.ts on one played election-window year of Halfway, Missouri (place key 2929962, seed 3e9ed70a5fb7, 500 calls): the stake is a few lumps, so the fit steps from 1.2 at 0.25 to 3.0 at 0.3, and 0.3 is kept (3.0 against the target 1.86, a factor of 1.6).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.15,
+      "high": 0.45,
+      "unit": "weight",
+      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 0.502 to 1.454 (0.978 gives 0.3)."
     }
   },
   "traitWeightOfficesAcceptAppointment": {

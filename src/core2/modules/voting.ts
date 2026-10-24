@@ -55,6 +55,7 @@ import {
   decisionLean,
   decisionTraitWeight,
   leanedYes,
+  reportOutcome,
 } from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -988,11 +989,24 @@ export function turnoutReasons(
   recordedWeeklyMinutes?: number,
   /** What this election adds to the cost of voting. */
   extraCost = 0,
-): { readonly duty: number; readonly cost: number } {
+): {
+  readonly duty: number;
+  readonly cost: number;
+  /** The trait term inside the duty (the decision's weight times the lean), and the lean. */
+  readonly trait: number;
+  readonly lean: number;
+} {
   const engagement = engagementOf(api.state as CoreState, voter);
+  const lean = decisionLean(
+    api.state,
+    voter,
+    "voting.turnout",
+    "vote",
+    "stay-home",
+  );
+  const trait = decisionTraitWeight(api.state, "voting.turnout") * lean;
   const duty =
-    decisionTraitWeight(api.state, "voting.turnout") *
-      decisionLean(api.state, voter, "voting.turnout", "vote", "stay-home") +
+    trait +
     (engagement === null
       ? 0
       : campaignParameter("turnoutEngagementWeight") *
@@ -1010,7 +1024,7 @@ export function turnoutReasons(
       electionLawTurnoutCost(api, voter, weeklyWork)) /
       customPolitics(state).turnout +
     extraCost;
-  return { duty, cost };
+  return { duty, cost, trait, lean };
 }
 
 /** One voter's turnout on one day: its parts, the propensity, and (a named voter) the act. */
@@ -1062,7 +1076,7 @@ function decideTurnout(
   const hit = map.get(key);
   if (hit) return hit;
   const named = api.state.people.has(voter.id);
-  const { duty, cost } = turnoutReasons(
+  const { duty, cost, trait, lean } = turnoutReasons(
     api,
     voter,
     input.recordedWeeklyMinutes,
@@ -1093,6 +1107,16 @@ function decideTurnout(
       ? turnoutWeb(api, who.placeId, ageOnElection(who.birthDate, input.date))
       : null;
   const propensity = Math.min(1, propensityOf(parts) * (web ? web.factor : 1));
+  // The audit's probe (off in play) sees the propensity with and without the trait term.
+  reportOutcome("voting.turnout", voter.id, lean, "probability", (withTerm) =>
+    withTerm
+      ? propensity
+      : Math.min(
+          1,
+          propensityOf({ ...parts, duty: parts.duty - trait }) *
+            (web ? web.factor : 1),
+        ),
+  );
   let votes = false;
   if (named) {
     const act = namedTurnout(record?.carry ?? OPENING_CARRY, propensity);

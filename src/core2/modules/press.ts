@@ -25,6 +25,7 @@ import {
   decisionLean,
   decisionTraitWeight,
   leanedYes,
+  reportOutcome,
 } from "../trait-decisions";
 import type {
   CoreAPI,
@@ -767,11 +768,17 @@ function scheduleWeek(api: CoreAPI, from: string): void {
  * (their view's engagement, against the nation's) plus every trait's lean
  * toward keeping up over letting it go, at the decision's weight.
  */
-const habitScore = (p: Readonly<PersonState>, core: CoreState) =>
-  (engagementOf(core, p) ?? NATIONAL_ENGAGEMENT) -
-  NATIONAL_ENGAGEMENT +
-  decisionTraitWeight(core, "press.follow-news") *
-    decisionLean(core, p, "press.follow-news", "follow", "skip");
+const habitScore = (p: Readonly<PersonState>, core: CoreState) => {
+  const engaged =
+    (engagementOf(core, p) ?? NATIONAL_ENGAGEMENT) - NATIONAL_ENGAGEMENT;
+  const lean = decisionLean(core, p, "press.follow-news", "follow", "skip");
+  const term = decisionTraitWeight(core, "press.follow-news") * lean;
+  // The audit's probe (off in play) sees the habit with and without the trait term.
+  reportOutcome("press.follow-news", p.id, lean, "size", (withTerm) =>
+    withTerm ? engaged + term : engaged,
+  );
+  return engaged + term;
+};
 
 const followCache = new WeakMap<
   object,

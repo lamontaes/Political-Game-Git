@@ -28,7 +28,11 @@ import type {
   PersonState,
 } from "../types";
 import { believesClaim, claimFit } from "../heard-claims";
-import { decisionLean, decisionTraitWeight } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  reportOutcome,
+} from "../trait-decisions";
 import { viewOf } from "./views";
 import { measureOfFactKey } from "../outcome-news";
 
@@ -75,17 +79,17 @@ export function storiesOwedAtContact(
   api: CoreAPI,
   teller: PersonState | undefined,
 ): number {
-  return (
+  const lean = teller ? passOnLean(api, teller) : api.parameter("zero");
+  const term = decisionTraitWeight(api.state, "news.pass-on") * lean;
+  const owed = (traitTerm: number) =>
     n(api, "newsStoriesPerContact") *
-    Math.max(
-      api.parameter("zero"),
-      api.parameter("one") +
-        (teller
-          ? decisionTraitWeight(api.state, "news.pass-on") *
-            passOnLean(api, teller)
-          : api.parameter("zero")),
-    )
-  );
+    Math.max(api.parameter("zero"), api.parameter("one") + traitTerm);
+  // The audit's probe (off in play) sees the stories owed with and without the trait term.
+  if (teller)
+    reportOutcome("news.pass-on", teller.id, lean, "size", (withTerm) =>
+      owed(withTerm ? term : api.parameter("zero")),
+    );
+  return owed(term);
 }
 
 /** The whole stories a teller passes at this contact, carrying the rest. */

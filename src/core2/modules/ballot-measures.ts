@@ -17,7 +17,11 @@
 import measuresData from "../data/elections/ballot-measures.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import { decisionLean, decisionTraitWeight } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  reportOutcome,
+} from "../trait-decisions";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -190,14 +194,28 @@ function countMeasure(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   for (const voter of adults) {
     const lean = personLean(api.state.people, voter, lean0);
     // Their traits' lean toward change over keeping things as they are, at the decision's weight.
+    const traitLean = decisionLean(
+      api.state,
+      voter,
+      "ballot-measures.vote",
+      "yes",
+      "no",
+    );
     const trait =
-      decisionTraitWeight(api.state, "ballot-measures.vote") *
-      decisionLean(api.state, voter, "ballot-measures.vote", "yes", "no");
-    const support =
+      decisionTraitWeight(api.state, "ballot-measures.vote") * traitLean;
+    const view =
       (viewOn(api, voter.id, measure.question, lean) +
         publicOffset(measure.question)) *
-        direction +
-      trait;
+      direction;
+    const support = view + trait;
+    // The audit's probe (off in play) sees whether they back it with and without the trait term.
+    reportOutcome(
+      "ballot-measures.vote",
+      voter.id,
+      traitLean,
+      "probability",
+      (withTerm) => ((withTerm ? support : view) > 0 ? 1 : 0),
+    );
     const t = turnoutOn(api, voter, {
       yes: { total: support },
       no: { total: -support },

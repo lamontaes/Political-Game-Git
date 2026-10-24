@@ -40,7 +40,11 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { decisionLean, decisionTraitWeight } from "../trait-decisions";
+import {
+  decisionLean,
+  decisionTraitWeight,
+  reportOutcome,
+} from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
 
 interface CellKey {
@@ -450,22 +454,25 @@ export function standingWith(
   // trust: agreeableness; the size is the weight's, SG-TRAITS-persuasion-size).
   // stopgapId: SG-TRAITS-persuasion-size
   const hearer = api.state.people.get(listener.id);
-  const trust = hearer
-    ? Math.min(
-        v("one"),
-        nearTrust *
-          Math.exp(
-            decisionTraitWeight(api.state, "views.trust") *
-              decisionLean(
-                api.state,
-                hearer,
-                "views.trust",
-                "trust",
-                "distrust",
-              ),
-          ),
-      )
-    : nearTrust;
+  let trust = nearTrust;
+  if (hearer) {
+    const lean = decisionLean(
+      api.state,
+      hearer,
+      "views.trust",
+      "trust",
+      "distrust",
+    );
+    trust = Math.min(
+      v("one"),
+      nearTrust *
+        Math.exp(decisionTraitWeight(api.state, "views.trust") * lean),
+    );
+    // The audit's probe (off in play) sees the trust with and without the trait term.
+    reportOutcome("views.trust", hearer.id, lean, "size", (withTerm) =>
+      withTerm ? trust : nearTrust,
+    );
+  }
   const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
   const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
   const partyOf = (id: string) =>
@@ -763,16 +770,12 @@ export const viewsModule: CoreModule = {
       // stopgapId: SG-TRAITS-persuasion-size
       const hearer = api.state.people.get(personId);
       // A multiplier, never zero: the most resistant hearer still moves a little.
+      const yieldLean = hearer
+        ? decisionLean(api.state, hearer, "views.persuasion", "yield", "resist")
+        : v("zero");
       const yielding = hearer
         ? Math.exp(
-            decisionTraitWeight(api.state, "views.persuasion") *
-              decisionLean(
-                api.state,
-                hearer,
-                "views.persuasion",
-                "yield",
-                "resist",
-              ),
+            decisionTraitWeight(api.state, "views.persuasion") * yieldLean,
           )
         : v("one");
       const change =
@@ -782,6 +785,15 @@ export const viewsModule: CoreModule = {
           yielding *
           (v("one") - v("tightness") * view.engagement)) /
         (v("one") + v("repeatWearOut") * heard);
+      // The audit's probe (off in play) sees the move with and without the trait term.
+      if (hearer)
+        reportOutcome(
+          "views.persuasion",
+          personId,
+          yieldLean,
+          "size",
+          (withTerm) => (withTerm ? change : change / yielding),
+        );
       if (change <= v("zero")) continue;
       const same = prior?.desiredChange === event.desiredChange;
       const strength = Math.min(
