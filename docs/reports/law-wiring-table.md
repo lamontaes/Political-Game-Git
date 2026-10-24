@@ -37,7 +37,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
 | Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
-| Unemployment weekly maximum                  | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| Unemployment weekly maximum                  | assistance         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | allow multifamily in single family zones     | housing            | yes    | yes    | SG    | yes     | SG    | SG  | yes     | NO     | NO        | partly     |
 | Spending: housing                            | housing            | yes    | yes    | part  | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
@@ -47,7 +47,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Minimum wage                                 | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | raise federal minimum wage                   | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | local minimum wage authority                 | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
-| raise minimum wage                           | labor              | yes    | yes    | yes   | yes     | yes   | NO  | yes     | yes    | yes       | partly     |
+| raise minimum wage                           | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | paid family leave                            | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | public sector collective bargaining          | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | right to work                                | labor              | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
@@ -91,8 +91,8 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | NO     | yes       | partly     |
 | local-income-tax-authority                   | starting law       | yes    | NO     | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
-| local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | SG  | yes     | n/a    | yes       | stopgapped |
+| local-minimum-wage-authority                 | starting law       | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| unemployment-insurance                       | starting law       | yes    | yes    | yes   | yes     | yes   | yes | yes     | n/a    | yes       | wired      |
 
 ## Why each link is missing
 
@@ -301,10 +301,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**Unemployment weekly maximum** (`unemployment-weekly-maximum`)
-
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)
-
 **Social Security tax rate** (`social-security-tax`)
 
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
@@ -346,10 +342,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-eviction-cases)
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
-
-**raise minimum wage** (`us-policy-positions:labor-workforce.raise-minimum-wage`)
-
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
 
 **cap consumer loan rates** (`us-policy-positions:business-commerce.cap-consumer-loan-rates`)
 
@@ -589,11 +581,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
-**local-minimum-wage-authority** (`local-minimum-wage-authority`)
-
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure local minimum wage adoption (SG-LAW-outcome-link-unresearched)
-
 **unemployment-insurance** (`unemployment-insurance`)
 
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure unemployment duration and household income (SG-LAW-outcome-link-unresearched)
 - repeal: A claimant's benefit rights are determined when the claim is established and benefits are payable during the benefit year (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2021, chapter 3, Monetary Entitlement: "An individual's benefit rights are determined using wages and employment from a specific period of time called a base-period. Once a claim is established, benefits are payable during a period of time called the benefit year."). Putting the old terms back governs the claims filed after it; a claim already filed keeps being paid, and recorded, on the terms it was filed under.
