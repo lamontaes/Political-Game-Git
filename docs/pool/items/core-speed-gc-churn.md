@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/speed-gc-churn
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T02:41:07.676Z
+claimed-at:
 ---
 
 **What.** In the CPU profile of a played year in Long Hill, Connecticut (seed m7b, 251 seconds), the garbage collector takes 52 seconds, the largest single line. A trace of the same year shows 4,539 young-generation scavenges taking 32 seconds, about 7 ms each, so many objects survive each one, and the heap peaks near 2.5 GB. Take a sampling heap profile of the year, name the three biggest allocators by file and function, and change each to reuse its storage or act on the day something changed. A larger young generation (--max-semi-space-size=128) ran the year in 169 seconds against 182 to 214, which is worth setting where the play process starts, but is not the fix.
@@ -28,3 +28,19 @@ Sampling heap profile Oct 20 (claude/speed-gc): `HeapProfiler.startSampling` wit
 Oct 20 (claude/speed-score-terms): done from the note above. `scoreOffers` now copies each offer's reason terms (the binding, its arguments, its source ids) only for an actor whose reasons are saved (the player, the focus, a controlled person, anyone while the observer is on) or when a caller asks for them (`chooseAct`'s original-answer capture); everyone else keeps each reason's number and no copy. Same sampling profile, seed m7b: `scoreOffers` 1.25 -> 1.07 GB; the year's total 58.2 -> 58.4 GB is inside the run-to-run spread (about 1 GB), so the change is small. Saved-trace (33), choice-qualifiers (11), event-appraisal-hooks (21) and business (14) tests pass.
 
 Sent back 2026-10-20 from PR #5451 (branch claude/gc-churn-alloc): The docs-only profile is useful, but core-speed-gc-churn Done when requires before/after heap profiles showing garbage collection below 10 percent, a faster year, and passing golden-path and money-balance checks. This PR explicitly ships neither attempted change and provides no below-10-percent after measurement. It cannot mark that implementation item done. Track the completed profiling note separately while leaving the implementation open, or finish the named acceptance.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5437 (branch claude/speed-play-skips-checks): The conflict repair is present, but docs/pool/items/core-speed-gc-churn.md:20 still requires matched before/after played-year profiles showing GC below 10 percent and a faster year. The PR reports allocation bytes (58.2 to 57.3 GB) and one 168-second run, not the required post-change GC fraction, and explicitly leaves the broader work incomplete. Track the remaining FinanceReadGuard optimization under a bounded item with its own proof, leaving the GC umbrella open, or finish the umbrella acceptance. Also update the body to the final one-check diff: the portfolios bookkeeping gate is already on main, and only finance-plan.ts remains changed. No local gates are claimed; unrelated CI failures are not the reason for this return.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5433 (branch claude/speed-live-households): docs/pool/items/core-speed-gc-churn.md:20 requires matched before/after played-year profiles showing GC below 10 percent and a faster year. The PR reports allocation bytes (58.2 to 57.2 GB) and one 170-second run, but no after GC fraction, and explicitly labels this a partial allocator change with the broader work unfinished. Bind the liveHouseholds/residents optimization to a bounded item with its own acceptance while leaving the GC umbrella open, or supply the full tracked acceptance. The fixed spread/iterator test conflict is present. I am not treating the reported baseline illness/draw failures as PR regressions, and no local gates are claimed.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-21 from PR #5409 (branch claude/speed-people-sort): The final diff is one sibling-tie call in src/core2/population.ts:1111 using the pairKey that is already on main. The body and performance receipt still describe replacing 16 sites, adding src/core2/pair-key.ts and its new test, and reducing whole-year sort allocation for that superseded patch. None of those files or the other 15 replacements remain in this PR. Update the description and evidence to the remaining single call site. Also docs/pool/items/core-speed-gc-churn.md:20 still requires the broader below-10-percent GC acceptance, which the body explicitly says is unmet; track this remaining slice under a bounded item with its own proof while leaving the umbrella open, or finish the tracked acceptance. No local gate pass is claimed; unrelated CI failures are not the blocker.; finish on that branch, merge main into it first.
+
+Oct 20 (claude/speed-people-sort): the call sites behind the native frames, from the same sampling profile (seed m7b, Long Hill, Connecticut), by nearest code frame: `sort` 1.94 GB in an anonymous function in `src/core2/modules/people.ts`, `next` 0.81 GB in `liveHouseholds` (`counted-groups.ts`), `getOwnPropertyDescriptor` 0.62 GB in `portfolios` and 0.22 in `shallow` (`work-attendance.ts`), `sort` 0.62 GB in `candidates` (`free-block.ts`), `WeakSet` 0.36 GB in `payload` (`finance-plan.ts`), `Map` 0.31 GB in `countedResidents`. The `people.ts` sort is the tie id `[a, b].sort().join(":")`, built for every known person of every person who acts; 16 places did it. They now call `pairKey(a, b)` (`src/core2/pair-key.ts`), the same string. Same profile after: `sort` 3.35 -> 0.6 GB, the year 58.2 -> 54.4 GB allocated (6.5 percent), the profiled year 215 -> 186 seconds, and `npm run speed:year -- --seed m7b --exclusive` 171 seconds against 194 to 214 before (one run; the machine varies about 10 percent). Still open: `liveHouseholds`, `portfolios`' descriptor reads, `candidates`' sort, `projectCashJournal`, `scoreOffers`, `planFreeTime`; garbage collection is not yet below 10 percent of the year, and the year is not yet under 120 seconds.
+
+After merging main (Oct 21): main already carried `pairKey` in `kernel/ids.ts` (same function) and its call sites; this PR keeps only the sibling-tie key in `population.ts`, and its own `pair-key.ts` is removed.
+
+Oct 21 (claude): the remaining sibling-tie key of PR 5409 is tracked as core-speed-sibling-tie-pair-key; this umbrella stays open.
+
+Sent back 2026-10-23 from PR #5771 (branch claude/speed-gc-churn): Body and declaration claim tooling only despite cash-journal and bench runtime changes; describe and validate the actual bounded slice without closing the unmet below-10-percent GC umbrella; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5388 (branch claude/speed-cash-journal): the linked acceptance requires GC below 10 percent, a faster year and named balance/golden-path checks; the body reports unchanged wall time, GC still above target, and no full acceptance proof or Done-when table, so use a bounded valid item for the journal-only slice; finish on that branch, merge main into it first.

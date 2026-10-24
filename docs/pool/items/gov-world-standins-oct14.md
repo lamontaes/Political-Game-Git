@@ -7,7 +7,7 @@ priority: 2
 status: open
 claimed-by:
 pr: #4146
-blocked-on:
+blocked-on: "gov-standins-laws, gov-standins-jobs, gov-standins-housing, gov-standins-elections, gov-standins-other"
 milestone:
 source: "open PR #4146"
 claimed-at:
@@ -29,9 +29,14 @@ Sent back 2026-10-17 from PR #4146 (branch stopgaps/gov-world): The top of the P
 
 Sent back 2026-10-19 from PR #4146 (branch stopgaps/gov-world): No in-session changed-file gate result near the top of the PR body; finish on that branch, merge main into it first.
 
+Split recorded Oct 19 across gov-standins-laws, gov-standins-jobs, gov-standins-housing, gov-standins-elections and gov-standins-other. The five existing children carry the engine-specific work and proof, while this parent retains its stated acceptance.
 Checked Oct 19 (claude), nothing built: merging current main into stopgaps/gov-world conflicts in 42 files (central-bank-appointments, data parameters for campaigns, housing, jobs, laws and moves, stopgaps.json, and twenty-odd modules from budgets to voting). It is a five-day-old sweep of many engines at once, so a merge cannot be resolved by hand without rewriting each engine's change against main. Redo it as the sibling item core-standins-residents-moves does: one area at a time against main's current files, one stopgap family per PR, each proved in a played year. Split this item by engine (budgets, campaigns, candidacy, credit, elections, executive, housing, jobs, legislature, moves, offices, place-prices, recalls, renewal, staff, views, voting) before the next builder claims it.
 Sent back 2026-10-19 from PR #4146 (branch stopgaps/gov-world): merging main conflicts in stopgaps.json, group-b-money.ts and the budgets, executive, housing, jobs and staff modules; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #4146 (branch stopgaps/gov-world): merging main still conflicts in 12 code files (law-reach tests, budgets, credit, jobs, offices, staff and others); finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #4146 (branch stopgaps/gov-world): src/core2/modules/recalls.ts:373-374 sets electorate = voters.length and signatures = signers.length, while :486-487 increments remove/keep by 1 for every counted row. countedResidents carries CountedVoter.weight (electorate.ts:41,102), so a row standing for many residents now contributes one person to signature thresholds and recall tallies. Preserve full voters at weight 1 and sum the represented weights for counted voters; add a nonvacuous generated-world case with weights greater than 1 proving signatures and both vote totals. The body also explicitly lacks a played year after the main merge; include the current-world downstream recall evidence rather than marking the stand-in resolved from unweighted rows.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4146 (branch stopgaps/gov-world): Missing Done-when table and current integrated played-year proof; restate which stand-ins the remaining diff resolves or use a valid bounded item; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #4146 (branch stopgaps/gov-world): src/core2/data/stopgaps.json:2204 adds a dated CTO note in shipped data; retain the mechanical resolution and move the dated decision citation to documentation; local test attempts ended after container OOM kills, so no test pass is claimed; finish on that branch, merge main into it first.

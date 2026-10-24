@@ -11,7 +11,7 @@ import depositRows from "../../../data/tables/town-deposits.json" with { type: "
 import regions from "../data/regional/regions.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../reference/government-units";
 import { corePlaceByKey } from "../place-lookup";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import territoryData from "../data/credit/territories.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
@@ -31,7 +31,7 @@ import {
   residentsRuntime,
   householdCash,
   householdCashReader,
-  residentPerson,
+  residentFacts,
 } from "./residents";
 import { chooseAct, traitLean } from "../choice";
 import { transferCash } from "../world-transfer";
@@ -823,7 +823,7 @@ function earnedDaily(
     if (!ledger) break;
     const since =
       commitment.startsAt > c.startedAt ? commitment.startsAt : c.startedAt;
-    const days = daysBetween(makeIsoDate(since), makeIsoDate(c.date));
+    const days = daysBetweenText(since, c.date);
     if (days < api.parameter("creditIncomeRecordDays")) break;
     return ledger.earnedMinor / days;
   }
@@ -905,7 +905,7 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
       if (c.households.has(h.id)) continue;
-      const members = rt.store.peopleOf(h);
+      const members = rt.store.factsOfHousehold(h);
       if (!members.length) continue;
       rows.push({
         id: h.id,
@@ -1020,7 +1020,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         loan.paymentMinor + loan.pastDueMinor,
       );
     const person =
-      c.people.get(loan.borrowerId) ?? residentPerson(c, loan.borrowerId);
+      c.people.get(loan.borrowerId) ?? residentFacts(c, loan.borrowerId);
     const cashBefore = borrowerCash(api, loan.borrowerId);
     const paid = personalLoanTransfer(
       api,
@@ -1139,7 +1139,7 @@ function householdApplications(
         (row) =>
           row.standing === "charged-off" &&
           (!row.chargedOffAt ||
-            daysBetween(makeIsoDate(row.chargedOffAt), makeIsoDate(c.date)) <
+            daysBetweenText(row.chargedOffAt, c.date) <
               p("creditReportYears") * p("jobsDaysPerYear")),
       )
       .map((row) => row.householdId),

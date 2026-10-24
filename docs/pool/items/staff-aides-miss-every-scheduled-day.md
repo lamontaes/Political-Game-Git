@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5762
 blocked-on:
@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** Found while finishing PR 5712 (staff-paid-territory-no-payroll-template): the merger's failing case was an aide who attended nothing, not a payroll gap.
 
 Sent back 2026-10-20 from PR #5762 (branch claude/staff-aides-attendance): The item already records that the job ends after a month. reviewAttendance dismissing the aide is the consequence of missing work, not the reason they missed all 18 scheduled days. Done when requires every scheduled aide to have attended time or a recorded reason for each missed day, shown by a test beside staff-paid-every-place.test.ts naming the full job id. This PR adds only aggregate totals and a dismissal description; no per-day reason records or that named test are supplied. Keep the finding, but do not mark the attendance question complete or ask to drop it until the required daily cause evidence and regression are present.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5762 (branch claude/staff-aides-attendance): Drawn-place test can pass with no scheduled attendance records because it only checks aides length and ignores checkCauses count; require nonempty scheduled job/day coverage; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5762 (branch claude/staff-aides-attendance): Named aide can be outside run.aides while other aides counts satisfy pinned assertions; actual helper probe passed with18 named missed days lacking reasons and0 named reasons checked; check each named/observed eligible job directly and update evidence; finish on that branch, merge main into it first.

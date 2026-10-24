@@ -22,7 +22,8 @@ import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentFacts, residentsRuntime } from "./residents";
+import { countedHeadsOf } from "../residents-economy";
 import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
@@ -210,7 +211,7 @@ function payProfitTaxes(api: CoreAPI): void {
       passThrough(api, id, owner, total - last.minor);
       continue;
     }
-    if (owner && residentPerson(core, owner)) {
+    if (owner && residentFacts(core, owner)) {
       passThroughCounted(api, id, owner, total - last.minor);
       continue;
     }
@@ -325,11 +326,15 @@ function passThroughCounted(
   const id = `pass-through:${businessId}:${api.state.date}`;
   if (table(api, "passThroughs").get(id)) return;
   const core = api.state as CoreState;
-  const owner = residentPerson(core, ownerId);
+  const owner = residentFacts(core, ownerId);
   const law = paydayLaw(api);
   if (!owner || !law) return;
+  // The profit is the business's, already at the town's weight, and a counted
+  // payment multiplies by the owner's household weight: the withholding is
+  // for one household's part of the profit.
+  const heads = countedHeadsOf(core, ownerId);
   const lines = withholdingFor({
-    paidMinor: profitMinor,
+    paidMinor: profitMinor / heads,
     periodDays: QUARTER_DAYS_COUNT,
     yearToDateMinor: 0,
     incomeTax: law.incomeTax,

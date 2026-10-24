@@ -27,7 +27,7 @@ import {
 import { votesOf } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
-import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { ageOnDate } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -60,7 +60,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
-import { residentPerson } from "./residents";
+import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
 
@@ -287,7 +287,7 @@ export function countedCandidacyReasons(
   contest: OpenContest,
 ): Record<string, number> {
   const zero = api.parameter("zero");
-  const record = residentPerson(api.state as CoreState, voter.id);
+  const record = residentFacts(api.state as CoreState, voter.id);
   const reasons = reasonsFrom(
     api,
     {
@@ -326,10 +326,7 @@ function reasonsFrom(
   // Personality enters once, through the chooser's trait term on the two
   // options' act kinds; no second temperament term here.
   const hours = person.workHoursDaily / c(api, "candidacyFullShiftHours");
-  const age = ageOnDate(
-    makeIsoDate(person.birthDate),
-    makeIsoDate(api.state.date),
-  );
+  const age = ageOnDate(person.birthDate, api.state.date);
   const distance =
     (age - c(api, "candidacyAgeCenter")) / c(api, "candidacyAgeSpread");
   // Standing in town: how many people know them, against the circle a local
@@ -740,8 +737,7 @@ export function weighContest(
         p.alive &&
         (p.placeId === town.townPlaceId || pool.has(p.id)) &&
         !appointed.has(p.id) &&
-        ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(date)) >=
-          rules.minimumAge &&
+        ageOnDate(p.birthDate, date) >= rules.minimumAge &&
         !isExplicitlyControlledPersonV1(api.state, p.id) &&
         !committed.has(p.id) &&
         !(incumbentFiled && p.id === incumbentId) &&

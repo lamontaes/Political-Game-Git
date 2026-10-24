@@ -1,0 +1,55 @@
+{
+  "id": "nces-ntps-2021-class-size",
+  "publisher": "National Center for Education Statistics",
+  "vintage": "National Teacher and Principal Survey 2020-21",
+  "table": "Average class size in public K-12 schools, by school level, class type, and selected school characteristics: 2020-21",
+  "title": "Average public school class size",
+  "universe": "Public school teachers, K-12",
+  "geography": "United States",
+  "sourceUrl": "https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n",
+  "retrievedOn": "2026-10-23",
+  "quote": "Average class size, all public school teachers: elementary 19.1 (self-contained) and 20.7 (departmentalized); middle 16.9 and 22.0; secondary/high 17.2 and 21.0; combined 17.1 and 17.9.",
+  "limits": "A class is not an acquaintance circle: the class sizes bound the size of a generated school peer group, they do not measure how many classmates a person remembers. National only.",
+  "cells": [
+    {
+      "level": "elementary",
+      "classType": "self-contained",
+      "students": 19.1
+    },
+    {
+      "level": "elementary",
+      "classType": "departmentalized",
+      "students": 20.7
+    },
+    {
+      "level": "middle",
+      "classType": "self-contained",
+      "students": 16.9
+    },
+    {
+      "level": "middle",
+      "classType": "departmentalized",
+      "students": 22.0
+    },
+    {
+      "level": "high",
+      "classType": "self-contained",
+      "students": 17.2
+    },
+    {
+      "level": "high",
+      "classType": "departmentalized",
+      "students": 21.0
+    },
+    {
+      "level": "combined",
+      "classType": "self-contained",
+      "students": 17.1
+    },
+    {
+      "level": "combined",
+      "classType": "departmentalized",
+      "students": 17.9
+    }
+  ]
+}

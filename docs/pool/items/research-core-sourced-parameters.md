@@ -5,11 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: blocked
+status: open
 claimed-by:
 pr:
-blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Closeness calibrated against a panel of measured tie strength and contact (for example, the Roberts and Dunbar network data or a U
+blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-closeness-relationship-closeness-model, core-stopgap-emotion-estimated-behavior, core-stopgap-free-block-behavior-model-gap, core-stopgap-policy-authority-missing-mechanic, core-stopgap-recalls-assumed-data, core-stopgap-renewal-opening-prehistory-estimate"
+claimed-at:
 ---
 
 **What.** Source the numbers behind closeness, emotion, free time, policy authority, recalls and renewal. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 6 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -28,3 +29,7 @@ source: "collapsed Oct 19, 2026 from core-stopgap-closeness-relationship-closene
 **Files.** src/core2/data/closeness.json, src/core2/emotion.ts, src/core2/free-block.ts, src/core2/modules/recalls.ts, src/core2/modules/renewal.ts, src/core2/policy-authority.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
 **Notes.** Folded from: core-stopgap-closeness-relationship-closeness-model, core-stopgap-emotion-estimated-behavior, core-stopgap-free-block-behavior-model-gap, core-stopgap-policy-authority-missing-mechanic, core-stopgap-recalls-assumed-data, core-stopgap-renewal-opening-prehistory-estimate. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-core-sourced-parameters.md (6 rows: 1 sourced, 3 estimated, 2 mechanic).
+
+Oct 24, 2026: split. PR 5853 (item research-core-recall-petition-windows) delivers twelve local recall timing rows (ten SOURCED, two ESTIMATED), six research files and a played-year check. Still open here: unmodeledLeisureValuePerHour stays TUNABLE because no published figure converts to its score units, and SG-GOV-recall-bars-national lacks a Mississippi bar while the engine reads neither election-counted bars nor after-failure rules (gov-recall-bars-election-clock). Each other stopgap waits on a builder item: SG-P15-closeness-model (no source gives a half-life without contact; core-stopgap-closeness-relationship-closeness-model), SG-P8-emotion-model (core-emotion-chronic-affect-trajectories), SG-P15-free-block-plan (core-free-block-daily-budget), SG-GOV-policy-power-conditions (core-policy-authority-limited-cell-predicates) and SG-M1-opening-pregnancies (no dated history before the opening; people-opening-pregnancy-first-year-calibration).

@@ -7,9 +7,10 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr:
+pr: #5788
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The renewal engine's renewalUnplannedExposure (0.5, TUNABLE, spread unmeasured) gives almost no full-tier unplanned pregnancies: three drawn towns played a year each with 28 waiting couples between them and none had one. Guttmacher puts unintended pregnancies at about 4 in 100 women aged 15 to 44 a year. Play a batch of drawn towns for a year, compare the town's unplanned total (full and counted) with that rate times its women, and set the parameter and its spread from the comparison.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/data/renewal/parameters.json, src/core2/births-unplanned.ts, data/research/people/
 
 **Notes.** Found while repairing src/core2/renewal.test.ts on PR #5749: Hopkins SC, Yuba WI and Tamuning GU (seed probe1) had 12, 2 and 14 couples and 0 unplanned in a year.
+
+Sent back 2026-10-23 from PR #5788 (branch claude/unplanned-exposure-calibration): the PR targets main while parents 5757, 5749 and 5695 are still open; its integrated diff includes the pregnancy engine, counted-tier code and provider research (11 files, 1808 lines), not just the declared parameter row, so correct the base or provide full-stack scope and checks; finish on that branch, merge main into it first.
