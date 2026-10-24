@@ -73,3 +73,24 @@ Scans (whole-collection walks a year, by caller): nothing daily is large. Larges
 Bedford, Wyoming (key 5606045, seed 9a4dd331ace7), same machine: years 59.5, 80.5, 81.5 s. By owner, year one to three: kernel 8.6 to 17.8 s, drives 1.0 to 10.6 (performing activists' acts and the events they emit, 8.6 s in year three), people 1.4 to 4.9, life 3.2 to 5.4, work flat (14.2 to 11.5). That growth is `speed-year-three-within-band`.
 
 Sent back 2026-10-23 from PR #5820 (branch claude/speed-year-policy-semi-space): The measurement-command flag alignment has no bounded item or evidence table, while the dense-town three-run and m7a performance acceptance explicitly remains unmet; finish on that branch, merge main into it first.
+
+Before and after by module, Oct 24 08:55 (speed lead). Long Hill, Connecticut (key 0943580, seed m7b), base main 185d76d7ce, one year under the CPU profiler, one process alone, time by owning module (the innermost engine on the stack): main 264.8 s, with the cash journal (#5907) and work attendance and payroll (#5924, #5925) 223.0 s.
+
+| Module                                                | Main | With the three | Change |
+| ----------------------------------------------------- | ---: | -------------: | -----: |
+| kernel (no engine frame; includes garbage collection) | 51.5 |           44.5 |   -7.0 |
+| work                                                  | 51.4 |           26.8 |  -24.6 |
+| news                                                  | 17.5 |           18.4 |   +0.9 |
+| residents                                             | 13.7 |           10.6 |   -3.1 |
+| life                                                  | 11.4 |           11.1 |   -0.3 |
+| renewal                                               |  9.2 |            8.7 |   -0.5 |
+| place prices                                          |  7.2 |            6.3 |   -0.9 |
+| press                                                 |  6.8 |            6.3 |   -0.5 |
+| people                                                |  6.6 |            6.7 |   +0.1 |
+| jobs                                                  |  5.6 |            5.4 |   -0.2 |
+| counted moves                                         |  5.5 |            5.1 |   -0.4 |
+| budgets                                               |  5.5 |            5.2 |   -0.3 |
+| views                                                 |  5.3 |            5.2 |   -0.1 |
+| credit                                                |  4.5 |            3.8 |   -0.7 |
+
+Without the profiler, paired against main in one process: the journal 220.0 to 190.3 s, attendance and payroll 252.4 to 221.2 s, the three together 278.3 to 232.3 s under load, so Long Hill's year is about 180 s alone, against the 120 s limit. The rest is flat: the module-table store's own checks (12.7 s of self time, filed `core-speed-module-table-play-path`), the news engine passing stories at each contact (18 s), life (11 s), residents (11 s), renewal (9 s, `core-speed-counted-renewal-pass` held inside the noise), garbage collection (15 s).

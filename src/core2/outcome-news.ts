@@ -25,6 +25,49 @@ export const NEWS_MEASURES = data.measures as Readonly<
   Record<string, MeasureRow>
 >;
 
+const QUESTIONS = data.questions as Readonly<
+  Record<string, { readonly question: string }>
+>;
+
+/**
+ * The policy question or budget line a story about this subject ties to:
+ * its readers take the moved condition as a reason for the side they already
+ * hold on it. Null for a subject that ties to none.
+ */
+export function conditionQuestion(topic: string): string | null {
+  return QUESTIONS[topic]?.question ?? null;
+}
+
+const LIVED = (
+  data as unknown as {
+    lived: { kinds: Readonly<Record<string, string>> };
+  }
+).lived.kinds;
+
+/**
+ * The question an event of this kind ties to when it is a person living the
+ * condition themselves (a household's victimization is crime), or null.
+ */
+export function livedQuestion(kind: string): string | null {
+  const topic = LIVED[kind];
+  return topic ? conditionQuestion(topic) : null;
+}
+
+/** The questions the conditions a month's story reports tie to, each once, in order. */
+export function conditionQuestions(
+  facts: Readonly<Record<string, string>>,
+): string[] {
+  const out = new Set<string>();
+  for (const key of Object.keys(facts)) {
+    const measure = measureOfFactKey(key);
+    const question = measure
+      ? conditionQuestion(NEWS_MEASURES[measure]!.topic)
+      : null;
+    if (question) out.add(question);
+  }
+  return [...out].sort();
+}
+
 /** The measure of a `web:<measure>` fact key, or null. */
 export function measureOfFactKey(key: string): string | null {
   if (!key.startsWith("web:")) return null;

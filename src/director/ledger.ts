@@ -706,14 +706,26 @@ export function createDirector(
     otherId: PersonId,
     date: IsoDate,
   ) {
+    // Importance reads impact, never hindsight, so a counterpart's is the
+    // same for every moment of the pair: worked out once per rescore.
+    const importance = new Map<PersonId, number>();
+    const importanceFor = (id: PersonId) => {
+      let value = importance.get(id);
+      if (value === undefined) {
+        const thread = book.threads.get(id);
+        value = thread ? importanceOf(book, thread, date) : zero;
+        importance.set(id, value);
+      }
+      return value;
+    };
     for (const moment of pairMoments(book, otherId)) {
       moment.hindsight =
         moment.impact *
         (one +
-          moment.counterpartIds.reduce((sum, id) => {
-            const thread = book.threads.get(id);
-            return sum + (thread ? importanceOf(book, thread, date) : zero);
-          }, zero));
+          moment.counterpartIds.reduce(
+            (sum, id) => sum + importanceFor(id),
+            zero,
+          ));
       moment.hindsightAt = date;
     }
   }

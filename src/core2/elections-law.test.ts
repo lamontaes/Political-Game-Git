@@ -465,10 +465,37 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
     expect(termStartAfter(governor("US-VT"), "2026-11-03")).toBe("2027-01-07");
     expect(termStartAfter(governor("US-TX"), "2026-11-03")).toBe("2027-01-19");
     expect(termStartAfter(governor("US-AZ"), "2026-11-03")).toBe("2027-01-04");
-    // An unread state keeps the data's default.
-    expect(termStartAfter(governor("US-NC"), "2026-11-03")).toBe(
-      `2027-${termStarts.default.monthDay}`,
+    // Read October 23: North Carolina's first day of January (a fixed day),
+    // Kentucky's fifth Tuesday after the November vote (December), and
+    // Vermont's Thursday after the first Monday (January 9, 2025).
+    expect(termStartAfter(governor("US-NC"), "2026-11-03")).toBe("2027-01-01");
+    expect(termStartAfter(governor("US-KY"), "2027-11-02")).toBe("2027-12-07");
+    expect(termStartAfter(governor("US-VT"), "2024-11-05")).toBe("2025-01-09");
+  });
+
+  it("a legislator's term starts on the state's own clause where it is read", () => {
+    const legislator = (state: string) => ({
+      ...town(state),
+      jurisdiction: state,
+      level: "state" as const,
+      kind: "legislature-lower",
+    });
+    // California: the first Monday in December; Maine: the day before the
+    // first Wednesday in December; Florida: the day after election day.
+    expect(termStartAfter(legislator("US-CA"), "2026-11-03")).toBe(
+      "2026-12-07",
     );
+    expect(termStartAfter(legislator("US-ME"), "2026-11-03")).toBe(
+      "2026-12-01",
+    );
+    expect(termStartAfter(legislator("US-FL"), "2026-11-03")).toBe(
+      "2026-11-04",
+    );
+    // Every place with a legislature has a row.
+    const rows = Object.values(
+      termStarts.states as unknown as Record<string, Record<string, unknown>>,
+    ).filter((families) => families.stateLegislative);
+    expect(rows.length).toBe(56);
   });
 
   it("every state's governor row starts a term in December or January on its own rule, and an unread clause says so", () => {
@@ -480,14 +507,15 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
           {
             tag: string;
             excerpt: string;
-            rule: { month: number; nth: number; weekday: number };
+            rule?: { month: number; nth: number; weekday: number };
+            monthDay?: string;
           }
         >
       >,
     ).map(
       ([state, families]) => [state, families.statewideExecutive!] as const,
     );
-    expect(rows.length).toBeGreaterThanOrEqual(32);
+    expect(rows.length).toBe(56);
     for (const [state, row] of rows) {
       const governor = {
         ...town(state),
@@ -496,9 +524,11 @@ describe(`election law from data (place ${drawn.name}, ${drawn.state}, seed ${se
         kind: "governor",
       };
       const start = termStartAfter(governor, "2026-11-03");
-      // A December rule falls in the election year, a January rule the year after.
+      // A December rule falls in the election year, a January rule the year
+      // after; a November rule counted from the vote lands in December.
+      const month = row.rule?.month ?? Number(row.monthDay!.slice(0, 2));
       expect(start.slice(0, 7), state).toBe(
-        row.rule.month === 12 ? "2026-12" : "2027-01",
+        month === 1 ? "2027-01" : "2026-12",
       );
       // An estimate does not quote a clause it did not read.
       if (row.tag === "ESTIMATED")
