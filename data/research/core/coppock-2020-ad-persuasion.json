@@ -1,0 +1,35 @@
+{
+  "id": "coppock-2020-ad-persuasion",
+  "publisher": "Science Advances (AAAS), via PubMed Central",
+  "vintage": "2020; 59 survey experiments during the 2016 presidential campaign",
+  "table": "Results text and the average-effect table",
+  "title": "Coppock, Hill and Vavreck, 'The small effects of political advertising are small regardless of context, message, sender, or receiver: Evidence from 59 real-time randomized experiments', Science Advances 6(36):eabc4046",
+  "universe": "About 34,000 U.S. adults shown one of 49 campaign advertisements or a placebo",
+  "geography": "United States",
+  "sourceUrl": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC7467695/",
+  "doi": "10.1126/sciadv.abc4046",
+  "retrievedOn": "2026-10-23",
+  "limits": "One advertisement seen once, not a speech heard in person; favorability is a 1 to 5 scale. The game's stance strength runs 0 to 1, so the band below divides the scale points by the scale's width (4); that mapping is this file's assumption, not the paper's. This is the outcome band a played year checks how far one speech moves a listener against; it is not a weight any engine reads.",
+  "favorabilityEffect": {
+    "quote": "On average, the advertisements moved target candidate favorability 0.049 scale points (1 to 5 scale) in the “correct” direction",
+    "heterogeneityQuote": "We estimate an average treatment effect of presidential advertising on candidate favorability of 0.05 scale points on a five-point scale, with an SD across experiments of 0.07 scale points.",
+    "scalePoints": 0.049,
+    "sdAcrossExperiments": 0.07,
+    "scaleWidth": 4
+  },
+  "voteChoiceEffect": {
+    "quote": "The effect on target candidate vote choice is also small at 0.7 percentage points, but is not statistically significant.",
+    "percentagePoints": 0.7,
+    "sdAcrossExperiments": 2
+  },
+  "band": {
+    "stanceChangePerMessage": {
+      "mean": 0.0123,
+      "low": 0,
+      "high": 0.0298,
+      "unit": "stance strength (0 to 1) per message heard",
+      "derivation": "0.049 / 4 = 0.012; the band runs from 0 to the mean plus one SD across experiments, (0.049 + 0.07) / 4 = 0.030"
+    },
+    "readBy": "scripts/research/core-parameters-year.ts"
+  }
+}

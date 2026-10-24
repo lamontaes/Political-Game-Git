@@ -507,12 +507,12 @@
     "id": "SG-P8-work-time-reserve",
     "kind": "uncalibrated-time-plan",
     "file": "src/core2/data/parameters.json",
-    "line": 1931,
+    "line": 1205,
     "whatItFakes": "Reserves guessed sleep hours and gives waking recovery a separate guessed duration.",
     "why": "Sleep reserve is planned, not observed; full education/care/consumption/primary-activity diary is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads.",
+    "replacement": "Each person's sleep reserve from their own ATUS group (age, employed or not, a child under 18 at home: BLS ATUS 2025 Tables 8B and 8C, data/research/core/atus-2025-sleep.json), read per person by work.ts discretionaryHours and free-block.ts; builder item core-sleep-reserve-by-person. Until then workSleepReserveHours is ESTIMATED at 8.7 (employed midpoint, spread 8.56 to 8.83) and restDayHours at 5.16 (ATUS 2025 Table 3, spread 3.89 to 7.39 by age), both checked by scripts/research/core-parameters-check.ts; ATUS participant durations would be needed for a per-sitting rest length (core-recovery-hours-per-offer).",
     "status": "open"
   },
   {
@@ -567,7 +567,7 @@
     "id": "SG-P8-business-books-credit-policy",
     "kind": "authored-finance-policy",
     "file": "src/core2/data/parameters.json",
-    "line": 1908,
+    "line": 1910,
     "whatItFakes": "Every borrower repays its facilities from half of its cash (businessRepaymentShare, an authored liquidity policy) in finishFinanceDay, with no underwriting, priority-of-claims policy or lender decision behind it.",
     "why": "The finance engine settles facility interest and repayment with finite cash, but the share a firm repays is one authored number, not a behavior rule.",
     "addedBy": "SOL-1258",
@@ -2057,12 +2057,12 @@
     "id": "SG-P15-distance-by-place",
     "kind": "estimated-behavior",
     "file": "src/core2/data/parameters.json",
-    "line": 1525,
+    "line": 799,
     "whatItFakes": "How far a relative lives changes how often they are visited only by whether they are in the household's county (full pull) or elsewhere in the state (0.39 of it, from Pew 2005 daily contact by same or different town).",
     "why": "Relatives outside the town carry only a county or state, not a place, so no travel distance exists to read.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Travel time between the two people's places once relatives carry a place, from Census Gazetteer place centroids, with visits falling with travel time as measured in a contact-by-distance study.",
+    "replacement": "Travel time between the two people's places once relatives carry a place, from the Census Gazetteer interior points the repository already holds (data/source/places/corpus.json, data/source/counties/corpus.json), with visits falling with travel time; builder item core-kin-visits-by-distance. Until then farKinContactShare is ESTIMATED at 0.39 (spread 0.39 to 0.49) from Pew Research Center 2006, contact with a parent in town against out of town (data/research/core/pew-2006-family-contact.json, checked by scripts/research/core-parameters-check.ts). The measured figure that would make it SOURCED is a U.S. table of contact by travel time: none was found on Oct 23, 2026, and the French INED table a search named was not reachable from the cloud session.",
     "status": "open"
   },
   {
@@ -2380,7 +2380,7 @@
     "why": "Speeches (M4-04) need a first reception model; persuasion research gives directions and small averages, not these coefficients.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Reception calibrated to persuasion experiments by audience and message (Coppock 2023), retelling through friends and the news module, and memory by age (M4-04).",
+    "replacement": "Reception calibrated to persuasion experiments by audience and message, retelling through friends and the news module, and memory by age (M4-04). Researched Oct 23, 2026: Coppock, Hill and Vavreck 2020 (Science Advances 6(36):eabc4046) measure 0.049 points on a 1 to 5 favorability scale per advertisement (SD 0.07 across 59 experiments), held as a band of 0.012 (0 to 0.030) stance strength per message in data/research/core/coppock-2020-ad-persuasion.json and reported against by scripts/research/core-parameters-year.ts. No published effect converts to speechImpulse, speechRetellWeight, speechSociabilityWeight or speechKeepPull, so they stay TUNABLE.",
     "status": "open"
   },
   {
@@ -2392,7 +2392,7 @@
     "why": "Basic corruption (M3-09) needs a first version; the research gives directions, not these coefficients.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports), with audits and the news surfacing records.",
+    "replacement": "Weights checked against bribery incidence surveys and public-corruption case counts by office (DOJ Public Integrity Section reports, data/research/corruption/roadmap-r29-aggregate-enforcement.json), with audits and the news surfacing records; the take calibration is people-corruption-honest-pull-calibrated. Researched Oct 23, 2026 (data/research/core/corruption-bands-2014.json): bribes averaged 10.9% of a deal's value and 34.5% of its profit in 427 OECD foreign-bribery cases (OECD Foreign Bribery Report 2014, via a secondary summary; the OECD pages refused the session), the figure bribeShareOfStake would take as ESTIMATED, and 7% of U.S. adults paid a bribe to a public service in a year (Transparency International, Global Corruption Barometer 2013, via Pew Research Center), the band scripts/research/core-parameters-year.ts reports offers against. The trait, need, tie, tell, quiet, report, vote and breach weights have no published effect that converts and stay TUNABLE.",
     "status": "open"
   },
   {
@@ -2859,12 +2859,12 @@
     "id": "SG-P15-moves-weights",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/moves/parameters.json",
-    "line": 6,
+    "line": 12,
     "whatItFakes": "How strongly each tie holds a person in town and each event pushes them out, and the scale that turns the ACS rate for their age into a monthly pull.",
     "why": "The research gives how often people of each age leave a county and the reasons movers give, but not each tie's and event's size in this model.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving.",
+    "replacement": "Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving. Oct 23, 2026: the owner and job holds are ESTIMATED as log ratios of CPS ASEC 2023 different-county move rates (data/research/core/cps-asec-2023-mobility.json). The children and kin holds convert to 0.32 (CPS ASEC 2023 Table 6) and 0.30 per relative (Spring, Ackert, Crowder and South 2017, data/research/core/spring-2017-kin-proximity.json) but stay at their starting values, 0.4 and 0.15, with the converted figures as their spreads, because applying them takes src/core2/moves.test.ts past its departure band while the engine already sends about 1.75 times the expected adults away; world-town-net-moving-negative applies them once the departure rate is right. All are checked by scripts/research/core-parameters-check.ts; the figures that would make them SOURCED are effects net of age. movesMinimumAge, movesKinHoldCap and movesHousingCostShareCap are a cutoff and caps, replaced by core-moves-caps-and-minimum-age-as-cause. The other pulls and pushes stay TUNABLE: scripts/research/core-parameters-year.ts reports a town's departures against the ACS 2024 rate for its adults and the share of leavers by recorded cause against the CPS different-county reasons.",
     "status": "open"
   },
   {
@@ -3449,12 +3449,12 @@
     "id": "SG-CORE-past-undated-law-age",
     "kind": "estimated-data",
     "file": "src/core2/data/past/parameters.json",
-    "line": 41,
+    "line": 47,
     "whatItFakes": "A law the research records only as in force at the opening (a state's policy answers, a law carried back to the start date) is given an enactment date between one and twenty years before day one, fixed by the world's seed.",
     "why": "The starting-law research reads which law is in force on its calibration date, not when each was passed.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
-    "replacement": "Enactment years from the research for each policy answer (NCSL and state code histories), read by the law history in place of the seeded age.",
+    "replacement": "Enactment years from the research for each policy answer, read by the law history (src/core2/past-laws.ts) in place of the seeded age; builder item core-past-law-enactment-years. Started Oct 23, 2026 in data/research/core/state-law-adoption-dates-2025.json for two policies, Medicaid expansion and right-to-work, all 56 places (Wikipedia summaries of the KFF tracker and the National Right to Work Committee timeline, whose own pages refused or showed the dates as images): their 67 laws in force at day one were passed 1.14 to 81.05 years before it, median 11.05. pastUndatedLawAgeYearsLow and High stay ESTIMATED (1 and 20) with those spreads (checked by scripts/research/core-parameters-check.ts).",
     "status": "open"
   },
   {
@@ -4994,7 +4994,9 @@
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
     "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-24",
+    "resolution": "Full couples' plan-a-child choice carries a web term in the plan score: renewalWebWeight times the birth-rate factor that lands on the mother's own age and home, less one (webFactorFor in src/core2/births-plan.ts), the same factor the counted women of that age and home are scaled by (src/core2/births-counted.ts). Unemployment, home prices and the abortion law now move full couples' plans, pregnancies and births as they move the counted tier's. The unemployment link is read through the factor like the others, so its effect is shared with the work and income terms. src/core2/births-full-web.test.ts follows a shifted web month row to the plans, pregnancies and births it tips in a played year, by record id."
   },
   {
     "id": "SG-TRAITS-counted-health-no-trait",
@@ -5559,6 +5561,66 @@
     "addedBy": "claude/territory-admin-line",
     "addedAt": "2026-10-18",
     "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-college-completion",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The share of adults with a bachelor's degree (school.college-completion-pct) stays the web's ledger number (base times the links' factors); no engine decides who completes college.",
+    "why": "The measure is a stock of everyone 25 and older, and the core records no degrees or college enrollment on a person, so there is nothing for a student's June record to roll into; building it needs a college-going and degree record.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "A college engine that gives each graduate an enrollment and completion record by the same standing rule, and a degree on each adult, read back as this measure.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-equalized-funding-budget",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The equalized-funding law's link into spending per student is the web's number; no law handler moves the schools budget line, so the school spending measure does not follow the law.",
+    "why": "No handler in src/core2/law-reach moves the education budget for education.equalize-school-funding (law handlers belong to the law-wiring area).",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "A law-reach handler that moves the schools line of the budget in force (moveBudget), which the school engine's spending measure then reads.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-hispanic-enrollment",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "The share of public school students who are Hispanic (school.hispanic-enrollment) stays the web's ledger; no engine decides it, so the enforcement link into it moves only that number.",
+    "why": "The core records no ethnicity on a student and no enrollment by ethnicity, so there is nothing for the link to change.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "An enrollment record by ethnicity (from the opening's school enrollment) that the immigration-enforcement law changes by who stays enrolled, read back as this measure.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-links-not-running",
+    "kind": "missing-engine",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 1,
+    "whatItFakes": "Thirteen researched links into school outcomes do not run: carbon-monoxide-to-absence, class-size-to-scores, prek-to-graduation, family-income-to-scores, police-killing-to-graduation, school-move-to-scores, daca-to-graduation (no researched size yet); school-spending-to-attainment, child-coverage-to-graduation, homicide-nearby-to-scores (person-level exposure over years or an acute event, which needs a per-student exposure record); lead-to-reading, heat-to-learning, home-internet-to-scores (the cause is not recorded, or the size is about zero).",
+    "why": "Each lacks a size from research, a recorded cause, or a per-student exposure history; the school engine reads only links that run.",
+    "addedBy": "EFFECT-WEB-SCHOOLS",
+    "addedAt": "2026-10-20",
+    "replacement": "Size each from its research, record its cause (class size, blood lead, school-year heat, broadband) or a per-student exposure record, and the engine's existing read of the web factor reaches it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-SCHOOL-counted-attendance",
+    "kind": "behavior",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 145,
+    "whatItFakes": "A counted student's attendance in the school standing, and a full student's before they have an attendance record, is the mean attendance share of the same place's full students of that grade, or every school day where the place has none recorded. The standing orders who in an income fifth passes or graduates; it never sets how many do.",
+    "why": "Only full people go to school day by day (school.ts records their days); a counted student has no attendance record. Today every full student attends every school day (SG-CORE-school-days), so the place's mean is every day and both tiers read the same value.",
+    "addedBy": "effect-web-schools",
+    "addedAt": "2026-10-24",
+    "replacement": "Counted students' attendance from the counted tier's own school days (the same attendance choice full students make, read for the group times its count), so the standing reads one recorded rule in both tiers.",
     "status": "open"
   }
 ]
