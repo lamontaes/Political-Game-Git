@@ -5,11 +5,12 @@ area: art
 kind: cleanup
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: art/people-whole-out-of-play
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T04:30:20.875Z
 ---
 
 **What.** The owner, Oct 24: I don't know how many times I have to say it, I want the current people completely removed from the game, the ones with the airplane; I just want people standing, generated. The figures the game draws now are the 81 whole figures in art/people-whole (Oct 12 and 13), picked by src/bench/whole-figures.ts. The newer Codex set, art/people-engine/v2/figures, was saved on Oct 19 (#5123). This item takes every art/people-whole figure out of play and draws people from the v2 set standing, or draws no figure where none fits, keeping the originals in the repository.
