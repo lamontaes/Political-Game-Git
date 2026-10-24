@@ -87,6 +87,9 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
       [])
       if (core.people.get(id)?.alive) director.watch(core, id);
     advanceCore(core, addDays(makeIsoDate(victimized.date), 1));
+    // The person the crime record names keeps it as a moment, and raises it
+    // with a housemate (a break-in names the household; an assault, the one
+    // attacked).
     let found:
       | {
           victim: PersonId;
@@ -95,35 +98,27 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
           momentId: string;
         }
       | undefined;
-    for (const id of core.households.get(victimized.householdId)?.memberIds ??
-      []) {
+    const members = (
+      core.households.get(victimized.householdId)?.memberIds ?? []
+    ).filter((id) => core.people.get(id)?.alive);
+    for (const id of members) {
       const moment = director.ledger.people
         .get(id)
         ?.moments.find((row) => row.causeId === victimized!.eventId);
       if (!moment || moment.label !== VICTIMIZED) continue;
-      const housemate = (
-        core.households.get(victimized.householdId)?.memberIds ?? []
-      ).find(
-        (other) =>
-          other !== id &&
-          !!director.ledger.people
-            .get(other)
-            ?.moments.some((row) => row.causeId === victimized!.eventId),
-      );
+      const housemate = members.find((other) => other !== id);
       if (!housemate) continue;
       found = {
         victim: id as PersonId,
         listener: housemate as PersonId,
         causeId: moment.causeId,
-        momentId: director.ledger.people
-          .get(housemate)!
-          .moments.find((row) => row.causeId === victimized!.eventId)!.id,
+        momentId: moment.id,
       };
       break;
     }
     expect(
       found,
-      `${where}: ${victimized.eventId} on ${victimized.date} is a moment for two members of ${victimized.householdId} (the second pass rebuilt the same world)`,
+      `${where}: ${victimized.eventId} on ${victimized.date} is a moment for a member of ${victimized.householdId} who lives with someone (the second pass rebuilt the same world)`,
     ).toBeDefined();
     if (!found) continue;
     // The subject is the victim's, from the crime record.
