@@ -1,0 +1,521 @@
+{
+  "id": "census-gus-2021-county-identity-continuity",
+  "publisher": "U.S. Census Bureau",
+  "vintage": "Government Units listing 2021 (units active as of fiscal year ending June 30, 2021; extracted September 24, 2021; posted January 28, 2022); 2022 Census of Governments: Organization, Table CG2200ORG02",
+  "table": "Govt_Units_2021_Final.xlsx, General Purpose sheet (CENSUS_ID_PID6, CENSUS_ID_GIDID, UNIT_NAME, UNIT_TYPE, STATE, FIPS_STATE, FIPS_COUNTY, IS_ACTIVE); COG2022_CG2200ORG02_Data.xlsx, AGG_DESC GO0005 (county governments)",
+  "title": "Whether each county government observed in the 2017 listing is still the same active government in the year of the opening",
+  "universe": "County governments (Census unit type 1)",
+  "geography": "United States, 50 states and D.C.; the five territories take the median of the 51 (ESTIMATED)",
+  "sourceUrl": "https://www2.census.gov/programs-surveys/gus/datasets/2021/govt_units_2021.ZIP",
+  "countsUrl": "https://www2.census.gov/programs-surveys/gus/tables/2022/cog2022_cg2200org02.zip",
+  "archiveSha256": "5597526c734b98e5c0570a58c7a14f013c647dd0ddc289f98e61705e4d0c0c38",
+  "countsArchiveSha256": "7c34fe70ed9b05fcb2851cf809823b143301e34a1444007b044ac6f152481d48",
+  "retrievedOn": "2026-10-23",
+  "quote": "The file contains a snapshot view of the Census Bureau's master address file for governments – it includes all independent government units, and dependent school districts that were active as of fiscal year ending June 30, 2021.",
+  "limits": "The 2021 listing's fiscal year (July 1, 2020 to June 30, 2021) contains the January 1, 2021 opening, but it was posted January 28, 2022, so the opening uses it as a retrospective generation prior, the same standing as the 2020 county-to-place geography. Identity and activity only: no legal power, appropriation or cash. Matching uses PID6, GID, county FIPS and state; names are compared after collapsing spaces only.",
+  "national": {
+    "counties2017": 3031,
+    "counties2021": 3031,
+    "matched2021": 3031,
+    "sameName2021": 3030,
+    "counties2022": 3031,
+    "continuityShare": 1.0
+  },
+  "namesThatDiffer": [
+    {
+      "pid6": "211245",
+      "name2017": "COUNTY OF O BRIEN",
+      "name2021": "COUNTY OF O'BRIEN",
+      "stateUsps": "IA"
+    }
+  ],
+  "places": {
+    "AK": {
+      "counties2017": 15,
+      "counties2021": 15,
+      "matched2021": 15,
+      "sameName2021": 15,
+      "counties2022": 15,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "AL": {
+      "counties2017": 67,
+      "counties2021": 67,
+      "matched2021": 67,
+      "sameName2021": 67,
+      "counties2022": 67,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "AR": {
+      "counties2017": 75,
+      "counties2021": 75,
+      "matched2021": 75,
+      "sameName2021": 75,
+      "counties2022": 75,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "AZ": {
+      "counties2017": 15,
+      "counties2021": 15,
+      "matched2021": 15,
+      "sameName2021": 15,
+      "counties2022": 15,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "CA": {
+      "counties2017": 57,
+      "counties2021": 57,
+      "matched2021": 57,
+      "sameName2021": 57,
+      "counties2022": 57,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "CO": {
+      "counties2017": 62,
+      "counties2021": 62,
+      "matched2021": 62,
+      "sameName2021": 62,
+      "counties2022": 62,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "CT": {
+      "counties2017": 0,
+      "counties2021": 0,
+      "matched2021": 0,
+      "sameName2021": 0,
+      "counties2022": 0,
+      "continuityShare": 1.0,
+      "tag": "SOURCED",
+      "note": "No county governments in any listing; nothing is carried forward."
+    },
+    "DC": {
+      "counties2017": 0,
+      "counties2021": 0,
+      "matched2021": 0,
+      "sameName2021": 0,
+      "counties2022": 0,
+      "continuityShare": 1.0,
+      "tag": "SOURCED",
+      "note": "No county governments in any listing; nothing is carried forward."
+    },
+    "DE": {
+      "counties2017": 3,
+      "counties2021": 3,
+      "matched2021": 3,
+      "sameName2021": 3,
+      "counties2022": 3,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "FL": {
+      "counties2017": 66,
+      "counties2021": 66,
+      "matched2021": 66,
+      "sameName2021": 66,
+      "counties2022": 66,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "GA": {
+      "counties2017": 152,
+      "counties2021": 152,
+      "matched2021": 152,
+      "sameName2021": 152,
+      "counties2022": 152,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "HI": {
+      "counties2017": 3,
+      "counties2021": 3,
+      "matched2021": 3,
+      "sameName2021": 3,
+      "counties2022": 3,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "IA": {
+      "counties2017": 99,
+      "counties2021": 99,
+      "matched2021": 99,
+      "sameName2021": 98,
+      "counties2022": 99,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "ID": {
+      "counties2017": 44,
+      "counties2021": 44,
+      "matched2021": 44,
+      "sameName2021": 44,
+      "counties2022": 44,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "IL": {
+      "counties2017": 102,
+      "counties2021": 102,
+      "matched2021": 102,
+      "sameName2021": 102,
+      "counties2022": 102,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "IN": {
+      "counties2017": 91,
+      "counties2021": 91,
+      "matched2021": 91,
+      "sameName2021": 91,
+      "counties2022": 91,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "KS": {
+      "counties2017": 103,
+      "counties2021": 103,
+      "matched2021": 103,
+      "sameName2021": 103,
+      "counties2022": 103,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "KY": {
+      "counties2017": 118,
+      "counties2021": 118,
+      "matched2021": 118,
+      "sameName2021": 118,
+      "counties2022": 118,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "LA": {
+      "counties2017": 60,
+      "counties2021": 60,
+      "matched2021": 60,
+      "sameName2021": 60,
+      "counties2022": 60,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "MA": {
+      "counties2017": 5,
+      "counties2021": 5,
+      "matched2021": 5,
+      "sameName2021": 5,
+      "counties2022": 5,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "MD": {
+      "counties2017": 23,
+      "counties2021": 23,
+      "matched2021": 23,
+      "sameName2021": 23,
+      "counties2022": 23,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "ME": {
+      "counties2017": 16,
+      "counties2021": 16,
+      "matched2021": 16,
+      "sameName2021": 16,
+      "counties2022": 16,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "MI": {
+      "counties2017": 83,
+      "counties2021": 83,
+      "matched2021": 83,
+      "sameName2021": 83,
+      "counties2022": 83,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "MN": {
+      "counties2017": 87,
+      "counties2021": 87,
+      "matched2021": 87,
+      "sameName2021": 87,
+      "counties2022": 87,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "MO": {
+      "counties2017": 114,
+      "counties2021": 114,
+      "matched2021": 114,
+      "sameName2021": 114,
+      "counties2022": 114,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "MS": {
+      "counties2017": 82,
+      "counties2021": 82,
+      "matched2021": 82,
+      "sameName2021": 82,
+      "counties2022": 82,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "MT": {
+      "counties2017": 54,
+      "counties2021": 54,
+      "matched2021": 54,
+      "sameName2021": 54,
+      "counties2022": 54,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "NC": {
+      "counties2017": 100,
+      "counties2021": 100,
+      "matched2021": 100,
+      "sameName2021": 100,
+      "counties2022": 100,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "ND": {
+      "counties2017": 53,
+      "counties2021": 53,
+      "matched2021": 53,
+      "sameName2021": 53,
+      "counties2022": 53,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "NE": {
+      "counties2017": 93,
+      "counties2021": 93,
+      "matched2021": 93,
+      "sameName2021": 93,
+      "counties2022": 93,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "NH": {
+      "counties2017": 10,
+      "counties2021": 10,
+      "matched2021": 10,
+      "sameName2021": 10,
+      "counties2022": 10,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "NJ": {
+      "counties2017": 21,
+      "counties2021": 21,
+      "matched2021": 21,
+      "sameName2021": 21,
+      "counties2022": 21,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "NM": {
+      "counties2017": 33,
+      "counties2021": 33,
+      "matched2021": 33,
+      "sameName2021": 33,
+      "counties2022": 33,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "NV": {
+      "counties2017": 16,
+      "counties2021": 16,
+      "matched2021": 16,
+      "sameName2021": 16,
+      "counties2022": 16,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "NY": {
+      "counties2017": 57,
+      "counties2021": 57,
+      "matched2021": 57,
+      "sameName2021": 57,
+      "counties2022": 57,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "OH": {
+      "counties2017": 88,
+      "counties2021": 88,
+      "matched2021": 88,
+      "sameName2021": 88,
+      "counties2022": 88,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "OK": {
+      "counties2017": 77,
+      "counties2021": 77,
+      "matched2021": 77,
+      "sameName2021": 77,
+      "counties2022": 77,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "OR": {
+      "counties2017": 36,
+      "counties2021": 36,
+      "matched2021": 36,
+      "sameName2021": 36,
+      "counties2022": 36,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "PA": {
+      "counties2017": 66,
+      "counties2021": 66,
+      "matched2021": 66,
+      "sameName2021": 66,
+      "counties2022": 66,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "RI": {
+      "counties2017": 0,
+      "counties2021": 0,
+      "matched2021": 0,
+      "sameName2021": 0,
+      "counties2022": 0,
+      "continuityShare": 1.0,
+      "tag": "SOURCED",
+      "note": "No county governments in any listing; nothing is carried forward."
+    },
+    "SC": {
+      "counties2017": 46,
+      "counties2021": 46,
+      "matched2021": 46,
+      "sameName2021": 46,
+      "counties2022": 46,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "SD": {
+      "counties2017": 66,
+      "counties2021": 66,
+      "matched2021": 66,
+      "sameName2021": 66,
+      "counties2022": 66,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "TN": {
+      "counties2017": 92,
+      "counties2021": 92,
+      "matched2021": 92,
+      "sameName2021": 92,
+      "counties2022": 92,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "TX": {
+      "counties2017": 254,
+      "counties2021": 254,
+      "matched2021": 254,
+      "sameName2021": 254,
+      "counties2022": 254,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "UT": {
+      "counties2017": 29,
+      "counties2021": 29,
+      "matched2021": 29,
+      "sameName2021": 29,
+      "counties2022": 29,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "VA": {
+      "counties2017": 95,
+      "counties2021": 95,
+      "matched2021": 95,
+      "sameName2021": 95,
+      "counties2022": 95,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "VT": {
+      "counties2017": 14,
+      "counties2021": 14,
+      "matched2021": 14,
+      "sameName2021": 14,
+      "counties2022": 14,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "WA": {
+      "counties2017": 39,
+      "counties2021": 39,
+      "matched2021": 39,
+      "sameName2021": 39,
+      "counties2022": 39,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "WI": {
+      "counties2017": 72,
+      "counties2021": 72,
+      "matched2021": 72,
+      "sameName2021": 72,
+      "counties2022": 72,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "WV": {
+      "counties2017": 55,
+      "counties2021": 55,
+      "matched2021": 55,
+      "sameName2021": 55,
+      "counties2022": 55,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "WY": {
+      "counties2017": 23,
+      "counties2021": 23,
+      "matched2021": 23,
+      "sameName2021": 23,
+      "counties2022": 23,
+      "continuityShare": 1.0,
+      "tag": "SOURCED"
+    },
+    "PR": {
+      "continuityShare": 1.0,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The Government Units listings and the Census of Governments cover the 50 states and D.C. only; this territory takes the median continuity share of those 51."
+    },
+    "GU": {
+      "continuityShare": 1.0,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The Government Units listings and the Census of Governments cover the 50 states and D.C. only; this territory takes the median continuity share of those 51."
+    },
+    "VI": {
+      "continuityShare": 1.0,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The Government Units listings and the Census of Governments cover the 50 states and D.C. only; this territory takes the median continuity share of those 51."
+    },
+    "AS": {
+      "continuityShare": 1.0,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The Government Units listings and the Census of Governments cover the 50 states and D.C. only; this territory takes the median continuity share of those 51."
+    },
+    "MP": {
+      "continuityShare": 1.0,
+      "tag": "ESTIMATED",
+      "estimatedFrom": "The Government Units listings and the Census of Governments cover the 50 states and D.C. only; this territory takes the median continuity share of those 51."
+    }
+  }
+}
