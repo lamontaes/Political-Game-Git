@@ -5,7 +5,7 @@
  * that one cause, shifted in the record the web reads it from. After the
  * links' lags, every engine record kind is compared between the twins: which
  * record kinds moved, and how much the movement varies across places and
- * people. A twin pair built with no shift must match exactly, or the checker
+ * people, with up to three ids of the records that differ in each. A twin pair built with no shift must match exactly, or the checker
  * proves nothing.
  *
  * It writes its findings to the effect matrix
@@ -219,6 +219,60 @@ function play(cause: Shift | null) {
   return { core, touched };
 }
 
+/**
+ * Up to three ids of the records that differ between the twins, for each
+ * module table and core map that moved: a row changed, added or gone (for a
+ * core map, an entry added or gone).
+ */
+function changedIds(
+  a: CoreState,
+  b: CoreState,
+  moved: readonly { record: string }[],
+): Record<string, string[]> {
+  const out: Record<string, string[]> = {};
+  const kinds = new Set(
+    moved.map((m) => m.record.replace(/:(rows|sum|text)$/, "")),
+  );
+  for (const kind of kinds) {
+    let x: Map<string, string>, y: Map<string, string>;
+    if (kind.startsWith("core:")) {
+      const name = kind.slice(5);
+      const keys = (core: CoreState) =>
+        new Map(
+          [
+            ...((core as unknown as Record<string, Map<string, unknown>>)[
+              name
+            ]?.keys() ?? []),
+          ].map((key) => [String(key), ""]),
+        );
+      x = keys(a);
+      y = keys(b);
+    } else if (kind.includes("/")) {
+      const [module, table] = kind.split("/") as [string, string];
+      const rows = (core: CoreState) =>
+        new Map(
+          (
+            coreAPI(core)
+              .moduleState(module)
+              .table(table)
+              .rows() as unknown as {
+              id?: unknown;
+            }[]
+          ).map((row) => [String(row.id), JSON.stringify(row)]),
+        );
+      x = rows(a);
+      y = rows(b);
+    } else continue;
+    const ids: string[] = [];
+    for (const id of new Set([...x.keys(), ...y.keys()])) {
+      if (x.get(id) !== y.get(id)) ids.push(id);
+      if (ids.length >= 3) break;
+    }
+    if (ids.length) out[kind] = ids;
+  }
+  return out;
+}
+
 function diff(a: Map<string, number>, b: Map<string, number>) {
   const moved: { record: string; control: number; shifted: number }[] = [];
   for (const key of new Set([...a.keys(), ...b.keys()])) {
@@ -233,7 +287,8 @@ function diff(a: Map<string, number>, b: Map<string, number>) {
 describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${seed})`, () => {
   it("shifts each running cause and reports which engine records moved", () => {
     const started = Date.now();
-    const control = fingerprint(play(null).core);
+    const controlCore = play(null).core;
+    const control = fingerprint(controlCore);
     const again = fingerprint(play(null).core);
     // The checker needs twins that match exactly when nothing is shifted.
     const noise = diff(control, again);
@@ -243,6 +298,7 @@ describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${se
       const shifted = play(cause);
       expect(shifted.touched.length, cause.measure).toBeGreaterThan(0);
       const moved = diff(control, fingerprint(shifted.core));
+      const movedRecords = changedIds(controlCore, shifted.core, moved);
       const links = WEB_LINKS.filter(
         (link) =>
           (derivedOf(link.from)?.measure ?? link.from) === cause.measure,
@@ -253,6 +309,7 @@ describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${se
         shiftedRecords: shifted.touched.slice(0, 3),
         links,
         movedRecordKinds: moved,
+        movedRecords,
       });
     }
     const twins = {
