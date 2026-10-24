@@ -36,6 +36,7 @@ import { survivalThresholdFromDraws } from "../kernel/fixed-point";
 import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
+import { isDemoted } from "../counted-groups";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
 import type {
@@ -722,7 +723,10 @@ export function createHealthModule(
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
         const found = row.cases.get(id);
-        if (!person?.alive || !found) continue;
+        // Someone back in the counts is counted: the counted flows decide
+        // their illness and death, by the same life-table share, and their
+        // kept record waits for them to be met again (one model, two tiers).
+        if (!person?.alive || !found || isDemoted(person)) continue;
         api.stopgap(data.stopgapId);
         const event = caseEvent(
           api,
@@ -747,7 +751,7 @@ export function createHealthModule(
       for (const id of [...(row.deathsByDate.get(date) ?? [])].sort()) {
         const person = api.state.people.get(id);
         const found = row.cases.get(id);
-        if (!person?.alive || !found) continue;
+        if (!person?.alive || !found || isDemoted(person)) continue;
         api.stopgap(data.stopgapId);
         const event = caseEvent(
           api,
