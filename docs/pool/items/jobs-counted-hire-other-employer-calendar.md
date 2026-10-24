@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts, src/core2/counted-household-jobs.test.ts
 
 **Notes.** Filed Oct 24 by the speed lead: found when the module-table pair on main crashed; the instrumented check names the job, person, employer and calendar above.
+
+Sent back 2026-10-24 from PR #5961 (branch claude/counted-hire-own-calendar): new calendar loop permits zero foreign-template witnesses and skips missing calendars, while fill-in selects any hire; require a positive founded-firm/foreign-template hire, fill in that same worker and verify its actual calendar owner, keeping a drawn-place case beside the named regression; finish on that branch, merge main into it first.
