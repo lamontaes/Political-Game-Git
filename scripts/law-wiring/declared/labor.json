@@ -6,6 +6,18 @@
         "status": "n/a",
         "why": "A claimant's benefit rights are determined when the claim is established and benefits are payable during the benefit year (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2021, chapter 3, Monetary Entitlement: \"An individual's benefit rights are determined using wages and employment from a specific period of time called a base-period. Once a claim is established, benefits are payable during a period of time called the benefit year.\"). Putting the old terms back governs the claims filed after it; a claim already filed keeps being paid, and recorded, on the terms it was filed under."
       }
+    },
+    "us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "money": {
+        "status": "n/a",
+        "why": "the law grants a local government the power to set its own minimum wage; the grant itself charges, pays and taxes no one, and any money moves through the wage a council then enacts, graded as the minimum wage law's money"
+      }
+    },
+    "local-minimum-wage-authority": {
+      "money": {
+        "status": "n/a",
+        "why": "the law grants a local government the power to set its own minimum wage; the grant itself charges, pays and taxes no one, and any money moves through the wage a council then enacts, graded as the minimum wage law's money"
+      }
     }
   }
 }

@@ -75,6 +75,8 @@ export interface ClaimRow {
   reasonKey: string;
   /** The law row whose terms fixed this claim. */
   lawId?: string;
+  /** The weekly maximum's law row, where it, not the share of pay, fixed the benefit. */
+  cappedByLawId?: string;
   source?: Source;
   endedAt?: string;
   endReason?: "hired" | "exhausted" | "no-payer" | "left";
@@ -216,6 +218,11 @@ export function fileClaim(
     Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * weeklyPay),
   );
   if (!(weekly > 0)) return undefined;
+  const capped =
+    terms.maximumLawId &&
+    terms.weeklyShare * weeklyPay > terms.weeklyMaximumMinor
+      ? terms.maximumLawId
+      : undefined;
   const row: ClaimRow = {
     id: `claim:${job.personId}:${c.date}`,
     personId: job.personId,
@@ -229,6 +236,7 @@ export function fileClaim(
     paidMinor: 0,
     reasonKey,
     lawId: terms.lawId,
+    ...(capped ? { cappedByLawId: capped } : {}),
     source: terms.source,
   };
   table.put({ ...row });
@@ -243,13 +251,10 @@ export function fileClaim(
       engine: "jobs",
       what: "claim-filed",
     });
-  if (
-    terms.maximumLawId &&
-    terms.weeklyShare * weeklyPay > terms.weeklyMaximumMinor
-  )
+  if (capped)
     lawApplied(api, {
       key: "unemployment-weekly-maximum",
-      lawId: terms.maximumLawId,
+      lawId: capped,
       ...claimant(c, job.personId),
       engine: "jobs",
       what: "weekly-benefit-capped",
@@ -294,7 +299,10 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       });
       continue;
     }
-    const id = `unemployment-benefit:${row.personId}:${c.date}`;
+    // The payment names the laws it is paid under: the program, and the
+    // weekly maximum where it fixed the benefit.
+    const under = `${row.lawId ? ":unemployment-insurance" : ""}${row.cappedByLawId ? ":unemployment-weekly-maximum" : ""}`;
+    const id = `unemployment-benefit:${row.personId}:${c.date}${under}`;
     const source = row.source ?? unemploymentTerms(api).source;
     // A claimant filled in since filing is paid as a full person. A counted
     // claimant's claim stands for the people their household stands for: the
@@ -324,7 +332,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       const advance = townOutsideOf(c.organizations.values(), row.placeId);
       if (advance)
         paid += pay(
-          `unemployment-advance:${row.personId}:${c.date}`,
+          `unemployment-advance:${row.personId}:${c.date}${under}`,
           advance.id,
           row.weeklyMinor - paid,
         );
