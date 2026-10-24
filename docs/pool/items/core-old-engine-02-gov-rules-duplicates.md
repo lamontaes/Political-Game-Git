@@ -5,11 +5,11 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: open
+status: blocked
 claimed-by:
 pr: #5921
 after: core-old-engine-01-zero-dice-guard-repoint
-blocked-on:
+blocked-on: core-old-imports-town-households
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 step 1"
 claimed-at:
 ---

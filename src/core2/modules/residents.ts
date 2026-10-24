@@ -15,7 +15,7 @@ import {
   type ResidentsInput,
 } from "../residents";
 import { drawSavingsToCover, transfer, transferSplit } from "../accounts";
-import { livingCostParts } from "../living-cost-split";
+import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "./work";
 import { coreAPI } from "../state";
@@ -107,6 +107,8 @@ interface FlowState extends ResidentFlowInput {
   accruedCostMinor?: number;
   accrualHistory?: { date: IsoDate; accrued: number }[];
   outsidePaidMinor?: number;
+  /** What its payments sent to someone other than its payee (a business's ads in the town's outlets), all time. */
+  splitPaidMinor?: number;
   endedAt?: IsoDate;
   endedReason?: string;
 }
@@ -994,12 +996,14 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       // A seller serves only what it can: spending beyond its capacity buys
       // the same thing outside the town.
       payees: (total) => {
-        // A part of the living cost is a government's charges (budgets).
+        // A part of the living cost is a government's charges or a paper's
+        // subscription.
         if (flow.financeKind === FIXED_SPENDING) {
           const governments = livingCostParts(
             core,
             flow.placeId,
             total,
+            flow.payerId,
           ).flatMap((row) => {
             const accountId = core.cashJournal.residualAccountByOwner.get(
               row.organizationId,
@@ -1195,17 +1199,25 @@ function post(
   payerId: string = flow.payerId,
 ): void {
   const core = api.state;
-  const governments =
+  // A part of a living cost is a government's charges or a paper's
+  // subscription; a part of a business's costs bought outside is advertising
+  // in the town's outlets.
+  const governments = (
     flow.financeKind === FIXED_SPENDING
-      ? livingCostParts(core, flow.placeId, paid).flatMap((row) => {
-          const accountId = core.cashJournal.residualAccountByOwner.get(
-            row.organizationId,
-          );
-          return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
-        })
-      : [];
+      ? livingCostParts(core, flow.placeId, paid, payerId)
+      : flow.kind === "outside-costs"
+        ? outsideCostParts(core, flow.placeId, paid, payerId)
+        : []
+  ).flatMap((row) => {
+    const accountId = core.cashJournal.residualAccountByOwner.get(
+      row.organizationId,
+    );
+    return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
+  });
   if (governments.length) {
     const toGovernments = governments.reduce((n, row) => n + row.deltaMinor, 0);
+    if (flow.kind === "outside-costs")
+      flow.splitPaidMinor = (flow.splitPaidMinor ?? 0) + toGovernments;
     transferSplit(core, api, {
       id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
       lines: [
@@ -2062,6 +2074,37 @@ export function monthlyLivingCostMinor(
         ? (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12
         : (flow.amountMinor * perYear(flow)) / 12;
   }
+  return Math.round(total);
+}
+
+/**
+ * What one full household, or the counted households together, owe for
+ * living costs in a month: the part of `monthlyLivingCostMinor` a payer's own
+ * share of a living-cost payment is set against.
+ */
+export function payerLivingCostMinor(
+  core: CoreState,
+  placeId: PlaceId,
+  payer: { readonly householdId: string } | "counted",
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  if (payer !== "counted") {
+    const flow = rt.flows.get(`residents:outside-living:${payer.householdId}`);
+    return flow && !flow.endedAt
+      ? Math.round((flow.amountMinor * perYear(flow)) / 12)
+      : 0;
+  }
+  let total = 0;
+  for (const flow of rt.flows.values())
+    if (
+      !flow.endedAt &&
+      flow.kind === "purchase" &&
+      flow.financeKind === FIXED_SPENDING &&
+      flow.placeId === placeId &&
+      flow.payerId === flow.residentsId
+    )
+      total += (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12;
   return Math.round(total);
 }
 
