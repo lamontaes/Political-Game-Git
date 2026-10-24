@@ -82,7 +82,7 @@ Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>
 
 ## Skills
 
-Load a skill when its trigger fits; descriptions say when. Process: `session-start` (worker loop), `pr-fixer` (finish a sent-back PR), `merger`, `merge-audit`, `wiring-audit`, `researcher`, `played-world-proof`, `ask-why`, `trace-audit`, `cto`. Content: `words-engine`, `civic-prose`, `civic-reports`, `browser-visual-acceptance`, `asset-scene-admission`.
+Load a skill when its trigger fits; descriptions say when. Process: `session-start` (worker loop), `play-first` (one item of the play-first lane), `pr-fixer` (finish a sent-back PR), `merger`, `merge-audit`, `wiring-audit`, `researcher`, `played-world-proof`, `ask-why`, `trace-audit`, `cto`. Content: `words-engine`, `civic-prose`, `civic-reports`, `browser-visual-acceptance`, `asset-scene-admission`.
 
 ## Implementation boundaries
 
