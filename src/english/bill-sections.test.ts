@@ -8,7 +8,12 @@ import { billForm, type BillRow } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
 import { storyTopicName } from "../director/question-names";
-import { BILL_SECTIONS, composeBill, valueWords } from "./bill-sections";
+import {
+  BILL_SECTIONS,
+  composeBill,
+  shipsAsWords,
+  valueWords,
+} from "./bill-sections";
 
 // A bill's sections are worded from the record (owner, Oct 14, 2026: bill
 // text is real; a local measure has its own form). The words come from
@@ -99,8 +104,11 @@ describe("every law amount a body can draft has words", () => {
         BILL_SECTIONS.amounts[series],
         `${series} needs a row`,
       ).toBeTruthy();
+      // An authored row not yet graded is withheld from play: no story topic
+      // and no composed bill, until the owner grades it.
+      const ships = shipsAsWords(BILL_SECTIONS.amounts[series]);
       expect(storyTopicName(series), `${series}: story topic`).toBe(
-        BILL_SECTIONS.amounts[series]!.subject,
+        ships ? BILL_SECTIONS.amounts[series]!.subject : null,
       );
       const unit =
         series === "snap-maximum"
@@ -114,21 +122,53 @@ describe("every law amount a body can draft has words", () => {
         [12, 10, "raised"],
         [8, 10, "lowered"],
       ] as const) {
-        const made = composeBill({
-          id: `b:${series}`,
-          number: "2026-1",
-          form: {
-            kind: "ordinance",
-            enactingClause: "Be it ordained by the Town",
+        const made = composeBill(
+          {
+            id: `b:${series}`,
+            number: "2026-1",
+            form: {
+              kind: "ordinance",
+              enactingClause: "Be it ordained by the Town",
+            },
+            provisions: [{ kind: "law-amount", series, value: to, unit }],
+            before: [{ value: before, unit, statute: null }],
           },
-          provisions: [{ kind: "law-amount", series, value: to, unit }],
-          before: [{ value: before, unit, statute: null }],
-        })!;
+          { ungraded: true },
+        )!;
         expect(made, `${series} ${word}`).toBeTruthy();
         expect(made.sections[0], `${series} ${word}`).toContain(word);
         expect(made.sections[0], series).not.toMatch(/[{}]|undefined|NaN/);
       }
     }
+  });
+
+  it("withholds a row authored since the last grading until the owner grades it", () => {
+    const row = BILL_SECTIONS.amounts["local-income-tax-authority"]!;
+    expect(row.origin).toBe("authored");
+    expect(row.author?.length).toBeGreaterThan(3);
+    expect(row.date).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+    expect(row.shippable).toBe(false);
+    const bill = {
+      id: "b:authority",
+      number: "2026-2",
+      form: { kind: "act", enactingClause: "Be it enacted by the Legislature" },
+      provisions: [
+        {
+          kind: "law-amount",
+          series: "local-income-tax-authority",
+          value: 1,
+          unit: "grant",
+          operation: "raise",
+        },
+      ],
+    };
+    // Play composes nothing for it (the caller records the gap); a grading
+    // batch words it so the owner can grade it.
+    expect(composeBill(bill)).toBeNull();
+    expect(storyTopicName("local-income-tax-authority")).toBeNull();
+    expect(composeBill(bill, { ungraded: true })?.sections[0]).toContain(
+      "shall be raised",
+    );
   });
 
   it("words a monthly and a weekly amount", () => {
@@ -157,7 +197,11 @@ describe("a bill composed from the played world", () => {
   it(`words every bill with catalog provisions (${place.name}, seed ${seed})`, () => {
     const worded = bills.filter((bill) =>
       bill.provisions.every(
-        (p) => p.kind !== "budget-line" && (p.question || p.series),
+        (p) =>
+          p.kind !== "budget-line" &&
+          (p.question || p.series) &&
+          // A row the owner has not graded is withheld, so its bill is a gap.
+          shipsAsWords(p.series ? BILL_SECTIONS.amounts[p.series] : {}),
       ),
     );
     expect(worded.length, "a year of bills").toBeGreaterThan(0);

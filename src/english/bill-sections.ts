@@ -15,12 +15,23 @@
 import { properName } from "../director/words";
 import sectionsJson from "../../data/english/bill-sections.json" with { type: "json" };
 
-interface PolicyWords {
+/**
+ * A row authored since the file was last graded says so: `origin: "authored"`
+ * with its author and date, and `shippable: false` until the owner grades it.
+ * A row with no flag is graded wording from the file's first batch.
+ */
+interface RowMark {
+  origin?: "authored";
+  author?: string;
+  date?: string;
+  shippable?: boolean;
+}
+interface PolicyWords extends RowMark {
   subject: string;
   purpose: string;
   enact: string;
 }
-interface AmountWords {
+interface AmountWords extends RowMark {
   raiseTo: string;
   lowerTo: string;
   subject: string;
@@ -138,16 +149,25 @@ interface Words {
   repeal: boolean;
 }
 
+/** Whether a row may reach a player: an ungraded authored row never ships. */
+export function shipsAsWords(
+  row: RowMark | undefined,
+  ungraded = false,
+): boolean {
+  return !!row && (ungraded || row.shippable !== false);
+}
+
 function wordsOf(
   input: BillWordsInput,
   form: FormWords,
   index: number,
+  ungraded: boolean,
 ): Words | null {
   const p = input.provisions[index]!;
   if (p.kind === "policy-question" && p.question) {
     const key = p.question.replace(/^[a-z]+(?:-[a-z]+)*:/, "");
     const row = BILL_SECTIONS.policies[key];
-    if (!row) return null;
+    if (!row || !shipsAsWords(row, ungraded)) return null;
     const repeal = p.operation ? p.operation === "repeal" : p.value <= 0;
     return {
       key,
@@ -159,7 +179,7 @@ function wordsOf(
   }
   if (p.kind === "law-amount" && p.series) {
     const row = BILL_SECTIONS.amounts[p.series];
-    if (!row) return null;
+    if (!row || !shipsAsWords(row, ungraded)) return null;
     const was = input.before?.[index] ?? null;
     const old = was?.value ?? null;
     const lower = p.operation
@@ -200,10 +220,15 @@ const joinWords = (names: readonly string[], joiner: string) =>
 
 /**
  * The bill's title and text. Null when a provision has no words in the
- * data (a budget line, or a policy the catalog gained): the caller records
- * the gap rather than falling back to the policy's description.
+ * data (a budget line, or a policy the catalog gained) or only words the
+ * owner has not graded (`shippable: false`): the caller records the gap
+ * rather than falling back to the policy's description. A grading batch
+ * passes `ungraded` to word the rows it puts before the owner.
  */
-export function composeBill(input: BillWordsInput): ComposedBill | null {
+export function composeBill(
+  input: BillWordsInput,
+  options: { readonly ungraded?: boolean } = {},
+): ComposedBill | null {
   const form =
     input.form.kind === "ordinance"
       ? BILL_SECTIONS.forms.ordinance
@@ -211,7 +236,7 @@ export function composeBill(input: BillWordsInput): ComposedBill | null {
   if (input.provisions.length === 0) return null;
   const words: Words[] = [];
   for (let i = 0; i < input.provisions.length; i++) {
-    const w = wordsOf(input, form, i);
+    const w = wordsOf(input, form, i, options.ungraded ?? false);
     if (!w) return null;
     words.push(w);
   }
