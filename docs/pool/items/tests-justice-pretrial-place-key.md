@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/sleepy-carson-f8omzd
+pr: #5847
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T10:01:29.287Z
 ---
 
 **What.** src/core2/justice-pretrial.test.ts draws a place from all 56 and names it in every message, but builds its world with buildBenchWorld(place.seed, gameStartDate(), { twoLevel: true }) and no placeKey, so the world is the bench's default town, not the drawn one. On seed d17c5c9ae7513c52 the test names Selbyville, Delaware, while the end-cash-bail law row it enacts names place 0420680. A test that reports a place it did not play gives a false record of where the law was proven.

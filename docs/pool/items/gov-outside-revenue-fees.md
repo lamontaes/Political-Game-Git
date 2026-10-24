@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/outside-revenue-fees
+status: open
+claimed-by:
 pr: #5926
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T08:33:01.006Z
+claimed-at:
 ---
 
 **What.** Charges, fees and miscellaneous general revenue (tuition at public colleges, hospital and park charges, transit fares, permits, utility charges) reach each treasury today as an even twelfth of Census revenue from the outside account, with nobody paying them. Replace that share so each charge is paid by the households and businesses that use the service, on the day they use it, at the price the law and the budget set, into the treasury of the government that runs it. The player would notice that raising a park or transit fee costs the people who use the park or ride, and that a fee nobody uses brings in nothing.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-24T08:33:01.006Z
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`). Claim released Oct 23: branch idle since Oct 16.
 
 Oct 20: gov-outside-revenue-fees-wiring is done, so the item no longer waits on it.
+
+Sent back 2026-10-24 UTC from PR #5926 (branch claude/outside-revenue-fees): council fee-change acceptance explicitly unmet and aggregate budget twelfths do not prove per-use payer chain; fee-family permit closure follow-up needs named tracking or valid bounded scope; finish on that branch, merge main into it first.

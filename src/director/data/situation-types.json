@@ -2277,7 +2277,11 @@
       "timing": "at-cause",
       "causes": [
         {
-          "match": { "label": "cause:event:public-comment", "selfNamed": true },
+          "match": {
+            "label": "cause:event:public-comment",
+            "selfNamed": true,
+            "causeNames": "subject"
+          },
           "causeEngine": "meetings",
           "causeRecord": "public-comment",
           "bind": {

@@ -69,8 +69,22 @@ engine can look it up and obey it.
   imports it, or a script derives the parameter row from it and says so in
   the row's citation. Never add to `scripts/audit/research-data-allowlist.json`
   to get past the guard.
-- **The stopgap row.** Set `status: resolved` with a `resolution` naming the
-  source, the new tag and what reads it. Never delete a row.
+- **The stopgap row.** What the research leaves decides the row; never
+  delete one.
+  - A figure now SOURCED resolves its row: `status: resolved`, with a
+    `resolution` naming the source, the tag and what reads it.
+  - A figure left ESTIMATED keeps its `estimated-parameter` row open, as the
+    parameter row above says. Its `replacement` names the research file, the
+    estimate's source and spread, and the figure that would make it SOURCED.
+  - A mechanic the research does not build (a missing engine, record or
+    reader) keeps its row open, with `replacement` naming the builder's pool
+    item.
+- **When a research item is done.** Every row it names carries a citation and
+  a spread and is read by the engine, and each of its stopgaps is resolved,
+  or left open as above with its `replacement` written. An estimate is a
+  finished piece of research; an open estimated or mechanic stopgap does not
+  hold the item back, and the item does not finish the mechanic. A research
+  item's Done when says this, never "every stopgap resolved".
 - **Not a threshold.** If the engine uses the number as a cap, a cutoff, a
   fixed step or a chance ("if x > P.key"), do not source it. File a pool item
   (`<area>-<engine>-<key>-as-cause`, kind bug) for the area's builder quoting
@@ -118,4 +132,4 @@ engine can look it up and obey it.
 
 ## Paste prompt (owner)
 
-> Read AGENTS.md and .agents/skills/researcher/SKILL.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md. Act as the researcher: claim the highest-priority open `kind: research` item, read its stopgap rows and the engine that reads each parameter, find a public source with a year and a unit, and record it as a SOURCED or ESTIMATED parameter row with citation and spread, a research file under data/research with a reader, and the stopgap row resolved. Research calibrates the simulation; it never decides an outcome, and no source is shown to the player. If an engine uses the number as a cap, a cutoff or a chance, file a bug for the area's builder instead of sourcing it. Open one draft PR per item with the item id on line 1, a before/after/source/what-reads-it table and a gate line. Never merge your own PR, never npm ci, and set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command.
+> Read AGENTS.md and .agents/skills/researcher/SKILL.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md. Act as the researcher: claim the highest-priority open `kind: research` item, read its stopgap rows and the engine that reads each parameter, find a public source with a year and a unit, and record it as a SOURCED or ESTIMATED parameter row with citation and spread, a research file under data/research with a reader, and each stopgap row resolved where its figure is now SOURCED, or left open with its replacement written where it stays ESTIMATED or names a mechanic for a builder. Research calibrates the simulation; it never decides an outcome, and no source is shown to the player. If an engine uses the number as a cap, a cutoff or a chance, file a bug for the area's builder instead of sourcing it. Open one draft PR per item with the item id on line 1, a before/after/source/what-reads-it table and a gate line. Never merge your own PR, never npm ci, and set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command.
