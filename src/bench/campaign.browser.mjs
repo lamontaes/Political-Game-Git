@@ -106,6 +106,9 @@ try {
     .evaluateAll((nodes) => nodes.map((n) => n.textContent.trim()));
   assert.ok(!headings.includes("Today"), "the Campaigns screen lists no acts");
   const rows = page.locator(".row.campaign");
+  // Rows that offer outings are the ones checked; at least one must exist, so
+  // a screen with no outing controls cannot pass unchecked.
+  let checkedRows = 0;
   for (let i = 0; i < (await rows.count()); i += 1) {
     const labels = await rows
       .nth(i)
@@ -115,12 +118,25 @@ try {
       outings.some((name) => l.startsWith(name)),
     );
     if (!outingButtons.length) continue;
+    checkedRows += 1;
+    for (const name of outings) {
+      const matching = labels.filter((l) => l.startsWith(name));
+      assert.equal(
+        matching.length,
+        1,
+        `row ${i}: exactly one "${name}" control, no list of acts: ${outingButtons.join(" | ")}`,
+      );
+    }
     assert.equal(
       outingButtons.length,
       outings.length,
-      `one control per outing, no list of acts: ${outingButtons.join(" | ")}`,
+      `row ${i}: only the four outings: ${outingButtons.join(" | ")}`,
     );
   }
+  assert.ok(
+    checkedRows > 0,
+    "the Campaigns screen has at least one campaign row with outing controls",
+  );
   await page.screenshot({
     path: "docs/reports/campaign-controls-2026-10-20/campaigns.png",
   });
