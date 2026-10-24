@@ -333,6 +333,8 @@ const MEASURES: Readonly<Record<string, readonly string[]>> = {
   "us-policy-positions:labor-workforce.local-minimum-wage-authority": [
     "labor.minimum-wage-change-pct",
   ],
+  // The series the authority question writes: the same wage it lets a town set.
+  "local-minimum-wage-authority": ["labor.minimum-wage-change-pct"],
   "budget-line:police": ["police.officers-per-1000"],
   "budget-line:schools": ["school.spending-per-student"],
   "budget-line:highways": ["roads.condition", "roads.poor-condition-pct"],

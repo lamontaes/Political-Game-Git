@@ -557,8 +557,12 @@ function draftUnder(
   api: CoreAPI,
   provisions: (api: CoreAPI) => readonly Provision[],
 ): void {
+  // The town's own body: a city council, or the township board where the
+  // town has no city government.
   const council = townSeats(api).find(
-    (s) => s.office.kind === "council" && s.holder?.personId,
+    (s) =>
+      (s.office.kind === "council" || s.office.kind === "township-board") &&
+      s.holder?.personId,
   );
   if (!council) return;
   draftBill(api, {
@@ -567,6 +571,16 @@ function draftUnder(
     provisions: provisions(api),
   });
 }
+
+/**
+ * The amount a body first enacts for a series that starts at none (0), where
+ * a token 1 would bind nobody: the public pay floor at the owner's own
+ * what-if example, a $70,000 public pay base (docs/coordination/OWNER-DECISIONS.md,
+ * "The economy must answer what if"; src/bench/data/dev-experiments.json).
+ */
+const FIRST_AMOUNT: Readonly<Record<string, number>> = {
+  "public-pay-floor": 70_000,
+};
 
 function changeAmount(
   api: CoreAPI,
@@ -586,13 +600,15 @@ function changeAmount(
       how: "no governing row and no level may set it",
       undo: () => {},
     };
-  const old = Number(now.value ?? g?.value ?? 0);
+  // The governing row's own amount: the change is written at its level, and
+  // the law in force can be several levels' sum (a federal and a state tax).
+  const old = Number(g?.value ?? now.value ?? 0);
   const next =
     old > 0
       ? Number.isInteger(old)
         ? Math.max(old + 1, Math.round(old * 1.1))
         : Math.round(old * 1.1 * 100) / 100
-      : 1;
+      : (FIRST_AMOUNT[series] ?? 1);
   const date = addDays(makeIsoDate(api.state.date), 1);
   const row = enactLaw(api, {
     ...at,
@@ -827,12 +843,33 @@ function checkLaw(
   // play may enact the law again during a long window, and its rows are its own.
   const reach = reachOf(core, law.key, ids);
   const links = webLinksOf(law);
-  const web = webEffects(
+  const treated = webEffects(
     core,
     placeId,
     links.map((l) => l.key),
     since,
-  ).filter((e) => control.web.get(`${e.id}|${e.link}`) !== e.effect);
+  );
+  const web = treated.filter(
+    (e) => control.web.get(`${e.id}|${e.link}`) !== e.effect,
+  );
+  // A link the change brought to zero moved too: the control month holds an
+  // effect the treated month no longer does (months after the change only).
+  const kept = new Set(treated.map((e) => `${e.id}|${e.link}`));
+  const linkKeys = new Set(links.map((l) => l.key));
+  for (const [k, effect] of control.web) {
+    const cut = k.lastIndexOf("|");
+    const id = k.slice(0, cut);
+    const link = k.slice(cut + 1);
+    const month = /(\d{4}-\d{2})$/.exec(id)?.[1];
+    if (
+      linkKeys.has(link) &&
+      !kept.has(k) &&
+      month !== undefined &&
+      month > since.slice(0, 7) &&
+      effect !== 0
+    )
+      web.push({ id, link, effect: 0 });
+  }
   const heard = heardOf(core, ids, law.key, since);
   // Money: each journal source kind whose total differs from the control's.
   const moneyDiff: {
