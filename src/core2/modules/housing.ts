@@ -5,6 +5,7 @@
  * grace period and follows the place's own steps: notice, cure, filing,
  * hearing, judgment and removal, each a dated step on the module calendar.
  */
+import { townOutsideOf } from "../opening-outside-market";
 import { lawApplied } from "../law-reach/applied";
 import { payRentAssistance } from "../housing-assistance";
 import { countyPopulationSharesForPlace } from "../reference/government-units";
@@ -510,9 +511,7 @@ export function withHousing(input: CoreInput): CoreInput {
     (row) => row.kind === "bank" && row.placeId === town.placeId,
   );
   const medianValue = rentValueOf(town.county)[1] ?? 0;
-  const outside = input.organizations.find(
-    (row) => row.placeId === town.placeId && row.outsideFlow !== undefined,
-  );
+  const outside = townOutsideOf(input.organizations, town.placeId);
   // Each household's home: owners with today's value, renters with their rent.
   const dwellings: [string, "own" | "rent", number][] = [];
   const owning = households.filter((row) => rank.get(row.id)! < owners);
@@ -904,10 +903,7 @@ function landlordPayout(api: CoreAPI): void {
   stopgap("SG-WORLD-housing-landlord");
   for (const landlord of c.organizations.values()) {
     if (!landlord.id.startsWith("organization:landlord:")) continue;
-    const outside = [...c.organizations.values()].find(
-      (row) =>
-        row.placeId === landlord.placeId && row.outsideFlow !== undefined,
-    );
+    const outside = townOutsideOf(c.organizations.values(), landlord.placeId);
     if (!outside) continue;
     let monthly = 0;
     for (const row of c.finance.contracts.values())
@@ -1046,10 +1042,7 @@ function buyHomes(api: CoreAPI): void {
     )[0];
     if (!household || !head) continue;
     const town = rentValueOf(c.placeMetadata?.housingCounty ?? "");
-    const outside = [...c.organizations.values()].find(
-      (row) =>
-        row.placeId === household.placeId && row.outsideFlow !== undefined,
-    );
+    const outside = townOutsideOf(c.organizations.values(), household.placeId);
     if (!town?.[1] || !outside) continue;
     const income = monthlyIncome(api, household.memberIds);
     if (income <= 0) continue;
@@ -1787,9 +1780,7 @@ function payCounsel(api: CoreAPI, caseId: string, placeId: string) {
   // stopgapId: SG-GOV-REACH-A-eviction-cases — the existing outside
   // provider still stands in for named legal services and a delivered notice.
   api.stopgap("SG-GOV-REACH-A-eviction-cases");
-  const provider = [...c.organizations.values()].find(
-    (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-  );
+  const provider = townOutsideOf(c.organizations.values(), placeId);
   if (!provider) return;
   const paymentId = `counsel:${caseId}`;
   const paid = transferCash(
