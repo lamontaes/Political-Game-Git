@@ -136,7 +136,9 @@ describe("estate and inheritance taxes", () => {
         ?.amountMinor,
       where,
     ).toBe(5_000_00);
-  });
+    // Building the drawn place's bench world took 59 s on the 4-core shared
+    // container (Oct 24): the same ten-minute limit as the played-world test below.
+  }, 600_000);
 
   it("a played world's estate pays the taxes in force to named treasuries, every cent balanced, and the heirs learn which law took it", () => {
     const state = pick(taxing, "state");
