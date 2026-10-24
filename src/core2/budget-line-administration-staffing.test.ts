@@ -152,6 +152,12 @@ for (const direction of ["cut", "raise"] as const)
           expect(ended?.endsAt, `${detail}: ${ended?.id}`).toBeDefined();
           const endedOn = ended!.endsAt!;
           const lastPayOn = addDays(makeIsoDate(endedOn), 31);
+          // The job was on the payroll the treasury paid from the bill on, so
+          // its paydays stopping is the cut reaching that person's pay.
+          expect(
+            paydaysOf(ended!.id).length,
+            `${detail}: ${ended!.id} has no payday from the bill on`,
+          ).toBeGreaterThan(0);
           const late = paydaysOf(ended!.id).filter((d) => d.date > lastPayOn);
           expect(
             late.map((d) => `${d.id} on ${d.date}`),
