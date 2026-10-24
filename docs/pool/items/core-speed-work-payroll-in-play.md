@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/speed-work-payroll
 pr: #5925
 blocked-on:
 source: added with npm run pool -- add

@@ -7,6 +7,7 @@
  * mortgage ends, the home is no longer the household's, and the sale is a
  * record the housing ledger keeps.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import { transferCash } from "./world-transfer";
 import type { ModuleRow } from "./module-data";
 import type { MortgageRow } from "./housing-foreclosure";
@@ -62,12 +63,7 @@ export function sellHome(
   const price = Math.round(dwelling.valueMinor ?? 0);
   const owed = mortgages.reduce((sum, row) => sum + row.balanceMinor, 0);
   // The town's outside market stands for the buyer.
-  const buyer = [...c.organizations.values()]
-    .filter(
-      (org) =>
-        org.outsideFlow !== undefined && org.placeId === household.placeId,
-    )
-    .sort((a, b) => a.id.localeCompare(b.id))[0];
+  const buyer = townOutsideOf(c.organizations.values(), household.placeId);
   if (!buyer || price <= 0) return undefined;
   const source = {
     tag: "ESTIMATED" as const,

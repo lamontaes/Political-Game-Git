@@ -7,7 +7,7 @@ priority: 1
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 milestone:
 after: world-census-weight-owner-draws,world-census-weight-economy
 source: "owner rulings, Oct 15 afternoon (docs/coordination/OWNER-DECISIONS.md)"
@@ -27,3 +27,5 @@ claimed-at:
 Split (Oct 15, L): the cap is real. `buildPopulation` still takes `Math.min(target, real)` (`src/core2/population.ts`), and a town cannot open at millions of household records. Parts: core-census-weight-model, core-census-weight-money, world-census-weight-economy, elections-census-weight-electorate, core-census-uncap-opening. This item closes when the last one merges.
 
 Oct 20 (pool feeder): spec written; the old blocker (owner draws) is only one of two readers still short at scale: businesses and job counts are sized by world-census-weight-economy and world-census-scaled-establishments-short; core-census-uncap-opening was dropped (PR #5295), so this item now carries the uncap itself.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
