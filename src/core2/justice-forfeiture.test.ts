@@ -145,6 +145,11 @@ it("forfeits the bribe money a convicted official took, to the treasury, before 
     expect(core.cashJournal.totals.grossDebitMinor, where).toBe(
       core.cashJournal.totals.grossCreditMinor,
     );
+    // The convicted taker's sentence and the forfeiture's journal record.
+    const paid = forfeits.find((s) => s.forfeiturePaidMinor > 0)!;
+    console.info(
+      `justice-forfeiture ${where}, world ${attempt + 1}: ${taken} bribes taken, ${sentences.length} sentences; ${paid.id} forfeited ${paid.forfeiturePaidMinor} as forfeiture:${paid.id}`,
+    );
     return;
   }
   throw new Error(
