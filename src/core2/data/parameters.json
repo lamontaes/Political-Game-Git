@@ -5937,7 +5937,7 @@
     }
   },
   "traitWeightConstituentCasesBringCase": {
-    "value": 0.51,
+    "value": 0.08,
     "tag": "ESTIMATED",
     "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator in the past two years by 0.92 across the trait's full 0-to-1 range (2006 CES, N about 1,065; row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact, not only a casework request). Carried to the thirds with the trait's own standard deviation (0.26 of its range), a log odds gap of 0.52 (odds ratio 1.68); Gerber et al. 2011's contact with a local official gives 0.40. Bringing a problem is decided by its severity against caseEffort, and most residents out of work sit at the same severity, so the thirds' odds in play depend on where the line falls in that pile, not on the weight. The weight is therefore the study's log odds gap over the gap in lean between the thirds of residents weighing a case: 1.087 in Jerry City, Ohio (place key 3939074, 217 calls) and 0.957 in New Britain, Connecticut (0950370, 528 calls), giving 0.48 and 0.54.",
     "spread": {

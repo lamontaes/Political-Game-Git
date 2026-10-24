@@ -733,7 +733,7 @@ export function actOn(
           if (row.status !== "open") continue;
           const decision =
             chosen.cases?.[row.id] ??
-            ownCaseDecision(api, entry.holderId).decision;
+            ownCaseDecision(api, entry.holderId, row).decision;
           const done = handleCase(api, row.id, decision);
           if (done) recordIds.push(done.id);
         }

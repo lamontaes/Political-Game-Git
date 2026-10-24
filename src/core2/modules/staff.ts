@@ -51,6 +51,8 @@ import { inCustody } from "./justice";
 import { startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
+// The cases engine imports this one; these are read only when a review runs.
+import { caseLoad, openCasesOf } from "./constituent-cases";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -994,6 +996,8 @@ export function staffDecision(
   api: CoreAPI,
   officialId: string,
   told: "help" | "decline" = "help",
+  /** The share of the office's time other open cases take (`caseLoad`). */
+  load = 0,
 ): { stafferId: string; help: boolean; work: WorkRecord } | null {
   const staffer = [...servingStaffOf(api, officialId)].sort(
     (a, b) => b.tasksDone - a.tasksDone || a.id.localeCompare(b.id),
@@ -1011,7 +1015,9 @@ export function staffDecision(
       "staff.follow-through",
       "follow-through",
       "decline",
-      q.quality - campaignParameter("staffCaseFollowThrough"),
+      q.quality -
+        campaignParameter("staffCaseFollowThrough") -
+        campaignParameter("staffCaseLoadWeight") * load,
     );
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
@@ -1149,7 +1155,10 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         "staff.hire",
         "hire",
         "do-alone",
-        campaignParameter("staffHireBase") + budgetLean(api, officialId),
+        campaignParameter("staffHireBase") +
+          budgetLean(api, officialId) +
+          campaignParameter("staffHireLoadWeight") *
+            caseLoad(api, openCasesOf(api, officialId)),
       )
     )
       continue;

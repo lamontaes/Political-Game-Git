@@ -20,6 +20,7 @@
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { fundBalance } from "../counted-money";
 import { closenessBetween } from "../closeness";
+import { engagementOf } from "../electorate";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
@@ -225,6 +226,8 @@ export function bringCases(api: CoreAPI): void {
   const officials = [...local, ...federal];
   const town = lawChain(api).townPlaceId;
   const effort = campaignParameter("caseEffort");
+  // How closely a resident follows politics makes reaching an official easier.
+  const engagementWeight = campaignParameter("caseEngagementWeight");
   const recent = (personId: string) =>
     (table(api).query("byPerson", [personId]) as unknown as CaseRow[]).some(
       (c) =>
@@ -246,7 +249,10 @@ export function bringCases(api: CoreAPI): void {
         "constituent-cases.bring-case",
         "bring",
         "let-it-go",
-        problem.severity - effort,
+        problem.severity -
+          effort +
+          engagementWeight *
+            (engagementOf(api.state as CoreState, person) ?? 0),
       )
     )
       continue;
@@ -274,7 +280,9 @@ export function bringCases(api: CoreAPI): void {
           "constituent-cases.bring-case",
           "bring",
           "let-it-go",
-          seeker.problem.severity - effort,
+          seeker.problem.severity -
+            effort +
+            engagementWeight * seeker.engagement,
         )
       )
         continue;
@@ -296,6 +304,8 @@ function countedOutOfWork(
 ): {
   personId: string;
   traits: Readonly<Record<string, number>>;
+  /** How closely they follow politics: their survey cell's (state and age). */
+  engagement: number;
   problem: {
     problem: Problem;
     severity: number;
@@ -348,6 +358,12 @@ function countedOutOfWork(
     out.push({
       personId: seeker.personId,
       traits: store.packedTraits(m),
+      engagement:
+        engagementOf(state, {
+          id: seeker.personId,
+          birthDate: store.born[m]!,
+          placeId: town,
+        }) ?? 0,
       problem: {
         problem: "looking-for-work",
         severity,
@@ -371,18 +387,26 @@ function bringCase(
   town: string,
 ): void {
   const state = api.state as CoreState;
-  // They go to the official they know best (the senior one if none).
-  const official = [...officials].sort((a, b) => {
-    const level = (t: TermRow) =>
-      closenessBetween(state, person.id, t.personId!);
-    return (
-      level(b) - level(a) ||
+  // They go to the official they know best; knowing none, to the office
+  // with the fewest cases open, then the senior one.
+  const level = new Map(
+    officials.map((t) => [
+      t.id,
+      closenessBetween(state, person.id, t.personId!),
+    ]),
+  );
+  const open = new Map(
+    officials.map((t) => [t.id, openCasesOf(api, t.personId!)]),
+  );
+  const official = [...officials].sort(
+    (a, b) =>
+      level.get(b.id)! - level.get(a.id)! ||
+      open.get(a.id)! - open.get(b.id)! ||
       (a.serviceStart ?? a.startDate).localeCompare(
         b.serviceStart ?? b.startDate,
       ) ||
-      a.id.localeCompare(b.id)
-    );
-  })[0]!;
+      a.id.localeCompare(b.id),
+  )[0]!;
   const row: CaseRow = {
     id: `case:${person.id}:${api.state.date}`,
     personId: person.id,
@@ -425,17 +449,61 @@ function bringCase(
   });
 }
 
+/** How many of an official's cases are open now, besides `except`. */
+export function openCasesOf(
+  api: CoreAPI,
+  officialId: string,
+  except?: string,
+): number {
+  return (
+    table(api).query("byStatus", ["open"]) as unknown as CaseRow[]
+  ).filter((c) => c.officialId === officialId && c.id !== except).length;
+}
+
 /**
- * An official's own call on a case nobody told them how to decide: most
- * help, and every trait tilts that toward or away from it. The one rule the
- * office, and the character of a player who leaves a case alone, follow.
+ * How much of the office's time a case's load takes, sliding from none
+ * toward all as open cases pile up: half at `caseLoadHalf` open cases.
+ */
+export function caseLoad(api: CoreAPI, open: number): number {
+  return open / (open + campaignParameter("caseLoadHalf"));
+}
+
+/**
+ * The case an official weighs before their temperament: the office's base
+ * readiness, how hard the problem presses on the resident, how close the
+ * official is to them, less the load of the other cases already open. With
+ * no case named, the base alone.
+ */
+export function caseDuty(
+  api: CoreAPI,
+  officialId: string,
+  row?: Readonly<CaseRow>,
+): number {
+  const base = campaignParameter("constituentHelpBase");
+  if (!row) return base;
+  return (
+    base +
+    campaignParameter("caseHelpSeverityWeight") * row.severity +
+    campaignParameter("caseHelpStandingWeight") *
+      closenessBetween(api.state as CoreState, officialId, row.personId) -
+    campaignParameter("caseHelpLoadWeight") *
+      caseLoad(api, openCasesOf(api, officialId, row.id))
+  );
+}
+
+/**
+ * An official's own call on a case nobody told them how to decide: the
+ * case's own circumstances (`caseDuty`), tilted by every trait toward or
+ * away from helping. The one rule the office, and the character of a player
+ * who leaves a case alone, follow.
  */
 export function ownCaseDecision(
   api: CoreAPI,
   officialId: string,
+  row?: Readonly<CaseRow>,
 ): { duty: number; decision: "help" | "decline" } {
   const official = api.state.people.get(officialId);
-  const duty = campaignParameter("constituentHelpBase");
+  const duty = caseDuty(api, officialId, row);
   const help = official
     ? leanedYes(
         api.state,
@@ -455,9 +523,14 @@ export function ownCaseDecision(
  * its staffer, who sees a "help" through only as far as their own work allows.
  */
 function officeHandles(api: CoreAPI, row: CaseRow): void {
-  const own = ownCaseDecision(api, row.officialId);
+  const own = ownCaseDecision(api, row.officialId, row);
   const staffed = api.state.modules.has(STAFF_MODULE_ID)
-    ? staffDecision(api, row.officialId, own.decision)
+    ? staffDecision(
+        api,
+        row.officialId,
+        own.decision,
+        caseLoad(api, openCasesOf(api, row.officialId, row.id)),
+      )
     : null;
   if (staffed) {
     resolve(
