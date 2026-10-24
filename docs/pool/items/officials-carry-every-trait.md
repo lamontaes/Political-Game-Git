@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/officials-carry-every-trait
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T16:16:45.480Z
 ---
 
 **What.** drawOfficial (src/core2/officials-roster.ts:217) gives each state and federal official nine traits drawn in -1..1 with a spread of about 0.35 (src/core2/data/officials/officials.json, traits.keys), and src/core2/modules/officials.ts:717 passes them to fillInIdentity, which then skips the residents' temperament model. Residents carry a level from -2 to 2 on every trait (src/core2/opening-personality.ts: 'a full person carries a level on every trait, low as well as high', OPUS-TRAITS Oct 12). Measured Oct 24 in Layton, New Jersey (3439600, seed 971e14bd6b58): 1,557 calendar-tier adults (the officials) hold 9 traits each and their lean toward any decision spreads 0.45 between thirds, against 1.25 to 1.31 for the town's weekly and monthly people. Officials' personality reaches every decision they make (legislative votes, interviews, appointments) at a third of a resident's size, and 89 of the 98 traits never reach them.
