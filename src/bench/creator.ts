@@ -11,7 +11,7 @@ import {
   corePlaceStateIdentities,
 } from "../core2/place-lookup";
 import { placeReferencePopulation } from "../core2/gov-rules/place-population";
-import type { EngineRecipe } from "../presentation/appearance-engine/pack";
+import type { LookRecipe } from "./appearance";
 
 /**
  * The New game creator as the Oct 12 creator had it (src/player/SetupScreen,
@@ -129,7 +129,7 @@ export interface ChosenPerson {
   birthYear: number;
   birthMonth: number;
   birthDay: number;
-  recipe?: EngineRecipe;
+  recipe?: LookRecipe;
 }
 
 /** Reads and checks the chosen person sent with New game. */

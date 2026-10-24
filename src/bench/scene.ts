@@ -65,7 +65,7 @@ export interface BenchScenePerson {
   spotId: string;
   figure: WholeFigure["figure"];
   figureUrl: string;
-  /** Only owner-approved whole figures are ever drawn (owner, Oct 13). */
+  /** Only the v2 standing figures are drawn (owner, Oct 24). */
   art: "whole";
 }
 
@@ -488,20 +488,35 @@ interface Looks {
   id: string;
   birthDate: string;
   gender?: string;
-  seed?: string;
+  /** The look chosen in the creator (the player), when there is one. */
+  look?: FigurePerson["look"];
+}
+/** A look saved by the creator, or none where the record holds no readable one. */
+function chosenLook(text: string | undefined): FigurePerson["look"] {
+  if (!text) return undefined;
+  try {
+    const { sex, build, outfit } = JSON.parse(text) as Record<string, unknown>;
+    return typeof sex === "string" &&
+      typeof build === "string" &&
+      typeof outfit === "string"
+      ? { sex, build, outfit }
+      : undefined;
+  } catch {
+    return undefined;
+  }
 }
 const OFFICES = "core2-offices-v1";
 export function looksOf(core: CoreState, id: string): Looks | null {
   const person = core.people.get(id);
-  if (person)
+  if (person) {
+    const look = chosenLook(person.looks?.recipe);
     return {
       id: person.id,
       birthDate: person.birthDate,
       ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
-      ...(person.looks?.appearanceSeed
-        ? { seed: person.looks.appearanceSeed }
-        : {}),
+      ...(look ? { look } : {}),
     };
+  }
   const term = coreAPI(core).moduleState(OFFICES).table("terms").get(id) as
     | {
         identity?: { birthDate: string; gender: string };
@@ -563,14 +578,12 @@ export function stagePeople(
       unplaced.push({ personId: id, reason: "no-record" });
       continue;
     }
-    const act = core.people.has(id) ? doing(core, id, undefined) : undefined;
     const who: Who = {
       id,
       birthDate: looks.birthDate,
       ...(looks.gender ? { gender: looks.gender } : {}),
       official: isOfficial(core, id),
-      ...(act?.actionId ? { act: act.actionId } : {}),
-      ...(id === core.playerId ? { player: true } : {}),
+      ...(looks.look ? { look: looks.look } : {}),
     };
     const look = pickLook(core, who, place, taken);
     if (!look) {

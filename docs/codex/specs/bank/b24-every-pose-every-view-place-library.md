@@ -12,7 +12,9 @@ Every room in the game looks lived in. People sit in the chairs, lean on the cou
 - Claude graphics boundary (Register :194): code integrates; source art comes from the art pipeline (Firefly).
 - One system per job; nothing blank; one rule for all places. Never the community-meeting title painting.
 
-## Existing code it must use
+## Existing code it must use (historical)
+
+This section is the record of the code as it stood when the spec was written, not code to use: the people pack, pose chooser and hero posture (`src/presentation/appearance-engine`) and the presentation-side backdrop and staging files it names are deleted. Today people are drawn from the v2 figure set (`art/people-engine/v2/figures`), chosen by `src/bench/whole-figures.ts` (`lookFigures`, `pickLook`, `wholeFigureFor`, `figureOn`, `placeSeated`) from `src/bench/data/whole-figures.json`, and places and their staged spots are read by `src/bench/backdrop-places.ts` and `src/bench/scene.ts` from `art/backdrops/manifest.json` and `art/backdrops/staging.json`. Work on this spec builds on those; where the steps below name the old pack (`BODY_POSES`, `chooseBodyPose`, `spotPose`), read them as the v2 figure set and the bench's staging.
 
 - People pack: `src/presentation/appearance-engine/pack.ts:101 BODY_POSES` (16), `:130 POSES_BY_PRESENTATION`, `:216 poseFallbacks`, `:262 BODY_VIEWS = ["front","three-quarter"]`, `:422 PackView`, `:549 posedPieces` (falls back to front), `:90 OutfitTag`. Manifest `art/people-engine/v1/manifest.json`: three-quarter has standing bodies/outfits only, empty faces and hair, so every turned request falls back to front; 6 seated activity poses missing for 13 outfits; no back view.
 - Pose choice: `appearance-engine/pose-chooser.ts:17 SceneActivity`, `:82 chooseBodyPose`, `:145 chooseBodyView`, `:160 sceneActivity`; `hero-posture.ts:37`.

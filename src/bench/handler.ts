@@ -311,14 +311,11 @@ export async function benchRequest(
       }
       if (
         request.method === "GET" &&
-        /^\/art\/people-whole\/[\w.-]+\.png$/.test(url.pathname)
+        /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
       ) {
-        // Whole-figure people: the owner-approved cutouts, served as they are.
+        // Standing people: the v2 figures (owner, Oct 24), served as they are.
         const content = await readFile(
-          new URL(
-            `../../art/people-whole/${url.pathname.slice("/art/people-whole/".length)}`,
-            import.meta.url,
-          ),
+          new URL(`../..${url.pathname}`, import.meta.url),
         );
         response.writeHead(200, {
           "Content-Type": "image/png",

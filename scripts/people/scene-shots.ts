@@ -4,7 +4,8 @@
 // owner plays (the opening, home with the family, a workplace, the council
 // or commission, the state chamber, the U.S. House and Senate, the Oval
 // Office, a conversation), renders each the way /play draws it, and counts
-// figures by source. Only approved whole figures may be drawn.
+// figures by source. Only the v2 standing figures (art/people-engine/v2) may
+// be drawn (owner, Oct 24).
 // Usage: node --import tsx scripts/people/scene-shots.ts <out-dir> [seed ...]
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { createHash, randomBytes } from "node:crypto";
@@ -16,8 +17,7 @@ import { openingFrames } from "../../src/bench/opening";
 import * as scene from "../../src/bench/scene";
 import scenePlaces from "../../src/bench/data/scene-places.json" with { type: "json" };
 import { drawPlace } from "../../tests/golden-path/place";
-import manifest from "../../art/people-whole/manifest.json" with { type: "json" };
-import rules from "../../src/bench/data/whole-figures.json" with { type: "json" };
+import index from "../../art/people-engine/v2/index.json" with { type: "json" };
 import type { PlayerPacketV1 } from "../../src/core2/player-v1";
 
 const [out = "scene-shots", ...given] = process.argv.slice(2);
@@ -148,16 +148,11 @@ const browser = await chromium.launch({
 const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 const summary: string[] = [];
 const FIGURE_LOOK = new Map(
-  manifest.figures.map((row) => [row.file, row.look] as const),
+  index.figures.map(
+    (row) => [row.file.split("/").pop()!, `${row.outfit}:${row.sex}`] as const,
+  ),
 );
-const FIGURE_ACTIVITY = new Map(
-  manifest.figures.map((row) => [row.file, row.activity] as const),
-);
-const OUTDOORS = (place: string) =>
-  rules.outdoorPlaces.includes(place) ||
-  rules.outdoorPrefixes.some((prefix) => place.startsWith(prefix));
-let twinTotal = 0,
-  propTotal = 0;
+let twinTotal = 0;
 let whole = 0,
   other = 0;
 for (const seed of seeds) {
@@ -169,7 +164,7 @@ for (const seed of seeds) {
       o0 = 0;
     const figs = s.people.map((p) => {
       let src = p.figureUrl;
-      if (src.startsWith("/art/people-whole/")) {
+      if (src.startsWith("/art/people-engine/v2/")) {
         w0++;
         src = `file://${root}${src}`;
       } else {
@@ -199,7 +194,7 @@ for (const seed of seeds) {
       html,body{margin:0;overflow:hidden} #stage{width:1672px;height:941px;left:0;top:0;transform:none}
       .label{position:absolute;left:8px;top:8px;background:#000a;color:#fff;font:13px sans-serif;padding:4px 8px;z-index:9}</style></head>
       <body><div id="game"><div id="stage"><img id="backdrop" src="file://${root}${s.backdrop.url}"><div id="people"></div></div>
-      <div class="label">${place.name}, ${place.state} · seed ${seed} · ${s.place} · whole ${w0}, other ${o0}</div></div>
+      <div class="label">${place.name}, ${place.state} · seed ${seed} · ${s.place} · v2 ${w0}, other ${o0}</div></div>
       <script>
       const people = ${JSON.stringify(figs)};
       const el = document.getElementById("people");
@@ -233,28 +228,18 @@ for (const seed of seeds) {
     );
     const file = `${out}/${tag}-${s.name}.png`;
     await page.screenshot({ path: file });
-    // Twins (two people in one look) and props where they make no sense.
+    // Twins: two people in one look.
     const looks = s.people.map((p) =>
       FIGURE_LOOK.get(p.figureUrl.split("/").pop()!),
     );
     const twins = looks.length - new Set(looks).size;
-    const indoors = !OUTDOORS(s.place)
-      ? s.people.filter((p) =>
-          ["skateboard", "basketball"].includes(
-            FIGURE_ACTIVITY.get(p.figureUrl.split("/").pop()!) ?? "",
-          ),
-        ).length
-      : 0;
     twinTotal += twins;
-    propTotal += indoors;
     summary.push(
-      `- ${s.name} (${s.place}): ${s.people.length} drawn, whole ${w0}, other ${o0}, twins ${twins}, ball or skateboard indoors ${indoors}`,
+      `- ${s.name} (${s.place}): ${s.people.length} drawn, v2 ${w0}, other ${o0}, twins ${twins}`,
     );
   }
 }
 await browser.close();
-summary.push(
-  `\nTotal: whole ${whole}, not whole ${other}, twins ${twinTotal}, ball or skateboard indoors ${propTotal}`,
-);
+summary.push(`\nTotal: v2 ${whole}, not v2 ${other}, twins ${twinTotal}`);
 writeFileSync(`${out}/counts.md`, summary.join("\n") + "\n");
 console.log(summary.join("\n"));

@@ -1,3 +1,4 @@
+import { readdirSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { pickLook, wholeFigureFor } from "./whole-figures";
 import rules from "./data/whole-figures.json" with { type: "json" };
@@ -25,6 +26,25 @@ const person = {
   birthDate: "1984-05-02",
   official: false,
 };
+
+describe("the look chosen in the creator", () => {
+  it("is the player's figure wherever they are drawn", () => {
+    const chosen = { sex: "male", build: "heavy", outfit: "base" };
+    const look = pickLook(core, { ...person, look: chosen }, place)!;
+    expect([look.sex, look.build, look.outfit]).toEqual([
+      "male",
+      "heavy",
+      "base",
+    ]);
+    // Drawn on a standing spot in the room, the same figure.
+    const stage = backdropStaging(place)!;
+    const spot = stage.spots.find((row) => (row.pose ?? "stand") === "stand")!;
+    expect(
+      wholeFigureFor(core, { ...person, look: chosen }, place, stage, spot)!
+        .url,
+    ).toContain(look.file.split("/").pop());
+  });
+});
 
 describe(`contact shadows at ${place}`, () => {
   const stage = backdropStaging(place)!;
@@ -67,78 +87,73 @@ describe(`contact shadows at ${place}`, () => {
 });
 
 describe("choosing each person's look", () => {
-  const homes = rules.homePlaces;
-  const home = homes[Math.floor(Math.random() * homes.length)]!;
-  const at = (date: string) => ({ ...core, date }) as unknown as CoreState;
-  const teen = (n: number) => ({
-    id: `person:teen-${n}`,
-    birthDate: "2011-03-01",
-    gender: n % 2 ? "male" : "female",
-    official: false,
-  });
+  const government = rules.governmentPlaces;
+  const hall = government[Math.floor(Math.random() * government.length)]!;
 
-  it(`never draws a skateboard, a basketball or a laptop at home (${home})`, () => {
-    for (let n = 0; n < 60; n++) {
-      const look = pickLook(core, teen(n), home)!;
-      expect(["skateboard", "basketball", "laptop"]).not.toContain(
-        look.activity,
-      );
-      const adult = pickLook(
+  it("draws every adult from the v2 standing figures", () => {
+    for (let n = 0; n < 20; n++) {
+      const look = pickLook(
         core,
-        { ...person, id: `person:adult-${n}` },
-        home,
+        {
+          ...person,
+          id: `person:adult-${n}`,
+          gender: n % 2 ? "male" : "female",
+        },
+        place,
       )!;
-      expect(["laptop", "clipboard", "tablet-explaining"]).not.toContain(
-        adult.activity,
-      );
+      expect(look.file).toMatch(/^figures\/v2-/);
+      expect(look.pose).toBe("stand");
+      expect(look.sex).toBe(n % 2 ? "male" : "female");
     }
   });
 
-  it("lets a teen carry a ball or a skateboard outdoors", () => {
-    const seen = new Set<string>();
-    for (let n = 0; n < 60; n++)
-      seen.add(pickLook(core, teen(n), "park")!.activity);
+  it("draws no child: the set paints adults only", () => {
     expect(
-      [...seen].some((row) => ["skateboard", "basketball"].includes(row)),
-    ).toBe(true);
+      pickLook(
+        core,
+        { ...person, id: "person:child", birthDate: "2019-01-01" },
+        place,
+      ),
+    ).toBeNull();
+  });
+
+  it(`dresses an official in an official's outfit at a government place (${hall})`, () => {
+    for (let n = 0; n < 20; n++) {
+      const look = pickLook(
+        core,
+        { ...person, id: `person:official-${n}`, official: true },
+        hall,
+      )!;
+      expect(rules.officialOutfits).toContain(look.outfit);
+    }
   });
 
   it("gives no two people in a scene the same look", () => {
     const taken = new Set<string>();
-    for (let n = 0; n < 12; n++) {
+    for (let n = 0; n < 4; n++) {
       const look = pickLook(
         core,
-        { ...person, id: `person:crowd-${n}` },
-        home,
+        { ...person, id: `person:crowd-${n}`, gender: "female" },
+        place,
         taken,
       )!;
       expect(taken.has(look.look)).toBe(false);
       taken.add(look.look);
     }
   });
+});
 
-  it("keeps the player's look family from teen to adult", () => {
-    for (const sex of ["male", "female"]) {
-      const player = { ...teen(0), gender: sex, player: true };
-      const young = pickLook(at("2026-10-13"), player, "park")!;
-      const grown = pickLook(at("2031-10-13"), player, home)!;
-      expect(young.ageBand).toBe("teen");
-      expect(grown.ageBand).not.toBe("teen");
-      expect(grown.family).toBe(young.family);
-    }
-  });
-
-  it("draws people near their real age", () => {
-    for (let n = 0; n < 40; n++) {
-      const born = 1950 + n;
-      const look = pickLook(
-        core,
-        { ...person, id: `person:age-${n}`, birthDate: `${born}-06-01` },
-        home,
-      )!;
-      expect(Math.abs((look.age ?? 40) - (2026 - born))).toBeLessThanOrEqual(
-        12,
+describe("the people the game draws (owner, Oct 24)", () => {
+  it("loads no whole-figure person from art/people-whole anywhere in the bench", () => {
+    const old = ["art", "people-whole"].join("/");
+    const here = new URL("./", import.meta.url);
+    const loaders = readdirSync(here).filter(
+      (file) => /\.(ts|mjs|html)$/.test(file) && !file.endsWith(".test.ts"),
+    );
+    expect(loaders.length).toBeGreaterThan(0);
+    for (const file of loaders)
+      expect(readFileSync(new URL(file, here), "utf8"), file).not.toContain(
+        old,
       );
-    }
   });
 });
