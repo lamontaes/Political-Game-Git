@@ -88,6 +88,8 @@ interface ResearchExecutive {
   readonly title: string;
   readonly termYears?: number;
   readonly nextRegularElectionYear?: number;
+  /** False for an office filled by appointment (an appointed attorney general). */
+  readonly elected?: boolean;
   readonly vacancyRule?: ResearchVacancy;
   readonly source?: string;
   readonly citation?: string;
@@ -526,7 +528,7 @@ export function stateOffices(
               ),
             }
           : {}),
-        elected: true,
+        elected: executive.elected ?? true,
         districted: false,
         coversTown: true,
         source: [executive.citation, executive.source]

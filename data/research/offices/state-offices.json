@@ -445,6 +445,27 @@
           "retrievedDate": "2026-10-12",
           "estimate": true,
           "sourceRetrieved": false
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of Alaska",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "Alaska Const. art. III, sec. 25 (heads of principal departments are appointed by the governor, subject to confirmation by the legislature)",
+            "source": "Alaska Const. art. III, sec. 25 (heads of principal departments are appointed by the governor, subject to confirmation by the legislature)",
+            "retrievedDate": "2026-10-19",
+            "estimate": false,
+            "sourceRetrieved": false
+          },
+          "citation": "Alaska Const. art. III, sec. 25 (heads of principal departments are appointed by the governor, subject to confirmation by the legislature)",
+          "source": "Alaska Const. art. III, sec. 25 (heads of principal departments are appointed by the governor, subject to confirmation by the legislature)",
+          "retrievedDate": "2026-10-19",
+          "estimate": false,
+          "sourceRetrieved": false
         }
       ],
       "usSenateVacancy": {
@@ -2870,6 +2891,27 @@
           "retrievedDate": "2026-10-12",
           "estimate": true,
           "sourceRetrieved": false
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of Hawaii",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "Hawaii Const. art. V, sec. 6 (department heads appointed by the governor with the advice and consent of the senate)",
+            "source": "Hawaii Const. art. V, sec. 6 (department heads appointed by the governor with the advice and consent of the senate)",
+            "retrievedDate": "2026-10-19",
+            "estimate": false,
+            "sourceRetrieved": false
+          },
+          "citation": "Hawaii Const. art. V, sec. 6 (department heads appointed by the governor with the advice and consent of the senate)",
+          "source": "Hawaii Const. art. V, sec. 6 (department heads appointed by the governor with the advice and consent of the senate)",
+          "retrievedDate": "2026-10-19",
+          "estimate": false,
+          "sourceRetrieved": false
         }
       ],
       "usSenateVacancy": {
@@ -4884,6 +4926,28 @@
           "retrievedDate": "2026-10-12",
           "estimate": false,
           "sourceRetrieved": true
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of Maine",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "legislature",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "Maine Const. art. IX, sec. 11 (elected by joint ballot of the senators and representatives every two years)",
+            "source": "Maine Const. art. IX, sec. 11 (elected by joint ballot of the senators and representatives every two years)",
+            "retrievedDate": "2026-10-19",
+            "estimate": false,
+            "sourceRetrieved": false
+          },
+          "citation": "Maine Const. art. IX, sec. 11 (elected by joint ballot of the senators and representatives every two years)",
+          "source": "Maine Const. art. IX, sec. 11 (elected by joint ballot of the senators and representatives every two years)",
+          "retrievedDate": "2026-10-19",
+          "estimate": false,
+          "sourceRetrieved": false,
+          "termYears": 2
         }
       ],
       "legislativelyElectedOfficers": {
@@ -7317,6 +7381,28 @@
           "retrievedDate": "2026-10-12",
           "estimate": false,
           "sourceRetrieved": true
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of New Hampshire",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor and executive council",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "N.H. RSA 7:1 (appointed by the governor with the consent of the executive council for five years)",
+            "source": "N.H. RSA 7:1 (appointed by the governor with the consent of the executive council for five years)",
+            "retrievedDate": "2026-10-19",
+            "estimate": false,
+            "sourceRetrieved": false
+          },
+          "citation": "N.H. RSA 7:1 (appointed by the governor with the consent of the executive council for five years)",
+          "source": "N.H. RSA 7:1 (appointed by the governor with the consent of the executive council for five years)",
+          "retrievedDate": "2026-10-19",
+          "estimate": false,
+          "sourceRetrieved": false,
+          "termYears": 5
         }
       ],
       "districtElectedStateBodies": {
@@ -7479,6 +7565,27 @@
           "citation": "State constitution executive article and election code",
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
+          "estimate": false,
+          "sourceRetrieved": false
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of New Jersey",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "N.J. Const. art. V, sec. IV, para. 3 (appointed by the governor with the advice and consent of the senate, serving for the governor's term)",
+            "source": "N.J. Const. art. V, sec. IV, para. 3 (appointed by the governor with the advice and consent of the senate, serving for the governor's term)",
+            "retrievedDate": "2026-10-19",
+            "estimate": false,
+            "sourceRetrieved": false
+          },
+          "citation": "N.J. Const. art. V, sec. IV, para. 3 (appointed by the governor with the advice and consent of the senate, serving for the governor's term)",
+          "source": "N.J. Const. art. V, sec. IV, para. 3 (appointed by the governor with the advice and consent of the senate, serving for the governor's term)",
+          "retrievedDate": "2026-10-19",
           "estimate": false,
           "sourceRetrieved": false
         }
@@ -10811,6 +10918,28 @@
           "retrievedDate": "2026-10-12",
           "estimate": false,
           "sourceRetrieved": true
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of Tennessee",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "state supreme court",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "Tenn. Const. art. VI, sec. 5 (appointed by the justices of the supreme court for eight years)",
+            "source": "Tenn. Const. art. VI, sec. 5 (appointed by the justices of the supreme court for eight years)",
+            "retrievedDate": "2026-10-19",
+            "estimate": false,
+            "sourceRetrieved": false
+          },
+          "citation": "Tenn. Const. art. VI, sec. 5 (appointed by the justices of the supreme court for eight years)",
+          "source": "Tenn. Const. art. VI, sec. 5 (appointed by the justices of the supreme court for eight years)",
+          "retrievedDate": "2026-10-19",
+          "estimate": false,
+          "sourceRetrieved": false,
+          "termYears": 8
         }
       ],
       "legislativelyElectedOfficers": {
@@ -12781,6 +12910,27 @@
           "retrievedDate": "2026-10-12",
           "estimate": true,
           "sourceRetrieved": false
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of Wyoming",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "Wyo. Stat. 9-1-601 (appointed by the governor; serves at the governor's pleasure)",
+            "source": "Wyo. Stat. 9-1-601 (appointed by the governor; serves at the governor's pleasure)",
+            "retrievedDate": "2026-10-19",
+            "estimate": false,
+            "sourceRetrieved": false
+          },
+          "citation": "Wyo. Stat. 9-1-601 (appointed by the governor; serves at the governor's pleasure)",
+          "source": "Wyo. Stat. 9-1-601 (appointed by the governor; serves at the governor's pleasure)",
+          "retrievedDate": "2026-10-19",
+          "estimate": false,
+          "sourceRetrieved": false
         }
       ],
       "usSenateVacancy": {
@@ -13081,6 +13231,27 @@
           "retrievedDate": "2026-10-12",
           "estimate": false,
           "sourceRetrieved": true
+        },
+        {
+          "key": "attorney-general",
+          "title": "Secretary of Justice of Puerto Rico",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "P.R. Const. art. IV, sec. 5 (the governor appoints the secretaries, with the advice and consent of the senate and the house)",
+            "source": "P.R. Const. art. IV, sec. 5 (the governor appoints the secretaries, with the advice and consent of the senate and the house)",
+            "retrievedDate": "2026-10-19",
+            "estimate": true,
+            "sourceRetrieved": false
+          },
+          "citation": "P.R. Const. art. IV, sec. 5 (the governor appoints the secretaries, with the advice and consent of the senate and the house)",
+          "source": "P.R. Const. art. IV, sec. 5 (the governor appoints the secretaries, with the advice and consent of the senate and the house)",
+          "retrievedDate": "2026-10-19",
+          "estimate": true,
+          "sourceRetrieved": false
         }
       ],
       "usSenateVacancy": {
@@ -13459,6 +13630,27 @@
           "retrievedDate": "2026-10-12",
           "estimate": true,
           "sourceRetrieved": false
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of the Virgin Islands",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "3 V.I.C. sec. 111 (the attorney general is appointed by the governor with the advice and consent of the legislature)",
+            "source": "3 V.I.C. sec. 111 (the attorney general is appointed by the governor with the advice and consent of the legislature)",
+            "retrievedDate": "2026-10-19",
+            "estimate": true,
+            "sourceRetrieved": false
+          },
+          "citation": "3 V.I.C. sec. 111 (the attorney general is appointed by the governor with the advice and consent of the legislature)",
+          "source": "3 V.I.C. sec. 111 (the attorney general is appointed by the governor with the advice and consent of the legislature)",
+          "retrievedDate": "2026-10-19",
+          "estimate": true,
+          "sourceRetrieved": false
         }
       ],
       "usSenateVacancy": {
@@ -13607,6 +13799,27 @@
           "citation": "State constitution executive article and election code",
           "source": "https://ballotpedia.org/State_executive_offices",
           "retrievedDate": "2026-10-12",
+          "estimate": true,
+          "sourceRetrieved": false
+        },
+        {
+          "key": "attorney-general",
+          "title": "Attorney General of American Samoa",
+          "elected": false,
+          "vacancyRule": {
+            "method": "appointment",
+            "appointedBy": "governor",
+            "successor": null,
+            "notes": "Appointed office: a vacancy is filled by the same appointer.",
+            "citation": "American Samoa Const. art. IV, sec. 6 (the attorney general is appointed by the governor, subject to confirmation by the senate)",
+            "source": "American Samoa Const. art. IV, sec. 6 (the attorney general is appointed by the governor, subject to confirmation by the senate)",
+            "retrievedDate": "2026-10-19",
+            "estimate": true,
+            "sourceRetrieved": false
+          },
+          "citation": "American Samoa Const. art. IV, sec. 6 (the attorney general is appointed by the governor, subject to confirmation by the senate)",
+          "source": "American Samoa Const. art. IV, sec. 6 (the attorney general is appointed by the governor, subject to confirmation by the senate)",
+          "retrievedDate": "2026-10-19",
           "estimate": true,
           "sourceRetrieved": false
         }

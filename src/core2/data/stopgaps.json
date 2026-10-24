@@ -3671,7 +3671,8 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Appointed attorneys general and territorial attorneys general as offices in the offices data, with their appointing rule.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The appointed attorney general is a person seated in the office the state's constitution or statute names (data/research/offices/state-offices.json, source per row), read by the justice engine in place of the prosecutor stand-in; the stand-in code is removed."
   },
   {
     "id": "SG-GOV-justice-bribery-grade",
