@@ -2558,11 +2558,11 @@
     "kind": "estimated-law",
     "file": "src/core2/modules/housing.ts",
     "line": 605,
-    "whatItFakes": "Eviction steps not yet read from official text: of 56 places, 30 have the notice period read, 23 whether a tenant can cure, 36 the hearing period and 34 the stay; the other values are recalled from secondary summaries, and missing values take the median of the better-sourced places.",
-    "why": "Three research passes read official code and court-rule sites; some sites refused or are Lexis-only (CA, CT, IL, UT, NJ, NM, GU, AL, AR, GA, MS, TN, IN, VI, AS). Per-place verifiedFields, hearingStaySources and verificationFailed are in data/research/housing/eviction-steps-2026.json.",
+    "whatItFakes": "Eviction steps not yet read from official text in force on the opening day (January 20, 2025): of 56 places, 42 have the notice period read, 42 whether a tenant can cure, 38 the hearing period and 41 the stay (all four in 31, marked high); the other values come from secondary summaries, and missing values take the median of the better-sourced places. One undated value per place cannot follow a law that changes after the opening day.",
+    "why": "Official code sites for 14 places refused the cloud or publish only through Lexis or a JavaScript application (AR, AS, CT, GA, GU, IL, IN, MS, NH, NM, NY, PR, TN, VI); AK, AL, HI, MA, MT, NJ, RI, SD, TX, VT and WV leave a hearing or stay to court rules, set no day count, or were read only in text that took effect later. Reads: data/research/world/eviction-statute-reads-2026.json (Oct 23) and data/research/housing/eviction-steps-2026.json (Oct 12).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Each place's steps read from the official statute text and cited by section, then M1-laws' landlord-tenant law in force.",
+    "replacement": "Each place's steps read from the official statute text and cited by section, then M1-laws' landlord-tenant law in force. Oct 23, 2026: 46 steps in 21 places read from the statute text in force on January 20, 2025 (data/research/world/eviction-statute-reads-2026.json, checked against housing.json by scripts/research/housing-check.ts); later laws (Hawaii from February 5, 2026, Texas from January 1, 2026, the District from December 31, 2025) are recorded there as dated laterLaw rows for world-housing-eviction-law-dated-phases. Still open for the 25 places above, which need their codes read through Lexis or the courts' rules (research-housing-statutes-remaining).",
     "status": "open"
   },
   {
@@ -2654,11 +2654,11 @@
     "kind": "assumed-data",
     "file": "src/core2/housing-mortgages.ts",
     "line": 136,
-    "whatItFakes": "Each owner's purchase year comes from the national move-in distribution by age rank, the purchase price is today's value moved back by the state's FHFA house price index, the loan is a 30-year fixed with the NAR median down payment and no refinancing, and the same county mortgage shares by age apply everywhere.",
-    "why": "No house price index, county move-in or mortgage-balance table is in the data yet.",
+    "whatItFakes": "Each owner's purchase year comes from the national move-in distribution by age rank, the loan is a 30-year fixed with the NAR median down payment and no refinancing, and the nation's mortgage shares by age apply in every county.",
+    "why": "The county move-in and mortgage-status tables were not in the data, and no refinancing step exists.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "FHFA house price index by state and metro for purchase prices, ACS B25038 and B25027 by county, and refinancing waves from the rate history.",
+    "replacement": "FHFA house price index by state and metro for purchase prices, ACS B25038 and B25027 by county, and refinancing waves from the rate history. Oct 23, 2026: ACS 2020-2024 B25038 and B25027 for every state and county are in data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json (Census Bureau; checked by scripts/research/housing-check.ts against the national shares openingMortgages reads in src/core2/housing-mortgages.ts); purchase prices already follow the state FHFA index (homePriceRatio). Reading the county rows, and refinancing from the rate history historicalMortgageRate already holds, is world-housing-mortgages-county-shares.",
     "status": "open"
   },
   {
@@ -2666,11 +2666,11 @@
     "kind": "assumed-data",
     "file": "src/core2/housing-prices.ts",
     "line": 59,
-    "whatItFakes": "Home prices follow FHFA's state house price index through its latest quarter (2026 Q2); after it, and where FHFA has no rows (Puerto Rico and the island areas), they follow consumer prices (CPI-U, which in the data ends in 2025). The seller in a purchase is outside the town.",
-    "why": "FHFA publishes no index for Puerto Rico or the island areas, the simulated future has no house price model yet, and people don't move in or out of town until M1-09.",
+    "whatItFakes": "Home prices follow FHFA's state house price index through its latest quarter (2026 Q2), and Puerto Rico's from FHFA's developmental index; after the latest quarter, and where FHFA has no index (Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands), they follow consumer prices (CPI-U, which in the data ends in 2025). The seller in a purchase is outside the town.",
+    "why": "FHFA publishes no index for the four island areas, the simulated future has no house price model yet, and people don't move in or out of town until M1-09.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "A house price step in the economy (the region's incomes, rates and vacancy), territorial price data, and sellers who are the town's own owners (M1-09).",
+    "replacement": "A house price step in the economy (the region's incomes, rates and vacancy), territorial price data, and sellers who are the town's own owners (M1-09; world-home-sales-set-the-town-price, world-home-turnover). Oct 23, 2026: Puerto Rico now reads FHFA's developmental all-transactions index (FHFA, 2026 Q2; data/research/world/fhfa-hpi-pr-2026q2.json, checked by scripts/research/housing-check.ts) through homePriceRatio in src/core2/housing-prices.ts; still open for the four island areas and for prices after the last quarter.",
     "status": "open"
   },
   {
@@ -4476,7 +4476,7 @@
     "why": "The HIC lists beds by Continuum of Care and provider; joining providers' geocodes to places is not done yet.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Beds by place from the HIC provider rows (geocode to county and place), with occupancy on the count night.",
+    "replacement": "Beds by place from the HIC provider rows (geocode to county and place), with occupancy on the count night. Oct 23, 2026: the 2025 HIC project rows are summed by state and city, with HUD geocodes and count-night occupancy, in data/research/world/hud-hic-2025-beds-by-city.json (HUD, 2025; 2,656 city rows; the state rates shelterBeds reads are checked against it by scripts/research/housing-check.ts). Reading them per place is world-housing-shelter-beds-by-place.",
     "status": "open"
   },
   {
@@ -4488,7 +4488,7 @@
     "why": "No HUD Housing Inventory Count covers them; the island-area median is the nearest measured stand-in (data/research/stopgaps-oct19/D-economy-world.json).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Each territory government's own shelter count.",
+    "replacement": "Each territory government's own shelter count. Oct 23, 2026: none found. American Samoa's Department of Human and Social Services publishes no shelter count, and the CNMI Homeless Coalition's 2018 Saipan count (22 sheltered people, reported by the Saipan Tribune) could not be reopened from the cloud (connection reset, then 503), so the island-area median stays (research-housing-statutes-remaining).",
     "status": "open"
   },
   {
@@ -4496,11 +4496,11 @@
     "kind": "assumed-data",
     "file": "src/core2/housing-foreclosure.ts",
     "line": 68,
-    "whatItFakes": "A state's foreclosure timeline that was not read from its statute (or that has no published average) is taken from secondary summaries or the national average days to complete.",
+    "whatItFakes": "A state's foreclosure timeline that was not read from its statute (55 places) or that has no published average (42 places) is taken from secondary summaries or the national average days to complete (ATTOM, 563 days in Q2 2026).",
     "why": "Foreclosure statutes and timelines were gathered for 56 places in one pass; places below high confidence still need their statute text read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete.",
+    "replacement": "Each place's foreclosure steps read from its statute text and court rules, with its own average days to complete. Oct 23, 2026: ATTOM's national figure and the 14 state averages were reopened (Q2 2025, Q3 2025 and Q2 2026 releases), Texas's steps were read from statute text (now high) and Minnesota's sale notice corrected to six weeks (data/research/world/foreclosure-reads-2026.json, checked by scripts/research/housing-check.ts against foreclosure.json, read by foreclosureSteps in src/core2/housing-foreclosure.ts). Still open: ATTOM publishes per-state averages only for its five longest and five shortest states each quarter, and the other statutes are unread (research-housing-statutes-remaining).",
     "status": "open"
   },
   {
@@ -6497,6 +6497,18 @@
     "addedBy": "claude/quirky-ride-vrwwz4-campaigns-small-place",
     "addedAt": "2026-10-24",
     "replacement": "The owner's ruling on how a campaign orders the doors it knocks (docs/coordination/OWNER-DECISIONS.md), built as the campaign's own choice of list.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-eviction-day-counting",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 693,
+    "whatItFakes": "Eviction notice, hearing and stay periods are counted in calendar days everywhere. Ten statute reads count other days: business days (Alabama notice 7, Hawaii notice 5, the Northern Marianas notice 3, Utah notice 3 and hearing 3, North Carolina hearing 7), court days (California notice 3, hearing 10), judicial days (West Virginia hearing 5) and days excluding Sundays and legal holidays (the District's summons 30). The table holds the statute's number, so the engine's period is shorter than the statute's for those.",
+    "why": "The steps table has one number per step and the engine adds days to a date; it has no calendar of business days, court days or legal holidays to count on.",
+    "addedBy": "claude/dreamy-tesla-bgi3ui-housing",
+    "addedAt": "2026-10-24",
+    "replacement": "A day-type per step (calendar, business, court, excluding Sundays and holidays) in the steps table and a counter that skips non-counting days on the place's calendar, read where the engine adds days for the notice, hearing and stay (data/research/world/eviction-statute-reads-2026.json already records each read's dayType).",
     "status": "open"
   }
 ]
