@@ -16,7 +16,8 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
-import { CRIME_EVENT } from "../core2/modules/crime";
+import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
+import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/kernel/brands";
 import {
   CONVERSATION_DATA,
@@ -38,16 +39,51 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
       "conversation-crime",
     );
     const where = `${place.name} (${place.key}), seed ${place.seed}, base ${base}`;
-    setBookkeeping(false);
-    const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    // The ledger keeps moments for the people it watches: everyone in town.
-    for (const person of core.people.values())
-      if (person.alive && person.tier !== "husk")
-        director.watch(core, person.id);
-    const end = addDays(makeIsoDate(core.date), YEAR_DAYS);
+    // A first pass finds the first full household the crime engine
+    // victimizes that has two living members, without the director: watching
+    // a whole town is slow. The same seed builds the same world, so a second
+    // pass watches that household only and plays to just after the crime.
+    const build = () => {
+      setBookkeeping(false);
+      return buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+    };
+    const first = build().core;
+    const end = addDays(makeIsoDate(first.date), YEAR_DAYS);
+    let victimized:
+      { eventId: string; householdId: string; date: string } | undefined;
+    while (!victimized && first.date < end) {
+      const next = addDays(makeIsoDate(first.date), MONTH_DAYS);
+      advanceCore(first, next < end ? next : end);
+      const months = coreAPI(first)
+        .moduleState(CRIME_MODULE_ID)
+        .table("months")
+        .rows() as unknown as {
+        date: string;
+        victims: { eventId: string; householdId: string }[];
+      }[];
+      for (const month of [...months].sort((a, b) =>
+        a.date.localeCompare(b.date),
+      ))
+        for (const victim of month.victims ?? []) {
+          const members =
+            first.households.get(victim.householdId)?.memberIds ?? [];
+          if (members.filter((id) => first.people.get(id)?.alive).length < 2)
+            continue;
+          victimized ??= { ...victim, date: month.date };
+        }
+    }
+    if (!victimized) {
+      tried.push(`${where}: no full household of two victimized in a year`);
+      continue;
+    }
+    const { core, director } = build();
+    for (const id of core.households.get(victimized.householdId)?.memberIds ??
+      [])
+      if (core.people.get(id)?.alive) director.watch(core, id);
+    advanceCore(core, addDays(makeIsoDate(victimized.date), 1));
     let found:
       | {
           victim: PersonId;
@@ -56,43 +92,37 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
           momentId: string;
         }
       | undefined;
-    while (!found && core.date < end) {
-      const next = addDays(makeIsoDate(core.date), MONTH_DAYS);
-      advanceCore(core, next < end ? next : end);
-      for (const [personId, book] of director.ledger.people) {
-        const moment = [...book.moments]
-          .reverse()
-          .find((row) => row.label === VICTIMIZED);
-        if (!moment) continue;
-        const victim = core.people.get(personId);
-        if (!victim?.alive) continue;
-        // A housemate the record also names holds the same moment: the talk's occasion.
-        const housemate = [...core.people.values()].find(
-          (other) =>
-            other.id !== victim.id &&
-            other.alive &&
-            other.householdId === victim.householdId &&
-            director.ledger.people
-              .get(other.id)
-              ?.moments.some((row) => row.causeId === moment.causeId),
-        );
-        if (!housemate) continue;
-        const occasion = director.ledger.people
-          .get(housemate.id)!
-          .moments.find((row) => row.causeId === moment.causeId)!;
-        found = {
-          victim: victim.id,
-          listener: housemate.id,
-          causeId: moment.causeId,
-          momentId: occasion.id,
-        };
-        break;
-      }
+    for (const id of core.households.get(victimized.householdId)?.memberIds ??
+      []) {
+      const moment = director.ledger.people
+        .get(id)
+        ?.moments.find((row) => row.causeId === victimized!.eventId);
+      if (!moment || moment.label !== VICTIMIZED) continue;
+      const housemate = (
+        core.households.get(victimized.householdId)?.memberIds ?? []
+      ).find(
+        (other) =>
+          other !== id &&
+          !!director.ledger.people
+            .get(other)
+            ?.moments.some((row) => row.causeId === victimized!.eventId),
+      );
+      if (!housemate) continue;
+      found = {
+        victim: id as PersonId,
+        listener: housemate as PersonId,
+        causeId: moment.causeId,
+        momentId: director.ledger.people
+          .get(housemate)!
+          .moments.find((row) => row.causeId === victimized!.eventId)!.id,
+      };
+      break;
     }
-    if (!found) {
-      tried.push(`${where}: no victimized household with two members watched`);
-      continue;
-    }
+    expect(
+      found,
+      `${where}: ${victimized.eventId} on ${victimized.date} is a moment for two members of ${victimized.householdId} (the second pass rebuilt the same world)`,
+    ).toBeDefined();
+    if (!found) continue;
     // The subject is the victim's, from the crime record.
     const subject = subjectsBetween(
       core,
