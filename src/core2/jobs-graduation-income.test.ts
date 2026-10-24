@@ -47,29 +47,27 @@ interface Hire {
   readonly values: { readonly hourlyMinor: number };
 }
 
-function play(placeSeed: string, placeKey: string, shift: boolean) {
-  const { core } = buildBenchWorld(placeSeed, gameStartDate(), {
+function build(placeSeed: string, placeKey: string): CoreState {
+  return buildBenchWorld(placeSeed, gameStartDate(), {
     twoLevel: true,
     placeKey,
-  });
-  const api = coreAPI(core);
-  let day = makeIsoDate(core.date);
-  const end = addDays(day, 365);
-  while (day < end) {
-    day = addDays(day, 1);
-    advanceCore(core, day);
-    // The web writes its month on the 3rd, and again when a law takes
-    // effect; each day the twin raises the effect in any row without it.
-    if (!shift) continue;
-    const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
-    for (const row of months.rows() as unknown as WebMonth[])
-      if (row.month === core.date.slice(0, 7) && row.effects[LINK] !== SHIFT)
-        months.put({
-          ...row,
-          effects: { ...row.effects, [LINK]: SHIFT },
-        } as never);
-  }
-  return core as CoreState;
+  }).core as CoreState;
+}
+
+/** One day of play; the raised twin lays the effect again on any of the month's rows without it. */
+function step(core: CoreState, day: string, raise: boolean): void {
+  advanceCore(core, makeIsoDate(day));
+  // The web writes its month on the 3rd, and again when a law takes effect.
+  if (!raise) return;
+  const months = coreAPI(core)
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months");
+  for (const row of months.rows() as unknown as WebMonth[])
+    if (row.month === core.date.slice(0, 7) && row.effects[LINK] !== SHIFT)
+      months.put({
+        ...row,
+        effects: { ...row.effects, [LINK]: SHIFT },
+      } as never);
 }
 
 const graduations = (core: CoreState) =>
@@ -121,42 +119,71 @@ function incomeOf(
   };
 }
 
+/** Hires of seniors who graduated only where raised, to a job they also hold in the base world. */
+function pairsOf(
+  base: CoreState,
+  raised: CoreState,
+  flipped: ReadonlyMap<string, string>,
+) {
+  const hiresA = hiresOf(base);
+  return hiresOf(raised).flatMap((hb) => {
+    const graduated = flipped.get(hb.personId);
+    if (!graduated || hb.date < graduated) return [];
+    // The same position: its pay is set when it is posted, so the day each
+    // world filled it does not matter.
+    const ha = hiresA.find((h) => h.jobId === hb.jobId);
+    return ha ? [{ personId: hb.personId, ha, hb }] : [];
+  });
+}
+
 it("a senior who graduates only where graduation was raised is hired at a diploma's pay there, and their household's income carries it", () => {
   const tried: string[] = [];
   for (let draw = 0; draw < DRAWS; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "graduation-pay");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
-    const base = play(place.seed, place.key, false);
-    const raised = play(place.seed, place.key, true);
-    const a = graduations(base);
-    const b = graduations(raised);
-    const flipped = [...b.values()]
-      .filter((row) => row.passed && a.get(row.personId)?.passed === false)
-      .map((row) => row.personId);
-    const hiresA = hiresOf(base);
-    const hiresB = hiresOf(raised);
-    const pairs = flipped.flatMap((personId) => {
-      const graduated = b.get(personId)!.date;
-      return hiresB
-        .filter((h) => h.personId === personId && h.date >= graduated)
-        .flatMap((hb) => {
-          const ha = hiresA.find(
-            (h) => h.jobId === hb.jobId && h.date === hb.date,
-          );
-          return ha ? [{ personId, ha, hb }] : [];
-        });
-    });
+    // The twins play side by side, a day at a time, so a place is left as
+    // soon as it cannot show the change, and the run stops at the first hire.
+    const base = build(place.seed, place.key);
+    const raised = build(place.seed, place.key);
+    let day = makeIsoDate(base.date);
+    const end = addDays(day, 365);
+    let flipped: Map<string, string> | undefined;
+    let pairs: ReturnType<typeof pairsOf> = [];
+    let records = 0;
+    while (day < end && !pairs.length) {
+      day = addDays(day, 1);
+      step(base, day, false);
+      step(raised, day, true);
+      const a = graduations(base);
+      if (!flipped) {
+        if (!a.size) continue;
+        // Graduation day: the seniors whose result the raised effect moved.
+        const b = graduations(raised);
+        records = a.size;
+        flipped = new Map(
+          [...b.values()]
+            .filter(
+              (row) => row.passed && a.get(row.personId)?.passed === false,
+            )
+            .map((row) => [row.personId, row.date] as const),
+        );
+        if (!flipped.size) break;
+      }
+      pairs = pairsOf(base, raised, flipped);
+    }
     console.info(
-      `graduation-pay ${where}: ${a.size} senior records, ${flipped.length} graduated only where raised, ${pairs.length} hired to the same job on the same day in both`,
+      `graduation-pay ${where}: ${records} senior records, ${flipped?.size ?? 0} graduated only where raised, ${pairs.length} hired to the same job in both by ${day}`,
     );
     if (!pairs.length) {
       tried.push(
-        `${where}: ${flipped.length} graduated only where raised, none hired to one job in both`,
+        `${where}: ${flipped?.size ?? 0} graduated only where raised, none hired to a job they also hold in the base world by ${day}`,
       );
       continue;
     }
+    const b = graduations(raised);
+    const a = graduations(base);
     for (const { personId, ha, hb } of pairs) {
-      // Same position, same day: the diploma alone moves the pay.
+      // The same position: the diploma alone moves the pay.
       expect(
         hb.values.hourlyMinor,
         `${where}: ${hb.jobId} for ${personId}`,
@@ -170,7 +197,7 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
       `${where}: ${personId}'s ${incomeB.basis}`,
     ).toBeGreaterThan(incomeA.amount);
     console.info(
-      `graduation-pay ${where}: ${personId} graduated per ${b.get(personId)!.id}, which in the base world reads not graduated; hired to ${hb.jobId} on ${hb.date} at ${hb.values.hourlyMinor} cents an hour against ${ha.values.hourlyMinor}; ${incomeB.basis}: ${incomeB.amount} against ${incomeA.amount}`,
+      `graduation-pay ${where}: ${personId} graduated per ${b.get(personId)!.id}, which in the base world reads ${a.get(personId)!.passed ? "graduated" : "not graduated"}; hired to ${hb.jobId} on ${hb.date} at ${hb.values.hourlyMinor} cents an hour against ${ha.values.hourlyMinor} (base world, ${ha.date}); ${incomeB.basis}: ${incomeB.amount} against ${incomeA.amount}`,
     );
     return;
   }
