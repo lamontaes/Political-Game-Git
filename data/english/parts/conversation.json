@@ -13,7 +13,7 @@
     "years": "A count of years, computed from two dated records.",
     "since": "A month and year from a dated record, as people say it.",
     "my_since": "The month and year the player started, from their job record.",
-    "when": "When the speaker last saw someone, from a contact record, as the director says it (\"yesterday\", \"on March 3\").",
+    "when": "When something happened, from a dated record (a contact, a crime), as the director says it in passing.",
     "my_when": "When the player last saw that person, from a contact record, said the same way.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
@@ -9361,6 +9361,12 @@
           "subject": "charge-reply",
           "role": "answer",
           "choice": "ask"
+        },
+        {
+          "move": "victimization-reply-answer-ask",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "ask"
         }
       ],
       "transcriptsUsing": 243,
@@ -9741,6 +9747,12 @@
           "subject": "eviction-cause-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 249,
@@ -9846,6 +9858,12 @@
         {
           "move": "eviction-cause-reply-answer-comfort",
           "subject": "eviction-cause-reply",
+          "role": "answer",
+          "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
           "role": "answer",
           "choice": "comfort"
         }
@@ -12396,6 +12414,12 @@
           "subject": "conviction-reply",
           "role": "answer",
           "choice": "comfort"
+        },
+        {
+          "move": "victimization-reply-answer-comfort",
+          "subject": "victimization-reply",
+          "role": "answer",
+          "choice": "comfort"
         }
       ],
       "transcriptsUsing": 622,
@@ -14674,6 +14698,12 @@
         {
           "move": "eviction-reply-answer-help",
           "subject": "eviction-reply",
+          "role": "answer",
+          "choice": "help"
+        },
+        {
+          "move": "victimization-reply-answer-help",
+          "subject": "victimization-reply",
           "role": "answer",
           "choice": "help"
         }
@@ -19324,6 +19354,294 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.we-were-burglarized-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "We were burglarized {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-got-into-our-place-to-steal",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone got into our place to steal.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.our-home-got-burglarized-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Our home got burglarized {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["burglary"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.we-had-something-stolen-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "We had something stolen {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.somebody-stole-something-of-ours",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Somebody stole something of ours.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.something-of-ours-got-stolen-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Something of ours got stolen {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["other-property"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-got-robbed-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I got robbed {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.somebody-robbed-me",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Somebody robbed me.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-robbed-me-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone robbed me {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["robbery"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.someone-attacked-me-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "Someone attacked me {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-got-attacked",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I got attacked.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
+      "bearing": "solemn",
+      "tag": {
+        "move": "deliver-news",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "conversation.victimization-raise.i-was-assaulted-when",
+      "move": "victimization-raise",
+      "kind": "spoken",
+      "text": "I was assaulted {when}.",
+      "uses": [
+        {
+          "move": "victimization-raise",
+          "subject": "victimization",
+          "role": "raise",
+          "choice": "raise",
+          "stages": ["assault"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude Opus (pool item director-talk-lived-crime)",
+      "date": "2026-10-24",
       "bearing": "solemn",
       "tag": {
         "move": "deliver-news",
