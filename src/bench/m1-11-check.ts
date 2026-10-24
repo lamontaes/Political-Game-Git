@@ -110,13 +110,21 @@ const share = (id: string) =>
   Math.max(1, losses.length);
 const prove = share("prove-oneself");
 const carryOn = share("carry-on");
+// The band is for a whole population; one town's year is a sample of its
+// displaced workers, so each bound widens by two standard errors at that
+// sample's size (three workers can all carry on by chance; 145 cannot).
+const n = Math.max(1, losses.length);
+const slack = (p: number) => 2 * Math.sqrt((p * (1 - p)) / n);
+const low = Math.max(0, PROVE[0] - slack(PROVE[0]));
+const high = Math.min(1, PROVE[1] + slack(PROVE[1]));
+const carryFloor = Math.max(0, CARRY_ON_AT_LEAST - slack(CARRY_ON_AT_LEAST));
 check(
-  losses.length === 0 || (prove >= PROVE[0] && prove <= PROVE[1]),
-  `${where}: ${(100 * prove).toFixed(1)}% of displaced workers set out to prove themselves, outside ${100 * PROVE[0]}-${100 * PROVE[1]}%`,
+  losses.length === 0 || (prove >= low && prove <= high),
+  `${where}: ${(100 * prove).toFixed(1)}% of ${losses.length} displaced workers set out to prove themselves, outside ${(100 * low).toFixed(1)}-${(100 * high).toFixed(1)}% (${100 * PROVE[0]}-${100 * PROVE[1]}% with this sample's error)`,
 );
 check(
-  losses.length === 0 || carryOn >= CARRY_ON_AT_LEAST,
-  `${where}: only ${(100 * carryOn).toFixed(1)}% of displaced workers carry on, under ${100 * CARRY_ON_AT_LEAST}%`,
+  losses.length === 0 || carryOn >= carryFloor,
+  `${where}: only ${(100 * carryOn).toFixed(1)}% of ${losses.length} displaced workers carry on, under ${(100 * carryFloor).toFixed(1)}% (${100 * CARRY_ON_AT_LEAST}% with this sample's error)`,
 );
 
 // (3) Who answered: someone the event's records name (for a counted person,
