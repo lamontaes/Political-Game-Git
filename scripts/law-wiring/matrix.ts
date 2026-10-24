@@ -141,12 +141,27 @@ const DECLARED: Declared = (() => {
   return out;
 })();
 
-/** Laws that grant or withhold a power: the legislature reads them when a body drafts under them. */
-const AUTHORITY_LAWS = new Set([
-  "local-minimum-wage-authority",
-  "us-policy-positions:labor-workforce.local-minimum-wage-authority",
-  "local-income-tax-authority",
-]);
+/**
+ * Laws whose subject is the work of an engine the grader otherwise counts as
+ * lawmaking or politics: that engine applying the law is the law's effect.
+ * An authority law (and home rule) is the legislature's check when a body
+ * drafts under it; a ban on lobbying after office is the interest groups'
+ * choice of whom they may hire as their lobbyist.
+ */
+const APPLIED_IN: Readonly<Record<string, readonly string[]>> = {
+  "local-minimum-wage-authority": ["src/core2/modules/legislature"],
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority": [
+    "src/core2/modules/legislature",
+  ],
+  "local-income-tax-authority": ["src/core2/modules/legislature"],
+  "us-policy-positions:government-operations.broaden-local-authority": [
+    "src/core2/modules/legislature",
+    "src/core2/policy-authority",
+  ],
+  "us-policy-positions:government-operations.ban-lobbying-after-office": [
+    "src/core2/modules/interest-groups",
+  ],
+};
 const isEngine = (file: string) =>
   !NOT_AN_EFFECT.some((p) => file.startsWith(p));
 
@@ -230,8 +245,7 @@ function systemsLink(
   }
   const engines = new Map<string, number>();
   const handlers = new Set<string>();
-  // An authority law's effect is the legislature's check when a body drafts under it.
-  const drafting = AUTHORITY_LAWS.has(law.key);
+  const applying = APPLIED_IN[law.key] ?? [];
   for (const { r } of runs)
     for (const [frame, n] of Object.entries(r.readers ?? {})) {
       // A law-reach read names the engine that called it ("reach <- caller").
@@ -239,7 +253,9 @@ function systemsLink(
       if (
         isEngine(frame) ||
         (caller && caller !== "none" && isEngine(caller)) ||
-        (drafting && frame.startsWith("src/core2/modules/legislature"))
+        applying.some(
+          (p) => frame.startsWith(p) || (caller ?? "").startsWith(p),
+        )
       )
         engines.set(frame, (engines.get(frame) ?? 0) + n);
       else if (frame.startsWith("src/core2/law-reach/")) handlers.add(frame);
@@ -315,7 +331,21 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   };
 }
 
-function webLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
+/**
+ * A link an engine carries: the research's outcome is produced by the engine
+ * that applies the law (the jobs engine's hires counted in unemployment, a
+ * town body legislating under a power), so the web leaves it alone. It counts
+ * only where that engine read the law in the run (the systems link) and the
+ * row names a real path ("none yet" is a gap).
+ */
+const carried = (l: { carriedBy?: string }) =>
+  !!l.carriedBy && !/^none\b/.test(l.carriedBy);
+
+function webLink(
+  law: LawEntry,
+  runs: { place: string; r: Result }[],
+  systems: Link,
+): Link {
   const links = webLinksOf(law);
   const gap = RESEARCH_GAPS.get(law.key);
   if (!links.length)
@@ -336,8 +366,21 @@ function webLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   // A link the research puts at about zero is a researched result, not a
   // gap: there is nothing for the web to move (links.json, status about-zero).
   const zero = (l: { research: string }) => l.research === "about-zero";
-  const built = links.filter((l) => l.status === "built" && !zero(l));
-  const notBuilt = links.filter((l) => l.status !== "built" && !zero(l));
+  const byEngine = systems.status === "wired" ? links.filter(carried) : [];
+  const built = links.filter(
+    (l) => l.status === "built" && !zero(l) && !byEngine.includes(l),
+  );
+  const notBuilt = links.filter(
+    (l) => l.status !== "built" && !zero(l) && !byEngine.includes(l),
+  );
+  if (!fired.length && byEngine.length && !notBuilt.length && !built.length)
+    return {
+      status: "wired",
+      evidence: byEngine
+        .map((l) => `${l.key}: carried by ${l.carriedBy} (${l.source ?? ""})`)
+        .join("; "),
+      why: "",
+    };
   if (fired.length) {
     const ev = fired
       .slice(0, 3)
@@ -560,7 +603,7 @@ function main(): void {
       links.reach = reachLink(law, rs);
       links.systems = systemsLink(law, rs);
       links.money = moneyLink(law, rs);
-      links.web = webLink(law, rs);
+      links.web = webLink(law, rs, links.systems);
       links.knowing = knowingLink(rs);
       links.repeal = repealLink(rs);
       const sameEverywhere =
