@@ -788,8 +788,14 @@
   "farKinContactShare": {
     "value": 0.39,
     "tag": "ESTIMATED",
-    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
-    "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
+    "citation": "Visits to a relative living outside the household's county, as a share of visits to one in the same county. Pew Research Center, 'As Family Forms Change, Bonds Remain Strong' (survey 2005, released 2006), table 'Living Closer to Parents Means More Contact' (https://www.pewresearch.org/wp-content/uploads/sites/3/2010/10/FamilyBonds.pdf): 56% of adults with a parent in the same town see or talk to them every day, against 22% with a parent out of town (data/research/core/pew-2006-family-contact.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "Ratio of the two daily-contact shares, 22 / 56 = 0.39, applied to visits to any relative outside the county. Pew counts calls with visits and compares towns, not counties or travel times; the CTO accepted it until relatives carry a place (October 10, 2026). The measured figure that would make it SOURCED is contact by travel time between the two places, which no fetched U.S. page gives.",
+    "spread": {
+      "low": 0.39,
+      "high": 0.49,
+      "unit": "ratio of contact with a relative out of town to one in town",
+      "citation": "Pew Research Center 2006, same table: the daily-contact ratio (22 / 56 = 0.39) to the ratio of contacts a year over the whole distribution (111.4 / 225.2 = 0.49, coding daily 365, weekly 52, monthly 12, several times a year 4, yearly 1); data/research/core/pew-2006-family-contact.json."
+    },
     "stopgapId": "SG-P15-distance-by-place"
   },
   "extendedKinVisitShare": {
@@ -837,28 +843,28 @@
   },
   "deepPastMiddleSchoolOffsetYears": {
     "value": 6,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Current Population Survey October 2024 School Enrollment, Table 2, Single Grade of Enrollment by single year of age (https://www2.census.gov/programs-surveys/demo/tables/school-enrollment/2024/2024-cps/enroll02_2024_1.xlsx), in data/research/core/cps-2024-grade-by-age.json and checked by scripts/research/deep-past-check.ts: the modal grade (the Census Bureau's \"year of school in which the largest proportion of students of a given age is enrolled\") of 5-year-olds is kindergarten (2,540 thousand) and of 11-year-olds grade 6 (2,613 thousand).",
+    "estimatedFrom": "Converted from a cross-sectional enrollment table, not a measured duration. The value is the modal age of grade 6 minus the modal age of kindergarten (11 - 5 = 6 years). The spread's high end is the 6 grades divided by the mean pace of enrolled children, the rise in mean grade per year of age from age 6 to age 11 (0.98 grades a year), which gives 6.13 years. Limit: Table 2 counts children by age and grade in one October, so it does not time any child's entry into a grade; the October age cutoff, early or late starts and held-back children are mixed into the modal ages, and the high end counts children held back, whom the deep past does not hold back. The figure becomes SOURCED when a source that follows children from kindergarten entry times the years to grade 6.",
     "stopgapId": "SG-P8-deep-past",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
+      "low": 6,
+      "high": 6.13,
+      "unit": "years from kindergarten entry to grade 6 entry",
+      "citation": "Same table: on-time progression takes 6 years; at the mean pace of enrolled children (mean grade 0.84 at age 6 and 5.73 at age 11, 0.98 grades a year) it takes 6.13."
     }
   },
   "deepPastHighSchoolOffsetYears": {
     "value": 9,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Current Population Survey October 2024 School Enrollment, Table 2, Single Grade of Enrollment by single year of age (https://www2.census.gov/programs-surveys/demo/tables/school-enrollment/2024/2024-cps/enroll02_2024_1.xlsx), in data/research/core/cps-2024-grade-by-age.json and checked by scripts/research/deep-past-check.ts: the modal grade of 5-year-olds is kindergarten (2,540 thousand) and of 14-year-olds grade 9 (2,623 thousand).",
+    "estimatedFrom": "Converted from a cross-sectional enrollment table, not a measured duration. The value is the modal age of grade 9 minus the modal age of kindergarten (14 - 5 = 9 years). The spread's high end is the 9 grades divided by the mean pace of enrolled children, the rise in mean grade per year of age from age 6 to age 14 (0.99 grades a year), which gives 9.14 years. Limit: Table 2 counts children by age and grade in one October, so it does not time any child's entry into a grade; the October age cutoff, early or late starts and held-back children are mixed into the modal ages, and the high end counts children held back, whom the deep past does not hold back. The figure becomes SOURCED when a source that follows children from kindergarten entry times the years to grade 9.",
     "stopgapId": "SG-P8-deep-past",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
+      "low": 9,
+      "high": 9.14,
+      "unit": "years from kindergarten entry to grade 9 entry",
+      "citation": "Same table: on-time progression takes 9 years; at the mean pace of enrolled children (mean grade 0.84 at age 6 and 8.72 at age 14, 0.99 grades a year) it takes 9.14."
     }
   },
   "warmupRuns": {
@@ -912,18 +918,15 @@
   "openingPeerGroupSize": {
     "value": 20,
     "tag": "ESTIMATED",
-    "citation": "NCES National Teacher and Principal Survey 2020-21, average public school class size by school level, https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n: class-sized groups average 17 to 22 across school levels.",
-    "estimatedFrom": "Maximum intended size of a generated peer group, set to the class-size average (about 20). A class is not an acquaintance circle (the real circle is the whole grade cohort and no source gives a remembered-peer circle size), so the generated-prior stopgap stays open. Balanced partitioning can yield smaller groups.",
+    "citation": "National Center for Education Statistics, National Teacher and Principal Survey 2020-21, Average class size in public K-12 schools, by school level, class type, and selected school characteristics (https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n), in data/research/core/nces-ntps-2021-class-size.json and checked by scripts/research/deep-past-check.ts: elementary 19.1 self-contained and 20.7 departmentalized, middle 16.9 and 22.0, high 17.2 and 21.0, combined 17.1 and 17.9.",
+    "estimatedFrom": "Largest generated peer group, set between the elementary self-contained class (19.1) and the high-school departmentalized class (21.0), the classes of the first and last school stages a cohort record names. A class is not an acquaintance circle (the real circle is the whole grade cohort and no source gives a remembered-peer circle size), so the generated-prior stopgap stays open. Balanced partitioning of the named people who share a cohort record yields smaller groups, and the ceiling itself is a cutoff filed as core-opening-peer-network-openingPeerGroupSize-as-cause.",
     "spread": {
-      "low": 17,
+      "low": 16.9,
       "high": 22,
-      "unit": "people per class-sized group",
-      "citation": "NCES NTPS 2020-21 average class sizes across school levels (17 to 22)."
+      "unit": "students per class",
+      "citation": "NCES NTPS 2020-21 average class sizes across school levels and class types, 16.9 (middle, self-contained) to 22.0 (middle, departmentalized)."
     },
-    "stopgapId": "SG-P8-opening-peer-network",
-    "checkRange": {
-      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
-    }
+    "stopgapId": "SG-P8-opening-peer-network"
   },
   "employment-age-16-minimumAge": {
     "value": 16,
@@ -1189,7 +1192,7 @@
   "workSleepReserveHours": {
     "value": 8.7,
     "tag": "ESTIMATED",
-    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm).",
+    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm). Recorded in data/research/core/atus-2025-sleep.json, checked by scripts/research/core-parameters-check.ts.",
     "spread": {
       "low": 8.56,
       "high": 8.83,
@@ -1197,10 +1200,7 @@
       "citation": "BLS ATUS 2025 Table 8B, employed adults: with a household child under 18 (8.56) to with none (8.83)."
     },
     "stopgapId": "SG-P8-work-time-reserve",
-    "checkRange": {
-      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-    },
-    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work."
+    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work. One reserve serves every person and every day; the figure that would make it SOURCED is each person's own ATUS group (age, employed or not, a child at home), read per person."
   },
   "workRoutineRetentionWeeks": {
     "value": 4,
@@ -1313,11 +1313,10 @@
     "estimatedFrom": "The rest act stands for the day's leisure: the free-time planner (free-block.ts) takes at most one act per need per day, so one rest act is the whole day's leisure and takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). Measured Oct 19: shortening it to one sitting cuts the leisure hours per day almost in proportion, because a person still rests once a day (docs/pool/items/core-recovery-hours-per-offer.md). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
     "stopgapId": "SG-P8-work-time-reserve",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical offer-duration range or matched microdata calibration is established."
-    },
-    "checkRange": {
-      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      "low": 3.89,
+      "high": 7.39,
+      "unit": "hours of leisure and sports per diary day",
+      "citation": "BLS ATUS 2025 Table 3 (https://www.bls.gov/news.release/atus.t03.htm), leisure and sports by age: 3.89 hours (35 to 44) to 7.39 (75 and over), held in src/core2/data/time-use-reference.json and checked by scripts/research/core-parameters-check.ts."
     }
   },
   "employmentCountyAge22": {
@@ -3846,10 +3845,16 @@
     }
   },
   "spouseAgeGapOpenRowYears": {
-    "value": 5,
+    "value": 16,
     "tag": "ESTIMATED",
-    "citation": "U.S. Census Bureau, CPS 2023 ASEC, America's Families and Living Arrangements: 2023, Table FG3: the age-difference rows are 2-3, 4-5, 6-9, 10-14 and 15-19 years, and the last rows are open (husband or wife 20 or more years older).",
-    "estimatedFrom": "Each open row is spread over five whole years, the width of the two rows next to it (10-14 and 15-19 years), so 20 or more years reads as 20 to 24. The open rows hold 1.2% of married couples.",
+    "citation": "U.S. Census Bureau, Current Population Survey 2023 Annual Social and Economic Supplement public use file (asecpub23csv.zip, https://www2.census.gov/programs-surveys/cps/datasets/2023/march/asecpub23csv.zip), counted in data/research/core/cps-asec-2023-partner-age-gap.json and checked by scripts/research/deep-past-check.ts: the 746 thousand married couples in Table FG3's two open rows (20 or more years apart) are on average 27.34 years apart (husband older 26.41, wife older 30.27); the counts reproduce Table FG3 row for row.",
+    "estimatedFrom": "The engine spreads each open row evenly over this many whole years from 20; an even spread over w years has a mean gap of 20 + (w - 1) / 2, so the pooled mean of 27.34 years gives w = 15.69, rounded to 16. Before, five years (20 to 24) left out the 43% of husband-older and 62% of wife-older open-row couples who are 25 or more years apart. Reading the single-year tail itself in place of an even spread is the partnership builder's change.",
+    "spread": {
+      "low": 14,
+      "high": 22,
+      "unit": "whole years an open age-gap row is spread over",
+      "citation": "CPS 2023 ASEC public use file, data/research/core/cps-asec-2023-partner-age-gap.json: the even width matching each open row's own mean gap, 13.82 years where the husband is 20 or more years older and 21.55 where the wife is."
+    },
     "stopgapId": "SG-P15-partnership-model"
   },
   "openingCoworkerGroupSize": {
@@ -6367,6 +6372,29 @@
       "high": 0.4,
       "unit": "score per unit of care need",
       "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
+    }
+  },
+  "schoolStandingAttendanceWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The unit of the standing that orders students within an income fifth: a student's share of school days attended counts at weight 1, and the study traits at schoolStandingTraitWeight against it. The standing only ranks who in a fifth passes or graduates (the count comes from the place's base, the web's factor and the income gradient), so only the ratio of the two weights matters and this one is the reference.",
+    "spread": {
+      "low": 1,
+      "high": 1,
+      "unit": "reference",
+      "citation": "Fixed as the reference: scaling both weights together leaves every student's rank, and so every result record, unchanged."
+    }
+  },
+  "schoolStandingTraitWeight": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "Weight of the student's study traits (studious, voluntary effort) in that standing, against attendance at 1: the ratio of the two predictors' correlations with grades. Conscientiousness correlates with academic performance at rho .21 in secondary school, .28 in primary and .23 in tertiary (Poropat 2009, Psychological Bulletin 135(2), Table 2); class attendance correlates with class grades at rho .44 and with GPA at .41 (Credé, Roch and Kieszczynka 2010, Review of Educational Research 80(2)). Ordering only, never the level, which is the researched base.",
+    "estimatedFrom": "Poropat's secondary-school conscientiousness correlation (.21) over Credé, Roch and Kieszczynka's attendance and class-grade correlation (.44) is 0.48, rounded to 0.5. Both are correlations with grades, not a model with both predictors, so the ratio is an estimate of their relative pull.",
+    "spread": {
+      "low": 0.45,
+      "high": 0.65,
+      "unit": "ratio to the attendance weight",
+      "citation": "From secondary conscientiousness over attendance and class grades (.21/.44 = 0.48) or GPA (.21/.41 = 0.51), to primary over class grades (.28/.44 = 0.64)."
     }
   }
 }

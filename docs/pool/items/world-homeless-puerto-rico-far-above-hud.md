@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/housing.ts, src/core2/housing-homeless.ts, src/core2/modules/residents.ts, src/core2/housing-calibration.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5792 (branch claude/pr-homeless-rent): the Done-when table explicitly leaves the renter-burden requirement Not met (72 percent versus the cited 37.5 percent); track the completed geographic-fallback slice separately while preserving the income/calibration acceptance as open; finish on that branch, merge main into it first.

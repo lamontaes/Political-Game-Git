@@ -22,3 +22,5 @@ claimed-at:
 **Files.** scripts/audit/research-data-allowlist.json, tests/guards/research-data-has-reader.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5828 (branch claude/research-reader-census-rerun): Ten rawSource additions clear a red research-reader guard through a bypass list, explicitly disallowed by the merger Guards rule; supply the reader/accounting repair; finish on that branch, merge main into it first.
