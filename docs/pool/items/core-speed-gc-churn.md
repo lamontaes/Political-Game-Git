@@ -42,3 +42,5 @@ After merging main (Oct 21): main already carried `pairKey` in `kernel/ids.ts` (
 Oct 21 (claude): the remaining sibling-tie key of PR 5409 is tracked as core-speed-sibling-tie-pair-key; this umbrella stays open.
 
 Sent back 2026-10-23 from PR #5771 (branch claude/speed-gc-churn): Body and declaration claim tooling only despite cash-journal and bench runtime changes; describe and validate the actual bounded slice without closing the unmet below-10-percent GC umbrella; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5388 (branch claude/speed-cash-journal): the linked acceptance requires GC below 10 percent, a faster year and named balance/golden-path checks; the body reports unchanged wall time, GC still above target, and no full acceptance proof or Done-when table, so use a bounded valid item for the journal-only slice; finish on that branch, merge main into it first.

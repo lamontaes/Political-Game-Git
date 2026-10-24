@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/speed-work-in-play
-pr:
+status: in-pr
+claimed-by: claude/speed-work-attendance
+pr: #5924
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T00:54:36.684Z
+claimed-at: 2026-10-24T06:45:39.226Z
 ---
 
 **What.** Recording a worker's attendance takes 24.1 of 264 profiled seconds of a played year in Long Hill, Connecticut (seed m7b). For every attendance, recordWorkAttendance builds detached views of the commitment, job, decision and offer, shallow-copies the input, the actor and the reasons, checks property descriptors on each row (ordinaryRow), re-guards the pay and schedule sources and re-admits the payroll calendar, all with bookkeeping off. Play should read the live rows and write the result; the copies and checks stay under the bookkeeping switch so tests keep them.

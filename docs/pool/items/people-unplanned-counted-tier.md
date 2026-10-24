@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5757
 blocked-on:
@@ -28,3 +28,7 @@ Sent back 2026-10-20 from PR #5757 (branch claude/unplanned-counted-tier): The n
 Sent back 2026-10-22 from PR #5757 (branch claude/unplanned-counted-tier): The full-tier test manually seeds exposure after the played year and never requires a naturally produced full-tier pregnancy; retain the positive payment fixture and add a nonempty ordinary-producer case.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5757 (branch claude/unplanned-counted-tier): The earlier test repairs are present, but data/research/people/abortion-provider-distance.json:18-30 tags the Alaska row SOURCED while its quote only defines distance_origintodest; it contains none of the reported 64.6/121.1-mile means or 1.6/230.3/565.5 bounds. The same definition-only quote is used in all 51 SOURCED rows. The note says these are weighted means and 10th/90th percentiles computed from county data, with alternate population weights in two states; these are not numbers quoted from the cited guide, and this diff contains no reproducible aggregation to audit them. Supply numeric source evidence and reproducible input/weight/aggregation provenance for derived values, or label estimates accurately with their source and spread; do not present derived intervals as published ones. The 56-place release-note count matches the 56 rows, but that does not establish their values. No local gate pass is claimed for this source review.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5757 (branch claude/unplanned-counted-tier): place-level pooled exposure funds another woman's pregnancy unlike the full tier's per-couple balance; retain per-woman/couple exposure ownership times household weight and prove timing across fill-in; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5757 (branch claude/unplanned-counted-tier): per-woman carry is repaired but the main-targeting stack still carries the parent’s unmeasured decision/travel coefficient gap tied to a resolved owner row; incorporate the parent calibration registration/evidence correction, retaining carry/fill-in proof; finish on that branch, merge main into it first.

@@ -6,7 +6,7 @@
  * budget line back at its base) ends it.
  */
 import { createHash } from "node:crypto";
-import { beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { repealStartingAnswers } from "./law-test-start";
 import { buildPopulation } from "./population";
@@ -51,7 +51,7 @@ import {
 } from "./law-reach/group-b-money";
 
 const START = "2026-01-05";
-const seed =
+let seed =
   process.env.GOLDEN_PATH_SEED ??
   createHash("sha256").update(`reach-b:${Date.now()}`).digest("hex");
 function pick<T>(list: readonly T[], salt: string): T {
@@ -84,7 +84,12 @@ const states = [...corePlaceStateIdentities()]
  * preschool age), so a place without them is redrawn. The tax case needs none,
  * so it alone keeps a pinned place (GOLDEN_PATH_PLACE_KEY).
  */
-function build(options: { pinned: boolean }): void {
+function build(options: {
+  pinned: boolean;
+  placeKey?: string;
+  need?: "time-limit";
+}): void {
+  const tried: string[] = [];
   for (let attempt = 0; attempt < 40; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
@@ -95,8 +100,10 @@ function build(options: { pinned: boolean }): void {
     ].sort((a, b) => a.key.localeCompare(b.key));
     if (!places.length) continue;
     const key =
+      options.placeKey ??
       (options.pinned ? process.env.GOLDEN_PATH_PLACE_KEY : undefined) ??
       pick(places, `place:${attempt}`).key;
+    tried.push(key);
     // The opening's public school district is the employer the school-pay tests need.
     const full = withPublicSchoolDistrict(
       buildPopulation({
@@ -136,11 +143,29 @@ function build(options: { pinned: boolean }): void {
       selectResidents(facts, groupBPolicy(Q(law))!.people!, stateKey).filter(
         (r) => r.named,
       );
+    // The welfare time-limit case needs a household head, named or counted,
+    // the assistance work requirement reaches and the welfare line pays.
+    const workReached = new Set(
+      selectResidents(
+        facts,
+        groupBPolicy(
+          Q("health-human-services.work-requirement-for-assistance"),
+        )!.people!,
+        stateKey,
+      ).map((r) => r.id),
+    );
+    const timeLimitHeads = selectResidents(
+      facts,
+      { incomeBelowPovertyShare: "assistanceIncomeShare", householdHead: true },
+      stateKey,
+    ).filter((h) => workReached.has(h.id));
     if (
       !options.pinned &&
-      (!covers("health-human-services.expand-medicaid-eligibility").length ||
-        !covers("health-human-services.medicaid-work-requirement").length ||
-        !covers("education.universal-preschool").length)
+      (options.need === "time-limit"
+        ? !timeLimitHeads.length
+        : !covers("health-human-services.expand-medicaid-eligibility").length ||
+          !covers("health-human-services.medicaid-work-requirement").length ||
+          !covers("education.universal-preschool").length)
     )
       continue;
     // The tests below need a private school, a school job and a state highway
@@ -169,6 +194,7 @@ function build(options: { pinned: boolean }): void {
       (budgetNow(api, stateGov.id)?.spendingMinor.highways ?? 0) > 0;
     if (
       !options.pinned &&
+      options.need !== "time-limit" &&
       (!hasPrivateSchool || !hasSchoolJob || !hasHighwayLine)
     )
       continue;
@@ -181,7 +207,7 @@ function build(options: { pinned: boolean }): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult, a preschool-age child, a private school, a school job and a state highway line in forty draws (seed ${seed})`,
+    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult, a preschool-age child, a private school, a school job and a state highway line (or, for the assistance time-limit case, a welfare head the work requirement reaches) in forty draws (seed ${seed}); places tried: ${tried.join(", ")}`,
   );
 }
 
@@ -346,6 +372,208 @@ const stepFor = (gov: GovernmentRow, name: string) =>
       Number(core.placeMetadata.referencePopulation) || 1000,
     ) * 1000,
   );
+
+/** The assistance work requirement case, run in the drawn town and again in the pinned regression town. */
+function assistanceWorkCase(): void {
+  const key = "budget-line:welfareAndMedicaid";
+  const work = Q("health-human-services.work-requirement-for-assistance");
+  const gov = govFor("welfareAndMedicaid");
+  const base = line(gov, "welfareAndMedicaid");
+  amend(gov, "welfareAndMedicaid", stepFor(gov, "welfareAndMedicaid") * 3);
+  const raised = line(gov, "welfareAndMedicaid");
+  const accounts = api.accounts();
+  const open = () =>
+    table<{
+      key: string;
+      governmentId: string;
+      recipientId: string;
+      obligationId: string;
+      amountMinor: number;
+    }>("taken").filter(
+      (r) =>
+        r.key === `benefit|${key}` &&
+        !accounts.obligation(r.obligationId)?.endedAt,
+    );
+  const stateKey = lawChain(api).stateKey;
+  /** The heads the welfare line pays and which of them the requirement reaches, as the town stands now. */
+  const standing = () => {
+    // Re-read the town as it stands today: nudge the line and put it back.
+    amend(gov, "welfareAndMedicaid", -1);
+    amend(gov, "welfareAndMedicaid", 1);
+    const facts = townFacts(api, town);
+    const heads = selectResidents(
+      facts,
+      {
+        incomeBelowPovertyShare: "assistanceIncomeShare",
+        householdHead: true,
+      },
+      stateKey,
+    );
+    const reachedIds = new Set(
+      selectResidents(facts, groupBPolicy(work)!.people!, stateKey).map(
+        (r) => r.id,
+      ),
+    );
+    const rows = open();
+    const named = rows.filter((r) => api.state.people.has(r.recipientId));
+    // Counted households are paid into their own group's fund, one row a group.
+    const countedRows = rows.filter(
+      (r) => !api.state.people.has(r.recipientId),
+    );
+    return { heads, reachedIds, named, countedRows };
+  };
+  enact(work, 1, "state");
+  // The law writes no second record: the benefit is where it is read.
+  expect(openPeople(work), `${where} ${work}`).toEqual([]);
+  // Inside the time limit everyone still draws.
+  const inside = standing();
+  for (const head of inside.heads.filter((h) => h.named))
+    expect(
+      inside.named.some((r) => r.recipientId === head.id),
+      `${where} ${head.id} drawing inside the limit`,
+    ).toBe(true);
+  // Live through the limit a month at a time; a new fiscal year's budget
+  // starts from the base, so the council raises the line again.
+  for (let m = 0; m < reachParameter("snapWorkTimeLimitMonths") + 2; m += 1) {
+    advanceCore(core, after(api.state.date, 31));
+    if (line(gov, "welfareAndMedicaid") < raised)
+      amend(
+        gov,
+        "welfareAndMedicaid",
+        raised - line(gov, "welfareAndMedicaid"),
+      );
+  }
+  const past = standing();
+  // The requirement stops a head it reaches once that person's own months on
+  // the benefit since it took effect reach its limit within its window; a
+  // head it reached later, with fewer months, still draws.
+  const since = (
+    lawInForce(api, work).governing?.effectiveDate ?? api.state.date
+  ).slice(0, 7);
+  const thisMonth = api.state.date.slice(0, 7);
+  const monthsAgo = (m: string) =>
+    (Number(thisMonth.slice(0, 4)) - Number(m.slice(0, 4))) *
+      reachParameter("monthsPerYear") +
+    Number(thisMonth.slice(5, 7)) -
+    Number(m.slice(5, 7));
+  const draws = new Map(
+    table<{ id: string; months: string[] }>("taken")
+      .filter((r) => r.id.startsWith("draw|"))
+      .map((r) => [r.id.slice("draw|".length), r.months]),
+  );
+  const usedUp = (id: string) =>
+    (draws.get(id) ?? []).filter(
+      (m) =>
+        m !== thisMonth &&
+        m >= since &&
+        monthsAgo(m) < reachParameter("snapWorkTimeLimitWindowMonths"),
+    ).length >= reachParameter("snapWorkTimeLimitMonths");
+  const stopped = past.heads.filter(
+    (h) => past.reachedIds.has(h.id) && usedUp(h.id),
+  );
+  expect(
+    stopped.length,
+    `${where}: nobody reached the time limit`,
+  ).toBeGreaterThan(0);
+  for (const head of stopped.filter((h) => h.named))
+    expect(
+      past.named.some((r) => r.recipientId === head.id),
+      `${where} ${head.id} still paid after the limit`,
+    ).toBe(false);
+  // The line's money goes to the heads still drawing, each counted row for
+  // the households it stands for; each group's fund is paid that rate times
+  // its households still drawing, in whole cents.
+  const store = residentsRuntime(core)!.store;
+  const countedDue = (drawing: typeof past.heads) => {
+    const households = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
+    const rate = Math.floor(
+      ((group(key)?.terms.townDeltaMinor ?? 0) *
+        modeledShare(api, townFacts(api, town))) /
+        reachParameter("monthsPerYear") /
+        Math.max(1, households),
+    );
+    const byGroup = new Map<number, number>();
+    for (const h of drawing.filter((x) => !x.named)) {
+      const ix = store.householdOf.get(h.householdId);
+      const g = ix === undefined ? undefined : store.households[ix]?.group;
+      if (g !== undefined)
+        byGroup.set(g, (byGroup.get(g) ?? 0) + (h.scale ?? 1));
+    }
+    const expected = [...byGroup.values()].reduce(
+      (n, units) => n + Math.floor(rate * units),
+      0,
+    );
+    return { rate, byGroup, expected };
+  };
+  const stillDrawing = past.heads.filter((h) => !stopped.includes(h));
+  const { rate, byGroup, expected: expectedCounted } = countedDue(stillDrawing);
+  // The proof never passes by selecting nothing: counted heads still
+  // drawing, a positive rate and a positive expected payment come first.
+  expect(byGroup.size, `${where} counted groups still drawing`).toBeGreaterThan(
+    0,
+  );
+  expect(rate, `${where} the whole-cent rate`).toBeGreaterThan(0);
+  expect(expectedCounted, `${where} expected counted payment`).toBeGreaterThan(
+    0,
+  );
+  expect(
+    past.countedRows.length,
+    `${where} counted payment rows`,
+  ).toBeGreaterThan(0);
+  expect(
+    past.countedRows.reduce((n, r) => n + r.amountMinor, 0),
+    `${where} counted groups' payments`,
+  ).toBe(expectedCounted);
+  for (const row of past.countedRows)
+    expect(row.recipientId, `${where} ${row.id}`).toMatch(/^fund-account:/);
+  report.assistanceWork = {
+    heads: past.heads.length,
+    stopped: stopped.length,
+    namedStopped: stopped.filter((h) => h.named).length,
+  };
+  // A repeal pays them again. The proof keeps a stopped witness and a positive
+  // payment to it: each stopped named head is paid again, and where counted
+  // heads were stopped the groups are paid the whole-cent rate times every
+  // household now drawing, a positive exact sum.
+  enact(work, 0, "state");
+  const after_ = standing();
+  const stoppedNamed = stopped.filter((h) => h.named);
+  const stoppedCounted = stopped.filter((h) => !h.named);
+  expect(
+    stoppedNamed.length + stoppedCounted.length,
+    `${where} a stopped recipient to restore`,
+  ).toBeGreaterThan(0);
+  for (const head of stoppedNamed)
+    expect(
+      after_.named.some((r) => r.recipientId === head.id),
+      `${where} ${head.id} not paid again after the repeal`,
+    ).toBe(true);
+  for (const head of after_.heads.filter((h) => h.named))
+    expect(
+      after_.named.some((r) => r.recipientId === head.id),
+      `${where} ${head.id} not paid again after the repeal`,
+    ).toBe(true);
+  if (stoppedCounted.length) {
+    const again = countedDue(after_.heads);
+    expect(
+      again.expected,
+      `${where} counted payment after the repeal`,
+    ).toBeGreaterThan(0);
+    expect(
+      after_.countedRows.reduce((n, r) => n + r.amountMinor, 0),
+      `${where} counted groups' payments after the repeal`,
+    ).toBe(again.expected);
+    for (const h of stoppedCounted) {
+      const ix = store.householdOf.get(h.householdId);
+      const g = ix === undefined ? undefined : store.households[ix]?.group;
+      expect(
+        g !== undefined && again.byGroup.has(g),
+        `${where} stopped counted head ${h.id}'s group is paid again`,
+      ).toBe(true);
+    }
+  }
+  amend(gov, "welfareAndMedicaid", base - line(gov, "welfareAndMedicaid"));
+}
 
 describe("law reach, group B: every policy reaches people through its engine", () => {
   beforeAll(() => build({ pinned: false }));
@@ -898,157 +1126,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
   // ---- Acts that move budget money ----
   // Price-law settlement and repeal are checked in price-laws.test.ts.
   // Eligibility notes do not prove that a household paid a changed price.
-  it("an assistance work requirement stops the welfare benefit for the adults it reaches after its time limit, and a repeal pays them again", () => {
-    const key = "budget-line:welfareAndMedicaid";
-    const work = Q("health-human-services.work-requirement-for-assistance");
-    const gov = govFor("welfareAndMedicaid");
-    const base = line(gov, "welfareAndMedicaid");
-    amend(gov, "welfareAndMedicaid", stepFor(gov, "welfareAndMedicaid") * 3);
-    const raised = line(gov, "welfareAndMedicaid");
-    const accounts = api.accounts();
-    const open = () =>
-      table<{
-        key: string;
-        recipientId: string;
-        obligationId: string;
-        amountMinor: number;
-      }>("taken").filter(
-        (r) =>
-          r.key === `benefit|${key}` &&
-          !accounts.obligation(r.obligationId)?.endedAt,
-      );
-    const stateKey = lawChain(api).stateKey;
-    /** The heads the welfare line pays and which of them the requirement reaches, as the town stands now. */
-    const standing = () => {
-      // Re-read the town as it stands today: nudge the line and put it back.
-      amend(gov, "welfareAndMedicaid", -1);
-      amend(gov, "welfareAndMedicaid", 1);
-      const facts = townFacts(api, town);
-      const heads = selectResidents(
-        facts,
-        {
-          incomeBelowPovertyShare: "assistanceIncomeShare",
-          householdHead: true,
-        },
-        stateKey,
-      );
-      const reachedIds = new Set(
-        selectResidents(facts, groupBPolicy(work)!.people!, stateKey).map(
-          (r) => r.id,
-        ),
-      );
-      const rows = open();
-      const named = rows.filter((r) => api.state.people.has(r.recipientId));
-      // Counted households are paid into their own group's fund, one row a group.
-      const countedRows = rows.filter(
-        (r) => !api.state.people.has(r.recipientId),
-      );
-      return { heads, reachedIds, named, countedRows };
-    };
-    enact(work, 1, "state");
-    // The law writes no second record: the benefit is where it is read.
-    expect(openPeople(work), `${where} ${work}`).toEqual([]);
-    // Inside the time limit everyone still draws.
-    const inside = standing();
-    for (const head of inside.heads.filter((h) => h.named))
-      expect(
-        inside.named.some((r) => r.recipientId === head.id),
-        `${where} ${head.id} drawing inside the limit`,
-      ).toBe(true);
-    // Live through the limit a month at a time; a new fiscal year's budget
-    // starts from the base, so the council raises the line again.
-    for (let m = 0; m < reachParameter("snapWorkTimeLimitMonths") + 2; m += 1) {
-      advanceCore(core, after(api.state.date, 31));
-      if (line(gov, "welfareAndMedicaid") < raised)
-        amend(
-          gov,
-          "welfareAndMedicaid",
-          raised - line(gov, "welfareAndMedicaid"),
-        );
-    }
-    const past = standing();
-    // The requirement stops a head it reaches once that person's own months on
-    // the benefit since it took effect reach its limit within its window; a
-    // head it reached later, with fewer months, still draws.
-    const since = (
-      lawInForce(api, work).governing?.effectiveDate ?? api.state.date
-    ).slice(0, 7);
-    const thisMonth = api.state.date.slice(0, 7);
-    const monthsAgo = (m: string) =>
-      (Number(thisMonth.slice(0, 4)) - Number(m.slice(0, 4))) *
-        reachParameter("monthsPerYear") +
-      Number(thisMonth.slice(5, 7)) -
-      Number(m.slice(5, 7));
-    const draws = new Map(
-      table<{ id: string; months: string[] }>("taken")
-        .filter((r) => r.id.startsWith("draw|"))
-        .map((r) => [r.id.slice("draw|".length), r.months]),
-    );
-    const usedUp = (id: string) =>
-      (draws.get(id) ?? []).filter(
-        (m) =>
-          m !== thisMonth &&
-          m >= since &&
-          monthsAgo(m) < reachParameter("snapWorkTimeLimitWindowMonths"),
-      ).length >= reachParameter("snapWorkTimeLimitMonths");
-    const stopped = past.heads.filter(
-      (h) => past.reachedIds.has(h.id) && usedUp(h.id),
-    );
-    expect(
-      stopped.length,
-      `${where}: nobody reached the time limit`,
-    ).toBeGreaterThan(0);
-    for (const head of stopped.filter((h) => h.named))
-      expect(
-        past.named.some((r) => r.recipientId === head.id),
-        `${where} ${head.id} still paid after the limit`,
-      ).toBe(false);
-    // The line's money goes to the heads still drawing, each counted row for
-    // the households it stands for; each group's fund is paid that rate times
-    // its households still drawing, in whole cents.
-    const stillDrawing = past.heads.filter((h) => !stopped.includes(h));
-    const households = stillDrawing.reduce((n, h) => n + (h.scale ?? 1), 0);
-    const rate = Math.floor(
-      ((group(key)?.terms.townDeltaMinor ?? 0) *
-        modeledShare(api, townFacts(api, town))) /
-        reachParameter("monthsPerYear") /
-        Math.max(1, households),
-    );
-    const store = residentsRuntime(core)!.store;
-    const byGroup = new Map<number, number>();
-    for (const h of stillDrawing.filter((x) => !x.named)) {
-      const ix = store.householdOf.get(h.householdId);
-      const g = ix === undefined ? undefined : store.households[ix]?.group;
-      if (g !== undefined)
-        byGroup.set(g, (byGroup.get(g) ?? 0) + (h.scale ?? 1));
-    }
-    const expectedCounted = [...byGroup.values()].reduce(
-      (n, units) => n + Math.floor(rate * units),
-      0,
-    );
-    if (rate > 0 && byGroup.size > 0)
-      expect(
-        past.countedRows.reduce((n, r) => n + r.amountMinor, 0),
-        `${where} counted groups' payments`,
-      ).toBe(expectedCounted);
-    for (const row of past.countedRows)
-      expect(row.recipientId, `${where} ${row.id}`).toMatch(/^fund-account:/);
-    report.assistanceWork = {
-      heads: past.heads.length,
-      stopped: stopped.length,
-      namedStopped: stopped.filter((h) => h.named).length,
-    };
-    // A repeal pays them again.
-    enact(work, 0, "state");
-    const after_ = standing();
-    for (const head of after_.heads.filter((h) => h.named))
-      expect(
-        after_.named.some((r) => r.recipientId === head.id),
-        `${where} ${head.id} not paid again after the repeal`,
-      ).toBe(true);
-    amend(gov, "welfareAndMedicaid", base - line(gov, "welfareAndMedicaid"));
-  });
-
   it("fare-free transit funds the fares from the budget; repeal takes the money back", () => {
     const key = Q("transportation-infrastructure.fare-free-transit");
     const state = governments(api).find((g) => g.level === "state")!;
@@ -1245,6 +1322,17 @@ describe("law reach, group B: every policy reaches people through its engine", (
   });
 });
 
+describe("law reach, group B: the assistance work requirement", () => {
+  // Its own town: one with a welfare head the requirement reaches, drawn from
+  // all 56 and named in every failure, with every place tried listed when none
+  // qualifies in forty draws.
+  beforeAll(() => build({ pinned: false, need: "time-limit" }));
+
+  it("an assistance work requirement stops the welfare benefit for the adults it reaches after its time limit, and a repeal pays them again", () => {
+    assistanceWorkCase();
+  });
+});
+
 describe("law reach, group B: a graduated income tax", () => {
   beforeAll(() => build({ pinned: true }));
 
@@ -1300,5 +1388,26 @@ describe("law reach, group B: a graduated income tax", () => {
         expect(row.lawId, `${where} ${row.id}`).toContain(`:TEST-${measure}`);
       expect(openOrgs(key), `${where} ${key} employers`).toEqual([]);
     }
+  });
+});
+
+/**
+ * The seed and place of the rounding case the counted payments once failed in
+ * (pool item test-assistance-work-counted-payments-rounding): Inarajan, Guam,
+ * where a group's fund is paid the whole-cent rate times its households, floored
+ * again. It runs the same case as above, pinned, and does not skip.
+ */
+describe("law reach, group B: the assistance work requirement's counted payments, Guam regression", () => {
+  const drawnSeed = seed;
+  beforeAll(() => {
+    seed = "741e1fe731e2aef3a39de315f1d07c4368754d2d0409b3bbeacc39f43896b2b6";
+    build({ pinned: true, placeKey: "territory:GU:inarajan" });
+  });
+  afterAll(() => {
+    seed = drawnSeed;
+  });
+
+  it("the counted groups' payments equal the whole-cent rate times each group's households", () => {
+    assistanceWorkCase();
   });
 });

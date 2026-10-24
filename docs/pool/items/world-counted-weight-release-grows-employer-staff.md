@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/weight-release-heads
+status: open
+claimed-by:
 pr: #5866
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-23T23:36:12.581Z
+claimed-at:
 ---
 
 **What.** When a counted household record is filled in, releaseWeight (src/core2/counted-groups.ts) spreads the other households it stood for over its group's remaining records. A remaining record's counted job then stands for more workers (countedHeadsOf reads the household's weight), so its employer's staff and payroll grow without a hire, and layOff (src/core2/modules/jobs.ts) refuses to lay off a record that stands for more heads than the staff is over by. Washington, D.C. at its Census size (seed dc-closures-a, scale 69.4): Dixon's Bowling Lanes (organization_e2a2729e26acde67) went from 49 counted records and 3,406 heads on Jan 20 (69.5 a record) to 35 records and 2,818 heads on Dec 16 (80.5 a record), 26 percent over its sales staff of 2,232, while the same town at the sample size shrank to its target (49 to 31 plus 5 full). Its wages over 340 days were 85 times the sample's against sales 75.6 times, and it closed on 2025-12-25 when the payroll came 36,154,827 short. Find where the released weight should go so an employer's heads follow its staffing decisions, and let a record that stands for many jobs shed part of them.
@@ -22,3 +22,7 @@ claimed-at: 2026-10-23T23:36:12.581Z
 **Files.** src/core2/counted-groups.ts, src/core2/modules/jobs.ts, src/core2/residents-economy.ts
 
 **Notes.** Found on PR #5803 (world-census-scale-closures-large-cities): it blocks that item's Washington, D.C. closure comparison after the Oct 22 main merge, which lowered the firm's residents' purchases by about 5 percent (18,574,370,233 to 17,667,652,857 minor units in 340 days) and tipped a firm already losing money at the Census size before the merge.
+
+Sent back 2026-10-23 from PR #5866 (branch claude/weight-release-heads): counted-groups.ts:465-472 loses heads without a keeper (10 to1) and creates heads for a fractional fill-in (10.5 to11), reproduced in a direct store probe; preserve both cases and register/file the acknowledged seeker gap; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5866 (branch claude/weight-release-heads): Checked 6083aadaf5 passed local gate and all5 changed tests, but pinned merge rejected405; fresh main90fb2a3982 conflicts in src/core2/modules/jobs.ts and stopgaps.json; preserve main staffing and per-job-head accounting, plus every registry row byID; finish on that branch, merge main into it first.

@@ -213,6 +213,56 @@
       "bearing": {
         "glad": 0.2
       }
+    },
+    "people-mind-v1:sociability": {
+      "length": 0.3,
+      "bearing": {
+        "glad": 0.4,
+        "tender": 0.3,
+        "guarded": -0.4
+      }
+    },
+    "people-mind-v1:conflict": {
+      "bearing": {
+        "braced": 0.6,
+        "calm": -0.3,
+        "tender": -0.3
+      }
+    },
+    "people-mind-v1:deliberation": {
+      "length": 0.2,
+      "bearing": {
+        "calm": 0.5,
+        "braced": -0.3
+      }
+    },
+    "people-mind-v1:risk": {
+      "bearing": {
+        "braced": 0.3,
+        "glad": 0.2,
+        "guarded": -0.3,
+        "nervous": -0.3
+      }
+    },
+    "people-mind-v1:reliability": {
+      "bearing": {
+        "calm": 0.3
+      }
+    },
+    "personality-v1:facet-duty-bound": {
+      "bearing": {
+        "calm": 0.3,
+        "braced": 0.2
+      }
+    },
+    "personality-v1:facet-enterprising": {
+      "bearing": {
+        "glad": 0.3,
+        "braced": 0.2
+      }
+    },
+    "personality-v1:facet-practical": {
+      "length": -0.3
     }
   },
   "registers": {
@@ -595,5 +645,5 @@
       "count": 1
     }
   },
-  "traitsSource": "ESTIMATED: the direction of each pull follows research on personality and word use (Mehl, Gosling and Pennebaker 2006, 'Personality in its natural habitat', JPSP 90(5); Yarkoni 2010, 'Personality in 100,000 words', J. Research in Personality 44(3)): extraverted and agreeable people talk more and warmer, neurotic people hedge, disagreeable people argue. Sizes are TUNABLE, spread -1 to 1 each; the owner's trait-fit grades move them."
+  "traitsSource": "ESTIMATED: the direction of each pull follows research on personality and word use (Mehl, Gosling and Pennebaker 2006, 'Personality in its natural habitat', JPSP 90(5); Yarkoni 2010, 'Personality in 100,000 words', J. Research in Personality 44(3)): extraverted and agreeable people talk more and warmer, neurotic people hedge, disagreeable people argue. Sizes are TUNABLE, spread -1 to 1 each; the owner's trait-fit grades move them. The people-mind traits every person carries (sociability, conflict, deliberation, risk, reliability) and the facets officials are drawn with (duty-bound, enterprising, practical) pull the same way: outgoing toward warm and longer, quarrelsome toward braced, deliberate toward calm, bold away from guarded."
 }

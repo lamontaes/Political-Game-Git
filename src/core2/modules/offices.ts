@@ -1,3 +1,8 @@
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
 import { incompatibleOffices } from "../office-incompatibility";
 /**
  * Offices and seats: every office that covers the town, every seat in it, and
@@ -29,7 +34,8 @@ import { registerElectorate } from "../electorate";
 import { partyName } from "../appointments";
 import { decisionLean } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { makeIsoDate } from "../kernel/dates";
+import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import municipalBaseline from "../../../data/municipal-elections/92O-national-state-baseline.json" with { type: "json" };
@@ -106,8 +112,52 @@ export interface VacancyRow {
   readonly electionDate?: string;
 }
 
-export const OFFICES_MODULE: CoreModule = {
+/**
+ * Pre-start government pass (M1-14): each term that began before day one,
+ * seated or ended, enters the history with how the holder reached the seat,
+ * so a player can ask why anyone sits where they sit. Nothing is generated:
+ * the term's own record is the source.
+ */
+function seatHistory(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  for (const row of table(api, "terms").rows()) {
+    const term = row as unknown as TermRow;
+    if (term.startDate < window.from || term.startDate > window.through)
+      continue;
+    const office = table(api, "offices").get(term.officeId);
+    history.record({
+      id: `seat-reached:${term.id}`,
+      date: makeIsoDate(term.startDate),
+      kind: "office.seat-reached",
+      ...(term.personId ? { personIds: [term.personId as PersonId] } : {}),
+      facts: {
+        termId: term.id,
+        seatId: term.seatId,
+        officeId: term.officeId,
+        reached: term.reached,
+        ...(term.party ? { party: term.party } : {}),
+        ...(office?.jurisdiction
+          ? { jurisdiction: String(office.jurisdiction) }
+          : {}),
+      },
+      publicRecord: true,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `Term record ${term.id}, opened with the world.`,
+        estimatedFrom:
+          "The term's start date and how the holder reached the seat, as the opening recorded them.",
+      },
+    });
+  }
+}
+
+export const OFFICES_MODULE: PreStartModule = {
   id: OFFICES_MODULE_ID,
+  preStart: { phase: "government", run: seatHistory },
   state: {
     schemaVersion: 1,
     tables: {
@@ -632,8 +682,13 @@ function pastTerms(
       } as unknown as ModuleRow);
     return;
   }
-  // A term read as ending more than a full term out began at the opening.
-  if (start > opening) {
+  // A term read as ending more than a full term out began at the opening, and
+  // so did one whose holder was too young to begin it a full term back.
+  const born = Number(term.identity.birthDate.slice(0, 4));
+  if (
+    start > opening ||
+    Number(start.slice(0, 4)) - born < tenureYears("minimumAgeAtFirstTerm")
+  ) {
     table(api, "terms").put({
       ...term,
       serviceStart: term.startDate,
@@ -658,7 +713,6 @@ function pastTerms(
   const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
   let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
   // No one first served younger than the minimum age.
-  const born = Number(term.identity.birthDate.slice(0, 4));
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
     prior > 0 &&

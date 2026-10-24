@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5749
 blocked-on:
@@ -28,3 +28,7 @@ Sent back 2026-10-20 from PR #5749 (branch claude/provider-distance): src/core2/
 Sent back 2026-10-22 from PR #5749 (branch claude/provider-distance): The inherited full-tier test still relies on manually seeded exposure instead of requiring an ordinary produced pregnancy, and its parent declaration still labels real simulation effects as none.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): The earlier test repairs are present, but data/research/people/abortion-provider-distance.json:18-30 tags the Alaska row SOURCED while its quote only defines distance_origintodest; it contains none of the reported 64.6/121.1-mile means or 1.6/230.3/565.5 bounds. The same definition-only quote is used in all 51 SOURCED rows. The note says these are weighted means and 10th/90th percentiles computed from county data, with alternate population weights in two states; these are not numbers quoted from the cited guide, and this diff contains no reproducible aggregation to audit them. Supply numeric source evidence and reproducible input/weight/aggregation provenance for derived values, or label estimates accurately with their source and spread; do not present derived intervals as published ones. The 56-place release-note count matches the 56 rows, but that does not establish their values. No local gate pass is claimed for this source review.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): provenance repair is present, but the carried unplanned-pregnancy feature covers only full people and its only tier-gap registry row is resolved; include the counted implementation or register the remaining gap as open and bound the scope; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): carried unplanned decision/travel TUNABLEs have unmeasured spreads and point to a resolved owner-decision row; check their sensitivity or register and mark the exact remaining calibration gap with open follow-up; finish on that branch, merge main into it first.
