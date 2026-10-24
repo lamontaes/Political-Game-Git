@@ -46,8 +46,8 @@ export function endCountedJob(
     half.jobIds = (half.jobIds ?? []).filter((id) => id !== jobId);
     recompute(half);
   }
+  // Its heads stay on record: the leaver's opening replaces the jobs it held.
   rt.wageFlowByJob.delete(jobId);
-  rt.store.jobHeads.delete(jobId);
   const ended = { ...job, endsAt: makeIsoDate(core.date) };
   rt.jobs.set(jobId, ended);
   return ended;
