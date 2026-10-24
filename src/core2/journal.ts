@@ -266,10 +266,12 @@ export function projectCashJournal(
     }
   const ids = new Set<string>(),
     touchedOwners = new Set<string>();
-  const deltas = new Map<string, bigint>();
-  let credits = zeroExact,
-    debits = zeroExact,
-    sum = zeroExact;
+  const deltas = new Map<string, number>();
+  // Sums of safe integers stay exact while they stay safe; an unsafe running
+  // total is redone in BigInt below so the overflow errors read the same.
+  let credits = zero,
+    debits = zero,
+    sum = zero;
   for (const row of input.postings) {
     if (checked) {
       identity(row.id, "posting");
@@ -293,18 +295,37 @@ export function projectCashJournal(
     const account = context.accounts.get(row.accountId);
     if (!account) throw new Error("Cash journal account is not registered.");
     touchedOwners.add(account.ownerId);
-    const delta = BigInt(row.deltaMinor);
-    deltas.set(row.accountId, (deltas.get(row.accountId) ?? zeroExact) + delta);
+    const delta = row.deltaMinor;
+    deltas.set(row.accountId, (deltas.get(row.accountId) ?? zero) + delta);
     sum += delta;
-    if (delta > zeroExact) credits += delta;
+    if (delta > zero) credits += delta;
     else debits -= delta;
   }
   if (checked && ids.size !== expected.size)
     throw new Error("Journal omitted a canonical actual source posting.");
-  if (sum !== zeroExact || credits !== debits)
+  if (
+    !Number.isSafeInteger(credits) ||
+    !Number.isSafeInteger(debits) ||
+    !Number.isSafeInteger(sum)
+  ) {
+    let bigCredits = zeroExact,
+      bigDebits = zeroExact,
+      bigSum = zeroExact;
+    for (const row of input.postings) {
+      const delta = BigInt(row.deltaMinor);
+      bigSum += delta;
+      if (delta > zeroExact) bigCredits += delta;
+      else bigDebits -= delta;
+    }
+    if (bigSum !== zeroExact || bigCredits !== bigDebits)
+      throw new Error("Cash journal postings must balance exactly.");
+    exactMinor(bigCredits, "gross credits");
+    exactMinor(bigDebits, "gross debits");
+  }
+  if (sum !== zero || credits !== debits)
     throw new Error("Cash journal postings must balance exactly.");
-  const grossCreditMinor = exactMinor(credits, "gross credits"),
-    grossDebitMinor = exactMinor(debits, "gross debits");
+  const grossCreditMinor = credits,
+    grossDebitMinor = debits;
   // The internal adapter supplies only complete indexed portfolios for touched
   // owners. This rejects hidden fund rows without scanning the whole world.
   if (checked)
@@ -400,10 +421,12 @@ export function projectCashJournal(
       });
       continue;
     }
+    // Every net delta is bounded by the gross totals checked above, so these
+    // sums are exact while safe; an unsafe result fails `minor` as BigInt did.
     let residualId: string | undefined,
-      fundsBefore = zeroExact,
-      fundsAfter = zeroExact,
-      ownerDelta = zeroExact;
+      fundsBefore = zero,
+      fundsAfter = zero,
+      ownerDelta = zero;
     for (const id of owner.accountIds) {
       const account = context.accounts.get(id);
       if (!account || account.id !== id || account.ownerId !== ownerId)
@@ -415,7 +438,7 @@ export function projectCashJournal(
         identity(account.name, "account name");
         datedSource(account.source, at);
       }
-      const delta = deltas.get(id) ?? zeroExact;
+      const delta = deltas.get(id) ?? zero;
       ownerDelta += delta;
       if (account.allocatedMinor === undefined) {
         if (residualId !== undefined)
@@ -423,12 +446,10 @@ export function projectCashJournal(
         residualId = id;
       } else {
         minor(account.allocatedMinor, "fund allocation");
-        const after = exactMinor(
-          BigInt(account.allocatedMinor) + delta,
-          "fund after",
-        );
-        fundsBefore += BigInt(account.allocatedMinor);
-        fundsAfter += BigInt(after);
+        const after = account.allocatedMinor + delta;
+        minor(after, "fund after");
+        fundsBefore += account.allocatedMinor;
+        fundsAfter += after;
         accounts.set(id, {
           accountId: id,
           ownerId,
@@ -450,18 +471,12 @@ export function projectCashJournal(
           throw new Error(
             "Posted account is missing from the owner's complete fund index.",
           );
-    const ownerAfter = exactMinor(
-      BigInt(owner.liquidMinor) + ownerDelta,
-      "owner after",
-    );
-    const residualBefore = exactMinor(
-        BigInt(owner.liquidMinor) - fundsBefore,
-        "residual before",
-      ),
-      residualAfter = exactMinor(
-        BigInt(ownerAfter) - fundsAfter,
-        "residual after",
-      );
+    const ownerAfter = owner.liquidMinor + ownerDelta;
+    minor(ownerAfter, "owner after");
+    const residualBefore = owner.liquidMinor - fundsBefore;
+    minor(residualBefore, "residual before");
+    const residualAfter = ownerAfter - fundsAfter;
+    minor(residualAfter, "residual after");
     accounts.set(residualId, {
       accountId: residualId,
       ownerId,
@@ -474,18 +489,24 @@ export function projectCashJournal(
       afterMinor: ownerAfter,
     });
   }
+  // Play hands back the resolved source and the caller's postings as they are;
+  // the retained receipt is its own copy, and bookkeeping copies them here.
   return {
     id: input.id,
     date,
     sequence: context.nextSequence,
     nextSequence,
-    sourceRef: { ...input.sourceRef },
-    source: { ...cause.source },
-    relatedRecords: cause.relatedRecords.map((row) => ({
-      ...row,
-      source: { ...row.source },
-    })),
-    postings: input.postings.map((row) => ({ ...row })),
+    sourceRef: checked ? { ...input.sourceRef } : input.sourceRef,
+    source: checked ? { ...cause.source } : cause.source,
+    relatedRecords: checked
+      ? cause.relatedRecords.map((row) => ({
+          ...row,
+          source: { ...row.source },
+        }))
+      : cause.relatedRecords,
+    postings: checked
+      ? input.postings.map((row) => ({ ...row }))
+      : input.postings,
     grossDebitMinor,
     grossCreditMinor,
     owners,
