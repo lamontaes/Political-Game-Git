@@ -4981,8 +4981,10 @@
     "why": "The unemployment link is left out for full couples on purpose: a lost job already lowers their work and income terms, so the web's link would count the same recession twice. The other links have no term in the plan score, and the score is a choice between planning and waiting, not a rate the factor can multiply; turning a factor into a score term needs its own calibration against the births it produces.",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved Oct 21: a web term in the plan score (renewalWebWeight) reads the place's birth-rate factor, so a full couple's choice moves with it as the counted women's births do; fitted in src/core2/births-full-web.test.ts (elasticity 0.5 to 2 over 16 drawn places). The unemployment link is read through the factor like the others, so its effect is shared with the income and work terms.",
-    "status": "resolved"
+    "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-24",
+    "resolution": "Full couples' plan-a-child choice carries a web term in the plan score: renewalWebWeight times the birth-rate factor that lands on the mother's own age and home, less one (webFactorFor in src/core2/births-plan.ts), the same factor the counted women of that age and home are scaled by (src/core2/births-counted.ts). Unemployment, home prices and the abortion law now move full couples' plans, pregnancies and births as they move the counted tier's. The unemployment link is read through the factor like the others, so its effect is shared with the work and income terms. src/core2/births-full-web.test.ts follows a shifted web month row to the plans, pregnancies and births it tips in a played year, by record id."
   },
   {
     "id": "SG-TRAITS-counted-health-no-trait",

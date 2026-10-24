@@ -11,10 +11,13 @@ import { currentCloseness } from "./closeness";
 import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
 import { decisionKinds } from "./trait-decisions";
-import { OUTCOME_WEB_MODULE_ID, outcomeWebFactor } from "./modules/outcome-web";
+import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
+import { webFactorFor } from "./outcome-web-reach";
 import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
 
 export const BIRTHS_STOPGAP = "SG-M1-births-circumstances";
+/** The housing engine's module id (read by name: it does not import this one). */
+const HOUSING_MODULE = "housing";
 export interface BirthCouple {
   id: string;
   motherId: string;
@@ -77,6 +80,21 @@ export function partnershipStart(
         Math.round(p("renewalUnionAgeYears") * p("daysPerMeanYear")),
       );
   return estimate < couple.startedAt ? estimate : couple.startedAt;
+}
+
+/** Whether the household rents or owns its dwelling, from the housing record (absent where none is kept). */
+function tenureOf(
+  api: CoreAPI,
+  householdId: string,
+): "rent" | "own" | undefined {
+  if (!api.state.modules.has(HOUSING_MODULE)) return undefined;
+  const tenure = (
+    api
+      .moduleState(HOUSING_MODULE)
+      .table("dwellings")
+      .get(`dwelling:${householdId}`) as { tenure?: string } | undefined
+  )?.tenure;
+  return tenure === "rent" || tenure === "own" ? tenure : undefined;
 }
 
 /**
@@ -198,12 +216,18 @@ export function birthCircumstances(
           ? currentCloseness(api.state, relationship)
           : p("renewalUnknownCloseness")) -
         p("one")),
-    // The place's own conditions (unemployment, home prices) have moved its
-    // birth rate by this factor; a couple weighs it as the counted women's
-    // births are scaled by it (one model, two tiers).
+    // The place's own conditions (unemployment, home prices, the law on
+    // abortion) have moved its birth rate; a couple weighs the factor that
+    // lands on the mother's own age and home, the one a counted woman of that
+    // age and home is scaled by (one model, two tiers).
     web: api.state.modules.has(OUTCOME_WEB_MODULE_ID)
       ? p("renewalWebWeight") *
-        (outcomeWebFactor(api, mother.placeId, "births.rate") - p("one"))
+        (webFactorFor(api, mother.placeId, "births.rate", {
+          age,
+          sex: "female",
+          tenure: tenureOf(api, mother.householdId),
+        }) -
+          p("one"))
       : p("zero"),
     partnership:
       mother.householdId === partner.householdId
