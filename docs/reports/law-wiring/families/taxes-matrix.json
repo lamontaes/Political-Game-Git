@@ -1,5 +1,5 @@
 {
-  "about": "The taxes and public finance family's rows of the law-wiring matrix: the twelve laws of pool item laws-nine-links-taxes, from scripts/law-wiring/check.ts in the item's two places on this branch (the 35-day run of each law, and for the laws whose effect comes later their own longer runs: corporate-income-tax 175 days, property-tax 400 days, estate-tax and inheritance-tax 1095 days), graded by scripts/law-wiring/matrix.ts. docs/reports/law-wiring-matrix.json is left as it is, since every family pull request would rewrite that one file.",
+  "about": "The taxes and public finance family's rows of the law-wiring matrix: the twelve laws of pool item laws-nine-links-taxes, from scripts/law-wiring/check.ts in the item's two places on this branch (the 35-day run of each law, and for the laws whose effect comes later their own longer runs: corporate-income-tax 175 days, property-tax 400 days, estate-tax and inheritance-tax 330 days, to end before the starting law's next-year rows take over), graded by scripts/law-wiring/matrix.ts. docs/reports/law-wiring-matrix.json is left as it is, since every family pull request would rewrite that one file.",
   "places": [
     {
       "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
@@ -46,7 +46,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1394 113054820 -> 116019720 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:660 13339597 -> 13289470 (journal:2025-02-01:2664); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:771 1075419 -> 1036993 (journal:2025-02-03:7487)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1394 113054820 -> 113090604 (journal:2025-01-26:1649); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:660 13339597 -> 13339074 (journal:2025-02-01:2664); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:771 1075419 -> 1075246 (journal:2025-02-03:7488)",
           "why": ""
         },
         "web": {
@@ -73,12 +73,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "income-tax 41.25 -> 45.38 at state (law:US-MI:state:income-tax:general:2025-01-21:law-wiring-931f2a51) effective 2025-01-21",
+          "change": "income-tax 4.25 -> 4.68 at state (law:US-MI:state:income-tax:general:2025-01-21:law-wiring-931f2a51) effective 2025-01-21",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "income-tax 41.55 -> 45.71 at state (law:US-NE:state:income-tax:general:2025-01-21:law-wiring-931f2a51) effective 2025-01-21",
+          "change": "income-tax 4.55 -> 5.01 at state (law:US-NE:state:income-tax:general:2025-01-21:law-wiring-931f2a51) effective 2025-01-21",
           "inForceAtOpening": false
         }
       ],
@@ -184,12 +184,12 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:profit @ src/core2/modules/employer-taxes.ts:326 3922121 -> 7418943 (journal:2025-07-01:46112); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:699 15930103 -> 15903811 (journal:2025-01-25:1637); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): employer-taxes:profit @ src/core2/modules/employer-taxes.ts:326 17946175 -> 34487437 (journal:2025-07-01:46925)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:profit @ src/core2/modules/employer-taxes.ts:326 3922121 -> 4067546 (journal:2025-07-01:46112); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): employer-taxes:share @ src/core2/modules/employer-taxes.ts:699 15930103 -> 15914240 (journal:2025-01-25:1637); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): employer-taxes:profit @ src/core2/modules/employer-taxes.ts:326 17946175 -> 18269296 (journal:2025-07-01:47031)",
           "why": ""
         },
         "web": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 corporate-tax-incidence -0.9360; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 corporate-tax-incidence -0.9360; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 corporate-tax-incidence -0.9360",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 corporate-tax-incidence -0.0390; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 corporate-tax-incidence -0.0390; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 corporate-tax-incidence -0.0390",
           "why": ""
         },
         "knowing": {
@@ -211,12 +211,12 @@
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "corporate-income-tax 27 -> 30 at state (law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636) effective 2025-01-21",
+          "change": "corporate-income-tax 6 -> 7 at state (law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636) effective 2025-01-21",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "corporate-income-tax 25.55 -> 28.11 at state (law:US-NE:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636) effective 2025-01-21",
+          "change": "corporate-income-tax 4.55 -> 5.01 at state (law:US-NE:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636) effective 2025-01-21",
           "inForceAtOpening": false
         }
       ],
@@ -248,7 +248,7 @@
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/laws-death-taxes.ts:55",
+          "evidence": "src/core2/laws-death-taxes.ts:68",
           "why": ""
         },
         "money": {
@@ -317,7 +317,7 @@
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/laws-death-taxes.ts:55",
+          "evidence": "src/core2/laws-death-taxes.ts:68",
           "why": ""
         },
         "money": {

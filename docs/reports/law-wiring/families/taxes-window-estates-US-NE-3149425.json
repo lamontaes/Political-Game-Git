@@ -51,7 +51,7 @@
       },
       "readers": {
         "src/core2/modules/outcome-web.ts:160": 426,
-        "src/core2/laws-death-taxes.ts:55": 16,
+        "src/core2/laws-death-taxes.ts:68": 16,
         "src/core2/life.ts:549": 2
       },
       "openingRow": "law:US:federal:estate-tax:general:2025-01-01",
@@ -223,7 +223,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 63
+      "seconds": 60
     },
     {
       "key": "inheritance-tax",
@@ -262,7 +262,7 @@
       },
       "readers": {
         "src/core2/modules/outcome-web.ts:160": 426,
-        "src/core2/laws-death-taxes.ts:55": 8,
+        "src/core2/laws-death-taxes.ts:68": 8,
         "src/core2/life.ts:549": 2
       },
       "openingRow": "law:US-NE:state:inheritance-tax:general:2025-01-01",
@@ -432,7 +432,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 66
+      "seconds": 65
     }
   ]
 }
