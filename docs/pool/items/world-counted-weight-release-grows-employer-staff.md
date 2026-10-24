@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/weight-release-heads
-pr:
+pr: #0
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-23T23:36:12.581Z
