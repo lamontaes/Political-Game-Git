@@ -7,6 +7,9 @@
  * trait flat no pair is found, since every lean is zero.
  */
 import table from "../../data/content/trait-decisions.json" with { type: "json" };
+import { buildBenchWorld, type BenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
+import { addDays } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { residentPerson } from "./modules/residents";
 import { setTraitProbe } from "./trait-probe";
@@ -179,4 +182,48 @@ export function describePair(pair: OpposedPair, record?: string): string {
   const side = (c: PlayedCall) =>
     `${c.actorId} on ${c.date} (case ${c.bare.toFixed(3)}, lean ${c.lean.toFixed(3)})`;
   return `${pair.decisionId}: yes ${side(pair.yes)}${record ? `, wrote ${record}` : ""}; no ${side(pair.no)}`;
+}
+
+/** Places a played-pair test draws before it fails. */
+const MAX_DRAWS = 3;
+
+/**
+ * The played-pair check over drawn places: each attempt draws a place (from
+ * all 56, by `draw`), builds it as the game does (`buildBenchWorld`,
+ * two-level, every module), plays `days` from the game's start and looks for
+ * opposed pairs among its own residents. A small place can weigh too few
+ * cases to hold a pair, so it moves to the next draw, up to three; `tried`
+ * names every place and seed for the failure message.
+ */
+export function playedPairs(
+  draw: (attempt: number) => {
+    seed: string;
+    place: { key: string; name: string };
+  },
+  days: number,
+  decisions: Readonly<Record<string, string | null>>,
+): {
+  world: BenchWorld;
+  calls: PlayedCall[];
+  pairs: OpposedPair[];
+  label: string;
+  tried: string[];
+} {
+  const tried: string[] = [];
+  for (let attempt = 0; ; attempt++) {
+    const { seed, place } = draw(attempt);
+    const start = gameStartDate();
+    const world = buildBenchWorld(seed, start, {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const calls = playWeighing(world.core, addDays(start, days), decisions);
+    const pairs = opposedPairs(calls, {
+      among: livesIn(world.core, world.placeId),
+    });
+    const label = `${place.name} (${place.key}), seed ${seed}`;
+    tried.push(`${label}: ${calls.length} calls, ${pairs.length} pairs`);
+    if (pairs.length || attempt + 1 >= MAX_DRAWS)
+      return { world, calls, pairs, label, tried };
+  }
 }
