@@ -22,9 +22,9 @@
  * (ENV_PLAYED_DAYS); until then each is checked to stay at no effect. The
  * farmland and groundwater laws have no web lag: their engines read them on
  * the day, and the run reports the records they write. Played in a place
- * drawn from all 56 on a seed nobody chose; a place where the deposit, the
- * carbon price or the emission rules were already law when the research's
- * base levels were measured is drawn again, a bounded number of times.
+ * drawn from all 56 on a seed nobody chose; a place that already had a law
+ * whose link comes due in the days played, when the research's base levels
+ * were measured, is drawn again, a bounded number of times.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -52,7 +52,7 @@ import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.ENV_PLAYED_SEED || randomBytes(8).toString("hex");
-const DRAWS = 4;
+const DRAWS = 8;
 /**
  * To the 2nd of the month after the infant outcome first reads the cut
  * particulates: a law from the opening (January 20) is a year old at the
@@ -77,15 +77,12 @@ const LAWS = [
   FARMLAND,
   GROUNDWATER,
 ] as const;
-/** The laws whose links come due within the months played by default. */
-const DUE = [BOTTLE, CARBON, CLEAN_AIR] as const;
 
 const RECYCLED = "env.container-recycling-pct";
 const EMISSIONS = "env.emissions";
 const PARTICULATES = "env.particulates";
 const INFANT_MORTALITY = "health.infant-mortality";
 const DEPOSIT_LINK = "container-deposit-to-recycling";
-const CARBON_LINK = "carbon-price-to-emissions";
 const PARTICULATES_LINK = "emission-rules-to-particulates";
 const INFANT_LINK = "particles-to-infant-deaths";
 const PERCENT = 100;
@@ -95,6 +92,23 @@ const LAW_LINKS = WEB_LINKS.filter((link) =>
   (LAWS as readonly string[]).includes(link.from.replace(/^law:/, "")),
 );
 const link = (key: string) => WEB_LINKS.find((row) => row.key === key)!;
+const seriesOf = (row: (typeof WEB_LINKS)[number]) =>
+  row.from.replace(/^law:/, "");
+/**
+ * The links that must run in the days played: each into the deposit share,
+ * emissions or particulates that comes due, with the month its reader takes,
+ * before the run ends. Their laws must be new to the place (DUE); a place
+ * that already had one when the base levels were measured is drawn again.
+ */
+const MUST_RUN = LAW_LINKS.filter(
+  (row) =>
+    [RECYCLED, EMISSIONS, PARTICULATES].includes(row.to) &&
+    // Due a lag after the opening, run in the next month's row, read by the
+    // engines on the 3rd and 4th of the month after that.
+    `${monthsAfter(gameStartDate(), row.lagMonths + 2).slice(0, 8)}05` <=
+      addDays(makeIsoDate(gameStartDate()), DAYS),
+);
+const DUE = [...new Set(MUST_RUN.map(seriesOf))];
 
 /** The same day `months` later, past the 28th read as the 28th, as the web reads a lag. */
 function monthsAfter(date: string, months: number): string {
@@ -392,7 +406,7 @@ describe(`environment laws reach people on the web's own lags in a played world 
       );
       for (const row of running) {
         const due =
-          atBase[row.from.replace(/^law:/, "")] === 0
+          atBase[seriesOf(row)] === 0
             ? monthsAfter(effective, row.lagMonths)
             : "9999-12-31";
         for (const month of rows) {
@@ -406,8 +420,11 @@ describe(`environment laws reach people on the web's own lags in a played world 
           }
         }
       }
-      for (const key of [DEPOSIT_LINK, CARBON_LINK, PARTICULATES_LINK])
-        expect(firstMoved.get(key), `${where}: ${key} ran`).toBeDefined();
+      for (const row of MUST_RUN)
+        expect(
+          firstMoved.get(row.key),
+          `${where}: ${row.key} ran`,
+        ).toBeDefined();
 
       // The deposit: the same households forfeit the share not returned, at
       // the web's level for the month read, before and after the lag.
@@ -513,7 +530,7 @@ describe(`environment laws reach people on the web's own lags in a played world 
           ...running.map((row) =>
             firstMoved.has(row.key)
               ? `${row.key} (lag ${row.lagMonths}): first runs in ${firstMoved.get(row.key)!.id} (written ${firstMoved.get(row.key)!.date}), effect ${firstMoved.get(row.key)!.effects[row.key]}`
-              : `${row.key} (lag ${row.lagMonths}): no effect in all ${rows.length} months, due ${monthsAfter(effective, row.lagMonths)}`,
+              : `${row.key} (lag ${row.lagMonths}): no effect in all ${rows.length} months, ${atBase[seriesOf(row)] === 0 ? `due ${monthsAfter(effective, row.lagMonths)}` : "its law already in force at the base"}`,
           ),
           `deposit: read ${deposit.was.read.id} on ${deposit.was.date} (returned ${deposit.was.level[0]!.toFixed(1)}%), then ${deposit.now.read.id} on ${deposit.now.date} (${deposit.now.level[0]!.toFixed(1)}%); ${depositRows.length} households, e.g. ${d.id} (${d.rowId}) ${d.was} -> ${d.now} cents`,
           ...carbon.map(
