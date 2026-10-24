@@ -3,12 +3,15 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import assistance from "./data/disasters/assistance.json" with { type: "json" };
 import households from "./data/disasters/households.json" with { type: "json" };
+import { buildBenchWorld } from "../bench/world";
+import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import {
   disasterAssistancePaid,
   disasterRepairsPaid,
   townDisasters,
 } from "./modules/disasters";
+import { OUTSIDE_MARKET_KIND } from "./opening-outside-market";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
@@ -113,4 +116,77 @@ describe(`disasters from the record (seed ${seed})`, () => {
       expect(row.cents).toBeLessThanOrEqual(most(row.disaster, 1));
     expect(total(core)).toBe(start);
   }, 300_000);
+
+  it("pays repairs to the town's outside market when no builder is open", () => {
+    // Draw places from the seed; the town's builders are closed to a trade
+    // other than building, so the repairs have only the outside market to go
+    // to. Every draw is listed if none yields a declared disaster that paid.
+    const tried: string[] = [];
+    for (let draw = 0; draw < 12; draw++) {
+      const place = drawPlace(`${seed}:edge:${draw}`, "core2-disasters");
+      const where = `${place.name}, ${place.state} (seed ${seed}:edge:${draw})`;
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const end = new Date(`${core.date}T00:00:00Z`);
+      end.setUTCFullYear(end.getUTCFullYear() + 1);
+      end.setUTCDate(end.getUTCDate() - 1);
+      const yearEnd = end.toISOString().slice(0, 10);
+      const api = coreAPI(core);
+      const due = townDisasters(api).filter(
+        (row) => row.declared > core.date && row.declared <= yearEnd,
+      );
+      const town = core.people.get(core.playerId ?? "")?.placeId;
+      const market = [...core.organizations.values()].find(
+        (org) => org.kind === OUTSIDE_MARKET_KIND && org.placeId === town,
+      );
+      if (!due.length || !market) {
+        tried.push(
+          `${where}: ${due.length} disasters declared, outside market ${market ? "recorded" : "absent"}`,
+        );
+        continue;
+      }
+      for (const org of core.organizations.values())
+        if (org.classification === "enterprise:construction")
+          (org as { classification?: string }).classification =
+            "enterprise:other";
+      advanceCore(core, yearEnd);
+      const payee = api.accounts().main(market.id);
+      const repairs = disasterRepairsPaid(api).filter((row) => row.cents > 0);
+      if (!repairs.length) {
+        tried.push(`${where}: ${due.length} disasters declared, no repairs`);
+        continue;
+      }
+      const events = [...core.durableLog.values()].filter(
+        (row) => row.kind === "hazard.disaster",
+      );
+      expect(events.length, where).toBeGreaterThan(0);
+      for (const row of repairs) {
+        expect(row.to, `${where}: disaster ${row.disaster} payee`).toBe(payee);
+        expect(
+          events.some((e) => Number(e.facts?.disasterNumber) === row.disaster),
+          where,
+        ).toBe(true);
+      }
+      // The payment is in the journal: the payee's account took in at least
+      // what the repairs paid.
+      const credited = core.cashJournal.totalsByAccount.get(payee);
+      const paid = repairs.reduce((n, row) => n + row.cents, 0);
+      expect(credited?.grossCreditMinor ?? 0, where).toBeGreaterThanOrEqual(
+        paid,
+      );
+      expect(core.cashJournal.latestByAccount.get(payee), where).toBeDefined();
+      process.stdout.write(
+        `disaster repairs to the outside market: ${where}; disaster ${events.find((e) => Number(e.facts?.disasterNumber) === repairs[0]!.disaster)!.id}; repair ${repairs[0]!.disaster} ${repairs[0]!.cents} cents to ${payee}; journal ${core.cashJournal.latestByAccount.get(payee)?.id ?? ""}\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no declared disaster paid repairs to an outside market in 12 draws:\n${tried.join("\n")}`,
+    );
+    // Caldwell, Arkansas (seed 827d0cd921c4a46eb70d7a57308f7a1f) paid on the
+    // fifth draw after 401 seconds at one worker on a 4-core container shared
+    // with two other runs; the limit is that and half again.
+  }, 600_000);
 });
