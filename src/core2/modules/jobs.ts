@@ -1883,7 +1883,7 @@ function runWeek(api: CoreAPI): void {
     );
     const birthOf = (personId: string) =>
       c.people.get(personId)?.birthDate ??
-      residentPerson(c, personId)?.birthDate;
+      residentFacts(c, personId)?.birthDate;
     const weighed = (seeker: SeekerRow, penalized: boolean) => {
       const born = penalized && bias ? birthOf(seeker.personId) : undefined;
       return fit(seeker) - (born && bias ? bias.penaltyOf(born) : 0);
