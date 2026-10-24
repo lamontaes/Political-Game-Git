@@ -1,6 +1,41 @@
 {
   "entries": [
     {
+      "version": "0.22.11",
+      "releasedOn": "2026-10-24",
+      "revision": "f42ec38ea842751c01459a508aa48c720b0e4444",
+      "changeIds": [
+        "counted-death-relations",
+        "merger0-pool-sendbacks-2026-10-24",
+        "research-elections-sourced-parameters",
+        "research-offices-sourced-parameters",
+        "roadmap-m1-12-officials-command",
+        "staff-dismissal-after-attendance",
+        "town-employment-mix",
+        "world-trip-resident-from-place-counts"
+      ]
+    },
+    {
+      "version": "0.22.10",
+      "releasedOn": "2026-10-24",
+      "revision": "c953c52cff56d2120509ddfb3f996407eadf2212",
+      "changeIds": [
+        "effect-web-unwired",
+        "justice-plea-waits-for-hearing",
+        "tests-counted-voters-tiny-town"
+      ]
+    },
+    {
+      "version": "0.22.9",
+      "releasedOn": "2026-10-24",
+      "revision": "57b0111b6720023840d713e583e8e2b20b29f4a7",
+      "changeIds": [
+        "core-counted-weight-headcount-red-maricopa",
+        "core-speed-guard-refuses-changed-opening",
+        "traits-campaigns-own-sd"
+      ]
+    },
+    {
       "version": "0.22.8",
       "releasedOn": "2026-10-24",
       "revision": "f1f23098bd147b18f08c173535dd21a03ca098b7",
