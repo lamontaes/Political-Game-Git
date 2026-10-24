@@ -38,6 +38,7 @@ import { closenessBetween } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
 import { personOrFillIn, registerModule } from "./state";
+import { depositsHeld, withdrawSavings } from "./accounts";
 import { residentPerson } from "./modules/residents";
 import { isDemoted } from "./counted-groups";
 import {
@@ -290,6 +291,48 @@ function payContractDebts(
  * at once; the heirs take after probate where the estates module runs (else
  * now). Returns who received what now.
  */
+/**
+ * Their savings at the bank come to the estate before anything is paid: the
+ * person's own deposit, and the household's when they were its last living
+ * member (savings are held under the household while anyone shares it). What
+ * the bank cannot pay today stays its debt to the estate's holder.
+ */
+function collectSavings(
+  api: CoreAPI,
+  personId: PersonId,
+  into: string,
+  deathEventId: string,
+): void {
+  const core = api.state as CoreState;
+  const person = core.people.get(personId);
+  const household = person && core.households.get(person.householdId);
+  const holders = [personId];
+  if (
+    household &&
+    household.memberIds.every(
+      (id) => id === personId || !core.people.get(id)?.alive,
+    )
+  )
+    holders.push(household.id);
+  for (const holderId of holders) {
+    const amountMinor = depositsHeld(core, holderId);
+    if (amountMinor <= 0) continue;
+    withdrawSavings(core, api, {
+      id: `estate-savings:${personId}:${holderId}`,
+      holderId,
+      customerAccountId: into,
+      amountMinor,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: `Savings of ${holderId} paid to the estate of ${personId} after ${deathEventId}.`,
+        estimatedFrom:
+          "A deposit is a claim on the bank belonging to the holder; at death the claim is paid to the estate.",
+      },
+    });
+  }
+}
+
 export function settleEstate(
   api: CoreAPI,
   personId: PersonId,
@@ -302,6 +345,7 @@ export function settleEstate(
   // Benefits, pensions and other standing payments to them stop with their death.
   accounts.endObligationsTo(from);
   endRecipientIncomeAtDeath(api.state as CoreState, personId);
+  collectSavings(api, personId, from, deathEventId);
   payDebts(api, personId, from);
   payContractDebts(api, personId, from);
   const base = accounts.balance(from);

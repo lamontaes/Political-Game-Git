@@ -13,6 +13,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
+import { bankDeposit, depositsHeld } from "./accounts";
 import { settleEstate } from "./estates";
 import { gameStartDate } from "./game-start";
 import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
@@ -154,7 +155,21 @@ describe("a dead payer's housing contracts", () => {
       core.organizations.get(contract.payeeId) ??
       core.people.get(contract.payeeId);
     const payeeBefore = payee!.liquidMinor;
-    const estate = core.people.get(dead)!.liquidMinor;
+    // Their savings come to the estate first (the person's own and the
+    // household's, which they were the last to share); the payee may be the
+    // bank that pays them out.
+    const home = core.households.get(contract.householdId!)!;
+    const lastAtHome = home.memberIds.every(
+      (id) => id === dead || !core.people.get(id)?.alive,
+    );
+    const holders = lastAtHome ? [dead, home.id] : [dead];
+    const savings = holders.reduce((n, id) => n + depositsHeld(core, id), 0);
+    const paidOutByPayee = holders.reduce(
+      (n, id) =>
+        n + (bankDeposit(core, contract.payeeId, id)?.balanceMinor ?? 0),
+      0,
+    );
+    const estate = core.people.get(dead)!.liquidMinor + savings;
     die(api, dead);
     expect(contract.endedAt, where).toBe(core.date);
     expect(contract.payerHandovers?.at(-1), where).toMatchObject({
@@ -164,7 +179,7 @@ describe("a dead payer's housing contracts", () => {
     const paid = Math.min(12_345, estate);
     expect(12_345 - contract.arrearsMinor, `${where}: arrears paid`).toBe(paid);
     expect(payee!.liquidMinor - payeeBefore, `${where}: payee received`).toBe(
-      paid,
+      paid - paidOutByPayee,
     );
   }, 600_000);
 });

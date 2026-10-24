@@ -4676,7 +4676,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/data/credit/parameters.json",
     "line": 6,
-    "whatItFakes": "Savings and withdrawals are reviewed monthly with a three-month wallet reserve; extraordinary payments and estate settlement do not yet request bank withdrawals directly. Dormant claims remain owed, not deleted.",
+    "whatItFakes": "Savings and withdrawals are reviewed monthly with a three-month wallet reserve; a home purchase and a business founding already draw savings when the wallet is short, and a dead person's savings now come to their estate, but other extraordinary payments (a large bill, a settlement) do not yet request bank withdrawals directly. Dormant claims remain owed, not deleted.",
     "why": "The existing payment paths consume cash directly. A bounded monthly policy allows deposits to fund lending without duplicating cash or claiming all payments are deposit-aware.",
     "addedBy": "SESSION-B",
     "addedAt": "2026-10-15",

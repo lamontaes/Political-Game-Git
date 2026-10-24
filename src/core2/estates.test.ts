@@ -4,6 +4,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { heirsOf, openEstates, settleEstate, trustOf, willOf } from "./estates";
+import { bankDeposit, depositsHeld, moveBankDeposit } from "./accounts";
 import type { CoreInput, CoreState, PersonInput } from "./types";
 
 const fact = (personId: string, relation: string, otherId: string) => ({
@@ -185,5 +186,67 @@ describe("estates (money audit defect 6)", () => {
     const api = coreAPI(core);
     api.relationship("dead", "a", "family", 900);
     expect(trustOf(api, core.people.get("dead")!, 10_001)).toBeNull();
+  });
+
+  it("pays a dead person's savings to their estate before it passes to the heirs, every cent balanced", () => {
+    const people = [
+      { ...person("dead", 10_000, { a: "child" }), householdId: "alone" },
+      { ...person("a", 0, { dead: "parent" }), householdId: "child-home" },
+    ];
+    const input: CoreInput = {
+      ...piecesInput(),
+      people,
+      households: [
+        {
+          id: "alone",
+          placeId: "place",
+          memberIds: ["dead"],
+          source: piecesSource,
+        },
+        {
+          id: "child-home",
+          placeId: "place",
+          memberIds: ["a"],
+          source: piecesSource,
+        },
+      ],
+      organizations: [
+        {
+          id: "bank",
+          placeId: "place",
+          name: "Bank",
+          kind: "bank",
+          liquidMinor: 100,
+          source: piecesSource,
+        },
+      ],
+    };
+    const core = createLifeCore(input);
+    const api = coreAPI(core);
+    const everyone = () =>
+      [...core.people.values(), ...core.organizations.values()].reduce(
+        (n, row) => n + row.liquidMinor,
+        0,
+      );
+    const before = everyone();
+    // Savings are held under the household while anyone shares it.
+    moveBankDeposit(core, api, {
+      id: "saved",
+      bankId: "bank",
+      holderId: "alone",
+      customerAccountId: api.accounts().main("dead"),
+      direction: "deposit",
+      amountMinor: 6_000,
+      source: piecesSource,
+    });
+    expect(core.people.get("dead")!.liquidMinor).toBe(4_000);
+    expect(depositsHeld(core, "alone")).toBe(6_000);
+    api.updatePerson("dead", { alive: false });
+    const paid = settleEstate(api, "dead", "event:death");
+    expect(paid).toEqual([{ toId: "a", amountMinor: 10_000 }]);
+    expect(depositsHeld(core, "alone")).toBe(0);
+    expect(bankDeposit(core, "bank", "alone")!.balanceMinor).toBe(0);
+    expect(core.people.get("a")!.liquidMinor).toBe(10_000);
+    expect(everyone()).toBe(before);
   });
 });
