@@ -58,6 +58,7 @@ export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
+import { recordEstatePaid, sellHome } from "../housing-sale";
 import { weightedPayrollMinor } from "../residents-economy";
 import {
   chargeGroups,
@@ -2310,6 +2311,8 @@ function dropCountedContracts(
 export function removeCountedPerson(
   core: CoreState,
   personId: PersonId,
+  /** The record of the death (the month's counts), which a home it sells names. */
+  deathRecordId = `counted-death:${personId}`,
 ): readonly { readonly heirId: PersonId; readonly amountMinor: number }[] {
   const rt = runtimes.get(core);
   const m = rt?.store.countedMember(personId);
@@ -2368,6 +2371,9 @@ export function removeCountedPerson(
     regroupHousehold(rt, h, core.date);
     return paid.filter((row) => row.amountMinor > 0);
   }
+  // The last of them: the home they owned is sold, as a full household's is
+  // when its last owner's estate closes, times the households it stands for.
+  sellCountedHome(rt, h, personId, deathRecordId);
   endHouseholdFlows(rt, h, core.date);
   rt.openingCashByPlace.set(
     h.placeId,
@@ -2375,6 +2381,47 @@ export function removeCountedPerson(
   );
   store.retire(h, MemberState.Dead);
   return [];
+}
+
+/**
+ * A counted household whose last member died sells the home it owned: the
+ * outside market pays its value times the households the record stands for,
+ * the lender is paid first, and the surplus goes to the counted residents of
+ * its group, as the counted dead's cash does. The sale names the estate and
+ * whom it paid.
+ */
+function sellCountedHome(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  decedentId: PersonId,
+  deathRecordId: string,
+): void {
+  const api = rt.api;
+  if (!api || !rt.funded || h.group < 0) return;
+  const fund = fundOf(api, rt, h.group);
+  const sale = sellHome(
+    api,
+    h.id,
+    "estate.counted-last-owner",
+    { decedentId, deathEventId: deathRecordId },
+    {
+      placeId: h.placeId,
+      weight: rt.store.weightOf(h),
+      surplus: (amountMinor, id, buyerId) =>
+        api.accounts().transfer({
+          id,
+          from: api.accounts().main(buyerId),
+          to: fund,
+          amountMinor,
+          reasonKey: "residents.counted-estate.home-surplus",
+          source: rt.input.source,
+        }).paidMinor,
+    },
+  );
+  if (sale)
+    recordEstatePaid(api, sale, deathRecordId, [
+      { toId: fund, amountMinor: sale.surplusMinor },
+    ]);
 }
 
 /** A household leaving the counts: its purchases, mortgage, rent and awards stop here. */

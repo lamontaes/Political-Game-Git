@@ -27,6 +27,29 @@ export interface HomeSale {
   readonly surplusMinor: number;
   readonly lossMinor: number;
   readonly reasonKey: string;
+  /** The dead owner whose estate the sale belongs to, and the death that opened it. */
+  readonly decedentId?: string;
+  readonly deathEventId?: string;
+  /** For an estate's sale: probate's record and who the estate paid, once it closed. */
+  readonly settledEventId?: string;
+  readonly paid?: readonly {
+    readonly toId: string;
+    readonly amountMinor: number;
+  }[];
+}
+
+/** An estate's home sale records probate's close and whom the estate paid. */
+export function recordEstatePaid(
+  api: CoreAPI,
+  sale: HomeSale,
+  settledEventId: string,
+  paid: readonly { readonly toId: string; readonly amountMinor: number }[],
+): void {
+  table(api, "sales").put({
+    ...sale,
+    settledEventId,
+    paid: paid.map((row) => ({ ...row })),
+  } as unknown as ModuleRow);
 }
 
 /** A household's home sale on a date, if it sold. */
@@ -48,6 +71,22 @@ export function sellHome(
   api: CoreAPI,
   householdId: string,
   reasonKey: string,
+  estate?: { decedentId: string; deathEventId: string },
+  /**
+   * A counted household's home: the households its record stands for (the
+   * price and the payoff times that), the place it is in, and where the
+   * surplus goes (the counted residents' own money, as the counted dead's
+   * cash does). Returns what that took in.
+   */
+  counted?: {
+    readonly placeId: string;
+    readonly weight: number;
+    readonly surplus: (
+      amountMinor: number,
+      id: string,
+      buyerId: string,
+    ) => number;
+  },
 ): HomeSale | undefined {
   if (!api.state.modules.has(HOUSING)) return undefined;
   const c = api.state as CoreState;
@@ -55,18 +94,21 @@ export function sellHome(
     { tenure?: string; kind?: string; valueMinor?: number } | undefined;
   if (dwelling?.tenure !== "own") return undefined;
   const household = c.households.get(householdId);
-  if (!household) return undefined;
+  const placeId = counted?.placeId ?? household?.placeId;
+  if (!placeId) return undefined;
+  // A counted household's record stands for several: its home and its
+  // mortgage are each that many.
+  const times = counted?.weight ?? 1;
   const mortgages = (
     table(api, "mortgages").rows() as unknown as MortgageRow[]
   ).filter((row) => row.householdId === householdId && row.balanceMinor > 0);
-  const price = Math.round(dwelling.valueMinor ?? 0);
-  const owed = mortgages.reduce((sum, row) => sum + row.balanceMinor, 0);
+  const price = Math.round((dwelling.valueMinor ?? 0) * times);
+  const owed = Math.round(
+    mortgages.reduce((sum, row) => sum + row.balanceMinor, 0) * times,
+  );
   // The town's outside market stands for the buyer.
   const buyer = [...c.organizations.values()]
-    .filter(
-      (org) =>
-        org.outsideFlow !== undefined && org.placeId === household.placeId,
-    )
+    .filter((org) => org.outsideFlow !== undefined && org.placeId === placeId)
     .sort((a, b) => a.id.localeCompare(b.id))[0];
   if (!buyer || price <= 0) return undefined;
   const source = {
@@ -74,13 +116,16 @@ export function sellHome(
     asOf: c.date,
     citation:
       "Housing engine: the home's value in the dwellings table, paid by the outside market.",
-    estimatedFrom: `${householdId} sold its home when its owners left (${reasonKey}).`,
+    estimatedFrom: `${householdId} sold its home (${reasonKey}).`,
   };
   const stamp = `${householdId}:${c.date}`;
   let toLender = 0;
   let remaining = price;
   for (const mortgage of mortgages) {
-    const owedNow = Math.min(remaining, mortgage.balanceMinor);
+    const owedNow = Math.min(
+      remaining,
+      Math.round(mortgage.balanceMinor * times),
+    );
     // The outside market that buys the home can also hold its mortgage: paying
     // itself moves no cash, and the loan is settled all the same.
     const paid =
@@ -97,9 +142,16 @@ export function sellHome(
     toLender += paid;
     remaining -= paid;
   }
-  const first = household.memberIds.find((id) => c.people.get(id)?.alive);
-  const surplus =
-    remaining > 0 && first
+  // A sale for an estate pays its surplus into the estate, for the heirs; a
+  // counted household's goes to the counted residents it belonged to.
+  const first =
+    estate?.decedentId ??
+    household?.memberIds.find((id) => c.people.get(id)?.alive);
+  const surplus = counted
+    ? remaining > 0
+      ? counted.surplus(remaining, `home-sale-surplus:${stamp}`, buyer.id)
+      : 0
+    : remaining > 0 && first
       ? transferCash(
           api,
           `home-sale-surplus:${stamp}`,
@@ -141,6 +193,9 @@ export function sellHome(
     surplusMinor: surplus,
     lossMinor: Math.max(0, owed - toLender),
     reasonKey,
+    ...(estate
+      ? { decedentId: estate.decedentId, deathEventId: estate.deathEventId }
+      : {}),
   };
   table(api, "sales").put(sale as unknown as ModuleRow);
   return sale;

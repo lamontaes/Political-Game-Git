@@ -431,7 +431,7 @@ export function applyCountedFlows(
             !row.deaths.includes(other.id),
         )
         .map((other) => other.id);
-      for (const heir of removeCountedPerson(core, person.id))
+      for (const heir of removeCountedPerson(core, person.id, row.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
       // The death, for the household that outlives them: a private record
