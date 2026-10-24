@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/counted-weight-headcount-maricopa
 pr: #5874
 blocked-on:
