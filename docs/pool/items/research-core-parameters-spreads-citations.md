@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/dreamy-tesla-bgi3ui-core-parameters
+status: open
+claimed-by:
 pr: #5857
 blocked-on:
 source: "split Oct 24, 2026 from research-core-parameters-sourced-parameters (PR #5857)"
-claimed-at: 2026-10-24T01:40:00.000Z
+claimed-at:
 ---
 
 **What.** This PR changes no value an engine reads (its release declaration is impact: none): rows of the core tables gain sourced spreads and citations, and four rows change tag. These rows are ESTIMATED with a citation and a spread: farKinContactShare (Pew Research Center, 2006), workSleepReserveHours and restDayHours (BLS ATUS 2025; restDayHours is the umbrella's workWakingRecoveryHours, renamed Oct 19), pastUndatedLawAgeYearsLow and pastUndatedLawAgeYearsHigh (Wikipedia summaries of the KFF tracker and the NRTW timeline), movesOwnerHold and movesJobHold (Census CPS ASEC 2023), and movesUnemploymentGapWeight (spread given a unit, its source not reopened), in src/core2/data/parameters.json, src/core2/data/past/parameters.json and src/core2/data/moves/parameters.json. The tag changes are movesOwnerHold and movesJobHold from SOURCED to ESTIMATED (each value is a log ratio of two published rates) and movesEvictedPull and movesJobLostPull from ESTIMATED to TUNABLE (nothing converts to them). Seven research files under data/research/core/ hold the figures, each read by scripts/research/core-parameters-check.ts; the `replacement` of six stopgaps is rewritten in src/core2/data/stopgaps.json; scripts/research/core-parameters-year.ts reports the played year. Split from research-core-parameters-sourced-parameters, which stays open for the unsourced moves, speech and corruption rows and all six stopgaps.
