@@ -4,7 +4,7 @@ title: "Check for updates in the installed Mac app finds the newest release"
 area: release
 kind: bug
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #5841
 blocked-on:
