@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/quirky-ride-vrwwz4-circle-turnover
+status: open
+claimed-by:
 pr: #5913
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T06:43:16.673Z
+claimed-at:
 ---
 
 **What.** Roadmap M0-07's test text ends 'over years, circle turnover matches a sourced study'. Its command (src/core2/m0-meeting-people.test.ts) passes on main b09ba675cd in Bridgeville, Pennsylvania, but its four tests cover 91 days only: new acquaintances, a tie growing closer, saved reasons and visits inside the GSS and ATUS ranges. No test plays years or compares how many of a person's ties are replaced with a study. Research the turnover rate, then add the multi-year check against it.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T06:43:16.673Z
 **Files.** src/core2/m0-meeting-people.test.ts, src/core2/data/parameters.json
 
 **Notes.** Found by the M0-M2 lead, Oct 24. Blocks roadmap M0-07's flag.
+
+Sent back 2026-10-24 from PR #5913 (branch claude/quirky-ride-vrwwz4-circle-turnover): its Done-when table admits the required two passing drawn-place multi-year runs are not met; expected-red diagnostic evidence does not complete this item; finish on that branch, merge main into it first.
