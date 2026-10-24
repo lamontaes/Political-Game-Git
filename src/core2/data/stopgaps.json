@@ -5531,7 +5531,7 @@
     "file": "src/core2/modules/crime.ts",
     "line": 493,
     "whatItFakes": "Crimes happen to households with no offender: nobody decides to offend, so a victimization has no perpetrator, motive or relationship to the victim.",
-    "why": "The owner ruled that a full crime engine (offenders deciding to offend, police, courts) comes later; the web needs only victimization records.",
+    "why": "A full crime engine (offenders deciding to offend, police, courts) comes later; the web needs only victimization records.",
     "addedBy": "effect-web-crime",
     "addedAt": "2026-10-20",
     "replacement": "An offending engine where people decide to offend from their own traits, money and circumstances, so the national rate is a check on its total.",
