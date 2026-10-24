@@ -49,7 +49,8 @@ import type { CoreState } from "./types";
 
 const seed =
   process.env.EFFECTS_END_TO_END_SEED || randomBytes(8).toString("hex");
-const DRAWS = 12;
+/** Places drawn, at most; the env override pins a break-it check to one known year. */
+const DRAWS = Number(process.env.EFFECTS_END_TO_END_DRAWS || 12);
 const CAUSE = "labor.unemployment-pct";
 const POLICE = livedQuestion(CRIME_EVENT)!;
 /** The researched links from unemployment to a kind of crime the engine decides. */
