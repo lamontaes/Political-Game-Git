@@ -22,3 +22,5 @@ claimed-at:
 **Files.** data/research/world/eviction-statute-reads-2026.json, data/research/world/fhfa-hpi-pr-2026q2.json, data/research/world/foreclosure-reads-2026.json, data/research/world/hud-hic-2025-beds-by-city.json, data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json, scripts/research/housing-check.ts, scripts/research/housing-year.ts, src/core2/data/housing/housing.json, src/core2/data/housing/foreclosure.json, src/core2/data/stopgaps.json
 
 **Notes.** Split Oct 24, 2026 from research-housing-sourced-parameters, after the merger's send-back of PR 5848 asked for a bounded item matching what a PR delivers. Delivered by PR #5873 on branch claude/dreamy-tesla-bgi3ui-housing.
+
+Sent back 2026-10-23 from PR #5873 (branch claude/dreamy-tesla-bgi3ui-housing): quoted business-day/holiday exclusions are treated as calendar days, without the remaining approximation registered or disclosed in the timing claim; finish on that branch, merge main into it first.
