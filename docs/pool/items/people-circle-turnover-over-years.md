@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/m0-meeting-people.test.ts, src/core2/data/parameters.json
 
 **Notes.** Found by the M0-M2 lead, Oct 24. Blocks roadmap M0-07's flag.
+
+Sent back 2026-10-24 from PR #5913 (branch claude/quirky-ride-vrwwz4-circle-turnover): its Done-when table admits the required two passing drawn-place multi-year runs are not met; expected-red diagnostic evidence does not complete this item; finish on that branch, merge main into it first.
