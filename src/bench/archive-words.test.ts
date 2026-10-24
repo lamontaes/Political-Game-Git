@@ -4,6 +4,7 @@ import { gameStartDate } from "../core2/game-start";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
 import { coreAPI } from "../core2/state";
 import { wordArchiveStory } from "./archive-words";
+import { policyNames } from "./words";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "./world";
 
@@ -56,12 +57,22 @@ describe(`archive law news words (${world.place.key}, seed ${seed})`, () => {
       .map((story) => ({ story, words: wordArchiveStory(world.core, story) }))
       .filter((row) => row.words);
     expect(worded.length, "a law has a name on the catalog").toBeGreaterThan(0);
+    const names = policyNames();
     for (const { story, words } of worded) {
       expect(words!.lede).toMatch(
         /^.+ took effect on [A-Z][a-z]+ \d+, \d{4}\.$/,
       );
       expect(words!.sourceRecordIds).toContain(story.id);
+      // The law is named by its series on the catalog, on its own effective date.
+      const name = names[story.facts.series!]!;
+      expect(words!.lede, story.id).toBe(
+        `${name} took effect on ${new Date(`${story.date}T12:00:00Z`).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" })}.`,
+      );
+      expect(words!.sourceRecordIds, story.id).toContain(story.facts.lawId);
     }
+    process.stdout.write(
+      `ARCHIVED LAWS ${world.place.key}, seed ${seed}: ${worded.length} of ${laws.length} worded, e.g. ${worded[0]!.story.id} (${worded[0]!.story.facts.lawId}): "${worded[0]!.words!.lede}"\n`,
+    );
   }, 120_000);
 });
 
@@ -104,6 +115,47 @@ describe("archive death news words", () => {
     expect(
       checked,
       `no parent died in 8 drawn places; seed ${seed}`,
+    ).toBeGreaterThan(0);
+  }, 600_000);
+});
+
+describe("archive budget news words", () => {
+  it("words an adopted budget by its largest spending line", () => {
+    // Some places archive no adopted budget: draw places (bounded) until one
+    // does, and require at least one so the test cannot pass unchecked.
+    let checked = 0;
+    const tried: string[] = [];
+    for (let draw = 0; draw < 8 && checked === 0; draw += 1) {
+      const place = drawPlace(`${seed}:${draw}`, "archive-budget-words");
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      tried.push(where);
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const stories = coreAPI(core)
+        .moduleState(NEWS_MODULE_ID)
+        .table("stories")
+        .rows() as unknown as {
+        id: string;
+        kind: string;
+        date: string;
+        facts: Record<string, string>;
+      }[];
+      for (const story of stories.filter(
+        (row) => row.facts.recordKind === "budget-adopted",
+      )) {
+        const words = wordArchiveStory(core, story);
+        expect(words, `${where}: ${story.id}`).not.toBeNull();
+        expect(words!.lede, `${where}: ${story.id}`).toMatch(
+          /^The budget includes \$[\d,]+ for .+\.$/,
+        );
+        checked += 1;
+      }
+    }
+    expect(
+      checked,
+      `no adopted budget archived in 8 drawn places: ${tried.join("; ")}`,
     ).toBeGreaterThan(0);
   }, 600_000);
 });

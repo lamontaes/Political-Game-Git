@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/dreamy-tesla-bgi3ui-core-parameters
+status: done
+claimed-by:
 pr: #5857
 blocked-on:
 source: "split Oct 24, 2026 from research-core-parameters-sourced-parameters (PR #5857)"
-claimed-at: 2026-10-24T01:40:00.000Z
+claimed-at:
 ---
 
 **What.** This PR changes no value an engine reads (its release declaration is impact: none): rows of the core tables gain sourced spreads and citations, and four rows change tag. These rows are ESTIMATED with a citation and a spread: farKinContactShare (Pew Research Center, 2006), workSleepReserveHours and restDayHours (BLS ATUS 2025; restDayHours is the umbrella's workWakingRecoveryHours, renamed Oct 19), pastUndatedLawAgeYearsLow and pastUndatedLawAgeYearsHigh (Wikipedia summaries of the KFF tracker and the NRTW timeline), movesOwnerHold and movesJobHold (Census CPS ASEC 2023), and movesUnemploymentGapWeight (spread given a unit, its source not reopened), in src/core2/data/parameters.json, src/core2/data/past/parameters.json and src/core2/data/moves/parameters.json. The tag changes are movesOwnerHold and movesJobHold from SOURCED to ESTIMATED (each value is a log ratio of two published rates) and movesEvictedPull and movesJobLostPull from ESTIMATED to TUNABLE (nothing converts to them). Seven research files under data/research/core/ hold the figures, each read by scripts/research/core-parameters-check.ts; the `replacement` of six stopgaps is rewritten in src/core2/data/stopgaps.json; scripts/research/core-parameters-year.ts reports the played year. Split from research-core-parameters-sourced-parameters, which stays open for the unsourced moves, speech and corruption rows and all six stopgaps.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T01:40:00.000Z
 **Files.** src/core2/data/parameters.json, src/core2/data/past/parameters.json, src/core2/data/moves/parameters.json, src/core2/data/stopgaps.json, src/core2/tooling/calibration-targets.json, data/research/core/pew-2006-family-contact.json, data/research/core/atus-2025-sleep.json, data/research/core/state-law-adoption-dates-2025.json, data/research/core/cps-asec-2023-mobility.json, data/research/core/spring-2017-kin-proximity.json, data/research/core/coppock-2020-ad-persuasion.json, data/research/core/corruption-bands-2014.json, scripts/research/core-parameters-check.ts, scripts/research/core-parameters-year.ts
 
 **Notes.** Split Oct 24, 2026 from research-core-parameters-sourced-parameters, after the merger's send-back of PR 5848 asked for a bounded item matching what a PR delivers. Delivered by PR #5857 on branch claude/dreamy-tesla-bgi3ui-core-parameters.
+
+Sent back 2026-10-23 from PR #5857 (branch claude/dreamy-tesla-bgi3ui-core-parameters): local gate incomplete after a 16-minute moves/past batch and a recorded 6-GB isolated moves-cash check exceeding ten minutes without a result; a fresh isolated moves-web case passes but the original failed random seed was not preserved; static/type/research checks and 53 guard tests pass, and final-head Lisbon year receipt is on the PR; finish on that branch, merge main into it first.

@@ -10,32 +10,52 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalGestationDays": {
-    "value": 266,
-    "tag": "TUNABLE",
-    "citation": "Conception-relative modeled 38-week delivery date; NCHS final 2024 table 10 measures obstetric gestation from LMP, which is not the same clock. Successful planned singleton prototype, not a medical estimate.",
+    "value": 268,
+    "tag": "SOURCED",
+    "citation": "Median days from ovulation to birth, which the plan's conception date stands for: Jukic, Baird, Weinberg, McConnaughey and Wilcox (2013), 'Length of human pregnancy and contributors to its natural variation', Human Reproduction 28(10), Table I, https://pmc.ncbi.nlm.nih.gov/articles/PMC3777570/: \"The median time from ovulation to birth was 268 days (38 weeks, 2 days).\" Research file data/research/people/jukic-gestation-2013.json, checked by scripts/research/people-parameters-check.ts. Every planned pregnancy still lasts this one median (SG-M1-births-circumstances).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+      "low": 262,
+      "high": 275,
+      "unit": "days from conception to birth",
+      "citation": "The same table's 25th and 75th percentiles from ovulation, all 125 births."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalAgeCenter": {
     "value": 30,
-    "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "tag": "ESTIMATED",
+    "citation": "Where the age term of a couple's plan is highest: the mean age of the national fertility schedule. NCHS, Births: Final Data for 2024, National Vital Statistics Reports 75(2), Table 6, https://www.cdc.gov/nchs/data/nvsr/nvsr75/nvsr75-02.pdf (United States: 12.6, 55.8, 89.5, 93.7, 54.3 and 12.7 births per 1,000 women at 15-19 through 40-44), stored for all 56 places in data/research/renewal/natality-2024.json. Derived by scripts/research/people-parameters-check.ts.",
+    "estimatedFrom": "Rate-weighted mean of the five-year age groups' midpoints, ages 15 to 44: 30.0 years nationally. The places differ (28.1 to 32.1), but the plan reads one national center until the builder item people-births-age-shape-by-place reads each place's own.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+      "low": 28.1,
+      "high": 32.1,
+      "unit": "years of the mother's age",
+      "citation": "The same mean for each of the 56 places in data/research/renewal/natality-2024.json (NCHS 2024 Table 6), lowest to highest."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalAgeSpread": {
-    "value": 7,
-    "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "value": 8.7,
+    "tag": "ESTIMATED",
+    "citation": "How fast the age term falls away from its center: set so the term changes sign at the ages where a normal curve fitted to the national age-specific birth rates falls to half its peak. NCHS, Births: Final Data for 2024, NVSR 75(2), Table 6, https://www.cdc.gov/nchs/data/nvsr/nvsr75/nvsr75-02.pdf, via data/research/renewal/natality-2024.json. Derived by scripts/research/people-parameters-check.ts.",
+    "estimatedFrom": "Standard deviation of the 2024 national fertility schedule, ages 15 to 44, with the within-group variance of five-year groups (25/12) added: 6.13 years. The term 2exp(-d^2) - 1 with d = (age - center)/spread is zero at d = 0.83, and a normal curve is at half its peak at 1.18 standard deviations, so spread = 6.13 x 1.18 / 0.83 = 6.13 x sqrt(2) = 8.66, rounded to 8.7.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+      "low": 7.7,
+      "high": 9.9,
+      "unit": "years of the mother's age",
+      "citation": "The same conversion for each of the 56 places in data/research/renewal/natality-2024.json (NCHS 2024 Table 6), lowest to highest."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalWebWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Fitted in played years so that a full couple's choice to plan a child moves with the outcome web's birth-rate factor for the mother's own age and home about as the counted women's births do (elasticity 1). Bench worlds of four drawn places (Key Vista, Florida; Red Rock, Arizona; Camden, Alabama; Baxter, Iowa; place draws scratch:6 to scratch:9 on web-births-full) review 77 couples through a year, and 3 of them plan a child. Read from the couples' recorded plan scores, a factor swing of 0.1, 0.2, 0.3 and 0.4 reaches 1, 2, 3 and 7 more couples at weight 7.5 (elasticity 3.3 to 5.8) and 0, 1, 1 and 2 more at weight 3 (elasticity 0 to 1.7, 1.1 on average). A town's year cannot resolve a response finer than a couple, so the weight rests on this pooled count. The web's factor is the place's own unemployment, home-price and abortion-law effect on births (data/research/outcome-web/links.json); never a rate on the individual.",
+    "spread": {
+      "low": 2,
+      "high": 5,
+      "unit": "score per unit of factor change",
+      "citation": "The pooled count's average elasticity over factor swings of 0.1 to 0.4 is 0.5 at weight 2 and 1.6 at weight 5, inside the band of 0.5 to 2. src/core2/births-full-web.test.ts follows a shifted web month row to the couples it tips, by record id."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
@@ -90,12 +110,15 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalTimingPeakYears": {
-    "value": 2.5,
-    "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "value": 2.25,
+    "tag": "ESTIMATED",
+    "citation": "Years after the last birth (or the start of the partnership) at which the timing pull toward another child is strongest: the national median interpregnancy interval. NCHS Data Brief No. 240 (Thoma, Copen and Kirmeyer, 2016), https://www.cdc.gov/nchs/products/databriefs/db240.htm: \"The median interpregnancy interval was 24–29 months, or 2–2.5 years.\" Research file data/research/people/nchs-db240-interpregnancy-2014.json, checked by scripts/research/people-parameters-check.ts.",
+    "estimatedFrom": "The middle of the published median band, 24 up to 30 months: 27 months, 2.25 years. The interval runs from a birth to the next conception, the same clock the plan's timing term reads.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+      "low": 2,
+      "high": 2.5,
+      "unit": "years from a birth to the next conception",
+      "citation": "The brief's own band for the median, 2 to 2.5 years (2014 second and higher-order singleton births, 47 states and DC)."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
@@ -112,12 +135,15 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalMedianAnnualIncomeMinor": {
-    "value": 8061000,
-    "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "value": 10900000,
+    "tag": "ESTIMATED",
+    "citation": "The area median family income a place with no HUD row is read against: what the places with a row read. HUD FY2025 Section 8 income limits (very low limit for a family of four, src/core2/reference/town-rent.generated.ts; methodology https://www.huduser.gov/portal/datasets/il.html), each limit times renewalMedianPerVeryLowLimit, weighted by each HUD area's population. Derived by scripts/research/people-parameters-check.ts.",
+    "estimatedFrom": "Population-weighted median of twice the very low limit over the 4,763 HUD county and New England town areas: $109,000. It replaces the Census household median of $80,610 the old engine ported, which was a different measure from the family median every other place reads. HUD's own national median page could not be read from the cloud (an empty response with status 202).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+      "low": 9390000,
+      "high": 12590000,
+      "unit": "cents a year",
+      "citation": "The population-weighted 25th and 75th percentiles of the same areas, $93,900 to $125,900."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },

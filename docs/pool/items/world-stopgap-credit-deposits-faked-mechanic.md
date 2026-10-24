@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5316 (branch claude/deposit-withdrawal-s13): merging main now conflicts in src/core2/estates.ts (it passed every check before main moved); finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5316 (branch claude/deposit-withdrawal-s13): The body explicitly says no played-year proof was completed. The item requires a drawn one-year buildBenchWorld, a payment larger than the wallet causing a bank withdrawal, deposit/withdrawal ids and balanced books, and the owner big-bill path. The unit estate fixture and a partially narrowed stopgap do not complete that acceptance. Finish the named proof or split the completed estate-specific scope from the still-open larger-payment item.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5316 (branch claude/deposit-withdrawal-s13): the Done-when table explicitly leaves the annual withdrawal and stopgap-resolution acceptance unproved; the estate-only slice needs its own valid item with generated-world reader evidence; finish on that branch, merge main into it first.

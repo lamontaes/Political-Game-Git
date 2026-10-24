@@ -1,6 +1,9 @@
 import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
-import { openingEmploymentFromRecordedRoles } from "./opening-employment";
+import {
+  DEFAULT_RESIDENT_EMPLOYMENT,
+  openingEmploymentFromRecordedRoles,
+} from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
 import {
   departmentGovernment,
@@ -52,7 +55,7 @@ import {
 } from "./reference/living-costs-data";
 import { openingOrganizationProfiles } from "./opening-org-profiles";
 import { ensureTownEmployment } from "../simulation/living-world/town-employment";
-import { TOWN_EMPLOYMENT_META } from "../simulation/living-world/town-employment.generated";
+import { TOWN_EMPLOYMENT_META } from "./reference/town-employment.generated";
 import {
   nationalMedianAnnualWage,
   townJobRate,
@@ -70,7 +73,6 @@ import {
 } from "./town-households";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 import { placeReferencePopulation } from "./gov-rules/place-population";
-import { PERSONALITY_PACK } from "./personality-catalogue";
 import { PEOPLE_MIND_VERSION, PEOPLE_TRAITS } from "./people-mind";
 import {
   upbringingCoreValueFrom,
@@ -82,7 +84,8 @@ import {
   upbringingQualities,
 } from "../simulation/people-traits";
 import { medianTransactionBalance } from "./starting-cash";
-import { traitRegistryFor } from "../simulation/trait-registry";
+import { seedableTraits } from "./opening-trait-table";
+import { PERSONALITY_PACK } from "./personality-catalogue";
 import { isOneSided, type RegisteredTrait } from "./trait-packs";
 import type {
   EntityId,
@@ -845,13 +848,20 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobByPerson.set(job.personId, job);
   }
   const countyGeoidByPerson = new Map<string, string>();
+  // A place with no county of its own (an island area's) reads its
+  // state-equivalent's row of the employment table, where the table has one.
+  const stateEquivalent = place.sourceGeoid?.slice(0, 2);
+  const stateEquivalentRow =
+    stateEquivalent &&
+    stateEquivalent in DEFAULT_RESIDENT_EMPLOYMENT.countyCounts
+      ? stateEquivalent
+      : undefined;
   for (const plan of plans) {
     const county = counties.find(
       (row) => row.place.context.jurisdiction.id === plan.countyId,
     );
-    if (county?.place.sourceGeoid)
-      for (const id of plan.ids)
-        countyGeoidByPerson.set(id, county.place.sourceGeoid);
+    const geoid = county?.place.sourceGeoid ?? stateEquivalentRow;
+    if (geoid) for (const id of plan.ids) countyGeoidByPerson.set(id, geoid);
   }
   const openingAllocation =
     options.openingEmployment === false
@@ -1157,7 +1167,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const planByPerson = new Map(
     plans.flatMap((plan) => plan.ids.map((id) => [id, plan] as const)),
   );
-  const registry = [...traitRegistryFor(world).traits.values()];
+  const registry = seedableTraits();
   const people: PersonInput[] = world.personOrder.map((id) => {
     const person = world.people[id]!;
     const plan = planByPerson.get(id)!;

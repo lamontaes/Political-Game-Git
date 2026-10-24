@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/counted-weight-headcount-maricopa
-pr:
+pr: #5874
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T01:58:26.670Z
