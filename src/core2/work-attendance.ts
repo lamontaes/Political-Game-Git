@@ -647,9 +647,9 @@ export function recordWorkAttendance(
           startMinute: r.field(slot, "startMinute"),
           minutes: r.field(slot, "minutes"),
         };
-        commitment = commitmentView;
       }),
     };
+    commitment = commitmentView;
     if (
       !admittedWorkPayrollCalendarMatches(core, calendarId!, calendar) ||
       r.mapGet(
