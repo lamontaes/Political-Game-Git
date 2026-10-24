@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/world-governor-races
+pr: #5969
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T18:35:11.771Z
 ---
 
 **What.** The new M2-10 check (src/bench/m2-10-check.ts) in Fort Myers Beach, Florida (place key 1224150, seed 40d19d5aa53ea43b2f08600258d255a8e64dc3307f48afd84d58bbfc387c5051) played the 2026 general election: 439 House, 34 Senate and 139 state legislative races ran and were seated, but no governor race. The officials module seats every governor at the opening (src/core2/modules/officials.ts:4), and the town's own governor is on its ballot, but src/core2/modules/world-races.ts builds races only for the House, the Senate, legislatures and the presidency. So every other state's governor serves forever.
