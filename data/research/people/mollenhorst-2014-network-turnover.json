@@ -30,5 +30,5 @@
     "how": "95% binomial interval of 0.48 among the 604 re-interviewed: 1.96 * sqrt(0.48 * 0.52 / 604) = 0.0398, rounded to 0.04. Sampling error only; panel attrition (1007 to 604) and Dutch-versus-American differences are not in it."
   },
   "scaling": "Constant yearly retention: share kept after t years = 0.48 ^ (t / 7). Three years gives 0.730 (0.704 to 0.756 across the range).",
-  "usedBy": "src/core2/m0-circle-turnover.test.ts; parameters circleRetentionShareOverSpan and circleRetentionSpanYears in src/core2/data/parameters.json"
+  "usedBy": "src/core2/circle-turnover-check.ts; src/core2/tooling/m0-07-turnover-check.ts; parameters circleRetentionShareOverSpan and circleRetentionSpanYears in src/core2/data/parameters.json"
 }
