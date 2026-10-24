@@ -493,7 +493,10 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         // and the person, group or government reached, by id.
         const moneyOf = (needle: string) =>
           posts.find((p) => p.gross > 0 && p.id.includes(needle))?.id ?? null;
-        const hire = lineHires[0];
+        // A named hire's payroll cites the line (its job is the funded
+        // position's); a counted hire is paid in its employer's wage post.
+        const hire =
+          lineHires.find((r) => r.target === "person") ?? lineHires[0];
         // A line hire's pay: a named hire's payroll under their commitment,
         // a counted hire's in their employer's wage post, from the hire on;
         // else the treasury's post for the line itself, which cites it.
@@ -517,6 +520,14 @@ describe(`government operations laws are applied by their engines (seed ${seed})
                     p.id.includes(`:${hire.targetId}`)),
               )?.id ?? null)
             : null;
+        if (hire && !hirePay)
+          console.info(
+            `law-wiring-government ${where}: line hire ${hire.id} at ${hireEmployer ?? "no employer found"}; posts naming it: ${posts
+              .filter((p) => hireEmployer && p.id.includes(hireEmployer))
+              .slice(0, 3)
+              .map((p) => p.id)
+              .join(", ")}`,
+          );
         const reached = Object.fromEntries(
           [...VOTING_LAWS, REDISTRICT, TERM, LOBBY, HOME_RULE, ADMIN].map(
             (key) => {
