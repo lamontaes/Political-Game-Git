@@ -55,7 +55,8 @@ import { linkCoverage, WEB_LINKS } from "../../src/core2/outcome-web-model";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
 
 const ROOT = `${process.cwd()}/`;
-const AFTER = 10;
+/** Days after a repeal (or the old amount put back) before reach is read again: a month, so an engine that applies a law at a monthly close runs once. */
+const AFTER = 31;
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(`--${name}`);
