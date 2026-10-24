@@ -59,12 +59,15 @@ describe(`a counted household's jobs follow its workers' jobs (seed ${seed})`, (
     try {
       const tried: string[] = [];
       let drawSeed = seed;
-      let run = play(drawSeed);
+      let run: ReturnType<typeof play> | null = play(drawSeed);
       for (let draw = 1; draw < DRAWS && !run.hired.length; draw += 1) {
         tried.push(
           `${run.place.name}, ${run.place.state} (${drawSeed}): no counted hire`,
         );
         drawSeed = `${seed}-${draw}`;
+        // Let the last draw's world go before the next is built: two played
+        // worlds at once can pass the test worker's memory.
+        run = null;
         run = play(drawSeed);
       }
       const where = `${run.place.name}, ${run.place.state}, seed ${drawSeed}`;
