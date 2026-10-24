@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/returning-fill-in-commuter-start
-pr:
+status: open
+claimed-by:
+pr: #5900
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T05:08:05.895Z
+claimed-at:
 ---
 
 **What.** Two existing tests fail on clean main at e3c00ba8ef with the same error: fill-in-returning-newborn.test.ts in Nahant, Massachusetts (GOLDEN_PATH_SEED=334e5aef0e2adb0f4c996afec92a7c77) and fill-in-returning-dead-member.test.ts in Funny River, Alaska (GOLDEN_PATH_SEED=0a6edc45e4a58e597bfd408e3490ce39). The stack is fillInPerson (state.ts:2262) to releaseResidentHousehold (residents.ts:1828) to startCommuterJob (residents.ts:2711) to startJob, which throws at job-lifecycle.ts:32. One of its four conditions fails for the returning household's jobless worker; which one was not traced. A likely suspect is a commuter job id already in core.jobs from the household's first fill-in, but that is unverified.
