@@ -24,3 +24,5 @@ claimed-at: 2026-10-24T15:16:05.149Z
 **Notes.** Found by the M0-M2 lead, Oct 24. Blocks roadmap M0-07's flag.
 
 Sent back 2026-10-24 from PR #5913 (branch claude/quirky-ride-vrwwz4-circle-turnover): its Done-when table admits the required two passing drawn-place multi-year runs are not met; expected-red diagnostic evidence does not complete this item; finish on that branch, merge main into it first.
+
+The check itself is bounded by roadmap-m0-07-turnover-check for PR #5913. This item stays open until the check passes in two drawn places, which waits on people-circle-turnover-too-low.
