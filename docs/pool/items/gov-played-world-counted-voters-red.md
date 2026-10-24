@@ -22,3 +22,5 @@ claimed-at:
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/voting.ts, src/core2/modules/elections.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5865 (branch claude/quirky-ride-vrwwz4): missing counted-ballot output is now classified as no counted adults and unobserved; derive that precondition from independent population/eligibility records and fail a missing-writer break-it while retaining valid zero rounding; finish on that branch, merge main into it first.
