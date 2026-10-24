@@ -5,9 +5,9 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/old-engine-02-gov-rules
-pr:
+pr: #5921
 after: core-old-engine-01-zero-dice-guard-repoint
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 step 1"

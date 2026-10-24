@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/civic-inputs-clerk-staff
-pr:
+pr: #5918
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T06:56:46.400Z
