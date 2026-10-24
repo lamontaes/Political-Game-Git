@@ -6,9 +6,9 @@
  * view holds on the question crime ties to, the police line, by the views
  * engine's amount for an event about the person themselves, citing the
  * record; no one else moves from it. Played for a year in the bench world in
- * a place drawn from all 56 on a seed nobody chose; a place where no full
- * household is victimized in the year is drawn again, a bounded number of
- * times.
+ * a place drawn from all 56 on a seed nobody chose, the player having met the
+ * town's first households; a place where no full household is victimized in
+ * the year is drawn again, a bounded number of times.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -27,8 +27,10 @@ import {
   VIEWS_MODULE_ID,
   type Stance,
 } from "./modules/views";
+import { lawChain } from "./modules/laws";
+import { countedHouseholdsByPlace } from "./modules/residents";
 import { livedQuestion } from "./outcome-news";
-import { coreAPI } from "./state";
+import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
 const seed = process.env.LIVED_CRIME_SEED || randomBytes(8).toString("hex");
@@ -102,6 +104,16 @@ interface Expected {
   readonly atMostOne: boolean;
 }
 
+/**
+ * A town's own full households (the player's circle, officials) are a few
+ * dozen, and a crime engine that owes each household its share victimizes a
+ * handful of them a year, often none. The player meets the town's first
+ * households by id at the opening (filling them in, as clicking on a neighbor
+ * does), as the effects lead's end-to-end proof does: it gives the year more
+ * named people a record can reach and changes no rate.
+ */
+const MET_HOUSEHOLDS = Number(process.env.LIVED_CRIME_MET || 150);
+
 function play(drawSeed: string) {
   const place = drawPlace(drawSeed, "views-lived-crime");
   const core = buildBenchWorld(drawSeed, gameStartDate(), {
@@ -109,6 +121,12 @@ function play(drawSeed: string) {
     placeKey: place.key,
   }).core as CoreState;
   const api = coreAPI(core);
+  const town = lawChain(api).townPlaceId;
+  for (const record of [...(countedHouseholdsByPlace(core).get(town) ?? [])]
+    .sort((a, b) => a.household.id.localeCompare(b.household.id))
+    .slice(0, MET_HOUSEHOLDS))
+    if (record.people[0] && !core.people.has(record.people[0].id))
+      fillInPerson(core, record.people[0].id);
   const crimeMonths = () =>
     api
       .moduleState(CRIME_MODULE_ID)
