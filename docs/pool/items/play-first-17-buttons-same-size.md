@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** The owner's read of the playtest screenshots: buttons are the same size. In the v0.22.10 release buttons in one row differ in height and width (the title menu, the creator's Back and Continue, the talk box's controls). This item sets one button size rule in the Kit 13 styles and applies it everywhere.
 
-**Rules.** Replace, never layer: one button rule in play.css, the per-screen sizes deleted. This is a game, not a spreadsheet: controls look made, one family across the game.
+**Rules.** Serves LAW.md §1, Screens and menus; LAW.md §10, The owner's read of the Oct 24 screenshots. Replace, never layer: one button rule in play.css, the per-screen sizes deleted. This is a game, not a spreadsheet: controls look made, one family across the game.
 
 **Done when.** In a drawn place, the title menu, New game, the creator's buttons, the talk box and a menu's buttons each share one height per row, checked by a test on computed sizes, shown by a screenshot of each.
+
+**Time box.** 2 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** Buttons in a row (the title menu, New game, the creator, the talk box, the menus) share one height and width rule.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/bench/play.css
 
