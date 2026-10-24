@@ -19,16 +19,13 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 const draws = [];
 try {
-  await page.goto(`${BASE}/play`);
-  await page.waitForResponse((r) => r.url().endsWith("/api/title"));
   // A life with a parties module (tiny towns have none): redraw, all draws logged.
   let seed = "";
   let place = "";
   for (let attempt = 0; attempt < 6; attempt += 1) {
-    if (attempt > 0) {
-      await page.goto(`${BASE}/play`);
-      await page.waitForResponse((r) => r.url().endsWith("/api/title"));
-    }
+    const titled = page.waitForResponse((r) => r.url().endsWith("/api/title"));
+    await page.goto(`${BASE}/play`);
+    await titled;
     await page.locator("#new-life").click();
     await page.locator("#new-start").click();
     await page.locator('[data-testid="gender-male"]').click();
@@ -85,10 +82,94 @@ try {
   }
   assert.ok(place, "no drawn town had a parties module in 6 draws");
   console.log("Draws:", draws.join(" | "));
-  // Join the first party, through the UI.
-  await page.locator("#sheet-body button", { hasText: /join/i }).first().click();
-  await page.waitForTimeout(2000);
-  console.log("PASS setup: adult in a town with parties, joined one");
+  // The joinable parties, through the UI.
+  const joinLabels = await page
+    .locator("#sheet-body button", { hasText: /join/i })
+    .evaluateAll((els) => els.map((e) => e.textContent.trim()));
+  console.log("Parties:", joinLabels.join(" | "));
+  assert.ok(joinLabels.length, "no joinable party");
+  let filed = "";
+  for (const joinLabel of joinLabels) {
+    if (filed) break;
+    await page.locator('[data-tab="politics"]').first().evaluate((e) => e.click());
+    await page.waitForTimeout(1000);
+    await page.evaluate(() => {
+      document.getElementById("sheet-body")?.scrollTo(0, 999999);
+    });
+    await page.waitForTimeout(500);
+    const jb = page.locator("#sheet-body button", { hasText: joinLabel });
+    if (await jb.count()) {
+      await jb.first().click();
+      await page.waitForTimeout(2000);
+      console.log("Joined:", joinLabel);
+    }
+    // File for a 2026 race first, a council seat if one is open.
+    await page.locator('[data-tab="travel"]').first().evaluate((e) => e.click());
+    const visited = new Set();
+    for (let round = 0; round < 12 && !filed; round += 1) {
+    await page.locator('[data-tab="travel"]').first().evaluate((e) => e.click());
+    await page.waitForTimeout(1000);
+    if (!(await page.locator("#sheet:not([hidden])").count())) continue;
+    const labels = await page
+      .locator("#sheet-body button", { hasText: /Go/ })
+      .evaluateAll((els) => els.map((e) => e.getAttribute("aria-label")))
+      .catch(() => []);
+    console.log("Travel round", round, "destinations:", labels.length);
+    const label = labels.find((l) => !visited.has(l));
+    if (!label) break;
+    visited.add(label);
+    await page.locator(`#sheet-body button[aria-label="${label}"]`).evaluate((e) => e.click());
+    const talked = await page
+      .locator("#talk:not([hidden])")
+      .waitFor({ timeout: 5000 })
+      .then(() => true)
+      .catch(() => false);
+    if (!talked) continue;
+    await page.locator("#talk-choices button").first().waitFor({ timeout: 10000 }).catch(() => {});
+    for (let r = 0; r < 6 && !filed; r += 1) {
+      const choices = page.locator("#talk-choices button");
+      const n = await choices.count();
+      if (!n) {
+        await page.waitForTimeout(1500);
+        continue;
+      }
+      const texts = [];
+      for (let c = 0; c < n; c += 1) texts.push(await choices.nth(c).innerText());
+      const order = [...Array(n).keys()].sort((a, b) => {
+        const rank = (t) =>
+          /council.*2026/i.test(t) ? 0 : /2026/i.test(t) ? 1 : /mayor/i.test(t) ? 2 : /I want to run for/i.test(t) ? 3 : 4;
+        return rank(texts[a]) - rank(texts[b]);
+      });
+      let acted = false;
+      for (const c of order) {
+        if (!/I want to run for/i.test(texts[c])) continue;
+        console.log("Filing as:", texts[c]);
+        await page.locator("#talk-choices button", { hasText: texts[c] }).first().click();
+        await page.waitForTimeout(2000);
+        if (await page.locator("#filing-overlay:not([hidden])").count()) {
+          await page.locator("#filing-party option").nth(1).waitFor({ timeout: 10000 }).catch(() => {});
+          if ((await page.locator("#filing-party option").count()) > 1)
+            await page.locator("#filing-party").selectOption({ index: 1 });
+          const confirm = page.locator("#talk-choices button", { hasText: /file for this office/i });
+          if (await confirm.count()) {
+            await confirm.first().click();
+            await page.waitForTimeout(2000);
+          }
+        }
+        acted = true;
+        break;
+      }
+      if (acted) break;
+      await choices.first().click();
+      await page.waitForTimeout(1500);
+    }
+    const lines = await page.locator("#talk-lines").innerText().catch(() => "");
+    if (/filed|thank you|congratulations|on the ballot/i.test(lines)) filed = lines.slice(-120);
+    await page.locator("#talk-leave").click().catch(() => {});
+    }
+  }
+  assert.ok(filed, "could not file for a seat through the UI");
+  console.log("PASS filed:", filed);
 } finally {
   await browser.close();
 }
