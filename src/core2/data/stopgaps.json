@@ -6320,6 +6320,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WEB-unread-school-college-completion-pct",
+    "kind": "missing-mechanic",
+    "file": "src/core2/data/outcome-web/unwired.json",
+    "line": 554,
+    "whatItFakes": "tuition-freeze-to-college-completion moves school.college-completion-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research finds no effect (about zero), so an engine would multiply by one",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
+  },
+  {
     "id": "SG-WEB-unread-government-member-market-returns",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
