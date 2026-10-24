@@ -153,7 +153,6 @@ interface Agreement {
   contractIds: string[];
   monthlyBudgetMinor?: number;
 }
-const publicContractIds = new Set<string>();
 const publicRows: string[] = [];
 const representedCounts: number[] = [];
 let monthlyTotal = 0;
@@ -172,7 +171,6 @@ for (const organization of opening.organizations) {
       coveredOriginalResidentCount?: number;
       sourcePriorKey?: string;
     };
-    for (const id of agreement.contractIds) publicContractIds.add(id);
     monthlyTotal += appropriation.monthlyBudgetMinor ?? 0;
     representedCounts.push(appropriation.coveredOriginalResidentCount ?? 0);
     publicRows.push(
@@ -262,37 +260,36 @@ console.log(
 
 if (process.env.OPENING_ONLY) process.exit(0);
 
-// The year: who pays the public custodial agreements and the household services.
-const paid = new Map<string, { count: number; minor: number; first: string }>();
+// The year: counted households pay through resident purchase flows (journal
+// entries credited to the firm); full households and public buyers through
+// finance contracts (their settled dates and arrears, read at year's end).
+const flowPaid = new Map<
+  string,
+  { entries: number; minor: number; first: string }
+>();
 const post = api.postJournal.bind(api);
 api.postJournal = (entry) => {
   const id = entry.sourceRef.id;
-  const contract = [...publicContractIds].find((cid) => id.includes(cid));
   const service =
-    /household\.customer\.([a-z-]+)/.exec(
-      `${entry.sourceRef.kind} ${id}`,
-    )?.[1] ??
-    /p8-opening-customer-builder-v1:household:[^:]+:([a-z-]+):/.exec(id)?.[1];
-  const key = contract
-    ? `public:${contract}`
-    : service
-      ? `household:${service}`
-      : undefined;
-  if (key) {
-    const row = paid.get(key) ?? { count: 0, minor: 0, first: id };
-    row.count += 1;
-    row.minor += entry.postings
-      .filter((posting) => posting.deltaMinor > 0)
+    /^residents:purchase:([^|]+)\|household\.customer\.([a-z-]+)/.exec(id);
+  if (service) {
+    const firm = service[1]!;
+    const credited = entry.postings
+      .filter(
+        (posting) => posting.deltaMinor > 0 && posting.accountId.includes(firm),
+      )
       .reduce((total, posting) => total + posting.deltaMinor, 0);
-    paid.set(key, row);
-  }
-  if (process.env.DEBUG_REFS) {
-    const head = `${entry.sourceRef.kind} ${id.slice(0, 60)}`;
-    refs.set(head.split(":")[0]!, head);
+    const row = flowPaid.get(service[2]!) ?? {
+      entries: 0,
+      minor: 0,
+      first: id,
+    };
+    row.entries += 1;
+    row.minor += credited;
+    flowPaid.set(service[2]!, row);
   }
   return post(entry);
 };
-const refs = new Map<string, string>();
 const dev = new DevMode(
   core,
   world.director,
@@ -301,11 +298,33 @@ const dev = new DevMode(
 );
 const end = addDays(makeIsoDate(core.date), Number(process.env.DAYS ?? 365));
 while (core.date < end) dev.advance(addDays(makeIsoDate(core.date), 1));
-console.log(`\nPaid in the played year (to ${core.date}):`);
-for (const [key, row] of [...paid].sort())
+console.log(`\nThe played year (to ${core.date}):`);
+for (const [service, row] of [...flowPaid].sort())
   console.log(
-    `  ${key}: ${row.count} journal entries, $${(row.minor / 100).toFixed(0)}, first ${row.first}`,
+    `  counted households, ${service}: ${row.entries} monthly payments, $${(row.minor / 100).toFixed(0)} credited to the firm, first ${row.first}`,
   );
-if (process.env.DEBUG_REFS) console.log([...refs.values()]);
-if (![...paid.keys()].some((key) => key.startsWith("public:")))
-  console.log("  no public custodial payment was posted in the year");
+const closed = (organizationId: string) => {
+  const book = core.finance.businesses.get(organizationId);
+  return book?.closedAt
+    ? ` (firm closed ${book.closedAt}, ${book.closingReasonKey})`
+    : "";
+};
+const byKind = new Map<string, string[]>();
+for (const contract of core.finance.contracts.values()) {
+  if (
+    !contract.kind.startsWith("household.customer.") &&
+    !contract.kind.startsWith("public.customer.")
+  )
+    continue;
+  const rows = byKind.get(contract.kind) ?? [];
+  rows.push(
+    `${contract.id}: due from ${contract.firstDueAt}, last settled ${contract.lastSettledAt ?? "never"}, next due ${contract.dueAt}, arrears ${contract.arrearsMinor}${contract.endedAt ? `, ended ${contract.endedAt}` : ""}${closed(contract.payeeId)}`,
+  );
+  byKind.set(contract.kind, rows);
+}
+for (const [kind, rows] of [...byKind].sort())
+  console.log(`  finance contracts, ${kind}: ${rows.length}; first ${rows[0]}`);
+if (![...byKind.keys()].some((kind) => kind.startsWith("public.customer.")))
+  console.log(
+    "  no public custodial contract existed, so none was paid in the year",
+  );
