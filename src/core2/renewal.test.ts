@@ -421,7 +421,15 @@ it(
         ).toBeLessThan(1);
       }
       const born = rows.find((found) => found.status === "delivered");
-      if (!born) continue;
+      if (!born) {
+        const statuses: Record<string, number> = {};
+        for (const row of rows)
+          statuses[String(row.status)] =
+            (statuses[String(row.status)] ?? 0) + 1;
+        tried[tried.length - 1] +=
+          ` (${rows.length} decisions: ${JSON.stringify(statuses)})`;
+        continue;
+      }
       // Another engine reads it: the counted birth record cites the decision.
       const birth = renewal.table("births").get(`${born.childId}:birth`);
       expect(birth?.unplannedId, String(born.id)).toBe(born.id);
