@@ -1,6 +1,6 @@
 {
   "version": "p13-director-situations-v1",
-  "note": "Story director situation library on the new core (docs/design/director-on-core2.md). Ported from data/content/situation-types.json and draft pull request 3914. Structure only: no type holds a sentence; records fill every role and the English engine voices every line. Situation types are human moments only. Election night is folded into news-arrives and celebration with the elections engine as the cause; the door-knocking flow is folded into first-meeting and visit with the canvass as the reason. Each cause matches a director moment by its label, its counterpart, a thread turn or a callback reason; a cause whose producer the new core does not have yet names it in awaitingProducer and matches nothing. Each type's tag names its situation key (loss, threat, honor, news-received, favor-asked, vote-wanted, arrival, departure, routine; scripts/english-corpus/moves.json), its endpoint (money, bill, political, personal) and the banks' registers its lines are composed in; the coverage table (npm run words:coverage) counts the parts for every type, role, move and register. Formal procedures still run by their own engine's rules; the civic types (a race won or lost, a floor vote, a signing, a veto, an appointment, a recall, a public hearing, a press interview, a scandal, a law reaching someone, a campaign stop, a filing, a layoff, an eviction notice) are the human moments inside them, each naming its cause record in causeRecord and waiting for the director's producer.",
+  "note": "Story director situation library on the new core (docs/design/director-on-core2.md). Ported from data/content/situation-types.json and draft pull request 3914. Structure only: no type holds a sentence; records fill every role and the English engine voices every line. Situation types are human moments only. Election night is folded into news-arrives and celebration with the elections engine as the cause; the door-knocking flow is folded into first-meeting and visit with the canvass as the reason. Each cause matches a director moment by its label, its counterpart, a thread turn or a callback reason; a cause whose producer the new core does not have yet names it in awaitingProducer and matches nothing. Each type's tag names its situation key (loss, threat, honor, news-received, favor-asked, vote-wanted, arrival, departure, routine; scripts/english-corpus/moves.json), its endpoint (money, bill, political, personal) and the banks' registers its lines are composed in; the coverage table (npm run words:coverage) counts the parts for every type, role, move and register. Formal procedures still run by their own engine's rules; the civic types (a race won or lost, a floor vote, a signing, a veto, an appointment, a recall, a public hearing, a press interview, a scandal, a law reaching someone, a campaign stop, a filing, a layoff, an eviction notice) are the human moments inside them, each naming its cause record in causeRecord and waiting for the director's producer. A type with a purpose (src/director/data/purpose-arcs.json) plays as an exchange: its asker role opens and states the purpose, the asked role answers with four replies, and the exchange runs until the purpose is resolved or refused (owner, Oct 15, evening). Its stakes name the record facts the exchange turns on.",
   "fills": {
     "subject": "The person whose moment opened the situation.",
     "counterpart": "The other person the opening record names.",
@@ -15,7 +15,13 @@
     "chair": "The presiding officer the body's record names that day.",
     "members": "The body's sitting members on record, other than the subject.",
     "press": "The reporter the press record names.",
-    "clerk": "The official the office's record names at its counter."
+    "clerk": "The official the office's record names at its counter.",
+    "donor": "A person whose contribution record names the subject's campaign.",
+    "party-chair": "The chair the subject's party record names.",
+    "staff": "A person the subject's office record employs.",
+    "constituent": "A resident of the subject's district with a recorded problem (a lost job, an eviction, a serious illness).",
+    "opponent": "The other candidate the subject's contest record names.",
+    "volunteer": "A person the subject's campaign record lists as a volunteer."
   },
   "settings": {
     "home": "The subject's household home.",
@@ -25,7 +31,9 @@
     "phone": "A call between the two.",
     "letter": "A letter or message from someone away.",
     "venue": "The place the opening record names.",
-    "public": "A public place in the subject's town."
+    "public": "A public place in the subject's town.",
+    "office": "The subject's office, from their office record.",
+    "chamber": "The body's meeting room, from the body's record."
   },
   "timings": {
     "at-cause": "On the day the opening record is written.",
@@ -240,6 +248,19 @@
           "match": {
             "label": "feeling:event:housing.eviction",
             "counterpart": "none"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "subject",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:housing.eviction",
+            "counterpart": "some"
           },
           "bind": {
             "receiver": "subject",
@@ -679,6 +700,19 @@
             "guests": "present"
           },
           "opener": "host"
+        },
+        {
+          "match": {
+            "label": "money:job-started",
+            "counterpart": "some"
+          },
+          "bind": {
+            "honoree": "counterpart",
+            "host": "subject",
+            "guests": "kin"
+          },
+          "opener": "honoree",
+          "opening": "tell"
         }
       ],
       "awaiting": ["record:birthday-gathering", "record:election-win"],
@@ -764,12 +798,7 @@
       "tag": {
         "key": "loss",
         "endpoint": "personal",
-        "registers": [
-          "conversation",
-          "scene-words",
-          "journal",
-          "address/house-floor"
-        ]
+        "registers": ["conversation", "scene-words", "journal"]
       }
     },
     {
@@ -843,7 +872,7 @@
         },
         {
           "key": "authority",
-          "fill": "authority",
+          "fill": "coworkers",
           "count": "one",
           "moves": ["tell", "offer", "comfort"],
           "wants": ["follow-rules", "help-others"],
@@ -865,7 +894,7 @@
           "awaitingProducer": "school-started",
           "bind": {
             "newcomer": "subject",
-            "authority": "authority",
+            "authority": "coworkers",
             "peers": "classmates"
           }
         },
@@ -876,7 +905,7 @@
           },
           "bind": {
             "newcomer": "subject",
-            "authority": "authority",
+            "authority": "coworkers",
             "peers": "coworkers"
           }
         }
@@ -1276,6 +1305,18 @@
             "cannot-come": "counterpart"
           },
           "opener": "visitor"
+        },
+        {
+          "match": {
+            "label": "feeling:event:health.serious-illness",
+            "counterpart": "none"
+          },
+          "bind": {
+            "visitor": "kin",
+            "cannot-come": "subject"
+          },
+          "opener": "visitor",
+          "opening": "comfort"
         }
       ],
       "awaiting": ["record:serious-illness", "record:nursing-home"],
@@ -2302,8 +2343,12 @@
       "tag": {
         "key": "routine",
         "endpoint": "political",
-        "registers": ["interview", "newscast"]
-      }
+        "registers": ["scene-talk", "scene-words", "interview"]
+      },
+      "purpose": "press-comment",
+      "asker": "reporter",
+      "asked": "official",
+      "stakes": ["story", "outlet"]
     },
     {
       "key": "scandal",
@@ -2400,6 +2445,14 @@
       "key": "campaign-stop",
       "roles": [
         {
+          "key": "volunteer",
+          "fill": "volunteers",
+          "count": "some",
+          "moves": ["request", "ask", "thank", "promise"],
+          "wants": ["engage"],
+          "bearing": "eager"
+        },
+        {
           "key": "candidate",
           "fill": "subject",
           "count": "one",
@@ -2435,17 +2488,22 @@
           "causeRecord": "speech.heard",
           "bind": {
             "candidate": "subject",
-            "voters": "audience"
+            "voters": "audience",
+            "volunteer": "volunteers"
           },
-          "opener": "candidate",
+          "opener": "volunteer",
           "opening": "greet"
         }
       ],
       "tag": {
         "key": "vote-wanted",
         "endpoint": "political",
-        "registers": ["address/campaign", "conversation", "journal"]
-      }
+        "registers": ["scene-talk", "scene-words", "address/campaign"]
+      },
+      "purpose": "rally-volunteer",
+      "asker": "volunteer",
+      "asked": "candidate",
+      "stakes": ["race", "issue"]
     },
     {
       "key": "filing",
@@ -2592,6 +2650,629 @@
         "key": "loss",
         "endpoint": "money",
         "registers": ["conversation", "scene-words", "journal", "bring-it-up"]
+      }
+    },
+    {
+      "key": "vote-asked",
+      "purpose": "ask-vote",
+      "asker": "colleague",
+      "asked": "you",
+      "stakes": ["bill", "asker-position", "your-position", "tie"],
+      "roles": [
+        {
+          "key": "colleague",
+          "fill": "members",
+          "count": "one",
+          "moves": ["request", "plea", "press", "threaten", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
+          "wants": ["keep-same"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "chamber"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "vote-sought",
+          "causeEngine": "legislature",
+          "causeRecord": "legislature.member-position",
+          "bind": {
+            "colleague": "members",
+            "you": "subject"
+          },
+          "opener": "colleague"
+        }
+      ],
+      "tag": {
+        "key": "vote-wanted",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "vote-confirmed",
+      "purpose": "confirm-vote",
+      "asker": "colleague",
+      "asked": "you",
+      "stakes": ["bill", "your-promise", "tie"],
+      "roles": [
+        {
+          "key": "colleague",
+          "fill": "members",
+          "count": "one",
+          "moves": ["ask", "plea", "press", "threaten", "thank", "accept"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "withdraw", "bargain", "stall", "relent"],
+          "wants": ["change"],
+          "bearing": "anxious"
+        }
+      ],
+      "setting": ["office", "chamber", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "vote-confirmed",
+          "causeEngine": "legislature",
+          "causeRecord": "legislature.member-position",
+          "bind": {
+            "colleague": "members",
+            "you": "subject"
+          },
+          "opener": "colleague"
+        }
+      ],
+      "tag": {
+        "key": "vote-wanted",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "bill-carry",
+      "purpose": "carry-bill",
+      "asker": "member",
+      "asked": "you",
+      "stakes": ["bill", "asker-position", "tie"],
+      "roles": [
+        {
+          "key": "member",
+          "fill": "members",
+          "count": "one",
+          "moves": ["request", "plea", "press", "bargain", "thank", "accept"],
+          "wants": ["commit"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "decline", "bargain", "stall", "relent"],
+          "wants": ["play-safe"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["office"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "sponsor-sought",
+          "causeEngine": "legislature",
+          "causeRecord": "legislative-vote",
+          "bind": {
+            "member": "members",
+            "you": "subject"
+          },
+          "opener": "member"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "donor-ask",
+      "purpose": "donor-ask",
+      "asker": "donor",
+      "asked": "you",
+      "stakes": ["money", "donor-interest", "bill"],
+      "roles": [
+        {
+          "key": "donor",
+          "fill": "donor",
+          "count": "one",
+          "moves": [
+            "request",
+            "press",
+            "threaten",
+            "bargain",
+            "thank",
+            "accept"
+          ],
+          "wants": ["self-interest"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "deflect", "relent"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "donor-ask",
+          "causeEngine": "campaigns",
+          "causeRecord": "campaign-contribution",
+          "bind": {
+            "donor": "donor",
+            "you": "subject"
+          },
+          "opener": "donor"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "party-ask",
+      "purpose": "party-ask",
+      "asker": "chair",
+      "asked": "you",
+      "stakes": ["office", "party", "race"],
+      "roles": [
+        {
+          "key": "chair",
+          "fill": "party-chair",
+          "count": "one",
+          "moves": ["request", "press", "threaten", "plea", "thank", "accept"],
+          "wants": ["follow-rules"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
+          "wants": ["speak-out"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "party-ask",
+          "causeEngine": "parties",
+          "causeRecord": "party.nomination",
+          "bind": {
+            "chair": "party-chair",
+            "you": "subject"
+          },
+          "opener": "chair"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "office-hours",
+      "purpose": "constituent-help",
+      "asker": "constituent",
+      "asked": "you",
+      "stakes": ["problem", "place", "office"],
+      "roles": [
+        {
+          "key": "constituent",
+          "fill": "constituent",
+          "count": "one",
+          "moves": ["request", "plea", "press", "thank", "accept"],
+          "wants": ["change"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["promise", "ask", "decline", "offer"],
+          "wants": ["help-others"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["office"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "office-hours",
+          "causeEngine": "offices",
+          "causeRecord": "office.approached",
+          "bind": {
+            "constituent": "constituent",
+            "you": "subject"
+          },
+          "opener": "constituent"
+        }
+      ],
+      "tag": {
+        "key": "favor-asked",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "family-filing",
+      "purpose": "family-filing",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["office", "filing"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["ask", "plea", "comfort", "press", "thank"],
+          "wants": ["keep-same"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "request", "deflect", "comfort"],
+          "wants": ["commit"],
+          "bearing": "eager"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "filed",
+          "causeEngine": "elections",
+          "causeRecord": "candidate-filed",
+          "bind": {
+            "relative": "household",
+            "you": "subject"
+          },
+          "opener": "relative"
+        }
+      ],
+      "tag": {
+        "key": "news-received",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "family-win",
+      "purpose": "family-win",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["office", "votes"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["congratulate", "ask", "promise", "thank"],
+          "wants": ["engage"],
+          "bearing": "glad"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "promise", "boast", "tell"],
+          "wants": ["commit"],
+          "bearing": "proud"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "own-race-result",
+          "causeEngine": "elections",
+          "causeRecord": "election.result",
+          "bind": {
+            "relative": "household",
+            "you": "subject"
+          },
+          "opener": "relative"
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "family-loss",
+      "purpose": "family-loss",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["office", "votes", "opponent"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["comfort", "ask", "plea", "thank"],
+          "wants": ["help-others"],
+          "bearing": "tender"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "blame", "deflect", "promise"],
+          "wants": ["withdraw"],
+          "bearing": "hurt"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "own-race-result",
+          "causeEngine": "elections",
+          "causeRecord": "election.result",
+          "bind": {
+            "relative": "household",
+            "you": "subject"
+          },
+          "opener": "relative"
+        }
+      ],
+      "tag": {
+        "key": "loss",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "family-absence",
+      "purpose": "family-absence",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["office", "absence"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["confront", "plea", "press", "accept", "warn"],
+          "wants": ["change"],
+          "bearing": "hurt"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["apologize", "promise", "deflect", "blame"],
+          "wants": ["keep-same"],
+          "bearing": "contrite"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "away-from-home",
+          "causeEngine": "offices",
+          "causeRecord": "office-day",
+          "bind": {
+            "relative": "household",
+            "you": "subject"
+          },
+          "opener": "relative"
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "rally-opponent",
+      "purpose": "rally-opponent",
+      "asker": "opponent",
+      "asked": "you",
+      "stakes": ["race", "opponent", "issue"],
+      "roles": [
+        {
+          "key": "opponent",
+          "fill": "opponent",
+          "count": "one",
+          "moves": ["confront", "boast", "press", "threaten", "accept"],
+          "wants": ["confront"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["disagree", "deflect", "confront", "boast"],
+          "wants": ["speak-out"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "rally",
+          "causeEngine": "elections",
+          "causeRecord": "campaign-event",
+          "bind": {
+            "opponent": "opponent",
+            "you": "subject"
+          },
+          "opener": "opponent"
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "desk-bill",
+      "purpose": "desk-bill",
+      "asker": "aide",
+      "asked": "you",
+      "stakes": ["bill", "section", "votes"],
+      "roles": [
+        {
+          "key": "aide",
+          "fill": "staff",
+          "count": "one",
+          "moves": ["deliver-news", "answer", "press", "thank"],
+          "wants": ["follow-rules"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "ask", "stall"],
+          "wants": ["commit"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["office"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "bill-on-desk",
+          "causeEngine": "legislature",
+          "causeRecord": "legislature.sign-or-veto",
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
+          "opener": "aide"
+        }
+      ],
+      "tag": {
+        "key": "vote-wanted",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "staff-news",
+      "purpose": "staff-news",
+      "asker": "aide",
+      "asked": "you",
+      "stakes": ["story", "outlet", "votes"],
+      "roles": [
+        {
+          "key": "aide",
+          "fill": "staff",
+          "count": "one",
+          "moves": ["deliver-news", "answer", "disagree", "comfort", "promise"],
+          "wants": ["help-others"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["ask", "blame", "accept", "deflect"],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["office", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "staff-news",
+          "causeEngine": "press",
+          "causeRecord": "press.exposed",
+          "bind": {
+            "aide": "staff",
+            "you": "subject"
+          },
+          "opener": "aide"
+        }
+      ],
+      "tag": {
+        "key": "news-received",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "section-bargain",
+      "purpose": "section-bargain",
+      "asker": "member",
+      "asked": "you",
+      "stakes": ["bill", "section", "asker-position"],
+      "roles": [
+        {
+          "key": "member",
+          "fill": "members",
+          "count": "one",
+          "moves": ["bargain", "press", "threaten", "accept", "thank"],
+          "wants": ["self-interest"],
+          "bearing": "braced"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "refuse", "bargain", "stall", "relent"],
+          "wants": ["play-safe"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["chamber", "office"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "section-bargain",
+          "causeEngine": "legislature",
+          "causeRecord": "legislature.poison-pill",
+          "bind": {
+            "member": "members",
+            "you": "subject"
+          },
+          "opener": "member"
+        }
+      ],
+      "tag": {
+        "key": "vote-wanted",
+        "endpoint": "bill",
+        "registers": ["scene-talk", "scene-words"]
       }
     }
   ]

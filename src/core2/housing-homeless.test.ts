@@ -5,7 +5,13 @@
  * foreclosure to the same statuses. Recorded fixtures for the edge cases;
  * the played year is in scripts/world-proofs/world-homelessness-year.ts.
  */
+import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { lawChain } from "./modules/laws";
+import { searchCorePlaces } from "./place-lookup";
 import foreclosureData from "./data/housing/foreclosure.json" with { type: "json" };
 import shelterData from "./data/housing/shelter-beds.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
@@ -17,6 +23,8 @@ import {
   housingStatusCounts,
   housingStatusOf,
   reviewHomeless,
+  shelterBeds,
+  shelterRateFor,
   type HousingStatusRow,
 } from "./housing-homeless";
 import type { CoreInput, PersonInput, Source } from "./types";
@@ -383,4 +391,80 @@ describe("an owner who stops paying the mortgage", () => {
       core.finance.contracts.get("mortgage:household:owner")!.endedAt,
     ).toBe(row.removedAt);
   });
+});
+
+describe("shelter beds per 10,000 by place", () => {
+  it("gives American Samoa and the Marianas the island-area median, not the nation's rate", () => {
+    const islands = ["GU", "PR", "VI"]
+      .map((k) => (shelterData.bedsPer10k as Record<string, number>)[k]!)
+      .sort((a, b) => a - b);
+    for (const usps of ["AS", "MP"]) {
+      expect(shelterRateFor(usps), usps).toBe(islands[1]);
+      expect(shelterRateFor(usps), usps).toBeLessThan(
+        shelterData.nationalBedsPer10k,
+      );
+    }
+    expect(shelterRateFor("GU")).toBe(6.18);
+    expect(shelterRateFor("NY")).toBe(shelterData.bedsPer10k.NY);
+  });
+});
+
+describe("shelter beds in a drawn island area", () => {
+  it("the beds the eviction path reads in American Samoa or the Marianas are the island-area median per 10,000", () => {
+    const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+    const pool = ["US-AS", "US-MP"]
+      .flatMap((state) =>
+        searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+          stateJurisdictionKey: state,
+        }).map((p) => ({ key: p.key, usps: state.slice(3) })),
+      )
+      .sort((a, b) => a.key.localeCompare(b.key));
+    expect(pool.length).toBeGreaterThan(0);
+    // Redraw (bounded) until a place is big enough that the two rates give
+    // different beds: a village of fifty has none either way.
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+      const place =
+        pool[
+          parseInt(
+            createHash("sha256")
+              .update(`${seed}:shelter:${attempt}`)
+              .digest("hex")
+              .slice(0, 8),
+            16,
+          ) % pool.length
+        ]!;
+      setBookkeeping(false);
+      const { core } = buildBenchWorld(`${seed}:${attempt}`, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const api = coreAPI(core);
+      const town = lawChain(api).townPlaceId;
+      const counts = housingStatusCounts(api, town);
+      const people =
+        counts.housed +
+        counts["doubled-up"] +
+        counts.sheltered +
+        counts.unsheltered;
+      const median = (
+        shelterData.estimated as Record<string, { bedsPer10k: number }>
+      )[place.usps]!.bedsPer10k;
+      const beds = shelterBeds(api, town, place.usps);
+      const national = Math.floor(
+        (people * shelterData.nationalBedsPer10k) / 10_000,
+      );
+      expect(beds, place.key).toBe(Math.floor((people * median) / 10_000));
+      tried.push(`${place.key}: ${people} people, ${beds} beds`);
+      if (national <= beds) continue;
+      process.stdout.write(
+        `SHELTER ${place.key}, seed ${seed}:${attempt}: ${people} people, ${beds} beds at ${median} per 10,000 (the nation's rate would give ${national})\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn island-area place large enough to tell the rates apart in 8 draws (seed ${seed}): ${tried.join("; ")}`,
+    );
+    // An island-area opening built in under 30 seconds on a 4-core container; up to 8 of them.
+  }, 300_000);
 });

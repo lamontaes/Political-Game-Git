@@ -207,6 +207,27 @@ export function countedHeadcountOf(
   return heads;
 }
 
+/**
+ * An employer's annual payroll for the weight of its counted workers: the
+ * book's payroll plus what each counted job's household stands for beyond one
+ * (the book counts one worker per counted job). Readers that size a cushion
+ * for the next paydays read this.
+ */
+export function weightedPayrollMinor(
+  core: CoreState,
+  organizationId: string,
+  annualPayrollMinor: number,
+  daysPerYear: number,
+): number {
+  let payroll = annualPayrollMinor;
+  for (const job of countedJobsOf(core, organizationId))
+    payroll +=
+      (countedHeadsOf(core, job.personId) - 1) *
+      job.wageDailyMinor *
+      daysPerYear;
+  return payroll;
+}
+
 /** How many people one counted person's record stands for: their household's weight (one where the counts no longer hold them). */
 export function countedHeadsOf(core: CoreState, personId: string): number {
   const store = residentsRuntime(core)?.store;

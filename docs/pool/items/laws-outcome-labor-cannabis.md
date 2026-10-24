@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-b6g0dl
 pr: #5201
 blocked-on:
