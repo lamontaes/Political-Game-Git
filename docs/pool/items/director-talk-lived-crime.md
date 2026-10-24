@@ -5,7 +5,7 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5922
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Added Oct 24 by the effects lead for effects-end-to-end-proof (its scene step), after web-views-lived-crime-moves-stance.
 
 Sent back 2026-10-24 UTC from PR #5922 (branch claude/talk-lived-crime): successful crime test stops at the first victim rather than required year boundary; PersonId still imported from non-exporting kernel/brands instead of core2/types; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5922 (branch claude/talk-lived-crime): test passes victim moment as listener occasion; openConversation resolves listener ledger, so intended crime occasion is absent; use and assert listener own moment of same household crime, keeping year/source checks; finish on that branch, merge main into it first.
