@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 
 ---
 
-**What.** PR #5639 substitutes all full students average attendance for every counted student, and defaults that average to 1. The new shortcut is not registered.
+**What.** PR #5639 substitutes all full students average attendance for every counted student, and defaults that average to 1. The new shortcut is not registered. Its comment calls the average local to the student's place, but the calculation pools full students across places, so meeting someone can change the attendance basis their school standing reads.
 
 **Rules.** One model, two tiers; every behavioral shortcut needs its exact stopgap row and code marker.
 
@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/school-outcomes.ts, src/core2/school-outcomes.test.ts, src/core2/data/stopgaps.json
 
-**Notes.** Sent back 2026-10-23 from PR #5639 (branch effect-web-integration): school-outcomes.ts:140-173 uses a global full-student attendance mean for counted students without a registered stopgap; finish on that branch, merge main into it first.
+**Notes.** Sent back 2026-10-24 from PR #5639 (branch effect-web-integration): school-outcomes.ts:140-173 uses a global full-student attendance mean for counted students without a registered stopgap; finish on that branch, merge main into it first.
