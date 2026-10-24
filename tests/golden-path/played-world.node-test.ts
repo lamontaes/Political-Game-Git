@@ -651,17 +651,32 @@ function playWorld(seed: string) {
       heldIds.has(String(d.contestId)) &&
       !incumbentIds.has(String(d.personId)),
   );
+  // A challenger who filed and lost a primary ran too: the primary marks the
+  // losing filing withdrawn (src/core2/modules/voting.ts, its `lose`), as in
+  // Crosspointe, Virginia, where the one challenger lost the Democratic
+  // primary for attorney general to the incumbent.
+  const primaryLosers = rowsOf(core, "core2-elections-v1", "filings").filter(
+    (f) =>
+      f.status === "withdrawn" &&
+      heldIds.has(String(f.contestId)) &&
+      !incumbentIds.has(String(f.personId)) &&
+      core.people.has(String(f.personId)),
+  );
   verdicts["a named challenger runs"] = !held.length
     ? unobserved("no race was decided in the run")
     : challengers.length
       ? pass(`${challengers.length} named challengers in ${held.length} races`)
-      : !wantedToRun.length
-        ? unobserved(
-            `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+      : primaryLosers.length
+        ? pass(
+            `${primaryLosers.length} named challengers filed and lost a primary in ${held.length} races (${String(primaryLosers[0]!.id)})`,
           )
-        : fail(
-            `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
-          );
+        : !wantedToRun.length
+          ? unobserved(
+              `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+            )
+          : fail(
+              `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+            );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(
