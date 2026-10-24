@@ -2014,7 +2014,7 @@
     "why": "Every resident needs real family consistent with age; a full kin-matching and migration engine does not exist.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "A kin engine that matches relatives to residents across households and places, with partners, cousins and observed migration distances.",
+    "replacement": "Researched Oct 24, 2026: how near relatives live is in data/research/people/pew-parent-proximity-2005.json (Pew 2006: 65% of adults with a living parent live within an hour's drive of that parent) and data/research/people/pew-extended-family-proximity-2021.json (Pew 2022: 55% near at least some extended family, by Census region, with a table for all 56 places), reported against the town by scripts/research/people-year.ts; the builder item people-kin-placement-by-distance places and matches relatives by them. A kin engine that matches relatives to residents across households and places, with partners, cousins and observed migration distances.",
     "status": "open"
   },
   {
@@ -2022,11 +2022,11 @@
     "kind": "estimated-behavior",
     "file": "src/core2/data/opening-kin.json",
     "line": 215,
-    "whatItFakes": "The five temperament dimensions are read from five NEO facets (CTO-approved October 10, 2026) with BLSA age curves, IPIP-NEO sex differences and NEO-PI-R manual facet correlations; the A4 compliance age curve's quadratic term is held at zero because it is not legible in the source manuscript, and each dimension uses one facet rather than its own norms.",
+    "whatItFakes": "The five temperament dimensions are read from five NEO facets (CTO-approved October 10, 2026) with BLSA age curves, IPIP-NEO sex differences and NEO-PI-R manual facet correlations; each dimension uses one facet rather than its own norms.",
     "why": "The owner's five dimensions have no published norms of their own; facet norms are the nearest sourced spread.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "The A4 quadratic term from a legible copy of Terracciano and others (2005) Table 2, and norms measured on the five dimensions themselves.",
+    "replacement": "Researched Oct 24, 2026: the A4 quadratic term is zero by the source itself. Terracciano and others (2005) Table 2, read at https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/, fits A4 Compliance as a straight line (\"The quadratic terms are presented only when the quadratic model fit the data better than the linear model\"). Every facet's curve in opening-kin.json and the two facet correlations (psychTools 2.6.4 dataset neo, read from the package data) are checked by scripts/research/people-parameters-check.ts against data/research/people/terracciano-blsa-neo-facets-2005.json and data/research/people/neo-pi-r-facet-correlations-1992.json. Still open, so personalitySociabilityRiskCorrelation and personalityReliabilityImpulseCorrelation stay ESTIMATED: norms measured on the five dimensions themselves, which would make both correlations SOURCED.",
     "status": "open"
   },
   {
@@ -2170,7 +2170,7 @@
     "why": "First version of views on the new core, built while the people records gain education and faith.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving stances (M1-10, M2-09).",
+    "replacement": "Researched Oct 24, 2026: the place-type term is in data/research/people/pew-partisanship-community-type-2023.json (Pew Research Center 2024, registered voters: urban counties 60% Democratic and 37% Republican, suburban 47% and 50%, rural a 25-point Republican edge), reported beside the town's opening lean by scripts/research/people-year.ts; education and faith already come from the CES 2024 keys and the stance loadings. The 14 values have no answer key yet. Builder item people-views-opening-place-type-and-values. Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving stances (M1-10, M2-09).",
     "status": "open"
   },
   {
@@ -2182,7 +2182,7 @@
     "why": "Part 1 precedes housing/jobs integrations; clinical reproductive capacity, infertility and pregnancy outcomes are not represented by the current people records. Rates cannot select pregnancies.",
     "addedBy": "CODEX-RENEWAL",
     "addedAt": "2026-10-11",
-    "replacement": "Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibration; infant development producer. Finisher must review these limits against Part 1.",
+    "replacement": "Researched Oct 24, 2026 (research-people-sourced-parameters): renewalGestationDays SOURCED at 268 days from ovulation (Jukic and others, Human Reproduction 2013); renewalAgeCenter 30.0 and renewalAgeSpread 8.7 years ESTIMATED from the NCHS 2024 fertility schedule (data/research/renewal/natality-2024.json); renewalTimingPeakYears 2.25 ESTIMATED from NCHS Data Brief 240 (2016); renewalMedianAnnualIncomeMinor ESTIMATED from the HUD FY2025 income limits every other place reads; all checked by scripts/research/people-parameters-check.ts and read by birthCircumstances in src/core2/births-plan.ts and birthStanding in src/core2/births-counted.ts. Still open: the 15 weights and pulls have no convertible source (the plan is a utility-max choice, and no study publishes its coefficients), so they stay TUNABLE and the town's births per 1,000 women 15 to 44 are reported against the place's NCHS rate by scripts/research/people-year.ts; the 91-day review is a fixed step (people-renewal-renewalReviewDays-as-cause); each place's own age shape is people-births-age-shape-by-place. Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibration; infant development producer. Finisher must review these limits against Part 1.",
     "status": "open"
   },
   {
@@ -2230,7 +2230,7 @@
     "why": "Event-born drives were zero in P8 (acceptance d); the decision path is real but its response set and weights are uncalibrated.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Response rows and pressures calibrated against documented responses to bereavement, job loss and injustice (P9 lives, panel studies).",
+    "replacement": "Researched Oct 24, 2026: the band the response pressures calibrate against is data/research/people/trauma-trajectories-2018.json (Galatzer-Levy, Huang and Bonanno, Clinical Psychology Review 2018: 65.7% resilient after a potential trauma, 95% interval 61.6 to 69.8), reported against the town's bereavement carry-on share by scripts/research/people-year.ts; the builder item people-drives-responses-against-research-bands sets the pressures. Response rows and pressures calibrated against documented responses to bereavement, job loss and injustice (P9 lives, panel studies).",
     "status": "open"
   },
   {
@@ -2242,7 +2242,7 @@
     "why": "The owner approved bounded perception; no source maps these traits to event salience yet.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Channel rows and weights validated against appraisal research and P9 replays.",
+    "replacement": "Researched Oct 24, 2026: no appraisal study with a trait-to-salience effect that converts to a channel weight was found (Europe PMC searches for a pooled neuroticism and perceived-stress or stress-reactivity estimate returned single studies only), so channel rows stay authored; the builder item people-drives-responses-against-research-bands starts with that search. Channel rows and weights validated against appraisal research and P9 replays.",
     "status": "open"
   },
   {
@@ -2254,7 +2254,7 @@
     "why": "Drives must move people, money and relationships inside the core; full group and civic procedures do not exist yet.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Group, charity and civic engines whose procedures decide outcomes, with durations from ATUS.",
+    "replacement": "Researched Oct 24, 2026: the volunteer act's hours are SOURCED from the American Time Use Survey 2025, Table 1 (BLS): volunteerHours 2.18 hours per participant-day, data/research/people/atus-2025-volunteering.json, read by the volunteer-for-cause act in src/core2/data/drives.json; civic acts already read civicHours from the same row. ATUS has no category for telling someone about a cause, making a donation or a confrontation, so driveShareHours, donateHours and driveConfrontHours stay prototype. The group and civic procedures are people-stopgap-drives-missing-mechanic and people-stopgap-drives-cause-group-spending. Group, charity and civic engines whose procedures decide outcomes, with durations from ATUS.",
     "status": "open"
   },
   {
@@ -3125,7 +3125,7 @@
     "id": "SG-PW8-partnership-start",
     "kind": "estimated-record",
     "file": "src/core2/data/renewal/parameters.json",
-    "line": 230,
+    "line": 244,
     "whatItFakes": "When a couple has no dated partner fact (or it is dated the opening day), the partnership start is estimated: one birth-spacing interval before their first child, else the mother reaching the usual age of a first union.",
     "why": "The opening writes partnerships without a start date for many couples, so a long marriage looked brand new on the opening day.",
     "addedBy": "PW-8 (Opus builder)",
