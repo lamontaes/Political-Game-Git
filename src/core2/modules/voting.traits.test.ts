@@ -24,6 +24,8 @@ import {
 import type { CoreAPI, CoreState, PersonState } from "../types";
 
 const SEED = `${RUN_SEED}:voting`;
+/** The thirds' mean lean gap toward voting over the six places the turnout weight was found on. */
+const CALIBRATION_LEAN_GAP = 0.66;
 
 let core: CoreState;
 let api: CoreAPI;
@@ -62,14 +64,23 @@ describe("voting.turnout reads one calibrated trait term", () => {
           p: propensityOf({ duty, stakes: 0, reach: 0, habit: 0, cost }),
         };
       });
-    const target = studyLogOdds("voting.turnout", "openness")!;
+    // The weight is found over six places (its parameter row names them). The
+    // net log odds grow with how far apart a place's thirds sit in lean: 0.83
+    // to 0.88 per unit of that gap across the six, whose gaps run 0.47 to 0.73
+    // and average 0.660 (measured Oct 24). So this place is held to the
+    // study's size scaled by its own gap over that average, within 0.2.
+    const sorted = [...lean].sort((a, b) => a - b);
+    const third = Math.floor(sorted.length / 3);
+    const mean = (part: number[]) =>
+      part.reduce((sum, v) => sum + v, 0) / part.length;
+    const gap = mean(sorted.slice(-third)) - mean(sorted.slice(0, third));
+    const target =
+      (studyLogOdds("voting.turnout", "openness")! * gap) /
+      CALIBRATION_LEAN_GAP;
     const { net, flat } = netLogOdds(core, "voting.turnout", measure);
     console.log(
-      `turnout: net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)} (circumstances alone ${flat.toFixed(3)})`,
+      `turnout: net log odds ${net.toFixed(3)} against the study's ${target.toFixed(3)} at this place's lean gap ${gap.toFixed(3)} (circumstances alone ${flat.toFixed(3)})`,
     );
-    // The weight is found over six places; a single place's trait spread moves
-    // the gap (the thirds' lean gap runs 0.47 to 0.73 across them), so this
-    // place is held to the study's size within 0.2.
     expect(net).toBeGreaterThan(target - 0.2);
     expect(net).toBeLessThan(target + 0.2);
   });
