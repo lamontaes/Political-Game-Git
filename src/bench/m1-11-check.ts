@@ -10,8 +10,9 @@
 //     displaced-worker rate and most carry on, the band the engine's own test
 //     uses (data/research/drives/economic-losses.json: retraining 10 to 16
 //     percent plus a few points of new businesses);
-// (3) everyone who answered was named by the event or shares a household or
-//     family with someone it named;
+// (3) everyone who answered was named by the event's records or shares a
+//     household or family with someone it named, counted people included
+//     (src/bench/m1-11-named.ts);
 // (4) every drive formed from these events that aims at someone aims at the
 //     party the event names as responsible, and that party is a record.
 // Exits nonzero naming each failed clause.
@@ -26,6 +27,8 @@ import {
   drivesReport,
   type FormationTrace,
 } from "../core2/modules/drives";
+import { residentsRuntime } from "../core2/modules/residents";
+import { answeredByNamed } from "./m1-11-named";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m1-11-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -50,10 +53,31 @@ const where = `${w.place.displayName} (${w.place.key}), seed ${seed}`;
 // Every response the engine records, kept whole: its own list keeps only the
 // latest few hundred. Watching changes nothing it does.
 const answers: FormationTrace[] = [];
+// The counted workers each closure ended, read when the engine answers it:
+// by the year's end their jobs may be gone from the counted records.
+const endedCounted = new Map<string, string[]>();
+const closureWorkers = (eventId: string) => {
+  const closure = core.finance.closures.get(
+    eventId.split(":").slice(2).join(":"),
+  );
+  const jobs = residentsRuntime(core)?.jobs;
+  return (closure?.endedCountedJobIds ?? []).flatMap((id) => {
+    const personId = jobs?.get(id)?.personId;
+    return personId ? [personId] : [];
+  });
+};
 const kept = drivesReport(core).decisions;
 const push = kept.push.bind(kept);
 kept.push = (...rows: FormationTrace[]) => {
-  for (const row of rows) if (KINDS.has(row.eventKind)) answers.push(row);
+  for (const row of rows) {
+    if (!KINDS.has(row.eventKind)) continue;
+    answers.push(row);
+    if (
+      row.eventKind === "organization.closed" &&
+      !endedCounted.has(row.eventId)
+    )
+      endedCounted.set(row.eventId, closureWorkers(row.eventId));
+  }
   return push(...rows);
 };
 
@@ -87,27 +111,31 @@ check(
   `${where}: only ${(100 * carryOn).toFixed(1)}% of displaced workers carry on, under ${100 * CARRY_ON_AT_LEAST}%`,
 );
 
-// (3) Who answered: someone the event named, or their household or family.
-const householdOf = (id: string) => core.people.get(id as never)?.householdId;
+// (3) Who answered: someone the event's records name (for a counted person,
+// its counted subject, perceivers or the counted workers a closure ended), or
+// their household or family. Being counted is never enough by itself.
+const counted = residentsRuntime(core);
 const kin = new Map<string, Set<string>>();
 for (const link of core.familyLinks.values()) {
   const [a, b] = link.personIds;
   kin.set(a, (kin.get(a) ?? new Set()).add(b));
   kin.set(b, (kin.get(b) ?? new Set()).add(a));
 }
+const { factKeys: driveFacts } = DEFAULT_DRIVES_DATA as unknown as {
+  factKeys: { countedSubject: string; countedPerceivers: string };
+};
+const lookups = {
+  householdOf: (id: string) =>
+    core.people.get(id as never)?.householdId ??
+    counted?.householdOfPerson.get(id as never),
+  kinOf: (id: string) => kin.get(id),
+  endedCountedWorkers: (eventId: string) => endedCounted.get(eventId) ?? [],
+  factKeys: driveFacts,
+};
 let unnamed = 0;
 const unnamedSample: string[] = [];
 for (const row of answers) {
-  const subjects = row.event.subjects;
-  const near =
-    subjects.includes(row.personId) ||
-    subjects.some(
-      (s) =>
-        (householdOf(s) !== undefined &&
-          householdOf(s) === householdOf(row.personId)) ||
-        kin.get(s)?.has(row.personId),
-    );
-  if (near || row.counted) continue;
+  if (answeredByNamed(row, lookups)) continue;
   unnamed += 1;
   if (unnamedSample.length < 3)
     unnamedSample.push(`${row.personId} for ${row.eventId}`);
@@ -183,6 +211,11 @@ console.log(
         evictions: byKind("housing.eviction"),
       },
       answers: answers.length,
+      countedAnswers: answers.filter((row) => row.counted).length,
+      countedSample: answers
+        .filter((row) => row.counted)
+        .slice(0, 2)
+        .map((row) => ({ person: row.personId, event: row.eventId })),
       displacedWorkers: losses.length,
       proveOneself: +prove.toFixed(3),
       carryOn: +carryOn.toFixed(3),
