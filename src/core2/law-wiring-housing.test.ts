@@ -26,8 +26,8 @@ import { govReport } from "./gov-test-report";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import {
-  adoptedLine,
   amendBudget,
+  baseBudget,
   budgetsOf,
   governments,
 } from "./modules/budgets";
@@ -215,7 +215,10 @@ function play(
   const leasePosts = new Map<string, Post>();
   setJournalTrace((input) => {
     const ref = input.sourceRef.id;
-    const lease = /^finance:\d{4}-\d{2}-\d{2}:(lease:.+)$/.exec(ref)?.[1];
+    // A full household's lease settles as a finance contract; a counted household's rent is paid by its groups.
+    const lease =
+      /^finance:\d{4}-\d{2}-\d{2}:(lease:.+)$/.exec(ref)?.[1] ??
+      /^(rent:[^@]+)@\d{4}-\d{2}-\d{2}/.exec(ref)?.[1];
     if (!lease && !/^(counsel|rent-assistance|construction|loan):/.test(ref))
       return;
     let gross = 0;
@@ -279,7 +282,7 @@ function play(
       "rent",
       rent.some((r) => r.target === "household") &&
         (renewals.every((r) => r.tier !== "counted") ||
-          rent.some((r) => r.target === "group" && r.count > 1)),
+          rent.some((r) => r.target === "group")),
       "no household, or no counted group, was recorded",
     );
     check(
@@ -288,27 +291,34 @@ function play(
         renewals.reduce((s, r) => s + Math.max(0, r.savedMinor ?? 0), 0),
       "rent held below market is not in the applied rows",
     );
-    // The chain: a full household's lease, held below the market, paid at the held rent (its journal entry).
-    for (const r of renewals) {
-      if (r.tier === "counted" || !r.householdId) continue;
-      const row = rent.find((x) => x.targetId === r.householdId && !x.endedOn);
-      const paid = lastSettlement(r.id, r.renewedAt);
-      if (!row || !paid || paid.paidMinor !== r.rentMinor) continue;
-      if (!((r.marketRentMinor ?? 0) > r.rentMinor)) continue;
-      trails.rent = {
-        appliedId: row.id,
-        lawId: row.lawId,
-        reached: r.householdId,
-        person: personIn(core, r.householdId),
-        journalId: paid.journalId,
-        amountMinor: row.amountMinor,
-      };
-      break;
+    // The chain: a household's lease, held below the market, paid at the held rent (its journal entry); a full household first, a counted one (the rent its groups pay) where the place has none.
+    for (const tier of ["full", "counted"]) {
+      if (trails.rent) break;
+      for (const r of renewals) {
+        if ((r.tier === "counted") !== (tier === "counted") || !r.householdId)
+          continue;
+        const row = rent.find(
+          (x) => x.targetId === r.householdId && !x.endedOn,
+        );
+        const paid = lastSettlement(r.id, r.renewedAt);
+        if (!row || !paid) continue;
+        if (tier === "full" && paid.paidMinor !== r.rentMinor) continue;
+        if (!((r.marketRentMinor ?? 0) > r.rentMinor)) continue;
+        trails.rent = {
+          appliedId: row.id,
+          lawId: row.lawId,
+          reached: r.householdId,
+          person: personIn(core, r.householdId),
+          journalId: paid.journalId,
+          amountMinor: row.amountMinor,
+        };
+        break;
+      }
     }
     check(
       "rent",
       Boolean(trails.rent),
-      "no full household's lease was held below the market and paid at the held rent",
+      "no household's lease was held below the market and paid at the held rent",
     );
   }
 
@@ -587,7 +597,7 @@ function play(
     );
   }
 
-  // The housing line, raised after the year above: enough extra to cover a hundred vouchers. (Raised on day one it left the leases unrenewed under the law in a large town; see the report.)
+  // The housing line, raised after the year above: enough extra to cover a hundred vouchers.
   const gov =
     governments(api).find((g) => g.level === "city") ??
     governments(api).find((g) => g.level === "county") ??
@@ -605,26 +615,15 @@ function play(
       tenants(api).map((t) => [t.id, t]),
     );
     const raisedOn = core.date;
-    // The line stays a hundred vouchers above the year's adopted base: a fiscal year turning in these days opens a new budget without the amendment.
-    const keepRaised = () => {
-      const current = budgetsOf(api, gov.id)
-        .filter((b) => b.startsOn <= core.date)
-        .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]!;
-      const above =
-        (current.spendingMinor.housing ?? 0) -
-        adoptedLine(api, gov, current.fiscalYear, "housing");
-      if (above < delta)
-        amendBudget(api, {
-          governmentId: gov.id,
-          line: "housing",
-          deltaMinor: delta - above,
-          measureId: "law-wiring-housing-line",
-        });
-    };
-    for (let day = 0; day < HELPED_DAYS; day += 15) {
-      keepRaised();
-      step(core, Math.min(15, HELPED_DAYS - day));
-    }
+    // A passed budget bill: the change joins the government's enacted lines, which every later year's budget starts from.
+    amendBudget(api, {
+      governmentId: gov.id,
+      line: "housing",
+      deltaMinor: delta,
+      measureId: "law-wiring-housing-line",
+      carry: true,
+    });
+    step(core, HELPED_DAYS);
     const help = rowsOn(api, KEYS.housing);
     check("housing", help.length > 0, "the line reached no household");
     check(
@@ -702,7 +701,7 @@ function play(
       .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0]!;
     const above =
       (budget.spendingMinor.housing ?? 0) -
-      adoptedLine(api, gov, budget.fiscalYear, "housing");
+      (baseBudget(api, gov, budget.fiscalYear).spendingMinor.housing ?? 0);
     check("rentHelp.cut", above > 0, "the line is not above its base to cut");
     const cutOn = core.date;
     amendBudget(api, {
@@ -710,6 +709,7 @@ function play(
       line: "housing",
       deltaMinor: -above,
       measureId: "law-wiring-housing-line-cut",
+      carry: true,
     });
     step(core, 40);
     check(

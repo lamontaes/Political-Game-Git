@@ -1,6 +1,6 @@
 /**
  * Rent assistance from a housing budget line. A government whose housing line
- * stands above the line as adopted pays the extra to as many of the town's
+ * stands above its Census base pays the extra to as many of the town's
  * renting households as it covers at the average voucher, the households with
  * the least income per member first. Full households are paid through the
  * journal to their oldest adult; a counted household is paid through its
@@ -11,14 +11,13 @@
 import { countedPayment } from "./counted-money";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./law-reach/applied";
 import {
-  baseLine,
   budgetToday,
   HOUSING_LINE_KEY,
   housingLineMeasureId,
 } from "./law-reach/group-a-money";
 import { mechanicRow } from "./law-reach/group-a-records";
 import lawParameters from "./data/laws/reach-group-a-parameters.json" with { type: "json" };
-import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
+import { baseBudget, BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { tenants } from "./housing-occupancy";
 import { transferCash } from "./world-transfer";
@@ -39,9 +38,10 @@ export function payRentAssistance(api: CoreAPI): void {
   for (const gov of governments(api)) {
     const budget = budgetToday(api, gov);
     if (!budget) continue;
+    // The line above its Census base: this year's amendments and every budget bill the body has passed, which later years' budgets start from.
     const extra =
       (budget.spendingMinor.housing ?? 0) -
-      baseLine(api, gov, budget, "housing");
+      (baseBudget(api, gov, budget.fiscalYear).spendingMinor.housing ?? 0);
     let slots = Math.floor(extra / annual);
     if (slots <= 0) continue;
     // The measure that last changed this line is the law the help is paid under.
@@ -66,7 +66,7 @@ export function payRentAssistance(api: CoreAPI): void {
       const source = {
         tag: "ESTIMATED" as const,
         asOf: c.date,
-        citation: `${budget.id}: housing line above its adopted base, paid as rent assistance at the average voucher.`,
+        citation: `${budget.id}: housing line above its Census base, paid as rent assistance at the average voucher.`,
         estimatedFrom: `HUD Picture of Subsidized Households 2023, average voucher ${annual} a year`,
       };
       const id = `rent-assistance:${tenant.id}:${c.date}`;
