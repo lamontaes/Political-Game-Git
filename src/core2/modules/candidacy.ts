@@ -63,6 +63,7 @@ import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
 import { fillInPerson } from "../state";
+import { standAgainReason, standsAgain } from "../stand-again";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -339,10 +340,6 @@ function reasonsFrom(
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
     time: -c(api, "candidacyTimeWeight") * Math.min(one, hours),
-    incumbency:
-      contest.incumbentId === person.id
-        ? c(api, "candidacyIncumbencyWeight")
-        : zero,
     incumbentTie: -c(api, "candidacyIncumbentTieWeight") * person.incumbentTie,
     // A seat no one holds draws people in; an incumbent whose record goes
     // against one's views draws a challenge.
@@ -402,6 +399,23 @@ export function decideToRun(
   const id = `${contest.contestId}:${personId}`;
   const held = table(api).get(id) as unknown as CandidacyDecision | undefined;
   if (held && (held.run || !reconsider)) return held;
+  // A serving incumbent's choice is whether to stand again: their age and
+  // temperament, the one rule for it (voting.stand-again, calibrated so about
+  // four in five stand), not a newcomer's case for entering the race.
+  if (contest.incumbentId === personId) {
+    const row: CandidacyDecision = {
+      id,
+      personId,
+      contestId: contest.contestId,
+      date: api.state.date,
+      run: standsAgain(api, person),
+      reasons: { standAgain: standAgainReason(api, person) },
+      scores: [],
+      sourceIds: [...contest.sourceIds, person.id, person.householdId],
+    };
+    table(api).put(row as unknown as { id: string });
+    return row;
+  }
   pending.set(api.state, contest);
   const offers: ActOffer[] = [STAY_OUT, RUN].map((definition) => ({
     definition,
