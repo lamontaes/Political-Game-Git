@@ -116,7 +116,8 @@ export function studentsByPlace(
   // Full students: the household's income from its jobs and recorded awards,
   // the sources a counted household's income fifth is read from.
   const incomes = fullHouseholdIncomes(core);
-  const fullShares: number[] = [];
+  /** Full students' recorded attendance shares, by place. */
+  const fullShares = new Map<string, number[]>();
   const fullStudents: {
     placeId: string;
     id: string;
@@ -128,7 +129,11 @@ export function studentsByPlace(
     if (!person.alive || inactive.has(person.tier)) continue;
     if (ageOn(person.birthDate, sept) !== age) continue;
     const attended = attendance(person.id);
-    if (attended !== undefined) fullShares.push(attended);
+    if (attended !== undefined)
+      fullShares.set(person.placeId, [
+        ...(fullShares.get(person.placeId) ?? []),
+        attended,
+      ]);
     fullStudents.push({
       placeId: person.placeId,
       id: person.id,
@@ -137,16 +142,23 @@ export function studentsByPlace(
       attended,
     });
   }
-  // A counted student attends as the place's full students do on average.
-  const meanAttendance = fullShares.length
-    ? fullShares.reduce((n, v) => n + v, 0) / fullShares.length
-    : api.parameter("one");
+  // stopgapId: SG-SCHOOL-counted-attendance (a counted student, and a full
+  // one with no attendance record yet, attends as the same place's full
+  // students do on average; every day where none is recorded)
+  api.stopgap("SG-SCHOOL-counted-attendance");
+  const meanAttendance = (placeId: string) => {
+    const shares = fullShares.get(placeId);
+    return shares?.length
+      ? shares.reduce((n, v) => n + v, 0) / shares.length
+      : api.parameter("one");
+  };
   for (const s of fullStudents)
     add(s.placeId, {
       id: s.id,
       weight: 1,
       fifth: s.fifth,
-      standing: wAttend * (s.attended ?? meanAttendance) + wTrait * s.trait,
+      standing:
+        wAttend * (s.attended ?? meanAttendance(s.placeId)) + wTrait * s.trait,
       full: true,
     });
   const rt = residentsRuntime(core);
@@ -167,7 +179,9 @@ export function studentsByPlace(
             id: kid.id,
             weight,
             fifth,
-            standing: wAttend * meanAttendance + wTrait * traitMean(kid.traits),
+            standing:
+              wAttend * meanAttendance(placeId) +
+              wTrait * traitMean(kid.traits),
             full: false,
           });
       }
