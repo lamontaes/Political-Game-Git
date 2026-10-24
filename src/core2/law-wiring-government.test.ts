@@ -495,7 +495,8 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           posts.find((p) => p.gross > 0 && p.id.includes(needle))?.id ?? null;
         const hire = lineHires[0];
         // A line hire's pay: a named hire's payroll under their commitment,
-        // a counted hire's in their employer's wage post, from the hire on.
+        // a counted hire's in their employer's wage post, from the hire on;
+        // else the treasury's post for the line itself, which cites it.
         const hireEmployer = hire
           ? ([...core.jobs.values()].find(
               (j) => j.personId === hire.targetId && j.endsAt === undefined,
@@ -528,7 +529,9 @@ describe(`government operations laws are applied by their engines (seed ${seed})
                 key === REDISTRICT
                   ? moneyOf("redistricting-commission:")
                   : key === ADMIN
-                    ? hirePay
+                    ? (hirePay ??
+                      moneyOf(`${ADMIN}`) ??
+                      moneyOf("law-wiring-government-admin"))
                     : VOTING_LAWS.includes(key)
                       ? moneyOf(`election-admin:${key}:`)
                       : null;
