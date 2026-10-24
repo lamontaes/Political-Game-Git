@@ -5,10 +5,10 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5879
-blocked-on:
+blocked-on: people-counted-readers-stances-from-stories
 source: added with npm run pool -- add
 claimed-at:
 ---
