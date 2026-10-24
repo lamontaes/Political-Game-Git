@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/laws.ts, data/laws/
 
 **Notes.** TODO
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

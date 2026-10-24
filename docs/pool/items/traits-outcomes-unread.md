@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 ---
 
@@ -21,3 +21,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** data/content/trait-outcomes.json, src/core2/modules/work.ts, src/core2/modules/jobs.ts, src/core2/emotion.ts
 
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`).
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

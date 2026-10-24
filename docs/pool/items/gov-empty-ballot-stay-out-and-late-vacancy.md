@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/modules/elections.ts
 
 **Notes.** Found Oct 24 by the M0-13 lead's helper. Related and claimed: elections-stand-again-dead-with-candidacy (same early return at voting.ts:1132 means voting.stand-again never runs, which may decide the Commissioner case on its own: read it first). The test comment at tests/golden-path/played-world.node-test.ts:633 says candidacy is calibrated so few adults run; the check is on the ballot, not on challengers, so an incumbent who stays out with nobody else running is the open design question (OWNER DECISIONS NEEDED: may a seat go to an election with no candidate, and who holds it after).
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

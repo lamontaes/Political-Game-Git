@@ -918,6 +918,26 @@ export function fileRunners(
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
   }
+  // A runner the filing day's weighing no longer holds (gone from the town,
+  // dead) is refused for the rules they no longer meet, so every decision to
+  // run ends with a filing or a refusal.
+  for (const decision of candidatesFor(api, contest.id)) {
+    if (decision.filing || row.runIds.includes(decision.personId)) continue;
+    const person = api.state.people.get(decision.personId);
+    const unmet = person?.alive
+      ? checkEligibility(api, decision.personId, contest.id, null)
+          .filter((check) => !check.met)
+          .map((check) => check.rule)
+      : [];
+    table(api).put({
+      ...decision,
+      filing: {
+        status: "refused",
+        filingId: null,
+        unmet: unmet.length ? unmet : ["not-available"],
+      },
+    } as unknown as { id: string });
+  }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;
   });
