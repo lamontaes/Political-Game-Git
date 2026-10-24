@@ -176,6 +176,12 @@
       "stopgapId": "SG-WEB-snap-receipt-ledger"
     },
     {
+      "link": "parent-incarceration-to-household-income",
+      "outcome": "household.income",
+      "reason": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
+      "stopgapId": "SG-WEB-unread-household-income"
+    },
+    {
       "link": "school-spending-to-attainment",
       "outcome": "school.years-completed",
       "reason": "no measure: the web does not keep school.years-completed and no engine produces it; it needs each person's own exposure record, which no engine keeps",

@@ -1172,8 +1172,7 @@
       "source": "Dobbie, Goldin and Yang 2018",
       "from": "justice.parent-incarcerated",
       "evidence": "researched",
-      "notes": "Carried by the engine, so the web does not run it: a prison term ends the prisoner's jobs, so the household's pay falls in the jobs engine's records and the household earnings world-metrics counts, and a web outcome on top would take the same pay a second time. The research gives no size the game can apply and the web keeps no household-income outcome, so the link stays unsized. The justice engine imprisons only those sentenced for bribery today, so the mechanism is the engine's and the share of parents incarcerated by place is not a measure.",
-      "carriedBy": "the justice engine's sentence (the imprison call in src/core2/modules/justice.ts), which schedules keep-from-work for each job the prisoner holds, and justiceWork ends the job (api.endJob), so the household's earnings fall in the jobs records the household reads"
+      "notes": "Waits until a played year shows it. The justice engine's sentence ends the prisoner's jobs (imprison, then api.endJob in src/core2/modules/justice.ts), so a parent's prison term would lower the household's pay in the jobs records, and a web outcome on top would take the same pay a second time. But the engine imprisons only those sentenced for bribery today, so no ordinary played year reaches a parent's prison term, and the link stays unwired with its stopgap until one does. The research gives no size the game can apply and the web keeps no household-income outcome, so the link stays unsized."
     },
     {
       "key": "school-spending-to-attainment",

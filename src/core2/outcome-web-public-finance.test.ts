@@ -7,8 +7,9 @@
  *
  * - the SNAP work-requirement link, carried by the SNAP benefit: played in a
  *   drawn place against a twin where the law is not in force;
- * - the parent-incarceration link, carried by the justice engine's prison
- *   term, which ends the prisoner's jobs;
+ * - the parent-incarceration link, which waits on the unwired list: the
+ *   justice engine's prison term ends the prisoner's jobs, but no ordinary
+ *   played year reaches a parent's prison term yet;
  * - the links with no owning engine, each held to the one thing that keeps it
  *   unwired: no engine names its outcome, so none can multiply its own rate
  *   by the web's factor. When one does, the test fails and the link is wired.
@@ -20,6 +21,7 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -73,21 +75,25 @@ describe("carried links: the engine decides the cause from the same law", () => 
     );
   });
 
-  it("carries the parent-incarceration link by the prison term that ends the prisoner's jobs", () => {
+  it("keeps the parent-incarceration link unwired until a played year shows a parent's prison term", () => {
     const row = link("parent-incarceration-to-household-income");
-    expect(row.carriedBy).toContain("src/core2/modules/justice.ts");
-    const justice = read("src/core2/modules/justice.ts");
-    // A custodial sentence imprisons, imprisoning ends each job, and the job's pay stops with it.
-    expect(justice).toContain("imprison(api, sentence, jobIds)");
-    expect(justice).toContain("endCustodyJobs(api, custody, jobIds)");
-    expect(justice).toContain('kind: "keep-from-work"');
-    expect(justice).toMatch(/api\.endJob\(jobId,/);
-    const coverage = linkCoverage(row);
-    expect(coverage.wired).toBe(false);
-    expect("carriedBy" in coverage && coverage.carriedBy).toBe(row.carriedBy);
+    // The justice engine ends a prisoner's jobs, but it imprisons only those
+    // sentenced for bribery today, so no ordinary year shows a parent's prison
+    // term. The link waits on the unwired list with an open stopgap rather
+    // than claim the engine carries it.
+    expect(row.carriedBy).toBeUndefined();
+    expect(linkCoverage(row).wired).toBe(false);
     expect((WIRED_INTO.get(row.to) ?? []).map((r) => r.key)).not.toContain(
       row.key,
     );
+    const listed = (
+      unwired.links as { link: string; stopgapId: string }[]
+    ).find((r) => r.link === row.key);
+    expect(listed, row.key).toBeDefined();
+    const stopgap = (
+      stopgaps as unknown as { id: string; status: string }[]
+    ).find((r) => r.id === listed!.stopgapId);
+    expect(stopgap?.status, listed!.stopgapId).toBe("open");
   });
 });
 

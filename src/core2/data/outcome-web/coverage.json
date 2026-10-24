@@ -242,8 +242,8 @@
       "carriedBy": "src/core2/modules/jobs.ts: a lost job ends its pay; src/core2/world-poverty.ts counts the household"
     },
     "parent-incarceration-to-household-income": {
-      "waitingOn": [],
-      "carriedBy": "the justice engine's sentence (the imprison call in src/core2/modules/justice.ts), which schedules keep-from-work for each job the prisoner holds, and justiceWork ends the job (api.endJob), so the household's earnings fall in the jobs records the household reads"
+      "waitingOn": ["justice.parent-incarcerated", "household.income"],
+      "needsSize": true
     },
     "school-spending-to-attainment": {
       "waitingOn": [
@@ -720,6 +720,10 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
+    "household.income": {
+      "owner": "OPUS-WORLD",
+      "links": 1
+    },
     "household.vehicle-costs": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -745,6 +749,10 @@
       "links": 1
     },
     "justice.low-level-arrests": {
+      "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "justice.parent-incarcerated": {
       "owner": "OPUS-GOV",
       "links": 1
     },
