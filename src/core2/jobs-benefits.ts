@@ -28,6 +28,8 @@ export interface UnemploymentTerms {
   readonly waitingWeek: boolean;
   /** Earnings in the base period (the last year) a claim needs. */
   readonly minimumBasePeriodMinor: number;
+  /** Employer contacts a claimant must make each week; none where the law asks for none. */
+  readonly workSearchContactsPerWeek: number;
   /** The law row the terms were read from. */
   readonly lawId?: string;
   readonly source: Source;
@@ -46,6 +48,8 @@ export interface ClaimRow {
   weeksLeft: number;
   paidMinor: number;
   reasonKey: string;
+  /** Employer contacts a week the law row asked of this claimant when it was filed. */
+  contactsRequired?: number;
   /** The law row whose terms fixed this claim. */
   lawId?: string;
   source?: Source;
@@ -73,6 +77,7 @@ const NO_PROGRAM = (asOf: string): UnemploymentTerms => ({
   maxWeeks: 0,
   waitingWeek: false,
   minimumBasePeriodMinor: 0,
+  workSearchContactsPerWeek: 0,
   source: {
     tag: "ESTIMATED",
     asOf,
@@ -99,6 +104,7 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
         maxWeeks?: number | null;
         weeklyBenefitFraction?: number | null;
         weeklyBenefitBasisQuarters?: number | null;
+        workSearchContactsPerWeek?: number | null;
         baseEarnings?: {
           minimumBasePeriodWages?: number | null;
           minimumHighQuarterWages?: number | null;
@@ -128,6 +134,10 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
     weeklyMaximumMinor: maximum * minor,
     maxWeeks: t.maxWeeks,
     waitingWeek: t.waitingWeek === true,
+    workSearchContactsPerWeek:
+      typeof t.workSearchContactsPerWeek === "number"
+        ? t.workSearchContactsPerWeek
+        : 0,
     minimumBasePeriodMinor:
       typeof wages === "number"
         ? Math.round(wages * minor)
@@ -197,6 +207,7 @@ export function fileClaim(
     weeksLeft: terms.maxWeeks,
     paidMinor: 0,
     reasonKey,
+    contactsRequired: terms.workSearchContactsPerWeek,
     lawId: terms.lawId,
     source: terms.source,
   };
@@ -204,8 +215,44 @@ export function fileClaim(
   return row;
 }
 
+/**
+ * One claimant's week of looking for work, as the weekly matching saw it: the
+ * employers they applied to (their contacts) against the openings near them.
+ * `paidShare` is what the benefit week paid of its amount against it.
+ */
+export interface SearchRow {
+  id: string;
+  claimId: string;
+  personId: string;
+  /** The matching day the contacts were made. */
+  week: string;
+  contacts: number;
+  openings: number;
+  required: number;
+  /** Set when the benefit week it covers is paid, 0 to 1. */
+  paidShare?: number;
+}
+
+/**
+ * The share of a week's benefit the week's search earns. The law asks a
+ * number of contacts, but a claimant can contact no more employers than hire
+ * near them, so the ask is capped by the openings. A claimant who made fewer
+ * contacts than that is paid that fraction of the week; no week of looking, no
+ * record, or a law that asks nothing, pays in full.
+ */
+export function searchShare(search: SearchRow | undefined): number {
+  if (!search || search.required <= 0) return 1;
+  const asked = Math.min(search.required, search.openings);
+  if (asked <= 0) return 1;
+  return Math.min(1, search.contacts / asked);
+}
+
 /** Pays every open claim due by today from the state's unemployment fund: its treasury. */
-export function payClaims(api: CoreAPI, table: ModuleTable): void {
+export function payClaims(
+  api: CoreAPI,
+  table: ModuleTable,
+  searches?: ModuleTable,
+): void {
   const c = api.state as CoreState;
   for (const row of table.query("open", [true]) as unknown as ClaimRow[]) {
     if (row.nextPayAt > c.date) continue;
@@ -229,6 +276,22 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       });
       continue;
     }
+    // The week's looking for work, from the weekly matching a week back.
+    const search = (
+      searches?.query("byPerson", [row.personId]) as unknown as
+        SearchRow[] | undefined
+    )
+      ?.filter(
+        (s) =>
+          s.claimId === row.id && s.week <= c.date && s.paidShare === undefined,
+      )
+      .sort((a, b) => b.week.localeCompare(a.week))[0];
+    const share = searchShare(search);
+    if (search && search.openings < search.required) {
+      // stopgapId: SG-WORLD-work-search-contacts-capped-by-openings
+      api.stopgap("SG-WORLD-work-search-contacts-capped-by-openings");
+    }
+    if (search) searches!.put({ ...search, paidShare: share });
     // A claimant who is neither a full person nor still counted has left the
     // town's records (moved away): there is no one to pay.
     if (
@@ -247,21 +310,25 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
     const payee = c.people.has(row.personId)
       ? row.personId
       : row.payeeAccountOwnerId;
-    let paid = transferCash(
-      api,
-      `unemployment-benefit:${row.personId}:${c.date}`,
-      fund.id,
-      // A claimant filled in since filing is paid as a full person; a counted
-      // one lands in their own household's group account.
-      payee,
-      row.weeklyMinor,
-      source,
-      { personId: row.personId },
-    );
+    const due = Math.round(row.weeklyMinor * share);
+    let paid =
+      due > 0
+        ? transferCash(
+            api,
+            `unemployment-benefit:${row.personId}:${c.date}`,
+            fund.id,
+            // A claimant filled in since filing is paid as a full person; a counted
+            // one lands in their own household's group account.
+            payee,
+            due,
+            source,
+            { personId: row.personId },
+          )
+        : 0;
     // A state fund that cannot cover the week borrows the rest from outside
     // the town, as a state borrows from the federal government when its fund
     // runs short (26 U.S.C. 1201, Title XII advances).
-    if (state && paid < row.weeklyMinor) {
+    if (state && paid < due) {
       const advance = [...c.organizations.values()].find(
         (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
       );
@@ -271,12 +338,13 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
           `unemployment-advance:${row.personId}:${c.date}`,
           advance.id,
           payee,
-          row.weeklyMinor - paid,
+          due - paid,
           source,
           { personId: row.personId },
         );
     }
-    const weeksLeft = row.weeksLeft - 1;
+    // A week with no contacts is not a week of benefit used.
+    const weeksLeft = share > 0 ? row.weeksLeft - 1 : row.weeksLeft;
     table.put({
       ...row,
       paidMinor: row.paidMinor + paid,

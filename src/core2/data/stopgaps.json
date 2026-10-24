@@ -5536,5 +5536,29 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-work-search-contacts-capped-by-openings",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-benefits.ts",
+    "line": 291,
+    "whatItFakes": "A claimant's weekly work-search contacts are the employers they applied to in the weekly job matching, and the requirement is capped by the openings in their place, so a claimant where nobody is hiring is paid in full.",
+    "why": "The recorded ruling (docs/coordination/OWNER-DECISIONS.md, unemployment work search) sizes contacts from the claimant's drive, traits and the regional labor market, not posted openings. The jobs engine has no contact count apart from applications, so applications stand in for it.",
+    "addedBy": "claude/political-game-pool-yucp92-ad",
+    "addedAt": "2026-10-24",
+    "replacement": "Weekly contacts sized from each claimant's drive, traits and the regional labor market, with the benefit scaled by contacts over the requirement, shown in two claimants with different drives paid different shares in the same week (world-unemployment-work-search).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-work-search-player-claim-exempt",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1830,
+    "whatItFakes": "The person the player controls has no work-search record, so their unemployment claim always pays in full; every other claimant's week is recorded and read.",
+    "why": "The ruling removes any form or paperwork for the player, not the rule: the player's claim should follow the same simulated contact rule in the background. No background contact count exists for a controlled person yet.",
+    "addedBy": "claude/political-game-pool-yucp92-ad",
+    "addedAt": "2026-10-24",
+    "replacement": "The controlled person's contacts sized by the same drive, traits and regional-market rule as every other claimant, with no form for the player (world-unemployment-work-search).",
+    "status": "open"
   }
 ]
