@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/budgets-treasury.ts, src/core2/law-reach/group-b-money.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5780 (branch claude/federal-medicaid-match): federal-medicaid-match.test.ts advances only 360 days and checks cumulative paidMinor plus the final receipt after the loop; an early missed month followed by a final full payment still passes, so assert every due payment through the actual year target; finish on that branch, merge main into it first.

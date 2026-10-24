@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/tooling/m1-03-check.ts, src/core2/tooling/m1-04-check.ts, src/core2/tooling/m1-06-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-economy-flags (CTO branch). M1-04 is expected to fail its layoff clause until world-customers-move-between-sellers lands.
+
+Sent back 2026-10-23 from PR #5876 (branch claude/quirky-ride-vrwwz4-m1-economy): M1-04 rates count weighted jobs and seekers as one; M1-03 suppresses a state opening-unemployment mismatch when its rest-region rate equals the source; finish on that branch, merge main into it first.
