@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/opening-adults-cash-territory
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T12:11:24.609Z
 ---
 
 **What.** src/core2/opening-adults-cash.test.ts fails on clean main 185d76d7ce for GOLDEN_PATH_SEED=b46fc844a2e79fa2, which draws Malaeimi, American Samoa. 33 of 126 resident adults hold nothing at the opening, a share of 0.262 against the test's survey bound of 0.232; the explained groups it names are 45 officials in posts with no salary row (gov-unpaid-posts-officials-no-income), one election chief and three husk-tier kin. Either the island area's resident adults open with too little cash, or the bound should read the territory's own survey; find which from the records and fix that, without loosening the test.

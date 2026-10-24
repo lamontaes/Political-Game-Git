@@ -6,6 +6,11 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - **Counted people's out-of-town pay and non-local spending are labeled estimates (Oct 19, claude; stopgaps SG-CORE-outside-living-costs and SG-CORE-unplaced-workers-income, now resolved).** Counted workers the opening could not place earn the place's ACS median earnings, and the part of a counted household's living cost not bought from a local seller leaves the town (CEX and HUD), each flow carrying its ESTIMATED source and spread, as the Oct 14 stand-in audit (#4151) closed them. The alternative is to build recorded commutes (LEHD origin-destination flows) and an outside-spending model by category. Reopen the two rows if you want those built.
 
+## Oct 24: rulings (owner, to the laws lead)
+
+- **Sex and race on the record (owner, Oct 24: "yes"; he had already answered yes, and the CTO's Oct 24 Open list on #5858 still asked it):** every person carries a recorded sex and race. Race comes from the place's Census shares when the world generates who exists, consistent within a household by the data; counted groups carry the same shares times their count. An employer or landlord passes someone over only from their own recorded traits and views, with the reasons recorded, never a roll (the #5102 ruling), and a discrimination ban refuses a decision whose reasons cite a protected trait. Closes the Open question; built by `people-protected-traits-on-record`, which unblocks `owner-employer-bias-source` and the rights family's discrimination law.
+- **Low-level offenses (owner, Oct 24: "yes"):** the justice case flow models minor quality-of-life offenses (disorderly conduct, loitering, public intoxication and the like) and their arrests, so police staffing can move low-level arrests by a sized research link. Built by `justice-low-level-offenses`.
+
 ## Oct 22: rulings (owner, via the acting CTO)
 
 - **Builders on Oct 21 to 22 (owner, Oct 22):** they ran on a different account. The Oct 20 "pool builders and the pool feeder pause" ruling covered the account that stood at 83 percent of its weekly limit, not the fleet. No rule was broken.
