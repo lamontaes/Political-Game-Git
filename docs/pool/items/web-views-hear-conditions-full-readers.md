@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/affectionate-clarke-7dknew
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T14:48:25.259Z
 ---
 
 **What.** The full readers' half of web-views-hear-conditions-moves-stance, split from it on Oct 24 when a merger sent back #5879. A month's outcome record about a moved condition (rent, jobs, crime) becomes a press story with no wanted change. The news engine now emits its read event for such a story. Each full reader it reached takes the condition as a reason for the side their own view already holds on the matching question, by the views engine's heard-event amount, with the outlet as the source. The outlet's counted followers are only a count at delivery and do not move; that gap is registered as SG-PEOPLE-counted-readers-stories and built by people-counted-readers-stances-from-stories.
