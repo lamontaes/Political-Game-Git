@@ -20,6 +20,8 @@
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI, JobInput } from "../types";
 import { registerPolicyHandler } from "./host";
+import { lawApplied } from "./applied";
+import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
 import {
   endPlaceRule,
   PLACE_PRICES_MODULE_ID,
@@ -56,6 +58,7 @@ import {
   jobsAt,
   modeledShare,
   moveBudget,
+  moveMadeThisYear,
   payBenefits,
   payCoverage,
   payPreschool,
@@ -409,6 +412,33 @@ function runPolicy(
       });
       terms.movedMinor =
         moved && !moved.undone ? (moved.moves.transit ?? 0) : 0;
+      // The treasury pays the moved money on this level's transit line; the
+      // residents it serves are one counted group, read like a full person.
+      // Money is counted when the move is made, once for each fiscal year's budget.
+      if (
+        input.enacting &&
+        moved &&
+        !moved.undone &&
+        moved.moves.transit! > 0
+      ) {
+        const gov = governments(api).find((g) => g.id === moved.governmentId);
+        if (gov)
+          for (const [targetId, target, count] of [
+            [gov.id, "government", undefined],
+            [`residents:${gov.id}`, "group", gov.residents],
+          ] as const)
+            lawApplied(api, {
+              key,
+              lawId: input.lawId,
+              targetId,
+              target,
+              engine: BUDGETS_MODULE_ID,
+              what: "highway-money-moved-to-transit",
+              ...(count === undefined
+                ? { amountMinor: moved.fresh ? moved.moves.transit! : 0 }
+                : { count }),
+            });
+      }
       break;
     }
     case "pension-funding":
@@ -860,6 +890,8 @@ export function registerGroupB(): void {
   });
   for (const key of Object.keys(data.policies))
     registerPolicyHandler(key, (api, change) => {
+      // The treasury's monthly re-read of a standing line law: nothing to do once this year's budget holds the move.
+      if (change.standing && moveMadeThisYear(api, key, change.level)) return;
       forgetTownFacts(api);
       const row = lawRow(api, change.lawId);
       const enacting = key.includes(":")

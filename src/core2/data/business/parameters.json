@@ -393,5 +393,17 @@
       "unit": "share of other operating costs",
       "citation": "California Department of Finance, Standardized Regulatory Impact Assessment of the CCPA regulations (August 2019): about 1.8% of 2018 California gross state product in the first year."
     }
+  },
+  "businessAgeVerificationShareOfCosts": {
+    "value": 0.004,
+    "tag": "ESTIMATED",
+    "citation": "Age verification vendors price by the check (publicly listed vendor rates run from about $0.10 to $1.00 per verified age); Utah SB 152 (2023) and Louisiana Act 456 (2023) require a platform to verify every new account holder's age.",
+    "estimatedFrom": "A platform's yearly new-account checks at the middle vendor rate, as a share of the telecommunications and online employer's other operating costs.",
+    "spread": {
+      "low": 0.001,
+      "high": 0.012,
+      "unit": "share of other operating costs",
+      "citation": "Vendor rate range per check against the other operating costs of a small online employer."
+    }
   }
 }

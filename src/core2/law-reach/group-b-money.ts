@@ -966,6 +966,21 @@ interface MoveRow {
   readonly budgetId: string;
   readonly moves: Readonly<Record<string, number>>;
   readonly undone: boolean;
+  /** Set on the row returned the moment the move is made (not kept): money is counted once. */
+  readonly fresh?: boolean;
+}
+
+/** Whether the act's move is already made in the budget in force at its level (the treasury's monthly re-read need not run it again). */
+export function moveMadeThisYear(
+  api: CoreAPI,
+  key: string,
+  level: string,
+): boolean {
+  const gov = governmentAt(api, level);
+  const budget = gov && budgetNow(api, gov.id);
+  if (!gov || !budget) return false;
+  const prior = getRow<MoveRow>(api, "taken", `move|${key}|${gov.id}`);
+  return !!prior && !prior.undone && prior.budgetId === budget.id;
 }
 
 /**
@@ -1027,7 +1042,7 @@ export function moveBudget(
     undone: false,
   };
   putRow(api, "taken", row);
-  return row;
+  return { ...row, fresh: true };
 }
 
 /** Debt interest lines: the state and local name, and the federal one. */

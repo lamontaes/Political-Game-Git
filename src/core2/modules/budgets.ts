@@ -65,6 +65,8 @@ import {
 } from "../government-jurisdictions";
 import { syncServiceCharges } from "../budgets-service-charges";
 
+export { townShareOf } from "../budgets-treasury";
+
 export const BUDGETS_MODULE_ID = "core2-budgets-v1";
 const WITHHOLDING_KIND = "budgets:withholding";
 
@@ -701,6 +703,17 @@ function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
 }
 
 /**
+ * Laws that set a budget line's level (a dedicated levy, a share of one line
+ * moved to another) are read by the treasury each month it closes and each
+ * year a budget is adopted, so the line it pays is the line the law in force
+ * sets. Law reach registers what runs them.
+ */
+let standingLineLaws: ((api: CoreAPI) => void) | null = null;
+export function registerStandingLineLaws(run: (api: CoreAPI) => void): void {
+  standingLineLaws = run;
+}
+
+/**
  * Each month: the tax collector passes property tax on, then every treasury
  * receives its revenue from outside the town's flows and pays a twelfth of
  * each budget line (`budgets-treasury.ts`). Counted workers' taxes are
@@ -709,10 +722,22 @@ function scheduleOutsideRevenue(api: CoreAPI, after: string): void {
 function closeMonth(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "outside-revenue") return;
   remitPropertyTax(api, work.source);
+  standingLineLaws?.(api);
   // stopgapId: SG-GOV-outside-revenue-monthly
   api.stopgap("SG-GOV-outside-revenue-monthly");
   closeTreasuries(api, work.source);
+  // Standing programs a law has a treasury pay each month (a state's
+  // redistricting commission), registered by the engines that apply them.
+  for (const pay of monthlyPrograms) pay(api, work.source);
   scheduleOutsideRevenue(api, api.state.date);
+}
+
+const monthlyPrograms: ((api: CoreAPI, source: Source) => void)[] = [];
+/** An engine registers a program its law has a treasury pay at each month's close. */
+export function registerMonthlyProgram(
+  pay: (api: CoreAPI, source: Source) => void,
+): void {
+  if (!monthlyPrograms.includes(pay)) monthlyPrograms.push(pay);
 }
 
 const GROCERY_EXEMPTION =
@@ -1185,6 +1210,8 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       "carried forward by the budget rule until the council or legislature votes it",
     );
   }
+  // The year's budget carries what the laws that set a line's level say.
+  standingLineLaws?.(api);
   // The notice names who adopted it: the body's vote, or the carry-forward rule.
   api.emit({
     id: `budget-adopted:${budget.id}`,
@@ -1543,6 +1570,13 @@ export function amendBudget(
     readonly line: string;
     readonly deltaMinor: number;
     readonly measureId: string;
+    /**
+     * A passed budget bill's change: it joins the government's enacted lines,
+     * which every later year's budget starts from (the carry rule above). A
+     * one-time grant or a law that applies its own amount each year leaves
+     * this off.
+     */
+    readonly carry?: boolean;
   },
 ): BudgetRow | null {
   const gov = table(api, "governments").get(input.governmentId) as unknown as
@@ -1553,6 +1587,23 @@ export function amendBudget(
     `budget:${gov.id}:${fy}`,
   ) as unknown as BudgetRow | undefined;
   if (!budget) return null;
+  if (input.carry) {
+    const prior = table(api, "enacted").get(gov.id) as unknown as
+      | {
+          changes: Record<string, number>;
+          byYear?: Record<string, Record<string, number>>;
+        }
+      | undefined;
+    const changes = { ...(prior?.changes ?? {}) };
+    const year = { ...(prior?.byYear?.[String(fy)] ?? {}) };
+    changes[input.line] = (changes[input.line] ?? 0) + input.deltaMinor;
+    year[input.line] = (year[input.line] ?? 0) + input.deltaMinor;
+    table(api, "enacted").put({
+      id: gov.id,
+      changes,
+      byYear: { ...(prior?.byYear ?? {}), [String(fy)]: year },
+    } as unknown as ModuleRow);
+  }
   const amended: BudgetRow = {
     ...budget,
     spendingMinor: {

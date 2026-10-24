@@ -1,0 +1,247 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 120,
+  "after": 10,
+  "results": [
+    {
+      "key": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "kind": "question",
+      "family": "rights",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b) effective 2025-01-21; then repealed at state, city effective 2025-05-22",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+        "law:US-NE:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-05-06:LB 15",
+        "law:US-NE:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-05-22:law-wiring-ca2a5d7b-b",
+        "law:place:3149425:city:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-05-22:law-wiring-ca2a5d7b-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 2,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 32,
+        "governments": 0,
+        "other": 0,
+        "open": 34,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|hired:person_871fac0ba7ada8bb",
+          "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|organization_1b967d9a5ffa2ffd",
+          "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|organization_31edee1019232ef0",
+          "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|organization_e28124bd91f040e4"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2081": 578,
+        "src/core2/jobs-age-bias.ts:36": 268,
+        "src/core2/modules/outcome-web.ts:158": 84,
+        "src/core2/modules/world-legislating.ts:253": 64,
+        "src/core2/modules/world-legislating.ts:183": 34,
+        "src/core2/life.ts:549": 11,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 3985469,
+            "control": 3871419,
+            "ids": [
+              "journal:2025-02-08:7840",
+              "journal:2025-02-15:8012",
+              "journal:2025-02-21:8190"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 127110815,
+            "control": 128328809,
+            "ids": [
+              "journal:2025-01-28:1574",
+              "journal:2025-01-29:1612",
+              "journal:2025-01-30:1617"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 171835181,
+            "control": 171059636,
+            "ids": [
+              "journal:2025-01-24:1557",
+              "journal:2025-01-25:1558",
+              "journal:2025-01-25:1560"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 86002094,
+            "control": 86372598,
+            "ids": [
+              "journal:2025-02-01:1849",
+              "journal:2025-02-01:1850",
+              "journal:2025-02-01:1851"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 62446183,
+            "control": 62225783,
+            "ids": [
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035",
+              "journal:2025-02-01:3037"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1446",
+            "treatment": 923489935,
+            "control": 923697246,
+            "ids": [
+              "journal:2025-01-28:1575",
+              "journal:2025-01-29:1613",
+              "journal:2025-01-30:1618"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 3985469,
+            "control": 3871419,
+            "ids": [
+              "journal:2025-02-08:7840",
+              "journal:2025-02-15:8012",
+              "journal:2025-02-21:8190"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:818",
+            "treatment": 62945419785670,
+            "control": 62945419686458,
+            "ids": [
+              "journal:2025-02-01:1652",
+              "journal:2025-02-01:1653",
+              "journal:2025-02-01:1654"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 68752913,
+            "control": 68665190,
+            "ids": [
+              "journal:2025-02-01:1892",
+              "journal:2025-02-01:1893",
+              "journal:2025-02-01:1894"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 181995768,
+            "control": 181914011,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+            "treatment": 12668352,
+            "control": 12728826,
+            "ids": [
+              "journal:2025-01-25:1559",
+              "journal:2025-01-25:1561",
+              "journal:2025-01-27:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/budgets.ts:849",
+            "treatment": 5172000,
+            "control": 5232099,
+            "ids": [
+              "journal:2025-03-01:8400",
+              "journal:2025-03-01:8401",
+              "journal:2025-03-01:8402"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 234193179914282,
+            "control": 234193179969674,
+            "ids": [
+              "journal:2025-02-01:1662",
+              "journal:2025-02-01:1663",
+              "journal:2025-02-01:1664"
+            ]
+          }
+        ],
+        "diffKinds": 22,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "anti-discrimination-to-poverty",
+            "status": "about-zero",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 50,
+        "sample": [
+          "person_163e4399798d4f4a:printed:outlet:cable:0:national:executive-action:bill:office:US-NE:legislature-unicameral:2025-02-04:official:term:seat:US-NE:unicameral:017:0:2025-01-20:19",
+          "person_163e4399798d4f4a:printed:outlet:cable:1:national:veto-override:bill:office:US-NE:legislature-unicameral:2025-02-04:official:term:seat:US-NE:unicameral:017:0:2025-01-20:19",
+          "person_00dcb5d84e33b676:printed:outlet:magazine:0:national:law-took-effect:law:US-NE:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-05-06:LB 15"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 4,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 32
+    }
+  ]
+}

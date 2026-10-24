@@ -96,6 +96,15 @@ export function addCountedJob(
     const account =
       rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
       template.payeeId;
+    // A public employer's wages come from the treasury that owns its pay
+    // authority, as its named staff's do (and a school district's counted
+    // staff's at the opening); any other employer pays its own.
+    const authorityOwner = core.organizations.get(job.organizationId)
+      ?.publicPayAuthority?.ownerId;
+    const payerId =
+      authorityOwner && core.organizations.has(authorityOwner)
+        ? authorityOwner
+        : job.organizationId;
     // A twice-monthly payroll starts as both paydays.
     const paydays = wageHalves(rt, template),
       base = `residents:wages:${job.organizationId}:${core.date}`,
@@ -107,7 +116,7 @@ export function addCountedJob(
         id: ids[index]!,
         kind: "wages",
         financeKind: payday.financeKind,
-        payerId: job.organizationId,
+        payerId,
         payeeId: account,
         residentsId: account,
         placeId: placeId ?? payday.placeId,
@@ -476,6 +485,29 @@ export function limitOutsideSales(
     changed += 1;
   }
   return changed;
+}
+
+/**
+ * What a business's operating limit costs it in outside sales a year: each
+ * outside buyers' flow at the amount it would pay without the limit, less
+ * what it pays now.
+ */
+export function outputLostPerYear(
+  core: CoreState,
+  organizationId: string,
+): number {
+  const rt = residentsRuntime(core);
+  const limit = limitOf(core, organizationId);
+  if (!rt || !(limit > 0) || limit >= 1) return 0;
+  let lost = 0;
+  for (const flow of rt.flows.values())
+    if (
+      flow.kind === "outside-sales" &&
+      !flow.endedAt &&
+      flow.payeeId === organizationId
+    )
+      lost += perYear(flow, (flow.amountMinor * (1 - limit)) / limit);
+  return Math.round(lost);
 }
 
 /**

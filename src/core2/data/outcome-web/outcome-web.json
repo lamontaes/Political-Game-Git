@@ -281,6 +281,20 @@
       "reader": "property-tax-rate",
       "field": "",
       "unitScale": 100
+    },
+    "budget.parks-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "gov-measures budget.parks-added-pct: the city's parks line above its Census base this fiscal year, in percent (the budgets module's budget row in force)",
+      "reader": "parks-added-pct",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.highways-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "gov-measures budget.highways-added-pct: the town's highway spending above its Census base this fiscal year, in percent (each government's highways line in the budgets module, by the town's share of it)",
+      "reader": "highways-added-pct",
+      "field": "",
+      "unitScale": 1
     }
   },
   "measureOwners": {
