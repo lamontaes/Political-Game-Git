@@ -6,7 +6,7 @@ on:
 permissions:
   contents: write
 # One group per pull request. A shared group lets GitHub hold only one pending
-# run, and each newer merge cancelled the one waiting (303 of 400 runs on Oct
+# run, and each newer merge canceled the one waiting (303 of 400 runs on Oct
 # 20-23), so the items stayed in-pr. The pool command's own fetch-and-retry on
 # the push is what keeps two flips from racing for main.
 concurrency:

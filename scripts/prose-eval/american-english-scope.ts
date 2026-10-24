@@ -68,6 +68,11 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
       "real place and county names from Census and EPA records (Centre, Harbour, Storey)",
   },
   {
+    pattern: /^docs\/reports\/trait-wiring-[0-9a-z-]+\.json$/,
+    reason:
+      "written by the trait-wiring checker; quotes research citations by their published titles (Labour Economics)",
+  },
+  {
     pattern: /^src\/bench\/[a-z-]+-receipt\.json$/,
     reason:
       "receipts the bench verifier wrote and reads back; regenerated rather than edited",
@@ -101,6 +106,11 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     pattern:
       /^docs\/codex\/effect-batches\/team-9\/michigan-cpl-source\.json$/i,
     reason: "transcription of statutory source language, preserved verbatim",
+  },
+  {
+    pattern: /^docs\/pool\/INDEX\.md$/,
+    reason:
+      "generated from the item files, which are checked themselves; an item id is a persisted identifier and keeps its spelling",
   },
   {
     pattern: /^docs\/writing\/[^/]*-original\.md$/,
