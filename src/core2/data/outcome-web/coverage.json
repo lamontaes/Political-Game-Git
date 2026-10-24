@@ -38,7 +38,6 @@
     "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
-    "snap-work-requirement-to-participation",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
     "end-cash-bail-to-pretrial-detention",
@@ -243,8 +242,8 @@
       "carriedBy": "src/core2/modules/jobs.ts: a lost job ends its pay; src/core2/world-poverty.ts counts the household"
     },
     "parent-incarceration-to-household-income": {
-      "waitingOn": ["justice.parent-incarcerated", "household.income"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the justice engine's sentence (the imprison call in src/core2/modules/justice.ts), which schedules keep-from-work for each job the prisoner holds, and justiceWork ends the job (api.endJob), so the household's earnings fall in the jobs records the household reads"
     },
     "school-spending-to-attainment": {
       "waitingOn": [
@@ -411,6 +410,10 @@
     "economy-to-approval": {
       "waitingOn": ["economy.real-income-growth", "approval.incumbent"],
       "needsSize": true
+    },
+    "snap-work-requirement-to-participation": {
+      "waitingOn": [],
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
     },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],
@@ -717,10 +720,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "household.income": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "household.vehicle-costs": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -746,10 +745,6 @@
       "links": 1
     },
     "justice.low-level-arrests": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "justice.parent-incarcerated": {
       "owner": "OPUS-GOV",
       "links": 1
     },

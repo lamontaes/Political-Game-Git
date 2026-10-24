@@ -1086,7 +1086,7 @@
       "from": "program.snap-receipt:moved-by-causes",
       "evidence": "researched",
       "range": [-0.026, -0.015],
-      "notes": "Not carried: no engine keeps SNAP receipt or food insecurity, so both stay ledger numbers (stopgaps SG-WEB-snap-receipt-ledger and SG-WEB-food-insecurity-ledger). Once a benefits writer pays SNAP to households, the household's food spending and a food-insecurity record should read it."
+      "notes": "Not carried: the SNAP benefit pays households, but no field counts its recipients into program.snap-receipt and no engine keeps food insecurity, so both stay ledger numbers and this link has no moved part to read (stopgaps SG-WEB-snap-receipt-ledger and SG-WEB-food-insecurity-ledger). A food-insecurity record should read each household's SNAP benefit and food prices."
     },
     {
       "key": "minimum-wage-to-poverty",
@@ -1172,7 +1172,8 @@
       "source": "Dobbie, Goldin and Yang 2018",
       "from": "justice.parent-incarcerated",
       "evidence": "researched",
-      "notes": "Carried by the engine once sized: src/core2/modules/justice.ts:928 calls imprison (line 1053), which ends the prisoner's jobs (jobsEnded, line 889), so the household's earnings fall in the jobs and world-metrics records without the web. The web keeps no household-income outcome, so the link stays unsized. Earlier note: Unsupported until measured: the effect is one family losing an earner's pay, the game records no share of parents incarcerated by place, and household income by this key is not a kept place outcome."
+      "notes": "Carried by the engine, so the web does not run it: a prison term ends the prisoner's jobs, so the household's pay falls in the jobs engine's records and the household earnings world-metrics counts, and a web outcome on top would take the same pay a second time. The research gives no size the game can apply and the web keeps no household-income outcome, so the link stays unsized. The justice engine imprisons only those sentenced for bribery today, so the mechanism is the engine's and the share of parents incarcerated by place is not a measure.",
+      "carriedBy": "the justice engine's sentence (the imprison call in src/core2/modules/justice.ts), which schedules keep-from-work for each job the prisoner holds, and justiceWork ends the job (api.endJob), so the household's earnings fall in the jobs records the household reads"
     },
     {
       "key": "school-spending-to-attainment",
@@ -2954,7 +2955,8 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": false,
-      "notes": "Not carried: the core pays no SNAP benefit and keeps no SNAP enrollment, so program.snap-receipt stays a ledger number (stopgap SG-WEB-snap-receipt-ledger). The law handler that should pay the benefit and count each person's own months is pool item laws-reach-b-snap-benefit (stopgap SG-GOV-REACH-B-assistance-benefits)."
+      "notes": "Carried by the engine, so the web does not run it: the SNAP benefit pays each qualifying household itself and stops each head the work requirement reaches after their own three months of benefit in 36, so a web cut to the share of residents receiving SNAP would count the law twice. The web's program.snap-receipt stays a ledger number held at its USDA level until a world-metrics field counts the engine's recipients by weight (stopgap SG-WEB-snap-receipt-ledger); snap-to-food-insecurity reads that number's moved part and so has nothing to read until then.",
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
     },
     {
       "key": "universal-prek-to-graduation",

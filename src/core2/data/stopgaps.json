@@ -5181,11 +5181,11 @@
     "kind": "missing-engine",
     "file": "src/core2/modules/outcome-web.ts",
     "line": 431,
-    "whatItFakes": "The share of residents receiving SNAP (program.snap-receipt) is a place number in the outcome web's ledger: its start is the USDA state level and only web links move it; no household is enrolled or paid.",
-    "why": "The core pays no SNAP and keeps no enrollment record (see SG-GOV-REACH-B-assistance-benefits), so nothing can count who receives it.",
+    "whatItFakes": "The share of residents receiving SNAP (program.snap-receipt) is a place number in the outcome web's ledger, held at the USDA state level: the SNAP benefit pays households and stops those the work requirement reaches, but no field counts them into the number and no web link moves it.",
+    "why": "The benefit's recipients are payment obligations in the law-reach store (src/core2/law-reach/group-b-food-aid.ts) and world-metrics counts none of them, so the web has no engine record to read and snap-to-food-insecurity reads a moved part that stays zero.",
     "addedBy": "effect-web-poverty",
     "addedAt": "2026-10-20",
-    "replacement": "The benefits writer of pool item laws-reach-b-snap-benefit pays SNAP to households by income and size; a world-metrics field counts recipients by weight and engineMeasures reads it.",
+    "replacement": "A world-metrics field counts the SNAP benefit's recipients by weight and engineMeasures reads it, so the food-insecurity record reads the benefit's own households.",
     "status": "open"
   },
   {
