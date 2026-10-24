@@ -32,3 +32,5 @@ Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): A sole
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Current main conflicts in src/core2/counted-groups.ts and src/core2/modules/employer-taxes.ts, plus stopgaps registry; code integration aborted without a gate pass; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Corrective6daec099ab5b still conflicts with current main d593cca589 in production src/core2/modules/residents.ts plus registry src/core2/data/stopgaps.json; merge aborted, preserve current payment readers and counted/full deposit conservation, retain registry rows, rerun sample/Census proofs; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Prior conflicts integrated and credit-weight readers repaired, but body marks second Done-when row NOT MET: Sunrise Manor sample182 ended job rows versus Census190; complete row conservation or bound independently completed leaves while retaining acceptance open; finish on that branch, merge main into it first.
