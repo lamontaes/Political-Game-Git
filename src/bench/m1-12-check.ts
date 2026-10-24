@@ -17,6 +17,7 @@ import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { allOfficials, officialStance } from "../core2/modules/officials";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { corePlaceStateIdentities } from "../core2/place-lookup";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m1-12-check";
 const placeKey = process.env.GOLDEN_PATH_PLACE_KEY;
@@ -65,9 +66,16 @@ for (const [clause, ids] of short) {
       .join(", ")} (for example ${ids.slice(0, 3).join(", ")})`,
   );
 }
-if (states.size < 50)
+// Every state, D.C. and territory the place records hold has officials of its
+// own, read from the records rather than from the officials list itself.
+const missingPlaces = [...corePlaceStateIdentities()].filter(
+  (identity) => !states.has(identity.jurisdictionKey),
+);
+if (missingPlaces.length)
   failures.push(
-    `${where}: officials in only ${states.size} states and territories`,
+    `${where}: no serving official in ${missingPlaces.length} of 56 places the records hold: ${missingPlaces
+      .map((p) => p.name)
+      .join(", ")}`,
   );
 
 // One official in each of three states, as the card shows them.
