@@ -2,126 +2,126 @@
   "version": 1,
   "note": "Why a personality decision did not run, or ran without personality turning it, in the trait-wiring audit (docs/reports/trait-wiring-2026-10-20.md). One row per decision with a gap; the matrix (scripts/traits/trait-wiring-matrix.ts) joins them. A row is removed when its fix lands.",
   "formulaSiteAliases": {
-    "src/core2/modules/jobs.ts:2026": "jobs.counted-retire",
-    "src/core2/modules/jobs.ts:2167": "jobs.counted-look",
-    "src/core2/modules/jobs.ts:2237": "jobs.counted-look",
-    "src/core2/modules/business.ts:1513": "business.counted-found"
+    "src/core2/modules/jobs.ts:2221": "jobs.counted-retire",
+    "src/core2/modules/jobs.ts:2476": "jobs.counted-look",
+    "src/core2/modules/jobs.ts:2546": "jobs.counted-look",
+    "src/core2/modules/business.ts:1543": "business.counted-found"
   },
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
-      "why": "Runs about 4 times a year (a lobbyist's first meeting with a member on a bill with employer costs, src/core2/modules/interest-groups.ts:372); the yes score never beats corruptionHonestPull 3, so every offer is declined and the trait never turns one.",
-      "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size."
+      "why": "Ran 4,407 times in the election-window audit (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03): at a lobbyist's first meeting with a member on a bill with employer costs (src/core2/modules/interest-groups.ts:396) and at contract awards (src/core2/modules/contracts.ts:150). Every offer was declined in the drawn, flat and mirrored worlds: the yes score never beats corruptionHonestPull 3 (src/core2/modules/corruption.ts:322), so personality never turns one.",
+      "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size (pool item people-corruption-honest-pull-calibrated)."
     },
     "corruption.take": {
       "class": "trigger needs a record nobody writes",
-      "why": "Runs only after an offer says yes (src/core2/modules/corruption.ts:177); no offer did.",
-      "fix": "Same as corruption.offer."
+      "why": "Weighed only after an offer says yes (src/core2/modules/corruption.ts:187). None of the 4,407 offers in the election window did; a declined offer returns at :220 before any crime row is written.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "corruption.tell": {
       "class": "trigger needs a record nobody writes",
-      "why": "Needs a taken bribe's crime row (src/core2/modules/corruption.ts:215); none was written.",
-      "fix": "Same as corruption.offer."
+      "why": "Weighed only for a taken bribe: when a party's closeness to the other falls (src/core2/modules/corruption.ts:363, from onRelationshipChange) and when a told listener weighs going to the press (:437). Both need a crime row with taken true, and none was written.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "justice.report": {
       "class": "trigger needs a record nobody writes",
-      "why": "Needs a crime row from corruption (src/core2/modules/justice.ts:250); ran twice from other crimes.",
-      "fix": "Same as corruption.offer."
+      "why": "Justice's only source of crimes is the corruption table: the daily intake reads refused offers (src/core2/modules/justice.ts:250-260) and onTold reads a party's telling (:1465-1475). A declined offer writes no crime row (src/core2/modules/corruption.ts:220), so none arrived; the report's reasons are read at justice.ts:283.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "justice.prosecute": {
       "class": "trigger needs a record nobody writes",
-      "why": "Follows a report (src/core2/modules/justice.ts:300).",
-      "fix": "Same as corruption.offer."
+      "why": "Follows a report (src/core2/modules/justice.ts:371).",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "justice.plea": {
       "class": "trigger needs a record nobody writes",
-      "why": "Follows a charge (src/core2/modules/justice.ts:549).",
-      "fix": "Same as corruption.offer."
+      "why": "Follows a charge (src/core2/modules/justice.ts:573).",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "press.tip": {
       "class": "trigger needs a record nobody writes",
-      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:2049).",
-      "fix": "Same as corruption.offer."
+      "why": "Needs a crime.told event for a taken bribe (src/core2/modules/press.ts:275, :2081); the tip is weighed at :2144. leakToReporter (:2245) is the player's own leak.",
+      "fix": "Same as corruption.offer (pool item people-corruption-honest-pull-calibrated)."
     },
     "recalls.organize": {
       "class": "no trigger",
-      "why": "Only a county or city ordinance taking effect starts one, and only where the state allows recall without grounds (src/core2/modules/recalls.ts:159, :190); most places have no petition recall or require grounds.",
-      "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds."
+      "why": "Only a city or county ordinance taking effect starts one (src/core2/modules/recalls.ts:83 onEvent, :349 weighOrdinance), and it returns before weighing anyone where the state's municipal doctrine allows no petition recall (:338, recallRule is null) and where the state requires grounds (:368). Over the 56 places (resolveMunicipalRecallRule), 14 allow a recall without grounds, 8 only for cause and 34 not at all (17 whose state prohibits it, 15 with no state row that take the national estimate of prohibited, 2 judicial-trial states). The election-window place is one of the 15, so no organizer was ever weighed.",
+      "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds, and read each of the 34 places' own rule instead of the national estimate of prohibited (pool item gov-recall-for-cause-start)."
     },
     "recalls.sign": {
       "class": "no trigger",
-      "why": "Follows an organizer (src/core2/modules/recalls.ts:299).",
-      "fix": "Same as recalls.organize."
+      "why": "Follows an organizer: startRecall (src/core2/modules/recalls.ts:480) weighs each signer at :502.",
+      "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
     },
     "recalls.vote": {
       "class": "no trigger",
-      "why": "Needs a recall on the ballot (src/core2/modules/recalls.ts:380).",
-      "fix": "Same as recalls.organize."
+      "why": "Needs a recall on the ballot after a petition with enough signatures (src/core2/modules/recalls.ts:565-616).",
+      "fix": "Same as recalls.organize (pool item gov-recall-for-cause-start)."
     },
     "ballot-measures.vote": {
-      "class": "runs only on a date outside the year",
-      "why": "The earliest measure in data/elections/ballot-measures.json is June 16, 2026; the played year ends January 20, 2026.",
-      "fix": "Add odd-year measures or let an ordinance refer a local measure."
+      "class": "runs only in an election window",
+      "why": "Runs on a measure's election date. The default audit year (January 20, 2025 to January 20, 2026) holds none (the earliest measure in data/elections/ballot-measures.json is June 16, 2026). With TRAIT_AUDIT_ELECTION=1 it ran 277 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-08-04).",
+      "fix": "None in the engine: audit the place's own election window (TRAIT_AUDIT_ELECTION=1 in scripts/traits/trait-wiring-audit.ts)."
     },
     "voting.turnout": {
-      "class": "runs only on a date outside the year",
-      "why": "The played year runs January 20, 2025 to January 20, 2026; most places hold no election in 2025, so turnout runs only where a 2025 local or state election exists.",
-      "fix": "Seed odd-year local elections where the place holds them; measure in a second year otherwise."
+      "class": "runs only in an election window",
+      "why": "Runs on an election day. Most places hold no election in the default audit year (January 20, 2025 to January 20, 2026). With TRAIT_AUDIT_ELECTION=1 it ran 2,681 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-04-28).",
+      "fix": "None in the engine: audit the place's own election window (TRAIT_AUDIT_ELECTION=1 in scripts/traits/trait-wiring-audit.ts)."
     },
     "voting.back-incumbent": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout.",
-      "fix": "Same as voting.turnout."
+      "class": "runs only in an election window",
+      "why": "Same as voting.turnout: 12,324 calls in the election window (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-04-28).",
+      "fix": "None in the engine: audit the place's own election window (TRAIT_AUDIT_ELECTION=1 in scripts/traits/trait-wiring-audit.ts)."
     },
     "voting.exit-poll": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout.",
-      "fix": "Same as voting.turnout."
+      "class": "runs only in an election window",
+      "why": "Same as voting.turnout: 486 calls in the election window (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-11-03).",
+      "fix": "None in the engine: audit the place's own election window (TRAIT_AUDIT_ELECTION=1 in scripts/traits/trait-wiring-audit.ts)."
     },
     "campaigns.answer-poll": {
-      "class": "rare by nature",
-      "why": "Needs a campaign that has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews); no local campaign in four played places did.",
-      "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); the call-time path runs when a state or federal campaign raises enough."
+      "class": "runs only in an election window",
+      "why": "Runs once a campaign has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews). With TRAIT_AUDIT_ELECTION=1 it ran 12,215 times (Parkway, Missouri, seed e6ff0d60d6bc, window 2025-12-03 to 2026-12-03; first call 2026-06-25); no local campaign in four default-year places raised enough.",
+      "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); audit the place's own election window (TRAIT_AUDIT_ELECTION=1)."
     },
     "offices.accept-appointment": {
       "class": "rare",
-      "why": "Runs only when a serving local official dies or moves away and the post fills by appointment (src/core2/modules/offices.ts:1067).",
+      "why": "Weighed only when a city, county or township seat falls vacant and the post fills by appointment: fillVacancy's appoint (src/core2/modules/offices.ts:1135, decision read at :1162) offers the post only to a city, county or township seat, only under a vacancy rule that appoints (successor, appointment, or appointment-then-special, called at :1216, :1218 and :1238), and only when no named successor is given first (:1190). A vacancy needs the serving official to die or move away; none did in the election window.",
       "fix": "Add resignation as a vacancy cause."
     },
     "constituent-cases.handle-case": {
-      "class": "no trigger (staff takes the case first)",
-      "why": "A staffer's decision is tried first (src/core2/modules/constituent-cases.ts:451), so the official's own read never runs where an official has staff.",
+      "class": "rare (staff takes the case first)",
+      "why": "The official's own read (src/core2/modules/constituent-cases.ts:437, ownCaseDecision) runs only for an official with no staffer: officeHandles hands every case to a staffer first (:451). Ran 2 times in the election window (first 2026-01-09).",
       "fix": "Let the official's own lean set what the staffer is told."
     },
     "conversation.believe-claim": {
       "class": "no trigger (player only)",
-      "why": "Read only when the player's line makes a claim (src/director/conversation.ts:2169).",
-      "fix": "Read it where people pass on claims to each other (speech retell, news pass-on)."
+      "why": "Read only when the player's line makes a claim: say (src/director/conversation.ts:2295) asks doubtsClaim (:2272, decision read at :2281) of each hearer at :2346 for the player's lie.",
+      "fix": "Read it where people pass on claims to each other (speech retell, news pass-on) (pool item traits-wire-civic)."
     },
     "conversation.reply-reach": {
       "class": "no trigger (player only)",
-      "why": "Read only in a conversation the player opens.",
+      "why": "Read only to rank the replies offered to the player in a conversation the player opens (src/director/conversation.ts:2003, :2036) and in the player's speech builder (src/director/speech-builder.ts:281, from src/bench/campaign.ts).",
       "fix": "Player-only by design; covered by the player's conversations."
     },
     "bring-it-up.blame": {
       "class": "no trigger (player only)",
-      "why": "Read only in a conversation the player opens (src/director/bring-it-up.ts:105).",
+      "why": "Read only when a person raises a change in a conversation the player opens: leansToBlame (src/director/bring-it-up.ts:125, decision read at :133) is reached from believedCause (:141), which bringItUp (:206) calls from the bench handler (src/bench/handler.ts:382) and the grading tool.",
       "fix": "Player-only by design."
     },
     "press.dig": {
-      "class": "runs only on a date outside the year",
-      "why": "Follows an interview answer that contradicts a record (src/core2/modules/press.ts:1753).",
-      "fix": "Same as voting.turnout."
+      "class": "no trigger (player only)",
+      "why": "Two routes. An interview answer whose move is a lie schedules the reporter's check (src/core2/modules/press.ts:1773-1780, read at :1845), but candidateAnswers gives every candidate who is not the player the move 'plain' (:1929, :1935), so only the player's interview can lie: 168 interviews were accepted in the election window and none dug. A tipped crime reaches the dig at :2166, which needs a taken bribe.",
+      "fix": "Let a simulated candidate whose stated position contradicts their recorded vote answer with the lie move, from their own honesty, ties and the record; the reporter's check then runs from the press engine's own rule (pool item press-world-candidates-answer-from-record)."
     },
     "estates.will": {
       "class": "rare",
-      "why": "Runs when someone with an estate dies (src/core2/estates.ts:283).",
+      "why": "Runs when someone with an estate dies (src/core2/estates.ts:159). Ran 3 times in the election window (first 2026-10-08).",
       "fix": "None needed; rare by nature."
     },
     "office-day-state.clemency": {
-      "class": "rare",
-      "why": "A weekly clemency petition for a governor who is not the player is in review on another branch.",
-      "fix": "In flight elsewhere."
+      "class": "no trigger (no prisoner)",
+      "why": "Weighed on a governor's weekly review day (src/core2/office-day-state.ts:422-427, read at :761-770) only when clemencyDue (:468) finds a state prisoner in custody (src/core2/modules/justice.ts:1305). Custody comes only from a sentence (justice.ts:932, imprison), and justice's only source of crimes is the corruption table, which wrote none, so no governor had a petition to review.",
+      "fix": "Same as corruption.offer: once any crime reaches a sentence, the governor's review has someone to weigh (pool item people-corruption-honest-pull-calibrated)."
     },
     "housing.buy-home": {
       "class": "weight too small",
@@ -162,6 +162,31 @@
       "class": "circumstances tie",
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
+    },
+    "voting.stand-again": {
+      "class": "dead while candidacy is installed",
+      "why": "standsAgain (src/core2/modules/voting.ts:319) is read only from fileStandingCandidates (:1126), which returns at :1132 whenever the candidacy module is installed, and candidacy owns every incumbent's decision to run or stay out (its own decision, candidacy.run). Every played world installs candidacy, so the call at :1196 is never reached, in the election window as in the default year.",
+      "fix": "Fold the age term (standAgainReason, voting.ts:334) into candidacy's reasons for an incumbent and delete standsAgain and the stand-in branch, or measure the decision only in a world built without candidacy (pool item elections-stand-again-dead-with-candidacy)."
+    },
+    "appointments.weigh": {
+      "class": "runs only at the opening and on a vacancy",
+      "why": "The appointer's loyalty against merit (src/core2/appointments.ts:56) is read whenever a post is filled. The town's department heads and the state's cabinet are filled when the executive module opens (src/core2/modules/executive.ts:151-152), before the audit's probe is on; afterward only a department head who dies or moves away (executive.ts:1168-1172) or a newly seated governor (:1197) fills one, and neither happened in the election window.",
+      "fix": "Count the opening's calls by switching the probe on before the build, or audit a window that holds a vacancy or a governor's swearing-in."
+    },
+    "housing.settle-arrears": {
+      "class": "no trigger (fill-in only)",
+      "why": "Runs only when a counted household with an open eviction case is filled in (src/core2/modules/housing.ts:2041 onFillIn, :2057), which happens when the player meets or clicks one of its members. The other engines' fill-ins (staff.ts:677, candidacy.ts:730, constituent-cases.ts:275, campaigns.ts:806, press.ts:2563, housing-homeless.ts:508, housing-foreclosure.ts:331) reached no such household.",
+      "fix": "Let a counted household settle part of its group's arrears as the group's own act each month by the same rule (times its count), so the filled-in case only carries the record."
+    },
+    "legislature.poison-pill": {
+      "class": "rare",
+      "why": "movesPill (src/core2/modules/legislature.ts:3335) is asked only after floorAmendments (:3145) finds a bill that would pass (:3283), an opponent, and a section of the opponent's own that a majority of the roll would adopt and that leaves fewer than the votes needed (:3294-3319). No bill got that far in the election window; which of the guards held was not measured.",
+      "fix": "Measure which guard holds across a session; if the section search is too narrow (pillCandidates), widen it so a contested bill reaches the member's own decision (pool item gov-poison-pill-guards-measured)."
+    },
+    "relationships.fall-out": {
+      "class": "trigger needs a record nobody writes",
+      "why": "Runs when a relationship change carries negative hours (src/core2/state.ts:1068, src/core2/closeness.ts:259). Two engines write them: a grudge drive's confrontation (src/core2/modules/drives.ts:1809), offered only against a living person (:1583) while the drive's target is the employer, landlord or closed business it blames (src/core2/data/drives.json:685-694), so no confrontation was offered; and a taken bribe the official voted against (src/core2/modules/corruption.ts:545), which needs a taken bribe.",
+      "fix": "Let a grudge drive name the person behind the organization (the manager who fired, the landlord who evicted) so a confrontation can be offered; the bribe route follows corruption.offer (pool item people-grudge-confront-person)."
     }
   }
 }
