@@ -27,6 +27,17 @@ export interface DeathTax {
   readonly heirId?: string;
 }
 
+/**
+ * A death tax a bill adopted where none stood sets only a rate: with no
+ * schedule of its own, it taxes the whole amount at that rate, with no
+ * exemption, until a bill gives it one.
+ */
+function flatSchedule(api: CoreAPI, rate: number): Schedule {
+  // stopgapId: SG-LAW-death-tax-no-schedule
+  api.stopgap("SG-LAW-death-tax-no-schedule");
+  return { exemption: 0, minRate: rate };
+}
+
 /** The row in force for a jurisdiction and series on a date: the latest that has begun and not ended. */
 function rowInForce(
   api: CoreAPI,
@@ -87,9 +98,12 @@ export function estateTaxes(
   for (const jurisdiction of ["US", ...(stateKey ? [stateKey] : [])]) {
     const row = rowInForce(api, jurisdiction, "estate-tax");
     if (!row || row.value === null || row.value === undefined) continue;
+    const schedule = row.terms as unknown as Schedule | undefined;
     const amountMinor = scheduleTax(
       estateMinor,
-      row.terms as unknown as Schedule,
+      schedule && "minRate" in schedule
+        ? schedule
+        : flatSchedule(api, row.value),
       row.value,
     );
     if (amountMinor > 0)
@@ -113,13 +127,11 @@ export function inheritanceTax(
   if (!stateKey) return null;
   const row = rowInForce(api, stateKey, "inheritance-tax");
   if (!row || row.value === null || row.value === undefined) return null;
-  const terms = row.terms as unknown as {
-    classes: Record<string, Schedule>;
-    others: Schedule;
-  };
+  const terms = row.terms as unknown as
+    { classes?: Record<string, Schedule>; others?: Schedule } | undefined;
   const amountMinor = scheduleTax(
     shareMinor,
-    terms.classes[relation] ?? terms.others,
+    terms?.classes?.[relation] ?? terms?.others ?? flatSchedule(api, row.value),
     row.value,
   );
   return amountMinor > 0
