@@ -9,7 +9,6 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: words-office-hours-scene
 source: added with npm run pool -- add
 ---
 
@@ -21,4 +20,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, data/english/parts/scene-talk.json, src/director/staff-news-scene.test.ts
 
-**Notes.** TODO
+**Notes.** Builds on the branch of words-office-hours-scene (#5955), which carries the staff cast fill from words-desk-bill-scene (#5953); the PR carries that chain until it merges.
