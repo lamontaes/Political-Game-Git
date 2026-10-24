@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** On the v0.22.10 release every talk box carried a Mark gap button, and pressing it sent a gap note in the background with nothing on screen. Mark gap is a developer control (src/bench/play.html line 672, `/api/talk/gap`). This item takes it off the player's screen; it stays only where dev mode is on.
 
-**Rules.** No hand-written player text and no developer controls on player screens: the talk box shows replies, Say nothing and Leave. Replace, never layer: the button is removed from the player's markup, not hidden by style.
+**Rules.** Serves LAW.md §8, Dev-speak. No hand-written player text and no developer controls on player screens: the talk box shows replies, Say nothing and Leave. Replace, never layer: the button is removed from the player's markup, not hidden by style.
 
 **Done when.** In a drawn place, no talk box in play shows Mark gap, and a test fails if the player's play.html renders a Mark gap control outside dev mode, shown by a screenshot of a talk box.
+
+**Time box.** 1 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** No Mark gap button in any talk box; Say nothing and Leave are the only small controls under the replies.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/bench/play.html, src/bench/play.mjs
 
