@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/archive-law-catalog-name
-pr:
+pr: #5930
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T09:11:21.836Z
