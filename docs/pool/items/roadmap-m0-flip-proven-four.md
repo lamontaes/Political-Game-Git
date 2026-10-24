@@ -5,12 +5,12 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-m0-flags
 pr: #5869
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T14:35:44.298Z
 ---
 
 **What.** PR #5869 now accepts only M0-01, M0-02, M0-03 and M0-06 after its M0-04 send-back. Give those four completed flags their own item so merging the PR does not complete the five-flag parent. The scored-explanation requirement stays open in roadmap-m0-flip-proven-five and play-m0-04-why-scores-all-sampled.
