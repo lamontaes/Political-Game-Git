@@ -57,15 +57,18 @@ describe("money decisions in a played window", () => {
     expect(pairs.length, `places tried: ${tried.join("; ")}`).toBeGreaterThan(
       0,
     );
-    // Founding's best case sits within reach of a trait lean (at most 2 times the weight): at the old baseline the best of a year's weighings sat 1.1 below not starting, and personality turned none.
+    // Founding's cases sit within reach of a trait lean: at least 1 weighing in 200 is no more than two leans (twice the weight) below not starting. At the old baseline the best of a year's 46,674 weighings sat 1.1 below it and personality turned none.
     const founding = calls.filter(
       (call) => call.decisionId === "business.found",
     );
-    if (founding.length >= 1000)
+    if (founding.length >= 1000) {
+      const reach = 2 * decisionTraitWeight(world.core, "business.found");
+      const near = founding.filter((call) => call.bare > -reach).length;
       expect(
-        Math.max(...founding.map((call) => call.bare)),
-        `founding's best case of ${founding.length} weighings at ${label}`,
-      ).toBeGreaterThan(-2 * decisionTraitWeight(world.core, "business.found"));
+        near / founding.length,
+        `${near} of ${founding.length} founding weighings within ${reach} of not starting at ${label}`,
+      ).toBeGreaterThanOrEqual(0.005);
+    }
     const borrow = pairs.find((p) => p.decisionId === "credit.borrow");
     if (borrow)
       expect(

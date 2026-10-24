@@ -130,7 +130,7 @@
     },
     "jobs.apply": {
       "class": "no study number",
-      "why": "Kanfer et al. 2001 give only the range of correlations across all antecedents of job search behavior (-.15 to .46; the abstract has no per-trait number), so the target is assumed (an odds ratio of 1.49 between the thirds, 1.2 per standard deviation). A seeker's push to apply now eases with the weeks looked (applyNeed, src/core2/modules/jobs.ts), so some applications sit near waiting; the weight fit 0.2, 0.7 and 0.4 in three runs of Holualoa's year (about 1,400 calls each) and 0.4 stands. In a small place (Peacham, 142 calls) nothing turned.",
+      "why": "Kanfer et al. 2001 give only the range of correlations across all antecedents of job search behavior (-.15 to .46; the abstract has no per-trait number), so the target is assumed (an odds ratio of 1.49 between the thirds, 1.2 per standard deviation). A seeker's push to apply now eases with the weeks looked (applyNeed, src/core2/modules/jobs.ts), so some applications sit near waiting; the weight fit 0.2, 0.7 and 0.4 in three runs of Holualoa's year (about 1,400 calls each) and 0.35 in a third town (658 calls), so 0.7, the top of the fits, stands. In small places (Peacham, 142 calls; 137 calls in a second drawn town) too few calls sit near waiting to fit, and at lower weights none turned.",
       "fix": "A study that reports a per-trait size for job search intensity."
     },
     "drives.respond": {
@@ -145,7 +145,7 @@
     },
     "business.owner-draw": {
       "class": "no study number",
-      "why": "No study of owners' draws by personality has a number, so the target is assumed (an odds ratio of 1.49 between the thirds). An owner now weighs the business's cash against a month of everything it pays out, not only payroll (a firm with no payroll had no cushion, so all its cash looked spare and every owner drew), so 40 to 50 percent of weighings sit within a point of keeping. Weight 0.15 fits both drawn towns (Holualoa 221 weighings, odds ratio 1.62; Peacham 198, 1.71).",
+      "why": "No study of owners' draws by personality has a number, so the target is assumed (an odds ratio of 1.49 between the thirds). An owner now weighs the business's cash against a month of everything it pays out, not only payroll (a firm with no payroll had no cushion, so all its cash looked spare and every owner drew), so 40 to 50 percent of weighings sit within a point of keeping. The weight fits 0.15 to 0.35 across four draws (Holualoa 192 and 221 weighings, Peacham 196, a third town 199; odds ratios 1.6 to 1.7), and 0.35, the top of the fits, stands because at 0.15 almost nothing turned in a small town (206 weighings).",
       "fix": "A study that reports owners' withdrawals by trait."
     },
     "school.attend": {
