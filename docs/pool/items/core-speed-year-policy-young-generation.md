@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/speed-year-policy-semi-space
+pr: #5820
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T00:14:16.654Z
 ---
 
 **What.** npm run speed:year runs Node with V8's default 16 MiB young generation, while the guard policy (nodeSemiSpaceMiB in scripts/core2-guard/policies.json) and the desktop play server both run at 64 MiB. So the speed rule is measured on a setting play never uses, and Long Hill's year read about 20 seconds slower than play runs it. The script takes the policy's flag, and a test keeps the two equal so they cannot drift apart again.
