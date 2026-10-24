@@ -4,7 +4,8 @@
  * employer for more positions, it posts openings, and the jobs engine fills
  * them from named and counted seekers alike, each hire recorded as the line's
  * reach; a cut withdraws what is unfilled and lays off the line's own hires
- * first, each recorded. A place is drawn from all 56 on a seed nobody chose
+ * first, each recorded, and back at its base no hire stays recorded as the
+ * raise's. A place is drawn from all 56 on a seed nobody chose
  * (STAFFING_LINE_SEED pins one); a place whose employer has no staff to copy
  * a job from is redrawn.
  */
@@ -183,6 +184,14 @@ for (const key of Object.keys(STAFFING))
           .length,
         `${detail}: laid off ${laidOff.map((r) => r.targetId).join(", ")}`,
       ).toBe(Math.min(hired.length, laidOff.length));
+      // Back at its base the line pays for no raise: no hire stays recorded
+      // as the raise's (one the base had room for holds a base position).
+      expect(
+        appliedOn(api, key)
+          .filter((r) => r.what === "hired-on-budget-line")
+          .map((r) => r.id),
+        detail,
+      ).toEqual([]);
       return;
     }
     throw new Error(`no drawn place had the pieces: ${tried.join("; ")}`);

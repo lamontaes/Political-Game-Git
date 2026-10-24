@@ -782,7 +782,7 @@ interface Control {
   web: Map<string, number>;
   /** The law causes the web read in the control world, by month row and link. */
   cause: Map<string, number>;
-  /** Each law's reach at the end of the control window, where nothing changed it. */
+  /** Each law's reach in the control window, where nothing changed it, at its widest step. */
   reach: Map<string, ReachCount>;
 }
 
@@ -816,8 +816,20 @@ function runControl(
       citation: "Law-wiring check: null control",
     });
   }
+  // Each law's reach where nothing changed it, at its widest step of the
+  // window: over a long window a body in play may change a law already in
+  // force, and the people it reached until then still count.
+  const reach = new Map<string, ReachCount>();
   trace.on = true;
-  step(w.core, 1 + WINDOW);
+  for (let left = 1 + WINDOW; left > 0;) {
+    const d = Math.min(28, left);
+    step(w.core, d);
+    left -= d;
+    for (const law of laws) {
+      const now = reachOf(w.core, law.key, null);
+      if (now.open > (reach.get(law.key)?.open ?? -1)) reach.set(law.key, now);
+    }
+  }
   trace.on = false;
   const money = snapshotMoney();
   const reads = trace.reads;
@@ -831,9 +843,6 @@ function runControl(
   for (const law of laws)
     for (const c of webCauses(w.core, placeId, [law]))
       cause.set(`${c.id}|${c.link.key}`, c.value);
-  const reach = new Map(
-    laws.map((law) => [law.key, reachOf(w.core, law.key, null)] as const),
-  );
   return { money, reads, web, cause, reach };
 }
 

@@ -29,7 +29,7 @@ import { appliedOn, type LawAppliedRow } from "./law-reach/applied";
 import { localOfficesForPlace } from "./offices-local";
 import { councilElectionMethod } from "./gov-rules/council-election-method";
 import { allGovernmentUnits } from "./reference/government-units";
-import { holdElection } from "./modules/voting";
+import { electorateRoll, holdElection } from "./modules/voting";
 import { policyAuthority } from "./policy-authority";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import { checkEligibility, fileCandidacy } from "./modules/elections";
@@ -40,7 +40,10 @@ import {
   vacateSeat,
   type TermRow,
 } from "./modules/offices";
-import { lobbyingBarredUntil } from "./law-reach/group-a-voting";
+import {
+  applyElectionLaws,
+  lobbyingBarredUntil,
+} from "./law-reach/group-a-voting";
 import { decideToRun } from "./modules/candidacy";
 import { govReport } from "./gov-test-report";
 import {
@@ -463,42 +466,43 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           `${where}: polls registrations, paid or owed by ${electionAdmin.id}`,
         ).toBeGreaterThan(0);
         // Another contest on the same ballot mails no voter a second ballot:
-        // the county pays for each voter once that day.
+        // the county pays for each voter once that day. The town's other
+        // contest that day is held if it has one; otherwise the second
+        // contest's election-day charge runs on the same roll, as the voting
+        // engine runs it for every contest it holds (`voting.ts`).
         const sameBallot = contestsOf(api).find(
           (c) =>
             c.id !== election.id && c.electionDate === election.electionDate,
         );
-        if (sameBallot) {
-          const mailedOnce = dayCharged(ALL_MAIL);
-          const rowsOnce = new Map(
-            open(api, ALL_MAIL).map((r) => [r.id, r.amountMinor]),
+        const mailedOnce = dayCharged(ALL_MAIL);
+        const rowsOnce = new Map(
+          open(api, ALL_MAIL).map((r) => [r.id, r.amountMinor]),
+        );
+        const second = posts.length;
+        if (sameBallot) holdElection(api, sameBallot.id);
+        else
+          applyElectionLaws(
+            api,
+            "vote",
+            electorateRoll(api),
+            `${election.id}:same-ballot`,
           );
-          const second = posts.length;
-          holdElection(api, sameBallot.id);
-          const secondPaid = posts
-            .slice(second)
-            .filter((p) => p.id.includes(`election-admin:${ALL_MAIL}:`))
-            .reduce((n, p) => n + p.gross, 0);
-          const charged =
-            dayPaid(ALL_MAIL) +
+        const secondPaid = posts
+          .slice(second)
+          .filter((p) => p.id.includes(`election-admin:${ALL_MAIL}:`))
+          .reduce((n, p) => n + p.gross, 0);
+        expect(
+          dayPaid(ALL_MAIL) +
             secondPaid +
             owedOf(ALL_MAIL) -
-            (owedBeforeDay.get(ALL_MAIL) ?? 0);
-          // Only voters not on the first contest's roll add to the cost.
-          const added = open(api, ALL_MAIL).filter(
-            (r) => (rowsOnce.get(r.id) ?? 0) === 0,
-          ).length;
-          if (!added)
-            expect(
-              charged,
-              `${where}: ${sameBallot.id} charged the ballots again`,
-            ).toBe(mailedOnce);
-          for (const [id, amount] of rowsOnce)
-            expect(
-              open(api, ALL_MAIL).find((r) => r.id === id)?.amountMinor,
-              `${where}: ${id} charged twice for one ballot`,
-            ).toBe(amount);
-        }
+            (owedBeforeDay.get(ALL_MAIL) ?? 0),
+          `${where}: ${sameBallot?.id ?? "a second contest"} charged the ballots again`,
+        ).toBe(mailedOnce);
+        for (const [id, amount] of rowsOnce)
+          expect(
+            open(api, ALL_MAIL).find((r) => r.id === id)?.amountMinor,
+            `${where}: ${id} charged twice for one ballot`,
+          ).toBe(amount);
 
         // The outcome web read the laws.
         const months = (
