@@ -46,7 +46,7 @@ export interface Student {
   readonly full: boolean;
 }
 
-/** A full student's result record. */
+/** A student's result record: every result of a full student, and a counted senior's graduation. */
 export interface SchoolResultRow {
   readonly id: string;
   readonly personId: string;
@@ -60,6 +60,8 @@ export interface SchoolResultRow {
   readonly factor: number;
   readonly webRecordId: string | null;
   readonly measureId: string;
+  /** A counted student's household weight: the students the record stands for. */
+  readonly weight?: number;
 }
 
 /** The counted (and full) students of one income fifth in one place, as counts. */
@@ -277,7 +279,10 @@ export function decideSchoolOutcome(
           owed -= s.weight;
           passed += s.weight;
         }
-        if (s.full)
+        // A full student keeps every result; a counted senior keeps their
+        // graduation, which the jobs engine reads when it prices their hire,
+        // standing for as many students as their household's weight.
+        if (s.full || kind === "graduation")
           table(api, "results").put({
             id: `${measure}:${s.id}:${startYear}`,
             personId: s.id,
@@ -290,6 +295,7 @@ export function decideSchoolOutcome(
             factor,
             webRecordId: recordId,
             measureId,
+            ...(s.full ? {} : { weight: s.weight }),
           } satisfies SchoolResultRow as never);
       }
       carry.put({ id: carryId, owed } as never);
@@ -413,4 +419,26 @@ export function recordSchoolSpending(
   };
   table(api, "measures").put(row as never);
   return row;
+}
+
+/**
+ * A person's graduation record, if their senior year was decided in play:
+ * the school year that began when they were a senior's age.
+ */
+export function graduationOf(
+  api: CoreAPI,
+  personId: string,
+  birthDate: string,
+): SchoolResultRow | undefined {
+  const age = data.gradeAgeFirst + data.tested.graduation;
+  const results = table(api, "results");
+  const born = Number(birthDate.slice(0, 4));
+  for (const startYear of [born + age, born + age + 1]) {
+    if (ageOn(birthDate, `${startYear}-09-01`) !== age) continue;
+    const row = results.get(
+      `${SCHOOL_MEASURE.graduation}:${personId}:${startYear}`,
+    );
+    if (row) return row as unknown as SchoolResultRow;
+  }
+  return undefined;
 }

@@ -52,6 +52,8 @@ import {
   residentsRuntime,
 } from "./residents";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
+import { graduationOf } from "../school-outcomes";
+import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -2071,7 +2073,8 @@ export function moveLabel(
 
 /**
  * What a hire is paid per hour: the position's pay, moved by the person's own
- * schooling (their education record, or the profile it is drawn from) by the
+ * schooling (their graduation record from a senior year in play, else their
+ * education record, or the profile it is drawn from) by the
  * share of the BLS earnings gap that holds within one role. A person with no
  * schooling record (a child) takes the position's pay as it stands. The same
  * rule prices a full and a counted hire.
@@ -2084,17 +2087,28 @@ export function hirePay(
   const c = core(api);
   const person = c.people.get(personId) ?? residentPerson(c, personId);
   if (!person) return position.hourlyMinor;
-  const level =
-    person.pastFacts?.find((row) => row.kind === PROFILE_FACT_KINDS.education)
-      ?.facts?.level ?? profileFor(person, c.seed, c.date)?.education;
+  // A senior year decided in play is the person's schooling: a graduate
+  // holds a high school diploma, a senior who did not graduate holds none.
+  const graduation = api.state.modules.has(SCHOOL_MODULE_ID)
+    ? graduationOf(api, personId, person.birthDate)
+    : undefined;
+  const level = graduation
+    ? graduation.passed
+      ? "no-college"
+      : "less-than-high-school"
+    : (person.pastFacts?.find(
+        (row) => row.kind === PROFILE_FACT_KINDS.education,
+      )?.facts?.level ?? profileFor(person, c.seed, c.date)?.education);
   const weekly =
-    level === "college"
-      ? api.parameter("jobsWeeklyEarningsCollege")
-      : level === "some-college"
-        ? api.parameter("jobsWeeklyEarningsSomeCollege")
-        : level === "no-college"
-          ? api.parameter("jobsWeeklyEarningsNoCollege")
-          : undefined;
+    level === "less-than-high-school"
+      ? api.parameter("jobsWeeklyEarningsLessThanHighSchool")
+      : level === "college"
+        ? api.parameter("jobsWeeklyEarningsCollege")
+        : level === "some-college"
+          ? api.parameter("jobsWeeklyEarningsSomeCollege")
+          : level === "no-college"
+            ? api.parameter("jobsWeeklyEarningsNoCollege")
+            : undefined;
   if (weekly === undefined) return position.hourlyMinor;
   const gap = weekly / api.parameter("jobsWeeklyEarningsAllWorkers") - 1;
   // stopgapId: SG-WORLD-jobs-schooling-pay-share (the within-role share of the schooling pay gap is assumed)

@@ -447,6 +447,11 @@
     "tag": "SOURCED",
     "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: median usual weekly earnings, all workers, $1,268."
   },
+  "jobsWeeklyEarningsLessThanHighSchool": {
+    "value": 770,
+    "tag": "SOURCED",
+    "citation": "BLS Employment Projections, Table 5.1 Unemployment rates and earnings by educational attainment, 2025 annual estimates (11-month averages excluding October), https://www.bls.gov/emp/tables/unemployment-earnings-education.htm: less than a high school diploma, $770."
+  },
   "jobsWeeklyEarningsNoCollege": {
     "value": 966,
     "tag": "SOURCED",
