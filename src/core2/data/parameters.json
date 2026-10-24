@@ -788,8 +788,14 @@
   "farKinContactShare": {
     "value": 0.39,
     "tag": "ESTIMATED",
-    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
-    "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
+    "citation": "Visits to a relative living outside the household's county, as a share of visits to one in the same county. Pew Research Center, 'As Family Forms Change, Bonds Remain Strong' (survey 2005, released 2006), table 'Living Closer to Parents Means More Contact' (https://www.pewresearch.org/wp-content/uploads/sites/3/2010/10/FamilyBonds.pdf): 56% of adults with a parent in the same town see or talk to them every day, against 22% with a parent out of town (data/research/core/pew-2006-family-contact.json, checked by scripts/research/core-parameters-check.ts).",
+    "estimatedFrom": "Ratio of the two daily-contact shares, 22 / 56 = 0.39, applied to visits to any relative outside the county. Pew counts calls with visits and compares towns, not counties or travel times; the CTO accepted it until relatives carry a place (October 10, 2026). The measured figure that would make it SOURCED is contact by travel time between the two places, which no fetched U.S. page gives.",
+    "spread": {
+      "low": 0.39,
+      "high": 0.49,
+      "unit": "ratio of contact with a relative out of town to one in town",
+      "citation": "Pew Research Center 2006, same table: the daily-contact ratio (22 / 56 = 0.39) to the ratio of contacts a year over the whole distribution (111.4 / 225.2 = 0.49, coding daily 365, weekly 52, monthly 12, several times a year 4, yearly 1); data/research/core/pew-2006-family-contact.json."
+    },
     "stopgapId": "SG-P15-distance-by-place"
   },
   "extendedKinVisitShare": {
@@ -1186,7 +1192,7 @@
   "workSleepReserveHours": {
     "value": 8.7,
     "tag": "ESTIMATED",
-    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm).",
+    "citation": "BLS American Time Use Survey 2025, Table 8B (https://www.bls.gov/news.release/atus.t08b.htm), employed adults 18 and over, annual averages: sleeping 8.83 hours per diary day with no household child under 18, 8.56 with one. Not-employed adults sleep more (Table 8C: 9.37 and 9.31); all adults average 9.03 (Table 1, https://www.bls.gov/news.release/atus.t01.htm). Recorded in data/research/core/atus-2025-sleep.json, checked by scripts/research/core-parameters-check.ts.",
     "spread": {
       "low": 8.56,
       "high": 8.83,
@@ -1194,10 +1200,7 @@
       "citation": "BLS ATUS 2025 Table 8B, employed adults: with a household child under 18 (8.56) to with none (8.83)."
     },
     "stopgapId": "SG-P8-work-time-reserve",
-    "checkRange": {
-      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-    },
-    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work."
+    "estimatedFrom": "The midpoint of the two employed-adult figures in Table 8B, because the table gives no total for employed adults and the share of employed adults with a child at home is not read here. It replaces the all-adults mean of 9.03, which includes people who do not work. One reserve serves every person and every day; the figure that would make it SOURCED is each person's own ATUS group (age, employed or not, a child at home), read per person."
   },
   "workRoutineRetentionWeeks": {
     "value": 4,
@@ -1310,11 +1313,10 @@
     "estimatedFrom": "The rest act stands for the day's leisure: the free-time planner (free-block.ts) takes at most one act per need per day, so one rest act is the whole day's leisure and takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). Measured Oct 19: shortening it to one sitting cuts the leisure hours per day almost in proportion, because a person still rests once a day (docs/pool/items/core-recovery-hours-per-offer.md). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
     "stopgapId": "SG-P8-work-time-reserve",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical offer-duration range or matched microdata calibration is established."
-    },
-    "checkRange": {
-      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+      "low": 3.89,
+      "high": 7.39,
+      "unit": "hours of leisure and sports per diary day",
+      "citation": "BLS ATUS 2025 Table 3 (https://www.bls.gov/news.release/atus.t03.htm), leisure and sports by age: 3.89 hours (35 to 44) to 7.39 (75 and over), held in src/core2/data/time-use-reference.json and checked by scripts/research/core-parameters-check.ts."
     }
   },
   "employmentCountyAge22": {
