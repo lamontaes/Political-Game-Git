@@ -2,7 +2,7 @@
  * No body passes a bill whose answer is already the law in force at its
  * level: in a played year, a policy law a bill enacts always changes the
  * answer its government had before (its starting answer or its last act),
- * and every bill that passes changes some law. After one pinned regression,
+ * and every bill that passes changes some law. After two pinned regressions,
  * places are drawn from all 56; each names its place and seed.
  */
 import { randomBytes } from "node:crypto";
@@ -19,8 +19,25 @@ import { POLICY_QUESTIONS } from "./policy-answers";
 import { coreAPI } from "./state";
 import type { LawRowInput } from "./laws-starting";
 
-const PLACES = 6;
-const WANTED = 2;
+// Two cases once failed. The first: a county board passed civilian oversight
+// of police, then passed it again from another bill on the same agenda. The
+// second: a council enacted a right to counsel in eviction, undid it in a bill
+// taking effect the same day, then passed the undoing again (the two acts tied
+// on their effective date, and the earlier one was read as the law in force).
+const PINNED = [
+  {
+    name: "Colwich, Kansas",
+    key: "2015100",
+    seed: "948b220271825094d5d58187daee570d46355594a76e74161012c7b117ec6b03",
+  },
+  {
+    name: "St. Leon, Indiana",
+    key: "1866978",
+    seed: "fc26f909e5d5b49dc5d8a2796b7220e913cc95143777de03a7dccc69445ac090",
+  },
+];
+const PLACES = PINNED.length + 5;
+const WANTED = PINNED.length + 1;
 
 it(
   "never passes a bill for a policy already in force at its level",
@@ -31,13 +48,10 @@ it(
       // The first is the case a county board once passed twice: civilian
       // oversight of police, enacted by one bill and then passed again by
       // another that had waited on the same meeting's agenda.
-      const draw = n
-        ? drawPlace(randomBytes(32).toString("hex"), `repass:${n}`)
-        : {
-            name: "Colwich, Kansas",
-            key: "2015100",
-            seed: "948b220271825094d5d58187daee570d46355594a76e74161012c7b117ec6b03",
-          };
+      const draw =
+        n < PINNED.length
+          ? PINNED[n]!
+          : drawPlace(randomBytes(32).toString("hex"), `repass:${n}`);
       setBookkeeping(false);
       const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
         twoLevel: true,

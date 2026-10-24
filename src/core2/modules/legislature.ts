@@ -1324,7 +1324,14 @@ export function answerIn(
       .query("bySeries", [stateKey, question]) as unknown as LawRowInput[]
   )
     .filter((r) => enacted || r.effectiveDate <= api.state.date)
-    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
+    // Acts taking effect the same day: the one enacted last (stored last) is the law.
+    .map((row, order) => ({ row, order }))
+    .sort(
+      (a, b) =>
+        b.row.effectiveDate.localeCompare(a.row.effectiveDate) ||
+        b.order - a.order,
+    )
+    .map(({ row }) => row);
   if (rows[0]) return rows[0].value === 1 ? 1 : -1;
   const answer =
     stateKey === "US"
