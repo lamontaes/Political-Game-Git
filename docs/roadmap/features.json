@@ -59,7 +59,7 @@
       "package": "M0-bench",
       "test": "For a fresh life, steps 1-2 show reachable, steps 3-11 show the specific missing module, and the world pieces show 'not in the new core yet' until M1 lands.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-05",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-06",
