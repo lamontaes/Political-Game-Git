@@ -755,12 +755,15 @@ export function respond(
     const decision = chooseAct(core(api), actor.id, decided, context);
     const chosen = scored(decision);
     if (!chosen) continue;
+    // The runner-up is a second look at the same choice, not a choice of its own.
     const runnerUp = scored(
       chooseAct(
         core(api),
         actor.id,
         decided.filter((offer) => offer !== decision.selected),
         context,
+        false,
+        false,
       ),
     );
     const row = rows.find((response) => response.id === chosen.responseId)!;
@@ -1007,13 +1010,24 @@ function predict(
 ): PredictedChoice {
   refresh(actor as PersonState);
   const offers = availableActs(core(api), actor.id);
-  const decision = chooseAct(core(api), actor.id, offers);
+  // A prediction of the day's act, not a choice: nothing is kept.
+  const decision = chooseAct(
+    core(api),
+    actor.id,
+    offers,
+    undefined,
+    false,
+    false,
+  );
   const selected = decision.selected;
   const runner = selected
     ? chooseAct(
         core(api),
         actor.id,
         offers.filter((offer) => offer !== selected),
+        undefined,
+        false,
+        false,
       )
     : undefined;
   const total = (reasons: DecisionReason | undefined) =>

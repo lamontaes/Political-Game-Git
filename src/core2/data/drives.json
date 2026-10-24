@@ -419,6 +419,13 @@
       "responses": ["take-up-cause", "guard-family", "carry-on"]
     },
     {
+      "id": "serious-illness-counted",
+      "eventKind": "residents.member-fell-ill",
+      "roles": ["subject", "family", "household"],
+      "channels": ["threat", "loss"],
+      "responses": ["take-up-cause", "guard-family", "carry-on"]
+    },
+    {
       "id": "job-loss",
       "eventKind": "work.job-lost",
       "roles": ["subject", "household"],

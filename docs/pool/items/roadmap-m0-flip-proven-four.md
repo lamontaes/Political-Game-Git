@@ -5,17 +5,17 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-m0-flags
 pr: #5869
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T14:35:44.298Z
 ---
 
 **What.** PR #5869 now accepts only M0-01, M0-02, M0-03 and M0-06 after its M0-04 send-back. Give those four completed flags their own item so merging the PR does not complete the five-flag parent. The scored-explanation requirement stays open in roadmap-m0-flip-proven-five and play-m0-04-why-scores-all-sampled.
 
-**Rules.** Keep each roadmap feature test text unchanged. Flip only the four named flags after their commands and committed native screenshots substantiate the drawn-place behavior. Keep M0-04 false and its unmet scored-explanation acceptance open.
+**Rules.** Ask why: every accepted flag must name its replayed command and the native screenshot that proves its player-visible behavior. Keep each roadmap feature test text unchanged. Flip only the four named flags after their commands and committed native screenshots substantiate the drawn-place behavior. Keep M0-04 false and its unmet scored-explanation acceptance open.
 
 **Done when.** docs/roadmap/features.json reads passes true for M0-01, M0-02, M0-03 and M0-06 and false for M0-04; the PR body names each command, drawn place, full seed, passing output and committed bench screenshot. The three m0-check commands and m0-life-at-18 test pass on the main-integrated result, and the broader five-flag item and scored-explanation follow-up remain open.
 
