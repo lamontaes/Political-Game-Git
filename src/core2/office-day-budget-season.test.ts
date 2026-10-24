@@ -9,6 +9,7 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { budgetLinePick, officeView } from "../bench/office";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -30,7 +31,7 @@ import {
   treasuryMonthsOf,
   treasuryParameter,
 } from "./budgets-treasury";
-import { officeActsOf, officeHost, prepareAct } from "./modules/office-day";
+import { officeActsOf, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import {
   executiveBudgetChanges,
@@ -141,11 +142,24 @@ it("the executive's budget act opens in its season and its changes are what the 
       tried.push(`${where}: no town firm does a line's purchased work`);
       continue;
     }
-    // The executive sends their changes; the act is kept with the priorities' record id.
-    prepareAct(api, mayorId, "propose-budget", {
-      budget: { changes: { [line]: 1_000_000 } },
-    });
+    // The player's route: the office screen lists the budget's lines, the
+    // mayor sets the change on one (the pick the bench's screen makes), and
+    // the "Send the budget" act sends exactly that.
+    const offered = officeView(core, mayorId).budget;
+    expect(
+      offered?.governmentId,
+      `${where}: the office view offers the budget`,
+    ).toBe(city.id);
+    const picked = budgetLinePick(core, mayorId, line, 1_000_000).budget!;
+    expect(
+      picked.lines.filter((l) => l.changeMinor !== 0),
+      where,
+    ).toEqual([expect.objectContaining({ line, changeMinor: 1_000_000 })]);
     handler(api, mayorId, {} as never);
+    expect(
+      officeView(core, mayorId).budget ?? null,
+      `${where}: the screen no longer offers the sent budget`,
+    ).toBeNull();
     expect(budgetPriorities(api, city.id)?.changes, where).toEqual({
       [line]: 1_000_000,
     });
