@@ -14,18 +14,20 @@ import {
   type InvestigationRow,
 } from "./modules/justice";
 import { END_CASH_BAIL, type PretrialRow } from "./justice-pretrial";
+import { dispositionDays } from "./justice-law";
 import justiceParameters from "./data/justice/parameters.json" with { type: "json" };
 
 // Ending cash bail is a read (pool item laws-outcome-justice): in a played
-// world in a drawn place, a charged defendant who does not plead waits for
-// trial in custody when they cannot post bail and cash bail is law, and goes
-// home on the day the bail law is ended.
+// world in a drawn place, a charged defendant waits for the hearing (the plea
+// entered or the trial opened) in custody when they cannot post bail and cash
+// bail is law, and goes home on the day the bail law is ended.
 const seed =
   process.env.JUSTICE_PRETRIAL_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "justice-pretrial");
 const where = `seed ${seed}, ${place.name} (${place.key})`;
 const core = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
+  placeKey: place.key,
 }).core;
 const api = coreAPI(core);
 const table = (name: string) => api.moduleState(JUSTICE_MODULE_ID).table(name);
@@ -76,6 +78,13 @@ function setBailLaw(value: number): void {
 const pretrialOf = (c: CaseRow) =>
   table("pretrial").get(`pretrial:${c.id}`) as unknown as
     PretrialRow | undefined;
+// The day the case is heard: the trial, or the plea entered after the same wait.
+const hearingOf = (c: CaseRow) =>
+  c.trialDate ??
+  addDays(
+    makeIsoDate(c.date),
+    dispositionDays(api, lawChain(api).stateKey).days,
+  );
 
 describe(`pretrial bail, ${where}`, () => {
   it("holds a defendant who cannot post bail while cash bail is law, and frees them when it is ended", () => {
@@ -84,32 +93,34 @@ describe(`pretrial bail, ${where}`, () => {
     expect(poor.length, where).toBeGreaterThan(0);
     setBailLaw(0);
     const held: PretrialRow[] = [];
-    // Many early ids are officials who plead at once; go on until some defendants go to trial.
+    // Pleading or not, every charged defendant waits for the hearing: a
+    // plea is entered there, not on the day of the charge.
+    const pleaded = (w: PretrialRow) =>
+      (table("cases").get(w.caseId) as unknown as CaseRow).plea;
     for (const person of poor.slice(0, 60)) {
-      if (held.length >= 6) break;
+      if (held.length >= 6 && held.some(pleaded)) break;
       const c = charge(person.id);
-      if (!c || c.plea) continue;
-      const wait = pretrialOf(c)!;
-      expect(wait.decision, `${where}: ${person.id}`).toBe("held");
-      expect(wait.lawId, where).toBeNull();
+      if (!c || c.status === "no-charge") continue;
+      expect(c.status, `${where}: ${c.id}`).toBe("charged");
+      const wait = pretrialOf(c);
+      expect(wait?.decision, `${where}: ${person.id}`).toBe("held");
+      expect(wait!.lawId, where).toBeNull();
       expect(core.people.get(person.id)!.discretionaryEligibleV1, where).toBe(
         false,
       );
-      held.push(wait);
+      held.push(wait!);
     }
     expect(
-      held.length,
-      `${where}: no defendant waited for trial`,
+      held.filter(pleaded).length,
+      `${where}: no pleading defendant waited for the hearing`,
     ).toBeGreaterThan(0);
 
-    // The trial opens: everyone held goes home to their own choices.
-    const lastTrial = held
-      .map(
-        (w) => (table("cases").get(w.caseId) as unknown as CaseRow).trialDate!,
-      )
+    // The case is heard: everyone held goes home to their own choices.
+    const lastHearing = held
+      .map((w) => hearingOf(table("cases").get(w.caseId) as unknown as CaseRow))
       .sort()
       .at(-1)!;
-    advanceCore(core, addDays(makeIsoDate(lastTrial), 1));
+    advanceCore(core, addDays(makeIsoDate(lastHearing), 1));
     for (const wait of held)
       expect(
         (table("pretrial").get(wait.id) as unknown as PretrialRow).status,
@@ -122,7 +133,7 @@ describe(`pretrial bail, ${where}`, () => {
     for (const person of poor.slice(60, 120)) {
       if (freed >= 6) break;
       const c = charge(person.id);
-      if (!c || c.plea) continue;
+      if (!c || c.status !== "charged") continue;
       const wait = pretrialOf(c)!;
       expect(wait.decision, `${where}: ${person.id}`).toBe(
         "released-no-bail-law",
@@ -133,7 +144,7 @@ describe(`pretrial bail, ${where}`, () => {
     expect(freed, `${where}: no defendant freed`).toBeGreaterThan(0);
   }, 1_200_000);
 
-  it("holds posted bail in a court escrow the treasury cannot spend and returns all of it when the trial opens", () => {
+  it("holds posted bail in a court escrow the treasury cannot spend and returns all of it when the case is heard", () => {
     const bail = justiceParameters.pretrialBailMinor.value;
     const rich = adults.filter((p) => (p.liquidMinor ?? 0) >= bail * 2);
     expect(rich.length, where).toBeGreaterThan(0);
@@ -143,7 +154,7 @@ describe(`pretrial bail, ${where}`, () => {
     for (const person of rich.slice(0, 20)) {
       const before = core.cashJournal.nextSequence;
       const c = charge(person.id);
-      if (!c || c.plea) continue;
+      if (!c || c.status !== "charged") continue;
       expect(pretrialOf(c)!.decision, `${where}: ${person.id}`).toBe("posted");
       const fines = api.moduleState(JUSTICE_MODULE_ID).table("fines");
       const held = fines.get(`bail:${c.id}`) as unknown as {
@@ -165,7 +176,7 @@ describe(`pretrial bail, ${where}`, () => {
         core.cashJournal.accounts.get(escrow)!.allocatedMinor,
         where,
       ).toBeGreaterThanOrEqual(bail);
-      advanceCore(core, addDays(makeIsoDate(c.trialDate!), 1));
+      advanceCore(core, addDays(makeIsoDate(hearingOf(c)), 1));
       const back = fines.get(`bail-return:${c.id}`) as unknown as
         { postings: { accountId: string; deltaMinor: number }[] } | undefined;
       // All of it comes back, from the escrow, whatever the treasury spent.
@@ -182,6 +193,6 @@ describe(`pretrial bail, ${where}`, () => {
       ).toBe(bail);
       return;
     }
-    throw new Error(`${where}: no defendant went to trial`);
+    throw new Error(`${where}: no defendant was charged`);
   }, 1_200_000);
 });
