@@ -603,7 +603,11 @@ function decideContingent(api: CoreAPI, year: number): void {
     electors: Object.fromEntries(
       row.states.map((state) => [state.stateKey, state.winnerSide]),
     ),
-    states: row.states.filter((state) => state.stateKey !== "US-DC").length,
+    // A contingent election votes by state delegation: places with
+    // electors but no House delegation (from the data) have no vote.
+    states: row.states.filter(
+      (state) => !electorsData.withoutHouseDelegation.includes(state.stateKey),
+    ).length,
   });
   table(api, "contingent").put({
     id: row.contingent.recordId,

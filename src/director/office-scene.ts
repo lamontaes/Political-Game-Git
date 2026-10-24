@@ -476,6 +476,10 @@ export function chooseOfficeScene(
           facts: {},
           momentKey: `office-scene:${scene.billId}:${scene.targetId}:reply:${choiceKey}`,
           fallbackSourceId: eventIds[P.zero] ?? scene.billId,
+          voice: {
+            traits: core.people.get(scene.targetId)?.traits ?? {},
+            register: "conversation",
+          },
         });
   return {
     choiceKey,

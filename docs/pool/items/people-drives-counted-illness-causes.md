@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/counted-illness-causes
+status: open
+claimed-by:
 pr: #5824
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T17:37:48.907Z
+claimed-at:
 ---
 
 **What.** When someone in the wider population falls seriously ill (births-counted.ts), no event is recorded, so neither they nor the household they live with perceive it. A named person and their family perceive a serious illness through the serious-illness rule in drives.ts and may take up a cause. Record a counted onset as a private event of its own kind naming the ill person as its counted subject and their household, and have each respond by the same rule, read from their counted records. A cause they take up is kept until they are filled in.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-21T17:37:48.907Z
 **Files.** src/core2/births-counted.ts, src/core2/modules/drives.ts, src/core2/data/drives.json, src/core2/data/health.json
 
 **Notes.** Split from people-drives-counted-tier-causes. Built stacked on the bereavement wiring (#5821).
+
+Sent back 2026-10-23 from PR #5824 (branch claude/counted-illness-causes): The illness test can skip every held-cause fill-in assertion and every household-role assertion; require positive witnesses, add the Done-when evidence table and a release declaration; finish on that branch, merge main into it first.

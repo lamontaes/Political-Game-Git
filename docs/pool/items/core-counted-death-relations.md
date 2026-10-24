@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5855
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/births-counted.ts, src/bench/world.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-CORE-counted-death-relations. Claim released Oct 23: branch gone.
+
+Sent back 2026-10-24 from PR #5855 (branch claude/counted-death-relations): The played notice test returns on the first grief witness before completing the required one-year run; retain the witness and finish/assert the year and counted death interval; finish on that branch, merge main into it first.
