@@ -228,14 +228,19 @@ export function foreclosureSale(api: CoreAPI, caseId: string): string | null {
   let toLender = 0;
   let surplus = 0;
   if (buyer && price > 0) {
-    toLender = transferCash(
-      api,
-      `foreclosure-sale:${caseId}`,
-      buyer.id,
-      row.holderId,
-      Math.min(price, owed),
-      source,
-    );
+    // The outside market that buys the home can also hold its mortgage:
+    // paying itself moves no cash, and the loan is settled all the same.
+    toLender =
+      row.holderId === buyer.id
+        ? Math.min(price, owed)
+        : transferCash(
+            api,
+            `foreclosure-sale:${caseId}`,
+            buyer.id,
+            row.holderId,
+            Math.min(price, owed),
+            source,
+          );
     if (price > owed && !row.counted) {
       const first = c.households.get(row.householdId)?.memberIds[0];
       if (first)

@@ -78,45 +78,10 @@
       "why": "Same as voting.turnout.",
       "fix": "Same as voting.turnout."
     },
-    "voting.stand-again": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as voting.turnout.",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.open-door": {
-      "class": "runs only on a date outside the year",
-      "why": "Needs a filed, on-ballot race (src/core2/modules/campaigns.ts:2323); filings opened in 1 of 3 places measured.",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.donate": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as campaigns.open-door.",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.rival-hours": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as campaigns.open-door.",
-      "fix": "Same as voting.turnout."
-    },
     "campaigns.answer-poll": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as campaigns.open-door, plus a poll fund (src/core2/modules/campaigns.ts:2253).",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.retell": {
-      "class": "runs only on a date outside the year",
-      "why": "Same as campaigns.open-door.",
-      "fix": "Same as voting.turnout."
-    },
-    "campaigns.volunteer": {
-      "class": "no trigger (player only)",
-      "why": "Only the bench's developer call asks (src/bench/campaign.ts:168); a world candidate never asks anyone to volunteer.",
-      "fix": "In campaignTurn, ask reachable people to volunteer as it asks for donations."
-    },
-    "campaigns.endorse": {
-      "class": "no trigger (player only)",
-      "why": "Only the bench's developer call asks (src/bench/campaign.ts:182).",
-      "fix": "In campaignTurn, ask the people closest to the candidate for endorsements."
+      "class": "rare by nature",
+      "why": "Needs a campaign that has set aside enough for a poll (src/core2/modules/campaigns.ts, pollFund against pollMinimumInterviews); no local campaign in four played places did.",
+      "fix": "Weight calibrated from the adults of a drawn town (campaigns.traits.test.ts); the call-time path runs when a state or federal campaign raises enough."
     },
     "offices.accept-appointment": {
       "class": "rare",
@@ -142,11 +107,6 @@
       "class": "no trigger (player only)",
       "why": "Read only in a conversation the player opens (src/director/bring-it-up.ts:105).",
       "fix": "Player-only by design."
-    },
-    "press.accept-interview": {
-      "class": "runs only on a date outside the year",
-      "why": "Interviews are scheduled only within weeks of an election (src/core2/modules/press.ts:2460).",
-      "fix": "Same as voting.turnout."
     },
     "press.dig": {
       "class": "runs only on a date outside the year",
@@ -212,6 +172,11 @@
       "class": "no study number",
       "why": "Personality turned 14.8% of 29,520 daily-activity picks at the general trait weight of 1. Studies of extraversion and time spent socializing (Mehl et al. 2006) report no extractable coefficient, so the general weight stands.",
       "fix": "Calibrate when a study gives a size for extraversion and social time."
+    },
+    "campaigns.volunteer": {
+      "class": "circumstances tie",
+      "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
+      "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
     }
   }
 }

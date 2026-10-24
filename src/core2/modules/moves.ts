@@ -151,7 +151,7 @@ function savePull(api: CoreAPI, pull: Pull): void {
 }
 
 function ageOf(api: CoreAPI, person: Readonly<PersonState>): number {
-  return ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(api.state.date));
+  return ageOnDate(person.birthDate, api.state.date);
 }
 
 /** The ACS age band a person is in, or none below the youngest. */
@@ -978,6 +978,17 @@ function decide(api: CoreAPI, person: Readonly<PersonState>): Departure | null {
   const playerId = (api.state as CoreState).playerId;
   if (playerId && (going.includes(playerId) || partner?.id === playerId))
     return null;
+  // The player's own home is not taken apart by the engine before 1.0: when
+  // the player lives in the household and is not going, the household stays
+  // as it is.
+  if (
+    playerId &&
+    (api.state as CoreState).households
+      .get(person.householdId)
+      ?.memberIds.includes(playerId)
+  ) {
+    return null;
+  }
   if (
     going.length > api.parameter("one") &&
     ownsWithMortgage(api.state as CoreState, person.householdId) &&
