@@ -22,10 +22,11 @@
  * size and pay, and a counted household whose rank earns a policy holds a
  * counted-coverage record on its policyholder and pays the same premium, once
  * for each real household the record stands for (counted money). A household
- * filled in drops its counted record and holds full records on the next
- * review, at the same rank, so its plan and premium do not change. The
- * employer's share of the premium is part of the employer's compensation and
- * is not modeled.
+ * filled in is handed its counted record the same day (onFillIn): the counted
+ * record ends and its members hold full records on the same plan, with the
+ * same policyholder and premium, until the next review ranks them as it ranks
+ * everyone. The employer's share of the premium is part of the employer's
+ * compensation and is not modeled.
  */
 import { coreAPI, registerModule } from "../state";
 import { outsideAccountOf } from "../budgets-treasury";
@@ -97,20 +98,25 @@ interface Candidate {
   readonly weight: number;
 }
 
-/** Recorded jobs per employer, full and counted alike. */
-function staffOf(api: CoreAPI): Map<string, number> {
+/**
+ * Jobs per employer, full and counted alike: a counted job stands for as many
+ * jobs as the households its record stands for.
+ */
+export function staffOf(api: CoreAPI): Map<string, number> {
   const core = api.state as CoreState;
   const staff = new Map<string, number>();
-  const add = (organizationId: string) =>
-    staff.set(organizationId, (staff.get(organizationId) ?? 0) + 1);
+  const add = (organizationId: string, jobs: number) =>
+    staff.set(organizationId, (staff.get(organizationId) ?? 0) + jobs);
   for (const job of core.jobs.values())
-    if (job.endsAt === undefined) add(job.organizationId);
+    if (job.endsAt === undefined) add(job.organizationId, 1);
   const rt = residentsRuntime(core);
   if (rt)
-    for (const h of rt.store.liveHouseholds())
+    for (const h of rt.store.liveHouseholds()) {
+      const weight = rt.store.weightOf(h);
       for (const job of h.jobs)
         if (job.endsAt === undefined && countedJob(core, job.id))
-          add(job.organizationId);
+          add(job.organizationId, weight);
+    }
   return staff;
 }
 
@@ -199,16 +205,26 @@ function holdersToday(
   return { full, counted: heldCounted };
 }
 
-/** What every full person's coverage should be today. */
+/** What every full person's coverage should be today (or a few households', for a fill-in). */
 function plansToday(
   api: CoreAPI,
   holderByHousehold: ReadonlyMap<string, string>,
+  /** Only these households (a fill-in's); every full household when absent. */
+  only?: ReadonlySet<string>,
 ): Map<string, { householdId: string } & Plan> {
   const core = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
   const date = makeIsoDate(core.date);
   const plans = new Map<string, { householdId: string } & Plan>();
-  const people = [...core.people.values()].filter(
+  const everyone = only
+    ? [...only].flatMap((id) =>
+        (core.households.get(id)?.memberIds ?? []).flatMap((memberId) => {
+          const member = core.people.get(memberId);
+          return member ? [member] : [];
+        }),
+      )
+    : [...core.people.values()];
+  const people = everyone.filter(
     (person) => person.alive && !person.id.startsWith("official:"),
   );
   const ageOf = (birth: string) => ageOnDate(makeIsoDate(birth), date);
@@ -284,9 +300,11 @@ export function countedCoverageOf(
   api: CoreAPI,
   householdId: string,
 ): CountedCoverageRow | undefined {
-  return countedRows(api).find(
-    (row) => row.householdId === householdId && row.to === null,
-  );
+  return (
+    countedTable(api).query("byHousehold", [
+      householdId,
+    ]) as unknown as CountedCoverageRow[]
+  ).find((row) => row.to === null);
 }
 
 /** Each counted household's policy today: the holders the shared ranking picks. */
@@ -386,13 +404,19 @@ function payCountedPremiums(api: CoreAPI): void {
   }
 }
 
-/** Writes today's coverage records: a changed plan ends the old record and starts a new one. */
-function review(api: CoreAPI): void {
+/** Writes these plans as full records: a changed plan ends the old record and starts a new one. */
+function putPlans(
+  api: CoreAPI,
+  plans: ReadonlyMap<string, { householdId: string } & Plan>,
+  have: ReadonlyMap<string, CoverageRow>,
+  /** What a record being handed over already owed and paid (a counted record's last month). */
+  carried: ReadonlyMap<
+    string,
+    { readonly lastDueMinor: number; readonly lastPaidMinor: number }
+  > = new Map(),
+): void {
   const today = makeIsoDate(api.state.date);
-  const have = new Map(current(api).map((row) => [row.personId, row]));
-  const holders = holdersToday(api, staffOf(api), unpaidHolders(api));
-  reviewCounted(api, holders.counted);
-  for (const [personId, plan] of plansToday(api, holders.full)) {
+  for (const [personId, plan] of plans) {
     const old = have.get(personId);
     if (
       old &&
@@ -411,12 +435,21 @@ function review(api: CoreAPI): void {
       from: today,
       to: null,
       premiumMonthlyMinor: plan.premiumMonthlyMinor,
-      lastDueMinor: 0,
-      lastPaidMinor: 0,
+      lastDueMinor: carried.get(personId)?.lastDueMinor ?? 0,
+      lastPaidMinor: carried.get(personId)?.lastPaidMinor ?? 0,
       lastJournalId: null,
       source: sourceFor(api),
     } as unknown as ModuleRow);
   }
+}
+
+/** Writes today's coverage records: a changed plan ends the old record and starts a new one. */
+function review(api: CoreAPI): void {
+  const today = makeIsoDate(api.state.date);
+  const have = new Map(current(api).map((row) => [row.personId, row]));
+  const holders = holdersToday(api, staffOf(api), unpaidHolders(api));
+  reviewCounted(api, holders.counted);
+  putPlans(api, plansToday(api, holders.full), have);
   // Anyone who died or left the records has no current plan.
   const alive = new Set(
     [...(api.state as CoreState).people.values()]
@@ -426,6 +459,63 @@ function review(api: CoreAPI): void {
   for (const row of have.values())
     if (!alive.has(row.personId))
       table(api).put({ ...row, to: today } as unknown as ModuleRow);
+}
+
+/**
+ * A household filled in from the counts takes its coverage with it (one model,
+ * two tiers): its counted record ends and its members hold full records on the
+ * same plan, with the same policyholder and premium, from the day they are
+ * filled in. What the counted record had paid last month goes with it, so a
+ * policy that lapsed still lapses. The next review ranks them as everyone.
+ */
+function handOff(api: CoreAPI, householdId: string): void {
+  // Before the first review there is nothing to take over.
+  if (table(api).size === 0 && countedTable(api).size === 0) return;
+  const counted = countedCoverageOf(api, householdId);
+  if (counted)
+    countedTable(api).put({
+      ...counted,
+      to: makeIsoDate(api.state.date),
+    } as unknown as ModuleRow);
+  const plans = plansToday(
+    api,
+    new Map(counted ? [[householdId, counted.holderId]] : []),
+    new Set([householdId]),
+  );
+  // The policyholder pays what the counted record said.
+  const held = counted ? plans.get(counted.holderId) : undefined;
+  if (
+    counted &&
+    held?.plan === "employer" &&
+    held.holderId === counted.holderId
+  )
+    plans.set(counted.holderId, {
+      ...held,
+      premiumMonthlyMinor: counted.premiumMonthlyMinor,
+    });
+  const have = new Map(
+    (table(api).query("byHousehold", [householdId]) as unknown as CoverageRow[])
+      .filter((row) => row.to === null)
+      .map((row) => [row.personId, row]),
+  );
+  putPlans(
+    api,
+    plans,
+    have,
+    new Map(
+      counted
+        ? [
+            [
+              counted.holderId,
+              {
+                lastDueMinor: counted.lastDueMinor,
+                lastPaidMinor: counted.lastPaidMinor,
+              },
+            ],
+          ]
+        : [],
+    ),
+  );
 }
 
 /** Each policyholder pays the month's premium to the outside account, from what they hold. */
@@ -460,7 +550,18 @@ function payPremiums(api: CoreAPI): void {
 
 export const COVERAGE_MODULE: CoreModule = {
   id: COVERAGE_MODULE_ID,
-  state: { schemaVersion: 1, tables: { coverage: {}, countedCoverage: {} } },
+  state: {
+    schemaVersion: 1,
+    tables: {
+      coverage: { indexes: { byHousehold: { fields: ["householdId"] } } },
+      countedCoverage: {
+        indexes: { byHousehold: { fields: ["householdId"] } },
+      },
+    },
+  },
+  onFillIn(api, { householdId }) {
+    handOff(api, householdId);
+  },
   onDay(api) {
     const first = table(api).size === 0;
     const payday = api.state.date.endsWith("-01");

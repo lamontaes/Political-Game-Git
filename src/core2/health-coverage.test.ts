@@ -3,6 +3,7 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
+import { outsideAccountOf } from "./budgets-treasury";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -48,10 +49,29 @@ it(`coverage records and a monthly premium in ${place.name} [${place.key}], seed
     }
 
   // The first of the next month the holder's household pays the premium to
-  // the outside account by a journal record, and an uncovered neighbor pays none.
-  const before = new Map(
-    holders.map((h) => [h.personId, core.people.get(h.personId)!.liquidMinor]),
-  );
+  // the outside account by a journal record, and an uncovered neighbor pays
+  // none. Who holds a policy is read again on the 1st (an employer that
+  // shrinks moves its workers down the ranking, and a household's policy goes
+  // to whichever worker ranks first), so the paid holders are those the record
+  // names, not the opening's.
+  const premiums = new Map<
+    string,
+    { journalId: string; lines: { accountId: string; deltaMinor: number }[] }
+  >();
+  const post = api.postJournal.bind(api);
+  api.postJournal = (entry) => {
+    const result = post(entry);
+    const sourceId = String(entry.sourceRef.id);
+    if (sourceId.startsWith("premium:"))
+      premiums.set(sourceId, {
+        journalId: entry.id,
+        lines: entry.postings.map((l) => ({
+          accountId: l.accountId,
+          deltaMinor: l.deltaMinor,
+        })),
+      });
+    return result;
+  };
   advanceCore(core, addDays(makeIsoDate(core.date), 14));
   const paid = rowsNow().filter(
     (row) =>
@@ -60,6 +80,7 @@ it(`coverage records and a monthly premium in ${place.name} [${place.key}], seed
       row.lastPaidMinor > 0,
   );
   expect(paid.length, `${where}: premiums paid`).toBeGreaterThan(0);
+  const outside = outsideAccountOf(api)!;
   for (const row of paid) {
     expect(row.lastDueMinor, `${where} ${row.id}`).toBe(
       row.premiumMonthlyMinor,
@@ -67,7 +88,24 @@ it(`coverage records and a monthly premium in ${place.name} [${place.key}], seed
     expect(row.lastJournalId, `${where} ${row.id}`).toMatch(
       /^journal:\d{4}-\d{2}-\d{2}:\d+$/,
     );
-    expect(before.has(row.personId)).toBe(true);
+    // The journal record the row names moved what it says: the holder's own
+    // account pays the outside account, to the minor unit.
+    const entry = premiums.get(
+      `premium:${row.personId}:${core.date.slice(0, 7)}-01`,
+    );
+    expect(entry?.journalId, `${where} ${row.id}`).toBe(row.lastJournalId);
+    expect(entry?.lines, `${where} ${row.lastJournalId}`).toEqual(
+      expect.arrayContaining([
+        {
+          accountId: api.accounts().main(row.personId),
+          deltaMinor: -row.lastPaidMinor,
+        },
+        {
+          accountId: api.accounts().main(outside),
+          deltaMinor: row.lastPaidMinor,
+        },
+      ]),
+    );
   }
   const uncovered = rowsNow().filter((row) => row.plan === "none");
   for (const row of uncovered) expect(row.lastDueMinor).toBe(0);
