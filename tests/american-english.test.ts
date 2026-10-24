@@ -317,6 +317,11 @@ const ALLOWED_FILES: readonly {
       "real names of schools, hospitals, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
   },
   {
+    file: /^data\/research\/world\/hud-hic-2025-beds-by-city\.json$/,
+    words: /^centre$/i,
+    reason: "HUD's city names as published: Rockville Centre, New York",
+  },
+  {
     file: /^src\/simulation\/municipal-seat-identity\.ts$/,
     words: /^wards?$/i,
     reason:
