@@ -40,6 +40,7 @@ import {
 } from "../laws-starting";
 import {
   inForceOn,
+  LAW_SERIES,
   resolveLawInForce,
   type EnactedAuthority,
   type LawInForceAnswer,
@@ -452,19 +453,28 @@ export function lawInForce(
   date: string = api.state.date,
 ): LawInForceAnswer {
   const chain = lawChain(api);
+  // Only a wage floor reads the state's grant of local authority, and only
+  // the sales tax its state's average local rate: no other law reads them.
+  const floor = LAW_SERIES[series] === "floor";
   return resolveLawInForce({
     series,
     chain,
     date,
     rows: seriesRows(api, series),
-    authorityRows: seriesRows(api, "local-minimum-wage-authority"),
-    enactedAuthority: api
-      .moduleState(LAWS_MODULE_ID)
-      .table("enactments")
-      .query("bySeries", [
-        "local-minimum-wage-authority",
-      ]) as unknown as readonly EnactedAuthority[],
-    localAverage: seriesRows(api, "local-sales-tax-average"),
+    ...(floor
+      ? {
+          authorityRows: seriesRows(api, "local-minimum-wage-authority"),
+          enactedAuthority: api
+            .moduleState(LAWS_MODULE_ID)
+            .table("enactments")
+            .query("bySeries", [
+              "local-minimum-wage-authority",
+            ]) as unknown as readonly EnactedAuthority[],
+        }
+      : {}),
+    ...(series === "sales-tax"
+      ? { localAverage: seriesRows(api, "local-sales-tax-average") }
+      : {}),
   });
 }
 
