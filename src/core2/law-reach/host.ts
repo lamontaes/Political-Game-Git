@@ -137,6 +137,8 @@ export type PolicyHandler = (
     readonly placeId: string;
     /** The treasury read the standing law at its close: only the budget line follows, not the people's records. */
     readonly standing?: boolean;
+    /** The law was already in force when the world opened (no change happened today). */
+    readonly opening?: boolean;
   },
 ) => void;
 /** The id prefix of the event the treasury raises when it reads a standing law. */
@@ -179,6 +181,7 @@ function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
       value: Number.isFinite(value) ? value : null,
       placeId: event.placeId,
       standing: event.id.startsWith(STANDING_EVENT),
+      ...(event.id.startsWith("law-in-force:") ? { opening: true } : {}),
     });
 }
 

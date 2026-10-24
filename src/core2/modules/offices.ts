@@ -682,8 +682,13 @@ function pastTerms(
       } as unknown as ModuleRow);
     return;
   }
-  // A term read as ending more than a full term out began at the opening.
-  if (start > opening) {
+  // A term read as ending more than a full term out began at the opening, and
+  // so did one whose holder was too young to begin it a full term back.
+  const born = Number(term.identity.birthDate.slice(0, 4));
+  if (
+    start > opening ||
+    Number(start.slice(0, 4)) - born < tenureYears("minimumAgeAtFirstTerm")
+  ) {
     table(api, "terms").put({
       ...term,
       serviceStart: term.startDate,
@@ -708,7 +713,6 @@ function pastTerms(
   const u = parseInt(hash.slice(0, 8), 16) / 0x1_0000_0000;
   let prior = q > 0 ? Math.floor(Math.log(1 - u) / Math.log(q)) : 0;
   // No one first served younger than the minimum age.
-  const born = Number(term.identity.birthDate.slice(0, 4));
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
     prior > 0 &&
@@ -744,6 +748,23 @@ function pastTerms(
       : start;
   const won = (from: string) =>
     office.elected ? { elected: electionBehind(office, from) } : {};
+  // A holder too young for the office when the current term began came to it
+  // partway through, on the day they reached the minimum age (a February 29
+  // birthday counts on March 1), filling the seat rather than winning it.
+  const birth = term.identity.birthDate;
+  const ageYear = born + tenureYears("minimumAgeAtFirstTerm");
+  const leap =
+    (ageYear % 4 === 0 && ageYear % 100 !== 0) || ageYear % 400 === 0;
+  const ofAge = `${ageYear}-${birth.slice(5) === "02-29" && !leap ? "03-01" : birth.slice(5)}`;
+  if (prior === 0 && start < ofAge) {
+    const joined = ofAge < opening ? ofAge : opening;
+    table(api, "terms").put({
+      ...term,
+      startDate: joined,
+      serviceStart: joined,
+    } as unknown as ModuleRow);
+    return;
+  }
   table(api, "terms").put({
     ...term,
     startDate: start,

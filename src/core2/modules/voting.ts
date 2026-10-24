@@ -33,7 +33,9 @@ import {
   type SampleVoter,
 } from "../electorate";
 import {
+  applyElectionLaws,
   barredFromVoting,
+  recordRedistricting,
   electionLawTurnoutCost,
 } from "../law-reach/group-a-voting";
 import { breakElectionTie } from "../election-ties";
@@ -968,6 +970,57 @@ function incumbentLeanOf(
   );
 }
 
+/** A named person's scheduled weekly work, from their commitments. */
+function weeklyWorkOf(state: CoreState, personId: string): number {
+  return [...(state.work.commitmentsByPerson.get(personId) ?? [])].reduce(
+    (sum, id) =>
+      sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
+    0,
+  );
+}
+
+/** One voter on the roll the election laws are applied to: a named person, or a counted group. */
+export interface RollVoter {
+  readonly id: string;
+  readonly target: "person" | "group";
+  /** The people it stands for (a counted group's weight times its citizen scale). */
+  readonly count: number;
+  readonly birthDate: string;
+  readonly traits: Readonly<Record<string, number>>;
+  readonly weeklyMinutes: number;
+}
+
+/**
+ * The town's adults the election laws apply to today: its named adults the
+ * state does not bar, and its counted adults, each standing for the people
+ * like them who are citizens and not barred.
+ */
+export function electorateRoll(api: CoreAPI): readonly RollVoter[] {
+  const state = api.state as CoreState;
+  const { townPlaceId } = town(api);
+  const date = state.date;
+  const rows: RollVoter[] = townAdults(api).map((p) => ({
+    id: p.id,
+    target: "person",
+    count: 1,
+    birthDate: p.birthDate,
+    traits: p.traits,
+    weeklyMinutes: weeklyWorkOf(state, p.id),
+  }));
+  const scale = countedScale(api);
+  for (const v of countedResidents(state))
+    if (v.placeId === townPlaceId && ageOn(v, date) >= 18)
+      rows.push({
+        id: v.id,
+        target: "group",
+        count: v.weight * scale,
+        birthDate: v.birthDate,
+        traits: v.traits,
+        weeklyMinutes: v.weeklyMinutes,
+      });
+  return rows;
+}
+
 /**
  * A voter's reasons to vote apart from the race: their own sense of duty and
  * reliability, every trait's lean between voting and staying home, how
@@ -996,13 +1049,7 @@ export function turnoutReasons(
       : campaignParameter("turnoutEngagementWeight") *
         (engagement - NATIONAL_ENGAGEMENT));
   const state = api.state as CoreState;
-  const weeklyWork =
-    recordedWeeklyMinutes ??
-    [...(state.work.commitmentsByPerson.get(voter.id) ?? [])].reduce(
-      (sum, id) =>
-        sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
-      0,
-    );
+  const weeklyWork = recordedWeeklyMinutes ?? weeklyWorkOf(state, voter.id);
   const cost =
     (weeklyWork / campaignParameter("turnoutWorkWeekMinutes") +
       electionLawTurnoutCost(api, voter, weeklyWork)) /
@@ -1855,6 +1902,9 @@ const PLACES_SOURCE =
  * voters need at the national count of voters per voting location, each in
  * the town government's building where the records hold one.
  */
+/** The classification a town's own government is recorded under. */
+const MUNICIPAL_GOVERNMENT = "service:municipal-government";
+
 export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
   const rows = table(api, "pollingPlaces");
   if (rows.size)
@@ -1869,16 +1919,14 @@ export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
     Math.ceil(voters / electionsParameter("votersPerVotingLocation")),
   );
   const core = api.state as CoreState;
+  // The town's own government, recorded as the disasters engine and the law
+  // reach read it; a place with none on record has no building yet.
   const building =
     [...core.organizations.values()]
       .filter(
         (o) =>
           o.placeId === townPlaceId &&
-          ((o as { classification?: string }).classification?.startsWith(
-            "government:",
-          ) ||
-            o.kind === "government" ||
-            o.kind === "local-government"),
+          o.classification === MUNICIPAL_GOVERNMENT,
       )
       .map((o) => o.id)
       .sort()[0] ?? null;
@@ -2026,6 +2074,7 @@ function wardMap(api: CoreAPI, wards: number): Map<string, number> {
     before += n;
   }
   wardMemo.set(api.state, { date: api.state.date, wards, map });
+  recordRedistricting(api, wards);
   return map;
 }
 const wardMemo = new WeakMap<
@@ -2416,6 +2465,10 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     ...(wider ? { placesCast: wider.cast } : {}),
   };
   table(api, "results").put(result as unknown as ModuleRow);
+  // The election laws in force were applied to this electorate: who was
+  // mailed a ballot, who registered at the polls, and what the election's
+  // administration cost the government that ran it.
+  applyElectionLaws(api, "vote", electorateRoll(api), contestId);
   api.emit({
     id: `election-result:${contestId}`,
     date,

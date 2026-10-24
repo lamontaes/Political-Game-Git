@@ -17,6 +17,7 @@ import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
+import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
@@ -193,16 +194,22 @@ export function townShareOf(api: CoreAPI, gov: GovernmentRow): number {
   return residents > 0 ? Math.min(1, townResidents(api) / residents) : 0;
 }
 
-/** The outside account public money comes from and goes to: the town's, else any. */
+/**
+ * The outside account public money comes from and goes to: the town's
+ * outside market (buyers and sellers outside the town), else any other
+ * outside account in the town, else any. A public employer's own outside
+ * account is its pay authority's (opening-public-pay.ts) and carries only that
+ * employer's government's wages, so a treasury's national-scale flows never
+ * run through it.
+ */
 export function outsideAccountOf(api: CoreAPI): string | undefined {
   const town = lawChain(api).townPlaceId;
-  return [...api.state.organizations.values()]
-    .filter((o) => o.outsideFlow !== undefined)
-    .sort(
-      (a, b) =>
-        Number(b.placeId === town) - Number(a.placeId === town) ||
-        a.id.localeCompare(b.id),
-    )[0]?.id;
+  const orgs = [...api.state.organizations.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  );
+  return (
+    townOutsideOf(orgs, town) ?? orgs.find((o) => o.outsideFlow !== undefined)
+  )?.id;
 }
 
 /** The line a public post's pay draws on: the longest matching prefix. */
@@ -281,6 +288,63 @@ export function notePublicPay(
       [line]: (since.lines[line] ?? 0) + input.paidMinor,
     },
   } as unknown as ModuleRow);
+}
+
+/**
+ * A government pays a program's running cost out of one of its budget lines
+ * to the suppliers outside the town (ballot printers, the postal service,
+ * the motor vehicle office): the money leaves the treasury's account for the
+ * outside account, is kept as a payment by line, and counts against the line
+ * so the month's close does not pay it a second time. Returns what was paid
+ * (less than asked where the treasury holds less).
+ */
+export function chargeLine(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  input: {
+    readonly id: string;
+    readonly line: string;
+    readonly amountMinor: number;
+    readonly reasonKey: string;
+    readonly source: Source;
+  },
+): number {
+  const amountMinor = Math.floor(input.amountMinor);
+  const outside = outsideAccountOf(api);
+  if (amountMinor <= 0 || !outside) return 0;
+  const accounts = api.accounts();
+  const receipt = accounts.transfer({
+    id: input.id,
+    from: accounts.main(gov.organizationId),
+    to: accounts.main(outside),
+    amountMinor,
+    reasonKey: input.reasonKey,
+    source: input.source,
+    partial: true,
+  });
+  const paid = receipt.paidMinor;
+  if (paid <= 0) return 0;
+  const payee = PAYEES.payees["contractors"]!;
+  table(api, "spendingPayments").put({
+    id: input.id,
+    governmentId: gov.id,
+    line: input.line,
+    payeeId: "contractors",
+    payeeName: payee.name,
+    kind: payee.kind,
+    date: api.state.date,
+    amountMinor: paid,
+  } as unknown as ModuleRow);
+  const since = (table(api, "sinceClose").get(gov.id) as unknown as
+    { lines: Record<string, number> } | undefined) ?? { lines: {} };
+  table(api, "sinceClose").put({
+    id: gov.id,
+    lines: {
+      ...since.lines,
+      [input.line]: (since.lines[input.line] ?? 0) + paid,
+    },
+  } as unknown as ModuleRow);
+  return paid;
 }
 
 /** What a treasury keeps back at a close: wages for the coming month of the employees it pays, and what it still owes them. */

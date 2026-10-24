@@ -14,7 +14,10 @@
  * English engine words.
  */
 import { registerElectorate } from "../electorate";
-import { termLimitReached } from "../law-reach/group-a-voting";
+import {
+  recordTermLimitFiling,
+  termLimitReached,
+} from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { partyName } from "../appointments";
@@ -723,6 +726,8 @@ export function fileCandidacy(
   const contest = table(api, "contests").get(
     input.contestId,
   ) as unknown as ContestRow;
+  // A term limit in force reached this filing (law-reach, group A).
+  recordTermLimitFiling(api, input.personId, contest.officeId);
   const rules = filingRulesFor(
     api,
     contest,

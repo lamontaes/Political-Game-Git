@@ -10,7 +10,7 @@ claimed-by: claude/quirky-ride-vrwwz4-m1-economy
 pr: #5876
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T05:21:03.309Z
+claimed-at: 2026-10-24T17:03:19.868Z
 ---
 
 **What.** Roadmap M1-03 (state and metro economies), M1-04 (jobs) and M1-06 (credit and banks) read passes: false with command null on main, so they can never pass. Each needs a check that plays a year of the bench world in the place the golden-path runner draws and tests its spec text. M1-02's check (src/core2/tooling/m1-02-check.ts) is the pattern for reading the runner's place and seed and exiting nonzero with the reasons.

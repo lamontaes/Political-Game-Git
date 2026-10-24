@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-stand-again
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T14:16:41.146Z
 ---
 
 **What.** fileStandingCandidates returns at src/core2/modules/voting.ts:1132, before the standsAgain call at :1196, whenever the candidacy module is installed, and every played world installs it. So the voting.stand-again decision (age and a small trait lean, calibrated to van de Wardt et al.) never runs in play: in Parkway, Missouri's election window it had 0 calls while the race ran. Either candidacy asks the incumbent the same standsAgain question before filing them, or the voting path's early return gives way to it.
