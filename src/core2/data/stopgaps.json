@@ -2611,6 +2611,32 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Fill-in at the moment a counted person meets an employer (OPUS-CORE's fillInPerson), or an aggregate chooser for counted groups agreed with OPUS-CORE.",
+    "status": "resolved",
+    "resolvedAt": "2026-10-20",
+    "resolution": "counted workers retire, quit, look around, stay, start looking, stop looking and apply by the same offers and the same chooser as full people (workerOffers, reviewCountedWorkers, reviewCountedEntry and the shared weekly consider in modules/jobs.ts), each record deciding for the household weight it stands for. Their record holds no needs, so strain is the neutral zero; age, savings, traits and tenure are read from it, and a decision's recorded reasons are kept on the change or seeker row. Looking and waiting are weighed again each month by one shared rule (settleEntryChoice) for any full or counted person whose search began as their own choice to look (the opening's jobless and those who started looking): waiting wins ends the seeker row and the claim in both tiers; a search that began with a lost job is ended by being hired. The acceptance of an offer by an employed counted worker stays acceptScore, which full people also use."
+  },
+  {
+    "id": "SG-WORLD-jobs-quit-rate-uncalibrated",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1458,
+    "whatItFakes": "Quitting and looking around while employed are now decided by the shared chooser for full and counted workers alike, and win only on a large pay gap, so a played year has far fewer quits than JOLTS reports; the old summed-pull churn that matched JOLTS quit rates is gone.",
+    "why": "One rule for both tiers replaced the counted summed pulls; the leave and look terms were retuned for retirement and entry, not yet for quits.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-20",
+    "replacement": "The leave and look terms (quitScore, jobsLookBaseline, jobsPayGapWeight) calibrated so a played year's quits per worker match JOLTS total private quits by month, measured in drawn places.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-counted-owner-pulls",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 2067,
+    "whatItFakes": "Counted owners who found a business, close one or borrow, and a firm with no recorded owner run by counted people, act by summed pulls (strongestPulls) rather than the shared chooser.",
+    "why": "The shared chooser decides for one actor; these decisions are made for a whole counted group at once.",
+    "addedBy": "CLAUDE-WORLD",
+    "addedAt": "2026-10-20",
+    "replacement": "Each counted owner decides through the shared chooser from the counted record, times the household's weight, as counted workers now do.",
     "status": "open"
   },
   {
