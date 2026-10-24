@@ -1,0 +1,34 @@
+{
+  "id": "mollenhorst-2014-network-turnover",
+  "publisher": "Mollenhorst, Volker and Flap, Social Networks 37 (2014) 65-80; Utrecht University release of May 27, 2009",
+  "vintage": "Dutch panel, second wave seven years after the first",
+  "table": "Reported in the release text; the 2014 article's own tables were not readable (paywalled)",
+  "title": "Changes in personal relationships: how social contexts affect the emergence and discontinuation of relationships",
+  "universe": "Dutch adults aged 18 to 65; discussion partners and practical helpers they named",
+  "geography": "Netherlands",
+  "sourceUrl": "https://www.sciencedaily.com/releases/2009/05/090527111907.htm",
+  "secondaryUrls": [
+    "https://www.nbcnews.com/health/health-news/most-replace-half-their-friends-every-7-years-flna1C9458900",
+    "https://research-portal.uu.nl/en/publications/changes-in-personal-relationships-how-social-contexts-affect-the-/"
+  ],
+  "retrievedOn": "2026-10-24",
+  "quotes": [
+    "Only 48 percent were still part of the network. (ScienceDaily release, fetched 2026-10-24)",
+    "Only thirty percent of the discussion partners and practical helpers still held the same position seven years later. (same release)",
+    "1007 people aged between 18 and 65 years ... 604 people were reinterviewed. (same release)",
+    "Although the average number of confidants and practical helpers in Dutch networks only slightly changes over seven years, we found considerable changes among these relationships. (article abstract, Utrecht University research portal, fetched 2026-10-24)"
+  ],
+  "limits": "The release is a secondary report of the study and gives no kin / non-kin split; the 2014 article could not be fetched, so the 48% rests on the release and on NBC News's report of it (which repeats the figure), plus the article abstract, not on the paper's tables. Dutch adults, not Americans. 48% counts people still anywhere in the network; 30% counts those who also kept the same role, a stricter test the game does not make.",
+  "spanYears": 7,
+  "stillInNetworkShare": 0.48,
+  "sameRoleShare": 0.3,
+  "interviewed": 1007,
+  "reinterviewed": 604,
+  "derivedRange": {
+    "low": 0.44,
+    "high": 0.52,
+    "how": "95% binomial interval of 0.48 among the 604 re-interviewed: 1.96 * sqrt(0.48 * 0.52 / 604) = 0.0398, rounded to 0.04. Sampling error only; panel attrition (1007 to 604) and Dutch-versus-American differences are not in it."
+  },
+  "scaling": "Constant yearly retention: share kept after t years = 0.48 ^ (t / 7). Three years gives 0.730 (0.704 to 0.756 across the range).",
+  "usedBy": "src/core2/m0-circle-turnover.test.ts; parameters circleRetentionShareOverSpan and circleRetentionSpanYears in src/core2/data/parameters.json"
+}

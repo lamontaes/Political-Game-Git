@@ -749,6 +749,26 @@
     "tag": "SOURCED",
     "citation": "Kannan and Veazie (2022), SSM Population Health 21:101331, American Time Use Survey 2019: average minutes per day in the presence of household family members, respondents 15 and older."
   },
+  "circleRetentionShareOverSpan": {
+    "value": 0.48,
+    "tag": "SOURCED",
+    "citation": "Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80, Dutch panel of 1,007 adults aged 18-65, 604 re-interviewed seven years later: \"Only 48 percent were still part of the network\" (discussion partners and practical helpers; Utrecht University release of May 27, 2009, https://www.sciencedaily.com/releases/2009/05/090527111907.htm, fetched 2026-10-24; data/research/people/mollenhorst-2014-network-turnover.json). A secondary report of the study; the article's tables were not readable. It checks totals across many circles and never decides one tie's fate.",
+    "spread": {
+      "low": 0.44,
+      "high": 0.52,
+      "unit": "share of the starting circle still in it after the span",
+      "citation": "95% binomial interval of 0.48 among the 604 re-interviewed (1.96 * sqrt(0.48 * 0.52 / 604) = 0.04); sampling error only (data/research/people/mollenhorst-2014-network-turnover.json)."
+    }
+  },
+  "circleRetentionSpanYears": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Span over which circleRetentionShareOverSpan was measured: the Mollenhorst, Volker and Flap (2014) panel re-interviewed respondents seven years after the first wave (same release and research file).",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The study has one fixed re-interview span; no other span was measured."
+    }
+  },
   "householdOtherMinutesPerDay": {
     "value": 43,
     "tag": "TUNABLE",
