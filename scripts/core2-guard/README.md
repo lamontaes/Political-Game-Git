@@ -45,21 +45,24 @@ whose bench can't hand over its opening input falls back to the generated
 opening; `settings.playedWorld` records which path ran.
 One warmup and up to three independent measured processes run per revision,
 one process at a time, base and head alternating so the machine's drift falls
-on both. Each run plays a whole year, so a large drawn town can take minutes a
-run: the head's warmup runs only while it and one pair (each as long as the
-last run, times `runTimeMargin`) fit the time left, and the head otherwise
-starts cold; after the first measured pair, another pair starts only while the last
-pair's time times `runTimeMargin` still fits the time left, and each profile
-(the head's first) only while its last run's time times `profileTimeMargin`
-does. A large town then measures one or two pairs instead of failing on time;
-the summary names how many. The same seed, place, opening-input hash,
-settings, host, and month horizon must match; incomparable runs fail
-explicitly. Median simulation milliseconds per day (the mean of the middle two
-for two pairs) determine the ratio. Initialization and opening
-phases are reported separately. A ratio above 1.20 is red. A failed opening-input budget is also red,
-independently of timing. Valid measurements still report both components when
-the baseline already exceeds an input budget. The relative year
-estimate uses the matched month; it is not a full-year two-minute proof.
+on both. Each warmup plays `warmupDays`; from the warmups' time a game day and
+their fixed time (process start, opening, modules), the measured runs play the
+longest span up to `measuredDays` (a whole year) whose three pairs and two
+profiles fit the time left with `runTimeMargin`, never shorter than a warmup.
+A small town plays its whole year; a large drawn town plays the part of the
+year that fits, so every town compares three pairs instead of failing on time.
+After the first measured pair, another starts only while the last pair's time
+times `runTimeMargin` still fits, and each profile (the head's first) only
+while its last run's time times `profileTimeMargin` does, in case the year's
+later days run slower; the summary names the span and the pairs. The same
+seed, place, opening-input hash, settings, host, and span must match;
+incomparable runs fail explicitly. Median simulation milliseconds per day (the
+mean of the middle two for two pairs) determine the ratio. Initialization and
+opening phases are reported separately. A ratio above 1.20 is red. A failed
+opening-input budget is also red, independently of timing. Valid measurements
+still report both components when the baseline already exceeds an input
+budget. The relative year estimate uses the matched span; it is not a
+full-year two-minute proof.
 
 Peak RSS includes the whole process. The core's existing opening-input byte
 and Source-share budgets are enforced directly. No new RSS ceiling is invented.

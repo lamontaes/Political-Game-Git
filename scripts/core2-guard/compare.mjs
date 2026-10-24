@@ -26,7 +26,9 @@ export function compare(base, head) {
       !row.seed ||
       !row.placeKey ||
       !row.inputHash ||
-      row.days !== policies.measuredDays ||
+      !Number.isInteger(row.days) ||
+      row.days < policies.warmupDays ||
+      row.days > policies.measuredDays ||
       typeof row.opening?.budget?.passed !== "boolean" ||
       !Number.isFinite(row.millisecondsPerDay) ||
       row.millisecondsPerDay <= 0 ||
@@ -80,6 +82,7 @@ export function compare(base, head) {
     headMillisecondsPerDay: headMs,
     ratio,
     measuredPairs: base.length,
+    measuredDays: base[0].days,
     maximumRatio: policies.maximumRatio,
     peakRssMiB: {
       base: Math.max(...base.map((row) => row.peakRssMiB)),
@@ -92,6 +95,6 @@ export function compare(base, head) {
       changed: base[0].inputHash !== head[0].inputHash,
     },
     yearEstimateScope:
-      "Relative estimate from identical 31-day windows; not a full-year two-minute proof",
+      "Relative estimate from identical windows of the measured span; not a full-year two-minute proof",
   };
 }

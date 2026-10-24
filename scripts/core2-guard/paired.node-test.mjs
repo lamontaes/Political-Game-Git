@@ -13,7 +13,7 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { nextPairFits, paired, profileFits, warmupFits } from "./paired.mjs";
+import { measuredSpan, nextPairFits, paired, profileFits } from "./paired.mjs";
 import { runMonth } from "./month.mjs";
 const scripts = dirname(fileURLToPath(import.meta.url));
 
@@ -76,8 +76,8 @@ const value = flag => args[args.indexOf(flag) + 1];
 const receipt = {
   schema: 'core2-month-v1', revision: execFileSync('git', ['rev-parse', 'HEAD'], {encoding:'utf8'}).trim(),
   seed: value('--seed'), placeKey: value('--place-key'), inputHash: 'tooling-fixture',
-  startedAt: 'tooling-fixture', days: 365, settings: {}, host: {},
-  opening: {budget: {passed: true}}, millisecondsPerDay: 1, peakRssMiB: 1
+  startedAt: 'tooling-fixture', days: Number(value('--days')), settings: {}, host: {},
+  opening: {budget: {passed: true}}, advanceMilliseconds: 1, millisecondsPerDay: 1, peakRssMiB: 1
 };
 writeFileSync(value('--output'), JSON.stringify(receipt));
 `,
@@ -112,6 +112,8 @@ writeFileSync(value('--output'), JSON.stringify(receipt));
         output: resolve(directory, `paired-${attempt}.json`),
       });
       assert.equal(result.passed, true, result.error);
+      // A fixture month takes no time, so the whole year fits.
+      assert.equal(result.measuredDays, 365);
       assert.deepEqual(Object.keys(result.profiles), ["base", "head"]);
       for (const profile of Object.values(result.profiles)) {
         assert.ok(profile.totalMs > 0);
@@ -139,14 +141,25 @@ test("another pair or a profile starts only while its last time fits what is lef
   assert.equal(profileFits(3 * 60_000, run), false);
 });
 
-test("the head's warmup runs only while it and one pair fit what is left", () => {
-  // Twelve minutes a run, as Derry, New Hampshire's year took on a four-core
-  // container: after the base's warmup 33 minutes are left, too few for the
-  // head's warmup and a pair (39.6 minutes), so the head starts cold.
-  const slow = 12 * 60_000;
-  assert.equal(warmupFits(33 * 60_000, slow), false);
-  // On GitHub's runner (about six minutes a run) both warmups still run.
-  assert.equal(warmupFits(39 * 60_000, 6 * 60_000), true);
-  assert.equal(warmupFits(3 * slow * 1.1, slow), true);
-  assert.equal(warmupFits(3 * slow * 1.05, slow), false);
+test("the measured span is the longest whose three pairs and two profiles fit what is left", () => {
+  const runs = 2 * 3 + 2 * 1.25,
+    month = (fixed, perDay) => ({
+      wallMilliseconds: fixed + 31 * perDay,
+      advanceMilliseconds: 31 * perDay,
+      days: 31,
+    }),
+    fits = (left, fixed, perDay, days) =>
+      (fixed + days * perDay) * runs * 1.1 <= left;
+  // Derry, New Hampshire on a four-core container: about a minute to open and
+  // 1.35 s a game day, with about 41.6 minutes left after the two warmups.
+  const left = 41.6 * 60_000,
+    derry = measuredSpan(left, [month(70_000, 1_355), month(60_000, 1_340)]);
+  assert.ok(derry > 31 && derry < 365, String(derry));
+  // The slower warmup sizes it, and one day more would not fit.
+  assert.equal(fits(left, 70_000, 1_355, derry), true);
+  assert.equal(fits(left, 70_000, 1_355, derry + 1), false);
+  // A small town plays its whole year; a town too slow for even a month still
+  // plays a month, and the pair checks then measure as many pairs as fit.
+  assert.equal(measuredSpan(left, [month(10_000, 100)]), 365);
+  assert.equal(measuredSpan(left, [month(60_000, 20_000)]), 31);
 });

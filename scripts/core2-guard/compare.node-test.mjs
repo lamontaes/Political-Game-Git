@@ -98,3 +98,15 @@ test("fewer measured pairs compare when both sides have the same count", () => {
   ])
     assert.throws(() => compare(rows(base), rows(head)));
 });
+test("a shorter span compares when every run plays it, and never below a warmup", () => {
+  const span = { days: 152 };
+  const result = compare(rows([10, 10, 10], span), rows([11, 11, 11], span));
+  assert.equal(result.passed, true);
+  assert.equal(result.measuredDays, 152);
+  const mixed = rows([10, 10, 10], span);
+  mixed[1].days = 365;
+  assert.throws(() => compare(mixed, rows([10, 10, 10], span)), /days/);
+  assert.throws(() =>
+    compare(rows([10, 10, 10], { days: 30 }), rows([10, 10, 10], { days: 30 })),
+  );
+});

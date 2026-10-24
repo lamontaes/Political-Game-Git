@@ -34,12 +34,23 @@ export function nextPairFits(remainingMilliseconds, lastBase, lastHead) {
   );
 }
 /**
- * Whether another warmup still fits: a warmup only fills the caches, so it runs
- * only while it and one measured pair (each as long as the last run, with
- * policies.runTimeMargin) fit the time left.
+ * The span the measured runs play: the longest, up to a whole year, whose
+ * three pairs and two profiles (each run its fixed time plus its days at the
+ * warmups' time a day, with policies.runTimeMargin) fit the time left; never
+ * shorter than a warmup. Each warmup is { wallMilliseconds, advanceMilliseconds,
+ * days }; the slower warmup's numbers are used.
  */
-export function warmupFits(remainingMilliseconds, lastRun) {
-  return remainingMilliseconds >= 3 * lastRun * policies.runTimeMargin;
+export function measuredSpan(remainingMilliseconds, warmups) {
+  const fixed = Math.max(
+      ...warmups.map((row) => row.wallMilliseconds - row.advanceMilliseconds),
+    ),
+    perDay = Math.max(
+      ...warmups.map((row) => row.advanceMilliseconds / row.days),
+    ),
+    runs = 2 * policies.measuredRuns + 2 * policies.profileTimeMargin,
+    perRun = remainingMilliseconds / policies.runTimeMargin / runs,
+    days = Math.floor((perRun - fixed) / perDay);
+  return Math.max(policies.warmupDays, Math.min(policies.measuredDays, days));
 }
 /** Whether a profile run fits the time left (policies.profileTimeMargin). */
 export function profileFits(remainingMilliseconds, lastRun) {
@@ -78,7 +89,7 @@ export async function paired({ base, head, output }) {
   );
   const groups = {},
     profiles = {};
-  let result;
+  let result, span;
   const execute = async (command) => {
     const receipt = await runCommand(command, {
       cwd,
@@ -97,7 +108,7 @@ export async function paired({ base, head, output }) {
     lastMilliseconds = {},
     remaining = () =>
       policies.performanceMilliseconds - (performance.now() - started),
-    monthArgs = (output) => [
+    monthArgs = (output, days) => [
       "--import",
       "tsx",
       resolve(directory, "month.mjs"),
@@ -109,6 +120,8 @@ export async function paired({ base, head, output }) {
       startDate,
       "--output",
       output,
+      "--days",
+      String(days),
     ],
     checkout = (label) => {
       git("checkout", "--detach", revisions[label]);
@@ -117,7 +130,7 @@ export async function paired({ base, head, output }) {
           `Core not available at ${label} ${revisions[label]}; no benchmark was run`,
         );
     },
-    measure = async (label, index) => {
+    measure = async (label, index, days) => {
       checkout(label);
       const receiptPath = resolve(directory, `${label}-${index}.json`);
       process.stderr.write(
@@ -128,36 +141,29 @@ export async function paired({ base, head, output }) {
         process.execPath,
         `--max-old-space-size=${policies.nodeHeapMiB}`,
         `--max-semi-space-size=${policies.nodeSemiSpaceMiB}`,
-        ...monthArgs(receiptPath),
+        ...monthArgs(receiptPath, days),
       ]);
       lastMilliseconds[label] = performance.now() - began;
       const receipt = JSON.parse(readFileSync(receiptPath, "utf8"));
       if (receipt.revision !== revisions[label])
         throw new Error("Measured revision does not match requested revision");
-      return receipt;
+      return { ...receipt, wallMilliseconds: lastMilliseconds[label] };
     };
   try {
     groups.base = [];
     groups.head = [];
-    let index = 0,
-      warmups = 0;
-    // On a slow machine a large town's warmup takes so long that warming the
-    // head too would leave no room for a pair; the head then starts cold (its
-    // files the base did not share compile in its first measured run).
+    let index = 0;
+    // The warmups play a month each; their time a day and fixed time size the
+    // span every measured run plays, so a large drawn town measures its three
+    // pairs over the part of the year that fits rather than running out.
+    const warmed = [];
     for (let warm = 0; warm < policies.warmupRuns; warm++, index++)
-      for (const label of ["base", "head"]) {
-        if (
-          warmups > 0 &&
-          !warmupFits(remaining(), Math.max(...Object.values(lastMilliseconds)))
-        )
-          continue;
-        await measure(label, index);
-        warmups++;
-      }
-    // Base and head alternate, so the machine's drift falls on both. A large
-    // drawn town's year can take minutes a run, so after the first pair the
-    // next one starts only while the last pair's time (with a margin) still
-    // fits the budget: the guard measures fewer pairs instead of running out.
+      for (const label of ["base", "head"])
+        warmed.push(await measure(label, index, policies.warmupDays));
+    span = measuredSpan(remaining(), warmed);
+    // Base and head alternate, so the machine's drift falls on both. After the
+    // first pair the next one starts only while the last pair's time (with a
+    // margin) still fits, in case the year's later days run slower.
     for (let pair = 0; pair < policies.measuredRuns; pair++, index++) {
       if (
         pair > 0 &&
@@ -165,7 +171,7 @@ export async function paired({ base, head, output }) {
       )
         break;
       for (const label of ["base", "head"])
-        groups[label].push(await measure(label, index));
+        groups[label].push(await measure(label, index, span));
     }
     // Profiles only name the slowest functions and never enter the
     // comparison, so they run in the time left, the head's first (the receipt
@@ -187,7 +193,7 @@ export async function paired({ base, head, output }) {
         "--cpu-prof",
         `--cpu-prof-dir=${profileDir}`,
         "--cpu-prof-name=month.cpuprofile",
-        ...monthArgs(resolve(profileDir, "month.json")),
+        ...monthArgs(resolve(profileDir, "month.json"), span),
       ]);
       const profile = await execute([
         process.execPath,
@@ -205,7 +211,6 @@ export async function paired({ base, head, output }) {
     }
     result = {
       ...compare(groups.base, groups.head),
-      warmupRuns: warmups,
       profiles,
       runs: groups,
       elapsedMilliseconds: performance.now() - started,
@@ -228,7 +233,7 @@ export async function paired({ base, head, output }) {
   writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
   const summary = result.error
     ? `## Core guard: ERROR\n\n${result.error.slice(0, 1000)}\n`
-    : `## Core guard: ${result.passed ? "PASS" : result.speedPassed ? "INPUT BUDGET FAILURE" : "SLOWDOWN"}\n\nBase ${result.baseMillisecondsPerDay.toFixed(2)} ms/day; head ${result.headMillisecondsPerDay.toFixed(2)} ms/day; ratio ${result.ratio.toFixed(3)} (limit ${result.maximumRatio}). Opening-input budgets: ${result.openingBudgetPassed ? "passed" : "FAILED"}.\n\n${result.inputHash.changed ? `The opening's input changed (base ${result.inputHash.base}, head ${result.inputHash.head}); both opened the same seed, place and day.\n\n` : ""}Peak RSS: base ${result.peakRssMiB.base.toFixed(1)} MiB; head ${result.peakRssMiB.head.toFixed(1)} MiB.\n\nSeed ${result.seed}; place ${result.placeKey}; ${result.measuredPairs} measured pair(s) of ${policies.measuredRuns} after ${result.warmupRuns} warmup run(s) of ${2 * policies.warmupRuns}.\n\n` +
+    : `## Core guard: ${result.passed ? "PASS" : result.speedPassed ? "INPUT BUDGET FAILURE" : "SLOWDOWN"}\n\nBase ${result.baseMillisecondsPerDay.toFixed(2)} ms/day; head ${result.headMillisecondsPerDay.toFixed(2)} ms/day; ratio ${result.ratio.toFixed(3)} (limit ${result.maximumRatio}). Opening-input budgets: ${result.openingBudgetPassed ? "passed" : "FAILED"}.\n\n${result.inputHash.changed ? `The opening's input changed (base ${result.inputHash.base}, head ${result.inputHash.head}); both opened the same seed, place and day.\n\n` : ""}Peak RSS: base ${result.peakRssMiB.base.toFixed(1)} MiB; head ${result.peakRssMiB.head.toFixed(1)} MiB.\n\nSeed ${result.seed}; place ${result.placeKey}; ${result.measuredPairs} measured pair(s) of ${policies.measuredRuns}, each run playing ${result.measuredDays} of ${policies.measuredDays} days after ${policies.warmupDays}-day warmups.\n\n` +
       (profiles.head?.self
         ? "Slowest sampled head functions (profiles include opening and month):\n\n" +
           profiles.head.self

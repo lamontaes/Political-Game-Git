@@ -156,9 +156,19 @@ export async function prepareWorld({ seed, placeKey, startDate }) {
     peers,
   };
 }
-export async function runMonth({ seed, placeKey, output, startDate }) {
+export async function runMonth({
+  seed,
+  placeKey,
+  output,
+  startDate,
+  days = policies.measuredDays,
+}) {
   if (typeof output !== "string" || !output.trim() || output.startsWith("--"))
     throw new Error("Missing value for --output: supply a receipt path");
+  // The paired guard plays a shorter span for its warmups and for a town whose
+  // year does not fit the budget (policies.timeBudgetReason).
+  if (!Number.isInteger(days) || days < 1 || days > policies.measuredDays)
+    throw new Error(`Measured span must be 1 to ${policies.measuredDays} days`);
   const {
     input,
     phases,
@@ -190,12 +200,9 @@ export async function runMonth({ seed, placeKey, output, startDate }) {
       ? phases.modulesAndGovernment
       : performance.now() - initStarted;
   const advanceStarted = performance.now(),
-    receipt = advanceCore(
-      core,
-      addDays(makeIsoDate(core.date), policies.measuredDays),
-    ),
+    receipt = advanceCore(core, addDays(makeIsoDate(core.date), days)),
     advanceMilliseconds = performance.now() - advanceStarted;
-  if (receipt.simulatedDays !== policies.measuredDays)
+  if (receipt.simulatedDays !== days)
     throw new Error("Clock did not advance the complete measured span");
   const result = {
     schema: "core2-month-v1",
@@ -218,7 +225,7 @@ export async function runMonth({ seed, placeKey, output, startDate }) {
     settings: {
       openingEmployment: true,
       scheduledWork: true,
-      measuredDays: policies.measuredDays,
+      measuredDays: days,
       twoLevel: true,
       playedWorld: Boolean(playedWorld),
     },
@@ -267,6 +274,7 @@ if (
         ...(args.includes("--start-date")
           ? { startDate: value("--start-date") }
           : {}),
+        ...(args.includes("--days") ? { days: Number(value("--days")) } : {}),
       }),
     )
     .then((result) => console.log(JSON.stringify(result)))
