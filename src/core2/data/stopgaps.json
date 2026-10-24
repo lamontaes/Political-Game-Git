@@ -344,7 +344,7 @@
     "why": "The authored cadence is an explicit coarse prototype default. One scored act per activation does not establish a complete calendar or empirical activity distribution.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads.",
+    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. Oct 23, 2026 (research-content-sourced-parameters): the ATUS activity totals the plan is to be checked against are in data/research/core/bls-atus-table-a1-2025.json (2018 to 2025: caring for household members 21.6 to 24.1 percent of people a day, household adults 4.6 to 6.2, socializing 28.7 to 35.0, volunteering 4.0 to 5.7, household management 16.0 to 19.1), and scripts/research/content-year.ts reports a played year against them. careNeedHalfExcessHazard stays TUNABLE: no source measures care asked per unit of condition hazard, and values of 3 and 6 give the same care share. Still open: one scored act per activation instead of a time-budget plan (builder item core-stopgap-content-estimated-behavior).",
     "status": "open"
   },
   {
@@ -356,7 +356,7 @@
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Oct 23, 2026 (research-content-sourced-parameters): lookupHours is now ESTIMATED from ATUS 2025 Table A-1 Government services (0.91 hours for the people who did it; 0.72 to 1.06 across published years), recorded in data/research/core/bls-atus-table-a1-2025.json with ATUS volunteering (4.0 to 5.7 percent of people a day) for the civic acts. Still open: the join, organize, approach and look-up acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable), and lookupHours stays ESTIMATED until a time-use source measures looking up an office itself.",
     "status": "open"
   },
   {
@@ -392,7 +392,7 @@
     "why": "Deep-past generation needs provisional cohort summaries while historical school/name/era records are incomplete.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Era- and locality-specific sourced institution histories and validated cohort distributions; preserve existing personal facts.",
+    "replacement": "Era- and locality-specific sourced institution histories and validated cohort distributions; preserve existing personal facts. Oct 23, 2026 (research-deep-past-sourced-parameters): the grade-stage offsets are ESTIMATED from the CPS October 2024 School Enrollment Table 2 modal ages (U.S. Census Bureau, survey of October 2024; deepPastMiddleSchoolOffsetYears 6, deepPastHighSchoolOffsetYears 9, read by deep-past.ts buildDeepPast): each is the modal age of the entry grade minus the modal age of kindergarten, with an upper bound from the mean pace of enrolled children. A cross-sectional enrollment table does not time any child's entry into a grade, so they become SOURCED only when a source that follows children from kindergarten entry gives the years to each grade. Still faked: present institution names and the opening locality standing in for where a person went to school. data/research/core/acs-2023-b05002-born-in-state.json (ACS 2019-2023 B05002, share of each place's residents born there) and data/research/core/cps-2024-grade-by-age.json (grade by single year of age) are what the builder item core-deep-past-school-place-from-birthplace reads and checks against.",
     "status": "open"
   },
   {
@@ -404,7 +404,7 @@
     "why": "Prototype offers need source-grounded civic targets while historical directory and access records are incomplete.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Era-specific directories with explicit institution access, membership and authority records.",
+    "replacement": "Era-specific directories with explicit institution access, membership and authority records. Oct 23, 2026 (research-deep-past-sourced-parameters): the band a school meeting-place offer should land in is in data/research/core/shpps-2012-joint-use.json (CDC School Health Policies and Practices Study 2012, Jones and Wendel 2015: 61.6% of districts, 57.5% to 65.5%, had a formal agreement letting outside groups use school property, by metro status, district size and region), reported by scripts/research/deep-past-year.ts; the builder item core-stopgap-civic-inputs-civic-data-vintage-and-permission establishes access from the district's own record and checks the town against it. Historical directories remain unsourced.",
     "status": "open"
   },
   {
@@ -440,7 +440,7 @@
     "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance.",
+    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance. Oct 23, 2026 (research-deep-past-sourced-parameters): openingPeerGroupSize re-checked against the NCES NTPS 2020-21 class sizes (National Center for Education Statistics, survey year 2020-21; ESTIMATED, 20, spread corrected to 16.9 to 22.0) in data/research/core/nces-ntps-2021-class-size.json, read by opening-peer-network.ts buildOpeningPeerContacts and candidacy.ts countedKnown; it stays ESTIMATED because a class is not a remembered-peer circle. Its other read, the ceiling in buildOpeningPeerContacts (Math.ceil(cohort / size) groups, so one more classmate halves a group), is a cutoff filed as core-opening-peer-network-openingPeerGroupSize-as-cause. Recognition fading with years since school is the builder item people-peer-recognition-fades.",
     "status": "open"
   },
   {
@@ -567,7 +567,7 @@
     "id": "SG-P8-business-books-credit-policy",
     "kind": "authored-finance-policy",
     "file": "src/core2/data/parameters.json",
-    "line": 1913,
+    "line": 1910,
     "whatItFakes": "Every borrower repays its facilities from half of its cash (businessRepaymentShare, an authored liquidity policy) in finishFinanceDay, with no underwriting, priority-of-claims policy or lender decision behind it.",
     "why": "The finance engine settles facility interest and repayment with finite cash, but the share a firm repays is one authored number, not a behavior rule.",
     "addedBy": "SOL-1258",
@@ -860,7 +860,7 @@
     "why": "Source means do not establish individual needs, supplier scope, recurring bill dates, delivered services or a per-world person dispersion.",
     "addedBy": "SOL-1258/opening_customer_routes",
     "addedAt": "2026-10-09",
-    "replacement": "Use recorded individual budgets and product-compatible agreements plus matched service-level size/region priors and actor purchasing producers.",
+    "replacement": "Use recorded individual budgets and product-compatible agreements plus matched service-level size/region priors and actor purchasing producers. Oct 23, 2026 research (research-opening-customers-sourced-parameters): the 60 regional and household-size parent means now carry their published 95 percent sampling intervals (BLS CEX Tables 1800 and 1400, calendar 2024), and openingCustomerSizeTopCode is that table's own last column ('Five or more people'), a lookup key rather than a threshold. openingCustomerPeriodMonths and openingCustomerAgreementLeadDays stay TUNABLE: they are calendar conventions and no published table gives these services' invoice cadence or the start dates of agreements running at the opening. Still faked: individual budgets, component shares within each parent and the equal vendor shares; a matched individual-level spending distribution (for example CE Interview microdata) and recorded purchasing producers would close it.",
     "status": "open"
   },
   {
@@ -872,7 +872,7 @@
     "why": "County identity and geographic reach do not observe enacted appropriation, price, award or treasury authority. Zero-stock due-flow accounting cannot manufacture that legal/source crosswalk.",
     "addedBy": "SOL-1258/opening_customer_routes",
     "addedAt": "2026-10-09",
-    "replacement": "The later public-budget, procurement and intergovernmental-transfers modules provide dated own-government authority, appropriation, award/agreement, price, supplier scope and actual source-owned payment calendar. Preserve actual county owner IDs and never invent a La Homa CDP municipal budget.",
+    "replacement": "The later public-budget, procurement and intergovernmental-transfers modules provide dated own-government authority, appropriation, award/agreement, price, supplier scope and actual source-owned payment calendar. Preserve actual county owner IDs and never invent a municipal budget for a census-designated place. Oct 23, 2026 research: openingCustomerPublicCleaningBudgetShare is ESTIMATED 0.124 (BOMA International 2012 cleaning share of operating cost 0.183 times the Census 2022 current-operations share 0.6754 of local general-public-buildings spending) and openingCustomerLocalAuthorityBudgetCoverage is ESTIMATED 0.80 (Census 2022: county, municipal and township governments make all of it, counties 0.4987; weighted by the share of playable places with their own government), read by buildOpeningCustomers in src/core2/opening-customers.ts; research files data/research/core/census-2022-local-public-buildings-by-government-type.json and data/research/core/building-operating-cost-janitorial-share.json, checked by scripts/research/check-opening-customer-priors.ts. A measured share of local public-building spending paid to custodial contractors would make the cleaning share SOURCED; reading each place's buyer government types against its state's county share is pool item core-opening-public-buyers-sourced-reads.",
     "status": "open"
   },
   {
@@ -908,7 +908,7 @@
     "why": "Industry payroll/IRS ratios and aggregate CFS international shipments do not identify town-firm product scope, actual outside buyer agreement or a 2021 macro demand path.",
     "addedBy": "SOL-1258/public-outside-flow-audit",
     "addedAt": "2026-10-09",
-    "replacement": "The later national-external-economy/trade and industry-specific customer modules provide matched commodity/service geography, buyer/order/delivery scope and dated demand/price priors. Freight, construction, insurance, realty, care and tuition retain distinct obligations and authorities.",
+    "replacement": "The later national-external-economy/trade and industry-specific customer modules provide matched commodity/service geography, buyer/order/delivery scope and dated demand/price priors. Freight, construction, insurance, realty, care and tuition retain distinct obligations and authorities. Oct 23, 2026 research: data/research/core/bea-2023-use-summary-buyer-shares.json gives each unsupported class's national buyer mix (businesses, households, federal, state and local, exports) from the BEA 2023 summary use table, with the 2019-2023 range, checked by scripts/research/check-opening-customer-priors.ts; it says who buys, not whether the buyer is in the town (src/core2/data/outside-market.json says that). The builder item that gives each missing buyer class a sourced customer is world-local-sales-below-opening-forecast.",
     "status": "open"
   },
   {
@@ -932,31 +932,31 @@
     "why": "The observed bank-account/all-debit sample differs from a generated local/territorial employer and accounting-cost proxy. Firm legal form, total size, cash-debit coverage, banking coverage, actual owner capital and individual crosswalk remain unmeasured; observed quartiles do not establish them.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded firm opening balances and capital provenance, or a matched ALL-debit/balance cohort adapter with honest distributions and measured crosswalk evidence. No survival-based stock tuning or fictional contribution.",
+    "replacement": "Open Oct 23, 2026: the thirteen openingEmployerCashBufferDays* rows were reopened against the JPMorgan Chase Institute PDF (same SHA256, Figures 6 and 7) and stay ESTIMATED: they are Chase-sample medians and quartiles of balance over ALL cash outflows, applied to generated employers whose outflow is planned payroll plus an IRS accounting-cost proxy. The Census Small Business Pulse Survey (April 2022, employer firms, data/research/core/census-sbps-cash-on-hand-2022.json) agrees on the lower tail but counts pandemic aid and loans, so it cannot replace them. They become SOURCED with a measured cash-buffer distribution for employer firms by industry on a payroll-and-operating-cost denominator, or recorded firm opening balances. Earlier replacement: Recorded firm opening balances and capital provenance, or a matched ALL-debit/balance cohort adapter with honest distributions and measured crosswalk evidence. No survival-based stock tuning or fictional contribution.",
     "status": "open"
   },
   {
     "id": "SG-P8-opening-private-cash-buffer-spread",
     "kind": "unmeasured-opening-private-cash-buffer-distribution",
     "file": "src/core2/data/opening-capital.json",
-    "line": 49,
-    "whatItFakes": "A WHO-only stable per-firm startup cash-buffer rank and continuous quantile curve with one authored tail-span coefficient. Published q25/median/q75 are real observations; the full CDF and endpoints are estimates.",
+    "line": 48,
+    "whatItFakes": "A WHO-only stable per-firm startup cash-buffer rank and continuous quantile curve whose tail span is estimated from one drawn all-industries distribution. Published q25/median/q75 are real observations; the straight tail segments, endpoints and full CDF are estimates.",
     "why": "Observed cohort quartiles do not identify individual firm liquidity, uniform identity ranks, piecewise-linear interpolation, tail extrema or a coefficient uncertainty interval. Generated legal form, location, vintage and ALL-cash-debit denominator differ from the selected employer/nonemployer Chase sample.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Recorded individual firm liquidity/capital provenance or an independently observed matched ALL-cash-debit/balance cohort distribution with identified crosswalk and tail evidence. Never calibrate to future closures or wages surviving a requested year.",
+    "replacement": "Open Oct 23, 2026: openingEmployerCashBufferTailSpan is now ESTIMATED 2.7 (spread 2.6 to 2.85) from JPMorgan Chase Institute, Cash Is King (2016), Figure 5, the cohort's own drawn distribution of cash buffer days (data/research/core/jpmci-cash-buffer-days-2016.json, derived and checked by scripts/research/opening-capital-tail-span.ts), read by src/core2/opening-capital.ts openingEmployerCashBufferAtQuantile; the Census Small Business Pulse Survey (April 2022) confirms the lower tail. It becomes SOURCED with a published table of cash-buffer-day percentiles beyond the quartiles (the 90th and 95th, by industry) or recorded individual firm liquidity; until then straight tail segments and uniform startup ranks stay assumptions. Earlier replacement: Recorded individual firm liquidity/capital provenance or an independently observed matched ALL-cash-debit/balance cohort distribution with identified crosswalk and tail evidence. Never calibrate to future closures or wages surviving a requested year.",
     "status": "open"
   },
   {
     "id": "SG-P8-opening-unsupported-owner-funding",
     "kind": "modeled-unfunded-unsupported-opening-owner",
     "file": "src/core2/data/opening-capital.json",
-    "line": 56,
+    "line": 55,
     "whatItFakes": "Fresh generated public, institution, nonbusiness and unknown owners open with modeled zero-funded prototype journal cash pending genuine dated funding. The technical zero is not an observed zero balance and has no private-business calibration.",
     "why": "The superseded six-month payroll stock has no observed institutional balance, dated appropriation or funding receipt. Private JPMC employer/nonemployer cash evidence cannot supply those missing public or other unsupported owner facts.",
     "addedBy": "SOL-1258/customer_default_recover",
     "addedAt": "2026-10-09",
-    "replacement": "REVIEW16 public-budget and national modules must supply genuine dated funding authority, appropriations and treasury/account receipts for represented institutions; other unsupported owners need separately source-qualified recorded funding. Preserve actual supplied balances. Never infer a measured zero, private JPMC reserve, survival stock or synthetic owner contribution.",
+    "replacement": "Open Oct 23, 2026: a mechanic, not a number. The builder items that give these owners dated funding from a named payer on the journal are world-corporate-office-staff-never-paid (regional offices and other branch-or-institution owners), world-public-employer-staff-never-paid and world-town-public-works-staff-never-paid (town, state and national departments paid through their government's treasury); the row resolves when every owner in this branch is funded that way in a played year. What they must not read: the U.S. Census Bureau 2022 State and Local Government Finances Table 1 'Cash and security holdings' line (data/research/money/state-local-finances-2022.json, cashAndSecurityHoldings) equals its 'Insurance trust funds' line exactly ($5.60 trillion nationally, $5.41 trillion of it employee retirement), so it is pension, unemployment and workers' compensation trust assets, not an institution's or treasury's operating cash, and cannot seed an opening balance. Earlier replacement: REVIEW16 public-budget and national modules must supply genuine dated funding authority, appropriations and treasury/account receipts for represented institutions; other unsupported owners need separately source-qualified recorded funding. Preserve actual supplied balances. Never infer a measured zero, private JPMC reserve, survival stock or synthetic owner contribution.",
     "status": "open"
   },
   {
@@ -968,7 +968,7 @@
     "why": "The 2017 Census government listing was recorded before the January 1, 2021 opening; a later canonical directory cannot be backdated. Historical identity supplies an owner candidate, not legal powers, enacted appropriation or opening cash.",
     "addedBy": "SOL-1258/customer_defaults_review",
     "addedAt": "2026-10-09",
-    "replacement": "A dated opening government directory or independently sourced legal identity/change history matched to the same official government ID. Preserve the original 2017 observation date and account ID.",
+    "replacement": "A dated opening government directory or independently sourced legal identity/change history matched to the same official government ID. Preserve the original 2017 observation date and account ID. Oct 23, 2026 research: the Census Government Units listing 2021 (units active as of fiscal year ending June 30, 2021, a year that contains the opening; posted January 28, 2022) carries every one of the 3,031 county governments of the 2017 listing with the same PID6, GID, county FIPS and state, all functionally active, and the 2022 Census of Governments counts 3,031 in the same states (data/research/core/census-gus-2021-county-identity-continuity.json). Reading that listing as the opening-dated observation, and comparing names without punctuation (one 2017 name lacks the apostrophe of its 2021 and 2025 names, so the current name match refuses it), is pool item core-opening-public-buyers-sourced-reads.",
     "status": "open"
   },
   {
@@ -980,7 +980,7 @@
     "why": "The county keeps its county jurisdiction while the represented cohort lives in a CDP. Census geography was observed April 1, 2020 but published August 12, 2021, so an earlier opening uses it only as a retrospective generation prior. Unverified membership remains unbound.",
     "addedBy": "SOL-1258/customer_defaults_review",
     "addedAt": "2026-10-09",
-    "replacement": "Dated own-county procurement/service-area records and actual contract scope with matched represented-resident coverage. A verified geographic relation alone must not close the existing public-procurement appropriation/price stopgap.",
+    "replacement": "Dated own-county procurement/service-area records and actual contract scope with matched represented-resident coverage. A verified geographic relation alone must not close the existing public-procurement appropriation/price stopgap. Oct 23, 2026 research: the county share of local general-public-buildings current operations per state (Census 2022 Census of Governments: Finance; national 0.4987, 10th to 90th percentile 0.243 to 0.807 among states with county governments, the five territories at the median) is in data/research/core/census-2022-local-public-buildings-by-government-type.json; bounding each county buyer's represented share by it is pool item core-opening-public-buyers-sourced-reads.",
     "status": "open"
   },
   {
@@ -1028,7 +1028,7 @@
     "why": "The starting-law research was compiled for a 2026 start; the owner moved the start to January 20, 2025 on October 14, 2026, and a law in force must never be unknown.",
     "addedBy": "start/inauguration-2025",
     "addedAt": "2026-10-14",
-    "replacement": "Sourced phases in force on January 20, 2025 for each series and place in src/core2/data/laws/starting-law.json (2025 tax brackets and rates, FY2025 SNAP maximums and Medicaid match, 2025 unemployment maximums).",
+    "replacement": "Oct 23, 2026 (research-law-reach-sourced-parameters): the phases in force on January 20, 2025 are now sourced and built for the federal income tax and Social Security wage base (IRS Rev. Proc. 2024-40, Publication 15 2025), every state's income and sales tax and average local sales tax (Tax Foundation, January 1, 2025), SNAP maximums (USDA FNS FY2025), the Medicaid match for all 56 places (HHS FY2025, FR Doc. 2023-25636 and 2024-27938) and unemployment weekly bounds (DOL, January 2025), in data/research/laws/*-2025-*.json, written by scripts/research/build-starting-law.py and checked by scripts/research/check-start-law-2025.ts; rowsCarriedToStart in src/core2/modules/laws.ts no longer reaches those series. Still carried back (research-start-law-remaining-2025-phases): county and city income taxes, city sales taxes, county, city and some state minimum-wage tiers, state corporate income tax, local income tax authority, unemployment program terms, and the five territories' income and sales taxes.",
     "status": "open"
   },
   {
@@ -1206,7 +1206,7 @@
     "line": 2744,
     "whatItFakes": "Committee seats go to each party's most senior members by the chamber's party ratio; real committees are appointed by the presiding officer or a committee on committees. Committee size is now sourced (about 11 members, 5 to 20; Book of the States 2023, Table 3.23).",
     "why": "Each body's committee rules, sizes, assignments and chairs aren't read yet.",
-    "replacement": "Leadership appoints committee members (leadership races and chamber leadership research, #3788's chamber-leadership.json).",
+    "replacement": "Leadership already seats committees in play (src/core2/modules/leadership.ts assigner(), from each chamber template's assignmentAuthority in data/research/legislature/chamber-leadership.json); seniority seating is the fallback in committeeStage when no leadership roster exists. Research done Oct 23, 2026: each chamber's own appointing rule is in data/research/gov/chamber-committee-appointment-2026.json (108 chambers; 27 SOURCED from the chamber's adopted rules or its legislature's official page, 16 of which seat committees through another hand than the template: a committee on committees, the majority leader, seniority, a chamber vote, the party caucuses or each committee's chair; the rest ESTIMATED as the template default), checked by scripts/research/legislature-local-rules-check.ts. assigner() reading the chamber's row is the builder item gov-leadership-committee-appointer-by-chamber. Stays open until it does and the remaining chambers are read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "status": "open"
@@ -1413,36 +1413,36 @@
     "id": "SG-GOV-REACH-A-bargaining",
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
-    "line": 132,
+    "line": 137,
     "whatItFakes": "Public-sector collective bargaining raises public workers' pay by an estimated union premium phased in over the first contract years (src/core2/law-reach/group-a-bargaining.ts), but no contract is bargained: there is no bargaining table, unit or negotiation, and the premium is one average for every public job.",
     "why": "There is no bargaining engine: no union contract, no bargaining unit wage or table.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "GOV: a bargaining engine that negotiates the unit's contract with the public employer and applies it with CORE's rerateJob(jobId, hourlyMinor, source); WORLD: union membership on workers' records.",
+    "replacement": "GOV: a bargaining engine that negotiates the unit's contract with the public employer and applies it with CORE's rerateJob(jobId, hourlyMinor, source) (builder item gov-public-sector-bargaining); WORLD: union membership on workers' records (world-union-membership-record). Oct 23, 2026: the band the counted public workers' union share checks against is sourced in data/research/laws/bls-2025-union-public-sector.json (BLS Union Members 2025: public sector 32.9 percent in 2025, 32.2 in 2024; private 5.9; union median weekly earnings $1,404 against $1,174 nonunion), checked by scripts/research/check-law-reach-sources.ts.",
     "status": "open"
   },
   {
     "id": "SG-GOV-REACH-A-union-dues",
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
-    "line": 173,
+    "line": 178,
     "whatItFakes": "A right-to-work law lowers the local union's dues as membership falls (about four points over five years), but no worker's membership or fee is recorded: the dues are one pooled flow from the wider population, and a named worker keeps paying or not paying exactly as before.",
     "why": "Union membership and dues are not on workers' records; the local's dues are one standing flow set from the state's membership rate (src/core2/membership-dues.ts). The law's effect is read by the group A union mechanic (src/core2/law-reach/group-a-union.ts), which scales that flow.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD or CORE: union membership on named jobs and counted groups, dues as a payroll deduction through the journal, which right-to-work then ends for nonmembers.",
+    "replacement": "WORLD or CORE: union membership on named jobs and counted groups, dues as a payroll deduction through the journal, which right-to-work then ends for nonmembers (builder item world-union-membership-record). Oct 23, 2026: the membership rate it reads by state is already sourced on main (BLS Union Members 2025, Table 5: data/research/business/bls-union-2025.json, read through src/core2/data/business/union-membership.json by src/core2/membership-dues.ts); no new figure was needed.",
     "status": "open"
   },
   {
     "id": "SG-GOV-REACH-A-cannabis-market",
     "kind": "missing-mechanic",
     "file": "src/core2/data/laws/reach-group-a.json",
-    "line": 202,
+    "line": 207,
     "whatItFakes": "Legal cannabis sales move each household's spending (about $170 per resident a year, estimated from 2024 state sales) from outside the town to the town's existing retail businesses, split by their demand. There are no dedicated licensed dispensaries and no license application. A named adult's use is a seeded draw from their id at the national adult prevalence (src/core2/modules/place-prices.ts), not a state series or a stored record.",
     "why": "The place-prices engine reads the law monthly (src/core2/modules/place-prices.ts). The use draw is national, not by state; dispensaries are not founded as businesses.",
     "addedBy": "OPUS-GOV (sub-agent A)",
     "addedAt": "2026-10-12",
-    "replacement": "WORLD: dispensaries founded through the business engine and licensed by the control board; PEOPLE: state prevalence in place of the national share; WORLD: dispensaries founded through the business engine.",
+    "replacement": "WORLD: dispensaries founded through the business engine and licensed by the control board (laws-cannabis-dispensaries); PEOPLE: each place's own adult share in place of the national one, read by usesCannabis and cannabisWeight in src/core2/modules/place-prices.ts (builder item prices-cannabis-state-prevalence). Oct 23, 2026: the per-place table is sourced for all 56 places in data/research/laws/samhsa-2024-cannabis-past-year.json (SAMHSA NSDUH 2023-2024, Table 2, past-year use, 18+; territories at the median of the 51 surveyed places, marked estimate), and the national pricesCannabisUsePrevalence is 0.2317 (Total U.S. 18+), checked by scripts/research/check-law-reach-sources.ts.",
     "status": "open"
   },
   {
@@ -2014,7 +2014,7 @@
     "why": "Every resident needs real family consistent with age; a full kin-matching and migration engine does not exist.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "A kin engine that matches relatives to residents across households and places, with partners, cousins and observed migration distances.",
+    "replacement": "Researched Oct 24, 2026: how near relatives live is in data/research/people/pew-parent-proximity-2005.json (Pew 2006: 65% of adults with a living parent live within an hour's drive of that parent) and data/research/people/pew-extended-family-proximity-2021.json (Pew 2022: 55% near at least some extended family, by Census region, with a table for all 56 places), reported against the town by scripts/research/people-year.ts; the builder item people-kin-placement-by-distance places and matches relatives by them. A kin engine that matches relatives to residents across households and places, with partners, cousins and observed migration distances.",
     "status": "open"
   },
   {
@@ -2022,11 +2022,11 @@
     "kind": "estimated-behavior",
     "file": "src/core2/data/opening-kin.json",
     "line": 215,
-    "whatItFakes": "The five temperament dimensions are read from five NEO facets (CTO-approved October 10, 2026) with BLSA age curves, IPIP-NEO sex differences and NEO-PI-R manual facet correlations; the A4 compliance age curve's quadratic term is held at zero because it is not legible in the source manuscript, and each dimension uses one facet rather than its own norms.",
+    "whatItFakes": "The five temperament dimensions are read from five NEO facets (CTO-approved October 10, 2026) with BLSA age curves, IPIP-NEO sex differences and NEO-PI-R manual facet correlations; each dimension uses one facet rather than its own norms.",
     "why": "The owner's five dimensions have no published norms of their own; facet norms are the nearest sourced spread.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "The A4 quadratic term from a legible copy of Terracciano and others (2005) Table 2, and norms measured on the five dimensions themselves.",
+    "replacement": "Researched Oct 24, 2026: the A4 quadratic term is zero by the source itself. Terracciano and others (2005) Table 2, read at https://pmc.ncbi.nlm.nih.gov/articles/PMC2808690/, fits A4 Compliance as a straight line (\"The quadratic terms are presented only when the quadratic model fit the data better than the linear model\"). Every facet's curve in opening-kin.json and the two facet correlations (psychTools 2.6.4 dataset neo, read from the package data) are checked by scripts/research/people-parameters-check.ts against data/research/people/terracciano-blsa-neo-facets-2005.json and data/research/people/neo-pi-r-facet-correlations-1992.json. Still open, so personalitySociabilityRiskCorrelation and personalityReliabilityImpulseCorrelation stay ESTIMATED: norms measured on the five dimensions themselves, which would make both correlations SOURCED.",
     "status": "open"
   },
   {
@@ -2050,7 +2050,7 @@
     "why": "No source gives each opening adult's partnership history or household; the chain and the CPS tables turn sourced rates into ages by sex and household type. Partnered adults keep the household generator's sex; people living alone and housemates draw sex with age.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Place-level ACS 5-year sex-by-age, marital-status and household-relationship tables for every seated place and territory, cohabitation and second-marriage survival from NSFG, the spouse age gap and parents' ages by place, and siblings, grandparents raising grandchildren and older parents living in a grown child's home seated as their own household types.",
+    "replacement": "Place-level ACS 5-year sex-by-age, marital-status and household-relationship tables for every seated place and territory, cohabitation and second-marriage survival from NSFG, the spouse age gap and parents' ages by place, and siblings, grandparents raising grandchildren and older parents living in a grown child's home seated as their own household types. Oct 23, 2026 (research-deep-past-sourced-parameters): spouseAgeGapOpenRowYears re-estimated from the CPS 2023 ASEC public use file (U.S. Census Bureau, 2023; ESTIMATED, 16 years, spread 14 to 22), read by opening-partnership.ts SPOUSE_GAP; it becomes SOURCED when the engine reads the measured single-year tail in place of an even spread. data/research/core/cps-asec-2023-partner-age-gap.json also holds the measured gap bands of same-sex married couples and of opposite- and same-sex cohabiting couples for the builder item art-stopgap-opening-partnership-estimated-behavior; place-level tables and the four territories remain open, and their rows already wait unread on main in data/research/stopgaps-oct19/census/census-SG-P15-partnership-model.json (2020 Island Areas census rows for the four territories) and census-SG-P15-partnership-model-places.json (place rows).",
     "status": "open"
   },
   {
@@ -2158,7 +2158,7 @@
     "why": "They never act, and generating that history for every relative made the prepared town too large to serialize (La Homa: 861 MB of past facts with part 1).",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
-    "replacement": "Generate a relative's deep past when the game first simulates them (promotion from husk tier), from the same deep-past rules residents use.",
+    "replacement": "Generate a relative's deep past when the game first simulates them (promotion from husk tier), from the same deep-past rules residents use. Oct 23, 2026 (research-deep-past-sourced-parameters): a mechanic with no number to source; the deep past it needs uses the same rows residents use (data/research/core/cps-2024-grade-by-age.json, acs-2023-b05002-born-in-state.json). Builder item core-deep-past-kin-past-on-fill-in.",
     "status": "open"
   },
   {
@@ -2170,7 +2170,7 @@
     "why": "First version of views on the new core, built while the people records gain education and faith.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving stances (M1-10, M2-09).",
+    "replacement": "Researched Oct 24, 2026: the place-type term is in data/research/people/pew-partisanship-community-type-2023.json (Pew Research Center 2024, registered voters: urban counties 60% Democratic and 37% Republican, suburban 47% and 50%, rural a 25-point Republican edge), reported beside the town's opening lean by scripts/research/people-year.ts; education and faith already come from the CES 2024 keys and the stance loadings. The 14 values have no answer key yet. Builder item people-views-opening-place-type-and-values. Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving stances (M1-10, M2-09).",
     "status": "open"
   },
   {
@@ -2182,7 +2182,7 @@
     "why": "Part 1 precedes housing/jobs integrations; clinical reproductive capacity, infertility and pregnancy outcomes are not represented by the current people records. Rates cannot select pregnancies.",
     "addedBy": "CODEX-RENEWAL",
     "addedAt": "2026-10-11",
-    "replacement": "Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibration; infant development producer. Finisher must review these limits against Part 1.",
+    "replacement": "Researched Oct 24, 2026 (research-people-sourced-parameters): renewalGestationDays SOURCED at 268 days from ovulation (Jukic and others, Human Reproduction 2013); renewalAgeCenter 30.0 and renewalAgeSpread 8.7 years ESTIMATED from the NCHS 2024 fertility schedule (data/research/renewal/natality-2024.json); renewalTimingPeakYears 2.25 ESTIMATED from NCHS Data Brief 240 (2016); renewalMedianAnnualIncomeMinor ESTIMATED from the HUD FY2025 income limits every other place reads; all checked by scripts/research/people-parameters-check.ts and read by birthCircumstances in src/core2/births-plan.ts and birthStanding in src/core2/births-counted.ts. Still open: the 14 weights and pulls have no convertible source (the plan is a utility-max choice, and no study publishes its coefficients), so they stay TUNABLE and the town's births per 1,000 women 15 to 44 are reported against the place's NCHS rate by scripts/research/people-year.ts; the 91-day review is a fixed step (people-renewal-renewalReviewDays-as-cause); each place's own age shape is people-births-age-shape-by-place. Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibration; infant development producer. Finisher must review these limits against Part 1.",
     "status": "open"
   },
   {
@@ -2230,7 +2230,7 @@
     "why": "Event-born drives were zero in P8 (acceptance d); the decision path is real but its response set and weights are uncalibrated.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Response rows and pressures calibrated against documented responses to bereavement, job loss and injustice (P9 lives, panel studies).",
+    "replacement": "Researched Oct 24, 2026: the band the response pressures calibrate against is data/research/people/trauma-trajectories-2018.json (Galatzer-Levy, Huang and Bonanno, Clinical Psychology Review 2018: 65.7% resilient after a potential trauma, 95% interval 61.6 to 69.8), reported against the town's bereavement carry-on share by scripts/research/people-year.ts; the builder item people-drives-responses-against-research-bands sets the pressures. Response rows and pressures calibrated against documented responses to bereavement, job loss and injustice (P9 lives, panel studies).",
     "status": "open"
   },
   {
@@ -2242,7 +2242,7 @@
     "why": "The owner approved bounded perception; no source maps these traits to event salience yet.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Channel rows and weights validated against appraisal research and P9 replays.",
+    "replacement": "Researched Oct 24, 2026: no appraisal study with a trait-to-salience effect that converts to a channel weight was found (Europe PMC searches for a pooled neuroticism and perceived-stress or stress-reactivity estimate returned single studies only), so channel rows stay authored; the builder item people-drives-responses-against-research-bands starts with that search. Channel rows and weights validated against appraisal research and P9 replays.",
     "status": "open"
   },
   {
@@ -2254,7 +2254,7 @@
     "why": "Drives must move people, money and relationships inside the core; full group and civic procedures do not exist yet.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
-    "replacement": "Group, charity and civic engines whose procedures decide outcomes, with durations from ATUS.",
+    "replacement": "Researched Oct 24, 2026: the volunteer act's hours are SOURCED from the American Time Use Survey 2025, Table 1 (BLS): volunteerHours 2.18 hours per participant-day, data/research/people/atus-2025-volunteering.json, read by the volunteer-for-cause act in src/core2/data/drives.json; civic acts already read civicHours from the same row. ATUS has no category for telling someone about a cause, making a donation or a confrontation, so driveShareHours, donateHours and driveConfrontHours stay prototype. The group and civic procedures are people-stopgap-drives-missing-mechanic and people-stopgap-drives-cause-group-spending. Group, charity and civic engines whose procedures decide outcomes, with durations from ATUS.",
     "status": "open"
   },
   {
@@ -2363,12 +2363,12 @@
     "id": "SG-P15-news-habits",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/news/parameters.json",
-    "line": 6,
+    "line": 13,
     "whatItFakes": "How fast outlets reach people by how closely they follow politics, how long a story stays news, and how many stories pass at a contact; one generic local outlet stands for all.",
     "why": "Basic news (M2-09) needs a first version before outlets and media habits are modeled.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread.",
+    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread. Oct 23, 2026 (research-gov-sourced-parameters): newsOutletDelayDays is ESTIMATED at 1 day (spread 1 to 2) from The Media Insight Project's 2014 news-frequency split and Pew's 2022 share who follow the news most of the time (data/research/news/apnorc-2014-news-frequency.json, data/research/news/pew-2024-2025-news-habits.json), read by scheduleDeliveries in src/core2/modules/news.ts and heardOn in src/core2/past-news.ts; it becomes SOURCED with a measured delay from print to reading by how closely people follow the news. newsMaxAgeDays is read as a cutoff, so it is not sourced: people-news-newsMaxAgeDays-as-cause. newsStoriesPerContact has no convertible source; the share of adults word of mouth reaches is checked against Pew's 2025 Local News Fact Sheet by scripts/research/gov-year.ts.",
     "status": "open"
   },
   {
@@ -2404,7 +2404,7 @@
     "why": "Views and candidacy need education and faith on records now; joint state tables are too sparse in one survey year.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Religious Landscape Study.",
+    "replacement": "Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Religious Landscape Study. Oct 23, 2026 (research-deep-past-sourced-parameters): the check tables are in data/research/core/acs-2023-b15001-attainment-by-state.json (ACS 2019-2023 B15001 by state, age and sex) and data/research/core/pew-rls-2023-24-faith-by-state.json (Pew Research Center Religious Landscape Study 2023-24, by state), both for all 56 places, reported against the opening profile by scripts/research/deep-past-year.ts. The builder item core-opening-profile-attainment-from-schooling derives attainment and faith from the person's own record and checks the town against them.",
     "status": "open"
   },
   {
@@ -3125,7 +3125,7 @@
     "id": "SG-PW8-partnership-start",
     "kind": "estimated-record",
     "file": "src/core2/data/renewal/parameters.json",
-    "line": 230,
+    "line": 244,
     "whatItFakes": "When a couple has no dated partner fact (or it is dated the opening day), the partnership start is estimated: one birth-spacing interval before their first child, else the mother reaching the usual age of a first union.",
     "why": "The opening writes partnerships without a start date for many couples, so a long marriage looked brand new on the opening day.",
     "addedBy": "PW-8 (Opus builder)",
@@ -3281,12 +3281,12 @@
     "id": "SG-OFFICIALS-unrecorded-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 342,
+    "line": 389,
     "whatItFakes": "A holder whose party the roster doesn't record (a statewide executive such as an attorney general or treasurer, or a legislative seat with no roster row) sits in the party that carried the state in 2024; a lieutenant governor on the governor's ticket takes the governor's party.",
     "why": "The offices research records each statewide office's term and vacancy rule but not its holder's party, and the legislative roster has no row for a few seats.",
     "addedBy": "OPUS-OFFICIALS",
     "addedAt": "2026-10-13",
-    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results).",
+    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results). Oct 23, 2026 (research-gov-sourced-parameters): unrecordedParty in src/core2/modules/officials.ts now reads data/research/offices/unrecorded-holder-parties-2026.json first: the five territory governors (National Governors Association), the American Samoa and Northern Marianas lieutenant governors and attorney general (Wikipedia), ten offices elected without party labels, whose holders sit with no party (Wikipedia, Ballotpedia), the Guam, Virgin Islands, Northern Marianas and American Samoa legislatures (Wikipedia party counts, assigned to their at-large seats in order), and 42 state legislative seats the Open States roster leaves vacant (Ballotpedia's 2025 and 2026 vacancy tables: the departing member's party). Still estimated (the file's unreadSeats): six vacant seats with no Ballotpedia vacancy row, the Virgin Islands boards of education and of elections, and the seats the game creates when a Census district name does not match the roster's (gov-offices-roster-district-name-mismatch, which removes them).",
     "status": "open"
   },
   {
@@ -3646,7 +3646,7 @@
     "why": "No per-place charter data on executive bill introduction exists yet; the national pattern (NLC, NACo) stands in.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Per-city and per-county charter research on who may introduce legislation, read by proposalRight.",
+    "replacement": "Research done Oct 23, 2026: each place's general-law default is in data/research/gov/local-executive-introduction-2026.json (all 56 places; 6 mayor rows SOURCED from the state statute or council rule, one of which seats the mayor on the council as a voting member; the rest ESTIMATED from the national pattern and data/research/local-government/county-governing-bodies.json), checked by scripts/research/legislature-local-rules-check.ts. proposalRight reading the place's row is the builder item gov-legislature-local-rules-by-place. Stays open: per-city and per-county charters are unread, and most rows are ESTIMATED.",
     "status": "open"
   },
   {
@@ -3677,12 +3677,12 @@
     "id": "SG-GOV-justice-bribery-grade",
     "kind": "assumed-data",
     "file": "src/core2/justice-law.ts",
-    "line": 204,
+    "line": 213,
     "whatItFakes": "Bribery is sentenced on the place's lowest felony-assault range from the sentencing research, not on the place's own bribery statute.",
     "why": "The sentencing research has not read bribery statutes yet (its campaign-funds row is unread in every place).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each place's bribery-of-a-public-official grade and range read into data/research/justice/sentencing-ranges-2026.json, read by offense key.",
+    "replacement": "Each place's bribery-of-a-public-official grade and range read into data/research/justice/sentencing-ranges-2026.json, read by offense key. Oct 23, 2026 (research-gov-sourced-parameters): briberyRange in src/core2/justice-law.ts now reads each place's crime:bribery row; 43 places are read from their own statutes (official code sites; Arizona, New Hampshire and New York through the WebFetch reader) and sentenced on them, tagged SOURCED. Still estimated: 13 places whose code could not be fetched from the cloud take the mean of the 43 (8 to 98 months, ESTIMATED FROM AVERAGE, each row's unreadReason naming the site and error); this stopgap closes when those statutes are read.",
     "status": "open"
   },
   {
@@ -4066,7 +4066,7 @@
     "why": "The owner's ruling (Oct 14): bills follow the real form of their body. States and Congress have recorded numbering and enacting clauses; local bodies' styles are not in the data yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each place's ordinance numbering and enacting clause read from its code of ordinances into the municipal rule pack, the way its recall rules are.",
+    "replacement": "Research done Oct 23, 2026: the enacting clause and numbering each place's general law gives are in data/research/gov/local-ordinance-style-2026.json (all 56 places; 12 municipal clauses, 2 county clauses and one council's two-part numbering SOURCED from statute or rule; no state statute read sets an ordinance numbering, so elsewhere numbering keeps the national pattern, ESTIMATED), checked by scripts/research/legislature-local-rules-check.ts. bodyNumbering reading the place's row is gov-legislature-local-rules-by-place; the clause wording is the Words item words-local-enacting-clause-by-state. Stays open: charter towns keep their own style (their code of ordinances is the record), and most rows are ESTIMATED.",
     "status": "open"
   },
   {
@@ -4536,8 +4536,8 @@
     "why": "The play screen has no control yet to answer a job offer; a held deadline would stop the clock for good.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY).",
-    "status": "open"
+    "replacement": "A held offer-deadline stop once the play screen shows jobOffersFor with accept and decline controls (OPUS-PLAY). Done: the play screen answers offers (POST /api/jobs/answer), so the deadline stop is held and settleOffer releases it.",
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-new-rental-move-coverage",
@@ -4699,12 +4699,12 @@
     "id": "SG-GOV-REACH-B-flat-tax-replacement",
     "kind": "missing-data",
     "file": "src/core2/law-reach/group-b-money.ts",
-    "line": 895,
+    "line": 1264,
     "whatItFakes": "Repealing a starting graduated income-tax schedule uses the existing estimated state or local flat rate. The binary catalog provision carries no replacement rate, deduction or filing-status rules.",
     "why": "Tax Foundation's 2025 state survey and actual conversion laws have distinct enacted rates and deductions. The catalog's Boolean question cannot supply those terms. Received explanation and director acceptance remain unproven.",
     "addedBy": "Session A",
     "addedAt": "2026-10-15",
-    "replacement": "Explicit replacement tax terms in the provision, read by the existing withholding engine for full and counted workers, with a received explanation and director line for an affected worker.",
+    "replacement": "Explicit replacement tax terms in the provision: the sponsor writes the flat rate (and keeps or changes the zero bracket and standard deduction) as the legislature's rate sections already do (shapedRate in src/core2/modules/legislature.ts), read by incomeTaxAct and the withholding engine for full and counted workers, with a received explanation and director line for an affected worker (builder item laws-income-tax-flatten-sponsor-rate). Oct 23, 2026: the band it reads is sourced in data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json (Tax Foundation, January 1 tables 2022-2026: five real conversions chose 0.667 to 1.0 of the old top rate, median 0.786; the 14 flat-rate states of January 1, 2025 run 2.5% to 5.695%, median 4.25%, now the ESTIMATED stateFlatIncomeTaxPercent in src/core2/data/laws/reach-group-b-parameters.json, checked by scripts/research/check-law-reach-sources.ts).",
     "status": "open"
   },
   {
