@@ -11,7 +11,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import type { TransferReceipt } from "./accounts";
+import { nextDue, type AccountCadence, type TransferReceipt } from "./accounts";
 import { advanceCore } from "./life";
 import { governments } from "./modules/budgets";
 import { federalDebtOf } from "./budgets-treasury";
@@ -23,21 +23,47 @@ const YEAR_DAYS = 365;
 // Shares fall due monthly, so a week between readings sees every payment.
 const WATCH_DAYS = 7;
 
+interface ShareTerms {
+  firstDueAt: string;
+  cadence?: AccountCadence;
+  endsAt?: string;
+  endedAt?: string;
+}
+
+/** Every day a share fell due by its cadence, inside its active interval. */
+function dueDates(terms: ShareTerms, through: string): string[] {
+  const dates: string[] = [];
+  const anchorDay = Number(terms.firstDueAt.slice(8, 10));
+  const stop = [terms.endsAt, terms.endedAt].filter(
+    (d): d is string => d !== undefined,
+  );
+  let at: string | undefined = terms.firstDueAt;
+  while (at !== undefined && at <= through && !stop.some((d) => at! >= d)) {
+    dates.push(at);
+    at = terms.cadence
+      ? nextDue(makeIsoDate(at), terms.cadence, anchorDay)
+      : undefined;
+  }
+  return dates;
+}
+
 /**
- * Every federal share's payments, read the day each fell due: the first
- * receipt is dated on the share's first due day, and every receipt paid in
- * full. A first payment missed and a later one paid fails on the first.
+ * Every federal share's payments, read against every day it fell due: the
+ * due dates come from the share's cadence and active interval through the
+ * last day watched, each needs a receipt dated that day, and every receipt
+ * is paid in full. A missed first, middle or trailing payment fails.
  */
 function missedPayments(
   receipts: ReadonlyMap<string, readonly TransferReceipt[]>,
-  firstDue: ReadonlyMap<string, string>,
+  terms: ReadonlyMap<string, ShareTerms>,
+  through: string,
 ): string[] {
   const problems: string[] = [];
-  for (const [id, list] of receipts) {
-    if (list[0]!.date !== firstDue.get(id))
-      problems.push(
-        `${id}: first payment on ${list[0]!.date}, due ${firstDue.get(id)}`,
-      );
+  for (const [id, share] of terms) {
+    const list = receipts.get(id) ?? [];
+    const paidOn = new Set(list.map((r) => r.date));
+    for (const date of dueDates(share, through))
+      if (!paidOn.has(date)) problems.push(`${id}: due ${date}, no payment`);
     for (const r of list)
       if (r.shortMinor > 0 || r.paidMinor !== r.requestedMinor)
         problems.push(
@@ -59,35 +85,74 @@ const receipt = (date: string, requested: number, paid: number) =>
     reasonKey: "x",
   }) as TransferReceipt;
 
-it("flags a share whose first payment was missed even when a later one is paid", () => {
-  const firstDue = new Map([["share", "2025-01-20"]]);
+it("reads every due date of a share against its payments", () => {
+  const terms = new Map<string, ShareTerms>([
+    [
+      "share",
+      {
+        firstDueAt: "2025-01-20",
+        cadence: { kind: "months", every: 1 },
+      },
+    ],
+  ]);
+  const paid = (dates: string[]) =>
+    new Map([["share", dates.map((d) => receipt(d, 500, 500))]]);
+  const through = "2025-04-20";
+  // Every month paid.
+  expect(
+    missedPayments(
+      paid(["2025-01-20", "2025-02-20", "2025-03-20", "2025-04-20"]),
+      terms,
+      through,
+    ),
+  ).toEqual([]);
+  // First month missed, later ones paid.
+  expect(
+    missedPayments(
+      paid(["2025-02-20", "2025-03-20", "2025-04-20"]),
+      terms,
+      through,
+    ),
+  ).toEqual(["share: due 2025-01-20, no payment"]);
+  // A missing middle month.
+  expect(
+    missedPayments(
+      paid(["2025-01-20", "2025-03-20", "2025-04-20"]),
+      terms,
+      through,
+    ),
+  ).toEqual(["share: due 2025-02-20, no payment"]);
+  // Missing trailing months, with only the first receipt present.
+  expect(missedPayments(paid(["2025-01-20"]), terms, through)).toEqual([
+    "share: due 2025-02-20, no payment",
+    "share: due 2025-03-20, no payment",
+    "share: due 2025-04-20, no payment",
+  ]);
+  // Never paid at all.
+  expect(missedPayments(new Map(), terms, through)).toHaveLength(4);
+  // A first payment unpaid in full is flagged too.
   expect(
     missedPayments(
       new Map([
         [
           "share",
-          [receipt("2025-01-20", 500, 0), receipt("2025-02-20", 500, 500)],
+          [
+            receipt("2025-01-20", 500, 0),
+            receipt("2025-02-20", 500, 500),
+            receipt("2025-03-20", 500, 500),
+            receipt("2025-04-20", 500, 500),
+          ],
         ],
       ]),
-      firstDue,
+      terms,
+      through,
     ),
-  ).toHaveLength(1);
+  ).toEqual(["share: 2025-01-20 paid 0 of 500"]);
+  // A share that ended before a date owes nothing on or after it.
+  const ended = new Map(terms);
+  ended.set("share", { ...terms.get("share")!, endsAt: "2025-03-20" });
   expect(
-    missedPayments(
-      new Map([["share", [receipt("2025-02-20", 500, 500)]]]),
-      firstDue,
-    ),
-  ).toHaveLength(1);
-  expect(
-    missedPayments(
-      new Map([
-        [
-          "share",
-          [receipt("2025-01-20", 500, 500), receipt("2025-02-20", 500, 500)],
-        ],
-      ]),
-      firstDue,
-    ),
+    missedPayments(paid(["2025-01-20", "2025-02-20"]), ended, through),
   ).toEqual([]);
 });
 const WANTED = 3;
@@ -124,8 +189,7 @@ it(
       // payment receipt (dated the day it fell due) is read as it is made,
       // not summed at the end.
       const receipts = new Map<string, TransferReceipt[]>();
-      const firstDue = new Map<string, string>();
-      const neverPaid = new Map<string, string>();
+      const terms = new Map<string, ShareTerms>();
       let step = WATCH_DAYS;
       let known = -1;
       let ids: string[] = [];
@@ -151,23 +215,14 @@ it(
         for (const obligationId of ids) {
           const obligation = accounts.obligation(obligationId);
           if (!obligation) continue;
+          terms.set(obligationId, {
+            firstDueAt: obligation.firstDueAt,
+            cadence: obligation.cadence,
+            endsAt: obligation.endsAt,
+            endedAt: obligation.endedAt,
+          });
           const last = obligation.lastReceipt;
-          // A share past its first due day with no payment at all was missed.
-          if (!last) {
-            // (A share that ended before its first due day was never owed.)
-            const endedFirst =
-              (obligation.endedAt ?? obligation.endsAt) !== undefined &&
-              (obligation.endedAt ?? obligation.endsAt)! <=
-                obligation.firstDueAt;
-            if (obligation.firstDueAt < core.date && !endedFirst)
-              neverPaid.set(
-                obligationId,
-                `${obligationId}: due ${obligation.firstDueAt}, never paid`,
-              );
-            continue;
-          }
-          neverPaid.delete(obligationId);
-          firstDue.set(obligationId, obligation.firstDueAt);
+          if (!last) continue;
           const seen = receipts.get(obligationId) ?? [];
           if (seen.at(-1)?.id !== last.id) {
             seen.push(last);
@@ -180,10 +235,7 @@ it(
       expect(core.date, `${label}: the played year`).toBe(
         addDays(makeIsoDate(start), YEAR_DAYS),
       );
-      const problems = [
-        ...missedPayments(receipts, firstDue),
-        ...neverPaid.values(),
-      ];
+      const problems = missedPayments(receipts, terms, core.date);
       expect(problems, `${label}: federal shares not paid when due`).toEqual(
         [],
       );
