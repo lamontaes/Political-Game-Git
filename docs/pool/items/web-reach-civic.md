@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/web-reach-civic
+status: open
+claimed-by:
 pr: #5927
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-24T09:09:02.343Z
+claimed-at:
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the votes, approval and the press family: 8 unwired links, 5 where the owning engine does not read the factor and 3 where nothing keeps the outcome. Their outcomes: voting.local-turnout, voting.party-share, voting.registration, approval.incumbent, election.incumbent-vote, election.incumbent-reelection and press.media-trust. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T09:09:02.343Z
 **Files.** src/core2/modules/voting.ts, src/core2/electorate-inputs.ts, src/core2/outcome-web-reach.ts
 
 **Notes.** Split Oct 24 by the CTO from the effect-web audit (order `docs/work-orders/lead-effects-2026-10-24.md`). Counts from the capstone branch's unwired list on Oct 23 (effect-web-integration). The owner ruled Oct 22 that hearing a condition change moves a stance for the people the news reached (done in `web-views-from-conditions`); approval and the incumbent's vote should read that, not the web's town number. A PR names this item on line 1 and `Lead: effects` in its body.
+
+Sent back 2026-10-24 from PR #5927 (branch claude/web-reach-civic): First Done-when row admits a hand-inserted scandal story and no played year; static carriedBy/source-string checks supply neither annual engine-read/voter record IDs nor the second-row proof; provide annual witnesses for existing readers or bound audit-only completion while retaining this acceptance open; finish on that branch, merge main into it first.
