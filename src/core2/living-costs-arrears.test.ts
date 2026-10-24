@@ -196,9 +196,40 @@ it("a full household and a counted group each carry a living cost across a day w
             flow.financeKind === "household.outside-living-costs" &&
             !flow.endedAt,
         );
-      // Yesterday's owed amount and next bill date, by full flow and by
-      // counted group.
-      const flowBefore = new Map<string, { owed: number; nextAt: string }>();
+      // Every journal entry a living-cost settlement posts today, by the
+      // settlement id it carries (the flow id, @, the day, and for a second
+      // payer in a household, its id).
+      const api = coreAPI(core);
+      const posted = new Map<
+        string,
+        {
+          journalId: string;
+          postings: { accountId: string; deltaMinor: number }[];
+        }[]
+      >();
+      const post = api.postJournal.bind(api);
+      api.postJournal = (entry) => {
+        if (entry.sourceRef.id.includes("household.outside-living-costs")) {
+          const list = posted.get(entry.sourceRef.id) ?? [];
+          list.push({ journalId: entry.id, postings: [...entry.postings] });
+          posted.set(entry.sourceRef.id, list);
+        }
+        return post(entry);
+      };
+      /** A settlement's entries today: the flow's own id and any second payer's. */
+      const entriesOf = (flowId: string, date: string) =>
+        [...posted]
+          .filter(
+            ([id]) =>
+              id === `${flowId}@${date}` || id.startsWith(`${flowId}@${date}:`),
+          )
+          .flatMap(([, list]) => list);
+      // Yesterday's owed amount, written-off total and next bill date, by full
+      // flow and by counted group.
+      const flowBefore = new Map<
+        string,
+        { owed: number; written: number; nextAt: string }
+      >();
       const groupBefore = new Map<number, number>();
       const seen: Record<
         "fullCarried" | "fullRepaid" | "countedCarried" | "countedRepaid",
@@ -212,6 +243,7 @@ it("a full household and a counted group each carry a living cost across a day w
       for (const flow of living())
         flowBefore.set(flow.id, {
           owed: flow.arrearsMinor,
+          written: flow.writtenOffMinor ?? 0,
           nextAt: flow.nextAt,
         });
       for (const [group, owed] of rt.livingArrears)
@@ -229,23 +261,93 @@ it("a full household and a counted group each carry a living cost across a day w
             if (!before || flow.payerId === flow.residentsId) continue;
             if (before.owed > 0 && flow.arrearsMinor > 0)
               seen.fullCarried ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}`;
-            if (before.owed > 0 && flow.arrearsMinor < before.owed)
-              seen.fullRepaid ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}, settled as ${flow.id}@${core.date}`;
+            if (before.owed > 0 && flow.arrearsMinor < before.owed) {
+              // A repayment is a payment: today's settlement entries debit the
+              // household and credit the payee, and what it owes fell by
+              // exactly what it paid plus what was written off.
+              const entries = entriesOf(flow.id, core.date);
+              const payee = core.cashJournal.residualAccountByOwner.get(
+                flow.payeeId,
+              );
+              const paid = entries
+                .flatMap((e) => e.postings)
+                .filter((p) => p.accountId === payee && p.deltaMinor > 0)
+                .reduce((n, p) => n + p.deltaMinor, 0);
+              const debited = entries
+                .flatMap((e) => e.postings)
+                .filter((p) => p.deltaMinor < 0)
+                .reduce((n, p) => n - p.deltaMinor, 0);
+              const written = (flow.writtenOffMinor ?? 0) - before.written;
+              const at = `${where}: flow ${flow.id} on ${core.date}`;
+              expect(before.owed - flow.arrearsMinor, at).toBe(paid + written);
+              if (paid > 0) {
+                expect(debited, `${at}: the payer's debit`).toBe(paid);
+                seen.fullRepaid ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}; paid ${paid} by journal ${entries.map((e) => e.journalId).join(", ")}`;
+              }
+            }
           }
+          // Each counted group owes on the flow of its own place; its payment
+          // is the line out of its own fund in that flow's settlement entry.
+          const writtenByFlow = new Map<string, number>();
           for (const [group, owed] of rt.livingArrears) {
             const before = groupBefore.get(group) ?? 0;
-            const flowId = flows.find((f) => f.payerId === f.residentsId)?.id;
-            if (before > 0 && owed > 0)
-              seen.countedCarried ??= `group ${group} on ${core.date}: owed ${before} then ${owed}`;
-            if (before > 0 && owed < before)
-              seen.countedRepaid ??= `group ${group} on ${core.date}: owed ${before} then ${owed}, settled as ${flowId}@${core.date}`;
+            if (before <= 0) continue;
+            const placeId = rt.store.groups[group]!.placeId;
+            const flow = flows.find(
+              (f) => f.payerId === f.residentsId && f.placeId === placeId,
+            );
+            const at = `${where}: group ${group} on ${core.date}`;
+            expect(flow, `${at}: its place's living-cost flow`).toBeDefined();
+            if (owed > 0)
+              seen.countedCarried ??= `group ${group} on ${core.date}: owed ${before} then ${owed} on ${flow!.id}`;
+            if (owed >= before) continue;
+            const fund = rt.funds.get(group);
+            const entries = entriesOf(flow!.id, core.date);
+            const lines = entries.flatMap((e) => e.postings);
+            const paid = fund
+              ? lines
+                  .filter((p) => p.accountId === fund && p.deltaMinor < 0)
+                  .reduce((n, p) => n - p.deltaMinor, 0)
+              : 0;
+            const written = before - owed - paid;
+            expect(
+              written,
+              `${at}: paid ${paid} of ${before - owed}`,
+            ).toBeGreaterThanOrEqual(0);
+            writtenByFlow.set(
+              flow!.id,
+              (writtenByFlow.get(flow!.id) ?? 0) + written,
+            );
+            if (paid > 0) {
+              const credited = lines
+                .filter((p) => p.deltaMinor > 0)
+                .reduce((n, p) => n + p.deltaMinor, 0);
+              expect(
+                credited,
+                `${at}: the payee's credit`,
+              ).toBeGreaterThanOrEqual(paid);
+              seen.countedRepaid ??= `group ${group} on ${core.date}: owed ${before} then ${owed}; paid ${paid} from fund ${fund} by journal ${entries.map((e) => e.journalId).join(", ")} on ${flow!.id}`;
+            }
+          }
+          // What the groups' debt fell by beyond their payments is exactly
+          // what each counted flow wrote off today.
+          for (const flow of flows) {
+            if (flow.payerId !== flow.residentsId) continue;
+            const before = flowBefore.get(flow.id);
+            if (!before) continue;
+            expect(
+              writtenByFlow.get(flow.id) ?? 0,
+              `${where}: ${flow.id} written off on ${core.date}`,
+            ).toBe((flow.writtenOffMinor ?? 0) - before.written);
           }
         }
         for (const flow of flows)
           flowBefore.set(flow.id, {
             owed: flow.arrearsMinor,
+            written: flow.writtenOffMinor ?? 0,
             nextAt: flow.nextAt,
           });
+        posted.clear();
         for (const [group, owed] of rt.livingArrears)
           groupBefore.set(group, owed);
         // Every day: the flow's arrears hold exactly what its groups owe, and
