@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Split Oct 24 by the traits lead from traits-end-to-end-proof, which keeps its opposite-neighbors gap clause and is blocked on traits-neighbors-gap-routine.
 
 Sent back 2026-10-24 from PR #5885 (branch claude/serene-mccarthy-ae8xo9): Done when requires five decisions by record ID but optional IDs and date-only call witnesses count toward five, with only two record IDs in the table; require actual decision record witnesses and evidence; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5885 (branch claude/serene-mccarthy-ae8xo9): changed-file played-year test exits without an assertion result after an OOM kill in both the 6 GB attempt and isolated 4 GB retry under the 8 GB merger environment; finish on that branch, merge main into it first.
