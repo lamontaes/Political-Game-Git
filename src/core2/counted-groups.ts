@@ -451,50 +451,18 @@ export class CountedStore {
     const added = people / found.size;
     this.version++;
     // The households it stood for move; the jobs they held stay with their
-    // employers. A target's own jobs keep the heads they stood for, and each
-    // of this record's jobs leaves its heads beyond the one filled in on
-    // another counted job at the same employer.
+    // employers: a target's own jobs keep the heads they stood for (the
+    // filled record's own jobs are kept by the residents engine, which sees
+    // every counted job at an employer). The people a target gains beyond
+    // its jobs' heads stand for no job and do not look for one.
+    stopgap("SG-WORLD-weight-release-jobless-not-seeking");
     for (const other of found.targets) {
       for (const job of other.jobs)
         if (!this.jobHeads.has(job.id))
           this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
     }
-    for (const job of h.jobs) {
-      if (job.endsAt !== undefined) continue;
-      const left = this.headsOfJob(h, job.id) - 1;
-      const keeper = left > 0 ? this.jobAt(job.organizationId, h) : undefined;
-      if (keeper)
-        this.jobHeads.set(
-          keeper.job.id,
-          this.headsOfJob(keeper.home, keeper.job.id) + left,
-        );
-      this.jobHeads.delete(job.id);
-    }
     return 0;
-  }
-
-  /** Another counted record's open job at an employer: its group's first, then any, by record order. */
-  private jobAt(
-    organizationId: string,
-    not: CountedHousehold,
-  ): { home: CountedHousehold; job: JobInput } | undefined {
-    const pick = (pool: Iterable<CountedHousehold>) => {
-      for (const home of pool) {
-        if (home === not || home.gone) continue;
-        const job = home.jobs.find(
-          (row) =>
-            row.endsAt === undefined && row.organizationId === organizationId,
-        );
-        if (job) return { home, job };
-      }
-      return undefined;
-    };
-    const group = not.group >= 0 ? this.groups[not.group] : undefined;
-    return (
-      pick([...(group?.households ?? [])].map((i) => this.households[i]!)) ??
-      pick(this.liveHouseholds())
-    );
   }
 
   /** A household still counted, by id. */
