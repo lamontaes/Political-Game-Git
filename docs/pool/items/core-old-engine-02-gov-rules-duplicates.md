@@ -5,12 +5,13 @@ area: core
 kind: cleanup
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/old-engine-02-gov-rules
 pr:
 after: core-old-engine-01-zero-dice-guard-repoint
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 step 1"
+claimed-at: 2026-10-24T06:20:00.980Z
 ---
 
 **What.** This item records the October19 audit snapshot at `0104686`; its paths and counts require a current check before implementation. The audit found 18 files that exist in both engines: `names-data.ts` (1,685 lines in core2 against 1,728 in the old core), `given-name-cohorts.ts`, `person-identity.ts`, `county-governing-body-rules.ts`, `municipal-ballot-rules.ts` and the rest of `src/core2/gov-rules/`. The copies were made but the old originals were never deleted: layered, not replaced. Two live files still import the old copies: `src/core2/town-households.ts` takes `birthCohortGivenName`, `DEFAULT_CORPUS_VERSION`, `drawCanonicalNamedIdentity`, `generatePersonIdentity` and `nameCorpusVersionForWorld` from the old core, and `src/bench/creator.ts` takes `names-data`. Point both at `src/core2/gov-rules/*`, then delete each old original whose remaining importers are themselves old-core files (the rest go in step 7 with the folder). Draft #5031 carries part of this; finish on that branch.
