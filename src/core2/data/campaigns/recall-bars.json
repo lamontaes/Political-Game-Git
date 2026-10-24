@@ -96,7 +96,9 @@
       "openingDays": 0,
       "closingDays": 465,
       "tag": "ESTIMATED",
-      "citation": "N.D. Cent. Code 44-08-21.1(3), (6): \"the filing officer shall call a special election to be held not sooner than ninety-five days nor later than one hundred five days following the date the filing officer certifies the petition valid and sufficient.\" \"A member is not subject to recall twice during the term for which the member was elected. A member whose office is on the ballot at a regularly scheduled election occurring within one year is not subject to recall if the recall special election would occur within one year of the next regularly scheduled election in which the member could be re-elected.\" No bar at the start of the term. The end bar falls on the recall election, held 95 to 105 days after the petition is certified, which must be more than a year before the next regular election: a petition filed fewer than about 365 + 100 = 465 days before that election cannot be voted on. The bar table counts days before the term's end, which comes some weeks after that election, so 465 is the low end and 500 allows for the gap. Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "citation": "N.D. Cent. Code 44-08-21.1(3), (6): \"the filing officer shall call a special election to be held not sooner than ninety-five days nor later than one hundred five days following the date the filing officer certifies the petition valid and sufficient.\" \"A member is not subject to recall twice during the term for which the member was elected. A member whose office is on the ballot at a regularly scheduled election occurring within one year is not subject to recall if the recall special election would occur within one year of the next regularly scheduled election in which the member could be re-elected.\" Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "estimatedFrom": "No bar at the start of the term. The end bar falls on the recall election, held 95 to 105 days after the petition is certified, which must be more than a year before the next regular election: a petition filed fewer than about 365 + 100 = 465 days before that election cannot be voted on. The bar table counts days before the term's end, which comes some weeks after that election, so 465 is the low end and 500 allows for the gap.",
+      "stopgapId": "SG-GOV-recall-bars-national",
       "url": "https://www.ndlegis.gov/cencode/t44c08.pdf",
       "spread": [465, 500]
     },
@@ -135,7 +137,9 @@
       "openingDays": 0,
       "closingDays": 237,
       "tag": "ESTIMATED",
-      "citation": "RCW 29A.56.150(1): \"The sponsors of a recall demanded of any public officer shall stop circulation of and file all petitions with the appropriate elections officer not less than six months before the next general election in which the officer whose recall is demanded is subject to reelection.\" The closing bar counts back six months (182 days) from the November general election; local terms begin in January, about 55 days later, so about 237 days before the term's end. No bar at the start of the term in the section read (the constitution's recall sections were not read). Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "citation": "RCW 29A.56.150(1): \"The sponsors of a recall demanded of any public officer shall stop circulation of and file all petitions with the appropriate elections officer not less than six months before the next general election in which the officer whose recall is demanded is subject to reelection.\" Read Oct 23, 2026 (data/research/core/recall-timing-statutes-2026.json).",
+      "estimatedFrom": "The closing bar counts back six months (182 days) from the November general election; local terms begin in January, about 55 days later, so about 237 days before the term's end. No bar at the start of the term in the section read (the constitution's recall sections were not read).",
+      "stopgapId": "SG-GOV-recall-bars-national",
       "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=29A.56.150",
       "spread": [182, 245]
     },
