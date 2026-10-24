@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): group-a-voting.ts deactivates existing positive debt on repeal before settlement; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 UTC from PR #5582 (branch claude/law-wiring-government): the body routes the ten-law family to nonexistent laws-nine-links-government and cites absent docs/work-orders/lead-laws-2026-10-24.md for the audit towns; publish the matching item and correct its evidence pointer, preserving the debt item and unfinished umbrella; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): PR held: family Done-when requires played years but committed evidence windows are 35/300 days; family pool id remains absent from main while #5858 is open, without claiming the repaired debt path failed; finish on that branch, merge main into it first.
