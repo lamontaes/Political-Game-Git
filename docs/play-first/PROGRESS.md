@@ -1,0 +1,9 @@
+# Play-first lane: progress
+
+The handoff log. Newest first. Every agent adds one line before it stops, in the shape `HANDOFF-TEMPLATE.md` gives, and pushes it. An item is in progress when its newest line here is `started`, `pushed` or `PR opened` and that push is less than 3 hours old; older than that, the next agent takes it over on the same branch.
+
+`needs-from:` lines name an engine change the lane needs from an area lead; the CTO relays them.
+
+## Log
+
+- 2026-10-24 18:04 · CTO/Claude Opus · lane opened · cto/play-first-lane · see the PR · PR opened · the next agent takes item 1 of ORDER.md (play-stop-23-job-offer-hold-locks-the-game) · none
