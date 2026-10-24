@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-people
-pr:
+pr: #5868
 blocked-on:
 source: "collapsed Oct 19, 2026 from people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model"
 claimed-at: 2026-10-23T20:24:29.354Z

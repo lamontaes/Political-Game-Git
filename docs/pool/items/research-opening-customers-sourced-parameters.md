@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-opening-customers
-pr:
+pr: #5864
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-customers-estimated-opening-customer-prior, core-stopgap-opening-customers-unresolved-external-product-buyer-demand-crosswalk, core-stopgap-opening-public-owner-estimated-historical-government-identity-continuity, core-stopgap-opening-public-owner-estimated-public-buyer-geographic-reach"
 claimed-at: 2026-10-23T20:24:03.845Z
