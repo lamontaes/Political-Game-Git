@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: core-old-engine-02-gov-rules-duplicates
-blocked-on:
+blocked-on: play-first-freeze
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 steps 2–5"
 ---
 
@@ -22,3 +22,5 @@ source: "docs/reports/repo-audit-2026-10-19.md section A and G2 steps 2–5"
 **Files.** src/core2/opening-work.ts, src/core2/opening-employment.ts, src/core2/trait-source.ts, src/core2/opening-personality.ts, src/core2/town-households.ts, src/bench/card.ts, src/simulation/living-world/work-schedules.ts, src/simulation/living-world/town-employment.ts, src/simulation/justice/jail-terms.ts, src/simulation/life-queries.ts, src/simulation/trait-packs.ts, src/simulation/trait-registry.ts, src/simulation/people-traits.ts, src/simulation/personality-catalogue.ts, src/simulation/people-upbringing.ts, src/simulation/people-trait-definitions.ts, src/simulation/character-history.ts
 
 **Notes.** Supersedes the priority-2 items `world-port-work-schedules`, `world-port-work-schedules-roster`, `world-port-town-employment`, `core-old-imports-opening-employment-jail-term`, `people-port-traits-upbringing` and `people-port-character-history` as the one tracked step; those items keep their branches. Parent: core-delete-old-engine.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
