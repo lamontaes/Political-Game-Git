@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/sleepy-carson-f8omzd
-pr:
+pr: #5847
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T10:01:29.287Z
