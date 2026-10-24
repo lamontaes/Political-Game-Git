@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: core-speed-journal-posting-in-play, core-speed-work-attendance-in-play, core-speed-work-payroll-in-play, core-speed-counted-renewal-pass
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/births-counted.ts,src/core2/journal.ts,src/core2/counted-groups.ts
 
 **Notes.** TODO
+
+Split Oct 24 by the speed lead (the order's step 4: an L item is split before building). Long Hill's year allocates 58 GB (sampling heap profile with collected objects, seed m7b, the by-module table in core-speed-year-over-limit-dense-town). The parts, each one module and its own measured acceptance: `core-speed-journal-posting-in-play` (the cash journal, 160,000 postings a year), `core-speed-work-attendance-in-play` and `core-speed-work-payroll-in-play` (the work engine, 9.6 GB), `core-speed-counted-renewal-pass` (counted births and deaths, the births-counted callbacks above). Not taken: the counted store's `liveHouseholds` as a kept array (the counted-moves engine retires and adds households while it walks them, so a snapshot would change who is walked). This item is done when its parts are.

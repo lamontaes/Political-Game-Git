@@ -34,3 +34,5 @@ Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): Electi
 Sent back 2026-10-23 from PR #5589 (branch claude/law-wiring-labor): Missing Done when evidence table for the drawn-place, nine-link checker/matrix and family record-ID acceptance; add verifiable evidence and bound the family scope; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): Debt-repeal fix is present, but the table explicitly leaves family acceptance unmet and committed matrix links missing/partial; complete it or use a valid bounded cost/debt item with full evidence; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5589 (branch claude/law-wiring-labor): The table leaves 14 of 16 laws short of nine-link acceptance, and idFromBody resolves the bare first-line laws-wiring-every-law token to the unfinished umbrella; route the completed slice to bounded acceptance or finish the missing links; finish on that branch, merge main into it first.

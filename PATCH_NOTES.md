@@ -296,6 +296,156 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.6
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Federal benefits are paid in small towns** A federal benefit set by law,
+  such as the federal share of Medicaid, was sometimes paid short in a small
+  town because the national treasury had spent its cash on other payments that
+  day. The treasury now borrows a month of these standing payments ahead, so
+  they arrive in full.
+
+- **A committee hearing is filed as the story of its bill, naming its members**
+  A committee hearing in your state's legislature or in Congress is now filed
+  for the newsroom as what it is: a story about what its bill changes, naming
+  the members on the committee's roll call. Before, a hearing was filed as a
+  bare "committee-hearing" record about nothing in particular that named nobody,
+  so a desk had nothing to weigh it by. Whether a hearing makes the paper is
+  still the desk's call against the week's other news.
+
+- **A job offer's deadline holds your clock** When an employer offers you a job,
+  the clock now stops at the offer's deadline and stays stopped until you accept
+  or decline it, or the employer withdraws it. It used to flash a reminder and
+  run on.
+
+- **Small towns whose survey reads all owners now have renters** A small town
+  whose housing survey reading says every home is owned now opens with some
+  renters, because its owner share is pulled toward its county's by how few
+  homes the survey counted.
+
+### Changed
+
+- **Looking up which local office handles something takes about as long as it
+  does in real life.** When someone looks up which local office handles a
+  problem, it now takes a little under an hour of their day, the time Americans
+  spend on a government errand in the national time-use survey, instead of a
+  quarter of an hour, so people with little free time choose it a little less
+  often.
+
+- **Couples twenty or more years apart now span the real range of age gaps**
+  When the opening town is built, a couple with a wide age gap can now be
+  anywhere from twenty to thirty-five years apart, as married couples in the
+  census are, instead of never more than twenty-four.
+
+- **Bribery sentences follow each state's own law, and more officeholders open
+  in their real party.** A court sentencing someone for bribing an official, or
+  for taking a bribe, now works within the range of that state's own bribery law
+  instead of borrowing the range for assault. Territory governors and
+  legislators, offices elected without party labels, and legislative seats that
+  were vacant on the roster now open the game with the party their real holders
+  have, or with no party where the ballot carries none, instead of the party
+  that carried the state in 2024.
+
+- **The game now opens under the taxes and benefits actually in force in January 2025.** Paychecks, sales, food assistance, Medicaid and unemployment benefits
+  start under the January 2025 law for the federal government and every state,
+  instead of the 2026 figures carried back to the start, and change to the 2026
+  law when it takes effect. A state that repeals its graduated income tax now
+  replaces it with the middle of the real flat-tax states' rates, and the share
+  of adults who use cannabis matches the latest national survey.
+
+- **The best-funded quarter of a town's businesses open with more cash** The
+  businesses that open a new game with the most cash on hand now hold up to
+  about five months of costs for a typical business instead of about three, and
+  the thinnest open with next to nothing, matching how real small businesses'
+  cash is spread.
+
+- **Town and county offices start the game with larger cleaning contracts**
+  Where a town has a cleaning company, the town and county offices now open the
+  game paying it about four times as much as before, sized from what local
+  governments really spend on their buildings and how much of that goes to
+  cleaning.
+
+- **Couples weigh a child at the ages and spacing real families do** A couple's
+  thought of having a child now follows the ages at which American women have
+  children and the usual gap between one child and the next. A pregnancy lasts
+  the typical length from conception, and a volunteer shift lasts as long as a
+  real volunteer's day.
+
+- **Last year's budgets are in the news** The news now says what the biggest
+  line in a budget adopted last year was, for example "The budget includes
+  $12,000,000 for education."
+
+## PRE-ALPHA 0.22.5
+
+_Released October 24, 2026._
+
+### Improved
+
+- **A ward seat's candidate lives in the ward** A resident of another part of
+  town cannot file for a council seat chosen by part of town, and the refusal
+  names the rule.
+
+- **Mortgage rates since mid-2019 come from FHFA's own published series** The
+  30-year mortgage rate the economy opens with, from June 2019 on, now comes
+  from the federal housing agency's published index instead of the excluded
+  private survey. Rates differ by less than a third of a point, and a home
+  bought with a mortgage pays that rate.
+
+- **Town councils go by the name their state gives them.** A town's governing
+  body now carries the usual name for its kind of town in its state, such as a
+  village's Board of Trustees, a Wisconsin city's Common Council or a Tennessee
+  town's Board of Mayor and Aldermen, instead of a plain "Council". The
+  Government screen shows that name under each local seat, and the town's
+  ordinances are enacted in it.
+
+### Fixed
+
+- **A year no longer stops when an evicted family that moved in with a relative
+  in another town drifts out of your life.** A family evicted with no job that
+  moved in with a relative in another town stays as it is there, instead of
+  stopping the game months later when the town tried to fold it back into its
+  own population.
+
+- **A state's offices name the state** The Government screen listed a governor
+  or other statewide office under the state's internal key ("US-KS"). It now
+  names the state ("Kansas").
+
+- **Aides of officials in a territory are paid.** A territory's delegate,
+  governor, boards and legislature now pay their aides: a post with no job in
+  the place to take a schedule from works a full-time public-office week on the
+  government's biweekly pay calendar, instead of being held unpaid.
+
+### Changed
+
+- **Hand-written lines wait for the owner's grades** The 141 hand-written lines
+  in the English engine's banks are held until the owner grades them. Nine were
+  already held; this change holds the other 132. Until they are graded, the
+  speech you build offers no stage choices, scenes open without their lead
+  sentence, and the journal leaves out a relative's race and move away, a
+  household's roots, where a couple met and a parent's new job, taking office, a
+  town hall, an interview, and its looks back at earlier entries. The rest of
+  each scene, talk and journal still reads, from mined or graded lines. A bank
+  test now refuses any hand-written line that is marked to ship without a good
+  grade.
+
+- **People sound like themselves, and scenes open with a few sentences** A warm
+  person and a cold one now choose different words in the same moment. A scene
+  opens by saying where you are, who is there and what led here. A relative
+  asked about answers in a way that keeps the talk going. A lie about where you
+  live names another place. Nobody says a date out loud. The journal names a
+  newborn ("My daughter Jane was born."). The grading bench (`npm run
+words:bench`) composes these scenes from one cached world for each
+  personality, and the owner's grades tune the weights the engine reads. Scenes
+  with a purpose (a vote asked, a donor's ask, a reporter at the door) are built
+  and shown on the review page; their words are held until the owner grades
+  them, so they do not play yet. The same holds for this change's other new
+  hand-written lines (answers about family, scene openings, journal look-backs):
+  until they are graded, those moments read with mined lines only, and a birth
+  is told with the child's name from a mined sentence.
+
 ## PRE-ALPHA 0.22.4
 
 _Released October 23, 2026._
