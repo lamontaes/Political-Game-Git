@@ -677,12 +677,20 @@ export function weighContest(
     .moduleState(ELECTIONS_MODULE_ID)
     .table("town")
     .get("town") as unknown as { townPlaceId: string };
-  const incumbent = contest.incumbentTermId
-    ? (api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .get(contest.incumbentTermId) as unknown as TermRow | undefined)
-    : undefined;
+  // Whoever serves the seat today, so a member seated by a special election
+  // after the contest was recorded is its incumbent; else the term the
+  // contest names.
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const incumbent =
+    (
+      terms.query("bySeatStatus", [
+        contest.seatId,
+        "serving",
+      ]) as unknown as TermRow[]
+    )[0] ??
+    (contest.incumbentTermId
+      ? (terms.get(contest.incumbentTermId) as unknown as TermRow | undefined)
+      : undefined);
   const incumbentId =
     incumbent?.status === "serving"
       ? (incumbent.personId ?? undefined)

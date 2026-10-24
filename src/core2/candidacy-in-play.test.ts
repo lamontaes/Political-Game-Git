@@ -77,20 +77,19 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
           (row) => row.contestId === c.id && row.personId === personId,
         )!;
         expect(d).toBeDefined();
-        // Someone serving the seat on the day they decided weighs standing
-        // again (voting.stand-again); everyone else, including someone who
-        // decided before they took the seat, weighs entering the race on its
-        // several reasons.
-        const term = c.incumbentTermId
-          ? rows<TermRow>(OFFICES_MODULE_ID, "terms").find(
-              (t) => t.id === c.incumbentTermId,
-            )
-          : undefined;
-        const servingThen =
-          term?.personId === personId &&
-          term.startDate <= d.date &&
-          (term.status === "serving" ||
-            (term.endDate !== null && term.endDate > d.date));
+        // Someone serving the seat on the day they decided, by any term on
+        // it (a special election's winner included), weighs standing again
+        // (voting.stand-again); everyone else, including someone who decided
+        // before they took the seat, weighs entering the race on its several
+        // reasons.
+        const servingThen = rows<TermRow>(OFFICES_MODULE_ID, "terms").some(
+          (t) =>
+            t.seatId === c.seatId &&
+            t.personId === personId &&
+            t.startDate <= d.date &&
+            (t.status === "serving" ||
+              (t.endDate !== null && t.endDate > d.date)),
+        );
         if (servingThen) expect(Object.keys(d.reasons)).toEqual(["standAgain"]);
         else expect(Object.keys(d.reasons).length).toBeGreaterThan(5);
         expect(d.run).toBe(w!.runIds.includes(personId));
