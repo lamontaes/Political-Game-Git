@@ -17,6 +17,7 @@ import debtData from "./data/budgets/federal-debt.json" with { type: "json" };
 import federalBudget from "../../data/research/money/federal-budget-fy2025.json" with { type: "json" };
 import payerData from "./data/budgets/revenue-payers.json" with { type: "json" };
 import type { CoreAPI, CoreState, OrganizationInput, Source } from "./types";
+import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
@@ -193,16 +194,22 @@ export function townShareOf(api: CoreAPI, gov: GovernmentRow): number {
   return residents > 0 ? Math.min(1, townResidents(api) / residents) : 0;
 }
 
-/** The outside account public money comes from and goes to: the town's, else any. */
+/**
+ * The outside account public money comes from and goes to: the town's
+ * outside market (buyers and sellers outside the town), else any other
+ * outside account in the town, else any. A public employer's own outside
+ * account is its pay authority's (opening-public-pay.ts) and carries only that
+ * employer's government's wages, so a treasury's national-scale flows never
+ * run through it.
+ */
 export function outsideAccountOf(api: CoreAPI): string | undefined {
   const town = lawChain(api).townPlaceId;
-  return [...api.state.organizations.values()]
-    .filter((o) => o.outsideFlow !== undefined)
-    .sort(
-      (a, b) =>
-        Number(b.placeId === town) - Number(a.placeId === town) ||
-        a.id.localeCompare(b.id),
-    )[0]?.id;
+  const orgs = [...api.state.organizations.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  );
+  return (
+    townOutsideOf(orgs, town) ?? orgs.find((o) => o.outsideFlow !== undefined)
+  )?.id;
 }
 
 /** The line a public post's pay draws on: the longest matching prefix. */

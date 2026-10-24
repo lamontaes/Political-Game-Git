@@ -359,7 +359,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a full election year, state legislative, governor, congressional and presidential races run on the same election engine with fictional candidates, and their winners take office on the real dates.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m2-10-check.ts",
       "passes": false
     },
     {
