@@ -32,7 +32,9 @@ import hic from "../../data/research/world/hud-hic-2025-beds-by-city.json" with 
 import acs from "../../data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json" with { type: "json" };
 
 const problems: string[] = [];
-const fail = (message: string) => problems.push(message);
+const fail = (message: string): void => {
+  problems.push(message);
+};
 
 interface EvictionRead {
   readonly field: string;
