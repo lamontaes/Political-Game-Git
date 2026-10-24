@@ -68,7 +68,7 @@
     "warm": "Friendly and open."
   },
   "scheduling": {
-    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member.",
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets. householdScenes: moments that stage their scene at home whenever a member of the subject's household is in them, whatever their impact (owner, Oct 14, 2026, night: family scenes come from the household's own records; a mother asking the player to sit down for a lost job). householdRecordScenes: records of the whole household (the housing engine's eviction names every member) that stage a family scene at home for each member. ownRecordScenes: records of the subject's own life that name them (filing for office, the count of their own race) that the household meets at home the same day, as the filing and the count's records say.",
     "paces": {
       "early-childhood": 1,
       "middle-childhood": 2,
@@ -103,7 +103,11 @@
       "feeling:event:life.death",
       "feeling:event:health.serious-illness"
     ],
-    "householdRecordScenes": ["feeling:event:housing.eviction"]
+    "householdRecordScenes": ["feeling:event:housing.eviction"],
+    "ownRecordScenes": [
+      "cause:event:candidate-filed",
+      "cause:event:election-result"
+    ]
   },
   "types": [
     {
@@ -2683,11 +2687,18 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "vote-sought",
+          "match": {
+            "label": "cause:event:bill-amendment",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "kind", "equals": ["trade-amendment"] },
+              { "key": "movedBy", "is": "subject" }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.member-position",
+          "causeRecord": "bill-amendment",
           "bind": {
-            "colleague": "members",
+            "colleague": "counterpart",
             "you": "subject"
           },
           "opener": "colleague"
@@ -2954,7 +2965,7 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "filed",
+          "match": { "label": "cause:event:candidate-filed" },
           "causeEngine": "elections",
           "causeRecord": "candidate-filed",
           "bind": {
@@ -2998,9 +3009,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "own-race-result",
+          "match": {
+            "label": "cause:event:election-result",
+            "causeFacts": [{ "key": "winnerId", "is": "subject" }]
+          },
           "causeEngine": "elections",
-          "causeRecord": "election.result",
+          "causeRecord": "election-result",
           "bind": {
             "relative": "household",
             "you": "subject"
@@ -3042,9 +3056,12 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "own-race-result",
+          "match": {
+            "label": "cause:event:election-result",
+            "causeFacts": [{ "key": "winnerId", "is": "other" }]
+          },
           "causeEngine": "elections",
-          "causeRecord": "election.result",
+          "causeRecord": "election-result",
           "bind": {
             "relative": "household",
             "you": "subject"
@@ -3262,11 +3279,18 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "section-bargain",
+          "match": {
+            "label": "cause:event:bill-amendment",
+            "selfNamed": true,
+            "causeFacts": [
+              { "key": "kind", "equals": ["trade-amendment"] },
+              { "key": "movedBy", "is": "other" }
+            ]
+          },
           "causeEngine": "legislature",
-          "causeRecord": "legislature.poison-pill",
+          "causeRecord": "bill-amendment",
           "bind": {
-            "member": "members",
+            "member": "counterpart",
             "you": "subject"
           },
           "opener": "member"
