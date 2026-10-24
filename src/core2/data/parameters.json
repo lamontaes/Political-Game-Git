@@ -6373,5 +6373,28 @@
       "unit": "score per unit of care need",
       "citation": "The 1.2% to 2.5% lost-worktime band of data/research/stopgaps-oct19/A-people-behavior-1.json."
     }
+  },
+  "schoolStandingAttendanceWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The unit of the standing that orders students within an income fifth: a student's share of school days attended counts at weight 1, and the study traits at schoolStandingTraitWeight against it. The standing only ranks who in a fifth passes or graduates (the count comes from the place's base, the web's factor and the income gradient), so only the ratio of the two weights matters and this one is the reference.",
+    "spread": {
+      "low": 1,
+      "high": 1,
+      "unit": "reference",
+      "citation": "Fixed as the reference: scaling both weights together leaves every student's rank, and so every result record, unchanged."
+    }
+  },
+  "schoolStandingTraitWeight": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "Weight of the student's study traits (studious, voluntary effort) in that standing, against attendance at 1: the ratio of the two predictors' correlations with grades. Conscientiousness correlates with academic performance at rho .21 in secondary school, .28 in primary and .23 in tertiary (Poropat 2009, Psychological Bulletin 135(2), Table 2); class attendance correlates with class grades at rho .44 and with GPA at .41 (Credé, Roch and Kieszczynka 2010, Review of Educational Research 80(2)). Ordering only, never the level, which is the researched base.",
+    "estimatedFrom": "Poropat's secondary-school conscientiousness correlation (.21) over Credé, Roch and Kieszczynka's attendance and class-grade correlation (.44) is 0.48, rounded to 0.5. Both are correlations with grades, not a model with both predictors, so the ratio is an estimate of their relative pull.",
+    "spread": {
+      "low": 0.45,
+      "high": 0.65,
+      "unit": "ratio to the attendance weight",
+      "citation": "From secondary conscientiousness over attendance and class grades (.21/.44 = 0.48) or GPA (.21/.41 = 0.51), to primary over class grades (.28/.44 = 0.64)."
+    }
   }
 }
