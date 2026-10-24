@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #5853
 blocked-on:
