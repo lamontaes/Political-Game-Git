@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/counted-hire-employer-calendar
-pr:
-blocked-on:
+pr: #5958
+blocked-on: jobs-counted-hire-other-employer-calendar
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T16:53:03.066Z
 ---
