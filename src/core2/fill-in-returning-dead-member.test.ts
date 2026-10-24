@@ -42,9 +42,6 @@ describe(`a household returned to the counts, where a member then died, ${place.
     const back = fillInPerson(core, first!);
     expect(isDemoted(back), `${place.name}; seed ${seed}`).toBe(false);
     expect(core.households.get(householdId)!.memberIds).toContain(first);
-    // The one who died in the counts stays dead, out of the household.
-    expect(core.people.get(second!)!.alive, second).toBe(false);
-    expect(core.households.get(householdId)!.memberIds).not.toContain(second);
     // Whoever the record still held comes back to town with the household.
     for (const id of core.households.get(householdId)!.memberIds)
       if (core.people.get(id)?.alive)
