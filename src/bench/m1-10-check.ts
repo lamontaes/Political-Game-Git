@@ -6,8 +6,10 @@
 //     2024, `VIEWS_KEYS`), as src/core2/views.test.ts does for a views-only
 //     town: the mean lean, the conservative share and the not-sure share;
 // (2) plays a year, watching the views engine as it takes each event the
-//     ordinary producers emit (nothing is injected): every stance an event
-//     moves must belong to someone who learned of that event, and must cite
+//     ordinary producers emit (nothing is injected). A stance moved only when
+//     its side or strength differs from before the engine wrote it; a write
+//     that leaves both alone is counted apart and never as a move. Every
+//     stance an event moves must belong to someone who learned of that event, and must cite
 //     that event as its latest cause;
 // (3) names the event that moved the most people in the year, the people it
 //     reached, their stance before and after by record id, and people in town
@@ -42,6 +44,7 @@ interface Moved {
   personId: string;
   before: number;
   after: number;
+  sideBefore: string;
   desiredChange: string;
 }
 interface Taken {
@@ -55,7 +58,10 @@ let current: {
   moved: Moved[];
 } | null = null;
 const taken: Taken[] = [];
-const strength = new Map<string, number>();
+// Each stance's side and strength as last seen; a stance moved only when one
+// of them differs after the engine wrote it.
+const seen = new Map<string, { side: string; strength: number }>();
+let notifiedUnchanged = 0;
 let outsideAnyEvent = 0,
   movedWithoutLearning = 0,
   causeMissing = 0;
@@ -77,9 +83,14 @@ viewsModule.onEvent = (api, event, learnedBy) => {
 registerStanceListener((api, personId, topic) => {
   const stance = stancesOf(api, personId).find((s) => s.topic === topic);
   const key = `${personId}:${topic}`;
-  const before = strength.get(key) ?? 0;
+  const prior = seen.get(key) ?? { side: "", strength: 0 };
   const after = stance?.strength ?? 0;
-  strength.set(key, after);
+  const side = stance?.desiredChange ?? "";
+  seen.set(key, { side, strength: after });
+  if (side === prior.side && Math.abs(after - prior.strength) < 1e-9) {
+    notifiedUnchanged += 1;
+    return;
+  }
   if (!current) {
     outsideAnyEvent += 1;
     return;
@@ -88,9 +99,10 @@ registerStanceListener((api, personId, topic) => {
   if (stance?.causes.at(-1)?.eventId !== current.event.id) causeMissing += 1;
   current.moved.push({
     personId,
-    before,
+    before: prior.strength,
     after,
-    desiredChange: stance?.desiredChange ?? "",
+    sideBefore: prior.side,
+    desiredChange: side,
   });
 });
 
@@ -105,7 +117,10 @@ const where = `${w.place.displayName} (${w.place.key}), seed ${seed}`;
 const town = core.people.get(w.playerId!)!.placeId;
 for (const person of core.people.values())
   for (const stance of stancesOf(api, person.id))
-    strength.set(`${person.id}:${stance.topic}`, stance.strength);
+    seen.set(`${person.id}:${stance.topic}`, {
+      side: stance.desiredChange,
+      strength: stance.strength,
+    });
 
 // (1) The opening views against the state's answer key.
 const adults = [...core.people.values()].filter(
@@ -207,6 +222,8 @@ console.log(
         keyNotSure: shares.notSure,
       },
       eventsThatMovedStances: taken.length,
+      stancesMoved: taken.reduce((sum, t) => sum + t.moved.length, 0),
+      notifiedUnchanged,
       byKind: Object.fromEntries(
         [...kinds].sort((a, b) => b[1] - a[1]).slice(0, 8),
       ),
