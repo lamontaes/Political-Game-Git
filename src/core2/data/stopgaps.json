@@ -3773,7 +3773,7 @@
     "id": "SG-PEOPLE-press-outlet-other-costs",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/press.ts",
-    "line": 727,
+    "line": 733,
     "whatItFakes": "An outlet's books carry its people's pay and no other costs: no printing, broadcast, rent or supplier contracts.",
     "why": "The press records an outlet's staff; its nonpayroll costs have no data yet.",
     "addedBy": "claude/press-outlet-revenue",

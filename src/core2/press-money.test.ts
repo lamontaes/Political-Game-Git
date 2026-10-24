@@ -23,6 +23,7 @@ import {
 import { residentsRuntime } from "./modules/residents";
 import type { AdBuyRow, OutletRevenueMonthRow } from "./press-money";
 import { coreAPI } from "./state";
+import type { CashJournalReceipt } from "./journal-state";
 import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -79,11 +80,28 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       .sort((a, b) => a.month.localeCompare(b.month));
     const subs = (m: OutletRevenueMonthRow) =>
       m.subscriptionsFullMinor + m.subscriptionsCountedMinor;
-    const paid = months.filter((m) => subs(m) > 0);
-    expect(
-      paid.length,
-      `${where}: months the paper's readers paid (${months.map((m) => m.month).join(", ")})`,
-    ).toBeGreaterThanOrEqual(11);
+    // A paper that closed is paid by no one after; it must have been open
+    // half the year to show its money move.
+    const closed = core.finance.businesses
+      .get(paper.organizationId)
+      ?.closedAt?.slice(0, 7);
+    const open = months.filter(
+      (m) => m.month > months[0]!.month && (!closed || m.month < closed),
+    );
+    if (open.length < 6) {
+      tried.push(`${where}: the paper closed in ${closed}`);
+      continue;
+    }
+    for (const m of open)
+      expect(subs(m), `${where}: ${m.month}'s subscriptions`).toBeGreaterThan(
+        0,
+      );
+    for (const m of months.filter((row) => closed && row.month > closed))
+      expect(
+        subs(m) + m.adsMinor,
+        `${where}: ${m.month}, after it closed`,
+      ).toBe(0);
+    const paid = open;
     // Subscriptions are the readers times the price, at most: a household
     // short of cash pays its living cost, and its subscription, in part.
     const price =
@@ -136,9 +154,9 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     const to = receipt!.owners.get(paper.organizationId)!;
     expect(own.afterMinor, receipt!.id).toBeLessThan(own.beforeMinor);
     expect(to.afterMinor, receipt!.id).toBeGreaterThan(to.beforeMinor);
-    // A named local business bought an ad from its own costs: played on day
-    // by day until one does, read from the journal's latest entry for the
-    // business (receipts are kept only for people).
+    // A named local business bought an ad from its own costs. Receipts are
+    // kept for people only, so with the year's money already checked the
+    // world keeps every receipt for the days until the next ad is bought.
     const adsOf = () =>
       api
         .moduleState(PRESS_MODULE_ID)
@@ -149,25 +167,29 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       `${where}: ads bought from ${paper.id} in the year`,
     ).toBeGreaterThan(0);
     const journal = core.cashJournal;
-    let shown:
-      | { ad: AdBuyRow; buyer: { beforeMinor: number; afterMinor: number } }
-      | undefined;
-    for (let day = 0; day < 35 && !shown; day += 1) {
+    core.observer = true;
+    let found: { ad: AdBuyRow; receipt: CashJournalReceipt } | undefined;
+    for (let day = 0; day < 14 && !found; day += 1) {
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
-      const today = adsOf().filter((row) => row.date === core.date);
-      const ad = today
-        .filter(
-          (row) =>
-            journal.latestByOwner.get(row.advertiserId)?.sourceRef.id ===
-            row.transferId,
-        )
-        .sort((a, b) => b.amountMinor - a.amountMinor)[0];
-      if (!ad) continue;
-      shown = { ad, buyer: journal.latestByOwner.get(ad.advertiserId)! };
+      for (const ad of adsOf().filter((row) => row.date === core.date)) {
+        const receipt = [
+          ...(journal.detailedByOwner.get(ad.advertiserId) ?? []),
+        ]
+          .map((id) => journal.detailedReceipts.get(id))
+          .find((r) => r?.sourceRef.id === ad.transferId);
+        if (receipt && (!found || ad.amountMinor > found.ad.amountMinor))
+          found = { ad, receipt };
+      }
     }
-    expect(shown, `${where}: an ad payment on the journal`).toBeDefined();
-    const { ad, buyer } = shown!;
-    expect(buyer.afterMinor, ad.transferId).toBeLessThan(buyer.beforeMinor);
+    core.observer = false;
+    expect(found, `${where}: an ad payment on the journal`).toBeDefined();
+    const { ad, receipt: adReceipt } = found!;
+    const buyer = adReceipt.owners.get(ad.advertiserId)!;
+    const seller = adReceipt.owners.get(paper.organizationId)!;
+    expect(buyer.afterMinor, adReceipt.id).toBeLessThan(buyer.beforeMinor);
+    expect(seller.afterMinor - seller.beforeMinor, adReceipt.id).toBe(
+      ad.amountMinor,
+    );
     expect(
       core.organizations.get(ad.advertiserId)?.placeId,
       `${where}: ${ad.advertiserId} is a town business`,
@@ -182,7 +204,7 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
         `${m.month}: readers ${m.readers.toFixed(1)}, subscriptions ${subs(m)} (${m.subscriberPayments} full payments), ads ${m.adsMinor} (${m.adPayments}), wider audience ${m.shortfallMinor}`,
     );
     process.stdout.write(
-      `PRESS MONEY ${where}: ${paper.organizationId}\n  ${year.join("\n  ")}\n  reader ${reader.id} of ${home.id} paid in ${receipt!.id} (${receipt!.sourceRef.id}: ${own.beforeMinor - own.afterMinor} from ${living.payerId}, ${to.afterMinor - to.beforeMinor} to the paper)\n  ad ${ad.id}: ${ad.advertiserId} paid ${ad.amountMinor} in ${ad.transferId} (its cash ${buyer.beforeMinor} to ${buyer.afterMinor})\n`,
+      `PRESS MONEY ${where}: ${paper.organizationId}\n  ${year.join("\n  ")}\n  reader ${reader.id} of ${home.id} paid in ${receipt!.id} (${receipt!.sourceRef.id}: ${own.beforeMinor - own.afterMinor} from ${living.payerId}, ${to.afterMinor - to.beforeMinor} to the paper)\n  ad ${ad.id}: ${ad.advertiserId} paid ${ad.amountMinor} in ${ad.transferId} in ${adReceipt.id} (its cash ${buyer.beforeMinor} to ${buyer.afterMinor}; the paper's ${seller.beforeMinor} to ${seller.afterMinor})\n`,
     );
     return;
   }

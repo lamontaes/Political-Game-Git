@@ -387,7 +387,13 @@ function expectedRevenueYearMinor(api: CoreAPI, outlet: OutletRow): number {
 
 /** What the money side reads of the press: its outlets, their audiences and costs. */
 function outletMoneyDeps(api: CoreAPI): OutletMoneyDeps {
-  const local = () => outletsHere(api).filter((o) => o.tier !== "national");
+  // A closed outlet is paid by no one.
+  const local = () =>
+    outletsHere(api).filter(
+      (o) =>
+        o.tier !== "national" &&
+        !api.state.finance.businesses.get(o.organizationId)?.closedAt,
+    );
   return {
     moduleId: PRESS_MODULE_ID,
     townPlaceId: () => lawChain(api).townPlaceId,
