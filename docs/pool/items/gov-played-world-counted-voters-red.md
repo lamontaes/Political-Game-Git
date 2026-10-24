@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4
 pr: #5865
 blocked-on:
