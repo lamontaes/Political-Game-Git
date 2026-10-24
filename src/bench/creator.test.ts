@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   ageAtStart,
@@ -15,6 +16,7 @@ import {
   portraitPng,
   readRecipe,
 } from "./appearance";
+import { lookFigures } from "./whole-figures";
 
 describe("the New game creator", () => {
   it("draws a name before any gender is chosen, and again after", () => {
@@ -55,23 +57,33 @@ describe("the New game creator", () => {
     ).toThrow();
   });
 
-  it("steps the appearance and draws the portrait", () => {
+  it("offers the figures the game draws, steps them and draws the portrait", () => {
     const recipe = drawnAppearance("female", "seed", 0);
+    expect(recipe.sex).toBe("female");
     const labels = appearanceRows(recipe, "female").map((row) => row.label);
-    expect(labels).toEqual(
-      expect.arrayContaining([
-        "Build",
-        "Skin tone",
-        "Face",
-        "Hair",
-        "Hair color",
-        "Outfit",
-      ]),
-    );
-    expect(labels).not.toContain("Body");
-    const next = moveAppearance(recipe, "female", "hair", 1);
-    expect(next.hair).not.toBe(recipe.hair);
+    expect(labels).toEqual(["Build", "Clothes"]);
+    expect(appearanceRows(recipe, "nonbinary")[0]!.label).toBe("Body");
+    const next = moveAppearance(recipe, "female", "outfit", 1);
+    expect(next.outfit).not.toBe(recipe.outfit);
     expect(readRecipe(JSON.stringify(next))).toEqual(next);
-    expect(portraitPng(next).subarray(1, 4).toString()).toBe("PNG");
+    expect(() =>
+      readRecipe(JSON.stringify({ ...next, outfit: "hair" })),
+    ).toThrow();
+    // The portrait is the standing v2 figure itself, as rooms draw it.
+    const png = portraitPng(next);
+    expect(png.subarray(1, 4).toString()).toBe("PNG");
+    const file = lookFigures().find(
+      (row) =>
+        row.sex === next.sex &&
+        row.build === next.build &&
+        row.outfit === next.outfit,
+    )!.file;
+    expect(
+      png.equals(
+        readFileSync(
+          new URL(`../../art/people-engine/v2/${file}`, import.meta.url),
+        ),
+      ),
+    ).toBe(true);
   });
 });

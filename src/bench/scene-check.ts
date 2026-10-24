@@ -29,9 +29,9 @@ function look(personId: string) {
   if (!existsSync(backdropPath(scene.backdrop.file)))
     throw new Error(`Missing backdrop ${scene.backdrop.file}`);
   for (const person of scene.people) {
-    // Only owner-approved whole figures are ever drawn (owner, Oct 13).
-    if (!person.figureUrl.startsWith("/art/people-whole/"))
-      throw new Error(`${person.personId} is not a whole figure`);
+    // Only the v2 standing figures are drawn (owner, Oct 24).
+    if (!person.figureUrl.startsWith("/art/people-engine/v2/figures/"))
+      throw new Error(`${person.personId} is not a v2 figure`);
     const file = new URL(`../..${person.figureUrl}`, import.meta.url);
     if (!existsSync(file) || statSync(file).size < 1000)
       throw new Error(`Blank figure for ${person.personId}`);
