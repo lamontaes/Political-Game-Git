@@ -58,6 +58,8 @@ interface Move {
   readonly stance: Stance;
   readonly today: readonly (Stance["causes"][number] & {
     readonly knewSource: boolean;
+    /** They hold, from this reading, which outlet printed the story: what the director's bring-it-up lists. */
+    readonly rememberedPrint: boolean;
   })[];
   readonly viewNow: number;
 }
@@ -81,6 +83,17 @@ registerStanceListener((api, personId, topic) => {
         ...cause,
         knewSource:
           !!cause.learnedFrom && !!api.knows(personId, cause.learnedFrom),
+        rememberedPrint: [
+          ...((api.state as CoreState).knowledgeByPerson
+            .get(personId)
+            ?.values() ?? []),
+        ].some(
+          (fact) =>
+            fact.key.startsWith("printed:") &&
+            fact.key.endsWith(":story") &&
+            fact.sourceId === cause.eventId &&
+            fact.access === "perceived",
+        ),
       })),
     viewNow: view ? viewOn(api, personId, topic, view.lean) : 0,
   });
@@ -260,6 +273,9 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
       // reader knew when their stance moved.
       expect(cause.learnedFrom, where).toBe(newsKey(storyId));
       expect(cause.knewSource, where).toBe(true);
+      expect(cause.rememberedPrint, `${where}: remembers who printed it`).toBe(
+        true,
+      );
       expect(cause.change, where).toBeGreaterThan(0);
       // Toward the side their own view held: the stance and the view sit on
       // the side the read event carried.

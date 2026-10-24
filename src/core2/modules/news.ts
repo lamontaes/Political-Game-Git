@@ -587,14 +587,20 @@ export function createNewsModule(
         // the side their own view already holds on the question that
         // condition ties to (owner, Oct 22, 2026). A reader with no side on a
         // question has none to strengthen. The readers already hold the
-        // story's facts; what they take from reading it is its source and
-        // whose case it was.
+        // story's facts; what they take from reading it is its source, whose
+        // case it was and which outlet printed it (what they can bring up).
         const questions = story.desiredChange
           ? []
           : conditionQuestions(story.facts);
         if (questions.length) {
           const zero = api.parameter("zero");
-          const speaker = story.facts[VIEWS_SPEAKER_KEY];
+          const carried = Object.fromEntries(
+            Object.entries(story.facts).filter(
+              ([key]) =>
+                key === VIEWS_SPEAKER_KEY ||
+                (key.startsWith("printed:") && key.endsWith(":story")),
+            ),
+          );
           for (const question of questions) {
             const sides = new Map<string, PersonId[]>();
             for (const id of alive) {
@@ -614,7 +620,7 @@ export function createNewsModule(
                 question,
                 side,
                 witnessIds,
-                speaker ? { [VIEWS_SPEAKER_KEY]: speaker } : {},
+                carried,
               );
           }
           continue;
