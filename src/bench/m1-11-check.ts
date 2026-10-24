@@ -4,7 +4,8 @@
 // gets (`buildBenchWorld`, every module) and plays a year with the ordinary
 // producers (nothing is injected), keeping every response the drives engine
 // records to a job loss, an eviction or a closure. Then:
-// (1) such events happened and people answered them;
+// (1) each kind (a job loss, an eviction, a closure) happened and was
+//     answered: a kind that never happened leaves its clause unchecked;
 // (2) displaced workers (job losses and closures) take up an ambition at the
 //     displaced-worker rate and most carry on, the band the engine's own test
 //     uses (data/research/drives/economic-losses.json: retraining 10 to 16
@@ -65,10 +66,11 @@ for (const row of answers)
 const byKind = (kind: string) =>
   [...events.values()].filter((e) => e.kind === kind).length;
 const losses = answers.filter((row) => LOSS.has(row.eventKind));
-check(
-  losses.length > 0,
-  `${where}: no job loss or closure was answered in a year`,
-);
+for (const kind of KINDS)
+  check(
+    answers.some((row) => row.eventKind === kind),
+    `${where}: no ${kind} event was answered in a year, so the spec's clause for it ran on nothing`,
+  );
 
 // (2) The displaced-worker rate.
 const share = (id: string) =>
