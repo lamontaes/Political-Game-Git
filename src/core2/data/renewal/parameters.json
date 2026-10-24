@@ -299,7 +299,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 0.25 to 1 pending a generated-year check against the town's total."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalUnplannedAcceptance": {
     "value": 0.5,
@@ -309,7 +309,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 0 to 1.5 pending a generated-year check."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalEndingBase": {
     "value": 1,
@@ -319,7 +319,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 0.5 to 2 pending a generated-year check."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalTravelWeight": {
     "value": 2,
@@ -329,7 +329,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 1 to 4 pending a generated-year check."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalTravelHalfMiles": {
     "value": 100,
@@ -339,7 +339,7 @@
       "status": "unmeasured",
       "reason": "Sensitivity 50 to 200."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy"
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
   },
   "renewalTravelCostPerMileMinor": {
     "value": 60,

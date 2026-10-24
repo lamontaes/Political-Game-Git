@@ -95,6 +95,8 @@ export function unplannedExposure(
     0,
   );
   const cushion = cash / (cash + costs * p("moneyBufferDays") + p("one"));
+  // stopgapId: SG-PEOPLE-unplanned-calibration
+  api.stopgap("SG-PEOPLE-unplanned-calibration");
   return (
     p("renewalUnplannedExposure") *
     Math.exp(-distance * distance) *
@@ -142,6 +144,8 @@ export function decideUnplanned(
     .filter((person) => person.alive)
     .reduce((sum, person) => sum + person.liquidMinor, 0);
   // Distance and money both hold her back, each on a smooth curve.
+  // stopgapId: SG-PEOPLE-unplanned-calibration
+  api.stopgap("SG-PEOPLE-unplanned-calibration");
   const far = miles / (miles + p("renewalTravelHalfMiles"));
   const unaffordable = travelMinor / (travelMinor + cash + p("one"));
   const travel = (-p("renewalTravelWeight") * (far + unaffordable)) / p("two");
