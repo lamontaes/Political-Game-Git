@@ -909,19 +909,6 @@
       "reviewNote": "Structural reference only. The developer target catalog explains the source-linked observations, measurement gap, and non-applicability where relevant; no expected facts are injected into P8."
     },
     {
-      "parameter": "lookupHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.25,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "Public-directory lookup offer eligibility/effort and ordinary choice score.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
       "parameter": "openingPeerGroupSize",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 24,
