@@ -184,6 +184,19 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
       // link raises the rate only above it.
       const unemployment = web!.values[CAUSE]!;
       expect(unemployment, `${where}: ${web!.id}`).toBeGreaterThan(4);
+      // Each link's effect is its researched size for each point above 4%.
+      for (const key of links) {
+        const link = WEB_LINKS.find((row) => row.key === key)!;
+        const sizes = [
+          link.size!,
+          ...Object.values(link.sizeByPlace ?? {}).map((row) => row.size),
+        ];
+        const perPoint = web!.effects[key]! / (unemployment - 4);
+        expect(
+          sizes.some((size) => Math.abs(size - perPoint) < 1e-9),
+          `${where}: ${key} ${perPoint}`,
+        ).toBe(true);
+      }
 
       // 3. The crime engine read the factor, these links among those behind it.
       const kind = month.types[victim.type];
