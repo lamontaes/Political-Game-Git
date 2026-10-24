@@ -46,17 +46,20 @@ import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { LawRowInput } from "../../src/core2/laws-starting";
+import { townSeats } from "../../src/core2/modules/offices";
+import { draftBill } from "../../src/core2/modules/legislature";
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
 
 const ROOT = `${process.cwd()}/`;
-const WINDOW = 35;
 const AFTER = 10;
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(`--${name}`);
   return i >= 0 ? process.argv[i + 1] : undefined;
 };
+/** Days each law runs before it is graded (--days lengthens it for laws whose event comes later). */
+const WINDOW = Number(arg("days") ?? 35);
 
 /** A place drawn from all 56 by seed (as tests/golden-path/place.ts). */
 export function drawLawPlace(seed: string) {
@@ -94,15 +97,22 @@ const SKIP = [
 ];
 function readerFrame(): string {
   const stack = new Error().stack ?? "";
+  let reach: string | undefined;
   for (const line of stack.split("\n").slice(2)) {
     const m = /\(?((?:file:\/\/)?\/[^()]+):(\d+):\d+\)?$/.exec(line.trim());
     if (!m) continue;
     const file = m[1]!.replace("file://", "").replace(ROOT, "");
     if (!file.startsWith("src/") || SKIP.some((s) => file.includes(s)))
       continue;
-    return `${file}:${m[2]}`;
+    const at = `${file}:${m[2]}`;
+    if (file.startsWith("src/core2/law-reach/")) {
+      // A law-reach function an engine calls on its own step: name the engine below it too.
+      reach = reach ?? at;
+      continue;
+    }
+    return reach ? `${reach} <- ${at}` : at;
   }
-  return "unknown";
+  return reach ? `${reach} <- none` : "unknown";
 }
 
 interface Trace {
@@ -124,7 +134,7 @@ let trackedKeys = new Set<string>();
 let citeTokens: string[] = [];
 
 function startTraces(): void {
-  Error.stackTraceLimit = 20;
+  Error.stackTraceLimit = 60;
   setTableTrace((moduleId, table, op, query) => {
     if (
       !trace.on ||
@@ -449,6 +459,34 @@ function setQuestion(
   return `enacted at ${at.level} (${row.id}) effective ${date}`;
 }
 
+/** The law amount a council's bill sets under each authority law, which the legislature reads at drafting. */
+const DRAFTED_UNDER: Readonly<Record<string, string>> = {
+  "local-minimum-wage-authority": "minimum-wage",
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority":
+    "minimum-wage",
+  "local-income-tax-authority": "income-tax",
+};
+
+function draftUnder(api: CoreAPI, series: string): void {
+  const council = townSeats(api).find(
+    (s) => s.office.kind === "council" && s.holder?.personId,
+  );
+  if (!council) return;
+  const now = Number(lawInForce(api, series).value ?? 0);
+  draftBill(api, {
+    bodyOfficeId: council.office.id,
+    sponsorId: council.holder!.personId!,
+    provisions: [
+      {
+        kind: "law-amount",
+        series,
+        value: series === "minimum-wage" ? now + 100 : Math.max(1, now + 1),
+        unit: series === "minimum-wage" ? "minor/hour" : "percent",
+      },
+    ],
+  });
+}
+
 function changeAmount(
   api: CoreAPI,
   law: LawEntry,
@@ -669,12 +707,21 @@ function checkLaw(
   citeTokens = [...ids, law.key, `law-wiring-${tag}`];
   const since = core.date;
   trace.on = true;
-  step(core, 1 + WINDOW);
+  const drafts = DRAFTED_UNDER[law.key];
+  if (drafts) {
+    // An authority law is read when a body drafts a bill under it: once the
+    // change has taken effect, a council member drafts one.
+    step(core, 2);
+    draftUnder(api, drafts);
+    step(core, WINDOW - 1);
+  } else step(core, 1 + WINDOW);
   trace.on = false;
   const money = snapshotMoney();
   const reads = trace.reads.get(law.key) ?? new Map();
   const controlReads = control.reads.get(law.key) ?? new Map();
-  const reach = reachOf(core, law.key, opening ? null : ids);
+  // Only reach under the rows the checker changed (or repealed) counts: a body in
+  // play may enact the law again during a long window, and its rows are its own.
+  const reach = reachOf(core, law.key, ids);
   const links = webLinksOf(law);
   const web = webEffects(
     core,
@@ -712,18 +759,22 @@ function checkLaw(
   // Money a file that read this law (or law reach itself) posted differently from the control.
   const readerFiles = new Set(
     [...reads.keys(), ...controlReads.keys()].map((f) =>
-      f.replace(/:\d+$/, ""),
+      f.split(" <- ")[0]!.replace(/:\d+$/, ""),
     ),
   );
   const direct = moneyDiff.filter((d) => {
-    const file = d.kind.split(" @ ")[1]?.replace(/:\d+$/, "") ?? "";
+    const file =
+      d.kind.split(" @ ")[1]?.split(" <- ")[0]!.replace(/:\d+$/, "") ?? "";
     return file.startsWith("src/core2/law-reach/") || readerFiles.has(file);
   });
 
   // Repeal (or re-enact) and see whether reach ends (or returns).
+  const changedIds = new Set(ids);
   undo();
   step(core, AFTER);
   const after = reachOf(core, law.key, null);
+  // An amount or a budget line is never repealed, only put back: what must stop is the changed row's own reach.
+  const afterUndoChanged = reachOf(core, law.key, changedIds);
   const readers = new Map<string, number>();
   for (const [f, n] of [...reads, ...controlReads])
     readers.set(f, (readers.get(f) ?? 0) + n);
@@ -751,6 +802,7 @@ function checkLaw(
     },
     heard,
     afterUndo: after,
+    afterUndoChanged,
     seconds: Math.round((Date.now() - started) / 1000),
   };
 }
