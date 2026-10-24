@@ -2680,7 +2680,8 @@
       "from": "gov.corruption-exposed",
       "evidence": "researched",
       "range": [-0.21, -0.13],
-      "notes": "Unsupported until measured: the game records no exposed corruption by place and keeps no incumbent reelection rate as a place outcome."
+      "notes": "Unsupported until measured: the game records no exposed corruption by place and keeps no incumbent reelection rate as a place outcome.",
+      "carriedBy": "the voting engine's scandal term (scandalTerm and scandalAppeal in src/core2/modules/voting.ts), which reads a candidate's bribes reported to the press and convictions the court made public (scandalStoriesOf) and lowers the candidate's appeal with each voter the story reached, weighed by how far they trust the press; counted voters take it at the share of the town's named adults it reached. It uses its own size, the 5 points of the two-party vote a tainted U.S. incumbent loses (scandalShare in src/core2/data/electorate/parameters.json), not this row's 17% fall in a Brazilian mayor's chance of reelection"
     },
     {
       "key": "press-attacks-to-media-trust",
@@ -2779,7 +2780,8 @@
       "source": "to confirm",
       "from": "economy.real-income-growth",
       "evidence": "to-confirm",
-      "notes": "Unsupported until confirmed: the row is marked to confirm with no size, and the game keeps no incumbent approval as a place outcome."
+      "notes": "Unsupported until confirmed: the row is marked to confirm with no size, and the game keeps no incumbent approval as a place outcome.",
+      "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
     },
     {
       "key": "medicaid-expansion-to-coverage",
