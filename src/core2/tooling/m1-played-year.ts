@@ -71,13 +71,23 @@ export function nextDay(date: string): string {
   return day.toISOString().slice(0, 10);
 }
 
-/** Plays a year, one month at a time; `afterMonth` reads the world at each month's end (month 1 to 12). */
+/**
+ * Plays a year, one month at a time; `afterMonth` reads the world at each
+ * month's end (month 1 to 12), and `afterDay`, when given, at each day's end.
+ */
 export function playYear(
   world: PlayedYear,
   afterMonth?: (month: number) => void,
+  afterDay?: (date: string) => void,
 ): void {
   for (let month = 1; month <= 12; month += 1) {
-    advanceCore(world.core, monthsAfter(world.start, month));
+    const end = monthsAfter(world.start, month);
+    if (afterDay)
+      while (world.core.date < end) {
+        advanceCore(world.core, nextDay(world.core.date));
+        afterDay(world.core.date);
+      }
+    else advanceCore(world.core, end);
     afterMonth?.(month);
   }
 }

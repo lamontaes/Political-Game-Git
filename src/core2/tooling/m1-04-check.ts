@@ -25,7 +25,12 @@ import turnover from "../../../data/research/jobs/series/turnover.json" with { t
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import { residentsRuntime } from "../modules/residents";
 import { countedHeadsOf } from "../residents-economy";
-import { represented } from "./m1-measures";
+import {
+  eventTimeHeads,
+  represented,
+  unemployedHeads,
+  type SeekerLike,
+} from "./m1-measures";
 import { buildPlayedWorld, playYear } from "./m1-played-year";
 
 const world = buildPlayedWorld();
@@ -49,34 +54,37 @@ function employment(): number {
     )
   );
 }
-/** The town's people out of work and looking: full seekers without a job and the counted tier's, as the people they stand for. */
+/** The town's people out of work and looking: full and counted seekers by one rule, as the people they stand for. */
 function unemployed(): number {
-  const full = (
-    jobs.table("seekers").rows() as unknown as {
-      placeId: string;
-      employed: boolean;
-    }[]
-  ).filter((row) => row.placeId === townId && !row.employed);
-  const counted = (
-    jobs.table("countedSeekers").rows() as unknown as {
-      placeId: string;
-      personId: string;
-    }[]
-  ).filter((row) => row.placeId === townId);
-  return (
-    represented(full, () => 1) +
-    represented(counted, (row) => heads(row.personId))
+  return unemployedHeads(
+    jobs.table("seekers").rows() as unknown as SeekerLike[],
+    jobs.table("countedSeekers").rows() as unknown as SeekerLike[],
+    townId,
+    heads,
   );
 }
 
 const openingEmployment = employment();
 const employedAt: number[] = [openingEmployment];
 const unemploymentPct: number[] = [];
-playYear(world, () => {
-  employedAt.push(employment());
-  const out = unemployed();
-  unemploymentPct.push((100 * out) / Math.max(1, out + employedAt.at(-1)!));
-});
+// Each change's people as they stood on its day: a counted worker filled in
+// later is one person now, but the hire stood for their household's weight.
+const atEvent = eventTimeHeads(heads);
+playYear(
+  world,
+  () => {
+    employedAt.push(employment());
+    const out = unemployed();
+    unemploymentPct.push((100 * out) / Math.max(1, out + employedAt.at(-1)!));
+  },
+  () =>
+    atEvent.see(
+      jobs.table("changes").rows() as unknown as {
+        id: string;
+        personId: string;
+      }[],
+    ),
+);
 
 // The changes on record in the year at the town's employers, by month.
 type Change = {
@@ -116,7 +124,7 @@ const counts = {
 // A change to a counted worker's job stands for their household's weight.
 for (const row of inTown) {
   const at = monthIndex(row.date) - 1;
-  const n = heads(row.personId);
+  const n = atEvent.heads(row);
   if (row.kind === "hire") counts.hires[at]! += n;
   else if (row.kind === "quit") counts.quits[at]! += n;
   else if (row.kind === "layoff" || row.kind === "closure")
