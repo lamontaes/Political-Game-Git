@@ -6503,7 +6503,7 @@
     "id": "SG-PEOPLE-unplanned-calibration",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/births-unplanned.ts",
-    "line": 148,
+    "line": 144,
     "whatItFakes": "The five weights of an unplanned pregnancy (renewalUnplannedExposure, renewalUnplannedAcceptance, renewalEndingBase, renewalTravelWeight, renewalTravelHalfMiles) are TUNABLE values set by hand. Their spreads are written as sensitivity windows, but no generated-year run has measured how the town's unplanned pregnancies and endings move across those windows.",
     "why": "No study publishes these as coefficients: the decision is a weighed choice from each woman's own records. Real rates (Guttmacher's about 4 unintended pregnancies a year per 100 women 15 to 44, and the share ended) can only check the town's totals, never pick a woman.",
     "addedBy": "claude/provider-distance",
