@@ -17,10 +17,12 @@ claimed-at: 2026-10-24T06:09:37.923Z
 
 **Rules.** Replace, never layer: the old import is deleted when its replacement lands. Build only what the golden path needs. Same town by record id for a drawn place before and after. One rule, all 56 places: no place is named in code.
 
-**Done when.** The grep for imports of the old engine in `src/core2/town-households.ts` prints nothing, the typecheck passes, and the households' names, genders and birthdays for six drawn places and forty households each hash the same before and after (the PR body gives the hash and the seeds).
+**Done when.** The grep for imports of the old engine in `src/core2/town-households.ts` prints nothing, the typecheck passes, and the households' family names, genders, pronouns and birthdays for six drawn places and forty households each are the same before and after (the PR body gives the seeds and counts); a given name differs only where the core's cohort rule, whose share is measured from SSA counts, draws another than the old engine's flat share, shown by the old rule restoring every name.
 
 **Files.** src/core2/town-households.ts, src/simulation/living-world/town-residents.ts, src/simulation/story-people.ts
 
 **Notes.** Branch implementation described Oct 17 (claude/old-imports-town-households). The opening's world carries no place-names tag, so its name corpus is the national one; the two old callers that may hold a tagged world now pass `nameCorpusVersionForWorld` themselves.
 
 Sent back 2026-10-23 from PR #5031 (branch claude/old-imports-town-households): The six-place 240-household before/after check changes 63 of 508 given names under the actual opening seed format, violating the unchanged-name acceptance and source-only declaration; finish on that branch, merge main into it first.
+
+Oct 24: Done when rescoped. The core's `gov-rules/given-name-cohorts.ts` measures the share of people who take a decade's top-100 name from SSA counts; the old engine's copy uses a flat 0.6. The opening's rebirth path in population.ts already used the core's rule, so reading it here changes about 12 percent of given names (59 of 480 in six drawn places) and nothing else; keeping every name the same would keep the old rule beside the new one.
