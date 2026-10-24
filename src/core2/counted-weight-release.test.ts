@@ -144,42 +144,49 @@ it("Washington, D.C. at its Census size: a fill-in moves no employer's heads, an
   // Two years of Washington took about 500 seconds at one worker on a
   // 4-core container (census-scale closures); about twice that.
 }, 1_200_000);
+// Two years of Atlanta (census 529,110, scale 52.9) took 1,230 seconds at one
+// worker on a 4-core container; a larger drawn city takes about twice that.
+const DRAWN_TIMEOUT = 2_400_000;
 
-it(`a drawn city above 100,000 at its Census size behaves the same (base ${base})`, () => {
-  // WEIGHT_RELEASE_KEY and WEIGHT_RELEASE_SEED pin a drawn place to rerun it.
-  const pinned = process.env.WEIGHT_RELEASE_SEED;
-  if (pinned) {
-    const key = process.env.WEIGHT_RELEASE_KEY!;
-    const reference = placeReferencePopulation(
-      corePlaceByKey(key)!.sourceGeoid!,
-    )!.value;
-    check(
-      `pinned ${key}, census ${reference}, seed ${pinned}`,
-      pinned,
-      key,
-      reference,
-    );
-    return;
-  }
-  const tried: string[] = [];
-  for (let i = 0; i < 400; i += 1) {
-    const draw = drawPlace(
-      createHash("sha256").update(`${base}:${i}`).digest("hex"),
-      "world-counted-weight-release",
-    );
-    const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
-    const reference = geoid ? placeReferencePopulation(geoid)?.value : null;
-    if (!reference || reference <= LARGE || draw.key === WASHINGTON.key) {
-      tried.push(`${draw.name}: ${reference ?? "no population"}`);
-      continue;
+it(
+  `a drawn city above 100,000 at its Census size behaves the same (base ${base})`,
+  () => {
+    // WEIGHT_RELEASE_KEY and WEIGHT_RELEASE_SEED pin a drawn place to rerun it.
+    const pinned = process.env.WEIGHT_RELEASE_SEED;
+    if (pinned) {
+      const key = process.env.WEIGHT_RELEASE_KEY!;
+      const reference = placeReferencePopulation(
+        corePlaceByKey(key)!.sourceGeoid!,
+      )!.value;
+      check(
+        `pinned ${key}, census ${reference}, seed ${pinned}`,
+        pinned,
+        key,
+        reference,
+      );
+      return;
     }
-    check(
-      `${draw.name} (${draw.key}), census ${reference}, seed ${draw.seed}, base ${base}`,
-      draw.seed,
-      draw.key,
-      reference,
-    );
-    return;
-  }
-  throw new Error(`no drawn place above ${LARGE}: ${tried.join("; ")}`);
-}, 1_200_000);
+    const tried: string[] = [];
+    for (let i = 0; i < 400; i += 1) {
+      const draw = drawPlace(
+        createHash("sha256").update(`${base}:${i}`).digest("hex"),
+        "world-counted-weight-release",
+      );
+      const geoid = corePlaceByKey(draw.key)?.sourceGeoid;
+      const reference = geoid ? placeReferencePopulation(geoid)?.value : null;
+      if (!reference || reference <= LARGE || draw.key === WASHINGTON.key) {
+        tried.push(`${draw.name}: ${reference ?? "no population"}`);
+        continue;
+      }
+      check(
+        `${draw.name} (${draw.key}), census ${reference}, seed ${draw.seed}, base ${base}`,
+        draw.seed,
+        draw.key,
+        reference,
+      );
+      return;
+    }
+    throw new Error(`no drawn place above ${LARGE}: ${tried.join("; ")}`);
+  },
+  DRAWN_TIMEOUT,
+);
