@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Follows core-old-imports-14 (PR #4773). One module per session; start with the smallest leaf the opening builders share.
 
 Oct 20 (pool feeder): spec written; the grep on this branch also lists opening-people.ts, town-workplaces.ts, work-schedules.ts and tooling/generated-world.ts, which no child covered, so three split items were created; the rest already have children.
+
+Split Oct 17 (claude/old-imports-town-households) into core-old-imports-town-households (built), core-old-imports-opening-work, core-old-imports-opening-employment, core-old-imports-population and core-old-imports-tooling. This item closes when all five are done and the grep prints nothing. The current parent acceptance and later split requirements remain in force.

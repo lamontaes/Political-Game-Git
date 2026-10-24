@@ -5,7 +5,7 @@ import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
   getNameCorpus,
   givenNamePoolForStatedGender,
-} from "../simulation/names-data";
+} from "../core2/gov-rules/names-data";
 import {
   searchCorePlaces,
   corePlaceStateIdentities,
