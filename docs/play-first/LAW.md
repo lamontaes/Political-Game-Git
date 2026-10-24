@@ -119,13 +119,15 @@ Sources are cited as `file:line` on main at the time above: `OD` is `docs/coordi
 
 ## Also binding on the lane
 
+- "Lane edits director and English files (owner, Oct 24): play-first lane agents may edit `src/director`, `src/english` and `data/english` directly for lane items; the Words session reviews those PRs (`Review: words` in the PR body); the merger does not send a lane PR back for touching those files." (owner, Oct 24; OD, "Oct 24: rulings")
+
 - "Play first (owner, Oct 24): "Only the bare minimum needs to be put in the game right now. I still can't play the game."" (OD:20)
 - "The play-first lane (owner, Oct 24): all playtest work in one lane with one owner (docs/play-first/), run by many agents in turn; every assignment SMART and time-boxed; push constantly so nothing is lost between agents; the owner's rulings in LAW.md are the lane's law." (OD:21)
 
 ## Conflicts, flagged (newest wins unless the older makes more sense)
 
-- **Budgets.** The Oct 20 menu lists Budgets under Politics at all times (OD:76); the Oct 24 read says "No budgets for a 17-year-old" (OD:24). Oct 24 wins: Budgets shows once the player holds a seat or files (item `play-first-14-budgets-hidden-until-relevant`).
-- **Custom world on New game.** Oct 14 lists Start a life, Custom world, New world (OD:215) and puts a custom start in dev mode (OD:142); Oct 24 says Start a life goes first and the two world modes are combined or explained (OD:24). Oct 24 wins on order and merging.
-- **Issues.** REG:149 says "Issues follows this register, not its mockup"; MOCKS:29 records the owner rejecting a plain list. Both hold: Issues is never a plain list; its contents follow the register.
+- **Budgets.** The Oct 20 menu lists Budgets under Politics at all times (OD:76); the Oct 24 read says "No budgets for a 17-year-old" (OD:24). **Ruled (owner, Oct 24, "go ahead"; newest wins):** Budgets is hidden until it is relevant to the player: they hold office, have filed, or are of age to vote. The Oct 20 "always shown" line is superseded (item `play-first-14-budgets-hidden-until-relevant`).
+- **Custom world on New game.** Oct 14 lists Start a life, Custom world, New world (OD:215) and puts a custom start in dev mode (OD:142); Oct 24 says Start a life goes first and the two world modes are combined or explained (OD:24). **Ruled (owner, Oct 24, "go ahead"):** one button, Start a life; the world modes (custom, watch) live under one Advanced link beneath it; the Oct 14 dev-mode custom start stands for the custom world (item `play-stop-13-start-a-life-or-new-world`).
+- **Issues.** REG:149 says "Issues follows this register, not its mockup"; MOCKS:29 records the owner rejecting a plain list. **Ruled (owner, Oct 24, "go ahead"):** law cards per the mock, not a plain list; the register's list line is superseded (item `play-first-12-politics-screen-to-mock-b`).
 - **Populations on the town list.** The Oct 24 read asks for "the populations shown are the simulated ones" (OD:24); a town opens at its real Census size (OD:95). Both hold: the list shows the count the world opens with, from the one source the world builds from.
 - **State legislators on Politics.** The Oct 16 ruling keeps every legislator behind a division filter (OD:373); `play-stop-05`'s done-when asks for one per chamber. OD:373 wins: the player's own come first, everyone stays behind the filter.

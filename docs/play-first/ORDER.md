@@ -28,7 +28,7 @@ What makes it his game: the people are the ones he made, nobody stands around wi
 11. `play-stop-01-talk-says-nothing-a` · 4 h · Talking to his mother she opens from her life or the day, with four replies that move the talk. · Read #5914. (The acceptance requires real choices in every talk.)
 12. `play-stop-01-talk-says-nothing-b` · 4 h · A moment that stops him for someone says who they are and why they came, and he answers it.
 13. `play-first-01-start-a-life-first` · 3 h · New game opens with Start a life first and one world choice beneath it.
-14. `play-stop-13-start-a-life-or-new-world` · 2 h · Each choice left under New game says in one line what it starts; dimmed entries say why.
+14. `play-stop-13-start-a-life-or-new-world` · 2 h · New game is one button, Start a life; world modes under one Advanced link; dimmed entries say why.
 15. `play-first-03-creator-date-fields-aligned` · 1 h · Month, day and year line up in the creator.
 16. `play-first-04-town-list-font-and-populations` · 3 h · The town list is in the states' font and shows the population the world opens with.
 17. `play-stop-14-town-list-stops-at-400` · 3 h · Every town reachable, each with a count, same-named towns showing their county.
@@ -42,7 +42,7 @@ What makes it his game: the people are the ones he made, nobody stands around wi
 25. `play-stop-05-politics-lists-wrong-officials-b` · 3 h · His mayor, council terms that make sense, every party holding seats.
 26. `play-first-12-politics-screen-to-mock-a` · 4 h · Government drawn as the mock: chamber picture, party split bar, votes as bars.
 27. `play-first-12-politics-screen-to-mock-b` · 4 h · Issues as law cards, not a list.
-28. `play-first-14-budgets-hidden-until-relevant` · 2 h · No Budgets tab at 17; it appears once he files or holds a seat.
+28. `play-first-14-budgets-hidden-until-relevant` · 2 h · No Budgets tab at 17; it appears once he holds office, files, or can vote.
 29. `play-first-18-politics-guide` · 3 h · A Guide in Politics says what each tab is and how he could run here.
 30. `play-stop-18-race-line-unreadable` · 2 h · Campaigns says in a sentence how the race stands and who he is running against.
 31. `play-first-13-campaign-screen-to-mock-a` · 3 h · Campaigns appears once he files, headed in words, standing and polls only, no ON-BALLOT code or stray 0.
