@@ -20,6 +20,7 @@ Paste prompt for the owner:
 Run it when the role starts, when the owner asks "where are we", and after every usage reset. Copy and work the list:
 
 ```
+- [ ] The play-first lane first: read `docs/play-first/PROGRESS.md` (newest handoff lines, `needs-from:` to relay, items stuck past 3 hours)
 - [ ] Clock (`date`) and weekly usage; above ~75% go lean
 - [ ] Merges in the last hours; none means a merger died: find which
 - [ ] Mergers alive, each in its own share (merger skill)
@@ -61,7 +62,8 @@ The CTO screens every English-engine batch before the owner sees it (`words-engi
 
 Follow `civic-reports`:
 
-- Lead with what the player can do now, in plain words.
+- Lead with the play-first lane: how far the owner can now play toward its one acceptance (`docs/play-first/README.md`), the `ORDER.md` lines done since the last report, and what the lane needs from him.
+- Then what the player can do now, in plain words.
 - Then the numbers that change what he does, compared with a named earlier time: merged, sent back and why, open PRs, the pool, main's state, and lead sessions' matrix counts.
 - Never say "wired" or "done" without the row or record that shows it.
 - PR numbers never come first and never stand alone.

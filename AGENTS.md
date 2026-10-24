@@ -27,6 +27,7 @@ This section overrides anything heavier elsewhere in this file, in a skill or in
 - **Nothing waits** (owner, Oct 12). If you need another area's piece, build against the smallest registered stopgap on your own branch and say so in the PR body. If a design is the owner's call, follow "Owner decisions are flagged, never waited on" below. The only stop is running out of usage; then set your item back to open with a one-line note and push.
 - **Mergers merge** (owner, Oct 20). Merger sessions follow `merger` in their own share (PR number parity or mod 4, newest or oldest first) and pin each merge to the head they checked. Nobody merges their own PR. The CTO merges only its own docs, skill and pool PRs, and audits the mergers' work (`merge-audit`).
 - **Lead sessions** (owner, Oct 20). A big cross-system job (wiring every law, the outcome web, personality) runs as one Opus lead with Sonnet helpers. It writes a checker and a matrix (`wiring-audit`), opens one PR per family, and never says "wired" without the matrix row.
+- **The play-first lane** (owner, Oct 24). All playtest work runs in one lane (`docs/play-first/`, skill `play-first`), worked by many agents in turn; the lane is the only writer in `src/bench` until the owner lifts it, and other sessions file `src/bench` needs as pool items for it.
 - **Status lives in the work:** the pool item's Notes and the PR body. A lead session also keeps `docs/reports/<job>-<date>.md`. Per-session status files in `docs/coordination/` are history.
 
 ## Models, effort and helpers
