@@ -199,6 +199,9 @@ export function enrichCivicInputs(
       );
       continue;
     }
+    // The staff are the office's jobs at the opening; a later hire or a
+    // clerk who leaves does not change the list.
+    stopgap("SG-CORE-public-office-staff-opening-only");
     const staff: NonNullable<PublicOrganization["staff"]>[number][] = [];
     const staffSources = new Set<string>();
     for (const job of jobsByOrganization.get(organization.id) ?? []) {

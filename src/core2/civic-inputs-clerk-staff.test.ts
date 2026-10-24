@@ -61,7 +61,8 @@ it("puts every municipal and county clerk job on its government office's staff",
         `${where}: job ${job.id} (${job.title}) at organization ${job.organizationId} ` +
           `-> office staff ${office?.staff?.map((row) => row.jobId).join(",") ?? "none"}\n`,
       );
-      // A clerk hired after the opening is not on the opening's staff list.
+      // The staff list is the opening's (SG-CORE-public-office-staff-opening-only):
+      // a clerk hired since is printed above, not held to it.
       if (!atOpening.has(job.id)) continue;
       expect(
         office,

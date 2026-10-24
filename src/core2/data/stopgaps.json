@@ -5536,5 +5536,17 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-public-office-staff-opening-only",
+    "kind": "partial-model",
+    "file": "src/core2/civic-inputs.ts",
+    "line": 204,
+    "whatItFakes": "A public office's staff are the clerk and contact jobs it held at the opening. A clerk hired later is not on the list, and one who leaves stays on it, so filing (filing-clerk.ts) and a resident's callback (life.ts) can name a person who no longer holds the job.",
+    "why": "The civic inputs are built once from the opening's records; nothing updates an office's staff when the jobs engine hires or a job ends.",
+    "addedBy": "claude/civic-inputs-clerk-staff",
+    "addedAt": "2026-10-24",
+    "replacement": "An office's staff follow its jobs: a hire or a job's end at a public office updates its staff the day it happens (pool item core-public-office-staff-follows-jobs).",
+    "status": "open"
   }
 ]
