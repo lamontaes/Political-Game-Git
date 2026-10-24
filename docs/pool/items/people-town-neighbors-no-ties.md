@@ -18,6 +18,6 @@ source: added with npm run pool -- add
 
 **Done when.** In Cave, Missouri and Ardmore, South Dakota (seeds above) and two more drawn places, residents open with ties to other townspeople (neighbors, coworkers, classmates) by record id, and src/core2/news.test.ts passes unchanged there; the cause is named by line in the PR.
 
-**Files.** src/core2/opening-peers.ts, src/core2/modules/contact.ts
+**Files.** src/core2/opening-peer-network.ts (the opening ties), and the contact engine the life loop runs (src/core2/life-contact-frequency.test.ts covers it)
 
 **Notes.** TODO
