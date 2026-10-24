@@ -91,10 +91,8 @@ export function notifyCountedDeaths(
     // somebody in or gives them an invented past or medical cause.
     const deceased = api.state.husks.get(deceasedId);
     if (!deceased) continue;
-    // stopgapId: SG-CORE-counted-death-relations
-    // Opening full-to-counted family ties may have no closeness record.
-    // Notify them, but leave grief to the existing relationship reader.
-    api.stopgap("SG-CORE-counted-death-relations");
+    // The opening records each full person's tie to a counted relative
+    // (state.ts, with openingClosenessHours), so the grief reader finds it.
     const witnesses = new Set(deceased.familyIds ?? []);
     for (const key of api.state.relationshipsByPerson.get(deceasedId) ?? []) {
       const tie = api.state.relationships.get(key);
