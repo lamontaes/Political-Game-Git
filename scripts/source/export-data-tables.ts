@@ -8,7 +8,7 @@ const tables = [
   ["town-rent", () => import("../../src/core2/reference/town-rent.generated")],
   [
     "town-employment",
-    () => import("../../src/simulation/living-world/town-employment.generated"),
+    () => import("../../src/core2/reference/town-employment.generated"),
   ],
   [
     "town-bank-shapes",

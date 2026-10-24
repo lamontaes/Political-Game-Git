@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-grudge-person
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T14:22:58.891Z
 ---
 
 **What.** A grudge drive's confrontation is the only ordinary source of the negative hours that make relationships.fall-out run (src/core2/modules/drives.ts:1809), and it needs a living person as its target (:1583), but grudge targets are employers, landlords and closed businesses (data/drives.json, the grudge rows). So two people never fall out in play outside an unrewarded bribe. Let a grudge name the person behind the harm (the owner who laid you off, the landlord who evicted you) when the record names one.
