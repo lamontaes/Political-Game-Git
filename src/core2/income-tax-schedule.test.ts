@@ -9,6 +9,8 @@ import { enactLaw, lawChain, lawInForce, openLaws } from "./modules/laws";
 import { incomeTaxAct } from "./law-reach/group-b-money";
 import { graduatedSchedule, reachParameter } from "./law-reach/group-b-people";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { withholdingFor } from "./tax-withholding";
+import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
 
 it("keeps a starting schedule repealed through reviews and restores it once without overwriting another act", () => {
   const draw = drawPlace(
@@ -141,4 +143,82 @@ it("keeps a starting schedule repealed through reviews and restores it once with
   next();
   otherReview(false);
   expect(current().id).toBe(laterGraduated.id);
+});
+
+it("keeps a territory's own income tax in place of the federal one when its legislature flattens it", () => {
+  // A place drawn from all 56 whose starting income tax stands in place of
+  // the federal one (26 U.S.C. 931 to 933), read from the law data.
+  const jurisdictions = startingLaw.jurisdictions as unknown as Record<
+    string,
+    readonly { series?: string; terms?: { replacesFederal?: boolean } }[]
+  >;
+  const replaces = (state: string) =>
+    (jurisdictions[state] ?? []).some(
+      (row) =>
+        row.series === "income-tax" && row.terms?.replacesFederal === true,
+    );
+  const base = randomBytes(16).toString("hex");
+  let draw = drawPlace(base, "territory-income-tax");
+  for (let n = 1; n < 400 && !replaces(draw.state); n++)
+    draw = drawPlace(`${base}:${n}`, "territory-income-tax");
+  expect(replaces(draw.state), `no territory in 400 draws (${base})`).toBe(
+    true,
+  );
+  const where = `${draw.name} (${draw.key}), seed ${draw.seed}`;
+  const core = createLifeCore(
+    {
+      seed: draw.seed,
+      startedAt: "2026-01-05",
+      people: [],
+      households: [],
+      organizations: [],
+      jobs: [],
+      focusPersonIds: [],
+      focusPlaceIds: [],
+      calendarDates: [],
+      gaps: [],
+      placeMetadata: { placeKey: draw.key },
+    },
+    { data: worldCoreData(), modules: [], scheduledWork: false },
+  );
+  openLaws(core);
+  const api = coreAPI(core);
+  const federalSetAside = () =>
+    lawInForce(api, "income-tax").levels.find((l) => l.level === "federal")
+      ?.setAside;
+  const paycheck = () =>
+    withholdingFor({
+      paidMinor: 200_000,
+      periodDays: 14,
+      yearToDateMinor: 0,
+      incomeTax: lawInForce(api, "income-tax"),
+      socialSecurity: lawInForce(api, "social-security-tax"),
+      medicare: lawInForce(api, "medicare-tax"),
+    }).map((line) => `${line.level}:${line.tax}`);
+  const opening = lawInForce(api, "income-tax").levels.find(
+    (l) => l.level === "state",
+  )!.row!;
+  expect(federalSetAside(), where).toBeDefined();
+  advanceCore(core, addDays(makeIsoDate(core.date), 1));
+  // Its legislature repeals the graduated tax: the act flattens it, as the
+  // Northern Mariana Islands' SB 9 did in a played year (seed 0000cfeb...).
+  incomeTaxAct(api, {
+    key: "us-policy-positions:fiscal.graduated-income-tax",
+    level: "state",
+    lawId: "fixture:territory-flatten",
+    enacting: false,
+    graduated: true,
+  });
+  const flat = lawInForce(api, "income-tax").levels.find(
+    (l) => l.level === "state",
+  )!.row!;
+  expect(flat.id, where).not.toBe(opening.id);
+  expect(flat.value, where).toBe(reachParameter("stateFlatIncomeTaxPercent"));
+  expect(federalSetAside(), `${where}: ${flat.id}`).toBeDefined();
+  const lines = paycheck();
+  expect(lines, where).not.toContain("federal:income");
+  expect(lines, where).toContain("state:income");
+  expect(lines, where).toContain("federal:social-security");
+  expect(lines, where).toContain("federal:medicare");
+  console.log(`TERRITORY ${where}: ${flat.id}, paycheck ${lines.join(", ")}`);
 });
