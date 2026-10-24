@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/affectionate-clarke-7dknew
-pr:
+pr: #5879
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T05:04:28.044Z

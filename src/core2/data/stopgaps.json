@@ -56,7 +56,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): marriageReferenceAge = 25, ESTIMATED from U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC), https://ww…",
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): marriageReferenceAge = 25, ESTIMATED from U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC), https://ww\u2026",
     "status": "resolved"
   },
   {
@@ -68,7 +68,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established. Resolved by P15 part 2b (OPUS-PEOPLE, 2026-10-10): careHours is now ESTIMATED from the 2025 ATUS caregiving time per participant-day (2.23 hours), as the CTO directed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): careHours = 2.23, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng…",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): careHours = 2.23, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng\u2026",
     "status": "resolved"
   },
   {
@@ -80,7 +80,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): civicHours = 2.18, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng…",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): civicHours = 2.18, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng\u2026",
     "status": "resolved"
   },
   {
@@ -116,7 +116,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): moodHalfLifeDays = 1, ESTIMATED from Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119–127, doi:10.1007/s11031…",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): moodHalfLifeDays = 1, ESTIMATED from Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119\u2013127, doi:10.1007/s11031\u2026",
     "status": "resolved"
   },
   {
@@ -248,7 +248,7 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): moneyBufferDays = 19, ESTIMATED from JPMorgan Chase Institute 2023 cash buffer days (spread 13–43).",
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): moneyBufferDays = 19, ESTIMATED from JPMorgan Chase Institute 2023 cash buffer days (spread 13\u201343).",
     "status": "resolved"
   },
   {
@@ -365,7 +365,7 @@
     "file": "src/core2/population.ts",
     "line": 519,
     "whatItFakes": "Later Census, CES, HUD and OEWS data used as labeled January 2021 estimates.",
-    "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior. Resolved Oct 14, 2026 (start/inauguration-2025): the owner ruled every game starts on January 20, 2025 (gameStartDate) and that data calibrates the simulation without defining the game's date, so the ACS 2020–2024, CES, HUD and OEWS vintages now calibrate an opening they nearly coincide with, not a January 2021 one.",
+    "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior. Resolved Oct 14, 2026 (start/inauguration-2025): the owner ruled every game starts on January 20, 2025 (gameStartDate) and that data calibrates the simulation without defining the game's date, so the ACS 2020\u20132024, CES, HUD and OEWS vintages now calibrate an opening they nearly coincide with, not a January 2021 one.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "January 2021 source vintages for population, employment, pay, household costs and conditions.",
@@ -380,7 +380,7 @@
     "why": "Retain a real generated job while its occupation/local wage record is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source the same occupation and place wage for the relevant era. Done Oct 12 (OPUS-CORE): fallbackAnnualWageMinor = 4449120, ESTIMATED from BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_…",
+    "replacement": "Source the same occupation and place wage for the relevant era. Done Oct 12 (OPUS-CORE): fallbackAnnualWageMinor = 4449120, ESTIMATED from BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_\u2026",
     "status": "resolved"
   },
   {
@@ -640,11 +640,11 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/parameters.json",
     "line": 1719,
-    "whatItFakes": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
+    "whatItFakes": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943\u20131954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementClaimAgeYears = 64, ESTIMATED from SSA Annual Statistical Supplement 2022, Table 6.B5, 'Number and average age of retired-worker awardees, and percentage d…",
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementClaimAgeYears = 64, ESTIMATED from SSA Annual Statistical Supplement 2022, Table 6.B5, 'Number and average age of retired-worker awardees, and percentage d\u2026",
     "status": "resolved"
   },
   {
@@ -692,7 +692,7 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementMinimumCoveredMonths = 120, SOURCED from Social Security Act §214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for w…",
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementMinimumCoveredMonths = 120, SOURCED from Social Security Act \u00a7214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for w\u2026",
     "status": "resolved"
   },
   {
@@ -704,7 +704,7 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementBenefitReferenceCoveredMonths = 420, SOURCED from Social Security Act §215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation…",
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementBenefitReferenceCoveredMonths = 420, SOURCED from Social Security Act \u00a7215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation\u2026",
     "status": "resolved"
   },
   {
@@ -845,7 +845,7 @@
     "file": "src/core2/deep-past.ts",
     "line": 139,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
-    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here. Resolved Oct 16, 2026 (core-standins-opening-deletions): by the two-level rule only the player's circle and people they meet carry history, and a person filled in later is seeded from the world; the shared-past generator for everyone is not built.",
+    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player\u2019s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here. Resolved Oct 16, 2026 (core-standins-opening-deletions): by the two-level rule only the player's circle and people they meet carry history, and a person filled in later is seeded from the world; the shared-past generator for everyone is not built.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Generate source-qualified classmates, coworkers, neighbors and congregation acquaintances for everyone, with dated pair-keyed shared moments and realistic network spreads. Preserve genuine supplied shared history.",
@@ -1390,7 +1390,7 @@
     "kind": "aggregate-voters",
     "file": "src/core2/opening-voter-groups.ts",
     "line": 1,
-    "whatItFakes": "Counted adults in the town vote as one group per age band: eligible voters are the count times the place's ACS 2020–2024 citizen share of adults blended with the state's CPS 2024 share for the band, turnout is the state's CPS 2024 citizen turnout (national rows where no state row exists, as for the island areas), and every group starts with its county's 2024 presidential two-party margin as its lean (the state's in Alaska, which reports by house district).",
+    "whatItFakes": "Counted adults in the town vote as one group per age band: eligible voters are the count times the place's ACS 2020\u20132024 citizen share of adults blended with the state's CPS 2024 share for the band, turnout is the state's CPS 2024 citizen turnout (national rows where no state row exists, as for the island areas), and every group starts with its county's 2024 presidential two-party margin as its lean (the state's in Alaska, which reports by house district).",
     "why": "In a two-level town only about 60 named people vote individually; elections need the counted population to vote from its own records (PLAY's report on GOV's elections). Resolved by the one-electorate change (owner, Oct 14, 2026): the groups are deleted; every counted adult votes from their own record and place in the town's lean order (src/core2/electorate.ts), counted votes are scaled by the place's ACS citizen share (src/core2/electorate-places.ts citizenShareOf), and CPS 2024 turnout is a check in src/core2/electorate.test.ts, not an input.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
@@ -2932,11 +2932,11 @@
     "kind": "faked-mechanic",
     "file": "src/bench/player.ts",
     "line": 108,
-    "whatItFakes": "While the player skips, the character’s own pick (the core’s chooseAct selection) is resumed as a player answer, so the saved act carries a controlled-choice reason key.",
-    "why": "The core’s player clock has no resume kind that records an act as the character’s own decision. Resolved by OPUS-PLAY (2026-10-12): the bench resumes with OPUS-CORE's own-choice kind (core2-api-v12), so the act is saved as the character's own decision.",
+    "whatItFakes": "While the player skips, the character\u2019s own pick (the core\u2019s chooseAct selection) is resumed as a player answer, so the saved act carries a controlled-choice reason key.",
+    "why": "The core\u2019s player clock has no resume kind that records an act as the character\u2019s own decision. Resolved by OPUS-PLAY (2026-10-12): the bench resumes with OPUS-CORE's own-choice kind (core2-api-v12), so the act is saved as the character's own decision.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "An OPUS-CORE resume kind that saves the act as the character’s own decision while control is held.",
+    "replacement": "An OPUS-CORE resume kind that saves the act as the character\u2019s own decision while control is held.",
     "status": "resolved"
   },
   {
@@ -2948,7 +2948,7 @@
     "why": "A day of the full 40,000-person town takes about 13 seconds, too slow to play. Resolved by OPUS-PLAY (2026-10-12): /play builds the whole place two-level (OPUS-CORE), and a year runs in 39 s; the developer page's size field is a tool, not a stand-in.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-CORE’s two-level population and speed work, after which the bench builds the full place.",
+    "replacement": "OPUS-CORE\u2019s two-level population and speed work, after which the bench builds the full place.",
     "status": "resolved"
   },
   {
@@ -2982,11 +2982,11 @@
     "kind": "faked-mechanic",
     "file": "src/bench/campaign.ts",
     "line": 56,
-    "whatItFakes": "Before a door-knocking round, the bench fills in from the counts as many of the town’s households as the round could reach, so the campaign engine has doors to knock in the two-level world.",
+    "whatItFakes": "Before a door-knocking round, the bench fills in from the counts as many of the town\u2019s households as the round could reach, so the campaign engine has doors to knock in the two-level world.",
     "why": "knockDoors walks only the households already in the core; in the two-level world most of the town is counts.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-GOV’s knockDoors (with OPUS-CORE’s fillInPerson) filling in each household it actually reaches. Resolved by Second Session D, October 15, 2026: removed bench fillDoors; campaigns.walkDoors already visits both population tiers and knockDoors fills only the household whose adult actually opens.",
+    "replacement": "OPUS-GOV\u2019s knockDoors (with OPUS-CORE\u2019s fillInPerson) filling in each household it actually reaches. Resolved by Second Session D, October 15, 2026: removed bench fillDoors; campaigns.walkDoors already visits both population tiers and knockDoors fills only the household whose adult actually opens.",
     "status": "resolved"
   },
   {
@@ -2994,8 +2994,8 @@
     "kind": "assumed-data",
     "file": "src/bench/results.ts",
     "line": 24,
-    "whatItFakes": "Election night names a drawn challenger by repeating the voting module’s private identity draw (same seed, seat key and role).",
-    "why": "The voting module draws challengers’ identities privately and exports no name reader.",
+    "whatItFakes": "Election night names a drawn challenger by repeating the voting module\u2019s private identity draw (same seed, seat key and role).",
+    "why": "The voting module draws challengers\u2019 identities privately and exports no name reader.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger). Resolved Oct 16, 2026: election night reads candidateIdentity (src/core2/candidate-identity.ts), exported by the voting module, and the bench's own repeat of the draw is deleted.",
@@ -3018,7 +3018,7 @@
     "kind": "text",
     "file": "src/bench/data/controls.json",
     "line": 3,
-    "whatItFakes": "Where OPUS-WORDS' mined bank has no name for an act yet (care for a relative, join an association, hold a meeting, visit an office), the play screen names its choice button from a bench table of control names (“Look after”).",
+    "whatItFakes": "Where OPUS-WORDS' mined bank has no name for an act yet (care for a relative, join an association, hold a meeting, visit an office), the play screen names its choice button from a bench table of control names (\u201cLook after\u201d).",
     "why": "The mined choice-names bank (data/english/parts/choice-names.json) covers about half the core's acts; a raw action id is not something a player should read.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
@@ -3030,8 +3030,8 @@
     "kind": "faked-mechanic",
     "file": "src/bench/world.ts",
     "line": 179,
-    "whatItFakes": "A /play town whose opening has a kin move dated after the opening day opens without the core’s opening economy (retirement income, customers) and outside market, on the finance-only route.",
-    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”). Resolved Oct 16, 2026 (core-kin-moves-clamped-to-opening): kin moves are dated no later than the opening day (opening-kin.ts), so no town fails the income check; Valmont, Colorado and 15 other drawn places open on the full economy, and the bench's fallback is deleted.",
+    "whatItFakes": "A /play town whose opening has a kin move dated after the opening day opens without the core\u2019s opening economy (retirement income, customers) and outside market, on the finance-only route.",
+    "why": "OPUS-PEOPLE\u2019s opening kin moves can be dated after the opening day, which the core\u2019s retirement-income step refuses (\u201cPast fact outside recipient lifetime/opening\u201d). Resolved Oct 16, 2026 (core-kin-moves-clamped-to-opening): kin moves are dated no later than the opening day (opening-kin.ts), so no town fails the income check; Valmont, Colorado and 15 other drawn places open on the full economy, and the bench's fallback is deleted.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-12",
     "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
@@ -4560,7 +4560,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -4572,7 +4572,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -4641,7 +4641,7 @@
     "file": "src/core2/modules/legislature.ts",
     "line": 3815,
     "whatItFakes": "Item vetoes now strike or reduce appropriation increases and use exact override fractions and joint totals. Special deadlines, external assent, and some protected or mixed appropriation categories remain incomplete.",
-    "why": "Session C wires surviving amounts into budget enactment. Imported legal details remain estimated; unsupported territorial reductions are unavailable, and mixed administration appropriations are blocked where protected branch spending cannot be separated. The played year now proves struck and reduced increases reaching the adopted budget, treasury providers and named owners. The owners’ learned attribution and director scene remain unproved.",
+    "why": "Session C wires surviving amounts into budget enactment. Imported legal details remain estimated; unsupported territorial reductions are unavailable, and mixed administration appropriations are blocked where protected branch spending cannot be separated. The played year now proves struck and reduced increases reaching the adopted budget, treasury providers and named owners. The owners\u2019 learned attribution and director scene remain unproved.",
     "addedBy": "OFFICE-STATE",
     "addedAt": "2026-10-14",
     "replacement": "An item veto in the legislature engine: the executive strikes (or reduces, where the data allows) budget lines, each item goes back for its override vote at the data's share, and the budgets engine adopts what stands.",
@@ -4982,7 +4982,9 @@
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
     "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-24",
+    "resolution": "Full couples' plan-a-child choice carries a web term in the plan score: renewalWebWeight times the birth-rate factor that lands on the mother's own age and home, less one (webFactorFor in src/core2/births-plan.ts), the same factor the counted women of that age and home are scaled by (src/core2/births-counted.ts). Unemployment, home prices and the abortion law now move full couples' plans, pregnancies and births as they move the counted tier's. The unemployment link is read through the factor like the others, so its effect is shared with the work and income terms. src/core2/births-full-web.test.ts follows a shifted web month row to the plans, pregnancies and births it tips in a played year, by record id."
   },
   {
     "id": "SG-TRAITS-counted-health-no-trait",
@@ -5535,6 +5537,18 @@
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-budget-mix",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 0,
+    "whatItFakes": "An island area's state-level government has no spending or revenue by function in the data (Census state finances cover the states and D.C.). Its budget takes the states' residents-weighted function mix, scaled to the area's own all-funds spending a resident where published (Guam, the Virgin Islands, Puerto Rico) and to the median of those where not (American Samoa, the Northern Marianas), with revenue equal to spending.",
+    "why": "public-budget-bases.json holds an all-funds total for three island areas and no breakdown for any; without a budget its treasury is empty and its officials and agencies cannot be paid.",
+    "addedBy": "claude/territory-admin-line",
+    "addedAt": "2026-10-18",
+    "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
     "status": "open"
   },
   {
