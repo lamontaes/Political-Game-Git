@@ -5,12 +5,13 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5953
 blocked-on:
 after: words-bargain-scenes
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** When a passed bill waits on the player's desk as mayor, county executive, governor or president, the legislature puts it in a desk table and the office day stops the player, but no record says the bill was presented, so the director never stages the desk-bill scene; its cause waits on a producer. Presentment of a bill to the executive is a public record in every state and town. This item has the legislature record the presentment, the director size it for the executive, and the desk-bill scene fire from it with the executive's own aide from the staff module, or the clerk where the executive has no aide, the talk naming the bill from the record.
