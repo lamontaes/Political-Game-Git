@@ -289,7 +289,7 @@
       "golden_path": "world",
       "package": "M1-history",
       "test": "A new game in a random place opens on its start date; people have recent life events dated in the years before it; the economy's recent path matches real figures; laws in force show their dated changes before the start; governments show prior years' budgets; the load time and size are measured. (Owner, Oct 10: officials' election records and recent laws with their effects are added with M2 and M3.)",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m1-14-check.ts",
       "passes": false
     },
     {
@@ -309,7 +309,7 @@
       "golden_path": "3",
       "package": "M2-filing",
       "test": "In a random place, the player goes to that place's real filing office, talks to the person there through dialogue choices, picks an office in the filing overlay, states a platform, gathers any required signatures from real people, files once and is on the ballot; an ineligible player is told the rule in words.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m2-03-check.ts",
       "passes": false
     },
     {
