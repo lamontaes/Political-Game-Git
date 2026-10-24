@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/sleepy-carson-f8omzd
 pr: #5847
 blocked-on:

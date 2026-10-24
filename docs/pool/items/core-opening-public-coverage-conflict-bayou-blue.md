@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-coverage
+pr: #5944
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T13:51:04.461Z
 ---
 
 **What.** buildBenchWorld for Bayou Blue, Louisiana (place key 2205175, seed e955294c587729831a6cee88a3d0927ecf6a630617722d4bd7ad78cc74505e07) throws 'Conflicting represented public owner coverage: gus2025:166006/jurisdiction_ddca97177033ff5b' at src/core2/opening-customers.ts:1427 on main 014b3577f8, so the town cannot be played at all. The paired speed guard drew it on #5899 and failed on the base run before measuring anything. Two coverage rows for the same government (gus2025:166006) and place carry different represented resident counts.
