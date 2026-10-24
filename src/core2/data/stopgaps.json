@@ -6426,5 +6426,17 @@
     "addedAt": "2026-10-18",
     "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-counted-readers-stories",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/news.ts",
+    "line": 554,
+    "whatItFakes": "A printed story reaches an outlet's counted followers only as a count (the press engine's countedFollowers at delivery). Their groups' views do not move, so a story about the town's conditions, a policy or a law moves only the full readers it reached.",
+    "why": "A counted group's view is read from its opening profile alone; the views engine keeps no per-group stance that a story could move, and filling a member in would have to carry that moved stance.",
+    "addedBy": "effects lead (web-views-hear-conditions-full-readers)",
+    "addedAt": "2026-10-24",
+    "replacement": "people-counted-readers-stances-from-stories: each counted group a story reached moves by the full reader's rule times its count, citing the story's news record, and a member filled in from that group holds the moved view.",
+    "status": "open"
   }
 ]
