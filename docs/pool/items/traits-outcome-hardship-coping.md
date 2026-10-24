@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-outcome-hardship-coping
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T20:00:36.736Z
 ---
 
 **What.** A layoff or an eviction now raises a person's stress by their temperament (src/core2/emotion.ts, weights from Bolger and Schilling 1991). But what they do next does not read that stress. Filing for unemployment, applying for a loan and moving away are weighed the same as on any other day, and falling behind on a debt gives no stress at all. Make the coping decisions that already run (jobs-benefits.file-claim, credit.borrow, moves.move-away) read the hardship's stress through the shared trait helper at a size taken from a study, and give missed debt payments the same Holmes and Rahe stress as a layoff, so outcome.hardship-coping is read by its owning engine.
