@@ -686,6 +686,18 @@ function pastTerms(
       } as unknown as ModuleRow);
     return;
   }
+  // An office its law created has no service before its first term: a term
+  // that would have begun earlier is that first term.
+  const created = office.firstTermStart;
+  if (created && start <= created) {
+    table(api, "terms").put({
+      ...term,
+      startDate: created,
+      serviceStart: created,
+      ...(office.elected ? { elected: electionBehind(office, created) } : {}),
+    } as unknown as ModuleRow);
+    return;
+  }
   // A term read as ending more than a full term out began at the opening, and
   // so did one whose holder was too young to begin it a full term back.
   const born = Number(term.identity.birthDate.slice(0, 4));
@@ -720,7 +732,9 @@ function pastTerms(
   const firstYear = (k: number) => Number(start.slice(0, 4)) - k * years;
   while (
     prior > 0 &&
-    firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm")
+    (firstYear(prior) - born < tenureYears("minimumAgeAtFirstTerm") ||
+      (created !== undefined &&
+        termStartInYear(office, shiftYears(start, -prior * years)) < created))
   )
     prior -= 1;
   // A state that limits legislative terms caps the service before today.

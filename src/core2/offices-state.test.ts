@@ -153,3 +153,46 @@ it(`seats no one in an office before its first term, and puts its seat on its fi
     `office-later ${where}: ${officeId} has no term or official before ${pick.start}; its first election is ${contest!.id}, ${filledBy}; its first term is ${first[0]!.id} from ${first[0]!.startDate}`,
   );
 }, 1_800_000);
+
+it(`keeps an office's generated history from its first term on, when the game opens on or after it (seed ${seed})`, () => {
+  const pick =
+    later[parseInt(stableHash(seed).slice(0, 8), 16) % later.length]!;
+  const localities = [...placeLocalities(pick.stateKey)].sort((a, b) =>
+    a.key.localeCompare(b.key),
+  );
+  const locality =
+    localities[
+      parseInt(stableHash(`${seed}:place`).slice(0, 8), 16) % localities.length
+    ]!;
+  const officeId = `office:${pick.stateKey}:${pick.key}`;
+  setBookkeeping(false);
+  // The day the office's first term begins, and a later opening two years on.
+  const later2 = `${Number(pick.start.slice(0, 4)) + 2}${pick.start.slice(4)}`;
+  for (const opening of [pick.start, later2]) {
+    const where = `${locality.displayName} (${locality.key}), seed ${seed}, opening ${opening}`;
+    const { core } = buildBenchWorld(seed, makeIsoDate(opening), {
+      twoLevel: true,
+      placeKey: locality.key,
+    });
+    const terms = (
+      coreAPI(core)
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .rows() as unknown as TermRow[]
+    ).filter((t) => t.officeId === officeId);
+    expect(terms.length, `${where}: ${officeId} is held`).toBeGreaterThan(0);
+    for (const t of terms) {
+      expect(
+        t.startDate >= pick.start,
+        `${where}: ${t.id} starts ${t.startDate}, before ${pick.start}`,
+      ).toBe(true);
+      expect(
+        (t.serviceStart ?? t.startDate) >= pick.start,
+        `${where}: ${t.id} service from ${t.serviceStart}, before ${pick.start}`,
+      ).toBe(true);
+    }
+    console.info(
+      `office-later ${where}: ${terms.map((t) => `${t.id} from ${t.startDate} (service ${t.serviceStart})`).join("; ")}`,
+    );
+  }
+}, 600_000);
