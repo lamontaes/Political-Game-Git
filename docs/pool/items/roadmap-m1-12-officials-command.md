@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-m1-12
 pr: #5881
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T05:15:41.978Z
 ---
 
 **What.** Roadmap M1-12, important people everywhere, reads passes: false with command null on main. Its test says to click any official in any state and see a full record with personality, history, relationships and the positions behind their votes. The officials module seats every member of Congress, governor, statewide executive and legislator as a person, and the play screen opens a person with personCard (src/bench/card.ts), so a check can open every serving official's card.

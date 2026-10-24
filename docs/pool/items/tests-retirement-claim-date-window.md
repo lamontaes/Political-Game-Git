@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/retirement-claim-window
+status: open
+claimed-by:
 pr: #5887
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T03:05:09.095Z
+claimed-at:
 ---
 
 **What.** The existing monthly-award case in src/core2/retirement-claims.test.ts fails at line 97 on clean main 768fa518cf973a8ed60c1391d23fee283f52858c. With GOLDEN_PATH_SEED=2ef350736d8ff61f6bcb649626df419a, the drawn Sun Valley, Arizona world finds its nearest constructed claim date 79 days from the target and asserts less than 31. This is the same baseline failure reported while reviewing PR #5224; determine whether the fixture search or claim-date calculation is wrong before changing either.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T03:05:09.095Z
 **Files.** src/core2/retirement-claims.test.ts, src/core2/retirement-claim.ts, src/core2/modules/retirement-claims.ts
 
 **Notes.** Merger 0 reproduced the exact 79-versus-31 assertion on clean main while reviewing PR #5224, 2026-10-23 EDT. Solo case took 46.23 seconds; root seed 2ef350736d8ff61f6bcb649626df419a. The concurrent baseline attempt exited before an assertion and is not evidence.
+
+Sent back 2026-10-24 from PR #5887 (branch claude/retirement-claim-window): Fresh Elfrida AZ draw GOLDEN_PATH_SEED=53c5626c7d647210b14bab298039e0b8 still fails monthly-award best=41 less-than-31 assertion at line 106 after expanded date search; finish on that branch, merge main into it first.
