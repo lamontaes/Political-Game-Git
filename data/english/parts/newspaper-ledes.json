@@ -22,7 +22,7 @@
       "move": "decision-impact",
       "kind": "written",
       "text": "{actor} {action} {record}, a decision that affects {affected}.",
-      "shippable": true,
+      "shippable": false,
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -36,7 +36,7 @@
       "move": "denial-consequence",
       "kind": "written",
       "text": "{actor} rejected {record}, blocking a change to {issue}.",
-      "shippable": true,
+      "shippable": false,
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -50,7 +50,7 @@
       "move": "grant-benefit",
       "kind": "written",
       "text": "{actor} granted {record}, allowing {affected} to {result}.",
-      "shippable": true,
+      "shippable": false,
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -64,7 +64,7 @@
       "move": "vote-purpose",
       "kind": "written",
       "text": "{actor} approved {record} to address {issue} in {place}.",
-      "shippable": true,
+      "shippable": false,
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -78,7 +78,7 @@
       "move": "public-service-impact",
       "kind": "written",
       "text": "{actor} granted {record} to {affected} and began reviewing {issue}.",
-      "shippable": true,
+      "shippable": false,
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
@@ -92,7 +92,7 @@
       "move": "action-next-step",
       "kind": "written",
       "text": "{actor} took up {record}, and the next step is {result}.",
-      "shippable": true,
+      "shippable": false,
       "tag": {
         "move": "deliver-news",
         "key": "news-received"

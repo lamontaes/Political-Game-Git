@@ -1,6 +1,31 @@
 {
   "entries": [
     {
+      "version": "0.22.5",
+      "releasedOn": "2026-10-24",
+      "revision": "c599ba2651f5b512dae9df89adec0d21fb46dad9",
+      "changeIds": [
+        "core-old-imports-schedule-workplace-types",
+        "core-speed-main-year-regression",
+        "demotion-outside-counted-places",
+        "gov-council-ward-residency",
+        "laws-medicaid-medical-debt-link-silent-ridgebury",
+        "macro-mortgage-rate-fhfa-transition-index",
+        "municipal-body-names-by-state",
+        "play-government-state-seat-key",
+        "player-money-year-housing-route",
+        "release-arrears-jobless-writeoff-proof",
+        "release-core2-tests-time-out-on-small-container",
+        "release-pool-done-on-merge-misses",
+        "release-queue-measured",
+        "staff-paid-territory-no-payroll-template",
+        "test-office-clemency-eve",
+        "tests-food-aid-played-year-redraws",
+        "words-authored-parts-not-shippable-sweep",
+        "words-grading-bench"
+      ]
+    },
+    {
       "version": "0.22.4",
       "releasedOn": "2026-10-23",
       "revision": "66f2dbf0a968e04026abf63236c019fb3c42f820",
