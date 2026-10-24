@@ -2544,6 +2544,19 @@ function endHouseholdFlows(
   );
   const rent = rt.flows.get(`rent:${h.id}`);
   if (rent && !rent.endedAt) end(rent, date, "household-left");
+  // An award a member claimed in play is its own flow, not one of the
+  // household's income contracts (retirement-claims.ts): it leaves with them.
+  const claims = rt.store
+    .countedMembers(h)
+    .map((m) => `retirement-claim:${rt.store.ids[m]!}`);
+  if (claims.length)
+    for (const flow of rt.flows.values())
+      if (
+        flow.kind === "retirement" &&
+        !flow.endedAt &&
+        claims.some((id) => flow.id === id || flow.id.startsWith(`${id}:`))
+      )
+        end(flow, date, "household-left");
 }
 
 /**
