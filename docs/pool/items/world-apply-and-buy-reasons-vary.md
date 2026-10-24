@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-23 from PR #5812 (branch claude/apply-buy-reasons): Apply-only changes point at an umbrella with TODO acceptance and an explicitly unfinished home-buying row; give the slice bounded written acceptance and resolve or baseline the reported opening-seekers failure; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5812 (branch claude/apply-buy-reasons): jobs.ts:1829 still gives counted seekers a constant need while full people use the new runway score, contrary to the one-model rule; the new test selects alive people without jobs rather than actual seekers and can use children or retirees; share the rule across tiers, prove actual seeker/fill-in witnesses, and correct its one-case versus body2/2 count; finish on that branch, merge main into it first.
