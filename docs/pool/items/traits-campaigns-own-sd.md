@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-campaigns-own-sd
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T02:57:25.374Z
 ---
 
 **What.** The campaign family's trait weights were calibrated against Mondak et al. 2010 rows converted with an assumed spread of 0.2 of a trait's range, before the spread fix gave each row its Table 1 value (0.22 openness, 0.26 extraversion). Seven weights still carry the old targets: volunteering, giving, answering the door, retelling a campaign story, answering a poll, speaking to a reporter and party firmness. Five research rows (campaigns.retell, press.accept-interview, campaigns.rival-hours, campaigns.party-firmness, campaigns.answer-poll) still lack the spread, so the calibration script refuses them. Give the rows their spread and refit or rescale each weight to its new target.
