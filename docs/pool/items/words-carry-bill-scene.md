@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/carry-bill-scene
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T20:56:52.796Z
 ---
 
 **What.** The carry-bill scene, where someone comes in with a bill that needs a sponsor, waits on a project-request record nothing in play writes. The legislature already makes this ask: an executive who may not introduce a bill in their own name asks the member most inclined to carry it, and the member decides by their own position and the asker's standing (askToCarry). The ask is only returned to its caller, never recorded, so no scene can fire from it. This item has the legislature record the ask (naming the member and the asker, the policy, and whether the member carried it), the director size it for the member, and the carry-bill scene fire from it with the asker as the one who comes in. The talk names the bill by its number when the member filed it, or by its name from the policy when they did not.
