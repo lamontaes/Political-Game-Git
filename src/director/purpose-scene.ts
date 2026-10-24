@@ -1,8 +1,6 @@
 /**
- * A scene with a purpose, as play meets it (owner, Oct 24: "start getting the
- * grades and the scenes wired ... them triggering based on" the records;
- * Wildermyth is the model and the opening is the example). The director has
- * already fired the moment from its cause record and cast it (scheduling.ts);
+ * A scene with a purpose, as play meets it, fired by the records. The director
+ * has already fired the moment from its cause record and cast it (scheduling.ts);
  * this reads that binding, takes the facts the exchange may say from the cause
  * record and the cast, and has the exchange engine (scene-talk.ts) word it as
  * a tree the player taps through. It words nothing itself, and it says why:
