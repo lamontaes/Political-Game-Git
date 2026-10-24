@@ -3527,7 +3527,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "A finance-engine draw for a residents wage flow (journal-balanced, up to the line's room), called from residents settle() before the shortfall is recorded.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A counted employer short of cash on payday now draws its approved credit line for what its cash and savings could not pay (api.drawWageFlowCredit, a finance-cash credit transfer whose trigger is the wage flow), and only what the line cannot cover is recorded as a shortfall."
   },
   {
     "id": "SG-WORLD-staff-husk-work",
