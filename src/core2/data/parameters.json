@@ -1831,13 +1831,15 @@
     }
   },
   "businessIncomeElasticity": {
-    "value": 0.335,
-    "tag": "TUNABLE",
-    "citation": "Inherited old town-finances sales proxy. Moretti Local Multipliers, https://eml.berkeley.edu/~moretti/multipliers.pdf, Table 1 reports employment-to-employment elasticity; it does not report sales-to-all-town-income elasticity. This coefficient is uncalibrated.",
+    "value": 0.45,
+    "tag": "ESTIMATED",
+    "citation": "Inherited old town-finances sales proxy. Moretti Local Multipliers, https://eml.berkeley.edu/~moretti/multipliers.pdf, Table 1 reports employment-to-employment elasticity; it does not report sales-to-all-town-income elasticity. This coefficient is uncalibrated. Applied Oct 21, 2026 from data/research/stopgaps-oct19/B-people-behavior-2.json (SG-P8-business-books-dynamics): sales change = annual spending response 0.5 times local capture 0.6 times income-to-sales 1.5 (assumed) = 0.45. Baker, Baugh and Kueng (2018): about 30% of an income change is spent within a quarter. Reasoning only, no fetched source gives the figure; the 0.335 before was Moretti's employment elasticity, which is not a sales response.",
     "stopgapId": "SG-P8-business-books-dynamics",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Employment elasticity uncertainty is not a bound for this sales response coefficient. Matched sales/income data and identification are missing."
+      "low": 0.25,
+      "high": 0.9,
+      "unit": "elasticity of a town firm's sales to town income",
+      "citation": "Applied Oct 21, 2026 from data/research/stopgaps-oct19/B-people-behavior-2.json (SG-P8-business-books-dynamics): sales change = annual spending response 0.5 times local capture 0.6 times income-to-sales 1.5 (assumed) = 0.45. Baker, Baugh and Kueng (2018): about 30% of an income change is spent within a quarter. Reasoning only, no fetched source gives the figure; the 0.335 before was Moretti's employment elasticity, which is not a sales response."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -1996,14 +1998,16 @@
     }
   },
   "openingRetirementClaimTraitPullYears": {
-    "value": 4,
+    "value": 2.0,
     "tag": "TUNABLE",
     "stopgapId": "SG-P8-param-openingRetirementClaimTraitPullYears",
-    "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5: claim ages spread from 62 (about 25% in 2021) to 70 and later (about 8%); one unit of patience (mean of deliberation, reliability and less risk) moves a claim about a year and a half.",
+    "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5: claim ages spread from 62 (about 25% in 2021) to 70 and later (about 8%); one unit of patience (mean of deliberation, reliability and less risk) moves a claim about a year and a half. Applied Oct 21, 2026 from the stopgap research (SG-P8-param-openingRetirementClaimTraitPullYears): claim ages span 62 to 70; a personality-outcome correlation of about 0.16 (Roberts et al. 2011, corrected r) with a claim-age SD of 2.5 years moves a claim about 0.4 years per trait SD; a full span is about 1.3 to 2 years. The 4 before conflicted with its own citation (about a year and a half per unit).",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+      "low": 1,
+      "high": 4,
+      "unit": "years of claim age at a full trait extreme",
+      "citation": "Applied Oct 21, 2026 from the stopgap research (SG-P8-param-openingRetirementClaimTraitPullYears): claim ages span 62 to 70; a personality-outcome correlation of about 0.16 (Roberts et al. 2011, corrected r) with a claim-age SD of 2.5 years moves a claim about 0.4 years per trait SD; a full span is about 1.3 to 2 years. The 4 before conflicted with its own citation (about a year and a half per unit)."
     },
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
@@ -2026,13 +2030,15 @@
     }
   },
   "openingRetirementCoveredTraitPull": {
-    "value": 0.04,
+    "value": 0.1,
     "tag": "TUNABLE",
-    "citation": "Authored signed reliability-context contribution to the fictional covered-career fraction, smoothly bounded to its possible span; not an empirically measured work history effect.",
+    "citation": "Authored signed reliability-context contribution to the fictional covered-career fraction, smoothly bounded to its possible span; not an empirically measured work history effect. Applied Oct 21, 2026 from the stopgap research (SG-P8-param-openingRetirementCoveredTraitPull): conscientiousness predicts employment and earnings (r about 0.16, Roberts et al. 2011); with a covered-fraction SD of about 0.25 (assumed), one trait SD moves it about 0.04, and 0.10 is the cap at the extremes, not a mean.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+      "low": 0.04,
+      "high": 0.15,
+      "unit": "share of the covered career at a full trait extreme",
+      "citation": "Applied Oct 21, 2026 from the stopgap research (SG-P8-param-openingRetirementCoveredTraitPull): conscientiousness predicts employment and earnings (r about 0.16, Roberts et al. 2011); with a covered-fraction SD of about 0.25 (assumed), one trait SD moves it about 0.04, and 0.10 is the cap at the extremes, not a mean."
     },
     "stopgapId": "SG-P8-param-openingRetirementCoveredTraitPull",
     "checkRange": {
@@ -2527,11 +2533,17 @@
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPublicCleaningBudgetShare": {
-    "value": 0.1,
+    "value": 0.12,
     "tag": "ESTIMATED",
-    "citation": "A disclosed tenth of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "estimatedFrom": "A disclosed tenth of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction.",
-    "stopgapId": "SG-P8-opening-customer-public-procurement"
+    "citation": "About 12% of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation (it was a tenth before the stopgap research). FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured. Applied Oct 21, 2026 from the stopgap research (SG-P8-opening-customer-public-procurement): IFMA's survey puts janitorial at $1.08 of $5.59 per rentable square foot of operations (19%); public-building spending also includes capital outlay, so 0.12.",
+    "estimatedFrom": "About 12% of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction. The 12% rests on the IFMA operations-cost survey (janitorial 19% of operating cost) less capital outlay.",
+    "stopgapId": "SG-P8-opening-customer-public-procurement",
+    "spread": {
+      "low": 0.08,
+      "high": 0.19,
+      "unit": "share of public-building spending",
+      "citation": "Applied Oct 21, 2026 from the stopgap research (SG-P8-opening-customer-public-procurement): IFMA's survey puts janitorial at $1.08 of $5.59 per rentable square foot of operations (19%); public-building spending also includes capital outlay, so 0.12."
+    }
   },
   "openingCustomerLocalAuthorityBudgetCoverage": {
     "value": 0.25,
