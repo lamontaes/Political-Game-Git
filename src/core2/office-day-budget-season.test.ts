@@ -534,7 +534,9 @@ it("a played mayor who sets the budget's lines on the office sheet sends them on
           player.resume({ kind: "own-choice", pauseId: packet.pauseId });
           continue;
         }
-        player.advance("calendar", date);
+        const at = player.packet?.at.date ?? core.date;
+        if (date > at) player.advance("calendar", date);
+        else player.advance("day");
       }
     };
     const lead = api.parameter("budgetProposalLeadDays");
