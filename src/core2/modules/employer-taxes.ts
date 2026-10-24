@@ -22,7 +22,7 @@ import type { ModuleRow } from "../module-data";
 import type { CashJournalSourceSlot } from "../journal-state";
 import { lawChain, lawInForce } from "./laws";
 import { ownerOf } from "./business";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentFacts, residentsRuntime } from "./residents";
 import { businessScaleOf, countedHeadsOf } from "../residents-economy";
 import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
@@ -218,7 +218,7 @@ function payProfitTaxes(api: CoreAPI): void {
       );
       continue;
     }
-    if (owner && residentPerson(core, owner)) {
+    if (owner && residentFacts(core, owner)) {
       passThroughCounted(api, id, owner, total - last.minor);
       continue;
     }
@@ -333,7 +333,7 @@ function passThroughCounted(
   const id = `pass-through:${businessId}:${api.state.date}`;
   if (table(api, "passThroughs").get(id)) return;
   const core = api.state as CoreState;
-  const owner = residentPerson(core, ownerId);
+  const owner = residentFacts(core, ownerId);
   const law = paydayLaw(api);
   if (!owner || !law) return;
   // The profit is the business's, already at the town's weight, and a counted
