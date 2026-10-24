@@ -9,14 +9,14 @@
 import { addDays, makeIsoDate } from "../kernel/dates";
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
-import { retirementClaimAgeMonths } from "../retirement-claim";
+import { claimWaitCase, retirementClaimAgeMonths } from "../retirement-claim";
 import {
   startingSocialSecurityAges,
   type SocialSecurityAges,
 } from "../social-security-law";
 import { LAWS_MODULE_ID, socialSecurityAges } from "./laws";
 import { addResidentFlow, endFlowPart } from "../residents-economy";
-import { decisionLean, decisionTraitWeight } from "../trait-decisions";
+import { leanedTerm } from "../trait-decisions";
 import { residentsRuntime } from "./residents";
 import type {
   CoreAPI,
@@ -96,30 +96,31 @@ function agesFor(api: CoreAPI, birthDate: string): SocialSecurityAges {
 function claimDateOf(api: CoreAPI, person: Claimant): IsoDate | undefined {
   const p = (key: string) => api.parameter(key);
   const cost = person.livingCostDailyMinor;
+  const weights = {
+    anchorYearsBeforeFull: p(incomeData.parameters.claimAnchorYearsBeforeFull),
+    traitPullYears: p(incomeData.parameters.claimTraitPullYears),
+    needPullYears: p(incomeData.parameters.claimNeedPullYears),
+    fullBufferMonths: p(incomeData.parameters.claimFullBufferMonths),
+  };
+  const bufferMonths =
+    cost > 0
+      ? person.liquidMinor / ((cost * p("daysPerMeanYear")) / 12)
+      : p(incomeData.parameters.claimFullBufferMonths);
   const months = retirementClaimAgeMonths(
     {
       ages: agesFor(api, person.birthDate),
-      bufferMonths:
-        cost > 0
-          ? person.liquidMinor / ((cost * p("daysPerMeanYear")) / 12)
-          : p(incomeData.parameters.claimFullBufferMonths),
-      patience:
-        decisionLean(
-          api.state,
-          person,
-          "retirement.claim-age",
-          "wait-to-claim",
-          "claim-now",
-        ) * decisionTraitWeight(api.state, "retirement.claim-age"),
-    },
-    {
-      anchorYearsBeforeFull: p(
-        incomeData.parameters.claimAnchorYearsBeforeFull,
+      bufferMonths,
+      // Waiting past the full retirement age is a score: the case for it plus every trait's lean at the decision's calibrated weight.
+      patience: leanedTerm(
+        api.state,
+        person,
+        "retirement.claim-age",
+        "wait-to-claim",
+        "claim-now",
+        claimWaitCase(bufferMonths, weights),
       ),
-      traitPullYears: p(incomeData.parameters.claimTraitPullYears),
-      needPullYears: p(incomeData.parameters.claimNeedPullYears),
-      fullBufferMonths: p(incomeData.parameters.claimFullBufferMonths),
     },
+    weights,
   );
   return monthsAfter(person.birthDate, months);
 }
