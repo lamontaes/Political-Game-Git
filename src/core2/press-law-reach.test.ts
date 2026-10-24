@@ -16,7 +16,7 @@ import type { WireItem } from "./press-topics";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const COUNTED = 400;
 
-it("ranks a law that reaches the outlet's followers by how many it reaches", () => {
+it("ranks a law, or a budget line a measure changed, by the followers it reaches", () => {
   const tried: string[] = [];
   for (let draw = 0; draw < 10; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "press-law-reach");
@@ -56,6 +56,38 @@ it("ranks a law that reaches the outlet's followers by how many it reaches", () 
       Math.log1p(named + COUNTED),
       6,
     );
+    // A budget line a measure changed binds the town the same way; the
+    // year's adoption of each line is the budget bill's story and reaches no
+    // one of its own.
+    const line = (id: string, measureId: string): WireItem => ({
+      id,
+      kind: "budget-line-changed",
+      facts: { line: "administration", measureId, deltaMinor: "1000000" },
+      date,
+      level: "town",
+      topic: "budget-line:administration",
+      desiredChange: "enact",
+      ending: false,
+      subjectIds: [],
+    });
+    const amended = line(
+      "budget-line-changed:budget:test:administration:HB-1",
+      "HB-1",
+    );
+    const adopted = line(
+      "budget-line-changed:budget:test:administration:adopted",
+      "budget:test:2025",
+    );
+    const lines = runDesk(api, ctx, outlet, [amended, adopted]);
+    const amendedStory = lines.find((row) => row.wireId === amended.id);
+    expect(amendedStory, where).toBeDefined();
+    expect(amendedStory!.pick!.people, where).toBeCloseTo(
+      Math.log1p(named + COUNTED),
+      6,
+    );
+    const adoptedStory = lines.find((row) => row.wireId === adopted.id);
+    if (adoptedStory)
+      expect(adoptedStory.pick!.people, where).toBeCloseTo(0, 6);
     return;
   }
   throw new Error(`No local outlet with a reporter: ${tried.join("; ")}`);

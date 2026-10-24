@@ -76,6 +76,7 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
       expect(row.run).toBe(margin(row) > 0);
       expect(Object.keys(row.reasons).sort()).toEqual(
         [
+          "afterOffice",
           "age",
           "cause",
           "engagement",

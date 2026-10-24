@@ -517,9 +517,20 @@ export function runDesk(
         Math.min(1, Number(item.facts?.magnitude ?? 0)) *
         (followers.length + ctx.countedFollowers(outlet))
       );
-    const lawId = item.facts?.lawId;
-    const key = item.facts?.series;
-    if (item.kind !== "law-took-effect" || !lawId || !key) return 0;
+    // A budget line a measure changed binds what the line pays for, as a law
+    // in force does: the people its engines applied the change to (else every
+    // named follower) and the counted followers. The year's adoption is the
+    // budget bill's story, not one per line.
+    const lineChange =
+      item.kind === "budget-line-changed" &&
+      !item.id.endsWith(":adopted") &&
+      !!item.facts?.line;
+    const lawId = lineChange ? item.facts?.measureId : item.facts?.lawId;
+    const key = lineChange
+      ? `budget-line:${item.facts?.line}`
+      : item.facts?.series;
+    if ((item.kind !== "law-took-effect" && !lineChange) || !lawId || !key)
+      return 0;
     const reached = new Set(reachedBy(api, key, lawId).map((r) => r.personId));
     const named = reached.size
       ? followers.filter((id) => reached.has(id)).length
