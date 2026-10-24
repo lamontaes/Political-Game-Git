@@ -8,6 +8,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { coreAPI } from "../core2/state";
+import { composeScene } from "./scene";
 
 // A person who learns that a law took money from them has a moment the
 // director schedules from the learned-effect record (owner, Oct 15: scenes
@@ -48,22 +49,55 @@ it(`an heir told by an estate notice has the scene alone, with no teller invente
     addDays(makeIsoDate(core.date), api.parameter("probateDays") + 1),
   );
   let moments = 0;
+  let joins = 0;
   for (const [personId, book] of director.ledger.people)
     for (const row of book.schedule) {
       const moment = book.momentsById.get(row.momentId);
       if (moment?.label !== "cause:event:law.effect-learned") continue;
       const here = `${where}, ${personId}, ${moment.causeId}`;
       // One sitting covers a day (scheduling.ts): a second effect learned the
-      // same day joins the scene already staged for it.
+      // same day joins the scene already staged for it. That scene is the
+      // same reached person's alone, and it cites both learned-effect records.
       if (!row.bindings.length && row.outcome === "journal-line") {
+        const sitting = book.schedule.find(
+          (other) =>
+            other.date === row.date &&
+            other.bindings.some((b) =>
+              (b.joined ?? []).some((j) => j.momentId === row.momentId),
+            ),
+        );
+        expect(sitting, `${here}: joined no scene that day`).toBeDefined();
+        const joined = sitting!.bindings.find((b) =>
+          (b.joined ?? []).some((j) => j.momentId === row.momentId),
+        )!;
+        expect(joined.typeKey, here).toBe("law-takes-effect");
         expect(
-          book.schedule.some(
-            (other) =>
-              other.date === row.date &&
-              other.bindings.some((b) => b.typeKey === "law-takes-effect"),
-          ),
+          joined.roles.map((role) => role.role),
           here,
-        ).toBe(true);
+        ).toEqual(["reached"]);
+        expect(joined.roles[0]!.personIds, here).toEqual([personId]);
+        expect(
+          joined.presentIds.filter((id) => id !== personId),
+          here,
+        ).toEqual([]);
+        const first = book.momentsById.get(sitting!.momentId)!;
+        expect(first.label, here).toBe("cause:event:law.effect-learned");
+        const causes = [
+          first.causeId,
+          ...joined.joined!.map((entry) => entry.causeId),
+        ];
+        expect(causes, here).toContain(moment.causeId);
+        expect(new Set(causes).size, here).toBe(causes.length);
+        // The scene the screen shows cites both records.
+        const scene = composeScene(core, director, personId, sitting!);
+        const cited = (scene?.narration ?? []).flatMap(
+          (line) => line.sourceRecordIds,
+        );
+        if (cited.length)
+          expect(cited, here).toEqual(
+            expect.arrayContaining([first.causeId, moment.causeId]),
+          );
+        joins += 1;
         continue;
       }
       // Only the reached person is in it: nobody is made the teller.
@@ -83,6 +117,6 @@ it(`an heir told by an estate notice has the scene alone, with no teller invente
     }
   expect(
     moments,
-    `${where}: an heir's learned effect is a moment`,
+    `${where}: an heir's learned effect is a moment (${joins} more joined a scene the same day)`,
   ).toBeGreaterThan(0);
 }, 3_600_000);

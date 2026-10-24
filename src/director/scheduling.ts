@@ -119,6 +119,8 @@ export interface SceneBinding {
   opening?: string;
   reason?: string;
   openUntil: IsoDate;
+  /** Later moments of the same day this sitting took in, each with its cause record. */
+  joined?: { momentId: string; causeId: string }[];
 }
 
 export interface CoverageRow {
@@ -586,9 +588,32 @@ export function scheduleMoment(
       )
       .flatMap((entry) => entry.bindings.map(castOf)),
   );
-  const bindings = (
-    allowed ? staged.filter((row) => allowed.has(row.typeKey)) : staged
-  ).filter((row) => !sittingToday.has(castOf(row)));
+  const wanted = allowed
+    ? staged.filter((row) => allowed.has(row.typeKey))
+    : staged;
+  const bindings = wanted.filter((row) => !sittingToday.has(castOf(row)));
+  // The day's own sitting takes this cause in, so its scene cites both
+  // records. A sitting on an earlier day within the repeat window does not:
+  // that scene has been played.
+  const sittings = new Map(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date === moment.date &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) =>
+        entry.bindings.map((row) => [castOf(row), row] as const),
+      ),
+  );
+  for (const row of wanted) {
+    const sitting = sittings.get(castOf(row));
+    if (!sitting) continue;
+    sitting.joined ??= [];
+    if (!sitting.joined.some((entry) => entry.momentId === moment.id))
+      sitting.joined.push({ momentId: moment.id, causeId: moment.causeId });
+  }
   const filteredOut = staged.length > zero && !bindings.length;
   // News from the household's own records (a parent's lost job, a death, a
   // serious illness) is a family scene at home whatever its size (owner,

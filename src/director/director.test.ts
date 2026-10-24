@@ -3,6 +3,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import ts from "typescript";
 import { describe, expect, it } from "vitest";
+import { makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
@@ -24,6 +25,8 @@ import {
   SITUATION_LIBRARY,
   type SituationLibrary,
 } from "./scheduling";
+import { SCENE_BANK, sceneWordsFromBank } from "./mined/scene-bank";
+import { composeScene } from "./scene";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
 
@@ -641,6 +644,69 @@ describe("story director on the new core", () => {
       expect(
         SITUATION_LIBRARY.types.find((row) => row.key === key)!.yieldsTo,
       ).toEqual(["news-arrives"]);
+  });
+
+  it("takes a second cause the same day into the sitting already staged, citing both records", () => {
+    const { core, director } = run("place:director-fixture", true);
+    const personId = "person:worker";
+    const book = director.ledger.people.get(personId)!;
+    const moment = book.moments.find((row) =>
+      row.id.endsWith("fixture-closed:2021-01-10"),
+    )!;
+    const sitting = book.schedule.find((row) => row.momentId === moment.id)!;
+    const staged = sitting.bindings.find(
+      (row) => row.typeKey === "news-arrives",
+    )!;
+    // Edge case by hand: the same news from a second record that day, with the
+    // same people (two notices of one loss, read the same afternoon).
+    const again = {
+      ...moment,
+      id: `${moment.id}:again`,
+      causeId: `${moment.causeId}:again`,
+    };
+    const entry = scheduleMoment(core, book, again, {
+      mode: "live",
+      interruptImpact: 0.5,
+    });
+    // It stages nothing of its own: the day's sitting takes it in.
+    expect(entry.bindings).toEqual([]);
+    expect(staged.joined).toEqual([
+      { momentId: again.id, causeId: again.causeId },
+    ]);
+    // The same people, and the scene the screen shows cites both records.
+    expect(
+      staged.roles.find((row) => row.role === "bearer")!.personIds,
+    ).toEqual(["person:worker"]);
+    // Every bank line, as the grading view reads them, so the narrator speaks.
+    const words = sceneWordsFromBank({
+      ...SCENE_BANK,
+      parts: SCENE_BANK.parts.map((part) => ({ ...part, shippable: true })),
+    });
+    const scene = composeScene(core, director, personId, sitting, words);
+    expect(scene?.narration.length).toBeGreaterThan(0);
+    const cited = (scene?.narration ?? []).flatMap(
+      (line) => line.sourceRecordIds,
+    );
+    expect(cited).toEqual(
+      expect.arrayContaining([moment.causeId, again.causeId]),
+    );
+    // Scheduled again, it is not counted twice.
+    scheduleMoment(core, book, again, { mode: "live", interruptImpact: 0.5 });
+    expect(staged.joined).toHaveLength(1);
+    // A sitting on an earlier day takes nothing in: that scene was played.
+    const later = {
+      ...moment,
+      id: `${moment.id}:later`,
+      causeId: `${moment.causeId}:later`,
+      date: makeIsoDate("2021-01-12"),
+    };
+    expect(
+      scheduleMoment(core, book, later, {
+        mode: "live",
+        interruptImpact: 0.5,
+      }).bindings,
+    ).toEqual([]);
+    expect(staged.joined).toHaveLength(1);
   });
 
   it("keeps a scene kind the player filtered out from interrupting them", () => {
