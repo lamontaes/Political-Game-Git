@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/offices-state.ts, data/research/offices/state-offices.json, src/core2/modules/officials.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5952 (branch claude/office-before-it-exists): a generated Pirtleville opening on 2027-01-04 (seed officelater01) still invents 2019 and 2023 lieutenant-governor terms and serviceStart2019 because pastTerms ignores firstTermStart; clamp history/service to creation and add the boundary-opening regression on that branch, merge main into it first.
