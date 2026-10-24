@@ -30,3 +30,5 @@ Sent back 2026-10-23 from PR #5803 (branch claude/closures-large-cities): The re
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): A sole counted job loses its 68.3645 remaining heads at fill-in in the DC repro because releaseWeight deletes the job-head entry when no keeper exists; preserve the remainder and add this boundary regression; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Current main conflicts in src/core2/counted-groups.ts and src/core2/modules/employer-taxes.ts, plus stopgaps registry; code integration aborted without a gate pass; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5803 (branch claude/closures-large-cities): Corrective6daec099ab5b still conflicts with current main d593cca589 in production src/core2/modules/residents.ts plus registry src/core2/data/stopgaps.json; merge aborted, preserve current payment readers and counted/full deposit conservation, retain registry rows, rerun sample/Census proofs; finish on that branch, merge main into it first.
