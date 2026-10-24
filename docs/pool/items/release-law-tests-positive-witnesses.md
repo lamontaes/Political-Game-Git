@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/law-tests-positive-witnesses
-pr:
+pr: #5870
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-23T23:46:55.676Z
