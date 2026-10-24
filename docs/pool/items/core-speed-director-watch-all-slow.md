@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/director/, src/core2/
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5808 (branch claude/director-watch-all): The cache/rescore slice has no bounded acceptance table; the associated umbrella still reports 29.4 seconds versus under 15 and lacks the required stories-from-engines passing proof; finish on that branch, merge main into it first.
