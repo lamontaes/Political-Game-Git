@@ -357,6 +357,7 @@ it(`a player's bill is followed from negotiation to a named person and back, and
         };
     return undefined;
   };
+  const everHeard = new Set<string>();
   let found = learned();
   for (let week = 0; week < 40 && !found; week += 1) {
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
@@ -367,9 +368,18 @@ it(`a player's bill is followed from negotiation to a named person and back, and
           : row.target === "household"
             ? [...(core.households.get(row.targetId)?.memberIds ?? [])]
             : [];
-      for (const id of ids)
+      for (const id of ids) {
         if (core.people.get(id)?.alive && !director.ledger.people.has(id))
           director.watch(core, id);
+        // The news engine forgets old stories' listeners, so who heard one
+        // is noted each week.
+        if (
+          storiesHeard(api, id).some((story) =>
+            lawIds.includes(String(story.facts?.lawId ?? "")),
+          )
+        )
+          everHeard.add(id);
+      }
     }
     found = learned();
   }
@@ -385,11 +395,25 @@ it(`a player's bill is followed from negotiation to a named person and back, and
           ? [...(core.households.get(r.targetId)?.memberIds ?? [])]
           : [],
     );
-    const heardIt = named.filter((id) =>
-      storiesHeard(api, id).some((s) =>
-        lawIds.some((lawId) => String(s.facts?.lawId ?? "") === lawId),
-      ),
-    );
+    const heardIt = named.filter((id) => everHeard.has(id));
+    const paid = reached.reduce((n, r) => n + (r.amountMinor ?? 0), 0);
+    // Only the household's payer, its member with the most cash, can learn
+    // (place-prices.ts), and only from a story naming the price rule's law.
+    const payersHeard = reached.filter((r) => {
+      const members = [...(core.households.get(r.targetId)?.memberIds ?? [])]
+        .map((id) => core.people.get(id))
+        .filter((p) => p?.alive)
+        .sort((a, b) => b!.liquidMinor - a!.liquidMinor);
+      return members[0] && everHeard.has(members[0].id);
+    }).length;
+    const anyLearned = [...core.durableLog.values()]
+      .filter(
+        (row) =>
+          row.kind === "law.effect-learned" &&
+          String(row.facts?.lawId ?? "").includes(key),
+      )
+      .map((row) => String(row.facts?.lawId));
+    const paying = reached.filter((r) => (r.amountMinor ?? 0) !== 0).length;
     const stories = (
       api.moduleState("news").table("stories").rows() as unknown as {
         id: string;
@@ -403,7 +427,7 @@ it(`a player's bill is followed from negotiation to a named person and back, and
         .map((s) => s.id)
         .join(
           ", ",
-        )}), ${heardIt.length} reached people heard one (${heardIt.slice(0, 3).join(", ")})`,
+        )}), ${heardIt.length} reached people heard one (${heardIt.slice(0, 3).join(", ")}), ${paying} applied rows moved money, ${paid} minor in all, ${payersHeard} households whose payer heard one, ${anyLearned.length} learned events for the law's key under ids ${[...new Set(anyLearned)].join(", ")}`,
     ).toBeDefined();
   }
   const personId = found!.personId;
