@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/retirement-claim-window
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T03:05:09.095Z
 ---
 
 **What.** The existing monthly-award case in src/core2/retirement-claims.test.ts fails at line 97 on clean main 768fa518cf973a8ed60c1391d23fee283f52858c. With GOLDEN_PATH_SEED=2ef350736d8ff61f6bcb649626df419a, the drawn Sun Valley, Arizona world finds its nearest constructed claim date 79 days from the target and asserts less than 31. This is the same baseline failure reported while reviewing PR #5224; determine whether the fixture search or claim-date calculation is wrong before changing either.

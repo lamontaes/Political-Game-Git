@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/quirky-ride-vrwwz4-m1-flags
+status: open
+claimed-by:
 pr: #5875
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T01:16:24.004Z
+claimed-at:
 ---
 
 **What.** The M0-M2 lead's baseline on main b09ba675cd ran every M1 command in the place the golden-path runner draws for it. M1-01 (laws in force), M1-02 (the national economy and central bank) and M1-10 (political views) passed, and their tests cover their whole spec text. This item flips those three flags with each run and a bench screenshot, so the owner can see what of M1 is finished.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T01:16:24.004Z
 **Files.** docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-laws-budgets-flags, roadmap-m1-economy-flags and roadmap-m1-people-politics-flags (CTO branch).
+
+Sent back 2026-10-24 from PR #5875 (branch claude/quirky-ride-vrwwz4-m1-flags): M1-10 true lacks ordinary played-year event-to-view evidence; cited views-only fixture and opening Moderate screenshot do not prove the accepted event-effect spec; finish on that branch, merge main into it first.

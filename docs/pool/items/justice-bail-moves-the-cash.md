@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr: #5847
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -30,3 +30,5 @@ Taken over Oct 23 at the owner's request from glm/justice-bail-moves-the-cash, w
 Sent back 2026-10-23 from PR #5847 (branch claude/sleepy-carson-f8omzd): Normal main integration conflicts in src/core2/office-day-clemency.test.ts after the Eaton repair #5779; preserve its pinned/random review-eve proof together with the new hearing timing, and rerun the bail/plea chain checks; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5847 (branch claude/sleepy-carson-f8omzd): The only positive bail witness injects up to 600 bribe offers, while all seven ordinary years post no bail; retain the fixture but supply the ordinary producer-to-journal chain or preserve it as unfinished bounded work; finish on that branch, merge main into it first.
+
+Oct 24: PR #5847 now completes justice-plea-waits-for-hearing (pleas wait for the hearing, the prosecutor's workload capped at a full desk, the two justice tests built on their drawn place, and a forced-offer proof of the bail journal). This item stays open for the ordinary witness Merger 3 asked for: one played year with nothing forced that goes offer, charge, posted bail and return, by journal entry id. In 7 ordinary worlds no bail was posted: 4 had no bribe offer, 2 ended cash bail through the game's state legislature (Delaware SB 6, Hawaii SB 4), and in 1 the defendants lacked $10,000 in cash (PR #5847 body).
