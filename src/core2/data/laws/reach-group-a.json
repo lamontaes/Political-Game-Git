@@ -378,22 +378,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the police department with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the police department when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -408,22 +392,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the fire department with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the fire department when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -438,22 +406,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the jail with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the jail when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -468,22 +420,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the city or county offices with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the city or county offices when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     },
@@ -743,15 +679,12 @@
       "stopgapId": "SG-GOV-REACH-A-redistricting",
       "reaches": [
         {
-          "id": "legislators",
-          "target": "officeholders",
-          "select": {
-            "group": "legislators"
-          },
-          "kind": "rule",
-          "what": "no longer draws the district lines; an independent commission does",
-          "enforcer": "the redistricting commission",
-          "penalty": "the court redraws lines that break the rules"
+          "id": "commission",
+          "target": "mechanic",
+          "kind": "service",
+          "what": "pays its independent redistricting commission each month",
+          "enforcer": "the state treasury",
+          "penalty": "none: an appropriation"
         }
       ]
     },
@@ -813,22 +746,6 @@
           "what": "is funded for the positions its budget line pays for",
           "enforcer": "the finance office",
           "penalty": "none: an appropriation"
-        },
-        {
-          "id": "hired",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was hired at the public schools with new budget money",
-          "enforcer": "the finance office",
-          "penalty": "none: a job"
-        },
-        {
-          "id": "laid-off",
-          "target": "mechanic",
-          "kind": "job",
-          "what": "was laid off from the public schools when its budget was cut",
-          "enforcer": "the finance office",
-          "penalty": "none: a job lost"
         }
       ]
     }

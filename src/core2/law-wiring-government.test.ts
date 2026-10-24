@@ -39,6 +39,7 @@ import {
   type TermRow,
 } from "./modules/offices";
 import { lobbyingBarredUntil } from "./law-reach/group-a-voting";
+import { decideToRun } from "./modules/candidacy";
 import {
   currentStaff,
   mechanicRow,
@@ -303,12 +304,65 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           `${where}: automatic registration paid or owed by ${electionAdmin.id}`,
         ).toBeGreaterThan(0);
 
-        // The administration line pays real staff.
+        // The administration line pays real staff: the employer is funded,
+        // and the jobs engine fills the openings it posts from named and
+        // counted seekers alike, each hire recorded.
         const staffRows = open(api, ADMIN);
         expect(
           staffRows.filter((r) => r.target === "organization").length,
           `${where}: administration staffing applied to an employer`,
         ).toBeGreaterThan(0);
+        const lineHires = staffRows.filter(
+          (r) => r.what === "hired-on-budget-line",
+        );
+        expect(
+          lineHires.length,
+          `${where}: someone hired on the raised administration line`,
+        ).toBeGreaterThan(0);
+        for (const r of lineHires)
+          expect(r.engine, `${where}: ${r.id}`).toBe("jobs");
+
+        // The state's redistricting commission is paid at the month's close
+        // out of the state's administration line.
+        const commission = open(api, REDISTRICT).filter(
+          (r) => r.what === "redistricting-commission-funded",
+        );
+        expect(
+          commission.length,
+          `${where}: the state's commission funded`,
+        ).toBeGreaterThan(0);
+        expect(
+          posts
+            .slice(start)
+            .filter((p) => p.id.includes("redistricting-commission:"))
+            .reduce((n, p) => n + p.gross, 0),
+          `${where}: the commission's pay on the journal`,
+        ).toBeGreaterThan(0);
+
+        // The revolving-door law: a council seat is worth less to someone
+        // who does not hold it, read when they weigh running.
+        const weigher = [...core.people.values()].find(
+          (p) =>
+            p.alive &&
+            p.placeId === lawChain(api).townPlaceId &&
+            !townSeats(api).some((s) => s.holder?.personId === p.id),
+        );
+        expect(weigher, `${where}: a resident to weigh the seat`).toBeDefined();
+        const weighed = decideToRun(
+          api,
+          weigher!.id,
+          {
+            contestId: election.id,
+            officeName: election.title,
+            filingDeadline: election.filingDeadline,
+            sourceIds: [election.id],
+          },
+          true,
+        );
+        expect(
+          weighed?.reasons.afterOffice,
+          `${where}: ${weigher!.id} weighed the revolving-door law`,
+        ).toBeLessThan(0);
 
         // Home rule: a body drafting a bill under a question the state's
         // grant decides (a power cell the catalog marks unknown) reads it.
@@ -410,7 +464,13 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           [TERM, ["kept-off-ballot", "term-count-checked"]],
           [LOBBY, ["barred-from-lobbying"]],
           [HOME_RULE, ["home-rule-lets-body-legislate"]],
-          [REDISTRICT, ["ward-lines-drawn-by-commission"]],
+          [
+            REDISTRICT,
+            [
+              "ward-lines-drawn-by-commission",
+              "redistricting-commission-funded",
+            ],
+          ],
         ] as const) {
           const rows = open(api, key);
           expect(rows.length, `${where}: ${key} applied rows`).toBeGreaterThan(

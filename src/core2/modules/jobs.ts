@@ -49,6 +49,7 @@ import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
+import { lawApplied } from "../law-reach/applied";
 import {
   addCountedJob,
   countedHeadsOf,
@@ -112,6 +113,8 @@ export interface PositionRow {
   raises?: number;
   firstHourlyMinor?: number;
   raisedBy?: string;
+  /** The budget line (and the measure that changed it) that funds this opening at a public employer. */
+  fundedBy?: { readonly key: string; readonly lawId: string };
 }
 /** A job offered to the person the player controls: theirs to accept or decline. */
 export interface JobOfferRow {
@@ -2129,6 +2132,7 @@ function hireCounted(
   store(api)
     .table("positions")
     .put({ ...position, status: "filled", filledBy: seeker.personId });
+  fundedHire(api, position, seeker.personId, "group", positionHeads(position));
   store(api).table("countedSeekers").remove(seeker.personId);
   endClaim(api, store(api).table("claims"), seeker.personId);
   record(api, {
@@ -3036,6 +3040,7 @@ function hire(
         ? { ...position, heads: left }
         : { ...position, status: "filled", filledBy: person.id },
     );
+  fundedHire(api, position, person.id, "person", 1);
   store(api).table("seekers").remove(person.id);
   endSpell(api, person.id);
   // The new hire meets the full people already working there.
@@ -3060,6 +3065,109 @@ function hire(
       hourlyMinor: position.hourlyMinor,
     },
   });
+}
+
+/**
+ * A hire to an opening a budget line funds: the jobs engine applied the
+ * line's change to this worker (a named person, or a counted worker standing
+ * for the jobs the opening stood for).
+ */
+function fundedHire(
+  api: CoreAPI,
+  position: PositionRow,
+  personId: string,
+  target: "person" | "group",
+  count: number,
+): void {
+  if (!position.fundedBy) return;
+  lawApplied(api, {
+    key: position.fundedBy.key,
+    lawId: position.fundedBy.lawId,
+    targetId: personId,
+    target,
+    engine: JOBS_MODULE_ID,
+    what: "hired-on-budget-line",
+    count,
+  });
+}
+
+/**
+ * Openings a budget line newly funds at a public employer, posted like any
+ * opening at the employer's pay for the role: the week's matching fills them
+ * from named and counted seekers alike, and each hire records the line.
+ */
+export function postFundedOpenings(
+  api: CoreAPI,
+  input: {
+    readonly organizationId: string;
+    readonly templateJobId: string;
+    readonly count: number;
+    readonly key: string;
+    readonly lawId: string;
+  },
+): number {
+  // With no jobs engine (a unit test's small world) nobody fills an opening.
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return 0;
+  const c = core(api);
+  const template = jobById(api, input.templateJobId);
+  const placeId = c.organizations.get(input.organizationId)?.placeId;
+  if (!template || !placeId) return 0;
+  let posted = 0;
+  for (; posted < input.count; posted += 1)
+    store(api)
+      .table("positions")
+      .put({
+        id: `position:${input.organizationId}:${api.state.date}:${input.key}:${posted}`,
+        organizationId: input.organizationId,
+        placeId,
+        templateJobId: template.id,
+        title: template.title,
+        occupation: roleOf(template),
+        hourlyMinor: payFor(api, input.organizationId, template),
+        openedAt: api.state.date,
+        status: "open",
+        reasonKey: jobsData.reasons.opening,
+        fundedBy: { key: input.key, lawId: input.lawId },
+      } satisfies PositionRow);
+  return posted;
+}
+
+/** An employer's open openings a budget line funds. */
+export function fundedOpenings(
+  api: CoreAPI,
+  organizationId: string,
+  key: string,
+): readonly PositionRow[] {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return [];
+  return openPositions(api, organizationId).filter(
+    (row) => row.fundedBy?.key === key,
+  );
+}
+
+/** Withdraw an opening the line no longer funds (it was cut back before anyone filled it). */
+export function withdrawOpening(api: CoreAPI, position: PositionRow): void {
+  store(api)
+    .table("positions")
+    .put({ ...position, status: "withdrawn" });
+}
+
+/** End a counted worker's job: a public employer let them go when its line was cut. */
+export function layOffCounted(api: CoreAPI, jobId: string): boolean {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return false;
+  const c = core(api);
+  const job = residentsRuntime(c)?.jobs.get(jobId);
+  if (!job) return false;
+  endCountedJob(c, jobId);
+  record(api, {
+    personId: job.personId,
+    organizationId: job.organizationId,
+    jobId,
+    kind: "layoff",
+    reasonKey: jobsData.reasons.layoff,
+    decidedBy: job.organizationId,
+    values: { hourlyMinor: job.hourlyMinor ?? 0, counted: 1 },
+  });
+  return true;
 }
 
 export const JOBS_MODULE: CoreModule = {

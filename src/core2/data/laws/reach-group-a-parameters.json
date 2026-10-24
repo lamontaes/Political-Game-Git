@@ -188,12 +188,6 @@
       "source": "BLS OEWS May 2023 mean annual wages (correctional officers $59,840, police officers $74,910, firefighters $63,890) plus benefits at 38% of state and local government compensation (BLS Employer Costs for Employee Compensation, 2024): about $100,000 a year per position.",
       "spread": [8000000, 13000000]
     },
-    "hireAgeBelow": {
-      "value": 65,
-      "tag": "TUNABLE",
-      "source": "Public employers hire working-age adults; the upper age past which a named adult isn't considered for a new public job.",
-      "spread": [60, 70]
-    },
     "daysPerYear": {
       "value": 365,
       "tag": "SOURCED",
@@ -228,6 +222,18 @@
       "tag": "ESTIMATED",
       "source": "Fortin, Lemieux and Lloyd (NBER Working Paper 30098, 2022): the effect is measured five years after adoption; it is spread evenly over those years here.",
       "spread": [3, 8]
+    },
+    "redistrictingCommissionYearPerResidentMinor": {
+      "value": 5.1,
+      "tag": "ESTIMATED",
+      "source": "What a state's independent redistricting commission costs a year, in cents per state resident, at the floor its constitution sets in Michigan: 13 commissioners (Mich. Const. art. IV, sec. 6(1)), each paid \"at least equal to 25 percent of the governor's salary\" (art. IV, sec. 6(5), read at https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IV-6), the governor's salary being $159,300 (State Officers Compensation Commission, as given at https://en.wikipedia.org/wiki/Governor_of_Michigan): 13 x $39,825 = $517,725 a year over Michigan's 10,077,331 residents (2020 Census apportionment count), about 5.1 cents. The commission's experts, counsel and hearings cost more: it ran a projected shortfall of \"a little over $1.2 million\", mostly legal costs (Michigan Public, Feb 24, 2022), which puts the high end at about 17 cents.",
+      "estimatedFrom": "commissioners' constitutional pay floor in the one state whose constitution fixes it, per resident; the high end adds the commission's reported legal overrun",
+      "spread": [5.1, 17]
+    },
+    "monthsPerYear": {
+      "value": 12,
+      "tag": "SOURCED",
+      "source": "Civil calendar: a year has 12 months."
     }
   }
 }
