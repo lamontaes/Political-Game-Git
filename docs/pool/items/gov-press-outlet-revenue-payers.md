@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/press-outlet-revenue
-pr:
+pr: #5099
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T15:32:14.104Z
