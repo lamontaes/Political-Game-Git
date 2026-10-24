@@ -13,6 +13,10 @@ Inputs (all under data/research):
   money/death-taxes-2026.json                   estate and inheritance taxes
   laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
+  laws/irs-2025-federal-tax.json, laws/taxfoundation-2025-*.json,
+  laws/fns-2025-snap-maximums.json, laws/hhs-2025-fmap.json,
+  laws/dol-2025-ui-weekly-bounds.json           the phases in force on the start date
+                                                (January 20, 2025), before the 2026 rows
 
 Run: python3 scripts/research/build-starting-law.py
 """
@@ -405,6 +409,82 @@ def public_pay_floor(rows):
                     retrieved="2026-10-24"))
 
 
+LAWS = RESEARCH / "laws"
+
+
+def start_phases(rows):
+    """The phases in force on January 20, 2025, the game's start, for each series
+    a national table covers: federal income tax and the Social Security wage
+    base (IRS), state income and sales taxes (Tax Foundation, January 1, 2025),
+    SNAP maximums and the Medicaid match (FY2025) and unemployment weekly
+    bounds (DOL, January 2025). The 2026 rows above follow them. Checked
+    against starting-law.json by scripts/research/check-start-law-2025.ts.
+    """
+    federal = load(LAWS / "irs-2025-federal-tax.json")
+    tax = federal["incomeTax"]
+    schedules = {filing: {"standardDeduction": s["standardDeductionMinor"] / 100,
+                          "brackets": [{"over": b["overMinor"] / 100, "rate": b["rateBasisPoints"] / 100}
+                                       for b in s["brackets"]]}
+                 for filing, s in tax["schedules"].items()}
+    rows.append(row("US", "federal", "income-tax", schedules["single"]["brackets"][-1]["rate"],
+                    f"{tax['taxYear']}-01-01", f"{tax['taxYear'] + 1}-01-01", federal["sourceUrl"], False,
+                    unit="percent-top-rate", terms={"system": "graduated", "schedules": schedules},
+                    retrieved=federal["retrievedOn"]))
+    ss = federal["socialSecurity"]
+    rows.append(row("US", "federal", "social-security-tax", ss["ratePercent"], "2025-01-01", "2026-01-01",
+                    f"26 U.S.C. 3101(a); 2025 social security wage base ${ss['wageBase']:,} ({ss['source']})",
+                    False, unit="percent-of-wages", terms={"wageBase": ss["wageBase"]},
+                    retrieved=federal["retrievedOn"]))
+    income = load(LAWS / "taxfoundation-2025-state-income-tax.json")
+    for state, place in income["places"].items():
+        single = [{"over": b["overSingle"], "rate": b["ratePercent"]} for b in place["brackets"]]
+        joint = [{"over": b["overMarriedJoint"], "rate": b["ratePercent"]} for b in place["bracketsMarriedJoint"]]
+        schedules = {"single": {"standardDeduction": place["standardDeductionSingle"], "brackets": single}}
+        if joint:
+            schedules["married-filing-jointly"] = {"standardDeduction": place["standardDeductionMarriedJoint"],
+                                                   "brackets": joint}
+        rows.append(row(state, "state", "income-tax", single[-1]["rate"] if single else 0, "2025-01-01",
+                        "2026-01-01", income["sourceUrl"], False, unit="percent-top-rate",
+                        terms={"system": place["wageIncomeTax"], "schedules": schedules},
+                        note=place.get("note"), retrieved=income["retrievedOn"]))
+    sales = load(LAWS / "taxfoundation-2025-sales-tax.json")
+    later = optional("sales-tax.json")["places"]
+    for state, place in sales["places"].items():
+        kind = later.get(state, {}).get("kind")
+        rows.append(row(state, "state", "sales-tax", place["stateRate"], "2025-01-01", FOREVER,
+                        sales["sourceUrl"], False, unit="percent", terms={"kind": kind},
+                        retrieved=sales["retrievedOn"]))
+        if later.get(state, {}).get("localAllowed") and later[state].get("avgLocalRate") is not None:
+            rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2025-01-01",
+                            FOREVER, sales["sourceUrl"], True, unit="percent",
+                            terms={"spreadLow": later[state].get("localRateMin"), "spreadHigh": place["maxLocalRate"],
+                                   "appliesAs": "the state's average local rate: this place's own rate is not sampled"},
+                            retrieved=sales["retrievedOn"]))
+    snap = load(LAWS / "fns-2025-snap-maximums.json")
+    for state, items in snap["places"].items():
+        for item in items:
+            sizes = item["maximumByHouseholdSize"]
+            rows.append(row(state, "federal", "snap-maximum", sizes["1"], item["effectiveDate"],
+                            item["endDateExclusive"], snap["sourceUrl"], False,
+                            tier=item["area"] if item["area"].startswith("rural") else "general",
+                            note="Alaska's rural areas are separate tiers; a place reads the urban amount until its area is mapped." if state == "US-AK" and item["area"] == "urban" else None,
+                            unit="USD/month", terms={"area": item["area"], "byHouseholdSize": sizes,
+                                                     "additionalPerson": item["additionalPersonAboveEight"]},
+                            retrieved=snap["retrievedOn"]))
+    fmap = load(LAWS / "hhs-2025-fmap.json")
+    for state, place in fmap["places"].items():
+        source = fmap["sourceUrl"] + (f" ; {place['adjustment']['source']}" if "adjustment" in place else "")
+        rows.append(row(state, "federal", "medicaid-match", place["value"], "2024-10-01", "2025-10-01",
+                        source, False, unit="percent", retrieved=fmap["retrievedOn"]))
+    ui = load(LAWS / "dol-2025-ui-weekly-bounds.json")
+    for state, place in ui["places"].items():
+        rows.append(row(state, "state", "unemployment-weekly-maximum", place["maximumPublished"][0],
+                        "2025-01-01", FOREVER, ui["sourceUrl"], False, unit="USD/week",
+                        terms={"minimum": place["minimumPublished"], "maximum": place["maximumPublished"],
+                               "rangeBasis": place["rangeBasis"]},
+                        retrieved=ui["retrievedOn"]))
+
+
 def basis_quarters(text):
     """How many quarters of wages a weekly benefit fraction applies to, from the row's own words.
 
@@ -456,6 +536,7 @@ def main():
     sales_taxes(rows)
     benefits(rows)
     public_pay_floor(rows)
+    start_phases(rows)
     rows = dated(rows)
     by_jurisdiction = {}
     for item in rows:

@@ -1,6 +1,6 @@
 ---
 id: owner-employer-bias-source
-title: "What makes an employer pass over an applicant, so the discrimination ban has something to refuse"
+title: "Protected traits and owner views of groups, so the ruled employer pass-over has an input the ban can refuse"
 area: gov
 kind: owner-decision
 priority: 3
@@ -8,19 +8,17 @@ size: S
 status: blocked
 claimed-by: claude/political-game-pool-yucp92-f
 pr:
-blocked-on: spec: people carry no protected traits except age, so a ban has nothing to refuse
+blocked-on: spec: which protected traits a person carries, where they come from and how an owner forms a view of a group
 source: added with npm run pool -- add
 claimed-at: 2026-10-19T23:02:36.413Z
 ---
 
-**What.** TODO
+**What.** The owner has ruled (OWNER-DECISIONS.md, "Employer passing over an applicant", #5102): an employer's pass-over comes from the owner's or hiring manager's traits and views read against the applicant's record, with the reasons recorded, and the discrimination ban (SG-GOV-REACH-A-discrimination) refuses a decision whose recorded reasons cite a protected trait. No dice. What is still missing is the population input: a person (`PersonInput` in src/core2/types.ts) carries no protected trait except age (`birthDate`), and the owner's views of groups do not exist, and the hire pick in src/core2/modules/jobs.ts (experience, reliability, referral) reads neither.
 
-**Rules.** TODO
+**Rules.** No dice: the pass-over comes from recorded traits, views and the applicant's record, never a roll. Owner decisions are flagged, never waited on: the open work is the population spec below, not the question of the source. Until it is built the ban stays an open stopgap.
 
-**Done when.** TODO
+**Done when.** A spec names which protected traits a person has, where they come from (census data, per place), and how an owner's view of a group is formed; a build item exists that reads it in the hire pick and records the reasons. Nothing in this item is built.
 
-**Files.** TODO
+**Files.** docs/coordination/OWNER-DECISIONS.md
 
-**Notes.** TODO
-
-Claude, Oct 19: the ruling is in OWNER-DECISIONS.md (employer passing over an applicant, #5102): the owner's traits and views read against the applicant's record, reasons recorded, and a ban refuses a decision citing a protected trait. Not built: a person (PersonInput in src/core2/types.ts) carries no protected trait except age (birthDate); there is no recorded sex, race, religion or disability, and the owner's views of groups do not exist. The hire pick in src/core2/modules/jobs.ts (fit: experience, reliability, referral) has no such input. Building this first needs a spec for which protected traits a person has, where they come from (census data, per place) and how an owner's view of a group is formed. That is a population-model decision, not a jobs change.
+**Notes.** Claude, Oct 19: the ruling is in OWNER-DECISIONS.md (employer passing over an applicant, #5102): the owner's traits and views read against the applicant's record, reasons recorded, and a ban refuses a decision citing a protected trait. Not built: a person (PersonInput in src/core2/types.ts) carries no protected trait except age (birthDate); there is no recorded sex, race, religion or disability, and the owner's views of groups do not exist. The hire pick in src/core2/modules/jobs.ts (fit: experience, reliability, referral) has no such input. Building this first needs a spec for which protected traits a person has, where they come from (census data, per place) and how an owner's view of a group is formed. That is a population-model decision, not a jobs change.

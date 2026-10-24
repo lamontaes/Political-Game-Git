@@ -143,21 +143,21 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = result.estimates[0]!;
     expect(row.status).toBe("estimated-private-buffer");
     expect(row.industry).toBe("restaurants");
-    expect(row.bufferDays).toBe(33.06130356295034);
+    expect(row.bufferDays).toBe(36.565519619965926);
     expect(row.startupQuantile).toBe(0.7843550593825057);
     expect(row.observedBufferDays).toEqual({
       percentile25: 9,
       median: 16,
       percentile75: 31,
     });
-    expect(row.estimatedBufferEndpoints).toEqual({ low: 2, high: 46 });
+    expect(row.estimatedBufferEndpoints).toEqual({ low: 0, high: 71.5 });
     expect(row.calendarDays).toBe(365);
     expect(row.plannedPayrollMinor).toBe(5200);
     expect(row.plannedOtherCostsMinor).toBeCloseTo(
       17188.49315068493,
       p("emotionComparisonDigits"),
     );
-    expect(row.liquidMinor).toBe(2028);
+    expect(row.liquidMinor).toBe(2243);
     expect(row.commitmentIds).toEqual(["capital:commitment"]);
     expect(row.source.citation).toContain("JPMorgan Chase Institute");
     expect(row.source.citation).toContain("IRS");
@@ -192,7 +192,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(hourly).estimates[0]!.plannedPayrollMinor).toBe(10400);
-    expect(estimate(hourly).estimates[0]!.liquidMinor).toBe(4056);
+    expect(estimate(hourly).estimates[0]!.liquidMinor).toBe(4486);
     const shorter = {
       ...input,
       workCommitments: input.workCommitments!.map((row) => ({
@@ -204,7 +204,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(shorter).estimates[0]!.plannedPayrollMinor).toBe(2600);
-    expect(estimate(shorter).estimates[0]!.liquidMinor).toBe(1014);
+    expect(estimate(shorter).estimates[0]!.liquidMinor).toBe(1121);
   });
 
   it("counts a leap-year calendar and its 53 Mondays without a mean-year shortcut", () => {
@@ -221,7 +221,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = estimate(leap).estimates[0]!;
     expect(row.calendarDays).toBe(366);
     expect(row.plannedPayrollMinor).toBe(5300);
-    expect(row.liquidMinor).toBe(2061);
+    expect(row.liquidMinor).toBe(2280);
     expect(row.bufferDays).toBe(estimate(input).estimates[0]!.bufferDays);
     expect(row.from).toBe("2024-01-01");
     expect(row.through).toBe("2024-12-31");
@@ -241,7 +241,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     const row = estimate(midyear).estimates[0]!;
     expect(row.calendarDays).toBe(184);
     expect(row.plannedPayrollMinor).toBe(2600);
-    expect(row.liquidMinor).toBe(2011);
+    expect(row.liquidMinor).toBe(2225);
     expect(row.startupQuantile).toBe(
       estimate(input).estimates[0]!.startupQuantile,
     );
@@ -283,7 +283,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       })),
     };
     expect(estimate(endsOnOpening).estimates[0]!.plannedPayrollMinor).toBe(100);
-    expect(estimate(endsOnOpening).estimates[0]!.liquidMinor).toBe(39);
+    expect(estimate(endsOnOpening).estimates[0]!.liquidMinor).toBe(43);
   });
 
   it.each([
@@ -308,7 +308,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       expect(row.overallFallback).toBe(true);
       expect(row.industry).toBe("all-small-businesses");
       expect(row.observedBufferDays!.median).toBe(27);
-      expect(row.bufferDays).toBe(66.8097083135508);
+      expect(row.bufferDays).toBe(74.98621244658716);
       expect(row.parameterRefs).toContain("openingEmployerCashBufferDaysAll");
     },
   );
@@ -400,7 +400,6 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
         "openingPriorNamespace",
         "tailSpanParameter",
         "spreadStopgapId",
-        "spreadTargetRef",
       ]);
       const parameters = new Proxy(PARAMETERS, {
         get(target, key, receiver) {
@@ -805,7 +804,7 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       "restaurants",
     );
     expect(prior.startupQuantile).toBe(0.7843550593825057);
-    expect(prior.bufferDays).toBe(33.06130356295034);
+    expect(prior.bufferDays).toBe(36.565519619965926);
     expect(prior.startupQuantile).toBeGreaterThan(0);
     expect(prior.startupQuantile).toBeLessThan(1);
     expect(
@@ -859,8 +858,8 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     };
     const rows = estimate(input).estimates;
     expect(rows.map((row) => row.bufferDays)).toEqual([
-      14.458679203409702, 36.500725691672415, 3.870147920679301,
-      20.640802482608706, 38.743178338278085,
+      14.458679203409702, 45.85195936751552, 2.404475898016244,
+      20.640802482608706, 51.90658151335083,
     ]);
     expect(new Set(rows.map((row) => row.startupQuantile)).size).toBe(5);
     expect(new Set(rows.map((row) => row.liquidMinor)).size).toBe(5);
@@ -933,16 +932,16 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     }
     expect(
       openingEmployerCashBufferAtQuantile("restaurants", 0).bufferDays,
-    ).toBe(2);
+    ).toBe(0);
     expect(
       openingEmployerCashBufferAtQuantile("restaurants", 1).bufferDays,
-    ).toBe(46);
+    ).toBe(71.5);
     expect(
       openingEmployerCashBufferAtQuantile("all-small-businesses", 0).bufferDays,
     ).toBe(0);
     expect(
       openingEmployerCashBufferAtQuantile("all-small-businesses", 1).bufferDays,
-    ).toBe(97);
+    ).toBe(156.5);
     expect(
       openingEmployerCashBufferAtQuantile("restaurants", 0.125).bufferDays,
     ).toBeLessThan(9);
@@ -951,15 +950,15 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
     ).toBeGreaterThan(31);
   });
 
-  it("labels the tails and shape as unmeasured while retaining the real IQR separately", () => {
+  it("labels the tail span as estimated from the drawn distribution and the shape as unmeasured, retaining the real IQR separately", () => {
     const row = PARAMETERS.openingEmployerCashBufferTailSpan!;
-    expect(row.tag).toBe("TUNABLE");
-    expect(row.value).toBe(1);
-    expect(row.spread).toMatchObject({ status: "unmeasured" });
-    expect(row.spread).not.toHaveProperty("low");
-    expect(row.checkRange).toEqual({
-      ref: "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD",
-    });
+    expect(row.tag).toBe("ESTIMATED");
+    expect(row.value).toBe(2.7);
+    expect(row.spread).toMatchObject({ low: 2.6, high: 2.85 });
+    expect(row.spread).not.toHaveProperty("status");
+    expect(row.checkRange).toBeUndefined();
+    expect(row.citation).toContain("Figure 5");
+    expect(row.stopgapId).toBe(DEFAULT_OPENING_CAPITAL_DATA.spreadStopgapId);
     const estimateRow = estimate().estimates[0]!;
     expect(estimateRow.source.tag).toBe("ESTIMATED");
     expect(estimateRow.source.generationPriorVintage).toContain("2015");
@@ -1040,17 +1039,33 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       { ...tail, value: Number.NaN },
       { ...tail, value: -1 },
       { ...tail, value: Number.MAX_VALUE },
-      { ...tail, tag: "ESTIMATED" },
-      { ...tail, checkRange: undefined },
+      { ...tail, tag: "TUNABLE" },
+      { ...tail, estimatedFrom: undefined },
+      { ...tail, citation: " " },
+      {
+        ...tail,
+        checkRange: { ref: "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS" },
+      },
       { ...tail, checkRange: { ref: "EMPIRICAL-WRONG-TARGET" } },
       {
         ...tail,
         spread: {
-          low: 0,
+          status: "unmeasured",
+          reason: "Published quartiles alone do not identify the tail.",
+        },
+      },
+      {
+        ...tail,
+        spread: {
+          low: 3,
           high: 2,
           unit: "tail span",
-          citation: "Fabricated coefficient range",
+          citation: "Inverted coefficient range",
         },
+      },
+      {
+        ...tail,
+        spread: { low: 2.6, high: 2.85, unit: "tail span", citation: "" },
       },
       { ...tail, stopgapId: undefined },
     ];
