@@ -99,6 +99,26 @@ const open = (rows: LawAppliedRow[]) => rows.filter((r) => !r.endedOn);
 const current = (rows: LawAppliedRow[], since: string) =>
   rows.filter((r) => r.since >= since);
 
+/**
+ * A sales-tax row records the sellers it taxes at their next sales, which a
+ * town settles on its paydays: a small town may have none in a fortnight.
+ * Play fifteen days at a time (at most sixty) until a seller is recorded
+ * under the row in force.
+ */
+function advanceUntilRecorded(
+  core: CoreState,
+  lawId: string,
+  firstDays = 15,
+): void {
+  const recorded = () =>
+    open(applied(core, SALES_TAX)).some((r) => r.lawId === lawId);
+  if (firstDays === 0 && recorded()) return;
+  for (let step = 0; step < 4; step += 1) {
+    advanceCore(core, addDays(makeIsoDate(core.date), 15));
+    if (recorded()) return;
+  }
+}
+
 function months(core: CoreState): WebMonth[] {
   return coreAPI(core)
     .moduleState(OUTCOME_WEB_MODULE_ID)
@@ -145,8 +165,17 @@ function run(
   const sales = lawInForce(api, SALES_TAX);
   if (!(sales.value && sales.value > 0)) return false;
   const posts: { id: string; ref: string; gross: number }[] = [];
+  // A seller's first sales-tax remittance once the laws are in force, by the
+  // account that paid it: the journal entry of the tax money.
+  const remittances = new Map<string, string>();
+  let recording = false;
   // Keep only the posts that cite a law row (a price rule's cause names it).
   setJournalTrace((input) => {
+    if (recording && input.sourceRef.id.startsWith("sales-tax:")) {
+      const payer = input.postings.find((p) => p.deltaMinor < 0)?.accountId;
+      if (payer && !remittances.has(payer))
+        remittances.set(payer, `${input.id} (${input.sourceRef.id})`);
+    }
     if (!(input.id + input.sourceRef.id).includes("law:")) return;
     let gross = 0;
     for (const p of input.postings) if (p.deltaMinor > 0) gross += p.deltaMinor;
@@ -165,6 +194,7 @@ function run(
 
   // Phase 1: every law in force, a year and more of play.
   const enactedOn = core.date;
+  recording = true;
   for (const key of YES_LAWS) setAll(api, key, 1, "on");
   const lawIds = new Map<string, string>();
   for (const key of YES_LAWS) {
@@ -179,6 +209,15 @@ function run(
     .table("rules")
     .rows() as unknown as { good: string; cause: string; payeeId?: string }[];
   const payers: string[] = [];
+  /** For each law: the applied row, the journal entry of its money and the household or person it reached, named by record id. */
+  const evidence: Record<
+    string,
+    { applied: string; journal: string; reached: string }
+  > = {};
+  const sellerRemittance = (sellerId: string) =>
+    remittances.get(
+      core.cashJournal.residualAccountByOwner.get(sellerId) ?? "",
+    );
   for (const law of PRICE_LAWS) {
     const rule = rules.find((r) => r.cause.includes(law.key));
     expect(rule, `${where}: ${law.key} price rule`).toBeDefined();
@@ -217,6 +256,12 @@ function run(
       priced.length + cited.length,
       `${where}: ${law.key} moved no money (law ${lawId})`,
     ).toBeGreaterThan(0);
+    const reached = households[0] ?? groups[0]!;
+    evidence[law.key] = {
+      applied: reached.id,
+      journal: (priced[0] ?? cited[0])!.id,
+      reached: reached.targetId,
+    };
   }
 
   // Cannabis: licensed sellers received, households and groups paid.
@@ -231,6 +276,21 @@ function run(
       rows.filter((r) => r.target === "organization").length,
       `${where}: cannabis sellers`,
     ).toBeGreaterThan(0);
+    const buyer = rows.find(
+      (r) => r.target === "household" || r.target === "group",
+    )!;
+    const sale = posts.find(
+      (p) => (p.id + p.ref).includes(lawIds.get(CANNABIS)!) && p.gross > 0,
+    );
+    expect(
+      sale,
+      `${where}: a journal entry of the cannabis sale`,
+    ).toBeDefined();
+    evidence[CANNABIS] = {
+      applied: buyer.id,
+      journal: sale!.id,
+      reached: buyer.targetId,
+    };
   }
 
   // Groceries: the sales tax skips part of retail sales for full and counted buyers.
@@ -260,6 +320,19 @@ function run(
       rows.filter((r) => r.target === "organization").length,
       `${where}: sellers spared`,
     ).toBeGreaterThan(0);
+    const spared = rows.find(
+      (r) => r.target === "person" || r.target === "household",
+    )!;
+    const seller = rows.find((r) => r.target === "organization")!;
+    expect(
+      sellerRemittance(seller.targetId),
+      `${where}: the spared seller ${seller.targetId} remitted the tax`,
+    ).toBeDefined();
+    evidence[GROCERIES] = {
+      applied: spared.id,
+      journal: sellerRemittance(seller.targetId)!,
+      reached: spared.targetId,
+    };
   }
 
   // Sales tax: sellers collect under the row in force (the place's own or the state's average local rate).
@@ -277,6 +350,18 @@ function run(
       const rows = current(applied(core, l.row.series), enactedOn).filter(
         (r) => r.lawId === l.row!.id,
       );
+      // A row at a rate of zero or less taxes no sale (syncSalesTax collects
+      // under positive rates only), so it applies to no seller. New Jersey's
+      // state average local rate is such a row: Tax Foundation shows -0.02
+      // because Salem County charges half the state rate, which pulls the
+      // average below zero.
+      if (!((l.row.value ?? 0) > 0)) {
+        expect(
+          rows,
+          `${where}: ${l.row.series} row ${l.row.id} (rate ${l.row.value}) taxes no sale, so it reaches nobody`,
+        ).toHaveLength(0);
+        continue;
+      }
       expect(
         rows.length,
         `${where}: ${l.row.series} row ${l.row.id} reached no seller`,
@@ -299,6 +384,21 @@ function run(
         ),
         `${where}: ${l.row.series} counted buyers paid`,
       ).toBe(true);
+      const seller = rows.find(
+        (r) => r.target === "organization" && r.amountMinor > 0,
+      )!;
+      const buyer = buyers.find(
+        (r) => r.target === "person" && r.amountMinor > 0,
+      )!;
+      expect(
+        sellerRemittance(seller.targetId),
+        `${where}: seller ${seller.targetId} remitted ${l.row.series}`,
+      ).toBeDefined();
+      evidence[l.row.series] = {
+        applied: buyer.id,
+        journal: sellerRemittance(seller.targetId)!,
+        reached: buyer.targetId,
+      };
     }
   }
 
@@ -369,8 +469,13 @@ function run(
   {
     const old = lawInForce(api, SALES_TAX);
     const level = old.levels.find((l) => l.row && l.level === "state")!;
+    // Sellers are recorded at their next sales (a new yearly rate row takes effect on January 1).
+    advanceUntilRecorded(core, level.row!.id, 0);
     const oldRows = open(applied(core, SALES_TAX));
-    expect(oldRows.length).toBeGreaterThan(0);
+    expect(
+      oldRows.length,
+      `${where}: sellers recorded under the rate in force ${level.row!.id} on ${core.date}`,
+    ).toBeGreaterThan(0);
     enactLaw(api, {
       jurisdiction: level.jurisdiction,
       level: level.level,
@@ -380,11 +485,11 @@ function run(
       measureId: "test:sales-tax:raise",
       citation: "Controlled law case in a generated year.",
     });
-    advanceCore(core, addDays(makeIsoDate(core.date), 15));
     const stateRow = () =>
       lawInForce(api, SALES_TAX).levels.find((l) => l.level === "state")!.row!
         .id;
     const raised = stateRow();
+    advanceUntilRecorded(core, raised);
     expect(raised, `${where}: raised row`).not.toBe(level.row!.id);
     expect(
       open(applied(core, SALES_TAX)).some((r) => r.lawId === raised),
@@ -403,9 +508,9 @@ function run(
       measureId: "test:sales-tax:restore",
       citation: "Controlled law case in a generated year.",
     });
-    advanceCore(core, addDays(makeIsoDate(core.date), 15));
     const restored = stateRow();
-    expect(restored).not.toBe(raised);
+    advanceUntilRecorded(core, restored);
+    expect(restored, `${where}: restored row`).not.toBe(raised);
     const rows = open(applied(core, SALES_TAX));
     expect(
       rows.some((r) => r.lawId === restored),
@@ -416,6 +521,20 @@ function run(
       `${where}: the raised rate ${raised} still open after restoring`,
     ).toBe(false);
   }
+  // Every law of the family is named by an applied row, a journal entry and
+  // the household or person it reached.
+  for (const key of [...YES_LAWS, SALES_TAX]) {
+    const named = evidence[key];
+    expect(named, `${where}: evidence for ${key}`).toBeDefined();
+    for (const value of Object.values(named!))
+      expect(
+        value,
+        `${where}: ${key} evidence ${JSON.stringify(named)}`,
+      ).toBeTruthy();
+  }
+  console.info(
+    `prices family evidence, ${where}\n${JSON.stringify(evidence, null, 1)}`,
+  );
   void tried;
   void payers;
   return true;
