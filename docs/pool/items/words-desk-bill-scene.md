@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/civic-roles.ts, src/director/desk-scene.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5953 (branch words/desk-scene): new desk-scene.test.ts:27 and carried bargain/purpose source comments and producer-data note embed dated owner instructions prohibited by the merger morning check; retain that history in docs; finish on that branch, merge main into it first.
