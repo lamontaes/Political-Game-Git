@@ -208,25 +208,40 @@ try {
     await skip.first().click();
     await page.waitForTimeout(3000);
   }
-  for (let s = 0; s < 60; s += 1) {
+  for (let leg = 0; leg < 12; leg += 1) {
     if (await page.locator("#ballot:not([hidden])").count()) break;
-    const clock = await page.locator("#card-clock").innerText().catch(() => "?");
-    if (/November 3, 2026/.test(clock)) break;
+    if (/November 3, 2026/.test(await page.locator("#card-clock").innerText().catch(() => "?"))) break;
+    // Answer whatever stop is open.
     const talk = page.locator("#talk:not([hidden]) #talk-choices button");
     if (await talk.count()) {
-      console.log("Stop: talk,", await talk.first().innerText().catch(() => "?"));
+      console.log("Stop: talk,", (await talk.first().innerText().catch(() => "?")).slice(0, 60));
       await talk.first().click();
-      await page.waitForTimeout(1500);
-      continue;
+      await page.waitForTimeout(2000);
+    } else if (await page.locator("#talk:not([hidden])").count()) {
+      console.log("Stop: choiceless talk, leaving");
+      await page.locator("#talk-leave").click();
+      await page.waitForTimeout(2000);
+    } else if (await page.locator("#continue:not([hidden])").count()) {
+      console.log("Stop: player Continue");
+      await page.locator("#continue:not([hidden])").click();
+      await page.waitForTimeout(2000);
     }
-    const cont = page.locator("#game.cinema #continue, #scene-continue");
-    if (await cont.count()) {
-      await cont.first().click();
-      await page.waitForTimeout(1500);
-      continue;
+    // Run the clock again from the calendar.
+    await page.locator('[data-tab="calendar"]').first().evaluate((e) => e.click());
+    for (let m = 0; m < 30; m += 1) {
+      const heading = await page.locator(".calendar-heading h3").innerText().catch(() => "?");
+      if (/November 2026/.test(heading)) break;
+      await page.getByRole("button", { name: "Next month", exact: true }).click();
+      await page.waitForTimeout(500);
     }
-    console.log("Stop clock:", clock);
-    await page.waitForTimeout(2000);
+    await page.locator(".month .day", { hasText: /^3$/ }).first().click();
+    await page.waitForTimeout(1000);
+    const skip2 = page.locator(".calendar-details .skip-forward");
+    if (await skip2.count()) {
+      await skip2.first().click();
+      await page.waitForTimeout(4000);
+    }
+    console.log("Leg clock:", await page.locator("#card-clock").innerText().catch(() => "?"));
   }
   console.log("Clock:", await page.locator("#card-clock").innerText().catch(() => "?"));
   console.log("Ballot visible:", await page.locator("#ballot:not([hidden])").count());
