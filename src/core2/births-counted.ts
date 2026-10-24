@@ -395,6 +395,15 @@ export function applyCountedFlows(
     const lead = (person: PersonInput, on: string) =>
       countedCourseDays(ageOf(person, on));
     const byId = new Map(people.map((person) => [person.id, person]));
+    // Each household's counted people in the same order, and the month's
+    // dead so far, so a death reads its own household, not the whole town.
+    const byHousehold = new Map<string, PersonInput[]>();
+    for (const person of people) {
+      const members = byHousehold.get(person.householdId);
+      if (members) members.push(person);
+      else byHousehold.set(person.householdId, [person]);
+    }
+    const dead = new Set<string>();
     const ill = new Map(
       illInPlace(api, placeId).map((found) => [found.id, found]),
     );
@@ -423,17 +432,13 @@ export function applyCountedFlows(
         (row.deathCauses[died.cause] ?? 0) + weightOfPerson(person);
       row.causeOf[person.id] = died.cause;
       // Who lived with them and outlives them, still in the counts.
-      const survivors = people
-        .filter(
-          (other) =>
-            other.id !== person.id &&
-            other.householdId === person.householdId &&
-            !row.deaths.includes(other.id),
-        )
+      const survivors = (byHousehold.get(person.householdId) ?? [])
+        .filter((other) => other.id !== person.id && !dead.has(other.id))
         .map((other) => other.id);
       for (const heir of removeCountedPerson(core, person.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       row.deaths.push(person.id);
+      dead.add(person.id);
       // The death, for the household that outlives them: a private record
       // the people engines read (a counted death is no public notice).
       if (survivors.length)
@@ -456,7 +461,7 @@ export function applyCountedFlows(
         });
     }
     const well = people.filter(
-      (person) => !ill.has(person.id) && !row.deaths.includes(person.id),
+      (person) => !ill.has(person.id) && !dead.has(person.id),
     );
     const owed: Record<string, number> = { ...carry.deaths };
     const fall = (
@@ -469,7 +474,9 @@ export function applyCountedFlows(
         // Looking back before the opening, someone born since was not yet there to fall ill.
         if (person.birthDate > on) continue;
         const key = deathCohort(person);
-        cohorts.set(key, [...(cohorts.get(key) ?? []), person]);
+        const cohort = cohorts.get(key);
+        if (cohort) cohort.push(person);
+        else cohorts.set(key, [person]);
       }
       let expected = 0;
       for (const [key, members] of cohorts) {
@@ -659,12 +666,14 @@ export function applyCountedFlows(
       });
     }
 
-    const end = countedHouseholdsByPlace(core).get(placeId) ?? [];
-    row.endHouseholds = end.length;
-    row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
     // The month's record is bookkeeping: nothing in play reads it, only
     // tests and the bench, which run with bookkeeping on.
-    if (bookkeeping()) store.table(rowsTable).put(row as unknown as ModuleRow);
+    if (bookkeeping()) {
+      const end = countedHouseholdsByPlace(core).get(placeId) ?? [];
+      row.endHouseholds = end.length;
+      row.endPeople = end.reduce((n, record) => n + record.people.length, 0);
+      store.table(rowsTable).put(row as unknown as ModuleRow);
+    }
     store.table(carryTable).put({ id: placeId, ...carry });
     notifyCountedDeaths(api, row);
   }
