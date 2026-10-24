@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Wire to the world: measured in one year of buildBenchWorld per drawn place, played against flat and mirror twins. Never loosen the check: the gap is the matrix's existing neighbors measure, not a narrower one. This is a game, not a spreadsheet: a new daily activity is the owner's call, not a fix here.
 
-**Done when.** scripts/traits/trait-wiring-matrix.ts on main with every traits family merged, in two places drawn from all 56, seeds named, prints the opposite-neighbors gap with each action's share of the difference, and either the gap reaches twice the October 20 value or the report names the cause in numbers and the owner question it leaves.
+**Done when.** scripts/traits/trait-wiring-matrix.ts on main with every traits family merged, on one year of buildBenchWorld in each of two drawn places (drawn place and seed named), prints the opposite-neighbors gap with each action's share of the difference, and either the gap reaches twice the October 20 value or the report names the cause in numbers and the owner question it leaves.
 
 **Files.** scripts/traits/trait-wiring-matrix.ts, src/core2/choice.ts, src/core2/modules/life.ts
 
