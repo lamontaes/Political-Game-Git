@@ -32,6 +32,7 @@ import {
   returnCommuterPay,
   commuterPeriodPay,
 } from "./residents";
+import { returnClaimToCounts } from "./retirement-claims";
 import { isSchoolDistrict, type ResidentHouseholdRecord } from "../residents";
 import type { ModuleRow } from "../module-data";
 import type {
@@ -271,6 +272,8 @@ export function demoteHousehold(
   // Its commuters are the place's unplaced workers again.
   returnCommuterPay(core, householdId, commuterPay);
   for (const job of jobs) addCountedJob(core, job);
+  // Retirement awards claimed in play join the residents' income again.
+  for (const person of people) returnClaimToCounts(api, person.id, placeId);
   // Its money goes to its group's account.
   const fund = countedFundOf(core, householdId);
   let cash = 0;

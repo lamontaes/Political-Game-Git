@@ -748,6 +748,23 @@ function pastTerms(
       : start;
   const won = (from: string) =>
     office.elected ? { elected: electionBehind(office, from) } : {};
+  // A holder too young for the office when the current term began came to it
+  // partway through, on the day they reached the minimum age (a February 29
+  // birthday counts on March 1), filling the seat rather than winning it.
+  const birth = term.identity.birthDate;
+  const ageYear = born + tenureYears("minimumAgeAtFirstTerm");
+  const leap =
+    (ageYear % 4 === 0 && ageYear % 100 !== 0) || ageYear % 400 === 0;
+  const ofAge = `${ageYear}-${birth.slice(5) === "02-29" && !leap ? "03-01" : birth.slice(5)}`;
+  if (prior === 0 && start < ofAge) {
+    const joined = ofAge < opening ? ofAge : opening;
+    table(api, "terms").put({
+      ...term,
+      startDate: joined,
+      serviceStart: joined,
+    } as unknown as ModuleRow);
+    return;
+  }
   table(api, "terms").put({
     ...term,
     startDate: start,
