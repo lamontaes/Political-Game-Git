@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/dialogue-in-play
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T13:12:58.067Z
 ---
 
 **What.** The owner, Oct 24: Quit worrying about my grades. Get the English engine in the game. That should make every single piece of dialogue available, and if I find pieces I don't like or keep grading, keep updating it. Until now 891 bank parts were held out of play until he graded each one, so ordinary play showed a narrator and a chat button, the campaign speech screen offered nothing and purpose scenes never talked. The grade step now sets every bank's flag from the grade ledger, so every part plays except the ones he graded bad or fix, and each new round of grades reaches the whole game at once.
