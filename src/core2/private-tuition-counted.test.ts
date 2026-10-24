@@ -208,6 +208,22 @@ it(`counted families are ranked with full ones each August, pay the school as a 
       tuition.contractKind,
     );
     const kept = enrolled.find((row) => plansNow.has(row.householdId));
+    // A school can close in the year (its tuition flow ends "payee-closed")
+    // and, with no other private school in town, its families have nowhere
+    // to go. That town has no enrolled family left to fill in, so the next
+    // drawn town is tried; any other loss of enrollment fails below.
+    const closedSchool = (householdId: string) =>
+      [...rt.flows.values()].some(
+        (f) =>
+          f.endedReason === "payee-closed" &&
+          f.financeKind === tuition.contractKind &&
+          (f.amountByContract?.[`hh:${householdId}`] ?? 0) > 0,
+      );
+    if (!kept && enrolled.every((row) => closedSchool(row.householdId))) {
+      tried[tried.length - 1] +=
+        " (its private school closed in the year; no enrolled family left to fill in)";
+      continue;
+    }
     expect(
       kept,
       `${where}: an enrolled counted family is still counted and enrolled at the year's end`,
