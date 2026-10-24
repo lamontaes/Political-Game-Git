@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/voice-note-grades
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T05:36:45.060Z
 ---
 
 **What.** The owner, Oct 24, to the Words session: take everything I said I liked in the voice notes from the batches before, and the lessons learned from them, and start getting it in the game, since you can't get my live grades. His reviews of batches 11 to 21 are recorded in docs/coordination/OWNER-DECISIONS.md and quote lines he graded or praised (You'll need friends after this vote. I won't be one., graded 5) and lines he rejected (I'd think hard about that., graded 1). Each quoted line is matched to its part in data/english/parts and written as a grade in data/english/grades, so apply-grades.ts releases the liked lines and keeps the rejected ones out of play.
