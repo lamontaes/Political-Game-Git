@@ -285,53 +285,57 @@ function diff(a: Map<string, number>, b: Map<string, number>) {
 }
 
 describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${seed})`, () => {
-  it("shifts each running cause and reports which engine records moved", () => {
-    const started = Date.now();
-    const controlCore = play(null).core;
-    const control = fingerprint(controlCore);
-    const again = fingerprint(play(null).core);
-    // The checker needs twins that match exactly when nothing is shifted.
-    const noise = diff(control, again);
-    expect(noise, "unshifted twins differ").toEqual([]);
-    const results = [];
-    for (const cause of CAUSES) {
-      const shifted = play(cause);
-      expect(shifted.touched.length, cause.measure).toBeGreaterThan(0);
-      const moved = diff(control, fingerprint(shifted.core));
-      const movedRecords = changedIds(controlCore, shifted.core, moved);
-      const links = WEB_LINKS.filter(
-        (link) =>
-          (derivedOf(link.from)?.measure ?? link.from) === cause.measure,
-      ).map((link) => link.key);
-      results.push({
-        cause: cause.measure,
-        shiftedBy: cause.by ?? `${(cause.relative ?? 0) * 100}% of its level`,
-        shiftedRecords: shifted.touched.slice(0, 3),
-        links,
-        movedRecordKinds: moved,
-        movedRecords,
-      });
-    }
-    const twins = {
-      seed,
-      place: `${place.name}, ${place.state} (${place.key})`,
-      months: MONTHS,
-      seconds: Math.round((Date.now() - started) / 1000),
-      results,
-    };
-    if (process.env.EFFECT_TWINS_WRITE) {
-      const matrix = JSON.parse(readFileSync(MATRIX, "utf8"));
-      writeFileSync(
-        MATRIX,
-        `${JSON.stringify({ ...matrix, twins }, null, 2)}\n`,
-      );
-    }
-    if (process.env.EFFECT_TWINS_OUT)
-      writeFileSync(
-        process.env.EFFECT_TWINS_OUT,
-        `${JSON.stringify(twins, null, 2)}\n`,
-      );
-    console.log(JSON.stringify(twins, null, 2));
-    expect(results.length).toBeGreaterThan(0);
-  }, 3_600_000);
+  it(
+    "shifts each running cause and reports which engine records moved",
+    () => {
+      const started = Date.now();
+      const controlCore = play(null).core;
+      const control = fingerprint(controlCore);
+      const again = fingerprint(play(null).core);
+      // The checker needs twins that match exactly when nothing is shifted.
+      const noise = diff(control, again);
+      expect(noise, "unshifted twins differ").toEqual([]);
+      const results = [];
+      for (const cause of CAUSES) {
+        const shifted = play(cause);
+        expect(shifted.touched.length, cause.measure).toBeGreaterThan(0);
+        const moved = diff(control, fingerprint(shifted.core));
+        const movedRecords = changedIds(controlCore, shifted.core, moved);
+        const links = WEB_LINKS.filter(
+          (link) =>
+            (derivedOf(link.from)?.measure ?? link.from) === cause.measure,
+        ).map((link) => link.key);
+        results.push({
+          cause: cause.measure,
+          shiftedBy: cause.by ?? `${(cause.relative ?? 0) * 100}% of its level`,
+          shiftedRecords: shifted.touched.slice(0, 3),
+          links,
+          movedRecordKinds: moved,
+          movedRecords,
+        });
+      }
+      const twins = {
+        seed,
+        place: `${place.name}, ${place.state} (${place.key})`,
+        months: MONTHS,
+        seconds: Math.round((Date.now() - started) / 1000),
+        results,
+      };
+      if (process.env.EFFECT_TWINS_WRITE) {
+        const matrix = JSON.parse(readFileSync(MATRIX, "utf8"));
+        writeFileSync(
+          MATRIX,
+          `${JSON.stringify({ ...matrix, twins }, null, 2)}\n`,
+        );
+      }
+      if (process.env.EFFECT_TWINS_OUT)
+        writeFileSync(
+          process.env.EFFECT_TWINS_OUT,
+          `${JSON.stringify(twins, null, 2)}\n`,
+        );
+      console.log(JSON.stringify(twins, null, 2));
+      expect(results.length).toBeGreaterThan(0);
+    },
+    Math.max(3_600_000, MONTHS * 1_200_000),
+  ); // about 20 minutes a played month for the twins of every cause
 });
