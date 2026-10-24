@@ -557,8 +557,12 @@ function draftUnder(
   api: CoreAPI,
   provisions: (api: CoreAPI) => readonly Provision[],
 ): void {
+  // The town's own body: a city council, or the township board where the
+  // town has no city government.
   const council = townSeats(api).find(
-    (s) => s.office.kind === "council" && s.holder?.personId,
+    (s) =>
+      (s.office.kind === "council" || s.office.kind === "township-board") &&
+      s.holder?.personId,
   );
   if (!council) return;
   draftBill(api, {
@@ -596,7 +600,9 @@ function changeAmount(
       how: "no governing row and no level may set it",
       undo: () => {},
     };
-  const old = Number(now.value ?? g?.value ?? 0);
+  // The governing row's own amount: the change is written at its level, and
+  // the law in force can be several levels' sum (a federal and a state tax).
+  const old = Number(g?.value ?? now.value ?? 0);
   const next =
     old > 0
       ? Number.isInteger(old)
