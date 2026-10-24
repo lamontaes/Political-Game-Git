@@ -16,7 +16,11 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { enactLaw, lawChain } from "./modules/laws";
-import { stancesOf } from "./modules/views";
+import {
+  registerStanceListener,
+  stancesOf,
+  type Stance,
+} from "./modules/views";
 import { coreAPI } from "./state";
 
 const seed = process.env.EVICTION_NOTICE_SEED ?? randomBytes(8).toString("hex");
@@ -40,6 +44,19 @@ describe("a settlement under the right to counsel is a notice", () => {
       });
       const core = world.core;
       const api = coreAPI(core);
+      // Each cause as the views engine stores it, the moment it moves a
+      // stance on the law: outside the player's circle a stance keeps only
+      // its latest cause, so a debate later the same day would replace it.
+      const moved = new Map<string, Stance["causes"][number][]>();
+      registerStanceListener((listenerApi, personId, topic) => {
+        if (listenerApi.state !== core || topic !== RIGHT_TO_COUNSEL) return;
+        const stance = stancesOf(listenerApi, personId).find(
+          (st) => st.topic === topic,
+        );
+        const latest = stance?.causes.at(-1);
+        if (latest)
+          moved.set(personId, [...(moved.get(personId) ?? []), latest]);
+      });
       for (const level of lawChain(api).levels)
         enactLaw(api, {
           ...level,
@@ -81,14 +98,13 @@ describe("a settlement under the right to counsel is a notice", () => {
             (st) => st.topic === RIGHT_TO_COUNSEL,
           );
           expect(stance?.desiredChange, `${where}: ${row.id}`).toBe("enact");
-          // The view's cause for this case cites the notice. Other causes
-          // (a debate that day) may be recorded after it.
-          const cause = stance!.causes.find(
+          // The cause this case's notice stored on the view cites the notice.
+          const cause = (moved.get(told[0]!) ?? []).find(
             (c) => c.eventId === `event:law.effect-learned:${row.id}:${today}`,
           );
           expect(
             cause?.learnedFrom,
-            `${where}: ${row.id} ${JSON.stringify(stance!.causes)}`,
+            `${where}: ${row.id} ${JSON.stringify(moved.get(told[0]!))}`,
           ).toBe(notice);
           expect(cause!.change, `${where}: ${row.id}`).toBeGreaterThan(0);
           checked += 1;
