@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/receipt-own-illness-provider
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T21:04:23.375Z
 ---
 
 **What.** Two finance-sales-receipt-writer.test.ts cases fail on clean main c3c03bc19a with Unregistered reason provider: work.own-illness. Their minimal fixtures schedule owned work through runScheduledWork and chooseAct without installing that required provider. The exception prevents the intended positive pending-allowance and exhausted-cash closure assertions from running, independently of the journal optimization in PR 5907.
