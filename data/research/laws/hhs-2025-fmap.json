@@ -1,0 +1,360 @@
+{
+  "id": "hhs-2025-fmap",
+  "publisher": "U.S. Department of Health and Human Services (Federal Register)",
+  "vintage": "FY2025",
+  "table": "Table 1--Federal Medical Assistance Percentages and Enhanced Federal Medical Assistance Percentages, Effective October 1, 2024-September 30, 2025",
+  "title": "Federal Financial Participation in State Assistance Expenditures; Federal Matching Shares for Medicaid, the Children's Health Insurance Program, and Aid to Needy Aged, Blind, or Disabled Persons for October 1, 2024, Through September 30, 2025 (FR Doc. 2023-25636)",
+  "universe": "The federal share of a state's Medicaid spending (percent)",
+  "geography": "50 states, the District of Columbia, Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands, keyed by postal code",
+  "sourceUrl": "https://www.govinfo.gov/content/pkg/FR-2023-11-21/html/2023-25636.htm",
+  "retrievedOn": "2026-10-23",
+  "limits": [
+    "Arizona carries the disaster-recovery adjusted rate from FR Doc. 2024-27938 (Table 2), which replaced its regular FY2025 rate before the start date.",
+    "The regular FMAP only; the enhanced (CHIP) rate is kept as data and not read.",
+    "U.S. government work (17 U.S.C. 105)."
+  ],
+  "places": {
+    "US-AL": {
+      "name": "Alabama",
+      "value": 72.84,
+      "enhanced": 80.99,
+      "quote": "Alabama            72.84           80.99"
+    },
+    "US-AK": {
+      "name": "Alaska",
+      "value": 51.54,
+      "enhanced": 66.08,
+      "quote": "Alaska            51.54           66.08"
+    },
+    "US-AS": {
+      "name": "American Samoa",
+      "value": 83.0,
+      "enhanced": 85.0,
+      "quote": "American Samoa *            83.00           85.00"
+    },
+    "US-AZ": {
+      "name": "Arizona",
+      "value": 65.65,
+      "enhanced": 75.42,
+      "quote": "Arizona            64.89           75.42",
+      "regular": 64.89,
+      "adjustment": {
+        "source": "https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27938.htm",
+        "quote": "Arizona            67.93            64.89             3.04                  0.76                 65.65",
+        "what": "Disaster-recovery adjusted FMAP for fiscal year 2025 (Table 2), published November 29, 2024, before the start date."
+      }
+    },
+    "US-AR": {
+      "name": "Arkansas",
+      "value": 71.14,
+      "enhanced": 79.8,
+      "quote": "Arkansas            71.14           79.80"
+    },
+    "US-CA": {
+      "name": "California",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "California            50.00           65.00"
+    },
+    "US-CO": {
+      "name": "Colorado",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "Colorado            50.00           65.00"
+    },
+    "US-CT": {
+      "name": "Connecticut",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "Connecticut            50.00           65.00"
+    },
+    "US-DE": {
+      "name": "Delaware",
+      "value": 60.15,
+      "enhanced": 72.11,
+      "quote": "Delaware            60.15           72.11"
+    },
+    "US-DC": {
+      "name": "District of Columbia",
+      "value": 70.0,
+      "enhanced": 79.0,
+      "quote": "District of Columbia **            70.00           79.00"
+    },
+    "US-FL": {
+      "name": "Florida",
+      "value": 57.17,
+      "enhanced": 70.02,
+      "quote": "Florida            57.17           70.02"
+    },
+    "US-GA": {
+      "name": "Georgia",
+      "value": 66.04,
+      "enhanced": 76.23,
+      "quote": "Georgia            66.04           76.23"
+    },
+    "US-GU": {
+      "name": "Guam",
+      "value": 83.0,
+      "enhanced": 85.0,
+      "quote": "Guam *            83.00           85.00"
+    },
+    "US-HI": {
+      "name": "Hawaii",
+      "value": 59.08,
+      "enhanced": 71.36,
+      "quote": "Hawaii            59.08           71.36"
+    },
+    "US-ID": {
+      "name": "Idaho",
+      "value": 67.59,
+      "enhanced": 77.31,
+      "quote": "Idaho            67.59           77.31"
+    },
+    "US-IL": {
+      "name": "Illinois",
+      "value": 51.38,
+      "enhanced": 65.97,
+      "quote": "Illinois            51.38           65.97"
+    },
+    "US-IN": {
+      "name": "Indiana",
+      "value": 64.9,
+      "enhanced": 75.43,
+      "quote": "Indiana            64.90           75.43"
+    },
+    "US-IA": {
+      "name": "Iowa",
+      "value": 63.25,
+      "enhanced": 74.28,
+      "quote": "Iowa            63.25           74.28"
+    },
+    "US-KS": {
+      "name": "Kansas",
+      "value": 61.87,
+      "enhanced": 73.31,
+      "quote": "Kansas            61.87           73.31"
+    },
+    "US-KY": {
+      "name": "Kentucky",
+      "value": 71.48,
+      "enhanced": 80.04,
+      "quote": "Kentucky            71.48           80.04"
+    },
+    "US-LA": {
+      "name": "Louisiana",
+      "value": 68.06,
+      "enhanced": 77.64,
+      "quote": "Louisiana            68.06           77.64"
+    },
+    "US-ME": {
+      "name": "Maine",
+      "value": 62.06,
+      "enhanced": 73.44,
+      "quote": "Maine            62.06           73.44"
+    },
+    "US-MD": {
+      "name": "Maryland",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "Maryland            50.00           65.00"
+    },
+    "US-MA": {
+      "name": "Massachusetts",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "Massachusetts            50.00           65.00"
+    },
+    "US-MI": {
+      "name": "Michigan",
+      "value": 65.13,
+      "enhanced": 75.59,
+      "quote": "Michigan            65.13           75.59"
+    },
+    "US-MN": {
+      "name": "Minnesota",
+      "value": 51.16,
+      "enhanced": 65.81,
+      "quote": "Minnesota            51.16           65.81"
+    },
+    "US-MS": {
+      "name": "Mississippi",
+      "value": 76.9,
+      "enhanced": 83.83,
+      "quote": "Mississippi            76.90           83.83"
+    },
+    "US-MO": {
+      "name": "Missouri",
+      "value": 65.31,
+      "enhanced": 75.72,
+      "quote": "Missouri            65.31           75.72"
+    },
+    "US-MT": {
+      "name": "Montana",
+      "value": 62.37,
+      "enhanced": 73.66,
+      "quote": "Montana            62.37           73.66"
+    },
+    "US-NE": {
+      "name": "Nebraska",
+      "value": 57.52,
+      "enhanced": 70.26,
+      "quote": "Nebraska            57.52           70.26"
+    },
+    "US-NV": {
+      "name": "Nevada",
+      "value": 60.22,
+      "enhanced": 72.15,
+      "quote": "Nevada            60.22           72.15"
+    },
+    "US-NH": {
+      "name": "New Hampshire",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "New Hampshire            50.00           65.00"
+    },
+    "US-NJ": {
+      "name": "New Jersey",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "New Jersey            50.00           65.00"
+    },
+    "US-NM": {
+      "name": "New Mexico",
+      "value": 71.68,
+      "enhanced": 80.18,
+      "quote": "New Mexico            71.68           80.18"
+    },
+    "US-NY": {
+      "name": "New York",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "New York            50.00           65.00"
+    },
+    "US-NC": {
+      "name": "North Carolina",
+      "value": 65.06,
+      "enhanced": 75.54,
+      "quote": "North Carolina            65.06           75.54"
+    },
+    "US-ND": {
+      "name": "North Dakota",
+      "value": 50.97,
+      "enhanced": 65.68,
+      "quote": "North Dakota            50.97           65.68"
+    },
+    "US-MP": {
+      "name": "Northern Mariana Islands",
+      "value": 83.0,
+      "enhanced": 85.0,
+      "quote": "Northern Mariana Islands *            83.00           85.00"
+    },
+    "US-OH": {
+      "name": "Ohio",
+      "value": 64.6,
+      "enhanced": 75.22,
+      "quote": "Ohio            64.60           75.22"
+    },
+    "US-OK": {
+      "name": "Oklahoma",
+      "value": 67.08,
+      "enhanced": 76.96,
+      "quote": "Oklahoma            67.08           76.96"
+    },
+    "US-OR": {
+      "name": "Oregon",
+      "value": 59.0,
+      "enhanced": 71.3,
+      "quote": "Oregon            59.00           71.30"
+    },
+    "US-PA": {
+      "name": "Pennsylvania",
+      "value": 55.09,
+      "enhanced": 68.56,
+      "quote": "Pennsylvania            55.09           68.56"
+    },
+    "US-PR": {
+      "name": "Puerto Rico",
+      "value": 76.0,
+      "enhanced": 83.2,
+      "quote": "Puerto Rico *            76.00           83.20"
+    },
+    "US-RI": {
+      "name": "Rhode Island",
+      "value": 56.31,
+      "enhanced": 69.42,
+      "quote": "Rhode Island            56.31           69.42"
+    },
+    "US-SC": {
+      "name": "South Carolina",
+      "value": 69.67,
+      "enhanced": 78.77,
+      "quote": "South Carolina            69.67           78.77"
+    },
+    "US-SD": {
+      "name": "South Dakota",
+      "value": 53.07,
+      "enhanced": 67.15,
+      "quote": "South Dakota            53.07           67.15"
+    },
+    "US-TN": {
+      "name": "Tennessee",
+      "value": 64.81,
+      "enhanced": 75.37,
+      "quote": "Tennessee            64.81           75.37"
+    },
+    "US-TX": {
+      "name": "Texas",
+      "value": 60.0,
+      "enhanced": 72.0,
+      "quote": "Texas            60.00           72.00"
+    },
+    "US-UT": {
+      "name": "Utah",
+      "value": 64.36,
+      "enhanced": 75.05,
+      "quote": "Utah            64.36           75.05"
+    },
+    "US-VT": {
+      "name": "Vermont",
+      "value": 58.19,
+      "enhanced": 70.73,
+      "quote": "Vermont            58.19           70.73"
+    },
+    "US-VI": {
+      "name": "Virgin Islands",
+      "value": 83.0,
+      "enhanced": 85.0,
+      "quote": "Virgin Islands *            83.00           85.00"
+    },
+    "US-VA": {
+      "name": "Virginia",
+      "value": 50.99,
+      "enhanced": 65.69,
+      "quote": "Virginia            50.99           65.69"
+    },
+    "US-WA": {
+      "name": "Washington",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "Washington            50.00           65.00"
+    },
+    "US-WV": {
+      "name": "West Virginia",
+      "value": 73.84,
+      "enhanced": 81.69,
+      "quote": "West Virginia            73.84           81.69"
+    },
+    "US-WI": {
+      "name": "Wisconsin",
+      "value": 60.43,
+      "enhanced": 72.3,
+      "quote": "Wisconsin            60.43           72.30"
+    },
+    "US-WY": {
+      "name": "Wyoming",
+      "value": 50.0,
+      "enhanced": 65.0,
+      "quote": "Wyoming            50.00           65.00"
+    }
+  }
+}
