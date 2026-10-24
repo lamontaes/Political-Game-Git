@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-campaigns-small-place
-pr:
+pr: #5899
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T04:44:53.785Z

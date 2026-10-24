@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-deaths-opening-bookkeeping
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T05:35:11.444Z
 ---
 
 **What.** src/core2/counted-deaths-opening.test.ts draws a random seed and requires counted deaths in the opening to reach at least half of the expected count, which fails on small towns where a few deaths either way is ordinary. Pin seed 140bb7872bc46f5202d12ae8c4c52ca2364da2da170593f43aeb7f7810bd5366 (Centennial, Wyoming) as a regression case that failed before the fix. Replace the half-of-expected floor with a bound that holds on small towns, for example a Poisson interval around the life-table expectation that widens as the expected count falls, so the test still fails when deaths are missing entirely.
