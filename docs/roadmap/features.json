@@ -240,7 +240,7 @@
       "package": "M1-views",
       "test": "In a random place, views match real spreads by age, education, faith and region, checked against state and metro answer keys, so conservatives in two randomly drawn states can differ; a big event shifts the people it touches and no one else.",
       "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts",
-      "passes": true
+      "passes": false
     },
     {
       "id": "M1-11",
