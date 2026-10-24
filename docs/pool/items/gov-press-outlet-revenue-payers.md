@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/press-outlet-revenue
 pr: #5099
 blocked-on:
