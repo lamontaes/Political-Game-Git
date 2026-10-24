@@ -24,7 +24,6 @@ it("puts every municipal and county clerk job on its government office's staff",
   for (let draw = 0; draw < 12; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "civic-inputs-clerk-staff");
     const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
-    tried.push(where);
     setBookkeeping(false);
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -49,21 +48,37 @@ it("puts every municipal and county clerk job on its government office's staff",
       ![...core.jobs.values()].some((job) =>
         governedClerk(job, "profession:municipal-clerk"),
       )
-    )
+    ) {
+      tried.push(`${where}: no town clerk at a government employer`);
       continue;
+    }
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     const governed = [...core.jobs.values()].filter((job) =>
       governedClerk(job),
     );
+    // A year in which the town's clerk left with no one hired holds no
+    // clerk to find, so draw another place.
+    if (
+      !governed.some(
+        (job) => job.occupationClassification === "profession:municipal-clerk",
+      )
+    ) {
+      tried.push(`${where}: no current town clerk after the year`);
+      continue;
+    }
+    const hired = governed.filter((job) => !atOpening.has(job.id)).length;
+    const left = [...core.jobs.values()].filter(
+      (job) =>
+        job.endsAt !== undefined &&
+        job.occupationClassification !== undefined &&
+        CLERKS.has(job.occupationClassification),
+    );
     for (const job of governed) {
       const office = core.publicOrganizations.get(job.organizationId);
       process.stdout.write(
-        `${where}: job ${job.id} (${job.title}) at organization ${job.organizationId} ` +
+        `${where}: ${atOpening.has(job.id) ? "opening" : "hired"} job ${job.id} (${job.title}) held by ${job.personId} at organization ${job.organizationId} ` +
           `-> office staff ${office?.staff?.map((row) => row.jobId).join(",") ?? "none"}\n`,
       );
-      // The staff list is the opening's (SG-CORE-public-office-staff-opening-only):
-      // a clerk hired since is printed above, not held to it.
-      if (!atOpening.has(job.id)) continue;
       expect(
         office,
         `${where}: ${job.organizationId} has no public office`,
@@ -77,6 +92,16 @@ it("puts every municipal and county clerk job on its government office's staff",
         source: job.source,
       });
     }
+    // No one who left a job is still on an office's staff.
+    for (const office of core.publicOrganizations.values())
+      for (const row of office.staff ?? [])
+        expect(
+          core.jobs.get(row.jobId)?.endsAt,
+          `${where}: ${row.jobId} on ${office.id}'s staff has ended`,
+        ).toBeUndefined();
+    process.stdout.write(
+      `${where}: ${governed.length} current clerks (${hired} hired in the year), ${left.length} clerk jobs ended\n`,
+    );
     return;
   }
   throw new Error(
