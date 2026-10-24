@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: open
+status: done
 claimed-by:
-pr: #5730
+pr: #5731
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
