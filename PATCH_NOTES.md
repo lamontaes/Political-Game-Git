@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.9
+
+_Released October 24, 2026._
+
+### Changed
+
+- **Campaign choices use recalibrated personality effects** Personality has a
+  recalibrated influence on volunteering, giving, answering the door, retelling
+  a campaign story, answering a poll, speaking to a reporter and holding a
+  party's line. Each weight uses the trait's own measured spread.
+
 ## PRE-ALPHA 0.22.8
 
 _Released October 24, 2026._
