@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/returning-fill-in-commuter-start
+status: open
+claimed-by:
 pr: #5900
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T05:08:05.895Z
+claimed-at:
 ---
 
 **What.** Two existing tests fail on clean main at e3c00ba8ef with the same error: fill-in-returning-newborn.test.ts in Nahant, Massachusetts (GOLDEN_PATH_SEED=334e5aef0e2adb0f4c996afec92a7c77) and fill-in-returning-dead-member.test.ts in Funny River, Alaska (GOLDEN_PATH_SEED=0a6edc45e4a58e597bfd408e3490ce39). The stack is fillInPerson (state.ts:2262) to releaseResidentHousehold (residents.ts:1828) to startCommuterJob (residents.ts:2711) to startJob, which throws at job-lifecycle.ts:32. One of its four conditions fails for the returning household's jobless worker; which one was not traced. A likely suspect is a commuter job id already in core.jobs from the household's first fill-in, but that is unverified.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T05:08:05.895Z
 **Files.** src/core2/modules/residents.ts, src/core2/state.ts, src/core2/job-lifecycle.ts, src/core2/fill-in-returning-newborn.test.ts, src/core2/fill-in-returning-dead-member.test.ts
 
 **Notes.** Found Oct 24 while gating tests-counted-demotion-retained-cash; the same seeds fail identically with and without that branch's change.
+
+Sent back 2026-10-24 from PR #5900 (branch claude/returning-fill-in-commuter-start): its commuter-ID fix is already on main through #5938 and only its release declaration remains; reconcile the named-seed acceptance and item completion on that branch, merge main into it first.
