@@ -3809,7 +3809,7 @@
   "personalitySociabilityRiskCorrelation": {
     "value": 0.34,
     "tag": "ESTIMATED",
-    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34.",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4, https://cran.r-project.org/package=psychTools, data/neo.rda, read Oct 24, 2026): E2 Gregariousness with E5 Excitement-Seeking, r = .34. Research file data/research/people/neo-pi-r-facet-correlations-1992.json; the value and its interval are checked by scripts/research/people-parameters-check.ts.",
     "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
     "stopgapId": "SG-P15-personality-mapping",
     "spread": {
@@ -3822,7 +3822,7 @@
   "personalityReliabilityImpulseCorrelation": {
     "value": -0.45,
     "tag": "ESTIMATED",
-    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45.",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4, https://cran.r-project.org/package=psychTools, data/neo.rda, read Oct 24, 2026): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45. Research file data/research/people/neo-pi-r-facet-correlations-1992.json; the value and its interval are checked by scripts/research/people-parameters-check.ts.",
     "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
     "stopgapId": "SG-P15-personality-mapping",
     "spread": {
@@ -4541,16 +4541,14 @@
     }
   },
   "volunteerHours": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Hours of one volunteering session for a cause group. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "value": 2.18,
+    "tag": "SOURCED",
+    "citation": "Hours of one volunteering act for a cause group: one participant-day of volunteering. BLS American Time Use Survey 2025, Table 1, https://www.bls.gov/news.release/atus.t01.htm: volunteering (organizational and civic activities), 2.18 hours a day for those who volunteered that day (5.3% of people on an average day). Research file data/research/people/atus-2025-volunteering.json, checked by scripts/research/people-parameters-check.ts.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No volunteering-session duration source has been read into the repository yet."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 2.16,
+      "high": 2.2,
+      "unit": "hours per participant-day",
+      "citation": "The same table: women 2.16, men 2.20."
     }
   },
   "driveConfrontHours": {
