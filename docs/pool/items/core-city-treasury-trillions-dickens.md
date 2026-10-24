@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-city-treasury
-pr:
+pr: #5891
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T00:47:15.174Z
