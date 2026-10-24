@@ -897,17 +897,17 @@
     "citation": "Owner result-only records ruling; per-person monthly receipts retain the current measured year, aggregate totals remain."
   },
   "lookupHours": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-civic-progress",
+    "value": 0.91,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table A-1 (https://www.bls.gov/tus/tables/a1-2025.pdf): Government services, 0.91 hours per day for the people who did it that day (0.3 percent of people 15 and over a day). Recorded with the 2018 to 2024 tables in data/research/core/bls-atus-table-a1-2025.json; scripts/research/content-year.ts checks this row against that file.",
+    "estimatedFrom": "ATUS has no activity for looking up which local office handles something. The nearest measured activity is Using Government Services (ATUS 2018 lexicon, category 10 01: police and fire services, social services, obtaining licenses and paying fines, fees and taxes), so its 2025 duration for the people who did it stands in for one look-up act. It is a duration, not a share: who looks something up still follows the person's own drive and choice score.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.72,
+      "high": 1.06,
+      "unit": "hours per look-up act (ATUS hours per day for people who did the activity)",
+      "citation": "BLS ATUS Table A-1, Government services, hours per day for people who did it, every year the figure is published: 0.72 (2018), 0.87 (2019), 1.06 (2021), 0.72 (2024), 0.91 (2025); suppressed in 2022 and 2023."
     },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "stopgapId": "SG-P8-civic-progress"
   },
   "openingPeerGroupSize": {
     "value": 20,
@@ -3706,18 +3706,17 @@
     "stopgapId": "SG-P8-opening-private-cash-buffer"
   },
   "openingEmployerCashBufferTailSpan": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "CTO REVIEW15, October 9, 2026: explicitly estimated per-firm opening WHO cash-buffer spread through real JPMC q25/median/q75 anchors. Tail span of one adjacent quartile interval is an authored assumption, not measured by JPMorgan Chase Institute, Cash Is King, September 2016, Figures 5–7; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7.",
-    "estimatedFrom": "One openly unmeasured tail-span coefficient for a continuous piecewise-linear opening-state quantile curve. Uniform identity-keyed startup ranks, interpolation, endpoints and the generated-firm crosswalk remain unmeasured. Never chooses later actor decisions, refills cash or sizes stock to future survival.",
+    "value": 2.7,
+    "tag": "ESTIMATED",
+    "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016, Figure 5 (distribution of cash buffer days, printed page 14); https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7. Outline and conversion in data/research/core/jpmci-cash-buffer-days-2016.json, derived and checked by scripts/research/opening-capital-tail-span.ts. Lower-tail cross-check: U.S. Census Bureau, Small Business Pulse Survey, April 11 to 17, 2022, https://portal.census.gov/pulse/data/downloads/72/national_sector_11Apr22_17Apr22.xlsx (data/research/core/census-sbps-cash-on-hand-2022.json).",
+    "estimatedFrom": "Figure 5's drawn density of cash buffer days, integrated from its vector outline: the three quartile regions it draws hold 26.5, 24.2 and 24.3 percent of the area up to 62 days, and 10.1 percent of firms lie between the 75th percentile (62 days) and 100 days, so 14.9 percent hold more than 100. The opening quantile curve's straight top segment puts 0.25 x (100 - 62) / (high - 62) of firms in that band, so high = 156 days and the tail span is (156 - 62) / (62 - 27) = 2.69, rounded to 2.7. At this span every industry's lowest buffer reaches zero days, as the outline's nonzero density at 0 days and the pulse survey's 3.6 percent of employer firms with no cash (10.7 percent with 7 days or less, against 10.6 in Figure 5) show. One all-industries outline sets the span for all thirteen industry curves; straight tail segments, uniform startup ranks and the generated-employer cash-debit crosswalk remain assumptions.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Published q25/median/q75 anchors do not identify a coefficient interval, extrema, tail shape, full CDF or uniform identity rank interpretation. The real empirical IQR is retained separately on the thirteen ESTIMATED median rows and supplemental target; it is not this coefficient's uncertainty interval."
+      "low": 2.6,
+      "high": 2.85,
+      "unit": "tail span: quartile-to-median intervals from the 75th percentile to the curve's top endpoint (and from the 25th down to its bottom)",
+      "citation": "Same Figure 5 outline (data/research/core/jpmci-cash-buffer-days-2016.json), taking each of its three drawn quartile regions in turn as the 25 percent unit (scripts/research/opening-capital-tail-span.ts); the range of the figure's own reading, not a sampling interval."
     },
-    "stopgapId": "SG-P8-opening-private-cash-buffer-spread",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
-    }
+    "stopgapId": "SG-P8-opening-private-cash-buffer-spread"
   },
   "kinMoveAwayShare": {
     "value": 0.35,
@@ -5345,7 +5344,7 @@
   "careNeedHalfExcessHazard": {
     "value": 6,
     "tag": "TUNABLE",
-    "citation": "The combined chronic-condition hazard weight above ordinary health (the weight that sets a person's illness onset) that asks for half of full care from a relative at home. A grown relative's care need is excess / (excess + this). Checked on three generated towns over 90 days (seeds care-a, care-b, care-c; Filley, Nebraska; Slaughter Beach and Ardencroft, Delaware): values of 3 and 6 gave the same share of person-days caring for household members (21.5%, 3.4% and 48.8%, against 18.8%, 0.2% and 43.6% with children alone; ATUS 2025 Table 1 household care 22.0% of person-days), because a relative who asks for any care draws the act; the value sets how strongly. No direct source for the value itself.",
+    "citation": "The combined chronic-condition hazard weight above ordinary health (the weight that sets a person's illness onset) that asks for half of full care from a relative at home. A grown relative's care need is excess / (excess + this). Checked on three generated towns over 90 days (seeds care-a, care-b, care-c; Filley, Nebraska; Slaughter Beach and Ardencroft, Delaware): values of 3 and 6 gave the same share of person-days caring for household members (21.5%, 3.4% and 48.8%, against 18.8%, 0.2% and 43.6% with children alone; ATUS 2025 Table 1 household care 22.0% of person-days), because a relative who asks for any care draws the act; the value sets how strongly. No direct source for the value itself. Outcome bands it is checked against: ATUS Table A-1, caring for and helping household adults, 4.6 to 6.2 percent of people a day (2018 to 2025), and caring for and helping household members, 21.6 to 24.1 percent (data/research/core/bls-atus-table-a1-2025.json, reported by scripts/research/content-year.ts).",
     "stopgapId": "SG-P8-life-utility",
     "spread": {
       "status": "unmeasured",
