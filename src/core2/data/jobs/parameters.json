@@ -472,6 +472,7 @@
   "jobsSchoolingPayShare": {
     "value": 0.4,
     "tag": "ESTIMATED",
+    "stopgapId": "SG-WORLD-jobs-schooling-pay-share",
     "citation": "The share of the raw earnings gap between education levels that remains within one occupation and employer: positions are already priced for their occupation, which carries part of the schooling premium (a degree opens higher-paid roles).",
     "estimatedFrom": "Assumed share; no source measuring the within-occupation schooling premium was fetched, so it is an estimate with a wide spread, to be researched.",
     "spread": {

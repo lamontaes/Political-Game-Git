@@ -87,17 +87,10 @@ it("hires into one position pay differ by their own schooling, full and counted 
       }
     }
     if (!low || !high) {
-      // No two hires share a position pay; compare any no-college and college
-      // hire against their own position's pay instead.
-      const a = hires.find((r) => r.level === "no-college");
-      const b = hires.find((r) => r.level === "college");
-      if (!a || !b) {
-        tried.push(`${where}: ${hires.length} hires, no pair of levels`);
-        continue;
-      }
-      expect(a.paid / a.position!, `${where}: ${a.jobId}`).toBeLessThan(1);
-      expect(b.paid / b.position!, `${where}: ${b.jobId}`).toBeGreaterThan(1);
-      return;
+      // Two hires at the same position pay who differ in schooling are needed
+      // for the same-job comparison; another place is drawn.
+      tried.push(`${where}: ${hires.length} hires, no same-pay pair of levels`);
+      continue;
     }
     expect(
       ordered.indexOf(low.level) < ordered.indexOf(high.level),
@@ -110,6 +103,6 @@ it("hires into one position pay differ by their own schooling, full and counted 
     return;
   }
   throw new Error(
-    `no drawn place had hires of two levels: ${tried.join("; ")}`,
+    `no drawn place had two hires at one position pay with different schooling: ${tried.join("; ")}`,
   );
 }, 1_800_000);

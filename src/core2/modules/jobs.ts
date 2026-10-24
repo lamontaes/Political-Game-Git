@@ -2091,6 +2091,8 @@ export function hirePay(
           : undefined;
   if (weekly === undefined) return position.hourlyMinor;
   const gap = weekly / api.parameter("jobsWeeklyEarningsAllWorkers") - 1;
+  // stopgapId: SG-WORLD-jobs-schooling-pay-share (the within-role share of the schooling pay gap is assumed)
+  stopgap("SG-WORLD-jobs-schooling-pay-share");
   return Math.round(
     position.hourlyMinor * (1 + api.parameter("jobsSchoolingPayShare") * gap),
   );
