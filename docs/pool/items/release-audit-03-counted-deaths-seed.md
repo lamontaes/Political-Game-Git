@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/counted-deaths-opening-bookkeeping
 pr: #5904
 blocked-on:
