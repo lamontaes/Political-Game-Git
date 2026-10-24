@@ -1,0 +1,225 @@
+{
+  "id": "batch-23",
+  "title": "Words batch-23: held hand-written lines",
+  "kind": "held-parts-by-move",
+  "items": [
+    {
+      "i": 0,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "I got attacked.",
+      "parts": ["conversation.victimization-raise.i-got-attacked"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 1,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "I got robbed {when}.",
+      "parts": ["conversation.victimization-raise.i-got-robbed-when"],
+      "slots": [
+        {
+          "name": "when",
+          "from": "When something happened, from a dated record (a contact, a crime), as the director says it in passing."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 2,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "I was assaulted {when}.",
+      "parts": ["conversation.victimization-raise.i-was-assaulted-when"],
+      "slots": [
+        {
+          "name": "when",
+          "from": "When something happened, from a dated record (a contact, a crime), as the director says it in passing."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 3,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "Our home got burglarized {when}.",
+      "parts": [
+        "conversation.victimization-raise.our-home-got-burglarized-when"
+      ],
+      "slots": [
+        {
+          "name": "when",
+          "from": "When something happened, from a dated record (a contact, a crime), as the director says it in passing."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 4,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "Somebody robbed me.",
+      "parts": ["conversation.victimization-raise.somebody-robbed-me"],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 5,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "Somebody stole something of ours.",
+      "parts": [
+        "conversation.victimization-raise.somebody-stole-something-of-ours"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 6,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "Someone attacked me {when}.",
+      "parts": ["conversation.victimization-raise.someone-attacked-me-when"],
+      "slots": [
+        {
+          "name": "when",
+          "from": "When something happened, from a dated record (a contact, a crime), as the director says it in passing."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 7,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "Someone got into our place to steal.",
+      "parts": [
+        "conversation.victimization-raise.someone-got-into-our-place-to-steal"
+      ],
+      "slots": [],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 8,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "Someone robbed me {when}.",
+      "parts": ["conversation.victimization-raise.someone-robbed-me-when"],
+      "slots": [
+        {
+          "name": "when",
+          "from": "When something happened, from a dated record (a contact, a crime), as the director says it in passing."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 9,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "Something of ours got stolen {when}.",
+      "parts": [
+        "conversation.victimization-raise.something-of-ours-got-stolen-when"
+      ],
+      "slots": [
+        {
+          "name": "when",
+          "from": "When something happened, from a dated record (a contact, a crime), as the director says it in passing."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 10,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "We had something stolen {when}.",
+      "parts": [
+        "conversation.victimization-raise.we-had-something-stolen-when"
+      ],
+      "slots": [
+        {
+          "name": "when",
+          "from": "When something happened, from a dated record (a contact, a crime), as the director says it in passing."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    },
+    {
+      "i": 11,
+      "bank": "conversation.json",
+      "register": "conversation",
+      "move": "victimization-raise",
+      "sharedMove": "deliver-news",
+      "key": "loss",
+      "bearing": "solemn",
+      "text": "We were burglarized {when}.",
+      "parts": ["conversation.victimization-raise.we-were-burglarized-when"],
+      "slots": [
+        {
+          "name": "when",
+          "from": "When something happened, from a dated record (a contact, a crime), as the director says it in passing."
+        }
+      ],
+      "requires": [],
+      "usedFor": ["victimization / raise / raise"]
+    }
+  ]
+}
