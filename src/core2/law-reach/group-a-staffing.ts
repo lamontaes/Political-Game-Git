@@ -14,9 +14,12 @@ import type { ModuleRow } from "../module-data";
 import type { PolicyHandler } from "./host";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./applied";
 import {
+  adoptedLine,
   BUDGETS_MODULE_ID,
+  enactedBudgetChanges,
   governments,
   lineBeforeBill,
+  type GovernmentRow,
 } from "../modules/budgets";
 import { countedStaffOf } from "../modules/residents";
 import { countedJobsOf } from "../residents-economy";
@@ -53,11 +56,27 @@ export interface StaffingRow {
   readonly setOn: string;
   /** The fiscal year the base staff was taken in. */
   readonly fiscalYear?: number;
-  /**
-   * The staff the employer held before the line's first change: while the
-   * line funds more positions than this, a raise's hires are its reach.
-   */
-  readonly openingStaff?: number;
+  /** The government whose line it is. */
+  readonly governmentId?: string;
+}
+
+/**
+ * Whether a bill's change still raises a government's line: the line today
+ * against the year's adopted line less every change bills have carried into
+ * it. A raise carried into a new fiscal year still counts; once the old
+ * amount is put back, none does, whatever the year's own adoption added.
+ */
+export function lineRaisedByBills(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  line: string,
+): boolean {
+  const budget = budgetToday(api, gov);
+  if (!budget) return false;
+  const withoutBills =
+    adoptedLine(api, gov, budget.fiscalYear, line) -
+    (enactedBudgetChanges(api, gov.id)[line] ?? 0);
+  return (budget.spendingMinor[line] ?? 0) > withoutBills;
 }
 
 /**
@@ -133,7 +152,7 @@ export const staffing: PolicyHandler = (api, change) => {
       lawId: change.lawId,
       setOn: api.state.date,
       fiscalYear: budget.fiscalYear,
-      openingStaff: held?.openingStaff ?? baseStaff,
+      governmentId: gov.id,
     };
     table.put(row as unknown as ModuleRow);
     writeRows(api, change.key, change.lawId, specOf(change.key, "positions"), [
@@ -253,11 +272,16 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
     for (const s of currentStaff(api, org.id)) funded.add(s.personId);
     for (const job of countedJobsOf(state, org.id)) funded.add(job.personId);
   }
-  // Put back at or below the staff the employer opened with, the line pays
-  // for no raise: a raise's hire still on staff (the base had room once
-  // others left) holds a base position, and the raise no longer applies to
-  // them. A raise carried into a new fiscal year still funds its hires.
-  const raised = row.positions > (row.openingStaff ?? row.baseStaff);
+  // With no bill's raise left in the line, a raise's hire still on staff
+  // (the base had room once others left, or the year's adoption grew the
+  // line) holds a base position, and the raise no longer applies to them. A
+  // raise carried into a new fiscal year still funds its hires.
+  const lineGov = row.governmentId
+    ? governments(api).find((g) => g.id === row.governmentId)
+    : undefined;
+  const raised = lineGov
+    ? lineRaisedByBills(api, lineGov, row.key.slice("budget-line:".length))
+    : row.positions > row.baseStaff;
   for (const r of appliedOn(api, row.key))
     if (
       r.what === "hired-on-budget-line" &&
