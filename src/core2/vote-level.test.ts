@@ -195,13 +195,27 @@ describe("a vote or signature is filed at its own government's level", () => {
       // A chamber organized before the test's hook was set is Congress's too.
       const isFederal = (id: string) =>
         federal.has(id) || id.startsWith("chamber-organized:federal:");
-      // No town outlet printed Congress's business as the town's.
+      // No town outlet printed Congress's business as the town's. A town desk
+      // may print it when it outweighs the week's local news (the desk weighs
+      // the nation at its own proximity, press-desk.ts), but the record it
+      // reports is filed at the nation's level.
+      const everything = new Map(records.map((event) => [event.id, event]));
+      const localFederal: string[] = [];
       for (const outlet of outletsHere(api))
-        for (const story of storiesPrinted(api, outlet.id))
-          if (outlet.tier !== "national")
-            expect(isFederal(story.wireId), `${where}: ${story.wireId}`).toBe(
-              false,
-            );
+        for (const story of storiesPrinted(api, outlet.id)) {
+          if (outlet.tier === "national" || !isFederal(story.wireId)) continue;
+          localFederal.push(`${outlet.id} printed ${story.wireId}`);
+          const event =
+            everything.get(story.wireId) ?? core.durableLog.get(story.wireId);
+          expect(
+            event,
+            `${where}: ${story.wireId} has no record`,
+          ).toBeDefined();
+          expect(
+            wireItem(api, event!, town)?.level,
+            `${where}: ${outlet.id} printed ${story.wireId}`,
+          ).toBe("nation");
+        }
       // A national outlet prints the nation's business by record id: a story
       // whose wire item is a federal public record its desk read. Which
       // federal records win the national desk's week is the open calibration
@@ -209,7 +223,6 @@ describe("a vote or signature is filed at its own government's level", () => {
       // 0815330 (seed dc4ca028...) a state law reaching the outlet's own
       // readers outscored every chamber, hearing, comment and amendment
       // record, and the national outlets printed federal laws instead.
-      const everything = new Map(records.map((event) => [event.id, event]));
       const national = outletsHere(api).filter((o) => o.tier === "national");
       const printed = national.flatMap((o) =>
         storiesPrinted(api, o.id).map((story) => ({ outlet: o.id, story })),
@@ -224,7 +237,7 @@ describe("a vote or signature is filed at its own government's level", () => {
       ).toBeDefined();
       const hearing = heard[0]!;
       process.stdout.write(
-        `HEARING LEVEL ${where}: ${heard.length} hearings named ${named} committee members (${hearing.id} on ${hearing.topic}, naming ${hearing.memberId}); ${nationStory!.outlet} printed ${nationStory!.story.wireId}${passedOver.length ? `; passed over ${passedOver.join("; ")}` : ""}\n`,
+        `HEARING LEVEL ${where}: ${heard.length} hearings named ${named} committee members (${hearing.id} on ${hearing.topic}, naming ${hearing.memberId}); ${nationStory!.outlet} printed ${nationStory!.story.wireId}${localFederal.length ? `; at the nation's level, ${localFederal.join(", ")}` : ""}${passedOver.length ? `; passed over ${passedOver.join("; ")}` : ""}\n`,
       );
       return;
     }
