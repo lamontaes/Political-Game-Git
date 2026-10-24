@@ -3234,6 +3234,15 @@ L('reply','bargain',Y,'confirm-vote',[("Keep my section in, and you have my vote
 L('follow','accept',A,'confirm-vote',[("It stays in. You have my word.","calm",PR)],after="Keep my section in, and you have my vote.")
 L('reply','deflect',Y,'confirm-vote',[("You'll see when the roll is called.","guarded",PR)],after='press')
 L('follow','press',A,'confirm-vote',[("We made a deal in committee. I need to know it holds.","braced",PR)])
+# A race's debate (meetings.ts holdDebate): another candidate comes over after it. Each needs the fact debate,
+# and with it they outrank the lines about a rally crowd.
+DB=['debate']
+L(N,N,R,'rally-opponent',[("The debate is over, and the candidates are leaving the stage. {name} stops you on the way out.","braced",DB),("The cameras are off. {name} walks over before you reach the door.","braced",DB)])
+L('open','greet',A,'rally-opponent',[("Good debate.","guarded",DB),("That went well for you, didn't it?","braced",DB)])
+L('state','confront',A,'rally-opponent',[("Nice answers up there. Too bad none of them were true.","braced",DB),("People heard you tonight. They won't forget it.","braced",DB)])
+L('reply','deflect',Y,'rally-opponent',[("I said what I came to say tonight.","guarded",DB)])
+L('reply','confront',Y,'rally-opponent',[("You could have said that on stage.","braced",DB)])
+L('reply','boast',Y,'rally-opponent',[("People heard me tonight. That's enough for me.","braced",DB)])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
