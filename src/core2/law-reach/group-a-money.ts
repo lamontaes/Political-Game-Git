@@ -19,7 +19,7 @@ import type { PolicyHandler } from "./host";
 import {
   amendBudget,
   BUDGETS_MODULE_ID,
-  lineBeforeBill,
+  lineWithoutBills,
   budgetsOf,
   governments,
   type BudgetRow,
@@ -75,9 +75,9 @@ export function budgetToday(
 }
 
 /**
- * A line's amount before this year's budget bill and any act amending it:
- * a change a bill carries into the adopted lines is still a change the
- * line's service carries this year.
+ * A line's amount with no budget bill passed and no act amending it: a raise
+ * a bill carries into the adopted lines is still a change the line's service
+ * carries, this year and every later year it stays.
  */
 export function baseLine(
   api: CoreAPI,
@@ -85,7 +85,7 @@ export function baseLine(
   budget: BudgetRow,
   line: string,
 ): number {
-  return lineBeforeBill(api, gov, budget.fiscalYear, line);
+  return lineWithoutBills(api, gov, budget.fiscalYear, line);
 }
 
 // --- paid family leave -------------------------------------------------------------
