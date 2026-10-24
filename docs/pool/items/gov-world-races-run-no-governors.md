@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #5969
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found by the M0-M2 lead writing M2-10's command, Oct 24. Blocks roadmap M2-10.
 
 Sent back 2026-10-24 from PR #5969 (branch claude/world-governor-races): integrated a7863bc3c4 adds governor winners only to world-races.ts:1228–1235 race-ledger seats, leaves the opening officials governor unchanged, and has no executive reader as its own open SG-GOV-world-governor-executive admits; m2-10-check.ts:118–130 accepts the ledger row as seating but does not meet this item’s serving-governor/executive-reader acceptance. Supply named actual term/reader evidence or split an honest bounded race-counting item with this acceptance and flags unfinished; finish on this branch, merge main into it first. No completed gate or runtime-failure claim.
+
+Oct 24, 2026: split per that send-back. The race counting and winner record are gov-world-races-governor-races-counted (lamontaes/Political-Game-Git#5969). This item keeps its acceptance: the winner serving as governor from inauguration day, read by an executive engine (SG-GOV-world-governor-executive).
