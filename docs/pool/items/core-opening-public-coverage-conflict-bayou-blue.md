@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-coverage
-pr:
+pr: #5944
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T13:51:04.461Z
