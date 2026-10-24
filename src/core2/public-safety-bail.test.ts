@@ -108,13 +108,20 @@ it("a counted group's posted bail leaves its fund for the court escrow and comes
           true,
         );
       }
-      const first = closed[0]!;
+      // The case that held the most, and the year's total held.
+      const sum = (c: CaseRow) =>
+        Object.values(c.bailHeld!).reduce((n, m) => n + m, 0);
+      const first = [...closed].sort((x, y) => sum(y) - sum(x))[0]!;
+      const total = posted.reduce((n, c) => n + sum(c), 0);
+      // A batch case stands for the expected arrests of one month, offense
+      // and age band, so its count is a fraction of a person in a small town.
+      const defendants = posted.reduce((n, c) => n + c.count, 0);
       const out = entries.get(`public-safety:bail:${first.id}`)!;
       const back = entries.get(`public-safety:bail-return:${first.id}`)!;
       const groups = Object.keys(first.bailHeld!).length;
-      const held = Object.values(first.bailHeld!).reduce((n, m) => n + m, 0);
+      const held = sum(first);
       console.log(
-        `COUNTED-BAIL ${where}: ${posted.length} of ${adult.length} adult batch cases posted bail; ${first.id} took ${held} cents from ${groups} groups' funds into ${escrowOf(api, first.bailTreasuryId!)} as ${out.journalId} on ${out.date}, returned as ${back.journalId} on ${back.date} (due ${first.dueMonth}); passed over: ${passed.join("; ") || "none"}`,
+        `COUNTED-BAIL ${where}: ${posted.length} of ${adult.length} adult batch cases posted bail, ${total} cents in all, in cases standing for ${defendants.toFixed(2)} expected defendants (most of whom cannot post); the largest, ${first.id}, took ${held} cents from ${groups} groups' funds into ${escrowOf(api, first.bailTreasuryId!)} as ${out.journalId} on ${out.date}, returned as ${back.journalId} on ${back.date} (due ${first.dueMonth}); passed over: ${passed.join("; ") || "none"}`,
       );
       return;
     } finally {
