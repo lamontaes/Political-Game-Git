@@ -122,10 +122,22 @@ for (const flow of flows)
 console.log(
   "\nHousehold services at the opening (full households' contracts and counted households' flows):",
 );
-for (const [kind, row] of [...householdKinds].sort())
+const services = (
+  JSON.parse(readFileSync("src/core2/data/opening-customers.json", "utf8")) as {
+    householdServices: {
+      contractKind: string;
+      componentAnnualParameter: string;
+    }[];
+  }
+).householdServices;
+for (const [kind, row] of [...householdKinds].sort()) {
+  const component = services.find(
+    (service) => service.contractKind === kind,
+  )?.componentAnnualParameter;
   console.log(
-    `  ${kind}: ${row.households.size} households, $${((row.monthly * 12) / 100 / Math.max(1, row.households.size)).toFixed(0)} a year each, first contract ${contracts.find((c) => c.kind === kind)?.id ?? flows.find((f) => f.financeKind === kind)?.id}`,
+    `  ${kind}: ${row.households.size} households, $${((row.monthly * 12) / 100 / Math.max(1, row.households.size)).toFixed(0)} a year each (CEX national component mean ${component ? `$${parameters[component]!.value} ${parameters[component]!.tag}` : "n/a"}; each budget is capped by the household's living-cost plan), first contract ${contracts.find((c) => c.kind === kind)?.id ?? flows.find((f) => f.financeKind === kind)?.id}`,
   );
+}
 console.log(
   `  CEX household-size top code: ${band("openingCustomerSizeTopCode")} (a household of that size or more takes the published five-or-more column)`,
 );
