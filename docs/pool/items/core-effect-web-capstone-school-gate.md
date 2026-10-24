@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: effect-web-integration
 pr: #5639
 blocked-on:
