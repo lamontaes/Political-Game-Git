@@ -111,10 +111,11 @@ for (const r of races.filter(counted)) {
       `${where}: ${r.seatId} went to ${r.winnerParty} at a Republican share of ${r.republicanShare}`,
     );
 }
-// Seated on the real dates: Congress on January 3, each legislature on its
-// own. A seat the offices engine holds gets the winner's term there; any
-// other seat is kept in the world races' own seats, from the day it is filled.
-for (const r of [...house, ...senate, ...legislative]) {
+// Seated on the real dates: Congress on January 3, each legislature and
+// governor on its state's own day. A seat the offices engine holds gets the
+// winner's term there; any other seat is kept in the world races' own seats,
+// from the day it is filled.
+for (const r of [...house, ...senate, ...legislative, ...governors]) {
   const kept = midterm.api
     .moduleState(WORLD_RACES_MODULE_ID)
     .table("seats")
@@ -129,7 +130,13 @@ for (const r of [...house, ...senate, ...legislative]) {
   for (const problem of seatingProblems(r, holders, sideOf))
     check(false, `${where}: ${problem}`);
 }
-report.seated = [...house, ...senate, ...legislative].length;
+report.seated = [...house, ...senate, ...legislative, ...governors].length;
+report.governorSample = governors
+  .slice(0, 5)
+  .map(
+    (r) =>
+      `${r.id}: ${r.winnerParty} ${r.republicanShare.toFixed(3)} over ${r.places} places, seated ${r.seatedOn}`,
+  );
 report.sample = races
   .slice(0, 3)
   .map(

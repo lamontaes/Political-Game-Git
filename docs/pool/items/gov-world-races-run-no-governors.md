@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/world-races.ts, src/bench/m2-10-check.ts
 
 **Notes.** Found by the M0-M2 lead writing M2-10's command, Oct 24. Blocks roadmap M2-10.
+
+October 24, 2026 (claude, claude/world-governor-races): built. src/core2/modules/world-races.ts runs every other state's governor race in the year its research row's cycle holds (stateOffices: next regular election and term), counted over the state's county places as a statewide executive race, and seats the winner on termStartAfter's day for the state; odd years with a governor race are scheduled too. Territories are passed over with SG-GOV-territory-governor-race (no electorate places or own parties on record); no engine acts as another state's executive yet, SG-GOV-world-governor-executive. M2-10 passes in Fort Myers Beach (seed above) and Copan, Oklahoma (seed d0582af9525f4fc996edd3c04533f109), 35 governor races each.
