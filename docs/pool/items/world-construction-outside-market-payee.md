@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/construction-outside-market
-pr:
+pr: #5982
 blocked-on:
 source: found while tracing tests-budgets-public-pay-intermittent, Oct 24
 claimed-at:
