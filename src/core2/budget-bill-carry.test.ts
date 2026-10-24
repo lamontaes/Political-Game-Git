@@ -17,6 +17,7 @@ import { lineRaisedByBills } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
 import {
   amendBudget,
+  BUDGETS_MODULE_ID,
   budgetsOf,
   enactedBudgetChanges,
   governments,
@@ -57,6 +58,48 @@ it("a passed bill's line change carries into the next fiscal year, and a one-tim
     const before = current();
     const [carried, once] = funded(gov!.id);
     const enactedBefore = { ...enactedBudgetChanges(api, gov!.id) };
+    // Bodies in play change lines too: the budget each votes for the new
+    // year, and bills they pass during it. The enacted lines record each
+    // year's carried changes (byYear); events name the one-time ones.
+    const yearsOf = () =>
+      structuredClone(
+        (
+          api
+            .moduleState(BUDGETS_MODULE_ID)
+            .table("enacted")
+            .get(gov!.id) as unknown as
+            { byYear?: Record<string, Record<string, number>> } | undefined
+        )?.byYear ?? {},
+      );
+    const carriedSince = (
+      from: Record<string, Record<string, number>>,
+      line: string,
+    ) =>
+      Object.entries(yearsOf()).reduce(
+        (sum, [fy, lines]) =>
+          sum + (lines[line] ?? 0) - (from[fy]?.[line] ?? 0),
+        0,
+      );
+    const yearsBefore = yearsOf();
+    const bodies = { carriedThisYear: 0, oneTimeNextYear: 0 };
+    api.subscribeEvents(
+      "budget-carry-test",
+      ["budget-line-changed"],
+      (_api, event) => {
+        const facts = event.facts as Record<string, string>;
+        if (
+          facts.governmentId !== gov!.id ||
+          facts.line !== carried ||
+          String(facts.measureId).startsWith("test:")
+        )
+          return;
+        const nextYear = current().fiscalYear > before.fiscalYear;
+        if (facts.carried === "yes" && !nextYear)
+          bodies.carriedThisYear += Number(facts.deltaMinor);
+        if (facts.carried !== "yes" && nextYear)
+          bodies.oneTimeNextYear += Number(facts.deltaMinor);
+      },
+    );
     const delta = 100_000_000;
     amendBudget(api, {
       governmentId: gov!.id,
@@ -103,18 +146,28 @@ it("a passed bill's line change carries into the next fiscal year, and a one-tim
       current().fiscalYear,
       `${where}: the next fiscal year's budget`,
     ).toBe(before.fiscalYear + 1);
+    // The bill's year still holds its change beside what bodies carried that
+    // year, and the lines the new year starts from lost nothing.
+    const thatYear = String(before.fiscalYear);
     expect(
-      (enactedBudgetChanges(api, gov!.id)[carried!] ?? 0) -
-        (enactedBefore[carried!] ?? 0),
-      `${where}: ${carried} still carried in fiscal ${before.fiscalYear + 1}`,
+      (yearsOf()[thatYear]?.[carried!] ?? 0) -
+        (yearsBefore[thatYear]?.[carried!] ?? 0) -
+        bodies.carriedThisYear,
+      `${where}: ${carried}'s change still recorded for fiscal ${thatYear}`,
     ).toBe(delta);
+    const enactedNow = enactedBudgetChanges(api, gov!.id)[carried!] ?? 0;
+    expect(
+      enactedNow - (enactedBefore[carried!] ?? 0),
+      `${where}: ${carried} still carried in fiscal ${before.fiscalYear + 1}`,
+    ).toBe(carriedSince(yearsBefore, carried!));
     // A bill's raise still counts in the new year (a staffing line's hires
     // stay its reach), and putting the old amount back leaves none, whatever
-    // the new year's own adoption added to the line.
+    // the new year's own adoption added to the line. The bills bodies in play
+    // passed on the line, and the budget they voted, count with it.
     expect(
       lineRaisedByBills(api, gov!, carried!),
-      `${where}: ${carried} raised by a bill in fiscal ${before.fiscalYear + 1}`,
-    ).toBe(true);
+      `${where}: ${carried} raised by a bill in fiscal ${before.fiscalYear + 1} (enacted ${enactedNow}, one-time ${bodies.oneTimeNextYear})`,
+    ).toBe(enactedNow + bodies.oneTimeNextYear > 0);
     amendBudget(api, {
       governmentId: gov!.id,
       line: carried!,
@@ -125,7 +178,7 @@ it("a passed bill's line change carries into the next fiscal year, and a one-tim
     expect(
       lineRaisedByBills(api, gov!, carried!),
       `${where}: ${carried} back at its amount without the bill`,
-    ).toBe(false);
+    ).toBe(enactedNow - delta + bodies.oneTimeNextYear > 0);
   } finally {
     setBookkeeping(true);
   }

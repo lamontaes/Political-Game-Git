@@ -1620,6 +1620,7 @@ export function amendBudget(
       line: input.line,
       deltaMinor: String(input.deltaMinor),
       measureId: input.measureId,
+      carried: input.carry ? "yes" : "no",
     },
   });
   return amended;
