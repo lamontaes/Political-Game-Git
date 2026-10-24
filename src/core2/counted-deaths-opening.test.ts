@@ -23,6 +23,18 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DRAWS = 6;
 /** A town whose tables expect fewer deaths than this in four months is too small to compare. */
 const SMALLEST = 10;
+/**
+ * Deaths follow onsets by weeks to months, so the first four months run
+ * under the tables': the check expects at least this share of them (measured
+ * Oct 24, 2026: 66 percent in Blair, Nebraska and 70 percent in Garden City,
+ * Idaho).
+ */
+const FIRST_MONTHS_SHARE = 0.5;
+/**
+ * How many standard deviations of a Poisson count below that share still
+ * pass: a small town's few deaths either way pass, and none at all fails.
+ */
+const SIGMAS = 3;
 
 interface CountsRow {
   readonly deaths: readonly string[];
@@ -32,33 +44,40 @@ interface CountsRow {
 
 it("illnesses under way at the opening are booked and counted people die from the first months", () => {
   let proof: string | undefined;
-  for (let draw = 0; draw < DRAWS && !proof; draw++) {
-    const place = drawPlace(`${seed}-${draw}`, "counted-deaths-opening");
-    const where = `seed ${place.seed}, ${place.name} (${place.key})`;
-    setBookkeeping(false);
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    advanceCore(core, addDays(makeIsoDate(core.date), 125));
-    const rows = coreAPI(core)
-      .moduleState("core2-renewal-v1")
-      .table("counts")
-      .rows() as unknown as CountsRow[];
-    const expected = rows.reduce((n, row) => n + row.expected.deaths, 0);
-    if (expected < SMALLEST) continue;
-    const deaths = rows.reduce((n, row) => n + row.deaths.length, 0);
-    const opening = rows.reduce((n, row) => n + row.openingIll.length, 0);
-    expect(
-      opening,
-      `${where}: illnesses under way at the opening`,
-    ).toBeGreaterThan(0);
-    // Deaths follow onsets by weeks to months, so the first four months run a little under the tables'.
-    expect(
-      deaths,
-      `${where}: ${deaths} died, ${expected.toFixed(1)} expected`,
-    ).toBeGreaterThanOrEqual(expected * 0.5);
-    proof = `${where}: ${opening} illnesses under way booked at the opening; ${deaths} counted people died in four months against ${expected.toFixed(1)} expected`;
+  // The renewal engine keeps its monthly counts only under bookkeeping
+  // (src/core2/births-counted.ts:667), so the worlds run with it on.
+  const was = setBookkeeping(true);
+  try {
+    for (let draw = 0; draw < DRAWS && !proof; draw++) {
+      const place = drawPlace(`${seed}-${draw}`, "counted-deaths-opening");
+      const where = `seed ${place.seed}, ${place.name} (${place.key})`;
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      advanceCore(core, addDays(makeIsoDate(core.date), 125));
+      const rows = coreAPI(core)
+        .moduleState("core2-renewal-v1")
+        .table("counts")
+        .rows() as unknown as CountsRow[];
+      const expected = rows.reduce((n, row) => n + row.expected.deaths, 0);
+      if (expected < SMALLEST) continue;
+      const deaths = rows.reduce((n, row) => n + row.deaths.length, 0);
+      const opening = rows.reduce((n, row) => n + row.openingIll.length, 0);
+      expect(
+        opening,
+        `${where}: illnesses under way at the opening`,
+      ).toBeGreaterThan(0);
+      const mean = expected * FIRST_MONTHS_SHARE;
+      const floor = Math.max(1, mean - SIGMAS * Math.sqrt(mean));
+      expect(
+        deaths,
+        `${where}: ${deaths} died, ${expected.toFixed(1)} expected, at least ${floor.toFixed(1)} needed`,
+      ).toBeGreaterThanOrEqual(floor);
+      proof = `${where}: ${opening} illnesses under way booked at the opening; ${deaths} counted people died in four months against ${expected.toFixed(1)} expected`;
+    }
+  } finally {
+    setBookkeeping(was);
   }
   expect(
     proof,
