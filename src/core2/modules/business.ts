@@ -91,6 +91,8 @@ interface OwnerRow {
   lossMonths?: number;
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
+  /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
+  splitThrough?: number;
   tradingId?: string;
 }
 
@@ -849,6 +851,7 @@ function bookedMonth(
   | "wagesThrough"
   | "operatingThrough"
   | "outsideThrough"
+  | "splitThrough"
   | "lossMonths"
   | "tradingId"
 > {
@@ -896,6 +899,9 @@ function bookedMonth(
     wagesThrough: book.wagesPaidMinor,
     operatingThrough: book.operatingPaidMinor,
     outsideThrough: outsidePaid,
+    splitThrough:
+      residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
+        ?.splitPaidMinor ?? 0,
     lossMonths,
     tradingId,
   };
@@ -1083,9 +1089,11 @@ function recordOutsideCosts(api: CoreAPI): void {
         payeeId: flow.payeeId,
         paidInTown: inTown,
       });
+    // What it paid elsewhere (its ads in the town's outlets) was not the seller's sale.
+    const elsewhere = (flow.splitPaidMinor ?? 0) - (row.splitThrough ?? 0);
     if (inTown) {
-      seller.receivedMinor += amount;
-      seller.salesReceivedMinor += amount;
+      seller.receivedMinor += amount - elsewhere;
+      seller.salesReceivedMinor += amount - elsewhere;
     }
   }
 }

@@ -105,6 +105,8 @@ interface FlowState extends ResidentFlowInput {
   accruedCostMinor?: number;
   accrualHistory?: { date: IsoDate; accrued: number }[];
   outsidePaidMinor?: number;
+  /** What its payments sent to someone other than its payee (a business's ads in the town's outlets), all time. */
+  splitPaidMinor?: number;
   endedAt?: IsoDate;
   endedReason?: string;
 }
@@ -1201,7 +1203,7 @@ function post(
   const governments = (
     flow.financeKind === FIXED_SPENDING
       ? livingCostParts(core, flow.placeId, paid, payerId)
-      : flow.kind === "outside-costs" && flow.payeeId === flow.residentsId
+      : flow.kind === "outside-costs"
         ? outsideCostParts(core, flow.placeId, paid, payerId)
         : []
   ).flatMap((row) => {
@@ -1212,6 +1214,8 @@ function post(
   });
   if (governments.length) {
     const toGovernments = governments.reduce((n, row) => n + row.deltaMinor, 0);
+    if (flow.kind === "outside-costs")
+      flow.splitPaidMinor = (flow.splitPaidMinor ?? 0) + toGovernments;
     transferSplit(core, api, {
       id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
       lines: [
