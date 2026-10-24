@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-alike-offers
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T02:07:51.484Z
 ---
 
 **What.** In Bedford, Wyoming's third played year a person choosing what to do weighs 55 offers on average, against 12 in the first, and 290,000 of the year's 911,000 offers are joining, donating to or volunteering for one of many cause groups on the same drive. Those offers read nothing of the group they name (the act has no reason binding), so for one act and one drive they score exactly alike, and the chooser and the free-time plan always take the lowest-keyed one. Score only that one for a chooser whose scores are not kept (not the player, the focus, a controlled person or the observer), so who does what stays the same.
