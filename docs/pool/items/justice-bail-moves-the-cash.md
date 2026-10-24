@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/sleepy-carson-f8omzd
+status: open
+claimed-by:
 pr: #5847
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-23T21:46:09.809Z
+claimed-at:
 ---
 
 **What.** Pretrial bail from PR 5200 marks a bail posted but moves no money: liquidMinor >= pretrialBailMinor decides held or posted, and nothing moves from the person's account to the court's. Posting bail should be a movement on the journal from the person's account to the court's, returned at disposition, so the other engines read a real dollar. If that cannot land now, register a stopgap row with a marker and name it in the item notes.
@@ -28,3 +28,5 @@ Built: posted bail posts a journal entry person to treasury (`bail:<case>`), ret
 Taken over Oct 23 at the owner's request from glm/justice-bail-moves-the-cash, whose session ran out of usage with no branch pushed. Its last finding: a played year of its drawn place opened no justice case at all, so no bail was posted; the remaining work is that witness, not the journal code.
 
 Sent back 2026-10-23 from PR #5847 (branch claude/sleepy-carson-f8omzd): Normal main integration conflicts in src/core2/office-day-clemency.test.ts after the Eaton repair #5779; preserve its pinned/random review-eve proof together with the new hearing timing, and rerun the bail/plea chain checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5847 (branch claude/sleepy-carson-f8omzd): The only positive bail witness injects up to 600 bribe offers, while all seven ordinary years post no bail; retain the fixture but supply the ordinary producer-to-journal chain or preserve it as unfinished bounded work; finish on that branch, merge main into it first.
