@@ -6,7 +6,7 @@
     "webCoverageWired": 121,
     "allEightPoints": 0,
     "reachesOrCarried": 121,
-    "namedInAStopgap": 108,
+    "namedInAStopgap": 107,
     "notReachingAndNoStopgap": 0,
     "reachesTheWorld": 121,
     "withAnyModerator": 22,
@@ -3455,7 +3455,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:384"
+          "evidence": "src/core2/housing-homeless.ts:389"
         },
         "varied": {
           "status": "fail",
@@ -3494,7 +3494,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:710, src/core2/modules/moves.ts:73 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:712, src/core2/modules/moves.ts:73 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3503,7 +3503,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:384"
+          "evidence": "src/core2/housing-homeless.ts:389"
         },
         "varied": {
           "status": "fail",
@@ -3542,7 +3542,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:710, src/core2/modules/moves.ts:73 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:712, src/core2/modules/moves.ts:73 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3599,7 +3599,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -3645,7 +3645,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -4081,7 +4081,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -4225,7 +4225,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -4274,7 +4274,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -4420,7 +4420,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -4926,7 +4926,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-voting-corruption-reelection"
+      "stopgap": null
     },
     {
       "key": "press-attacks-to-media-trust",
@@ -5818,7 +5818,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/health.ts:710, src/core2/modules/moves.ts:73"
+          "evidence": "src/core2/modules/health.ts:712, src/core2/modules/moves.ts:73"
         },
         "varied": {
           "status": "fail",
@@ -5865,7 +5865,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:384"
+          "evidence": "src/core2/housing-homeless.ts:389"
         },
         "varied": {
           "status": "fail",
@@ -6674,7 +6674,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:384"
+          "evidence": "src/core2/housing-homeless.ts:389"
         },
         "varied": {
           "status": "fail",
@@ -7618,7 +7618,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -8564,7 +8564,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:384"
+          "evidence": "src/core2/housing-homeless.ts:389"
         },
         "varied": {
           "status": "fail",
@@ -8611,7 +8611,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:384"
+          "evidence": "src/core2/housing-homeless.ts:389"
         },
         "varied": {
           "status": "partial",
@@ -8658,7 +8658,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:384"
+          "evidence": "src/core2/housing-homeless.ts:389"
         },
         "varied": {
           "status": "fail",
@@ -10710,7 +10710,7 @@
     {
       "measure": "births.rate",
       "status": "engine-reads-web",
-      "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225",
+      "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:225",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11549,7 +11549,7 @@
     {
       "measure": "housing.eviction",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/health.ts:710, src/core2/modules/moves.ts:73",
+      "evidence": "src/core2/modules/health.ts:712, src/core2/modules/moves.ts:73",
       "countedTwice": false,
       "asCause": ["eviction-to-homelessness", "eviction-to-hospital-visits"],
       "asOutcome": ["right-to-counsel-to-evictions"]
@@ -11568,7 +11568,7 @@
     {
       "measure": "housing.homelessness",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-homeless.ts:384",
+      "evidence": "src/core2/housing-homeless.ts:389",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
