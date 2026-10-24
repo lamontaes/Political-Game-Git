@@ -25,9 +25,39 @@ const input = buildDeepPast(
 );
 const core = createLifeCore(input, { modules: [viewsModule, newsModule] });
 const api = coreAPI(core);
-const subject = [...core.people.values()].find(
-  (row) => row.tier !== "husk" && row.alive,
-)!;
+// Word of mouth inside a town needs two townspeople who know each other, and
+// a small town has few such pairs: its people's first ties are kin in the
+// next towns over, and the first townspeople to meet each other do so in the
+// world's second week. So the world runs two weeks, and the story's subject
+// is the townsperson whose tie inside the town leads to the neighbor an outlet
+// reaches last: the story can only reach that neighbor by the subject's word
+// if they talk before their own outlet gets to them.
+advanceCore(core, addDays(makeIsoDate(core.date), 14));
+const outletDelay = (id: string) => {
+  const view = viewOf(api, id);
+  return view && view.engagement > 0
+    ? Math.ceil(1 / (view.engagement * (trustOf(api, view.lean) / 0.31)))
+    : Infinity;
+};
+const townsfolk = (row: { tier: string; alive: boolean }) =>
+  row.tier !== "husk" && row.alive;
+let subject = [...core.people.values()].find(townsfolk)!;
+{
+  const town = core.peopleByPlace.get(subject.placeId) ?? new Set<string>();
+  let longest = -1;
+  for (const tie of core.relationships.values()) {
+    const [a, b] = [tie.actorId, tie.otherId].map((id) => core.people.get(id));
+    if (!a || !b || !townsfolk(a) || !townsfolk(b)) continue;
+    if (!town.has(a.id) || !town.has(b.id)) continue;
+    // The neighbor whom the outlet reaches last hears from the subject.
+    const [teller, listener] =
+      outletDelay(a.id) >= outletDelay(b.id) ? [b, a] : [a, b];
+    if (outletDelay(listener.id) > longest) {
+      longest = outletDelay(listener.id);
+      subject = teller;
+    }
+  }
+}
 const storyId = "fixture-election-result";
 applyCoreEvent(core, {
   id: storyId,
