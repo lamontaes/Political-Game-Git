@@ -4595,6 +4595,19 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "grudgeConfrontSettles": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Share of a grudge's strength one confrontation settles, after the act's own reinforcement: having had it out with the person, the score is partly settled, so each confrontation leaves the grudge weaker and the next one less pressing, with no cooldown and no cutoff. Without it a grudge against a living person was confronted almost daily for months (126 to 179 confrontations per grudge in Rockport, Texas, seed cbf9ae5a6ee7), since every act refills a drive. Checked so a grudge leads to a handful of confrontations in a played year. Revenge studies find punishing does not end rumination (Carlsmith, Wilson and Gilbert 2008, Journal of Personality and Social Psychology 95(6)), so the share stays well below one.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how much of a grudge one confrontation settles on this strength scale."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
   "responseCarryOnFit": {
     "value": 1,
     "tag": "TUNABLE",

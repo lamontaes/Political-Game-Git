@@ -1878,6 +1878,13 @@ export function createDrivesModule(
       confront: (api, actorId, offer) => {
         const drive = drivesOf(api, actorId, offer);
         traceAct(api, actorId, offer, drive);
+        // Having it out settles part of the score: the grudge is left weaker
+        // and the next confrontation less pressing (no cooldown, no cutoff).
+        drive.anchorStrength =
+          currentStrength(api, drive) *
+          (api.parameter("one") - api.parameter("grudgeConfrontSettles"));
+        drive.anchorDate = api.state.date;
+        writeDrive(api, drive, drive.anchorStrength);
         api.relationship(
           actorId,
           offer.targetId,
