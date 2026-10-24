@@ -675,7 +675,7 @@
     },
     "us-policy-positions:government-operations.independent-redistricting": {
       "source": "Independent redistricting commissions (National Conference of State Legislatures, Redistricting Commissions, 2024).",
-      "mechanic": "none",
+      "mechanic": "voting",
       "stopgapId": "SG-GOV-REACH-A-redistricting",
       "reaches": [
         {
