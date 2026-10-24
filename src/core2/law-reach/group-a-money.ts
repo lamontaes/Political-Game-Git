@@ -11,6 +11,7 @@
  *   The housing line pays its rent assistance in the housing engine (housing-assistance.ts).
  */
 import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";
+import { lawApplied } from "./applied";
 import type { CoreAPI, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
@@ -145,6 +146,15 @@ function leavePremium(
     ],
   };
   reachTable(api, "premiums").put(record as unknown as ModuleRow);
+  lawApplied(api, {
+    key: LEAVE_KEY,
+    lawId: program.lawId,
+    targetId: receipt.personId,
+    target: "person",
+    engine: REACH_A_MODULE_ID,
+    what: "leave-premium-withheld",
+    amountMinor: premium,
+  });
   const state = api.state as CoreState;
   api.postJournal({
     id: `journal:${api.state.date}:${state.cashJournal.nextSequence}`,

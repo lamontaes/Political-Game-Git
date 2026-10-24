@@ -1,0 +1,461 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 35,
+  "after": 10,
+  "results": [
+    {
+      "key": "minimum-wage",
+      "kind": "amount",
+      "family": "labor",
+      "inForceAtOpening": false,
+      "change": "minimum-wage 1033 -> 1136 at state (law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+        "law:US-MI:state:minimum-wage:general:2024-01-01",
+        "law:US-MI:state:minimum-wage:general:2025-02-26:law-wiring-e84af4ca-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 8,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 0,
+        "sample": [
+          "applied|minimum-wage|person_2dc9b418ebc09f6d",
+          "applied|minimum-wage|person_5dcc4aa2f70afb32",
+          "applied|minimum-wage|person_ae720410206893b1",
+          "applied|minimum-wage|person_7b570565dc6dd202"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/constituent-cases.ts:151": 156,
+        "src/core2/wage-floor.ts:144": 59,
+        "src/core2/gov-measures.ts:243": 48,
+        "src/core2/gov-measures.ts:100": 16,
+        "src/core2/gov-measures.ts:104": 16,
+        "src/core2/gov-measures.ts:112": 16,
+        "src/core2/gov-measures.ts:176": 16,
+        "src/core2/wage-floor.ts:102": 8,
+        "src/core2/modules/constituent-cases.ts:256": 3,
+        "src/core2/life.ts:549": 2,
+        "src/core2/wage-floor.ts:31": 1,
+        "src/core2/wage-floor.ts:36": 1
+      },
+      "openingRow": "law:US-MI:state:minimum-wage:general:2024-01-01",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 1645915,
+            "control": 1855515,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8008",
+              "journal:2025-02-21:8334"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+            "treatment": 9318073,
+            "control": 0,
+            "ids": ["journal:2025-02-10:8050"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 59223957541182,
+            "control": 59223958957320,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 10758237,
+            "control": 10476949,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 1645915,
+            "control": 1855515,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8008",
+              "journal:2025-02-21:8334"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/official-living.ts:102",
+            "treatment": 122325031,
+            "control": 122516782,
+            "ids": [
+              "journal:2025-01-27:1657",
+              "journal:2025-01-27:1658",
+              "journal:2025-01-27:1659"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:576",
+            "treatment": 30684896,
+            "control": 30776517,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 79944680,
+            "control": 79997800,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+            "treatment": 454484,
+            "control": 402017,
+            "ids": [
+              "journal:2025-02-01:7389",
+              "journal:2025-02-01:7390",
+              "journal:2025-02-01:7391"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1451",
+            "treatment": 115059027,
+            "control": 115015816,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 2183430,
+            "control": 2163987,
+            "ids": [
+              "journal:2025-01-25:1642",
+              "journal:2025-01-25:1644",
+              "journal:2025-01-25:1646"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 5815550,
+            "control": 5825510,
+            "ids": [
+              "journal:2025-02-19:8273",
+              "journal:2025-02-19:8274",
+              "journal:2025-02-19:8276"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1940785,
+            "control": 1930999,
+            "ids": [
+              "journal:2025-02-01:1905",
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907"
+            ]
+          }
+        ],
+        "diffKinds": 14,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "minimum-wage-to-poverty",
+            "status": "built",
+            "to": "household.poverty-pct"
+          },
+          {
+            "key": "minimum-wage-to-low-wage-jobs",
+            "status": "built",
+            "to": "labor.low-wage-jobs"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "minimum-wage-to-low-wage-jobs",
+            "effect": -0.018194282380396748
+          }
+        ],
+        "firedCount": 1
+      },
+      "heard": {
+        "people": 65,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:minimum-wage:general:2025-01-21:law-wiring-e84af4ca"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 9,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 9,
+        "ended": 0,
+        "sample": [
+          "applied|minimum-wage|person_d1c82dce42074b2e",
+          "applied|minimum-wage|person_dde1daf2e93c61a1",
+          "applied|minimum-wage|person_a4689c4c0a9e7d60",
+          "applied|minimum-wage|person_3928c7c34c52fcde"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 15
+    },
+    {
+      "key": "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+      "kind": "question",
+      "family": "labor",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4) effective 2025-01-21; then repealed at city effective 2025-02-26",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+        "law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-02-26:law-wiring-d994f5d4-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4:city:organization_1571ef11eb9b9b4a:2025-01-21"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/world-legislating.ts:253": 32,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/law-reach/group-a-records.ts:260 <- src/core2/life.ts:549": 4,
+        "src/core2/modules/legislature.ts:2113": 2,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "minimum-wage-to-poverty",
+            "status": "built",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 53,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:labor-workforce.local-minimum-wage-authority:general:2025-01-21:law-wiring-d994f5d4"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "seconds": 14
+    },
+    {
+      "key": "local-minimum-wage-authority",
+      "kind": "amount",
+      "family": "starting law",
+      "inForceAtOpening": false,
+      "change": "local-minimum-wage-authority 0 -> 1 at state (law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+        "law:US-MI:state:local-minimum-wage-authority:general:2015-06-30",
+        "law:US-MI:state:local-minimum-wage-authority:general:2025-02-26:law-wiring-d5735231-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|local-minimum-wage-authority|office:gus2025:166779:council"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/constituent-cases.ts:151": 156,
+        "src/core2/gov-measures.ts:243": 48,
+        "src/core2/gov-measures.ts:100": 16,
+        "src/core2/gov-measures.ts:104": 16,
+        "src/core2/gov-measures.ts:112": 16,
+        "src/core2/gov-measures.ts:176": 16,
+        "src/core2/modules/legislature.ts:862": 5,
+        "src/core2/modules/constituent-cases.ts:256": 4,
+        "src/core2/life.ts:549": 2,
+        "unknown": 1,
+        "src/core2/modules/legislature.ts:890": 1
+      },
+      "openingRow": "law:US-MI:state:local-minimum-wage-authority:general:2015-06-30",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "minimum-wage-to-poverty",
+            "status": "built",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 67,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-minimum-wage-authority:general:2025-01-21:law-wiring-d5735231"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 15
+    }
+  ]
+}

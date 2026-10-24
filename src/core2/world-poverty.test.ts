@@ -13,11 +13,14 @@ import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { lawChain } from "./modules/laws";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
 import { incomeBandOf, residentsRuntime } from "./modules/residents";
 import { WORLD_METRICS_MODULE_ID } from "./modules/world-metrics";
 import { WEB_LINKS, WIRED_INTO, linkCoverage } from "./outcome-web-model";
+import { fileClaim, type ClaimRow } from "./jobs-benefits";
 import { coreAPI } from "./state";
+import type { JobInput } from "./types";
 import {
   householdPoverty,
   povertyByPlace,
@@ -163,4 +166,109 @@ describe(`poverty from incomes (${firstPlace.name}, seed ${seed})`, () => {
     const half = povertyByPlace(world.core).get(record.placeId)!;
     expect(half.poor / half.people).toBeGreaterThan(before);
   }, 600_000);
+});
+
+/**
+ * Unemployment compensation is money income in the Census official measure,
+ * so a household reads its open claims as income: the weekly benefit times the
+ * weeks left on the claim, at most 52, by one rule for named and counted
+ * households (the household record's weight multiplies the count).
+ */
+describe(`unemployment compensation is income (seed ${seed})`, () => {
+  it("reads a claim's benefit as a household's income, and the poverty count moves when the claim ends", () => {
+    const tried: string[] = [];
+    for (let draw = 0; draw < REDRAWS; draw += 1) {
+      const place = drawPlace(`${seed}-claims-${draw}`, "web-poverty-claims");
+      const world = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const core = world.core;
+      const api = coreAPI(core);
+      const where = `${place.name} (${place.key}), seed ${seed}-claims-${draw}`;
+      const claims = api.moduleState("jobs").table("claims");
+      const read = (householdId: string) =>
+        householdPoverty(core).find((h) => h.householdId === householdId)!;
+      const yearly = (c: ClaimRow) => c.weeklyMinor * Math.min(52, c.weeksLeft);
+      const end = (c: ClaimRow) =>
+        claims.put({
+          ...c,
+          open: false,
+          endedAt: core.date,
+          endReason: "hired",
+        });
+      const file = (jobs: readonly JobInput[]) => {
+        for (const job of jobs) {
+          const claim = fileClaim(api, claims, job, "poverty-test", 52);
+          if (claim) return { job, claim };
+        }
+        return undefined;
+      };
+
+      // Named: a person living alone loses a job; the claim is the household's only income.
+      const town = lawChain(api).townPlaceId;
+      const alone = [...core.jobs.values()].filter(
+        (j) =>
+          j.endsAt === undefined &&
+          core.people.get(j.personId)?.placeId === town &&
+          core.households.get(core.people.get(j.personId)?.householdId ?? "")
+            ?.memberIds.length === 1,
+      );
+      const named = file(alone);
+      // Counted: a counted worker files; the household reads the same benefit.
+      const rt = residentsRuntime(core);
+      const countedJobs = [...(rt?.jobs.values() ?? [])].filter(
+        (j) => !core.jobs.has(j.id) && j.endsAt === undefined,
+      );
+      const counted = file(countedJobs);
+      if (!named || !counted || !rt) {
+        tried.push(`${where}: no lone worker and counted worker able to claim`);
+        continue;
+      }
+
+      // Named tier.
+      const household = core.people.get(named.job.personId)!.householdId;
+      api.endJob(named.job.id, "test:poverty-claim");
+      const withClaim = read(household);
+      expect(withClaim.incomeMinor, `${where}: ${named.claim.id}`).toBe(
+        yearly(named.claim),
+      );
+      // The benefit lifts the household over its line, so the count of the poor moves with the claim.
+      const lift = Math.ceil(
+        (withClaim.thresholdMinor + 1) / Math.min(52, named.claim.weeksLeft),
+      );
+      claims.put({ ...named.claim, weeklyMinor: lift });
+      const lifted = read(household);
+      expect(lifted.poor, `${where}: ${named.claim.id} at ${lift} a week`).toBe(
+        false,
+      );
+      const place0 = povertyByPlace(core).get(lifted.placeId)!;
+      end({ ...named.claim, weeklyMinor: lift });
+      const ended = read(household);
+      expect(ended.incomeMinor, where).toBe(0);
+      expect(ended.poor, where).toBe(true);
+      expect(povertyByPlace(core).get(lifted.placeId)!.poor, where).toBe(
+        place0.poor + lifted.size * lifted.weight,
+      );
+
+      // Counted tier: one rule, the claim adds exactly its benefit to the counted household.
+      const m = rt.store.countedMember(counted.job.personId)!;
+      const countedHousehold = rt.store.households[rt.store.household[m]!]!.id;
+      const after = read(countedHousehold);
+      end(counted.claim);
+      const before = read(countedHousehold);
+      expect(
+        after.incomeMinor - before.incomeMinor,
+        `${where}: ${counted.claim.id}`,
+      ).toBe(yearly(counted.claim));
+      expect(after.weight, where).toBe(before.weight);
+      console.info(
+        `unemployment claims as income (${where}): ${named.claim.id} reads ${withClaim.incomeMinor} for ${household}; counted ${counted.claim.id} adds ${yearly(counted.claim)} to ${countedHousehold}`,
+      );
+      return;
+    }
+    throw new Error(
+      `no draw had a lone worker and a counted worker able to claim: ${tried.join("; ")}`,
+    );
+  }, 1_800_000);
 });

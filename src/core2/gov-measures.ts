@@ -23,6 +23,7 @@
  * - `voting.party-share`: the Democratic share of the two-party vote in the
  *   latest decided partisan race covering the town (0 to 1).
  */
+import { GOV_MEASURES } from "./gov-measure-keys";
 import type { CoreAPI, CoreState } from "./types";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import {
@@ -39,18 +40,7 @@ import {
   governments,
 } from "./modules/budgets";
 
-export const GOV_MEASURES = [
-  "labor.minimum-wage-change-pct",
-  "labor.minimum-wage-gap-to-15",
-  "election.incumbent-vote",
-  "election.incumbent-reelection",
-  "voting.local-turnout",
-  "budget.parks-added-pct",
-  "labor.minimum-wage",
-  "labor.minimum-wage-to-median",
-  "voting.youth-turnout",
-  "voting.party-share",
-] as const;
+export { GOV_MEASURES };
 
 const daysBefore = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) - days * 86_400_000)

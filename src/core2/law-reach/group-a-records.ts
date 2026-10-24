@@ -8,6 +8,7 @@
  */
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
 import { registerModule } from "../state";
 import type {
   CoreAPI,
@@ -26,6 +27,8 @@ import {
   householdOwnsFirearm,
 } from "../firearm-ownership";
 import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
+import { residentsRuntime } from "../modules/residents";
+import { countedWeight } from "./pay-reach";
 import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
 import type { LawRowInput } from "../laws-starting";
 
@@ -126,7 +129,13 @@ export function reachParameter(key: string): number {
   return row.value;
 }
 
+const PUBLIC_EMPLOYERS: readonly string[] = Object.keys(
+  publicPayFloor.employerLevels,
+);
+
 export function selectorGroup(name: string): readonly string[] {
+  // The public employers are the classes the public pay mechanics raise pay at.
+  if (name === "publicEmployers") return PUBLIC_EMPLOYERS;
   return data.selectors[name] ?? data.extraSelectors[name] ?? [];
 }
 
@@ -401,6 +410,20 @@ export interface Target {
   readonly count: number | null;
 }
 
+/** The people the counted jobs at these employers stand for. */
+function countedStaff(api: CoreAPI, employers: ReadonlySet<string>): number {
+  const core = api.state as CoreState;
+  let people = 0;
+  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+    if (
+      job.endsAt === undefined &&
+      !core.jobs.has(job.id) &&
+      employers.has(job.organizationId)
+    )
+      people += countedWeight(core, job.personId);
+  return people;
+}
+
 function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
   const select = spec.select ?? {};
   switch (spec.target) {
@@ -424,11 +447,17 @@ function targetsOf(api: CoreAPI, spec: ReachSpec): readonly Target[] {
       );
     case "staff": {
       const out: Target[] = [];
-      for (const org of townOrganizations(api, select.group ?? ""))
+      const orgs = townOrganizations(api, select.group ?? "");
+      for (const org of orgs)
         for (const s of currentStaff(api, org.id))
           if (api.state.people.has(s.personId))
             out.push({ id: s.personId, personId: s.personId, count: null });
-      return out;
+      // One rule, both tiers: the counted staff of the same employers, as
+      // one count (each counted job stands for the people its household does).
+      const counted = countedStaff(api, new Set(orgs.map((o) => o.id)));
+      return counted
+        ? [...out, { id: `counted:${spec.id}`, personId: null, count: counted }]
+        : out;
     }
     case "counted": {
       const count = countedReach(api, select);

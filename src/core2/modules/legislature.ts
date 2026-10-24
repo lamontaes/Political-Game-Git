@@ -54,6 +54,7 @@ import {
   LAWS_MODULE_ID,
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
+import { lawApplied } from "../law-reach/applied";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
@@ -902,7 +903,7 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           allowed: true,
           warning: "none",
           reason: "state-grants-local-minimum-wage",
-          source: rows[0]?.id ?? "",
+          source: authority.measureId ?? rows[0]?.id ?? "",
         }
       : {
           allowed: false,
@@ -910,7 +911,7 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
           reason: authority.preempts
             ? "state-preempts-local-minimum-wage"
             : "state-gives-no-local-minimum-wage",
-          source: rows[0]?.id ?? "",
+          source: authority.measureId ?? rows[0]?.id ?? "",
         };
   }
   if (
@@ -1695,6 +1696,37 @@ function checkedText(
             } as Authority)
           : authorityFor(api, p))),
   );
+  // A local minimum wage drafted under the state's grant (or refused by
+  // its preemption) reaches the body that drafted it, on the law that
+  // decided it: the state's authority answer or the question that enacted it.
+  for (const [i, p] of provisions.entries()) {
+    const a = authority[i]!;
+    const decidedBy = a.source
+      ? (api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .get(a.source) as unknown as LawRowInput | undefined)
+      : undefined;
+    // A question answered no is no law to apply; the state's preemption is
+    // the grant series' own row.
+    if (
+      !stateBody &&
+      p.kind === "law-amount" &&
+      p.series === "minimum-wage" &&
+      decidedBy &&
+      (!decidedBy.series.includes(":") || decidedBy.value === 1)
+    )
+      lawApplied(api, {
+        key: decidedBy.series,
+        lawId: decidedBy.id,
+        targetId: bodyOfficeId,
+        target: "government",
+        engine: LEGISLATURE_MODULE_ID,
+        what: a.allowed
+          ? "local-minimum-wage-bill-allowed"
+          : "local-minimum-wage-bill-preempted",
+      });
+  }
   return {
     provisions,
     costEstimate: costOf(api, provisions),

@@ -134,9 +134,14 @@ export function localAuthority(
   chain: LawChain,
   date: string,
 ): { allowed: boolean; measureId: string | null; preempts: boolean } {
-  const starting = authorityRows.find(
+  // A statute enacted in play amends the state's grant outright (`levelRow`'s
+  // rule): its row competes with the questions the state answered by date, as
+  // an enacted law; the research's row is the law in force at the start.
+  const inState = authorityRows.filter(
     (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
   );
+  const amended = inState.filter((row) => row.terms?.enactedBy !== undefined);
+  const starting = inState.find((row) => row.terms?.enactedBy === undefined);
   const candidate = (
     answer: "yes" | "no",
     measureId: string,
@@ -155,11 +160,31 @@ export function localAuthority(
     ...(preempts === undefined ? {} : { preempts }),
   });
   const law = lawInForceFromCandidates({
-    enacted: enacted
-      .filter((e) => e.jurisdiction === chain.stateKey && e.operativeAt <= date)
-      .map((e) =>
-        candidate(e.answer, e.measureId, e.operativeAt, "enacted", e.sequence),
+    enacted: [
+      ...enacted
+        .filter(
+          (e) => e.jurisdiction === chain.stateKey && e.operativeAt <= date,
+        )
+        .map((e) =>
+          candidate(
+            e.answer,
+            e.measureId,
+            e.operativeAt,
+            "enacted",
+            e.sequence,
+          ),
+        ),
+      ...amended.map((row) =>
+        candidate(
+          row.value === 1 ? "yes" : "no",
+          row.id,
+          row.effectiveDate,
+          "enacted",
+          0,
+          row.terms?.preempts === true,
+        ),
       ),
+    ],
     starting: starting
       ? candidate(
           starting.value === 1 ? "yes" : "no",
