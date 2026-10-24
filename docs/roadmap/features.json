@@ -59,7 +59,7 @@
       "package": "M0-bench",
       "test": "For a fresh life, steps 1-2 show reachable, steps 3-11 show the specific missing module, and the world pieces show 'not in the new core yet' until M1 lands.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-05",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-06",
@@ -98,7 +98,7 @@
       "golden_path": "core",
       "package": "M0-core",
       "test": "Module state, accounts with one balanced writer, the institution calendar and voter groups each have their own contract tests; the speed budget holds; the first two M1 ports build on them without patching the core.",
-      "command": "npx vitest run src/core2/module-state.test.ts src/core2/accounts.test.ts src/core2/module-calendar.test.ts src/core2/voter-groups.test.ts",
+      "command": "NODE_OPTIONS=--max-old-space-size=8192 npx vitest run src/core2/module-state.test.ts src/core2/accounts.test.ts src/core2/module-calendar.test.ts src/core2/voter-groups.test.ts",
       "passes": false
     },
     {
@@ -239,7 +239,7 @@
       "golden_path": "world",
       "package": "M1-views",
       "test": "In a random place, views match real spreads by age, education, faith and region, checked against state and metro answer keys, so conservatives in two randomly drawn states can differ; a big event shifts the people it touches and no one else.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts && node --max-old-space-size=8192 --import tsx src/bench/m1-10-check.ts",
       "passes": false
     },
     {
@@ -259,7 +259,7 @@
       "golden_path": "world",
       "package": "M1-officials",
       "test": "Click any official in any state: a full record with personality, history, relationships and the positions behind their votes.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m1-12-check.ts",
       "passes": false
     },
     {
@@ -359,7 +359,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a full election year, state legislative, governor, congressional and presidential races run on the same election engine with fictional candidates, and their winners take office on the real dates.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m2-10-check.ts",
       "passes": false
     },
     {

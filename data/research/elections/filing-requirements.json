@@ -172,16 +172,18 @@
         "partyCandidateVsIndependent": "Same filing for all candidates.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "June 1 of the election year",
         "filingWindowOpens": "Any time before the deadline",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Alaska",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-AL": {
@@ -383,16 +385,18 @@
         "partyCandidateVsIndependent": "Party fee only; independents petition.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "116 days before the primary",
         "filingWindowOpens": "Set by the party",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Alabama",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-AR": {
@@ -600,16 +604,18 @@
         "partyCandidateVsIndependent": "Party candidates file affidavit of eligibility, political practices pledge and party certificate and pay the party's fee; independents file notice and petition, no fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "End of the party filing period",
         "filingWindowOpens": "One week before the deadline",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Arkansas",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-AZ": {
@@ -817,16 +823,18 @@
         "partyCandidateVsIndependent": "No fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "90 days before the primary",
         "filingWindowOpens": "120 days before the primary",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Arizona",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-CA": {
@@ -1024,16 +1032,18 @@
         "partyCandidateVsIndependent": "Top-two: identical for all.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "88th day before the primary",
         "filingWindowOpens": "113th day before the primary",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_California",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-CO": {
@@ -1235,16 +1245,18 @@
         "partyCandidateVsIndependent": "No fee. Major-party candidates reach the primary by assembly (30% of delegates) or petition; unaffiliated candidates petition for the general ballot and must have been unaffiliated since the first business day of January.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Party petitions about 85 days before the primary (2026: March 18); unaffiliated petitions 117 days before the general (same rule as statewide offices)",
         "filingWindowOpens": "Petitions circulate from the date set by the Secretary of State (about 173 days before the primary) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Colorado",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-CT": {
@@ -1419,16 +1431,18 @@
         "partyCandidateVsIndependent": "No fee. Party-endorsed candidates need no petition; challengers petition with party members' signatures. Petitioning candidates file with town registrars then the Secretary of the State.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Primary petitions to town registrars 63 days before the primary; unaffiliated petitions 90 days before the general (same rule as statewide offices)",
         "filingWindowOpens": "105 days before the primary",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Connecticut",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-DE": {
@@ -1628,16 +1642,18 @@
         "partyCandidateVsIndependent": "Party candidates pay a party-set fee (indigent candidates may petition with 1% of registered voters); unaffiliated candidates petition county departments of elections, no fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Noon on the second Tuesday in July",
         "filingWindowOpens": "January 1",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Delaware",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-FL": {
@@ -1845,16 +1861,18 @@
         "partyCandidateVsIndependent": "No-party candidates pay 4%.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Noon, 116th day before the primary (federal offices)",
         "filingWindowOpens": "Noon, 120th day before the primary",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Florida",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-GA": {
@@ -2072,16 +2090,18 @@
         "partyCandidateVsIndependent": "Party candidates qualify with their party and pay the fee; independents pay the same fee and file a petition during the fourth week of June. A pauper's affidavit plus petition (1/4 of 1% statewide) replaces the fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Party qualifying ends noon Friday of the qualifying week in early March; independent petitions due the second Tuesday in July (same rule as statewide offices)",
         "filingWindowOpens": "Party qualifying opens the first Monday in March (9 a.m.) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Georgia",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-HI": {
@@ -2245,16 +2265,18 @@
         "partyCandidateVsIndependent": "Identical for all.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "First Tuesday in June",
         "filingWindowOpens": "First business day in February",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Hawaii",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-IA": {
@@ -2462,16 +2484,18 @@
         "partyCandidateVsIndependent": "No fee. Same signature counts; party candidates file for the primary, petition candidates by the 81st day before the general.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. 81 days before the primary (party); 81 days before the general (petition) (same rule as statewide offices)",
         "filingWindowOpens": "99 days before the primary / general (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Iowa",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-ID": {
@@ -2679,16 +2703,18 @@
         "partyCandidateVsIndependent": "Party candidates pay the fee OR file the petition; independents file a declaration and petition (Ballotpedia 2026 lists the same fee).",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. on the tenth Friday before the primary (Idaho Code 34-704) (same rule as statewide offices)",
         "filingWindowOpens": "Filing opens the Monday two weeks before the deadline (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Idaho",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-IL": {
@@ -2896,16 +2922,18 @@
         "partyCandidateVsIndependent": "No fee. Established-party candidates file 127-120 days before the primary; independents and new parties file 141-134 days before the general.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "120 days before the primary (party); 134 days before the general (independent) (same rule as statewide offices)",
         "filingWindowOpens": "127 days before the primary; petitions circulate from 90 days before the last filing day (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Illinois",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-IN": {
@@ -3121,16 +3149,18 @@
         "partyCandidateVsIndependent": "As legislative.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Noon 88 days before the primary",
         "filingWindowOpens": "118 days before the primary",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Indiana",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-KS": {
@@ -3338,16 +3368,18 @@
         "partyCandidateVsIndependent": "Party candidates pay the fee or petition; independents petition (5,000) and pay only the administrative and ethics fees.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Noon June 1 (party); noon on the Monday before the primary (independent) (same rule as statewide offices)",
         "filingWindowOpens": "Any time before the deadline in the election year (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Kansas",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-KY": {
@@ -3553,16 +3585,18 @@
         "partyCandidateVsIndependent": "Party candidates need only two party signers; petition (independent) candidates need 5,000 and file a statement of candidacy by April 1.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "4 p.m. on the first Friday after the first Monday in January (party); first Tuesday after the first Monday in June (petition) (same rule as statewide offices)",
         "filingWindowOpens": "First Wednesday after the first Monday in November of the prior year (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Kentucky",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-LA": {
@@ -3759,16 +3793,18 @@
         "partyCandidateVsIndependent": "2026 U.S. House elections were moved to November 3 (runoff December 12) with qualifying ending August 7 after Louisiana v. Callais; all candidates qualify the same way.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Three-day qualifying period set by statute or executive order (2026: ended August 7)",
         "filingWindowOpens": "Petitions circulate 120 days before qualifying",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Louisiana",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-MA": {
@@ -3970,16 +4006,18 @@
         "partyCandidateVsIndependent": "No fee; same signatures. Party candidates must be enrolled in the party (not another party within a year); party rule also requires 15% at convention.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. first Tuesday in June (party, federal and statewide); last Tuesday in August (non-party); local certification 28 days earlier (same rule as statewide offices)",
         "filingWindowOpens": "Nomination papers issued by the Secretary early in the year (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Massachusetts",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-MD": {
@@ -4181,16 +4219,18 @@
         "partyCandidateVsIndependent": "Principal-party candidates file a certificate of candidacy and fee, no petition; independents file a declaration of intent, petition and the same fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "9 p.m. last Tuesday in February (party); 5 p.m. first Monday in August (independent) (same rule as statewide offices)",
         "filingWindowOpens": "Certificates accepted from the prior year; independents' declaration of intent by first Monday in July (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Maryland",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-ME": {
@@ -4392,16 +4432,18 @@
         "partyCandidateVsIndependent": "No fee; independents need twice the signatures and must not have been enrolled in a party after March 1. Signatures are certified by municipal registrars first.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. March 15 (party); 5 p.m. June 1 (independent; certification by May 25) (same rule as statewide offices)",
         "filingWindowOpens": "Petitions available January 1 (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Maine",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-MI": {
@@ -4603,16 +4645,18 @@
         "partyCandidateVsIndependent": "No fee for statewide; signature scale set by population of the district.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "4 p.m. 15th Tuesday before the primary (party); 110th day before the general (independent) (same rule as statewide offices)",
         "filingWindowOpens": "Signatures valid only if gathered within 180 days of filing (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Michigan",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-MN": {
@@ -4810,16 +4854,18 @@
         "partyCandidateVsIndependent": "Major-party candidates pay the fee or petition; minor-party and independent candidates must petition and also pay the fee (or petition in lieu).",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. 70th day before the primary (same rule as statewide offices)",
         "filingWindowOpens": "84th day before the primary (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Minnesota",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-MO": {
@@ -5025,16 +5071,18 @@
         "partyCandidateVsIndependent": "Party candidates pay the fee to their party and file in person; independents petition, no fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. last Tuesday in March (party); 5 p.m. 15th Monday before the general (independent) (same rule as statewide offices)",
         "filingWindowOpens": "8 a.m. last Tuesday in February (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Missouri",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-MS": {
@@ -5246,16 +5294,18 @@
         "partyCandidateVsIndependent": "Party candidates file a statement of intent and fee with the party; independents petition the Secretary of State and pay a fixed fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. March 1 of the election year for state offices (Ballotpedia); in 2026 the congressional deadline was December 26, 2025, ahead of the March 10 primary (same rule as statewide offices)",
         "filingWindowOpens": "January 1 of the election year (estimate) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Mississippi",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-MT": {
@@ -5461,16 +5511,18 @@
         "partyCandidateVsIndependent": "Party candidates file a declaration and fee; independents also petition. Indigent candidates may petition instead of paying.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. 85 days before the primary (party; 2026: March 4); independent petitions due about one week before the primary (Ballotpedia 2026: June 1) (same rule as statewide offices)",
         "filingWindowOpens": "135 days before the primary (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Montana",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-NC": {
@@ -5678,16 +5730,18 @@
         "partyCandidateVsIndependent": "Party candidates file a notice of candidacy and fee; unaffiliated candidates also petition.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Noon on the third Friday in December of the year before the March primary (party) (same rule as statewide offices)",
         "filingWindowOpens": "Noon on the first Monday in December (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_North_Carolina",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-ND": {
@@ -5886,16 +5940,18 @@
         "partyCandidateVsIndependent": "No fee. Party candidates can also be endorsed at convention; petitions use the same deadline for party and independent candidates.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "4 p.m. 64th day before the primary (same rule as statewide offices)",
         "filingWindowOpens": "Petitions may circulate once the candidate is ready; no statutory opening read (estimate) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_North_Dakota",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-NE": {
@@ -6103,16 +6159,18 @@
         "partyCandidateVsIndependent": "Party candidates file and pay; independents petition and pay. In forma pauperis waives the fee. Incumbents file earlier (February 15) than non-incumbents (March 1).",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "February 15 (incumbents) / March 1 (non-incumbents); independents by August 1 (same rule as statewide offices)",
         "filingWindowOpens": "December 1 of the prior year (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Nebraska",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-NH": {
@@ -6314,16 +6372,18 @@
         "partyCandidateVsIndependent": "Party candidates pay the fee or file petitions; non-party candidates file a declaration of intent and nomination papers.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Friday of the filing period (party); Wednesday before the primary (non-party nomination papers) (same rule as statewide offices)",
         "filingWindowOpens": "First Wednesday in June (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_New_Hampshire",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-NJ": {
@@ -6540,16 +6600,18 @@
         "partyCandidateVsIndependent": "No fee. Party primary petitions vs. independent petitions due primary day.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "4 p.m. 64th day before the primary (party); 4 p.m. primary day (independent) (same rule as statewide offices)",
         "filingWindowOpens": "Petitions available January (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_New_Jersey",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-NM": {
@@ -6757,16 +6819,18 @@
         "partyCandidateVsIndependent": "No fee. Major-party candidates file declaration and petition in person on the filing day; independents file after the primary.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Filing day in February/March set by statute; independents the 23rd day after the primary (same rule as statewide offices)",
         "filingWindowOpens": "Single filing day (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_New_Mexico",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-NV": {
@@ -6974,16 +7038,18 @@
         "partyCandidateVsIndependent": "Party candidates must have been registered with the party since December 31; independents petition and pay the same fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Second Friday in March (party); last Friday in June (independent) (same rule as statewide offices)",
         "filingWindowOpens": "First Monday in March (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Nevada",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-NY": {
@@ -7201,16 +7267,18 @@
         "partyCandidateVsIndependent": "No fee. Party designating petitions signed by enrolled party members only; independent nominating petitions by any voter not signing a rival petition.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Designating petitions: filed in the window 11-10 weeks before the primary; independent petitions 24-23 weeks before the general (same rule as statewide offices)",
         "filingWindowOpens": "Designating petitions circulate from 148 days before the primary (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_New_York",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-OH": {
@@ -7418,16 +7486,18 @@
         "partyCandidateVsIndependent": "Everyone pays the fee and files a petition; independents need five times the signatures and file the day before the primary.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "4 p.m. 90 days before the primary (party); 4 p.m. the day before the primary (independent) (same rule as statewide offices)",
         "filingWindowOpens": "Petitions may circulate any time before filing (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Ohio",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-OK": {
@@ -7625,16 +7695,18 @@
         "partyCandidateVsIndependent": "All candidates file the same way during the same three-day period; party candidates must have been registered with the party for six months; independents registered as independent for six months.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. Friday of the filing week (first Wednesday-Friday in April) (same rule as statewide offices)",
         "filingWindowOpens": "8 a.m. first Wednesday in April (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Oklahoma",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-OR": {
@@ -7832,16 +7904,18 @@
         "partyCandidateVsIndependent": "Major-party candidates pay or petition; unaffiliated candidates petition or hold an assembly of electors; minor parties nominate by convention.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "70th day before the primary (party); 70th day before the general (unaffiliated) (same rule as statewide offices)",
         "filingWindowOpens": "250th day before the primary (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Oregon",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-PA": {
@@ -8059,16 +8133,18 @@
         "partyCandidateVsIndependent": "Everyone pays the fee and petitions; party nomination petitions vs. independent/political-body nomination papers.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "10th Tuesday before the primary (party); August 1 (nomination papers) (same rule as statewide offices)",
         "filingWindowOpens": "13th Tuesday before the primary (petition circulation) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Pennsylvania",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-RI": {
@@ -8236,16 +8312,18 @@
         "partyCandidateVsIndependent": "Identical.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Declarations: last consecutive Monday-Wednesday in June; nomination papers to local boards by the 60th day before the primary (same rule as statewide offices)",
         "filingWindowOpens": "Last Monday of the declaration period in June (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Rhode_Island",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-SC": {
@@ -8453,16 +8531,18 @@
         "partyCandidateVsIndependent": "Party candidates file the statement of intention/party pledge and fee; petition candidates file 5% (max 10,000).",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Noon March 30 (party); noon July 15 (petition) (same rule as statewide offices)",
         "filingWindowOpens": "Noon March 16 (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_South_Carolina",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-SD": {
@@ -8664,16 +8744,18 @@
         "partyCandidateVsIndependent": "No fee. Registered party members may not sign independent petitions.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. last Tuesday in March (party); last Tuesday in April (independent) (same rule as statewide offices)",
         "filingWindowOpens": "January 1 (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_South_Dakota",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-TN": {
@@ -8882,16 +8964,18 @@
         "partyCandidateVsIndependent": "Identical.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Noon on the first Thursday in April (2026 cycle moved earlier by statute: March 10) (same rule as statewide offices)",
         "filingWindowOpens": "Nominating petitions available from the election commission well before the deadline; no fixed opening read (estimate) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Tennessee",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-TX": {
@@ -9093,16 +9177,18 @@
         "partyCandidateVsIndependent": "Party candidates apply to the party chair with fee or petition; independents file a declaration of intent in the same window and petition after the primary, signed only by voters who did not vote in a primary.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "6 p.m. second Monday in December of the odd-numbered year (same rule as statewide offices)",
         "filingWindowOpens": "Second Saturday in November (30 days before the deadline) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Texas",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-UT": {
@@ -9308,16 +9394,18 @@
         "partyCandidateVsIndependent": "Party candidates reach the primary by convention or signatures; unaffiliated candidates petition. Impecunious candidates may waive the fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Declaration of candidacy: fourth business day after January 2 (same rule as statewide offices)",
         "filingWindowOpens": "January 2 (first business day after) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Utah",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-VA": {
@@ -9524,16 +9612,18 @@
         "partyCandidateVsIndependent": "Primary candidates pay the filing fee and petition; independents petition with no fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Primary: 5 p.m. first Thursday in April (June primary); independents: 7 p.m. third Tuesday in June (same rule as statewide offices)",
         "filingWindowOpens": "January 1 (petition circulation) (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Virginia",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-VT": {
@@ -9612,15 +9702,16 @@
         "feeInLieuOfSignatures": false,
         "petitionInLieuOfFee": false,
         "partyCandidateVsIndependent": "No fee; same signature counts; independents file later.",
-        "minimumAge": null,
-        "residency": "state resident 2 years; district resident 1 year (no minimum age in law; voting age 18 applies in practice)",
+        "minimumAge": 18,
+        "residency": "state resident 2 years; district resident 1 year (Vt. Const. ch. II, sec. 15; no minimum age in law, so the voting age of 18 stands in, as for the statewide row)",
         "registeredVoterRequired": "not specified",
         "filingDeadlineRule": "5 p.m. fourth Thursday after the first Monday in May (major party); first Thursday after the primary (independent) (same rule as statewide offices)",
         "filingWindowOpens": "Petitions available early in the year (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Vermont",
         "secondarySources": [
           "https://ballotpedia.org/State_legislature_candidate_requirements_by_state",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://legislature.vermont.gov/statutes/constitution-of-the-state-of-vermont/"
         ],
         "retrievedDate": "2026-10-12",
         "estimate": false
@@ -9735,16 +9826,18 @@
         "partyCandidateVsIndependent": "No fee; same signature counts; independents file later.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. fourth Thursday after the first Monday in May (major party); first Thursday after the primary (independent) (same rule as statewide offices)",
         "filingWindowOpens": "Petitions available early in the year (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Vermont",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-WA": {
@@ -9940,16 +10033,18 @@
         "partyCandidateVsIndependent": "Identical (top-two).",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Friday of the filing week (first full week of May) (same rule as statewide offices)",
         "filingWindowOpens": "First Monday in May (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Washington",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-WI": {
@@ -10141,16 +10236,18 @@
         "partyCandidateVsIndependent": "Identical.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "5 p.m. June 1",
         "filingWindowOpens": "April 15",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Wisconsin",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-WV": {
@@ -10352,16 +10449,18 @@
         "partyCandidateVsIndependent": "Party candidates file a certificate of announcement and fee; independents also petition, using credentials from county clerks.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "Last Saturday in January (party); August 1 (independent) (same rule as statewide offices)",
         "filingWindowOpens": "Second Monday in January (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_West_Virginia",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-WY": {
@@ -10569,16 +10668,18 @@
         "partyCandidateVsIndependent": "Party candidates file an application and fee; independents file a petition approved before circulation and the same fee.",
         "minimumAge": 25,
         "residency": "U.S. citizen 7 years; inhabitant of the state when elected (no district residency required)",
-        "registeredVoterRequired": "not required by the Constitution",
+        "registeredVoterRequired": false,
         "filingDeadlineRule": "81 days before the primary (party); 70 days before the general (independent) (same rule as statewide offices)",
         "filingWindowOpens": "96 days before the primary (same rule as statewide offices)",
         "source": "https://ballotpedia.org/Ballot_access_requirements_for_political_candidates_in_Wyoming",
         "secondarySources": [
           "https://constitution.congress.gov/browse/article-1/section-2/clause-2/",
-          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf"
+          "https://www.fec.gov/resources/cms-content/documents/2026pdates.pdf",
+          "https://www.law.cornell.edu/supremecourt/text/514/779"
         ],
         "retrievedDate": "2026-10-12",
-        "estimate": false
+        "estimate": false,
+        "registeredVoterNote": "Read Oct 23, 2026: U.S. Const. art. I, sec. 2, cl. 2 sets the only qualifications (age 25, citizen 7 years, inhabitant of the state when elected), and U.S. Term Limits, Inc. v. Thornton, 514 U.S. 779 (1995) holds 'that States lack the power to impose qualifications', so no voter registration is required."
       }
     },
     "US-DC": {

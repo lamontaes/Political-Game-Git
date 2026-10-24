@@ -21,7 +21,10 @@ import justiceParameters from "./data/justice/parameters.json" with { type: "jso
 const seed = process.env.JUSTICE_WITNESS_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(seed, "justice-witness");
 const where = `seed ${seed}, ${place.name} (${place.key})`;
-const world = buildBenchWorld(place.seed, gameStartDate(), { twoLevel: true });
+const world = buildBenchWorld(place.seed, gameStartDate(), {
+  twoLevel: true,
+  placeKey: place.key,
+});
 const core = world.core;
 const api = coreAPI(core);
 const table = (name: string) => api.moduleState(JUSTICE_MODULE_ID).table(name);
