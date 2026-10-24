@@ -2921,11 +2921,15 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "office-hours",
-          "causeEngine": "offices",
+          "match": {
+            "label": "cause:event:office.approached",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "officialId", "is": "subject" }]
+          },
+          "causeEngine": "constituent-cases",
           "causeRecord": "office.approached",
           "bind": {
-            "constituent": "constituent",
+            "constituent": "counterpart",
             "you": "subject"
           },
           "opener": "constituent"

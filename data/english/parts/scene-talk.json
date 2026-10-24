@@ -17083,6 +17083,162 @@
         "move": "accept",
         "key": "vote-wanted"
       }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-been-out-of-work-for-months-and-my-savings-are-almost-gone",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've been out of work for months, and my savings are almost gone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["case-looking-for-work"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-can-t-find-work-and-i-m-running-out-of-money",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can't find work, and I'm running out of money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["case-looking-for-work"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.my-job-pays-less-than-the-minimum-wage-and-nobody-will-do-anything-abo",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My job pays less than the minimum wage, and nobody will do anything about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["case-paid-under-minimum-wage"]
+        }
+      ],
+      "bearing": "anxious",
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-paid-under-the-minimum-wage-i-checked-the-law",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm paid under the minimum wage. I checked the law.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["case-paid-under-minimum-wage"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-get-you-in-with-the-workforce-office-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll get you in with the workforce office this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["case-looking-for-work"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-send-this-to-the-labor-standards-office-today",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll send this to the labor standards office today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help",
+          "key": "favor-asked",
+          "requiresFacts": ["case-paid-under-minimum-wage"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      }
     }
   ]
 }

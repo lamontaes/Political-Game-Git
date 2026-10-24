@@ -118,6 +118,12 @@ export function purposeScene(
       text: said.section,
       sourceRecordIds: [moment.causeId],
     };
+  // A resident's problem from their case: the lines about that problem need it.
+  if (said.problem)
+    facts[`case-${said.problem}`] = {
+      text: said.problem,
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.office)
     facts.office = {
       text: said.office,

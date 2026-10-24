@@ -391,6 +391,27 @@ function bringCase(
     outcome: null,
   };
   table(api).put(row as unknown as ModuleRow);
+  // The visit is on the office's own record: who came, to whom and about
+  // what. It is the office's, not the public's.
+  api.emit({
+    id: `office-approached:${row.id}`,
+    date: api.state.date,
+    kind: "office.approached",
+    personIds: [row.officialId, person.id],
+    placeId: town,
+    facts: {
+      caseId: row.id,
+      officialId: row.officialId,
+      constituentId: person.id,
+      problem: row.problem,
+      officeId: official.officeId,
+    },
+    source: {
+      tag: "SOURCED",
+      citation: `Constituent case ${row.id}`,
+      asOf: api.state.date,
+    },
+  });
   api.relationship(person.id, official.personId!, "contact", 0.05);
   // Bringing the problem makes the resident's case on its question to the
   // official, who is moved by the resident's standing with them.
