@@ -219,6 +219,13 @@ export class CountedStore {
     number,
     { rev: number; people: readonly PersonInput[] }
   >();
+  /**
+   * How many real jobs a counted job stands for where that is not its
+   * worker's household weight: kept when the household's weight grows by
+   * another record's release, or when an employer sheds part of it, so an
+   * employer's heads move only with its own staffing (`headsOfJob`).
+   */
+  readonly jobHeads = new Map<string, number>();
   /** Each household's counted members' facts, kept until the household changes (`touch`). */
   private readonly factsViews = new Map<
     number,
@@ -427,6 +434,17 @@ export class CountedStore {
     return h.weight ?? 1;
   }
 
+  /** How many real jobs one of a record's counted jobs stands for. */
+  headsOfJob(h: CountedHousehold, jobId: string): number {
+    return this.jobHeads.get(jobId) ?? this.weightOf(h);
+  }
+
+  /** Set the jobs a counted job stands for, as its employer's staffing decided. */
+  setJobHeads(jobId: string, heads: number): void {
+    this.version++;
+    this.jobHeads.set(jobId, heads);
+  }
+
   /** The people a household record stands for: its counted members times its weight. */
   weightedCount(h: CountedHousehold): number {
     return this.countedCount(h) * (h.weight ?? 1);
@@ -477,8 +495,18 @@ export class CountedStore {
     if (!found.size) return people;
     const added = people / found.size;
     this.version++;
-    for (const other of found.targets)
+    // The households it stood for move; the jobs they held stay with their
+    // employers: a target's own jobs keep the heads they stood for (the
+    // filled record's own jobs are kept by the residents engine, which sees
+    // every counted job at an employer). The people a target gains beyond
+    // its jobs' heads stand for no job and do not look for one.
+    stopgap("SG-WORLD-weight-release-jobless-not-seeking");
+    for (const other of found.targets) {
+      for (const job of other.jobs)
+        if (!this.jobHeads.has(job.id))
+          this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
+    }
     return 0;
   }
 

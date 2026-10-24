@@ -50,6 +50,7 @@ export function endCountedJob(
     half.jobIds = (half.jobIds ?? []).filter((id) => id !== jobId);
     recompute(half);
   }
+  // Its heads stay on record: the leaver's opening replaces the jobs it held.
   rt.wageFlowByJob.delete(jobId);
   const ended = { ...job, endsAt: makeIsoDate(core.date) };
   rt.jobs.set(jobId, ended);
@@ -211,8 +212,26 @@ export function countedHeadcountOf(
   if (!residentsRuntime(core)?.store) return 0;
   let heads = 0;
   for (const job of countedJobsOf(core, organizationId))
-    heads += countedHeadsOf(core, job.personId);
+    heads += countedJobHeads(core, job);
   return heads;
+}
+
+/**
+ * How many businesses one business record stands for: its staff in heads
+ * over its job records, a counted worker's record standing for its
+ * household's weight (one with no staff, and one in a town whose households
+ * each stand for one). A full owner is one household and owns one of them.
+ */
+export function businessScaleOf(
+  core: CoreState,
+  organizationId: string,
+): number {
+  let rows = 0;
+  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ?? [])
+    if (core.jobs.get(jobId)?.endsAt === undefined) rows += 1;
+  const full = rows;
+  rows += countedJobsOf(core, organizationId).length;
+  return rows ? (full + countedHeadcountOf(core, organizationId)) / rows : 1;
 }
 
 /**
@@ -230,10 +249,26 @@ export function weightedPayrollMinor(
   let payroll = annualPayrollMinor;
   for (const job of countedJobsOf(core, organizationId))
     payroll +=
-      (countedHeadsOf(core, job.personId) - 1) *
-      job.wageDailyMinor *
-      daysPerYear;
+      (countedJobHeads(core, job) - 1) * job.wageDailyMinor * daysPerYear;
   return payroll;
+}
+
+/**
+ * How many real jobs one counted job stands for: its worker's household
+ * weight, unless its employer's staffing set it otherwise (`CountedStore.
+ * headsOfJob`); one where the counts no longer hold the worker.
+ */
+export function countedJobHeads(
+  core: CoreState,
+  job: Pick<JobInput, "id" | "personId">,
+): number {
+  const store = residentsRuntime(core)?.store;
+  const m = store?.countedMember(job.personId);
+  const home =
+    store && m !== undefined
+      ? store.households[store.household[m]!]
+      : undefined;
+  return store && home ? store.headsOfJob(home, job.id) : 1;
 }
 
 /** How many people one counted person's record stands for: their household's weight (one where the counts no longer hold them). */

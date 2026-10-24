@@ -56,7 +56,7 @@ import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import {
   addCountedJob,
-  countedHeadsOf,
+  countedJobHeads,
   countedJobsOf,
   endCountedJob,
   rerateCountedJobs,
@@ -146,6 +146,13 @@ interface SeekerRow {
 interface EmployerRow {
   id: string;
   openingStaff: number;
+  /**
+   * How many jobs each of its opening job records stood for, on average (one
+   * at the sample size). Its books are kept at one worker per record, so
+   * receipts taken in at the town's weight are read against them divided by
+   * this.
+   */
+  openingScale?: number;
   /** Fractional staffing need carried between reviews: positive hires, negative lays off. */
   need: number;
   /** Sales-supported staff, smoothed as receipts arrive across paydays. */
@@ -195,7 +202,7 @@ function currentJobs(api: CoreAPI, organizationId: string) {
 
 /** How many jobs a job record stands for: one for a full person's, the household weight for a counted worker's. */
 function headsOf(c: CoreState, job: Pick<JobInput, "id" | "personId">): number {
-  return c.jobs.has(job.id) ? 1 : countedHeadsOf(c, job.personId);
+  return c.jobs.has(job.id) ? 1 : countedJobHeads(c, job);
 }
 
 /** The jobs a staff holds, a counted worker's record standing for its household's weight. */
@@ -276,7 +283,7 @@ function record(
     personId: string;
     organizationId: string;
     jobId: string;
-    kind: "hire" | "quit" | "layoff" | "closure" | "left-work";
+    kind: "hire" | "quit" | "layoff" | "staff-shed" | "closure" | "left-work";
     reasonKey: string;
     decidedBy: string;
     values?: Readonly<Record<string, number>>;
@@ -434,7 +441,7 @@ function noteCountedLeavers(api: CoreAPI): void {
     const fresh = (employers.get(row.id) as unknown as EmployerRow) ?? row;
     const heads: Record<string, number> = {};
     for (const [id, personId] of Object.entries(now)) {
-      const weight = countedHeadsOf(c, personId);
+      const weight = countedJobHeads(c, { id, personId });
       if (weight !== 1) heads[id] = weight;
     }
     employers.put({
@@ -784,19 +791,22 @@ function unemploymentGap(api: CoreAPI, placeId: string): number {
 
 function open(api: CoreAPI): void {
   const c = core(api);
-  for (const [id, book] of c.finance.businesses)
-    if (!book.closedAt)
-      store(api)
-        .table("employers")
-        .put({
-          id,
-          isEmployer: true,
-          openingStaff: staffHeads(c, currentJobs(api, id)),
-          need: 0,
-          mix: roleMix(currentJobs(api, id), fullJobs(api, id), (job) =>
-            headsOf(c, job),
-          ),
-        });
+  for (const [id, book] of c.finance.businesses) {
+    if (book.closedAt) continue;
+    const jobs = currentJobs(api, id);
+    const heads = staffHeads(c, jobs);
+    const scale = jobs.length ? heads / jobs.length : 1;
+    store(api)
+      .table("employers")
+      .put({
+        id,
+        isEmployer: true,
+        openingStaff: heads,
+        ...(scale !== 1 ? { openingScale: scale } : {}),
+        need: 0,
+        mix: roleMix(jobs, fullJobs(api, id), (job) => headsOf(c, job)),
+      });
+  }
   openCountedSeekers(api);
   openSeekers(api);
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
@@ -886,7 +896,9 @@ export function affordableStaff(
  *   (`decisionLean`), scales what they will add; a stubborn owner adds
  *   nothing.
  * The added monthly cost is the least of those three and the room the last
- * month's trading left, which raises already given this review use up.
+ * month's trading left, which raises already given this review use up. An
+ * opening a counted worker will fill stands for their household's weight, so
+ * its raise costs that many seats' worth of the room.
  */
 export function raiseUnfilledPay(
   api: CoreAPI,
@@ -936,14 +948,15 @@ export function raiseUnfilledPay(
     // What the seat has cost standing empty since it was last priced.
     const lost = (waited * carriesMonthly) / monthDays;
     const paysMonthly = position.hourlyMinor * hours * monthDays;
+    const seats = positionHeads(position);
     const added = Math.min(
-      room,
+      room / seats,
       carriesMonthly - paysMonthly,
       lost * openHanded,
     );
     const next = position.hourlyMinor + Math.floor(added / (hours * monthDays));
     if (next <= position.hourlyMinor) continue;
-    room -= (next - position.hourlyMinor) * hours * monthDays;
+    room -= (next - position.hourlyMinor) * hours * monthDays * seats;
     const raised: PositionRow = {
       ...position,
       hourlyMinor: next,
@@ -993,7 +1006,8 @@ function reviewEmployers(api: CoreAPI): void {
         ? (row.openingStaff * trading.salesMinor * p("jobsDaysPerYear")) /
           (trading.days *
             (book.price / book.anchorPrice || 1) *
-            book.capacityMinor)
+            book.capacityMinor *
+            (row.openingScale ?? 1))
         : projected;
     const previousSalesStaff = row.salesStaff ?? projected;
     const salesStaff =
@@ -1328,9 +1342,38 @@ function layOff(
     (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
   )[0];
   if (!job) return;
-  // The jobs this record stands for may not exceed what the staff is over by.
+  // The jobs this record stands for may not exceed what the staff is over by:
+  // a counted job standing for more sheds as many of its jobs as the staff is
+  // over by, and its worker's record keeps the rest.
   const heads = headsOf(c, job);
-  if (heads > budget + 1e-9) return "over";
+  if (heads > budget + 1e-9) {
+    const shed = Math.floor(budget + 1e-9);
+    const rt = residentsRuntime(c);
+    if (c.jobs.has(job.id) || shed < 1 || !rt) return "over";
+    rt.store.setJobHeads(job.id, heads - shed);
+    record(api, {
+      personId: job.personId,
+      organizationId,
+      jobId: job.id,
+      kind: "staff-shed",
+      reasonKey: jobsData.reasons.layoff,
+      decidedBy:
+        ownerOf(api, organizationId) ??
+        managerOf(c, staff, job) ??
+        organizationId,
+      values: {
+        ...values,
+        keepScore: keep(job),
+        headsShed: shed,
+        headsLeft: heads - shed,
+      },
+      ...(tradingId ? { tradingId } : {}),
+    });
+    return {
+      heads: shed,
+      id: `job-change:${api.state.date}:${job.id}:staff-shed`,
+    };
+  }
   const keepScore = keep(job);
   // Which book holds the job decides how it ends: a person filled in since
   // the hire can still have a job row only in the counted books.
@@ -2116,6 +2159,9 @@ function hireCounted(
   };
   if (!addCountedJob(c, job, template.id, commitment)) return false;
   if (role) keepCalendar(c, role.calendar);
+  // The hire stands for the jobs the opening offered (one, or the leaver's it
+  // replaces), not every household the seeker's record stands for.
+  residentsRuntime(c)?.store.setJobHeads(job.id, position.heads ?? 1);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
@@ -2337,8 +2383,10 @@ export function laborGroupShares(
           place !== undefined &&
           rt.store.strings[rt.store.placeIx[place]!] === placeId
         ) {
-          const w = rt.store.weightOf(
+          // As many jobs as the counted job stands for.
+          const w = rt.store.headsOfJob(
             rt.store.households[rt.store.household[place]!]!,
+            jobId,
           );
           out["labor.low-wage-jobs"].of += w;
           if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
@@ -3269,12 +3317,20 @@ export function registerEmployer(
   templateFromId?: string,
 ): void {
   if (!store(api).table("state").get("jobs:state")) return;
+  // Its books are sized like its template's (a business of its kind in the same town), at the same scale.
+  const scale = templateFromId
+    ? (
+        store(api).table("employers").get(templateFromId) as
+          EmployerRow | undefined
+      )?.openingScale
+    : undefined;
   store(api)
     .table("employers")
     .put({
       id: organizationId,
       isEmployer: true,
       openingStaff,
+      ...(scale !== undefined ? { openingScale: scale } : {}),
       need: 0,
       // An employer registered after the opening keeps the roles its staff is
       // made of, so a role it loses is refilled as that role even when its

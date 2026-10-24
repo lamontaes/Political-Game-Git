@@ -41,6 +41,7 @@ import { businessName, businessNameContext } from "../business-names";
 import type { BusinessBooksState } from "../finance-types";
 import {
   addResidentFlow,
+  businessScaleOf,
   countedHeadcountOf,
   countedJobsOf,
   weightedPayrollMinor,
@@ -1313,11 +1314,27 @@ function month(api: CoreAPI): void {
         // Only cash past the payroll cushion is spare: a draw never takes the
         // cash the next payroll needs, whatever profit the business has kept.
         const wanted = Math.min(retained * share, Math.max(0, cash - cushion));
-        // The business's cash is already at the town's weight: the counted
-        // owner's group receives the whole draw, and the draw on the books is
-        // what the journal moved.
+        // The business's cash is already at the town's weight. A full owner
+        // is one household and owns one of the businesses the record stands
+        // for: the rest of the draw is the other owners', the town's counted
+        // households. A counted owner's group receives the whole draw. The
+        // draw on the books is what the journal moved.
+        const scale = found.full ? businessScaleOf(c, row.id) : 1;
+        const whole = Math.floor(wanted);
+        const own = scale > 1 ? Math.floor(whole / scale) : whole;
         drawn = found.full
-          ? transferCash(api, id, row.id, account, wanted, source)
+          ? transferCash(api, id, row.id, account, own, source) +
+            (scale > 1 && whole > own
+              ? countedPayment(api, {
+                  id: `${id}:others`,
+                  placeId: owner.placeId,
+                  otherOwnerId: row.id,
+                  amountMinor: -(whole - own),
+                  whole: true,
+                  reasonKey: "owner-draw",
+                  source,
+                })
+              : 0)
           : countedPayment(api, {
               id,
               placeId: owner.placeId,
@@ -1847,21 +1864,25 @@ function found(
   const capacityMinor = rivals.length
     ? rivals.reduce((n, row) => n + row!.capacityMinor, 0) / rivals.length
     : market.demandMinor * share;
-  const incumbents = new Set(market.incumbents);
-  const countedBuyers = [...(residentsRuntime(c)?.flows.values() ?? [])].some(
-    (flow) =>
+  // The incumbent whose counted buyers in this place the entrant shares:
+  // the first that has any (the core copies its kinds of purchase).
+  const counted = new Set<string>();
+  for (const flow of residentsRuntime(c)?.flows.values() ?? [])
+    if (
       flow.kind === "purchase" &&
       !flow.endedAt &&
-      incumbents.has(flow.payeeId) &&
-      !c.people.has(flow.payerId),
-  );
-  const households = !countedBuyers
+      flow.placeId === market.placeId &&
+      !c.people.has(flow.payerId)
+    )
+      counted.add(flow.payeeId);
+  const like = market.incumbents.find((rid) => counted.has(rid));
+  const households = !like
     ? 0
     : api
         .enterMarket({
           organizationId: id,
           placeId: market.placeId,
-          like: market.incumbents[0]!,
+          like,
           capacityMinor: capacityMinor * scale,
         })
         .reduce((n, row) => n + row.annualDemandMinor, 0);
