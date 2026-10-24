@@ -31,7 +31,18 @@ const DRAWS = 3;
 const WITNESS_SEED = "speedlead-a1";
 const DAYS_PER_YEAR = 365;
 
-function play(drawSeed: string) {
+/**
+ * One year in the drawn place, or until the day `until` first holds (the
+ * witness stops on the day its case appears, while that hire still works).
+ */
+function play(
+  drawSeed: string,
+  until?: (state: {
+    core: CoreState;
+    rt: Runtime;
+    opening: Set<string>;
+  }) => boolean,
+) {
   const place = drawPlace(drawSeed, "counted-household-jobs");
   const core = buildBenchWorld(drawSeed, gameStartDate(), {
     twoLevel: true,
@@ -48,29 +59,47 @@ function play(drawSeed: string) {
   while (day < end) {
     day = addDays(day, 1);
     advanceCore(core, day);
+    if (until?.({ core, rt, opening })) break;
   }
   const open = [...rt.jobs.values()].filter((job) => job.endsAt === undefined);
   const hired = open.filter((job) => !opening.has(job.id));
   const ended = [...opening].filter((id) => rt.jobs.get(id)?.endsAt);
-  return { place, core, rt, open, hired, ended };
+  return { place, core, rt, opening, open, hired, ended };
 }
+type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
 
 type Played = ReturnType<typeof play>;
 
-/** Open commitments households keep whose schedule is another employer's role. */
-function borrowedRoles({ core, rt }: Played): WorkCommitmentInput[] {
+/**
+ * Open commitments households keep for jobs hired since the opening, still
+ * worked by someone not yet met, whose schedule is another employer's role (a
+ * founded firm copies one). Opening jobs whose schedule template sits
+ * elsewhere are not hires and are left out.
+ */
+function borrowedRoles({
+  core,
+  rt,
+  opening,
+}: {
+  core: CoreState;
+  rt: Runtime;
+  opening: Set<string>;
+}): WorkCommitmentInput[] {
   const out: WorkCommitmentInput[] = [];
   for (const h of rt.store.households)
     for (const commitment of h?.workCommitments ?? []) {
+      if (
+        commitment.endsAt !== undefined ||
+        opening.has(commitment.jobId) ||
+        rt.jobs.get(commitment.jobId)?.endsAt !== undefined ||
+        core.people.has(commitment.personId)
+      )
+        continue;
       const templateId = commitment.scheduleTemplateJobId;
       const role = templateId
         ? (rt.jobs.get(templateId) ?? core.jobs.get(templateId))
         : undefined;
-      if (
-        commitment.endsAt === undefined &&
-        role &&
-        role.organizationId !== commitment.organizationId
-      )
+      if (role && role.organizationId !== commitment.organizationId)
         out.push(commitment);
     }
   return out.sort((a, b) => a.id.localeCompare(b.id));
@@ -199,9 +228,7 @@ describe(`a counted household's jobs follow its workers' jobs (seed ${seed})`, (
 
       // A member hired during the year keeps that job, with its pay, when met:
       // one from another employer's role if the year has one still unmet.
-      const borrowed = borrowedRoles(run).filter(
-        (row) => !core.people.has(row.personId),
-      );
+      const borrowed = borrowedRoles(run);
       const { job, person, calendarId } = meet(run, where, borrowed[0]);
       const pay = (core.jobs.get(job.id)?.wageDailyMinor ?? 0) * DAYS_PER_YEAR;
       console.log(
@@ -215,12 +242,13 @@ describe(`a counted household's jobs follow its workers' jobs (seed ${seed})`, (
   it(`a founded firm's hire from another employer's role is paid on the firm's own calendar when met (seed ${WITNESS_SEED})`, () => {
     const priorBookkeeping = setBookkeeping(false);
     try {
-      const run = play(WITNESS_SEED);
-      const where = `${run.place.name}, ${run.place.state}, seed ${WITNESS_SEED}`;
-      ownCalendars(run, where);
-      const borrowed = borrowedRoles(run).filter(
-        (row) => !run.core.people.has(row.personId),
+      const run = play(
+        WITNESS_SEED,
+        (state) => borrowedRoles(state).length > 0,
       );
+      const where = `${run.place.name}, ${run.place.state}, seed ${WITNESS_SEED}, ${run.core.date}`;
+      ownCalendars(run, where);
+      const borrowed = borrowedRoles(run);
       expect(
         borrowed.length,
         `${where}: an unmet counted hire from another employer's role`,
