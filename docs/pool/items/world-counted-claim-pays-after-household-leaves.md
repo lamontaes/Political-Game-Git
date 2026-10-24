@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/residents.ts, src/core2/modules/retirement-claims.ts, src/core2/modules/counted-moves.ts
 
 **Notes.** Found Oct 24 while working tests-counted-demotion-retained-cash.
+
+October 24, 2026 (claude, claude/counted-claim-household-leaves): fixed. A counted household's departure (endHouseholdFlows in src/core2/modules/residents.ts) now also ends each member's own award claimed in play, retirement-claim:<person> or its :counted: successor, with reason household-left. Shown in East Syracuse, New York (COUNTED_CLAIM_SEED=bdae3daaf7847b71, attempt 1): retirement-claim:person_d54a14d076791975 ended on 2026-02-01, the day of move:out:household_71ee38715070e75d:2026-02-01. Test: src/core2/counted-claim-departure.test.ts.
