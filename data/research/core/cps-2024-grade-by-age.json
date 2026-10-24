@@ -12,7 +12,7 @@
   "retrievedOn": "2026-10-23",
   "sourceSha256": "0d5d70331fd978ddc44766f762391a26a67f7435c73b0a2e1eaa2aea86b25512",
   "quote": "\"The modal grade is the year of school in which the largest proportion of students of a given age is enrolled.\" (Census school enrollment FAQ). Table 2: of 5-year-olds 2,540 thousand are in kindergarten; of 11-year-olds 2,613 thousand are in grade 6; of 14-year-olds 2,623 thousand are in grade 9.",
-  "limits": "Ages are taken in October, so a child born in the fall can be a grade behind the modal grade without having repeated one; the table does not separate retention from age at entry. Grades 9 to 12 are the table's high-school columns. National only.",
+  "limits": "Ages are taken in October, so a child born in the fall can be a grade behind the modal grade without having repeated one; the table does not separate retention from age at entry. Grades 9 to 12 are the table's high-school columns. National only. A cross-sectional enrollment count does not measure how long any child takes to reach a grade. deepPastMiddleSchoolOffsetYears and deepPastHighSchoolOffsetYears are therefore ESTIMATED, not SOURCED: the value is the difference of two modal ages (kindergarten 5, grade 6 at 11, grade 9 at 14) and the upper bound divides the grade count by the mean pace of enrolled children, from age 6 to the grade's modal age, which counts children held back. They become SOURCED when a source that follows children from kindergarten entry times the years to each grade.",
   "grades": [
     "nursery",
     "KG",

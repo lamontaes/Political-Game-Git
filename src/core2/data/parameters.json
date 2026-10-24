@@ -837,8 +837,9 @@
   },
   "deepPastMiddleSchoolOffsetYears": {
     "value": 6,
-    "tag": "SOURCED",
-    "citation": "U.S. Census Bureau, Current Population Survey October 2024 School Enrollment, Table 2, Single Grade of Enrollment by single year of age (https://www2.census.gov/programs-surveys/demo/tables/school-enrollment/2024/2024-cps/enroll02_2024_1.xlsx), in data/research/core/cps-2024-grade-by-age.json and checked by scripts/research/deep-past-check.ts: the modal grade (the Census Bureau's \"year of school in which the largest proportion of students of a given age is enrolled\") of 5-year-olds is kindergarten (2,540 thousand) and of 11-year-olds grade 6 (2,613 thousand), so grade 6 begins six school years after kindergarten.",
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Current Population Survey October 2024 School Enrollment, Table 2, Single Grade of Enrollment by single year of age (https://www2.census.gov/programs-surveys/demo/tables/school-enrollment/2024/2024-cps/enroll02_2024_1.xlsx), in data/research/core/cps-2024-grade-by-age.json and checked by scripts/research/deep-past-check.ts: the modal grade (the Census Bureau's \"year of school in which the largest proportion of students of a given age is enrolled\") of 5-year-olds is kindergarten (2,540 thousand) and of 11-year-olds grade 6 (2,613 thousand).",
+    "estimatedFrom": "Converted from a cross-sectional enrollment table, not a measured duration. The value is the modal age of grade 6 minus the modal age of kindergarten (11 - 5 = 6 years). The spread's high end is the 6 grades divided by the mean pace of enrolled children, the rise in mean grade per year of age from age 6 to age 11 (0.98 grades a year), which gives 6.13 years. Limit: Table 2 counts children by age and grade in one October, so it does not time any child's entry into a grade; the October age cutoff, early or late starts and held-back children are mixed into the modal ages, and the high end counts children held back, whom the deep past does not hold back. The figure becomes SOURCED when a source that follows children from kindergarten entry times the years to grade 6.",
     "stopgapId": "SG-P8-deep-past",
     "spread": {
       "low": 6,
@@ -849,8 +850,9 @@
   },
   "deepPastHighSchoolOffsetYears": {
     "value": 9,
-    "tag": "SOURCED",
-    "citation": "U.S. Census Bureau, Current Population Survey October 2024 School Enrollment, Table 2, Single Grade of Enrollment by single year of age (https://www2.census.gov/programs-surveys/demo/tables/school-enrollment/2024/2024-cps/enroll02_2024_1.xlsx), in data/research/core/cps-2024-grade-by-age.json and checked by scripts/research/deep-past-check.ts: the modal grade of 5-year-olds is kindergarten (2,540 thousand) and of 14-year-olds grade 9 (2,623 thousand), so grade 9 begins nine school years after kindergarten.",
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Current Population Survey October 2024 School Enrollment, Table 2, Single Grade of Enrollment by single year of age (https://www2.census.gov/programs-surveys/demo/tables/school-enrollment/2024/2024-cps/enroll02_2024_1.xlsx), in data/research/core/cps-2024-grade-by-age.json and checked by scripts/research/deep-past-check.ts: the modal grade of 5-year-olds is kindergarten (2,540 thousand) and of 14-year-olds grade 9 (2,623 thousand).",
+    "estimatedFrom": "Converted from a cross-sectional enrollment table, not a measured duration. The value is the modal age of grade 9 minus the modal age of kindergarten (14 - 5 = 9 years). The spread's high end is the 9 grades divided by the mean pace of enrolled children, the rise in mean grade per year of age from age 6 to age 14 (0.99 grades a year), which gives 9.14 years. Limit: Table 2 counts children by age and grade in one October, so it does not time any child's entry into a grade; the October age cutoff, early or late starts and held-back children are mixed into the modal ages, and the high end counts children held back, whom the deep past does not hold back. The figure becomes SOURCED when a source that follows children from kindergarten entry times the years to grade 9.",
     "stopgapId": "SG-P8-deep-past",
     "spread": {
       "low": 9,

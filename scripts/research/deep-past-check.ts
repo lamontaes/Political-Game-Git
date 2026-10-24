@@ -21,6 +21,8 @@ type Shares = Record<string, number>;
 interface Row {
   value: number;
   tag: string;
+  estimatedFrom?: string;
+  stopgapId?: string;
   spread?: { low?: number; high?: number };
 }
 interface Tail {
@@ -158,7 +160,11 @@ export function checkDeepPastResearch(): string[] {
     "spouseAgeGapOpenRowYears spread is not the two open rows' widths.",
   );
 
-  // School offsets: the modal grades of the CPS October table.
+  // School offsets: ESTIMATED, converted from the modal ages of the CPS October
+  // table. Modal age is a cross-sectional enrollment count, so the table does
+  // not time any child's entry into a grade; the value is the difference of
+  // two modal ages and the spread's high end uses the mean pace of enrolled
+  // children, which counts children held back.
   const stages = (
     deepPastJson as unknown as {
       schools: {
@@ -171,16 +177,25 @@ export function checkDeepPastResearch(): string[] {
       expect(stage.entryGrade === "KG", "The first stage is not kindergarten.");
       continue;
     }
-    const offset = row(stage.startOffsetParameter);
+    const name = stage.startOffsetParameter;
+    const offset = row(name);
     const years = modalAge(stage.entryGrade) - modalAge("KG");
+    const upper = round(yearsAtMeanPace(stage.entryGrade), 2);
     expect(
-      offset.value === years,
-      `${stage.startOffsetParameter} ${offset.value} is not the modal-grade span ${years}.`,
+      offset.tag === "ESTIMATED",
+      `${name} is tagged ${offset.tag}, not ESTIMATED: it is the difference of two modal ages, and a cross-sectional enrollment table does not time individual grade entries.`,
     );
     expect(
-      offset.spread?.low === years &&
-        offset.spread?.high === round(yearsAtMeanPace(stage.entryGrade), 2),
-      `${stage.startOffsetParameter} spread is not ${years} to the mean-pace span ${round(yearsAtMeanPace(stage.entryGrade), 2)}.`,
+      !!offset.estimatedFrom?.trim() && !!offset.stopgapId,
+      `${name} is ESTIMATED and needs estimatedFrom (the modal-age difference and the mean-pace upper bound, with their limits) and its stopgapId.`,
+    );
+    expect(
+      offset.value === years,
+      `${name} ${offset.value} is not the modal-age difference ${years} (modal age of ${stage.entryGrade} minus modal age of KG).`,
+    );
+    expect(
+      offset.spread?.low === years && offset.spread?.high === upper,
+      `${name} spread is not ${years} (modal-age difference) to ${upper} (mean-pace upper bound).`,
     );
   }
 
@@ -244,7 +259,7 @@ if (process.argv[1]?.endsWith("deep-past-check.ts")) {
     `spouseAgeGapOpenRowYears ${row("spouseAgeGapOpenRowYears").value}: pooled open-row mean gap ${pooled.meanGapYears} years.`,
   );
   console.log(
-    `school offsets: grade 6 is modal at ${modalAge("06")}, grade 9 at ${modalAge("09")}, kindergarten at ${modalAge("KG")}; mean-pace spans ${round(yearsAtMeanPace("06"), 2)} and ${round(yearsAtMeanPace("09"), 2)} years.`,
+    `school offsets (ESTIMATED, converted from modal ages): grade 6 is modal at ${modalAge("06")}, grade 9 at ${modalAge("09")}, kindergarten at ${modalAge("KG")}; mean-pace upper bounds are ${round(yearsAtMeanPace("06"), 2)} and ${round(yearsAtMeanPace("09"), 2)} years.`,
   );
   console.log(
     `openingPeerGroupSize ${row("openingPeerGroupSize").value}: class sizes ${Math.min(...classSize.cells.map((c) => c.students))} to ${Math.max(...classSize.cells.map((c) => c.students))}.`,
