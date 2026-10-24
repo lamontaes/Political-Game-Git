@@ -5462,6 +5462,17 @@
       "citation": "No interval in the study; 2 to 6 spans an odds ratio of about 1.2 to 2.5 in the same calls."
     }
   },
+  "traitWeightJobsValueWorker": {
+    "value": 4.4,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991 (Personnel Psychology 44(1), Table 2): conscientiousness correlates 0.22 with job performance. Sized so a business's valuation of a worker (years of tenure, or of experience when hiring, plus this term) correlates 0.22 with the worker's lean toward diligence: weight = 0.22 / sqrt(1 - 0.22^2) x the spread of real tenure / the spread of the lean within a firm. Real tenure spread 5.6 years: an exponential with the BLS median of 3.9 years (Employee Tenure in 2024, jobsTypicalTenureYears). Lean spread within a firm 0.29, the mean of three drawn places (Puapua, American Samoa, seed 5e38743ba0d3: 0.254; Melville, Rhode Island, seed f3c0bd5cabcd: 0.270; Middleborough Center, Massachusetts, seed 2c719d0f46f8: 0.341). Sized against real tenure, not the played world's, because the opening records no start date for anyone's job (src/core2/deep-past.ts:599), so tenure within a firm spans about five days at the start.",
+    "spread": {
+      "low": 3,
+      "high": 7,
+      "unit": "years of tenure or experience at full lean",
+      "citation": "Tenure spread 4.5 to 8 years (the exponential understates the long tail of BLS tenure) against a lean spread of 0.25 to 0.34 across the three places."
+    }
+  },
   "traitWeightJobsStartLooking": {
     "value": 0.05,
     "tag": "ESTIMATED",

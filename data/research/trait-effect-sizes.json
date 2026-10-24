@@ -586,6 +586,27 @@
       "notes": "Table 2 mean estimated true score correlation across five occupational groups = .22 (observed mean r = .13; range .20 to .23 across groups)."
     },
     {
+      "id": "jobs.value-worker",
+      "trait": "conscientiousness",
+      "outcome": "job performance (proxy for how an employer values a worker when hiring and laying off)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.22,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Barrick, M. R., & Mount, M. K.",
+        "year": 1991,
+        "title": "The Big Five personality dimensions and job performance: A meta-analysis",
+        "venue": "Personnel Psychology 44(1), 1-26",
+        "url": "https://doi.org/10.1111/j.1744-6570.1991.tb00688.x"
+      },
+      "quote": "Results indicated that one dimension of personality, Conscientiousness, showed consistent relations with all job performance criteria for all occupational groups.",
+      "quoteVerified": true,
+      "notes": "Table 2 mean estimated true score correlation .22 across occupations, read as the correlation between a worker's lean toward diligence and the value their employer puts on them."
+    },
+    {
       "id": "constituent-cases.handle-case",
       "trait": "conscientiousness",
       "outcome": "job performance (proxy for diligence in casework)",

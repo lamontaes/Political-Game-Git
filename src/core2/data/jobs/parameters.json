@@ -120,17 +120,6 @@
       "citation": "Employers weigh experience in the same occupation (Lazear and Oyer 2013, Handbook of Organizational Economics)."
     }
   },
-  "jobsFitReliabilityWeight": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "Employers weigh a recorded record of turning up; traitScale 3.",
-    "spread": {
-      "low": 0.2,
-      "high": 1.5,
-      "unit": "score per trait point",
-      "citation": "Employers weigh a recorded record of turning up; traitScale 3."
-    }
-  },
   "jobsKeepTenureWeight": {
     "value": 1,
     "tag": "TUNABLE",

@@ -1304,6 +1304,43 @@ function managerOf(
     )[0]?.personId;
 }
 
+/**
+ * What an employer sees of how a person works, in years of tenure or
+ * experience: their lean toward diligence over slack (`jobs.value-worker`)
+ * times its weight, sized from conscientiousness and job performance (Barrick
+ * and Mount 1991). Hiring and layoffs both read it, and a counted worker is
+ * valued by the same rule.
+ */
+function howTheyWork(api: CoreAPI, personId: string): number {
+  const c = core(api);
+  return (
+    decisionTraitWeight(c, "jobs.value-worker") *
+    decisionLean(
+      c,
+      { traits: traitsOf(api, personId) },
+      "jobs.value-worker",
+      "keep",
+      "let-go",
+    )
+  );
+}
+
+/**
+ * How a business values each of its workers, in years: their tenure with it
+ * and how they work. A layoff lets go of the worker valued least.
+ */
+export function workerValues(
+  api: CoreAPI,
+  organizationId: string,
+  staff: readonly JobInput[] = currentJobs(api, organizationId),
+): { job: JobInput; tenure: number; work: number }[] {
+  return staff.map((job) => ({
+    job,
+    tenure: api.parameter("jobsKeepTenureWeight") * tenureYears(api, job),
+    work: howTheyWork(api, job.personId),
+  }));
+}
+
 /** The business decides who goes: the worker whose tenure and record it values least. */
 function layOff(
   api: CoreAPI,
@@ -1313,16 +1350,21 @@ function layOff(
   values: Readonly<Record<string, number>>,
   tradingId?: string,
 ): { heads: number; id?: string } | "over" | undefined {
-  const c = core(api),
-    reliability = jobsData.traits.reliability;
+  const c = core(api);
+  const valued = new Map(
+    workerValues(api, organizationId, staff).map((row) => [row.job, row]),
+  );
+  const least = (score: (job: JobInput) => number) =>
+    [...staff].sort(
+      (a, b) => score(a) - score(b) || a.id.localeCompare(b.id),
+    )[0];
   const keep = (job: JobInput) =>
-    api.parameter("jobsKeepTenureWeight") * tenureYears(api, job) +
-    api.parameter("jobsFitReliabilityWeight") *
-      (traitsOf(api, job.personId)[reliability] ?? 0);
-  const job = [...staff].sort(
-    (a, b) => keep(a) - keep(b) || a.id.localeCompare(b.id),
-  )[0];
+    valued.get(job)!.tenure + valued.get(job)!.work;
+  const job = least(keep);
   if (!job) return;
+  // Whether how they work, not tenure alone, decided who goes: the record keeps
+  // it as a reason.
+  const workDecided = least((row) => valued.get(row)!.tenure) !== job;
   // The jobs this record stands for may not exceed what the staff is over by.
   const heads = headsOf(c, job);
   if (heads > budget + 1e-9) return "over";
@@ -1347,7 +1389,13 @@ function layOff(
     kind: "layoff",
     reasonKey: jobsData.reasons.layoff,
     decidedBy: decidedBy ?? organizationId,
-    values: { ...values, keepScore },
+    values: {
+      ...values,
+      keepScore,
+      tenureScore: valued.get(job)!.tenure,
+      workScore: valued.get(job)!.work,
+      workDecided: workDecided ? 1 : 0,
+    },
     ...(tradingId ? { tradingId } : {}),
   });
   // Read before the event: an event can fill a counted worker in, after which
@@ -1857,9 +1905,7 @@ function runWeek(api: CoreAPI): void {
               (isCounted(api, seeker.personId)
                 ? (countedExperience.get(key) ?? 0)
                 : experienceYears(api, seeker.personId, position.occupation)) +
-            p("jobsFitReliabilityWeight") *
-              (traitsOf(api, seeker.personId)[jobsData.traits.reliability] ??
-                0) +
+            howTheyWork(api, seeker.personId) +
             // An official's word for them counts as one more reason, and
             // fades the longer ago it was given.
             p("jobsFitReferralWeight") *

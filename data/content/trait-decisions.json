@@ -1112,6 +1112,23 @@
       ]
     },
     {
+      "id": "jobs.value-worker",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "traitWeightParameter": "traitWeightJobsValueWorker",
+      "options": [
+        {
+          "id": "let-go",
+          "actKinds": ["delay", "bend-rules"]
+        },
+        {
+          "id": "keep",
+          "actKinds": ["commit", "follow-rules"]
+        }
+      ]
+    },
+    {
       "id": "jobs-benefits.file-claim",
       "site": "src/core2/jobs-benefits.ts",
       "owner": "OPUS-WORLD",
