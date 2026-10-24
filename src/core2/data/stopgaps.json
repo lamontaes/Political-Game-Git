@@ -1793,7 +1793,7 @@
     "id": "SG-GOV-polling-place-kind",
     "kind": "missing-data",
     "file": "src/core2/modules/voting.ts",
-    "line": 1799,
+    "line": 1887,
     "whatItFakes": "Where the town's records hold no government building, its polling places have no building and a kind of \"unread\"; where they hold one, every precinct votes in it.",
     "why": "Polling place facility types (schools, churches, community centers, government buildings) by state are not read yet; the EAVS national brief reports the count of voting locations, not their kinds.",
     "addedBy": "OPUS-GOV-ELECTIONS",
