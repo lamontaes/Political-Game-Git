@@ -609,6 +609,8 @@ interface Address {
   readonly id: string;
   /** Still counted (two-level population): no full person lives here yet. */
   readonly counted: boolean;
+  /** Birth date of the household's oldest member: what a walk list sorts by. */
+  readonly eldest: string;
 }
 const addressCache = new WeakMap<
   object,
@@ -616,8 +618,11 @@ const addressCache = new WeakMap<
 >();
 
 /**
- * The town's addresses, full households and counted ones alike, in the order
- * they stand (by id), with how many counted adults live in them. Rebuilt
+ * The town's addresses, full households and counted ones alike, with how many
+ * counted adults live in them, in the order a campaign's walk list stands:
+ * households with the oldest member first (older residents answer a knock
+ * most, by the door-opening rule below), then by id. The walk order is the
+ * owner's call (SG-GOV-campaign-walk-order). Rebuilt
  * only when a household is added, filled in or leaves.
  */
 function townAddresses(api: CoreAPI): {
@@ -631,11 +636,24 @@ function townAddresses(api: CoreAPI): {
   const key = `${core.households.size}|${named?.size ?? 0}|${rt?.store.version ?? 0}|${rt?.filledIn.size ?? 0}`;
   const held = addressCache.get(core);
   if (held?.key === key) return held;
-  const ids = new Map<string, boolean>();
+  // stopgapId: SG-GOV-campaign-walk-order
+  api.stopgap("SG-GOV-campaign-walk-order");
+  const ids = new Map<string, { counted: boolean; eldest: string }>();
   for (const id of named ?? []) {
     const person = core.people.get(id);
-    if (person?.alive && core.households.has(person.householdId))
-      ids.set(person.householdId, false);
+    if (
+      person?.alive &&
+      core.households.has(person.householdId) &&
+      !ids.has(person.householdId)
+    ) {
+      let eldest = person.birthDate;
+      for (const m of core.households.get(person.householdId)!.memberIds) {
+        const member = core.people.get(m);
+        if (member?.alive && member.birthDate < eldest)
+          eldest = member.birthDate;
+      }
+      ids.set(person.householdId, { counted: false, eldest });
+    }
   }
   let countedAdults = 0;
   const date = api.state.date;
@@ -643,14 +661,19 @@ function townAddresses(api: CoreAPI): {
   for (const h of rt?.store.liveHouseholds() ?? []) {
     if (h.placeId !== town || ids.has(h.id)) continue;
     if (core.households.has(h.id)) continue;
-    ids.set(h.id, true);
-    for (const m of rt!.store.countedMembers(h))
-      if (ageOn({ birthDate: rt!.store.born[m]! }, date) >= 18)
-        countedAdults += 1;
+    let eldest = "9999-12-31";
+    for (const m of rt!.store.countedMembers(h)) {
+      const born = rt!.store.born[m]!;
+      if (born < eldest) eldest = born;
+      if (ageOn({ birthDate: born }, date) >= 18) countedAdults += 1;
+    }
+    ids.set(h.id, { counted: true, eldest });
   }
   const list = [...ids]
-    .map(([id, counted]) => ({ id, counted }))
-    .sort((a, b) => a.id.localeCompare(b.id));
+    .map(([id, v]) => ({ id, counted: v.counted, eldest: v.eldest }))
+    .sort(
+      (a, b) => a.eldest.localeCompare(b.eldest) || a.id.localeCompare(b.id),
+    );
   const built = { key, list, countedAdults };
   addressCache.set(core, built);
   return built;
@@ -2369,9 +2392,10 @@ export function campaignTurn(
       (candidate.jobId
         ? campaignParameter("rivalHoursWithJob")
         : campaignParameter("rivalHoursWithoutJob")) *
-      Math.max(
-        0,
-        1 +
+      // Personality slides the hours between (1 - share) and (1 + share) of
+      // the base: even the least campaign-minded candidate walks some doors.
+      (1 +
+        campaignParameter("rivalHoursLeanShare") *
           termOfLean(
             api.state,
             candidate,
@@ -2383,9 +2407,8 @@ export function campaignTurn(
               "campaign",
               "rest",
             ),
-            1,
-          ),
-      );
+            0,
+          ));
     doors = knockDoors(api, {
       filingId,
       canvasserId: candidate.id,

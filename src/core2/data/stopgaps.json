@@ -6438,5 +6438,17 @@
     "addedAt": "2026-10-24",
     "replacement": "The owner's ruling on whether people with causes contact only people they know, and how many in a week (docs/coordination/OWNER-DECISIONS.md); then causeHolderWeeklyContacts sourced by research.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-campaign-walk-order",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 639,
+    "whatItFakes": "A campaign walks the town's doors oldest household first, then by id, because only older residents score above zero on the door-opening rule and an id-ordered walk could pass every opener in a small town.",
+    "why": "Without an order, the rule that decides who opens the door left whole small towns unreached (New Baltimore, Ohio: 45 doors, none opened). Whether a walk list follows age, turnout history, party or the street is the owner's call; no ruling exists.",
+    "addedBy": "claude/quirky-ride-vrwwz4-campaigns-small-place",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's ruling on how a campaign orders the doors it knocks (docs/coordination/OWNER-DECISIONS.md), built as the campaign's own choice of list.",
+    "status": "open"
   }
 ]
