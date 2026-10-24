@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: claude/speed-work-attendance
-pr:
+pr: #5924
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T06:45:39.226Z
