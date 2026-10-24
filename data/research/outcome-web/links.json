@@ -2529,9 +2529,9 @@
       "who": "Parents of eligible enrolled young children whose care constraint changes; the cited maternal estimate is not all women or every household.",
       "lagWhy": "The existing12-month lag represents enrollment and labor response. Verify the D.C./Quebec study time window and whether the effect is percentage points or a relative participation change.",
       "aboutZero": false,
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Baker, Gruber and Milligan (NBER w11832) estimate one labor supply elasticity (0.236) for mothers in two-parent families (their sample) and report no split by income, age or household kind.",
       "range": [0.1125, 0.1875],
-      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Malik 2018 gives about 10 points on a base near 65% (D.C. mothers 65% in 2008, 76.4% in 2016); Baker, Gruber and Milligan report no interval retrieved here."
+      "rangeSource": "The source gives only a point estimate, so the repo default of 25% of the size is applied. Malik 2018 gives about 10 points on a base near 65% (D.C. mothers 65% in 2008, 76.4% in 2016); Baker, Gruber and Milligan report no interval retrieved here.",
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Baker, Gruber and Milligan (NBER w11832) estimate one labor supply elasticity (0.236) for mothers in two-parent families (their sample) and report no split by income, age or household kind."
     },
     {
       "key": "voter-id-to-turnout",
@@ -2997,7 +2997,7 @@
       "who": "Actual enrolled preschool cohorts as they reach high-school age; not present-day adults or all children in the state.",
       "lagWhy": "The existing168-month lag follows four-year-olds toward high-school graduation. It is fourteen years, so a24-month audit must report not-yet-due rather than missing firing.",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "equalized-funding-to-spending",
@@ -3727,8 +3727,6 @@
       "from": "law:us-federal-positions:social-insurance.raise-retirement-age",
       "to": "labor.older-employment",
       "range": [0.04, 0.22],
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers.",
-      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working",
       "varies": [
         {
           "by": "sex",
@@ -3748,7 +3746,9 @@
           "source": "Mastrobuoni 2009 (Journal of Public Economics), working paper version CEPS 136 (https://swh.princeton.edu/~ceps/workingpapers/136mastrobuoni.pdf), Table 8, column (1), estimated change in average retirement age (months), treated 1938-40 cohorts against the control, female and male samples; shares from Census Bureau Vintage 2023 population estimates by sex and single year of age (nc-est2023-agesex-res.csv), ages 55 to 69, July 1 2023",
           "quote": "Table 8 Panel A: Female Sample, T - C: 1.08 (0.36). Panel B: Male Sample, T - C: 1.22 (0.38). \"The main result is that for all three models and for both men and women, the estimated difference in CDFs between the 1938, 1939, and 1940 cohorts, and the 1937 cohort, is mostly negative.\""
         }
-      ]
+      ],
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried. Moderator by sex from Mastrobuoni; the two estimates are within one standard error of each other, so the spread is small by the paper's own numbers.",
+      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working"
     },
     {
       "key": "drug-negotiation-to-out-of-pocket",
@@ -3877,7 +3877,7 @@
       "who": "Enrolled preschool pupils at the study follow-up ages and programs; statewide dilution remains a separate unverified conversion.",
       "lagWhy": "The outcome is eighth-grade math. A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months), the same lag as the reading link (CTO ruling 8).",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "universal-prek-to-reading-proficiency",
@@ -3920,7 +3920,7 @@
       "who": "Enrolled preschool cohorts once they take the eighth-grade reading test; not current students who never had the program.",
       "lagWhy": "A four-year-old enrolled in the fall takes the eighth-grade test about nine years and nine months later (117 months).",
       "aboutZero": false,
-      "notes": "Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
+      "notes": "Gray-Lobe, Pathak and Walters 2023 (QJE 138(1)) report larger effects for boys than girls on college enrollment and SAT-taking, and no separate estimate by household income, so this link is left unvaried by income. Gray-Lobe, Pathak and Walters (Boston preschool, NBER w28756, Table 8) split by sex, race and free-or-reduced-price lunch status and find the income difference not statistically distinguishable (\"Estimates for low- and higher-income students are generally not statistically distinguishable\"), and lunch eligibility is not an income fifth, so no moderator is set."
     },
     {
       "key": "universal-prek-to-violent-crime",
@@ -4005,7 +4005,43 @@
       "reverseOnRepeal": "Repeal can end future input funding; it does not subtract a pupil learned skill or erase an earlier assessment. A future assessment needs newly observed conditions, not an immediate negative score.",
       "who": "Pupils actually exposed in qualifying districts; statewide proficiency needs enrollment-weighted cohort evidence.",
       "lagWhy": "The existing36-month lag approximates resource delivery and several school years of exposure. The cited study horizon and statewide proficiency conversion remain unverified.",
-      "aboutZero": false
+      "aboutZero": false,
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 1,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 2,
+              "weight": 0.5,
+              "share": 0.2
+            },
+            {
+              "is": 3,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Lafortune, Rothstein and Schanzenbach 2018, School Finance Reform and the Distribution of Student Achievement, AEJ: Applied Economics 10(2), abstract (https://www.aeaweb.org/articles?id=10.1257/app.20160567; NBER w22011)",
+          "quote": "\"reforms lead to sharp, immediate, and sustained increases in spending in low-income school districts.\" The abstract finds that achievement rose in \"these districts\" and that the rise phases in gradually over the years after each reform; it reports no gain for higher-income districts.",
+          "estimatedFrom": "The paper's gains are for students in low-income districts. The two lowest national household-income fifths are taken as the students of those districts, the middle fifth as half in them, and the two highest as none, with equal national shares; the paper gives no finer split, so the weights are scaled so the national average is the researched size."
+        }
+      ]
     },
     {
       "key": "equalized-funding-to-graduation",
@@ -4047,7 +4083,43 @@
       "reverseOnRepeal": "Repeal affects future support for still-enrolled cohorts. A completed diploma remains a historical fact and cannot be undone by a law-answer reversal.",
       "who": "Exposed school-age cohorts, particularly the low-income districts studied; not all adult residents.",
       "lagWhy": "The existing60-month lag represents progression toward completion. Actual ages, exposure years and completion dates must replace a generic five-year switch.",
-      "aboutZero": false
+      "aboutZero": false,
+      "varies": [
+        {
+          "by": "incomeFifth",
+          "bands": [
+            {
+              "is": 0,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 1,
+              "weight": 1,
+              "share": 0.2
+            },
+            {
+              "is": 2,
+              "weight": 0.5,
+              "share": 0.2
+            },
+            {
+              "is": 3,
+              "weight": 0,
+              "share": 0.2
+            },
+            {
+              "is": 4,
+              "weight": 0,
+              "share": 0.2
+            }
+          ],
+          "tag": "ESTIMATED",
+          "source": "Lafortune, Rothstein and Schanzenbach 2018, School Finance Reform and the Distribution of Student Achievement, AEJ: Applied Economics 10(2), abstract (https://www.aeaweb.org/articles?id=10.1257/app.20160567; NBER w22011)",
+          "quote": "\"reforms lead to sharp, immediate, and sustained increases in spending in low-income school districts.\" The abstract finds that achievement rose in \"these districts\" and that the rise phases in gradually over the years after each reform; it reports no gain for higher-income districts.",
+          "estimatedFrom": "The paper's gains are for students in low-income districts. The two lowest national household-income fifths are taken as the students of those districts, the middle fifth as half in them, and the two highest as none, with equal national shares; the paper gives no finer split, so the weights are scaled so the national average is the researched size."
+        }
+      ]
     },
     {
       "key": "vouchers-to-math-proficiency",
@@ -4154,7 +4226,7 @@
       "from": "household.poverty-pct",
       "to": "school.math-proficient-pct",
       "range": [-0.02, 0],
-      "notes": "Dahl and Lochner (NBER w14599, Table 6) split the income effect by mother's education, race, marital status, AFQT, child's age and gender; only the maternal-education difference is statistically significant, marital status is imprecise (0.0807 not married against 0.0432 married) and cannot be mapped onto the subject's household kinds (a one-adult household and a household with children overlap), so no moderator is set."
+      "notes": "The school engine also orders students by household income, but that only decides who within an income fifth passes; the place's count comes from the base times this factor, so the poverty effect is not counted twice. Dahl and Lochner (NBER w14599, Table 6) split the income effect by mother's education, race, marital status, AFQT, child's age and gender; only the maternal-education difference is statistically significant, marital status is imprecise (0.0807 not married against 0.0432 married) and cannot be mapped onto the subject's household kinds (a one-adult household and a household with children overlap), so no moderator is set."
     },
     {
       "key": "uninsured-to-graduation",
@@ -5526,9 +5598,9 @@
         "evidenceLimit": "Inherited repository source/anchor read; primary study verification and any new conversion remain Team9 research work."
       },
       "aboutZero": true,
-      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried.",
       "range": [0, 0],
-      "rangeSource": "Jia, Jin and Wagman 2021; Janssen et al. 2022 (NBER w30028): the cost falls on a small share of workers, too few to move median earnings. No interval was retrieved; range [0, 0] records the null."
+      "rangeSource": "Jia, Jin and Wagman 2021; Janssen et al. 2022 (NBER w30028): the cost falls on a small share of workers, too few to move median earnings. No interval was retrieved; range [0, 0] records the null.",
+      "notes": "Moderators: searched for splits by mother's education or income, age and sex (Malik 2018 gives only the pooled +10 points; Rossin-Slater, Ruhm and Waldfogel 2013 give leave-taking but not employment by group; Cengiz et al. 2019 and CBO report pooled low-wage job effects), none found that the subjects can carry, so the link is left unvaried."
     },
     {
       "key": "library-materials-to-reading",
