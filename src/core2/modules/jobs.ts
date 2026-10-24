@@ -44,7 +44,12 @@ import {
   participationShift,
   type LaborFacts,
 } from "../jobs-web";
-import { residentPerson, residentsRuntime } from "./residents";
+import {
+  countedHouseholdJobChanged,
+  keepCalendar,
+  residentPerson,
+  residentsRuntime,
+} from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -2092,7 +2097,25 @@ function hireCounted(
     ? countedJobOfPerson(c, seeker.personId)
     : undefined;
   if (previous?.organizationId === position.organizationId) return false;
-  if (!addCountedJob(c, job, template.id)) return false;
+  // The role's schedule and payday, as a full hire takes them, kept with the
+  // household so the worker is on that payroll the day they are met.
+  const role = roleTemplate(c, { ...position, templateJobId: template.id });
+  const commitment: WorkCommitmentInput | undefined = role && {
+    ...role.commitment,
+    organizationId: position.organizationId,
+    id: `work-commitment:${jobId}`,
+    jobId,
+    personId: seeker.personId,
+    payrollCalendarId: role.calendar.id,
+    startsAt: addDays(makeIsoDate(api.state.date), 1),
+    endsAt: undefined,
+    hourlyMinor: position.hourlyMinor,
+    scheduleTemplateJobId: role.template.id,
+    paySource: job.source,
+    scheduleSource: job.source,
+  };
+  if (!addCountedJob(c, job, template.id, commitment)) return false;
+  if (role) keepCalendar(c, role.calendar);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
@@ -3136,8 +3159,11 @@ export const JOBS_MODULE: CoreModule = {
       // Only jobs named by this closure ended because of it. A same-day quit did not.
       // Looking for another job does not keep this job alive after closure.
       // The job ends with the employer today; its wage flow stops paying at its next date.
-      if (!job.endsAt && !endCountedJob(core(api), job.id))
-        rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
+      if (!job.endsAt && !endCountedJob(core(api), job.id)) {
+        const ended = { ...job, endsAt: api.state.date };
+        rt!.jobs.set(job.id, ended);
+        countedHouseholdJobChanged(core(api), ended);
+      }
       const person = residentPerson(core(api), job.personId);
       if (!person) continue;
       record(api, {
