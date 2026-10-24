@@ -5,7 +5,8 @@
  * election date, the primary and the filing deadline from
  * `elections-calendar.ts`. A person files at the office that takes that
  * contest's filings (`filingOfficeFor`), once, if they meet what that place's
- * rules require: age, residency and registration, read from
+ * rules require: age and residency (an adult resident is an eligible
+ * voter; there is no separate registration record), read from
  * `data/research/elections/filing-requirements.json` (or the estimated terms
  * in `candidate-filing-terms.json` where a place isn't read yet). No one pays
  * a fee or gathers petition signatures to file (owner, Oct 13: the
@@ -62,13 +63,10 @@ export interface FilingRequirements {
   readonly filedWith: string;
   readonly minimumAge: number;
   readonly residency: string | null;
-  readonly registeredVoter: boolean;
   readonly source: string;
   readonly estimate: boolean;
   /** Which of these rules came from the fallback data, not the place's own row (SG-GOV-filing-fallbacks). */
-  readonly fallbacks: readonly (
-    "filedWith" | "minimumAge" | "registeredVoter"
-  )[];
+  readonly fallbacks: readonly ("filedWith" | "minimumAge")[];
   /** The side's own filing deadline where the law sets one apart (independents). */
   readonly deadline: string | null;
 }
@@ -214,19 +212,13 @@ export function filingRequirements(
   ]
     .filter(Boolean)
     .join(" ; ");
-  const fallbacks: ("filedWith" | "minimumAge" | "registeredVoter")[] = [];
+  const fallbacks: ("filedWith" | "minimumAge")[] = [];
   if (!read?.filedWith) fallbacks.push("filedWith");
   if (typeof read?.minimumAge !== "number") fallbacks.push("minimumAge");
-  if (typeof read?.registeredVoterRequired !== "boolean")
-    fallbacks.push("registeredVoter");
   return {
     filedWith: read?.filedWith ?? localFilingOfficer(usps, family),
     minimumAge: read?.minimumAge ?? fallbackAge(family),
     residency: read?.residency ?? null,
-    registeredVoter:
-      typeof read?.registeredVoterRequired === "boolean"
-        ? read.registeredVoterRequired
-        : fallbackData.registeredVoterRequired.value,
     source:
       source ||
       `data/research/elections/candidate-filing-terms.json: ${fallback?.estimatedFrom ?? "estimated"}`,

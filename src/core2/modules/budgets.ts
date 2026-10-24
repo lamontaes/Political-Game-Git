@@ -1081,7 +1081,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     work.sourceRecordIds[0]!,
   ) as unknown as GovernmentRow;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
-  // The town's council votes its own budget where the legislature engine runs.
+  // The government's council or legislature votes its budget.
   const enactedBefore = { ...enactedBudgetChanges(api, gov.id) };
   const voted = councilBudgetVote?.(api, gov, fy) ?? null;
   let budget: BudgetRow;
@@ -1093,7 +1093,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       api,
       gov,
       fy,
-      "carried forward by the budget rule until the council or legislature votes it",
+      "the prior year's budget continued: no body was seated to vote it",
     );
   }
   // The notice names who adopted it: the body's vote, or the carry-forward rule.

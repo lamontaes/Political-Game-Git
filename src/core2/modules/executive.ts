@@ -363,7 +363,7 @@ function fillTownPost(
     facts: { post: spec.key, appointedBy: row.appointedBy },
   });
   // On the town government's payroll at a department head's pay.
-  const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  const govs = governments(api);
   const employer = (
     govs.find((g) => g.level === "city") ??
     govs.find((g) => g.level === "county")
@@ -704,7 +704,7 @@ function seatElectionChief(api: CoreAPI, worldSeed: string): void {
     since: date,
   } as unknown as ModuleRow);
   // On the state government's payroll, as the town's heads are on the town's.
-  const govs = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  const govs = governments(api);
   const employer = govs.find((g) => g.level === "state")?.organizationId;
   const post = `state:${ELECTION_CHIEF_POST}`;
   // A world with no treasury open has no payroll to hold the post on.

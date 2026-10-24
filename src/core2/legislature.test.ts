@@ -66,6 +66,7 @@ import {
 } from "./modules/legislature";
 import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
 import { partySide } from "./appointments";
+import { openLeadership } from "./modules/leadership";
 import { officialLean, officialOf } from "./modules/officials";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { billCatalog, provisionFor } from "./bill-catalog";
@@ -149,6 +150,7 @@ function town(
     openCampaigns(core);
     openRecord(core);
     openLegislature(core);
+    openLeadership(core);
     const api = coreAPI(core);
     const council = townSeats(api).filter(
       (s) => s.office.kind === "council" && s.holder?.personId,

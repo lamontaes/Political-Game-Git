@@ -103,6 +103,7 @@ const STOPGAP_FIELDS = new Set([
   "addedAt",
   "replacement",
   "status",
+  "resolution",
 ]);
 const PARAMETER_ROW_FIELDS = new Set([
   "value",

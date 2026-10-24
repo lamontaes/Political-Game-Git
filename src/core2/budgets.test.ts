@@ -78,7 +78,7 @@ describe(
       // Each government adopted its next budget on its fiscal year's first day.
       for (const gov of governments(api)) {
         const adopted = budgetsOf(api, gov.id).filter((b) =>
-          b.adoptedBy.startsWith("carried forward"),
+          b.adoptedBy.startsWith("the prior year's budget continued"),
         );
         expect(adopted.length, gov.id).toBeGreaterThanOrEqual(1);
         for (const budget of adopted)

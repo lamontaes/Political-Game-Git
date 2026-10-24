@@ -1,5 +1,5 @@
 import { renewalParameter } from "../births-parameters";
-import { addDays, daysBetween, makeIsoDate } from "../kernel/dates";
+import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   BIRTHS_STOPGAP,
   chooseBirthPlan,
@@ -52,12 +52,7 @@ function scheduleReview(api: CoreAPI, row: BirthCouple, date: string): void {
   });
 }
 
-function review(
-  api: CoreAPI,
-  row: BirthCouple,
-  asOf = api.state.date,
-  opening = false,
-): void {
+function review(api: CoreAPI, row: BirthCouple, asOf = api.state.date): void {
   const parents = [
     api.state.people.get(row.motherId),
     api.state.people.get(row.otherParentId),
@@ -86,16 +81,7 @@ function review(
   const decisions = [row.motherId, row.otherParentId].map((id) =>
     chooseBirthPlan(api, id, row, asOf),
   );
-  const planSource: Source = opening
-    ? {
-        tag: "ESTIMATED",
-        asOf: api.state.date,
-        citation:
-          "Opening pregnancy reconstructed through both partners' chooser plans.",
-        estimatedFrom:
-          "Current opening resources, health and temperament; historical ages, partnership and children. SG-M1-opening-pregnancies.",
-      }
-    : source(api);
+  const planSource: Source = source(api);
   const planId = `${row.id}:plan:${asOf}`;
   const agreed = decisions.every(
     (decision) => decision.selected === PLAN_CHILD.id,
@@ -105,7 +91,6 @@ function review(
     coupleId: row.id,
     date: asOf,
     recordedAt: api.state.date,
-    opening,
     motherId: row.motherId,
     otherParentId: row.otherParentId,
     agreed,
@@ -125,7 +110,6 @@ function review(
       motherId: row.motherId,
       otherParentId: row.otherParentId,
       conceivedAt: asOf,
-      opening,
       dueDate,
       status: "pregnant",
       source: planSource as unknown as ModuleRow["source"],
@@ -146,7 +130,7 @@ function review(
       source: planSource,
       facts: { pregnancyId, planId, dueDate, conceivedAt: asOf },
     });
-  } else if (!opening)
+  } else
     scheduleReview(
       api,
       row,
@@ -317,40 +301,6 @@ function initialize(api: CoreAPI): void {
       childIds: [...row.childIds],
       status: "active",
     });
-    // SG-M1-opening-pregnancies: reconstruct only still-pregnant plans. Opening
-    // cash, housing, health and temperament are proxies for this short prehistory.
-    const gestation = renewalParameter(api, "renewalGestationDays");
-    const cadence = renewalParameter(api, "renewalReviewDays");
-    const latestChild = row.childIds
-      .map((id) => api.state.people.get(id)!.birthDate)
-      .sort()
-      .at(-1);
-    const anchor = makeIsoDate(
-      latestChild && latestChild > row.startedAt ? latestChild : row.startedAt,
-    );
-    const window = addDays(
-      makeIsoDate(api.state.date),
-      -gestation + api.parameter("one"),
-    );
-    const first = Math.max(
-      api.parameter("one"),
-      Math.ceil(daysBetween(anchor, window) / cadence),
-    );
-    api.stopgap("SG-M1-opening-pregnancies");
-    for (
-      let date = addDays(anchor, first * cadence);
-      date < api.state.date;
-      date = addDays(makeIsoDate(date), cadence)
-    ) {
-      review(api, row, date, true);
-      if (
-        table(api, "pregnancies").query("byMotherStatus", [
-          row.motherId,
-          "pregnant",
-        ]).length
-      )
-        break;
-    }
     review(api, row);
   }
 }

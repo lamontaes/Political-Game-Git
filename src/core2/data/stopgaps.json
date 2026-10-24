@@ -1209,7 +1209,10 @@
     "replacement": "Leadership already seats committees in play (src/core2/modules/leadership.ts assigner(), from each chamber template's assignmentAuthority in data/research/legislature/chamber-leadership.json); seniority seating is the fallback in committeeStage when no leadership roster exists. Research done Oct 23, 2026: each chamber's own appointing rule is in data/research/gov/chamber-committee-appointment-2026.json (108 chambers; 27 SOURCED from the chamber's adopted rules or its legislature's official page, 16 of which seat committees through another hand than the template: a committee on committees, the majority leader, seniority, a chamber vote, the party caucuses or each committee's chair; the rest ESTIMATED as the template default), checked by scripts/research/legislature-local-rules-check.ts. assigner() reading the chamber's row is the builder item gov-leadership-committee-appointer-by-chamber. Stays open until it does and the remaining chambers are read.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-23",
+    "resolvedBy": "gov-world-standins-oct14",
+    "resolution": "A bill's committee is the one the chamber's leadership seated, members and chair (committeeRoster in modules/leadership.ts, sized by committeeSize); where none is seated the bill goes to the floor. The seniority roster in legislature.ts is deleted."
   },
   {
     "id": "SG-GOV-measure-groups-stand-in",
@@ -2195,7 +2198,10 @@
     "addedBy": "CODEX-RENEWAL",
     "addedAt": "2026-10-11",
     "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-23",
+    "resolvedBy": "gov-world-standins-oct14",
+    "resolution": "Removed: the opening no longer reconstructs pre-opening pregnancies from current money, housing and health; every pregnancy comes from a couple's own review in play (renewal.ts)."
   },
   {
     "id": "SG-P15-candidacy-weights",

@@ -2863,14 +2863,12 @@ function committeeFor(bill: BillRow): string {
 
 /**
  * Committee: a body larger than the committee-of-the-whole size refers the
- * bill to its subject committee. The committee is the body's most senior
- * members (longest serving; generation order breaks ties) up to its size,
- * chaired by the most senior member of the majority side. The chair holds a
- * hearing only on a bill they don't oppose; witnesses are the town's people
- * the bill touches most (for a minimum wage, workers paid under the new
- * floor), heard on the record; then the committee votes. The size is the
- * typical standing committee's (`committeeSize`); seats go by seniority
- * until leadership appoints them (SG-GOV-committee-structure).
+ * bill to its subject committee, as the chamber's leadership seated it
+ * (members and chair; the leadership engine). Where no committee is seated,
+ * the bill goes straight to the floor. The chair holds a hearing only on a
+ * bill they don't oppose; witnesses are the town's people the bill touches
+ * most (for a minimum wage, workers paid under the new floor), heard on the
+ * record; then the committee votes.
  */
 function committeeStage(
   api: CoreAPI,
@@ -2885,67 +2883,13 @@ function committeeStage(
     `committee:${bill.id}:${chamber}`,
   ) as unknown as CommitteeRecord | undefined;
   if (met) return met;
-  // stopgapId: SG-GOV-committee-structure
-  api.stopgap("SG-GOV-committee-structure");
-  const ranked = [...all].sort(
-    (a, b) =>
-      (a.serviceStart ?? a.startDate).localeCompare(
-        b.serviceStart ?? b.startDate,
-      ) || memberKey(a).localeCompare(memberKey(b)),
-  );
-  const size = Math.min(
-    all.length,
-    Math.max(
-      campaignParameter("committeeSizeMinimum"),
-      Math.min(
-        campaignParameter("committeeSizeMaximum"),
-        campaignParameter("committeeSize"),
-      ),
-    ),
-  );
-  // Committee seats follow the chamber's party ratio, the majority holding a
-  // majority of them; each side seats its most senior members.
-  const majority = Math.sign(
-    all.reduce((sum, t) => sum + partySide(t.party), 0),
-  );
-  const bySide = new Map<number, TermRow[]>();
-  for (const t of ranked) {
-    const side = partySide(t.party);
-    bySide.set(side, [...(bySide.get(side) ?? []), t]);
-  }
-  const seatsFor = new Map<number, number>();
-  for (const [side, list] of bySide)
-    seatsFor.set(side, Math.round((size * list.length) / all.length));
-  if (majority !== 0 && bySide.has(majority))
-    seatsFor.set(
-      majority,
-      Math.min(
-        bySide.get(majority)!.length,
-        Math.max(seatsFor.get(majority)!, Math.floor(size / 2) + 1),
-      ),
-    );
-  const roster = [...bySide.entries()]
-    .flatMap(([side, list]) => list.slice(0, seatsFor.get(side)))
-    .sort(
-      (a, b) =>
-        (a.serviceStart ?? a.startDate).localeCompare(
-          b.serviceStart ?? b.startDate,
-        ) || memberKey(a).localeCompare(memberKey(b)),
-    );
-  let chair = roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
-  // Where the chamber's leadership has seated the committee, its members and
-  // chair stand in place of seniority.
   const seated = rosterProvider?.(api, chamber, committeeFor(bill));
-  if (seated?.memberIds.length) {
-    const byKey = new Map(all.map((t) => [memberKey(t), t]));
-    const members = seated.memberIds
-      .map((id) => byKey.get(id))
-      .filter((t): t is TermRow => t !== undefined);
-    if (members.length) {
-      roster.splice(0, roster.length, ...members);
-      chair = byKey.get(seated.chairId) ?? members[0]!;
-    }
-  }
+  const byKey = new Map(all.map((t) => [memberKey(t), t]));
+  const roster = (seated?.memberIds ?? [])
+    .map((id) => byKey.get(id))
+    .filter((t): t is TermRow => t !== undefined);
+  if (!roster.length) return null;
+  const chair = byKey.get(seated!.chairId) ?? roster[0]!;
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
   const heard = chairHearsBill(api, memberKey(chair), chairPosition.total);
   const witnesses: { personId: string; stake: string }[] = [];
@@ -3043,7 +2987,7 @@ function committeeStage(
       tag: "ESTIMATED",
       citation: `Committee on ${bill.number}`,
       asOf: api.state.date,
-      estimatedFrom: "SG-GOV-committee-structure",
+      estimatedFrom: "the chamber's leadership (chamber-leadership.json)",
     },
     publicRecord: true,
     news: heard,
