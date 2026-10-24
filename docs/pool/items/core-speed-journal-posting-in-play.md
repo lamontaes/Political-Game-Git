@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-journal-in-play
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T00:54:33.235Z
 ---
 
 **What.** Long Hill, Connecticut (seed m7b) posts about 160,000 cash-journal entries in a played year, and posting costs 28.8 of 264 profiled seconds, about 180 microseconds each, from every module that moves money. Each posting copies its rows and source, builds the list of 13 runtime fields and a pair array for each, sums totals as BigInt, protects and freezes its write objects and keeps a receipt copy, although with bookkeeping off nothing reads the copies or the pairs. Make a posting in play do only the work whose result is read, and keep every check and copy behind the bookkeeping switch for tests. This does not batch postings (that design is core-speed-cash-journal-posting): every posting stays the same record.
