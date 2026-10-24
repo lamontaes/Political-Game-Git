@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/talk-lived-crime
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T09:53:42.026Z
 ---
 
 **What.** The director is getting a conversation subject for a household's victimization (director-talk-lived-crime), the scene step of the effects lead's end-to-end proof. The conversation bank has no lines for it, and the four bring-it-up lines for a story read (bring-it-up parts 31 to 34, I read in {subject} about {topic}) are held until graded. Mine or author the speaker's lines (raising it, by what happened: a break-in, a theft, a robbery, an assault) and the listener's replies, as bank pieces held until the owner grades them, and put them with the four held read lines in the next grading batch.
