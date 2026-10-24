@@ -296,6 +296,136 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.9
+
+_Released October 24, 2026._
+
+### Changed
+
+- **Campaign choices use recalibrated personality effects** Personality has a
+  recalibrated influence on volunteering, giving, answering the door, retelling
+  a campaign story, answering a poll, speaking to a reporter and holding a
+  party's line. Each weight uses the trait's own measured spread.
+
+## PRE-ALPHA 0.22.8
+
+_Released October 24, 2026._
+
+### Improved
+
+- **Students' test scores and graduation follow the town they live in** Each
+  spring every eighth grader in town gets a math and a reading result, and each
+  June every senior graduates or does not. How many do comes from the place's
+  real level moved by the laws and conditions that reach it, and who does comes
+  from each student's own household income, attendance and study habits, so
+  children from poorer households fall short more often. The town's graduation
+  rate then feeds the things that depend on it, such as turnout and poverty.
+
+- **Couples' plans for a child follow their town's conditions** A couple's
+  choice to plan a child now moves with the town's own conditions, such as
+  unemployment and home prices, the same way the births of the rest of the town
+  do.
+
+### Fixed
+
+- **Someone you meet keeps the job they were hired into this year** A household
+  that isn't yet known to you now earns what its jobs pay after hires, raises,
+  layoffs and closures. Before, it kept its opening pay forever, so a laid-off
+  family still counted as well off, and a worker hired during the year lost that
+  job the moment you met them. Now they keep it, on their employer's payroll.
+
+## PRE-ALPHA 0.22.7
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Island-area governments have a budget** American Samoa, Guam, the Northern
+  Marianas, the Virgin Islands and Puerto Rico now have a government budget, so
+  their officials and agencies can be paid.
+
+## PRE-ALPHA 0.22.6
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Federal benefits are paid in small towns** A federal benefit set by law,
+  such as the federal share of Medicaid, was sometimes paid short in a small
+  town because the national treasury had spent its cash on other payments that
+  day. The treasury now borrows a month of these standing payments ahead, so
+  they arrive in full.
+
+- **A committee hearing is filed as the story of its bill, naming its members**
+  A committee hearing in your state's legislature or in Congress is now filed
+  for the newsroom as what it is: a story about what its bill changes, naming
+  the members on the committee's roll call. Before, a hearing was filed as a
+  bare "committee-hearing" record about nothing in particular that named nobody,
+  so a desk had nothing to weigh it by. Whether a hearing makes the paper is
+  still the desk's call against the week's other news.
+
+- **A job offer's deadline holds your clock** When an employer offers you a job,
+  the clock now stops at the offer's deadline and stays stopped until you accept
+  or decline it, or the employer withdraws it. It used to flash a reminder and
+  run on.
+
+- **Small towns whose survey reads all owners now have renters** A small town
+  whose housing survey reading says every home is owned now opens with some
+  renters, because its owner share is pulled toward its county's by how few
+  homes the survey counted.
+
+### Changed
+
+- **Looking up which local office handles something takes about as long as it
+  does in real life.** When someone looks up which local office handles a
+  problem, it now takes a little under an hour of their day, the time Americans
+  spend on a government errand in the national time-use survey, instead of a
+  quarter of an hour, so people with little free time choose it a little less
+  often.
+
+- **Couples twenty or more years apart now span the real range of age gaps**
+  When the opening town is built, a couple with a wide age gap can now be
+  anywhere from twenty to thirty-five years apart, as married couples in the
+  census are, instead of never more than twenty-four.
+
+- **Bribery sentences follow each state's own law, and more officeholders open
+  in their real party.** A court sentencing someone for bribing an official, or
+  for taking a bribe, now works within the range of that state's own bribery law
+  instead of borrowing the range for assault. Territory governors and
+  legislators, offices elected without party labels, and legislative seats that
+  were vacant on the roster now open the game with the party their real holders
+  have, or with no party where the ballot carries none, instead of the party
+  that carried the state in 2024.
+
+- **The game now opens under the taxes and benefits actually in force in January 2025.** Paychecks, sales, food assistance, Medicaid and unemployment benefits
+  start under the January 2025 law for the federal government and every state,
+  instead of the 2026 figures carried back to the start, and change to the 2026
+  law when it takes effect. A state that repeals its graduated income tax now
+  replaces it with the middle of the real flat-tax states' rates, and the share
+  of adults who use cannabis matches the latest national survey.
+
+- **The best-funded quarter of a town's businesses open with more cash** The
+  businesses that open a new game with the most cash on hand now hold up to
+  about five months of costs for a typical business instead of about three, and
+  the thinnest open with next to nothing, matching how real small businesses'
+  cash is spread.
+
+- **Town and county offices start the game with larger cleaning contracts**
+  Where a town has a cleaning company, the town and county offices now open the
+  game paying it about four times as much as before, sized from what local
+  governments really spend on their buildings and how much of that goes to
+  cleaning.
+
+- **Couples weigh a child at the ages and spacing real families do** A couple's
+  thought of having a child now follows the ages at which American women have
+  children and the usual gap between one child and the next. A pregnancy lasts
+  the typical length from conception, and a volunteer shift lasts as long as a
+  real volunteer's day.
+
+- **Last year's budgets are in the news** The news now says what the biggest
+  line in a budget adopted last year was, for example "The budget includes
+  $12,000,000 for education."
+
 ## PRE-ALPHA 0.22.5
 
 _Released October 24, 2026._
