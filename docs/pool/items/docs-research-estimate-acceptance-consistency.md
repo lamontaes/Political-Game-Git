@@ -5,7 +5,7 @@ area: docs
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/research-estimate-acceptance
 pr: #5908
 blocked-on:
