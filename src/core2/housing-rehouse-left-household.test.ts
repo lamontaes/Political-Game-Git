@@ -26,19 +26,28 @@ function playYear(key: string, worldSeed: string, days: number): string {
       twoLevel: true,
       placeKey: key,
     });
+    const end = addDays(makeIsoDate(core.date), days);
     for (let day = 0; day < days; day += 1)
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    // Every lease signed is paid by someone alive.
+    // The year ran to its last day.
+    expect(core.date, where).toBe(end);
+    // Every open lease is paid by someone alive.
     let leases = 0;
     for (const contract of core.finance.contracts.values()) {
       if (!contract.id.startsWith("lease:") || contract.endedAt) continue;
       leases += 1;
+      const living = contract.payerIds.filter(
+        (id) => core.people.get(id)?.alive,
+      );
       expect(
-        contract.payerIds.length,
-        `${where}: ${contract.id}`,
+        living.length,
+        `${where}: ${contract.id} payers ${contract.payerIds.join(", ")}`,
       ).toBeGreaterThan(0);
     }
     expect(leases, where).toBeGreaterThan(0);
+    process.stdout.write(
+      `LEASES ${where}: ${leases} open leases on ${core.date}, each with a living payer\n`,
+    );
     return where;
   } finally {
     setBookkeeping(true);
