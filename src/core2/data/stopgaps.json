@@ -2340,7 +2340,7 @@
     "kind": "estimated-calibration",
     "file": "src/core2/data/health.json",
     "line": 15,
-    "whatItFakes": "One base-rate scale (0.106) for every place, solved from two generated towns so expected yearly deaths match the SSA 2023 life table; the chronic-condition weights were calibrated for the old shared threshold and are not refit.",
+    "whatItFakes": "One base-rate scale (0.087, refit Oct 21, 2026 over sixteen generated towns: 319 deaths against 297.9 expected) for every place; the chronic-condition weights were calibrated for the old shared threshold and are not refit, and single towns range from 0.5 to 1.9 of the table's count.",
     "why": "The owner replaced the shared threshold with personal resilience lines; totals must stay on the life table and a full recalibration of the condition pack has not been done.",
     "addedBy": "OPUS-DRIVES",
     "addedAt": "2026-10-09",
