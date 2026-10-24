@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5925
-blocked-on:
+blocked-on: core-speed-work-attendance-in-play
 source: added with npm run pool -- add
 claimed-at:
 ---
