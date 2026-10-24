@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/counted-bail-cash
-pr:
+pr: #5967
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T17:31:10.522Z
