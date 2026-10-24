@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/past-news.ts, src/bench/archive-words.ts, src/bench/archive-words.test.ts
 
 **Notes.** Sent back 2026-10-20 from PR #5240 (branch claude/words-archive-budget-purpose): budget wording test can pass with no budget-adopted stories; assert the collection is nonempty and keep its wording assertions; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5240 (branch claude/words-archive-budget-purpose): src/bench/archive-words.test.ts:122-128 still permits an empty budget-adopted story set to skip every new assertion; require a positive collection before the loop and add the Done-when table; finish on that branch, merge main into it first.
