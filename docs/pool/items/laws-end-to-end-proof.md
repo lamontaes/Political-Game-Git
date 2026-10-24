@@ -10,7 +10,7 @@ claimed-by:
 pr: 5968
 blocked-on: words-law-effect-learned-journal; the CTO accepting the screenshot split (laws-end-to-end-screenshots)
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 
+claimed-at:
 ---
 
 **What.** The owner keeps hearing that laws work, "from negotiation to its effects," without seeing it. This item is the laws lead's acceptance: one played life in a drawn place where the player proposes a law, negotiates for it by trade or favor on the record, and the bill passes or fails by the members' own reads of their lives and districts. If it passes, the law in force changes, one named person's money or life changes because an engine read it, that person learns of it from news they received, their view or choice moves with that news as the cited reason, and the director's scene and the journal say so. The proof names every record id along the way.
