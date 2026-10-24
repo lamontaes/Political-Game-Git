@@ -9,7 +9,6 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: core-speed-journal-posting-in-play
 source: added with npm run pool -- add
 ---
 
