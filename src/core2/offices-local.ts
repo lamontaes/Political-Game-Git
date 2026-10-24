@@ -120,14 +120,34 @@ const STATE_LEVEL_GOVERNMENTS = new Set(
   ),
 );
 
+interface NamedBody {
+  readonly value: string;
+}
+/** The usual body of each kind of municipality, nationally and by state. */
+const BODY_BY_KIND = bodyNames.municipalByKind as Readonly<
+  Record<string, NamedBody>
+>;
+const BODY_BY_STATE = bodyNames.municipalByState as Readonly<
+  Record<string, Readonly<Record<string, NamedBody>>>
+>;
+
 /**
  * The council's name: as its charter names it where the town's government is
- * compiled, else the generic municipal name (SG-GOV-municipal-body-name).
+ * compiled, else the usual body of its kind of municipality in its state
+ * ("VILLAGE OF EOLIA" in a state whose villages elect a board of trustees is
+ * "Eolia Board of Trustees"), else the generic municipal name
+ * (SG-GOV-municipal-body-name).
  */
 function municipalBodyName(unit: GovernmentUnitIdentity): string {
   const charter = localGoverningBodyName(unit);
   if (charter) return charter;
-  // stopgapId: SG-GOV-municipal-body-name (a town with no compiled charter)
+  const words = unit.name.trim().split(" ");
+  const kind = words[1] === "OF" ? words[0]!.toLowerCase() : "";
+  const usual =
+    BODY_BY_STATE[unit.stateUsps]?.[kind] ?? BODY_BY_KIND[kind] ?? null;
+  if (usual)
+    return `${governmentTitleName(words.slice(2).join(" "))} ${usual.value}`;
+  // stopgapId: SG-GOV-municipal-body-name (a listing name that gives no kind)
   return `${governmentTitleName(unit.name)} ${bodyNames.municipal.value}`;
 }
 

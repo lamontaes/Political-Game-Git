@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: claimed
 claimed-by: claude/coverage-counted
 pr: #5475
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T16:08:12.837Z
+claimed-at: 2026-10-24T00:11:38.769Z
 ---
 
 **What.** Full people hold a coverage record and the policyholder pays a monthly premium, but the wider population is counted and holds none, so a town's counted households pay no premium (stopgap SG-PEOPLE-coverage-counted). Give each counted group a coverage share by plan, set by the same rule as a full person (age, employer rank, the law in force) times the group's weight, and a premium flow per covered counted household to the outside account that fill-in takes back contract by contract. Counted and full households in the same town should then pay premiums by one rule.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-21T16:08:12.837Z
 **Notes.** Follow-up of people-coverage-record-monthly-pass, which covers full people only.
 
 Oct 20 (claude/coverage-counted, stacked on claude/fs11vb-coverage-record, PR #5460): built. `holdersToday` ranks full and counted working adults together; counted policyholders hold a `countedCoverage` row and pay through `countedPayment`. The year time for Cruz Bay, USVI (seed 7dacf222...) is 228 s against 259 to 281 s before, so no slowdown.
+
+Sent back 2026-10-23 from PR #5475 (branch claude/coverage-counted): The Done-when table omits the required one-year run and named premium journal posting; the cited test advances only 44 days and checks lastDueMinor, not the weighted money-chain acceptance; finish on that branch, merge main into it first.

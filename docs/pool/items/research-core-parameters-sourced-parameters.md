@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-core-parameters
-pr:
+pr: #5857
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-parameters-estimated-behavior, core-stopgap-parameters-estimated-data, core-stopgap-parameters-uncalibrated-time-plan, core-stopgap-parameters-uncalibrated-tunable-2, core-stopgap-parameters-uncalibrated-tunable-3, core-stopgap-parameters-uncalibrated-tunable-4"
 claimed-at: 2026-10-23T20:23:47.741Z
