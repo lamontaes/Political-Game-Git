@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: core-old-engine-05-health-onset-lift
-blocked-on:
+blocked-on: play-first-freeze
 source: "docs/reports/repo-audit-2026-10-19.md section A (jobs the two-jobs list missed) and G2 step 8"
 ---
 
@@ -22,3 +22,5 @@ source: "docs/reports/repo-audit-2026-10-19.md section A (jobs the two-jobs list
 **Files.** src/core2/tooling/build-place-lookup-data.ts, src/core2/tooling/build-opening-schools.ts, data/tables/index.ts, scripts/source/export-data-tables.ts, scripts/source/export-town-council-profile-inputs.ts, scripts/source/executive-authority-r3h-reconciliation.ts, scripts/source/school-name-patterns.ts, scripts/source/regional-money/export-office-pay.ts, scripts/world/compile-area-residents.ts, scripts/english-corpus/grading-batch-speech.ts, scripts/prose-corpus/sources/episodes.ts, src/core2/reference/
 
 **Notes.** Covers the audit's pool rows `core-old-imports-tooling` (change) and `core-rehome-old-exporters` (new). Draft #5032 carries the place-lookup part; finish on that branch. Parent: core-delete-old-engine.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
