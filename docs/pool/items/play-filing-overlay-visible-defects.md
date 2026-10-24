@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T05:03:24.768Z
 **Files.** src/bench/play.mjs, src/bench/filing.ts, src/bench/data/controls.json
 
 **Notes.** Found by the M0-M2 lead playing M2-03, Oct 24. Blocks roadmap M2-03's flag.
+
+Sent back 2026-10-24 from PR #5888 (branch claude/quirky-ride-vrwwz4-filing-overlay): browser rule proof permits zero labels and skips controls-data checks when controls is null; uppercase MINIMUM-AGE then passes the remaining regex; require nonempty rows and rules data with unconditional assertions; finish on that branch, merge main into it first.

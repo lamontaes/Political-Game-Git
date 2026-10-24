@@ -211,6 +211,18 @@ function exact(value: bigint, zero: number, field: string): number {
   return result;
 }
 
+/** Sum of two nonnegative safe integers; a sum past the safe range takes the BigInt path and its error. */
+function addExact(
+  left: number,
+  right: number,
+  zero: number,
+  field: string,
+): number {
+  const result = left + right;
+  if (Number.isSafeInteger(result) && result >= zero) return result;
+  return exact(BigInt(left) + BigInt(right), zero, field);
+}
+
 function plain(target: object): void {
   const prototype = Object.getPrototypeOf(target);
   if (prototype !== Object.prototype && prototype !== null)
@@ -377,6 +389,28 @@ export function cashJournalMapSet<K, V>(
   };
 }
 
+/**
+ * The journal's own writes are built and checked inside one post. The expected
+ * entry exists only for that check (bookkeeping); the commit reads the target,
+ * key and next.
+ */
+function stagedMapSet<K, V>(
+  target: Map<K, V>,
+  key: K,
+  next: V,
+): Extract<CashJournalMetadataWrite, { kind: "map" }> {
+  if (bookkeeping()) return cashJournalMapSet(target, key, next);
+  return {
+    kind: "map",
+    target: target as Map<unknown, unknown>,
+    key,
+    expectedPresent: false,
+    expected: undefined,
+    nextPresent: true,
+    next,
+  };
+}
+
 export function cashJournalMapDelete<K, V>(
   target: Map<K, V>,
   key: K,
@@ -404,6 +438,21 @@ export function cashJournalSetWrite<T>(
     expectedPresent: Set.prototype.has.call(target, value),
     nextPresent,
   };
+}
+
+function stagedSetWrite<T>(
+  target: Set<T>,
+  value: T,
+): Extract<CashJournalMetadataWrite, { kind: "set" }> {
+  return bookkeeping()
+    ? cashJournalSetWrite(target, value, true)
+    : {
+        kind: "set",
+        target: target as Set<unknown>,
+        value,
+        expectedPresent: false,
+        nextPresent: true,
+      };
 }
 
 export function emptyCashJournalRuntime(
@@ -722,9 +771,12 @@ function portfolios(
       residualId,
       rows,
       outsideSource,
-      outsideSourceSnapshot: outsideSource ? { ...outsideSource } : undefined,
+      // Snapshots exist for the pre-commit staleness checks (bookkeeping).
+      outsideSourceSnapshot:
+        outsideSource && bookkeeping() ? { ...outsideSource } : undefined,
       outsideTotals,
-      outsideTotalsSnapshot: outsideTotals ? { ...outsideTotals } : undefined,
+      outsideTotalsSnapshot:
+        outsideTotals && bookkeeping() ? { ...outsideTotals } : undefined,
     });
   }
   return { portfolios: result, owners, accounts };
@@ -802,12 +854,14 @@ function sameResolved(
 }
 
 function slotSource(slot: CashJournalSourceSlot): ResolvedCashJournalSource {
-  readableField(slot.marker, "postedJournalSequence");
+  const checked = bookkeeping();
+  if (checked) readableField(slot.marker, "postedJournalSequence");
   if (slot.retainFull !== undefined && typeof slot.retainFull !== "boolean")
     throw new Error("Invalid canonical source retention.");
   if (slot.resolved.postedJournalSequence !== slot.marker.postedJournalSequence)
     throw new Error("Canonical source and its direct posted marker disagree.");
-  return copyResolved(slot.resolved);
+  // The copy exists to prove the source didn't move before commit; play reads it.
+  return checked ? copyResolved(slot.resolved) : slot.resolved;
 }
 
 interface CapturedSecondaryMarker {
@@ -822,9 +876,10 @@ function captureSecondaryMarkers(
   slot: CashJournalSourceSlot,
   resolved: ResolvedCashJournalSource,
 ): CapturedSecondaryMarker[] {
+  if (!slot.secondaryMarkers?.length) return [];
   const seen = new Map<string, Set<string>>();
   const markers = new Set<object>([slot.marker]);
-  return (slot.secondaryMarkers ?? []).map(({ reference, marker }) => {
+  return slot.secondaryMarkers.map(({ reference, marker }) => {
     identity(reference.kind, "secondary source kind");
     identity(reference.id, "secondary source id");
     const ids = seen.get(reference.kind) ?? new Set<string>();
@@ -942,18 +997,16 @@ function plusTotals(
     ])
       minor(value, zero, "retained journal totals");
   const next: CashJournalTotals = {
-    count: exact(
-      BigInt(before?.count ?? zero) + BigInt(one),
-      zero,
-      "journal count",
-    ),
-    grossDebitMinor: exact(
-      BigInt(before?.grossDebitMinor ?? zero) + BigInt(debit),
+    count: addExact(before?.count ?? zero, one, zero, "journal count"),
+    grossDebitMinor: addExact(
+      before?.grossDebitMinor ?? zero,
+      debit,
       zero,
       "journal debits",
     ),
-    grossCreditMinor: exact(
-      BigInt(before?.grossCreditMinor ?? zero) + BigInt(credit),
+    grossCreditMinor: addExact(
+      before?.grossCreditMinor ?? zero,
+      credit,
       zero,
       "journal credits",
     ),
@@ -984,14 +1037,43 @@ function protectJournalReceipt(receipt: CashJournalReceipt): void {
   for (const row of receipt.externalFlows.values()) protectJournalObjects(row);
 }
 
+type Volume = { debit: number; credit: number };
+
+/** Per-account and per-owner gross volume of one projected posting. */
 function volumes(
   projection: CashJournalProjection,
   accounts: ReadonlyMap<string, CashAccountSnapshot>,
   zero: number,
-): {
-  byAccount: Map<string, { debit: number; credit: number }>;
-  byOwner: Map<string, { debit: number; credit: number }>;
-} {
+): { byAccount: Map<string, Volume>; byOwner: Map<string, Volume> } {
+  const byAccount = new Map<string, Volume>();
+  const byOwner = new Map<string, Volume>();
+  let safe = true;
+  const add = (map: Map<string, Volume>, id: string, delta: number) => {
+    let sum = map.get(id);
+    if (!sum) {
+      sum = { debit: zero, credit: zero };
+      map.set(id, sum);
+    }
+    if (delta < zero) sum.debit -= delta;
+    else sum.credit += delta;
+    if (!Number.isSafeInteger(sum.debit) || !Number.isSafeInteger(sum.credit))
+      safe = false;
+  };
+  for (const posting of projection.postings) {
+    add(byAccount, posting.accountId, posting.deltaMinor);
+    add(byOwner, accounts.get(posting.accountId)!.ownerId, posting.deltaMinor);
+  }
+  return safe
+    ? { byAccount, byOwner }
+    : volumesExact(projection, accounts, zero);
+}
+
+/** The BigInt sums, taken only when a running volume left the safe range, for the same overflow error. */
+function volumesExact(
+  projection: CashJournalProjection,
+  accounts: ReadonlyMap<string, CashAccountSnapshot>,
+  zero: number,
+): { byAccount: Map<string, Volume>; byOwner: Map<string, Volume> } {
   const byAccount = new Map<string, { debit: bigint; credit: bigint }>();
   const byOwner = new Map<string, { debit: bigint; credit: bigint }>();
   for (const posting of projection.postings) {
@@ -1147,6 +1229,27 @@ export function setJournalTrace(hook: typeof journalTrace): void {
   journalTrace = hook;
 }
 
+const runtimeFields = [
+  "accounts",
+  "accountsByOwner",
+  "accountCountByOwner",
+  "residualAccountByOwner",
+  "externalFlowsByOwner",
+  "sourceProviders",
+  "totalsByOwner",
+  "totalsByAccount",
+  "latestByOwner",
+  "latestByAccount",
+  "detailedReceipts",
+  "detailedByOwner",
+  "requiredBySource",
+] as const;
+
+/** The runtime's maps as they are now, kept to prove none was swapped under the writer. */
+function runtimeMaps(runtime: CashJournalRuntime) {
+  return runtimeFields.map((key) => [key, runtime[key]] as const);
+}
+
 /** All original rows are rechecked after the last provider call and before the first write. */
 export function postCashJournal(
   runtime: CashJournalRuntime,
@@ -1158,43 +1261,30 @@ export function postCashJournal(
   journalTrace?.(input);
   activeWriters.add(runtime);
   try {
+    const checks = bookkeeping();
     const state = host.state,
       // Bookkeeping proves nothing moved under the writer; play only commits.
-      controlSnapshot = bookkeeping()
-        ? snapshotExplicitControlV1(state)
-        : undefined;
-    const request: CashJournalInput = {
-      id: input.id,
-      date: input.date,
-      expectedSequence: input.expectedSequence,
-      sourceRef: Object.freeze({ ...input.sourceRef }),
-      postings: input.postings.map((row) => ({ ...row })),
-    };
+      controlSnapshot = checks ? snapshotExplicitControlV1(state) : undefined;
+    // The copy keeps a caller's later write out of the request; play posts the input.
+    const request: CashJournalInput = checks
+      ? {
+          id: input.id,
+          date: input.date,
+          expectedSequence: input.expectedSequence,
+          sourceRef: Object.freeze({ ...input.sourceRef }),
+          postings: input.postings.map((row) => ({ ...row })),
+        }
+      : input;
     const parameters = host.parameters;
     const numbers = constants(parameters),
       { zero, one } = numbers;
     const date = makeIsoDate(state.date),
       sequence = runtime.nextSequence;
-    directField(runtime, "nextSequence");
-    directField(runtime, "totals");
-    const runtimeFields = [
-      "accounts",
-      "accountsByOwner",
-      "accountCountByOwner",
-      "residualAccountByOwner",
-      "externalFlowsByOwner",
-      "sourceProviders",
-      "totalsByOwner",
-      "totalsByAccount",
-      "latestByOwner",
-      "latestByAccount",
-      "detailedReceipts",
-      "detailedByOwner",
-      "requiredBySource",
-    ] as const;
-    const originalMaps = runtimeFields.map(
-      (key) => [key, runtime[key]] as const,
-    );
+    if (checks) {
+      directField(runtime, "nextSequence");
+      directField(runtime, "totals");
+    }
+    const originalMaps = checks ? runtimeMaps(runtime) : [];
     const people = state.people,
       organizations = state.organizations;
     const focus = state.focusPersonIds,
@@ -1212,14 +1302,15 @@ export function postCashJournal(
       marker = sourceSlot.marker;
     const completionBefore = uncompletedMarker(marker);
     const secondary = captureSecondaryMarkers(sourceSlot, resolved);
-    const secondaryObjects = new Set<object>(
-      secondary.map((row) => row.marker),
-    );
+    const secondaryObjects = checks
+      ? new Set<object>(secondary.map((row) => row.marker))
+      : undefined;
     const markerBefore = marker.postedJournalSequence,
       required = sourceSlot.retainFull === true;
-    const moduleWrites = (sourceSlot.metadata ?? []).map((write) => ({
-      ...write,
-    }));
+    // The copy proves the staged writes didn't change before commit (bookkeeping).
+    const moduleWrites = checks
+      ? (sourceSlot.metadata ?? []).map((write) => ({ ...write }))
+      : (sourceSlot.metadata ?? []);
     const portfolio = portfolios(runtime, host, request.postings);
     const projection = projectCashJournal(
       request,
@@ -1234,9 +1325,9 @@ export function postCashJournal(
     );
     // Callers get the projection itself in play (the receipt below is its own
     // copy); bookkeeping hands back a copy so a stray write can't reach it.
-    const returned = bookkeeping() ? copyProjection(projection) : projection;
+    const returned = checks ? copyProjection(projection) : projection;
     const beforeTotals = runtime.totals,
-      totalsSnapshot = { ...beforeTotals };
+      totalsSnapshot = checks ? { ...beforeTotals } : beforeTotals;
     const nextTotals = plusTotals(
       beforeTotals,
       projection.grossDebitMinor,
@@ -1267,7 +1358,7 @@ export function postCashJournal(
       };
       protectJournalObjects(next);
       journalWrites.push(
-        cashJournalMapSet(runtime.externalFlowsByOwner, ownerId, next),
+        stagedMapSet(runtime.externalFlowsByOwner, ownerId, next),
       );
     }
     for (const [totalsMap, latestMap, changes, values] of [
@@ -1289,7 +1380,7 @@ export function postCashJournal(
           change = changes.get(id)!;
         if (before) priorCounters.push({ live: before, before: { ...before } });
         journalWrites.push(
-          cashJournalMapSet(
+          stagedMapSet(
             totalsMap,
             id,
             plusTotals(before, amount.debit, amount.credit, zero, one),
@@ -1311,13 +1402,14 @@ export function postCashJournal(
           next.outsideNetAfterMinor = outside.afterNetMinor;
         }
         protectJournalObjects(next, next.sourceRef);
-        journalWrites.push(cashJournalMapSet(latestMap, id, next));
+        journalWrites.push(stagedMapSet(latestMap, id, next));
       }
     }
-    const focusOwnerIds = [...projection.owners.keys()].filter(
-      (id) => people.has(id) && (id === playerId || focus.has(id)),
-    );
-    const focusedOwners = new Set(focusOwnerIds);
+    const focusOwnerIds: string[] = [];
+    for (const id of projection.owners.keys())
+      if (people.has(id) && (id === playerId || focus.has(id)))
+        focusOwnerIds.push(id);
+    const focusedOwners = checks ? new Set(focusOwnerIds) : undefined;
     const indexedOwners = observer
       ? [...projection.owners.keys()]
       : focusOwnerIds;
@@ -1339,21 +1431,19 @@ export function postCashJournal(
       };
       protectJournalReceipt(receipt);
       journalWrites.push(
-        cashJournalMapSet(runtime.detailedReceipts, projection.id, receipt),
+        stagedMapSet(runtime.detailedReceipts, projection.id, receipt),
       );
       for (const id of indexedOwners) {
         const prior = runtime.detailedByOwner.get(id);
         if (prior) {
           retainedOwnerIndexes.push({ id, index: prior, size: prior.size });
-          journalWrites.push(
-            cashJournalMapSet(runtime.detailedByOwner, id, prior),
-          );
-          journalWrites.push(cashJournalSetWrite(prior, projection.id, true));
+          journalWrites.push(stagedMapSet(runtime.detailedByOwner, id, prior));
+          journalWrites.push(stagedSetWrite(prior, projection.id));
         } else {
           const nextIndex = new Set([projection.id]);
           protectJournalObjects(nextIndex);
           journalWrites.push(
-            cashJournalMapSet(runtime.detailedByOwner, id, nextIndex),
+            stagedMapSet(runtime.detailedByOwner, id, nextIndex),
           );
         }
       }
@@ -1363,59 +1453,50 @@ export function postCashJournal(
           if (byId.has(resolved.id))
             throw new Error("Duplicate required canonical source index.");
           journalWrites.push(
-            cashJournalMapSet(runtime.requiredBySource, resolved.kind, byId),
+            stagedMapSet(runtime.requiredBySource, resolved.kind, byId),
           );
-          journalWrites.push(
-            cashJournalMapSet(byId, resolved.id, projection.id),
-          );
+          journalWrites.push(stagedMapSet(byId, resolved.id, projection.id));
         } else {
           const nextIndex = new Map([[resolved.id, projection.id]]);
           protectJournalObjects(nextIndex);
           journalWrites.push(
-            cashJournalMapSet(
-              runtime.requiredBySource,
-              resolved.kind,
-              nextIndex,
-            ),
+            stagedMapSet(runtime.requiredBySource, resolved.kind, nextIndex),
           );
         }
       }
     }
-    const checks = bookkeeping();
-    const reservedObjects = new Set<object>(
-      checks
-        ? [
-            runtime,
-            host,
-            state,
-            parameters,
-            people,
-            organizations,
-            focus,
-            beforeTotals,
-            ...originalMaps.map(([, map]) => map),
-            ...portfolio.portfolios.flatMap((row) => [
-              row.index,
-              ...row.rows.map((account) => account.live),
-            ]),
-            ...indexedOwners.flatMap((id) => {
-              const ids = runtime.detailedByOwner.get(id);
-              return ids ? [ids] : [];
-            }),
-            ...priorCounters.map((row) => row.live),
-          ]
-        : [],
-    );
-    const requiredIndex = runtime.requiredBySource.get(resolved.kind);
-    if (requiredIndex) reservedObjects.add(requiredIndex);
-    for (const row of portfolio.portfolios) {
-      if (row.outsideTotals) reservedObjects.add(row.outsideTotals);
-      if (row.outsideSource) reservedObjects.add(row.outsideSource);
-    }
-    const cashRows = new Set<object>(
-      portfolio.portfolios.map((row) => row.cash),
-    );
+    // Reserved objects and cash rows feed the metadata checks only.
+    const reservedObjects = new Set<object>();
+    const cashRows = new Set<object>();
     if (checks) {
+      for (const object of [
+        runtime,
+        host,
+        state,
+        parameters,
+        people,
+        organizations,
+        focus,
+        beforeTotals,
+        ...originalMaps.map(([, map]) => map),
+        ...portfolio.portfolios.flatMap((row) => [
+          row.index,
+          ...row.rows.map((account) => account.live),
+        ]),
+        ...indexedOwners.flatMap((id) => {
+          const ids = runtime.detailedByOwner.get(id);
+          return ids ? [ids] : [];
+        }),
+        ...priorCounters.map((row) => row.live),
+      ])
+        reservedObjects.add(object);
+      const requiredIndex = runtime.requiredBySource.get(resolved.kind);
+      if (requiredIndex) reservedObjects.add(requiredIndex);
+      for (const row of portfolio.portfolios) {
+        if (row.outsideTotals) reservedObjects.add(row.outsideTotals);
+        if (row.outsideSource) reservedObjects.add(row.outsideSource);
+        cashRows.add(row.cash);
+      }
       checkMetadata(
         moduleWrites,
         reservedObjects,
@@ -1435,30 +1516,26 @@ export function postCashJournal(
         true,
       );
     }
-    const cashByOwner = new Map(
-      portfolio.portfolios.map((row) => [row.ownerId, row.cash]),
-    );
-    const cashWrites = [...projection.owners.values()]
-      .filter((change) => !projection.externalFlows.has(change.ownerId))
-      .map((change) => ({
-        row: cashByOwner.get(change.ownerId)!,
-        next: change.afterMinor,
-      }));
-    const fundWrites = portfolio.portfolios.flatMap((row) =>
-      row.rows.flatMap((account) => {
+    const cashWrites: { row: CashJournalCashOwner; next: number }[] = [];
+    for (const row of portfolio.portfolios)
+      if (!projection.externalFlows.has(row.ownerId))
+        cashWrites.push({
+          row: row.cash,
+          next: projection.owners.get(row.ownerId)!.afterMinor,
+        });
+    const fundWrites: { row: CashAccountSnapshot; next: number }[] = [];
+    for (const row of portfolio.portfolios)
+      for (const account of row.rows) {
         const next = projection.accounts.get(
           account.snapshot.id,
         )!.allocatedAfterMinor;
-        return next === undefined ? [] : [{ row: account.live, next }];
-      }),
-    );
-    const combinedWrites = [...moduleWrites, ...journalWrites];
+        if (next !== undefined) fundWrites.push({ row: account.live, next });
+      }
     // This is the last external/module call. It must precede every stale-row check.
     // Bookkeeping re-resolves the source to prove nothing moved; play reuses it.
-    const recheck = bookkeeping(),
-      currentSlot = recheck ? provider(request.sourceRef) : sourceSlot;
+    const currentSlot = checks ? provider(request.sourceRef) : sourceSlot;
     if (
-      recheck &&
+      checks &&
       (!currentSlot ||
         currentSlot.marker !== marker ||
         !sameSecondaryMarkers(secondary, currentSlot) ||
@@ -1551,7 +1628,7 @@ export function postCashJournal(
       for (const id of projection.owners.keys())
         if (
           (people.has(id) && (id === playerId || focus.has(id))) !==
-          focusedOwners.has(id)
+          focusedOwners!.has(id)
         )
           throw new Error("Journal focus changed before commit.");
       directField(runtime, "nextSequence");
@@ -1597,23 +1674,25 @@ export function postCashJournal(
     for (const row of secondary)
       row.marker.postedJournalSequence = projection.sequence;
     runtime.totals = nextTotals;
-    for (const write of combinedWrites) {
-      if (write.kind === "field")
-        (write.target as Record<PropertyKey, unknown>)[write.key] = write.next;
-      else if (write.kind === "field-delete")
-        delete (write.target as Record<PropertyKey, unknown>)[write.key];
-      else if (write.kind === "map") {
-        if (write.nextPresent)
-          nativeMapSet.call(write.target, write.key, write.next);
-        else nativeMapDelete.call(write.target, write.key);
-      } else if (write.nextPresent)
-        nativeSetAdd.call(write.target, write.value);
-      else nativeSetDelete.call(write.target, write.value);
-    }
+    for (const write of moduleWrites) commitWrite(write);
+    for (const write of journalWrites) commitWrite(write);
     return returned;
   } finally {
     activeWriters.delete(runtime);
   }
+}
+
+function commitWrite(write: CashJournalMetadataWrite): void {
+  if (write.kind === "field")
+    (write.target as Record<PropertyKey, unknown>)[write.key] = write.next;
+  else if (write.kind === "field-delete")
+    delete (write.target as Record<PropertyKey, unknown>)[write.key];
+  else if (write.kind === "map") {
+    if (write.nextPresent)
+      nativeMapSet.call(write.target, write.key, write.next);
+    else nativeMapDelete.call(write.target, write.key);
+  } else if (write.nextPresent) nativeSetAdd.call(write.target, write.value);
+  else nativeSetDelete.call(write.target, write.value);
 }
 
 function validateNoncashSource(
