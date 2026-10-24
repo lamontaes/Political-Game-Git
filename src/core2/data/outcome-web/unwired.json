@@ -50,6 +50,12 @@
       "stopgapId": "SG-WEB-unread-crime-larceny"
     },
     {
+      "link": "stand-your-ground-to-homicide",
+      "outcome": "crime.firearm-homicide",
+      "reason": "engine doesn't read the factor: crime.firearm-homicide moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+      "stopgapId": "SG-CORE-crime-firearm-homicide"
+    },
+    {
       "link": "congestion-to-premature-births",
       "outcome": "health.premature-births",
       "reason": "no measure: the web does not keep health.premature-births and no engine produces it; its research gives no size the game can apply, so the web does not run it",
@@ -167,7 +173,7 @@
       "link": "snap-to-food-insecurity",
       "outcome": "household.food-insecurity",
       "reason": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-household-food-insecurity"
+      "stopgapId": "SG-WEB-snap-receipt-ledger"
     },
     {
       "link": "parent-incarceration-to-household-income",
@@ -404,16 +410,22 @@
       "stopgapId": "SG-WEB-unread-finance-medical-debt-in-collections"
     },
     {
-      "link": "snap-work-requirement-to-participation",
-      "outcome": "program.snap-receipt",
-      "reason": "engine doesn't read the factor: program.snap-receipt moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-program-snap-receipt"
+      "link": "end-cash-bail-to-pretrial-detention",
+      "outcome": "justice.pretrial-detained",
+      "reason": "engine doesn't read the factor: justice.pretrial-detained moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces justice.pretrial-detained",
+      "stopgapId": "SG-WEB-unread-justice-pretrial-detained"
     },
     {
       "link": "mandatory-minimums-to-incarceration",
       "outcome": "justice.incarcerated-per-100k",
       "reason": "engine doesn't read the factor: justice.incarcerated-per-100k moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-justice-incarcerated-per-100k"
+    },
+    {
+      "link": "concealed-carry-permit-to-firearm-homicide",
+      "outcome": "crime.firearm-homicide",
+      "reason": "engine doesn't read the factor: crime.firearm-homicide moves only in the web's monthly ledger; no engine multiplies its own rates by it",
+      "stopgapId": "SG-CORE-crime-firearm-homicide"
     },
     {
       "link": "voter-id-to-registration",

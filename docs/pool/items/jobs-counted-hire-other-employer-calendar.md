@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/counted-hire-own-calendar
-pr:
+status: open
+claimed-by:
+pr: #5961
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T14:40:47.250Z
+claimed-at:
 ---
 
 **What.** Since the counted household jobs change (PR 5609), a counted worker hired by the jobs engine keeps a work commitment and a payroll calendar with their household, so they are on that payroll when met. The calendar is the template job's own, and a founded firm hires from a template at another employer. In Long Hill, Connecticut (key 0943580, seed m7b, the speed:year town) person_707b5aaa29672c43 is hired at organization:founded:manufacturing:person_0df027d90f1245cc:2025-05-01 on the calendar of organization_978dd88ebc7f87a3. When a constituent case fills them in on 2025-10-17, the payroll check refuses the calendar and the year stops with 'Payroll calendar lacks independently resolved job/person/employer owners.' Main's Long Hill year ran through before that merge (bisected over every merge since 185d76d7ce: last good f3f3cccef1, first bad f1f23098bd).
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T14:40:47.250Z
 **Files.** src/core2/modules/jobs.ts, src/core2/counted-household-jobs.test.ts
 
 **Notes.** Filed Oct 24 by the speed lead: found when the module-table pair on main crashed; the instrumented check names the job, person, employer and calendar above.
+
+Sent back 2026-10-24 from PR #5961 (branch claude/counted-hire-own-calendar): new calendar loop permits zero foreign-template witnesses and skips missing calendars, while fill-in selects any hire; require a positive founded-firm/foreign-template hire, fill in that same worker and verify its actual calendar owner, keeping a drawn-place case beside the named regression; finish on that branch, merge main into it first.
