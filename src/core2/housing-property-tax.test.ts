@@ -202,6 +202,59 @@ describe("property tax bills", () => {
   });
 });
 
+describe("property tax follows the place's due dates", () => {
+  const build = () => {
+    registerPropertyTax(() => ({ rate: 0.02, payeeId: county, source: src }));
+    const core = createLifeCore(input(), {
+      data: worldCoreData(),
+      modules: [HOUSING_MODULE],
+    });
+    advanceCore(core, "2021-01-02");
+    const api = coreAPI(core);
+    return {
+      core,
+      api,
+      table: api.moduleState("housing").table("assessments"),
+    };
+  };
+  const home = (escrowed: boolean) => [
+    {
+      householdId: "household:owner",
+      placeId: place,
+      valueMinor: 40_000_000,
+      escrowed,
+    },
+  ];
+  it("an owner without a mortgage pays a quarter of the year's tax in each of New Jersey's four months, and nothing in the others", () => {
+    const { core, api, table } = build();
+    const quarter = Math.round((40_000_000 * 0.02) / 4);
+    const paidIn: Record<string, number> = {};
+    for (const date of [
+      "2021-01-05",
+      "2021-02-05",
+      "2021-03-05",
+      "2021-05-05",
+    ]) {
+      advanceCore(core, date);
+      paidIn[date] = billPropertyTax(api, table, home(false));
+    }
+    expect(paidIn).toEqual({
+      "2021-01-05": 0,
+      "2021-02-05": quarter,
+      "2021-03-05": 0,
+      "2021-05-05": quarter,
+    });
+  });
+  it("an owner with a mortgage pays a twelfth every month through escrow", () => {
+    const { core, api, table } = build();
+    const month = Math.round((40_000_000 * 0.02) / 12);
+    for (const date of ["2021-01-05", "2021-03-05"]) {
+      advanceCore(core, date);
+      expect(billPropertyTax(api, table, home(true))).toBe(month);
+    }
+  });
+});
+
 describe("property-tax due dates are data for every place", () => {
   const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
   it(`a place drawn from all 56 (seed ${seed}) reads back its installments, dates and source`, () => {

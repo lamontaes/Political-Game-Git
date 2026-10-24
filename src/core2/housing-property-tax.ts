@@ -1,7 +1,8 @@
 /**
- * Property tax on owners' homes: each month an owner household pays a
- * twelfth of its home's assessed value times the rate in force, through the
- * ledger, to the taxing government. The assessed value follows the home's
+ * Property tax on owners' homes: an owner household pays its home's assessed
+ * value times the rate in force through the ledger, to the taxing government:
+ * a twelfth each month through a mortgage's escrow, or a share on each of its
+ * place's due dates when there is no mortgage. The assessed value follows the home's
  * value each January, but where the law caps assessment growth it rises no
  * faster than the cap (a home bought since is assessed at its price).
  *
@@ -116,7 +117,7 @@ interface AssessmentRow {
   year: number;
 }
 
-/** Bills every owner household for this month's tax (a twelfth, as through a mortgage escrow); returns what was paid. */
+/** Bills every owner household for this month's tax: a twelfth through a mortgage escrow, else a share on the place's due dates; returns what was paid. */
 export function billPropertyTax(
   api: CoreAPI,
   assessments: ModuleTable,
@@ -124,6 +125,8 @@ export function billPropertyTax(
     householdId: string;
     placeId: string;
     valueMinor: number;
+    /** Tax is paid through the mortgage's escrow, a twelfth a month; false bills on the place's due dates. */
+    escrowed?: boolean;
   }[],
   /** Where unpaid tax is kept as arrears rows (the assessments table when not given). */
   arrears: ModuleTable = assessments,
@@ -131,8 +134,14 @@ export function billPropertyTax(
   const c = api.state as CoreState,
     year = Number(c.date.slice(0, 4)),
     months = api.parameter("macroMonthsPerYear");
-  // Monthly, as escrow pays it; a county's own due dates (once or twice a year) come with its law.
-  api.stopgap("SG-WORLD-property-tax-monthly");
+  // A home with a mortgage pays a twelfth a month through escrow; one without
+  // is billed on its place's due dates (`propertyTaxDueDates`), a share of the
+  // year's tax on each. The monthly review bills in the month a date falls.
+  const month = Number(c.date.slice(5, 7)),
+    // A place with no state row (a bare fixture) bills monthly.
+    dueDates = DUE_DATES[api.state.placeMetadata?.housingState ?? ""];
+  const dueThisMonth =
+    dueDates?.dueDates.some((due) => due.month === month) ?? true;
   const owedRow = (id: string) =>
     arrears.get(ARREARS_PREFIX + id) as unknown as
       PropertyTaxArrearsRow | undefined;
@@ -199,8 +208,14 @@ export function billPropertyTax(
         savedAssessmentMinor: Math.max(0, home.valueMinor - assessed),
       });
     // Last months' unpaid tax is added to this month's bill and paid first.
+    const escrowed = home.escrowed !== false;
+    if (!escrowed && !dueThisMonth) continue;
     const owed = owedRow(home.householdId)?.amountMinor ?? 0;
-    const bill = Math.round((assessed * t.rate) / months) + owed;
+    const bill =
+      Math.round(
+        (assessed * t.rate) /
+          (escrowed || !dueDates ? months : dueDates.installments),
+      ) + owed;
     if (bill <= 0) continue;
     const household = c.households.get(home.householdId);
     const to = payee(home.placeId, t);

@@ -2146,9 +2146,26 @@ export const HOUSING_MODULE: CoreModule = {
 export function ownedHomes(
   api: CoreAPI,
   atPlaceId?: string,
-): { householdId: string; placeId: string; valueMinor: number }[] {
+): {
+  householdId: string;
+  placeId: string;
+  valueMinor: number;
+  escrowed: boolean;
+}[] {
   const c = api.state as CoreState;
   if (!c.modules.has(HOUSING_MODULE_ID)) return [];
+  // A home with a mortgage still being paid pays its tax through escrow.
+  const mortgaged = new Set(
+    (
+      store(api).table("mortgages").rows() as unknown as {
+        householdId: string;
+        monthsLeft: number;
+        foreclosedAt?: string;
+      }[]
+    )
+      .filter((row) => row.monthsLeft > 0 && !row.foreclosedAt)
+      .map((row) => row.householdId),
+  );
   const opened =
     (
       store(api).table("state").get("housing:state") as
@@ -2164,8 +2181,12 @@ export function ownedHomes(
       c.date,
       macroPrices(api),
     ));
-  const out: { householdId: string; placeId: string; valueMinor: number }[] =
-    [];
+  const out: {
+    householdId: string;
+    placeId: string;
+    valueMinor: number;
+    escrowed: boolean;
+  }[] = [];
   for (const row of store(api).table("dwellings").rows() as unknown as {
     householdId: string;
     tenure: string;
@@ -2182,6 +2203,7 @@ export function ownedHomes(
     out.push({
       householdId: row.householdId,
       placeId,
+      escrowed: mortgaged.has(row.householdId),
       valueMinor: Math.round(
         row.valueMinor * (row.basis === "opening" ? prices() : 1),
       ),

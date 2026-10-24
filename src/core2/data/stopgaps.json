@@ -2753,11 +2753,11 @@
     "file": "src/core2/housing-property-tax.ts",
     "line": 130,
     "whatItFakes": "Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner.",
-    "why": "Counties bill once or twice a year on their own dates; the dates come with each county's law.",
+    "why": "Counties bill once or twice a year on their own dates; the dates come with each county's law. Resolved (claude, Oct 19): an owner with a mortgage still being paid pays a twelfth a month through escrow; every other owner is billed a share of the year's tax in the month each of the place's due dates falls (property-tax.json dueDates, estimated data).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Bills on the county's due dates from the law in force, with escrow monthly only for owners with a mortgage.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-business-compliance-cost",
