@@ -128,8 +128,8 @@
       "golden_path": "studio",
       "package": "CTO",
       "test": "A fresh session can read docs/roadmap/features.json and docs/roadmap/PROGRESS.md, pick the top unfinished feature and start without asking anyone what's next.",
-      "command": null,
-      "passes": false
+      "command": "node --import tsx scripts/roadmap/next-feature.ts",
+      "passes": true
     },
     {
       "id": "M0-13",
