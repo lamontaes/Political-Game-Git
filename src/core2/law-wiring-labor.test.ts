@@ -640,5 +640,90 @@ describe(
         setBookkeeping(was);
       }
     });
+
+    // A state whose researched answer at the opening is yes on raising the
+    // minimum wage: repeal the question and its own wage ends, so the next
+    // level up governs; the workers keep the pay they have, and the ones
+    // whose floor fell are no longer under it.
+    it("repealing the raise-the-minimum-wage question ends the state's own wage and the next level's floor governs", () => {
+      const was = setBookkeeping(false);
+      const tried: string[] = [];
+      try {
+        for (let n = 0; n < TRIES; n += 1) {
+          const drawn = drawPlace(SEED, `labor-repeal-${n}`);
+          const where = `seed ${SEED}, place ${drawn.name} (${drawn.key})`;
+          const world = buildBenchWorld(drawn.seed, gameStartDate(), {
+            twoLevel: true,
+            placeKey: drawn.key,
+          });
+          const core = world.core as CoreState;
+          const api = coreAPI(core);
+          const own = lawInForce(api, "minimum-wage").levels.find(
+            (l) => l.level === "state",
+          )?.row;
+          if (
+            !inForceHere(api, KEYS.raise) ||
+            !own ||
+            !(own.value > 0) ||
+            lawInForce(api, "minimum-wage").governing?.id !== own.id
+          ) {
+            tried.push(`${where}: no state wage under a yes`);
+            continue;
+          }
+          // The state raises its own wage a tenth first, so some workers stand under it.
+          amountAt(api, "minimum-wage", 1.1, "own");
+          advanceCore(core, addDays(makeIsoDate(core.date), 3));
+          const before = lawInForce(api, "minimum-wage");
+          const under = rows(api, "minimum-wage").filter(
+            (r) => r.target === "person",
+          );
+          const pay = new Map(
+            under.map((r) => [
+              r.targetId,
+              core.jobs.get(core.people.get(r.targetId)?.jobId ?? "")
+                ?.hourlyMinor,
+            ]),
+          );
+          const repeal = setQuestion(api, KEYS.raise, 0, "repeal-own");
+          advanceCore(core, addDays(makeIsoDate(core.date), 3));
+          const after = lawInForce(api, "minimum-wage");
+          const next = Math.max(
+            0,
+            ...after.levels
+              .filter((l) => l.level !== "state")
+              .map((l) => l.row?.value ?? 0),
+          );
+          const stateRow = after.levels.find((l) => l.level === "state")?.row;
+          // The record: the state's wage row now says no wage of its own, written by the repeal.
+          expect(stateRow?.value, `${where}: ${stateRow?.id}`).toBe(0);
+          expect(stateRow?.terms?.enactedBy, where).toBe(repeal[0]);
+          expect(after.value, `${where}: floor after ${stateRow?.id}`).toBe(
+            next,
+          );
+          expect(after.value, where).toBeLessThan(before.value ?? 0);
+          // The workers whose floor fell are no longer under it, and keep their pay.
+          const ended = rows(api, "minimum-wage", false);
+          for (const [who, hourly] of pay) {
+            expect(
+              ended.some((r) => r.targetId === who),
+              `${where}: ${who} still under the state's wage`,
+            ).toBe(true);
+            expect(
+              core.jobs.get(core.people.get(who)?.jobId ?? "")?.hourlyMinor,
+              `${where}: ${who}'s pay`,
+            ).toBe(hourly);
+          }
+          console.info(
+            `raise-the-minimum-wage repealed (${where}): state row ${stateRow?.id} (no wage of its own) replaces ${before.governing?.id}; floor ${before.value} -> ${after.value}; ${ended.length} worker rows ended, e.g. ${ended[0]?.id ?? "none under the floor"}`,
+          );
+          return;
+        }
+        throw new Error(
+          `no place with a state wage under a yes: seed ${SEED}; ${tried.join("; ")}`,
+        );
+      } finally {
+        setBookkeeping(was);
+      }
+    });
   },
 );
