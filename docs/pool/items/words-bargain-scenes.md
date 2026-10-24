@@ -23,3 +23,5 @@ claimed-at:
 **Files.** src/director/data/situation-types.json, src/director/data/director.json, src/director/scheduling.ts, src/director/purpose-scene.ts, src/core2/modules/legislature.ts, src/director/bargain-scenes.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5949 (branch words/bargain-scenes): new bargain-scenes.test.ts:14 and carried purpose-scene.ts:2 / purpose-scenes.test.ts:22 embed dated owner instructions forbidden by the merger morning check; retain the quotes in docs and remove the dated source notes; finish on that branch, merge main into it first.
