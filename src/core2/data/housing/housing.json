@@ -13,7 +13,7 @@
       "hearingDays": 2,
       "stayDays": 5.0,
       "statute": "AS 34.03.220(b); AS 09.45.090-.120",
-      "confidence": "high",
+      "confidence": "medium",
       "estimatedFields": ["stayDays"]
     },
     "AL": {
@@ -63,7 +63,7 @@
       "hearingDays": 10,
       "stayDays": 5,
       "statute": "Cal. Code Civ. Proc. § 1161(2), § 1167, § 715.010",
-      "confidence": "low",
+      "confidence": "high",
       "estimatedFields": []
     },
     "CO": {
@@ -87,10 +87,10 @@
       "estimatedFields": []
     },
     "DC": {
-      "noticeDays": 10,
+      "noticeDays": 30,
       "cureAllowed": true,
       "gracePeriodDays": 5,
-      "hearingDays": 14,
+      "hearingDays": 30,
       "stayDays": 21,
       "statute": "D.C. Code 42-3505.01(a-1); 16-1501 et seq.",
       "confidence": "high",
@@ -163,7 +163,7 @@
       "hearingDays": 5,
       "stayDays": 3,
       "statute": "Idaho Code § 6-303(2), § 6-310, § 6-316",
-      "confidence": "low",
+      "confidence": "high",
       "estimatedFields": []
     },
     "IL": {
@@ -191,10 +191,10 @@
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 3,
-      "stayDays": 5.0,
+      "stayDays": 14,
       "statute": "K.S.A. § 58-2564(b), § 61-3801 et seq.",
       "confidence": "high",
-      "estimatedFields": ["stayDays"]
+      "estimatedFields": []
     },
     "KY": {
       "noticeDays": 7,
@@ -203,7 +203,7 @@
       "hearingDays": 3,
       "stayDays": 7,
       "statute": "KRS § 383.660(2), § 383.200-.215",
-      "confidence": "low",
+      "confidence": "high",
       "estimatedFields": []
     },
     "LA": {
@@ -213,7 +213,7 @@
       "hearingDays": 3,
       "stayDays": 1,
       "statute": "La. Code Civ. Proc. art. 4701, 4731-4733",
-      "confidence": "low",
+      "confidence": "high",
       "estimatedFields": []
     },
     "MA": {
@@ -267,14 +267,14 @@
       "estimatedFields": []
     },
     "MO": {
-      "noticeDays": 7.0,
+      "noticeDays": 0,
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 4,
       "stayDays": 10,
       "statute": "RSMo § 535.010-.030, § 441.040",
-      "confidence": "low",
-      "estimatedFields": ["noticeDays"]
+      "confidence": "high",
+      "estimatedFields": []
     },
     "MP": {
       "noticeDays": 3,
@@ -303,38 +303,38 @@
       "hearingDays": 10,
       "stayDays": 5.0,
       "statute": "MCA § 70-24-422",
-      "confidence": "high",
+      "confidence": "medium",
       "estimatedFields": ["stayDays"]
     },
     "NC": {
-      "noticeDays": 7.0,
-      "cureAllowed": false,
+      "noticeDays": 10,
+      "cureAllowed": true,
       "gracePeriodDays": 5,
       "hearingDays": 7,
       "stayDays": 10,
       "statute": "N.C.G.S. 42-3, 42-26, 42-29, 42-30, 42-34, 42-46",
-      "confidence": "medium",
-      "estimatedFields": ["noticeDays"]
+      "confidence": "high",
+      "estimatedFields": []
     },
     "ND": {
       "noticeDays": 3,
-      "cureAllowed": true,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "hearingDays": 3,
       "stayDays": 0,
       "statute": "NDCC 47-32-01, 47-32-02, 47-32-03, 47-32-04",
-      "confidence": "low",
-      "estimatedFields": ["cureAllowed"]
+      "confidence": "high",
+      "estimatedFields": []
     },
     "NE": {
       "noticeDays": 7,
       "cureAllowed": true,
       "gracePeriodDays": 0,
       "hearingDays": 10,
-      "stayDays": 5.0,
+      "stayDays": 10,
       "statute": "Neb. Rev. Stat. § 76-1431(2), § 76-1445",
       "confidence": "high",
-      "estimatedFields": ["stayDays"]
+      "estimatedFields": []
     },
     "NH": {
       "noticeDays": 7,
@@ -353,7 +353,7 @@
       "hearingDays": 10,
       "stayDays": 3,
       "statute": "N.J.S.A. 2A:18-61.1, 2A:18-61.2, 2A:18-55, 2A:42-6.1, 2A:42-10.16",
-      "confidence": "high",
+      "confidence": "medium",
       "estimatedFields": []
     },
     "NM": {
@@ -388,13 +388,13 @@
     },
     "OH": {
       "noticeDays": 3,
-      "cureAllowed": true,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "hearingDays": 7,
       "stayDays": 10,
       "statute": "ORC 1923.04, 1923.06, 1923.13, 5321.03",
-      "confidence": "medium",
-      "estimatedFields": ["cureAllowed"]
+      "confidence": "high",
+      "estimatedFields": []
     },
     "OK": {
       "noticeDays": 5,
@@ -443,7 +443,7 @@
       "hearingDays": 5,
       "stayDays": 5,
       "statute": "R.I. Gen. Laws 34-18-35, 34-18-36, 34-18-39",
-      "confidence": "high",
+      "confidence": "medium",
       "estimatedFields": []
     },
     "SC": {
@@ -453,18 +453,18 @@
       "hearingDays": 10,
       "stayDays": 1,
       "statute": "S.C. Code § 27-40-710(B)",
-      "confidence": "medium",
+      "confidence": "high",
       "estimatedFields": []
     },
     "SD": {
       "noticeDays": 3,
-      "cureAllowed": true,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "hearingDays": 5,
       "stayDays": 5.0,
       "statute": "SDCL 21-16-1(4), 21-16-6, 21-16-7, 21-16-8",
       "confidence": "low",
-      "estimatedFields": ["stayDays", "cureAllowed"]
+      "estimatedFields": ["stayDays"]
     },
     "TN": {
       "noticeDays": 14,
@@ -483,7 +483,7 @@
       "hearingDays": 10,
       "stayDays": 6,
       "statute": "Tex. Prop. Code 24.005, 24.0051, 24.0061, 92.019",
-      "confidence": "high",
+      "confidence": "medium",
       "estimatedFields": []
     },
     "UT": {
@@ -493,7 +493,7 @@
       "hearingDays": 3,
       "stayDays": 3,
       "statute": "Utah Code 78B-6-802, 78B-6-803, 78B-6-811",
-      "confidence": "medium",
+      "confidence": "high",
       "estimatedFields": []
     },
     "VA": {
@@ -523,7 +523,7 @@
       "hearingDays": 7,
       "stayDays": 14,
       "statute": "9 V.S.A. 4467(a), 12 V.S.A. 4851-4854",
-      "confidence": "high",
+      "confidence": "medium",
       "estimatedFields": ["hearingDays"]
     },
     "WA": {
@@ -547,24 +547,24 @@
       "estimatedFields": []
     },
     "WV": {
-      "noticeDays": 7.0,
-      "cureAllowed": true,
+      "noticeDays": 0,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "hearingDays": 5,
       "stayDays": 10,
       "statute": "W.Va. Code 55-3A-1, 37-6-5",
       "confidence": "low",
-      "estimatedFields": ["noticeDays", "cureAllowed"]
+      "estimatedFields": []
     },
     "WY": {
       "noticeDays": 3,
-      "cureAllowed": true,
+      "cureAllowed": false,
       "gracePeriodDays": 0,
       "hearingDays": 3,
-      "stayDays": 5.0,
+      "stayDays": 2,
       "statute": "Wyo. Stat. 1-21-1002 to 1-21-1008",
-      "confidence": "low",
-      "estimatedFields": ["stayDays", "cureAllowed"]
+      "confidence": "high",
+      "estimatedFields": []
     }
   },
   "evictionDefaults": {
@@ -51731,7 +51731,7 @@
     }
   },
   "housePriceIndex": {
-    "source": "FHFA House Price Index, all-transactions, by state, quarterly, not seasonally adjusted (1980 Q1 = 100). This product uses FHFA data but is neither endorsed nor certified by FHFA.",
+    "source": "FHFA House Price Index, all-transactions, by state, quarterly, not seasonally adjusted (1980 Q1 = 100); Puerto Rico from FHFA's developmental all-transactions index in the master file (data/research/world/fhfa-hpi-pr-2026q2.json). This product uses FHFA data but is neither endorsed nor certified by FHFA.",
     "states": {
       "AK": {
         "1985-Q1": 144.25,
@@ -58284,6 +58284,133 @@
         "2025-Q4": 711.95,
         "2026-Q1": 721.12,
         "2026-Q2": 733.19
+      },
+      "PR": {
+        "1995-Q2": 103.72,
+        "1995-Q3": 107.82,
+        "1995-Q4": 113.41,
+        "1996-Q1": 114.57,
+        "1996-Q2": 117.41,
+        "1996-Q3": 118.45,
+        "1996-Q4": 120.71,
+        "1997-Q1": 122.19,
+        "1997-Q2": 124.54,
+        "1997-Q3": 128.72,
+        "1997-Q4": 125.9,
+        "1998-Q1": 131.6,
+        "1998-Q2": 131.92,
+        "1998-Q3": 136.3,
+        "1998-Q4": 138.33,
+        "1999-Q1": 142.8,
+        "1999-Q2": 142.78,
+        "1999-Q3": 145.47,
+        "1999-Q4": 146.01,
+        "2000-Q1": 145.96,
+        "2000-Q2": 149.83,
+        "2000-Q3": 152.53,
+        "2000-Q4": 154.17,
+        "2001-Q1": 161.61,
+        "2001-Q2": 162.96,
+        "2001-Q3": 163.78,
+        "2001-Q4": 164.62,
+        "2002-Q1": 169.31,
+        "2002-Q2": 169.02,
+        "2002-Q3": 171.13,
+        "2002-Q4": 174.9,
+        "2003-Q1": 178.57,
+        "2003-Q2": 179.65,
+        "2003-Q3": 180.55,
+        "2003-Q4": 180.13,
+        "2004-Q1": 184.33,
+        "2004-Q2": 183.58,
+        "2004-Q3": 188.93,
+        "2004-Q4": 192.61,
+        "2005-Q1": 194.13,
+        "2005-Q2": 198.42,
+        "2005-Q3": 198.25,
+        "2005-Q4": 200.89,
+        "2006-Q1": 202.7,
+        "2006-Q2": 204.71,
+        "2006-Q3": 207.66,
+        "2006-Q4": 204.99,
+        "2007-Q1": 209.09,
+        "2007-Q2": 214.53,
+        "2007-Q3": 212.48,
+        "2007-Q4": 207.73,
+        "2008-Q1": 214.01,
+        "2008-Q2": 207.95,
+        "2008-Q3": 211.76,
+        "2008-Q4": 206.25,
+        "2009-Q1": 212.42,
+        "2009-Q2": 211.38,
+        "2009-Q3": 213.23,
+        "2009-Q4": 204.38,
+        "2010-Q1": 211.18,
+        "2010-Q2": 207.95,
+        "2010-Q3": 217.71,
+        "2010-Q4": 209.57,
+        "2011-Q1": 207.71,
+        "2011-Q2": 203.9,
+        "2011-Q3": 201.69,
+        "2011-Q4": 199.87,
+        "2012-Q1": 205.02,
+        "2012-Q2": 206.73,
+        "2012-Q3": 206.53,
+        "2012-Q4": 203.8,
+        "2013-Q1": 205.71,
+        "2013-Q2": 200.76,
+        "2013-Q3": 191.81,
+        "2013-Q4": 190.44,
+        "2014-Q1": 194.05,
+        "2014-Q2": 191.85,
+        "2014-Q3": 178.0,
+        "2014-Q4": 184.34,
+        "2015-Q1": 177.31,
+        "2015-Q2": 180.35,
+        "2015-Q3": 175.51,
+        "2015-Q4": 177.54,
+        "2016-Q1": 178.62,
+        "2016-Q2": 166.87,
+        "2016-Q3": 179.46,
+        "2016-Q4": 164.65,
+        "2017-Q1": 166.6,
+        "2017-Q2": 160.12,
+        "2017-Q3": 163.61,
+        "2017-Q4": 161.6,
+        "2018-Q1": 161.81,
+        "2018-Q2": 158.0,
+        "2018-Q3": 158.12,
+        "2018-Q4": 152.09,
+        "2019-Q1": 158.86,
+        "2019-Q2": 158.02,
+        "2019-Q3": 165.52,
+        "2019-Q4": 169.83,
+        "2020-Q1": 163.7,
+        "2020-Q2": 176.92,
+        "2020-Q3": 181.22,
+        "2020-Q4": 193.29,
+        "2021-Q1": 192.11,
+        "2021-Q2": 191.16,
+        "2021-Q3": 197.94,
+        "2021-Q4": 195.19,
+        "2022-Q1": 203.58,
+        "2022-Q2": 199.74,
+        "2022-Q3": 212.27,
+        "2022-Q4": 208.64,
+        "2023-Q1": 210.82,
+        "2023-Q2": 215.85,
+        "2023-Q3": 219.35,
+        "2023-Q4": 211.97,
+        "2024-Q1": 228.23,
+        "2024-Q2": 228.7,
+        "2024-Q3": 248.63,
+        "2024-Q4": 255.39,
+        "2025-Q1": 245.73,
+        "2025-Q2": 256.53,
+        "2025-Q3": 248.06,
+        "2025-Q4": 268.77,
+        "2026-Q1": 287.93,
+        "2026-Q2": 258.95
       },
       "RI": {
         "1985-Q1": 131.21,
