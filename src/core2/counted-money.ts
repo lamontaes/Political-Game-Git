@@ -163,9 +163,18 @@ function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
   let unkeyed = 0;
   let plain = 0;
   let weighted = 0;
-  const add = (h: CountedHousehold | undefined, amount: number) => {
+  const add = (
+    h: CountedHousehold | undefined,
+    amount: number,
+    jobId?: string,
+  ) => {
     if (h && !h.gone && h.group >= 0) {
-      const times = rt.store.weightOf(h);
+      // A wage moves for the jobs its counted job stands for; anything else
+      // for the households its record stands for.
+      const times =
+        jobId === undefined
+          ? rt.store.weightOf(h)
+          : rt.store.headsOfJob(h, jobId);
       out.set(h.group, (out.get(h.group) ?? 0) + amount * times);
       plain += amount;
       weighted += amount * times;
@@ -195,6 +204,7 @@ function weighFlow(rt: ResidentsRuntime, flow: SplitFlow): Weighed {
           ? undefined
           : rt.store.households[rt.store.household[m]!],
         perDay,
+        jobId,
       );
     }
   } else if (flow.amountByContract) {
@@ -457,7 +467,8 @@ export function workersByGroup(
     const m = job ? rt.store.countedMember(job.personId) : undefined;
     if (m === undefined) continue;
     const h = rt.store.households[rt.store.household[m]!]!;
-    out.set(h.group, (out.get(h.group) ?? 0) + rt.store.weightOf(h));
+    // As many workers as the job is paid for (`weighFlow`).
+    out.set(h.group, (out.get(h.group) ?? 0) + rt.store.headsOfJob(h, jobId));
   }
   return out;
 }

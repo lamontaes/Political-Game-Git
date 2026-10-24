@@ -40,11 +40,13 @@ function checkHeadcount(draw: { seed: string; key: string; name: string }) {
     // three (the weights are fitted to the census, so not exactly three).
     const workers = countedJobsOf(scaled, id);
     expect(workers.length, `${where}: ${id}`).toBe(jobs);
+    // Each counted job stands for its own heads: its household's weight,
+    // unless a release or its employer's staffing set them (headsOfJob).
     const heads = workers.reduce((sum, job) => {
       const m = store.countedMember(job.personId)!;
-      const weight = store.weightOf(store.households[store.household[m]!]!);
-      minWeight = Math.min(minWeight, weight);
-      return sum + weight;
+      const household = store.households[store.household[m]!]!;
+      minWeight = Math.min(minWeight, store.weightOf(household));
+      return sum + store.headsOfJob(household, job.id);
     }, 0);
     expect(countedHeadcountOf(scaled, id), `${where}: ${id}`).toBeCloseTo(
       heads,
