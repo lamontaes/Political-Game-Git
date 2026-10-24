@@ -686,6 +686,11 @@ function steps(api: CoreAPI): Steps & { usps: string } {
   if (!row) throw new Error("No recorded eviction steps for this place.");
   // Steps below "high" confidence are recalled, not read from the statute text yet.
   if (row.confidence !== "high") stopgap("SG-WORLD-housing-eviction-steps");
+  // The steps count calendar days; where a statute counts business days,
+  // court days or days without Sundays and holidays, the period runs shorter
+  // than the statute gives.
+  // stopgapId: SG-WORLD-housing-eviction-day-counting
+  stopgap("SG-WORLD-housing-eviction-day-counting");
   return { ...row, usps };
 }
 
