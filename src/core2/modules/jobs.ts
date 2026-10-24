@@ -1463,9 +1463,7 @@ function workerOffers(
           p("macroMonthsPerYear"))
       : 0;
   // Years past the earliest Social Security retirement age pull toward retiring, as savings allow.
-  const age =
-    daysBetween(makeIsoDate(who.birthDate), makeIsoDate(c.date)) /
-    p("jobsDaysPerYear");
+  const age = daysBetweenText(who.birthDate, c.date) / p("jobsDaysPerYear");
   const pastRetirementAge = Math.max(0, age - retirementOnsetYears(api));
   const gap = unemploymentGap(api, who.placeId);
   const savings =
@@ -2481,8 +2479,7 @@ function reviewCountedEntry(api: CoreAPI): void {
       const personId = counted.ids[m]!;
       if (working.has(personId) || inCustody(api, personId)) continue;
       const age =
-        daysBetween(makeIsoDate(counted.born[m]!), makeIsoDate(c.date)) /
-        p("jobsDaysPerYear");
+        daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
       if (age < young || age >= old) continue;
       const placeId = counted.strings[counted.placeIx[m]!]!;
       // The household's money against its costs, as a full person's household reads.
