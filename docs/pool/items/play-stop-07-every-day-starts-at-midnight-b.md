@@ -11,13 +11,21 @@ pr:
 blocked-on:
 after: play-stop-07-every-day-starts-at-midnight-a
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** On the v0.22.10 release the city secretary's counter was open in daylight at midnight on a Sunday, and the door-knocking scene was sunny at 12:00 AM. The scene's picture and the office's hours ignore the clock. This part draws each scene at the hour on the clock and keeps offices to their hours.
 
-**Rules.** Sliding scales and causes: an office is open or closed from its hours on record, never by default. This is a game, not a spreadsheet: the picture has to match the time the player sees.
+**Rules.** Serves LAW.md §9, Time; LAW.md §11, The world on screen makes sense. Sliding scales and causes: an office is open or closed from its hours on record, never by default. This is a game, not a spreadsheet: the picture has to match the time the player sees.
 
 **Done when.** In a drawn place, the scene at 11 PM uses the night picture, and Travel to a filing office outside its hours shows it closed or moves the visit to opening time, shown by a screenshot of each.
+
+**Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** The room's light matches the hour on the card, and going to the city secretary at midnight says the office is closed or waits for morning.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/bench/scene.ts, src/bench/play.mjs
 
