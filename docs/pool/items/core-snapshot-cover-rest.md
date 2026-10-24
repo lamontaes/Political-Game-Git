@@ -28,3 +28,7 @@ Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): Merge main
 Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): Code conflict with main in src/core2/modules/executive.ts; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5036 (branch claude/snapshot-cover-s5): The title says a saved game restores exactly as saved, but the body explicitly leaves six engines unsaved and reports a differing candidacy field in Greenvale plus an unexplained news-day difference elsewhere. core-snapshot-cover-rest Done when requires uncoveredModules(core) empty and no differing field after restore; those proofs are not met. Finish the six engines and the named round-trip proof, or track the completed bounded snapshot repair separately while leaving the umbrella unfinished and correcting the release/title claim.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5036 (branch claude/snapshot-cover-s5): integrating main conflicts in src/core2/grief.ts, modules/housing.ts and modules/news.ts; give the bounded repair a matching item and Done-when evidence table; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5036 (branch claude/snapshot-cover-s5): Code conflicts are repaired but the body still claims exact restoration while six engines and candidacy/news divergence remain; provide bounded restore-shape acceptance and a Done-when table or finish the umbrella; finish on that branch, merge main into it first.

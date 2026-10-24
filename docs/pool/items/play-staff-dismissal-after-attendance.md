@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: claude/staff-dismissal-after-attendance
+pr: #5894
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T04:16:31.875Z
 ---
 
 **What.** The drawn offer-deadline test crashes in reviewAttendance when staffReview ends a job after that person has already worked today. The error is A job ends before its day’s work, from calendar work, at job-lifecycle.ts:126, called from staff.ts:1076 under player-v1 closeDay. It reproduces identically on clean main ed02fd2beb and the main-integrated offer branch before the offer assertion, so the player cannot continue that day.
