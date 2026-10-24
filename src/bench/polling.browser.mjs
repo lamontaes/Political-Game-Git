@@ -145,6 +145,11 @@ try {
       }
       const texts = [];
       for (let c = 0; c < n; c += 1) texts.push(await choices.nth(c).innerText());
+      if (!texts.some((t) => /2026/i.test(t))) {
+        console.log("No 2026 race here, moving on");
+        await page.locator("#talk-leave").click().catch(() => {});
+        continue;
+      }
       const order = [...Array(n).keys()].sort((a, b) => {
         const rank = (t) =>
           /council.*2026/i.test(t) ? 0 : /2026/i.test(t) ? 1 : /mayor/i.test(t) ? 2 : /I want to run for/i.test(t) ? 3 : 4;
@@ -212,18 +217,19 @@ try {
     if (await page.locator("#ballot:not([hidden])").count()) break;
     if (/November 3, 2026/.test(await page.locator("#card-clock").innerText().catch(() => "?"))) break;
     // Answer whatever stop is open.
-    const talk = page.locator("#talk:not([hidden]) #talk-choices button");
+    const talk = page.locator("#talk:not([hidden]) #talk-choices button:visible");
     if (await talk.count()) {
       console.log("Stop: talk,", (await talk.first().innerText().catch(() => "?")).slice(0, 60));
       await talk.first().click();
       await page.waitForTimeout(2000);
     } else if (await page.locator("#talk:not([hidden])").count()) {
       console.log("Stop: choiceless talk, leaving");
-      await page.locator("#talk-leave").click();
+      await page.locator("#talk-leave:visible").click().catch(() => {});
+      await page.keyboard.press("Escape").catch(() => {});
       await page.waitForTimeout(2000);
-    } else if (await page.locator("#continue:not([hidden])").count()) {
+    } else if (await page.locator("#continue:not([hidden]):visible").count()) {
       console.log("Stop: player Continue");
-      await page.locator("#continue:not([hidden])").click();
+      await page.locator("#continue:not([hidden]):visible").click().catch(() => {});
       await page.waitForTimeout(2000);
     }
     // Run the clock again from the calendar.
