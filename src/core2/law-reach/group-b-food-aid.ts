@@ -46,9 +46,11 @@ function standardDeduction(size: number): number {
 }
 
 /**
- * The maximum allotment by household size in force: the governing row's own
- * table, or, where an act changed the one-person amount, the latest table
- * recorded for that tier scaled to the new amount.
+ * The maximum allotment by household size in force: the table of the row in
+ * force, scaled to the row's own one-person amount (an act that changes the
+ * amount changes every size by the same proportion, whatever table it copied),
+ * or, where the row has no table, the latest table recorded for that tier
+ * scaled to the row's amount.
  */
 function allotments(api: CoreAPI): ((size: number) => number) | null {
   const answer = lawInForce(api, "snap-maximum");
@@ -56,7 +58,7 @@ function allotments(api: CoreAPI): ((size: number) => number) | null {
   if (!governing || !answer.value) return null;
   type Table = { byHouseholdSize?: Record<string, number> };
   let table = (governing.terms as Table | undefined)?.byHouseholdSize;
-  let factor = 1;
+  let factor = table?.["1"] ? answer.value / table["1"] : 1;
   if (!table) {
     const rows = (
       api

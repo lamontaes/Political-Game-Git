@@ -5985,6 +5985,225 @@
       "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay",
       "range": [-0.05, 0.05],
       "rangeSource": "Derenoncourt and Weil 2024 estimate precise zero cross-employer wage elasticities in the six months after an employer-wide minimum; the band allows a small effect either way"
+    },
+    {
+      "key": "snap-maximum-to-food-insecurity",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.00148,
+      "per": "percent the SNAP one-person maximum allotment has risen above its level at the opening",
+      "lagMonths": 0,
+      "group": "households under 130 percent of the poverty line",
+      "owner": "F",
+      "anchor": "When the 2009 Recovery Act raised the SNAP maximum benefit 13.6 percent, food insecurity among likely SNAP-eligible households (incomes under 130 percent of the poverty line) \"was 2.2 percentage points lower than expected in late 2009\", and \"food insecurity did not improve\" for households just above the eligibility line. Those households are 12.5 percent of all households (16,751 of 134,062 thousand, table 2 of ERR-358), so all households' food insecurity falls 0.275 points, 2.0 percent of the 13.7 percent national rate: 0.148 percent for each percent of the maximum. Nord's 2013 follow-up: a 10 percent rise in the maximum cuts very low food security among SNAP households about 22 percent, a 10 percent cut raises it about 29 percent; the link is linear at the smaller, measured rise.",
+      "source": "Nord and Prell 2011, USDA ERS Amber Waves (June 13, 2011) \"Food Security of SNAP Recipients Improved Following the 2009 Stimulus Package\" and Economic Research Report 116; Nord 2013, USDA ERS Amber Waves (October 24, 2013) \"Effects of Changes in SNAP Benefits on Food Security\" (ERR-151); USDA ERS, Household Food Security in the United States in 2024 (ERR-358), table 2",
+      "evidence": "researched",
+      "from": "program.snap-maximum-change-pct",
+      "to": "household.food-insecurity",
+      "range": [-0.00185, -0.00111],
+      "rangeSource": "A quarter either side of the measured size: the 2011 report gives no interval, and Nord's 2013 sensitivity (22 percent fewer very-low-security SNAP households for a 10 percent rise, 29 percent more for a 10 percent cut) runs from a smaller to a larger response than the 2009 rise.",
+      "why": [
+        "The maximum allotment sets the benefit a qualifying household is owed each month.",
+        "A larger benefit pays for more of the household's food.",
+        "A household that can buy enough food is not food insecure.",
+        "The terminal is the benefit the treasury pays and the food the household buys with it; the place rate is the proportion the study measured among eligible households, scaled by their share of all households."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household is poorer and spends close to its whole benefit on food."
+        ],
+        "weakerWhen": [
+          "The household's income is just under the eligibility line, or the allotment is the minimum benefit."
+        ],
+        "absentWhen": [
+          "No household qualifies, or the treasury pays no benefit."
+        ]
+      },
+      "reverseOnRepeal": "Putting the old amount back lowers next month's benefit; food already bought stays eaten, so the effect ends with the benefit, not backward.",
+      "who": "Households with incomes under 130 percent of the poverty line, the likely SNAP-eligible, 12.5 percent of all households.",
+      "lagWhy": "The 2011 report compares late 2008 with late 2009, eight months after the April 2009 rise; the benefit is spent in the month it is paid, so the link takes effect at once.",
+      "aboutZero": false,
+      "notes": "Linear in the rise since the opening. The same benefit also moves program.snap-receipt:moved-by-causes only through the work requirement, so this link and snap-to-food-insecurity do not count one cause twice. The engine that pays it is the budgets engine's monthly close (src/core2/law-reach/group-b-food-aid.ts), which owes each qualifying household the maximum in force less its expected food spending."
+    },
+    {
+      "key": "health-hospitals-spending-to-infant-mortality",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "strength": "moderate",
+      "shape": {
+        "kind": "diminishing",
+        "scale": 100
+      },
+      "size": -0.00685,
+      "per": "percent the health and hospitals line is above its Census base",
+      "lagMonths": 9,
+      "group": "place",
+      "owner": "F",
+      "anchor": "\"mortality rates fell between 1.1 percent and 6.9 percent for each 10 percent increase in local public health spending\": infant deaths per 1,000 live births fell 6.85 percent (p < 0.01), heart disease deaths 3.22, diabetes 1.44 and cancer 1.13, across nearly three thousand local public health agencies from 1993 to 2005 (Exhibit 3). The line's change is spread over its public health spending in proportion, so its percent is the agencies' percent: 0.685 percent fewer infant deaths for each percent more.",
+      "source": "Mays and Smith 2011, Health Affairs 30(8): 1585-1593, \"Evidence Links Increases In Public Health Spending To Declines In Preventable Deaths\" (PMC4019932), Exhibit 3",
+      "evidence": "provisional",
+      "from": "budget.healthAndHospitals-added-pct",
+      "to": "health.infant-mortality",
+      "range": [-0.00856, -0.00514],
+      "rangeSource": "A quarter either side of the Exhibit 3 coefficient: the article reports significance levels only and no confidence interval.",
+      "why": [
+        "A larger health and hospitals line pays for more public health staff, clinics and outreach.",
+        "More prenatal and infant care reaches the town's pregnancies and newborns.",
+        "Fewer infants die before their first birthday.",
+        "The terminal is the care the line pays for; the study's panel is local public health spending against deaths in the agency's area."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The added money goes to maternal and infant services."
+        ],
+        "weakerWhen": [
+          "The line's change is spent on hospital buildings or debt rather than services."
+        ],
+        "absentWhen": [
+          "The line is cut to nothing, or no clinic or health department serves the town."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back stops the added care; deaths already averted stay averted, the rate returns as the care does.",
+      "who": "Every live birth in the place: the study's agencies cover local populations, not a group.",
+      "lagWhy": "Judged: nine months, a pregnancy from the first prenatal visit the new money funds to the birth. The study's panel spans years and reports no timing.",
+      "aboutZero": false,
+      "notes": "The article is a fixed-effects panel of agency spending, not a randomized change, and it measures public health agencies, not hospitals. The line here pays both; the link assumes a rise spreads over its parts in proportion. The 6.85 percent is among the largest of the paper's results and the paper reports no interval; treat the size as provisional. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged."
+    },
+    {
+      "key": "higher-education-spending-to-college-completion",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "strength": "moderate",
+      "shape": {
+        "kind": "diminishing",
+        "scale": 100
+      },
+      "size": 0.000113,
+      "per": "percent the higher education line is above its Census base",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F",
+      "anchor": "\"a 10 percent increase in total spending in year t increases the number of four-year degrees awarded by 4.6 percent in year t + 2 and 4.5 percent in year t + 3\" (all awards: 2 percent in year t, then 7.8, 9.4 and 6.4 percent). Public colleges, 1990 to 2013. The place outcome is the share of adults 25 and older with a bachelor's degree, a stock: the 2.0 million bachelor's degrees a year (NCES, 2021-22) are 2.5 percent of the 81.3 million adults who hold one (ACS 2022: 229.7 million aged 25 and older, 35.4 percent), so 0.46 percent more degrees a year adds 0.0113 percent to the stock in each year the extra spending lasts.",
+      "source": "Deming and Walters 2017, NBER Working Paper 23736, section 4.3 and Table 4 Panel C; NCES Condition of Education 2024, indicator on undergraduate degree awards (https://nces.ed.gov/programs/coe/pdf/2024/cts_508c.pdf; 2.0 million bachelor's degrees, 2021-22); Census Bureau, American Community Survey 2022 1-year, table S1501, as reproduced in the Hawaii Department of Business, Economic Development and Tourism Data Book 2023 (https://files.hawaii.gov/dbedt/economic/databook/2023-individual/03/030523.pdf)",
+      "evidence": "provisional",
+      "from": "budget.higherEducation-added-pct",
+      "to": "school.college-completion-pct",
+      "range": [6e-5, 0.00017],
+      "rangeSource": "Deming and Walters Table 4 Panel C gives 4.6 percent at t + 2 and 4.5 at t + 3 with significance at the 5 and 10 percent levels and no reported interval; the range is half to one and a half times the size, the conversion to a stock being ours.",
+      "phaseInMonths": 24,
+      "phaseInSource": "Deming and Walters 2017, section 4.3: \"a 10 percent increase in total spending in year t leads to only a 2 percent increase in total awards in year t, but larger increases of 7.8, 9.4 and 6.4 percent in years t + 1 through t + 3\": the extra degrees build over about two years.",
+      "why": [
+        "A larger higher education line pays for more instruction, advising and student support at the public colleges.",
+        "Students persist and finish more often.",
+        "More bachelor's degrees are awarded each year.",
+        "The place's share of adults with a degree rises by the year's extra degrees."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The added money reaches the non-selective public colleges that drive the study's result."
+        ],
+        "weakerWhen": [
+          "The money goes to selective flagship campuses or to buildings."
+        ],
+        "absentWhen": [
+          "The town has no public college and few residents attend one."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back stops the extra degrees; those already earned stay earned, so the share eases back only as the cohorts turn over.",
+      "who": "Students at the state's public colleges, wherever they now live; the place share is their share among its adults.",
+      "lagWhy": "The paper's awards build over years t to t + 3 (the phase-in); the first year's 2 percent starts at once.",
+      "aboutZero": false,
+      "notes": "Estimated conversion from a flow (degrees awarded) to a stock (adults holding one): the web holds the first year's addition while the cause lasts and does not stack years, so a decade of higher spending is understated. tuition-freeze-to-college-completion is the same paper's price result, about zero. The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged."
+    },
+    {
+      "key": "school-spending-to-graduation",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "strength": "strong",
+      "shape": {
+        "kind": "diminishing",
+        "scale": 100
+      },
+      "size": 0.00354,
+      "per": "percent the schools line is above its Census base",
+      "lagMonths": 0,
+      "group": "children in the town's public schools",
+      "owner": "F",
+      "anchor": "\"a 10 percent increase in per-pupil spending each year for all twelve years of public school leads to 0.27 more completed years of education, 7.25 percent higher wages, and a 3.67 percentage-point reduction in the annual incidence of adult poverty\" (published version: 0.31 years, about 7 percent, 3.2 points). On high school completion, Table 7 of the district-level Common Core of Data: 29.37 (standard error 6.41) graduates per 100 eighth graders for a log point of spending against a mean of 82.93, so 10 percent more over the school years is 2.9 points, 3.5 percent of the mean, and each percent more is 0.354 percent more graduates. The person-level years-completed result is the source-check row school-spending-to-attainment (unsized-links-source-checks-2026-10-05.json).",
+      "source": "Jackson, Johnson and Persico 2016, Quarterly Journal of Economics 131(1): 157-218, as read in NBER Working Paper 20847 (January 2015), abstract and Table 7; data/research/outcome-web/unsized-links-source-checks-2026-10-05.json row school-spending-to-attainment (sourceUrl https://academic.oup.com/qje/article-abstract/131/1/157/2461148)",
+      "evidence": "researched",
+      "from": "budget.schools-added-pct",
+      "to": "school.graduation-pct",
+      "range": [0.00203, 0.00506],
+      "rangeSource": "Jackson, Johnson and Persico Table 7, 2SLS coefficient 29.37 with standard error 6.41: the 95 percent interval 16.81 to 41.93 graduates per 100 eighth graders per log point, over the mean 82.93, per percent.",
+      "phaseInMonths": 144,
+      "phaseInSource": "Jackson, Johnson and Persico 2015, abstract: the effect is for \"a 10 percent increase in per-pupil spending each year for all twelve years of public school\"; a cohort is fully exposed after twelve years, so the effect builds over 144 months.",
+      "why": [
+        "A larger schools line pays for staff, teacher pay and a longer school year.",
+        "Pupils get more instruction and support in each year they attend.",
+        "They stay in school and finish more often.",
+        "The effect needs a cohort's whole school career, so it builds as cohorts pass through."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The pupils are from low-income families: the paper's 2SLS finds 11.6 points for low-income children against 6 for non-poor."
+        ],
+        "weakerWhen": [
+          "The rise is brief, small or arrives late in a cohort's schooling."
+        ],
+        "absentWhen": [
+          "The district buys no more staff or time with the money."
+        ]
+      },
+      "reverseOnRepeal": "Putting the line back stops future spending; graduates already counted stay graduates, and the effect fades as cohorts exposed to the lower line pass through.",
+      "who": "Pupils in the district, larger for low-income children.",
+      "lagWhy": "Zero lag and a 144 month phase-in: spending helps a pupil from the first year, and a cohort's effect is complete after twelve school years.",
+      "aboutZero": false,
+      "notes": "The place-level result of the same study whose person-level years-completed result stays as school-spending-to-attainment (exposure-years shape, size not set), which waits on the person pipeline. The school engine decides each pupil's graduation from the web's factor (src/core2/school-outcomes.ts). The shape is diminishing with a scale of 100 percent: the studies measure changes of about ten percent, and a line more than doubled (a small town's line given a large grant) adds less for each further percent than the measured size says, so the factor can never run below zero. The scale is judged."
+    },
+    {
+      "key": "welfare-spending-to-poverty",
+      "status": "size-not-set",
+      "unsupportedReason": "size-not-set",
+      "strength": "strong",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": null,
+      "per": "percent the welfare and Medicaid line is above its Census base",
+      "lagMonths": 0,
+      "group": "households under 130 percent of the poverty line",
+      "owner": "F",
+      "anchor": "\"The income used to compute poverty status includes (before taxes)\" public assistance, and the official definition \"does not include capital gains or noncash benefits\" \"(such as public housing, Medicaid, and food stamps)\". The cash assistance the line pays a household is income dollar for dollar against its poverty threshold, so the measure's response is the arithmetic of the household incomes and thresholds, not a fitted size.",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html), read Oct 24, 2026",
+      "evidence": "researched",
+      "from": "budget.welfareAndMedicaid-added-pct",
+      "to": "household.poverty-pct",
+      "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record",
+      "why": [
+        "The welfare and Medicaid line pays eligible households a monthly assistance benefit from the treasury.",
+        "The benefit is public assistance, which counts as income in the poverty measure.",
+        "A household whose income reaches its threshold is no longer counted as poor.",
+        "The terminal is the household's income against its threshold, both on record."
+      ],
+      "conditions": {
+        "strongerWhen": [
+          "The household draws a benefit large enough to close its gap to the threshold."
+        ],
+        "weakerWhen": [
+          "The household is far under its threshold, or the benefit is the 8 percent minimum."
+        ],
+        "absentWhen": ["The line is not raised, or no household qualifies."]
+      },
+      "reverseOnRepeal": "Putting the line back lowers the benefit from the next month; the household's income falls with it.",
+      "who": "Households under 130 percent of the poverty line that draw the benefit, named and counted.",
+      "lagWhy": "The benefit is owed from the month after the line changes and counts as income when paid.",
+      "aboutZero": false,
+      "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried. The Medicaid part of the line pays medical spending, a noncash benefit the official measure does not count; the SNAP benefit is food aid, also not counted."
     }
   ],
   "calibratedAt": "2024-07-01"

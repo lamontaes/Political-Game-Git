@@ -24,6 +24,7 @@ import { rerateCountedJobs } from "../residents-economy";
 import { POLICY_QUESTIONS } from "../policy-answers";
 import {
   holdPublicPay,
+  holdTeacherPay,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_REVIEW,
 } from "../public-pay-floor";
@@ -110,7 +111,7 @@ export const LAWS_MODULE: PreStartModule = {
   },
   onCalendarWork: (api, work) => {
     lawTookEffect(api, work);
-    // A public pay floor in force holds later public hires to it, monthly.
+    // A public pay floor or a teacher minimum salary in force holds later hires to it, monthly.
     if (work.kind === PUBLIC_PAY_REVIEW) recordPublicPay(api, work.source);
   },
 };
@@ -623,21 +624,30 @@ function lawTookEffect(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
 }
 
 /**
- * The public pay floor's raises, each on the worker's record like a minimum
- * wage raise. stopgapId: SG-GOV-public-pay-floor-owner
+ * The public pay floor's and the teacher minimum salary's raises, each on the
+ * worker's record like a minimum wage raise. stopgapId:
+ * SG-GOV-public-pay-floor-owner
  */
-function recordPublicPay(api: CoreAPI, source: Source): void {
+export function recordPublicPay(api: CoreAPI, source: Source): void {
   const raises = api.moduleState(LAWS_MODULE_ID).table("raises");
-  for (const r of holdPublicPay(api, source))
+  for (const r of [
+    ...holdPublicPay(api, source),
+    ...holdTeacherPay(api, source),
+  ]) {
+    const id = `raise:${r.jobId}:${api.state.date}`;
+    // Two floors raising one job the same day are one raise on the record.
+    const earlier = raises.get(id) as unknown as
+      { fromMinor: number } | undefined;
     raises.put({
-      id: `raise:${r.jobId}:${api.state.date}`,
+      id,
       personId: r.personId,
       jobId: r.jobId,
       date: api.state.date,
-      fromMinor: r.fromMinor,
+      fromMinor: earlier?.fromMinor ?? r.fromMinor,
       toMinor: r.toMinor,
       lawId: r.lawId,
     });
+  }
 }
 
 /**

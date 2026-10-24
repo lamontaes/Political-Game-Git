@@ -12,21 +12,6 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "medicaid-match",
-      "outcome": "state Medicaid enrollment and coverage",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "budget-line:healthAndHospitals",
-      "outcome": "hospital access and uninsured care",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "budget-line:higherEducation",
-      "outcome": "college enrollment and completion",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "income-tax",
       "outcome": "household income after tax and out-migration",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
@@ -44,16 +29,6 @@
     {
       "key": "inheritance-tax",
       "outcome": "wealth transfers to heirs",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "snap-maximum",
-      "outcome": "food insecurity",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "budget-line:welfareAndMedicaid",
-      "outcome": "poverty and coverage",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {

@@ -15,7 +15,13 @@ import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
 import { residentsRuntime } from "./modules/residents";
 import { withPublicSchoolDistrict } from "./opening-public-schools";
-import { enactLaw, lawChain, lawInForce, openLaws } from "./modules/laws";
+import {
+  enactLaw,
+  lawChain,
+  lawInForce,
+  LAWS_MODULE_ID,
+  openLaws,
+} from "./modules/laws";
 import {
   amendBudget,
   budgetsOf,
@@ -30,6 +36,7 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { appliedOn } from "./law-reach/applied";
 import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type {
   GroupReach,
@@ -809,7 +816,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
   });
 
   // ---- Pay ----
-  it("a teacher minimum salary raises every covered teacher under it to the floor (rerateJob)", () => {
+  it("a teacher minimum salary raises every covered teacher under it to the floor (rerateJob), and the pay floor engine records each teacher it covers", () => {
     const key = Q("education.raise-teacher-minimum-salary");
     const floorDaily =
       (reachParameter("teacherMinimumSalaryDollars") * 100) / 365;
@@ -824,15 +831,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
           core.organizations.get(j.organizationId)?.placeId === town,
       );
     };
-    const before = new Map(
-      teacherJobs().map((j) => [j.id, j.hourlyMinor ?? 0]),
-    );
-    // A state whose starting law already had this floor raised teachers on the first day, before this test; the raise stays on record after the repeal.
-    const raisedBefore = new Set(
-      table<{ key: string; jobId: string }>("taken")
-        .filter((row) => row.key === key)
-        .map((row) => row.jobId),
-    );
     enact(key, 1, "state");
     const now = teacherJobs();
     for (const job of now) {
@@ -845,19 +843,34 @@ describe("law reach, group B: every policy reaches people through its engine", (
         `${where} ${job.id}`,
       ).toBeGreaterThanOrEqual(Math.floor(floorDaily));
     }
-    // The floor counts every covered teacher it has a raise on record for: raised now, or raised earlier.
-    const raised = now.filter(
-      (j) =>
-        (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0) ||
-        raisedBefore.has(j.id),
-    );
-    expect(group(key)?.terms.raised ?? 0).toBe(raised.length);
-    expect(openOrgs(key).length).toBe(
-      new Set(now.map((j) => j.organizationId)).size,
-    );
-    report.teacherFloor = { teachers: now.length, raised: raised.length };
+    // Every covered teacher is on the record: a full teacher by name, each
+    // district's counted teachers as one group with their count.
+    const applied = appliedOn(api, key);
+    const named = now.filter((j) => core.jobs.has(j.id));
+    for (const job of named)
+      expect(
+        applied.some(
+          (r) => r.target === "person" && r.targetId === job.personId,
+        ),
+        `${where} ${job.personId} is covered`,
+      ).toBe(true);
+    expect(
+      applied
+        .filter((r) => r.target === "group")
+        .reduce((n, r) => n + r.count, 0),
+      `${where} counted teachers covered`,
+    ).toBe(now.length - named.length);
+    for (const row of applied)
+      expect(
+        (
+          api.moduleState(LAWS_MODULE_ID).table("laws").get(row.lawId) as
+            { series?: string } | undefined
+        )?.series,
+        `${where} ${row.id} cites a teacher minimum row`,
+      ).toBe(key);
+    report.teacherFloor = { teachers: now.length, covered: applied.length };
     enact(key, 0, "state");
-    expectEnded(key);
+    expect(appliedOn(api, key), `${where} teachers after repeal`).toEqual([]);
   });
 
   // ---- Taxes collected through payroll withholding ----

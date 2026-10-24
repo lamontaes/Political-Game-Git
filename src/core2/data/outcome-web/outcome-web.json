@@ -281,6 +281,41 @@
       "reader": "property-tax-rate",
       "field": "",
       "unitScale": 100
+    },
+    "program.snap-maximum-change-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",
+      "reader": "snap-maximum-change",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.healthAndHospitals-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the health and hospitals line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:healthAndHospitals",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.welfareAndMedicaid-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the welfare and Medicaid line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:welfareAndMedicaid",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.higherEducation-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the higher education line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:higherEducation",
+      "field": "",
+      "unitScale": 1
+    },
+    "budget.schools-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the town's share of the schools line across the governments that carry it, above its Census base (every bill and act that changed it), as a percent",
+      "reader": "budget-line-added:schools",
+      "field": "",
+      "unitScale": 1
     }
   },
   "measureOwners": {

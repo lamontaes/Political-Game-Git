@@ -121,7 +121,11 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "snap-maximum-to-food-insecurity",
+    "health-hospitals-spending-to-infant-mortality",
+    "higher-education-spending-to-college-completion",
+    "school-spending-to-graduation"
   ],
   "waiting": {
     "police-to-low-level-arrests": {
@@ -538,6 +542,10 @@
     "public-pay-floor-to-other-employers-wages": {
       "waitingOn": [],
       "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay"
+    },
+    "welfare-spending-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts adds the cash assistance each household draws from the welfare line (assistanceIncomeByHousehold, written by payBenefits in src/core2/law-reach/group-b-money.ts) to its yearly income before it is set against its threshold; the poverty share the web reads is that record"
     }
   },
   "measuresWanted": {

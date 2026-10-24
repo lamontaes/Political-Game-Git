@@ -63,6 +63,7 @@ declare const data: {
     strength: string;
     shape: {
       kind: string;
+      scale?: number;
       halfLifeDays?: number;
       at?: number;
       steeperAt?: number;
