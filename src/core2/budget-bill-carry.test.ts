@@ -100,6 +100,10 @@ it("a passed bill's line change carries into the next fiscal year, and a one-tim
           bodies.oneTimeNextYear += Number(facts.deltaMinor);
       },
     );
+    // The line a service is measured against before the bill: the adopted
+    // line before the year's budget bills and acts (a body's own budget for
+    // the year, a balanced-budget act's cut).
+    const baseBefore = baseLine(api, gov!, before, carried!);
     const delta = 100_000_000;
     amendBudget(api, {
       governmentId: gov!.id,
@@ -127,7 +131,7 @@ it("a passed bill's line change carries into the next fiscal year, and a one-tim
     expect(
       baseLine(api, gov!, current(), carried!),
       `${where}: ${carried}'s base this year is the line before the bill`,
-    ).toBe(before.spendingMinor[carried!] ?? 0);
+    ).toBe(baseBefore);
     // The government's enacted lines, which every later year starts from.
     const enacted = enactedBudgetChanges(api, gov!.id);
     expect(
