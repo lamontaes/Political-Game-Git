@@ -10,7 +10,10 @@
   "testingDay": "02-15",
   "testingCitation": "NAEP is administered in January through March (NCES, Nation's Report Card); the middle of that window is February 15. Graduation is decided on the last day of the school year the school module already ends on.",
   "standing": {
-    "traits": ["facet-studious", "voluntary-effort"],
+    "traits": [
+      "personality-v1:facet-studious",
+      "personality-v1:voluntary-effort"
+    ],
     "attendanceWeightParameter": "schoolStandingAttendanceWeight",
     "traitWeightParameter": "schoolStandingTraitWeight"
   },

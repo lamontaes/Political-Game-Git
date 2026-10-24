@@ -40,6 +40,8 @@ import { ageOn } from "./counted-groups";
 import { fullHouseholdIncomes } from "./counted-income-fifth";
 import { webReach } from "./outcome-web-reach";
 import { setBookkeeping } from "./bookkeeping";
+import { personalityCataloguePack } from "./personality-catalogue";
+import { qualifiedTraitKey } from "./trait-packs";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
@@ -97,6 +99,17 @@ const rows = <T>(core: CoreState, name: string) =>
     .moduleState(SCHOOL_MODULE_ID)
     .table(name)
     .rows() as unknown as T[];
+
+describe("school standing", () => {
+  it("reads study traits people carry, by their qualified keys", () => {
+    const pack = personalityCataloguePack();
+    const known = new Set(
+      pack.traits.map((trait) => qualifiedTraitKey(pack.pack, trait.key)),
+    );
+    for (const key of schoolData.standing.traits)
+      expect(known.has(key), `${key} is a personality trait key`).toBe(true);
+  });
+});
 
 describe(`school outcomes (seed ${seed})`, () => {
   it("decides tests and graduation from the place's base, its web factor and each student's standing", () => {
