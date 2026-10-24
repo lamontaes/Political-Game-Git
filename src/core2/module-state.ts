@@ -43,6 +43,8 @@ interface Table {
   definition: ModuleTableDefinition;
   rows: Map<string, ModuleRow>;
   indexes: Map<string, Map<string, Set<string>>>;
+  /** The frozen list `rows()` hands out, kept until a row is written or removed. */
+  list?: readonly ModuleRow[];
 }
 interface Store {
   module: CoreModule;
@@ -158,6 +160,7 @@ function insert(table: Table, row: ModuleRow): void {
   const old = table.rows.get(row.id);
   if (old) erase(table, old);
   table.rows.set(row.id, row);
+  table.list = undefined;
   for (const [name, key] of keys) {
     const index = table.indexes.get(name)!;
     let ids = index.get(key);
@@ -173,6 +176,7 @@ function erase(table: Table, row: ModuleRow): void {
     if (!ids.size) index.delete(key);
   }
   table.rows.delete(row.id);
+  table.list = undefined;
 }
 /**
  * A debug hook for the table trace (scripts/core2-year/table-trace.ts): called
@@ -268,7 +272,8 @@ export function moduleState(
         rows() {
           check();
           tableTrace?.(moduleId, name, "rows");
-          return Object.freeze([...current().rows.values()]);
+          const table = current();
+          return (table.list ??= Object.freeze([...table.rows.values()]));
         },
         get size() {
           check();

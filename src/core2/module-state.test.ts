@@ -187,4 +187,19 @@ describe("registered module state", () => {
     expect(() => table.query("k", [])).toThrow(/arity/);
     expect(() => table.query("missing", [1])).toThrow();
   });
+  it("hands out one frozen row list until a row is written or removed", () => {
+    const core = world(),
+      table = coreAPI(core).moduleState("law").table("enactments");
+    table.put(row);
+    const first = table.rows();
+    expect(Object.isFrozen(first)).toBe(true);
+    expect(table.rows()).toBe(first);
+    table.put({ ...row, id: "b", citation: "statute:b" });
+    const second = table.rows();
+    expect(second).not.toBe(first);
+    expect(second.map((r) => r.id)).toEqual(["a", "b"]);
+    expect(first.map((r) => r.id)).toEqual(["a"]);
+    table.remove("a");
+    expect(table.rows().map((r) => r.id)).toEqual(["b"]);
+  });
 });
