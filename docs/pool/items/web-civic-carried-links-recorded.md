@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-reach-civic
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T17:24:32.605Z
 ---
 
 **What.** The outcome web's exposed-corruption-to-reelection and economy-to-approval links describe what the voting engine already weighs voter by voter: the scandal term for a reported bribe or a conviction whose story reached the voter, and the economy term in the standing of the president's party. A web link that also moved the vote would count each cause twice. This item records each link as carried by the function that reads its cause, keeps the family's other six links on the unwired list with one reason each, and regenerates the coverage, the unwired list and the matrix. The played-year proof that those two readers act stays with web-reach-civic.
