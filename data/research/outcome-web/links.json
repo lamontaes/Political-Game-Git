@@ -5844,7 +5844,8 @@
       "evidence": "researched",
       "anchor": "\"We find that fewer new candidates enter politics in treated states and that incumbent legislators are less likely to leave office, leading to an increase in uncontested elections.\" Entry falls 18.2% against its base; the probability an election is unopposed rises 8.5 points from 31%; incumbents rerun 3.1 points more often from 78%.",
       "source": "Fisman, Leder-Luis, O'Donnell and Vannutelli 2025, Revolving Door Laws and Political Selection, NBER Working Paper 33626 (https://www.nber.org/system/files/working_papers/w33626/w33626.pdf), abstract and section V; state legislative candidates 1968 to 2022, staggered adoption",
-      "notes": "Person-level: it acts through each would-be candidate's reasons to run (the lower value of a seat whose holder may not lobby on leaving), so it waits on the candidacy chooser reading the law, not on a place rate. The range is the paper's entry estimates across specifications (0.11 to 0.25 of the base); not yet carried by an engine."
+      "notes": "Carried by the engine: the candidacy chooser reads the law when someone who does not hold a legislative seat weighs running for it, so fewer newcomers enter; the web does not move a rate on top. The range is the paper's entry estimates across specifications (0.11 to 0.25 of the base).",
+      "carriedBy": "src/core2/modules/candidacy.ts weighs the law when a would-be newcomer, named or counted, decides whether to run for a legislative seat (afterOffice, read through revolvingDoorFor in src/core2/law-reach/group-a-voting.ts; candidacyRevolvingDoorWeight is calibrated to the paper's 18.2% fewer entrants)"
     },
     {
       "key": "public-jobs-to-private-employment",

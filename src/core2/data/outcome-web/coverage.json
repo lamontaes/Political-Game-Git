@@ -524,7 +524,8 @@
       "carriedBy": "src/core2/modules/interest-groups.ts passes over a former officeholder the ban still bars (lobbyingBarredUntil, src/core2/law-reach/group-a-voting.ts) when it chooses a group's lobbyist"
     },
     "revolving-door-ban-to-candidate-entry": {
-      "waitingOn": ["elections.new-candidate-entry"]
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/candidacy.ts weighs the law when a would-be newcomer, named or counted, decides whether to run for a legislative seat (afterOffice, read through revolvingDoorFor in src/core2/law-reach/group-a-voting.ts; candidacyRevolvingDoorWeight is calibrated to the paper's 18.2% fewer entrants)"
     },
     "public-jobs-to-private-employment": {
       "waitingOn": [],
@@ -637,10 +638,6 @@
       "links": 1
     },
     "election.incumbent-reelection": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "elections.new-candidate-entry": {
       "owner": "OPUS-GOV",
       "links": 1
     },
