@@ -117,8 +117,6 @@
     "cannabis-sales-to-overdose-deaths",
     "privacy-law-to-earnings",
     "highway-money-for-transit-to-service",
-    "farmland-easements-to-farmland-lost",
-    "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
     "poor-roads-to-prices"
@@ -503,6 +501,14 @@
     "city-anti-discrimination-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/world-poverty.ts: about zero in the research; whatever incomes do shows in the measure"
+    },
+    "farmland-easements-to-farmland-lost": {
+      "waitingOn": [],
+      "carriedBy": "the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts, with the law read by the housing module's build in src/core2/modules/housing.ts), which reads this law in force and cuts the single-family homes the town's builders start by the land the law takes out of use, recording the law on each project it governs. No engine keeps acres converted, and the cut is the engine's own land elasticity, not this row's size (registered stopgap SG-GOV-REACH-A-housing-supply)"
+    },
+    "groundwater-limits-to-irrigation-pumping": {
+      "waitingOn": [],
+      "carriedBy": "the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts, which sets each town farm's limit through setOperatingLimit in src/core2/business-operating-rules.ts), which reads this law in force and cuts the groundwater each farm may use, and with it the farm's outside sales, by its output's dependence on irrigation water. It uses its own estimated cut and acts the day the law takes effect, not this row's size and lag (registered stopgap SG-GOV-REACH-B-business-cost)"
     },
     "defense-contracts-to-earnings": {
       "waitingOn": ["federal.defense-boost-pct"]

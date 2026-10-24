@@ -24,7 +24,9 @@ import { BUDGETS_MODULE_ID, governments } from "./budgets";
 import lawParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
-import { webReach, type Subject } from "../outcome-web-reach";
+import { webLevel, webReach, type Subject } from "../outcome-web-reach";
+import { baseOf } from "../outcome-web-model";
+import { stateOfPlaceKey } from "../places";
 import { incomeBandOf } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
@@ -58,6 +60,10 @@ interface Rule {
 }
 
 const MONTHS = 12;
+const PERCENT = 100;
+/** The web's outcomes the price engine reads: tons of carbon per person, and the percent of beverage containers recycled. */
+const EMISSIONS = "env.emissions";
+const RECYCLED = "env.container-recycling-pct";
 /** Every state sets 21 as the purchase age (NCSL, Cannabis Overview, 2024). */
 const CANNABIS_AGE = 21;
 
@@ -274,8 +280,8 @@ export function monthlyChange(
   >,
   scale: number,
   persons: number,
-  /** What the outcome web carries into this household's use: trips taken and the share subscribing, each against its own base. */
-  web: { trips?: number; subscribe?: number } = {},
+  /** What the outcome web carries into this household's use: trips taken, the share subscribing (each against its own base) and the share of deposit containers returned. */
+  web: { trips?: number; subscribe?: number; redemption?: number } = {},
 ): { payMinor: number; refundMinor: number } {
   const g = goods.goods;
   switch (rule.kind) {
@@ -309,12 +315,14 @@ export function monthlyChange(
             : 0,
         };
       }
-      // A refundable deposit comes back on the containers returned; the rest is the payee's.
+      // A refundable deposit comes back on the containers returned (the web's share for the place); the rest is the payee's.
       const b = g["beverage-container"],
         units = (b.perPersonYear * persons) / MONTHS;
       return {
         payMinor:
-          units * rule.value * (rule.refundable ? 1 - b.redemptionRate : 1),
+          units *
+          rule.value *
+          (rule.refundable ? 1 - (web.redemption ?? 0) : 1),
         refundMinor: 0,
       };
     }
@@ -766,8 +774,8 @@ function readPriceLaws(api: CoreAPI): void {
     "SG-GOV-REACH-B-energy-price",
     true,
   );
-  // stopgapId: SG-GOV-REACH-B-retail-price — container use and redemption
-  // still use household estimates rather than individual return decisions.
+  // stopgapId: SG-GOV-REACH-B-retail-price — container use still uses a
+  // household estimate rather than individual purchases and return decisions.
   sync(
     "us-policy-positions:environment-energy.bottle-deposit",
     {
@@ -866,13 +874,17 @@ export function businessEnergyCostYear(
  * is the exception that replaces rather than adds: a clean-electricity
  * standard's recorded compliance cost stands in for the price until the web's
  * own link to the electricity price is running, then the web's price is the
- * price (the same cause is never charged twice).
+ * price (the same cause is never charged twice). A carbon price is a price on
+ * tons, so the tons a household emits take the web's factor on emissions; a
+ * deposit nets out the containers returned, which is the web's level of the
+ * share recycled (the research's start for the state where the web keeps no
+ * month).
  */
 function webUse(
   api: CoreAPI,
   rule: Rule,
   subject: Subject,
-): { rule: Rule; trips: number; subscribe: number } {
+): { rule: Rule; trips: number; subscribe: number; redemption?: number } {
   const same = { rule, trips: 1, subscribe: 1 };
   if (rule.good === "electricity" && rule.kind === "share") {
     const reach = webReach(
@@ -892,6 +904,22 @@ function webUse(
         value: (carried ? 1 : 1 + rule.value) * reach.factor - 1,
       },
     };
+  }
+  if (rule.good === "fuel" && rule.kind === "share")
+    return {
+      ...same,
+      rule: {
+        ...rule,
+        value:
+          rule.value * webReach(api, rule.placeId, EMISSIONS, subject).factor,
+      },
+    };
+  if (rule.good === "beverage-container" && rule.kind === "per-unit") {
+    const placeKey = (api.state as CoreState).placeMetadata.placeKey ?? "";
+    const level =
+      webLevel(api, rule.placeId, RECYCLED, subject)?.level ??
+      baseOf(RECYCLED, stateOfPlaceKey(placeKey) ?? "").value;
+    return { ...same, redemption: Math.min(1, Math.max(0, level / PERCENT)) };
   }
   if (rule.good === "transit-fare" && rule.kind === "price")
     return {

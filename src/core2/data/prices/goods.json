@@ -33,7 +33,6 @@
     },
     "beverage-container": {
       "perPersonYear": 899,
-      "redemptionRate": 0.73,
       "elasticityParameter": "pricesElasticityBeverages"
     },
     "vehicle-repair": {
