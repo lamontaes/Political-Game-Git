@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/affectionate-clarke-7dknew
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T01:11:42.644Z
 ---
 
 **What.** The owner ruled on Oct 22 that hearing a condition change the month's news carries (rent rose, unemployment rose, crime rose) moves the matching policy stance for the people the news reached, toward the side their own views already tie to that condition, by the existing heard-event amount, with the outlet as the reason. It is not built: the month's outcome record (outcome-news.ts monthEvent) carries a topic but no wanted change, so the press story made from it has none, the news engine never emits its read event for that story (news.ts onAfterDay skips a story with neither a wanted change nor a law), and the views engine moves no one. The effects lead's end-to-end proof needs this step.
