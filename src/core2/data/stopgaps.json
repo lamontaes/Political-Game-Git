@@ -4669,7 +4669,8 @@
     "addedBy": "OFFICE-STATE",
     "addedAt": "2026-10-14",
     "replacement": "An offices-engine function to seat a chosen person for the rest of a term (OPUS-GOV), with the player's own party from the parties engine, called by dev mode.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "Resolved: the offices engine exports seatPerson (src/core2/modules/offices.ts), which seats a chosen person for the rest of a term, and its reader is the dev-mode custom start in office-day-state.ts, which calls seatPerson instead of writing the offices engine's table; the direct table write and its code marker are deleted."
   },
   {
     "id": "SG-WORLD-deposit-wallet-buffer",

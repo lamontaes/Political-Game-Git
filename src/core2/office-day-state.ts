@@ -52,7 +52,8 @@ import {
   servedShare,
 } from "./modules/justice";
 import { lawChain } from "./modules/laws";
-import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
+import { OFFICES_MODULE_ID, seatPerson, type TermRow } from "./modules/offices";
+import { partiesHere, partyTie } from "./modules/parties";
 import {
   billOf,
   hasSitting,
@@ -1405,10 +1406,10 @@ export function seatCoveringTown(
 /**
  * Dev mode's custom start as a sitting state officeholder (the package's
  * "custom start as a sitting officeholder"): the serving holder's term ends
- * and the player serves out the rest of it, as a winner takes office; the
- * officials and pay engines read the took-office event. A legislator takes
- * the town's own seat in the chamber.
- * stopgapId: SG-STATE-dev-seat-player
+ * and the player serves out the rest of it, as a winner takes office, under
+ * the party the parties engine records for them; the officials and pay
+ * engines read the took-office event. A legislator takes the town's own seat
+ * in the chamber.
  */
 export function seatPlayerInStateOffice(
   api: CoreAPI,
@@ -1419,68 +1420,22 @@ export function seatPlayerInStateOffice(
     readonly chamberKind?: string;
   },
 ): StateOffice {
-  api.stopgap("SG-STATE-dev-seat-player");
-  const person = api.state.people.get(input.personId);
-  if (!person?.alive) throw new Error(`No living person ${input.personId}.`);
-  const offices = api.moduleState(OFFICES_MODULE_ID);
   const stateKey = lawChain(api).stateKey;
   const found = seatCoveringTown(api, input.role, input.chamberKind);
   if (!found)
     throw new Error(`No ${input.role} seat in ${stateKey} covers the town.`);
-  const { office, seat } = found;
-  const terms = offices.table("terms");
-  const serving = terms.query("bySeatStatus", [
-    seat.id,
-    "serving",
-  ]) as unknown as TermRow[];
-  const date = api.state.date;
-  for (const term of serving)
-    terms.put({
-      ...term,
-      status: "ended",
-      endDate: date,
-      endEstimated: false,
-      endedBy: "dev start: the player took the seat",
-    } as unknown as ModuleRow);
-  const previous = serving[0];
-  const termId = `term:${seat.id}:${date}:dev-start`;
-  terms.put({
-    id: termId,
-    seatId: seat.id,
-    officeId: office.id,
-    personId: person.id,
-    identity: {
-      givenName: person.givenName,
-      familyName: person.familyName,
-      gender: "recorded",
-      birthDate: person.birthDate,
-      homeState: stateKey,
-    },
-    // The seat's party stands until the dev start reads the player's own.
-    party: previous?.party ?? null,
-    startDate: date,
-    endDate: previous?.endDate ?? null,
-    endEstimated: previous?.endEstimated ?? true,
-    reached: "dev start as a sitting officeholder",
-    status: "serving",
-  } as unknown as ModuleRow);
-  api.emit({
-    id: `took-office:${seat.id}:${date}`,
-    date,
-    kind: "took-office",
-    personIds: [person.id],
-    placeId: lawChain(api).townPlaceId,
-    source: {
-      tag: "ESTIMATED",
-      citation: "Dev mode custom start as a sitting officeholder",
-      asOf: date,
-      estimatedFrom: "SG-STATE-dev-seat-player",
-    },
-    publicRecord: true,
-    news: false,
-    facts: { office: office.id, seatId: seat.id, winnerId: person.id },
+  const tie = partyTie(api, input.personId);
+  const party =
+    tie?.tie === "party" && tie.partyId
+      ? (partiesHere(api).find((row) => row.id === tie.partyId)?.name ?? null)
+      : null;
+  seatPerson(api, {
+    seatId: found.seat.id,
+    personId: input.personId,
+    party,
+    reason: "dev start: the player took the seat",
   });
-  const held = stateOfficeOf(api, person.id);
+  const held = stateOfficeOf(api, input.personId);
   if (!held) throw new Error("The seat did not take.");
   if (api.state.modules.has(OFFICE_DAY_STATE_MODULE_ID)) scheduleTomorrow(api);
   return held;

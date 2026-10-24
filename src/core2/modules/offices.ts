@@ -918,6 +918,84 @@ export function townSeats(api: CoreAPI): readonly {
   return out;
 }
 
+/**
+ * Seats a chosen living person in a seat for the rest of the sitting term: the
+ * serving holder's term ends as the seat changing hands, and the person's term
+ * runs to the same end date, as a winner takes office (the officials and pay
+ * engines read the `took-office` event). The caller names their party, read
+ * from the parties engine; none is carried over from the holder.
+ */
+export function seatPerson(
+  api: CoreAPI,
+  input: {
+    readonly seatId: string;
+    readonly personId: string;
+    readonly party: string | null;
+    /** Why the seat changed hands, kept on the ended and the new term. */
+    readonly reason: string;
+  },
+): TermRow {
+  const person = api.state.people.get(input.personId);
+  if (!person?.alive) throw new Error(`No living person ${input.personId}.`);
+  const seat = table(api, "seats").get(input.seatId) as unknown as
+    SeatInput | undefined;
+  if (!seat) throw new Error(`No seat ${input.seatId}.`);
+  const office = table(api, "offices").get(
+    seat.officeId,
+  ) as unknown as OfficeInput;
+  const date = api.state.date;
+  const serving = table(api, "terms").query("bySeatStatus", [
+    input.seatId,
+    "serving",
+  ]) as unknown as TermRow[];
+  for (const term of serving)
+    table(api, "terms").put({
+      ...term,
+      status: "ended",
+      endDate: date,
+      endEstimated: false,
+      endedBy: input.reason,
+    } as unknown as ModuleRow);
+  const previous = serving[0];
+  const stateKey = (
+    table(api, "loaded").get("town") as unknown as { stateKey: string }
+  ).stateKey;
+  const term = {
+    id: `term:${input.seatId}:${date}:${input.personId}`,
+    seatId: input.seatId,
+    officeId: office.id,
+    personId: person.id,
+    identity: {
+      givenName: person.givenName,
+      familyName: person.familyName,
+      gender: "recorded",
+      birthDate: person.birthDate,
+      homeState: stateKey,
+    },
+    party: input.party,
+    startDate: date,
+    endDate: previous?.endDate ?? null,
+    endEstimated: previous?.endEstimated ?? true,
+    reached: input.reason,
+    status: "serving",
+  } as unknown as TermRow;
+  table(api, "terms").put(term as unknown as ModuleRow);
+  api.emit({
+    id: `took-office:${input.seatId}:${date}`,
+    date,
+    kind: "took-office",
+    personIds: [person.id],
+    placeId: (
+      table(api, "loaded").get("town") as unknown as { townPlaceId: string }
+    ).townPlaceId,
+    source: source(office.source, date, true),
+    publicRecord: true,
+    news: false,
+    facts: { office: office.id, seatId: input.seatId, winnerId: person.id },
+  });
+  return term;
+}
+
 /** End the seat's term and fill the vacancy the way the office's rule says. */
 export function vacateSeat(
   api: CoreAPI,
