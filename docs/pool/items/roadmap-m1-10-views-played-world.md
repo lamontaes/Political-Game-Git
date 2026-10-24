@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-m1-10
 pr: #5903
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T15:14:51.052Z
 ---
 
 **What.** Roadmap M1-10's command (src/core2/views.test.ts) builds a world with only the views module and injects fixture.plant-closing through applyCoreEvent, so the merger sent back its flag on #5875: the spec's 'a big event shifts the people it touches and no one else' is not shown through the ordinary event producer. A played-year check in the runner's drawn place should find a real big event (a closure, a layoff or a law reaching people), name the people it touched and show their stances moving while untouched people's stay, and check the opening views against the state and metro answer keys.
