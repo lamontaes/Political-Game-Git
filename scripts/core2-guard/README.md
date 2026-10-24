@@ -46,7 +46,9 @@ opening; `settings.playedWorld` records which path ran.
 One warmup and up to three independent measured processes run per revision,
 one process at a time, base and head alternating so the machine's drift falls
 on both. Each run plays a whole year, so a large drawn town can take minutes a
-run: after the first measured pair, another pair starts only while the last
+run: the head's warmup runs only while it and one pair (each as long as the
+last run, times `runTimeMargin`) fit the time left, and the head otherwise
+starts cold; after the first measured pair, another pair starts only while the last
 pair's time times `runTimeMargin` still fits the time left, and each profile
 (the head's first) only while its last run's time times `profileTimeMargin`
 does. A large town then measures one or two pairs instead of failing on time;

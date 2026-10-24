@@ -33,6 +33,14 @@ export function nextPairFits(remainingMilliseconds, lastBase, lastHead) {
     remainingMilliseconds >= (lastBase + lastHead) * policies.runTimeMargin
   );
 }
+/**
+ * Whether another warmup still fits: a warmup only fills the caches, so it runs
+ * only while it and one measured pair (each as long as the last run, with
+ * policies.runTimeMargin) fit the time left.
+ */
+export function warmupFits(remainingMilliseconds, lastRun) {
+  return remainingMilliseconds >= 3 * lastRun * policies.runTimeMargin;
+}
 /** Whether a profile run fits the time left (policies.profileTimeMargin). */
 export function profileFits(remainingMilliseconds, lastRun) {
   return remainingMilliseconds >= lastRun * policies.profileTimeMargin;
@@ -131,9 +139,21 @@ export async function paired({ base, head, output }) {
   try {
     groups.base = [];
     groups.head = [];
-    let index = 0;
+    let index = 0,
+      warmups = 0;
+    // On a slow machine a large town's warmup takes so long that warming the
+    // head too would leave no room for a pair; the head then starts cold (its
+    // files the base did not share compile in its first measured run).
     for (let warm = 0; warm < policies.warmupRuns; warm++, index++)
-      for (const label of ["base", "head"]) await measure(label, index);
+      for (const label of ["base", "head"]) {
+        if (
+          warmups > 0 &&
+          !warmupFits(remaining(), Math.max(...Object.values(lastMilliseconds)))
+        )
+          continue;
+        await measure(label, index);
+        warmups++;
+      }
     // Base and head alternate, so the machine's drift falls on both. A large
     // drawn town's year can take minutes a run, so after the first pair the
     // next one starts only while the last pair's time (with a margin) still
@@ -185,6 +205,7 @@ export async function paired({ base, head, output }) {
     }
     result = {
       ...compare(groups.base, groups.head),
+      warmupRuns: warmups,
       profiles,
       runs: groups,
       elapsedMilliseconds: performance.now() - started,
@@ -207,7 +228,7 @@ export async function paired({ base, head, output }) {
   writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
   const summary = result.error
     ? `## Core guard: ERROR\n\n${result.error.slice(0, 1000)}\n`
-    : `## Core guard: ${result.passed ? "PASS" : result.speedPassed ? "INPUT BUDGET FAILURE" : "SLOWDOWN"}\n\nBase ${result.baseMillisecondsPerDay.toFixed(2)} ms/day; head ${result.headMillisecondsPerDay.toFixed(2)} ms/day; ratio ${result.ratio.toFixed(3)} (limit ${result.maximumRatio}). Opening-input budgets: ${result.openingBudgetPassed ? "passed" : "FAILED"}.\n\nPeak RSS: base ${result.peakRssMiB.base.toFixed(1)} MiB; head ${result.peakRssMiB.head.toFixed(1)} MiB.\n\nSeed ${result.seed}; place ${result.placeKey}; ${result.measuredPairs} measured pair(s) of ${policies.measuredRuns}.\n\n` +
+    : `## Core guard: ${result.passed ? "PASS" : result.speedPassed ? "INPUT BUDGET FAILURE" : "SLOWDOWN"}\n\nBase ${result.baseMillisecondsPerDay.toFixed(2)} ms/day; head ${result.headMillisecondsPerDay.toFixed(2)} ms/day; ratio ${result.ratio.toFixed(3)} (limit ${result.maximumRatio}). Opening-input budgets: ${result.openingBudgetPassed ? "passed" : "FAILED"}.\n\nPeak RSS: base ${result.peakRssMiB.base.toFixed(1)} MiB; head ${result.peakRssMiB.head.toFixed(1)} MiB.\n\nSeed ${result.seed}; place ${result.placeKey}; ${result.measuredPairs} measured pair(s) of ${policies.measuredRuns} after ${result.warmupRuns} warmup run(s) of ${2 * policies.warmupRuns}.\n\n` +
       (profiles.head?.self
         ? "Slowest sampled head functions (profiles include opening and month):\n\n" +
           profiles.head.self

@@ -13,7 +13,7 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { nextPairFits, paired, profileFits } from "./paired.mjs";
+import { nextPairFits, paired, profileFits, warmupFits } from "./paired.mjs";
 import { runMonth } from "./month.mjs";
 const scripts = dirname(fileURLToPath(import.meta.url));
 
@@ -137,4 +137,16 @@ test("another pair or a profile starts only while its last time fits what is lef
   assert.equal(profileFits(run * 1.1, run), false);
   assert.equal(profileFits(9 * 60_000, run), true);
   assert.equal(profileFits(3 * 60_000, run), false);
+});
+
+test("the head's warmup runs only while it and one pair fit what is left", () => {
+  // Twelve minutes a run, as Derry, New Hampshire's year took on a four-core
+  // container: after the base's warmup 33 minutes are left, too few for the
+  // head's warmup and a pair (39.6 minutes), so the head starts cold.
+  const slow = 12 * 60_000;
+  assert.equal(warmupFits(33 * 60_000, slow), false);
+  // On GitHub's runner (about six minutes a run) both warmups still run.
+  assert.equal(warmupFits(39 * 60_000, 6 * 60_000), true);
+  assert.equal(warmupFits(3 * slow * 1.1, slow), true);
+  assert.equal(warmupFits(3 * slow * 1.05, slow), false);
 });
