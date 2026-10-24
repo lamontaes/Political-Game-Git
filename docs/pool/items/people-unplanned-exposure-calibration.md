@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/data/renewal/parameters.json, src/core2/births-unplanned.ts, data/research/people/
 
 **Notes.** Found while repairing src/core2/renewal.test.ts on PR #5749: Hopkins SC, Yuba WI and Tamuning GU (seed probe1) had 12, 2 and 14 couples and 0 unplanned in a year.
+
+Sent back 2026-10-23 from PR #5788 (branch claude/unplanned-exposure-calibration): the PR targets main while parents 5757, 5749 and 5695 are still open; its integrated diff includes the pregnancy engine, counted-tier code and provider research (11 files, 1808 lines), not just the declared parameter row, so correct the base or provide full-stack scope and checks; finish on that branch, merge main into it first.
