@@ -1,5 +1,17 @@
 [
   {
+    "id": "SG-WORLD-salem-county-sales-rate",
+    "kind": "missing-data",
+    "file": "data/research/laws/local-starting-law/sales-tax.json",
+    "line": 1477,
+    "whatItFakes": "Sales in Salem County, New Jersey and in the state's Urban Enterprise Zones are taxed at the full state rate of 6.625 percent; by state law their sellers collect half that, 3.3125 percent.",
+    "why": "The starting law keeps one state sales-tax rate per state and a local add-on; a county or zone whose state rate is reduced has no row of its own. The Tax Foundation table folds the reduction into a negative local average, which a local add-on cannot be, so New Jersey now has no local-average row, like the other states without local sales taxes.",
+    "addedBy": "claude/nj-local-sales-tax",
+    "addedAt": "2026-10-24",
+    "replacement": "A county and zone sales-tax row read from the state statute, so a seller in Salem County or an Urban Enterprise Zone charges its reduced state rate.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-staff-hire-out-of-work",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
@@ -3101,9 +3113,9 @@
     "id": "SG-GOV-outside-revenue-monthly",
     "kind": "faked-mechanic",
     "file": "src/core2/data/outside-flows.json",
-    "line": 210,
-    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes come from named groups of payers on their due dates), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
-    "why": "Real payers outside the town (the rest of the state's taxpayers, fee payers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
+    "line": 228,
+    "whatItFakes": "Each month, a state, county, city or federal treasury receives from the town's outside account an even twelfth of the yearly revenue no flow in the game pays (state and federal aid come from the treasury above it; corporate, customs, excise, estate and gift, selective sales and vehicle taxes, and charges and fees, come from named groups of payers on their due dates), and pays each spending line an even twelfth: what the town's engines paid on the line stays in town, the town's share of purchases goes to its businesses, and the rest goes to the outside account as spending elsewhere.",
+    "why": "Real payers outside the town (the rest of the state's taxpayers) and real payees (contractors and public workers elsewhere) aren't modeled; their real dates (aid schedules, tax due dates, payrolls) aren't in data yet.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each revenue line from its real payer on its real dates, and each spending line to its real payees on theirs.",
@@ -3118,7 +3130,7 @@
     "why": "gov-outside-revenue-fees-wiring (p1): the fees line was an even twelfth from the outside account that no household or business paid. The game does not yet model each service's use (a student's tuition, a hospital stay, a sewer bill by dwelling), so the charges follow what a household spends.",
     "addedBy": "CLAUDE-GOV",
     "addedAt": "2026-10-16",
-    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines.",
+    "replacement": "Each service paid by the people who use it on the day they use it: tuition by enrolled students' households, hospital charges by patients' visits, sewer and trash by dwellings and businesses, parks and tolls by trips, from the school, health and travel engines. (pool item gov-service-charges-by-use).",
     "status": "open"
   },
   {
@@ -3527,7 +3539,8 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
     "replacement": "A finance-engine draw for a residents wage flow (journal-balanced, up to the line's room), called from residents settle() before the shortfall is recorded.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "A counted employer short of cash on payday now draws its approved credit line for what its cash and savings could not pay (api.drawWageFlowCredit, a finance-cash credit transfer whose trigger is the wage flow), and only what the line cannot cover is recorded as a shortfall."
   },
   {
     "id": "SG-WORLD-staff-husk-work",
@@ -5472,11 +5485,11 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "The size of the web's participation effects on who is at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size.",
+    "whatItFakes": "The size of the web's participation effects on mothers and married women at work: the engine adds the log of the web's factor to a deterministic choice score, which reaches the records but is not fitted to the researched size. The older workers' term has its own fitted weight (jobsOlderWorkWebWeight).",
     "why": "Measured in a played town: an older-work effect of +0.3 (a 30% change in the researched outcome) moved the share of 62 to 67 year olds at work from 0.656 to 0.677, about 3%, because the choice scores are logistic and the entry and exit pulls are small.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
-    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women, ages 62 to 67).",
+    "replacement": "A weight on the term, fitted in a played year so each group's share moves by the researched size (mothers, married women), as jobsOlderWorkWebWeight is for ages 62 to 66.",
     "status": "open"
   },
   {
@@ -6533,6 +6546,18 @@
     "addedBy": "effects lead (web-views-lived-crime-moves-stance)",
     "addedAt": "2026-10-24",
     "replacement": "people-counted-victims-lived-crime: each counted group a tally row names moves its view on the police by the full victim's rule times the tally's count, citing the tally row, and a member filled in from that group holds the moved view.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-fee-level-by-bill",
+    "kind": "owner-decision",
+    "file": "src/core2/budgets-service-charges.ts",
+    "line": 129,
+    "whatItFakes": "A government's charges and fees follow its budget's charges line; no council or legislature bill sets a fee's level (a transit fare, a park fee), so a player cannot raise one by bill.",
+    "why": "Whether councils set fees by bill is the owner's call: a real-world step the game lacks is a question, not a feature (DECISION-REGISTER, Oct 14). Asked in OWNER-DECISIONS.md, Open.",
+    "addedBy": "claude/outside-revenue-fees",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's ruling: either the charges line stays the budget's, or a fee-schedule provision on a bill that the budget's charges line and the households' payments read. (pool item gov-fee-level-by-bill).",
     "status": "open"
   }
 ]

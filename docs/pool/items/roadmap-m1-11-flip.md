@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/quirky-ride-vrwwz4-m1-11-flag
+status: open
+claimed-by:
 pr: #5972
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T19:23:24.450Z
+claimed-at:
 ---
 
 **What.** M1-11 reads 'Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.' Its command now runs drives-economy.test.ts and the played-year check (src/bench/m1-11-check.ts, merged with #5959). On main 24b7349573 the runner draws Steamboat Springs, Colorado, where all three kinds of event happened in the year and the check passes.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T19:23:24.450Z
 **Files.** docs/roadmap/features.json, docs/reports/m0-m2-lead-2026-10-24/
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5972 (branch claude/quirky-ride-vrwwz4-m1-11-flag): m1-11-check.ts reconstructs event occurrence from drive answers and marks a missing kind not exercised, so an occurring eviction or closure whose response path disappears can pass; count producer events independently and add a missing-response break-it regression while another kind still answers, then finish on that branch, merge main into it first. The small-sample bound and verified screenshot are not this objection.

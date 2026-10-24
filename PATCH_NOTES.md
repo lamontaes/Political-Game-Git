@@ -296,6 +296,84 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.23.5
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A town's clerk now shows up on the town office's staff, and a newly hired
+  clerk replaces one who left.** Towns record their government under the
+  municipal-government classification, which the public-office list did not
+  recognize, so a town's clerk was left off the office staff while a county's
+  clerk was listed. The town office is now built from the same recorded
+  government facts as the county office, with its clerk on the staff. An
+  office's staff now follow its jobs: a clerk hired during play joins the list
+  and one who leaves comes off it.
+
+- **A business short of cash on payday now draws its credit line to pay its
+  workers.** An employer with an approved credit line now draws on it when its
+  cash runs short on payday, instead of leaving its workers' pay unpaid. A
+  business with credit room no longer piles up unpaid wages and closes over
+  them.
+
+- **Households in the wider population now carry living costs they could not
+  pay.** A group of counted households that cannot pay its living cost on the
+  first of the month is asked again each day until money arrives, as a full
+  household already is.
+
+## PRE-ALPHA 0.23.4
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A retiree in the town's wider population takes their Social Security with
+  them when they move away** When a household from the town's wider population
+  moved away, a Social Security award one of its members had claimed during play
+  kept paying into the town they left. It now ends the day they leave.
+
+## PRE-ALPHA 0.23.3
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A town's year no longer stops when you meet a new firm's worker** A year no
+  longer stops partway when you meet someone a newly founded business hired, as
+  it did in Long Hill, Connecticut in October. Their paycheck now comes on their
+  own employer's payday.
+
+## PRE-ALPHA 0.23.2
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A governor who takes office mid-year starts the job the next office day**
+  When a governor left office during the year, the successor could sit in the
+  seat as a name only until some other part of the game happened to look at the
+  seat: weeks, or in Guam five months, with no clemency petitions taken up. Now
+  the successor becomes a full person on the governor's next office day and
+  takes up the weekly petitions from then on.
+
+## PRE-ALPHA 0.23.1
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Bail posted by the town's wider population is held by the court and
+  returned** When people in the town's wider population are charged and post
+  bail, the money now leaves their households' funds for the county court's
+  escrow and comes back when the case closes, as it already did for the people
+  you meet.
+
+- **An office created after the opening has no holder before its first term** An
+  office its law creates after the game opens, such as a new lieutenant
+  governor, has no holder until its first term. Its first election fills it, and
+  if nobody wins, the office's vacancy rule does.
+
 ## PRE-ALPHA 0.23.0
 
 _Released October 24, 2026._
