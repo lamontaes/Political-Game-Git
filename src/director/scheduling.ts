@@ -81,8 +81,7 @@ export interface SituationType {
   awaiting?: readonly string[];
   /**
    * A scene that never stops the player's day: it waits its turn by the life's
-   * pace however strongly it was felt (an invitation to a cause meeting; owner,
-   * Oct 20: a well-known mayor was interrupted by 79 of them in a year).
+   * pace however strongly it was felt (an invitation to a cause meeting).
    */
   waits?: boolean;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
@@ -202,8 +201,7 @@ export function paceRank(
 /**
  * What a heard speech was given at: a campaign stop, a remark at a meeting, a
  * hearing, a party meeting, a press attack or a state address. A council
- * remark is not a campaign event (owner, Oct 20: scenes need the right
- * reason).
+ * remark is not a campaign event.
  */
 export function speechOccasion(
   core: Readonly<CoreState>,

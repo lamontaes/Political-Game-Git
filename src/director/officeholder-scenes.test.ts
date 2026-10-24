@@ -4,8 +4,7 @@ import type { CoreState } from "../core2/types";
 import type { Moment } from "./types";
 import type { PersonLedger } from "./ledger";
 
-// An officeholder's desk record stages scenes (owner, Oct 19: "start as the
-// president and see what the simulation does for their life"): the signer
+// An officeholder's desk record stages scenes: the signer
 // meets the press and their aide, the sponsor hears from the executive, and
 // a veto is told as a veto. The cause's own facts decide which, by value and
 // by whom they name.

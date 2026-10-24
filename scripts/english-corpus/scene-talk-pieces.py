@@ -1,9 +1,9 @@
 # Authoring source for data/english/parts/scene-talk.json (development tooling).
-# Each L() row is a piece authored to the calibrated patterns (owner text rule, Oct 15),
+# Each L() row is a piece authored to the calibrated patterns,
 # scoped by purpose, step, move and the reply it answers; blocks are applied in order and
 # later DROP sets remove lines the owner cut. Run from the repo root: python3 scripts/english-corpus/scene-talk-pieces.py,
 # then: node --import tsx scripts/english-corpus/tag-moves.ts && npx prettier --write data/english/parts/scene-talk.json
-# Every piece plays unless the owner's grades reject it (owner, Oct 24: grades tune the engine, they never gate it):
+# Every piece plays unless the owner's grades reject it:
 # a piece the grade ledger (data/english/part-grades.json, from apply-grades.ts) holds is written held (shippable false).
 import json,re,collections
 VOTE=['ask-vote','confirm-vote','section-bargain']
@@ -245,7 +245,7 @@ L('close','press',A,'desk-bill',[("Let me know when you've decided.","calm")],ou
 L('close','press',A,'staff-news',[("We need a plan by morning.","braced")],outcome='open')
 L('close','warn',A,'staff-news',[("This isn't going away on its own.","solemn")])
 
-# ================= BATCH 14 REVISIONS (owner's batch-13 review, Oct 15, night) =================
+# ================= BATCH 14 REVISIONS =================
 DROP={"Got a minute for {outlet}?","Who's your source?","Let's not get ahead of ourselves.","I'm a no, and I'll say why to anyone who asks.",
  "I'll be at the doors with you this weekend.","Find me more people for the doors.","That's all we need to hear.","You've got it. We'll double the list.",
  "I need a few days.","Give me until the vote.","Make it smaller, and you'll have my vote.","I'll vote yes if you help me with mine.",
@@ -316,7 +316,7 @@ L('follow','thank',A,'family-filing',[("Okay. Next time, tell me first.","hurt")
 L('reply','promise',Y,'family-absence',[("This weekend is ours. No calls.","tender")],after='press')
 L('reply','promise',Y,'family-absence',[("This weekend is ours. No calls.","tender")],after='plea')
 L('reply','thank',Y,'family-win',[("I couldn't have done it without you.","glad")])
-# ================= LIES (owner, Oct 15 night: "add lies in, different ways to test that") =================
+# ================= LIES =================
 # The player can lie in a reply. Whether the asker catches it is not a roll:
 # an asker holding the record that contradicts it (fact `knows-truth`, with
 # {source} naming where they learned it) calls it out; one who doesn't takes
@@ -430,7 +430,7 @@ L('follow','plea',A,'donor-ask',[("I've stood by you from the start.","tender"),
 L('follow','plea',A,'party-ask',[("The party stood behind you when you needed it.","tender"),("We don't have anyone else who can win it.","anxious")])
 L('follow','accept',A,'party-ask',[("Good. Don't take too long.","calm")],after='lie')
 L('follow','bargain',A,['ask-vote','confirm-vote'],[("I'll make sure your district comes first in the next budget.","calm")],after="What's in it for my district?")
-# ================= BATCH 15 REWRITE (owner's batch-14 review, Oct 16; docs/research/words-real-exchanges.md) =================
+# ================= BATCH 15 REWRITE =================
 DROP2={"I'm not going to talk about that.","Then put this in the story: I'm proud of my vote.","You're right. I shouldn't have said that.","All right. Here's the truth.",
  "Thank you for telling me straight.","Great rally.","They loved you up there.","What do you need from us this week?",
  "More people knocking on doors. Bring a friend next time.","Get me more volunteers for door knocking.","I'll go door knocking with you this weekend.",
@@ -934,7 +934,7 @@ L('follow','thank',A,F,[("That's all I'm asking.","glad")])
 L('follow','press',A,F,[("Somebody. Not you?","hopeful")],after='offer')
 L('follow','answer',A,F,[("He's been looking a long time. Nothing comes through.","calm")],after='ask')
 E[:]=[e for e in E if not (e['step']=='open' and e['move']=='call-to-order' and False)]
-# ================= FALLBACK BY SITUATION KEY (owner, Oct 16: every conversation, even unwritten ones) =================
+# ================= FALLBACK BY SITUATION KEY =================
 # Plain pieces any situation of a key can use when nobody has written its purpose yet. Authored purposes win.
 G=lambda k:'*:'+k
 k=G('loss')
@@ -1089,7 +1089,7 @@ L('follow','thank',A,G('news-received'),[("Tomorrow, then.","calm")],after='answ
 L('reply','thank',Y,G('news-received'),[("Thanks. Tell me when you know more.","calm")],after='answer')
 L('reply','answer',Y,'hearing-testify',[("How it was done. Ask us first, and I'll sit down.","calm")],after="Is your concern the bill, or how it was done?")
 L('reply','leave',Y,'neighbor-argument',[("Forget it. Enjoy your shopping.","guarded")],after='ask')
-# ================= BATCH 16 REVIEW (owner, Oct 16 afternoon): say what happened, mirror escalation, "Why?", endings land =================
+# ================= BATCH 16 REVIEW: say what happened, mirror escalation, "Why?", endings land =================
 DROP6={"I've lived on that street a long time, and you just made it worse.","Numbers. Come stand on my corner at five.","I'll come stand on your corner at five. Tomorrow.",
  "I still don't like it. But okay.","I'm just here for cereal.","Enjoy your cereal.","I've been to meetings.",
  "Is that the only reason on the petition?","You're telling people I did things I didn't do.","Have a good day.",
@@ -1383,7 +1383,7 @@ L('follow','accept',A,'victory-night',[("Door by door. Write that on your hand."
 L('close','accept',A,'victory-night',[("Go. They're waiting.","glad")],after='leave',outcome='open')
 L('follow','accept',A,'signing-ask',[("Moved up a year. I can live with that.","calm")],after="Then I'll want my district's line moved up a year.")
 L('follow','thank',A,'veto-call',[("Next year, then. Bring me a cheaper one.","calm")],after="Then it dies. I'll be back with it next year.")
-# ================= BATCH 18: the owner's batch-17 review (Oct 19) =================
+# ================= BATCH 18: the batch-17 review =================
 def DROPT(texts):
     E[:]=[e for e in E if e['text'] not in texts and e['after'] not in texts]
 def RELINK(text,after):
@@ -1647,7 +1647,7 @@ L('reply','leave',Y,'filing-clerk',[("Forget I asked.","calm")],after='refuse')
 L('close','accept',A,'filing-clerk',[("Already forgotten. The forms will be here.","calm")],after="Forget I asked.",outcome='open')
 DROPT({"I'll answer this at the next council meeting."})
 L('reply','leave',Y,'recall-confront',[("I'll answer this at my next town hall.","calm")])
-# ================= BATCH 19: every line new, lives on record (owner, Oct 19) =================
+# ================= BATCH 19: every line new, lives on record =================
 DROPT({"Write down your number. I'll call you this week.","Which part of it hit you? I ask because if it's landing wrong on your street, I want to know."})
 F='neighbor-argument'
 L(N,N,R,F,[("{name} stops you in the parking lot outside the hardware store, keys still in hand.","braced")])
@@ -2539,7 +2539,7 @@ REMOVE("More than it saves anybody. That's my whole point.","confront")
 REMOVE("Because I've watched my neighbors wait for it for years.","thank")
 G('hearing-testify','follow','warn',A,"More than it saves anybody. That's my whole point.",[("Thank you. Please keep to the time.","calm")])
 G('hearing-testify','follow','promise',A,"Because I've watched my neighbors wait for it for years.",[("Thank you. That's in the record.","calm")])
-# ================= BATCH 20: a president's and a mayor's year as lived (owner, Oct 19) =================
+# ================= BATCH 20: a president's and a mayor's year as lived =================
 # Every line rests on what the cause record says happened: a signing, a bill just introduced,
 # a re-election filing, the question a resident asked at a town hall.
 P='press-comment'

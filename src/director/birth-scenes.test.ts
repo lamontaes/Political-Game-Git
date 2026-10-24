@@ -10,9 +10,8 @@ import { RENEWAL_MODULE_ID } from "../core2/modules/renewal";
 import { coreAPI } from "../core2/state";
 import { composeScene } from "./scene";
 
-// A birth in the household is a scene for each parent (owner, Oct 15: scenes
-// fire from recorded causes): someone close comes by to see the baby and asks
-// how the parent is actually doing (owner, Oct 19, batch 17). The cause is the birth record the
+// A birth in the household is a scene for each parent: someone close comes by to see the baby and asks
+// how the parent is actually doing. The cause is the birth record the
 // renewal engine wrote, and that record names the plan the couple made, so the
 // scene can answer why the child came. Places are drawn in turn until a year
 // of one has a birth to a couple the director watches.

@@ -4335,7 +4335,7 @@
     }
   },
   "keys": {
-    "note": "The fallback for any situation with no purpose yet (owner, Oct 16: the English engine builds every conversation, crudely until it is written). One arc per situation key; pieces whose use names purpose \"*\" and the key serve it, and an authored purpose always wins.",
+    "note": "The fallback for any situation with no purpose yet. One arc per situation key; pieces whose use names purpose \"*\" and the key serve it, and an authored purpose always wins.",
     "loss": {
       "state": "tell",
       "replies": ["thank", "tell", "ask", "deflect"],

@@ -3547,7 +3547,7 @@
     },
     {
       "key": "new-baby",
-      "note": "A birth on record brings someone close to the new parent to the door (owner, Oct 16: the engine must build a conversation for having a baby).",
+      "note": "A birth on record brings someone close to the new parent to the door.",
       "roles": [
         {
           "key": "parent",
