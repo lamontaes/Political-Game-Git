@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/affectionate-clarke-7dknew
+status: open
+claimed-by:
 pr: #5879
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T05:04:28.044Z
+claimed-at:
 ---
 
 **What.** The existing month-facts outcome-news test fails on clean main in Santa Rita, Guam. Its February event exists but lacks the rent fact that the test requires after shifting the prior web row. This reproduces with OUTCOME_NEWS_SEED=3483bea3d0727b46, independently of PR 5879 and its new stance reader.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T05:04:28.044Z
 **Files.** src/core2/outcome-news.test.ts, src/core2/outcome-news.ts, src/core2/modules/outcome-web.ts
 
 **Notes.** Merger 3 reproduced on clean main plus only pool Notes (source main 4686078233). The isolated existing records-a-month test fails in 50.1 seconds at line 89, expected f[webFactKey(RENT)] truthy but got undefined. Same failure at line 187 of PR #5879; the new rent-year test also fails there separately.
+
+Sent back 2026-10-24 from PR #5879 (branch claude/affectionate-clarke-7dknew): PR remains unmerged because its primary item explicitly requires the deferred counted-reader stance path; Guam shift repair is present and no fresh regression failure is claimed; finish on that branch, merge main into it first.
