@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T00:37:13.365Z
 ---
 
 **What.** CI's golden-path-year job on PR 5647 failed the M0-13 assertion 'counted voters vote in local races' in tests/golden-path/played-world.node-test.ts, on Randall, Kansas (place key 2058450, seed 1f131a5a). A merger check on Oct 23 found the same failure on clean main, so it is not that PR's. Find why the counted tier casts no votes in that place's local races in a played year, whether no local race is held, the counted voter groups are not eligible, or the vote count skips them, and fix it at the root.
