@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-cause-weekly-contacts
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T06:37:48.095Z
 ---
 
 **What.** A person holding a drive is offered a visit to every person they have a tie with, every day, and sharing a cause adds a tie with each person told, so in Bedford, Wyoming the contact offers grow from 111,000 in year one to 523,000 in year three. The owner's open question is whether activists contact only people they know; the simplest version that follows AGENTS.md is that a person with a cause weighs, each week, only the ties that pull hardest at the week's first look (hours lost, near or far, the same pull the chooser reads), up to causeHolderWeeklyContacts (TUNABLE). Everyone without a drive, and anyone with no more ties than the shortlist, is unchanged. It is built behind the owner-decision stopgap SG-PEOPLE-cause-holder-weekly-contacts.
