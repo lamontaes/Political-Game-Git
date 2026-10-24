@@ -25,6 +25,10 @@ claimed-at:
 
 - Cloud merger, after #5733 merged: the staying-out pull is recorded at 3.8 to 4.4, but the share of local seats with one candidate is still 85 to 92 percent against the band of 58 to 75, so this item stays open.
 
+Oct 21 (claude, PR #5592): another pooled measurement on main with #5756 merged, `candidacy-calibration.test.ts` seed lr1: 43 of 48 local seats with no more candidates than seats, 90 percent (99 percent interval 73 to 96), places Daniels Farm CT, Penalosa KS, Mansfield SD and others named in the test output; Monarch MT decided no contest. Same direction as the 85 percent above: the pull alone does not reach the band. The test now names the place and seed when a drawn year stops (it stopped in Monarch MT on a housing defect, fixed in PR #5772). Not a duplicate item: elections-local-races-too-uncontested keeps the cause search; this one keeps the pull's value.
+
 Sent back 2026-10-23 from PR #5774 (branch claude/uncontested-note): Missing release declaration (impact none is appropriate for notes) and bounded measurement-note Done-when table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5806 (branch claude/share-above-band): Required prerequisite #5804 is still open and its calibration test absent; update the stale acceptance test path in place and rerun after integrating that prerequisite; finish on that branch, merge main into it first.
+
+Merger 2: Left PR #5774 pending on 2026-10-24 UTC (branch claude/uncontested-note, integrated head d1dd2f5bba69457d3c4131a5fd6f9009dac57de6): the cloud environment became unavailable during the local gate, so its final result is unknown. No merge or done flip was attempted. Merge current main and rerun the local gate when an environment is available; the calibration item remains open.

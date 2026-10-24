@@ -27,7 +27,13 @@ import localYears from "../data/budgets/local-fiscal-years.json" with { type: "j
 import localSplit from "../../../data/research/budgets/local-spending-by-type.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import { makeIsoDate } from "../kernel/dates";
+import type {
+  HistoryWriter,
+  PreStartModule,
+  PreStartWindow,
+} from "../pre-start";
+import type { CoreAPI, CoreState, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { CashJournalSourceSlot } from "../journal-state";
@@ -191,8 +197,45 @@ function withholdingSlot(
   return slot;
 }
 
-export const BUDGETS_MODULE: CoreModule = {
+/**
+ * Pre-start government pass (M1-14): a budget adopted between the window's
+ * start and day one is entered in the history, from the budget's own record.
+ * Nothing is generated.
+ */
+function budgetHistory(
+  api: CoreAPI,
+  window: PreStartWindow,
+  history: HistoryWriter,
+): void {
+  for (const row of table(api, "budgets").rows()) {
+    const budget = row as unknown as BudgetRow;
+    if (budget.adoptedOn < window.from || budget.adoptedOn > window.through)
+      continue;
+    history.record({
+      id: `budget-adopted:${budget.id}`,
+      date: makeIsoDate(budget.adoptedOn),
+      kind: "budget.adopted",
+      facts: {
+        budgetId: budget.id,
+        governmentId: budget.governmentId,
+        fiscalYear: budget.fiscalYear,
+        adoptedBy: budget.adoptedBy,
+      },
+      publicRecord: true,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: `Budget record ${budget.id}: ${budget.source}`,
+        estimatedFrom:
+          "The opening's carried budget and its adoption date, as the world recorded them.",
+      },
+    });
+  }
+}
+
+export const BUDGETS_MODULE: PreStartModule = {
   id: BUDGETS_MODULE_ID,
+  preStart: { phase: "government", run: budgetHistory },
   state: {
     schemaVersion: 1,
     tables: {
