@@ -467,7 +467,8 @@ export function workersByGroup(
     const m = job ? rt.store.countedMember(job.personId) : undefined;
     if (m === undefined) continue;
     const h = rt.store.households[rt.store.household[m]!]!;
-    out.set(h.group, (out.get(h.group) ?? 0) + rt.store.weightOf(h));
+    // As many workers as the job is paid for (`weighFlow`).
+    out.set(h.group, (out.get(h.group) ?? 0) + rt.store.headsOfJob(h, jobId));
   }
   return out;
 }
