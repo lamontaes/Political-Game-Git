@@ -125,6 +125,7 @@ it(
       // not summed at the end.
       const receipts = new Map<string, TransferReceipt[]>();
       const firstDue = new Map<string, string>();
+      const neverPaid = new Map<string, string>();
       let step = WATCH_DAYS;
       let known = -1;
       let ids: string[] = [];
@@ -149,8 +150,23 @@ it(
         }
         for (const obligationId of ids) {
           const obligation = accounts.obligation(obligationId);
-          const last = obligation?.lastReceipt;
-          if (!obligation || !last) continue;
+          if (!obligation) continue;
+          const last = obligation.lastReceipt;
+          // A share past its first due day with no payment at all was missed.
+          if (!last) {
+            // (A share that ended before its first due day was never owed.)
+            const endedFirst =
+              (obligation.endedAt ?? obligation.endsAt) !== undefined &&
+              (obligation.endedAt ?? obligation.endsAt)! <=
+                obligation.firstDueAt;
+            if (obligation.firstDueAt < core.date && !endedFirst)
+              neverPaid.set(
+                obligationId,
+                `${obligationId}: due ${obligation.firstDueAt}, never paid`,
+              );
+            continue;
+          }
+          neverPaid.delete(obligationId);
           firstDue.set(obligationId, obligation.firstDueAt);
           const seen = receipts.get(obligationId) ?? [];
           if (seen.at(-1)?.id !== last.id) {
@@ -164,7 +180,10 @@ it(
       expect(core.date, `${label}: the played year`).toBe(
         addDays(makeIsoDate(start), YEAR_DAYS),
       );
-      const problems = missedPayments(receipts, firstDue);
+      const problems = [
+        ...missedPayments(receipts, firstDue),
+        ...neverPaid.values(),
+      ];
       expect(problems, `${label}: federal shares not paid when due`).toEqual(
         [],
       );
