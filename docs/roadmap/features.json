@@ -189,7 +189,7 @@
       "golden_path": "world",
       "package": "M1-housing",
       "test": "Rents and home prices in a random place fall within real ranges for its region; an eviction happens only from unpaid rent, through the steps that place's law requires.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-05-check.ts",
       "passes": false
     },
     {
@@ -209,7 +209,7 @@
       "golden_path": "world",
       "package": "M1-budgets-taxes + M1-budgets-programs",
       "test": "In a random place over a year, every level adopts a budget on its real calendar; federal and state money reaches named residents and the town; every dollar balances; spending and taxes per resident fall within real ranges.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-07-check.ts",
       "passes": false
     },
     {
@@ -219,7 +219,7 @@
       "golden_path": "world",
       "package": "M1-business",
       "test": "A year's business openings and closings stay within real rates (Census Business Dynamics Statistics); owners' income comes from profit; across multi-year runs, some businesses add locations without being scripted to.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-08-check.ts",
       "passes": false
     },
     {
