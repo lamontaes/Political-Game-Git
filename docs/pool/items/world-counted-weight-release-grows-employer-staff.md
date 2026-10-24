@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/weight-release-heads
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-23T23:36:12.581Z
 ---
 
 **What.** When a counted household record is filled in, releaseWeight (src/core2/counted-groups.ts) spreads the other households it stood for over its group's remaining records. A remaining record's counted job then stands for more workers (countedHeadsOf reads the household's weight), so its employer's staff and payroll grow without a hire, and layOff (src/core2/modules/jobs.ts) refuses to lay off a record that stands for more heads than the staff is over by. Washington, D.C. at its Census size (seed dc-closures-a, scale 69.4): Dixon's Bowling Lanes (organization_e2a2729e26acde67) went from 49 counted records and 3,406 heads on Jan 20 (69.5 a record) to 35 records and 2,818 heads on Dec 16 (80.5 a record), 26 percent over its sales staff of 2,232, while the same town at the sample size shrank to its target (49 to 31 plus 5 full). Its wages over 340 days were 85 times the sample's against sales 75.6 times, and it closed on 2025-12-25 when the payroll came 36,154,827 short. Find where the released weight should go so an employer's heads follow its staffing decisions, and let a record that stands for many jobs shed part of them.
