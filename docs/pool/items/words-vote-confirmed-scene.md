@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/legislature.ts, src/director/data/director.json, src/director/data/situation-types.json, src/director/purpose-scene.ts, src/director/vote-confirmed-scene.test.ts
 
 **Notes.** Builds on the branch of words-staff-news-bill-lost, which carries the bargain scenes (#5949) and the rest of that chain; the PR carries the chain until it merges.
+
+Sent back 2026-10-24 from PR #5977 (branch words/vote-confirmed-scene): head 79b7bcebdb explicitly carries parent feature #5965 and its #5955/#5953/#5949/#5914/#5942 chain; #5965 checked live still open/unmerged at 77fcc36d3c, so await reviewed main delivery, then finish on this branch, merge main into it first. No completed local scene gate or new runtime defect claimed.
