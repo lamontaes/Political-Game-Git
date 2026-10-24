@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/staff-hire-counted-relocation
-pr:
+pr: #5929
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T07:30:28.997Z
