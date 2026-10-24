@@ -79,7 +79,10 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
       tried.push(`${where}: no full household of two victimized in a year`);
       continue;
     }
+    // Watching changes how a person's days run, so the household is watched
+    // only from the day before the crime.
     const { core, director } = build();
+    advanceCore(core, addDays(makeIsoDate(victimized.date), -1));
     for (const id of core.households.get(victimized.householdId)?.memberIds ??
       [])
       if (core.people.get(id)?.alive) director.watch(core, id);
