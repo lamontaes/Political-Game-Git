@@ -121,7 +121,7 @@ function attempt(drawSeed: string): { proof: string } | { skipped: string } {
       tag: "ESTIMATED",
       asOf: today,
       citation: "The monthly review's demotion, booked for the test.",
-      estimatedFrom: "Owner ruling, Oct 15, 2026: 180 to 240 days",
+      estimatedFrom: "A scheduled demotion exercises the household return path.",
     },
     sourceRecordIds: [householdId],
   });
