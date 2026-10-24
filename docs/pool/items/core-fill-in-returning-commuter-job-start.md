@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T17:25:32.700Z
 **Files.** src/core2/modules/residents.ts, src/core2/state.ts, src/core2/job-lifecycle.ts, src/core2/fill-in-returning-newborn.test.ts, src/core2/fill-in-returning-dead-member.test.ts
 
 **Notes.** Found Oct 24 while gating tests-counted-demotion-retained-cash; the same seeds fail identically with and without that branch's change.
+
+Sent back 2026-10-24 from PR #5900 (branch claude/returning-fill-in-commuter-start): its commuter-ID fix is already on main through #5938 and only its release declaration remains; reconcile the named-seed acceptance and item completion on that branch, merge main into it first.
