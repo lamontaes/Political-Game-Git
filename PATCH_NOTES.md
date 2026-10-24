@@ -296,6 +296,23 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.23.1
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Bail posted by the town's wider population is held by the court and
+  returned** When people in the town's wider population are charged and post
+  bail, the money now leaves their households' funds for the county court's
+  escrow and comes back when the case closes, as it already did for the people
+  you meet.
+
+- **An office created after the opening has no holder before its first term** An
+  office its law creates after the game opens, such as a new lieutenant
+  governor, has no holder until its first term. Its first election fills it, and
+  if nobody wins, the office's vacancy rule does.
+
 ## PRE-ALPHA 0.23.0
 
 _Released October 24, 2026._
