@@ -217,13 +217,37 @@ const LOCAL_PARAMETERS = {
 
 /** The local level's acts as one kit for the office-day registry. */
 export function localOfficeKit(host: OfficeActHost): OfficeActKit {
+  const handlers = officeActHandlers(host);
   return {
     id: "local",
     acts: OFFICE_ACTS,
     parameters: LOCAL_PARAMETERS,
     providers: officeActProviders(host),
-    handlers: officeActHandlers(host) as unknown as OfficeActKit["handlers"],
+    handlers: handlers as unknown as OfficeActKit["handlers"],
+    onDay: (api) => sendHeldBudget(api, host, handlers["propose-budget"]),
   };
+}
+
+/**
+ * On the season's last day, the lines the player set for the budget and has
+ * not yet sent go to the council or board, as the president's request goes
+ * on its date. With none set, the body reads the executive's own rule.
+ */
+function sendHeldBudget(
+  api: CoreAPI,
+  host: OfficeActHost,
+  send: (api: CoreAPI, actorId: string) => void,
+): void {
+  const personId = controlled(api);
+  if (!personId || !host.prepared(api, personId, "propose-budget")?.budget)
+    return;
+  const due = budgetProposalDue(api, host, personId);
+  if (
+    due &&
+    daysBetweenText(api.state.date, due.fiscalYearStarts) ===
+      api.parameter("budgetHearingLeadDays") + api.parameter("one")
+  )
+    send(api, personId);
 }
 
 /** The core data with every registered level's acts of office and their parameters. */

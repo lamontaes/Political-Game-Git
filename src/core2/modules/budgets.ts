@@ -28,7 +28,6 @@ import localSplit from "../../../data/research/budgets/local-spending-by-type.js
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { coreAPI, registerModule } from "../state";
 import { keepsWhy } from "../why-kept";
-import { makeIsoDate } from "../kernel/dates";
 import type {
   HistoryWriter,
   PreStartModule,

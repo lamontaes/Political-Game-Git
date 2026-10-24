@@ -9,6 +9,8 @@
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { budgetLinePick } from "../bench/office";
+import { BenchPlayer } from "../bench/player";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -496,3 +498,134 @@ it("the character's own budget is cut by an aide's read of the council", () => {
     `no mayor with an aide and a budget in 6 places: ${tried.join("; ")}; ${seed}`,
   );
 }, 3_600_000);
+
+it("a played mayor who sets the budget's lines on the office sheet sends them on the season's last day, and the council votes them", () => {
+  const tried: string[] = [];
+  for (let draw = 0; draw < 6; draw += 1) {
+    const place = drawPlace(`${seed}:played:${draw}`, "budget-season-played");
+    const where = `${place.name} (${place.key}), seed ${place.seed}`;
+    const world = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const { core } = world;
+    const api = coreAPI(core);
+    const mayor = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    const city = governments(api).find((g) => g.level === "city");
+    if (!mayor || !city) {
+      tried.push(`${where}: no mayor or city government`);
+      continue;
+    }
+    const mayorId = memberKey(mayor.holder!);
+    const player = new BenchPlayer(core, world.director);
+    player.select(mayorId);
+    // The player's clock, answering every stop as the screen's Continue does.
+    const playTo = (date: string) => {
+      for (let guard = 0; core.date < date && guard < 400; guard += 1) {
+        if (player.pollingPlace) player.leavePolls();
+        const packet = player.packet;
+        if (packet?.kind === "stop") {
+          player.resume({ kind: "stop", pauseId: packet.pauseId });
+          continue;
+        }
+        if (packet?.kind === "choice") {
+          player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+          continue;
+        }
+        player.advance("calendar", date);
+      }
+    };
+    const lead = api.parameter("budgetProposalLeadDays");
+    const hearingLead = api.parameter("budgetHearingLeadDays");
+    const year = Number(core.date.slice(0, 4));
+    const next =
+      `${year}-${city.fiscalYearStart}` > core.date
+        ? `${year}-${city.fiscalYearStart}`
+        : `${year + 1}-${city.fiscalYearStart}`;
+    const open = addDays(makeIsoDate(next), -(lead - 1));
+    if (core.date >= open) {
+      tried.push(`${where}: opened inside the season`);
+      continue;
+    }
+    playTo(open);
+    if (!budgetProposalDue(api, officeHost, mayorId)) {
+      tried.push(`${where}: the season did not open on ${core.date}`);
+      continue;
+    }
+    // On the office sheet the player sets two lines: the largest up a tenth,
+    // the smallest down a tenth (the screen's Add 10% and Cut 10%).
+    const spending = budgetsOf(api, city.id)[0]!.spendingMinor;
+    const ranked = Object.entries(spending)
+      .filter(([, amount]) => amount > 0)
+      .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+    if (ranked.length < 2) {
+      tried.push(`${where}: fewer than two lines`);
+      continue;
+    }
+    const [upLine, upAmount] = ranked[0]!;
+    const [downLine, downAmount] = ranked.at(-1)!;
+    const set = {
+      [upLine]: Math.round(upAmount / 10),
+      [downLine]: -Math.round(downAmount / 10),
+    };
+    for (const [line, change] of Object.entries(set))
+      budgetLinePick(core, mayorId, line, change);
+    // Nothing else is done: the clock runs to the hearing.
+    const lastDay = addDays(makeIsoDate(next), -(hearingLead + 1));
+    playTo(lastDay);
+    expect(
+      budgetPriorities(api, city.id),
+      `${where}: not sent before ${lastDay}`,
+    ).toBeNull();
+    playTo(addDays(makeIsoDate(lastDay), 1));
+    const sentOn = officeActsOf(api, mayorId).find(
+      (r) => r.kind === "propose-budget",
+    );
+    expect(sentOn, `${where}: the budget sent`).toBeDefined();
+    expect(sentOn!.how, where).toBe("did");
+    // The council heard and voted the bill that carries the player's lines.
+    playTo(addDays(makeIsoDate(next), 1));
+    const bill = (
+      api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .rows() as unknown as BillRow[]
+    ).find(
+      (row) =>
+        row.sponsorId === mayorId &&
+        row.provisions.some((p) => p.kind === "budget-line"),
+    );
+    expect(bill, `${where}: the budget bill`).toBeDefined();
+    const sent = Object.fromEntries(
+      bill!.provisions
+        .filter((p) => p.kind === "budget-line")
+        .map((p) => [p.line, p.value]),
+    );
+    const hearing = budgetHearingOf(api, city.id, Number(next.slice(0, 4)));
+    expect(hearing?.proposedBy, where).toBe(mayorId);
+    expect(hearing?.billId, where).toBe(bill!.id);
+    const adopted = budgetsOf(api, city.id).find(
+      (b) => b.adoptedOn === next || b.startsOn === next,
+    );
+    expect(adopted, `${where}: the budget adopted`).toBeDefined();
+    const before = budgetsOf(api, city.id).find(
+      (b) => b.fiscalYear === adopted!.fiscalYear - 1,
+    );
+    // Each line the player set reached the bill, whole or as the council amended it.
+    for (const [line, change] of Object.entries(set)) {
+      const passed = sent[line] ?? 0;
+      expect(
+        Math.sign(passed) === Math.sign(change) || passed === 0,
+        `${where}: ${line} sent ${change}, passed ${passed}`,
+      ).toBe(true);
+      expect(Math.abs(passed) <= Math.abs(change), where).toBe(true);
+    }
+    process.stdout.write(
+      `BUDGET PLAYED ${where}: mayor ${mayorId} set ${JSON.stringify(set)} on the office sheet; sent ${sentOn!.recordId} on ${lastDay}; hearing ${hearing!.id} on ${hearing!.heldOn}; bill ${bill!.id} ${bill!.status} with ${JSON.stringify(sent)}; adopted ${adopted!.id} (${upLine} ${before?.spendingMinor[upLine]} to ${adopted!.spendingMinor[upLine]}, ${downLine} ${before?.spendingMinor[downLine]} to ${adopted!.spendingMinor[downLine]})\n`,
+    );
+    return;
+  }
+  throw new Error(`no drawn town played a mayor's budget: ${tried.join("; ")}`);
+}, 1_800_000);
