@@ -484,13 +484,12 @@ const STATEWIDE = statewideParties as unknown as {
 };
 /**
  * The party holding a statewide executive office at the start, where its
- * election carries party labels (null for a nonpartisan office). The research
- * was compiled without live sources: SG-GOV-statewide-parties-unverified.
+ * election carries party labels (null for a nonpartisan office, or a body no
+ * party holds a majority of). Every row was checked against a live page.
  */
 function statewidePartyOf(stateKey: string, key: string): string | null {
   const row = STATEWIDE.places[stateKey]?.[key];
   if (!row?.partisanElection) return null;
-  stopgap("SG-GOV-statewide-parties-unverified");
   return row.party;
 }
 
