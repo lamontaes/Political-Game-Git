@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: effect-web-schools
+status: open
+claimed-by:
 pr: #5609
 blocked-on:
 source: "Merger review of PR #5609, branch effect-web-schools"
-claimed-at: 2026-10-24T00:10:38.601Z
+claimed-at:
 ---
 
 **What.** PR #5609's school-outcomes reader classifies a full student from household job wages alone. Its counted path reads the household's wages, retirement and unplaced-worker pay through groupKeyOf, so meeting a student can change their income fifth while their recorded pay continues. Use the same recorded household-income basis in both paths instead of dropping income when a person is filled in.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-24T00:10:38.601Z
 Sent back 2026-10-21 from PR #5609 (branch effect-web-schools): Full students use job wages only while counted students include retirement and unplaced pay; Del Carmen student person_827435f90b691499 changes from income fifth 1 to 0 after fill-in while the 84,134-cent fourteen-day unplaced-pay flow remains live. Use one household-income basis and add a transition regression.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5639 (branch effect-web-integration): The capstone carries the same full-wages-only versus counted total-income school classification defect at school-outcomes.ts:128-169; use one income basis and prove fill-in preserves the fifth with positive non-job income; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5609 (branch effect-web-schools): income repair and all nine local school/crime tests passed, but the two new school-standing TUNABLE weights lack their required spread/check evidence; supply that evidence or explain a normalized reference, preserving the income and positive-school proofs; finish on that branch, merge main into it first.
