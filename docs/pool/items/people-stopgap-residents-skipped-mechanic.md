@@ -4,13 +4,13 @@ title: "Stopgaps in residents (skipped-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 3
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/wages-credit-draw
 pr:
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/residents.ts, kind skipped-mechanic"
-claimed-at:
+claimed-at: 2026-10-24T19:21:20.080Z
 after:
 ---
 
