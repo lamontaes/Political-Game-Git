@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-cause-weekly-contacts
-pr:
+pr: #5920
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T06:37:48.095Z
