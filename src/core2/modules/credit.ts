@@ -1101,7 +1101,9 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
     // A missed payment is a hardship of the same Holmes and Rahe size as a
     // layoff, and the borrower's appraisal scales it by who they are
     // (emotion.ts). The coping decisions that follow read the stress it left.
-    if (pastDue > 0 && c.people.has(loan.borrowerId))
+    if (pastDue > 0 && c.people.has(loan.borrowerId)) {
+      // A layoff's size until the owner rules (OWNER-DECISIONS.md, Open).
+      stopgap("SG-TRAITS-missed-payment-stress-size");
       api.emit({
         id: `event:credit.payment-missed:${loan.id}:${c.date}`,
         date: c.date,
@@ -1117,6 +1119,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         },
         ...severityImpulse(api, DEFAULT_HEALTH_DATA.missedPaymentSeverity),
       });
+    }
     const { firstPastDueAt: previousPastDueAt, ...rest } = loan;
     store(api)
       .table("loans")

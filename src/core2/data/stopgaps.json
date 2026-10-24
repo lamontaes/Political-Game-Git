@@ -5622,5 +5622,17 @@
     "addedAt": "2026-10-24",
     "replacement": "Keep a counted person's appraised hardship impulse with the date it landed (a row beside the counted record, written where drives.ts appraises it) and read it, decayed by emotion.ts, in hardshipStress; a person filled in from a group would take it into their affect.",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-missed-payment-stress-size",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/credit.ts",
+    "line": 1106,
+    "whatItFakes": "A missed loan payment raises a borrower's stress by 47 Holmes and Rahe units, the same as being fired (health.json missedPaymentSeverity points at srrsFiredAtWork). The scale's nearest items are a change in financial state (38) and a foreclosure (30).",
+    "why": "The hardship-coping work needed a size for a missed payment, and no ruling names which life-event item it is.",
+    "addedBy": "claude/traits-outcome-hardship-coping",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's choice of the missed payment's Holmes and Rahe item (docs/coordination/OWNER-DECISIONS.md, Open).",
+    "status": "open"
   }
 ]
