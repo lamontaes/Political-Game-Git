@@ -7,8 +7,11 @@
  * the most opposite temperaments are picked by rule and put in focus, as the
  * people a player deals with are, so each act keeps its reasons (why-kept).
  * The test names the decisions where their trait reasons pulled opposite
- * ways (by act record id for daily acts, by the weighed call for the rest)
- * and the outcomes their years ended with, each beside what led there.
+ * ways, each by the record that kept both people's reasons, and the outcomes
+ * their years ended with, each beside what led there. A decision is one
+ * choice between two options both people were offered: seeing someone over
+ * resting (an act record), or opening the door to a canvasser over ignoring
+ * it (a weighed record, which a decline leaves too).
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -30,6 +33,8 @@ const DAYS = 365;
 /** Act records keep every option's reasons for 30 days, so the year is read a week at a time. */
 const HARVEST_DAYS = 7;
 const MAX_DRAWS = 3;
+/** A mean trait reason smaller than this, in score units, counts as no lean either way. */
+const MIN_LEAN = 0.01;
 /** Formula decisions that are civic acts when the answer is yes. */
 const CIVIC_ACTS = new Set([
   "parties.join",
@@ -51,8 +56,8 @@ type Side = "a" | "b";
 interface Weighed {
   kind: string;
   date: string;
-  /** The act record for a daily act, else none (the call itself is the evidence). */
-  record?: string;
+  /** The act or weighed record that kept the reasons. */
+  record: string;
   /** Each option's trait reason (chooser), or the lean toward yes as `yes` against `no` at 0 (formula). */
   trait: Map<string, number>;
   picked: string;
@@ -96,7 +101,7 @@ function samePlightOpposites(
   return best;
 }
 
-/** The pair's daily acts recorded since the last harvest, with every option's trait reason. */
+/** The pair's acts and weighed decisions recorded since the last harvest, with every option's trait reason. */
 function harvest(
   core: CoreState,
   personId: string,
@@ -106,7 +111,11 @@ function harvest(
   for (const id of core.logByPerson.get(personId) ?? []) {
     if (seen.has(id)) continue;
     const row = core.durableLog.get(id);
-    if (row?.kind !== "person.acted" || row.actorId !== personId) continue;
+    if (
+      (row?.kind !== "person.acted" && row?.kind !== "person.weighed") ||
+      row.actorId !== personId
+    )
+      continue;
     seen.add(id);
     const scores = (row.decision as DecisionResult | undefined)?.scores;
     if (!scores?.length) continue;
@@ -157,42 +166,17 @@ function playYear(world: BenchWorld, pair: [PersonState, PersonState]) {
   core.focusPersonIds.add(b.id);
   const before = { a: standing(core, a.id), b: standing(core, b.id) };
   const acts = { a: [] as Weighed[], b: [] as Weighed[] };
-  const calls = { a: [] as Weighed[], b: [] as Weighed[] };
   const civic = { a: new Map<string, number>(), b: new Map<string, number>() };
   const seen = new Set<string>();
   setTraitProbe({
     formula(row) {
       const side = sideOf(row.actorId);
       if (!side || row.yes === undefined) return;
-      calls[side].push({
-        kind: row.decisionId,
-        date: core.date,
-        trait: new Map([
-          ["yes", row.lean],
-          ["no", 0],
-        ]),
-        picked: row.yes ? "yes" : "no",
-      });
       if (row.yes && CIVIC_ACTS.has(row.decisionId))
         civic[side].set(
           row.decisionId,
           (civic[side].get(row.decisionId) ?? 0) + 1,
         );
-    },
-    chooser(row) {
-      const side = sideOf(row.actorId);
-      if (!side) return;
-      const trait = new Map<string, number>();
-      row.actionIds.forEach((id, i) =>
-        trait.set(id, Math.max(trait.get(id) ?? -Infinity, row.traitTerms[i]!)),
-      );
-      if (trait.size < 2) return;
-      calls[side].push({
-        kind: [...trait.keys()].sort().join("|"),
-        date: core.date,
-        trait,
-        picked: row.chosen,
-      });
     },
   });
   try {
@@ -207,80 +191,86 @@ function playYear(world: BenchWorld, pair: [PersonState, PersonState]) {
     setTraitProbe(undefined);
   }
   const after = { a: standing(core, a.id), b: standing(core, b.id) };
-  return { before, after, acts, calls, civic };
+  return { before, after, acts, civic };
+}
+
+interface Differing {
+  kind: string;
+  toward: string;
+  over: string;
+  a: { lean: number; shown: Weighed; picks: number; of: number };
+  b: { lean: number; shown: Weighed; picks: number; of: number };
 }
 
 /**
- * Decision kinds both people faced where the trait reason between the two
- * options they picked most leaned opposite ways on average, with one weighed
- * decision each that shows it: an act record where the day's act was kept,
- * else the weighed call (its kind and date).
+ * Decisions both people faced where the trait reason toward one option over
+ * the other leaned opposite ways on average, each with one weighed decision
+ * per person that shows it. `kindsOf` names the decisions a weighed call
+ * belongs to with the two options it compares.
  */
-function differingReasons(
-  acts: Record<Side, Weighed[]>,
-  calls: Record<Side, Weighed[]>,
-) {
-  const kinds = new Map<string, Record<Side, Weighed[]>>();
-  // Acts first, so a kind the act records cover is named by its records.
-  for (const source of [acts, calls])
-    for (const side of ["a", "b"] as const)
-      for (const w of source[side]) {
-        if (source === calls && kinds.get(w.kind)?.[side].some((x) => x.record))
-          continue;
-        if (!kinds.has(w.kind)) kinds.set(w.kind, { a: [], b: [] });
-        kinds.get(w.kind)![side].push(w);
+function opposite(
+  source: Record<Side, Weighed[]>,
+  kindsOf: (w: Weighed) => [string, string, string][],
+): Differing[] {
+  const kinds = new Map<
+    string,
+    { x: string; y: string } & Record<Side, Weighed[]>
+  >();
+  for (const side of ["a", "b"] as const)
+    for (const w of source[side])
+      for (const [kind, x, y] of kindsOf(w)) {
+        if (!kinds.has(kind)) kinds.set(kind, { x, y, a: [], b: [] });
+        kinds.get(kind)![side].push(w);
       }
-  const out: {
-    kind: string;
-    toward: string;
-    over: string;
-    a: { lean: number; shown: Weighed; picks: number; of: number };
-    b: { lean: number; shown: Weighed; picks: number; of: number };
-  }[] = [];
-  for (const [kind, { a, b }] of kinds) {
+  const out: Differing[] = [];
+  for (const [kind, { x, y, a, b }] of kinds) {
     if (!a.length || !b.length) continue;
-    const counts = new Map<string, number>();
-    for (const w of [...a, ...b])
-      counts.set(w.picked, (counts.get(w.picked) ?? 0) + 1);
-    const options = [...a[0]!.trait.keys()];
-    const ranked = [...options].sort(
-      (x, y) =>
-        (counts.get(y) ?? 0) - (counts.get(x) ?? 0) || x.localeCompare(y),
-    );
+    const picks = (xs: Weighed[], id: string) =>
+      xs.filter((w) => w.picked === id).length;
+    // Toward the option the two picked more often.
     const [toward, over] =
-      options.includes("yes") && options.includes("no")
+      x === "no" && y === "yes"
         ? ["yes", "no"]
-        : [ranked[0]!, ranked[1]!].sort();
+        : picks([...a, ...b], y) > picks([...a, ...b], x)
+          ? [y, x]
+          : [x, y];
     const lean = (w: Weighed) =>
-      (w.trait.get(toward!) ?? 0) - (w.trait.get(over!) ?? 0);
+      (w.trait.get(toward) ?? 0) - (w.trait.get(over) ?? 0);
     const mean = (xs: Weighed[]) =>
-      xs.reduce((s, x) => s + lean(x), 0) / xs.length;
+      xs.reduce((s, w) => s + lean(w), 0) / xs.length;
     const la = mean(a),
       lb = mean(b);
-    if (Math.sign(la) === Math.sign(lb) || la === 0 || lb === 0) continue;
+    if (
+      Math.sign(la) === Math.sign(lb) ||
+      Math.abs(la) < MIN_LEAN ||
+      Math.abs(lb) < MIN_LEAN
+    )
+      continue;
     const show = (xs: Weighed[], sign: number) =>
-      xs.find((x) => Math.sign(lean(x)) === sign) ?? xs[0]!;
-    const picks = (xs: Weighed[]) =>
-      xs.filter((x) => x.picked === toward).length;
-    out.push({
-      kind,
-      toward: toward!,
-      over: over!,
-      a: {
-        lean: la,
-        shown: show(a, Math.sign(la)),
-        picks: picks(a),
-        of: a.length,
-      },
-      b: {
-        lean: lb,
-        shown: show(b, Math.sign(lb)),
-        picks: picks(b),
-        of: b.length,
-      },
+      xs.find((w) => Math.sign(lean(w)) === sign) ?? xs[0]!;
+    const side = (xs: Weighed[], l: number) => ({
+      lean: l,
+      shown: show(xs, Math.sign(l)),
+      picks: picks(xs, toward),
+      of: xs.length,
     });
+    out.push({ kind, toward, over, a: side(a, la), b: side(b, lb) });
   }
-  return out;
+  return out.sort(
+    (p, q) =>
+      Math.abs(q.a.lean - q.b.lean) - Math.abs(p.a.lean - p.b.lean) ||
+      p.kind.localeCompare(q.kind),
+  );
+}
+
+/** Every two options an act record offered, in name order: each is one choice it weighed. */
+function optionPairs(w: Weighed): [string, string, string][] {
+  const ids = [...w.trait.keys()].sort();
+  const pairs: [string, string, string][] = [];
+  for (let i = 0; i < ids.length; i++)
+    for (let j = i + 1; j < ids.length; j++)
+      pairs.push([`${ids[i]} | ${ids[j]}`, ids[i]!, ids[j]!]);
+  return pairs;
 }
 
 describe("two neighbors with opposite temperaments in the same situation", () => {
@@ -300,8 +290,8 @@ describe("two neighbors with opposite temperaments in the same situation", () =>
         continue;
       }
       const [a, b] = pair;
-      const { before, after, acts, calls, civic } = playYear(world, pair);
-      const reasons = differingReasons(acts, calls);
+      const { before, after, acts, civic } = playYear(world, pair);
+      const reasons = opposite(acts, optionPairs);
       const delta = (side: Side) => ({
         ties: after[side].ties - before[side].ties,
         closeness: after[side].closeness - before[side].closeness,
@@ -362,17 +352,14 @@ describe("two neighbors with opposite temperaments in the same situation", () =>
           line: `causes taken up ${da.causes} vs ${db.causes}`,
         },
       ];
-      const evidence = (w: Weighed) =>
-        w.record ?? `weighed ${w.date}, ${w.picked}`;
+      const line = (r: Differing) =>
+        `  ${r.kind} (${r.toward} over ${r.over}): ${a.id} ${r.a.lean.toFixed(3)} (${r.a.shown.record}; ${r.toward} ${r.a.picks} of ${r.a.of}), ${b.id} ${r.b.lean.toFixed(3)} (${r.b.shown.record}; ${r.toward} ${r.b.picks} of ${r.b.of})`;
       console.log(
         [
           `trait end-to-end at ${label}`,
           `pair: ${a.id} and ${b.id}, both working, born ${a.birthDate} and ${b.birthDate}`,
-          `decisions where their trait reasons pulled opposite ways (${reasons.length}):`,
-          ...reasons.map(
-            (r) =>
-              `  ${r.kind} (${r.toward} over ${r.over}): ${a.id} ${r.a.lean.toFixed(3)} (${evidence(r.a.shown)}; ${r.toward} ${r.a.picks} of ${r.a.of}), ${b.id} ${r.b.lean.toFixed(3)} (${evidence(r.b.shown)}; ${r.toward} ${r.b.picks} of ${r.b.of})`,
-          ),
+          `decisions kept in both people's records where their trait reasons pulled opposite ways (${reasons.length}):`,
+          ...reasons.map(line),
           `outcomes:`,
           ...outcomes.map(
             (o) => `  ${o.name}${o.differ ? "" : " (alike)"}: ${o.line}`,
@@ -380,6 +367,12 @@ describe("two neighbors with opposite temperaments in the same situation", () =>
         ].join("\n"),
       );
       expect(reasons.length, label).toBeGreaterThanOrEqual(5);
+      for (const r of reasons)
+        for (const side of [r.a, r.b])
+          expect(
+            world.core.durableLog.get(side.shown.record)?.kind,
+            `${label}: ${r.kind}`,
+          ).toMatch(/^person\.(acted|weighed)$/);
       expect(
         outcomes.filter((o) => o.differ).length,
         `${label}: ${outcomes.map((o) => `${o.name} ${o.line}`).join("; ")}`,
