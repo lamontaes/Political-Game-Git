@@ -44,7 +44,7 @@ import {
   participationShift,
   type LaborFacts,
 } from "../jobs-web";
-import { residentPerson, residentsRuntime } from "./residents";
+import { residentFacts, residentsRuntime } from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -211,7 +211,7 @@ function traitsOf(
 ): Readonly<Record<string, number>> {
   return (
     core(api).people.get(personId)?.traits ??
-    residentPerson(core(api), personId)?.traits ??
+    residentFacts(core(api), personId)?.traits ??
     {}
   );
 }
@@ -1353,7 +1353,7 @@ function layOff(
   // Read before the event: an event can fill a counted worker in, after which
   // the counts no longer hold them.
   const placeId = (c.people.get(job.personId) ??
-    residentPerson(c, job.personId))!.placeId;
+    residentFacts(c, job.personId))!.placeId;
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
@@ -1804,7 +1804,7 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
-    if (!c.people.has(seeker.personId) && !residentPerson(c, seeker.personId)) {
+    if (!c.people.has(seeker.personId) && !residentFacts(c, seeker.personId)) {
       store(api).table("countedSeekers").remove(seeker.personId);
       continue;
     }
@@ -2218,7 +2218,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
     for (const job of countedJobsOf(c, organizationId)) {
       // An owner retires through their business (the business module's closing choice), not off its payroll.
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       if (!person) continue;
       const age =
         daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
@@ -2474,7 +2474,7 @@ function reviewCountedQuits(api: CoreAPI): void {
     for (const job of countedJobsOf(c, organizationId)) {
       if (inCustody(api, job.personId)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
       const payGap = Math.max(0, (going.get(roleOf(job)) ?? pay) / pay - 1);
@@ -2550,7 +2550,7 @@ function reviewCountedLooking(api: CoreAPI): void {
       if (seekers.get(job.personId) || inCustody(api, job.personId)) continue;
       // An owner runs their own business; they don't look for a job elsewhere.
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
       const payGap = Math.max(
@@ -2814,7 +2814,6 @@ function offerToPlayer(
     sourceRecordIds: [id],
   });
   if (!isExplicitlyControlledPersonV1(c, personId)) return;
-  stopgap("SG-WORLD-jobs-offer-deadline-reminder");
   const stopSource = source(
     api,
     `${position.organizationId} offered ${position.title} at ${position.hourlyMinor} cents an hour (${id}).`,
@@ -2840,13 +2839,12 @@ function offerToPlayer(
       recordId: `${id}:deadline`,
       controlledPersonId: personId,
       at: { date: deadline, minuteOfDay: 0 },
-      // A reminder, not a hold: until the play screen can answer an offer
-      // (OPUS-PLAY), a held deadline would stop the clock for good.
-      // stopgapId: SG-WORLD-jobs-offer-deadline-reminder
+      // Held: the clock stops at the deadline until the player answers on
+      // the play screen or the employer's withdrawal settles the offer.
       kind: "interrupt",
       reasonKey: jobsData.reasons.offered,
       source: stopSource,
-      hold: false,
+      hold: true,
     }),
   ]);
 }
@@ -3155,7 +3153,7 @@ export const JOBS_MODULE: CoreModule = {
       // The job ends with the employer today; its wage flow stops paying at its next date.
       if (!job.endsAt && !endCountedJob(core(api), job.id))
         rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
-      const person = residentPerson(core(api), job.personId);
+      const person = residentFacts(core(api), job.personId);
       if (!person) continue;
       record(api, {
         personId: job.personId,

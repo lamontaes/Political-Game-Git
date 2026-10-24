@@ -1,0 +1,1878 @@
+{
+  "id": "unrecorded-holder-parties-2026",
+  "publisher": "National Governors Association; Ballotpedia; Wikipedia",
+  "vintage": "Holders serving in October 2026 (territory legislatures as their pages give them; a vacant legislative seat: the member whose leaving vacated it in 2025 or 2026)",
+  "table": "The party of each holder the game's rosters leave unrecorded (src/core2/modules/officials.ts unrecordedParty), by seat",
+  "title": "Parties of unrecorded officeholders: territory governors and legislatures, offices elected without party labels, and vacant state legislative seats",
+  "universe": "Seats whose holder's party the game's rosters (data/research/offices/legislature-party-counts-2026.json, data/research/offices/statewide-executive-parties-2026.json, the NGA governor list in data/source/electoral-calibration-2024/corpus.json) do not record",
+  "geography": "All 56 places, keyed by postal-code jurisdiction; a place with no unrecorded holder has an empty seats table",
+  "sourceUrl": "https://ballotpedia.org/State_legislative_vacancies,_2026",
+  "retrievedOn": "2026-10-23",
+  "limits": "Holders are those serving when the pages were read (October 2026), as the game's other rosters are, not on the game's start date. A territory legislature is seated at large until its districts are read (SG-GOV-territory-legislature-districts), so its party counts are assigned to its seats in the order listed. appliesTo 'office' means the office's ballot carries no party, so any holder sits without one; 'opening' means the party of the holder at the opening only. Seats in unreadSeats are left to the estimate: six vacancies with no row in Ballotpedia's 2025 or 2026 vacancy tables, and seats the game creates when a Census district name does not match the roster's name (gov-offices-roster-district-name-mismatch); the Virgin Islands boards of education and of elections were not read.",
+  "sources": [
+    {
+      "id": "nga-governors",
+      "publisher": "National Governors Association",
+      "title": "Governors (per-place profile pages)",
+      "url": "https://www.nga.org/governors/"
+    },
+    {
+      "id": "bp-vacancies-2026",
+      "publisher": "Ballotpedia",
+      "title": "State legislative vacancies, 2026",
+      "url": "https://ballotpedia.org/State_legislative_vacancies,_2026"
+    },
+    {
+      "id": "bp-vacancies-2025",
+      "publisher": "Ballotpedia",
+      "title": "State legislative vacancies, 2025",
+      "url": "https://ballotpedia.org/State_legislative_vacancies,_2025"
+    },
+    {
+      "id": "bp-gu-pa",
+      "publisher": "Ballotpedia",
+      "title": "Guam Public Auditor",
+      "url": "https://ballotpedia.org/Guam_Public_Auditor"
+    },
+    {
+      "id": "bp-gu-ccu",
+      "publisher": "Ballotpedia",
+      "title": "Guam Consolidated Commission on Utilities",
+      "url": "https://ballotpedia.org/Guam_Consolidated_Commission_on_Utilities"
+    },
+    {
+      "id": "bp-mp-boe",
+      "publisher": "Ballotpedia",
+      "title": "Northern Mariana Islands Board of Education",
+      "url": "https://ballotpedia.org/Northern_Mariana_Islands_Board_of_Education"
+    },
+    {
+      "id": "wp-gu-leg",
+      "publisher": "Wikipedia",
+      "title": "38th Guam Legislature (revision 1363557618)",
+      "url": "https://en.wikipedia.org/wiki/38th_Guam_Legislature"
+    },
+    {
+      "id": "wp-vi-leg",
+      "publisher": "Wikipedia",
+      "title": "Legislature of the Virgin Islands (revision 1353382117)",
+      "url": "https://en.wikipedia.org/wiki/Legislature_of_the_Virgin_Islands"
+    },
+    {
+      "id": "wp-mp-leg",
+      "publisher": "Wikipedia",
+      "title": "Northern Mariana Islands Commonwealth Legislature (revision 1359604471)",
+      "url": "https://en.wikipedia.org/wiki/Northern_Mariana_Islands_Commonwealth_Legislature"
+    },
+    {
+      "id": "wp-as-fono",
+      "publisher": "Wikipedia",
+      "title": "American Samoa Fono (revision 1361600622)",
+      "url": "https://en.wikipedia.org/wiki/American_Samoa_Fono"
+    },
+    {
+      "id": "wp-as-lg",
+      "publisher": "Wikipedia",
+      "title": "Lieutenant Governor of American Samoa (revision 1373725061)",
+      "url": "https://en.wikipedia.org/wiki/Lieutenant_Governor_of_American_Samoa"
+    },
+    {
+      "id": "wp-mp-ag",
+      "publisher": "Wikipedia",
+      "title": "Attorney General of the Northern Mariana Islands",
+      "url": "https://en.wikipedia.org/wiki/Attorney_General_of_the_Northern_Mariana_Islands"
+    },
+    {
+      "id": "wp-ca-spi",
+      "publisher": "Wikipedia",
+      "title": "California State Superintendent of Public Instruction",
+      "url": "https://en.wikipedia.org/wiki/California_State_Superintendent_of_Public_Instruction"
+    },
+    {
+      "id": "wp-nd-spi",
+      "publisher": "Wikipedia",
+      "title": "North Dakota Superintendent of Public Instruction",
+      "url": "https://en.wikipedia.org/wiki/North_Dakota_Superintendent_of_Public_Instruction"
+    },
+    {
+      "id": "wp-wa-spi",
+      "publisher": "Wikipedia",
+      "title": "Washington Superintendent of Public Instruction",
+      "url": "https://en.wikipedia.org/wiki/Washington_Superintendent_of_Public_Instruction"
+    },
+    {
+      "id": "wp-wi-spi",
+      "publisher": "Wikipedia",
+      "title": "Wisconsin Superintendent of Public Instruction",
+      "url": "https://en.wikipedia.org/wiki/Wisconsin_Superintendent_of_Public_Instruction"
+    },
+    {
+      "id": "wp-or-boli",
+      "publisher": "Wikipedia",
+      "title": "Oregon Bureau of Labor and Industries",
+      "url": "https://en.wikipedia.org/wiki/Oregon_Bureau_of_Labor_and_Industries"
+    },
+    {
+      "id": "wp-hi-oha",
+      "publisher": "Wikipedia",
+      "title": "Office of Hawaiian Affairs",
+      "url": "https://en.wikipedia.org/wiki/Office_of_Hawaiian_Affairs"
+    },
+    {
+      "id": "wp-dc-sboe",
+      "publisher": "Wikipedia",
+      "title": "District of Columbia State Board of Education",
+      "url": "https://en.wikipedia.org/wiki/District_of_Columbia_State_Board_of_Education"
+    }
+  ],
+  "unreadSeats": [
+    "seat:US-FL:lower:116:0",
+    "seat:US-MA:upper:D01:0",
+    "seat:US-MA:upper:D04:0",
+    "seat:US-MA:upper:D05:0",
+    "seat:US-MA:upper:D14:0",
+    "seat:US-MA:upper:D33:0",
+    "seat:US-MA:lower:006:0",
+    "seat:US-MA:lower:074:0",
+    "seat:US-MD:lower:01A:0",
+    "seat:US-MD:lower:01B:0",
+    "seat:US-MD:lower:01C:0",
+    "seat:US-MD:lower:02A:0",
+    "seat:US-MD:lower:02B:0",
+    "seat:US-MD:lower:07A:0",
+    "seat:US-MD:lower:07B:0",
+    "seat:US-MD:lower:09A:0",
+    "seat:US-MD:lower:09B:0",
+    "seat:US-MO:lower:029:0",
+    "seat:US-MO:lower:099:0",
+    "seat:US-MO:lower:159:0",
+    "seat:US-NY:upper:012:0",
+    "seat:US-VT:upper:CHS:0",
+    "seat:US-VI:board-of-education",
+    "seat:US-VI:board-of-elections"
+  ],
+  "places": {
+    "US-AK": {
+      "seats": {}
+    },
+    "US-AL": {
+      "seats": {}
+    },
+    "US-AR": {
+      "seats": {
+        "seat:US-AR:upper:001:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Ben Gilmore",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "June 30, 2026",
+            "Arkansas State Senate District 1",
+            "Ben Gilmore",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-AR:upper:018:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Jonathan Dismang",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "September 15, 2026",
+            "Arkansas State Senate District 18",
+            "Jonathan Dismang",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-AR:lower:008:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Austin McCollum",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 5, 2026",
+            "Arkansas House of Representatives District 8",
+            "Austin McCollum",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-AS": {
+      "seats": {
+        "seat:US-AS:governor": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Pula'ali'i Nikolao Pula",
+          "sourceId": "nga-governors",
+          "url": "https://www.nga.org/governors/american-samoa/",
+          "quote": "Gov. Pula'ali'i Nikolao Pula Terms January 3, 2025 - Current Party Republican"
+        },
+        "seat:US-AS:lieutenant-governor": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Pulu Ae Ae",
+          "sourceId": "wp-as-lg",
+          "quote": "Pulu Ae Ae (b. 1945) Republican January 3, 2025 Incumbent"
+        },
+        "seat:US-AS:upper:At-large:0": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:1": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:2": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:3": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:4": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:5": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:6": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:7": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:8": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:9": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:10": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:11": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:12": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:13": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:14": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:15": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:16": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:upper:At-large:17": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "Senate political groups Non-partisan (18)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:0": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:1": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:2": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:3": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:4": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:5": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:6": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:7": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:8": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:9": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:10": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:11": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:12": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:13": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:14": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:15": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:16": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:17": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:18": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:19": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        },
+        "seat:US-AS:lower:At-large:20": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-as-fono",
+          "quote": "House of Representatives political groups Non-partisan (20) Swains Island delegate (1)",
+          "asOf": "2026-10"
+        }
+      }
+    },
+    "US-AZ": {
+      "seats": {}
+    },
+    "US-CA": {
+      "seats": {
+        "seat:US-CA:superintendent": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-ca-spi",
+          "quote": "The state superintendent of public instruction (SPI) of California is the nonpartisan (originally partisan) elected executive officer of the California Department of Education."
+        },
+        "seat:US-CA:upper:010:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Aisha Wahab",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "September 2, 2026",
+            "California State Senate District 10",
+            "Aisha Wahab",
+            "Democratic Party",
+            "Elected Or Appointed To Another Office",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-CA:lower:003:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "James Gallagher",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "June 11, 2026",
+            "California State Assembly District 3",
+            "James Gallagher",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-CO": {
+      "seats": {
+        "seat:US-CO:lower:032:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Manny Rutinel",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "September 4, 2026",
+            "Colorado House of Representatives District 32",
+            "Manny Rutinel",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Appointment",
+            "October 9, 2026",
+            "Maria Gonzalez",
+            "Democratic Party"
+          ]
+        }
+      }
+    },
+    "US-CT": {
+      "seats": {}
+    },
+    "US-DC": {
+      "seats": {
+        "seat:US-DC:state-board-of-education-president": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-dc-sboe",
+          "quote": "The elections are formally nonpartisan"
+        }
+      }
+    },
+    "US-DE": {
+      "seats": {}
+    },
+    "US-FL": {
+      "seats": {
+        "seat:US-FL:upper:039:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Bryan Avila",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 25, 2026",
+            "Florida State Senate District 39",
+            "Bryan Avila",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-FL:lower:055:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Kevin Steele",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 5, 2026",
+            "Florida House of Representatives District 55",
+            "Kevin Steele",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-FL:lower:078:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Jenna Persons-Mulicka",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "May 20, 2026",
+            "Florida House of Representatives District 78",
+            "Jenna Persons-Mulicka",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-FL:lower:113:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Vicki Lopez",
+          "sourceId": "bp-vacancies-2025",
+          "tableRow": [
+            "November 18, 2025",
+            "Florida House of Representatives District 113",
+            "Vicki Lopez",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-GA": {
+      "seats": {
+        "seat:US-GA:upper:012:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Freddie Sims",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "March 23, 2026",
+            "Georgia State Senate District 12",
+            "Freddie Sims",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-GU": {
+      "seats": {
+        "seat:US-GU:governor": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Lou Leon Guerrero",
+          "sourceId": "nga-governors",
+          "url": "https://www.nga.org/governors/guam/",
+          "quote": "Gov. Lou Leon Guerrero Terms January 7, 2019 - January 2, 2023 January 2, 2023 - Current Party Democratic"
+        },
+        "seat:US-GU:public-auditor": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "bp-gu-pa",
+          "quote": "Public auditors in Guam are elected in nonpartisan elections for four-year terms."
+        },
+        "seat:US-GU:consolidated-commission-on-utilities": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "bp-gu-ccu",
+          "quote": "The commission is composed of five members elected at large in nonpartisan general elections."
+        },
+        "seat:US-GU:unicameral:At-large:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:1": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:2": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:3": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:4": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:5": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:6": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:7": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:8": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:9": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:10": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:11": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:12": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:13": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        },
+        "seat:US-GU:unicameral:At-large:14": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-gu-leg",
+          "quote": "Begin (January 6, 2025) 9 6 15",
+          "asOf": "2025-01-06"
+        }
+      }
+    },
+    "US-HI": {
+      "seats": {
+        "seat:US-HI:office-of-hawaiian-affairs-trustees": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-hi-oha",
+          "quote": "The elections are formally nonpartisan"
+        }
+      }
+    },
+    "US-IA": {
+      "seats": {
+        "seat:US-IA:upper:011:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Julian B. Garrett",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "June 9, 2026",
+            "Iowa State Senate District 11",
+            "Julian B. Garrett",
+            "Republican Party",
+            "Death",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-ID": {
+      "seats": {}
+    },
+    "US-IL": {
+      "seats": {}
+    },
+    "US-IN": {
+      "seats": {}
+    },
+    "US-KS": {
+      "seats": {}
+    },
+    "US-KY": {
+      "seats": {}
+    },
+    "US-LA": {
+      "seats": {
+        "seat:US-LA:upper:014:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Larry Selders",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "July 7, 2026",
+            "Louisiana State Senate District 14",
+            "Larry Selders",
+            "Democratic Party",
+            "Death",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-LA:lower:092:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Joe Stagni",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "June 30, 2026",
+            "Louisiana House of Representatives District 92",
+            "Joe Stagni",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-MA": {
+      "seats": {
+        "seat:US-MA:lower:042:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Natalie Blais",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "January 19, 2026",
+            "Massachusetts House of Representatives 1st Franklin District",
+            "Natalie Blais",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-MA:lower:075:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Vanna Howard",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "March 18, 2026",
+            "Massachusetts House of Representatives 17th Middlesex District",
+            "Vanna Howard",
+            "Democratic Party",
+            "Elected Or Appointed To Another Office",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-MD": {
+      "seats": {}
+    },
+    "US-ME": {
+      "seats": {}
+    },
+    "US-MI": {
+      "seats": {}
+    },
+    "US-MN": {
+      "seats": {
+        "seat:US-MN:lower:21A:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Joe Schomacker",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "June 21, 2026",
+            "Minnesota House of Representatives District 21A",
+            "Joe Schomacker",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-MO": {
+      "seats": {
+        "seat:US-MO:upper:010:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Travis Fitzwater",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "May 15, 2026",
+            "Missouri State Senate District 10",
+            "Travis Fitzwater",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-MO:lower:095:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Michael O'Donnell",
+          "sourceId": "bp-vacancies-2025",
+          "tableRow": [
+            "January 15, 2025",
+            "Missouri House of Representatives District 95",
+            "Michael O'Donnell",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-MO:lower:110:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Justin Sparks",
+          "sourceId": "bp-vacancies-2025",
+          "tableRow": [
+            "November 24, 2025",
+            "Missouri House of Representatives District 110",
+            "Justin Sparks",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-MO:lower:114:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Ken Waller",
+          "sourceId": "bp-vacancies-2025",
+          "tableRow": [
+            "August 23, 2025",
+            "Missouri House of Representatives District 114",
+            "Ken Waller",
+            "Republican Party",
+            "Death",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-MO:lower:149:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Donnie Brown",
+          "sourceId": "bp-vacancies-2025",
+          "tableRow": [
+            "August 21, 2025",
+            "Missouri House of Representatives District 149",
+            "Donnie Brown",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-MO:lower:160:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Ben Baker",
+          "sourceId": "bp-vacancies-2025",
+          "tableRow": [
+            "May 4, 2025",
+            "Missouri House of Representatives District 160",
+            "Ben Baker",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-MP": {
+      "seats": {
+        "seat:US-MP:governor": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "David M. Apatang",
+          "sourceId": "nga-governors",
+          "url": "https://www.nga.org/governors/northern-mariana-islands/",
+          "quote": "Gov. David M. Apatang Terms July 24, 2025 - Current Party Republican",
+          "note": "Wikipedia's David M. Apatang page (revision 1376217137) lists him as Independent (2021 to present), elected lieutenant governor on Arnold Palacios's independent ticket; the NGA profile, the source of every other governor's party in the game, lists Republican, and that is kept here."
+        },
+        "seat:US-MP:lieutenant-governor": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Dennis C. Mendiola",
+          "sourceId": "wp-mp-leg",
+          "quote": "Dennis C. Mendiola (Republican)"
+        },
+        "seat:US-MP:attorney-general": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Edward Manibusan",
+          "sourceId": "wp-mp-ag",
+          "quote": "Ed Manibusan (D)",
+          "note": "The page's list of attorneys general by party affiliation; whether the office's ballot carries party labels was not read."
+        },
+        "seat:US-MP:board-of-education": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "bp-mp-boe",
+          "quote": "Elections for the Board of Education are nonpartisan."
+        },
+        "seat:US-MP:upper:At-large:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:upper:At-large:1": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:upper:At-large:2": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:upper:At-large:3": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:upper:At-large:4": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:upper:At-large:5": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:upper:At-large:6": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:upper:At-large:7": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:upper:At-large:8": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "Senate political groups Republican (4) Independent (3) Democratic (2)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:0": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:1": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:2": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:3": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:4": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:5": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:6": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:7": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:8": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:9": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:10": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:11": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:12": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:13": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:14": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:15": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:16": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:17": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:18": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        },
+        "seat:US-MP:lower:At-large:19": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "sourceId": "wp-mp-leg",
+          "quote": "House of Representatives political groups Independent (13) Democratic (4) Republican (3)",
+          "asOf": "2026-10"
+        }
+      }
+    },
+    "US-MS": {
+      "seats": {
+        "seat:US-MS:upper:034:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Juan Barnett",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 31, 2026",
+            "Mississippi State Senate District 34",
+            "Juan Barnett",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-MS:lower:070:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "William Brown",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "June 8, 2026",
+            "Mississippi House of Representatives District 70",
+            "William Brown",
+            "Democratic Party",
+            "Death",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-MS:lower:077:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Price Wallace",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "June 3, 2026",
+            "Mississippi House of Representatives District 77",
+            "Price Wallace",
+            "Republican Party",
+            "Death",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-MT": {
+      "seats": {}
+    },
+    "US-NC": {
+      "seats": {}
+    },
+    "US-ND": {
+      "seats": {
+        "seat:US-ND:superintendent": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-nd-spi",
+          "quote": "The superintendent of public instruction is elected by statewide vote on a no party ballot."
+        }
+      }
+    },
+    "US-NE": {
+      "seats": {}
+    },
+    "US-NH": {
+      "seats": {
+        "seat:US-NH:lower:201:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Dylan Germana",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "January 30, 2026",
+            "New Hampshire House of Representatives Cheshire 1",
+            "Dylan Germana",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-NH:lower:306:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Michael Murphy",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "May 22, 2026",
+            "New Hampshire House of Representatives Coos 6",
+            "Michael Murphy",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-NH:lower:409:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Thomas Oppel",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 3, 2026",
+            "New Hampshire House of Representatives Grafton 9",
+            "Thomas Oppel",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-NH:lower:722:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Kate Murray",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 3, 2026",
+            "New Hampshire House of Representatives Rockingham 22",
+            "Kate Murray",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-NJ": {
+      "seats": {}
+    },
+    "US-NM": {
+      "seats": {
+        "seat:US-NM:lower:037:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Joanne Ferrary",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "July 27, 2026",
+            "New Mexico House of Representatives District 37",
+            "Joanne Ferrary",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Appointment",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-NM:lower:041:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Susan Herrera",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "July 27, 2026",
+            "New Mexico House of Representatives District 41",
+            "Susan Herrera",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Appointment",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-NV": {
+      "seats": {}
+    },
+    "US-NY": {
+      "seats": {}
+    },
+    "US-OH": {
+      "seats": {
+        "seat:US-OH:upper:013:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Nathan Manning",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 3, 2026",
+            "Ohio State Senate District 13",
+            "Nathan Manning",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Appointment",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-OH:lower:066:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Sharon Ray",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "September 14, 2026",
+            "Ohio House of Representatives District 66",
+            "Sharon Ray",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Appointment",
+            "September 30, 2026",
+            "Sean Hutson",
+            "Republican Party"
+          ]
+        }
+      }
+    },
+    "US-OK": {
+      "seats": {
+        "seat:US-OK:upper:024:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Darrell Weaver",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "July 5, 2026",
+            "Oklahoma State Senate District 24",
+            "Darrell Weaver",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-OK:lower:099:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Ajay Pittman",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "January 28, 2026",
+            "Oklahoma House of Representatives District 99",
+            "Ajay Pittman",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-OR": {
+      "seats": {
+        "seat:US-OR:labor-commissioner": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-or-boli",
+          "quote": "It is headed by the Commissioner of Labor and Industries, a nonpartisan, statewide elective office."
+        }
+      }
+    },
+    "US-PA": {
+      "seats": {}
+    },
+    "US-PR": {
+      "seats": {
+        "seat:US-PR:governor": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Jenniffer González-Colón",
+          "sourceId": "nga-governors",
+          "url": "https://www.nga.org/governors/puerto-rico/",
+          "quote": "Gov. Jenniffer González-Colón Terms January 2, 2025 - Current Party Republican",
+          "note": "Puerto Rico's ballot parties are local (her party is the pro-statehood Partido Nuevo Progresista); NGA records her national party, Republican."
+        }
+      }
+    },
+    "US-RI": {
+      "seats": {
+        "seat:US-RI:lower:031:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Julie Casimiro",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 31, 2026",
+            "Rhode Island House of Representatives District 31",
+            "Julie Casimiro",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Regular election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-SC": {
+      "seats": {}
+    },
+    "US-SD": {
+      "seats": {}
+    },
+    "US-TN": {
+      "seats": {
+        "seat:US-TN:lower:084:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Joe Towns Jr.",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "August 31, 2026",
+            "Tennessee House of Representatives District 84",
+            "Joe Towns Jr.",
+            "Democratic Party",
+            "Elected Or Appointed To Another Office",
+            "Appointment",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-TX": {
+      "seats": {
+        "seat:US-TX:upper:022:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Brian Birdwell",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "May 29, 2026",
+            "Texas State Senate District 22",
+            "Brian Birdwell",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-TX:lower:001:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Gary VanDeaver",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "September 21, 2026",
+            "Texas House of Representatives District 1",
+            "Gary VanDeaver",
+            "Republican Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        },
+        "seat:US-TX:lower:093:0": {
+          "party": "Republican",
+          "appliesTo": "opening",
+          "holder": "Nate Schatzline",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "July 2, 2026",
+            "Texas House of Representatives District 93",
+            "Nate Schatzline",
+            "Republican Party",
+            "Elected Or Appointed To Another Office",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-UT": {
+      "seats": {}
+    },
+    "US-VA": {
+      "seats": {
+        "seat:US-VA:lower:020:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Michelle Maldonado",
+          "sourceId": "bp-vacancies-2026",
+          "tableRow": [
+            "May 31, 2026",
+            "Virginia House of Delegates District 20",
+            "Michelle Maldonado",
+            "Democratic Party",
+            "Resigns Before Term Ends",
+            "Special election",
+            "TBD",
+            "TBD",
+            "TBD"
+          ]
+        }
+      }
+    },
+    "US-VI": {
+      "seats": {
+        "seat:US-VI:governor": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "holder": "Albert Bryan",
+          "sourceId": "nga-governors",
+          "url": "https://www.nga.org/governors/virgin-islands/",
+          "quote": "Gov. Albert Bryan Terms January 7, 2019 - January 2, 2023 January 2, 2023 - Current Party Democratic"
+        },
+        "seat:US-VI:unicameral:At-large:0": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:1": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:2": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:3": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:4": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:5": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:6": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:7": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:8": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:9": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:10": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:11": {
+          "party": "Democratic",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:12": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:13": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        },
+        "seat:US-VI:unicameral:At-large:14": {
+          "party": "Independent",
+          "appliesTo": "opening",
+          "sourceId": "wp-vi-leg",
+          "quote": "Begin (January 13, 2025) 12 0 3 15",
+          "asOf": "2025-01-13"
+        }
+      }
+    },
+    "US-VT": {
+      "seats": {}
+    },
+    "US-WA": {
+      "seats": {
+        "seat:US-WA:superintendent": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-wa-spi",
+          "quote": "However, an initiative to the people in 1938 made the position nonpartisan."
+        }
+      }
+    },
+    "US-WI": {
+      "seats": {
+        "seat:US-WI:superintendent": {
+          "party": null,
+          "appliesTo": "office",
+          "sourceId": "wp-wi-spi",
+          "quote": "The superintendent of public instruction is elected by the people of Wisconsin on a nonpartisan statewide ballot"
+        }
+      }
+    },
+    "US-WV": {
+      "seats": {}
+    },
+    "US-WY": {
+      "seats": {}
+    }
+  }
+}
