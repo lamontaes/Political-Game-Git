@@ -312,6 +312,22 @@ export function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
   return Math.round(reserve);
 }
 
+/** A month of the open standing payments out of a treasury's account, from their cadences. */
+export function standingReserve(api: CoreAPI, accountId: string): number {
+  const monthDays =
+    treasuryParameter("daysPerYear") / treasuryParameter("monthsPerYear");
+  let reserve = 0;
+  for (const row of api.accounts().obligationsFrom(accountId)) {
+    const cadence = row.cadence;
+    if (!cadence) continue;
+    reserve +=
+      cadence.kind === "months"
+        ? row.amountMinor / cadence.every
+        : (row.amountMinor * monthDays) / cadence.every;
+  }
+  return Math.round(reserve);
+}
+
 /**
  * A tax the town's own payers paid straight to a treasury (a corporation's
  * profit tax): kept against that line so the outside group that pays the
@@ -862,21 +878,25 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     // The next month's wages, and any earned and unpaid, are kept back from
     // the lines so the payroll is paid first (a treasury that spent it all at
     // each close left its own employees unpaid).
+    // The federal treasury keeps back a month of the standing payments laws
+    // set up from its account (a Medicaid share, a benefit): they fall due on
+    // their own dates between closes, and its daily receipts alone do not
+    // cover them in a small town, so the month's borrowing leaves them funded.
     let have =
       accounts.balance(main) -
-      (gov.level === "federal" ? 0 : payrollReserve(api, gov));
+      (gov.level === "federal"
+        ? standingReserve(api, main)
+        : payrollReserve(api, gov));
     let borrowed = 0;
     const borrowedByHolder: Record<string, number> = {};
     const interestByHolder: Record<string, number> = {};
-    // Its standing payments falling due before the next close (a program's
-    // federal share of a covered adult's care) are the month's payments too.
-    const standing = gov.level === "federal" ? standingDue(api, main, date) : 0;
-    if (gov.level === "federal" && have < need + standing) {
+    if (gov.level === "federal" && have < need) {
       // The U.S. Treasury borrows what the month's payments need beyond what
-      // it holds.
+      // it holds (past the month of standing payments it keeps back), issued
+      // to the groups that hold its debt in their shares.
       Object.assign(
         borrowedByHolder,
-        borrowFederal(api, gov, outside, need + standing - Math.max(0, have)),
+        borrowFederal(api, gov, outside, need - have),
       );
       borrowed = Object.values(borrowedByHolder).reduce((n, v) => n + v, 0);
       have += borrowed;
