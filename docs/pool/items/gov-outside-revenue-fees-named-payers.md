@@ -9,7 +9,6 @@ status: in-pr
 claimed-by:
 pr: #5926
 blocked-on:
-after: gov-outside-revenue-fees
 source: added with npm run pool -- add
 ---
 
