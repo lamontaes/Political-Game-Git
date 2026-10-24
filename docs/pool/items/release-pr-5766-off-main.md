@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: done
 claimed-by: claude/sleepy-carson-f8omzd-5766
-pr:
+pr: #5850
 blocked-on:
 source: added by the acting CTO, Oct 22 merge sample
 claimed-at: 2026-10-23T20:55:36.164Z

@@ -3667,7 +3667,7 @@ const sheets = {
               el("h3", { textContent: first.title }),
               el("p", {
                 className: "government-place",
-                textContent: first.government ?? "",
+                textContent: first.body ?? first.government ?? "",
               }),
             );
             if (first.presentation?.chamberUrl)
