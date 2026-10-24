@@ -111,11 +111,10 @@ for (const r of races.filter(counted)) {
       `${where}: ${r.seatId} went to ${r.winnerParty} at a Republican share of ${r.republicanShare}`,
     );
 }
-// Seated on the real dates: Congress on January 3, each legislature and
-// governor on its state's own day. A seat the offices engine holds gets the
-// winner's term there; any other seat is kept in the world races' own seats,
-// from the day it is filled.
-for (const r of [...house, ...senate, ...legislative, ...governors]) {
+// Seated on the real dates: Congress on January 3, each legislature on its
+// own. A seat the offices engine holds gets the winner's term there; any
+// other seat is kept in the world races' own seats, from the day it is filled.
+for (const r of [...house, ...senate, ...legislative]) {
   const kept = midterm.api
     .moduleState(WORLD_RACES_MODULE_ID)
     .table("seats")
@@ -130,18 +129,34 @@ for (const r of [...house, ...senate, ...legislative, ...governors]) {
   for (const problem of seatingProblems(r, holders, sideOf))
     check(false, `${where}: ${problem}`);
 }
-report.seated = [...house, ...senate, ...legislative, ...governors].length;
+report.seated = [...house, ...senate, ...legislative].length;
+// A governor race's winner is recorded in the world races' seats from the
+// state's inauguration day. No engine seats them as governor yet: the
+// officials roster keeps the opening governor (SG-GOV-world-governor-executive,
+// pool item gov-world-races-run-no-governors), so this is a record, not a term.
+for (const r of governors) {
+  const kept = midterm.api
+    .moduleState(WORLD_RACES_MODULE_ID)
+    .table("seats")
+    .get(r.seatId) as unknown as { party: string; since: string } | undefined;
+  const recorded: Holder[] = kept
+    ? [{ party: kept.party, from: kept.since }]
+    : [];
+  for (const problem of seatingProblems(r, recorded, sideOf))
+    check(false, `${where}: ${problem} (governor winner record)`);
+}
+report.governorsRecorded = governors.length;
 report.governorSample = governors
   .slice(0, 5)
   .map(
     (r) =>
-      `${r.id}: ${r.winnerParty} ${r.republicanShare.toFixed(3)} over ${r.places} places, seated ${r.seatedOn}`,
+      `${r.id}: ${r.winnerParty} ${r.republicanShare.toFixed(3)} over ${r.places} places, recorded from ${r.seatedOn}`,
   );
 report.sample = races
   .slice(0, 3)
   .map(
     (r) =>
-      `${r.id}: ${r.winnerParty} ${r.republicanShare.toFixed(3)}, seated ${r.seatedOn}`,
+      `${r.id}: ${r.winnerParty} ${r.republicanShare.toFixed(3)}, ${governors.includes(r) ? "recorded from" : "seated"} ${r.seatedOn}`,
   );
 
 // 2. November 2028: the presidency, in the electoral college, from January 20.

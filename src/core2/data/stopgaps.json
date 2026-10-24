@@ -1292,7 +1292,7 @@
     "why": "Other states' governments are not yet played at a coarser level; only Congress outside the town is read back (src/core2/modules/legislature.ts reads the world races' seats).",
     "addedBy": "claude/world-governor-races",
     "addedAt": "2026-10-24",
-    "replacement": "A coarse executive for each other state whose acts read the seat's elected governor, and the officials roster's governor replaced by the winner when the party changes.",
+    "replacement": "A coarse executive for each other state whose acts read the seat's elected governor, and the officials roster's governor replaced by the winner when the party changes (pool item gov-world-races-run-no-governors).",
     "status": "open"
   },
   {
