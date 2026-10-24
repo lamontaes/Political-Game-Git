@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** The owner's read of the playtest screenshots: the v1 figures ("the ones with the airplane") are completely removed; the Codex v2 set may be used, else people stand generated-in. The game still draws the 81 whole figures in art/people-whole through src/bench/whole-figures.ts. This item removes art/people-whole from every manifest and renderer the game reads, adopting PR #5898, which stands people from the v2 set (art/people-engine/v2, the Oct 15 layered set from draft PR #4283).
 
-**Rules.** Replace, never layer: the whole-figure manifest, rules and loader are deleted, not left beside the v2 set. Wire to the world: each person drawn is read from their own record (sex, build, role, place).
+**Rules.** Serves LAW.md §2, People in rooms and figures; LAW.md §10, The owner's read of the Oct 24 screenshots. Replace, never layer: the whole-figure manifest, rules and loader are deleted, not left beside the v2 set. Wire to the world: each person drawn is read from their own record (sex, build, role, place).
 
 **Done when.** In a drawn place, the opening, the first evening, the filing office and door knocking show no art/people-whole image, and a test fails if any file in src/bench or scripts names art/people-whole, shown by a screenshot of each.
+
+**Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** No person with arms out like an airplane anywhere in the game; every person stands from the v2 figure set or is drawn by the appearance engine.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/bench/whole-figures.ts, src/bench/appearance.ts, src/bench/scene.ts, src/bench/handler.ts, src/bench/data/whole-figures.json
 
