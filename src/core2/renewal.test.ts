@@ -11,10 +11,12 @@ import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { ABORTION_LAW_SERIES, decideUnplanned } from "./births-unplanned";
 import type { BirthCouple } from "./births-plan";
 import { lawInForce } from "./modules/laws";
-import { coreAPI } from "./state";
+import { coreAPI, fillInPerson } from "./state";
 import providerDistance from "../../data/research/people/abortion-provider-distance.json" with { type: "json" };
 
 const PLACES = 4;
+/** The tier the moves engine gives a person who left town. */
+const INACTIVE_TIER = "husk";
 /**
  * A natural unplanned pregnancy in the named tier is rare: named people are
  * few and mostly past the age curve's center, and they are reviewed every 91
@@ -409,6 +411,14 @@ it(
         );
         expect(Number(found.stands), label).toBeGreaterThanOrEqual(1);
         expect(typeof found.cashMinor, label).toBe("number");
+        // Her own exposure reached one and was spent on it: what is left is hers, under one.
+        expect(
+          Number(
+            renewal.table("countedExposure").get(String(found.motherId))
+              ?.carry ?? 0,
+          ),
+          label,
+        ).toBeLessThan(1);
       }
       const born = rows.find((found) => found.status === "delivered");
       if (!born) continue;
@@ -425,6 +435,153 @@ it(
     );
     // A drawn town's played year took 36 to 184 seconds on a 4-core
     // container (three towns); up to PLACES of them.
+  },
+  PLACES * 300_000,
+);
+
+it(
+  "a counted woman filled in keeps her own exposure and her pregnancy's due date, and the births engine goes on from them",
+  () => {
+    const tried: string[] = [];
+    let carried: string | undefined;
+    let delivered: string | undefined;
+    for (
+      let attempt = 0;
+      attempt < PLACES && !(carried && delivered);
+      attempt += 1
+    ) {
+      const draw = drawPlace(
+        createHash("sha256").update(`${base}:fill-in:${attempt}`).digest("hex"),
+        "unplanned-counted-fill-in",
+      );
+      const where = `${draw.key} seed ${draw.seed} base ${base}`;
+      tried.push(where);
+      setBookkeeping(false);
+      const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(core);
+      const renewal = api.moduleState(RENEWAL_MODULE_ID);
+      const end = addDays(makeIsoDate(core.date), 365);
+      while (core.date < end && !(carried && delivered)) {
+        advanceCore(core, addDays(makeIsoDate(core.date), 30));
+        // A woman part of the way to one: filled in, the full couple carries exactly what she had.
+        const exposure = carried
+          ? undefined
+          : renewal
+              .table("countedExposure")
+              .rows()
+              .filter((row) => Number(row.carry) > 0 && Number(row.carry) < 1)
+              .sort((a, b) => String(a.id).localeCompare(String(b.id)))
+              .find((row) => {
+                const pregnant = renewal
+                  .table("countedUnplanned")
+                  .query("byMother", [String(row.id)])
+                  .some((p) => p.status === "pregnant");
+                return !pregnant;
+              });
+        if (exposure) {
+          const id = String(exposure.id);
+          const carry = Number(exposure.carry);
+          fillInPerson(core, id as never);
+          const couple = renewal
+            .table("couples")
+            .rows()
+            .find(
+              (row) =>
+                row.motherId === id && String(row.id).startsWith("fill-in:"),
+            );
+          if (couple) {
+            expect(couple.status, where).toBe("active");
+            expect(
+              Number(renewal.table("exposure").get(String(couple.id))?.carry),
+              `${where}: ${couple.id} carries ${id}'s exposure`,
+            ).toBe(carry);
+            expect(
+              renewal.table("countedExposure").get(id),
+              where,
+            ).toBeUndefined();
+            // The next review goes on from it: a plan, or exposure grown past what she carried.
+            const reviewed = addDays(makeIsoDate(core.date), 120);
+            advanceCore(core, reviewed);
+            const plan = renewal
+              .table("plans")
+              .rows()
+              .find((row) => row.coupleId === couple.id);
+            const after = Number(
+              renewal.table("exposure").get(String(couple.id))?.carry,
+            );
+            expect(
+              !!plan || after !== carry,
+              `${where}: ${couple.id} reviewed after fill-in (carry ${carry} then ${after})`,
+            ).toBe(true);
+            carried = `${where}: ${id} carried ${carry.toFixed(4)} into ${couple.id}, then ${plan ? `plan ${String(plan.id)}` : `carry ${after.toFixed(4)}`}`;
+          }
+        }
+        // A counted pregnancy under way: filled in, it is born at its due date as a full birth.
+        const pregnant = delivered
+          ? undefined
+          : renewal
+              .table("countedUnplanned")
+              .rows()
+              .filter(
+                (row) =>
+                  row.status === "pregnant" && String(row.dueDate) > core.date,
+              )
+              .sort((a, b) => String(a.id).localeCompare(String(b.id)))[0];
+        if (pregnant) {
+          const motherId = String(pregnant.motherId);
+          fillInPerson(core, motherId as never);
+          const row = renewal
+            .table("countedUnplanned")
+            .get(String(pregnant.id))!;
+          if (row.status === "filled-in") {
+            const pregnancyId = String(row.pregnancyId);
+            const full = renewal.table("pregnancies").get(pregnancyId)!;
+            expect(full.dueDate, `${where}: ${pregnancyId}`).toBe(
+              pregnant.dueDate,
+            );
+            expect(full.status, where).toBe("pregnant");
+            advanceCore(
+              core,
+              addDays(makeIsoDate(String(pregnant.dueDate)), 1),
+            );
+            const after = renewal.table("pregnancies").get(pregnancyId)!;
+            expect(
+              after.status,
+              `${where}: ${pregnancyId} at its due date`,
+            ).not.toBe("pregnant");
+            // The births engine ran it on its due date: born in town, or
+            // where she now lives when she moved away (its own rule).
+            const birth = renewal
+              .table("births")
+              .rows()
+              .find((b) => b.pregnancyId === pregnancyId);
+            const mother = core.people.get(motherId as never);
+            expect(
+              after.status === "delivered"
+                ? !!birth
+                : after.status === "moved-away" &&
+                    mother?.tier === INACTIVE_TIER,
+              `${where}: ${pregnancyId} at its due date (pregnancy ${String(after.status)}, due ${String(full.dueDate)}, now ${core.date}, birth ${String(birth?.id)})`,
+            ).toBe(true);
+            delivered = `${where}: ${pregnant.id} due ${String(pregnant.dueDate)} filled in as ${pregnancyId}, ${String(after.status)}, ${birth ? `birth ${String(birth.id)} on ${String(birth.date)}` : "she had moved away"}`;
+          }
+        }
+      }
+    }
+    process.stdout.write(
+      `COUNTED FILL-IN ${carried ?? "no exposure case"}; ${delivered ?? "no pregnancy case"}\n`,
+    );
+    expect(
+      carried,
+      `no counted woman part of the way to one: ${tried.join("; ")}`,
+    ).toBeDefined();
+    expect(
+      delivered,
+      `no counted pregnancy under way: ${tried.join("; ")}`,
+    ).toBeDefined();
   },
   PLACES * 300_000,
 );

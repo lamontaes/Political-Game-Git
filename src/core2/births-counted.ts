@@ -202,8 +202,6 @@ const monthlyShare = (perYear: number, months: number) =>
 
 interface Carry {
   births: number;
-  /** Unplanned pregnancies owed, in real women, not yet realized. */
-  unplanned: number;
   /** Each cohort's expected deaths not yet realized, by `deathCohort` key. */
   deaths: Record<string, number>;
 }
@@ -216,10 +214,23 @@ const deathCohort = (person: PersonInput) =>
   `${person.looks?.gender === "male" ? "m" : "f"}:${person.birthDate.slice(0, 4)}`;
 
 /** Whole years from birth to `date` (ISO strings; the same rule as ageOnDate). */
-const ageOf = (person: PersonInput, date: string) =>
+const ageOf = (person: Pick<PersonInput, "birthDate">, date: string) =>
   Number(date.slice(0, 4)) -
   Number(person.birthDate.slice(0, 4)) -
   (date.slice(5) < person.birthDate.slice(5) ? 1 : 0);
+
+/** Whether a relative in a woman's counted household is her partner: an adult within one generation of her age. */
+export function partnerByAge(
+  woman: Pick<PersonInput, "birthDate">,
+  other: Pick<PersonInput, "birthDate">,
+  date: string,
+): boolean {
+  const age = ageOf(woman, date);
+  return (
+    ageOf(other, date) >= YOUNGEST_PARENT_AGE &&
+    Math.abs(ageOf(other, date) - age) < YOUNGEST_PARENT_AGE
+  );
+}
 
 /** A woman's partner in her counted household: a relative within one generation. */
 function partnerOf(
@@ -227,13 +238,11 @@ function partnerOf(
   woman: PersonInput,
   date: string,
 ): PersonInput | undefined {
-  const age = ageOf(woman, date);
   return record.people.find(
     (row) =>
       row.id !== woman.id &&
       woman.familyIds.includes(row.id) &&
-      ageOf(row, date) >= YOUNGEST_PARENT_AGE &&
-      Math.abs(ageOf(row, date) - age) < YOUNGEST_PARENT_AGE,
+      partnerByAge(woman, row, date),
   );
 }
 
@@ -310,6 +319,8 @@ export function applyCountedFlows(
   rowsTable: string,
   birthsTable: string,
   unplannedTable: string,
+  /** Each counted woman's own exposure toward an unplanned pregnancy, by her id. */
+  exposureTable: string,
 ) {
   const core = api.state,
     date = core.date,
@@ -333,7 +344,6 @@ export function applyCountedFlows(
     // Stored rows are read-only; work on a copy.
     const carry: Carry = {
       births: Number(carryRow?.births ?? 0),
-      unplanned: Number(carryRow?.unplanned ?? 0),
       deaths: { ...((carryRow?.deaths as Record<string, number>) ?? {}) },
     };
     const people = households.flatMap((record) => record.people);
@@ -699,7 +709,9 @@ export function applyCountedFlows(
     }
 
     // Unplanned pregnancies: the same rule as a full couple's, times the
-    // households each record stands for.
+    // households each record stands for. Each woman carries her own exposure,
+    // as a full couple does; when hers reaches one, each woman her record
+    // stands for has an unplanned pregnancy.
     const already = new Set(
       store
         .table(unplannedTable)
@@ -708,11 +720,8 @@ export function applyCountedFlows(
         .map((r) => String(r.motherId)),
     );
     const reviewShare = p("daysPerMeanYear") / months / p("renewalReviewDays");
-    const exposed: {
-      record: ResidentHouseholdRecord;
-      woman: PersonInput;
-      exposure: number;
-    }[] = [];
+    const exposed: { record: ResidentHouseholdRecord; woman: PersonInput }[] =
+      [];
     for (const record of countedHouseholdsByPlace(core).get(placeId) ?? [])
       for (const woman of record.people) {
         if (woman.looks?.gender !== "female") continue;
@@ -727,18 +736,21 @@ export function applyCountedFlows(
             (today - Date.parse(kid.birthDate)) / MS_PER_DAY < spacing,
         );
         if (recent) continue;
-        const exposure =
+        const carried =
+          Number(store.table(exposureTable).get(woman.id)?.carry ?? 0) +
           countedExposure(api, record, woman, date) * reviewShare;
-        carry.unplanned += exposure * weightOfPerson(woman);
-        exposed.push({ record, woman, exposure });
+        const due = carried >= p("one");
+        store.table(exposureTable).put({
+          id: woman.id,
+          placeId,
+          carry: due ? carried - p("one") : carried,
+          at: date,
+        });
+        if (due) exposed.push({ record, woman });
       }
-    exposed.sort(
-      (a, b) => b.exposure - a.exposure || compare(a.woman.id, b.woman.id),
-    );
+    exposed.sort((a, b) => compare(a.woman.id, b.woman.id));
     for (const { record, woman } of exposed) {
       const stands = weightOfPerson(woman);
-      if (carry.unplanned < stands) continue;
-      carry.unplanned -= stands;
       const cash = record.people.reduce((n, kid) => n + kid.liquidMinor, 0);
       const decision = weighUnplanned(
         api,
