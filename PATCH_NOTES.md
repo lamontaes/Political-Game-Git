@@ -296,6 +296,32 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.23.5
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A town's clerk now shows up on the town office's staff, and a newly hired
+  clerk replaces one who left.** Towns record their government under the
+  municipal-government classification, which the public-office list did not
+  recognize, so a town's clerk was left off the office staff while a county's
+  clerk was listed. The town office is now built from the same recorded
+  government facts as the county office, with its clerk on the staff. An
+  office's staff now follow its jobs: a clerk hired during play joins the list
+  and one who leaves comes off it.
+
+- **A business short of cash on payday now draws its credit line to pay its
+  workers.** An employer with an approved credit line now draws on it when its
+  cash runs short on payday, instead of leaving its workers' pay unpaid. A
+  business with credit room no longer piles up unpaid wages and closes over
+  them.
+
+- **Households in the wider population now carry living costs they could not
+  pay.** A group of counted households that cannot pay its living cost on the
+  first of the month is asked again each day until money arrives, as a full
+  household already is.
+
 ## PRE-ALPHA 0.23.4
 
 _Released October 24, 2026._
