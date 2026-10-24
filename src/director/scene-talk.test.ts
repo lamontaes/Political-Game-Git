@@ -172,8 +172,8 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     expect(result.kind).toBe("skipped");
   });
   it("plays every purpose in play, and never says a line the owner rejected", () => {
-    // Owner, Oct 24: every piece of dialogue is in the game; his grades take
-    // out the lines he rejects and tune the rest.
+    // Every piece of dialogue is in the game; the grades take out the lines
+    // the owner rejects.
     for (const type of types) {
       const result = composeSceneTalk(
         core,
