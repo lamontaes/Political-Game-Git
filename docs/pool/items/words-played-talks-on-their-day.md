@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/played-talks-on-their-day
+pr: #5861
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-23T22:58:32.044Z
 ---
 
 **What.** The fifteen-talk proof in src/director/played-talks.test.ts opens every staged talk only after the bench's year has run. So a talk staged in April reads what the two people know at the end of the year: on Clintwood, Virginia, seed 8d2617a72f26034f:1, a new-baby talk staged on 2025-04-11 cited a news story read on 2026-01-14. In play a talk opens on its scene's day. The bench's staging loop already composes each scene on its day, so it should hand each staged scene to an optional callback, and the test should open and play the talk there before the world moves on. Every talk that counts should then be checked, not only the fifteen it names.
