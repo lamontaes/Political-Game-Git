@@ -10,7 +10,7 @@ claimed-by: claude/quirky-ride-vrwwz4-m1-12
 pr: #5881
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T02:54:46.254Z
+claimed-at: 2026-10-24T05:15:41.978Z
 ---
 
 **What.** Roadmap M1-12, important people everywhere, reads passes: false with command null on main. Its test says to click any official in any state and see a full record with personality, history, relationships and the positions behind their votes. The officials module seats every member of Congress, governor, statewide executive and legislator as a person, and the play screen opens a person with personCard (src/bench/card.ts), so a check can open every serving official's card.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T02:54:46.254Z
 **Files.** src/bench/m1-12-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-people-politics-flags (CTO branch).
+
+Sent back 2026-10-24 from PR #5881 (branch claude/quirky-ride-vrwwz4-m1-12): coverage derives only from returned officials and permits only 50 of 56 places, so omitted territories can pass; require independent expected jurisdictions and a missing-territory control; finish on that branch, merge main into it first.
