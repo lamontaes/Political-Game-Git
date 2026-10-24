@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/counted-deaths-opening-bookkeeping
-pr:
+pr: #5904
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T11:23:10.518Z
