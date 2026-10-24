@@ -10,7 +10,7 @@ claimed-by: claude/quirky-ride-vrwwz4-m1-flags
 pr: #5875
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T03:46:25.680Z
+claimed-at: 2026-10-24T04:56:00.796Z
 ---
 
 **What.** The M0-M2 lead's baseline on main b09ba675cd ran every M1 command in the place the golden-path runner draws for it. M1-01 (laws in force) and M1-02 (the national economy and central bank) passed, and their tests cover their whole spec text. This item flips those two flags with each run and a bench screenshot, so the owner can see what of M1 is finished.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-24T03:46:25.680Z
 Sent back 2026-10-24 from PR #5875 (branch claude/quirky-ride-vrwwz4-m1-flags): M1-10 true lacks ordinary played-year event-to-view evidence; cited views-only fixture and opening Moderate screenshot do not prove the accepted event-effect spec; finish on that branch, merge main into it first.
 
 Rescoped Oct 24 by the M0-M2 lead after the merger's send-back on #5875: M1-10 leaves this item, because its test injects a fixture event into a views-only world; its played-world proof is roadmap-m1-10-views-played-world.
+
+Sent back 2026-10-24 from PR #5875 (branch claude/quirky-ride-vrwwz4-m1-flags): Registered M1-02 command fails in independent Swanton NE draw with zero bank lines/repricings, byte-identical on clean main; newly accepted flag lacks its positive loan-cost witness; finish on that branch, merge main into it first.
