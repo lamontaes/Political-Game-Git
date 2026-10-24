@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-money
 pr: #5587
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 
+claimed-at: 2026-10-24T16:31:51.741Z
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the jobs, money and housing family: borrowing, quitting, accepting a job, founding a business, moving, applying for a job, buying a home and an owner's draw must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
