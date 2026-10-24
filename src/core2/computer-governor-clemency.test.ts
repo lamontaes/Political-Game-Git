@@ -92,14 +92,29 @@ function playPlace(seed: string, skipped: string[]): string | null {
   }
   // Nobody plays the governor: the weekly petitions come up by themselves.
   advanceCore(core, addDays(makeIsoDate(core.date), 120));
-  const decided = resultsOf(api, governor.personId).filter(
-    (row) => row.kind === "clemency",
-  );
+  // The seat's holders, not only the governor the run opened with: one
+  // convicted of a bribe the test offered leaves office, and the successor
+  // takes up the petitions.
+  const holders = [
+    ...new Set(
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .rows() as unknown as TermRow[]
+      )
+        .filter((t) => t.officeId === governor.officeId && t.personId)
+        .map((t) => t.personId!),
+    ),
+  ];
+  const decided = holders
+    .flatMap((id) => resultsOf(api, id))
+    .filter((row) => row.kind === "clemency");
   // A governor with authority and a state prisoner serving is the case: it
   // must have taken a petition up, never be skipped for the next draw.
   expect(
     decided.length,
-    `${where}: governor ${governor.personId} took up no petition in 120 days with ${prisonersServing(api, state).length} serving`,
+    `${where}: governors ${holders.join(", ")} took up no petition in 360 days with ${prisonersServing(api, state).length} serving`,
   ).toBeGreaterThan(0);
   for (const row of decided) {
     expect(row.by, `${where}: ${row.id}`).toBe("character");
@@ -116,7 +131,7 @@ function playPlace(seed: string, skipped: string[]): string | null {
       `${where}: a granted petition names its sentence`,
     ).toBeTruthy();
   }
-  return `${where}: governor ${governor.personId} decided ${decided.length} petitions (${granted.length} granted, ${decided.length - granted.length} refused); clemency records ${clemenciesOf(api, governor.personId).length}`;
+  return `${where}: governors ${holders.join(", ")} decided ${decided.length} petitions (${granted.length} granted, ${decided.length - granted.length} refused; first ${decided[0]!.id}); clemency records ${holders.reduce((n, id) => n + clemenciesOf(api, id).length, 0)}`;
 }
 
 it("a computer governor takes up the weekly petition and grants or refuses it by recorded reasons", () => {
