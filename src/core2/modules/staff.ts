@@ -95,14 +95,18 @@ export interface StafferRow {
     readonly missed: number;
   };
   /** Why the official let the aide go: the share of scheduled days missed since the last look and the reasons weighed. */
-  readonly dismissed?: {
-    readonly on: string;
-    readonly absentShare: number;
-    readonly lean: number;
-    readonly workedDays: number;
-    readonly missedDays: number;
-    readonly jobId: string;
-  };
+  readonly dismissed?: Dismissal;
+  /** The official's decision to let the aide go, made after the aide's day's work; the post's job ends before their next. */
+  readonly dismissing?: Dismissal;
+}
+
+export interface Dismissal {
+  readonly on: string;
+  readonly absentShare: number;
+  readonly lean: number;
+  readonly workedDays: number;
+  readonly missedDays: number;
+  readonly jobId: string;
 }
 
 export interface WorkRecord {
@@ -129,7 +133,10 @@ export const STAFF_MODULE: CoreModule = {
       work: { indexes: { byStaffer: { fields: ["stafferId"] } } },
     },
   },
-  onCalendarWork: (api, work) => staffReview(api, work),
+  onCalendarWork: (api, work) => {
+    if (work.kind === "staff-dismiss") dismissDue(api, work);
+    else staffReview(api, work);
+  },
 };
 
 export function openStaff(core: CoreState): void {
@@ -1047,10 +1054,11 @@ function reviewAttendance(
   api: CoreAPI,
   officialId: string,
   official: Readonly<PersonState>,
+  source: ModuleCalendarWork["source"],
 ): void {
   const state = api.state as CoreState;
   for (const row of servingStaffOf(api, officialId)) {
-    if (!row.jobId) continue;
+    if (!row.jobId || row.dismissing) continue;
     const totals = state.work.totalsByJob.get(row.jobId);
     const worked = totals?.workedDays ?? 0;
     const missed = totals?.missedDays ?? 0;
@@ -1073,27 +1081,77 @@ function reviewAttendance(
         campaignParameter("staffAbsenceTolerance") *
           (1 - parameter("traitDecisionWeight") * lean)
     ) {
-      api.endJob(
-        row.jobId,
-        `staff:dismissed-absent:${row.id}:${api.state.date}`,
-      );
-      table(api, "staff").put({
-        ...row,
-        dismissed: {
-          on: api.state.date,
-          absentShare,
-          lean,
-          workedDays: worked - since.worked,
-          missedDays: missed - since.missed,
-          jobId: row.jobId,
-        },
-      } as unknown as ModuleRow);
+      const decision: Dismissal = {
+        on: api.state.date,
+        absentShare,
+        lean,
+        workedDays: worked - since.worked,
+        missedDays: missed - since.missed,
+        jobId: row.jobId,
+      };
+      if (workedToday(state, { jobId: row.jobId }))
+        awaitDismissal(api, { ...row, dismissing: decision }, source);
+      else dismiss(api, row, decision);
     } else
       table(api, "staff").put({
         ...row,
         reviewed: { on: api.state.date, worked, missed },
       } as unknown as ModuleRow);
   }
+}
+
+function settle(api: CoreAPI, row: StafferRow, decision: Dismissal): void {
+  const settled: { -readonly [K in keyof StafferRow]: StafferRow[K] } = {
+    ...row,
+    dismissed: decision,
+  };
+  delete settled.dismissing;
+  table(api, "staff").put(settled as unknown as ModuleRow);
+}
+
+function dismiss(api: CoreAPI, row: StafferRow, decision: Dismissal): void {
+  api.endJob(decision.jobId, `staff:dismissed-absent:${row.id}:${decision.on}`);
+  settle(api, row, decision);
+}
+
+/**
+ * An aide let go after their day's work (the controlled character plays their
+ * day before the calendar runs) has the post's job end in the next day's
+ * calendar work, which runs before that day's work; until then it is not the
+ * job they work, so no shift is offered.
+ */
+function awaitDismissal(
+  api: CoreAPI,
+  row: StafferRow,
+  source: ModuleCalendarWork["source"],
+): void {
+  table(api, "staff").put(row as unknown as ModuleRow);
+  if (api.state.people.get(row.personId)?.jobId === row.dismissing!.jobId)
+    api.updatePerson(row.personId, { jobId: undefined });
+  const date = addDays(makeIsoDate(api.state.date), 1);
+  api.moduleCalendar(STAFF_MODULE_ID).schedule({
+    key: `staff-dismiss:${row.id}:${date}`,
+    date,
+    kind: "staff-dismiss",
+    source,
+    sourceRecordIds: [row.id],
+  });
+}
+
+function dismissDue(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const row = table(api, "staff").get(work.sourceRecordIds[0]!) as unknown as
+    StafferRow | undefined;
+  if (!row?.dismissing) return;
+  const decision = row.dismissing;
+  const state = api.state as CoreState;
+  if (state.jobs.get(decision.jobId)?.endsAt !== undefined) {
+    // The post ended another way first (a death, another job): the decision stands on record.
+    settle(api, row, decision);
+    return;
+  }
+  if (workedToday(state, { jobId: decision.jobId }))
+    awaitDismissal(api, row, work.source);
+  else dismiss(api, row, decision);
 }
 
 /**
@@ -1133,7 +1191,7 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   for (const officialId of officials) {
     const official = api.state.people.get(officialId);
     if (!official?.alive) continue;
-    reviewAttendance(api, officialId, official);
+    reviewAttendance(api, officialId, official, work.source);
     if (
       servingStaffOf(api, officialId).length >=
       campaignParameter("staffPerOfficial")

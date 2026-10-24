@@ -5,12 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: words/dialogue-in-play
-pr:
+status: open
+claimed-by:
+pr: #5942
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T13:12:58.067Z
+claimed-at:
 ---
 
 **What.** The owner, Oct 24: Quit worrying about my grades. Get the English engine in the game. That should make every single piece of dialogue available, and if I find pieces I don't like or keep grading, keep updating it. Until now 891 bank parts were held out of play until he graded each one, so ordinary play showed a narrator and a chat button, the campaign speech screen offered nothing and purpose scenes never talked. The grade step now sets every bank's flag from the grade ledger, so every part plays except the ones he graded bad or fix, and each new round of grades reaches the whole game at once.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T13:12:58.067Z
 **Files.** scripts/dialogue-batch/apply-grades.ts, data/english/parts/, tests/english-parts-banks.test.ts, AGENTS.md, .agents/skills/words-engine/SKILL.md
 
 **Notes.** TODO
+
+Sent back 2026-10-24 UTC from PR #5942 (branch words/dialogue-in-play): normal main integration conflicts in data/english/parts/news.json after sourced Federal Register law-lede replacement; regenerate through bank/grade tooling, never hand-merge; finish on that branch, merge main into it first.

@@ -296,6 +296,104 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.11
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Playing an aide, the game no longer stops on the day your official lets you
+  go.** When the official you work for reviews your attendance and lets you go
+  after you have already put in that day's shift, the job now ends the next
+  morning before any more work, and the post is filled again. Before, the game
+  stopped that evening and could not go on.
+
+### Changed
+
+- **More places now follow their own election law for filing and ballot order.**
+  Town races in Guam and Puerto Rico now close filing on the date each place's
+  election law sets instead of an estimate, and New York's party date is read
+  from its law (independents' later window is not yet wired, so New York stays
+  an estimate). Candidates for the U.S. House no longer have to be registered
+  voters to file, as the Constitution asks only age, citizenship and residence.
+  In the Virgin Islands and the Northern Mariana Islands, candidates' places on
+  the ballot are now drawn by lot, as their election offices do. Vermont's
+  legislature takes candidates from age 18.
+
+- **Governors and legislators start their terms on the day their state's
+  constitution or law sets.** Every state and territory now starts a new
+  governor's term, and a new legislator's, on the day its own constitution or
+  election law names: the first Monday in December for California's legislature,
+  the fifth Tuesday after the vote for Kentucky's governor (Florida's, Hawaii's
+  and Tennessee's legislatures start on election day itself, which the game
+  still sets a day late). Before, every legislator and the governors of 24
+  places started on January 1. The party of 60 statewide officials at the start
+  was checked against their offices' pages: Guam's attorney general is now
+  elected without a party label, the Northern Mariana Islands' lieutenant
+  governor at the start is an independent, and the Virgin Islands' boards of
+  education and elections carry party labels.
+
+- **People you meet on a trip to another town now have an age, job and wage that
+  town's workforce shows** A person a president or member of Congress meets on a
+  trip to another town is now drawn from that town's own workforce: an age from
+  its county's employed by age, a job from its industry mix, and the wage that
+  job pays there.
+
+## PRE-ALPHA 0.22.10
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Someone charged with bribery now waits for the hearing before a guilty plea
+  is entered.** A guilty plea no longer ends a bribery case on the day of the
+  charge. Everyone charged waits for the hearing, as long as cases take in that
+  state: at home if they post bail, in jail if they cannot, and at home without
+  bail where the law has ended cash bail. Posted bail leaves the defendant's own
+  money for the court and comes back in full on the day the plea is entered or
+  the trial opens, so a defendant has less to spend while the case is open. A
+  prosecutor with a full desk still charges the strongest cases: a busy office
+  weighs its caseload against a new charge only up to its capacity, so an
+  official caught taking a bribe is charged even while other cases wait.
+
+## PRE-ALPHA 0.22.9
+
+_Released October 24, 2026._
+
+### Changed
+
+- **Campaign choices use recalibrated personality effects** Personality has a
+  recalibrated influence on volunteering, giving, answering the door, retelling
+  a campaign story, answering a poll, speaking to a reporter and holding a
+  party's line. Each weight uses the trait's own measured spread.
+
+## PRE-ALPHA 0.22.8
+
+_Released October 24, 2026._
+
+### Improved
+
+- **Students' test scores and graduation follow the town they live in** Each
+  spring every eighth grader in town gets a math and a reading result, and each
+  June every senior graduates or does not. How many do comes from the place's
+  real level moved by the laws and conditions that reach it, and who does comes
+  from each student's own household income, attendance and study habits, so
+  children from poorer households fall short more often. The town's graduation
+  rate then feeds the things that depend on it, such as turnout and poverty.
+
+- **Couples' plans for a child follow their town's conditions** A couple's
+  choice to plan a child now moves with the town's own conditions, such as
+  unemployment and home prices, the same way the births of the rest of the town
+  do.
+
+### Fixed
+
+- **Someone you meet keeps the job they were hired into this year** A household
+  that isn't yet known to you now earns what its jobs pay after hires, raises,
+  layoffs and closures. Before, it kept its opening pay forever, so a laid-off
+  family still counted as well off, and a worker hired during the year lost that
+  job the moment you met them. Now they keep it, on their employer's payroll.
+
 ## PRE-ALPHA 0.22.7
 
 _Released October 24, 2026._
