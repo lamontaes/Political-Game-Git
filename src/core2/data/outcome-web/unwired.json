@@ -452,12 +452,6 @@
       "stopgapId": "SG-WEB-unread-finance-high-cost-loans"
     },
     {
-      "link": "carbon-price-to-emissions",
-      "outcome": "env.emissions",
-      "reason": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-emissions"
-    },
-    {
       "link": "container-deposit-to-litter",
       "outcome": "env.litter",
       "reason": "engine doesn't read the factor: env.litter moves only in the web's monthly ledger; no engine multiplies its own rates by it",
@@ -470,22 +464,10 @@
       "stopgapId": "SG-WEB-unread-disaster-flood-damage"
     },
     {
-      "link": "container-deposit-to-recycling",
-      "outcome": "env.container-recycling-pct",
-      "reason": "engine doesn't read the factor: env.container-recycling-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-container-recycling-pct"
-    },
-    {
       "link": "mandatory-minimum-cut-to-federal-prisoners",
       "outcome": "justice.federal-incarcerated-per-100k",
       "reason": "engine doesn't read the factor: justice.federal-incarcerated-per-100k moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces justice.federal-incarcerated-per-100k",
       "stopgapId": "SG-WEB-unread-justice-federal-incarcerated-per-100k"
-    },
-    {
-      "link": "power-plant-carbon-to-emissions",
-      "outcome": "env.emissions",
-      "reason": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-env-emissions"
     },
     {
       "link": "drug-negotiation-to-out-of-pocket",
@@ -576,18 +558,6 @@
       "outcome": "government.member-market-returns",
       "reason": "no measure: the web does not keep government.member-market-returns and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-government-member-market-returns"
-    },
-    {
-      "link": "farmland-easements-to-farmland-lost",
-      "outcome": "farmland.developed-acres",
-      "reason": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-farmland-developed-acres"
-    },
-    {
-      "link": "groundwater-limits-to-irrigation-pumping",
-      "outcome": "water.irrigation-groundwater",
-      "reason": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-water-irrigation-groundwater"
     },
     {
       "link": "farm-payments-cut-to-land-values",

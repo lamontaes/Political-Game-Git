@@ -3,12 +3,12 @@
   "summary": {
     "links": 221,
     "lawLinks": 118,
-    "webCoverageWired": 121,
+    "webCoverageWired": 119,
     "allEightPoints": 0,
-    "reachesOrCarried": 119,
-    "namedInAStopgap": 108,
+    "reachesOrCarried": 124,
+    "namedInAStopgap": 103,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 119,
+    "reachesTheWorld": 124,
     "withAnyModerator": 22,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 119,
+        "pass": 124,
         "partial": 0,
-        "fail": 102,
+        "fail": 97,
         "n/a": 0
       },
       "varied": {
@@ -1280,7 +1280,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger energy.electricity-price, which src/core2/modules/place-prices.ts:881, src/core2/modules/place-prices.ts:946 reads into its own records"
+          "evidence": "web ledger energy.electricity-price, which src/core2/modules/place-prices.ts:893, src/core2/modules/place-prices.ts:974 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -2960,7 +2960,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:904 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:932 reads into its own records"
         },
         "size": {
           "status": "partial",
@@ -3599,7 +3599,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:602, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -3645,7 +3645,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:602, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -3781,7 +3781,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:904 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:932 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3830,7 +3830,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:904 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:932 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -4081,7 +4081,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:602, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -4225,7 +4225,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:602, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -4274,7 +4274,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:602, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -4420,7 +4420,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:602, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "pass",
@@ -6056,9 +6056,8 @@
           "evidence": "data/research/outcome-web/links.json:3352 size -0.03, range [-0.08, 0], Andersson 2019, American Economic Journal: Economic Policy 11(4); Pretis 2022, Environmental and Resource Economics 83"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/place-prices.ts:65"
         },
         "varied": {
           "status": "fail",
@@ -6084,8 +6083,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-env-emissions"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "container-deposit-to-litter",
@@ -6200,7 +6199,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:881, src/core2/modules/place-prices.ts:946"
+          "evidence": "src/core2/modules/place-prices.ts:893, src/core2/modules/place-prices.ts:974"
         },
         "varied": {
           "status": "fail",
@@ -6294,9 +6293,8 @@
           "evidence": "data/research/outcome-web/links.json:3454 size 43.7, range [20, 55], Container Recycling Institute, Bottle Bill Resource Guide (container-recycling.org/bottle-bills), quoting BEAR 2002, and its 2026 table of redemption rates in the 10 deposit states; sized by Research 6 (07 LAW EFFECT SIZES, September 29, 2026)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.container-recycling-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/place-prices.ts:66"
         },
         "varied": {
           "status": "fail",
@@ -6322,8 +6320,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-env-container-recycling-pct"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "unemployment-to-uninsured",
@@ -6532,9 +6530,8 @@
           "evidence": "data/research/outcome-web/links.json:3630 size -0.026, range [-0.08, -0.014], EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (fact sheet); Resources for the Future 2024; EIA U.S. energy-related CO2, 2023"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.emissions moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "src/core2/modules/place-prices.ts:65"
         },
         "varied": {
           "status": "fail",
@@ -6560,8 +6557,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-env-emissions"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "power-plant-carbon-to-particulates",
@@ -7620,7 +7617,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225"
+          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:602, src/core2/births-plan.ts:225"
         },
         "varied": {
           "status": "fail",
@@ -9518,7 +9515,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:904"
+          "evidence": "src/core2/modules/place-prices.ts:932"
         },
         "varied": {
           "status": "pass",
@@ -9898,7 +9895,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:899, src/core2/modules/place-prices.ts:950"
+          "evidence": "src/core2/modules/place-prices.ts:927, src/core2/modules/place-prices.ts:978"
         },
         "varied": {
           "status": "fail",
@@ -10184,7 +10181,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "through transit-service-to-ridership: src/core2/modules/place-prices.ts:899, src/core2/modules/place-prices.ts:950"
+          "evidence": "through transit-service-to-ridership: src/core2/modules/place-prices.ts:927, src/core2/modules/place-prices.ts:978"
         },
         "varied": {
           "status": "fail",
@@ -10220,7 +10217,7 @@
       "to": "farmland.developed-acres",
       "causeKind": "law",
       "lawLink": true,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -10231,9 +10228,8 @@
           "evidence": "data/research/outcome-web/links.json:5670 size -0.47, range [-0.55, -0.4], Liu and Lynch 2011, Do Agricultural Land Preservation Programs Reduce Farmland Loss? Evidence from a Propensity Score Matching Estimator, Land Economics 87(2): 183-201; its 40% to 55% as reported in USDA Economic Research Service, Additionality in U.S. Agricultural Conservation and Regulatory Offset Programs, ERR-170 (2014)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: farmland.developed-acres moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the builders' monthly starts decision (buildMonth in src/core2/housing-construction.ts, with the law read by the housing module's build in src/core2/modules/housing.ts), which reads this law in force and cuts the single-family homes the town's builders start by the land the law takes out of use, recording the law on each project it governs. No engine keeps acres converted, and the cut is the engine's own land elasticity, not this row's size (registered stopgap SG-GOV-REACH-A-housing-supply)"
         },
         "varied": {
           "status": "fail",
@@ -10259,8 +10255,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-farmland-developed-acres"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "groundwater-limits-to-irrigation-pumping",
@@ -10268,7 +10264,7 @@
       "to": "water.irrigation-groundwater",
       "causeKind": "law",
       "lawLink": true,
-      "webCoverage": "wired",
+      "webCoverage": "waiting",
       "points": {
         "cause": {
           "status": "pass",
@@ -10276,12 +10272,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5690 size -0.31, range [-0.4, -0.21], Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)"
+          "evidence": "data/research/outcome-web/links.json:5691 size -0.31, range [-0.4, -0.21], Deines, Kendall, Butler and Hyndman 2019, Quantifying irrigation adaptation strategies in response to stakeholder-driven groundwater management in the US High Plains Aquifer, Environmental Research Letters 14: 044014 (https://iopscience.iop.org/article/10.1088/1748-9326/aafe39)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: water.irrigation-groundwater moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "carried by an engine, not the web: the business engine's farm groundwater limit (readGroundwaterLaw in src/core2/modules/business.ts, which sets each town farm's limit through setOperatingLimit in src/core2/business-operating-rules.ts), which reads this law in force and cuts the groundwater each farm may use, and with it the farm's outside sales, by its output's dependence on irrigation water. It uses its own estimated cut and acts the day the law takes effect, not this row's size and lag (registered stopgap SG-GOV-REACH-B-business-cost)"
         },
         "varied": {
           "status": "fail",
@@ -10294,7 +10289,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5690 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5691 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10307,8 +10302,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-water-irrigation-groundwater"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "defense-contracts-to-earnings",
@@ -10320,12 +10315,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5711",
+          "evidence": "data/research/outcome-web/links.json:5713",
           "why": "no measure: nothing in the core records federal.defense-boost-pct"
         },
         "size": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5711 size 0.015",
+          "evidence": "data/research/outcome-web/links.json:5713 size 0.015",
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
@@ -10343,7 +10338,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5711 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5713 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10369,12 +10364,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5731",
+          "evidence": "data/research/outcome-web/links.json:5733",
           "why": "no measure: nothing in the core records federal.farm-payments-cut-pct-of-land-value"
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5731 size -0.215, range [-0.3, -0.13], Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026"
+          "evidence": "data/research/outcome-web/links.json:5733 size -0.215, range [-0.3, -0.13], Goodwin, Mishra and Ortalo-Magne 2011, Landowners' Riches: The Distribution of Agricultural Subsidies, NBER w16693; payments from USDA ERS Farm Income and Wealth Statistics (September 3, 2026 release) and land values from USDA NASS Land Values 2024 Summary, read September 29, 2026"
         },
         "reaches": {
           "status": "fail",
@@ -10392,7 +10387,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5731 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5733 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10423,11 +10418,11 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5751 size 0.005, range [0.003, 0.01], Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf"
+          "evidence": "data/research/outcome-web/links.json:5753 size 0.005, range [0.003, 0.01], Litman, Transit Price Elasticities and Cross-Elasticities, Victoria Transport Policy Institute, June 17, 2025, page 12 (Service Elasticities), https://www.vtpi.org/tranelas.pdf"
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:899, src/core2/modules/place-prices.ts:950"
+          "evidence": "src/core2/modules/place-prices.ts:927, src/core2/modules/place-prices.ts:978"
         },
         "varied": {
           "status": "fail",
@@ -10440,7 +10435,7 @@
         },
         "timing": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5751 lag 0, phase-in 24, fade none"
+          "evidence": "data/research/outcome-web/links.json:5753 lag 0, phase-in 24, fade none"
         },
         "knowing": {
           "status": "fail",
@@ -10465,12 +10460,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5774",
+          "evidence": "data/research/outcome-web/links.json:5776",
           "why": "no measure: nothing in the core records federal.deficit-change-pct-of-gdp"
         },
         "size": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5774 size 25",
+          "evidence": "data/research/outcome-web/links.json:5776 size 25",
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
@@ -10489,7 +10484,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5774 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5776 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10519,7 +10514,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5795 size -0.18, range [-0.3, -0.08], Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
+          "evidence": "data/research/outcome-web/links.json:5797 size -0.18, range [-0.3, -0.08], Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
         },
         "reaches": {
           "status": "pass",
@@ -10537,7 +10532,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5795 lag 60 months",
+          "evidence": "data/research/outcome-web/links.json:5797 lag 60 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10568,7 +10563,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5816 size 0.00031, range [0.00015, 0.0005], TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does"
+          "evidence": "data/research/outcome-web/links.json:5818 size 0.00031, range [0.00015, 0.0005], TRIP, Bumpy Roads Ahead (2018), $130 billion a year in extra vehicle operating costs on major urban roads in poor or mediocre condition in 2016, 33% of them; Bureau of Economic Analysis, personal consumption expenditures 2016, $12.75 trillion. ESTIMATED FROM AVERAGE: TRIP counts mediocre roads as well as poor ones, so each point of poor road is taken to cost what a point of substandard road does"
         },
         "reaches": {
           "status": "pass",
@@ -10585,7 +10580,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5816 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5818 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10611,12 +10606,12 @@
       "points": {
         "cause": {
           "status": "fail",
-          "evidence": "data/research/outcome-web/links.json:5837",
+          "evidence": "data/research/outcome-web/links.json:5839",
           "why": "no measure: nothing in the core records federal.rail-expansion-pct"
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5837 size 0.00486, range [0.00205, 0.00767], Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026"
+          "evidence": "data/research/outcome-web/links.json:5839 size 0.00486, range [0.00205, 0.00767], Amtrak, Amtrak Connects US (2021), https://assets.amtrakconnectsus.com/uploads/2021/03/Amtrak-Connects-US-Vision-with-Map-Final.pdf; Flyvbjerg, Skamris Holm and Buhl 2005, Journal of the American Planning Association 71(2), https://arxiv.org/pdf/1303.6654; riders from Amtrak's fiscal year 2024 state fact sheets, read September 29, 2026"
         },
         "reaches": {
           "status": "fail",
@@ -10634,7 +10629,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5837 lag 0 months",
+          "evidence": "data/research/outcome-web/links.json:5839 lag 0 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10664,7 +10659,7 @@
         },
         "size": {
           "status": "pass",
-          "evidence": "data/research/outcome-web/links.json:5858 size 0.000157, range [-0.000279, 0.000575], Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
+          "evidence": "data/research/outcome-web/links.json:5860 size 0.000157, range [-0.000279, 0.000575], Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)"
         },
         "reaches": {
           "status": "fail",
@@ -10682,7 +10677,7 @@
         },
         "timing": {
           "status": "partial",
-          "evidence": "data/research/outcome-web/links.json:5858 lag 12 months",
+          "evidence": "data/research/outcome-web/links.json:5860 lag 12 months",
           "why": "a single step after the lag: no researched phase-in or fade"
         },
         "knowing": {
@@ -10712,7 +10707,7 @@
     {
       "measure": "births.rate",
       "status": "engine-reads-web",
-      "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604, src/core2/births-plan.ts:225",
+      "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:602, src/core2/births-plan.ts:225",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -10737,7 +10732,7 @@
     {
       "measure": "broadband.home-access",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:904",
+      "evidence": "src/core2/modules/place-prices.ts:932",
       "countedTwice": false,
       "asCause": [
         "home-internet-to-scores",
@@ -10989,7 +10984,7 @@
     {
       "measure": "energy.electricity-price",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:881, src/core2/modules/place-prices.ts:946",
+      "evidence": "src/core2/modules/place-prices.ts:893, src/core2/modules/place-prices.ts:974",
       "countedTwice": false,
       "asCause": ["energy-price-to-ac-use"],
       "asOutcome": ["clean-electricity-to-price"]
@@ -11005,9 +11000,8 @@
     },
     {
       "measure": "env.container-recycling-pct",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/modules/place-prices.ts:66",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["container-deposit-to-recycling"]
@@ -11023,9 +11017,8 @@
     },
     {
       "measure": "env.emissions",
-      "status": "web-ledger-only",
-      "evidence": "web ledger (src/core2/modules/outcome-web.ts)",
-      "why": "the web keeps it at its base times its links; no engine produces it or reads it",
+      "status": "engine-reads-web",
+      "evidence": "src/core2/modules/place-prices.ts:65",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12350,7 +12343,7 @@
     {
       "measure": "transit.ridership",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:899, src/core2/modules/place-prices.ts:950",
+      "evidence": "src/core2/modules/place-prices.ts:927, src/core2/modules/place-prices.ts:978",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
