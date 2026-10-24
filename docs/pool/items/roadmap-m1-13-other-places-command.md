@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-m1-13
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T03:13:30.329Z
 ---
 
 **What.** Roadmap M1-13, other places at a coarser level, reads passes: false with command null on main. Other places are the regional engine's regions and the counted-moves engine's states; their public events are the regional engine's monthly state jobs reports. A check on a played year in the runner's drawn place can read each clause of the spec and name the ones no engine or no sourced range covers yet.
