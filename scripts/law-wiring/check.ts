@@ -837,12 +837,33 @@ function checkLaw(
   // play may enact the law again during a long window, and its rows are its own.
   const reach = reachOf(core, law.key, ids);
   const links = webLinksOf(law);
-  const web = webEffects(
+  const treated = webEffects(
     core,
     placeId,
     links.map((l) => l.key),
     since,
-  ).filter((e) => control.web.get(`${e.id}|${e.link}`) !== e.effect);
+  );
+  const web = treated.filter(
+    (e) => control.web.get(`${e.id}|${e.link}`) !== e.effect,
+  );
+  // A link the change brought to zero moved too: the control month holds an
+  // effect the treated month no longer does (months after the change only).
+  const kept = new Set(treated.map((e) => `${e.id}|${e.link}`));
+  const linkKeys = new Set(links.map((l) => l.key));
+  for (const [k, effect] of control.web) {
+    const cut = k.lastIndexOf("|");
+    const id = k.slice(0, cut);
+    const link = k.slice(cut + 1);
+    const month = /(\d{4}-\d{2})$/.exec(id)?.[1];
+    if (
+      linkKeys.has(link) &&
+      !kept.has(k) &&
+      month !== undefined &&
+      month > since.slice(0, 7) &&
+      effect !== 0
+    )
+      web.push({ id, link, effect: 0 });
+  }
   const heard = heardOf(core, ids, law.key, since);
   // Money: each journal source kind whose total differs from the control's.
   const moneyDiff: {
