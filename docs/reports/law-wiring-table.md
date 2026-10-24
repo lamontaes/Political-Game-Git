@@ -4,11 +4,11 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 | Law                                          | Family             | exists | change | reach | systems | money | web | knowing | repeal | allPlaces | Overall    |
 | -------------------------------------------- | ------------------ | ------ | ------ | ----- | ------- | ----- | --- | ------- | ------ | --------- | ---------- |
-| Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
+| Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | NO      | yes    | yes       | partly     |
 | fare free transit                            | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | public broadband                             | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
-| shift highway funds to transit               | infrastructure     | yes    | yes    | yes   | part    | yes   | NO  | yes     | yes    | yes       | partly     |
+| shift highway funds to transit               | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | Medicare tax rate                            | healthcare         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | Medicaid federal match                       | healthcare         | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 | expand medicaid eligibility                  | healthcare         | yes    | yes    | yes   | part    | SG    | yes | yes     | yes    | yes       | partly     |
@@ -55,7 +55,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | yes | yes     | NO     | NO        | partly     |
 | ban new gas hookups                          | energy-environment | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | clean electricity standard                   | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
-| clean air plan for polluted counties         | energy-environment | yes    | yes    | NO    | yes     | yes   | NO  | yes     | NO     | NO        | partly     |
+| clean air plan for polluted counties         | energy-environment | yes    | yes    | part  | yes     | yes   | yes | yes     | yes    | part      | partly     |
 | Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
 | bottle deposit                               | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
 | price carbon                                 | energy-environment | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
@@ -81,15 +81,15 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Spending: administration                     | government         | yes    | yes    | part  | yes     | yes   | SG  | NO      | NO     | yes       | partly     |
 | broaden local authority                      | government         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | legislative term limits                      | government         | yes    | yes    | part  | part    | NO    | n/a | yes     | yes    | yes       | partly     |
-| ban discrimination in housing and work       | rights             | yes    | yes    | yes   | yes     | SG    | yes | yes     | yes    | yes       | stopgapped |
-| dedicated parks funding                      | rights             | yes    | yes    | yes   | NO      | yes   | SG  | yes     | yes    | yes       | partly     |
+| ban discrimination in housing and work       | rights             | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| dedicated parks funding                      | rights             | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
 | restrict abortion                            | rights             | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
-| age verification for social media            | technology         | yes    | yes    | yes   | yes     | SG    | SG  | yes     | yes    | yes       | stopgapped |
-| restrict government facial recognition       | technology         | yes    | yes    | yes   | part    | yes   | SG  | yes     | yes    | yes       | partly     |
+| age verification for social media            | technology         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| restrict government facial recognition       | technology         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | consumer data privacy law                    | technology         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | limit groundwater withdrawal                 | agriculture        | yes    | yes    | part  | yes     | yes   | yes | yes     | yes    | part      | partly     |
 | protect farmland from development            | agriculture        | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
-| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | local-income-tax-authority                   | starting law       | yes    | NO     | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 | local-minimum-wage-authority                 | starting law       | yes    | yes    | NO    | yes     | NO    | yes | yes     | NO     | NO        | partly     |
 | unemployment-insurance                       | starting law       | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
@@ -98,7 +98,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: highways** (`budget-line:highways`)
 
-- web: every link is unbuilt: size-not-set (registered SG-GOV-REACH-B-road-condition)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
 **fare free transit** (`us-policy-positions:transportation-infrastructure.fare-free-transit`)
@@ -121,11 +120,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-broadband-bill)
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
-
-**shift highway funds to transit** (`us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit`)
-
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
 
 **Medicare tax rate** (`medicare-tax`)
 
@@ -421,10 +415,8 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **clean air plan for polluted counties** (`us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties`)
 
-- reach: handler registered (group B, mechanic compliance-cost) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
+- reach: reached nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10), Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
+- allPlaces: reached people in one drawn place and not the other
 
 **Spending: naturalResources** (`budget-line:naturalResources`)
 
@@ -576,24 +568,13 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - money: no money flow: nobody pays or receives anything because of it
 - web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
-**ban discrimination in housing and work** (`us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work`)
-
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-discrimination)
-
 **dedicated parks funding** (`us-policy-positions:civil-family-community.dedicated-parks-funding`)
 
-- systems: no engine reads it (only lawmaking, news or the outcome web, if anything)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure park access and exercise (SG-LAW-outcome-link-unresearched)
 
 **age verification for social media** (`us-policy-positions:technology-privacy.age-verification-for-social-media`)
 
-- money: no money flow: nobody pays or receives anything because of it (registered SG-GOV-REACH-A-age-verification)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure youth social media use and mental health (SG-LAW-outcome-link-unresearched)
-
-**restrict government facial recognition** (`us-policy-positions:technology-privacy.restrict-government-facial-recognition`)
-
-- systems: only law reach's own handler reads it; no engine reads the law at the moment it decides or pays
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-A-facial-recognition)
 
 **consumer data privacy law** (`us-policy-positions:technology-privacy.consumer-data-privacy-law`)
 
@@ -603,10 +584,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - reach: reached nobody in Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
 - allPlaces: reached people in one drawn place and not the other
-
-**Spending: parks** (`budget-line:parks`)
-
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-park-use)
 
 **local-income-tax-authority** (`local-income-tax-authority`)
 

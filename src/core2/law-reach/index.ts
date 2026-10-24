@@ -7,6 +7,7 @@ import { registerStandingLineLaws } from "../modules/budgets";
 import { registerGroupA } from "./group-a";
 import { POLICIES } from "./group-a-records";
 import { GROUP_B_KEYS, groupBPolicy, registerGroupB } from "./group-b";
+import type { CoreAPI } from "../types";
 import { LAW_REACH_HOST_ID, reassertStandingLaws } from "./host";
 
 /** Mechanics whose law sets a budget line's level, which the treasury reads again each close. */
@@ -27,16 +28,23 @@ function standingLineKeys(): readonly string[] {
   ].sort();
 }
 
+let standingKeys: readonly string[] | undefined;
+/**
+ * The treasury's read of the laws that set a budget line, as a plain rule for
+ * the treasury to run each month it closes and each year a budget is adopted.
+ * Only a world that opened law reach has its laws applied to the budget.
+ */
+export function reassertStandingLineLaws(api: CoreAPI): void {
+  if (!api.state.modules.has(LAW_REACH_HOST_ID)) return;
+  standingKeys ??= standingLineKeys();
+  reassertStandingLaws(api, standingKeys);
+}
+
 let registered = false;
 export function registerLawReach(): void {
   if (registered) return;
   registered = true;
   registerGroupA();
   registerGroupB();
-  const keys = standingLineKeys();
-  registerStandingLineLaws((api) => {
-    // Only a world that opened law reach has its laws applied to the budget.
-    if (api.state.modules.has(LAW_REACH_HOST_ID))
-      reassertStandingLaws(api, keys);
-  });
+  registerStandingLineLaws(reassertStandingLineLaws);
 }

@@ -1,0 +1,239 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 120,
+  "after": 10,
+  "results": [
+    {
+      "key": "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work",
+      "kind": "question",
+      "family": "rights",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-05-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
+        "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+        "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-05-22:law-wiring-ca2a5d7b-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 35,
+        "governments": 0,
+        "other": 0,
+        "open": 35,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_382d8445c99fb630:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_382d8545c99fb7e3:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting:landlords:organization_abf6fde4ca9851f5:2025-01-20",
+          "applied|us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work|organization_6bfeefad73e308c6"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 3,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2081": 438,
+        "src/core2/jobs-age-bias.ts:36": 258,
+        "src/core2/modules/world-legislating.ts:253": 78,
+        "src/core2/modules/world-legislating.ts:183": 34,
+        "src/core2/modules/outcome-web.ts:158": 32,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 2
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 102604307,
+            "control": 102014096,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1446",
+            "treatment": 973014053,
+            "control": 972914098,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 165189691,
+            "control": 165094018,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 236895545856973,
+            "control": 236895545940426,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:818",
+            "treatment": 62945393764341,
+            "control": 62945393821208,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+            "treatment": 10531205,
+            "control": 10495983,
+            "ids": [
+              "journal:2025-01-25:1642",
+              "journal:2025-01-25:1644",
+              "journal:2025-01-25:1646"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 18579138,
+            "control": 18555866,
+            "ids": [
+              "journal:2025-02-01:1905",
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 115405509,
+            "control": 115410782,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 14704,
+            "control": 13763,
+            "ids": [
+              "journal:2025-02-07:8028",
+              "journal:2025-02-08:8044",
+              "journal:2025-02-09:8049"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 58289074,
+            "control": 58288471,
+            "ids": [
+              "journal:2025-02-01:2611",
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 78956978,
+            "control": 78956650,
+            "ids": [
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+            "treatment": 6046577,
+            "control": 6046534,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          }
+        ],
+        "diffKinds": 16,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "anti-discrimination-to-poverty",
+            "status": "about-zero",
+            "to": "household.poverty-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 1,
+        "sample": [
+          "person_2dc9b118ebc09a54:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+          "person_2dc9b118ebc09a54:printed:outlet:magazine:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b",
+          "person_2dc9b118ebc09a54:printed:outlet:national-paper:0:national:law-took-effect:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-01-21:law-wiring-ca2a5d7b"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 3,
+        "governments": 0,
+        "other": 0,
+        "open": 3,
+        "ended": 3,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-05-22:law-wiring-ca2a5d7b-b:landlords:organization_382d8445c99fb630:2025-05-22",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-05-22:law-wiring-ca2a5d7b-b:landlords:organization_382d8545c99fb7e3:2025-05-22",
+          "reach:law:US-MI:state:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work:general:2025-05-22:law-wiring-ca2a5d7b-b:landlords:organization_abf6fde4ca9851f5:2025-05-22"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 3,
+        "sample": []
+      },
+      "seconds": 32
+    }
+  ]
+}

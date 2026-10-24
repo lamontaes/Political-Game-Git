@@ -1,0 +1,1220 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 760,
+  "after": 10,
+  "results": [
+    {
+      "key": "budget-line:highways",
+      "kind": "budget-line",
+      "family": "infrastructure",
+      "inForceAtOpening": false,
+      "change": "place:3149425 highways 8149686 -> 18149686 by law-wiring-c8a99055",
+      "lawIds": ["law-wiring-c8a99055"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 9359420922,
+            "control": 9396212177,
+            "ids": [
+              "journal:2025-01-21:1476",
+              "journal:2025-01-21:1477",
+              "journal:2025-01-21:1478"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 400066881,
+            "control": 385197189,
+            "ids": [
+              "journal:2025-02-01:1892",
+              "journal:2025-02-01:1893",
+              "journal:2025-02-01:1894"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:430",
+            "treatment": 13022745,
+            "control": 1454322,
+            "ids": [
+              "journal:2025-10-01:66387",
+              "journal:2025-10-01:66388",
+              "journal:2025-12-01:83462"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 961254576,
+            "control": 969973581,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 991817969,
+            "control": 1000207183,
+            "ids": [
+              "journal:2025-01-28:1574",
+              "journal:2025-01-29:1612",
+              "journal:2025-01-30:1617"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/finance-state.ts:1934",
+            "treatment": 9579951,
+            "control": 2956326,
+            "ids": [
+              "journal:2026-01-01:92030",
+              "journal:2026-01-01:92032",
+              "journal:2026-06-01:139193"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/finance-state.ts:1954",
+            "treatment": 9709653,
+            "control": 5071328,
+            "ids": [
+              "journal:2026-01-01:92031",
+              "journal:2026-01-01:92033",
+              "journal:2026-06-01:139194"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 363547843,
+            "control": 367137215,
+            "ids": [
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035",
+              "journal:2025-02-01:3037"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1084929171,
+            "control": 1081895322,
+            "ids": [
+              "journal:2025-02-01:1849",
+              "journal:2025-02-01:1850",
+              "journal:2025-02-01:1851"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 15493607,
+            "control": 12908740,
+            "ids": [
+              "journal:2025-02-19:8180",
+              "journal:2025-02-19:8181",
+              "journal:2025-02-19:8182"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 156633816,
+            "control": 158061779,
+            "ids": [
+              "journal:2025-02-01:1923",
+              "journal:2025-02-01:1926",
+              "journal:2025-02-01:1929"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1446",
+            "treatment": 6722929212,
+            "control": 6723947576,
+            "ids": [
+              "journal:2025-01-28:1575",
+              "journal:2025-01-29:1613",
+              "journal:2025-01-30:1618"
+            ]
+          }
+        ],
+        "diffKinds": 41,
+        "cited": [
+          {
+            "token": "budget-line:highways",
+            "gross": 2265567,
+            "ids": [
+              "journal:2025-02-03:7605",
+              "journal:2025-02-03:7606",
+              "journal:2025-02-03:7607"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "highways-spending-to-poor-roads",
+            "status": "built",
+            "to": "roads.poor-condition-pct"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-05",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.004675486675432123
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-06",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.004675486675432123
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-07",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.00462718376218903
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-08",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.00462718376218903
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-09",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.00462718376218903
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-10",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.04131859109868805
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-11",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.04131859109868805
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-12",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.04131859109868805
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2027-01",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.04131859109868805
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2027-02",
+            "link": "highways-spending-to-poor-roads",
+            "effect": 0.04131859109868805
+          }
+        ],
+        "firedCount": 10
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 112,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 4,
+        "governments": 0,
+        "other": 0,
+        "open": 117,
+        "ended": 18,
+        "sample": [
+          "budget-line:highways|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:highways|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-01-20",
+          "budget-line:highways|person_00a28a6650e55809|2025-01-20",
+          "budget-line:highways|person_02977976e9a4e00e|2025-01-20"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "seconds": 195
+    },
+    {
+      "key": "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit",
+      "kind": "question",
+      "family": "infrastructure",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e) effective 2025-01-21; then repealed at state, city effective 2027-02-21",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-01-21:law-wiring-fb34464e",
+        "law:US-NE:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2025-05-27:LB 35",
+        "law:US-NE:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2027-02-21:law-wiring-fb34464e-b",
+        "law:place:3149425:city:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:2027-02-21:law-wiring-fb34464e-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 2,
+        "countedPeople": 227,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 3,
+        "ended": 0,
+        "sample": [
+          "us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|jurisdiction_45a3b3ebe97fe71d",
+          "applied|us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|place:3149425",
+          "applied|us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit|residents:place:3149425"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2081": 1614,
+        "src/core2/modules/outcome-web.ts:158": 727,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:634": 342,
+        "src/core2/modules/world-legislating.ts:253": 324,
+        "src/core2/modules/world-legislating.ts:183": 176,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:1112": 112,
+        "src/core2/law-reach/group-b.ts:232 <- src/core2/life.ts:549": 100,
+        "src/core2/life.ts:549": 16,
+        "src/core2/modules/world-legislating.ts:333": 6
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 121824246,
+            "control": 116462094,
+            "ids": [
+              "journal:2025-02-08:7906",
+              "journal:2025-02-15:8078",
+              "journal:2025-02-21:8256"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 955654203,
+            "control": 1000207183,
+            "ids": [
+              "journal:2025-01-28:1574",
+              "journal:2025-01-29:1612",
+              "journal:2025-01-30:1617"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 1459871725204070,
+            "control": 1459871706019370,
+            "ids": [
+              "journal:2025-02-01:1662",
+              "journal:2025-02-01:1663",
+              "journal:2025-02-01:1664"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 9384354687,
+            "control": 9396212177,
+            "ids": [
+              "journal:2025-01-21:1476",
+              "journal:2025-01-21:1477",
+              "journal:2025-01-21:1478"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1072574800,
+            "control": 1081895322,
+            "ids": [
+              "journal:2025-02-01:1849",
+              "journal:2025-02-01:1850",
+              "journal:2025-02-01:1851"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 961653563,
+            "control": 969973586,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:818",
+            "treatment": 369862181185200,
+            "control": 369862173447254,
+            "ids": [
+              "journal:2025-02-01:1652",
+              "journal:2025-02-01:1653",
+              "journal:2025-02-01:1654"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 151112235,
+            "control": 158061779,
+            "ids": [
+              "journal:2025-02-01:1923",
+              "journal:2025-02-01:1926",
+              "journal:2025-02-01:1929"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 18689178,
+            "control": 12908740,
+            "ids": [
+              "journal:2025-02-19:8172",
+              "journal:2025-02-19:8173",
+              "journal:2025-02-19:8174"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1446",
+            "treatment": 6718305803,
+            "control": 6723947576,
+            "ids": [
+              "journal:2025-01-28:1575",
+              "journal:2025-01-29:1613",
+              "journal:2025-01-30:1618"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 121824246,
+            "control": 116462094,
+            "ids": [
+              "journal:2025-02-08:7906",
+              "journal:2025-02-15:8078",
+              "journal:2025-02-21:8256"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 1006686186,
+            "control": 1003103371,
+            "ids": [
+              "journal:2025-01-24:1557",
+              "journal:2025-01-25:1558",
+              "journal:2025-01-25:1560"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
+            "treatment": 14981133,
+            "control": 11643406,
+            "ids": [
+              "journal:2025-03-01:10260",
+              "journal:2025-04-01:18128",
+              "journal:2025-05-01:26029"
+            ]
+          }
+        ],
+        "diffKinds": 43,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "highway-money-for-transit-to-service",
+            "status": "built",
+            "to": "transit.service-access"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2027-02",
+            "link": "highway-money-for-transit-to-service",
+            "effect": 0.06
+          }
+        ],
+        "firedCount": 1
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 218
+    },
+    {
+      "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+      "kind": "question",
+      "family": "energy-environment",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216) effective 2025-01-21; then repealed at city effective 2027-02-21",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2025-01-21:law-wiring-fbc8b216",
+        "law:place:3149425:city:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:2027-02-21:law-wiring-fbc8b216-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 745,
+        "src/core2/modules/world-legislating.ts:253": 606,
+        "src/core2/modules/legislature.ts:2081": 439,
+        "src/core2/modules/world-legislating.ts:183": 176,
+        "src/core2/modules/business.ts:922": 50,
+        "src/core2/modules/world-legislating.ts:333": 6,
+        "src/core2/life.ts:549": 5
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 970073601,
+            "control": 969973586,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 12908735,
+            "control": 12908740,
+            "ids": [
+              "journal:2025-02-19:8103",
+              "journal:2025-02-19:8104",
+              "journal:2025-02-19:8105"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
+            "treatment": 309159685,
+            "control": 309159686,
+            "ids": [
+              "journal:2025-05-01:25858",
+              "journal:2025-06-01:33653",
+              "journal:2025-07-01:42192"
+            ]
+          }
+        ],
+        "diffKinds": 3,
+        "cited": [
+          {
+            "token": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
+            "gross": 150000,
+            "ids": [
+              "journal:2026-02-07:108441",
+              "journal:2026-02-07:108442",
+              "journal:2026-02-07:108443"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "emission-rules-to-particulates",
+            "status": "built",
+            "to": "env.particulates"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-02",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-03",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-04",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-05",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-06",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-07",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-08",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-09",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-10",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-11",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-12",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2027-01",
+            "link": "emission-rules-to-particulates",
+            "effect": -0.023
+          }
+        ],
+        "firedCount": 13
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 233
+    },
+    {
+      "key": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
+      "kind": "question",
+      "family": "technology",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c) effective 2025-01-21; then repealed at city effective 2027-02-21",
+      "lawIds": [
+        "law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2025-01-21:law-wiring-7d767e2c",
+        "law:place:3149425:city:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:2027-02-21:law-wiring-7d767e2c-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 1,
+        "countedPeople": 227,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|place:3149425",
+          "applied|us-policy-positions:technology-privacy.restrict-government-facial-recognition|residents:place:3149425"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/legislature.ts:2081": 1185,
+        "src/core2/modules/outcome-web.ts:158": 778,
+        "src/core2/modules/world-legislating.ts:253": 476,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:634": 328,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/budgets.ts:634": 212,
+        "src/core2/modules/world-legislating.ts:183": 176,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:1112": 108,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/budgets.ts:1112": 80,
+        "src/core2/life.ts:549": 21,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/life.ts:549": 16,
+        "src/core2/modules/world-legislating.ts:333": 6
+      },
+      "openingRow": "law:US-NE:state:us-policy-positions:technology-privacy.restrict-government-facial-recognition:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 116685886,
+            "control": 116462094,
+            "ids": [
+              "journal:2025-02-08:7840",
+              "journal:2025-02-15:8012",
+              "journal:2025-02-21:8190"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 1001736321,
+            "control": 1000207183,
+            "ids": [
+              "journal:2025-01-28:1574",
+              "journal:2025-01-29:1612",
+              "journal:2025-01-30:1617"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+            "treatment": 1459871705001928,
+            "control": 1459871706019370,
+            "ids": [
+              "journal:2025-02-01:1662",
+              "journal:2025-02-01:1663",
+              "journal:2025-02-01:1664"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 1004079153,
+            "control": 1003103371,
+            "ids": [
+              "journal:2025-01-24:1557",
+              "journal:2025-01-25:1558",
+              "journal:2025-01-25:1560"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 969176197,
+            "control": 969973586,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 158780518,
+            "control": 158061779,
+            "ids": [
+              "journal:2025-02-01:1923",
+              "journal:2025-02-01:1926",
+              "journal:2025-02-01:1929"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 9396637290,
+            "control": 9396212177,
+            "ids": [
+              "journal:2025-01-21:1476",
+              "journal:2025-01-21:1477",
+              "journal:2025-01-21:1478"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:430",
+            "treatment": 1773681,
+            "control": 1454322,
+            "ids": [
+              "journal:2025-10-01:66041",
+              "journal:2025-10-01:66042",
+              "journal:2025-12-01:83114"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 116685886,
+            "control": 116462094,
+            "ids": [
+              "journal:2025-02-08:7840",
+              "journal:2025-02-15:8012",
+              "journal:2025-02-21:8190"
+            ]
+          },
+          {
+            "kind": "finance.credit-transfer @ src/core2/finance-cash.ts:2591",
+            "treatment": 4441789,
+            "control": 4221812,
+            "ids": [
+              "journal:2026-01-01:97898",
+              "journal:2026-02-01:107335",
+              "journal:2026-03-01:116150"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1081707898,
+            "control": 1081895322,
+            "ids": [
+              "journal:2025-02-01:1849",
+              "journal:2025-02-01:1850",
+              "journal:2025-02-01:1851"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1446",
+            "treatment": 6724104556,
+            "control": 6723947576,
+            "ids": [
+              "journal:2025-01-28:1575",
+              "journal:2025-01-29:1613",
+              "journal:2025-01-30:1618"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:818",
+            "treatment": 369862173595338,
+            "control": 369862173447254,
+            "ids": [
+              "journal:2025-02-01:1652",
+              "journal:2025-02-01:1653",
+              "journal:2025-02-01:1654"
+            ]
+          }
+        ],
+        "diffKinds": 34,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "facial-recognition-limit-to-crime",
+            "status": "built",
+            "to": "crime.violent"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-02",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-03",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-04",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-05",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-07",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-08",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-09",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-10",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-11",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-12",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2027-01",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2027-02",
+            "link": "facial-recognition-limit-to-crime",
+            "effect": 0.01
+          }
+        ],
+        "firedCount": 12
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 222
+    },
+    {
+      "key": "budget-line:parks",
+      "kind": "budget-line",
+      "family": "parks-culture",
+      "inForceAtOpening": false,
+      "change": "place:3149425 parks 3599296 -> 13599296 by law-wiring-17ac6c1b",
+      "lawIds": ["law-wiring-17ac6c1b"],
+      "openingReach": {
+        "fullPeople": 68,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 70,
+        "ended": 0,
+        "sample": [
+          "budget-line:parks|person_00a28a6650e55809|2025-01-20",
+          "budget-line:parks|person_02977976e9a4e00e|2025-01-20",
+          "budget-line:parks|person_02977a76e9a4e1c1|2025-01-20",
+          "budget-line:parks|person_03819202b5d285c1|2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1082430041,
+            "control": 1081895322,
+            "ids": [
+              "journal:2025-02-01:1849",
+              "journal:2025-02-01:1850",
+              "journal:2025-02-01:1851"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 969857632,
+            "control": 969973581,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 1003023299,
+            "control": 1003103371,
+            "ids": [
+              "journal:2025-01-24:1557",
+              "journal:2025-01-25:1558",
+              "journal:2025-01-25:1560"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:595",
+            "treatment": 929463540066295,
+            "control": 929463540082487,
+            "ids": [
+              "journal:2025-02-01:1639",
+              "journal:2025-02-01:1640",
+              "journal:2025-02-01:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 12905483,
+            "control": 12908740,
+            "ids": [
+              "journal:2025-02-19:8106",
+              "journal:2025-02-19:8107",
+              "journal:2025-02-19:8108"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
+            "treatment": 309159015,
+            "control": 309159682,
+            "ids": [
+              "journal:2025-05-01:25861",
+              "journal:2025-06-01:33656",
+              "journal:2025-07-01:42195"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 2779802,
+            "control": 2780330,
+            "ids": [
+              "journal:2025-02-24:8226",
+              "journal:2025-02-28:8399",
+              "journal:2025-03-03:14886"
+            ]
+          },
+          {
+            "kind": "campaigns:donation @ src/core2/modules/campaigns.ts:1467",
+            "treatment": 27297600,
+            "control": 27298100,
+            "ids": [
+              "journal:2026-01-09:99044",
+              "journal:2026-01-09:99045",
+              "journal:2026-01-09:99046"
+            ]
+          },
+          {
+            "kind": "campaigns:purchase @ src/core2/modules/campaigns.ts:1467",
+            "treatment": 12415437,
+            "control": 12415530,
+            "ids": [
+              "journal:2026-01-09:99113",
+              "journal:2026-01-09:99126",
+              "journal:2026-01-09:99130"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+            "treatment": 585749249,
+            "control": 585749258,
+            "ids": [
+              "journal:2025-02-06:7798",
+              "journal:2025-02-14:8008",
+              "journal:2025-02-21:8171"
+            ]
+          }
+        ],
+        "diffKinds": 10,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "parks-spending-to-exercise-access",
+            "status": "built",
+            "to": "parks.access-to-exercise"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-10",
+            "link": "parks-spending-to-exercise-access",
+            "effect": -0.04336569634728569
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-11",
+            "link": "parks-spending-to-exercise-access",
+            "effect": -0.04336569634728569
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2026-12",
+            "link": "parks-spending-to-exercise-access",
+            "effect": -0.04336569634728569
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2027-01",
+            "link": "parks-spending-to-exercise-access",
+            "effect": -0.04336569634728569
+          },
+          {
+            "id": "web:jurisdiction_45a3b3ebe97fe71d:2027-02",
+            "link": "parks-spending-to-exercise-access",
+            "effect": -0.04336569634728569
+          }
+        ],
+        "firedCount": 5
+      },
+      "heard": {
+        "people": 1,
+        "sample": [
+          "person_163e4399798d4f4a:budget-line-changed:budget:US-NE:2024:parks:law:US-NE:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 140,
+        "countedGroups": 1,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 142,
+        "ended": 18,
+        "sample": [
+          "budget-line:parks|person_00a28a6650e55809|2025-01-20",
+          "budget-line:parks|person_02977976e9a4e00e|2025-01-20",
+          "budget-line:parks|person_02977a76e9a4e1c1|2025-01-20",
+          "budget-line:parks|person_03819202b5d285c1|2025-01-20"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 2,
+        "sample": []
+      },
+      "seconds": 224
+    }
+  ]
+}

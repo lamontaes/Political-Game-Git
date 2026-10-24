@@ -143,9 +143,9 @@
       "web": {
         "links": [
           {
-            "key": "road-condition-to-vehicle-costs",
-            "status": "size-not-set",
-            "to": "household.vehicle-costs"
+            "key": "highways-spending-to-poor-roads",
+            "status": "built",
+            "to": "roads.poor-condition-pct"
           }
         ],
         "fired": [],
@@ -224,8 +224,9 @@
         "src/core2/modules/outcome-web.ts:158": 48,
         "src/core2/modules/world-legislating.ts:253": 32,
         "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:634": 12,
         "src/core2/life.ts:549": 5,
-        "src/core2/law-reach/group-b.ts:231 <- src/core2/life.ts:549": 4,
+        "src/core2/law-reach/group-b.ts:232 <- src/core2/life.ts:549": 4,
         "src/core2/modules/world-legislating.ts:333": 2
       },
       "openingRow": "law:US-MI:state:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit:general:starting",
@@ -339,7 +340,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 13
+      "seconds": 14
     },
     {
       "key": "us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
@@ -598,7 +599,7 @@
       },
       "readers": {
         "src/core2/modules/legislature.ts:2081": 375,
-        "src/core2/jobs-age-bias.ts:35": 64,
+        "src/core2/jobs-age-bias.ts:36": 64,
         "src/core2/modules/world-legislating.ts:253": 24,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/modules/outcome-web.ts:158": 16,
@@ -660,7 +661,7 @@
         "ended": 3,
         "sample": []
       },
-      "seconds": 12
+      "seconds": 13
     },
     {
       "key": "us-policy-positions:civil-family-community.dedicated-parks-funding",
@@ -703,7 +704,9 @@
         "sample": []
       },
       "readers": {
-        "src/core2/life.ts:549": 5
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:634": 10,
+        "src/core2/life.ts:549": 5,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/budgets.ts:634": 4
       },
       "openingRow": "law:US-MI:state:us-policy-positions:civil-family-community.dedicated-parks-funding:general:starting",
       "money": {
@@ -900,7 +903,7 @@
         "ended": 22,
         "sample": []
       },
-      "seconds": 11
+      "seconds": 12
     },
     {
       "key": "us-policy-positions:technology-privacy.age-verification-for-social-media",
@@ -929,10 +932,10 @@
         "countedGroups": 1,
         "countedPeople": 7,
         "households": 0,
-        "organizations": 4,
+        "organizations": 1,
         "governments": 0,
         "other": 0,
-        "open": 9,
+        "open": 6,
         "ended": 0,
         "sample": [
           "reach:law:place:2666300:city:us-policy-positions:technology-privacy.age-verification-for-social-media:general:2025-01-21:law-wiring-03d2708e:minors:person_2dc9b218ebc09c07:2025-01-21",
@@ -945,17 +948,44 @@
         "src/core2/modules/world-legislating.ts:253": 32,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
-        "src/core2/modules/business.ts:1335": 4,
         "src/core2/modules/legislature.ts:2081": 2,
         "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/modules/business.ts:1273": 2
+        "src/core2/modules/business.ts:1277": 2,
+        "src/core2/modules/business.ts:1341": 1
       },
       "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.age-verification-for-social-media:general:starting",
       "money": {
         "direct": [],
-        "diff": [],
-        "diffKinds": 0,
-        "cited": []
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 30765614,
+            "control": 30776517,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 1941902,
+            "control": 1930999,
+            "ids": [
+              "journal:2025-02-01:1905",
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907"
+            ]
+          }
+        ],
+        "diffKinds": 2,
+        "cited": [
+          {
+            "token": "us-policy-positions:technology-privacy.age-verification-for-social-media",
+            "gross": 10903,
+            "ids": ["journal:2025-02-01:1905"]
+          }
+        ]
       },
       "web": {
         "links": [],
@@ -994,7 +1024,7 @@
         "ended": 5,
         "sample": []
       },
-      "seconds": 11
+      "seconds": 13
     },
     {
       "key": "us-policy-positions:technology-privacy.restrict-government-facial-recognition",
@@ -1039,8 +1069,10 @@
         "src/core2/modules/outcome-web.ts:158": 48,
         "src/core2/modules/world-legislating.ts:253": 32,
         "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/law-reach/index.ts:40 <- src/core2/modules/budgets.ts:634": 12,
         "src/core2/life.ts:549": 5,
         "src/core2/law-reach/group-a-records.ts:251 <- src/core2/life.ts:549": 4,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/budgets.ts:634": 4,
         "src/core2/modules/legislature.ts:2081": 2,
         "src/core2/modules/world-legislating.ts:333": 2
       },
@@ -1131,7 +1163,7 @@
         "ended": 2,
         "sample": []
       },
-      "seconds": 11
+      "seconds": 12
     },
     {
       "key": "us-policy-positions:technology-privacy.consumer-data-privacy-law",
@@ -1160,10 +1192,10 @@
         "countedGroups": 1,
         "countedPeople": 143,
         "households": 0,
-        "organizations": 15,
+        "organizations": 11,
         "governments": 0,
         "other": 0,
-        "open": 66,
+        "open": 62,
         "ended": 0,
         "sample": [
           "reach:law:place:2666300:city:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:2025-01-21:law-wiring-7b10c9c6:consumers:person_ae720410206893b1:2025-01-21",
@@ -1176,11 +1208,11 @@
         "src/core2/modules/outcome-web.ts:158": 48,
         "src/core2/modules/world-legislating.ts:253": 32,
         "src/core2/modules/world-legislating.ts:183": 16,
-        "src/core2/modules/business.ts:1335": 15,
+        "src/core2/modules/business.ts:1341": 11,
         "src/core2/life.ts:549": 5,
         "src/core2/modules/legislature.ts:2081": 2,
         "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/modules/business.ts:1273": 2
+        "src/core2/modules/business.ts:1277": 2
       },
       "openingRow": "law:US-MI:state:us-policy-positions:technology-privacy.consumer-data-privacy-law:general:starting",
       "money": {
@@ -1253,7 +1285,7 @@
         "ended": 51,
         "sample": []
       },
-      "seconds": 11
+      "seconds": 12
     },
     {
       "key": "us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal",
@@ -1375,7 +1407,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 12
+      "seconds": 13
     },
     {
       "key": "us-policy-positions:agriculture-natural-resources.protect-farmland-from-development",
@@ -1486,7 +1518,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 13
+      "seconds": 11
     },
     {
       "key": "budget-line:parks",
