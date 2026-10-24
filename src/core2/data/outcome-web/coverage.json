@@ -38,7 +38,6 @@
     "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
-    "snap-work-requirement-to-participation",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
     "end-cash-bail-to-pretrial-detention",
@@ -411,6 +410,10 @@
     "economy-to-approval": {
       "waitingOn": ["economy.real-income-growth", "approval.incumbent"],
       "needsSize": true
+    },
+    "snap-work-requirement-to-participation": {
+      "waitingOn": [],
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
     },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],
