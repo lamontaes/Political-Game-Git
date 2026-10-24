@@ -12,7 +12,11 @@
  *    town's households are victimized, and names the links behind it;
  * 4. its victimization record names a household of full people;
  * 5. each of them lives it and takes it as a reason for the side they
- *    already hold on police spending, the stance citing the record.
+ *    already hold on police spending, the stance citing the record;
+ * 6. the director keeps it as a moment for that person, and a talk with
+ *    someone they know raises it as a subject whose source is the record.
+ *    The lines that say it are held until graded, so play leaves it unsaid
+ *    and the grading route says it.
  *
  * The research's size is a share a point of unemployment above 4%, so the
  * link raises the rate only in a month the town's unemployment is above it;
@@ -45,7 +49,13 @@ import { WORLD_METRICS_MODULE_ID } from "./modules/world-metrics";
 import { livedQuestion } from "./outcome-news";
 import { WEB_LINKS } from "./outcome-web-model";
 import { coreAPI } from "./state";
-import type { CoreState } from "./types";
+import type { CoreState, PersonId } from "./types";
+import {
+  CONVERSATION_DATA,
+  openConversation,
+  subjectsBetween,
+} from "../director/conversation";
+import { conversationDataFromBank } from "../director/mined/conversation-bank";
 
 const seed =
   process.env.EFFECTS_END_TO_END_SEED || randomBytes(8).toString("hex");
@@ -249,6 +259,74 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
           ).toBeGreaterThanOrEqual(0);
       }
       const person = moved[0]!;
+
+      // 6. The director keeps it as a moment, and a talk raises it from the
+      // record. Watching a person changes how their days run, so the same
+      // world is built again and the household is watched only from the day
+      // before the crime.
+      const date = makeIsoDate(
+        victim.eventId.slice(victim.eventId.lastIndexOf(":") + 1),
+      );
+      const { core: again, director } = buildBenchWorld(
+        drawSeed,
+        gameStartDate(),
+        { twoLevel: true, placeKey: run.place.key },
+      );
+      advanceCore(again, addDays(date, -1));
+      const members = (
+        again.households.get(victim.householdId)?.memberIds ?? []
+      ).filter((id) => again.people.get(id)?.alive);
+      for (const id of members) director.watch(again, id);
+      advanceCore(again, addDays(date, 1));
+      const victimId = person.personId as PersonId;
+      const moment = director.ledger.people
+        .get(victimId)
+        ?.moments.find((row) => row.causeId === victim.eventId);
+      expect(
+        moment?.label,
+        `${where}: ${victimId}'s moment from ${victim.eventId} (the same world built again)`,
+      ).toBe(`feeling:event:${CRIME_EVENT}`);
+      // Someone they know: a housemate, else the closest tie they have.
+      const tie = [...again.relationships.values()]
+        .filter(
+          (row) =>
+            row.actorId === victimId && again.people.get(row.otherId)?.alive,
+        )
+        .sort((a, b) => b.level - a.level || a.id.localeCompare(b.id))[0];
+      const listener = (members.find((id) => id !== victimId) ??
+        tie?.otherId) as PersonId | undefined;
+      expect(listener, `${where}: someone ${victimId} knows`).toBeDefined();
+      const subject = subjectsBetween(
+        again,
+        victimId,
+        listener!,
+        director,
+      ).find((row) => row.kind === "victimization");
+      expect(subject?.aboutId, `${where}: ${victimId}'s subject`).toBe(
+        victim.eventId,
+      );
+      expect(subject!.facts.victimized!.sourceRecordIds, where).toEqual([
+        victim.eventId,
+      ]);
+      // Held: play has no graded line for it yet; the grading route says it.
+      expect(
+        CONVERSATION_DATA.subjects.victimization?.raise ?? [],
+        where,
+      ).toEqual([]);
+      const talk = openConversation(again, listener!, victimId, {
+        director,
+        occasionId: moment!.id,
+        data: conversationDataFromBank(undefined, true),
+      });
+      const raised = talk.lines.find(
+        (line) =>
+          line.speakerId === victimId &&
+          line.subjectId === `${victimId}>victimization:${victim.eventId}`,
+      );
+      expect(
+        raised?.sourceRecordIds,
+        `${where}: ${victimId} raises ${victim.eventId}`,
+      ).toContain(victim.eventId);
       console.log(
         `effects end to end: ${where}${tried.length ? ` (drawn again after ${tried.join("; ")})` : ""}: ` +
           `cause ${causeId} (unemployment ${unemployment.toFixed(2)}%) -> ` +
@@ -258,7 +336,8 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
           `${person.personId}'s stance on ${POLICE} moved ${person.cause.change.toFixed(4)} toward ${person.side}, citing ${person.cause.eventId}` +
           (moved.length > 1
             ? `; ${moved.length - 1} more in the household moved`
-            : ""),
+            : "") +
+          ` -> director moment ${moment!.id} -> talk with ${listener} on subject ${subject!.id}, said on the grading route as "${raised!.text}"`,
       );
     } finally {
       setBookkeeping(priorBookkeeping);

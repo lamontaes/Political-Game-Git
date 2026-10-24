@@ -18,7 +18,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { coreAPI } from "../core2/state";
-import type { PersonId } from "../core2/kernel/brands";
+import type { PersonId } from "../core2/types";
 import {
   CONVERSATION_DATA,
   openConversation,
