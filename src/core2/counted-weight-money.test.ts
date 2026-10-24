@@ -47,7 +47,7 @@ function play(seed: string, key: string, countScale: number) {
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale !== 1 ? { countScale } : {}),
+    countScale,
   });
   const api = coreAPI(core);
   const rt = residentsRuntime(core)!;

@@ -34,7 +34,7 @@ function leavers(seed: string, key: string, countScale?: number) {
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale ? { countScale } : {}),
+    countScale: countScale ?? 1,
   });
   const api = coreAPI(core);
   advanceCore(core, addDays(makeIsoDate(core.date), 35));

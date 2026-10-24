@@ -19,7 +19,7 @@ function openStock(seed: string, key: string, countScale?: number) {
   const { core } = buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale ? { countScale } : {}),
+    countScale: countScale ?? 1,
   });
   // The housing engine records its stock on its first day.
   advanceCore(core, addDays(makeIsoDate(core.date), 2));
