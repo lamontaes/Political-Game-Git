@@ -47,6 +47,18 @@
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
+  "renewalWebWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Fitted in played years so that a full couple's choice to plan a child moves with the outcome web's birth-rate factor for the mother's own age and home about as the counted women's births do (elasticity 1). Bench worlds of four drawn places (Key Vista, Florida; Red Rock, Arizona; Camden, Alabama; Baxter, Iowa; place draws scratch:6 to scratch:9 on web-births-full) review 77 couples through a year, and 3 of them plan a child. Read from the couples' recorded plan scores, a factor swing of 0.1, 0.2, 0.3 and 0.4 reaches 1, 2, 3 and 7 more couples at weight 7.5 (elasticity 3.3 to 5.8) and 0, 1, 1 and 2 more at weight 3 (elasticity 0 to 1.7, 1.1 on average). A town's year cannot resolve a response finer than a couple, so the weight rests on this pooled count. The web's factor is the place's own unemployment, home-price and abortion-law effect on births (data/research/outcome-web/links.json); never a rate on the individual.",
+    "spread": {
+      "low": 2,
+      "high": 5,
+      "unit": "score per unit of factor change",
+      "citation": "The pooled count's average elasticity over factor swings of 0.1 to 0.4 is 0.5 at weight 2 and 1.6 at weight 5, inside the band of 0.5 to 2. src/core2/births-full-web.test.ts follows a shifted web month row to the couples it tips, by record id."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
   "renewalAgeWeight": {
     "value": 4,
     "tag": "TUNABLE",
@@ -111,14 +123,14 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalIncomeWeight": {
-    "value": 2,
+    "value": 3,
     "tag": "TUNABLE",
     "citation": "PW-8: weight on household job income against the place's median, as the bounded ratio (r - 1)/(r + 1), so no income at all costs at most this weight (it was a log cliff of -15.9 at $0). Direction from the literature on income and fertility timing; no rates enter actors.",
     "spread": {
       "low": 1,
       "high": 3,
       "unit": "score",
-      "citation": "Checked against the town's yearly births and the full couples' decisions in two fresh played-world seeds; 2 keeps a median-income couple at the old log weight's slope near the median."
+      "citation": "Checked against the town's yearly births and the full couples' decisions in two fresh played-world seeds; 2 keeps a median-income couple at the old log weight's slope near the median. Oct 24 2026 (pool item people-births-over-state-rate-small-town): raised to the top of this range with the savings and partnership terms centered, so a couple's yearly births track the state's 2024 rate for the women in town (NCHS NVSR 75(2) Table 6, via data/research/renewal/natality-2024.json) in M1-09's half-year check; a total check, never an input to one couple's choice."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
@@ -171,26 +183,26 @@
     "citation": "HUD income limits: the very low-income limit for a family of four is 50% of the area median family income (HUD Income Limits methodology, https://www.huduser.gov/portal/datasets/il.html). The place's own HUD row gives its median, so the couple's income is read against what is usual where they live."
   },
   "renewalJobWeight": {
-    "value": 1,
+    "value": 2,
     "tag": "TUNABLE",
     "citation": "PW-8: stability of work. Each partner with a paying job adds this weight, centered on one earner. Direction: economic uncertainty and job loss delay births (Schneider 2015, Journal of Marriage and Family 77(5), 'The Great Recession, Fertility, and Uncertainty'). The size is tunable.",
     "spread": {
       "low": 0.5,
       "high": 2,
       "unit": "score",
-      "citation": "Checked against the full couples' decisions and the town's yearly births in two fresh played-world seeds."
+      "citation": "Checked against the full couples' decisions and the town's yearly births in two fresh played-world seeds. Oct 24 2026 (pool item people-births-over-state-rate-small-town): raised to the top of this range with the savings and partnership terms centered, so a couple's yearly births track the state's 2024 rate for the women in town (NCHS NVSR 75(2) Table 6, via data/research/renewal/natality-2024.json) in M1-09's half-year check; a total check, never an input to one couple's choice."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalRoomWeight": {
-    "value": 1,
+    "value": 2,
     "tag": "TUNABLE",
     "citation": "PW-8: room for a child. What one more bedroom costs a year at the place's HUD fair market rents, against household income, as a bounded share. Direction: higher housing costs lower births among renters (Dettling and Kearney 2014, Journal of Public Economics 110, 'House prices and birth rates'). The size is tunable.",
     "spread": {
       "low": 0.5,
       "high": 2,
       "unit": "score",
-      "citation": "Checked against the full couples' decisions and the town's yearly births in two fresh played-world seeds."
+      "citation": "Checked against the full couples' decisions and the town's yearly births in two fresh played-world seeds. Oct 24 2026 (pool item people-births-over-state-rate-small-town): raised to the top of this range with the savings and partnership terms centered, so a couple's yearly births track the state's 2024 rate for the women in town (NCHS NVSR 75(2) Table 6, via data/research/renewal/natality-2024.json) in M1-09's half-year check; a total check, never an input to one couple's choice."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },

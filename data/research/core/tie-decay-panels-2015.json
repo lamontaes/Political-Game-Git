@@ -1,0 +1,64 @@
+{
+  "id": "tie-decay-panels-2015",
+  "publisher": "Roberts and Dunbar, Human Nature 26(4):426-450 (2015); University of Kansas News Service (2018) for Hall's hours",
+  "vintage": "2015 (18-month panel); 2018 (hours to friendship)",
+  "table": "Roberts and Dunbar (2015) Table 3 and Results H1 (emotional closeness 1 to 10 over three waves nine months apart); Hall (2018) as released by KU News",
+  "title": "How closeness changes with and without contact, kin against friends",
+  "universe": "Roberts and Dunbar: 25 English school leavers' whole active networks (kin and friends), aged 17 to 19 at the start; Hall: 355 adults who had recently moved and 112 first-year students",
+  "geography": "England (Roberts and Dunbar); United States (Hall)",
+  "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4626528/",
+  "retrievedOn": "2026-10-23",
+  "limits": "A small panel across a life transition (leaving school), so friends' decline is likely faster than among settled adults; emotional closeness is a 1 to 10 rating, not hours together, so any mapping onto the game's 0 to 1 closeness is a rescale, not a measure. No study read gives a half-life of closeness without contact. These figures check the direction and rough size of a town's change over a year; they decide no tie.",
+  "rows": {
+    "kinClosenessPerWave": {
+      "value": 0.27,
+      "low": 0.2,
+      "high": 0.34,
+      "unit": "points on a 1 to 10 scale per wave (nine months)",
+      "quote": "There was a significant increase in emotional closeness for family ( b = 0.27, t 542.10 = 7.28, p < 0.001)",
+      "intervalFrom": "b plus or minus 1.96 standard errors, the standard error being b / t = 0.037"
+    },
+    "friendClosenessPerWave": {
+      "value": -0.62,
+      "low": -0.7,
+      "high": -0.54,
+      "unit": "points on a 1 to 10 scale per wave (nine months)",
+      "quote": "a significant decrease in emotional closeness for friends ( b = −0.62, t 786.57 = −15.23, p < 0.001)",
+      "intervalFrom": "b plus or minus 1.96 standard errors, the standard error being b / t = 0.041"
+    },
+    "innerLayerKept18Months": {
+      "kin": 70.3,
+      "friends": 48.6,
+      "unit": "percent of inner-layer ties still inner after 18 months",
+      "quote": "of 145 kin in the inner layer at T1, 102 (70.3%) were still in the inner layer at T3, whereas only 69 of the 142 friends in the inner layer at T1 (48.6%) remained in the inner layer at T3"
+    },
+    "waveSpacingMonths": {
+      "value": 9,
+      "unit": "months",
+      "quote": "at two further time points: 9 months (T2) and 18 months (T3: end of first calendar year at university, or equivalent)"
+    },
+    "hoursToFriend": {
+      "casual": [40, 60],
+      "friend": [80, 100],
+      "goodFriend": 200,
+      "unit": "hours together",
+      "sourceUrl": "https://news.ku.edu/news/article/2018/03/06/study-reveals-number-hours-it-takes-make-friend",
+      "quote": "it takes between 40 and 60 hours to form a casual friendship ... 80-100 hours to transition to being a friend ... more than 200 hours together to become good friends"
+    }
+  },
+  "band": {
+    "measure": "mean change in closeness over one played year, 0 to 1 scale, by tie kind",
+    "conversion": "points per wave x (12 / 9 waves per year) / 9 (the width of the 1 to 10 scale)",
+    "family": {
+      "low": 0.03,
+      "high": 0.05,
+      "unit": "closeness per year"
+    },
+    "other": {
+      "low": -0.104,
+      "high": -0.08,
+      "unit": "closeness per year"
+    },
+    "readBy": "scripts/research/core-year.ts"
+  }
+}
