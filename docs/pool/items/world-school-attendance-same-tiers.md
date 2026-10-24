@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr: #5639
+status: in-pr
+claimed-by: effect-web-schools
+pr: #5609
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at: 2026-10-24T04:14:44.257Z
 ---
 
 **What.** PR #5639 substitutes all full students average attendance for every counted student, and defaults that average to 1. The new shortcut is not registered. Its comment calls the average local to the student's place, but the calculation pools full students across places, so meeting someone can change the attendance basis their school standing reads.
@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** src/core2/school-outcomes.ts, src/core2/school-outcomes.test.ts, src/core2/data/stopgaps.json
 
-**Notes.** Sent back 2026-10-23 from PR #5639 (branch effect-web-integration): school-outcomes.ts:140-173 uses a global full-student attendance mean for counted students without a registered stopgap; finish on that branch, merge main into it first.
+**Notes.** Sent back 2026-10-24 from PR #5639 (branch effect-web-integration): school-outcomes.ts:140-173 uses a global full-student attendance mean for counted students without a registered stopgap; finish on that branch, merge main into it first.

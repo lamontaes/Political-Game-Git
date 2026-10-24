@@ -22,3 +22,7 @@ claimed-at:
 **Files.** src/core2/residents.ts,src/core2/data/parameters.json,src/core2/data/stopgaps.json,data/research/people/
 
 **Notes.** TODO
+
+Review correction 2026-10-23 for PR #5796 (branch claude/residents-cadence): the count-map objection was withdrawn because keys are created only from actual job-change records; the current head is being re-reviewed and gated.
+
+Sent back 2026-10-23 from PR #5796 (branch claude/residents-cadence): verified in a Census-weighted Olney world: turnover-check.ts:60-65 reports 3154 job records instead of 6995.687 represented jobs; job work-relationship_002e0e940f6cf21b represents 3.5797 but counts as one; use weighted employment and consistent event units, with a weighted-world regression (the prior count-map objection is withdrawn); finish on that branch, merge main into it first.
