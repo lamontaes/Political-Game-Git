@@ -6,6 +6,13 @@
  * turns every trait to its opposite. Writes one JSON file the matrix step
  * (`trait-wiring-matrix.ts`) joins across the three twins.
  *
+ * With `TRAIT_AUDIT_ELECTION=1` the year is the drawn place's own election
+ * window instead of the game's first year: the `days` that end 30 days after
+ * the place's next race on its election calendar (read from a build at the
+ * game's start), never beginning before the game's start. Most places hold no
+ * election in the first year, so voting, canvassing, donating, polls and the
+ * press only run in such a window. The window goes in the output's `span`.
+ *
  * node --import tsx scripts/traits/trait-wiring-audit.ts <seed> <played|flat|mirror> <out.json> [days] [placeKey]
  */
 import { writeFileSync } from "node:fs";
@@ -14,7 +21,12 @@ import { buildBenchWorld } from "../../src/bench/world";
 import { forgetTraitLeans } from "../../src/core2/choice";
 import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
+import {
+  ELECTIONS_MODULE_ID,
+  type ContestRow,
+} from "../../src/core2/modules/elections";
 import { residentsRuntime } from "../../src/core2/modules/residents";
+import { coreAPI } from "../../src/core2/state";
 import { setTraitProbe } from "../../src/core2/trait-probe";
 import type { CoreState } from "../../src/core2/types";
 import { drawPlace } from "../../tests/golden-path/place";
@@ -26,9 +38,45 @@ const placeKey = process.argv[6] || drawPlace(seed, "trait-wiring").key;
 if (!["played", "flat", "mirror", "copy"].includes(mode))
   throw new Error(`Unknown mode ${mode}`);
 
-const start = gameStartDate();
+const gameStart = gameStartDate();
+const shiftDate = (date: string, by: number) => {
+  const d = new Date(`${date}T00:00:00Z`);
+  d.setUTCDate(d.getUTCDate() + by);
+  return d.toISOString().slice(0, 10);
+};
+/** A race this far past the game's start is too far for a window; draw another seed. */
+const MAX_RACE_WAIT_DAYS = 730;
+/** The window ends this many days after the race, so the count and its aftermath play. */
+const DAYS_AFTER_RACE = 30;
+const electionWindow = process.env.TRAIT_AUDIT_ELECTION === "1";
+
 const t0 = performance.now();
-const world = buildBenchWorld(seed, start, { twoLevel: true, placeKey });
+let start = gameStart;
+let world = buildBenchWorld(seed, gameStart, { twoLevel: true, placeKey });
+let nextRace: string | null = null;
+if (electionWindow) {
+  // The first race on the place's calendar after the game's start, read from the elections module.
+  nextRace =
+    (
+      coreAPI(world.core)
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    )
+      .map((c) => c.electionDate)
+      .filter((date) => date > gameStart)
+      .sort()[0] ?? null;
+  if (!nextRace || nextRace > shiftDate(gameStart, MAX_RACE_WAIT_DAYS))
+    throw new Error(
+      `${placeKey} seed ${seed}: next race ${nextRace ?? "none"}, not within ${MAX_RACE_WAIT_DAYS} days of ${gameStart}; draw another seed`,
+    );
+  start = [gameStart, shiftDate(nextRace, DAYS_AFTER_RACE - days)]
+    .sort()
+    .at(-1)!;
+  // The window's world is built on its first day, as the game builds a world.
+  if (start !== gameStart)
+    world = buildBenchWorld(seed, start, { twoLevel: true, placeKey });
+}
 const core = world.core;
 const buildSeconds = (performance.now() - t0) / 1000;
 
@@ -66,6 +114,40 @@ interface SiteTally {
   byLean: Record<string, { lean: number; picked: boolean }[]>;
 }
 const chooser = new Map<string, SiteTally>();
+/** Up to this many example calls are kept for each decision id and chooser site. */
+const EXAMPLES_PER_SITE = 3;
+interface Example {
+  actorId: string | null;
+  date: string;
+  /** The option picked (chooser sites) or whether the outcome was yes (formula decisions), when known. */
+  result?: string | boolean;
+}
+const chooserExamples = new Map<string, Example[]>();
+const formulaExamples = new Map<string, Example[]>();
+/**
+ * Keeps the first few calls; a later call that names its actor takes the
+ * place of a kept call that does not (the probe passes an id only where the
+ * decision is read for a person with one).
+ */
+function keepExample(
+  into: Map<string, Example[]>,
+  key: string,
+  actorId: string | null,
+  example: () => Example,
+): void {
+  let list = into.get(key);
+  if (!list) into.set(key, (list = []));
+  if (list.length < EXAMPLES_PER_SITE) {
+    list.push(example());
+    return;
+  }
+  if (actorId === null) return;
+  for (let at = list.length - 1; at >= 0; at--)
+    if (list[at]!.actorId === null) {
+      list[at] = example();
+      return;
+    }
+}
 interface FormulaTally {
   calls: number;
   absLeanSum: number;
@@ -99,6 +181,11 @@ if (process.env.TRAIT_PROBE !== "off")
           }),
         );
       t.calls++;
+      keepExample(chooserExamples, key, row.actorId, () => ({
+        actorId: row.actorId,
+        date: core.date,
+        result: row.chosen,
+      }));
       t.gapSum += row.traitGap;
       if (row.chosen !== row.withoutTrait) t.turned++;
       t.chosen[row.chosen] = (t.chosen[row.chosen] ?? 0) + 1;
@@ -149,6 +236,11 @@ if (process.env.TRAIT_PROBE !== "off")
           }),
         );
       t.calls++;
+      keepExample(formulaExamples, row.decisionId, row.actorId ?? null, () => ({
+        actorId: row.actorId ?? null,
+        date: core.date,
+        ...(row.yes === undefined ? {} : { result: row.yes }),
+      }));
       const a = Math.abs(row.lean);
       t.absLeanSum += a;
       t.maxAbs = Math.max(t.maxAbs, a);
@@ -167,10 +259,8 @@ if (process.env.TRAIT_PROBE !== "off")
     },
   });
 
-const end = new Date(`${start}T00:00:00Z`);
-end.setUTCDate(end.getUTCDate() + days);
 const t1 = performance.now();
-advanceCore(core, end.toISOString().slice(0, 10));
+advanceCore(core, shiftDate(start, days));
 const yearSeconds = (performance.now() - t1) / 1000;
 setTraitProbe(undefined);
 
@@ -211,6 +301,8 @@ writeFileSync(
     mode,
     placeKey,
     span: [start, core.date],
+    // Only with TRAIT_AUDIT_ELECTION=1: the race the window was drawn around.
+    ...(electionWindow ? { electionWindow: { nextRace, gameStart } } : {}),
     buildSeconds: Math.round(buildSeconds),
     yearSeconds: Math.round(yearSeconds),
     fullPeopleStart: opening.size,
@@ -223,6 +315,10 @@ writeFileSync(
     ),
     formula: Object.fromEntries(formula),
     events,
+    examples: {
+      chooser: Object.fromEntries(chooserExamples),
+      formula: Object.fromEntries(formulaExamples),
+    },
     people: [...opening].map(([id, traits]) => {
       const p = core.people.get(id);
       return {
@@ -237,5 +333,5 @@ writeFileSync(
   }),
 );
 console.log(
-  `${mode} ${placeKey} seed ${seed}: build ${Math.round(buildSeconds)}s, year ${Math.round(yearSeconds)}s, ${chooser.size} chooser sites, ${formula.size} formula sites`,
+  `${mode} ${placeKey} seed ${seed}: window ${start} to ${core.date}${electionWindow ? ` (next race ${nextRace})` : ""}, build ${Math.round(buildSeconds)}s, year ${Math.round(yearSeconds)}s, ${chooser.size} chooser sites, ${formula.size} formula sites`,
 );
