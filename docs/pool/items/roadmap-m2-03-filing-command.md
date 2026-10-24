@@ -5,9 +5,9 @@ area: elections
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-m2-03
-pr:
+pr: #5877
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T02:13:50.373Z
