@@ -10,13 +10,13 @@
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
-      "why": "Runs about 4 times a year (a lobbyist's first meeting with a member on a bill with employer costs, src/core2/modules/interest-groups.ts:372); the yes score never beats corruptionHonestPull 3, so every offer is declined and the trait never turns one.",
-      "fix": "Weigh the stake against the official's own money need and calibrate the honesty pull from the honesty-humility effect size."
+      "why": "Runs when a lobbyist meets a member on a bill with employer costs (src/core2/modules/interest-groups.ts). The offer's honest pull (corruptionHonestPull 3) against the stake settles it by place, not by person: in Jerry City, Ohio's played year one of 3,044 weighings became an offer, and in New Britain, Connecticut's every one of 1,156 did. The take side is calibrated (corruptionTakeHonestPull, Pletzer et al. 2019); the offer side is not.",
+      "fix": "Calibrate the offer's honest pull against the honesty-humility effect size, as the take side is (people-corruption-honest-pull-calibrated)."
     },
     "corruption.take": {
-      "class": "trigger needs a record nobody writes",
-      "why": "Runs only after an offer says yes (src/core2/modules/corruption.ts:177); no offer did.",
-      "fix": "Same as corruption.offer."
+      "class": "circumstances saturate the choice",
+      "why": "Runs after an offer says yes (src/core2/modules/corruption.ts, considerBribe): once in Jerry City, Ohio's played year (taken) and 1,156 times in New Britain, Connecticut's, where the third leaning most toward taking took 0.5 percent and the least none. Too few takes in either year show the study's odds (Pletzer et al. 2019, honesty-humility rho -0.48).",
+      "fix": "Calibrate the offer side so offers vary by person (people-corruption-honest-pull-calibrated)."
     },
     "corruption.tell": {
       "class": "trigger needs a record nobody writes",
@@ -89,9 +89,9 @@
       "fix": "Add resignation as a vacancy cause."
     },
     "constituent-cases.handle-case": {
-      "class": "no trigger (staff takes the case first)",
-      "why": "A staffer's decision is tried first (src/core2/modules/constituent-cases.ts:451), so the official's own read never runs where an official has staff.",
-      "fix": "Let the official's own lean set what the staffer is told."
+      "class": "circumstances do not vary",
+      "why": "The official's own call now comes first, and their staffer carries it out (src/core2/modules/constituent-cases.ts, officeHandles). It ran 17 times in Jerry City, Ohio's played year and 438 times in New Britain, Connecticut's, and every official helped: the case is the same constant every time (constituentHelpBase), so a weight only sets a trait bar and cannot reach the study's odds (Barrick and Mount 1991, conscientiousness r .22, 2.44 between the thirds). The general weight of 1 stands.",
+      "fix": "Give the case its own circumstances (the problem's severity, the office's open cases), then calibrate (traits-integrity-cases-vary)."
     },
     "conversation.believe-claim": {
       "class": "no trigger (player only)",
@@ -162,6 +162,31 @@
       "class": "circumstances tie",
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
+    },
+    "staff.follow-through": {
+      "class": "circumstances saturate the choice",
+      "why": "A staffer's follow-through ran 17 times in Jerry City, Ohio's played year and 438 times in New Britain, Connecticut's, where every staffer saw every case through: the work's quality always clears staffCaseFollowThrough, so personality turns none and the study's odds (Barrick and Mount 1991, r .22, 2.44 between the thirds) cannot be reached. The general weight of 1 stands.",
+      "fix": "Let the case's difficulty vary against the staffer's quality, then calibrate (traits-integrity-cases-vary)."
+    },
+    "staff.hire": {
+      "class": "no study number",
+      "why": "No study gives the odds of an official hiring staff by trait, so the general weight of 1 stands; the case varies only with the office's budget, so the willing and unwilling thirds split at overwhelming odds (net 20 in Jerry City, Ohio).",
+      "fix": "Calibrate to the single-decision range once the case varies (traits-integrity-cases-vary)."
+    },
+    "staff.dismiss": {
+      "class": "no study number",
+      "why": "No study gives the odds of dismissing an absent aide by trait; the decision has no weight row of its own and reads the general weight of 1.",
+      "fix": "Add a weight row when a study gives a size."
+    },
+    "constituent-cases.bring-case": {
+      "class": "no study number",
+      "why": "No study gives the odds of bringing a problem to an official by trait, so the general weight of 1 stands; at that weight the willing third brings cases at overwhelming odds over the unwilling third (net 44 in Jerry City, Ohio).",
+      "fix": "Calibrate to the single-decision range (traits-integrity-cases-vary)."
+    },
+    "appointments.weigh": {
+      "class": "rare",
+      "why": "Runs only when an appointer fills a seat that fell vacant between elections (src/core2/appointments.ts); neither drawn year had one.",
+      "fix": "None needed; rare by nature (traits-decisions-never-run measures it in a year that holds a vacancy)."
     }
   }
 }

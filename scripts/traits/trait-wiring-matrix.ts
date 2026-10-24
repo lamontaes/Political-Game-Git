@@ -40,7 +40,7 @@ interface Run {
       absLeanSum: number;
       nonzero: number;
       turned?: number;
-      samples?: unknown[];
+      samples?: { bare: number; lean: number }[];
     }
   >;
   events: Record<string, number>;
@@ -138,6 +138,43 @@ function formulaFor(run: Run, decision: DecisionRow) {
   };
 }
 
+/**
+ * For a formula decision settled by a sum (`leanedYes` and kin), the yes rate
+ * in the third of kept calls leaning most toward yes and the third leaning
+ * least, at the decision's played weight (yes when the case plus the lean
+ * times the weight is above zero), and the odds ratio between them net of
+ * the same calls' ratio with personality off, the measure the calibration
+ * script sets weights against.
+ */
+function formulaThirds(run: Run, decision: DecisionRow, weight: number) {
+  const samples = Object.entries(run.formula).flatMap(([key, row]) =>
+    key === decision.id || GAPS.formulaSiteAliases?.[key] === decision.id
+      ? (row.samples ?? [])
+      : [],
+  );
+  if (samples.length < 30) return null;
+  const sorted = [...samples].sort((a, b) => a.lean - b.lean);
+  const n = Math.floor(sorted.length / 3);
+  const rate = (part: typeof sorted, w: number) =>
+    part.filter((s) => s.bare + s.lean * w > 0).length / part.length;
+  const low = sorted.slice(0, n),
+    high = sorted.slice(sorted.length - n);
+  // Smoothed by half a call, as the calibration script does, so an empty third stays finite.
+  const logOdds = (w: number) => {
+    const odds = (part: typeof sorted) => {
+      const r = (rate(part, w) * part.length + 0.5) / (part.length + 1);
+      return r / (1 - r);
+    };
+    return Math.log(odds(high) / odds(low));
+  };
+  return {
+    calls: samples.length,
+    lowThird: rate(low, weight),
+    highThird: rate(high, weight),
+    netOddsRatio: Math.exp(logOdds(weight) - logOdds(0)),
+  };
+}
+
 const rows = decisions.decisions.map((decision: DecisionRow) => {
   const c = chooserFor(played, decision);
   const f = formulaFor(played, decision);
@@ -158,6 +195,13 @@ const rows = decisions.decisions.map((decision: DecisionRow) => {
     formulaMeanAbsLean: f.calls ? f.meanAbsLean : null,
     formulaTurnedShare: f.leaned ? f.turned / f.leaned : null,
     formulaLeanedCalls: f.leaned,
+    formulaThirds: formulaThirds(
+      played,
+      decision,
+      PARAMETERS[decision.traitWeightParameter]?.value ??
+        PARAMETERS.traitWeight?.value ??
+        1,
+    ),
     research: researchById.get(decision.id) ?? null,
     gap: GAPS.gaps[decision.id] ?? null,
     weight: PARAMETERS[decision.traitWeightParameter]?.value ?? null,

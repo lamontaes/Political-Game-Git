@@ -50,13 +50,15 @@ export function appointerWeighing(
   const person = appointerId ? core.people.get(appointerId) : undefined;
   if (!person) return undefined;
   const tilt =
+    decisionTraitWeight(core, "appointments.weigh") *
     decisionLean(
       core,
       person,
       "appointments.weigh",
       "appoint-loyalty",
       "appoint-merit",
-    ) * decisionTraitWeight(core, "appointments.weigh");
+    ) *
+    decisionTraitWeight(core, "appointments.weigh");
   return { loyalty: 1 + tilt, merit: 1 - tilt };
 }
 

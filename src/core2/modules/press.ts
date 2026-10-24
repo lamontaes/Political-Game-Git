@@ -21,7 +21,7 @@ import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
-import { decisionLean, leanedYes } from "../trait-decisions";
+import { decisionLean, leanedScore, leanedYes } from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -2141,9 +2141,17 @@ function weighTip(
   const tip =
     reporterId === knowerId || input.leak
       ? 1
-      : decisionLean(api.state, knower, "press.tip", "tip", "keep") +
-        closeness(api, knowerId, reporterId) -
-        regard(api, p, knowerId, officialId);
+      : // Taking it to the nearest reporter, weighed against how they regard
+        // the official, with the knower's temperament at its calibrated weight.
+        leanedScore(
+          api.state,
+          knower,
+          "press.tip",
+          "tip",
+          "keep",
+          closeness(api, knowerId, reporterId) -
+            regard(api, p, knowerId, officialId),
+        );
   const row: Record<string, unknown> = {
     id: crimeId,
     crimeId,
