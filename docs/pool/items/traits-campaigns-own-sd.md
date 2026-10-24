@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/traits-campaigns-own-sd
 pr: #5882
 blocked-on:
