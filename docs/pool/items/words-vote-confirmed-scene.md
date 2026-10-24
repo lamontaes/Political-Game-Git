@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/vote-confirmed-scene
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T17:47:34.728Z
 ---
 
 **What.** The vote-confirmed scene, where a colleague comes to make sure of a vote you promised, waits on a member-position record nobody writes. The legislature already makes real promises: in committee, a holdout trades their vote for their own section in the bill, and the trade is on the bill's record. When the bill reaches the floor a week later, nothing reminds anyone of that promise. This item has the legislature record, on the floor day, each committee trade whose member sits on that floor, naming the member and the sponsor; the director sizes it for the member, and the vote-confirmed scene fires from it with the sponsor as the colleague who comes to check, using the lines about a vote the member promised.
