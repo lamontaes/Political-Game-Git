@@ -49,7 +49,7 @@
       "package": "M0-bench",
       "test": "20 randomly sampled items on screen each open a 'why' with scores and record ids that exist in the core; none is made up for display.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-04",
-      "passes": true
+      "passes": false
     },
     {
       "id": "M0-05",
