@@ -498,11 +498,27 @@ export function composeJournal(
           data.possessivePronoun.other!,
         sourceRecordIds: said.sourceRecordIds,
       };
-      if (row)
+      if (row) {
         facts.name = {
           text: row.givenName,
           sourceRecordIds: said.sourceRecordIds,
         };
+        // A relative with their name, so a line carries its subject ("My
+        // daughter Jane was born."; owner, Oct 15, evening).
+        // With the name said, two daughters are each "my daughter ...".
+        const relation = kin.get(otherId);
+        const forms = relation
+          ? data.relationWords[relation.relation]
+          : undefined;
+        const word = forms?.[row.looks?.gender ?? "other"] ?? forms?.other;
+        facts.named =
+          relation && word
+            ? {
+                text: `${data.possessive.journal} ${word} ${row.givenName}`,
+                sourceRecordIds: [relation.factId, otherId],
+              }
+            : said;
+      }
     }
     return facts;
   };

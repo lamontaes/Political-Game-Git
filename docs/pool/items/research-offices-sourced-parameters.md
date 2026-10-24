@@ -5,9 +5,9 @@ area: office
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-offices
-pr:
+pr: #5859
 blocked-on:
 source: "collapsed Oct 19, 2026 from office-stopgap-offices-estimated-calendar, office-stopgap-offices-state-assumed-data"
 claimed-at: 2026-10-23T20:24:25.845Z
