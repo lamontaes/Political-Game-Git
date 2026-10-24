@@ -11,8 +11,8 @@ import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
 
-// A resident who brings a problem to office hours is a scene for the official
-// (owner, Oct 24: "fix the goddamn scenes"). The case module has residents
+// A resident who brings a problem to office hours is a scene for the
+// official. The case module has residents
 // with a real problem on their records (out of work with thin savings, or paid
 // under the minimum wage) come to the official they know best, and records
 // the visit (office.approached); the official's office-hours scene fires from
@@ -73,9 +73,8 @@ it(`a resident's visit to office hours is the official's scene, about the proble
         recordId: visit.facts!.officeId,
       });
       // The resident says their own problem, and the talk stands on the visit.
-      const result = purposeScene(core, director, officialId, entry!, {
-        includeHeld: true,
-      });
+      // The lines that play, as ordinary play says them.
+      const result = purposeScene(core, director, officialId, entry!);
       expect(result?.kind, here).toBe("composed");
       if (result?.kind !== "composed") continue;
       expect(result.scene.cause.id, here).toBe(visit.id);
