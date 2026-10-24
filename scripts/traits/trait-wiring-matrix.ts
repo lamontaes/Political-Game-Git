@@ -12,6 +12,11 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import decisions from "../../data/content/trait-decisions.json" with { type: "json" };
 import outcomes from "../../data/content/trait-outcomes.json" with { type: "json" };
+import {
+  strongestRows,
+  targetLogOdds,
+  type ResearchRow,
+} from "./trait-targets";
 
 interface Run {
   seed: string;
@@ -40,7 +45,16 @@ interface Run {
       absLeanSum: number;
       nonzero: number;
       turned?: number;
-      samples?: unknown[];
+      samples?: { bare: number; lean: number }[];
+    }
+  >;
+  /** Decisions whose trait term joins a sum or scales a size: kept results with and without it, by lean. */
+  outcomes?: Record<
+    string,
+    {
+      unit: "probability" | "size";
+      calls: number;
+      samples: { lean: number; value: number; flat: number }[];
     }
   >;
   events: Record<string, number>;
@@ -76,8 +90,28 @@ const PARAMETERS = JSON.parse(
 ) as Record<string, { value: number; tag: string }>;
 const RESEARCH = "data/research/trait-effect-sizes.json";
 const research = existsSync(RESEARCH)
-  ? (JSON.parse(readFileSync(RESEARCH, "utf8")) as { rows: { id: string }[] })
-  : { rows: [] };
+  ? (JSON.parse(readFileSync(RESEARCH, "utf8")) as { rows: ResearchRow[] })
+  : { rows: [] as ResearchRow[] };
+/** The study behind each decision's weight: the row with the largest effect, as odds between the thirds. */
+const strongest = strongestRows(research.rows);
+function researchTarget(decisionId: string) {
+  const row = strongest.get(decisionId) as
+    | (ResearchRow & {
+        trait?: string;
+        outcome?: string;
+        source?: { authors?: string; year?: number } | null;
+      })
+    | undefined;
+  const log = row ? targetLogOdds(row) : null;
+  return row && log !== null
+    ? {
+        oddsRatio: Math.exp(Math.abs(log)),
+        trait: row.trait ?? null,
+        outcome: row.outcome ?? null,
+        source: row.source ? `${row.source.authors} ${row.source.year}` : null,
+      }
+    : null;
+}
 /** Every study row for a decision (several when a study reports more than one trait). */
 const researchById = new Map<string, { id: string }[]>();
 for (const row of research.rows)
@@ -138,6 +172,101 @@ function formulaFor(run: Run, decision: DecisionRow) {
   };
 }
 
+/**
+ * For a formula decision settled by a sum (`leanedYes` and kin), the yes rate
+ * in the third of kept calls leaning most toward yes and the third leaning
+ * least, at the decision's played weight (yes when the case plus the lean
+ * times the weight is above zero), and the odds ratio between them net of
+ * the same calls' ratio with personality off, the measure the calibration
+ * script sets weights against.
+ */
+function formulaThirds(run: Run, decision: DecisionRow, weight: number) {
+  const samples = Object.entries(run.formula).flatMap(([key, row]) =>
+    key === decision.id || GAPS.formulaSiteAliases?.[key] === decision.id
+      ? (row.samples ?? [])
+      : [],
+  );
+  if (samples.length < 30) return null;
+  const sorted = [...samples].sort((a, b) => a.lean - b.lean);
+  const n = Math.floor(sorted.length / 3);
+  const rate = (part: typeof sorted, w: number) =>
+    part.filter((s) => s.bare + s.lean * w > 0).length / part.length;
+  const low = sorted.slice(0, n),
+    high = sorted.slice(sorted.length - n);
+  // Smoothed by half a call, as the calibration script does, so an empty third stays finite.
+  const logOdds = (w: number) => {
+    const odds = (part: typeof sorted) => {
+      const r = (rate(part, w) * part.length + 0.5) / (part.length + 1);
+      return r / (1 - r);
+    };
+    return Math.log(odds(high) / odds(low));
+  };
+  return {
+    calls: samples.length,
+    lowThird: rate(low, weight),
+    highThird: rate(high, weight),
+    netOddsRatio: Math.exp(logOdds(weight) - logOdds(0)),
+  };
+}
+
+/**
+ * For a decision whose trait term joins a sum or scales a size (turnout, a
+ * story told, a view moved), the result in the third of kept calls leaning
+ * most toward the option and the third leaning least, with the trait term
+ * and flat (left out): the mean probability for a probability, the mean size
+ * for a size, and the ratio between the thirds with the term net of the same
+ * ratio flat (odds for a probability), the number the study's target is set
+ * against.
+ */
+function outcomeThirds(run: Run, decision: DecisionRow) {
+  const kept = run.outcomes?.[decision.id];
+  // A decision that runs for few people (following the news in a small town) still shows its rates, with how many calls they rest on.
+  if (!kept || kept.samples.length < 12) return null;
+  const sorted = [...kept.samples].sort((a, b) => a.lean - b.lean);
+  const n = Math.floor(sorted.length / 3);
+  const mean = (part: typeof sorted, key: "value" | "flat") =>
+    part.reduce((sum, s) => sum + s[key], 0) / Math.max(1, part.length);
+  const low = sorted.slice(0, n),
+    high = sorted.slice(sorted.length - n);
+  const third = (part: typeof sorted) => ({
+    withTraits: mean(part, "value"),
+    flat: mean(part, "flat"),
+    meanLean: mean(
+      part.map((s) => ({ ...s, value: s.lean })),
+      "value",
+    ),
+  });
+  const lo = third(low),
+    hi = third(high);
+  // Odds for a probability (kept off 0 and 1 by a half call), a plain ratio for a size.
+  const measure = (value: number) => {
+    if (kept.unit === "size") return value;
+    const r = (value * n + 0.5) / (n + 1);
+    return r / (1 - r);
+  };
+  const ratio = (high: number, low: number) =>
+    measure(high) / Math.max(measure(low), Number.MIN_VALUE);
+  // A size that can sit at or below zero (a habit centered on the nation's) has no ratio, only a shift.
+  const positive = [lo.withTraits, hi.withTraits, lo.flat, hi.flat].every(
+    (v) => v > 0,
+  );
+  return {
+    unit: kept.unit,
+    calls: kept.calls,
+    kept: kept.samples.length,
+    lowThird: lo,
+    highThird: hi,
+    ratioWithTraits: ratio(hi.withTraits, lo.withTraits),
+    ratioFlat: ratio(hi.flat, lo.flat),
+    netRatio:
+      kept.unit === "size" && !positive
+        ? null
+        : ratio(hi.withTraits, lo.withTraits) / ratio(hi.flat, lo.flat),
+    /** The gap between the thirds with the trait term, less the same gap flat, in the decision's own units. */
+    netShift: hi.withTraits - lo.withTraits - (hi.flat - lo.flat),
+  };
+}
+
 const rows = decisions.decisions.map((decision: DecisionRow) => {
   const c = chooserFor(played, decision);
   const f = formulaFor(played, decision);
@@ -158,6 +287,15 @@ const rows = decisions.decisions.map((decision: DecisionRow) => {
     formulaMeanAbsLean: f.calls ? f.meanAbsLean : null,
     formulaTurnedShare: f.leaned ? f.turned / f.leaned : null,
     formulaLeanedCalls: f.leaned,
+    formulaThirds: formulaThirds(
+      played,
+      decision,
+      PARAMETERS[decision.traitWeightParameter]?.value ??
+        PARAMETERS.traitWeight?.value ??
+        1,
+    ),
+    outcomeThirds: outcomeThirds(played, decision),
+    researchTarget: researchTarget(decision.id),
     research: researchById.get(decision.id) ?? null,
     gap: GAPS.gaps[decision.id] ?? null,
     weight: PARAMETERS[decision.traitWeightParameter]?.value ?? null,

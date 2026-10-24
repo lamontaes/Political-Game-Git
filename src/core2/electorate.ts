@@ -27,6 +27,8 @@ import { VIEWS_KEYS, VIEWS_MODULE_ID, viewOf } from "./modules/views";
 import { corePlaceByJurisdictionId } from "./place-lookup";
 import viewsData from "./data/views/views.json" with { type: "json" };
 import { coreAPI } from "./state";
+import { reportOutcome } from "./trait-decisions";
+import { traitProbe } from "./trait-probe";
 import type { CoreState } from "./types";
 
 export interface CountedVoter {
@@ -375,6 +377,30 @@ export function countedAppeal(
       scandal,
     };
   }
+  // The audit's probe (off in play) sees whether the voter backs the incumbent with and without the trait term.
+  if (
+    traitProbe()?.outcome &&
+    field.length > 1 &&
+    field.some((e) => e.isIncumbent)
+  )
+    reportOutcome(
+      "voting.back-incumbent",
+      undefined,
+      where.incumbentLean,
+      "probability",
+      (withTerm) => {
+        const totals = withTerm
+          ? appeal
+          : Object.fromEntries(
+              Object.entries(appeal).map(([id, a]) => [
+                id,
+                { total: a.total - a.incumbent },
+              ]),
+            );
+        const backed = countedChoice(totals);
+        return field.some((e) => e.id === backed && e.isIncumbent) ? 1 : 0;
+      },
+    );
   return appeal;
 }
 

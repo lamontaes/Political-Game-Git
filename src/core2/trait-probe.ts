@@ -30,9 +30,29 @@ export interface FormulaProbeRow {
   turned?: boolean;
 }
 
+/**
+ * What a decision whose trait term joins a sum or scales a size came to, with
+ * the term and with it left out (flat), for the person's lean toward the
+ * option. Reported once per call beside the formula row, never counted as a
+ * call of its own.
+ */
+export interface OutcomeProbeRow {
+  decisionId: string;
+  actorId?: string;
+  /** The person's trait lean toward the decision's option. */
+  lean: number;
+  /** A probability (0 to 1: a chance or a yes-or-no) or a size (a count, a move, a standing). */
+  unit: "probability" | "size";
+  /** The result with the decision's trait term added. */
+  value: number;
+  /** The result with the trait term left out. */
+  flat: number;
+}
+
 export interface TraitProbe {
   chooser?(row: ChooserProbeRow): void;
   formula?(row: FormulaProbeRow): void;
+  outcome?(row: OutcomeProbeRow): void;
 }
 
 let active: TraitProbe | undefined;

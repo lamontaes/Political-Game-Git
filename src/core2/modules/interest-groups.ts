@@ -17,7 +17,10 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
-import { decisionLean } from "../trait-decisions";
+import { currentCloseness } from "../closeness";
+import { countedPersonOf } from "../counted-actor";
+import { parameter } from "../parameters";
+import { leanedYes } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
   chambersOf,
@@ -33,7 +36,6 @@ import { personLean } from "../campaign-views";
 import { registerStanceListener, viewOf, viewOn } from "./views";
 import { makeCase } from "./speech";
 import { concerns, meetingParameter } from "./meetings";
-import { parameter } from "../parameters";
 import type { PersonState } from "../types";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { ownerOf } from "./business";
@@ -169,27 +171,30 @@ function bill(api: CoreAPI, billId: string): BillRow {
     .get(billId) as unknown as BillRow;
 }
 
-/** The owner weighs the bill's cost against the dues, then the owner's own traits; no owner keeps the cost rule. */
-function ownerJoins(
+/**
+ * The owner weighs the bill's cost against the dues, then the owner's own
+ * traits, as a full person or as the counted person they are (most owners are
+ * counted until met: one rule for both tiers). An owner who is neither (an
+ * outside firm's parent, or no owner) keeps the cost rule.
+ */
+export function ownerJoins(
   api: CoreAPI,
   orgId: string,
   cost: number,
   dues: number,
 ): boolean {
   const owner = ownerOf(api, orgId);
-  const person = owner ? api.state.people.get(owner) : undefined;
+  const person = owner
+    ? (api.state.people.get(owner) ?? countedPersonOf(api.state, owner))
+    : undefined;
   if (!person) return true;
-  return (
-    Math.log(cost / dues) +
-      api.parameter("traitDecisionWeight") *
-        decisionLean(
-          api.state,
-          person,
-          "interest-groups.employer-join",
-          "join",
-          "stay-out",
-        ) >
-    0
+  return leanedYes(
+    api.state,
+    person,
+    "interest-groups.employer-join",
+    "join",
+    "stay-out",
+    Math.log(cost / dues),
   );
 }
 
@@ -450,6 +455,7 @@ function lobbyistFor(
   memberOrgs: readonly string[],
   costs: ReadonlyMap<string, { annualMinor: number }>,
 ): string | null {
+  const dues = campaignParameter("groupDuesMinor");
   // stopgapId: SG-GOV-group-lobbyist-stand-in
   api.stopgap("SG-GOV-group-lobbyist-stand-in");
   const state = api.state as CoreState;
@@ -461,17 +467,23 @@ function lobbyistFor(
   )) {
     const ownerId = ownerOf(api, orgId);
     const owner = ownerId ? api.state.people.get(ownerId) : undefined;
+    // What the bill costs the member's own employer against the group's dues
+    // is their reason to speak for it; their traits weigh in on top.
+    const stake = Math.log(
+      Math.max((costs.get(orgId)?.annualMinor ?? 0) / dues, Number.MIN_VALUE),
+    );
     if (
       owner?.alive &&
       owner.placeId === town &&
       lobbyingBarredUntil(api, owner.id) === null &&
-      decisionLean(
+      leanedYes(
         api.state,
         owner,
         "interest-groups.lobbyist",
         "serve",
         "decline",
-      ) >= 0
+        stake,
+      )
     )
       return owner.id;
     const best = [...state.work.commitments.values()]
@@ -482,13 +494,14 @@ function lobbyistFor(
           c.endsAt === undefined &&
           lobbyingBarredUntil(api, c.personId) === null &&
           person?.placeId === town &&
-          decisionLean(
+          leanedYes(
             api.state,
             person,
             "interest-groups.lobbyist",
             "serve",
             "decline",
-          ) >= 0
+            stake,
+          )
         );
       })
       .sort(
@@ -583,8 +596,13 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
     const joining = onSide.filter(
       (row) =>
         !joined.has(row.p.id) &&
-        joinPull(api, row.p, row.view * side, row.touches) >=
-          campaignParameter("groupJoinBar"),
+        joinsGroup(
+          api,
+          row.p,
+          row.view * side,
+          row.touches,
+          groupDraw(state, row.p.id, joined),
+        ),
     );
     if (!existing && joining.length < campaignParameter("groupFoundingMembers"))
       continue;
@@ -623,13 +641,14 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
               (row) =>
                 memberIds.includes(row.p.id) &&
                 lobbyingBarredUntil(api, row.p.id) === null &&
-                decisionLean(
+                leanedYes(
                   state,
                   row.p,
                   "interest-groups.lobbyist",
                   "serve",
                   "decline",
-                ) >= 0,
+                  Math.abs(row.view),
+                ),
             )
             .sort(
               (x, y) =>
@@ -701,25 +720,52 @@ function billQuestionOf(
 const groupIdFor = (town: string, question: string, side: number) =>
   `group:${town}:${question}:${side > 0 ? "for" : "against"}`;
 
-/** How hard a side of a question pulls a resident: their view toward it, their stake, and their traits toward joining. */
-function joinPull(
+/**
+ * Whether a resident joins a side's group: how hard the side pulls them (their
+ * view toward it, doubled where it touches their own life) and how strongly
+ * the group's members already draw them in (their closest tie to one), against
+ * the bar, and their traits toward joining on top.
+ */
+export function joinsGroup(
   api: CoreAPI,
   person: Readonly<PersonState>,
   toward: number,
   touches: boolean,
-): number {
-  return (
+  drawn: number,
+): boolean {
+  return leanedYes(
+    api.state,
+    person,
+    "interest-groups.member-join",
+    "join",
+    "stay-out",
     Math.max(0, toward) *
       (1 + meetingParameter("lifeConcernWeight") * (touches ? 1 : 0)) +
-    parameter("traitDecisionWeight") *
-      decisionLean(
-        api.state,
-        person,
-        "interest-groups.member-join",
-        "join",
-        "stay-out",
-      )
+      campaignParameter("groupDrawWeight") * drawn -
+      campaignParameter("groupJoinBar"),
   );
+}
+
+/**
+ * How strongly a group's current members draw a resident in: the closeness
+ * today of their closest tie to a member (0 with no member among their ties,
+ * or no group yet). The group's stake in the person is their friends in it.
+ */
+export function groupDraw(
+  state: CoreState,
+  personId: string,
+  members: ReadonlySet<string>,
+): number {
+  if (!members.size) return parameter("zero", state.data.parameters);
+  let closest = parameter("zero", state.data.parameters);
+  for (const key of state.relationshipsByPerson.get(personId) ?? []) {
+    const tie = state.relationships.get(key);
+    if (!tie) continue;
+    const other = tie.actorId === personId ? tie.otherId : tie.actorId;
+    if (members.has(other))
+      closest = Math.max(closest, currentCloseness(state, tie));
+  }
+  return closest;
 }
 
 /** Take a resident out of a side's group (no-op if they are not in it). */
@@ -795,8 +841,17 @@ function reviewMember(api: CoreAPI, personId: string, question: string): void {
     ) as unknown as GroupRow | undefined;
     if (
       other &&
-      joinPull(api, person, -view * side, concerns(api, person)(question)) >=
-        campaignParameter("groupJoinBar")
+      joinsGroup(
+        api,
+        person,
+        -view * side,
+        concerns(api, person)(question),
+        groupDraw(
+          api.state as CoreState,
+          personId,
+          new Set(other.memberPersonIds ?? []),
+        ),
+      )
     )
       joinSide(api, personId, town, question, -side);
     return;
