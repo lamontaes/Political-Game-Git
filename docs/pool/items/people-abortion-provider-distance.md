@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5749
 blocked-on:
@@ -32,3 +32,5 @@ Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): The earlie
 Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): provenance repair is present, but the carried unplanned-pregnancy feature covers only full people and its only tier-gap registry row is resolved; include the counted implementation or register the remaining gap as open and bound the scope; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): carried unplanned decision/travel TUNABLEs have unmeasured spreads and point to a resolved owner-decision row; check their sensitivity or register and mark the exact remaining calibration gap with open follow-up; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): five-weight calibration repair is present, but renewalTravelCostPerMileMinor still has an unmeasured estimated spread linked to the resolved owner-decision row; source its numeric range or register/mark this exact sixth cost estimate and its follow-up; finish on that branch, merge main into it first.
