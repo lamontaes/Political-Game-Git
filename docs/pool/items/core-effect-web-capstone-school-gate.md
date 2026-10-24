@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5639
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The effect-web capstone PR #5639 still marks its changed school test acceptance as not met. Its recorded failure is on the branch before the income fix, which does not establish a clean-main exception for a newly introduced test. Complete the changed school test evidence on an integrated head while preserving the positive world assertions and the separate active income-basis work.
