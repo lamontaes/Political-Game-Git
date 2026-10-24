@@ -24,8 +24,9 @@ import { purposeScene } from "./purpose-scene";
 // drawn from all 56, residents file for a race counted within the year: the
 // filing's own record fires the household's reaction, which plays as an
 // exchange on the play screen, worded by the English engine and naming the
-// record and every fact it says. The year plays out in full, and the count's
-// result record fires the win or the loss at home for every filer.
+// record and every fact it says. The count's result record fires the win or
+// the loss at home for every filer on the night it plays, and the year plays
+// out in full.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const ATTEMPTS = 4;
 const YEAR = 365;
@@ -140,9 +141,12 @@ const run = (drawSeed: string): string | null => {
     );
   }
 
-  // The whole year plays out, the count among it; its result record fires
-  // the win or the loss for every filer.
-  advanceCore(core, end);
+  // The count, with its two days to report: its result record fires the win
+  // or the loss for every filer, read on the night it plays. A watched
+  // resident's older moments later fold into the director's summaries (its
+  // memory window; the player keeps all of theirs), so the scene is checked on
+  // its day, not at the end of the year.
+  advanceCore(core, addDays(makeIsoDate(contest.electionDate), 2));
   const result = resultOf(api, contest.id);
   expect(
     result?.winnerId,
@@ -178,6 +182,8 @@ const run = (drawSeed: string): string | null => {
     );
   }
   expect(counted, `${where}: result scenes`).toBe(filings.length);
+  // The rest of the year plays out.
+  advanceCore(core, end);
   console.log(`PURPOSE SCENES ${where}\n${told.join("\n")}`);
   return null;
 };
