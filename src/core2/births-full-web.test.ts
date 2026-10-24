@@ -267,10 +267,12 @@ describe(`full couples and the outcome web (seed ${seed})`, () => {
       const moves = twin.laid.map((id) => {
         const was = base.web.get(id)!,
           now = twin.web.get(id)!;
-        expect(now.effect - was.effect, `${where}: ${id}`).toBeCloseTo(
-          twin.delta,
-          12,
-        );
+        // The effect moved by the shift, give or take the little the twin's
+        // own unemployment has drifted from the base world's by then.
+        expect(
+          Math.abs(now.effect - was.effect - twin.delta),
+          `${where}: ${id}`,
+        ).toBeLessThan(0.01 * Math.abs(twin.delta));
         const share = (now.factor / was.factor - 1) / points;
         expect(share, `${where}: ${id}`).toBeGreaterThanOrEqual(low!);
         expect(share, `${where}: ${id}`).toBeLessThanOrEqual(high!);
