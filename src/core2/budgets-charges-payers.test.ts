@@ -151,7 +151,9 @@ it(`a government's charges are paid by the town's households and its other servi
       .filter(
         (receipt) =>
           receipt &&
-          receipt.id.includes(`residents:outside-living:${home.id}`) &&
+          receipt.sourceRef.id.includes(
+            `residents:outside-living:${home.id}`,
+          ) &&
           [...receipt.owners.values()].some(
             (owner) =>
               govOrgs.has(owner.ownerId) &&
@@ -160,7 +162,15 @@ it(`a government's charges are paid by the town's households and its other servi
       );
     expect(
       receipts.length,
-      `${where}: ${home.id}'s living cost paid a government's charges`,
+      `${where}: ${home.id}'s living cost paid a government's charges (payer ${payer}, place ${home.placeId}, kept receipts ${[
+        ...((core as CoreState).cashJournal.detailedByOwner.get(payer) ?? []),
+      ]
+        .slice(0, 6)
+        .map(
+          (id) =>
+            `${id} [${[...((core as CoreState).cashJournal.detailedReceipts.get(id)?.owners.keys() ?? [])].join(" ")}]`,
+        )
+        .join("; ")}; governments ${[...govOrgs].join(" ")})`,
     ).toBeGreaterThan(0);
     const receipt = receipts[0]!;
     const own = receipt.owners.get(payer)!;
@@ -170,7 +180,7 @@ it(`a government's charges are paid by the town's households and its other servi
     )!;
     expect(own.afterMinor, receipt.id).toBeLessThan(own.beforeMinor);
     process.stdout.write(
-      `CHARGES ${where}: ${payments.length} service-user installments (e.g. ${payments[0]!.id}: ${payments[0]!.amountMinor} plus ${payments[0]!.townPaidMinor} paid in town); ${home.id}'s ${payer} paid ${to.afterMinor - to.beforeMinor} to ${to.ownerId} in ${receipt.id} (cash ${own.beforeMinor} to ${own.afterMinor})\n`,
+      `CHARGES ${where}: ${payments.length} service-user installments (e.g. ${payments[0]!.id}: ${payments[0]!.amountMinor} plus ${payments[0]!.townPaidMinor} paid in town); ${home.id}'s ${payer} paid ${to.afterMinor - to.beforeMinor} to ${to.ownerId} in ${receipt.id} (${receipt.sourceRef.kind} ${receipt.sourceRef.id}; cash ${own.beforeMinor} to ${own.afterMinor})\n`,
     );
     return;
   }
