@@ -2598,21 +2598,26 @@ export function chairHearsBill(
   chairId: string,
   position: number,
 ): boolean {
+  return position + chairHearingTrait(api, chairId, position) >= 0;
+}
+
+/** What the chair's temperament adds to hearing a bill over burying it (zero for a name not filled in). */
+function chairHearingTrait(
+  api: CoreAPI,
+  chairId: string,
+  position: number,
+): number {
   const chair = api.state.people.get(chairId);
-  return (
-    position +
-      (chair
-        ? leanedTerm(
-            api.state,
-            chair,
-            "legislature.hold-hearing",
-            "hear",
-            "bury",
-            position,
-          )
-        : 0) >=
-    0
-  );
+  return chair
+    ? leanedTerm(
+        api.state,
+        chair,
+        "legislature.hold-hearing",
+        "hear",
+        "bury",
+        position,
+      )
+    : 0;
 }
 
 /**
@@ -2841,6 +2846,15 @@ export interface CommitteeRecord {
   readonly chairId: string;
   readonly memberIds: readonly string[];
   readonly heard: boolean;
+  /**
+   * Why the chair heard or held the bill: their position on it and what
+   * their temperament adds to holding a hearing (heard when the sum is not
+   * below zero).
+   */
+  readonly chairReasons: {
+    readonly position: MemberPosition;
+    readonly hearingTrait: number;
+  };
   readonly votes: readonly {
     readonly memberId: string;
     readonly vote: "yes" | "no" | "abstain";
@@ -2947,7 +2961,12 @@ function committeeStage(
     }
   }
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
-  const heard = chairHearsBill(api, memberKey(chair), chairPosition.total);
+  const hearingTrait = chairHearingTrait(
+    api,
+    memberKey(chair),
+    chairPosition.total,
+  );
+  const heard = chairPosition.total + hearingTrait >= 0;
   const witnesses: { personId: string; stake: string }[] = [];
   if (heard) {
     const wage = bill.provisions.find((p) => p.series === "minimum-wage");
@@ -3021,6 +3040,7 @@ function committeeStage(
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),
     heard,
+    chairReasons: { position: chairPosition, hearingTrait },
     votes,
     witnesses,
     yes,

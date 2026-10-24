@@ -6264,6 +6264,60 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.law-effect-learned.i-found-out-the-law-changed-what-my-household-pays",
+      "move": "law-effect-learned",
+      "kind": "spoken",
+      "text": "I found out the {law} changed what my household pays.",
+      "uses": [
+        {
+          "move": "law-effect-learned",
+          "subject": "law",
+          "role": "line",
+          "choice": "learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude (laws lead, pool item laws-end-to-end-proof)",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.law-effect-learned.i-learned-the-law-changed-what-my-household-pays",
+      "move": "law-effect-learned",
+      "kind": "spoken",
+      "text": "I learned the {law} changed what my household pays.",
+      "uses": [
+        {
+          "move": "law-effect-learned",
+          "subject": "law",
+          "role": "line",
+          "choice": "learned",
+          "journal": [
+            {
+              "kindPrefix": "event:law.effect-learned",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Claude (laws lead, pool item laws-end-to-end-proof)",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

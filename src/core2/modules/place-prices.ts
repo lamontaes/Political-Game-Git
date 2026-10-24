@@ -478,6 +478,11 @@ function learnFromStory(
   );
   const person = api.state.people.get(personId);
   if (!story || !person?.alive) return;
+  // The bill that enacted the law, where one did: the journal names the law by it.
+  const billId = (
+    api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
+      { terms?: { enactedByBill?: unknown } } | undefined
+  )?.terms?.enactedByBill;
   api.emit({
     id: `event:law.effect-learned:${api.state.date}:${personId}:${lawId}`,
     date: api.state.date,
@@ -491,6 +496,7 @@ function learnFromStory(
       Math.max(0, -share) * api.parameter("pricesChangeImpulseScale"),
     facts: {
       lawId,
+      ...(typeof billId === "string" ? { billId } : {}),
       learnedFrom: newsKey(story.id),
       priceRuleId: rule.id,
       movedMinor: String(moved),
