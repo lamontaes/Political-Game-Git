@@ -92,8 +92,12 @@ function volunteerRows(): Row[] {
 
 /**
  * What the played window lacks for the tests to read: enough calls of each
- * played decision, and at least one call temperament turns (someone near
- * enough to the line for it to matter).
+ * played decision, and for giving and answering the door at least one call
+ * temperament turns (someone near enough to the line for it to matter).
+ * Running for office is read for calls only: at the study's small size (an
+ * odds ratio of 1.21 between thirds) temperament tips about one newcomer a
+ * year in a town (1, 1, 2 and 0 in the four election years its weight was
+ * fitted on), so half a year often holds none; its slope is read below.
  */
 function windowGaps(world: CoreState): string[] {
   const gaps: string[] = [];
@@ -109,7 +113,7 @@ function windowGaps(world: CoreState): string[] {
     const turned = rows.filter(
       (r) => r.bare + w * r.lean > 0 !== r.bare > 0,
     ).length;
-    if (rows.length <= 50 || turned === 0)
+    if (rows.length <= 50 || (turned === 0 && id !== "candidacy.run"))
       gaps.push(`${id}: ${rows.length} calls, ${turned} turned by temperament`);
   }
   return gaps;
