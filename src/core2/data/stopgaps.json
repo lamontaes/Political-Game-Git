@@ -392,7 +392,7 @@
     "why": "Deep-past generation needs provisional cohort summaries while historical school/name/era records are incomplete.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Era- and locality-specific sourced institution histories and validated cohort distributions; preserve existing personal facts.",
+    "replacement": "Era- and locality-specific sourced institution histories and validated cohort distributions; preserve existing personal facts. Oct 23, 2026 (research-deep-past-sourced-parameters): the grade-stage offsets are ESTIMATED from the CPS October 2024 School Enrollment Table 2 modal ages (U.S. Census Bureau, survey of October 2024; deepPastMiddleSchoolOffsetYears 6, deepPastHighSchoolOffsetYears 9, read by deep-past.ts buildDeepPast): each is the modal age of the entry grade minus the modal age of kindergarten, with an upper bound from the mean pace of enrolled children. A cross-sectional enrollment table does not time any child's entry into a grade, so they become SOURCED only when a source that follows children from kindergarten entry gives the years to each grade. Still faked: present institution names and the opening locality standing in for where a person went to school. data/research/core/acs-2023-b05002-born-in-state.json (ACS 2019-2023 B05002, share of each place's residents born there) and data/research/core/cps-2024-grade-by-age.json (grade by single year of age) are what the builder item core-deep-past-school-place-from-birthplace reads and checks against.",
     "status": "open"
   },
   {
@@ -404,7 +404,7 @@
     "why": "Prototype offers need source-grounded civic targets while historical directory and access records are incomplete.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Era-specific directories with explicit institution access, membership and authority records.",
+    "replacement": "Era-specific directories with explicit institution access, membership and authority records. Oct 23, 2026 (research-deep-past-sourced-parameters): the band a school meeting-place offer should land in is in data/research/core/shpps-2012-joint-use.json (CDC School Health Policies and Practices Study 2012, Jones and Wendel 2015: 61.6% of districts, 57.5% to 65.5%, had a formal agreement letting outside groups use school property, by metro status, district size and region), reported by scripts/research/deep-past-year.ts; the builder item core-stopgap-civic-inputs-civic-data-vintage-and-permission establishes access from the district's own record and checks the town against it. Historical directories remain unsourced.",
     "status": "open"
   },
   {
@@ -440,7 +440,7 @@
     "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance.",
+    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance. Oct 23, 2026 (research-deep-past-sourced-parameters): openingPeerGroupSize re-checked against the NCES NTPS 2020-21 class sizes (National Center for Education Statistics, survey year 2020-21; ESTIMATED, 20, spread corrected to 16.9 to 22.0) in data/research/core/nces-ntps-2021-class-size.json, read by opening-peer-network.ts buildOpeningPeerContacts and candidacy.ts countedKnown; it stays ESTIMATED because a class is not a remembered-peer circle. Its other read, the ceiling in buildOpeningPeerContacts (Math.ceil(cohort / size) groups, so one more classmate halves a group), is a cutoff filed as core-opening-peer-network-openingPeerGroupSize-as-cause. Recognition fading with years since school is the builder item people-peer-recognition-fades.",
     "status": "open"
   },
   {
@@ -567,7 +567,7 @@
     "id": "SG-P8-business-books-credit-policy",
     "kind": "authored-finance-policy",
     "file": "src/core2/data/parameters.json",
-    "line": 1911,
+    "line": 1908,
     "whatItFakes": "Every borrower repays its facilities from half of its cash (businessRepaymentShare, an authored liquidity policy) in finishFinanceDay, with no underwriting, priority-of-claims policy or lender decision behind it.",
     "why": "The finance engine settles facility interest and repayment with finite cash, but the share a firm repays is one authored number, not a behavior rule.",
     "addedBy": "SOL-1258",
@@ -2050,7 +2050,7 @@
     "why": "No source gives each opening adult's partnership history or household; the chain and the CPS tables turn sourced rates into ages by sex and household type. Partnered adults keep the household generator's sex; people living alone and housemates draw sex with age.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "Place-level ACS 5-year sex-by-age, marital-status and household-relationship tables for every seated place and territory, cohabitation and second-marriage survival from NSFG, the spouse age gap and parents' ages by place, and siblings, grandparents raising grandchildren and older parents living in a grown child's home seated as their own household types.",
+    "replacement": "Place-level ACS 5-year sex-by-age, marital-status and household-relationship tables for every seated place and territory, cohabitation and second-marriage survival from NSFG, the spouse age gap and parents' ages by place, and siblings, grandparents raising grandchildren and older parents living in a grown child's home seated as their own household types. Oct 23, 2026 (research-deep-past-sourced-parameters): spouseAgeGapOpenRowYears re-estimated from the CPS 2023 ASEC public use file (U.S. Census Bureau, 2023; ESTIMATED, 16 years, spread 14 to 22), read by opening-partnership.ts SPOUSE_GAP; it becomes SOURCED when the engine reads the measured single-year tail in place of an even spread. data/research/core/cps-asec-2023-partner-age-gap.json also holds the measured gap bands of same-sex married couples and of opposite- and same-sex cohabiting couples for the builder item art-stopgap-opening-partnership-estimated-behavior; place-level tables and the four territories remain open, and their rows already wait unread on main in data/research/stopgaps-oct19/census/census-SG-P15-partnership-model.json (2020 Island Areas census rows for the four territories) and census-SG-P15-partnership-model-places.json (place rows).",
     "status": "open"
   },
   {
@@ -2158,7 +2158,7 @@
     "why": "They never act, and generating that history for every relative made the prepared town too large to serialize (La Homa: 861 MB of past facts with part 1).",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-11",
-    "replacement": "Generate a relative's deep past when the game first simulates them (promotion from husk tier), from the same deep-past rules residents use.",
+    "replacement": "Generate a relative's deep past when the game first simulates them (promotion from husk tier), from the same deep-past rules residents use. Oct 23, 2026 (research-deep-past-sourced-parameters): a mechanic with no number to source; the deep past it needs uses the same rows residents use (data/research/core/cps-2024-grade-by-age.json, acs-2023-b05002-born-in-state.json). Builder item core-deep-past-kin-past-on-fill-in.",
     "status": "open"
   },
   {
@@ -2404,7 +2404,7 @@
     "why": "Views and candidacy need education and faith on records now; joint state tables are too sparse in one survey year.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Religious Landscape Study.",
+    "replacement": "Attainment from the person's own schooling history (deep past) checked against ACS B15001 by state, age and sex; faith from upbringing and the Pew Religious Landscape Study. Oct 23, 2026 (research-deep-past-sourced-parameters): the check tables are in data/research/core/acs-2023-b15001-attainment-by-state.json (ACS 2019-2023 B15001 by state, age and sex) and data/research/core/pew-rls-2023-24-faith-by-state.json (Pew Research Center Religious Landscape Study 2023-24, by state), both for all 56 places, reported against the opening profile by scripts/research/deep-past-year.ts. The builder item core-opening-profile-attainment-from-schooling derives attainment and faith from the person's own record and checks the town against them.",
     "status": "open"
   },
   {
