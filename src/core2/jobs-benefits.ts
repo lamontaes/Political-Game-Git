@@ -10,6 +10,7 @@
  * law enacted in play changes the next claim; a filed claim keeps the terms
  * it was filed under and cites the law row.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleTable } from "./module-state";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
@@ -269,9 +270,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       : undefined;
     const fund = state
       ? c.organizations.get(state.organizationId)
-      : [...c.organizations.values()].find(
-          (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-        );
+      : townOutsideOf(c.organizations.values(), row.placeId);
     if (!fund) {
       table.put({
         ...row,
@@ -322,9 +321,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
     // the town, as a state borrows from the federal government when its fund
     // runs short (26 U.S.C. 1201, Title XII advances).
     if (state && paid < row.weeklyMinor) {
-      const advance = [...c.organizations.values()].find(
-        (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-      );
+      const advance = townOutsideOf(c.organizations.values(), row.placeId);
       if (advance)
         paid += pay(
           `unemployment-advance:${row.personId}:${c.date}`,

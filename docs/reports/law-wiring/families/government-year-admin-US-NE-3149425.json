@@ -1,0 +1,253 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "budget-line:administration",
+      "kind": "budget-line",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "place:3149425 administration 4128880 -> 14128880 by law-wiring-190055c7",
+      "lawIds": ["law-wiring-190055c7"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 4,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 7,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-190055c7:positions:organization_66aa7ca5030a42f2:2025-01-20",
+          "applied|budget-line:administration|organization_66aa7ca5030a42f2",
+          "applied|budget-line:administration|person_5adf61e87a0a8e37",
+          "applied|budget-line:administration|person_03819202b5d285c1"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 1,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:administration|person_03819202b5d285c1",
+          "applied|budget-line:administration|person_871fac0ba7ada8bb"
+        ]
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 276675243,
+            "control": 295286987,
+            "ids": [
+              "journal:2025-02-01:1849",
+              "journal:2025-02-01:1850",
+              "journal:2025-02-01:1851"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 515126210,
+            "control": 501541547,
+            "ids": [
+              "journal:2025-01-24:1557",
+              "journal:2025-01-25:1558",
+              "journal:2025-01-25:1560"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 499259369,
+            "control": 488408826,
+            "ids": [
+              "journal:2025-01-28:1574",
+              "journal:2025-01-29:1612",
+              "journal:2025-01-30:1617"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 190535645,
+            "control": 179977187,
+            "ids": [
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035",
+              "journal:2025-02-01:3037"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 701856166667809,
+            "control": 701856172972832,
+            "ids": [
+              "journal:2025-02-01:1662",
+              "journal:2025-02-01:1663",
+              "journal:2025-02-01:1664"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1227",
+            "treatment": 4336485272,
+            "control": 4340443562,
+            "ids": [
+              "journal:2025-01-21:1476",
+              "journal:2025-01-21:1477",
+              "journal:2025-01-21:1478"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 347575441,
+            "control": 343642139,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 67683896,
+            "control": 71405432,
+            "ids": [
+              "journal:2025-02-01:1923",
+              "journal:2025-02-01:1926",
+              "journal:2025-02-01:1929"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 212303341,
+            "control": 208865069,
+            "ids": [
+              "journal:2025-02-01:1892",
+              "journal:2025-02-01:1893",
+              "journal:2025-02-01:1894"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/finance-state.ts:1934",
+            "treatment": 4223923,
+            "control": 1187575,
+            "ids": ["journal:2025-12-01:83382", "journal:2026-01-01:91783"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 176830704622520,
+            "control": 176830705893845,
+            "ids": [
+              "journal:2025-02-01:1652",
+              "journal:2025-02-01:1653",
+              "journal:2025-02-01:1654"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:285",
+            "treatment": 5129718,
+            "control": 3943782,
+            "ids": [
+              "journal:2025-09-01:57550",
+              "journal:2025-09-01:57551",
+              "journal:2025-09-01:57552"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [
+          {
+            "token": "budget-line:administration",
+            "gross": 24203486,
+            "ids": [
+              "journal:2025-02-13:7929",
+              "journal:2025-02-13:7930",
+              "journal:2025-02-27:8317"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "public-jobs-to-private-employment",
+            "status": "about-zero",
+            "to": "labor.unemployment-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 78,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:administration:law-wiring-190055c7",
+          "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:administration:law-wiring-190055c7",
+          "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:budget-line-changed:budget:place:3149425:2024:administration:law-wiring-190055c7"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 2,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 5,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-190055c7:positions:organization_66aa7ca5030a42f2:2025-01-20",
+          "applied|budget-line:administration|organization_66aa7ca5030a42f2",
+          "applied|budget-line:administration|person_57205fbf262dbbec",
+          "applied|budget-line:administration|person_7adba12f7e8a3c3b"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 68
+    }
+  ]
+}
