@@ -86,7 +86,7 @@ function mortgageAt(
 ): number {
   const published = rows.get(month)?.mortgage30Pct;
   if (published !== undefined) return published;
-  // Past the published survey (Freddie Mac PMMS through its latest month): the 10-year plus its measured spread.
+  // Past FHFA's published rate (its MIRS Transition Index, two months behind its release): the 10-year plus its measured spread.
   return (
     field(rows, month, "treasury10Pct", p) +
     p("macroMortgageSpreadOverTreasuryPct")

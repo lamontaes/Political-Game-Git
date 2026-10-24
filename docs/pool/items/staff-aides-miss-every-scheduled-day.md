@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5762
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5762 (branch claude/staff-aides-attendance): The item already records that the job ends after a month. reviewAttendance dismissing the aide is the consequence of missing work, not the reason they missed all 18 scheduled days. Done when requires every scheduled aide to have attended time or a recorded reason for each missed day, shown by a test beside staff-paid-every-place.test.ts naming the full job id. This PR adds only aggregate totals and a dismissal description; no per-day reason records or that named test are supplied. Keep the finding, but do not mark the attendance question complete or ask to drop it until the required daily cause evidence and regression are present.; finish on that branch, merge main into it first.
 
 Cause found Oct 21 (claude/staff-aides-attendance, PR 5762), day by day. In Independence, Louisiana (key 2237025, world seed 7b7b07cc96aa225f55b6f8834881f44ed234811a577a1067e954be747cca333a) the governor's aide job:public:staff:official:term:seat:US-LA:governor:2025-01-20:person:aide:official:term:seat:US-LA:governor:2025-01-20:0 follows a schedule copied down a chain (the agriculture commissioner's, the state budget cabinet post's, and the city administrator's job:public:town:city-administrator:person_0175403c4394037f at the town hall): one 1,440-minute slot starting at 08:00 every third day (expectedWeeklyMinutes 3,360, the firefighters' "cycle" pattern). Across midnight that is a 960-minute day and a 480-minute day. On each 960-minute day the aide has 15.30 free hours, less than the 16 needed, so `runScheduledWork` offers absence only; on the 480-minute days both are offered and the decision picks absence with reason `utility:time:miss-recorded-work`. All 18 scheduled days are missed with a reason on the record; the test is src/core2/staff-aide-attendance-cause.test.ts (that job id, 18 days, plus a drawn place). The aides are therefore dismissed by `reviewAttendance` for a schedule no one could attend. The real defect is upstream: a town's city administrator has a 24-hour rotation; filed as world-opening-city-administrator-shift-pattern. This item is done when the test passes; the CTO may drop it.
+
+Sent back 2026-10-23 from PR #5762 (branch claude/staff-aides-attendance): Drawn-place test can pass with no scheduled attendance records because it only checks aides length and ignores checkCauses count; require nonempty scheduled job/day coverage; finish on that branch, merge main into it first.
