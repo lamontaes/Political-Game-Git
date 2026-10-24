@@ -694,9 +694,9 @@ export const viewsModule: CoreModule = {
     // condition someone lives (their household burglarized): that argues no
     // change, so each person it happened to takes it as a reason for the
     // side their own view already holds on the question it ties to, as a
-    // reader of a story about it does. A drive forming
-    // or growing restates a change the event behind it already made, so it
-    // moves nothing again.
+    // reader of a story about it does; someone who only hears of it does not
+    // live it. A drive forming or growing restates a change the event behind
+    // it already made, so it moves nothing again.
     const lived = event.desiredChange ? null : livedQuestion(event.kind);
     const topic = lived ?? event.topic;
     if (!topic || (!event.desiredChange && !lived)) return;
@@ -710,6 +710,7 @@ export const viewsModule: CoreModule = {
       if (!view) continue;
       let desiredChange = event.desiredChange;
       if (lived) {
+        if (!event.personIds.includes(personId)) continue;
         const current = viewOn(api, personId, lived, view.lean);
         if (current === v("zero")) continue;
         desiredChange = current > v("zero") ? "enact" : "repeal";
