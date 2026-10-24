@@ -1,0 +1,13 @@
+{
+  "source": "generated-official-04.png",
+  "instance": 0,
+  "chair": "board-03",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.08653846153846154,
+  "shift": [
+    0,
+    0
+  ]
+}

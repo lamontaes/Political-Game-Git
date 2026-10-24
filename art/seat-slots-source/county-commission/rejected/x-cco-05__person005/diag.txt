@@ -1,0 +1,13 @@
+{
+  "source": "x-cco-05.jpg",
+  "instance": 5,
+  "chair": null,
+  "reasons": [
+    "no_chair"
+  ],
+  "room_pixel_share": 0.008572319201995013,
+  "shift": [
+    0,
+    0
+  ]
+}

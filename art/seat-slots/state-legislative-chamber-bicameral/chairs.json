@@ -1,0 +1,377 @@
+{
+  "place": "state-legislative-chamber-bicameral",
+  "size": [1672, 941],
+  "plate_sha256": "ae6f8dcfb37ef4e9e5ab8fb0a73a26fded52fcf6c9c40a6fba9c3992ac1a02ac",
+  "method": "Frozen Mask R-CNN COCO V1 chair and bench detections from the empty painting, matched to the existing occupied slot inventory. Broad benches retain their existing separate positions. Board chair points, desk outlines, and front rails were marked from the empty painting. Furniture masks preserve the detector pixels. Two front desk chair matches were corrected by visual inspection of the empty painting.",
+  "chairs": [
+    {
+      "id": "chair-017",
+      "seat": [144.5, 475.7],
+      "box": [113.4, 376.9, 62.2, 118.8],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["state-legislative-chamber-bicameral:seat:0"],
+      "native_width": 50,
+      "head_top": 405
+    },
+    {
+      "id": "chair-034",
+      "seat": [209.7784309387207, 584.3751220703125],
+      "box": [119.6004409790039, 390, 180.3559799194336, 214.3751220703125],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["state-legislative-chamber-bicameral:seat:1"],
+      "native_width": 130,
+      "head_top": 430
+    },
+    {
+      "id": "chair-008",
+      "seat": [417.1, 527.5],
+      "box": [336.6, 362.6, 161.0, 184.9],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["state-legislative-chamber-bicameral:seat:2"],
+      "native_width": 130,
+      "head_top": 424
+    },
+    {
+      "id": "chair-004",
+      "seat": [1255.8, 526.7],
+      "box": [1176.9, 364.0, 157.8, 182.7],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": [
+        "state-legislative-chamber-bicameral:seat:5",
+        "state-legislative-chamber-bicameral:seat:11"
+      ],
+      "native_width": 122,
+      "head_top": 422
+    },
+    {
+      "id": "chair-003",
+      "seat": [1338.4, 511.0],
+      "box": [1286.5, 372.1, 103.8, 158.9],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": [
+        "state-legislative-chamber-bicameral:seat:6",
+        "state-legislative-chamber-bicameral:seat:12"
+      ],
+      "native_width": 65,
+      "head_top": 429
+    },
+    {
+      "id": "chair-025",
+      "seat": [1460.760986328125, 585.7284545898438],
+      "box": [1369.62744140625, 390, 182.26708984375, 215.72845458984375],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": ["state-legislative-chamber-bicameral:seat:7"],
+      "native_width": 130,
+      "head_top": 430
+    },
+    {
+      "id": "chair-019",
+      "seat": [1524.9, 474.7],
+      "box": [1498.8, 383.3, 52.3, 111.4],
+      "depth": "row-11",
+      "facing": "away",
+      "legacy_seats": [
+        "state-legislative-chamber-bicameral:seat:8",
+        "state-legislative-chamber-bicameral:seat:9"
+      ],
+      "native_width": 50,
+      "head_top": 405
+    },
+    {
+      "id": "chair-002",
+      "seat": [336.0, 510.3],
+      "box": [286.9, 374.3, 98.4, 156.0],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["state-legislative-chamber-bicameral:seat:10"],
+      "native_width": 64,
+      "head_top": 432
+    },
+    {
+      "id": "manual-floor-03",
+      "seat": [546, 547],
+      "box": [476, 377, 140, 180],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["state-legislative-chamber-bicameral:seat:3"],
+      "native_width": 100,
+      "head_top": 428
+    },
+    {
+      "id": "manual-floor-04",
+      "seat": [1124, 547],
+      "box": [1054, 377, 140, 180],
+      "depth": "row-12",
+      "facing": "away",
+      "legacy_seats": ["state-legislative-chamber-bicameral:seat:4"],
+      "native_width": 100,
+      "head_top": 426
+    }
+  ],
+  "furniture": [
+    {
+      "id": "empty-chair-000",
+      "mask": "furniture/empty-chair-000.png",
+      "in_front_of": [
+        "chair-017",
+        "chair-008",
+        "chair-004",
+        "chair-003",
+        "chair-019",
+        "chair-002",
+        "chair-034",
+        "chair-025"
+      ]
+    },
+    {
+      "id": "empty-chair-001",
+      "mask": "furniture/empty-chair-001.png",
+      "in_front_of": [
+        "chair-017",
+        "chair-008",
+        "chair-004",
+        "chair-003",
+        "chair-019",
+        "chair-002",
+        "chair-034",
+        "chair-025"
+      ]
+    },
+    {
+      "id": "empty-chair-002",
+      "mask": "furniture/empty-chair-002.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-003",
+      "mask": "furniture/empty-chair-003.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-004",
+      "mask": "furniture/empty-chair-004.png",
+      "in_front_of": [
+        "chair-017",
+        "chair-008",
+        "chair-004",
+        "chair-003",
+        "chair-019",
+        "chair-002"
+      ]
+    },
+    {
+      "id": "empty-chair-005",
+      "mask": "furniture/empty-chair-005.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-006",
+      "mask": "furniture/empty-chair-006.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-007",
+      "mask": "furniture/empty-chair-007.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-008",
+      "mask": "furniture/empty-chair-008.png",
+      "in_front_of": [
+        "chair-017",
+        "chair-008",
+        "chair-004",
+        "chair-003",
+        "chair-019",
+        "chair-002"
+      ]
+    },
+    {
+      "id": "empty-chair-009",
+      "mask": "furniture/empty-chair-009.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-010",
+      "mask": "furniture/empty-chair-010.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-011",
+      "mask": "furniture/empty-chair-011.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-012",
+      "mask": "furniture/empty-chair-012.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-013",
+      "mask": "furniture/empty-chair-013.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-017",
+      "mask": "furniture/empty-chair-017.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-018",
+      "mask": "furniture/empty-chair-018.png",
+      "in_front_of": [
+        "chair-017",
+        "chair-008",
+        "chair-004",
+        "chair-003",
+        "chair-019",
+        "chair-002",
+        "chair-034",
+        "chair-025"
+      ]
+    },
+    {
+      "id": "empty-chair-019",
+      "mask": "furniture/empty-chair-019.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-020",
+      "mask": "furniture/empty-chair-020.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-022",
+      "mask": "furniture/empty-chair-022.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-023",
+      "mask": "furniture/empty-chair-023.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-024",
+      "mask": "furniture/empty-chair-024.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-025",
+      "mask": "furniture/empty-chair-025.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "empty-chair-028",
+      "mask": "furniture/empty-chair-028.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-032",
+      "mask": "furniture/empty-chair-032.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-033",
+      "mask": "furniture/empty-chair-033.png",
+      "in_front_of": ["chair-017", "chair-003", "chair-019", "chair-002"]
+    },
+    {
+      "id": "empty-chair-034",
+      "mask": "furniture/empty-chair-034.png",
+      "in_front_of": ["chair-017", "chair-019"]
+    },
+    {
+      "id": "manual-floor-03-back",
+      "polygon": [
+        [503.5, 492],
+        [512.0, 487],
+        [580.0, 487],
+        [588.5, 492],
+        [588.5, 527],
+        [503.5, 527]
+      ],
+      "in_front_of": ["manual-floor-03"]
+    },
+    {
+      "id": "manual-floor-04-back",
+      "polygon": [
+        [1081.5, 492],
+        [1090.0, 487],
+        [1158.0, 487],
+        [1166.5, 492],
+        [1166.5, 527],
+        [1081.5, 527]
+      ],
+      "in_front_of": ["manual-floor-04"]
+    },
+    {
+      "id": "nearest-desk-left",
+      "polygon": [
+        [0, 600],
+        [650, 600],
+        [650, 941],
+        [0, 941]
+      ],
+      "in_front_of": [
+        "chair-017",
+        "chair-034",
+        "chair-008",
+        "chair-004",
+        "chair-003",
+        "chair-025",
+        "chair-019",
+        "chair-002",
+        "manual-floor-03",
+        "manual-floor-04"
+      ]
+    },
+    {
+      "id": "nearest-desk-right",
+      "polygon": [
+        [1020, 600],
+        [1672, 600],
+        [1672, 941],
+        [1020, 941]
+      ],
+      "in_front_of": [
+        "chair-017",
+        "chair-034",
+        "chair-008",
+        "chair-004",
+        "chair-003",
+        "chair-025",
+        "chair-019",
+        "chair-002",
+        "manual-floor-03",
+        "manual-floor-04"
+      ]
+    },
+    {
+      "id": "side-desk-left",
+      "polygon": [
+        [0, 482],
+        [320, 482],
+        [320, 941],
+        [0, 941]
+      ],
+      "in_front_of": ["chair-017"]
+    },
+    {
+      "id": "side-desk-right",
+      "polygon": [
+        [1350, 482],
+        [1672, 482],
+        [1672, 941],
+        [1350, 941]
+      ],
+      "in_front_of": ["chair-019"]
+    }
+  ],
+  "unmapped_legacy_seats": []
+}

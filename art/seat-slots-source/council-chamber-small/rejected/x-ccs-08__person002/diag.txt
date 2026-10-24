@@ -1,0 +1,13 @@
+{
+  "source": "x-ccs-08.jpg",
+  "instance": 2,
+  "chair": "chair-014",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.05126806653940551,
+  "shift": [
+    0,
+    0
+  ]
+}

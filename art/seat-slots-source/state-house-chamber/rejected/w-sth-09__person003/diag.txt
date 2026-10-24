@@ -1,0 +1,14 @@
+{
+  "source": "w-sth-09.jpg",
+  "instance": 3,
+  "chair": "chair-013",
+  "reasons": [
+    "too_wide",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.054941257774706286,
+  "shift": [
+    0,
+    -2
+  ]
+}

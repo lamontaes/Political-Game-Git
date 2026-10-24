@@ -1,0 +1,28 @@
+{
+  "tool": "torchvision.maskrcnn_resnet50_fpn_v2",
+  "weights": "MaskRCNN_ResNet50_FPN_V2_Weights.COCO_V1",
+  "torch": "2.14.1+cpu",
+  "source": "z-ccr-03.jpg",
+  "source_sha256": "1a4454db4c375d440fffea366b243fbf375ffed241975a565c7a1ce27e183016",
+  "size": [1376, 768],
+  "score_threshold": 0.8,
+  "mask_threshold": 0.5,
+  "instances": [
+    {
+      "mask": "000.png",
+      "score": 0.9960220456123352,
+      "box": [
+        539.5039672851562, 123.47252655029297, 618.7118530273438,
+        219.42108154296875
+      ]
+    },
+    {
+      "mask": "001.png",
+      "score": 0.9959660768508911,
+      "box": [
+        761.3071899414062, 123.6174545288086, 838.3818969726562,
+        215.33921813964844
+      ]
+    }
+  ]
+}

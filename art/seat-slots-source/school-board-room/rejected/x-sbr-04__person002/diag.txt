@@ -1,0 +1,13 @@
+{
+  "source": "x-sbr-04.jpg",
+  "instance": 2,
+  "chair": "board-07",
+  "reasons": [
+    "too_wide"
+  ],
+  "room_pixel_share": 0.02095744224917499,
+  "shift": [
+    -1,
+    0
+  ]
+}

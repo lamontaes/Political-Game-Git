@@ -1,0 +1,13 @@
+{
+  "source": "x-bic-07.jpg",
+  "instance": 3,
+  "chair": "chair-019",
+  "reasons": [
+    "visual_occluded_or_wrong_seat"
+  ],
+  "room_pixel_share": 0.042458808618504436,
+  "shift": [
+    0,
+    -1
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "place": "state-house-chamber",
+  "chairs": 17,
+  "kept": 101,
+  "rejected": 225,
+  "rejected_by_reason": {
+    "disconnected": 55,
+    "too_wide": 68,
+    "room_pixels": 198,
+    "no_chair": 28,
+    "visual_two_people": 1,
+    "visual_occluded_or_incomplete_head": 2
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

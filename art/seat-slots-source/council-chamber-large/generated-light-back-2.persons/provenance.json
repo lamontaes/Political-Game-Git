@@ -1,0 +1,11 @@
+{
+  "tool": "native image_gen alpha",
+  "source": "generated-light-back-2.png",
+  "source_sha256": "c79ccf3f60724d5c468f6e54322f2388c6d86b6d69249cac6bd5c014c510fac6",
+  "size": [521, 816],
+  "instances": [
+    {
+      "mask": "000.png"
+    }
+  ]
+}

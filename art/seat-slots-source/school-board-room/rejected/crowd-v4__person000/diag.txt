@@ -1,0 +1,13 @@
+{
+  "source": "crowd-v4.jpg",
+  "instance": 0,
+  "chair": "board-06",
+  "reasons": [
+    "visual_clipped_shoulder"
+  ],
+  "room_pixel_share": 0.0335316387236344,
+  "shift": [
+    0,
+    1
+  ]
+}

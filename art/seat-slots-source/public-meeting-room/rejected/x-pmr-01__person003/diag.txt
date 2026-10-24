@@ -1,0 +1,13 @@
+{
+  "source": "x-pmr-01.jpg",
+  "instance": 3,
+  "chair": null,
+  "reasons": [
+    "no_chair"
+  ],
+  "room_pixel_share": 0.035746201966041107,
+  "shift": [
+    0,
+    0
+  ]
+}

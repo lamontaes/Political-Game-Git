@@ -1,0 +1,13 @@
+{
+  "source": "y-bic-04.jpg",
+  "instance": 9,
+  "chair": "manual-floor-04",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.06045479755962285,
+  "shift": [
+    0,
+    -1
+  ]
+}

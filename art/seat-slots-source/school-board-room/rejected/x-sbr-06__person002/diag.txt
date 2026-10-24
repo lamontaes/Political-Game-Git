@@ -1,0 +1,13 @@
+{
+  "source": "x-sbr-06.jpg",
+  "instance": 2,
+  "chair": "board-05",
+  "reasons": [
+    "disconnected"
+  ],
+  "room_pixel_share": 0.03284863349684653,
+  "shift": [
+    0,
+    1
+  ]
+}

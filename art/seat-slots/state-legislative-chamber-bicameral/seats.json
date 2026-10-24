@@ -11,850 +11,761 @@
   },
   "seats": [
     {
-      "id": "state-legislative-chamber-bicameral:seat:0",
-      "head": [138.0, 423.8],
+      "id": "state-legislative-chamber-bicameral:chair:chair-017",
+      "chair": "chair-017",
+      "head": [137.3081395348837, 409.2369791666667],
       "variants": [
         {
-          "rect": [1166, 323, 87, 92],
+          "rect": [1953, 331, 59, 76],
           "at": {
-            "midday": [106, 420],
-            "morning": [106, 420],
-            "night": [106, 420],
-            "rain": [106, 420]
+            "midday": [111, 409],
+            "morning": [111, 409],
+            "night": [111, 409],
+            "rain": [111, 409]
           },
-          "bottom": 509,
-          "activity": "plain"
+          "bottom": 484,
+          "activity": "plain",
+          "chair": "chair-017",
+          "head": [137.3081395348837, 409.2369791666667]
         },
         {
-          "rect": [214, 428, 72, 78],
+          "rect": [0, 449, 51, 76],
           "at": {
-            "midday": [100, 434],
-            "morning": [100, 434],
-            "night": [100, 434],
-            "rain": [100, 434]
+            "midday": [119, 409],
+            "morning": [119, 409],
+            "night": [119, 409],
+            "rain": [119, 409]
           },
-          "bottom": 509,
-          "activity": "plain"
+          "bottom": 484,
+          "activity": "plain",
+          "chair": "chair-017",
+          "head": [150.64616008653326, 409.2369791666667]
         },
         {
-          "rect": [1426, 323, 82, 90],
+          "rect": [825, 331, 63, 110],
           "at": {
-            "midday": [105, 423],
-            "morning": [105, 423],
-            "night": [105, 423],
-            "rain": [105, 423]
+            "midday": [124, 402],
+            "morning": [124, 402],
+            "night": [124, 402],
+            "rain": [124, 402]
           },
-          "bottom": 510,
-          "activity": "plain"
-        },
-        {
-          "rect": [1510, 323, 81, 90],
-          "at": {
-            "midday": [102, 423],
-            "morning": [102, 423],
-            "night": [102, 423],
-            "rain": [102, 423]
-          },
-          "bottom": 510,
-          "activity": "plain"
-        },
-        {
-          "rect": [1751, 323, 79, 85],
-          "at": {
-            "midday": [108, 427],
-            "morning": [108, 427],
-            "night": [108, 427],
-            "rain": [108, 427]
-          },
-          "bottom": 509,
-          "activity": "plain"
-        },
-        {
-          "rect": [107, 323, 87, 101],
-          "at": {
-            "midday": [99, 412],
-            "morning": [99, 412],
-            "night": [99, 412],
-            "rain": [99, 412]
-          },
-          "bottom": 510,
-          "activity": "plain"
-        },
-        {
-          "rect": [145, 428, 67, 79],
-          "at": {
-            "midday": [98, 433],
-            "morning": [98, 433],
-            "night": [98, 433],
-            "rain": [98, 433]
-          },
-          "bottom": 509,
-          "activity": "plain"
+          "bottom": 511,
+          "activity": "plain",
+          "chair": "chair-017",
+          "head": [144.81811541271, 405.1081081081081]
         }
       ]
     },
     {
-      "id": "state-legislative-chamber-bicameral:seat:1",
-      "head": [261.0, 415.8],
+      "id": "state-legislative-chamber-bicameral:chair:chair-034",
+      "chair": "chair-034",
+      "head": [249.04360465116278, 406.78645833333337],
       "variants": [
         {
-          "rect": [321, 0, 173, 180],
+          "rect": [327, 331, 88, 114],
           "at": {
-            "midday": [202, 417],
-            "morning": [202, 417],
-            "night": [202, 417],
-            "rain": [202, 417]
-          },
-          "bottom": 594,
-          "activity": "plain"
-        },
-        {
-          "rect": [496, 0, 161, 179],
-          "at": {
-            "midday": [204, 416],
-            "morning": [204, 416],
-            "night": [204, 416],
-            "rain": [204, 416]
-          },
-          "bottom": 592,
-          "activity": "plain"
-        },
-        {
-          "rect": [659, 0, 174, 178],
-          "at": {
-            "midday": [204, 419],
-            "morning": [204, 419],
-            "night": [204, 419],
-            "rain": [204, 419]
-          },
-          "bottom": 594,
-          "activity": "plain"
-        },
-        {
-          "rect": [1010, 0, 178, 174],
-          "at": {
-            "midday": [222, 420],
-            "morning": [222, 420],
-            "night": [222, 420],
-            "rain": [222, 420]
-          },
-          "bottom": 591,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "state-legislative-chamber-bicameral:seat:2",
-      "head": [442.2, 423.6],
-      "variants": [
-        {
-          "rect": [1222, 185, 108, 122],
-          "at": {
-            "midday": [403, 427],
-            "morning": [403, 427],
-            "night": [403, 427],
-            "rain": [403, 427]
-          },
-          "bottom": 546,
-          "activity": "plain"
-        },
-        {
-          "rect": [1816, 0, 115, 138],
-          "at": {
-            "midday": [400, 419],
-            "morning": [400, 419],
-            "night": [400, 419],
-            "rain": [400, 419]
-          },
-          "bottom": 554,
-          "activity": "plain"
-        },
-        {
-          "rect": [1436, 185, 110, 120],
-          "at": {
-            "midday": [405, 429],
-            "morning": [405, 429],
-            "night": [405, 429],
-            "rain": [405, 429]
-          },
-          "bottom": 546,
-          "activity": "plain"
-        },
-        {
-          "rect": [1693, 0, 121, 139],
-          "at": {
-            "midday": [392, 412],
-            "morning": [392, 412],
-            "night": [392, 412],
-            "rain": [392, 412]
-          },
-          "bottom": 548,
-          "activity": "plain"
-        },
-        {
-          "rect": [356, 185, 138, 135],
-          "at": {
-            "midday": [383, 419],
-            "morning": [383, 419],
-            "night": [383, 419],
-            "rain": [383, 419]
-          },
-          "bottom": 551,
-          "activity": "plain"
-        },
-        {
-          "rect": [633, 185, 125, 129],
-          "at": {
-            "midday": [400, 419],
-            "morning": [400, 419],
-            "night": [400, 419],
-            "rain": [400, 419]
-          },
-          "bottom": 545,
-          "activity": "plain"
-        },
-        {
-          "rect": [760, 185, 128, 129],
-          "at": {
-            "midday": [391, 419],
-            "morning": [391, 419],
-            "night": [391, 419],
-            "rain": [391, 419]
-          },
-          "bottom": 545,
-          "activity": "plain"
-        },
-        {
-          "rect": [1548, 185, 112, 120],
-          "at": {
-            "midday": [399, 429],
-            "morning": [399, 429],
-            "night": [399, 429],
-            "rain": [399, 429]
-          },
-          "bottom": 546,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "state-legislative-chamber-bicameral:seat:3",
-      "head": [546.1, 427.9],
-      "variants": [
-        {
-          "rect": [653, 323, 78, 96],
-          "at": {
-            "midday": [519, 429],
-            "morning": [519, 429],
-            "night": [518, 429],
-            "rain": [519, 429]
-          },
-          "bottom": 522,
-          "activity": "plain"
-        },
-        {
-          "rect": [922, 323, 85, 94],
-          "at": {
-            "midday": [513, 429],
-            "morning": [513, 429],
-            "night": [512, 429],
-            "rain": [513, 429]
+            "midday": [211, 407],
+            "morning": [211, 407],
+            "night": [211, 407],
+            "rain": [211, 407]
           },
           "bottom": 520,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-034",
+          "head": [249.04360465116278, 406.78645833333337]
         },
         {
-          "rect": [823, 323, 97, 95],
+          "rect": [203, 0, 164, 285],
           "at": {
-            "midday": [505, 428],
-            "morning": [505, 428],
-            "night": [504, 428],
-            "rain": [505, 428]
+            "midday": [156, 422],
+            "morning": [156, 422],
+            "night": [155, 422],
+            "rain": [156, 422]
           },
-          "bottom": 520,
-          "activity": "plain"
+          "bottom": 706,
+          "activity": "plain",
+          "chair": "chair-034",
+          "head": [210.12710007304602, 430.0810810810811]
         },
         {
-          "rect": [1255, 323, 81, 92],
+          "rect": [535, 0, 146, 228],
           "at": {
-            "midday": [513, 433],
-            "morning": [513, 433],
-            "night": [512, 433],
-            "rain": [513, 433]
+            "midday": [156, 427],
+            "morning": [156, 427],
+            "night": [156, 427],
+            "rain": [156, 427]
           },
-          "bottom": 522,
-          "activity": "plain"
-        },
-        {
-          "rect": [1338, 323, 86, 92],
-          "at": {
-            "midday": [508, 433],
-            "morning": [508, 433],
-            "night": [507, 433],
-            "rain": [508, 433]
-          },
-          "bottom": 522,
-          "activity": "plain"
-        },
-        {
-          "rect": [1662, 185, 104, 117],
-          "at": {
-            "midday": [503, 410],
-            "morning": [503, 410],
-            "night": [502, 410],
-            "rain": [503, 410]
-          },
-          "bottom": 524,
-          "activity": "plain"
-        },
-        {
-          "rect": [196, 323, 86, 101],
-          "at": {
-            "midday": [508, 428],
-            "morning": [508, 428],
-            "night": [507, 428],
-            "rain": [508, 428]
-          },
-          "bottom": 526,
-          "activity": "plain"
-        },
-        {
-          "rect": [1768, 185, 105, 115],
-          "at": {
-            "midday": [495, 417],
-            "morning": [495, 417],
-            "night": [494, 417],
-            "rain": [495, 417]
-          },
-          "bottom": 529,
-          "activity": "plain"
+          "bottom": 654,
+          "activity": "plain",
+          "chair": "chair-034",
+          "head": [210.04388259226968, 429.7956989247312]
         }
       ]
     },
     {
-      "id": "state-legislative-chamber-bicameral:seat:4",
-      "head": [1124.5, 426.1],
+      "id": "state-legislative-chamber-bicameral:chair:chair-008",
+      "chair": "chair-008",
+      "head": [444.93507751937983, 426.390625],
       "variants": [
         {
-          "rect": [733, 323, 88, 96],
+          "rect": [1843, 0, 101, 120],
           "at": {
-            "midday": [1071, 428],
-            "morning": [1070, 428],
-            "night": [1071, 428],
-            "rain": [1071, 428]
+            "midday": [407, 426],
+            "morning": [407, 426],
+            "night": [407, 426],
+            "rain": [407, 426]
           },
-          "bottom": 521,
-          "activity": "plain"
+          "bottom": 545,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [444.93507751937983, 426.390625]
         },
         {
-          "rect": [284, 323, 78, 99],
+          "rect": [0, 331, 106, 116],
           "at": {
-            "midday": [1076, 426],
-            "morning": [1075, 426],
-            "night": [1076, 426],
-            "rain": [1076, 426]
-          },
-          "bottom": 522,
-          "activity": "plain"
-        },
-        {
-          "rect": [559, 323, 92, 97],
-          "at": {
-            "midday": [1071, 427],
-            "morning": [1070, 427],
-            "night": [1071, 427],
-            "rain": [1071, 427]
-          },
-          "bottom": 521,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 323, 105, 103],
-          "at": {
-            "midday": [1064, 422],
-            "morning": [1063, 422],
-            "night": [1064, 422],
-            "rain": [1064, 422]
-          },
-          "bottom": 522,
-          "activity": "plain"
-        },
-        {
-          "rect": [364, 323, 94, 98],
-          "at": {
-            "midday": [1073, 426],
-            "morning": [1072, 426],
-            "night": [1073, 426],
-            "rain": [1073, 426]
-          },
-          "bottom": 521,
-          "activity": "plain"
-        },
-        {
-          "rect": [1875, 185, 80, 106],
-          "at": {
-            "midday": [1084, 419],
-            "morning": [1083, 419],
-            "night": [1084, 419],
-            "rain": [1084, 419]
-          },
-          "bottom": 522,
-          "activity": "plain"
-        },
-        {
-          "rect": [1085, 323, 79, 93],
-          "at": {
-            "midday": [1077, 432],
-            "morning": [1076, 432],
-            "night": [1077, 432],
-            "rain": [1077, 432]
-          },
-          "bottom": 522,
-          "activity": "plain"
-        },
-        {
-          "rect": [460, 323, 97, 98],
-          "at": {
-            "midday": [1064, 426],
-            "morning": [1063, 426],
-            "night": [1064, 426],
-            "rain": [1064, 426]
-          },
-          "bottom": 521,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "state-legislative-chamber-bicameral:seat:5",
-      "head": [1229.7, 421.6],
-      "variants": [
-        {
-          "rect": [890, 185, 104, 129],
-          "at": {
-            "midday": [1159, 421],
-            "morning": [1159, 421],
-            "night": [1159, 421],
-            "rain": [1159, 421]
-          },
-          "bottom": 547,
-          "activity": "plain"
-        },
-        {
-          "rect": [996, 185, 117, 128],
-          "at": {
-            "midday": [1146, 423],
-            "morning": [1146, 423],
-            "night": [1146, 423],
-            "rain": [1146, 423]
-          },
-          "bottom": 548,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 185, 115, 136],
-          "at": {
-            "midday": [1156, 419],
-            "morning": [1156, 419],
-            "night": [1156, 419],
-            "rain": [1156, 419]
-          },
-          "bottom": 552,
-          "activity": "plain"
-        },
-        {
-          "rect": [1115, 185, 105, 125],
-          "at": {
-            "midday": [1167, 427],
-            "morning": [1167, 427],
-            "night": [1167, 427],
-            "rain": [1167, 427]
+            "midday": [406, 434],
+            "morning": [406, 434],
+            "night": [406, 434],
+            "rain": [406, 434]
           },
           "bottom": 549,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [438.16701050262566, 433.7421875]
         },
         {
-          "rect": [117, 185, 129, 136],
+          "rect": [831, 0, 117, 136],
           "at": {
-            "midday": [1162, 418],
-            "morning": [1162, 418],
-            "night": [1162, 418],
-            "rain": [1162, 418]
+            "midday": [395, 412],
+            "morning": [395, 412],
+            "night": [395, 412],
+            "rain": [395, 412]
           },
-          "bottom": 551,
-          "activity": "plain"
+          "bottom": 547,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [435.2190867838911, 411.6875]
         },
         {
-          "rect": [248, 185, 106, 136],
+          "rect": [108, 331, 126, 116],
           "at": {
-            "midday": [1167, 418],
-            "morning": [1167, 418],
-            "night": [1167, 418],
-            "rain": [1167, 418]
+            "midday": [392, 429],
+            "morning": [392, 429],
+            "night": [392, 429],
+            "rain": [392, 429]
           },
-          "bottom": 551,
-          "activity": "plain"
+          "bottom": 544,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [435.4306335204491, 428.84114583333337]
         },
         {
-          "rect": [1332, 185, 102, 122],
+          "rect": [950, 0, 132, 132],
           "at": {
-            "midday": [1167, 427],
-            "morning": [1167, 427],
-            "night": [1167, 427],
-            "rain": [1167, 427]
+            "midday": [386, 418],
+            "morning": [386, 418],
+            "night": [386, 418],
+            "rain": [386, 418]
           },
-          "bottom": 546,
-          "activity": "plain"
+          "bottom": 549,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [438.7755246738514, 417.81380208333337]
         },
         {
-          "rect": [496, 185, 135, 132],
+          "rect": [236, 331, 89, 115],
           "at": {
-            "midday": [1155, 422],
-            "morning": [1155, 422],
-            "night": [1155, 422],
-            "rain": [1155, 422]
+            "midday": [414, 431],
+            "morning": [414, 431],
+            "night": [414, 431],
+            "rain": [414, 431]
           },
-          "bottom": 551,
-          "activity": "plain"
+          "bottom": 545,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [439.67945263754956, 431.2916666666667]
+        },
+        {
+          "rect": [1258, 0, 120, 125],
+          "at": {
+            "midday": [402, 420],
+            "morning": [402, 420],
+            "night": [402, 420],
+            "rain": [402, 420]
+          },
+          "bottom": 544,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [445.44426910299, 420.2643229166667]
+        },
+        {
+          "rect": [1380, 0, 124, 125],
+          "at": {
+            "midday": [394, 419],
+            "morning": [394, 419],
+            "night": [394, 419],
+            "rain": [394, 419]
+          },
+          "bottom": 543,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [437.9724041925975, 419.0390625]
+        },
+        {
+          "rect": [624, 331, 107, 113],
+          "at": {
+            "midday": [402, 433],
+            "morning": [402, 433],
+            "night": [402, 433],
+            "rain": [402, 433]
+          },
+          "bottom": 545,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [442.0207742484401, 432.51692708333337]
+        },
+        {
+          "rect": [1084, 0, 93, 127],
+          "at": {
+            "midday": [416, 421],
+            "morning": [416, 421],
+            "night": [416, 421],
+            "rain": [416, 421]
+          },
+          "bottom": 547,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [437.10010901162786, 421.48958333333337]
+        },
+        {
+          "rect": [417, 331, 98, 114],
+          "at": {
+            "midday": [431, 440],
+            "morning": [431, 440],
+            "night": [431, 440],
+            "rain": [431, 440]
+          },
+          "bottom": 553,
+          "activity": "plain",
+          "chair": "chair-008",
+          "head": [467.21220930232556, 439.86848958333337]
         }
       ]
     },
     {
-      "id": "state-legislative-chamber-bicameral:seat:6",
-      "head": [1305.9, 429.2],
+      "id": "state-legislative-chamber-bicameral:chair:chair-004",
+      "chair": "chair-004",
+      "head": [1225.99871751026, 425.16536458333337],
       "variants": [
         {
-          "rect": [414, 428, 61, 72],
+          "rect": [1506, 0, 95, 124],
           "at": {
-            "midday": [1286, 428],
-            "morning": [1286, 428],
-            "night": [1286, 428],
-            "rain": [1286, 428]
+            "midday": [1164, 425],
+            "morning": [1164, 425],
+            "night": [1164, 425],
+            "rain": [1164, 425]
           },
-          "bottom": 497,
-          "activity": "plain"
+          "bottom": 548,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [1225.99871751026, 425.16536458333337]
         },
         {
-          "rect": [656, 428, 54, 71],
+          "rect": [1603, 0, 127, 124],
           "at": {
-            "midday": [1273, 429],
-            "morning": [1273, 429],
-            "night": [1273, 429],
-            "rain": [1273, 429]
+            "midday": [1157, 425],
+            "morning": [1157, 425],
+            "night": [1157, 425],
+            "rain": [1157, 425]
           },
-          "bottom": 497,
-          "activity": "plain"
+          "bottom": 548,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [1224.5551287375415, 425.16536458333337]
         },
         {
-          "rect": [712, 428, 59, 71],
+          "rect": [517, 331, 105, 114],
           "at": {
-            "midday": [1291, 429],
-            "morning": [1291, 429],
-            "night": [1291, 429],
-            "rain": [1291, 429]
+            "midday": [1159, 435],
+            "morning": [1159, 435],
+            "night": [1159, 435],
+            "rain": [1159, 435]
           },
-          "bottom": 497,
-          "activity": "plain"
+          "bottom": 548,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [1222.5436773255813, 434.9674479166667]
+        },
+        {
+          "rect": [1732, 0, 109, 121],
+          "at": {
+            "midday": [1167, 429],
+            "morning": [1167, 429],
+            "night": [1167, 429],
+            "rain": [1167, 429]
+          },
+          "bottom": 549,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [1225.5449143879378, 428.84114583333337]
+        },
+        {
+          "rect": [733, 331, 90, 112],
+          "at": {
+            "midday": [1169, 441],
+            "morning": [1169, 441],
+            "night": [1169, 441],
+            "rain": [1169, 441]
+          },
+          "bottom": 552,
+          "activity": "plain",
+          "chair": "chair-004",
+          "head": [1216.331395348837, 441.09375]
         }
       ]
     },
     {
-      "id": "state-legislative-chamber-bicameral:seat:7",
-      "head": [1406.6, 419.8],
+      "id": "state-legislative-chamber-bicameral:chair:chair-003",
+      "chair": "chair-003",
+      "head": [1320.885400516796, 434.9674479166667],
       "variants": [
         {
-          "rect": [1522, 0, 169, 169],
+          "rect": [705, 449, 40, 42],
           "at": {
-            "midday": [1296, 428],
-            "morning": [1296, 428],
-            "night": [1296, 428],
-            "rain": [1296, 428]
+            "midday": [1304, 435],
+            "morning": [1304, 435],
+            "night": [1304, 435],
+            "rain": [1304, 435]
           },
-          "bottom": 594,
-          "activity": "plain"
+          "bottom": 476,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1320.885400516796, 434.9674479166667]
         },
         {
-          "rect": [1353, 0, 167, 171],
+          "rect": [296, 449, 52, 69],
           "at": {
-            "midday": [1298, 422],
-            "morning": [1298, 422],
-            "night": [1298, 422],
-            "rain": [1298, 422]
+            "midday": [1293, 431],
+            "morning": [1293, 431],
+            "night": [1293, 431],
+            "rain": [1293, 431]
           },
-          "bottom": 590,
-          "activity": "plain"
+          "bottom": 499,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1318.7457480041653, 431.2916666666667]
         },
         {
-          "rect": [0, 0, 139, 183],
+          "rect": [561, 449, 47, 49],
           "at": {
-            "midday": [1308, 411],
-            "morning": [1308, 411],
-            "night": [1308, 411],
-            "rain": [1308, 411]
-          },
-          "bottom": 591,
-          "activity": "plain"
-        },
-        {
-          "rect": [835, 0, 173, 176],
-          "at": {
-            "midday": [1296, 416],
-            "morning": [1296, 416],
-            "night": [1296, 416],
-            "rain": [1296, 416]
-          },
-          "bottom": 589,
-          "activity": "plain"
-        },
-        {
-          "rect": [141, 0, 178, 182],
-          "at": {
-            "midday": [1286, 410],
-            "morning": [1286, 410],
-            "night": [1286, 410],
-            "rain": [1286, 410]
-          },
-          "bottom": 589,
-          "activity": "plain"
-        },
-        {
-          "rect": [1190, 0, 161, 174],
-          "at": {
-            "midday": [1263, 423],
-            "morning": [1263, 423],
-            "night": [1263, 423],
-            "rain": [1263, 423]
-          },
-          "bottom": 594,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "state-legislative-chamber-bicameral:seat:8",
-      "head": [1517.4, 418.7],
-      "variants": [
-        {
-          "rect": [73, 428, 70, 84],
-          "at": {
-            "midday": [1502, 427],
-            "morning": [1502, 427],
-            "night": [1502, 427],
-            "rain": [1502, 427]
-          },
-          "bottom": 508,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "state-legislative-chamber-bicameral:seat:9",
-      "head": [1538.6, 428.3],
-      "variants": [
-        {
-          "rect": [1667, 323, 82, 88],
-          "at": {
-            "midday": [1494, 425],
-            "morning": [1494, 425],
-            "night": [1494, 425],
-            "rain": [1494, 425]
-          },
-          "bottom": 510,
-          "activity": "plain"
-        },
-        {
-          "rect": [288, 428, 58, 76],
-          "at": {
-            "midday": [1505, 436],
-            "morning": [1505, 436],
-            "night": [1505, 436],
-            "rain": [1505, 436]
-          },
-          "bottom": 509,
-          "activity": "plain"
-        },
-        {
-          "rect": [1593, 323, 72, 90],
-          "at": {
-            "midday": [1497, 423],
-            "morning": [1497, 423],
-            "night": [1497, 423],
-            "rain": [1497, 423]
-          },
-          "bottom": 510,
-          "activity": "plain"
-        },
-        {
-          "rect": [1009, 323, 74, 94],
-          "at": {
-            "midday": [1502, 419],
-            "morning": [1502, 419],
-            "night": [1502, 419],
-            "rain": [1502, 419]
-          },
-          "bottom": 510,
-          "activity": "plain"
-        },
-        {
-          "rect": [1832, 323, 71, 85],
-          "at": {
-            "midday": [1503, 427],
-            "morning": [1503, 427],
-            "night": [1503, 427],
-            "rain": [1503, 427]
-          },
-          "bottom": 509,
-          "activity": "plain"
-        },
-        {
-          "rect": [1905, 323, 73, 85],
-          "at": {
-            "midday": [1500, 427],
-            "morning": [1500, 427],
-            "night": [1500, 427],
-            "rain": [1500, 427]
-          },
-          "bottom": 509,
-          "activity": "plain"
-        },
-        {
-          "rect": [0, 428, 71, 85],
-          "at": {
-            "midday": [1503, 427],
-            "morning": [1503, 427],
-            "night": [1503, 427],
-            "rain": [1503, 427]
-          },
-          "bottom": 509,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "state-legislative-chamber-bicameral:seat:10",
-      "head": [348.1, 432.3],
-      "variants": [
-        {
-          "rect": [773, 428, 50, 69],
-          "at": {
-            "midday": [324, 431],
-            "morning": [324, 431],
-            "night": [324, 431],
-            "rain": [324, 431]
-          },
-          "bottom": 497,
-          "activity": "plain"
-        },
-        {
-          "rect": [348, 428, 64, 73],
-          "at": {
-            "midday": [317, 427],
-            "morning": [317, 427],
-            "night": [317, 427],
-            "rain": [317, 427]
-          },
-          "bottom": 497,
-          "activity": "plain"
-        },
-        {
-          "rect": [477, 428, 59, 72],
-          "at": {
-            "midday": [316, 428],
-            "morning": [316, 428],
-            "night": [316, 428],
-            "rain": [316, 428]
-          },
-          "bottom": 497,
-          "activity": "plain"
-        },
-        {
-          "rect": [825, 428, 58, 69],
-          "at": {
-            "midday": [326, 432],
-            "morning": [326, 432],
-            "night": [326, 432],
-            "rain": [326, 432]
-          },
-          "bottom": 498,
-          "activity": "plain"
-        },
-        {
-          "rect": [885, 428, 51, 68],
-          "at": {
-            "midday": [326, 432],
-            "morning": [326, 432],
-            "night": [326, 432],
-            "rain": [326, 432]
-          },
-          "bottom": 497,
-          "activity": "plain"
-        },
-        {
-          "rect": [938, 428, 58, 68],
-          "at": {
-            "midday": [327, 433],
-            "morning": [327, 433],
-            "night": [327, 433],
-            "rain": [327, 433]
-          },
-          "bottom": 498,
-          "activity": "plain"
-        },
-        {
-          "rect": [538, 428, 60, 72],
-          "at": {
-            "midday": [315, 429],
-            "morning": [315, 429],
-            "night": [315, 429],
-            "rain": [315, 429]
-          },
-          "bottom": 498,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "state-legislative-chamber-bicameral:seat:11",
-      "head": [1217.8, 432.0],
-      "variants": [
-        {
-          "rect": [998, 428, 68, 61],
-          "at": {
-            "midday": [1180, 428],
-            "morning": [1180, 428],
-            "night": [1180, 428],
-            "rain": [1180, 428]
-          },
-          "bottom": 486,
-          "activity": "plain"
-        }
-      ]
-    },
-    {
-      "id": "state-legislative-chamber-bicameral:seat:12",
-      "head": [1320.5, 430.5],
-      "variants": [
-        {
-          "rect": [600, 428, 54, 72],
-          "at": {
-            "midday": [1292, 428],
-            "morning": [1292, 428],
-            "night": [1292, 428],
-            "rain": [1292, 428]
-          },
-          "bottom": 497,
-          "activity": "plain"
-        },
-        {
-          "rect": [1068, 428, 39, 51],
-          "at": {
-            "midday": [1302, 429],
-            "morning": [1302, 429],
-            "night": [1302, 429],
-            "rain": [1302, 429]
+            "midday": [1305, 429],
+            "morning": [1305, 429],
+            "night": [1305, 429],
+            "rain": [1305, 429]
           },
           "bottom": 477,
-          "activity": "plain"
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1323.6990697674416, 428.84114583333337]
+        },
+        {
+          "rect": [189, 449, 60, 70],
+          "at": {
+            "midday": [1298, 415],
+            "morning": [1297, 415],
+            "night": [1298, 415],
+            "rain": [1298, 415]
+          },
+          "bottom": 484,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1318.4879568106312, 415.36328125]
+        },
+        {
+          "rect": [122, 449, 65, 74],
+          "at": {
+            "midday": [1290, 428],
+            "morning": [1290, 428],
+            "night": [1290, 428],
+            "rain": [1290, 428]
+          },
+          "bottom": 501,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1321.7764857881136, 427.6158854166667]
+        },
+        {
+          "rect": [657, 449, 46, 44],
+          "at": {
+            "midday": [1297, 434],
+            "morning": [1297, 434],
+            "night": [1297, 434],
+            "rain": [1297, 434]
+          },
+          "bottom": 477,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1312.0267823103316, 433.7421875]
+        },
+        {
+          "rect": [610, 449, 45, 46],
+          "at": {
+            "midday": [1298, 431],
+            "morning": [1298, 431],
+            "night": [1298, 431],
+            "rain": [1298, 431]
+          },
+          "bottom": 476,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1312.7043189368771, 431.2916666666667]
+        },
+        {
+          "rect": [413, 449, 47, 66],
+          "at": {
+            "midday": [1294, 430],
+            "morning": [1294, 430],
+            "night": [1294, 430],
+            "rain": [1294, 430]
+          },
+          "bottom": 495,
+          "activity": "plain",
+          "chair": "chair-003",
+          "head": [1315.2699016100178, 430.06640625]
+        }
+      ]
+    },
+    {
+      "id": "state-legislative-chamber-bicameral:chair:chair-025",
+      "chair": "chair-025",
+      "head": [1461.127100073046, 430.0810810810811],
+      "variants": [
+        {
+          "rect": [369, 0, 164, 285],
+          "at": {
+            "midday": [1407, 422],
+            "morning": [1407, 422],
+            "night": [1407, 422],
+            "rain": [1407, 422]
+          },
+          "bottom": 706,
+          "activity": "plain",
+          "chair": "chair-025",
+          "head": [1461.127100073046, 430.0810810810811]
+        },
+        {
+          "rect": [683, 0, 146, 228],
+          "at": {
+            "midday": [1407, 427],
+            "morning": [1407, 427],
+            "night": [1407, 427],
+            "rain": [1407, 427]
+          },
+          "bottom": 654,
+          "activity": "plain",
+          "chair": "chair-025",
+          "head": [1461.0438825922697, 429.7956989247312]
+        },
+        {
+          "rect": [0, 0, 201, 329],
+          "at": {
+            "midday": [1353, 418],
+            "morning": [1353, 418],
+            "night": [1353, 418],
+            "rain": [1354, 418]
+          },
+          "bottom": 746,
+          "activity": "plain",
+          "chair": "chair-025",
+          "head": [1460.66342373559, 429.91977077363896]
+        }
+      ]
+    },
+    {
+      "id": "state-legislative-chamber-bicameral:chair:chair-019",
+      "chair": "chair-019",
+      "head": [1524.81811541271, 405.1081081081081],
+      "variants": [
+        {
+          "rect": [890, 331, 63, 110],
+          "at": {
+            "midday": [1504, 402],
+            "morning": [1504, 402],
+            "night": [1504, 402],
+            "rain": [1504, 402]
+          },
+          "bottom": 511,
+          "activity": "plain",
+          "chair": "chair-019",
+          "head": [1524.81811541271, 405.1081081081081]
+        },
+        {
+          "rect": [1818, 331, 56, 88],
+          "at": {
+            "midday": [1504, 404],
+            "morning": [1504, 404],
+            "night": [1504, 404],
+            "rain": [1504, 404]
+          },
+          "bottom": 491,
+          "activity": "plain",
+          "chair": "chair-019",
+          "head": [1524.7861086893345, 405.0752688172043]
+        },
+        {
+          "rect": [1179, 0, 77, 126],
+          "at": {
+            "midday": [1483, 400],
+            "morning": [1483, 400],
+            "night": [1483, 400],
+            "rain": [1483, 400]
+          },
+          "bottom": 525,
+          "activity": "plain",
+          "chair": "chair-019",
+          "head": [1524.4090091290732, 404.5845272206304]
+        }
+      ]
+    },
+    {
+      "id": "state-legislative-chamber-bicameral:chair:chair-002",
+      "chair": "chair-002",
+      "head": [351.1956072351421, 439.86848958333337],
+      "variants": [
+        {
+          "rect": [747, 449, 31, 35],
+          "at": {
+            "midday": [335, 440],
+            "morning": [335, 440],
+            "night": [335, 440],
+            "rain": [335, 440]
+          },
+          "bottom": 474,
+          "activity": "plain",
+          "chair": "chair-002",
+          "head": [351.1956072351421, 439.86848958333337]
+        },
+        {
+          "rect": [350, 449, 61, 68],
+          "at": {
+            "midday": [333, 433],
+            "morning": [333, 433],
+            "night": [333, 433],
+            "rain": [333, 433]
+          },
+          "bottom": 500,
+          "activity": "plain",
+          "chair": "chair-002",
+          "head": [362.1046511627907, 432.51692708333337]
+        },
+        {
+          "rect": [462, 449, 53, 65],
+          "at": {
+            "midday": [329, 435],
+            "morning": [329, 435],
+            "night": [329, 435],
+            "rain": [329, 435]
+          },
+          "bottom": 499,
+          "activity": "plain",
+          "chair": "chair-002",
+          "head": [360.82325581395344, 434.9674479166667]
+        },
+        {
+          "rect": [251, 449, 43, 70],
+          "at": {
+            "midday": [339, 429],
+            "morning": [339, 429],
+            "night": [339, 429],
+            "rain": [339, 429]
+          },
+          "bottom": 498,
+          "activity": "plain",
+          "chair": "chair-002",
+          "head": [363.85368217054264, 428.84114583333337]
+        },
+        {
+          "rect": [517, 449, 42, 53],
+          "at": {
+            "midday": [275, 425],
+            "morning": [275, 425],
+            "night": [275, 427],
+            "rain": [275, 423]
+          },
+          "bottom": 477,
+          "activity": "plain",
+          "chair": "chair-002",
+          "head": [302.1859173126615, 425.16536458333337]
+        }
+      ]
+    },
+    {
+      "id": "state-legislative-chamber-bicameral:chair:manual-floor-03",
+      "chair": "manual-floor-03",
+      "head": [548.3617248062016, 430.06640625],
+      "variants": [
+        {
+          "rect": [1486, 331, 79, 91],
+          "at": {
+            "midday": [516, 430],
+            "morning": [516, 430],
+            "night": [515, 430],
+            "rain": [516, 430]
+          },
+          "bottom": 520,
+          "activity": "plain",
+          "chair": "manual-floor-03",
+          "head": [548.3617248062016, 430.06640625]
+        },
+        {
+          "rect": [1567, 331, 94, 91],
+          "at": {
+            "midday": [507, 430],
+            "morning": [507, 430],
+            "night": [506, 430],
+            "rain": [507, 430]
+          },
+          "bottom": 520,
+          "activity": "plain",
+          "chair": "manual-floor-03",
+          "head": [546.8023255813953, 430.06640625]
+        },
+        {
+          "rect": [1059, 331, 85, 102],
+          "at": {
+            "midday": [507, 419],
+            "morning": [507, 419],
+            "night": [506, 419],
+            "rain": [507, 419]
+          },
+          "bottom": 520,
+          "activity": "plain",
+          "chair": "manual-floor-03",
+          "head": [541.3343023255813, 419.0390625]
+        },
+        {
+          "rect": [955, 331, 102, 104],
+          "at": {
+            "midday": [496, 418],
+            "morning": [496, 418],
+            "night": [495, 418],
+            "rain": [496, 418]
+          },
+          "bottom": 521,
+          "activity": "plain",
+          "chair": "manual-floor-03",
+          "head": [542.9666573269823, 417.81380208333337]
+        },
+        {
+          "rect": [1326, 331, 82, 94],
+          "at": {
+            "midday": [516, 430],
+            "morning": [516, 430],
+            "night": [515, 430],
+            "rain": [516, 430]
+          },
+          "bottom": 523,
+          "activity": "plain",
+          "chair": "manual-floor-03",
+          "head": [555.3081395348837, 430.06640625]
+        }
+      ]
+    },
+    {
+      "id": "state-legislative-chamber-bicameral:chair:manual-floor-04",
+      "chair": "manual-floor-04",
+      "head": [1121.2527078687478, 427.6158854166667],
+      "variants": [
+        {
+          "rect": [1410, 331, 74, 94],
+          "at": {
+            "midday": [1078, 428],
+            "morning": [1077, 428],
+            "night": [1078, 428],
+            "rain": [1078, 428]
+          },
+          "bottom": 521,
+          "activity": "plain",
+          "chair": "manual-floor-04",
+          "head": [1121.2527078687478, 427.6158854166667]
+        },
+        {
+          "rect": [1234, 331, 90, 95],
+          "at": {
+            "midday": [1075, 426],
+            "morning": [1074, 426],
+            "night": [1075, 426],
+            "rain": [1075, 426]
+          },
+          "bottom": 520,
+          "activity": "plain",
+          "chair": "manual-floor-04",
+          "head": [1123.7498762988619, 426.390625]
+        },
+        {
+          "rect": [1876, 331, 75, 85],
+          "at": {
+            "midday": [1084, 435],
+            "morning": [1083, 435],
+            "night": [1084, 435],
+            "rain": [1084, 435]
+          },
+          "bottom": 519,
+          "activity": "plain",
+          "chair": "manual-floor-04",
+          "head": [1125.8948722836446, 434.9674479166667]
+        },
+        {
+          "rect": [1146, 331, 86, 97],
+          "at": {
+            "midday": [1073, 429],
+            "morning": [1072, 429],
+            "night": [1073, 429],
+            "rain": [1073, 429]
+          },
+          "bottom": 525,
+          "activity": "plain",
+          "chair": "manual-floor-04",
+          "head": [1123.9825581395348, 428.84114583333337]
+        },
+        {
+          "rect": [1734, 331, 82, 89],
+          "at": {
+            "midday": [1074, 433],
+            "morning": [1073, 433],
+            "night": [1074, 433],
+            "rain": [1074, 433]
+          },
+          "bottom": 521,
+          "activity": "plain",
+          "chair": "manual-floor-04",
+          "head": [1116.0843023255813, 432.51692708333337]
+        },
+        {
+          "rect": [1663, 331, 69, 91],
+          "at": {
+            "midday": [1077, 430],
+            "morning": [1076, 430],
+            "night": [1077, 430],
+            "rain": [1077, 430]
+          },
+          "bottom": 520,
+          "activity": "plain",
+          "chair": "manual-floor-04",
+          "head": [1113.046511627907, 430.06640625]
+        },
+        {
+          "rect": [53, 449, 67, 75],
+          "at": {
+            "midday": [1083, 440],
+            "morning": [1082, 440],
+            "night": [1083, 440],
+            "rain": [1083, 440]
+          },
+          "bottom": 514,
+          "activity": "plain",
+          "chair": "manual-floor-04",
+          "head": [1118.2515619576536, 439.86848958333337]
         }
       ]
     }

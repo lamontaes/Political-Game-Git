@@ -1,0 +1,456 @@
+{
+  "place": "public-meeting-room",
+  "size": [1672, 941],
+  "plate_sha256": "5dd851a4e89e7bad9dd4cabfead0c5420c4cb979564f2ca13621abd990d352ba",
+  "method": "One-time empty-painting annotation. Retains existing occupied positions on audience benches; bench slot positions are approximate. Officials are anchored to visible chair backs.",
+  "chairs": [
+    {
+      "id": "slot-01",
+      "seat": [710, 393],
+      "box": [645, 245, 130, 115],
+      "depth": "board",
+      "facing": "camera",
+      "legacy_seat": "public-meeting-room:seat:1"
+    },
+    {
+      "id": "slot-02",
+      "seat": [963, 393],
+      "box": [898, 245, 130, 115],
+      "depth": "board",
+      "facing": "camera",
+      "legacy_seat": "public-meeting-room:seat:2"
+    },
+    {
+      "id": "slot-03",
+      "seat": [339.5, 479],
+      "box": [274.5, 310, 130, 75],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:3"
+    },
+    {
+      "id": "slot-04",
+      "seat": [418.6, 479],
+      "box": [353.6, 310, 130, 75],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:4"
+    },
+    {
+      "id": "slot-05",
+      "seat": [619.3, 479],
+      "box": [554.3, 310, 130, 75],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:5"
+    },
+    {
+      "id": "slot-06",
+      "seat": [1195.7, 479],
+      "box": [1130.7, 310, 130, 75],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:6"
+    },
+    {
+      "id": "slot-07",
+      "seat": [1260.0, 479],
+      "box": [1195.0, 310, 130, 75],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:7"
+    },
+    {
+      "id": "slot-08",
+      "seat": [1321.6, 479],
+      "box": [1256.6, 310, 130, 75],
+      "depth": "bench-0",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:8"
+    },
+    {
+      "id": "slot-09",
+      "seat": [239.6, 516],
+      "box": [174.6, 345, 130, 75],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:9"
+    },
+    {
+      "id": "slot-10",
+      "seat": [492.2, 516],
+      "box": [427.2, 345, 130, 75],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:10"
+    },
+    {
+      "id": "slot-11",
+      "seat": [554.9, 516],
+      "box": [489.9, 345, 130, 75],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:11"
+    },
+    {
+      "id": "slot-12",
+      "seat": [1083.2, 516],
+      "box": [1018.2, 345, 130, 75],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:12"
+    },
+    {
+      "id": "slot-13",
+      "seat": [1134.0, 516],
+      "box": [1069.0, 345, 130, 75],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:13"
+    },
+    {
+      "id": "slot-14",
+      "seat": [1433.5, 516],
+      "box": [1368.5, 345, 130, 75],
+      "depth": "bench-1",
+      "facing": "away",
+      "legacy_seat": "public-meeting-room:seat:14"
+    }
+  ],
+  "furniture": [
+    {
+      "id": "front-01",
+      "in_front_of": ["slot-01", "slot-02"],
+      "polygon": [
+        [597, 354],
+        [1068, 354],
+        [1068, 380],
+        [597, 380]
+      ]
+    },
+    {
+      "id": "front-02",
+      "in_front_of": ["slot-01", "slot-02"],
+      "polygon": [
+        [597, 354],
+        [1068, 354],
+        [1068, 380],
+        [597, 380]
+      ]
+    },
+    {
+      "id": "front-03",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08"
+      ],
+      "polygon": [
+        [284, 414],
+        [697, 414],
+        [697, 500],
+        [284, 500]
+      ]
+    },
+    {
+      "id": "front-04",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08"
+      ],
+      "polygon": [
+        [284, 414],
+        [697, 414],
+        [697, 500],
+        [284, 500]
+      ]
+    },
+    {
+      "id": "front-05",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08"
+      ],
+      "polygon": [
+        [284, 414],
+        [697, 414],
+        [697, 500],
+        [284, 500]
+      ]
+    },
+    {
+      "id": "front-06",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08"
+      ],
+      "polygon": [
+        [973, 414],
+        [1400, 414],
+        [1400, 500],
+        [973, 500]
+      ]
+    },
+    {
+      "id": "front-07",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08"
+      ],
+      "polygon": [
+        [973, 414],
+        [1400, 414],
+        [1400, 500],
+        [973, 500]
+      ]
+    },
+    {
+      "id": "front-08",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08"
+      ],
+      "polygon": [
+        [973, 414],
+        [1400, 414],
+        [1400, 500],
+        [973, 500]
+      ]
+    },
+    {
+      "id": "front-09",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14"
+      ],
+      "polygon": [
+        [205, 451],
+        [687, 451],
+        [687, 600],
+        [205, 600]
+      ]
+    },
+    {
+      "id": "front-10",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14"
+      ],
+      "polygon": [
+        [205, 451],
+        [687, 451],
+        [687, 600],
+        [205, 600]
+      ]
+    },
+    {
+      "id": "front-11",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14"
+      ],
+      "polygon": [
+        [205, 451],
+        [687, 451],
+        [687, 600],
+        [205, 600]
+      ]
+    },
+    {
+      "id": "front-12",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14"
+      ],
+      "polygon": [
+        [1000, 451],
+        [1461, 451],
+        [1461, 600],
+        [1000, 600]
+      ]
+    },
+    {
+      "id": "front-13",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14"
+      ],
+      "polygon": [
+        [1000, 451],
+        [1461, 451],
+        [1461, 600],
+        [1000, 600]
+      ]
+    },
+    {
+      "id": "front-14",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14"
+      ],
+      "polygon": [
+        [1000, 451],
+        [1461, 451],
+        [1461, 600],
+        [1000, 600]
+      ]
+    },
+    {
+      "id": "front-bench-left",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14"
+      ],
+      "polygon": [
+        [148, 500],
+        [640, 500],
+        [640, 604],
+        [148, 604]
+      ]
+    },
+    {
+      "id": "front-bench-right",
+      "in_front_of": [
+        "slot-01",
+        "slot-02",
+        "slot-03",
+        "slot-04",
+        "slot-05",
+        "slot-06",
+        "slot-07",
+        "slot-08",
+        "slot-09",
+        "slot-10",
+        "slot-11",
+        "slot-12",
+        "slot-13",
+        "slot-14"
+      ],
+      "polygon": [
+        [1031, 500],
+        [1535, 500],
+        [1535, 604],
+        [1031, 604]
+      ]
+    }
+  ]
+}

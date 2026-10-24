@@ -1,0 +1,14 @@
+{
+  "source": "sparse-v4.jpg",
+  "instance": 22,
+  "chair": "chair-019-slot-7",
+  "reasons": [
+    "too_wide",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.06934850331843424,
+  "shift": [
+    0,
+    -1
+  ]
+}

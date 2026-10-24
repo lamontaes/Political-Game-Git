@@ -1,0 +1,11 @@
+{
+  "tool": "native image_gen alpha",
+  "source": "generated-full-back-2.png",
+  "source_sha256": "cfec22747f0d44e658262bbf4a2e9e9d0993f94a81181481d4ccb63b4eadf226",
+  "size": [575, 813],
+  "instances": [
+    {
+      "mask": "000.png"
+    }
+  ]
+}

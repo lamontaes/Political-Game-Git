@@ -1,0 +1,19 @@
+{
+  "place": "county-commission",
+  "chairs": 17,
+  "kept": 68,
+  "rejected": 104,
+  "rejected_by_reason": {
+    "room_pixels": 56,
+    "visual_occluded_head": 18,
+    "no_chair": 18,
+    "disconnected": 16,
+    "visual_paper_or_missing_arm": 3,
+    "visual_two_people": 1,
+    "visual_missing_crown": 1,
+    "too_wide": 5,
+    "visual_orphan_arm": 2
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

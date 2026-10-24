@@ -1,0 +1,196 @@
+{
+  "people": [
+    {
+      "file": "generated-front-1.png",
+      "chair": "slot-00",
+      "width": 100,
+      "head_top": 216,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-front-3.png",
+      "chair": "slot-00",
+      "width": 100,
+      "head_top": 216,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-front-3.png",
+      "chair": "slot-01",
+      "width": 100,
+      "head_top": 217,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-2.png",
+      "chair": "slot-08",
+      "width": 130,
+      "head_top": 366,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-3.png",
+      "chair": "slot-08",
+      "width": 130,
+      "head_top": 366,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-left-2.png",
+      "chair": "slot-11",
+      "width": 150,
+      "head_top": 392,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-1.png",
+      "chair": "slot-11",
+      "width": 150,
+      "head_top": 392,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-1.png",
+      "chair": "slot-12",
+      "width": 150,
+      "head_top": 392,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-2.png",
+      "chair": "slot-12",
+      "width": 150,
+      "head_top": 392,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-3.png",
+      "chair": "slot-12",
+      "width": 150,
+      "head_top": 392,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-2.png",
+      "chair": "slot-13",
+      "width": 150,
+      "head_top": 392,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-3.png",
+      "chair": "slot-13",
+      "width": 150,
+      "head_top": 392,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-left-1.png",
+      "chair": "slot-13",
+      "width": 150,
+      "head_top": 392,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-3.png",
+      "chair": "slot-14",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-left-1.png",
+      "chair": "slot-14",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-left-2.png",
+      "chair": "slot-14",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-left-1.png",
+      "chair": "slot-15",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-left-2.png",
+      "chair": "slot-15",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-1.png",
+      "chair": "slot-15",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-left-2.png",
+      "chair": "slot-16",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-1.png",
+      "chair": "slot-16",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-2.png",
+      "chair": "slot-16",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "../school-board-room/generated-official-03.png",
+      "chair": "slot-00",
+      "width": 100,
+      "head_top": 216,
+      "activity": "plain",
+      "tool": "native image_gen"
+    },
+    {
+      "file": "generated-back-right-1.png",
+      "chair": "slot-14",
+      "width": 175,
+      "head_top": 434,
+      "activity": "plain",
+      "tool": "native image_gen"
+    }
+  ]
+}

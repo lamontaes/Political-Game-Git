@@ -1,0 +1,13 @@
+{
+  "source": "../county-commission-rural/generated-full-back-1.png",
+  "instance": 0,
+  "chair": "chair-002",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.07683734487858199,
+  "shift": [
+    0,
+    0
+  ]
+}

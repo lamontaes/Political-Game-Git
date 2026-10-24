@@ -1,0 +1,16 @@
+{
+  "place": "council-chamber",
+  "chairs": 26,
+  "kept": 110,
+  "rejected": 137,
+  "rejected_by_reason": {
+    "room_pixels": 116,
+    "disconnected": 14,
+    "fully_occluded": 3,
+    "visual_occluded_head": 15,
+    "too_wide": 4,
+    "no_chair": 2
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

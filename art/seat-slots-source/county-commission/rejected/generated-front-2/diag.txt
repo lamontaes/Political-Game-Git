@@ -1,0 +1,1 @@
+Rejected whole native source: disconnected alpha regions. No pixels changed; not eligible for reuse.

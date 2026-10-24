@@ -1,0 +1,19 @@
+{
+  "tool": "torchvision.maskrcnn_resnet50_fpn_v2",
+  "weights": "MaskRCNN_ResNet50_FPN_V2_Weights.COCO_V1",
+  "torch": "2.14.1+cpu",
+  "source": "x-cco-03.jpg",
+  "source_sha256": "662f89e79cdef12ce7a0963bd81132f242fc303b2df51ead5015edde2e0d76a7",
+  "size": [1376, 768],
+  "score_threshold": 0.8,
+  "mask_threshold": 0.5,
+  "instances": [
+    {
+      "mask": "000.png",
+      "score": 0.9950148463249207,
+      "box": [
+        518.7914428710938, 172.6948699951172, 589.4488525390625, 249.3369140625
+      ]
+    }
+  ]
+}

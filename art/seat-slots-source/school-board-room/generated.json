@@ -1,0 +1,58 @@
+{
+  "people": [
+    {
+      "file": "generated-official-01.png",
+      "chair": "board-01",
+      "width": 90,
+      "head_top": 205,
+      "activity": "plain",
+      "tool": "native image_gen",
+      "parent": "generated-board-01-03.png"
+    },
+    {
+      "file": "generated-official-02.png",
+      "chair": "board-01",
+      "width": 90,
+      "head_top": 205,
+      "activity": "plain",
+      "tool": "native image_gen",
+      "parent": "generated-board-01-03.png"
+    },
+    {
+      "file": "generated-official-03.png",
+      "chair": "board-02",
+      "width": 90,
+      "head_top": 205,
+      "activity": "plain",
+      "tool": "native image_gen",
+      "parent": "generated-board-01-03.png"
+    },
+    {
+      "file": "generated-official-04.png",
+      "chair": "board-03",
+      "width": 90,
+      "head_top": 195,
+      "activity": "plain",
+      "tool": "native image_gen",
+      "parent": "generated-board-03-05-06.png"
+    },
+    {
+      "file": "generated-official-05.png",
+      "chair": "board-05",
+      "width": 90,
+      "head_top": 195,
+      "activity": "plain",
+      "tool": "native image_gen",
+      "parent": "generated-board-03-05-06.png"
+    },
+    {
+      "file": "generated-official-06.png",
+      "chair": "board-07",
+      "width": 90,
+      "head_top": 195,
+      "activity": "plain",
+      "tool": "native image_gen",
+      "parent": "generated-board-03-05-06.png"
+    }
+  ]
+}

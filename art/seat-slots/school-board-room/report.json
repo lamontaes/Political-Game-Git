@@ -1,0 +1,20 @@
+{
+  "place": "school-board-room",
+  "chairs": 7,
+  "kept": 27,
+  "rejected": 139,
+  "rejected_by_reason": {
+    "room_pixels": 42,
+    "no_chair": 68,
+    "disconnected": 43,
+    "visual_clipped_shoulder": 2,
+    "visual_paper": 4,
+    "visual_paper_or_missing_arm": 6,
+    "visual_missing_arm": 1,
+    "too_wide": 13,
+    "occluded_disconnected": 2,
+    "visual_headless_hair_fragment": 1
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

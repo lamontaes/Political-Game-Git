@@ -1,0 +1,13 @@
+{
+  "source": "x-ccl-02.jpg",
+  "instance": 8,
+  "chair": "chair-046",
+  "reasons": [
+    "visual_occluded_or_incomplete_head"
+  ],
+  "room_pixel_share": 0.0314106863402638,
+  "shift": [
+    0,
+    -1
+  ]
+}

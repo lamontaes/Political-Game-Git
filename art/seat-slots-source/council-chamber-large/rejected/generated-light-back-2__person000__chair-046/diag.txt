@@ -1,0 +1,13 @@
+{
+  "source": "../council-chamber-large/generated-light-back-2.png",
+  "instance": 0,
+  "chair": "chair-046",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.08025579536370903,
+  "shift": [
+    0,
+    0
+  ]
+}

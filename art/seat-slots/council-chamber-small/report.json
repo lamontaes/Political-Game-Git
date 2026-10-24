@@ -1,0 +1,16 @@
+{
+  "place": "council-chamber-small",
+  "chairs": 20,
+  "kept": 65,
+  "rejected": 111,
+  "rejected_by_reason": {
+    "room_pixels": 92,
+    "disconnected": 20,
+    "fully_occluded": 1,
+    "visual_incomplete_or_occluded_person": 8,
+    "no_chair": 10,
+    "visual_occluded_or_incomplete_head": 6
+  },
+  "regeneration_needed": {},
+  "complete": true
+}

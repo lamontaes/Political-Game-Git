@@ -1,0 +1,13 @@
+{
+  "source": "z-ccr-01.jpg",
+  "instance": 0,
+  "chair": null,
+  "reasons": [
+    "no_chair"
+  ],
+  "room_pixel_share": 0.010741364785172704,
+  "shift": [
+    0,
+    1
+  ]
+}

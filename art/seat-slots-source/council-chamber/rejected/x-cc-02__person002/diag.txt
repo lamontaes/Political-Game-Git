@@ -1,0 +1,13 @@
+{
+  "source": "x-cc-02.jpg",
+  "instance": 2,
+  "chair": "chair-033",
+  "reasons": [
+    "visual_occluded_head"
+  ],
+  "room_pixel_share": 0.03972222222222222,
+  "shift": [
+    0,
+    -1
+  ]
+}

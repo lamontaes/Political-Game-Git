@@ -1,0 +1,13 @@
+{
+  "source": "z-sbr-06.jpg",
+  "instance": 2,
+  "chair": "board-02",
+  "reasons": [
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.07924836601307189,
+  "shift": [
+    0,
+    1
+  ]
+}

@@ -1,34 +1,34 @@
 # Seat slots
 
-Painted people for every seat in twelve chamber and meeting-room paintings. Each folder is one place painting from `art/backdrops/` (same name). Firefly painted people into the real chairs of the empty room, a few at a time and far apart; each person was cut out alone and filed under the seat they sit in.
+Painted people for twelve chamber and meeting-room backdrops. This rebuild reuses the existing occupied-seat inventory, matches it to chairs and benches in the empty paintings, and merges duplicate positions. It does not add every visible gallery chair. Nothing in the game draws these assets yet.
 
-To draw a room: draw the place painting, then for each occupied seat draw one of its people, lowest `bottom` last. The cut-outs include only what is visible from the camera, so a chair back or desk in front of a person is already left out of the cut-out and the room's own furniture shows through.
+Draw the empty backdrop, choose one variant per occupied chair, and draw in ascending `bottom` order. Furniture occlusion is already in each sprite's alpha. An empty room needs only its backdrop.
 
-## Files
+## Files and coordinates
 
-- `<place>__seats__<light>.png`: one sprite sheet per light the place painting comes in (`midday`, `morning`, `night`, `rain`). Every sheet has the same layout.
-- `seats.json`:
-  - `place`, `plate` (the midday painting), `width` and `height` (1672 × 941, the painting size the positions use).
-  - `sheets`: the sheet file for each light.
-  - `seats`: one entry per seat, with `id` and `head` (the head point on the painting) and `variants`, the people who can sit there. Each variant has:
-    - `rect`: `[x, y, w, h]` of the cut-out in every sheet.
-    - `at`: for each light, the `[left, top]` where the cut-out goes on that light's painting.
-    - `bottom`: the cut-out's lowest row on the painting, for drawing order.
-    - `activity`: `plain` (hands resting and empty, the default) or `reading` (holding papers; use only when the simulation has the person reading). One county commissioner is `talking`.
+Each room contains `chairs.json`, `report.json`, `seats.json`, furniture masks, and `<place>__seats__<light>.png`. Coordinates use the 1672 × 941 backdrop. Available lights follow the room's backdrops; the rural county room has only midday.
+
+`chairs.json` records fixed chair IDs, seat points, approximate boxes, depth groups, facing direction, and the empty-painting annotations used for occlusion. Its method describes detector results and manual annotations. Bench positions can share a detected bench while retaining distinct chair IDs.
+
+`seats.json` keeps `place`, `plate`, `width`, `height`, `sheets`, and `seats`. Each seat has `id`, `chair`, `head`, and `variants`. Each variant keeps `rect` (`[x,y,width,height]` in the atlas), `at` (placement per light), `bottom`, and `activity`, and adds `chair` and its own `head`. Atlas layouts match across lights. `activity` currently defaults to `plain`; it is not a guarantee of empty hands or a complete reading/talking classification.
+
+Every included chair has at least three variants. Source masks must be one connected person before room furniture hides parts of that person. Visible parts separated by furniture remain one sprite; they never become independent slots.
 
 ## Counts
 
-| Place                                  | Seats | People |
-| -------------------------------------- | ----: | -----: |
-| `council-chamber`                      |    26 |    117 |
-| `council-chamber-large`                |    25 |    106 |
-| `council-chamber-small`                |    22 |     79 |
-| `county-commission`                    |    17 |     87 |
-| `county-commission-rural`              |    12 |     33 |
-| `public-meeting-room`                  |    15 |     74 |
-| `school-board-room`                    |     8 |     50 |
-| `state-house-chamber`                  |    18 |    129 |
-| `state-legislative-chamber-bicameral`  |    13 |     70 |
-| `state-legislative-chamber-unicameral` |    14 |     80 |
-| `us-house-floor`                       |    26 |    126 |
-| `us-senate-floor`                      |    48 |    160 |
+| Room                                   | Chair slots | People | Rejected |
+| -------------------------------------- | ----------: | -----: | -------: |
+| `council-chamber`                      |          26 |    110 |      137 |
+| `council-chamber-large`                |          23 |     82 |      159 |
+| `council-chamber-small`                |          20 |     65 |      111 |
+| `county-commission`                    |          17 |     68 |      104 |
+| `county-commission-rural`              |          12 |     48 |       64 |
+| `public-meeting-room`                  |          14 |     48 |       86 |
+| `school-board-room`                    |           7 |     27 |      139 |
+| `state-house-chamber`                  |          17 |    101 |      225 |
+| `state-legislative-chamber-bicameral`  |          10 |     53 |      228 |
+| `state-legislative-chamber-unicameral` |           8 |     64 |      335 |
+| `us-house-floor`                       |          18 |    133 |      283 |
+| `us-senate-floor`                      |          32 |    148 |      305 |
+
+Each room's `report.json` contains rejection counts by reason. Labeled sheets, their source indexes, and full/third/night previews are in `docs/handoff/seat-slots/`. See its README for rebuilding and review limits.

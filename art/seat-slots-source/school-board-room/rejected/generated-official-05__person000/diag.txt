@@ -1,0 +1,13 @@
+{
+  "source": "generated-official-05.png",
+  "instance": 0,
+  "chair": "board-05",
+  "reasons": [
+    "disconnected"
+  ],
+  "room_pixel_share": 0.012337867763366024,
+  "shift": [
+    0,
+    0
+  ]
+}

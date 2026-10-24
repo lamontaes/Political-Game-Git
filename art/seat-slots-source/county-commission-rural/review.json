@@ -1,0 +1,7 @@
+{
+  "method": "Complete-sheet visual review",
+  "rejected": {
+    "x-ccr-01__person003": "visual_incomplete_person",
+    "crowd-v2__person012": "visual_incomplete_person"
+  }
+}

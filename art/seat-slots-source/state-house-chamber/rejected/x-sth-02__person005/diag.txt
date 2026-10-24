@@ -1,0 +1,13 @@
+{
+  "source": "x-sth-02.jpg",
+  "instance": 5,
+  "chair": "chair-016",
+  "reasons": [
+    "visual_occluded_or_incomplete_head"
+  ],
+  "room_pixel_share": 0.04102311854402361,
+  "shift": [
+    0,
+    -2
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "source": "x-ccl-09.jpg",
+  "instance": 4,
+  "chair": "chair-028",
+  "reasons": [
+    "too_wide",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.2198612793130023,
+  "shift": [
+    0,
+    -2
+  ]
+}

@@ -1,250 +1,247 @@
-"""Seat slots for a place: crowd paintings warped onto the empty place painting, every painted person cut out,
-people grouped into seats across versions. Writes cutouts + seats.json + preview renders.
+"""Build chair-addressed cut-outs from independent person masks at source resolution.
 
-usage: build_seats.py PLACE PLATE.jpg OUTDIR V1.png:MASK1.png [V2.png:MASK2.png ...]
+Usage: build_seats.py PLACE PLATE SOURCE_DIR CHAIRS_JSON OUTDIR
+No difference masking, connected-component splitting, fragment attachment,
+edge cleaning, or body warping is performed. Rejected inputs remain rejected.
 """
-import json, os, sys
+import collections
+import hashlib
+import json
+import sys
+from pathlib import Path
+
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 from scipy import ndimage
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from align import align
-W, H = 1672, 941
+from align import align, rigid_shift
 
-def split_people(P):
-    """One part per painted person: a component is split between the head bumps along its top edge."""
-    lab, k = ndimage.label(P)
-    parts = []
-    for c in range(1, k + 1):
-        m = lab == c
-        if m.sum() < 400:
+
+def write_json(path, value):
+    path.write_text(json.dumps(value, indent=2) + '\n')
+
+
+def head(mask):
+    ys, xs = np.nonzero(mask)
+    if not len(xs):
+        return None
+    top = int(ys.min())
+    upper = mask[top:top + max(1, min(4, int(ys.max()) - top + 1))]
+    return [float(np.nonzero(upper)[1].mean()), float(top)]
+
+
+def assign_chair(point, chairs):
+    hx, hy = point
+    candidates = []
+    for chair in chairs:
+        x, y, w, h = chair['box']
+        sx, sy = chair['seat']
+        if x <= hx <= x + w and y <= hy < min(y + h, sy):
+            candidates.append(((sx - hx) ** 2 + (sy - hy) ** 2, chair['id'], chair))
+    return min(candidates, key=lambda item: item[:2])[2] if candidates else None
+
+
+def translate(array, dx, dy):
+    """Translate without interpolation; return an array in the same frame."""
+    h, w = array.shape[:2]
+    result = np.zeros_like(array)
+    sx, sy = max(0, -dx), max(0, -dy)
+    tx, ty = max(0, dx), max(0, dy)
+    width, height = min(w - sx, w - tx), min(h - sy, h - ty)
+    if width > 0 and height > 0:
+        result[ty:ty + height, tx:tx + width] = array[sy:sy + height, sx:sx + width]
+    return result
+
+
+def rejection_reasons(mask, point, chair, width, median_width, room_share):
+    reasons = []
+    if not mask.any():
+        return ['empty']
+    if ndimage.label(mask, structure=np.ones((3, 3)))[1] != 1:
+        reasons.append('disconnected')
+    if chair is None:
+        reasons.append('no_chair')
+    elif point[1] >= chair['seat'][1]:
+        reasons.append('head_below_seat')
+    if median_width is not None and width > 1.6 * median_width:
+        reasons.append('too_wide')
+    if room_share > 0.05:
+        reasons.append('room_pixels')
+    return reasons
+
+
+def furniture_mask(annotations, chair, size):
+    """Rasterize reviewed empty-painting geometry, selecting foreground by chair."""
+    result = Image.new('L', size)
+    drawing = ImageDraw.Draw(result)
+    for item in annotations['furniture']:
+        if chair['id'] in item['in_front_of']:
+            if 'mask' in item:
+                layer = Image.open(Path(annotations['_folder']) / item['mask']).convert('L')
+                if layer.size != size:
+                    raise ValueError('Furniture mask does not match the empty painting')
+                if 'min_y' in item:
+                    layer.paste(0, (0, 0, size[0], int(item['min_y'])))
+                result.paste(255, (0, 0), layer)
+            else:
+                drawing.polygon([tuple(p) for p in item['polygon']], fill=255)
+    return np.array(result) > 0
+
+
+def main(place, plate_path, source_dir, chairs_path, outdir):
+    plate_path, source_dir, chairs_path, outdir = map(Path, (plate_path, source_dir, chairs_path, outdir))
+    if outdir.exists():
+        raise FileExistsError(f'Use a fresh build directory: {outdir}')
+    annotations = json.loads(chairs_path.read_text())
+    annotations['_folder'] = str(chairs_path.parent)
+    chairs = annotations['chairs']
+    ids = [c['id'] for c in chairs]
+    if len(ids) != len(set(ids)) or not chairs:
+        raise ValueError('Chair IDs must be unique and nonempty')
+    plate = Image.open(plate_path).convert('RGB')
+    if list(plate.size) != annotations['size']:
+        raise ValueError('Chair geometry does not match the empty painting')
+    if hashlib.sha256(plate_path.read_bytes()).hexdigest() != annotations['plate_sha256']:
+        raise ValueError('The empty painting changed; review chair geometry')
+    outdir.mkdir(parents=True)
+    (outdir / 'cut').mkdir()
+    review_path = source_dir / 'review.json'
+    reviewed_rejections = json.loads(review_path.read_text())['rejected'] if review_path.exists() else {}
+    candidates = []
+    for source in sorted(source_dir.glob('*.jpg')):
+        folder = source.with_suffix('.persons')
+        provenance = json.loads((folder / 'provenance.json').read_text())
+        if provenance['source_sha256'] != hashlib.sha256(source.read_bytes()).hexdigest():
+            raise ValueError(f'Stale masks: {source}')
+        image = np.array(Image.open(source).convert('RGB'))
+        h, w = image.shape[:2]
+        masks = [np.array(Image.open(folder / item['mask']).convert('L')) > 127
+                 for item in provenance['instances']]
+        if any(m.shape != (h, w) for m in masks):
+            raise ValueError(f'Masks are not at source size: {source}')
+        if not masks:
             continue
-        ys, xs = np.nonzero(m)
-        x0, x1, y0, y1 = xs.min(), xs.max(), ys.min(), ys.max()
-        h = y1 - y0 + 1
-        top = np.array([np.nonzero(m[:, x])[0].min() if m[:, x].any() else 10 ** 6 for x in range(x0, x1 + 1)])
-        win = max(9, int(h * 0.18))
-        sm = ndimage.minimum_filter1d(top, size=win)
-        heads = []
-        for i in [i for i in range(len(top)) if top[i] == sm[i] and top[i] < y0 + 0.6 * h]:
-            if not heads or i - heads[-1] > win:
-                heads.append(i)
-            elif top[i] < top[heads[-1]]:
-                heads[-1] = i
-        if not heads:
-            heads = [int(np.argmin(top))]
-        if STRICT:
-            parts.append(m)  # never cut a blob in two; person_ok drops blobs with two heads
+        room = np.array(plate.resize((w, h), Image.Resampling.LANCZOS))
+        union = np.logical_or.reduce(masks)
+        _, _, flow = align(room, image, ndimage.binary_dilation(union, iterations=6), warp=False)
+        scale = np.array(plate.size) / [w, h]
+        for index, mask in enumerate(masks):
+            reasons = []
+            try:
+                dx, dy = rigid_shift(mask, union, flow)
+            except ValueError:
+                dx, dy = 0, 0
+                reasons.append('no_room_ring')
+            moved = translate(mask, dx, dy)
+            if moved.sum() != mask.sum():
+                reasons.append('outside_frame')
+            point = head(moved)
+            chair = assign_chair(np.array(point) * scale, chairs) if point else None
+            xs = np.nonzero(moved)[1]
+            width = (int(np.ptp(xs)) + 1) * scale[0] if len(xs) else 0
+            moved_image = translate(image, dx, dy)
+            diff = np.abs(moved_image.astype(np.int16) - room.astype(np.int16)).max(axis=2)
+            share = float((diff[moved] <= 12).mean()) if moved.any() else 1.0
+            candidates.append(dict(source=source.name, instance=index, mask=mask,
+                                   image=image, shift=[dx, dy], head=(np.array(point) * scale).tolist() if point else None,
+                                   chair=chair, width=width, room_share=share,
+                                   reasons=reasons, scale=scale))
+        print(f'{place}/{source.name}: {len(masks)} independent people', flush=True)
+    generated_path = source_dir / 'generated.json'
+    if generated_path.exists():
+        for item in json.loads(generated_path.read_text())['people']:
+            rgba = np.array(Image.open(source_dir / item['file']).convert('RGBA'))
+            mask = rgba[..., 3] > 127
+            chair = next(c for c in chairs if c['id'] == item['chair'])
+            visible_x = np.nonzero(mask)[1]
+            scale = np.array([item['width'] / (int(np.ptp(visible_x)) + 1)] * 2)
+            point = head(mask)
+            at = [int(round(chair['seat'][0] - point[0] * scale[0])),
+                  int(round(item['head_top'] - point[1] * scale[1]))]
+            final_head = (np.array(point) * scale + at).tolist()
+            placed = Image.fromarray(rgba).resize(tuple(np.rint(np.array(rgba.shape[1::-1]) * scale).astype(int)), Image.Resampling.LANCZOS)
+            x, y = at
+            room = np.array(plate.crop((x, y, x + placed.width, y + placed.height)))
+            pixels = np.array(placed)
+            diff = np.abs(pixels[..., :3].astype(np.int16) - room.astype(np.int16)).max(axis=2)
+            share = float((diff[pixels[..., 3] > 127] <= 12).mean())
+            candidates.append(dict(source=item['file'], instance=0, mask=mask,
+                                   alpha=rgba[..., 3], image=rgba[..., :3], shift=[0, 0],
+                                   head=final_head, chair=chair, width=item['width'],
+                                   room_share=share, reasons=[], scale=scale, at=at))
+    seats = {c['id']: {'id': f"{place}:chair:{c['id']}", 'chair': c['id'],
+                       'head': None, 'variants': []} for c in chairs}
+    rejected = []
+    widths = collections.defaultdict(list)
+    for p in candidates:
+        if p['chair'] and not p['reasons'] and ndimage.label(p['mask'], structure=np.ones((3, 3)))[1] == 1:
+            widths[p['chair']['depth']].append(p['width'])
+    for person in candidates:
+        chair, mask = person['chair'], person['mask']
+        peers = widths[chair['depth']] if chair else []
+        reasons = person['reasons'] + rejection_reasons(
+            mask, person['head'], chair, person['width'],
+            float(np.median(peers)) if peers else None, person['room_share'])
+        name = f"{Path(person['source']).stem}__person{person['instance']:03d}"
+        if 'at' in person:
+            name += '__' + chair['id']
+        if name in reviewed_rejections:
+            reasons.append('visual_' + reviewed_rejections[name])
+        rgba = Image.fromarray(np.dstack((person['image'], person.get('alpha', mask.astype(np.uint8) * 255))))
+        bounds = rgba.getbbox()
+        if not reasons:
+            dx, dy = person['shift']
+            x0, y0, x1, y1 = bounds
+            scale = person['scale']
+            left, top = np.rint(np.array([x0 + dx, y0 + dy]) * scale).astype(int)
+            right, bottom = np.rint(np.array([x1 + dx, y1 + dy]) * scale).astype(int)
+            if 'at' in person:
+                left += person['at'][0]
+                right += person['at'][0]
+                top += person['at'][1]
+                bottom += person['at'][1]
+            cut = rgba.crop(bounds).resize((right - left, bottom - top), Image.Resampling.LANCZOS)
+            # The room frame clips edge chairs in the original painting too.
+            cut = cut.crop((max(0, -left), max(0, -top),
+                            min(cut.width, plate.width - left), min(cut.height, plate.height - top)))
+            left, top = max(0, left), max(0, top)
+            right, bottom = left + cut.width, top + cut.height
+            data = np.array(cut)
+            foreground = furniture_mask(annotations, chair, plate.size)[top:bottom, left:right]
+            data[..., 3][foreground] = 0
+            # Validate the person before furniture occlusion. Furniture may
+            # legitimately hide the middle of one already identified person;
+            # those visible parts remain one variant, never independent seats.
+            if not (data[..., 3] > 127).any():
+                reasons.append('fully_occluded')
+        if reasons:
+            folder = outdir / 'rejected' / name
+            folder.mkdir(parents=True)
+            rgba.crop(bounds or (0, 0, 1, 1)).save(folder / 'cutout.png')
+            diag = {'source': person['source'], 'instance': person['instance'],
+                    'chair': chair['id'] if chair else None, 'reasons': reasons,
+                    'room_pixel_share': person['room_share'], 'shift': person['shift']}
+            write_json(folder / 'diag.txt', diag)
+            rejected.append(diag)
             continue
-        cuts = [x0] + [x0 + (heads[j] + heads[j + 1]) // 2 for j in range(len(heads) - 1)] + [x1 + 1]
-        for j in range(len(heads)):
-            part = m.copy(); part[:, :cuts[j]] = False; part[:, cuts[j + 1]:] = False
-            # keep the piece attached to the head; drop crumbs left by the column cut
-            pl, pk = ndimage.label(part)
-            if pk > 1:
-                sz = ndimage.sum(np.ones_like(pl), pl, range(1, pk + 1))
-                part = pl == (int(np.argmax(sz)) + 1)
-            if part.sum() >= 400:
-                parts.append(part)
-    return parts
+        filename = name + '.png'
+        Image.fromarray(data).save(outdir / 'cut' / filename)
+        seat = seats[chair['id']]
+        seat['head'] = seat['head'] or person['head']
+        seat['variants'].append({'file': filename, 'left': int(left), 'top': int(top),
+                                 'head': person['head'], 'bottom': int(bottom - 1),
+                                 'activity': 'plain', 'chair': chair['id'],
+                                 'source': person['source'], 'instance': person['instance']})
+    missing = {key: max(0, 3 - len(s['variants'])) for key, s in seats.items() if len(s['variants']) < 3}
+    reasons = collections.Counter(reason for item in rejected for reason in item['reasons'])
+    report = {'place': place, 'chairs': len(chairs),
+              'kept': sum(len(s['variants']) for s in seats.values()),
+              'rejected': len(rejected), 'rejected_by_reason': dict(reasons),
+              'regeneration_needed': missing, 'complete': not missing}
+    write_json(outdir / 'report.json', report)
+    write_json(outdir / 'seats.json', {'place': place, 'plate': plate_path.name,
+               'width': plate.width, 'height': plate.height, 'seats': list(seats.values())})
+    print(json.dumps(report), flush=True)
 
-def heads_in(part):
-    """Distinct heads along the top edge: high points with a real dip (15% of the height) between them."""
-    ys, xs = np.nonzero(part)
-    x0, x1, y0 = xs.min(), xs.max(), ys.min()
-    h = ys.max() - y0 + 1
-    top = np.array([np.nonzero(part[:, x])[0].min() if part[:, x].any() else ys.max() for x in range(x0, x1 + 1)], float)
-    win = max(7, int(h * 0.12))
-    sm = ndimage.minimum_filter1d(top, size=win)
-    peaks = [i for i in range(len(top)) if top[i] == sm[i] and top[i] < y0 + 0.3 * h]
-    heads = []
-    for i in peaks:
-        if heads:
-            j = heads[-1]
-            dip = top[j:i + 1].max() - max(top[i], top[j])
-            if dip < 0.15 * h:
-                if top[i] < top[j]:
-                    heads[-1] = i
-                continue
-        heads.append(i)
-    return len(heads)
 
-MAX_HEAD_Y = float(os.environ.get("MAX_HEAD_Y", "0.62"))
-STRICT = os.environ.get("STRICT", "0") == "1"   # very sparse crowds: keep only people standing alone
-
-def one_body(part, h):
-    """No appendage hanging on a thin neck (a neighbor's hair or shoulder glued to the side of a person)."""
-    r = max(2, int(0.055 * h))
-    yy, xx = np.mgrid[-r:r + 1, -r:r + 1]
-    op = ndimage.binary_opening(part, structure=(xx ** 2 + yy ** 2) <= r * r)
-    lab, k = ndimage.label(op)
-    if k == 0:
-        return False
-    sz = np.sort(ndimage.sum(np.ones_like(lab), lab, range(1, k + 1)))[::-1]
-    if len(sz) > 1 and sz[1] > 0.08 * part.sum():
-        return False
-    return (part & ~ndimage.binary_dilation(op, iterations=r)).sum() < 0.10 * part.sum()
-FURN_MAX = float(os.environ.get("FURN_MAX", "0.18"))  # share of changed pixels allowed around a person  # no seated head is lower than this share of the picture
-
-def person_ok(part, med_by_row, why=None):
-    r = _person_ok(part, med_by_row)
-    if why is not None: why.append(r)
-    return r == "ok"
-
-def _person_ok(part, med_by_row):
-    ys, xs = np.nonzero(part)
-    if ys.min() > MAX_HEAD_Y * H:          # legs and arms under the front desks
-        return "low"
-    h, w = ys.max() - ys.min() + 1, xs.max() - xs.min() + 1
-    if h < 14 or w < 8:
-        return "tiny"
-    if h > 3.0 * w:                       # a leg or a chair post, not a person
-        return "thin"
-    if part.sum() < 0.28 * h * w:         # a thin diagonal (chair arm, desk edge)
-        return "sparse"
-    # One head on top that is narrower than the shoulders below it.
-    t = ys.min()
-    widths = np.array([part[y].sum() for y in range(t, t + h)], float)
-    upper = widths[: max(4, h // 2)]
-    shoulder = upper.max()
-    head_rows = np.nonzero(widths[: max(3, int(h * 0.3))] < (0.82 if STRICT else 0.7) * shoulder)[0]
-    if len(head_rows) < max(2, int(h * (0.04 if STRICT else 0.06))):
-        return "nohead"
-    if heads_in(part) > 1:
-        return "twoheads"
-    if STRICT and not one_body(part, h):
-        return "appendage"
-    ref = med_by_row(ys.max())
-    return "ok" if part.sum() > 0.3 * ref else "small"
-
-def main(place, plate_path, outdir, pairs):
-    os.makedirs(os.path.join(outdir, "cut"), exist_ok=True)
-    O = np.array(Image.open(plate_path).convert("RGB").resize((W, H)))
-    people = []
-    for vi, pair in enumerate(pairs):
-        vpath, mpath = pair.split(":")
-        V = np.array(Image.open(vpath).convert("RGB").resize((W, H), Image.LANCZOS))
-        if mpath == "diff":
-            # No person mask: align on everything, then people are what differs from the empty room.
-            rough = np.abs(V.astype(int) - O.astype(int)).max(axis=2) > 60
-            warped, _, _ = align(O, V, ndimage.binary_dilation(ndimage.binary_opening(rough, iterations=2), iterations=6))
-            d = np.abs(warped.astype(int) - O.astype(int)).max(axis=2)
-            P = ndimage.binary_opening(d > 45, iterations=2)
-            P = ndimage.binary_closing(P, iterations=3)
-            P = ndimage.binary_fill_holes(P)
-        else:
-            Mk = np.array(Image.open(mpath).convert("L").resize((W, H), Image.LANCZOS)) > 110
-            warped, _, (gy, gx) = align(O, V, ndimage.binary_dilation(Mk, iterations=6))
-            yy, xx = np.mgrid[0:H, 0:W]
-            Mw = ndimage.map_coordinates(Mk.astype(float), [yy + gy, xx + gx], order=1) > 0.5
-            diff = np.abs(warped.astype(int) - O.astype(int)).max(axis=2) > 22
-            P = ndimage.binary_opening(Mw & ndimage.binary_dilation(diff, iterations=3), iterations=1)
-            P = ndimage.binary_fill_holes(P)
-        # Furniture must match the empty room: a person whose seat area (around and below them) differs
-        # from the plate is sitting on furniture that isn't there.
-        dd = np.abs(warped.astype(int) - O.astype(int)).max(axis=2) > 40
-        kept = 0
-        for part in split_people(P):
-            ys, xs = np.nonzero(part)
-            h = ys.max() - ys.min() + 1
-            box = np.zeros((H, W), bool)
-            box[ys.min():min(H, ys.max() + int(h * 0.35)), max(0, xs.min() - h // 6):min(W, xs.max() + h // 6)] = True
-            around = box & ~ndimage.binary_dilation(P, iterations=3)
-            furn = around.sum() > 50 and dd[around].mean() > FURN_MAX
-            people.append({"v": vi, "mask": part, "img": warped, "furn": furn}); kept += 1
-        print(f"version {vi}: {len([p for p in people if p['v'] == vi])} parts")
-    # area reference by depth
-    def dims(m):
-        ys, xs = np.nonzero(m)
-        return ys.max(), m.sum(), ys.max() - ys.min() + 1, xs.max() - xs.min() + 1
-    # depth medians from head-shaped parts only (chair-gap strips and feet would drag them down)
-    headish = [p for p in people if _person_ok(p["mask"], lambda y: 0) == "ok"] or people
-    rows = np.array([dims(p["mask"]) for p in headish], float)
-    def med_by_row(y, col=1):
-        near = rows[np.abs(rows[:, 0] - y) < 60]
-        return float(np.median(near[:, col])) if len(near) >= 3 else float(np.median(rows[:, col]))
-    def single(m):
-        y, _, h, w = dims(m)
-        # Two people in one cut-out: much taller or wider than the people around them.
-        return h <= 1.45 * med_by_row(y, 2) and w <= 1.6 * med_by_row(y, 3)
-    # A person seen from behind in an open chair shows in pieces: head and shoulders above the chair back,
-    # a strip of back through the gap, feet under the seat. Pieces that aren't a person join the person above.
-    def bbox(m):
-        ys, xs = np.nonzero(m)
-        return xs.min(), ys.min(), xs.max(), ys.max()
-    for p in people:
-        p["bb"] = bbox(p["mask"]); p["area"] = int(p["mask"].sum())
-    # A smaller part right under a bigger one in the same picture is a piece of it (back seen through the
-    # chair gap, feet under the seat), never a person of its own, whatever its shape.
-    for f in people:
-        fx0, fy0, fx1, fy1 = f["bb"]; fc = (fx0 + fx1) / 2
-        best = None
-        for p in people:
-            if p is f or p["v"] != f["v"]:
-                continue
-            px0, py0, px1, py1 = p["bb"]; pw, ph = px1 - px0 + 1, py1 - py0 + 1
-            if not (px0 - 0.15 * pw <= fc <= px1 + 0.15 * pw): continue
-            if fy0 < py0 + 0.4 * ph or fy0 - py1 > 2.0 * ph: continue
-            gap = fy0 - py1
-            # legs under an open table start just below the person, across the table top, and can be as
-            # big as the part above it
-            need = 0.8 if 0 <= gap <= 0.35 * ph else 2.0
-            if p["area"] < need * f["area"]:
-                continue
-            if best is None or gap < best[0]:
-                best = (gap, p)
-        f["parent"] = best[1] if best else None
-    for p in people:
-        why = []
-        p["ok"] = p["parent"] is None and (not p["furn"]) and person_ok(p["mask"], med_by_row, why) and single(p["mask"])
-    persons = [p for p in people if p["ok"]]
-    attached = 0
-    for f in people:
-        q = f["parent"]
-        while q is not None and q["parent"] is not None:
-            q = q["parent"]
-        if q is not None and q["ok"]:
-            q.setdefault("parts", []).append(f["mask"]); attached += 1
-    for p in persons:
-        for m in p.pop("parts", []):
-            p["mask"] = p["mask"] | m
-    people = persons
-    print("people kept", len(people), "pieces attached", attached)
-    # seats: group by head point across versions
-    seats = []
-    for p in people:
-        ys, xs = np.nonzero(p["mask"])
-        t = ys.min()
-        hx = np.nonzero(p["mask"][t:t + 4].any(axis=0))[0].mean()
-        hw = np.ptp(np.nonzero(p["mask"][t:t + max(3, (ys.max() - t) // 6)].any(axis=0))[0]) + 1
-        p.update(head=(float(hx), float(t)), headw=float(hw), bottom=int(ys.max()))
-        best = None
-        for s in seats:
-            d = np.hypot(s["head"][0] - hx, (s["head"][1] - t) * 1.5)
-            if d < max(12, 1.2 * s["headw"]) and p["v"] not in s["versions"] and (best is None or d < best[0]):
-                best = (d, s)
-        if best:
-            s = best[1]
-            s["people"].append(p); s["versions"].add(p["v"])
-            n = len(s["people"])
-            s["head"] = ((s["head"][0] * (n - 1) + hx) / n, (s["head"][1] * (n - 1) + t) / n)
-        else:
-            seats.append({"head": (hx, t), "headw": hw, "people": [p], "versions": {p["v"]}})
-    seats.sort(key=lambda s: (round(s["head"][1] / 20), s["head"][0]))
-    out = {"place": place, "plate": os.path.basename(plate_path), "width": W, "height": H, "seats": []}
-    for si, s in enumerate(seats):
-        variants = []
-        for p in s["people"]:
-            ys, xs = np.nonzero(p["mask"])
-            x0, y0, x1, y1 = xs.min(), ys.min(), xs.max() + 1, ys.max() + 1
-            soft = ndimage.gaussian_filter(ndimage.binary_dilation(p["mask"], iterations=1).astype(float), 0.7)
-            rgba = np.dstack([p["img"], (soft * 255).astype(np.uint8)])[max(0, y0 - 2):y1 + 2, max(0, x0 - 2):x1 + 2]
-            fn = f"{place}__seat{si:03d}__v{p['v']}.png"
-            Image.fromarray(rgba).save(os.path.join(outdir, "cut", fn))
-            variants.append({"file": fn, "left": int(max(0, x0 - 2)), "top": int(max(0, y0 - 2)), "bottom": p["bottom"]})
-        out["seats"].append({"id": f"{place}:seat:{si}", "head": [round(float(s["head"][0]), 1), round(float(s["head"][1]), 1)], "variants": variants})
-    json.dump(out, open(os.path.join(outdir, "seats.json"), "w"), indent=1)
-    print("seats", len(seats), "variants", sum(len(s["people"]) for s in seats))
-
-if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4:])
+if __name__ == '__main__':
+    main(*sys.argv[1:])

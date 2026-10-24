@@ -1,0 +1,14 @@
+{
+  "source": "w-uni-02.jpg",
+  "instance": 3,
+  "chair": "chair-014-slot-22",
+  "reasons": [
+    "too_wide",
+    "room_pixels"
+  ],
+  "room_pixel_share": 0.06447038289516745,
+  "shift": [
+    0,
+    -1
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source": "crowd-v4.jpg",
+  "instance": 14,
+  "chair": "slot-10",
+  "reasons": [
+    "visual_missing_crown"
+  ],
+  "room_pixel_share": 0.012195121951219513,
+  "shift": [
+    1,
+    0
+  ]
+}

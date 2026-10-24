@@ -1,0 +1,13 @@
+{
+  "source": "crowd-v4.jpg",
+  "instance": 3,
+  "chair": "chair-026-slot-12",
+  "reasons": [
+    "too_wide"
+  ],
+  "room_pixel_share": 0.03632567849686848,
+  "shift": [
+    0,
+    -1
+  ]
+}
