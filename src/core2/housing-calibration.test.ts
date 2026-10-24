@@ -27,65 +27,95 @@ import hud from "../../docs/research/cloud-b-outcomes-2024/homelessness-hud-2024
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const BANDS = [0.22, 0.32] as const;
+/** Cases needed before a share is a curve and not one case either way. */
+const MIN_CASES = 10;
+/** Towns drawn at most to gather them. */
+const DRAWS = 4;
+
+/** One drawn town's year: renter households by burden band on day one, and those taken to court in the year. */
+function yearOf(draw: number) {
+  const place = drawPlace(
+    draw ? `${seed}:${draw}` : seed,
+    "housing-calibration",
+  );
+  const where = `place ${place.key}, draw seed ${draw ? `${seed}:${draw}` : seed}, world seed ${place.seed}`;
+  console.log(`housing-calibration: ${where}`);
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(core);
+  const rt = residentsRuntime(core)!;
+  const months = api.parameter("macroMonthsPerYear");
+
+  // Each counted renter household's burden on the first day: a year of rent over a year of income.
+  const band = new Map<string, number>();
+  for (const h of rt.store.liveHouseholds()) {
+    if (h.gone || h.tenure !== "rent") continue;
+    const rent = rt.flows.get(`rent:${h.id}`)?.amountMinor ?? 0;
+    if (rent <= 0) continue;
+    const income = householdIncome(rt, h);
+    const burden = income > 0 ? (rent * months) / income : Infinity;
+    band.set(h.id, BANDS.filter((edge) => burden > edge).length);
+  }
+
+  advanceCore(core, addDays(makeIsoDate(core.date), 365));
+
+  const cases = new Set(
+    (
+      api.moduleState("housing").table("cases").rows() as unknown as {
+        householdId: string;
+      }[]
+    ).map((row) => row.householdId),
+  );
+  const households = [0, 0, 0];
+  const taken = [0, 0, 0];
+  for (const [id, b] of band) {
+    households[b]! += 1;
+    if (cases.has(id)) taken[b]! += 1;
+  }
+  return { core, api, where, households, taken };
+}
 
 describe("homelessness against the research", { timeout: 1_800_000 }, () => {
   it("the town's count sits near its state's HUD rate, and court cases rise with rent burden past 22 and faster past 32 percent", () => {
     setBookkeeping(false);
-    const place = drawPlace(seed, "housing-calibration");
-    const where = `place ${place.key}, seed ${seed}`;
-    console.log(`housing-calibration: ${where}`);
-    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-      twoLevel: true,
-      placeKey: place.key,
-    });
-    const api = coreAPI(core);
-    const rt = residentsRuntime(core)!;
-    const months = api.parameter("macroMonthsPerYear");
-
-    // Each counted renter household's burden on the first day: a year of rent over a year of income.
-    const band = new Map<string, number>();
-    for (const h of rt.store.liveHouseholds()) {
-      if (h.gone || h.tenure !== "rent") continue;
-      const rent = rt.flows.get(`rent:${h.id}`)?.amountMinor ?? 0;
-      if (rent <= 0) continue;
-      const income = householdIncome(rt, h);
-      const burden = income > 0 ? (rent * months) / income : Infinity;
-      band.set(h.id, BANDS.filter((edge) => burden > edge).length);
-    }
-
-    advanceCore(core, addDays(makeIsoDate(core.date), 365));
-
-    const cases = new Set(
-      (
-        api.moduleState("housing").table("cases").rows() as unknown as {
-          householdId: string;
-        }[]
-      ).map((row) => row.householdId),
-    );
+    // The burden curve needs ten court cases to tell a curve from one case; a
+    // small town's year may have fewer, so further towns are drawn and their
+    // cases pooled, at most DRAWS in all. The HUD check reads the first town.
     const households = [0, 0, 0];
     const taken = [0, 0, 0];
-    for (const [id, b] of band) {
-      households[b]! += 1;
-      if (cases.has(id)) taken[b]! += 1;
+    const tried: string[] = [];
+    let first: ReturnType<typeof yearOf> | undefined;
+    for (let draw = 0; draw < DRAWS; draw += 1) {
+      const year = yearOf(draw);
+      first ??= year;
+      tried.push(year.where);
+      for (const b of [0, 1, 2]) {
+        households[b]! += year.households[b]!;
+        taken[b]! += year.taken[b]!;
+      }
+      if (taken.reduce((n, v) => n + v, 0) >= MIN_CASES) break;
     }
     const rate = households.map((n, b) => (n ? taken[b]! / n : 0));
     console.log(
-      `housing-calibration: renter households by burden ${households.join("/")}, taken to court ${taken.join("/")}`,
+      `housing-calibration: renter households by burden ${households.join("/")}, taken to court ${taken.join("/")} (${tried.join("; ")})`,
     );
     // Cases gather above the 22 percent line: their share there is at least
-    // the renters' share there. Past 32 percent they rise faster, checked
-    // once a year's cases are enough to tell one case from a curve.
+    // the renters' share there. Past 32 percent they rise faster.
     const renters = households.reduce((n, v) => n + v, 0);
     const cased = taken.reduce((n, v) => n + v, 0);
-    if (cased)
-      expect((taken[1]! + taken[2]!) / cased).toBeGreaterThanOrEqual(
-        (households[1]! + households[2]!) / renters,
-      );
-    if (cased >= 10) {
-      expect(rate[1]!).toBeGreaterThanOrEqual(rate[0]!);
-      expect(rate[2]! - rate[1]!).toBeGreaterThanOrEqual(rate[1]! - rate[0]!);
-    }
+    expect(
+      cased,
+      `fewer than ${MIN_CASES} court cases in ${tried.join("; ")}`,
+    ).toBeGreaterThanOrEqual(MIN_CASES);
+    expect((taken[1]! + taken[2]!) / cased).toBeGreaterThanOrEqual(
+      (households[1]! + households[2]!) / renters,
+    );
+    expect(rate[1]!).toBeGreaterThanOrEqual(rate[0]!);
+    expect(rate[2]! - rate[1]!).toBeGreaterThanOrEqual(rate[1]! - rate[0]!);
 
+    const { core, api } = first!;
     const town = core.placeMetadata?.housingTown ?? "";
     const usps = core.placeMetadata?.housingState ?? "";
     const counts = housingStatusCounts(api, town);
