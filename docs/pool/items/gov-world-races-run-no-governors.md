@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/world-races.ts, src/bench/m2-10-check.ts
 
 **Notes.** Found by the M0-M2 lead writing M2-10's command, Oct 24. Blocks roadmap M2-10.
+
+Sent back 2026-10-24 from PR #5969 (branch claude/world-governor-races): integrated a7863bc3c4 adds governor winners only to world-races.ts:1228–1235 race-ledger seats, leaves the opening officials governor unchanged, and has no executive reader as its own open SG-GOV-world-governor-executive admits; m2-10-check.ts:118–130 accepts the ledger row as seating but does not meet this item’s serving-governor/executive-reader acceptance. Supply named actual term/reader evidence or split an honest bounded race-counting item with this acceptance and flags unfinished; finish on this branch, merge main into it first. No completed gate or runtime-failure claim.
