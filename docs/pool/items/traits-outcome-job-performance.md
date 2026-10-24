@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts, data/content/trait-decisions.json, data/content/trait-outcomes.json, src/core2/data/jobs/parameters.json
 
 **Notes.** Split Oct 24 by the traits lead from traits-outcomes-unread.
+
+Sent back 2026-10-24 from PR #5901 (branch claude/traits-outcome-job-performance): its explicit merge-order prerequisite #5587 remains open and unmerged, so the carried money-family stack cannot be accepted through this later PR; finish on that branch, merge main into it first after #5587 merges. No source failure or completed local gate is claimed.
