@@ -1,13 +1,14 @@
-<title>__TITLE__</title>
+<title>Words Batch 22 Read</title>
 <meta name="claude:viewport-fit-sides" content="cover" />
 <link
   rel="stylesheet"
   href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Instrument+Sans:wght@400;500;600&display=swap"
 />
 <style>
-  /* Layout: a galley sheet, one bank after another, each line a slip with its
-     blanks marked and three marks in the margin (good, bad, fix). Same paper,
-     ink and faces as the Words Table Read, so the grading pages read as a set. */
+  /* Layout: one script page at a time, read like a table read. The scene plays
+   as you pick your lines from the buttons at the bottom; "Done, next" takes it
+   out of the queue. Every line carries a short label (3.4) to name it in a
+   voice note. */
   :root {
     --paper: #fbfaf6;
     --desk: #eceae3;
@@ -16,13 +17,9 @@
     --rule: #d9d6cc;
     --accent: #9b2c2c;
     --chip: #f1efe8;
-    --slot: #e6edf6;
-    --good: #2f6b3a;
-    --good-bg: #e3efe4;
-    --bad: #9b2c2c;
-    --bad-bg: #f5e1df;
-    --fix: #8a5a12;
-    --fix-bg: #f6ead2;
+    --you: #e6edf6;
+    --lie: #f6e3c8;
+    --ok: #2f6b3a;
     --script: "Courier Prime", "Courier New", Courier, monospace;
     --ui: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
   }
@@ -35,13 +32,9 @@
       --rule: #33363e;
       --accent: #e08a8a;
       --chip: #2a2c33;
-      --slot: #1f2d40;
-      --good: #8fd19e;
-      --good-bg: #1d3323;
-      --bad: #e08a8a;
-      --bad-bg: #3d2222;
-      --fix: #e3b867;
-      --fix-bg: #3a2f1c;
+      --you: #1f2d40;
+      --lie: #3a2f1c;
+      --ok: #8fd19e;
       color-scheme: dark;
     }
   }
@@ -53,17 +46,29 @@
     --rule: #33363e;
     --accent: #e08a8a;
     --chip: #2a2c33;
-    --slot: #1f2d40;
-    --good: #8fd19e;
-    --good-bg: #1d3323;
-    --bad: #e08a8a;
-    --bad-bg: #3d2222;
-    --fix: #e3b867;
-    --fix-bg: #3a2f1c;
+    --you: #1f2d40;
+    --lie: #3a2f1c;
+    --ok: #8fd19e;
     color-scheme: dark;
   }
   * {
     box-sizing: border-box;
+  }
+  /* A line held until the owner grades it: underlined, with its number in the batch. */
+  .held {
+    text-decoration: underline dotted var(--accent);
+    text-underline-offset: 3px;
+  }
+  .heldtag {
+    display: inline-block;
+    margin-left: 0.4em;
+    padding: 0 0.35em;
+    border-radius: 3px;
+    background: var(--chip);
+    color: var(--accent);
+    font: 600 0.7rem/1.5 var(--ui);
+    text-decoration: none;
+    white-space: nowrap;
   }
   body {
     margin: 0;
@@ -84,794 +89,679 @@
   .wrap {
     max-width: 760px;
     margin: 0 auto;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
     padding-left: max(16px, env(safe-area-inset-left, 0px));
     padding-right: max(16px, env(safe-area-inset-right, 0px));
-    padding-block: 0 48px;
   }
   header {
-    position: sticky;
-    top: env(safe-area-inset-top, 0px);
-    z-index: 5;
-    background: var(--desk);
-    padding-block: 14px 10px;
-    border-bottom: 1px solid var(--rule);
-    display: grid;
-    gap: 8px;
-  }
-  .top {
+    padding-top: calc(14px + env(safe-area-inset-top, 0px));
+    padding-bottom: 10px;
     display: flex;
     flex-wrap: wrap;
+    gap: 6px 14px;
     align-items: baseline;
-    gap: 4px 14px;
   }
-  h1 {
+  header h1 {
     font-family: var(--script);
     font-size: 1.05rem;
+    margin: 0;
     letter-spacing: 0.03em;
     text-transform: uppercase;
-    margin: 0;
   }
-  .count {
+  header .q {
     font-size: 0.85rem;
     color: var(--ink-2);
     font-variant-numeric: tabular-nums;
   }
-  .bar {
-    height: 4px;
-    background: var(--rule);
-    border-radius: 2px;
-    overflow: hidden;
-    display: flex;
+  header .sp {
+    flex: 1;
   }
-  .bar span {
-    display: block;
-    height: 100%;
-  }
-  .bar .g {
-    background: var(--good);
-  }
-  .bar .f {
-    background: var(--fix);
-  }
-  .bar .b {
-    background: var(--bad);
-  }
-  .filters,
-  .banks {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .filters button,
-  .banks a {
-    font: inherit;
-    font-size: 0.8rem;
-    border: 1px solid var(--rule);
-    background: var(--paper);
-    color: var(--ink);
-    border-radius: 999px;
-    padding: 4px 11px;
+  header button.link {
+    background: none;
+    border: 0;
+    padding: 0;
+    color: var(--ink-2);
+    text-decoration: underline;
     cursor: pointer;
-    text-decoration: none;
-    font-variant-numeric: tabular-nums;
-    min-height: 32px;
-    display: inline-flex;
-    align-items: center;
-  }
-  .filters button[aria-pressed="true"] {
-    background: var(--ink);
-    color: var(--paper);
-    border-color: var(--ink);
+    font: inherit;
+    font-size: 0.85rem;
   }
   .status {
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--ink-2);
+    width: 100%;
   }
   .status.warn {
     color: var(--accent);
   }
-  .intro {
-    font-size: 0.9rem;
-    color: var(--ink-2);
-    margin: 18px 0 8px;
-    max-width: 65ch;
+  .page {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 3px;
+    padding: 22px clamp(16px, 5vw, 44px) 28px;
+    min-width: 0;
+    align-self: start;
   }
-  .intro p {
-    margin: 0 0 6px;
-  }
-  section.bank {
-    margin-top: 28px;
-    scroll-margin-top: 130px;
-  }
-  section.bank > h2 {
+  .slug {
     font-family: var(--script);
-    font-size: 1rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     margin: 0 0 4px;
     display: flex;
-    gap: 10px;
-    align-items: baseline;
     flex-wrap: wrap;
+    gap: 4px 12px;
   }
-  section.bank > h2 small {
+  .slug .n {
+    color: var(--accent);
+  }
+  .sub {
+    font-size: 0.8rem;
+    color: var(--ink-2);
+    margin: 0 0 18px;
+  }
+  .who-is p {
+    margin: 0 0 4px;
+  }
+  .who-is ul {
+    margin: 0 0 8px;
+    padding-left: 18px;
+  }
+  .who-is {
+    font-size: 0.82rem;
+    color: var(--ink-2);
+    margin: 0 0 16px;
+    padding: 8px 10px;
+    border-left: 3px solid var(--rule);
+  }
+  .action {
+    font-family: var(--script);
+    margin: 0 0 16px;
+  }
+  .cue {
+    margin: 0 0 14px;
+    display: grid;
+    grid-template-columns: 3.2em 1fr;
+    gap: 0 8px;
+  }
+  .ref {
+    font-family: var(--ui);
+    font-size: 0.72rem;
+    color: var(--ink-2);
+    font-variant-numeric: tabular-nums;
+    padding-top: 3px;
+    text-align: right;
+  }
+  .cue .who {
+    font-family: var(--script);
+    font-weight: 700;
+    text-transform: uppercase;
+    padding-left: 18%;
+  }
+  .cue .line {
+    font-family: var(--script);
+    margin: 0;
+    padding-left: 8%;
+    padding-right: 8%;
+  }
+  .cue.you .body {
+    background: var(--you);
+    border-radius: 4px;
+    padding: 6px 0;
+  }
+  .cue.you.lie .body {
+    background: var(--lie);
+  }
+  .tag {
+    font-family: var(--ui);
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--accent);
+    margin-left: 8px;
+  }
+  .endmark {
+    font-family: var(--script);
+    text-align: center;
+    margin: 22px 0 4px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .endmark small {
+    display: block;
     font-family: var(--ui);
     text-transform: none;
     letter-spacing: 0;
-    font-size: 0.8rem;
-    font-weight: 400;
     color: var(--ink-2);
-    font-variant-numeric: tabular-nums;
+    font-size: 0.82rem;
+    margin-top: 4px;
   }
-  .move {
-    margin-top: 16px;
-  }
-  .move > h3 {
-    font-size: 0.85rem;
-    font-weight: 600;
-    margin: 0 0 6px;
-    display: flex;
+  footer {
+    background: var(--desk);
+    padding: 12px 0 calc(14px + env(safe-area-inset-bottom, 0px));
+    border-top: 1px solid var(--rule);
+    display: grid;
     gap: 8px;
-    flex-wrap: wrap;
-    align-items: baseline;
   }
-  .move > h3 code {
-    font-family: var(--script);
-    font-weight: 400;
-    font-size: 0.78rem;
+  .prompt {
+    font-size: 0.8rem;
     color: var(--ink-2);
-    overflow-wrap: anywhere;
   }
-  .slip {
+  .replies {
+    display: grid;
+    gap: 8px;
+  }
+  .replies button {
+    text-align: left;
     background: var(--paper);
     border: 1px solid var(--rule);
-    border-left: 4px solid var(--rule);
-    border-radius: 3px;
-    padding: 12px 14px;
-    margin-bottom: 8px;
-    display: grid;
-    gap: 8px;
-    min-width: 0;
-  }
-  .slip[data-grade="good"] {
-    border-left-color: var(--good);
-  }
-  .slip[data-grade="bad"] {
-    border-left-color: var(--bad);
-  }
-  .slip[data-grade="fix"] {
-    border-left-color: var(--fix);
-  }
-  .line {
-    display: grid;
-    grid-template-columns: 2.6em 1fr;
-    gap: 0 8px;
-    align-items: start;
-  }
-  .num {
-    font-size: 0.75rem;
-    color: var(--ink-2);
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-    padding-top: 3px;
-  }
-  .text {
-    font-family: var(--script);
-    font-size: 1.02rem;
-    margin: 0;
-    overflow-wrap: anywhere;
-  }
-  .text .blank {
-    background: var(--slot);
-    border-radius: 3px;
-    padding: 0 3px;
-    font-style: italic;
-  }
-  .from {
-    margin: 0 0 0 calc(2.6em + 8px);
-    padding: 0;
-    list-style: none;
-    font-size: 0.8rem;
-    color: var(--ink-2);
-    display: grid;
-    gap: 2px;
-  }
-  .from b {
-    font-weight: 600;
-    color: var(--ink);
-    font-style: italic;
-  }
-  .marks {
-    margin-left: calc(2.6em + 8px);
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-    align-items: center;
-  }
-  .marks button {
-    font: inherit;
-    font-size: 0.88rem;
-    min-height: 40px;
-    min-width: 4.6em;
-    padding: 6px 12px;
     border-radius: 6px;
-    border: 1px solid var(--rule);
-    background: var(--paper);
+    padding: 10px 12px;
+    font: inherit;
     color: var(--ink);
     cursor: pointer;
+    min-height: 44px;
   }
-  .marks button:hover:not(:disabled) {
+  .replies button:hover {
     border-color: var(--ink-2);
   }
-  .marks button:focus-visible,
-  .filters button:focus-visible,
-  .banks a:focus-visible,
-  textarea:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
-  .marks button:disabled {
-    opacity: 0.55;
-    cursor: default;
-  }
-  .marks button[data-mark="good"][aria-pressed="true"] {
-    background: var(--good-bg);
-    border-color: var(--good);
-    color: var(--good);
-    font-weight: 600;
-  }
-  .marks button[data-mark="bad"][aria-pressed="true"] {
-    background: var(--bad-bg);
-    border-color: var(--bad);
-    color: var(--bad);
-    font-weight: 600;
-  }
-  .marks button[data-mark="fix"][aria-pressed="true"] {
-    background: var(--fix-bg);
-    border-color: var(--fix);
-    color: var(--fix);
-    font-weight: 600;
-  }
-  .saved {
-    font-size: 0.75rem;
+  .replies button .k {
+    font-size: 0.72rem;
     color: var(--ink-2);
+    margin-right: 8px;
+    font-variant-numeric: tabular-nums;
   }
-  .note {
-    margin-left: calc(2.6em + 8px);
+  .replies button.lie {
+    border-style: dashed;
   }
-  .note textarea {
-    width: 100%;
+  .nav {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .nav button {
     font: inherit;
-    font-size: 0.88rem;
-    color: var(--ink);
-    background: var(--chip);
-    border: 1px solid var(--rule);
+    font-size: 0.9rem;
     border-radius: 6px;
-    padding: 8px 10px;
-    min-height: 2.6em;
-    resize: vertical;
+    padding: 9px 14px;
+    cursor: pointer;
+    min-height: 44px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
   }
-  .empty-filter {
+  .nav button.primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    margin-left: auto;
+  }
+  .empty {
     text-align: center;
-    color: var(--ink-2);
+    padding: 60px 10px;
     font-family: var(--script);
-    padding: 40px 0;
   }
-  @media (max-width: 480px) {
-    .line {
-      grid-template-columns: 2.1em 1fr;
-    }
-    .from,
-    .marks,
-    .note {
-      margin-left: 0;
-    }
-    section.bank {
-      scroll-margin-top: 170px;
-    }
+  .done-list {
+    font-size: 0.85rem;
   }
-  @media (prefers-reduced-motion: no-preference) {
-    .slip {
-      transition: border-left-color 0.15s ease;
-    }
+  .done-list li {
+    margin: 4px 0;
+  }
+  .done-list button {
+    font: inherit;
+    font-size: 0.8rem;
+    margin-left: 8px;
   }
 </style>
 
 <div class="wrap">
   <header>
-    <div class="top">
-      <h1>__HEADING__</h1>
-      <span class="count" id="count">__COUNT__ lines</span>
-    </div>
-    <div class="bar" id="bar" aria-hidden="true">
-      <span class="g"></span><span class="f"></span><span class="b"></span>
-    </div>
-    <div class="filters" role="group" aria-label="Show">
-      <button type="button" id="f-all" data-filter="all" aria-pressed="true">
-        All
-      </button>
-      <button type="button" id="f-todo" data-filter="todo" aria-pressed="false">
-        To grade
-      </button>
-      <button type="button" id="f-good" data-filter="good" aria-pressed="false">
-        Good
-      </button>
-      <button type="button" id="f-fix" data-filter="fix" aria-pressed="false">
-        Fix
-      </button>
-      <button type="button" id="f-bad" data-filter="bad" aria-pressed="false">
-        Bad
-      </button>
-    </div>
-    <div class="status" id="status" role="status">
-      Connecting to the grade store…
-    </div>
+    <h1 id="h1">Table read</h1>
+    <span class="q" id="q"></span>
+    <span class="sp"></span>
+    <button class="link" id="showDone" type="button">Finished scenes</button>
+    <div class="status" id="status"></div>
   </header>
-
-  <div class="intro">
-    <p>
-      These __COUNT__ lines were written by hand for the English engine. Each is
-      held out of play until you grade it. A grade carries to every scene that
-      uses the line's move.
-    </p>
-    <p>
-      Tap Good, Bad or Fix. Add a note to say what a fix should be. A
-      highlighted word is a blank the game fills in from the records, and the
-      gray note under the line says which record.
-    </p>
-  </div>
-
-  <nav class="banks" id="banks" aria-label="Banks"></nav>
-
   <main id="main"></main>
-  <p class="empty-filter" id="emptyFilter" hidden>
-    Nothing here with this filter.
-  </p>
+  <footer id="foot"></footer>
 </div>
 
 <script type="application/json" id="data">
-  __DATA__
+  /*DATA*/ null
 </script>
 <script>
   (() => {
     const DATA = JSON.parse(document.getElementById("data").textContent);
-    const ITEMS = DATA.items;
-    const BANK_NAMES = {
-      "scene-words": "Scene openings",
-      journal: "The journal",
-      "speech-stages": "Speech stages",
-      "newspaper-ledes": "Newspaper ledes",
-      "bring-it-up": "Passing on news",
-      conversation: "Conversation",
-      news: "News",
+    document.getElementById("h1").textContent =
+      DATA.id.replace("batch-", "Batch ") + " table read";
+    const $ = (s) => document.querySelector(s);
+    function el(tag, attrs, kids) {
+      const n = document.createElement(tag);
+      for (const [k, v] of Object.entries(attrs || {})) {
+        if (v == null) continue;
+        if (k === "text") n.textContent = v;
+        else if (k === "class") n.className = v;
+        else n.setAttribute(k, v);
+      }
+      for (const c of [].concat(kids || [])) if (c != null) n.append(c);
+      return n;
+    }
+    const SCREENS = {
+      desk: "the desk",
+      filing: "the filing office",
+      office: "your office",
+      meeting: "the meeting",
+      campaigns: "the campaign",
     };
-    const MARKS = [
-      ["good", "Good"],
-      ["bad", "Bad"],
-      ["fix", "Fix"],
-    ];
-    const words = (s) =>
-      String(s || "")
-        .replace(/[-.]/g, " ")
-        .trim();
+    const OUTCOME = {
+      resolved: "Resolved",
+      refused: "Refused",
+      open: "Left open",
+    };
+    const label = (s) => String(s || "").replace(/-/g, " ");
+    // The batch's numbers of the held lines a piece of text says.
+    const heldTag = (held) =>
+      held && held.length
+        ? el("span", { class: "heldtag", text: "held · " + held.join(", ") })
+        : null;
+    const letter = (k) =>
+      k < 26 ? "abcdefghijklmnopqrstuvwxyz"[k] : String(k + 1);
 
-    // Grades: i -> {grade, note}. Filled from the store; written on a tap.
-    const grades = new Map();
-    let db = null;
-    let canWrite = true;
-    let filter = "all";
-
-    const main = document.getElementById("main");
-    const statusEl = document.getElementById("status");
-    const slips = new Map();
-
-    function setStatus(text, warn) {
-      statusEl.textContent = text;
-      statusEl.classList.toggle("warn", !!warn);
-    }
-
-    function lineNode(text) {
-      const p = document.createElement("p");
-      p.className = "text";
-      const parts = text.split(/(\{\w+\})/g);
-      for (const part of parts) {
-        const m = /^\{(\w+)\}$/.exec(part);
-        if (m) {
-          const span = document.createElement("span");
-          span.className = "blank";
-          span.textContent = m[1];
-          p.appendChild(span);
-        } else if (part) {
-          p.appendChild(document.createTextNode(part));
-        }
-      }
-      return p;
-    }
-
-    // Banks in the order of the page, each with its moves in order.
-    const banks = [];
-    for (const it of ITEMS) {
-      let bank = banks.find((b) => b.id === it.bank);
-      if (!bank) banks.push((bank = { id: it.bank, moves: [] }));
-      let move = bank.moves.find((m) => m.id === it.move);
-      if (!move)
-        bank.moves.push(
-          (move = { id: it.move, shared: it.shared, key: it.key, items: [] }),
-        );
-      move.items.push(it);
-    }
-
-    const nav = document.getElementById("banks");
-    for (const bank of banks) {
-      const n = bank.moves.reduce((s, m) => s + m.items.length, 0);
-      const a = document.createElement("a");
-      a.href = "#bank-" + bank.id;
-      a.id = "nav-" + bank.id;
-      a.dataset.bank = bank.id;
-      a.textContent = (BANK_NAMES[bank.id] || words(bank.id)) + " " + n;
-      nav.appendChild(a);
-
-      const section = document.createElement("section");
-      section.className = "bank";
-      section.id = "bank-" + bank.id;
-      const h2 = document.createElement("h2");
-      h2.textContent = BANK_NAMES[bank.id] || words(bank.id);
-      const small = document.createElement("small");
-      small.id = "sum-" + bank.id;
-      h2.appendChild(small);
-      section.appendChild(h2);
-
-      for (const move of bank.moves) {
-        const group = document.createElement("div");
-        group.className = "move";
-        const h3 = document.createElement("h3");
-        const label = [words(move.shared), words(move.key)]
-          .filter(Boolean)
-          .join(", ");
-        h3.appendChild(document.createTextNode(label || words(move.id)));
-        const code = document.createElement("code");
-        code.textContent = move.id;
-        h3.appendChild(code);
-        group.appendChild(h3);
-
-        for (const it of move.items) {
-          const slip = document.createElement("article");
-          slip.className = "slip";
-          slip.id = "line-" + it.i;
-          slip.dataset.i = it.i;
-
-          const line = document.createElement("div");
-          line.className = "line";
-          const num = document.createElement("span");
-          num.className = "num";
-          num.textContent = it.i;
-          line.appendChild(num);
-          line.appendChild(lineNode(it.text));
-          slip.appendChild(line);
-
-          const notes = it.slots
-            .map((s) => [s.name, s.from])
-            .filter((r) => r[1]);
-          if (it.requires.length)
-            notes.push([
-              "",
-              "Said only when the record holds: " +
-                it.requires.map(words).join(", "),
-            ]);
-          if (notes.length) {
-            const ul = document.createElement("ul");
-            ul.className = "from";
-            for (const [name, from] of notes) {
-              const li = document.createElement("li");
-              if (name) {
-                const b = document.createElement("b");
-                b.textContent = name;
-                li.appendChild(b);
-                li.appendChild(document.createTextNode(": "));
-              }
-              li.appendChild(document.createTextNode(from));
-              ul.appendChild(li);
-            }
-            slip.appendChild(ul);
-          }
-
-          const marks = document.createElement("div");
-          marks.className = "marks";
-          for (const [mark, label] of MARKS) {
-            const btn = document.createElement("button");
-            btn.type = "button";
-            btn.id = "m-" + it.i + "-" + mark;
-            btn.dataset.mark = mark;
-            btn.setAttribute("aria-pressed", "false");
-            btn.textContent = label;
-            btn.addEventListener("click", () =>
-              mark === (grades.get(it.i) || {}).grade
-                ? setGrade(it.i, null)
-                : setGrade(it.i, mark),
-            );
-            marks.appendChild(btn);
-          }
-          const saved = document.createElement("span");
-          saved.className = "saved";
-          saved.setAttribute("aria-live", "polite");
-          marks.appendChild(saved);
-          slip.appendChild(marks);
-
-          const note = document.createElement("div");
-          note.className = "note";
-          note.hidden = true;
-          const ta = document.createElement("textarea");
-          ta.id = "note-" + it.i;
-          ta.rows = 2;
-          ta.placeholder = "What should it say instead? (optional)";
-          ta.setAttribute("aria-label", "Note for line " + it.i);
-          let timer = 0;
-          ta.addEventListener("input", () => {
-            clearTimeout(timer);
-            timer = setTimeout(() => setNote(it.i, ta.value), 900);
-          });
-          ta.addEventListener("blur", () => {
-            clearTimeout(timer);
-            setNote(it.i, ta.value);
-          });
-          note.appendChild(ta);
-          slip.appendChild(note);
-
-          group.appendChild(slip);
-          slips.set(it.i, {
-            slip,
-            marks,
-            saved,
-            note,
-            ta,
-            bank: it.bank,
-            group,
-            section,
-          });
-        }
-        section.appendChild(group);
-      }
-      main.appendChild(section);
-    }
-
-    function paint(i) {
-      const s = slips.get(i);
-      if (!s) return;
-      const g = grades.get(i) || {};
-      if (g.grade) s.slip.dataset.grade = g.grade;
-      else delete s.slip.dataset.grade;
-      for (const btn of s.marks.querySelectorAll("button")) {
-        btn.setAttribute("aria-pressed", String(btn.dataset.mark === g.grade));
-        btn.disabled = !db || !canWrite;
-      }
-      // The note opens with a fix or a bad grade, or when one is already written.
-      s.note.hidden = !(g.grade === "fix" || g.grade === "bad" || g.note);
-      if (document.activeElement !== s.ta) s.ta.value = g.note || "";
-      s.ta.disabled = !db || !canWrite;
-    }
-
-    function totals() {
-      let good = 0,
-        bad = 0,
-        fix = 0;
-      const byBank = new Map();
-      for (const it of ITEMS) {
-        const g = (grades.get(it.i) || {}).grade;
-        const row = byBank.get(it.bank) || { n: 0, done: 0 };
-        row.n += 1;
-        if (g) row.done += 1;
-        byBank.set(it.bank, row);
-        if (g === "good") good += 1;
-        else if (g === "bad") bad += 1;
-        else if (g === "fix") fix += 1;
-      }
-      const done = good + bad + fix;
-      const n = ITEMS.length;
-      document.getElementById("count").textContent =
-        done +
-        " of " +
-        n +
-        " graded · " +
-        good +
-        " good, " +
-        fix +
-        " fix, " +
-        bad +
-        " bad";
-      const bar = document.getElementById("bar").children;
-      bar[0].style.width = (100 * good) / n + "%";
-      bar[1].style.width = (100 * fix) / n + "%";
-      bar[2].style.width = (100 * bad) / n + "%";
-      for (const [bank, row] of byBank) {
-        const sum = document.getElementById("sum-" + bank);
-        if (sum) sum.textContent = row.done + " of " + row.n + " graded";
-        const a = document.getElementById("nav-" + bank);
-        if (a)
-          a.textContent =
-            (BANK_NAMES[bank] || words(bank)) + " " + row.done + "/" + row.n;
-      }
-    }
-
-    function applyFilter() {
-      let shown = 0;
-      for (const [i, s] of slips) {
-        const g = (grades.get(i) || {}).grade;
-        const show =
-          filter === "all" || (filter === "todo" ? !g : g === filter);
-        s.slip.hidden = !show;
-        if (show) shown += 1;
-      }
-      for (const section of main.querySelectorAll("section.bank")) {
-        for (const group of section.querySelectorAll(".move"))
-          group.hidden = !group.querySelector(".slip:not([hidden])");
-        section.hidden = !section.querySelector(".move:not([hidden])");
-      }
-      document.getElementById("emptyFilter").hidden = shown > 0;
-    }
-
-    for (const btn of document.querySelectorAll(".filters button")) {
-      btn.addEventListener("click", () => {
-        filter = btn.dataset.filter;
-        for (const other of document.querySelectorAll(".filters button"))
-          other.setAttribute("aria-pressed", String(other === btn));
-        applyFilter();
-      });
-    }
-
-    // One write at a time per line: each write waits for the one before it.
-    const chains = new Map();
-    function enqueue(i, fn) {
-      const prev = chains.get(i) || Promise.resolve();
-      const next = prev.then(fn, fn);
-      chains.set(
-        i,
-        next.catch(() => {}),
-      );
-      return next;
-    }
-
-    function flash(i, text, warn) {
-      const s = slips.get(i);
-      if (!s) return;
-      s.saved.textContent = text;
-      s.saved.style.color = warn ? "var(--accent)" : "";
-    }
-
-    // What the store last confirmed for each line, to fall back to if a save fails.
-    const confirmed = new Map();
-
-    async function write(i) {
-      const g = grades.get(i) || {};
-      const ref = db.collection("grades").doc(String(i));
-      const once = () =>
-        !g.grade && !g.note
-          ? ref.delete()
-          : ref.set({
-              i,
-              grade: g.grade || null,
-              note: g.note || "",
-              at: new Date().toISOString(),
-            });
+    // Queue state: shared through the page's store, mirrored in this browser.
+    let db = null,
+      me = "";
+    const done = new Map(); // scene id -> {done, path}
+    try {
+      for (const [k, v] of JSON.parse(
+        localStorage.getItem("done:" + DATA.id) || "[]",
+      ))
+        done.set(k, v);
+    } catch (e) {}
+    const keep = () => {
       try {
-        try {
-          await once();
-        } catch (e) {
-          if (!e || e.code !== "unavailable") throw e;
-          await new Promise((r) => setTimeout(r, 500 + Math.random() * 1000));
-          await once();
-        }
-        flash(i, "Saved");
+        localStorage.setItem("done:" + DATA.id, JSON.stringify([...done]));
+      } catch (e) {}
+    };
+    const setStatus = (t, warn) => {
+      const s = $("#status");
+      s.textContent = t;
+      s.className = "status" + (warn ? " warn" : "");
+    };
+
+    let view = "queue";
+    let current = null; // scene id on screen
+    let path = []; // reply indexes picked so far
+    const walked = new Map(); // scene id -> list of paths read, for voice-note context
+
+    const queue = () => DATA.scenes.filter((s) => !(done.get(s.id) || {}).done);
+
+    // Walk the tree along `path`, collecting what was said.
+    function walk(scene, picks) {
+      const said = [];
+      let node = scene.root,
+        turn = 0;
+      const push = (node) =>
+        node.lines.forEach((l) => said.push({ ...l, you: false }));
+      push(node);
+      for (const k of picks) {
+        const r = node.replies[k];
+        if (!r) break;
+        said.push({
+          ...r.line,
+          you: true,
+          lie: r.line.move === "lie",
+          knows: r.knows,
+        });
+        node = r.next;
+        push(node);
+        turn++;
+      }
+      return { said, node };
+    }
+
+    async function save(scene, extra) {
+      const id = DATA.id + ":" + scene.id;
+      const prev = done.get(scene.id) || {};
+      const next = {
+        batch: DATA.id,
+        scene: scene.id,
+        n: scene.n,
+        ...prev,
+        ...extra,
+        by: me,
+        at: new Date().toISOString(),
+      };
+      done.set(scene.id, next);
+      keep();
+      if (!db) return;
+      try {
+        await db.collection("queue").doc(id).set(next);
       } catch (e) {
-        if (e && e.code === "invalid_argument") {
-          canWrite = false;
-          setStatus(
-            "Your grades can't be saved from this view. You can still read the page.",
-            true,
-          );
-        }
-        const back = confirmed.get(i);
-        if (back) grades.set(i, { ...back });
-        else grades.delete(i);
-        for (const k of slips.keys()) paint(k);
-        totals();
-        applyFilter();
-        flash(i, "Not saved. Try again.", true);
+        setStatus(
+          "That didn't save to the shared store (" +
+            (e && e.code ? e.code : "error") +
+            "). It's kept in this browser.",
+          true,
+        );
       }
     }
 
-    function setGrade(i, grade) {
-      if (!db || !canWrite) return;
-      const g = { ...(grades.get(i) || {}) };
-      g.grade = grade;
-      grades.set(i, g);
-      paint(i);
-      totals();
-      applyFilter();
-      flash(i, "Saving…");
-      enqueue(i, () => write(i));
-      if (grade === "fix") slips.get(i).ta.focus();
+    function pathText(scene, picks) {
+      return walk(scene, picks)
+        .said.filter((l) => l.you)
+        .map((l) => l.text);
     }
 
-    function setNote(i, text) {
-      if (!db || !canWrite) return;
-      const g = { ...(grades.get(i) || {}) };
-      if ((g.note || "") === text.trim()) return;
-      g.note = text.trim();
-      grades.set(i, g);
-      flash(i, "Saving…");
-      enqueue(i, () => write(i));
-    }
+    function render() {
+      const main = $("#main"),
+        foot = $("#foot");
+      main.textContent = "";
+      foot.textContent = "";
+      const q = queue();
+      $("#q").textContent =
+        q.length +
+        " of " +
+        DATA.scenes.length +
+        " scenes left · " +
+        DATA.place +
+        (DATA.of
+          ? " · " + DATA.shown + " of " + DATA.of + " held lines met"
+          : "");
+      $("#showDone").textContent =
+        view === "done"
+          ? "Back to the queue"
+          : "Finished scenes (" + (DATA.scenes.length - q.length) + ")";
 
-    for (const i of slips.keys()) paint(i);
-    totals();
-
-    // The store arrives after first paint; grades light up when it answers.
-    if (window.claude && typeof window.claude.use === "function") {
-      Promise.all([window.claude.use("db"), window.claude.use("user")]).then(
-        async ([store, user]) => {
-          if (!store) {
-            setStatus(
-              "Grades can't be saved in this view. Open the page in claude.ai while signed in.",
-              true,
-            );
-            return;
-          }
-          db = store;
-          if (user) {
-            try {
-              const may = await user.can("data.write");
-              if (may === false) canWrite = false;
-            } catch (e) {}
-          }
-          setStatus(
-            canWrite
-              ? "Grades save as you tap."
-              : "You can read the grades; only the owner can change them.",
-            !canWrite,
+      if (view === "done") {
+        const list = el("ul", { class: "done-list" });
+        for (const s of DATA.scenes) {
+          const d = done.get(s.id);
+          if (!d || !d.done) continue;
+          const b = el("button", {
+            type: "button",
+            text: "Put back in the queue",
+          });
+          b.addEventListener("click", async () => {
+            await save(s, { done: false });
+            render();
+          });
+          list.append(
+            el("li", {}, [
+              el("b", { text: "Scene " + s.n + " " }),
+              label(s.purpose) + " — " + s.asker,
+              b,
+            ]),
           );
-          for (const i of slips.keys()) paint(i);
-          db.collection("grades").onSnapshot(
+        }
+        main.append(
+          el(
+            "div",
+            { class: "page" },
+            list.children.length
+              ? list
+              : el("p", { text: "No scenes finished yet." }),
+          ),
+        );
+        return;
+      }
+
+      if (!q.length) {
+        main.append(
+          el("div", {
+            class: "page empty",
+            text: "That's every scene in this batch.",
+          }),
+        );
+        return;
+      }
+      let scene = q.find((s) => s.id === current);
+      if (!scene) {
+        scene = q[0];
+        current = scene.id;
+        path = [];
+      }
+
+      const page = el("article", { class: "page" });
+      page.append(
+        el("div", { class: "slug" }, [
+          el("span", { class: "n", text: "Scene " + scene.n }),
+          el("span", { text: label(scene.purpose) }),
+        ]),
+      );
+      page.append(
+        el("p", {
+          class: "sub",
+          text: [
+            label(scene.type),
+            scene.key,
+            "ends in " + scene.endpoint,
+          ].join(" · "),
+        }),
+      );
+      if (scene.who) page.append(el("p", { class: "who-is", text: scene.who }));
+      // Who these two are and why the scene is happening, from the world's
+      // records (owner, Oct 19), so a line can be judged against the relationship.
+      if (scene.context) {
+        const c = scene.context;
+        const person = (lead, who) =>
+          el("div", {}, [
+            el("p", { text: lead + who.name }),
+            el(
+              "ul",
+              {},
+              (who.facts || [who.role]).map((t) => el("li", { text: t })),
+            ),
+          ]);
+        page.append(
+          el("div", { class: "who-is" }, [
+            person("You play ", c.asked),
+            person("Across from you: ", c.asker),
+            el("p", { text: "Between you: " + c.relation + "." }),
+            el("p", { text: "Why this scene: " + c.why.join("; ") + "." }),
+          ]),
+        );
+      }
+      scene.narration.forEach((t, k) => {
+        const row = typeof t === "string" ? { text: t } : t;
+        const held = row.held && row.held.length;
+        page.append(
+          el("div", { class: "cue" }, [
+            el("span", { class: "ref", text: scene.n + "." + letter(k) }),
+            el("p", { class: "action" }, [
+              el("span", { class: held ? "held" : null, text: row.text }),
+              heldTag(row.held),
+            ]),
+          ]),
+        );
+      });
+
+      const { said, node } = walk(scene, path);
+      said.forEach((l, k) => {
+        const c = el(
+          "div",
+          { class: "cue" + (l.you ? " you" : "") + (l.lie ? " lie" : "") },
+          [
+            el("span", { class: "ref", text: scene.n + "." + (k + 1) }),
+            el("div", { class: "body" }, [
+              el(
+                "div",
+                { class: "who", text: l.you ? "You" : l.speaker },
+                l.lie
+                  ? el("span", {
+                      class: "tag",
+                      text:
+                        "a lie" +
+                        (l.knows === true
+                          ? ", and " + scene.asker + " knows"
+                          : l.knows === false
+                            ? ", and " + scene.asker + " doesn't know"
+                            : ""),
+                    })
+                  : null,
+              ),
+              el("p", { class: "line" }, [
+                el("span", {
+                  class: l.held && l.held.length ? "held" : null,
+                  text: l.text,
+                }),
+                heldTag(l.held),
+              ]),
+            ]),
+          ],
+        );
+        page.append(c);
+      });
+
+      if (!node.replies || !node.replies.length) {
+        const o = node.end ? node.end.outcome : "open";
+        page.append(
+          el(
+            "div",
+            {
+              class: "endmark",
+              text:
+                node.end && node.end.ending
+                  ? node.end.ending.label +
+                    (node.end.ending.opens
+                      ? " · opens " +
+                        (SCREENS[node.end.ending.opens] ||
+                          node.end.ending.opens)
+                      : "")
+                  : OUTCOME[o] || o,
+            },
+            el("small", {
+              text:
+                path.length +
+                (path.length === 1 ? " reply" : " replies") +
+                " from you. Go back to try a different line, or mark it done.",
+            }),
+          ),
+        );
+        const seen = walked.get(scene.id) || [];
+        const key = path.join(".");
+        if (!seen.includes(key)) {
+          seen.push(key);
+          walked.set(scene.id, seen);
+          save(scene, {
+            paths: seen.map((p) =>
+              pathText(scene, p.split(".").filter(Boolean).map(Number)),
+            ),
+          });
+        }
+      }
+      main.append(page);
+
+      // Bottom: your lines, then the controls.
+      if (node.replies && node.replies.length) {
+        foot.append(el("div", { class: "prompt", text: "You say:" }));
+        const box = el("div", { class: "replies" });
+        node.replies.forEach((r, k) => {
+          const tagText =
+            r.line.move === "lie"
+              ? r.knows === true
+                ? "lie · " +
+                  scene.asker +
+                  " has heard otherwise" +
+                  (r.source ? " from " + r.source : "")
+                : r.knows === false
+                  ? "lie · " + scene.asker + " hasn't heard"
+                  : "lie"
+              : "";
+          const b = el(
+            "button",
+            { type: "button", class: r.line.move === "lie" ? "lie" : "" },
+            [
+              el("span", { class: "k", text: String(k + 1) }),
+              // A reply drawn from your own life, tagged like "[Out of work]".
+              r.line.tag ? "[" + r.line.tag + "] " : null,
+              el("span", {
+                class: r.line.held && r.line.held.length ? "held" : null,
+                text: r.line.text,
+              }),
+              heldTag(r.line.held),
+              tagText ? el("span", { class: "tag", text: tagText }) : null,
+            ],
+          );
+          b.addEventListener("click", () => {
+            path.push(k);
+            render();
+            window.scrollTo({
+              top: document.body.scrollHeight,
+              behavior: "smooth",
+            });
+          });
+          box.append(b);
+        });
+        foot.append(box);
+      }
+      const nav = el("div", { class: "nav" });
+      const back = el("button", { type: "button", text: "Back a line" });
+      back.disabled = !path.length;
+      back.addEventListener("click", () => {
+        path.pop();
+        render();
+      });
+      const restart = el("button", { type: "button", text: "Start over" });
+      restart.disabled = !path.length;
+      restart.addEventListener("click", () => {
+        path = [];
+        render();
+        window.scrollTo(0, 0);
+      });
+      const next = el("button", {
+        type: "button",
+        class: "primary",
+        text: q.length > 1 ? "Done, next scene" : "Done",
+      });
+      next.addEventListener("click", async () => {
+        await save(scene, { done: true });
+        current = null;
+        path = [];
+        render();
+        window.scrollTo(0, 0);
+      });
+      nav.append(back, restart, next);
+      foot.append(nav);
+    }
+
+    $("#showDone").addEventListener("click", () => {
+      view = view === "done" ? "queue" : "done";
+      render();
+    });
+    render();
+
+    (async () => {
+      try {
+        const user = window.claude ? await window.claude.use("user") : null;
+        me = user ? await user.id() : "";
+        db = window.claude ? await window.claude.use("db") : null;
+        if (!db) {
+          setStatus("Your place in the queue is kept in this browser only.");
+          return;
+        }
+        db.collection("queue")
+          .where("batch", "==", DATA.id)
+          .onSnapshot(
             (snap) => {
-              for (const change of snap.docChanges()) {
-                const i = Number(change.doc.id);
-                if (!slips.has(i)) continue;
-                if (change.type === "removed") {
-                  grades.delete(i);
-                  confirmed.delete(i);
-                } else {
-                  const d = change.doc.data() || {};
-                  confirmed.set(i, {
-                    grade: d.grade || null,
-                    note: d.note || "",
-                  });
-                  // A line being typed in keeps its local note.
-                  const local = grades.get(i) || {};
-                  grades.set(i, {
-                    grade: d.grade || null,
-                    note:
-                      document.activeElement === slips.get(i).ta
-                        ? local.note
-                        : d.note || "",
-                  });
-                }
-                paint(i);
+              for (const d of snap.docs) {
+                const v = d.data();
+                if (v && v.scene) done.set(v.scene, v);
               }
-              totals();
-              applyFilter();
+              keep();
+              render();
             },
             () =>
               setStatus(
-                "The grade store stopped answering. Reload the page to keep grading.",
+                "Lost the connection to the shared store. Your place is kept in this browser.",
                 true,
               ),
           );
-        },
-      );
-    } else {
-      setStatus(
-        "Grades can't be saved in this view. Open the page in claude.ai while signed in.",
-        true,
-      );
-    }
+      } catch (e) {
+        setStatus("Your place in the queue is kept in this browser only.");
+      }
+    })();
   })();
 </script>

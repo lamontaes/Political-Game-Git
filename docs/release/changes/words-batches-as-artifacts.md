@@ -3,4 +3,4 @@ id: words-batches-as-artifacts
 impact: none
 ---
 
-The owner's grading batches are published as artifacts he grades in; the page builder for held lines is development tooling, and no game code changes.
+The owner's held lines are read in the scenes play would say them, on a page he grades by voice note; the builder and the held-first switches are development tooling, off in play.

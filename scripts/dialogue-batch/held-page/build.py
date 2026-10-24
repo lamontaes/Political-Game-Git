@@ -1,48 +1,27 @@
-"""The owner's grading page for a batch of held hand-written lines.
+"""The owner's table read of a batch of held lines, in the scenes play says them.
 
-    python3 scripts/dialogue-batch/held-page/build.py batch-22 <out.html>
+    node --import tsx scripts/dialogue-batch/held-page/table-read.ts batch-22 <seed> <days> <scenes.json>
+    python3 scripts/dialogue-batch/held-page/build.py <scenes.json> <out.html>
 
-Reads data/english/batches/<id>.json (written by held-parts-batch.ts) and
-fills template.html with its lines, grouped by bank and move, each with the
-record every blank comes from. The Words session publishes the page as a
-claude.ai artifact with the `db` and `user` capabilities (owner, Oct 24: "You're
-supposed to give me the batches in an artifact."). Grades save to the
-artifact's `grades` collection, one document per line number
-(`{i, grade: "good" | "bad" | "fix" | null, note}`); the session reads them
-back and writes data/english/grades/<id>.json for apply-grades.ts. The page
-words nothing: it shows the bank's own lines and record notes.
+table-read.ts plays the bench's world and writes every scene, journal page
+and speech that says a held line, each held line tagged with its number in
+data/english/batches/<id>.json. This fills template.html (the table read the
+owner graded batches 14 to 21 on) with them. The Words session publishes the
+page as a claude.ai artifact with the `db` and `user` capabilities; the
+owner's voice notes name a line by its label ("4.b") and its held number, and
+the session writes them as a grade file for apply-grades.ts. The page words
+nothing: it shows the engine's own composed lines and the records' facts.
 """
 
 import json
 import pathlib
+import re
 import sys
 
-ROOT = pathlib.Path(__file__).resolve().parents[3]
-batch_id, out = sys.argv[1], sys.argv[2]
-batch = json.loads((ROOT / "data/english/batches" / f"{batch_id}.json").read_text())
-if batch.get("kind") != "held-parts-by-move":
-    sys.exit(f"{batch_id} is not a batch of held lines by move")
-items = [
-    {
-        "i": item["i"],
-        "bank": item["bank"].removesuffix(".json"),
-        "move": item["move"],
-        "shared": item.get("sharedMove") or "",
-        "key": item.get("key") or "",
-        "text": item["text"],
-        "slots": item.get("slots", []),
-        "requires": item.get("requires", []),
-    }
-    for item in batch["items"]
-]
-data = json.dumps({"id": batch["id"], "items": items}, ensure_ascii=False)
+src, out = sys.argv[1], sys.argv[2]
+data = json.loads(pathlib.Path(src).read_text())
 template = (pathlib.Path(__file__).parent / "template.html").read_text()
-title = batch["id"].replace("batch-", "batch ")
-page = (
-    template.replace("__DATA__", data.replace("</", "<\\/"))
-    .replace("__TITLE__", f"Words {title.title()}")
-    .replace("__HEADING__", f"Words {title}")
-    .replace("__COUNT__", str(len(items)))
-)
+payload = json.dumps(data, ensure_ascii=False).replace("</", "<\\/")
+page = re.sub(r"/\*DATA\*/\s*null", lambda m: payload, template, count=1)
 pathlib.Path(out).write_text(page)
-print(f"{len(items)} lines -> {out}")
+print(f"{len(data['scenes'])} scenes, {data.get('shown')} of {data.get('of')} held lines -> {out}")
