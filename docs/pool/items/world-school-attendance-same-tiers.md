@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: effect-web-schools
 pr: #5639
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at: 2026-10-24T04:14:44.257Z
 ---
 
 **What.** PR #5639 substitutes all full students average attendance for every counted student, and defaults that average to 1. The new shortcut is not registered. Its comment calls the average local to the student's place, but the calculation pools full students across places, so meeting someone can change the attendance basis their school standing reads.
