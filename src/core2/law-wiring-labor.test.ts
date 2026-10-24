@@ -47,6 +47,29 @@ const KEYS = {
 
 class NoSubject extends Error {}
 
+interface JournalEntry {
+  readonly id: string;
+  readonly date: string;
+  readonly kind: string;
+  readonly sourceId: string;
+  readonly postings: readonly { accountId: string; deltaMinor: number }[];
+}
+
+/** What one law reached and moved, by record id (the chain the PR body cites). */
+interface Evidence {
+  readonly law: string;
+  /** The `lawApplied` row (applied|<key>|<target>) naming the reach. */
+  readonly applied: string;
+  /** The person, household, organization, government or counted group it reached. */
+  readonly reached: string;
+  /** The people the reached group stands for (1 for anyone else). */
+  readonly count: number;
+  /** The law row it was applied under. */
+  readonly lawId: string;
+  /** The journal entry that moved the money, or the reason the law moves none. */
+  readonly journal: string;
+}
+
 function rows(api: CoreAPI, key: string, open = true): LawAppliedRow[] {
   const all = api
     .moduleState(LAW_REACH_HOST_ID)
@@ -122,8 +145,20 @@ function run(specId: string) {
     if (!ok) problems.push(what);
   };
   const posts: { id: string; accountId: string; deltaMinor: number }[] = [];
+  /** Every journal entry the run posts: its id, source and the accounts it moved. */
+  const entries: JournalEntry[] = [];
   setJournalTrace((input) => {
     for (const p of input.postings) posts.push(p);
+    entries.push({
+      id: input.id,
+      date: input.date,
+      kind: input.sourceRef.kind,
+      sourceId: input.sourceRef.id,
+      postings: input.postings.map((p) => ({
+        accountId: p.accountId,
+        deltaMinor: p.deltaMinor,
+      })),
+    });
   });
   const step = (days: number) =>
     advanceCore(core, addDays(makeIsoDate(core.date), days));
@@ -190,8 +225,40 @@ function run(specId: string) {
   const taxLaw: Record<string, string> = {};
   for (const s of taxes) taxLaw[s] = amountAt(api, s, 1.1, s).id;
   const maxLaw = amountAt(api, "unemployment-weekly-maximum", 1.1, "max").id;
+  const council = townSeats(api).find(
+    (s) => s.office.kind === "council" && s.holder?.personId,
+  );
+  if (!council) throw new NoSubject("no seated council member");
+  /** The council drafts a local wage a dollar over the floor; the grant it drafts under is read. */
+  const draftWage = () => {
+    const floor = lawInForce(api, "minimum-wage").value ?? 0;
+    draftBill(api, {
+      bodyOfficeId: council.office.id,
+      sponsorId: council.holder!.personId!,
+      provisions: [
+        {
+          kind: "law-amount",
+          series: "minimum-wage",
+          value: floor + 100,
+          unit: "minor/hour",
+        },
+      ],
+    });
+    return council.office.id;
+  };
+  // The state's grant as the law series itself (the council reads it the day after).
+  const seriesGrant = enactLaw(api, {
+    jurisdiction: lawChain(api).stateKey,
+    level: "state",
+    series: "local-minimum-wage-authority",
+    value: 1,
+    effectiveDate: addDays(makeIsoDate(api.state.date), 1),
+    measureId: "labor-authority-series",
+    citation: "Labor law-wiring test",
+  });
   step(2);
-  // Day 2: enact every question as yes.
+  // Day 2: a council drafts under the series; then every question is enacted as yes.
+  draftWage();
   const enacted: Record<string, string[]> = {};
   for (const [name, key] of Object.entries(KEYS))
     if (name !== "raise") enacted[name] = setQuestion(api, key, 1, name);
@@ -209,27 +276,7 @@ function run(specId: string) {
   step(3);
   // Day 5: the local wage bill is drafted under the state's grant; claims are
   // filed by the jobs engine for a full and a counted worker.
-  const council = townSeats(api).find(
-    (s) => s.office.kind === "council" && s.holder?.personId,
-  );
-  if (!council) throw new NoSubject("no seated council member");
-  let draftedAt = "";
-  {
-    const floor = lawInForce(api, "minimum-wage").value ?? 0;
-    draftBill(api, {
-      bodyOfficeId: council.office.id,
-      sponsorId: council.holder!.personId!,
-      provisions: [
-        {
-          kind: "law-amount",
-          series: "minimum-wage",
-          value: floor + 100,
-          unit: "minor/hour",
-        },
-      ],
-    });
-    draftedAt = council.office.id;
-  }
+  const draftedAt = draftWage();
   const claims = api.moduleState("jobs").table("claims");
   const filed = { full: "", counted: "" };
   for (const job of fullJobs) {
@@ -394,6 +441,150 @@ function run(specId: string) {
     const read = web.filter((m) => m.values[`law:${key}`] === 1);
     need(read.length > 0, `outcome web: never read ${key} as yes (${date})`);
   }
+  // ---- the chain, by record id -----------------------------------------------
+  // For each law: the `lawApplied` row of the engine that applied it, the
+  // person, household, employer or counted group it reached, and the journal
+  // entry that moved the money (found on the reached owner's own account).
+  const evidence: Evidence[] = [];
+  const accountOf = (ownerId: string) =>
+    core.cashJournal.residualAccountByOwner.get(ownerId);
+  const entryOf = (
+    ownerId: string,
+    sign: 1 | -1,
+    hint: RegExp,
+  ): JournalEntry | undefined => {
+    const account = accountOf(ownerId);
+    return account
+      ? entries.find(
+          (e) =>
+            hint.test(`${e.kind} ${e.id} ${e.sourceId}`) &&
+            e.postings.some(
+              (p) =>
+                p.accountId === account && Math.sign(p.deltaMinor) === sign,
+            ),
+        )
+      : undefined;
+  };
+  const cite = (
+    law: string,
+    key: string,
+    pick: (r: LawAppliedRow) => boolean,
+    journalOf: (r: LawAppliedRow) => JournalEntry | undefined | string,
+  ) => {
+    const r = rows(api, key).find(pick);
+    need(r, `${law}: no applied row`);
+    if (!r) return;
+    const j = journalOf(r);
+    const seen = [
+      ...new Set(
+        entries
+          .filter((e) =>
+            e.postings.some((p) => p.accountId === accountOf(r.targetId)),
+          )
+          .map((e) => e.kind),
+      ),
+    ].join(",");
+    need(j, `${law}: no journal entry on ${r.targetId} (kinds seen: ${seen})`);
+    if (!j) return;
+    evidence.push({
+      law,
+      applied: r.id,
+      reached: r.targetId,
+      count: r.count,
+      lawId: r.lawId,
+      journal: typeof j === "string" ? j : j.id,
+    });
+  };
+  const raised = (r: LawAppliedRow) =>
+    r.target === "person" && r.amountMinor > 0;
+  const paid = (r: LawAppliedRow) => entryOf(r.targetId, 1, /pay/i);
+  cite("minimum-wage", "minimum-wage", raised, paid);
+  cite("raise-federal-minimum-wage", KEYS.federal, raised, paid);
+  cite("raise-minimum-wage", KEYS.raise, raised, paid);
+  cite(
+    "local-minimum-wage-authority (question)",
+    KEYS.authority,
+    (r) => r.target === "government" && r.targetId === draftedAt,
+    () =>
+      "none: the grant moves no money; the wage a council then enacts is the minimum-wage law's",
+  );
+  cite(
+    `local-minimum-wage-authority (series, enacted as ${seriesGrant.id})`,
+    "local-minimum-wage-authority",
+    (r) => r.target === "government" && r.targetId === draftedAt,
+    () =>
+      "none: the grant moves no money; the wage a council then enacts is the minimum-wage law's",
+  );
+  cite("public-sector-collective-bargaining", KEYS.bargaining, raised, paid);
+  cite("public-pay-floor", "public-pay-floor", raised, paid);
+  cite(
+    "paid-family-leave",
+    KEYS.leave,
+    (r) => r.target === "person",
+    (r) => entryOf(r.targetId, -1, /leave|premium|withhold/i),
+  );
+  cite(
+    "right-to-work",
+    KEYS.rtw,
+    (r) => r.target === "organization",
+    (r) => {
+      const account = accountOf(r.targetId);
+      return entries.find(
+        (e) =>
+          /dues/i.test(`${e.kind} ${e.id} ${e.sourceId}`) &&
+          e.postings.some((p) => p.accountId === account && p.deltaMinor > 0),
+      );
+    },
+  );
+  for (const s of ["social-security-tax", "medicare-tax"])
+    cite(
+      s,
+      s,
+      (r) => r.target === "person",
+      (r) => entryOf(r.targetId, -1, /withhold/i),
+    );
+  for (const s of ["state-unemployment-tax", "federal-unemployment-tax"])
+    cite(
+      s,
+      s,
+      (r) => r.target === "organization",
+      (r) => {
+        const account = accountOf(r.targetId);
+        return entries.find(
+          (e) =>
+            e.kind === "employer-taxes:share" &&
+            e.postings.some((p) => p.accountId === account && p.deltaMinor < 0),
+        );
+      },
+    );
+  const benefit = (who: string) =>
+    entries.find((e) => e.id.startsWith(`unemployment-benefit:${who}:`));
+  cite(
+    "unemployment-insurance",
+    "unemployment-insurance",
+    (r) => r.targetId === filed.full,
+    (r) => benefit(r.targetId),
+  );
+  cite(
+    "unemployment-weekly-maximum",
+    "unemployment-weekly-maximum",
+    (r) => r.targetId === capped,
+    (r) => benefit(r.targetId),
+  );
+  need(
+    evidence.length === 15,
+    `evidence for ${evidence.length} of 15 laws: ${evidence.map((e) => e.law).join("; ")}`,
+  );
+  // One line a PR body can cite: law, applied row, reached, journal entry.
+  console.info(
+    `labor law chain (${where}):\n${evidence
+      .map(
+        (e) =>
+          `  ${e.law}: ${e.applied} -> ${e.reached} (${e.count}) under ${e.lawId}; journal ${e.journal}`,
+      )
+      .join("\n")}`,
+  );
+
   // ---- money moved -----------------------------------------------------------
   const moved = [wage, bargaining, floor, teacher].reduce(
     (total, list) => total + sum(list),

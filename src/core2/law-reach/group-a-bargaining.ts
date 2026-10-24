@@ -11,7 +11,7 @@
  */
 import type { CoreAPI } from "../types";
 import type { ModuleRow } from "../module-data";
-import { holdBargainedPay } from "../public-bargaining";
+import { bargainingStands, holdBargainedPay } from "../public-bargaining";
 import type { PolicyHandler } from "./host";
 import { onReachCalendar } from "./reach-workers";
 import {
@@ -104,8 +104,9 @@ function schedule(api: CoreAPI, row: BargainingRow): void {
 export const publicBargaining: PolicyHandler = (api, change) => {
   ensureReachA(api);
   const prior = bargainingRow(api);
-  if (!change.inForce) {
-    // A repeal ends the phase-in; pay already bargained stays.
+  // The pay engine reads the law itself: a law no level has in force ends the
+  // phase-in; pay already bargained stays.
+  if (!bargainingStands(api)) {
     if (prior?.active) save(api, prior.facts, false);
     return;
   }
