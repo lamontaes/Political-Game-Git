@@ -46,7 +46,8 @@ const TYPES = data.types as Record<
 >;
 const PER_THOUSAND = 1000;
 /** The crimes that are violent (a person's), as opposed to a household's. */
-const VIOLENT: readonly CrimeType[] = ["robbery", "assault"];
+/** The offenses the violent index counts. */
+export const VIOLENT: readonly CrimeType[] = ["robbery", "assault"];
 const PROPERTY: readonly CrimeType[] = ["burglary", "other-property"];
 
 export interface TypeMonth {

@@ -8,7 +8,9 @@
 import { readdirSync, readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
+import crimeData from "./data/crime/victimization.json" with { type: "json" };
 import { END_CASH_BAIL } from "./justice-pretrial";
+import { VIOLENT } from "./modules/crime";
 import { linkCoverage, WEB_LINKS, WIRED_INTO } from "./outcome-web-model";
 
 const link = (key: string) => WEB_LINKS.find((row) => row.key === key)!;
@@ -59,5 +61,28 @@ describe("justice links and the engine that decides them", () => {
       /mandatory-minimum/.test(readFileSync(path, "utf8")),
     );
     expect(naming).toEqual([]);
+  });
+});
+
+describe("the town's crime level and the offenses it is made of", () => {
+  it("scales the offenses outside the violent index by it, never robbery and assault, which make it up", () => {
+    const INDEX = "crime.violent-victimization-index";
+    const types = crimeData.types as Record<string, { webMeasures: string[] }>;
+    // A link from the index into an offense it counts would count each move
+    // twice and feed the next month's index one for one.
+    for (const type of VIOLENT)
+      for (const measure of types[type]!.webMeasures)
+        for (const row of WIRED_INTO.get(measure) ?? [])
+          expect(row.from, `${type}: ${row.key}`).not.toBe(INDEX);
+    for (const key of ["crime-level-to-robbery", "crime-level-to-assault"]) {
+      expect(link(key).from, key).toBe(INDEX);
+      expect(link(key).carriedBy, key).toContain("violentIndex");
+    }
+    // Burglary and vandalism are not in the index, so the town's crime level reaches them.
+    for (const key of ["crime-level-to-burglary", "crime-level-to-vandalism"])
+      expect(
+        (WIRED_INTO.get(link(key).to) ?? []).map((row) => row.key),
+        key,
+      ).toContain(key);
   });
 });
