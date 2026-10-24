@@ -5536,5 +5536,29 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-weight-release-jobless-not-seeking",
+    "kind": "missing-mechanic",
+    "file": "src/core2/counted-groups.ts",
+    "line": 458,
+    "whatItFakes": "When a filled-in household's weight spreads over its group, the households that take it stand for more people while their jobs keep the heads they stood for, so the added people stand for no job and never become counted job seekers.",
+    "why": "A counted job's heads now stay with its employer through a fill-in (world-counted-weight-release-grows-employer-staff); the jobs engine's counted seekers are read from records, not from the weight a record gains.",
+    "addedBy": "claude/weight-release-heads",
+    "addedAt": "2026-10-24",
+    "replacement": "The jobs engine reads each counted record's working-age people beyond its jobs' heads as counted seekers, with the same chooser as everyone else (pool item world-weight-release-jobless-seek-work).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-fill-in-fractional-sole-job",
+    "kind": "partial-model",
+    "file": "src/core2/modules/residents.ts",
+    "line": 1993,
+    "whatItFakes": "A filled-in record whose job stood for less than one job, at an employer with no other counted job, becomes one full job: that employer gains the difference (under one head).",
+    "why": "A full person holds a whole job, and with no other counted job at the employer there is no record to take the difference back from.",
+    "addedBy": "claude/weight-release-heads",
+    "addedAt": "2026-10-24",
+    "replacement": "The employer's staffing review reads the full job against its staffing need and sheds or keeps it by its own books, as for any job.",
+    "status": "open"
   }
 ]
