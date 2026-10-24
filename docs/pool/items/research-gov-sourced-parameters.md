@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-gov
-pr:
+pr: #5856
 blocked-on:
 source: "collapsed Oct 19, 2026 from gov-stopgap-justice-law-assumed-data, gov-stopgap-officials-assumed-data, gov-stopgap-parameters-uncalibrated-tunable"
 claimed-at: 2026-10-23T20:24:15.041Z

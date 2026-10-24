@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/territory-admin-line
+status: open
+claimed-by:
 pr: #5725
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T01:54:03.689Z
+claimed-at:
 ---
 
 **What.** In American Samoa (drawn place Pago Pago, seed e5, played world from the opening day) the territory's state-level budget has an administration line whose wage share, less the yearly pay already committed to jobs on that line, is minus $155,499,490 in cents, about minus $1.55 million. `postPayCapDaily` therefore returns zero for the state's election chief, `startPublicJob` returns nothing for a post its line cannot pay at all, and the chief takes in no money. Find what is charged to that line (the territory's officials, legislature and employers) against how the budget sizes it, and make the line carry the pay it commits, or make the posts that are charged to it read the right line.
@@ -31,3 +31,5 @@ Sent back 2026-10-21 from PR #5725 (branch claude/political-game-pool-yucp92-bw)
 
 **Notes.** TODO
 Built Oct 18 (claude/territory-admin-line). Cause: the island areas have no `state` block in `public-budget-bases.json` and the budgets module read `population2024` for residents, which they lack, so each island area's state treasury had residents 0 and no spending or revenue lines at all; every post charged to it was over its line. The budget now takes residents from the island-area counts in the same file, the states' residents-weighted function mix, and a total a resident from the area's own published all-funds spending (Guam, Virgin Islands, Puerto Rico) or their median (American Samoa, Northern Marianas); registered as stopgap SG-GOV-territory-budget-mix. It also replaces group B's own island population table (SG-GOV-REACH-B-territory-residents, closed). A one-year run in Aua, American Samoa (seed terr-oct18): 120.5 s against 128.7 s on main, heap 1.95 GB against 1.27 GB, money, ended-job, seat and ballot checks pass.
+
+Sent back 2026-10-23 from PR #5046 (branch claude/territory-admin-line): Missing Done-when table and the specified Pago Pago/e5, random-place and random-state acceptance evidence; finish on that branch, merge main into it first.
