@@ -5,9 +5,9 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-legislature
-pr:
+pr: #5862
 blocked-on:
 source: "collapsed Oct 19, 2026 from gov-stopgap-executive-proposal-assumed-data, gov-stopgap-legislature-assumed-data, gov-stopgap-legislature-estimated-rule"
 claimed-at: 2026-10-23T20:24:18.715Z

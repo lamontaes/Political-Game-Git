@@ -6,13 +6,35 @@
  * ASSUMPTIONS unless a table says MEASURED.
  */
 
-import type {
-  OccupationClassification,
-  OrganizationClassification,
-  ScheduleRigidity,
-  WorkAuthority,
-  WorkRelationshipKind,
-} from "../simulation/types";
+/** An organization's kind, by namespace, such as `sector:retail`. */
+export type OrganizationClassification = `${
+  | "sector"
+  | "membership"
+  | "service"
+  | "enterprise"
+  | "community"
+  | "international"
+  | "custom"}:${string}`;
+/** An occupation, by namespace. */
+export type OccupationClassification = `${
+  | "occupation"
+  | "profession"
+  | "trade"
+  | "practice"
+  | "service"
+  | "custom"}:${string}`;
+/** How a person works for an organization, by namespace. */
+export type WorkRelationshipKind = `${
+  | "employment"
+  | "independent"
+  | "training"
+  | "volunteer"
+  | "family-work"
+  | "service"
+  | "custom"}:${string}`;
+export type WorkAuthority =
+  "directed" | "shared" | "self-directed" | "directs-others";
+export type ScheduleRigidity = "flexible" | "mixed" | "rigid";
 
 export interface Role {
   readonly title: string;

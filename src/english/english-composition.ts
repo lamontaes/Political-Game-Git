@@ -1,11 +1,5 @@
 import { tagEngineText } from "./runtime-text-origin";
-import {
-  CALIBRATION,
-  calibrationScore,
-  preferGraded,
-  wordCount,
-  type Calibration,
-} from "./english-calibration";
+import { calibratedVariants, type CalibrationTable } from "./calibration";
 import {
   heldByGrades,
   PART_GRADES,
@@ -162,8 +156,17 @@ export interface CompositionContext {
   readonly speakerOwnRecordIds?: readonly EntityId[];
   /** The owner's grades; a part they held back is not chosen. */
   readonly partGrades?: PartGradeLedger;
-  /** The owner's numeric grades as weights: the best-scoring pieces are kept. */
-  readonly calibration?: Calibration;
+  /**
+   * The speaker's trait levels (-2 to 2). With the calibration table
+   * (`calibration.ts`) they move how long a line the speaker favors; they
+   * never choose a line by themselves.
+   */
+  readonly speakerTraits?: Readonly<Record<string, number>>;
+  /** The move this line makes, and the move before it, for the table's move-pair weight. */
+  readonly moveName?: string;
+  readonly previousMove?: string;
+  /** The calibration table to read; the shipped one by default. */
+  readonly calibration?: CalibrationTable;
 }
 
 export interface ComposedPart {
@@ -302,28 +305,38 @@ export function composeGroundedLine(
     );
     const isFresh = (variant: LinePartVariant) =>
       !recent.has(`${bankKey}:${part}:${variant.key}`);
-    // Among what can say the part, the owner's numeric grades keep the pieces
-    // that read best and sit nearest the register's length.
-    const table = context.calibration ?? CALIBRATION;
-    const liked = (variants: readonly LinePartVariant[]) =>
-      preferGraded(variants, (variant) =>
-        calibrationScore(
-          `${bankKey}:${part}:${variant.key}`,
-          context.register,
-          variant.kind === "template" ? wordCount(variant.text) : undefined,
-          table,
-        ),
-      );
     const tiers = [
-      liked(unheld.filter(isFresh)),
-      liked(unheld),
-      liked(conditioned.filter(isFresh)),
-      liked(conditioned),
+      unheld.filter(isFresh),
+      unheld,
+      conditioned.filter(isFresh),
+      conditioned,
     ];
-    const attempts = tiers.filter(
+    // The calibration table (weights only) re-weights the pick among the
+    // variants of each tier: a low-graded piece is chosen less, a line far
+    // from the register's target length is chosen less, a move pair that
+    // read badly is arranged less. An empty table returns the tiers as they are.
+    const weighted = tiers.map((tier) =>
+      calibratedVariants(
+        tier,
+        {
+          bankKey,
+          part,
+          ...(context.register ? { register: context.register } : {}),
+          ...(context.speakerTraits ? { traits: context.speakerTraits } : {}),
+          ...(context.previousMove
+            ? { previousMove: context.previousMove }
+            : {}),
+          ...(context.moveName ? { moveOf: () => context.moveName } : {}),
+          textOf: (variant) =>
+            variant.kind === "template" ? variant.text : undefined,
+        },
+        context.calibration,
+      ),
+    );
+    const attempts = weighted.filter(
       (tier, at) =>
         tier.length > 0 &&
-        !tiers
+        !weighted
           .slice(0, at)
           .some(
             (earlier) =>
@@ -544,17 +557,27 @@ export function composeAddress(
   const composed: ComposedMove[] = [];
   const sources = new Set<EntityId>();
   const reasons: string[] = [];
+  let previousMove: string | undefined;
   for (const move of moves) {
+    // The move's name without its place in the card ("2-thank" is "thank"),
+    // for the calibration table's move-pair weight.
+    const moveName = move.key.replace(/^\d+-/, "");
     const line = composeGroundedLine(
       { ...packet, momentKey: `${packet.momentKey}/${move.key}` },
       move.bank,
-      { ...context, register },
+      {
+        ...context,
+        register,
+        moveName,
+        ...(previousMove ? { previousMove } : {}),
+      },
     );
     if (line.kind !== "rendered") {
       reasons.push(...line.reasons.map((reason) => `${move.key}: ${reason}`));
       if (move.required) return { kind: "missing-context", reasons };
       continue;
     }
+    previousMove = moveName;
     composed.push({
       move: move.key,
       text: line.text,
