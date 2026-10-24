@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "scene-words",
-  "description": "Scene narration in the second person: where you are, who is there and what led here. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the setting, the people present and the moment's cause.",
+  "description": "Scene narration in the second person: where you are, who is there, what led here and how the scene opens. Mined parts are whole sentences said in public-domain federal transcripts; authored parts (origin: authored) are written to the same patterns: short second-person narration, present tense for where you are, past for what happened, no feeling the records do not carry, no dates. The facts are slots from the setting, the people present and the moment's cause.",
   "slots": {
     "place": "A town, from the household or setting record.",
     "host": "The host's name with its possessive, from the household record.",
@@ -235,47 +235,6 @@
       }
     },
     {
-      "key": "scene-words.setting-public-out.welcome-to-place",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "Welcome to {place}.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 109,
-      "bySource": {
-        "Federal Election Commission (fec.gov)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 8,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
-        "U.S. Senate Historical Office oral history": 1,
-        "briefing": 7,
-        "crec": 1,
-        "dcpd": 36,
-        "hearings": 8,
-        "nasa": 3,
-        "nasa2": 6,
-        "nps": 4,
-        "nps.gov": 10,
-        "nps.gov (PDF)": 22
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks in Marietta, Georgia",
-        "date": "2026-07-22",
-        "granule": "DCPD-202600485",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600485/html/DCPD-202600485.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.setting-phone-phone.the-phone-rings",
       "move": "setting-phone-phone",
       "kind": "spoken",
@@ -442,35 +401,6 @@
       }
     },
     {
-      "key": "scene-words.present-one-one.who-is-here-too",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} is here too.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "dcpd": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Remarks During a World Economic Forum Reception With Business Leaders in Davos, Switzerland",
-        "date": "2026-01-21",
-        "granule": "DCPD-202600049",
-        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600049/html/DCPD-202600049.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
       "key": "scene-words.present-many-many.who-many-are-here",
       "move": "present-many-many",
       "kind": "spoken",
@@ -509,7 +439,8 @@
           "move": "cause-home:moved-moved",
           "subject": "cause",
           "role": "home:moved",
-          "choice": "moved"
+          "choice": "moved",
+          "stages": ["self"]
         }
       ],
       "transcriptsUsing": 2,
@@ -609,7 +540,8 @@
           "move": "cause-money:job-started-started",
           "subject": "cause",
           "role": "money:job-started",
-          "choice": "started"
+          "choice": "started",
+          "stages": ["self"]
         }
       ],
       "transcriptsUsing": 2,
@@ -644,7 +576,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -665,7 +597,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -686,7 +618,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -707,7 +639,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -726,9 +658,9 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
+      "author": "Words session",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -749,7 +681,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -770,7 +702,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -791,7 +723,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -812,7 +744,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -833,7 +765,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -852,9 +784,9 @@
         }
       ],
       "origin": "authored",
-      "author": "Claude (director line), civic-prose",
+      "author": "Words session",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -875,7 +807,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "narrate"
@@ -896,7 +828,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -917,7 +849,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -938,7 +870,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -954,12 +886,19 @@
           "subject": "cause",
           "role": "money:job-ended",
           "choice": "self"
+        },
+        {
+          "move": "cause-money:job-ended-self",
+          "subject": "cause",
+          "role": "money:job-ended",
+          "choice": "self",
+          "stages": ["self"]
         }
       ],
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -975,12 +914,19 @@
           "subject": "cause",
           "role": "feeling:event:life.death",
           "choice": "other"
+        },
+        {
+          "move": "cause-feeling:event:life.death-other",
+          "subject": "cause",
+          "role": "feeling:event:life.death",
+          "choice": "other",
+          "stages": ["other"]
         }
       ],
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1001,7 +947,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1022,7 +968,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1043,7 +989,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1059,12 +1005,19 @@
           "subject": "cause",
           "role": "feeling:event:health.serious-illness",
           "choice": "other"
+        },
+        {
+          "move": "cause-feeling:event:health.serious-illness-other",
+          "subject": "cause",
+          "role": "feeling:event:health.serious-illness",
+          "choice": "other",
+          "stages": ["other"]
         }
       ],
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1085,7 +1038,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1106,7 +1059,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1122,12 +1075,19 @@
           "subject": "cause",
           "role": "feeling:event:justice.imprisoned",
           "choice": "other"
+        },
+        {
+          "move": "cause-feeling:event:justice.imprisoned-other",
+          "subject": "cause",
+          "role": "feeling:event:justice.imprisoned",
+          "choice": "other",
+          "stages": ["other"]
         }
       ],
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1148,7 +1108,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1164,12 +1124,19 @@
           "subject": "cause",
           "role": "feeling:event:justice.charged",
           "choice": "other"
+        },
+        {
+          "move": "cause-feeling:event:justice.charged-other",
+          "subject": "cause",
+          "role": "feeling:event:justice.charged",
+          "choice": "other",
+          "stages": ["other"]
         }
       ],
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1190,7 +1157,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1211,7 +1178,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1232,7 +1199,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1253,7 +1220,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1274,7 +1241,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-15",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -1293,7 +1260,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1314,7 +1281,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1335,7 +1302,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1356,7 +1323,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1377,7 +1344,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1398,7 +1365,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1419,7 +1386,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1440,7 +1407,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1461,7 +1428,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1482,7 +1449,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1503,7 +1470,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1524,7 +1491,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1545,7 +1512,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1566,7 +1533,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1587,7 +1554,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1608,7 +1575,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1629,7 +1596,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1650,7 +1617,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1671,7 +1638,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1692,7 +1659,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1713,7 +1680,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1734,7 +1701,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1755,7 +1722,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1776,7 +1743,7 @@
           "choice": "alone"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1797,7 +1764,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1818,7 +1785,7 @@
           "choice": "other"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1839,7 +1806,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1860,7 +1827,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1881,7 +1848,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1902,7 +1869,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1923,7 +1890,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1944,7 +1911,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1965,7 +1932,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -1986,7 +1953,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2007,7 +1974,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2028,7 +1995,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2049,7 +2016,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2070,7 +2037,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2091,7 +2058,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2112,7 +2079,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2133,7 +2100,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2154,7 +2121,7 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
       "date": "2026-10-15",
@@ -2175,9 +2142,785 @@
           "choice": "any"
         }
       ],
-      "shippable": true,
+      "shippable": false,
       "origin": "authored",
       "author": "Claude Code, director session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-home-home.you-re-home-in-place",
+      "move": "setting-home-home",
+      "kind": "spoken",
+      "text": "You're home in {place}.",
+      "uses": [
+        {
+          "move": "setting-home-home",
+          "subject": "setting",
+          "role": "home",
+          "choice": "home"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-other-home-visit.you-re-at-host-house",
+      "move": "setting-other-home-visit",
+      "kind": "spoken",
+      "text": "You're at {host} house.",
+      "uses": [
+        {
+          "move": "setting-other-home-visit",
+          "subject": "setting",
+          "role": "other-home",
+          "choice": "visit"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-other-home-visit.you-re-over-at-host-place",
+      "move": "setting-other-home-visit",
+      "kind": "spoken",
+      "text": "You're over at {host} place.",
+      "uses": [
+        {
+          "move": "setting-other-home-visit",
+          "subject": "setting",
+          "role": "other-home",
+          "choice": "visit"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-letter-letter.there-s-a-letter-for-you",
+      "move": "setting-letter-letter",
+      "kind": "spoken",
+      "text": "There's a letter for you.",
+      "uses": [
+        {
+          "move": "setting-letter-letter",
+          "subject": "setting",
+          "role": "letter",
+          "choice": "letter"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.setting-school-school.you-re-at-school",
+      "move": "setting-school-school",
+      "kind": "spoken",
+      "text": "You're at {school}.",
+      "uses": [
+        {
+          "move": "setting-school-school",
+          "subject": "setting",
+          "role": "school",
+          "choice": "school"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-ended-other.other-lost-the-job-at-employer",
+      "move": "cause-money:job-ended-other",
+      "kind": "spoken",
+      "text": "{other} lost the job at {employer}.",
+      "uses": [
+        {
+          "move": "cause-money:job-ended-other",
+          "subject": "cause",
+          "role": "money:job-ended",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-ended-other.other-is-out-of-work",
+      "move": "cause-money:job-ended-other",
+      "kind": "spoken",
+      "text": "{other} is out of work.",
+      "uses": [
+        {
+          "move": "cause-money:job-ended-other",
+          "subject": "cause",
+          "role": "money:job-ended",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-ended-self.you-re-out-of-work",
+      "move": "cause-money:job-ended-self",
+      "kind": "spoken",
+      "text": "You're out of work.",
+      "uses": [
+        {
+          "move": "cause-money:job-ended-self",
+          "subject": "cause",
+          "role": "money:job-ended",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-left-other.other-left-the-job-at-employer",
+      "move": "cause-money:job-left-other",
+      "kind": "spoken",
+      "text": "{other} left the job at {employer}.",
+      "uses": [
+        {
+          "move": "cause-money:job-left-other",
+          "subject": "cause",
+          "role": "money:job-left",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-left-self.you-left-your-job-at-employer",
+      "move": "cause-money:job-left-self",
+      "kind": "spoken",
+      "text": "You left your job at {employer}.",
+      "uses": [
+        {
+          "move": "cause-money:job-left-self",
+          "subject": "cause",
+          "role": "money:job-left",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-started-other.other-got-a-job-at-employer",
+      "move": "cause-money:job-started-other",
+      "kind": "spoken",
+      "text": "{other} got a job at {employer}.",
+      "uses": [
+        {
+          "move": "cause-money:job-started-other",
+          "subject": "cause",
+          "role": "money:job-started",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-started-other.other-starts-at-employer",
+      "move": "cause-money:job-started-other",
+      "kind": "spoken",
+      "text": "{other} starts at {employer}.",
+      "uses": [
+        {
+          "move": "cause-money:job-started-other",
+          "subject": "cause",
+          "role": "money:job-started",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-started-self.you-got-a-job-at-employer",
+      "move": "cause-money:job-started-self",
+      "kind": "spoken",
+      "text": "You got a job at {employer}.",
+      "uses": [
+        {
+          "move": "cause-money:job-started-self",
+          "subject": "cause",
+          "role": "money:job-started",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-started-self.you-start-at-employer",
+      "move": "cause-money:job-started-self",
+      "kind": "spoken",
+      "text": "You start at {employer}.",
+      "uses": [
+        {
+          "move": "cause-money:job-started-self",
+          "subject": "cause",
+          "role": "money:job-started",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:life.death-other.other-died",
+      "move": "cause-feeling:event:life.death-other",
+      "kind": "spoken",
+      "text": "{other} died.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:life.death-other",
+          "subject": "cause",
+          "role": "feeling:event:life.death",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:housing.eviction-self.your-household-has-been-evicted",
+      "move": "cause-feeling:event:housing.eviction-self",
+      "kind": "spoken",
+      "text": "Your household has been evicted.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:housing.eviction-self",
+          "subject": "cause",
+          "role": "feeling:event:housing.eviction",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:housing.eviction-self.you-have-to-move-out-of-your-home-in-place",
+      "move": "cause-feeling:event:housing.eviction-self",
+      "kind": "spoken",
+      "text": "You have to move out of your home in {place}.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:housing.eviction-self",
+          "subject": "cause",
+          "role": "feeling:event:housing.eviction",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:health.serious-illness-other.other-has-been-seriously-ill",
+      "move": "cause-feeling:event:health.serious-illness-other",
+      "kind": "spoken",
+      "text": "{other} has been seriously ill.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:health.serious-illness-other",
+          "subject": "cause",
+          "role": "feeling:event:health.serious-illness",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:health.serious-illness-self.you-ve-been-seriously-ill",
+      "move": "cause-feeling:event:health.serious-illness-self",
+      "kind": "spoken",
+      "text": "You've been seriously ill.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:health.serious-illness-self",
+          "subject": "cause",
+          "role": "feeling:event:health.serious-illness",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:justice.imprisoned-self.you-ve-been-sent-to-prison",
+      "move": "cause-feeling:event:justice.imprisoned-self",
+      "kind": "spoken",
+      "text": "You've been sent to prison.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:justice.imprisoned-self",
+          "subject": "cause",
+          "role": "feeling:event:justice.imprisoned",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:justice.charged-self.you-ve-been-charged-with-a-crime",
+      "move": "cause-feeling:event:justice.charged-self",
+      "kind": "spoken",
+      "text": "You've been charged with a crime.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:justice.charged-self",
+          "subject": "cause",
+          "role": "feeling:event:justice.charged",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:justice.convicted-other.other-was-found-guilty",
+      "move": "cause-feeling:event:justice.convicted-other",
+      "kind": "spoken",
+      "text": "{other} was found guilty.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:justice.convicted-other",
+          "subject": "cause",
+          "role": "feeling:event:justice.convicted",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:justice.convicted-self.you-were-found-guilty",
+      "move": "cause-feeling:event:justice.convicted-self",
+      "kind": "spoken",
+      "text": "You were found guilty.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:justice.convicted-self",
+          "subject": "cause",
+          "role": "feeling:event:justice.convicted",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:justice.acquitted-other.other-was-found-not-guilty",
+      "move": "cause-feeling:event:justice.acquitted-other",
+      "kind": "spoken",
+      "text": "{other} was found not guilty.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:justice.acquitted-other",
+          "subject": "cause",
+          "role": "feeling:event:justice.acquitted",
+          "choice": "other",
+          "stages": ["other"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.cause-feeling:event:justice.acquitted-self.you-were-found-not-guilty",
+      "move": "cause-feeling:event:justice.acquitted-self",
+      "kind": "spoken",
+      "text": "You were found not guilty.",
+      "uses": [
+        {
+          "move": "cause-feeling:event:justice.acquitted-self",
+          "subject": "cause",
+          "role": "feeling:event:justice.acquitted",
+          "choice": "self",
+          "stages": ["self"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news"
+      }
+    },
+    {
+      "key": "scene-words.opening-tell-tell.who-has-something-to-tell-you",
+      "move": "opening-tell-tell",
+      "kind": "spoken",
+      "text": "{who} has something to tell you.",
+      "uses": [
+        {
+          "move": "opening-tell-tell",
+          "subject": "opening",
+          "role": "tell",
+          "choice": "tell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-tell-tell.who-wants-to-talk-to-you",
+      "move": "opening-tell-tell",
+      "kind": "spoken",
+      "text": "{who} wants to talk to you.",
+      "uses": [
+        {
+          "move": "opening-tell-tell",
+          "subject": "opening",
+          "role": "tell",
+          "choice": "tell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-deliver-news-deliver-news.who-has-news-for-you",
+      "move": "opening-deliver-news-deliver-news",
+      "kind": "spoken",
+      "text": "{who} has news for you.",
+      "uses": [
+        {
+          "move": "opening-deliver-news-deliver-news",
+          "subject": "opening",
+          "role": "deliver-news",
+          "choice": "deliver-news"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-farewell-farewell.who-has-come-to-say-goodbye",
+      "move": "opening-farewell-farewell",
+      "kind": "spoken",
+      "text": "{who} has come to say goodbye.",
+      "uses": [
+        {
+          "move": "opening-farewell-farewell",
+          "subject": "opening",
+          "role": "farewell",
+          "choice": "farewell"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-comfort-comfort.who-sits-down-with-you",
+      "move": "opening-comfort-comfort",
+      "kind": "spoken",
+      "text": "{who} sits down with you.",
+      "uses": [
+        {
+          "move": "opening-comfort-comfort",
+          "subject": "opening",
+          "role": "comfort",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-comfort-comfort.who-stays-close-to-you",
+      "move": "opening-comfort-comfort",
+      "kind": "spoken",
+      "text": "{who} stays close to you.",
+      "uses": [
+        {
+          "move": "opening-comfort-comfort",
+          "subject": "opening",
+          "role": "comfort",
+          "choice": "comfort"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-thank-thank.who-wants-to-thank-you",
+      "move": "opening-thank-thank",
+      "kind": "spoken",
+      "text": "{who} wants to thank you.",
+      "uses": [
+        {
+          "move": "opening-thank-thank",
+          "subject": "opening",
+          "role": "thank",
+          "choice": "thank"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-request-request.who-has-something-to-ask-you",
+      "move": "opening-request-request",
+      "kind": "spoken",
+      "text": "{who} has something to ask you.",
+      "uses": [
+        {
+          "move": "opening-request-request",
+          "subject": "opening",
+          "role": "request",
+          "choice": "request"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-congratulate-congratulate.who-has-come-to-congratulate-you",
+      "move": "opening-congratulate-congratulate",
+      "kind": "spoken",
+      "text": "{who} has come to congratulate you.",
+      "uses": [
+        {
+          "move": "opening-congratulate-congratulate",
+          "subject": "opening",
+          "role": "congratulate",
+          "choice": "congratulate"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.opening-announce-result-announce-result.who-has-the-results",
+      "move": "opening-announce-result-announce-result",
+      "kind": "spoken",
+      "text": "{who} has the results.",
+      "uses": [
+        {
+          "move": "opening-announce-result-announce-result",
+          "subject": "opening",
+          "role": "announce-result",
+          "choice": "announce-result"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.present-one-one.who-is-waiting-for-you",
+      "move": "present-one-one",
+      "kind": "spoken",
+      "text": "{who} is waiting for you.",
+      "uses": [
+        {
+          "move": "present-one-one",
+          "subject": "present",
+          "role": "one",
+          "choice": "one"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
       "date": "2026-10-15",
       "tag": {
         "move": "narrate"
@@ -2198,7 +2941,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2219,7 +2962,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2240,7 +2983,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"
@@ -2261,7 +3004,7 @@
       "origin": "authored",
       "author": "Claude (director line), civic-prose",
       "date": "2026-10-17",
-      "shippable": true,
+      "shippable": false,
       "kind": "spoken",
       "tag": {
         "move": "deliver-news"

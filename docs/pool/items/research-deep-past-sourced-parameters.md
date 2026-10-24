@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/dreamy-tesla-bgi3ui-deep-past
+pr: #5854
 blocked-on:
 source: "collapsed Oct 19, 2026 from art-stopgap-opening-partnership-estimated-behavior, core-stopgap-civic-inputs-civic-data-vintage-and-permission, core-stopgap-deep-past-generated-history-proxy, core-stopgap-deep-past-shared-past-generation-gap, core-stopgap-opening-peer-network-generated-historical-social-prior, core-stopgap-opening-profile-partial-model"
-claimed-at:
+claimed-at: 2026-10-23T20:23:55.403Z
 ---
 
 **What.** Source the numbers behind the deep past, peer networks, profiles and partnerships. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 6 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -29,6 +29,8 @@ claimed-at:
 **Files.** src/core2/data/civic-inputs.json, src/core2/data/deep-past.json, src/core2/data/opening-peer-network.json, src/core2/deep-past.ts, src/core2/opening-partnership.ts, src/core2/opening-profile.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/core/
 
 **Notes.** Folded from: art-stopgap-opening-partnership-estimated-behavior, core-stopgap-civic-inputs-civic-data-vintage-and-permission, core-stopgap-deep-past-generated-history-proxy, core-stopgap-deep-past-shared-past-generation-gap, core-stopgap-opening-peer-network-generated-historical-social-prior, core-stopgap-opening-profile-partial-model. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
+
+Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-deep-past-sourced-parameters.md (6 rows: 0 sourced, 4 estimated, 2 mechanic).
 
 Oct 20 (research-reachable-sources-oct20): unblocked. The ACS B15001, B05 and B11 state tables come from the bulk table-based summary files at https://www2.census.gov/programs-surveys/acs/summary_file/2023/table-based-SF/data/5YRData/ (HTTP 200 from a cloud session); api.census.gov is not needed. Check each fetched table in a played world (buildBenchWorld) in a drawn place and seed named in the PR body.
 

@@ -296,6 +296,157 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.22.5
+
+_Released October 24, 2026._
+
+### Improved
+
+- **A ward seat's candidate lives in the ward** A resident of another part of
+  town cannot file for a council seat chosen by part of town, and the refusal
+  names the rule.
+
+- **Mortgage rates since mid-2019 come from FHFA's own published series** The
+  30-year mortgage rate the economy opens with, from June 2019 on, now comes
+  from the federal housing agency's published index instead of the excluded
+  private survey. Rates differ by less than a third of a point, and a home
+  bought with a mortgage pays that rate.
+
+- **Town councils go by the name their state gives them.** A town's governing
+  body now carries the usual name for its kind of town in its state, such as a
+  village's Board of Trustees, a Wisconsin city's Common Council or a Tennessee
+  town's Board of Mayor and Aldermen, instead of a plain "Council". The
+  Government screen shows that name under each local seat, and the town's
+  ordinances are enacted in it.
+
+### Fixed
+
+- **A year no longer stops when an evicted family that moved in with a relative
+  in another town drifts out of your life.** A family evicted with no job that
+  moved in with a relative in another town stays as it is there, instead of
+  stopping the game months later when the town tried to fold it back into its
+  own population.
+
+- **A state's offices name the state** The Government screen listed a governor
+  or other statewide office under the state's internal key ("US-KS"). It now
+  names the state ("Kansas").
+
+- **Aides of officials in a territory are paid.** A territory's delegate,
+  governor, boards and legislature now pay their aides: a post with no job in
+  the place to take a schedule from works a full-time public-office week on the
+  government's biweekly pay calendar, instead of being held unpaid.
+
+### Changed
+
+- **Hand-written lines wait for the owner's grades** The 141 hand-written lines
+  in the English engine's banks are held until the owner grades them. Nine were
+  already held; this change holds the other 132. Until they are graded, the
+  speech you build offers no stage choices, scenes open without their lead
+  sentence, and the journal leaves out a relative's race and move away, a
+  household's roots, where a couple met and a parent's new job, taking office, a
+  town hall, an interview, and its looks back at earlier entries. The rest of
+  each scene, talk and journal still reads, from mined or graded lines. A bank
+  test now refuses any hand-written line that is marked to ship without a good
+  grade.
+
+- **People sound like themselves, and scenes open with a few sentences** A warm
+  person and a cold one now choose different words in the same moment. A scene
+  opens by saying where you are, who is there and what led here. A relative
+  asked about answers in a way that keeps the talk going. A lie about where you
+  live names another place. Nobody says a date out loud. The journal names a
+  newborn ("My daughter Jane was born."). The grading bench (`npm run
+words:bench`) composes these scenes from one cached world for each
+  personality, and the owner's grades tune the weights the engine reads. Scenes
+  with a purpose (a vote asked, a donor's ask, a reporter at the door) are built
+  and shown on the review page; their words are held until the owner grades
+  them, so they do not play yet. The same holds for this change's other new
+  hand-written lines (answers about family, scene openings, journal look-backs):
+  until they are graded, those moments read with mined lines only, and a birth
+  is told with the child's name from a mined sentence.
+
+## PRE-ALPHA 0.22.4
+
+_Released October 23, 2026._
+
+### Fixed
+
+- **A foreclosed home whose loan the outside market holds no longer stops the
+  game** When a home is sold at foreclosure to the outside market that also
+  holds its mortgage, the loan is now settled without the market paying itself,
+  and the owner still gets any money left after the loan. Before, the sale
+  stopped the game.
+
+## PRE-ALPHA 0.22.3
+
+_Released October 23, 2026._
+
+### Changed
+
+- **The president's budget signature or veto makes the national news** When the
+  president or a governor signs or vetoes a budget, national and state outlets
+  weigh it as news that touches every reader, and a serving official counts as a
+  public figure in the story, so the papers print it and the people who follow
+  them hear about it.
+
+## PRE-ALPHA 0.22.2
+
+_Released October 23, 2026._
+
+### Improved
+
+- **Townspeople without a local job commute** When you meet someone who works
+  but is not on a local employer's books, they now hold a real job at the
+  place's outside employers, with regular paydays and tax withheld like anyone
+  else. When they drop out of your life and go back into the town's counts, the
+  job ends and the pay returns to the town's pool.
+
+- **Statewide races follow the state's own lean, with incumbency counted once**
+  Statewide races such as governor no longer swing far from how a state votes
+  because voters' liking for incumbents was counted twice. The incumbency
+  advantage now comes once, from the candidate's public standing, and each
+  voter's personality moves them a little around it.
+
+## PRE-ALPHA 0.22.1
+
+_Released October 23, 2026._
+
+### Added
+
+- **Townspeople you haven't met can take up a cause after a death in the
+  family** When someone in town dies, the family they lived with can now come
+  away with a cause, such as fighting the illness that took them, even if you
+  have never met them. Whether they do follows their own temperament, the same
+  way it does for the people you know. If you meet one of them later, they
+  already carry that cause.
+
+- **Townspeople you haven't met can take up a cause when they lose their job**
+  When a business lays someone off or closes, the people who lose their jobs can
+  now come away with a cause to prove themselves or to hold the employer to
+  account, even if you have never met them. Whether they do follows their own
+  temperament, the same way it does for the people you know. If you meet one of
+  them later, they already carry that cause and act on it.
+
+## PRE-ALPHA 0.22.0
+
+_Released October 21, 2026._
+
+### Added
+
+- **A bribe can now buy a public contract.** A business owner who wants a public
+  contract may offer a council or board member a bribe, and the member decides
+  whether to take it. A bribe that is taken counts for the bidder who paid it
+  when the member ranks the bids.
+
+## PRE-ALPHA 0.21.6
+
+_Released October 21, 2026._
+
+### Improved
+
+- **Shops that closed last year are in the news history** A new town's news
+  archive now includes the businesses that closed in the year before day one,
+  and the retired owner of each remembers the day it was reported.
+
 ## PRE-ALPHA 0.21.5
 
 _Released October 21, 2026._
