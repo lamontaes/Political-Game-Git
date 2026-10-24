@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/web-calibrate
 pr: #5654
 blocked-on:
