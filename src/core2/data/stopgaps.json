@@ -344,7 +344,7 @@
     "why": "The authored cadence is an explicit coarse prototype default. One scored act per activation does not establish a complete calendar or empirical activity distribution.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads.",
+    "replacement": "Validated data coefficients and activity totals across documented P9 lives and real cohort spreads. Oct 23, 2026 (research-content-sourced-parameters): the ATUS activity totals the plan is to be checked against are in data/research/core/bls-atus-table-a1-2025.json (2018 to 2025: caring for household members 21.6 to 24.1 percent of people a day, household adults 4.6 to 6.2, socializing 28.7 to 35.0, volunteering 4.0 to 5.7, household management 16.0 to 19.1), and scripts/research/content-year.ts reports a played year against them. careNeedHalfExcessHazard stays TUNABLE: no source measures care asked per unit of condition hazard, and values of 3 and 6 give the same care share. Still open: one scored act per activation instead of a time-budget plan (builder item core-stopgap-content-estimated-behavior).",
     "status": "open"
   },
   {
@@ -356,7 +356,7 @@
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Oct 23, 2026 (research-content-sourced-parameters): lookupHours is now ESTIMATED from ATUS 2025 Table A-1 Government services (0.91 hours for the people who did it; 0.72 to 1.06 across published years), recorded in data/research/core/bls-atus-table-a1-2025.json with ATUS volunteering (4.0 to 5.7 percent of people a day) for the civic acts. Still open: the join, organize, approach and look-up acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable), and lookupHours stays ESTIMATED until a time-use source measures looking up an office itself.",
     "status": "open"
   },
   {
@@ -2363,12 +2363,12 @@
     "id": "SG-P15-news-habits",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/news/parameters.json",
-    "line": 6,
+    "line": 13,
     "whatItFakes": "How fast outlets reach people by how closely they follow politics, how long a story stays news, and how many stories pass at a contact; one generic local outlet stands for all.",
     "why": "Basic news (M2-09) needs a first version before outlets and media habits are modeled.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
-    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread.",
+    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread. Oct 23, 2026 (research-gov-sourced-parameters): newsOutletDelayDays is ESTIMATED at 1 day (spread 1 to 2) from The Media Insight Project's 2014 news-frequency split and Pew's 2022 share who follow the news most of the time (data/research/news/apnorc-2014-news-frequency.json, data/research/news/pew-2024-2025-news-habits.json), read by scheduleDeliveries in src/core2/modules/news.ts and heardOn in src/core2/past-news.ts; it becomes SOURCED with a measured delay from print to reading by how closely people follow the news. newsMaxAgeDays is read as a cutoff, so it is not sourced: people-news-newsMaxAgeDays-as-cause. newsStoriesPerContact has no convertible source; the share of adults word of mouth reaches is checked against Pew's 2025 Local News Fact Sheet by scripts/research/gov-year.ts.",
     "status": "open"
   },
   {
@@ -3281,12 +3281,12 @@
     "id": "SG-OFFICIALS-unrecorded-party",
     "kind": "assumed-data",
     "file": "src/core2/modules/officials.ts",
-    "line": 342,
+    "line": 389,
     "whatItFakes": "A holder whose party the roster doesn't record (a statewide executive such as an attorney general or treasurer, or a legislative seat with no roster row) sits in the party that carried the state in 2024; a lieutenant governor on the governor's ticket takes the governor's party.",
     "why": "The offices research records each statewide office's term and vacancy rule but not its holder's party, and the legislative roster has no row for a few seats.",
     "addedBy": "OPUS-OFFICIALS",
     "addedAt": "2026-10-13",
-    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results).",
+    "replacement": "Each statewide executive's real party from a public roster (Ballotpedia's partisan composition of state executive offices, or each state's own election results). Oct 23, 2026 (research-gov-sourced-parameters): unrecordedParty in src/core2/modules/officials.ts now reads data/research/offices/unrecorded-holder-parties-2026.json first: the five territory governors (National Governors Association), the American Samoa and Northern Marianas lieutenant governors and attorney general (Wikipedia), ten offices elected without party labels, whose holders sit with no party (Wikipedia, Ballotpedia), the Guam, Virgin Islands, Northern Marianas and American Samoa legislatures (Wikipedia party counts, assigned to their at-large seats in order), and 42 state legislative seats the Open States roster leaves vacant (Ballotpedia's 2025 and 2026 vacancy tables: the departing member's party). Still estimated (the file's unreadSeats): six vacant seats with no Ballotpedia vacancy row, the Virgin Islands boards of education and of elections, and the seats the game creates when a Census district name does not match the roster's (gov-offices-roster-district-name-mismatch, which removes them).",
     "status": "open"
   },
   {
@@ -3677,12 +3677,12 @@
     "id": "SG-GOV-justice-bribery-grade",
     "kind": "assumed-data",
     "file": "src/core2/justice-law.ts",
-    "line": 204,
+    "line": 213,
     "whatItFakes": "Bribery is sentenced on the place's lowest felony-assault range from the sentencing research, not on the place's own bribery statute.",
     "why": "The sentencing research has not read bribery statutes yet (its campaign-funds row is unread in every place).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "Each place's bribery-of-a-public-official grade and range read into data/research/justice/sentencing-ranges-2026.json, read by offense key.",
+    "replacement": "Each place's bribery-of-a-public-official grade and range read into data/research/justice/sentencing-ranges-2026.json, read by offense key. Oct 23, 2026 (research-gov-sourced-parameters): briberyRange in src/core2/justice-law.ts now reads each place's crime:bribery row; 43 places are read from their own statutes (official code sites; Arizona, New Hampshire and New York through the WebFetch reader) and sentenced on them, tagged SOURCED. Still estimated: 13 places whose code could not be fetched from the cloud take the mean of the 43 (8 to 98 months, ESTIMATED FROM AVERAGE, each row's unreadReason naming the site and error); this stopgap closes when those statutes are read.",
     "status": "open"
   },
   {

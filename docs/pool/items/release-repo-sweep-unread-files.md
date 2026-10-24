@@ -5,9 +5,9 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/stoic-rubin-6vq560
-pr:
+pr: #5867
 after:
 blocked-on:
 source: "docs/reports/repo-audit-2026-10-19.md section G1"
