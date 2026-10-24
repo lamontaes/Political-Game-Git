@@ -1,0 +1,16 @@
+{
+  "about": "Executive orders the president may issue that an engine carries (pool item office-presidential-orders-pardons-the-situation-room). Each is a federal law row, in force the next day, that the named engine reads; the character issues it only from the president's own view on the question, and a later president revokes it the same way.",
+  "orders": {
+    "federal-pay-floor": {
+      "question": "us-policy-positions:labor-workforce.raise-minimum-wage",
+      "series": "public-pay-floor",
+      "unit": "dollars/year",
+      "hourlyDollars": 15,
+      "hoursPerYear": 2080,
+      "ownEmployersOnly": true,
+      "tag": "ESTIMATED",
+      "citation": "Executive Order 14026 (April 27, 2021) set $15 an hour for federal contractors; the same rate for the federal government's own employees is an estimate, a full-time year at 2,080 hours (5 U.S.C. 6101).",
+      "spread": "Biden's order phased the contractor rate to $15 by January 30, 2022; a president may pick any hourly figure, so the player-facing amount is a tunable between the federal minimum wage ($7.25) and $17."
+    }
+  }
+}

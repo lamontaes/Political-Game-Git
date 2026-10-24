@@ -1,6 +1,6 @@
 ---
 id: office-presidential-orders-pardons-the-situation-room
-title: "Presidential orders, pardons, the situation room:"
+title: "Presidential orders an agency or budget reads"
 area: office
 kind: feature
 priority: 2
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5184 (branch claude/presidential-orders): a 'Resolved Oct 19' date note in the stopgap replacement text; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5184 (branch claude/presidential-orders): The dated stopgap-note feedback is fixed, but docs/release/changes/office-presidential-orders-pardons-the-situation-room.md:3 still says impact none even though the order changes a law in force and the public-pay review raises actual federal paychecks. Use an accurate patch declaration for that simulation change. This PR also leaves pardons and the situation-room/player action unfinished; track the completed order under a bounded item or complete the original umbrella proof before marking it done.; finish on that branch, merge main into it first.
+
+Scoped to the order (its done-when already was): pardons are office-presidential-pardons and the situation room is office-situation-room.

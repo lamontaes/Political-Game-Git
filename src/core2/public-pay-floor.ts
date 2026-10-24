@@ -69,9 +69,17 @@ function floorsByLevel(api: CoreAPI) {
   let best: { dollars: number; lawId: string } | undefined;
   for (const level of ORDER) {
     const row = answer.levels.find((l) => l.level === level)?.row;
-    if (row && (row.value ?? 0) > (best?.dollars ?? 0))
+    // An order binds only the issuing government's own employers (the
+    // president's order does not reach a state's); a statute binds every
+    // level under it.
+    const own = row?.terms?.ownEmployersOnly === true;
+    if (row && !own && (row.value ?? 0) > (best?.dollars ?? 0))
       best = { dollars: row.value ?? 0, lawId: row.id };
-    if (best && best.dollars > 0) out.set(level, best);
+    const here =
+      row && own && (row.value ?? 0) > (best?.dollars ?? 0)
+        ? { dollars: row.value ?? 0, lawId: row.id }
+        : best;
+    if (here && here.dollars > 0) out.set(level, here);
   }
   return out;
 }

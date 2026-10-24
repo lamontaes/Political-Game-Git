@@ -24,6 +24,7 @@ import { snapshotExplicitControlV1 } from "../player-control-state-v1";
  */
 import { policyAuthority } from "../policy-authority";
 import research from "../../../data/research/executive/executive-powers-2026.json" with { type: "json" };
+import presidentialData from "../data/executive/presidential-orders.json" with { type: "json" };
 import emergencyData from "../data/executive/emergency.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -954,6 +955,101 @@ export function issueOrder(
     date: api.state.date,
   } as unknown as ModuleRow);
   return { lawId: row.id };
+}
+
+interface PresidentialOrderSpec {
+  readonly question: string;
+  readonly series: string;
+  readonly unit: string;
+  readonly hourlyDollars: number;
+  readonly hoursPerYear: number;
+  readonly ownEmployersOnly: boolean;
+  readonly tag: "SOURCED" | "ESTIMATED";
+  readonly citation: string;
+}
+const PRESIDENTIAL = presidentialData.orders as Readonly<
+  Record<string, PresidentialOrderSpec>
+>;
+
+/** The orders a president may issue that an engine carries, by key. */
+export function presidentialOrderKeys(): readonly string[] {
+  return Object.keys(PRESIDENTIAL).sort();
+}
+
+/** The orders the president wants from their own view on each order's question, and the law in force. */
+export function pendingPresidentialOrders(
+  api: CoreAPI,
+  executiveId: string,
+): readonly { order: string; revoke: boolean }[] {
+  const lean = leanOf(api, executiveId);
+  const given = table(api, "orders").rows() as unknown as {
+    id: string;
+    executiveId: string;
+    order: string;
+    revoke: boolean;
+    date: string;
+  }[];
+  return presidentialOrderKeys().flatMap<{ order: string; revoke: boolean }>(
+    (order) => {
+      const spec = PRESIDENTIAL[order]!;
+      const last = given
+        .filter((o) => o.id.startsWith(`order:US:${order}:`))
+        .at(-1);
+      const inForce = !!last && !last.revoke;
+      const want = Math.sign(viewOn(api, executiveId, spec.question, lean));
+      return want > 0 && !inForce
+        ? [{ order, revoke: false }]
+        : want < 0 && inForce && last!.executiveId !== executiveId
+          ? [{ order, revoke: true }]
+          : [];
+    },
+  );
+}
+
+/**
+ * The president issues an order an engine carries: a federal law row in force
+ * from tomorrow that the engine reads at its own review (the public pay
+ * floor binds only the federal government's own employers), kept with the
+ * order's record and revoked the same way by a later president.
+ */
+export function issuePresidentialOrder(
+  api: CoreAPI,
+  input: {
+    readonly executiveId: string;
+    readonly order: string;
+    readonly revoke?: boolean;
+  },
+): { readonly lawId: string; readonly orderId: string } {
+  const spec = PRESIDENTIAL[input.order];
+  if (!spec) throw new Error(`The president can't order ${input.order}.`);
+  const tomorrow = addDays(makeIsoDate(api.state.date), 1);
+  const orderId = `order:US:${input.order}:${api.state.date}`;
+  const row = enactLaw(api, {
+    jurisdiction: "US",
+    level: "federal",
+    series: spec.series,
+    value: input.revoke ? 0 : spec.hourlyDollars * spec.hoursPerYear,
+    unit: spec.unit,
+    effectiveDate: tomorrow,
+    measureId: orderId,
+    citation: `Executive order ${orderId} by ${input.executiveId}`,
+    estimate: spec.tag === "ESTIMATED",
+    terms: {
+      executiveOrder: true,
+      issuedBy: input.executiveId,
+      ownEmployersOnly: spec.ownEmployersOnly,
+      basis: spec.citation,
+    },
+  });
+  table(api, "orders").put({
+    id: orderId,
+    executiveId: input.executiveId,
+    order: input.order,
+    revoke: input.revoke ?? false,
+    lawId: row.id,
+    date: api.state.date,
+  } as unknown as ModuleRow);
+  return { lawId: row.id, orderId };
 }
 
 export interface EmergencyRow {
