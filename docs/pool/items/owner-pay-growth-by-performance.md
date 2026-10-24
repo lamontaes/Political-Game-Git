@@ -1,14 +1,14 @@
 ---
 id: owner-pay-growth-by-performance
-title: "Owner: should a worker's pay grow with tenure and performance?"
+title: "A worker's pay grows with tenure and their record at the employer, calibrated from BLS and ECI tenure-wage research"
 area: people
-kind: owner-decision
+kind: feature
 priority: 2
 size: S
 status: open
 claimed-by:
 pr:
-blocked-on: owner
+blocked-on:
 source: added with npm run pool -- add
 claimed-at: 
 ---
@@ -21,4 +21,4 @@ claimed-at:
 
 **Files.** data/content/trait-outcomes.json, src/core2/modules/jobs.ts
 
-**Notes.** Filed Oct 24 by the traits lead from traits-outcomes-unread.
+**Notes.** Filed Oct 24 by the traits lead from traits-outcomes-unread. Ruled Oct 24 by the owner (OWNER-DECISIONS.md, Oct 24: "Pay growth with tenure and performance"): built, not asked. The intent is now a build item, not an owner question: pay moves with tenure and the worker's record at the employer, calibrated from BLS and ECI tenure-wage research, no fixed step and no roll. The "Done when" above's "on yes" branch is the work; the question part is answered.
