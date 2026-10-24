@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/data/campaigns/recall-bars.json, src/core2/data/stopgaps.json, src/core2/data/parameters.json, data/research/core/recall-timing-statutes-2026.json, data/research/core/naco-2022-county-authority.json, data/research/core/atus-2025-socializing.json, data/research/core/tie-decay-panels-2015.json, data/research/core/affect-trajectories-2018.json, data/research/core/opening-pregnancy-2024.json, scripts/research/check-core-research.ts, scripts/research/core-year.ts
 
 **Notes.** Split Oct 24, 2026 from research-core-sourced-parameters, after the merger's send-back of PR 5848 asked for a bounded item matching what a PR delivers. Delivered by PR #5853 on branch claude/dreamy-tesla-bgi3ui-core.
+
+Sent back 2026-10-23 from PR #5853 (branch claude/dreamy-tesla-bgi3ui-core): Florida's SOURCED row knowingly uses 365 days for a three-year term instead of the statutory quarter term; encode the fraction generically or label/register the approximation and update counts, release claim and table evidence; finish on that branch, merge main into it first.
