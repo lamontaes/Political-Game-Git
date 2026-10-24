@@ -22,3 +22,5 @@ claimed-at:
 **Files.** docs/roadmap/features.json, docs/reports/m0-m2-lead-2026-10-24/, docs/release/changes/roadmap-m0-flip-proven-five.md
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5869 (branch claude/quirky-ride-vrwwz4-m0-flags): M0-06 browser screenshot shows age 17, so the required age-18 kin and school proof is missing; finish on that branch, merge main into it first.
