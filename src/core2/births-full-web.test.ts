@@ -19,9 +19,8 @@
  * nearest to planning in the base world's own records, and the test follows
  * what that shift does: the web's factor moves by the researched share a
  * point, every compared plan's web term moves by the weight times that share
- * (by the mother's age), and in the first round of reviews the couples whose
- * plans tip are exactly those whose recorded scores cross. Each plan that
- * tips is read to its pregnancy and birth records.
+ * (by the mother's age), and each plan the twin makes that the base world did
+ * not is one the web term tipped. Each is read to its pregnancy and birth.
  */
 import { randomBytes } from "node:crypto";
 import { readFileSync } from "node:fs";
@@ -53,14 +52,12 @@ const DRAWS = 8;
 /** How far the web term's move may stand from the weight times the link's effect times the mother's age weight (the other links' factor, near one). */
 const TOLERANCE = 0.1;
 /**
- * How far any other term of a plan score may drift between the twins in the
- * shift's first round of reviews. The shifted web also moves the counted
- * women's births, prices and the couples' own pay, so a couple's other terms
- * are not quite the base world's, and drift further the longer the twins run.
+ * How far past a couple's gap to planning the shift is made to reach. The
+ * shifted web also moves the counted women's births, prices and the couples'
+ * own pay, so a couple's other circumstances drift from the base world's over
+ * the weeks before a review.
  */
-const DRIFT = 0.05;
-/** Days from the opening that count as the first round of reviews, read against the base world's records. */
-const FIRST_ROUND_DAYS = 120;
+const CLEARANCE = 1;
 
 const link = WEB_LINKS.find((row) => row.key === LINK)!;
 /** The researched range of the link's size: a share of births a point of unemployment. */
@@ -233,20 +230,18 @@ describe(`full couples and the outcome web (seed ${seed})`, () => {
         [...plans.values()].filter(
           (plan) => plan.date > addDays(makeIsoDate(gameStartDate()), 1),
         );
-      // The couple nearest to planning: the unplanned first-round review that needs the
+      // The couple nearest to planning: the unplanned review that needs the
       // fewest points of unemployment to close its weaker partner's gap, and
-      // clear it by more than the drift. A point moves the plan score by the
+      // clear it with room to spare. A point moves the plan score by the
       // weight, the link's size and the mother's age weight (the factor stands
       // within a fifth of one).
       const needed = (plan: Plan) =>
         plan.weight > 0
-          ? (-Math.min(...plan.margins) + 2 * DRIFT) /
+          ? (-Math.min(...plan.margins) + CLEARANCE) /
             (base.weight * Math.abs(sizeIn(link, "")) * plan.weight * 0.8)
           : Infinity;
-      const firstRound = (plan: Plan) =>
-        plan.date <= addDays(makeIsoDate(gameStartDate()), FIRST_ROUND_DAYS);
       const nearest = after(base.plans)
-        .filter((plan) => !plan.agreed && firstRound(plan))
+        .filter((plan) => !plan.agreed)
         .sort((a, b) => needed(a) - needed(b))[0];
       const points = nearest
         ? Math.max(STEP, Math.ceil((needed(nearest) * 1.25) / STEP) * STEP)
@@ -280,20 +275,21 @@ describe(`full couples and the outcome web (seed ${seed})`, () => {
       });
       // 2. The plans: each couple's review is read against its twin's, until
       // the couple's first plan differs (after which their lives differ).
-      const tipped: { base: Plan; twin: Plan }[] = [];
+      // Both partners weigh the same web term. It moved by the weight times
+      // the link's shifted effect times the mother's age weight, none for a
+      // mother of 40 or more. A plan the twin made that the base world did
+      // not would still have been left unmade with the web term where the
+      // base world had it, so the term is what tipped the couple.
+      const tipped: Plan[] = [];
+      const lost: Plan[] = [];
       const diverged = new Set<string>();
       const compared: string[] = [];
-      const closeCalls: string[] = [];
       for (const plan of after(base.plans).sort((a, b) =>
         a.date.localeCompare(b.date),
       )) {
         const other = twin.plans.get(plan.id);
         if (!other || diverged.has(plan.coupleId)) continue;
         compared.push(plan.id);
-        // Both partners weigh the same web term. It moved by the weight times
-        // the link's shifted effect times the mother's age weight, none for a
-        // mother of 40 or more; in the first round their other
-        // circumstances stand within a twentieth.
         const moved = other.terms.map(
           (terms, partner) => terms.web! - plan.terms[partner]!.web!,
         );
@@ -314,64 +310,45 @@ describe(`full couples and the outcome web (seed ${seed})`, () => {
               `${where}: ${plan.id} partner ${partner} web term`,
             ).toBeLessThan(1 + TOLERANCE);
           }
-          if (firstRound(plan))
-            for (const [key, value] of Object.entries(plan.terms[partner]!))
-              if (key !== "web")
-                expect(
-                  Math.abs(other.terms[partner]![key]! - value),
-                  `${where}: ${plan.id} partner ${partner} ${key}`,
-                ).toBeLessThan(DRIFT);
         }
-        // In the first round the couple plans when both partners' plan scores
-        // beat waiting, so the base world's recorded scores say which couples
-        // the shift tips (a couple whose weaker score lands within the drift
-        // of waiting is too close to call). Later, the twins' worlds have
-        // moved apart and the twin's own records stand.
-        if (firstRound(plan)) {
-          const slack = Math.min(
-            ...plan.margins.map((margin, partner) => margin + moved[partner]!),
-          );
-          if (Math.abs(slack) > DRIFT) {
-            expect(other.agreed, `${where}: ${plan.id}`).toBe(slack > 0);
-            if (plan.agreed)
-              expect(
-                other.agreed,
-                `${where}: ${plan.id} planned in the base world and not in the twin`,
-              ).toBe(true);
-          } else closeCalls.push(plan.id);
+        if (other.agreed && !plan.agreed) {
+          expect(
+            other.margins.every(
+              (margin, partner) => margin - moved[partner]! > 0,
+            ),
+            `${where}: ${other.id} would have been made without the web term`,
+          ).toBe(false);
+          tipped.push(other);
         }
-        if (other.agreed !== plan.agreed)
-          tipped.push({ base: plan, twin: other });
+        if (plan.agreed && !other.agreed) lost.push(other);
         if (other.agreed || plan.agreed) diverged.add(plan.coupleId);
       }
       expect(
-        tipped.some(({ base: plan }) => plan.coupleId === nearest!.coupleId),
-        `${where}: the couple nearest to planning (${nearest!.id})`,
-      ).toBe(true);
+        tipped.length,
+        `${where}: plans the shift tipped (the couple nearest to planning: ${nearest!.id})`,
+      ).toBeGreaterThan(0);
       // 3. Each plan the shift tipped is a recorded pregnancy and, where the
       // due date fell inside the year, a recorded birth; the plan read a month
       // row the twin shifted.
-      const ledger = tipped
-        .filter(({ twin: plan }) => plan.agreed)
-        .map(({ twin: plan }) => {
-          expect(twin.laid, `${where}: web record of ${plan.id}`).toContain(
-            webRecordOf(plan),
-          );
-          const pregnancy = twin.pregnancies.find(
-            (row) => row.planId === plan.id,
-          );
-          expect(pregnancy, `${where}: pregnancy of ${plan.id}`).toBeDefined();
-          const birth = twin.births.find(
-            (row) => row.pregnancyId === pregnancy!.id,
-          );
-          if (pregnancy!.dueDate <= twin.end)
-            expect(birth, `${where}: birth of ${pregnancy!.id}`).toBeDefined();
-          return `${webRecordOf(plan)} -> ${plan.id} -> ${pregnancy!.id}${birth ? ` -> ${birth.id}` : ` (due ${pregnancy!.dueDate})`}`;
-        });
+      const ledger = tipped.map((plan) => {
+        expect(twin.laid, `${where}: web record of ${plan.id}`).toContain(
+          webRecordOf(plan),
+        );
+        const pregnancy = twin.pregnancies.find(
+          (row) => row.planId === plan.id,
+        );
+        expect(pregnancy, `${where}: pregnancy of ${plan.id}`).toBeDefined();
+        const birth = twin.births.find(
+          (row) => row.pregnancyId === pregnancy!.id,
+        );
+        if (pregnancy!.dueDate <= twin.end)
+          expect(birth, `${where}: birth of ${pregnancy!.id}`).toBeDefined();
+        return `${webRecordOf(plan)} -> ${plan.id} -> ${pregnancy!.id}${birth ? ` -> ${birth.id}` : ` (due ${pregnancy!.dueDate})`}`;
+      });
       const agreed = (plans: ReadonlyMap<string, Plan>) =>
         after(plans).filter((plan) => plan.agreed).length;
       console.log(
-        `births-full-web: ${where}: took ${points} points off unemployment (the web's factor moved ${(moves[0]!.share * 100).toFixed(3)}% a point); ${compared.length} reviews compared (${closeCalls.length} too close to call); plans that became pregnancies ${agreed(base.plans)} in the base world and ${agreed(twin.plans)} in the twin; tipped: ${ledger.join("; ")}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}`,
+        `births-full-web: ${where}: took ${points} points off unemployment (the web's factor moved ${(moves[0]!.share * 100).toFixed(3)}% a point); ${compared.length} reviews compared (${lost.length} base-world plans not made in the twin); plans that became pregnancies ${agreed(base.plans)} in the base world and ${agreed(twin.plans)} in the twin; tipped: ${ledger.join("; ")}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}`,
       );
       return;
     }
