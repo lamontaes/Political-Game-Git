@@ -20,7 +20,12 @@ import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const DRAWS = 6;
+/**
+ * Draws before the test gives up. A town whose own counts expect too few
+ * deaths is passed over and named; a seed whose first six towns were all that
+ * small (ca31b9e4225f7b58) still finds one well inside this.
+ */
+const DRAWS = 24;
 /** A town whose tables expect fewer deaths than this in four months is too small to compare. */
 const SMALLEST = 10;
 /**
@@ -44,6 +49,8 @@ interface CountsRow {
 
 it("illnesses under way at the opening are booked and counted people die from the first months", () => {
   let proof: string | undefined;
+  // The towns passed over, each with what its own counts expected.
+  const passed: string[] = [];
   // The renewal engine keeps its monthly counts only under bookkeeping
   // (src/core2/births-counted.ts:667), so the worlds run with it on.
   const was = setBookkeeping(true);
@@ -61,7 +68,10 @@ it("illnesses under way at the opening are booked and counted people die from th
         .table("counts")
         .rows() as unknown as CountsRow[];
       const expected = rows.reduce((n, row) => n + row.expected.deaths, 0);
-      if (expected < SMALLEST) continue;
+      if (expected < SMALLEST) {
+        passed.push(`${place.name} (${place.key}), ${expected.toFixed(1)}`);
+        continue;
+      }
       const deaths = rows.reduce((n, row) => n + row.deaths.length, 0);
       const opening = rows.reduce((n, row) => n + row.openingIll.length, 0);
       expect(
@@ -74,14 +84,14 @@ it("illnesses under way at the opening are booked and counted people die from th
         deaths,
         `${where}: ${deaths} died, ${expected.toFixed(1)} expected, at least ${floor.toFixed(1)} needed`,
       ).toBeGreaterThanOrEqual(floor);
-      proof = `${where}: ${opening} illnesses under way booked at the opening; ${deaths} counted people died in four months against ${expected.toFixed(1)} expected`;
+      proof = `${where}: ${opening} illnesses under way booked at the opening; ${deaths} counted people died in four months against ${expected.toFixed(1)} expected; passed over, expecting fewer than ${SMALLEST}: ${passed.join("; ") || "none"}`;
     }
   } finally {
     setBookkeeping(was);
   }
   expect(
     proof,
-    `none of ${DRAWS} drawn places (seed ${seed}) expected ${SMALLEST} counted deaths in four months`,
+    `none of ${DRAWS} drawn places (seed ${seed}) expected ${SMALLEST} counted deaths in four months: ${passed.join("; ")}`,
   ).toBeDefined();
   console.log(`DEATHS ${proof}`);
 }, 3_600_000);
