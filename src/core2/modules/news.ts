@@ -28,8 +28,8 @@ import type {
   PersonState,
 } from "../types";
 import { decisionLean } from "../trait-decisions";
-import { viewOf } from "./views";
-import { measureOfFactKey } from "../outcome-news";
+import { VIEWS_SPEAKER_KEY, viewOf, viewOn } from "./views";
+import { conditionQuestions, measureOfFactKey } from "../outcome-news";
 
 /** The press module's id (kept here so news does not import the press). */
 const PRESS_MODULE_ID = "core2-press-v1";
@@ -85,11 +85,17 @@ export interface Story {
 /** The event kind for one day's readers of a printed story. */
 export const NEWS_READ = "news.read";
 
-/** The story a read event is about: its id is `news.read:<story id>:<date>`. */
+/**
+ * The story a read event is about: its id is `news.read:<story id>:<date>`,
+ * or `news.read:<story id>:<date>:<side>:<question>` for the readers of a
+ * story about a moved condition who hold one side on one question.
+ */
 export function storyOfReadEvent(eventId: string): string | null {
-  return eventId.startsWith(`${NEWS_READ}:`)
-    ? eventId.slice(NEWS_READ.length + 1, eventId.lastIndexOf(":"))
-    : null;
+  if (!eventId.startsWith(`${NEWS_READ}:`)) return null;
+  const read = /^(.+?):\d{4}-\d{2}-\d{2}(?::(?:enact|repeal):.+)?$/.exec(
+    eventId.slice(NEWS_READ.length + 1),
+  );
+  return read ? read[1]! : null;
 }
 
 const stories = (api: CoreAPI) =>
@@ -549,30 +555,82 @@ export function createNewsModule(
         a[0].localeCompare(b[0]),
       )) {
         const story = stories(api).get(storyId) as unknown as Story;
+        const alive = ids.filter((id) => api.state.people.get(id)?.alive);
+        const read = (
+          id: string,
+          topic: string,
+          desiredChange: string | undefined,
+          witnessIds: readonly PersonId[],
+          facts: Readonly<Record<string, string>>,
+        ) =>
+          api.emit({
+            id,
+            date: api.state.date,
+            kind: NEWS_READ,
+            personIds: [],
+            witnessIds: [...witnessIds],
+            placeId: story.placeId,
+            topic,
+            desiredChange,
+            ...(story.moodImpulse === undefined
+              ? {}
+              : { moodImpulse: story.moodImpulse }),
+            facts: { ...facts, learnedFrom: newsKey(story.id) },
+            source: {
+              tag: "SOURCED",
+              citation: `Story ${story.id}, read by its outlet's followers`,
+              asOf: api.state.date,
+            },
+          });
+        // A month's move in the town's conditions argues no change of its
+        // own: each reader takes each condition it reports as a reason for
+        // the side their own view already holds on the question that
+        // condition ties to (owner, Oct 22, 2026). A reader with no side on a
+        // question has none to strengthen. The readers already hold the
+        // story's facts; what they take from reading it is its source and
+        // whose case it was.
+        const questions = story.desiredChange
+          ? []
+          : conditionQuestions(story.facts);
+        if (questions.length) {
+          const zero = api.parameter("zero");
+          const speaker = story.facts[VIEWS_SPEAKER_KEY];
+          for (const question of questions) {
+            const sides = new Map<string, PersonId[]>();
+            for (const id of alive) {
+              const view = viewOf(api, id);
+              const current = view
+                ? viewOn(api, id, question, view.lean)
+                : zero;
+              if (current === zero) continue;
+              const side = current > zero ? "enact" : "repeal";
+              sides.set(side, [...(sides.get(side) ?? []), id]);
+            }
+            for (const [side, witnessIds] of [...sides].sort((a, b) =>
+              a[0].localeCompare(b[0]),
+            ))
+              read(
+                `${NEWS_READ}:${story.id}:${api.state.date}:${side}:${question}`,
+                question,
+                side,
+                witnessIds,
+                speaker ? { [VIEWS_SPEAKER_KEY]: speaker } : {},
+              );
+          }
+          continue;
+        }
         // A story argues a change on a policy question; a law taking effect
         // is also read and remembered with no side to take, so a reader can
         // bring up the law in town.
         if (!story.topic || (!story.desiredChange && !story.facts.lawId))
           continue;
-        api.emit({
-          id: `${NEWS_READ}:${story.id}:${api.state.date}`,
-          date: api.state.date,
-          kind: NEWS_READ,
-          personIds: [],
-          witnessIds: ids.filter((id) => api.state.people.get(id)?.alive),
-          placeId: story.placeId,
-          topic: story.topic,
-          desiredChange: story.desiredChange,
-          ...(story.moodImpulse === undefined
-            ? {}
-            : { moodImpulse: story.moodImpulse }),
-          facts: { ...story.facts, learnedFrom: newsKey(story.id) },
-          source: {
-            tag: "SOURCED",
-            citation: `Story ${story.id}, read by its outlet's followers`,
-            asOf: api.state.date,
-          },
-        });
+        read(
+          `${NEWS_READ}:${story.id}:${api.state.date}`,
+          story.topic,
+          story.desiredChange,
+          alive,
+          story.facts,
+        );
       }
     },
   };
