@@ -33,6 +33,15 @@ import {
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
+import { buildBenchWorld } from "../bench/world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import {
+  INTEREST_GROUPS_MODULE_ID,
+  type LobbyMeeting,
+} from "./modules/interest-groups";
+import { CORRUPTION_MODULE_ID } from "./modules/corruption";
 
 const START = "2026-01-05";
 const seed =
@@ -559,4 +568,62 @@ describe("a session already over when the world opens", () => {
       `seed ${seed}, ${state} place ${key}`,
     ).toBe(next.conveneAt);
   });
+});
+
+describe("a plain year of the played world: background bills reach the lobbyists' decision", () => {
+  it("every first lobbying meeting keeps the lobbyist's bribe decision with its reasons, by record id", () => {
+    const tried: string[] = [];
+    for (let draw = 0; draw < 6; draw += 1) {
+      const place = drawPlace(`${seed}:${draw}`, "background-chain");
+      tried.push(`${place.name} ${place.seed}`);
+      setBookkeeping(false);
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      // The player proposes nothing: only background bodies legislate.
+      advanceCore(core, addDays(makeIsoDate(core.date), 365));
+      const api = coreAPI(core);
+      const meetings = api
+        .moduleState(INTEREST_GROUPS_MODULE_ID)
+        .table("meetings")
+        .rows() as unknown as LobbyMeeting[];
+      const decided = meetings.filter((row) => row.bribe);
+      if (!decided.length) continue;
+      const where = `${place.name}, seed ${place.seed}`;
+      const crimes = api.moduleState(CORRUPTION_MODULE_ID).table("crimes");
+      for (const row of decided) {
+        const bribe = row.bribe!;
+        const label = `${where}: ${row.id}`;
+        if (bribe.none) {
+          // Nothing to weigh: no reasons, and no crime.
+          expect(bribe.offered, label).toBe(false);
+          expect(bribe.crimeId, label).toBeUndefined();
+          continue;
+        }
+        // The lobbyist weighed the favor: the reasons are the chooser's
+        // temperament, the stake and the tie, kept whether or not they offered.
+        const offer = bribe.reasons.offer;
+        expect(offer, label).toBeDefined();
+        for (const key of ["temperament", "stake", "tie"])
+          expect(Number.isFinite(offer![key]), `${label} ${key}`).toBe(true);
+        if (bribe.offered) {
+          const crime = crimes.get(bribe.crimeId!) as unknown as
+            { subjectId: string; offererId: string } | undefined;
+          expect(crime?.subjectId, label).toBe(row.billId);
+          expect(crime?.offererId, label).toBe(row.lobbyistId);
+        } else {
+          // A refusal is not a crime: nothing in the crimes table.
+          expect(bribe.crimeId, label).toBeUndefined();
+        }
+      }
+      console.log(
+        `${where}: ${meetings.length} lobbying meetings, ${decided.length} decisions kept, ${decided.filter((r) => r.bribe!.offered).length} offers, ${decided.filter((r) => r.bribe!.none).length} with nothing to offer`,
+      );
+      return;
+    }
+    throw new Error(
+      `No lobbying meeting in a plain year in: ${tried.join("; ")}`,
+    );
+  }, 900_000);
 });
