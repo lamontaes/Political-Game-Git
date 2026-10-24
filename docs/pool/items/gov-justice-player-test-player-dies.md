@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5936
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** One run of src/core2/justice-player.test.ts failed at load with 'Controlled person is no longer alive; unresolved intentions remain unposted.' from src/core2/player-v1.ts:217: the player character died during the test's run of up to three played years, and the bench player's next advance threw. The test draws its seed at random and prints it only in test names and its JUSTICE_PRINT file, so a failure at load loses the seed and the run cannot be repeated. Two runs with fixed seeds (p1aa11bb22cc33dd, p2ee44ff55aa66bb) passed the same day on the branch that made pleas wait for the hearing.
