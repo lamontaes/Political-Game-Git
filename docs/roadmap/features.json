@@ -150,7 +150,7 @@
       "package": "M1-laws",
       "test": "For a random place, tracked laws (minimum wage; income, sales and property taxes; major benefit amounts) match that place's real starting law at every level; a higher level's override wins where it legally does; a law that hasn't taken effect yet doesn't apply.",
       "command": "npx vitest run src/core2/laws.test.ts --testTimeout=300000",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M1-02",
@@ -160,7 +160,7 @@
       "package": "M1-macro",
       "test": "A one-year run keeps national figures within real historical spreads (each month's 12-month change in unemployment, prices and payroll jobs, and each quarter's output growth, inside the 5th to 95th percentile of 1990 to the latest year); a rate decision changes what loans cost in the town; every decision is traceable to the members' reasons, with no random draws.",
       "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M1-03",
@@ -240,7 +240,7 @@
       "package": "M1-views",
       "test": "In a random place, views match real spreads by age, education, faith and region, checked against state and metro answer keys, so conservatives in two randomly drawn states can differ; a big event shifts the people it touches and no one else.",
       "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M1-11",
