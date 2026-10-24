@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Fresh real-browser run on main-integrated #5869 head 03a8dc54d1: New game with empty Place, Skip opening, then Calendar pointer click times out because section#card intercepts pointer events. South Windham Maine; seed 3c088861-ddf4-4043-be35-04578d107721; viewport 1440x1000.
+**What.** The Calendar ring is visibly present but cannot be opened with an ordinary pointer click after a new game. Fresh real-browser run on main-integrated #5869 head 03a8dc54d1: New game with empty Place, Skip opening, then Calendar pointer click times out because section#card intercepts pointer events. South Windham Maine; seed 3c088861-ddf4-4043-be35-04578d107721; viewport 1440x1000.
 
 **Rules.** Wire to the world: verify the actual bench in a fresh world drawn from all 56 places using real pointer and keyboard controls; preserve the player card and Calendar actions. Diagnose on current main; do not bypass hit testing with forced or DOM clicks.
 
