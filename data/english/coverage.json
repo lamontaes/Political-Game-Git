@@ -70,6 +70,9 @@
     "minutes|everyday|minutes|self|young-adult": 1
   },
   "graded": {
+    "naturalness": {
+      "unknown": 59
+    },
     "unknown": {
       "journal": 25,
       "legislation": 8,
@@ -81,7 +84,7 @@
       "interview": 1,
       "emotion": 6,
       "conversation": 2,
-      "unknown": 7
+      "unknown": 44
     }
   },
   "gradedByBatch": {
@@ -109,6 +112,16 @@
         "interview": 1,
         "emotion": 6,
         "conversation": 2
+      }
+    },
+    "voice-notes-batches-11-19": {
+      "unknown": {
+        "unknown": 37
+      }
+    },
+    "batch-13": {
+      "naturalness": {
+        "unknown": 59
       }
     }
   }

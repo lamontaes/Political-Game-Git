@@ -49,6 +49,7 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
     let commuter: PersonState | undefined;
     let local: PersonState | undefined;
     let before = 0;
+    let unplacedBefore = 0;
     for (const household of [...rt.store.liveHouseholds()]
       .filter(
         (h) =>
@@ -58,6 +59,7 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
       )
       .slice(0, 12)) {
       before = pool();
+      unplacedBefore = household.unplacedWorkers;
       const member = rt.store.ids[rt.store.countedMembers(household)[0]!]!;
       fillInPerson(state, member);
       const members = [...state.people.values()].filter(
@@ -198,7 +200,7 @@ it(`a filled-in jobless worker holds an outside job with a payday and withholdin
       core.cashJournal.totals.grossCreditMinor,
     );
     process.stdout.write(
-      `COMMUTER ${where} (place seed ${place.seed}): ${trace}; job ended ${state.jobs.get(job.id)!.endsAt}\n`,
+      `COMMUTER ${where} (place seed ${place.seed}): ${trace}; job ended ${state.jobs.get(job.id)!.endsAt}; ${commuter.householdId} held ${unplacedBefore.toFixed(3)} unplaced workers before the fill-in and ${group.unplacedWorkers.toFixed(3)} after its return\n`,
     );
     return;
   }

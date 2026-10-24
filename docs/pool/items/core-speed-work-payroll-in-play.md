@@ -5,12 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/speed-work-payroll
+status: blocked
+claimed-by:
 pr: #5925
-blocked-on:
+blocked-on: core-speed-work-attendance-in-play
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T06:37:52.911Z
+claimed-at:
 ---
 
 **What.** Settling work payroll takes 22.3 of 264 profiled seconds of a played year in Long Hill, Connecticut (seed m7b), 6.8 of them in the cash journal and the rest in preparing the settlement. The cash source provider, prepare, copy and same in work-payroll-cash.ts and prepareWorkPayAccrual in work-pay-period.ts rebuild and compare detached copies of each commitment's period and ledger for every payday, with bookkeeping off. Play should read the live period and ledger and post the payment; the copies and comparisons stay under the bookkeeping switch so tests keep them.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T06:37:52.911Z
 **Files.** src/core2/work-payroll-cash.ts, src/core2/work-pay-period.ts
 
 **Notes.** Filed Oct 24 by the speed lead. Same helper as core-speed-work-attendance-in-play, after it.
+
+Sent back 2026-10-24 from PR #5925 (branch claude/speed-work-payroll): the explicit attendance prerequisite #5924 remains open and unmerged, so the carried work-pay-period stack must wait for that review; finish on that branch, merge main into it first after #5924 merges. No local gate, speed or fingerprint claim is made.
