@@ -3424,6 +3424,54 @@ function recordFailure(
   });
 }
 
+/**
+ * The floor day of a bill whose committee traded for votes: each member who
+ * traded their vote there for their own section, and sits on this floor, is
+ * a record for them and the sponsor, who comes to make sure of the vote.
+ */
+function recordPromises(api: CoreAPI, bill: BillRow, chamber: string): void {
+  const seats = members(api, chamber);
+  for (const deal of bill.deals) {
+    if (
+      deal.kind !== "trade-amendment" ||
+      deal.status !== "accepted" ||
+      deal.stage !== "committee" ||
+      deal.chamber !== chamber ||
+      !api.state.people.has(deal.memberId)
+    )
+      continue;
+    const seat = seats.find((term) => memberKey(term) === deal.memberId);
+    if (!seat) continue;
+    api.emit({
+      id: `vote-promise:${bill.id}:${chamber}:${deal.memberId}`,
+      date: api.state.date,
+      kind: "vote-promise",
+      personIds: [deal.memberId, bill.sponsorId].filter(
+        (id, index, ids) =>
+          api.state.people.has(id) && ids.indexOf(id) === index,
+      ),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${bill.number}: the committee trade of ${deal.date}, on the floor`,
+        asOf: api.state.date,
+      },
+      // The committee's trade is public record; this is that trade, due.
+      publicRecord: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        level: billReach(api, bill).level,
+        chamber,
+        memberId: deal.memberId,
+        sponsorId: bill.sponsorId,
+        officeId: seat.officeId,
+        traded: deal.date,
+      },
+    });
+  }
+}
+
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const result = countVote(api, billId);
   // Votes are on the record once a bill is anything but unvoted or blocked.
@@ -3461,6 +3509,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       bill = { ...bill, committeeId: committee.id };
       table(api, "bills").put(bill as unknown as ModuleRow);
     }
+    recordPromises(api, bill, chamber);
     bill = floorAmendments(api, bill, chamber);
     const counted = chamberVote(api, bill, chamber);
     // A tie: the presiding officer who may break one does (the Vice President

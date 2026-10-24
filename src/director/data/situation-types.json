@@ -2738,13 +2738,14 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "vote-confirmed",
-          "causeEngine": "legislature",
-          "causeRecord": "legislature.member-position",
-          "bind": {
-            "colleague": "members",
-            "you": "subject"
+          "match": {
+            "label": "cause:event:vote-promise",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "memberId", "is": "subject" }]
           },
+          "causeEngine": "legislature",
+          "causeRecord": "vote-promise",
+          "bind": { "colleague": "counterpart", "you": "subject" },
           "opener": "colleague"
         }
       ],
