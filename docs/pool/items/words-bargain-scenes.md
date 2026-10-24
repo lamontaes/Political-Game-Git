@@ -7,10 +7,11 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5949
 blocked-on:
 after: words-scenes-fire-in-play
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The owner, Oct 24: passing along his bargaining votes and comments, make it happen, at least behind the scenes; the code is already there. The legislature already records a vote trade (bill-amendment, kind trade-amendment) when a sponsor gives a holdout a section for their vote, but the director sized no moment from it and the vote-asked and section-bargain scene types waited on producers that never came. This item sizes the record, fires both scenes from it with the right cast, stages them in the chamber the record names and gives their talk the bill and section.
@@ -22,3 +23,5 @@ source: added with npm run pool -- add
 **Files.** src/director/data/situation-types.json, src/director/data/director.json, src/director/scheduling.ts, src/director/purpose-scene.ts, src/core2/modules/legislature.ts, src/director/bargain-scenes.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5949 (branch words/bargain-scenes): new bargain-scenes.test.ts:14 and carried purpose-scene.ts:2 / purpose-scenes.test.ts:22 embed dated owner instructions forbidden by the merger morning check; retain the quotes in docs and remove the dated source notes; finish on that branch, merge main into it first.
