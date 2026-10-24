@@ -3211,6 +3211,21 @@ L('follow','accept',A,'ask-vote',[("Then your amendment goes in. Deal.","calm",A
 LW=['case-looking-for-work']; UW=['case-paid-under-minimum-wage']
 L('state','request',A,'constituent-help',[("I've been out of work for months, and my savings are almost gone.","anxious",LW),("I can't find work, and I'm running out of money.","anxious",LW),("My job pays less than the minimum wage, and nobody will do anything about it.","anxious",UW),("I'm paid under the minimum wage. I checked the law.","braced",UW)])
 L('reply','promise',Y,'constituent-help',[("I'll get you in with the workforce office this week.","calm",LW),("I'll send this to the labor standards office today.","calm",UW)])
+# A bill that lost a vote (legislature.ts recordFailure): the sponsor's aide brings the news. Each needs the
+# fact bill-lost, and the count lines where it lost too, so they outrank the lines about a news story.
+BL=['bill-lost']; FL=['bill-lost','lost-on-floor']; CM=['bill-lost','lost-in-committee']
+L(N,N,R,'staff-news',[("The vote on {bill} is over. {name} comes in and closes the door.","solemn",BL)])
+L('state','deliver-news',A,'staff-news',[("We lost {bill} on the floor, {tally}.","solemn",FL),("{bill} went down on the floor. It was {tally}.","solemn",FL),("The committee voted down {bill}, {tally}.","solemn",CM),("{bill} didn't make it out of committee. It was {tally}.","solemn",CM)])
+L('reply','ask',Y,'staff-news',[("What was the count?","braced",BL)])
+L('follow','answer',A,'staff-news',[("It was {tally}. I have the roll call if you want it.","solemn",BL)],after='What was the count?')
+L('follow','answer',A,'staff-news',[("It lost {tally}. That's where we are.","solemn",BL)],after='How bad is it?')
+L('reply','blame',Y,'staff-news',[("We counted those votes. What happened?","braced",BL),("We should have had this one.","braced",BL)])
+L('follow','disagree',A,'staff-news',[("It's not on you. The votes weren't there.","solemn",BL)],after='blame')
+L('follow','comfort',A,'staff-news',[("You did everything you could on this one.","calm",BL)])
+L('follow','promise',A,'staff-news',[("I'll find out what it would take to bring it back.","braced",BL)])
+L('follow','offer',A,'staff-news',[("We can bring it back next session.","calm",BL),("We rework it and bring it back.","calm",BL)])
+L('reply','refuse',Y,'staff-news',[("No. Let it go for now.","guarded",BL)])
+L('close','press',A,'staff-news',[("Let's sit down tomorrow and count for next time.","braced",BL)])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
@@ -3252,6 +3267,7 @@ bank['slots'].update({
  "source":"Who told the speaker, by relation or name, from the news-received record.",
  "votes":"How many votes are counted for the bill, from the whip count.",
  "needed":"How many votes the bill needs to pass, from the chamber's rules.",
+ "tally":"A vote's count, against to for, from the legislature's record of the bill that lost.",
  "candidate":"Present when the person in the scene filed for office, from the filing record.",
  "cause":"A cause someone shared, by name, from the views engine's cause-shared record.",
  "kid":"The household's new child, by name, from the household record.",

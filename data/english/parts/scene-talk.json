@@ -30,7 +30,8 @@
     "teller": "Whoever told the person of the law, by name, from the record of how they learned.",
     "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
     "title": "How the person is addressed (their office), from their term.",
-    "issue": "The bill's question, named as the bill catalog records it."
+    "issue": "The bill's question, named as the bill catalog records it.",
+    "tally": "A vote's count, against to for, from the legislature's record of the bill that lost."
   },
   "maxWords": 70,
   "parts": [
@@ -83057,6 +83058,451 @@
       "tag": {
         "move": "promise",
         "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-vote-on-bill-is-over-name-comes-in-and-closes-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The vote on {bill} is over. {name} comes in and closes the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.we-lost-bill-on-the-floor-tally",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "We lost {bill} on the floor, {tally}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost", "lost-on-floor"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.bill-went-down-on-the-floor-it-was-tally",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{bill} went down on the floor. It was {tally}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost", "lost-on-floor"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.the-committee-voted-down-bill-tally",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "The committee voted down {bill}, {tally}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost", "lost-in-committee"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-deliver-news.bill-didn-t-make-it-out-of-committee-it-was-tally",
+      "move": "state-deliver-news",
+      "kind": "spoken",
+      "text": "{bill} didn't make it out of committee. It was {tally}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "deliver-news",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost", "lost-in-committee"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-was-the-count",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What was the count?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-was-tally-i-have-the-roll-call-if-you-want-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It was {tally}. I have the roll call if you want it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "scene-talk.reply-ask.what-was-the-count",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-lost-tally-that-s-where-we-are",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It lost {tally}. That's where we are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "scene-talk.reply-ask.how-bad-is-it",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.we-counted-those-votes-what-happened",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "We counted those votes. What happened?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-blame.we-should-have-had-this-one",
+      "move": "reply-blame",
+      "kind": "spoken",
+      "text": "We should have had this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "blame",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "blame",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-disagree.it-s-not-on-you-the-votes-weren-t-there",
+      "move": "follow-disagree",
+      "kind": "spoken",
+      "text": "It's not on you. The votes weren't there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "disagree",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-did-everything-you-could-on-this-one",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You did everything you could on this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "comfort",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-promise.i-ll-find-out-what-it-would-take-to-bring-it-back",
+      "move": "follow-promise",
+      "kind": "spoken",
+      "text": "I'll find out what it would take to bring it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.we-can-bring-it-back-next-session",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "We can bring it back next session.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "offer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-offer.we-rework-it-and-bring-it-back",
+      "move": "follow-offer",
+      "kind": "spoken",
+      "text": "We rework it and bring it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "offer",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "offer",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-let-it-go-for-now",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. Let it go for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.let-s-sit-down-tomorrow-and-count-for-next-time",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Let's sit down tomorrow and count for next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "news-received"
       }
     }
   ]
