@@ -176,7 +176,7 @@ describe(`a counted household's jobs follow its workers' jobs (seed ${seed})`, (
     try {
       const tried: string[] = [];
       let drawSeed = seed;
-      let run = play(drawSeed);
+      let run: Played | null = play(drawSeed);
       const unmet = (played: Played) =>
         played.hired.filter((row) => !played.core.people.has(row.personId));
       for (let draw = 1; draw < DRAWS && !unmet(run).length; draw += 1) {
@@ -184,6 +184,7 @@ describe(`a counted household's jobs follow its workers' jobs (seed ${seed})`, (
           `${run.place.name}, ${run.place.state} (${drawSeed}): no counted hire left to meet`,
         );
         drawSeed = `${seed}-${draw}`;
+        run = null;
         run = play(drawSeed);
       }
       const where = `${run.place.name}, ${run.place.state}, seed ${drawSeed}`;
