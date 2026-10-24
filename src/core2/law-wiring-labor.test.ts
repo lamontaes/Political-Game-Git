@@ -664,7 +664,7 @@ describe(
           if (
             !inForceHere(api, KEYS.raise) ||
             !own ||
-            !(own.value > 0) ||
+            !((own.value ?? 0) > 0) ||
             lawInForce(api, "minimum-wage").governing?.id !== own.id
           ) {
             tried.push(`${where}: no state wage under a yes`);

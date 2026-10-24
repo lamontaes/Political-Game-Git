@@ -126,7 +126,7 @@ function endOwnWage(
   const own = lawInForce(api, "minimum-wage").levels.find(
     (l) => l.level === level.level && l.jurisdiction === level.jurisdiction,
   )?.row;
-  if (!own || !(own.value > 0)) return;
+  if (!own || !((own.value ?? 0) > 0)) return;
   enactLaw(api, {
     jurisdiction: level.jurisdiction,
     level: level.level as Parameters<typeof enactLaw>[1]["level"],
