@@ -160,8 +160,11 @@ function play(
   return { core, placeId: built.placeId, amended };
 }
 
-const groupsOf = (core: CoreState) =>
-  rows<SchoolGroupRow>(core, "groups").filter((g) => g.measure === MEASURE);
+/** The town's graduation groups: the schools line is the town's, so other places the web follows have no cause to read. */
+const groupsOf = (core: CoreState, placeId: string) =>
+  rows<SchoolGroupRow>(core, "groups").filter(
+    (g) => g.measure === MEASURE && g.placeId === placeId,
+  );
 const measureOf = (core: CoreState, placeId: string) =>
   rows<SchoolMeasureRow>(core, "measures").find(
     (m) => m.measure === MEASURE && m.placeId === placeId,
@@ -183,7 +186,7 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
       const world = play(candidate, { amend: true });
       const where = `${candidate.name}, ${candidate.state} (seed ${candidate.seed})`;
       if ("skipped" in world) tried.push(`${where}: ${world.skipped}`);
-      else if (!groupsOf(world.core).length)
+      else if (!groupsOf(world.core, world.placeId).length)
         tried.push(`${where}: no seniors graduated`);
       else {
         drawn = candidate;
@@ -248,7 +251,7 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
     // groups carry the factor of the web month row they read, which includes
     // this link's part, so each fifth's factor and expected graduates stand
     // above what the same row gives without the link.
-    const raisedGroups = groupsOf(amended.core);
+    const raisedGroups = groupsOf(amended.core, placeId);
     const raisedMeasure = measureOf(amended.core, placeId)!;
     expect(raisedGroups.length).toBeGreaterThan(0);
     const graduationWeb = amendedWeb.find(
@@ -278,7 +281,7 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
         factorOf(graduationWeb, group.incomeFifth, LINK),
       );
     }
-    const baseGroups = groupsOf(base.core);
+    const baseGroups = groupsOf(base.core, placeId);
     const baseMeasure = measureOf(base.core, placeId)!;
     const baseWebRow = baseWeb.find(
       (row) => row.id === baseMeasure.webRecordId,
@@ -287,7 +290,7 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
     // 4. The shifted twin shows the same read at a size a small town can show:
     // every fifth's factor and expected count rise, and graduates are added,
     // by person record where a full senior is.
-    const shiftedGroups = groupsOf(shifted.core);
+    const shiftedGroups = groupsOf(shifted.core, placeId);
     const shiftedMeasure = measureOf(shifted.core, placeId)!;
     const shiftedWeb = webRows(shifted.core, placeId).find(
       (row) => row.id === shiftedMeasure.webRecordId,
@@ -309,13 +312,13 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
     expect(shiftedMeasure.value).toBeGreaterThanOrEqual(baseMeasure.value);
     const baseResults = new Map(
       rows<SchoolResultRow>(base.core, "results")
-        .filter((r) => r.measure === MEASURE)
+        .filter((r) => r.measure === MEASURE && r.placeId === placeId)
         .map((r) => [r.id, r]),
     );
     const shiftedResults = rows<SchoolResultRow>(
       shifted.core,
       "results",
-    ).filter((r) => r.measure === MEASURE);
+    ).filter((r) => r.measure === MEASURE && r.placeId === placeId);
     const flipped: string[] = [];
     for (const result of shiftedResults) {
       const before = baseResults.get(result.id);
