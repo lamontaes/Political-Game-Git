@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/traits-money
-pr:
+pr: #5587
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T15:42:11.072Z
