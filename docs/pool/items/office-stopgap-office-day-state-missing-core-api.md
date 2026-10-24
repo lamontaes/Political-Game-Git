@@ -25,3 +25,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5247 (branch claude/pool-state-seat-person-2): Morning check failed because stopgap row SG-STATE-dev-seat-player was deleted from stopgaps.json instead of marked resolved; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5247 (branch claude/pool-state-seat-person-2): src/core2/data/stopgaps.json deletes SG-STATE-dev-seat-player, as the body also states. The merger rule forbids deleting registered stopgap rows: retain the row, mark it resolved, name seatPerson and its reader in the resolution, and remove only the obsolete code marker. Rerun changed-file checks after merging main.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5247 (branch claude/pool-state-seat-person-2): The opening-only seating test omits the required one-year downstream-consumer proof and conditionally skips replaced-term assertions; add positive records and the missing Done-when evidence table, and correct the retained-row claim; finish on that branch, merge main into it first.

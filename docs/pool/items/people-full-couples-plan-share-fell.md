@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-20 from PR #5738 (branch claude/couples-plan-share): docs/pool/items/people-full-couples-plan-share-fell.md:20 requires births within the CDC age-band spreads in three drawn one-year buildBenchWorld runs, plus planning couples record ids. The PR explicitly reports 3 births against about 38 expected and omits those ids; notes alone do not meet that done-when. Please finish the required proof and behavior before resubmission.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5738 (branch claude/couples-plan-share): Fresh births-plan.ts conflict and explicitly unmet CDC age-band acceptance; resolve both or use a valid bounded item preserving unfinished age-shape work; finish on that branch, merge main into it first.
