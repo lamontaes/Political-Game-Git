@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.22.10",
+      "releasedOn": "2026-10-24",
+      "revision": "c953c52cff56d2120509ddfb3f996407eadf2212",
+      "changeIds": [
+        "effect-web-unwired",
+        "justice-plea-waits-for-hearing",
+        "tests-counted-voters-tiny-town"
+      ]
+    },
+    {
       "version": "0.22.9",
       "releasedOn": "2026-10-24",
       "revision": "57b0111b6720023840d713e583e8e2b20b29f4a7",
