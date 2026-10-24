@@ -5,9 +5,9 @@ area: core
 kind: stopgap
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-reach-health
-pr:
+pr: #5980
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T20:48:06.553Z
