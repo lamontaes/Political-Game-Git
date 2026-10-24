@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-filing-overlay
+pr: #5888
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T03:38:27.008Z
 ---
 
 **What.** Played in the bench on main ddcca36444 in The University of Virginia's College at Wise, Virginia (place key 5178264, seed 3f8aeef952bba5311b6380863c3ceca61588e758d27ebd1d18be83e968697640), at 1440 by 900. The filing overlay labels its checks with raw rule ids (FILING-DEADLINE, ALREADY-FILED, MINIMUM-AGE) and shows Deadline twice. Its platform list runs past the bottom of the screen. The news card covers the overlay's title (GOVERNO…). At the state counter the player is offered 'I want to run for U.S. Senator.' twice, with nothing to tell the two contests apart.
