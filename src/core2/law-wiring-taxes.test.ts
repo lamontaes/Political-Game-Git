@@ -716,7 +716,11 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           expect(
             rows("inheritance-tax").some(
               (r) =>
-                r.target === "government" && r.what === "inheritance-assessed",
+                r.target === "government" &&
+                r.what === "inheritance-assessed" &&
+                // Every state with the tax exempts a government heir in its
+                // statute (governmentHeir on the row, cited and quoted).
+                r.amountMinor === 0,
             ),
             `${where}: the state as heir of ${lone}, exempt`,
           ).toBe(true);

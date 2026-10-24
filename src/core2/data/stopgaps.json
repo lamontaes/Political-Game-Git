@@ -5542,7 +5542,7 @@
     "kind": "estimated-behavior",
     "file": "src/core2/estates.ts",
     "line": 413,
-    "whatItFakes": "A counted heir's relation to the person who died is read from the years between them (a parent's age younger, a child; older, a parent; nearer, the partner), so a counted sibling is taxed as a partner; and the estate is the dead person's share of their household's cash (the counts pool it in the group's account), not their own assets.",
+    "whatItFakes": "A counted heir's relation to the person who died is read from the years between them (a parent's age younger, a child; older, a parent; nearer, the partner), so a counted sibling is taxed as a partner; and the estate is the dead person's share of their household's cash (the counts pool it in the group's account), not their own assets. A counted estate no one inherits is assessed against the state as heir, but a tax on that heir (where a statute taxes a government; none of the starting law's five does) is recorded as assessed and not collected, because the retired household's cash has left the pool.",
     "why": "The counts keep family pairs without their kind, so an inheritance tax class cannot be read from a counted record, and keep money by group, not by member.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
@@ -5568,12 +5568,24 @@
     "id": "SG-LAW-death-tax-no-schedule",
     "kind": "assumed-behavior",
     "file": "src/core2/laws-death-taxes.ts",
-    "line": 40,
+    "line": 53,
     "whatItFakes": "A state that adopts an estate or inheritance tax by a bill that sets only a rate (it had none, so the bill has no schedule to keep) taxes the whole estate or share at that rate, with no exemption and no classes of heirs.",
     "why": "The bill catalog lets a legislature set the estate and inheritance tax amounts in any state; shapedRate keeps an existing schedule but a state without the tax has none to scale.",
     "replacement": "An adopting bill carries a schedule (an exemption, and for an inheritance tax the classes of heirs), drafted from the states that levy the tax.",
     "addedBy": "claude/law-wiring-death-tax-terms",
     "addedAt": "2026-10-20",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-government-heir-exempt-assumed",
+    "kind": "assumed-data",
+    "file": "src/core2/laws-death-taxes.ts",
+    "line": 182,
+    "whatItFakes": "A government that takes an estate no one else does is assumed exempt from the state's inheritance tax where the law row carries no researched statute term for it: a state that adopts an inheritance tax by a bill (the bill sets a rate, not the statute's exemptions), and Kentucky, whose statute exempts transfers to cities, towns and public institutions in the state for public purposes without naming the Commonwealth itself, so the Commonwealth taking an estate by escheat is our reading of it. Maryland, Nebraska, New Jersey and Pennsylvania name the state itself and are quoted in data.",
+    "why": "Every state with an inheritance tax in the starting law was checked against its statute (data/research/money/death-taxes-2026.json, governmentHeir, with cite, url and quote). All five exempt a government; four name the state, and Kentucky does so only by reading public institutions to include it. A state that adopts the tax by a bill has no researched statute.",
+    "replacement": "A statute-cited governmentHeir term on every inheritance-tax row: an adopting bill carries its state's term (the engine taxes the government at the state's rate for others when the term says exempt: false), and Kentucky's Department of Revenue or a court confirms the Commonwealth is exempt as an escheat taker.",
+    "addedBy": "claude/law-wiring-taxes",
+    "addedAt": "2026-10-24",
     "status": "open"
   }
 ]

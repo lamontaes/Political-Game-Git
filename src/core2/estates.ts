@@ -524,8 +524,9 @@ export function settleCountedEstate(
     });
     apply(tax, undefined, paid);
   }
-  // With no one to take it, the state is the heir, and the state's own
-  // inheritance tax exempts it: the law is applied all the same.
+  // With no one to take it, the state is the heir, and the state's statute
+  // says whether its inheritance tax reaches a government (`governmentHeir`
+  // on the row): the law is applied all the same.
   if (!heirs.length) {
     const exempt = assessInheritanceTax(
       api,

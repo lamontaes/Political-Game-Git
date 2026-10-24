@@ -20,6 +20,19 @@ interface Schedule {
 /** The relation of a government that takes an estate no one else does. */
 export const GOVERNMENT_HEIR = "government";
 
+/**
+ * What a state's statute says of a government that takes an estate, kept on
+ * its inheritance-tax row (data/research/money/death-taxes-2026.json).
+ */
+interface GovernmentHeirTerm {
+  readonly exempt: boolean;
+  readonly cite?: string;
+  readonly url?: string;
+  readonly quote?: string;
+  /** Set where the statute does not name the case and we read it in. */
+  readonly reading?: string;
+}
+
 /** A tax owed to one jurisdiction under one law, in cents. */
 export interface DeathTax {
   readonly jurisdiction: string;
@@ -149,18 +162,32 @@ export function assessInheritanceTax(
   const row = rowInForce(api, stateKey, "inheritance-tax");
   if (!row || row.value === null || row.value === undefined) return null;
   const terms = row.terms as unknown as
-    { classes?: Record<string, Schedule>; others?: Schedule } | undefined;
-  // A government that takes an estate (it escheats to the state) is exempt:
-  // Nebraska's statute exempts "property transferred to ... this state, or any
-  // governmental subdivision" (Neb. Rev. Stat. 77-2007.03); the other states
-  // are assumed alike (ESTIMATED).
-  if (relation === GOVERNMENT_HEIR)
+    | {
+        classes?: Record<string, Schedule>;
+        others?: Schedule;
+        governmentHeir?: GovernmentHeirTerm;
+      }
+    | undefined;
+  // A government that takes an estate (it escheats to the state) pays what the
+  // state's statute says. Each researched row carries the statute's term
+  // (`governmentHeir`, with its cite and quote); a state whose statute does
+  // not exempt a government is taxed here like any other heir, at its
+  // "government" class or else its rate for others. A row without the term (a
+  // bill adopted the tax) is assumed exempt, and a term marked with a
+  // `reading` is our reading of a statute that does not name the case.
+  const term = terms?.governmentHeir;
+  if (relation === GOVERNMENT_HEIR && term?.exempt !== false) {
+    if (!term || term.reading) {
+      // stopgapId: SG-LAW-government-heir-exempt-assumed
+      api.stopgap("SG-LAW-government-heir-exempt-assumed");
+    }
     return {
       jurisdiction: stateKey,
       series: "inheritance-tax",
       lawId: row.id,
       amountMinor: 0,
     };
+  }
   return {
     jurisdiction: stateKey,
     series: "inheritance-tax",
