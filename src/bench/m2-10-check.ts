@@ -11,6 +11,8 @@
 import { buildBenchWorld } from "./world";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { advanceCore } from "../core2/life";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { seatingProblems, type Holder } from "./m2-10-seating";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import {
@@ -60,6 +62,17 @@ const midterm = world("2026-10-13");
 const where = `${midterm.w.place.displayName} (${midterm.w.place.key}), seed ${seed}`;
 advanceCore(midterm.w.core, "2027-01-21");
 const races = racesOf(midterm.api).filter((r) => r.date === "2026-11-03");
+// Play on to the last real seating day, so no race is left unchecked.
+const lastSeating = races.reduce(
+  (last, r) => (r.seatedOn > last ? r.seatedOn : last),
+  midterm.w.core.date,
+);
+check(
+  lastSeating <= "2027-12-31",
+  `${where}: a race elected in November 2026 seats on ${lastSeating}`,
+);
+if (lastSeating >= midterm.w.core.date && lastSeating <= "2027-12-31")
+  advanceCore(midterm.w.core, addDays(makeIsoDate(lastSeating), 1));
 const byOffice = (test: (office: string) => boolean) =>
   races.filter((r) => test(r.office));
 const house = byOffice((o) => o === "us-house");
@@ -102,30 +115,21 @@ for (const r of races.filter(counted)) {
 // own. A seat the offices engine holds gets the winner's term there; any
 // other seat is kept in the world races' own seats, from the day it is filled.
 for (const r of [...house, ...senate, ...legislative]) {
-  if (r.seatedOn > midterm.w.core.date) continue;
   const kept = midterm.api
     .moduleState(WORLD_RACES_MODULE_ID)
     .table("seats")
     .get(r.seatId) as unknown as { party: string; since: string } | undefined;
-  const holders = [
-    ...serving(midterm.api, r.seatId)
-      .filter((t) => t.startDate >= r.seatedOn)
-      .map((t) => t.party),
-    ...(kept && kept.since >= r.seatedOn ? [kept.party] : []),
+  const holders: Holder[] = [
+    ...serving(midterm.api, r.seatId).map((t) => ({
+      party: t.party,
+      from: t.startDate,
+    })),
+    ...(kept ? [{ party: kept.party, from: kept.since }] : []),
   ];
-  check(
-    holders.some((party) => sideOf(party) === sideOf(r.winnerParty)),
-    `${where}: ${r.seatId} is not held by the ${r.winnerParty} winner after ${r.seatedOn} (${JSON.stringify(holders)})`,
-  );
-  if (r.office.startsWith("us-"))
-    check(
-      r.seatedOn === "2027-01-03",
-      `${where}: ${r.seatId} seats on ${r.seatedOn}, not January 3, 2027`,
-    );
+  for (const problem of seatingProblems(r, holders, sideOf))
+    check(false, `${where}: ${problem}`);
 }
-report.seated = [...house, ...senate, ...legislative].filter(
-  (r) => r.seatedOn <= midterm.w.core.date,
-).length;
+report.seated = [...house, ...senate, ...legislative].length;
 report.sample = races
   .slice(0, 3)
   .map(
