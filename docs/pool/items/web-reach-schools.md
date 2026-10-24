@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/web-reach-schools
 pr: #5934
 blocked-on:
