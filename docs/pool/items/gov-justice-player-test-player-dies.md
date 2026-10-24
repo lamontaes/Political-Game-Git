@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/justice-player.test.ts, src/bench/player.ts, src/core2/player-v1.ts
 
 **Notes.** Found Oct 23 by claude/sleepy-carson-f8omzd (pool item justice-bail-moves-the-cash). Whether that change raised the chance of the death was not established: a defendant held before the hearing now has their own choices off for the state's time to disposition; deaths come from the health engine's hazard (src/core2/modules/health.ts:769).
+
+Sent back 2026-10-24 from PR #5936 (branch claude/justice-player-death): world-build errors omit the place and bribe/module setup remains outside the seed/place wrapper before test registration; wrap complete load/setup and prove injected failures retain context on that branch, merge main into it first.
