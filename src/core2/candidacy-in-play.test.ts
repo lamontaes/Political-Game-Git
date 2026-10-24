@@ -14,6 +14,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { coreAPI } from "./state";
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { campaignParameter, questionAxis } from "./campaign-views";
 import {
   VOTING_MODULE_ID,
@@ -76,7 +77,16 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
           (row) => row.contestId === c.id && row.personId === personId,
         )!;
         expect(d).toBeDefined();
-        expect(Object.keys(d.reasons).length).toBeGreaterThan(5);
+        // A serving incumbent weighs standing again (voting.stand-again);
+        // everyone else weighs entering the race on its several reasons.
+        const term = c.incumbentTermId
+          ? rows<TermRow>(OFFICES_MODULE_ID, "terms").find(
+              (t) => t.id === c.incumbentTermId,
+            )
+          : undefined;
+        if (term?.status === "serving" && term.personId === personId)
+          expect(Object.keys(d.reasons)).toEqual(["standAgain"]);
+        else expect(Object.keys(d.reasons).length).toBeGreaterThan(5);
         expect(d.run).toBe(w!.runIds.includes(personId));
       }
     }
