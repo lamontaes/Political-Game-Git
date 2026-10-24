@@ -3206,6 +3206,11 @@ L('reply','lie',Y,'section-bargain',[("I was going to put it in anyway.","guarde
 L('follow','confront',A,'section-bargain',[("You spent an hour fighting it in committee.","braced",K+ADDED)],after='lie')
 L('reply','bargain',Y,'ask-vote',[("Put my amendment in {bill}, and you'll have my vote.","braced",ADDED)])
 L('follow','accept',A,'ask-vote',[("Then your amendment goes in. Deal.","calm",ADDED)],after='bargain')
+# Office hours (constituent-cases.ts problemOf): the resident's own problem from the case record, and the
+# referral the module really makes; each needs the case's fact, and with it they outrank the generic request.
+LW=['case-looking-for-work']; UW=['case-paid-under-minimum-wage']
+L('state','request',A,'constituent-help',[("I've been out of work for months, and my savings are almost gone.","anxious",LW),("I can't find work, and I'm running out of money.","anxious",LW),("My job pays less than the minimum wage, and nobody will do anything about it.","anxious",UW),("I'm paid under the minimum wage. I checked the law.","braced",UW)])
+L('reply','promise',Y,'constituent-help',[("I'll get you in with the workforce office this week.","calm",LW),("I'll send this to the labor standards office today.","calm",UW)])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
