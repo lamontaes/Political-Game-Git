@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: words/voice-note-grades
-pr:
+pr: #5906
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T05:36:45.060Z
