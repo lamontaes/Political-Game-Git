@@ -17,6 +17,7 @@ import {
   enterResidentMarket,
   countedSinceOpening,
   releaseResidentHousehold,
+  residentFacts,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
@@ -2092,7 +2093,7 @@ export function personOrFillIn(
   const full = core.people.get(personId);
   // Someone returned to the counts comes back as the same person.
   if (full && !isDemoted(full)) return full;
-  if (!residentPerson(core, personId)) return full;
+  if (!residentFacts(core, personId)) return full;
   return fillInPerson(core, personId);
 }
 
