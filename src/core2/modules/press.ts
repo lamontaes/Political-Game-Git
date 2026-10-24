@@ -21,7 +21,6 @@ import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import { spendLivingCost } from "../official-living";
-import { parameter } from "../parameters";
 import {
   decisionLean,
   decisionTraitWeight,
