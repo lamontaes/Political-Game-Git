@@ -209,6 +209,9 @@ function play(attempt: number, tried: string[]): Played | null {
   // 3. Committee, both chambers and the governor, on members' reasons.
   const status = holdVote(api, bill.id).status;
   const votes = votesOn(api, bill.id);
+  const tradedVote = votes
+    .filter((v) => v.memberId === target!.memberId)
+    .at(-1);
   // No dice: each vote is the sum of the member's recorded reasons.
   for (const v of votes)
     if (v.position)
@@ -230,7 +233,7 @@ function play(attempt: number, tried: string[]): Played | null {
       .map(([body, n]) => `${body} ${n}`)
       .join(
         ", ",
-      )}; ${new Set(votes.map((v) => v.memberId)).size} members), e.g. ${votes
+      )}; ${new Set(votes.map((v) => v.memberId)).size} members; yes ${votes.filter((v) => v.vote === "yes").length}, no ${votes.filter((v) => v.vote === "no").length}; the traded member's last vote ${tradedVote ? `${tradedVote.vote} (deal ${(tradedVote.position?.deal ?? 0).toFixed(3)}, total ${(tradedVote.position?.total ?? 0).toFixed(3)})` : "none"}), e.g. ${votes
       .slice(0, 4)
       .map(
         (v) =>
@@ -567,7 +570,7 @@ it(`a player's bill is followed from negotiation to a named person and back, and
   }).flatMap((chapter) => chapter.lines);
   const line = lines.find((l) => l.sourceRecordIds.includes(found!.id));
   console.info(
-    `laws-e2e ${where}: ${belowFloor.size} learners before this one fell below the director's moment floor; CHAIN bill ${passed!.billNumber} -> law ${lawIds.join(",")} -> applied ${applied!.id} (${applied!.amountMinor} minor) -> price ${String(found!.facts.priceRuleId)} moved ${String(found!.facts.movedMinor)} -> story ${story!.id} -> learned ${found!.id} -> stance ${stance!.id} -> moment ${moment!.id} (${moment!.label}) -> scene ${scene!.typeKey} at ${scene!.setting.kind} citing ${moment!.causeId} ("${sceneText}") -> journal ${line ? `"${line.text}"` : "none"}`,
+    `laws-e2e ${where}: ${belowFloor.size} learners before this one fell below the director's moment floor; CHAIN bill ${passed!.billNumber} -> law ${lawIds.join(",")} -> applied ${applied!.id} (${applied!.amountMinor} minor; ${core.households.get(applied!.targetId)?.memberIds.length ?? 0} people in the household) -> price ${String(found!.facts.priceRuleId)} moved ${String(found!.facts.movedMinor)} -> story ${story!.id} -> learned ${found!.id} -> stance ${stance!.id} -> moment ${moment!.id} (${moment!.label}) -> scene ${scene!.typeKey} at ${scene!.setting.kind} citing ${moment!.causeId} ("${sceneText}") -> journal ${line ? `"${line.text}"` : "none"}`,
   );
   expect(
     line,
@@ -621,7 +624,7 @@ it(`a player's bill is followed from negotiation to a named person and back, and
   const payersHeard = felt.filter((row) => heardOn.has(row.payerId));
   const missed = payersHeard.filter((row) => !learnedBy.has(row.payerId));
   console.info(
-    `laws-e2e ${where}: KNOWING ${felt.length} named households paid under it; ${heardOn.size} people heard a story about it; ${payersHeard.length} of those households' payers heard one; ${learnedBy.size} people tied a bill to it (${[...learnedBy].filter((id) => payersHeard.some((row) => row.payerId === id)).length} of them those payers); payers who heard and did not: ${
+    `laws-e2e ${where}: KNOWING of the town's ${new Set(residents.map((id) => core.people.get(id)?.householdId)).size} named households and ${residents.length} named residents at the law's start, ${felt.length} named households paid under it; ${heardOn.size} people heard a story about it; ${payersHeard.length} of those households' payers heard one; ${learnedBy.size} people tied a bill to it (${[...learnedBy].filter((id) => payersHeard.some((row) => row.payerId === id)).length} of them those payers); payers who heard and did not: ${
       missed
         .slice(0, 5)
         .map(
