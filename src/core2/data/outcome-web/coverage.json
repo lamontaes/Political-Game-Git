@@ -518,6 +518,21 @@
     },
     "parks-spending-to-exercise-access": {
       "waitingOn": ["budget.parks-added-pct"]
+    },
+    "revolving-door-ban-to-ex-legislator-lobbyists": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/interest-groups.ts passes over a former officeholder the ban still bars (lobbyingBarredUntil, src/core2/law-reach/group-a-voting.ts) when it chooses a group's lobbyist"
+    },
+    "revolving-door-ban-to-candidate-entry": {
+      "waitingOn": ["elections.new-candidate-entry"]
+    },
+    "public-jobs-to-private-employment": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire"
+    },
+    "home-rule-to-local-spending": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/policy-authority.ts lets a town or county body legislate on what the state leaves to home rule, read by src/core2/modules/legislature.ts when a bill is drafted; the bills it passes set the ordinances and spending"
     }
   },
   "measuresWanted": {
@@ -622,6 +637,10 @@
       "links": 1
     },
     "election.incumbent-reelection": {
+      "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "elections.new-candidate-entry": {
       "owner": "OPUS-GOV",
       "links": 1
     },
