@@ -8,7 +8,8 @@
   "geography": "Nation and named states, keyed by postal code",
   "sourceUrl": "per row",
   "retrievedOn": "2026-10-23",
-  "limits": "ATTOM publishes per-state averages only for its five longest and five shortest states each quarter, so 42 of 56 places have no published average of their own and take the national figure. A state's figure is the latest of these three quarters that names it. Statute reads cover the fields listed; the rest of foreclosure.json still comes from secondary summaries (data/research/housing/foreclosure-steps-2026.json).",
+  "inForceOn": "2025-01-20",
+  "limits": "Statute reads are the law in force on the game's opening day, January 20, 2025 (inForceOnOpening). ATTOM publishes per-state averages only for its five longest and five shortest states each quarter, so 42 of 56 places have no published average of their own and take the national figure. A state's figure is the latest of these three quarters that names it. Statute reads cover the fields listed; the rest of foreclosure.json still comes from secondary summaries (data/research/housing/foreclosure-steps-2026.json).",
   "nationalDays": {
     "value": 563,
     "quarter": "2026-Q2",
@@ -153,7 +154,12 @@
         "statute": "Minn. Stat. 580.03",
         "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/580.03",
         "basis": "text",
-        "quote": "Six weeks' published notice shall be given that such mortgage will be foreclosed by sale of the mortgaged premises or some part thereof"
+        "quote": "Six weeks' published notice shall be given that such mortgage will be foreclosed by sale of the mortgaged premises or some part thereof",
+        "inForceOnOpening": {
+          "date": "2025-01-20",
+          "confirmed": true,
+          "basis": "580.03 last amended 2010 (ch. 375); 580.23 last amended 2011 (ch. 66)."
+        }
       },
       {
         "field": "redemptionDaysAfterSale",
@@ -161,7 +167,12 @@
         "statute": "Minn. Stat. 580.23, subd. 1(a)",
         "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/580.23",
         "basis": "text",
-        "quote": "within six months after such sale, except as otherwise provided in subdivision 2 or section 582.032 or 582.32, may redeem such lands"
+        "quote": "within six months after such sale, except as otherwise provided in subdivision 2 or section 582.032 or 582.32, may redeem such lands",
+        "inForceOnOpening": {
+          "date": "2025-01-20",
+          "confirmed": true,
+          "basis": "580.03 last amended 2010 (ch. 375); 580.23 last amended 2011 (ch. 66)."
+        }
       }
     ],
     "MT": [
@@ -171,7 +182,12 @@
         "statute": "Mont. Code Ann. 71-1-315(1)(a)",
         "sourceUrl": "https://archive.legmt.gov/bills/mca/title_0710/chapter_0010/part_0030/section_0150/0710-0010-0030-0150.html",
         "basis": "text",
-        "quote": "At least 120 days before the date fixed for the trustee's sale, a copy of the recorded notice of sale must be mailed by certified mail to:"
+        "quote": "At least 120 days before the date fixed for the trustee's sale, a copy of the recorded notice of sale must be mailed by certified mail to:",
+        "inForceOnOpening": {
+          "date": "2025-01-20",
+          "confirmed": true,
+          "basis": "71-1-315 last amended 2009 (ch. 56)."
+        }
       }
     ],
     "RI": [
@@ -181,7 +197,12 @@
         "statute": "R.I. Gen. Laws 34-27-4",
         "sourceUrl": "https://webserver.rilegislature.gov/Statutes/TITLE34/34-27/34-27-4.htm",
         "basis": "text",
-        "quote": "the first publication of the notice shall be at least twenty-one (21) days before the day of sale"
+        "quote": "the first publication of the notice shall be at least twenty-one (21) days before the day of sale",
+        "inForceOnOpening": {
+          "date": "2025-01-20",
+          "confirmed": true,
+          "basis": "34-27-4 was amended by P.L. 2025, ch. 165 and ch. 166 (effective June 24, 2025); the 21-day phrase is unmarked existing text in ch. 165 (https://webserver.rilegislature.gov/PublicLaws/law25/law25165.htm), so it was in force on Jan. 20, 2025."
+        }
       }
     ],
     "TX": [
@@ -191,7 +212,12 @@
         "statute": "Tex. Prop. Code 51.002(a)",
         "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.51.htm",
         "basis": "text",
-        "quote": "a sale of real property under a power of sale conferred by a deed of trust or other contract lien must be a public sale at auction held between 10 a.m. and 4 p.m. of the first Tuesday of a month"
+        "quote": "a sale of real property under a power of sale conferred by a deed of trust or other contract lien must be a public sale at auction held between 10 a.m. and 4 p.m. of the first Tuesday of a month",
+        "inForceOnOpening": {
+          "date": "2025-01-20",
+          "confirmed": true,
+          "basis": "51.002 last amended by Acts 2023, 88th Leg., ch. 268 (S.B. 62), effective Sept. 1, 2023."
+        }
       },
       {
         "field": "noticeOfDefaultDays",
@@ -199,7 +225,12 @@
         "statute": "Tex. Prop. Code 51.002(d)",
         "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.51.htm",
         "basis": "text",
-        "quote": "giving the debtor at least 20 days to cure the default before notice of sale can be given under Subsection (b)"
+        "quote": "giving the debtor at least 20 days to cure the default before notice of sale can be given under Subsection (b)",
+        "inForceOnOpening": {
+          "date": "2025-01-20",
+          "confirmed": true,
+          "basis": "51.002 last amended by Acts 2023, 88th Leg., ch. 268 (S.B. 62), effective Sept. 1, 2023."
+        }
       },
       {
         "field": "saleNoticeDays",
@@ -207,7 +238,12 @@
         "statute": "Tex. Prop. Code 51.002(b)",
         "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.51.htm",
         "basis": "text",
-        "quote": "notice of the sale, which must include a statement of the earliest time at which the sale will begin, must be given at least 21 days before the date of the sale"
+        "quote": "notice of the sale, which must include a statement of the earliest time at which the sale will begin, must be given at least 21 days before the date of the sale",
+        "inForceOnOpening": {
+          "date": "2025-01-20",
+          "confirmed": true,
+          "basis": "51.002 last amended by Acts 2023, 88th Leg., ch. 268 (S.B. 62), effective Sept. 1, 2023."
+        }
       },
       {
         "field": "redemptionDaysAfterSale",
@@ -215,7 +251,12 @@
         "statute": "Tex. Prop. Code ch. 51",
         "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.51.htm",
         "basis": "absence",
-        "note": "Chapter 51 read whole (pr.51.htm): no redemption after a sale under a power of sale."
+        "note": "Chapter 51 read whole (pr.51.htm): no redemption after a sale under a power of sale.",
+        "inForceOnOpening": {
+          "date": "2025-01-20",
+          "confirmed": true,
+          "basis": "51.002 last amended by Acts 2023, 88th Leg., ch. 268 (S.B. 62), effective Sept. 1, 2023."
+        }
       }
     ]
   }

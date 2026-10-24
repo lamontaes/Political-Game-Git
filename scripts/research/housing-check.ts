@@ -4,8 +4,10 @@
  *
  * - eviction steps: every field read from a place's statute text
  *   (data/research/world/eviction-statute-reads-2026.json) is the value in
- *   the place's row of src/core2/data/housing/housing.json, and a row is
- *   "high" confidence exactly when all four of its steps were read.
+ *   the place's row of src/core2/data/housing/housing.json, every read is
+ *   the law in force on the game's opening day (a later change is kept as a
+ *   dated laterLaw row the engine does not read yet), and a row is "high"
+ *   confidence exactly when all four of its steps were read.
  * - Puerto Rico's house price index: housing.json's PR row is FHFA's
  *   developmental all-transactions series
  *   (data/research/world/fhfa-hpi-pr-2026q2.json), quarter for quarter.
@@ -42,10 +44,17 @@ interface EvictionRead {
   readonly statute: string;
   readonly sourceUrl: string;
   readonly quote: string;
+  readonly inForceOnOpening?: { date: string; confirmed: boolean };
+}
+interface LaterLaw {
+  readonly field: string;
+  readonly effectiveDate: string;
+  readonly quote: string;
 }
 interface EvictionPlace {
   readonly readOct12: readonly string[];
   readonly readOct23: readonly EvictionRead[];
+  readonly laterLaw?: readonly LaterLaw[];
   readonly secondary: Readonly<Record<string, string>>;
   readonly allRead: boolean;
 }
@@ -77,11 +86,22 @@ function checkEviction(): void {
         );
       if (row.estimatedFields.includes(read.field))
         fail(`eviction: ${usps} ${read.field} read but still estimated`);
+      if (read.inForceOnOpening?.date !== evictionReads.inForceOn)
+        fail(`eviction: ${usps} ${read.field} has no in-force date`);
     }
-    const read = new Set([
-      ...place.readOct12,
-      ...place.readOct23.map((r) => r.field),
-    ]);
+    for (const change of place.laterLaw ?? [])
+      if (!change.quote || change.effectiveDate <= evictionReads.inForceOn)
+        fail(
+          `eviction: ${usps} ${change.field} later law lacks a quote or is not later`,
+        );
+    // A field read Oct 12 from text that took effect after the opening day is secondary.
+    const read = new Set(
+      [...place.readOct12, ...place.readOct23.map((r) => r.field)].filter(
+        (field) =>
+          !place.secondary[field] ||
+          place.readOct23.some((r) => r.field === field),
+      ),
+    );
     for (const field of evictionReads.fields) {
       if (read.has(field)) counts[field]! += 1;
       else if (!place.secondary[field])

@@ -87,10 +87,10 @@
       "estimatedFields": []
     },
     "DC": {
-      "noticeDays": 10,
+      "noticeDays": 30,
       "cureAllowed": true,
       "gracePeriodDays": 5,
-      "hearingDays": 14,
+      "hearingDays": 30,
       "stayDays": 21,
       "statute": "D.C. Code 42-3505.01(a-1); 16-1501 et seq.",
       "confidence": "high",
@@ -137,7 +137,7 @@
       "estimatedFields": ["hearingDays", "stayDays", "cureAllowed"]
     },
     "HI": {
-      "noticeDays": 10,
+      "noticeDays": 5,
       "cureAllowed": true,
       "gracePeriodDays": 5,
       "hearingDays": 7,
@@ -478,12 +478,12 @@
     },
     "TX": {
       "noticeDays": 3,
-      "cureAllowed": true,
+      "cureAllowed": false,
       "gracePeriodDays": 2,
       "hearingDays": 10,
       "stayDays": 6,
       "statute": "Tex. Prop. Code 24.005, 24.0051, 24.0061, 92.019",
-      "confidence": "high",
+      "confidence": "medium",
       "estimatedFields": []
     },
     "UT": {
