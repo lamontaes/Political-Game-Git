@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
+status: in-pr
 claimed-by:
 pr: #5914
 blocked-on:
