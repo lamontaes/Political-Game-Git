@@ -481,7 +481,7 @@ function run(api: CoreAPI, announced = false): void {
   if (!state) return;
   // Kept outcomes hold at their base apart from their causes; see the stopgap.
   api.stopgap("SG-WEB-outcome-drift");
-  // No engine keeps SNAP receipt or food insecurity; they stay ledger numbers.
+  // No field counts the SNAP benefit's recipients into SNAP receipt, and no engine keeps food insecurity; both stay ledger numbers.
   api.stopgap("SG-WEB-snap-receipt-ledger");
   api.stopgap("SG-WEB-food-insecurity-ledger");
   // Causes of poverty that reach no incomes yet (poverty itself is the engine's).

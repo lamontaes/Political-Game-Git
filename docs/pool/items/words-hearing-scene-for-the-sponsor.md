@@ -6,11 +6,11 @@ kind: bug
 priority: 2
 size: S
 status: in-pr
-claimed-by: words/hearing-scene-sponsor
+claimed-by:
 pr: #5932
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T09:33:15.494Z
+claimed-at:
 ---
 
 **What.** src/director/hearing-scenes.test.ts fails on main on Dalton, Pennsylvania, seed 845b0e010bcbe17391d9cd5565012d261f2ba937:1. The watched person person_1fe1ba7f240abcbb has a public-hearing scene staged from the record public-comment:bill:office:gus2025:191328:board:2025-12-16:person_1fe1ba7f240abcbb:63. That record lists six other residents as its speakers; person_1fe1ba7f240abcbb is in the bill's own id, so they are most likely its sponsor. The director should stage a public-comment hearing scene only for the people the comment record names as speakers, and reach the sponsor through a scene of their own if one fits.
