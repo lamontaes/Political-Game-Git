@@ -66,10 +66,10 @@
       "general": {
         "kind": "alphabetical"
       },
-      "citation": "Source: A.S.C.A. title 6 ch. 6, not confirmed",
+      "citation": "48 U.S.C. 1734 (the territory sets the Delegate ballot's name order); A.S.C.A. title 6 ballot-order section not read",
       "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
       "estimate": true,
-      "note": "Elections are nonpartisan, so no partisan primary; alphabetical assumed. No American Samoa Code section on ballot order has been read, so alphabetical stays an assumption."
+      "note": "No partisan primary (elections are nonpartisan), so alphabetical is assumed for both rows. Checked Oct 23, 2026: the American Samoa Bar's code site (asbar.org) answers 403 from the cloud, and no Election Office notice on ballot position was found; 48 U.S.C. 1734 leaves the Delegate ballot's order to territorial law. Alphabetical stays an assumption until the code section is read."
     },
     "US-AZ": {
       "primary": {
@@ -242,16 +242,17 @@
     },
     "US-IN": {
       "primary": {
-        "kind": "alphabetical"
+        "kind": "alphabetical",
+        "unit": "by surname under the office; counties of 400,000 to 700,000 people order names by a public lottery instead (IC 3-10-1-18(b))"
       },
       "general": {
         "kind": "party",
         "within": "alphabetical"
       },
-      "citation": "Ind. Code § 3-11-2-6 (general); primary candidate-name order not found",
-      "url": "https://codes.findlaw.com/in/title-3-elections/in-code-sect-3-11-2-6/",
-      "estimate": true,
-      "note": "General settled (3-11-2-6): the major party whose secretary of state candidate won the most votes in the county goes first on the left, the second major party next, then parties with no candidate for that office and independents in order of petition filing. Primary: 3-10-1-19 orders the offices, not the candidate names; no section found that orders the names within an office, so alphabetical stays an estimate."
+      "citation": "Ind. Code 3-10-1-18 (primary); 3-11-2-6 (general)",
+      "url": "https://iga.in.gov/ic/2025/Title_3.pdf",
+      "estimate": false,
+      "note": "Read Oct 23, 2026 from the Indiana Code 2025 (Title 3, iga.in.gov). 3-10-1-18(a): 'the names of all candidates for each office who have qualified under IC 3-8 shall be arranged in alphabetical order by surnames under the designation of the office.' 3-10-1-18(b), for a county of more than 400,000 and less than 700,000 people: names are 'arranged in random order by surnames' by a public lottery; the rule here is the state's, and that county exception is not modeled. General (3-11-2-6): the major party whose secretary of state candidate won the most votes in the county first, the second major party next, then parties with no candidate for that office and independents in order of petition filing."
     },
     "US-KS": {
       "primary": {
@@ -374,15 +375,17 @@
     },
     "US-MP": {
       "primary": {
-        "kind": "alphabetical"
+        "kind": "lot",
+        "unit": "drawing of numbers at the Commonwealth Election Commission for each race"
       },
       "general": {
-        "kind": "alphabetical"
+        "kind": "lot",
+        "unit": "drawing of numbers at the Commonwealth Election Commission for each race"
       },
-      "citation": "Source: 1 CMC election law, not confirmed",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "1 CMC 6105(e)-(f), 6109(e) (the Commission sets ballots and nomination rules); Commission practice as reported by the Saipan Tribune, Aug. 13, 2014",
+      "url": "https://cnmilaw.gov/docs/cmc_section/T1/6109.pdf",
       "estimate": true,
-      "note": "No source found; assumed alphabetical. The Commonwealth Code election law has not been read. Specimen ballots on votecnmi.gov.mp list candidates in an order that is not alphabetical, so alphabetical is doubtful; the rule is unconfirmed."
+      "note": "Changed Oct 23, 2026 from assumed alphabetical to lot. The Commonwealth Code's election law (1 CMC Division 6, read on cnmilaw.gov) sets no ballot order: 6109(e) has the executive director 'prepare and provide printed ballots', and 6105(e)-(f) leave nomination and voting procedure to the Commission's rules. The Saipan Tribune ('Only Inos at drawing of lots for ballot placement', Aug. 13, 2014) reports 'the drawing of candidates' numbers for their names' placement on the ballot' for governor, Senate, mayor and House races. The Commission's regulation has not been read, so the row stays an estimate. The Commonwealth holds no partisan primary; the primary row only mirrors the general."
     },
     "US-MS": {
       "primary": {
@@ -553,16 +556,18 @@
     },
     "US-PA": {
       "primary": {
-        "kind": "lot"
+        "kind": "lot",
+        "unit": "lots cast by the Secretary of the Commonwealth or the county board after the last day for filing nomination petitions"
       },
       "general": {
         "kind": "party",
-        "within": "alphabetical"
+        "within": "alphabetical",
+        "unit": "parties in the order of their votes at the last gubernatorial election, highest first; parties not on that ballot alphabetically by party name; a party's several candidates for one multi-seat office by their primary votes"
       },
-      "citation": "Pa. Election Code (25 P.S.) § 2875 (primary); general § 2963 not read",
-      "url": "https://www.legis.state.pa.us/cfdocs/legis/LI/uconsCheck.cfm?txtType=HTM&yr=1937&sessInd=0&smthLwInd=0&act=320",
-      "estimate": true,
-      "note": "The Election Code text for the general-election party order (25 P.S. 2963) and the primary lot (25 P.S. 2875) has not been read; secondary reporting says primary positions are drawn by lot. Both rules stay estimates."
+      "citation": "25 P.S. 2875 (Election Code sec. 915, primary); 25 P.S. 2963(b), (f) (sec. 1003(b), (f), general)",
+      "url": "https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?txtType=PDF&SessYr=1937&ActNum=0320.&SessInd=0",
+      "estimate": false,
+      "note": "Read Oct 23, 2026 from the Election Code (1937 Act 320) on palegis.us. Sec. 915: the Secretary or the county board 'shall fix a day for the casting of lots ... for the position of names upon the primary ballots'. Sec. 1003(b): names are printed 'in the order of the votes obtained by the parties or bodies at the last gubernatorial election, beginning with the party obtaining the highest number of votes'; parties not on that ballot are 'arranged alphabetically, according to the party name'. Within a party, only a multi-seat office orders its candidates (by primary votes); each contest here is one seat, so the within-party order never applies."
     },
     "US-PR": {
       "primary": {
@@ -670,15 +675,17 @@
     },
     "US-VI": {
       "primary": {
-        "kind": "alphabetical"
+        "kind": "lot",
+        "unit": "casting of lots by the Supervisor of Elections; numbering resets for each contest"
       },
       "general": {
-        "kind": "alphabetical"
+        "kind": "lot",
+        "unit": "casting of lots by the Supervisor of Elections; numbering resets for each contest"
       },
-      "citation": "Source: 18 V.I.C. ch. 7, not confirmed",
-      "url": "https://ballotpedia.org/Rules_on_ballot_order_and_party_labeling",
+      "citation": "18 V.I.C. 419, as cited by the Elections System of the Virgin Islands in its 2024 General Election and 2026 Primary Election casting-of-lots notices",
+      "url": "https://vivote.gov/?p=12062",
       "estimate": true,
-      "note": "No source found; assumed alphabetical. The Virgin Islands Code (Title 18) has not been read. The Elections System of the Virgin Islands announces that candidate ballot positions are cast by lot, which points to lot rather than alphabetical, but the statute text has not been read."
+      "note": "Changed Oct 23, 2026 from assumed alphabetical to lot. The Elections System's official notices (vivote.gov/?p=10341 for the 2024 general, vivote.gov/?p=12062 for the 2026 primary) say: 'Pursuant to Title 18 Section 419 of the Virgin Islands Code, Supervisor Caroline F. Fawkes announces the Casting of Lots for the positioning of names of candidates'. The Virgin Islands Code text itself is not on an open site reachable from the cloud, so the row stays an estimate until 18 V.I.C. 419 is read."
     },
     "US-VT": {
       "primary": {

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by:
 pr: #5887
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Merger 0 reproduced the exact 79-versus-31 assertion on clean main while reviewing PR #5224, 2026-10-23 EDT. Solo case took 46.23 seconds; root seed 2ef350736d8ff61f6bcb649626df419a. The concurrent baseline attempt exited before an assertion and is not evidence.
 
 Sent back 2026-10-24 from PR #5887 (branch claude/retirement-claim-window): Fresh Elfrida AZ draw GOLDEN_PATH_SEED=53c5626c7d647210b14bab298039e0b8 still fails monthly-award best=41 less-than-31 assertion at line 106 after expanded date search; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5887 (branch claude/retirement-claim-window): Claimed test-only retirement scope omits campaign runtime, demoted health/death and returning-job changes in final diff; split those fixes or document full scope, associated acceptance and changed-test evidence; finish on that branch, merge main into it first.

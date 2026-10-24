@@ -15,7 +15,7 @@ import {
   type ResidentsInput,
 } from "../residents";
 import { drawSavingsToCover, transfer, transferSplit } from "../accounts";
-import { livingCostParts } from "../living-cost-split";
+import { livingCostParts, outsideCostParts } from "../living-cost-split";
 import { splitMarketDemand } from "../business-books";
 import { openingWorkCommitments } from "./work";
 import { coreAPI } from "../state";
@@ -107,6 +107,8 @@ interface FlowState extends ResidentFlowInput {
   accruedCostMinor?: number;
   accrualHistory?: { date: IsoDate; accrued: number }[];
   outsidePaidMinor?: number;
+  /** What its payments sent to someone other than its payee (a business's ads in the town's outlets), all time. */
+  splitPaidMinor?: number;
   endedAt?: IsoDate;
   endedReason?: string;
 }
@@ -994,12 +996,14 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       // A seller serves only what it can: spending beyond its capacity buys
       // the same thing outside the town.
       payees: (total) => {
-        // A part of the living cost is a government's charges (budgets).
+        // A part of the living cost is a government's charges or a paper's
+        // subscription.
         if (flow.financeKind === FIXED_SPENDING) {
           const governments = livingCostParts(
             core,
             flow.placeId,
             total,
+            flow.payerId,
           ).flatMap((row) => {
             const accountId = core.cashJournal.residualAccountByOwner.get(
               row.organizationId,
@@ -1195,17 +1199,25 @@ function post(
   payerId: string = flow.payerId,
 ): void {
   const core = api.state;
-  const governments =
+  // A part of a living cost is a government's charges or a paper's
+  // subscription; a part of a business's costs bought outside is advertising
+  // in the town's outlets.
+  const governments = (
     flow.financeKind === FIXED_SPENDING
-      ? livingCostParts(core, flow.placeId, paid).flatMap((row) => {
-          const accountId = core.cashJournal.residualAccountByOwner.get(
-            row.organizationId,
-          );
-          return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
-        })
-      : [];
+      ? livingCostParts(core, flow.placeId, paid, payerId)
+      : flow.kind === "outside-costs"
+        ? outsideCostParts(core, flow.placeId, paid, payerId)
+        : []
+  ).flatMap((row) => {
+    const accountId = core.cashJournal.residualAccountByOwner.get(
+      row.organizationId,
+    );
+    return accountId ? [{ accountId, deltaMinor: row.minor }] : [];
+  });
   if (governments.length) {
     const toGovernments = governments.reduce((n, row) => n + row.deltaMinor, 0);
+    if (flow.kind === "outside-costs")
+      flow.splitPaidMinor = (flow.splitPaidMinor ?? 0) + toGovernments;
     transferSplit(core, api, {
       id: `${flow.id}@${core.date}${payerId === flow.payerId ? "" : `:${payerId}`}`,
       lines: [
@@ -2065,6 +2077,37 @@ export function monthlyLivingCostMinor(
   return Math.round(total);
 }
 
+/**
+ * What one full household, or the counted households together, owe for
+ * living costs in a month: the part of `monthlyLivingCostMinor` a payer's own
+ * share of a living-cost payment is set against.
+ */
+export function payerLivingCostMinor(
+  core: CoreState,
+  placeId: PlaceId,
+  payer: { readonly householdId: string } | "counted",
+): number {
+  const rt = runtimes.get(core);
+  if (!rt) return 0;
+  if (payer !== "counted") {
+    const flow = rt.flows.get(`residents:outside-living:${payer.householdId}`);
+    return flow && !flow.endedAt
+      ? Math.round((flow.amountMinor * perYear(flow)) / 12)
+      : 0;
+  }
+  let total = 0;
+  for (const flow of rt.flows.values())
+    if (
+      !flow.endedAt &&
+      flow.kind === "purchase" &&
+      flow.financeKind === FIXED_SPENDING &&
+      flow.placeId === placeId &&
+      flow.payerId === flow.residentsId
+    )
+      total += (flow.amountMinor * perYear(flow) * flowScale(rt, flow)) / 12;
+  return Math.round(total);
+}
+
 const perYear = (flow: FlowState) =>
   flow.cadence.kind === "months"
     ? 12 / flow.cadence.every
@@ -2777,7 +2820,11 @@ function startCommuterJob(
       "A filled-in household's share of the place's unplaced workers' pay, as a job with an employer outside the town (the place's commute shares).",
     estimatedFrom: `Flow ${flow.id}: ${amount} minor units every ${cadence} days over a ${weekHours}-hour week.`,
   };
-  const jobId = commuterJobId(personId, startsAt);
+  const plain = commuterJobId(personId, startsAt);
+  // A household filled in, returned to the counts and filled in again the
+  // same day already has an ended job under that id: this one also names
+  // the fill-in that starts it.
+  const jobId = core.jobs.has(plain) ? `${plain}:${rt.fillIns}` : plain;
   const job: JobInput = {
     id: jobId,
     personId,
@@ -2841,12 +2888,17 @@ export function returnCommuterPay(
       flow.placeId === h.placeId,
   );
   if (!base) return;
-  let others = 0;
-  for (const x of rt.store.liveHouseholds())
-    if (x.placeId === h.placeId && x !== h) others += x.unplacedWorkers;
-  const share = amountMinor / (base.amountMinor + amountMinor);
   base.amountMinor += amountMinor;
-  h.unplacedWorkers = share < 1 ? (share * others) / (1 - share) : 0;
+  // As many of the place's unplaced workers as the pay it brings back, at
+  // the place's pay per unplaced worker (the rate a counted household's
+  // income reads). A share of the other counted households' workers came to
+  // none once they were all filled in (Bentonia, Mississippi).
+  const perYear =
+    base.cadence.kind === "days"
+      ? DAYS_PER_YEAR / base.cadence.every
+      : 12 / base.cadence.every;
+  const perWorker = rt.unplacedPerWorker.get(h.placeId) ?? 0;
+  h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
 }
 

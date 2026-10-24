@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/core-speed-guard-input-change
 pr: #5937
 blocked-on:

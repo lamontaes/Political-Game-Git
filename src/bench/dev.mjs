@@ -222,11 +222,83 @@ const setLaw = (repeal) =>
 $("law-set").onclick = () => setLaw(false);
 $("law-repeal").onclick = () => setLaw(true);
 
+// Following -------------------------------------------------------------------
+/**
+ * Follow puts a resident in focus, as the people the player deals with are,
+ * so each act from then on keeps every option's reasons. It decides nothing
+ * and spends no time. A resident in the player's circle is already kept.
+ */
+function followBar(personId, onChange, first) {
+  const status = el("span", { className: "role" });
+  const tier = el("span", { className: "role" });
+  const button = el("button", { className: "action", type: "button" });
+  let view;
+  const draw = (next) => {
+    view = next;
+    status.textContent = view.status;
+    tier.textContent = view.tier ? `tier ${view.tier}` : "";
+    button.textContent =
+      view.status === "dev-mode" ? "Stop following" : "Follow";
+    button.disabled = view.status === "player-circle";
+  };
+  button.onclick = () =>
+    run(async () => {
+      draw(
+        await api(
+          `/api/dev/${view.status === "dev-mode" ? "unfollow" : "follow"}`,
+          { personId },
+        ),
+      );
+      await onChange?.(view);
+    });
+  if (first) draw(first);
+  else {
+    draw({ status: "none" });
+    api(`/api/dev/following?personId=${encodeURIComponent(personId)}`)
+      .then(draw)
+      .catch(() => {});
+  }
+  return el(
+    "span",
+    { className: "row" },
+    el("span", { className: "label" }, "Following"),
+    status,
+    tier,
+    button,
+  );
+}
+/** The followed residents' decisions, one column each, so two can be read side by side. */
+async function drawFollowed() {
+  const { followed } = await api("/api/dev/following");
+  $("followed-box").hidden = followed.length === 0;
+  $("followed").replaceChildren(
+    ...followed.map(({ view, decisions }) =>
+      el(
+        "div",
+        { className: "followed-one" },
+        el(
+          "div",
+          { className: "row" },
+          el("b", {}, view.name),
+          el(
+            "span",
+            { className: "id", onclick: () => traceId(view.personId) },
+            view.personId,
+          ),
+          followBar(view.personId, drawFollowed, view),
+        ),
+        el("div", { className: "scroll" }, whyView(decisions)),
+      ),
+    ),
+  );
+}
+
 // 2. Decisions ---------------------------------------------------------------
 let people = [];
 loaders.decisions = async () => {
   people = await api("/api/dev/people");
   drawPeople();
+  await drawFollowed();
   await drawBodies();
 };
 function drawPeople() {
@@ -253,6 +325,7 @@ async function drawOffers(personId) {
   );
   $("offers-name").textContent =
     `${value.name}${value.pending ? ` · ${value.pending}` : ""}`;
+  $("offers-follow").replaceChildren(followBar(personId, drawFollowed));
   table(
     "offers-table",
     [
@@ -354,7 +427,10 @@ function whyView(panel) {
     { className: "why", open: true },
     el("summary", {}, panel.title),
   );
-  for (const row of panel.rows)
+  for (const row of panel.rows) {
+    // A row that lists several lines (a decision's options) reads as a block.
+    const text = String(row.value);
+    const block = text.includes("\n") ? " block" : "";
     box.append(
       el(
         "div",
@@ -363,12 +439,13 @@ function whyView(panel) {
         row.id
           ? el(
               "span",
-              { className: "id", onclick: () => traceId(row.id) },
-              String(row.value),
+              { className: `id${block}`, onclick: () => traceId(row.id) },
+              text,
             )
-          : el("span", {}, String(row.value)),
+          : el("span", { className: block.trim() }, text),
       ),
     );
+  }
   if (panel.gap)
     box.append(el("div", { className: "kv gap" }, `Gap: ${panel.gap}`));
   return box;
@@ -391,6 +468,32 @@ function traceChild(child, path, depth) {
   const link = el("span", { className: "id" }, child.id);
   head.append(link);
   let open;
+  // Read the node and show it, replacing what shows now (a person's decisions change once followed).
+  const render = async () => {
+    const node = await api(
+      `/api/dev/trace/node?id=${encodeURIComponent(child.id)}`,
+    );
+    const next = el(
+      "div",
+      {},
+      el(
+        "div",
+        { className: "row" },
+        el("span", { className: "kind" }, node.kind),
+        el("span", { className: "via" }, node.engine),
+        ...(node.kind === "person" && node.engine === "core.people"
+          ? [followBar(child.id, render)]
+          : []),
+      ),
+      ...(node.why ?? []).map(whyView),
+      tree(node.record, "record", 2),
+      tree(node.resolver, "saved trace", 2),
+      ...node.children.map((c) => traceChild(c, here, depth + 1)),
+    );
+    if (open) open.replaceWith(next);
+    else box.append(next);
+    open = next;
+  };
   link.onclick = () =>
     run(async () => {
       for (const other of document.querySelectorAll(".node.on"))
@@ -403,24 +506,7 @@ function traceChild(child, path, depth) {
         open = undefined;
         return;
       }
-      const node = await api(
-        `/api/dev/trace/node?id=${encodeURIComponent(child.id)}`,
-      );
-      open = el(
-        "div",
-        {},
-        el(
-          "div",
-          { className: "row" },
-          el("span", { className: "kind" }, node.kind),
-          el("span", { className: "via" }, node.engine),
-        ),
-        ...(node.why ?? []).map(whyView),
-        tree(node.record, "record", 2),
-        tree(node.resolver, "saved trace", 2),
-        ...node.children.map((c) => traceChild(c, here, depth + 1)),
-      );
-      box.append(open);
+      await render();
     });
   return box;
 }
@@ -444,6 +530,7 @@ async function personView(id) {
   await show("trace");
   await run(async () =>
     $("trace-result").replaceChildren(
+      followBar(id),
       tree(await api(`/api/dev/person?id=${encodeURIComponent(id)}`), id),
     ),
   );
@@ -582,7 +669,63 @@ loaders.watch = async () => {
   );
 };
 
-// 5. Experiments -------------------------------------------------------------
+// 5. Golden path --------------------------------------------------------------
+// The bench's own reading of the golden path (src/bench/progress.ts): each
+// step's status and the record that shows it, and each world piece with the
+// modules that run it.
+const evidenceIds = (e) =>
+  !e
+    ? []
+    : (e.recordIds ??
+      [e.contestId, e.targetId, e.personId, e.householdId].filter(Boolean));
+loaders.path = async () => {
+  const id = state.playerId ? `?id=${encodeURIComponent(state.playerId)}` : "";
+  const progress = await api(`/api/progress${id}`);
+  $("path-furthest").textContent = `furthestReachedStep ${
+    progress.furthestReachedStep ?? "none"
+  } · ${progress.date}`;
+  table(
+    "path-steps",
+    [
+      { name: "Step", value: (r) => r.step },
+      { name: "Label", value: (r) => r.label },
+      { name: "Status", value: (r) => r.status },
+      { name: "Evidence", value: (r) => r.evidence?.kind },
+      {
+        name: "Record",
+        value: (r) =>
+          el(
+            "span",
+            {},
+            r.evidence?.moduleId ?? "",
+            ...evidenceIds(r.evidence).map((rid) =>
+              el(
+                "span",
+                { className: "id", onclick: () => traceId(rid) },
+                `${rid} `,
+              ),
+            ),
+          ),
+      },
+      { name: "Missing module", value: (r) => r.missingModule },
+    ],
+    progress.steps,
+    undefined,
+    (r) => (r.status === "not in the new core yet" ? "dev" : ""),
+  );
+  table(
+    "path-world",
+    [
+      { name: "Piece", value: (r) => r.label },
+      { name: "Status", value: (r) => r.status },
+      { name: "Running modules", value: (r) => r.runningModules?.join(" · ") },
+      { name: "Missing module", value: (r) => r.missingModule },
+    ],
+    progress.world,
+  );
+};
+
+// 6. Experiments -------------------------------------------------------------
 loaders.experiments = async () => {
   const { builtIn, saved } = await api("/api/dev/experiments");
   table(
