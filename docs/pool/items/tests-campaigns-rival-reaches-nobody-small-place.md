@@ -5,11 +5,12 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-campaigns-small-place
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T04:44:53.785Z
 ---
 
 **What.** The golden-path spec M2-05 (src/core2/campaigns.test.ts) fails on clean main (185d76d7ce) in Bazile Mills, Nebraska (place key 3103355, seed ccb7c0f8d8374e5ebaae4f43472c44c6cb52740684392d7b7bebcbdb2e03cdf4): 'expected 0 to be greater than 0' at campaigns.test.ts:191, because the rival's campaignTurn knocks on no doors. The golden path draws its place from each PR's commit, so any PR that draws a place like this goes red on golden-path without touching campaigns (seen on lamontaes/Political-Game-Git#5863). Find why a rival in a very small place reaches nobody (no door the rival can reach, or the test's contest picks a seat with no residents) and fix the cause, not the assertion.
