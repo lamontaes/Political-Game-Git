@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/counted-demotion.test.ts, src/core2/modules/counted-demotion.ts, src/core2/counted-groups.ts
 
 **Notes.** Found by Merger 0 while gating PR #5852 on 2026-10-23. The new moved-household case passed in 32.55 seconds; the existing in-town money case failed identically on clean main in 37.02 seconds. Logs retained in /tmp/merger0-5852/ for this cloud session.
+
+Sent back 2026-10-24 from PR #5897 (branch claude/counted-demotion-retained-cash): current main conflicts in production code src/core2/modules/counted-demotion.ts, preventing a main-integrated gate; finish on that branch, merge main into it first.
