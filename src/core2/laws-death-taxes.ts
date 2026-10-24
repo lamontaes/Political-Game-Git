@@ -17,6 +17,9 @@ interface Schedule {
   readonly slideOver?: number;
 }
 
+/** The relation of a government that takes an estate no one else does. */
+export const GOVERNMENT_HEIR = "government";
+
 /** A tax owed to one jurisdiction under one law, in cents. */
 export interface DeathTax {
   readonly jurisdiction: string;
@@ -147,6 +150,17 @@ export function assessInheritanceTax(
   if (!row || row.value === null || row.value === undefined) return null;
   const terms = row.terms as unknown as
     { classes?: Record<string, Schedule>; others?: Schedule } | undefined;
+  // A government that takes an estate (it escheats to the state) is exempt:
+  // Nebraska's statute exempts "property transferred to ... this state, or any
+  // governmental subdivision" (Neb. Rev. Stat. 77-2007.03); the other states
+  // are assumed alike (ESTIMATED).
+  if (relation === GOVERNMENT_HEIR)
+    return {
+      jurisdiction: stateKey,
+      series: "inheritance-tax",
+      lawId: row.id,
+      amountMinor: 0,
+    };
   return {
     jurisdiction: stateKey,
     series: "inheritance-tax",

@@ -36,13 +36,12 @@ import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
 import { ownerOf } from "./modules/business";
 import { outsideAccountOf, treasuryMonthsOf } from "./budgets-treasury";
 import {
-  authorityFor,
   bodyOf,
   draftBill,
   LEGISLATURE_MODULE_ID,
 } from "./modules/legislature";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./modules/laws";
-import { OFFICES_MODULE_ID } from "./modules/offices";
+import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, Source } from "./types";
 
@@ -362,6 +361,62 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           ).length,
           `${where}: public workers whose pensions are funded`,
         ).toBeGreaterThan(0);
+        // Each law's money is named by a journal entry of the run: the posting
+        // that moved it, found by the record it was paid for (the worker, the
+        // owner household, the business, the treasury's owner).
+        const evidence: string[] = [];
+        const named = (
+          label: string,
+          list: readonly LawAppliedRow[],
+          owner: (row: LawAppliedRow) => string = (row) => row.targetId,
+        ) => {
+          for (const row of [...list].sort(
+            (a, b) => Math.abs(b.amountMinor) - Math.abs(a.amountMinor),
+          )) {
+            const base = owner(row).split("|")[0]!;
+            const post = runPosts.find((p) => p.text.includes(base));
+            if (!post) continue;
+            evidence.push(
+              `${label}: ${row.id} (${row.target}${row.count > 1 ? ` x${row.count}` : ""}, ${row.amountMinor} minor) <- journal ${post.id}`,
+            );
+            return;
+          }
+          expect.fail(
+            `${where}: no journal entry names a ${label} row: ${list
+              .slice(0, 4)
+              .map((r) => `${r.id} ${r.target} ${r.amountMinor}`)
+              .join("; ")} of ${list.length}`,
+          );
+        };
+        named("income-tax", raised);
+        named("adopt-income-tax", open(ADOPT));
+        named("graduated-income-tax", open(GRADUATED));
+        named("property-tax", property);
+        named("cap-property-tax-growth", open(CAP));
+        named("corporate-income-tax", corporate);
+        // A fiscal rule's money is found where the treasury moved it: the
+        // reserve account, the pension line's payments, a line's payments.
+        const treasuryOwner = (row: LawAppliedRow) =>
+          governments(api).find((g) => g.id === row.targetId)?.organizationId ??
+          row.targetId;
+        const govRows = (key: string) =>
+          open(key).filter((r) => r.target === "government");
+        named(
+          "minimum-reserve-balance",
+          govRows(RESERVE),
+          (row) => `reserve:${treasuryOwner(row)}`,
+        );
+        named(
+          "fund-pensions-to-schedule",
+          govRows(PENSIONS),
+          (row) => `${row.targetId}:retirementContributions`,
+        );
+        named(
+          "balanced-operating-budget",
+          govRows(BALANCED),
+          (row) => `:${row.targetId}:`,
+        );
+
         // The treasury reads the reserve rule as it closes each month: with the
         // budget's spending raised, the next close tops the reserve up and
         // records the government again, on a date the treasury closed its books.
@@ -393,61 +448,21 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           `${where}: reserve last applied ${reread.lastOn}, a treasury close`,
         ).toBe(true);
 
-        // Each law's money is named by a journal entry of the run: the posting
-        // that moved it, found by the record it was paid for (the worker, the
-        // owner household, the business, the treasury's owner).
-        const evidence: string[] = [];
-        const named = (
-          label: string,
-          list: readonly LawAppliedRow[],
-          owner: (row: LawAppliedRow) => string = (row) => row.targetId,
-        ) => {
-          for (const row of [...list].sort(
-            (a, b) => Math.abs(b.amountMinor) - Math.abs(a.amountMinor),
-          )) {
-            const base = owner(row).split("|")[0]!;
-            const post = runPosts.find((p) => p.text.includes(base));
-            if (!post) continue;
-            evidence.push(
-              `${label}: ${row.id} (${row.target}${row.count > 1 ? ` x${row.count}` : ""}, ${row.amountMinor} minor) <- journal ${post.id}`,
-            );
-            return;
-          }
-          expect.fail(`${where}: no journal entry names a ${label} row`);
-        };
-        named("income-tax", raised);
-        named("adopt-income-tax", open(ADOPT));
-        named("graduated-income-tax", open(GRADUATED));
-        named("property-tax", property);
-        named("cap-property-tax-growth", open(CAP));
-        named("corporate-income-tax", corporate);
-        const treasuryOwner = (row: LawAppliedRow) =>
-          governments(api).find((g) => g.id === row.targetId)?.organizationId ??
-          row.targetId;
-        for (const key of [BALANCED, PENSIONS, RESERVE])
-          named(
-            key.replace("us-policy-positions:fiscal.", ""),
-            open(key).filter((r) => r.target === "government"),
-            treasuryOwner,
-          );
-
         // Local income-tax authority: a local body drafts a tax bill and the
         // state's grant or refusal is read for it.
-        const office = (
-          api
-            .moduleState(OFFICES_MODULE_ID)
-            .table("offices")
-            .rows() as unknown as {
-            id: string;
-          }[]
-        ).find((o) => {
-          const kind = bodyOf(api, o.id)?.kind ?? "";
-          return !kind.startsWith("legislature-") && !kind.startsWith("us-");
-        });
-        expect(office, `${where}: a local body`).toBeDefined();
-        const sponsor = [...core.people.values()].find((p) => p.alive)!;
+        // The town's governing body (a council, a township board), with a
+        // member of it to sponsor the bill.
+        const seat = townSeats(api).find(
+          (s) =>
+            (s.office.level === "city" || s.office.level === "township") &&
+            s.holder?.personId &&
+            !!bodyOf(api, s.office.id),
+        );
+        expect(seat, `${where}: a member of the town's body`).toBeDefined();
+        const office = seat!.office;
+        const sponsor = { id: seat!.holder!.personId! };
         const bill = draftBill(api, {
-          bodyOfficeId: office!.id,
+          bodyOfficeId: office.id,
           sponsorId: sponsor.id,
           provisions: [
             {
@@ -488,7 +503,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         });
         run(core, 2);
         const redraft = draftBill(api, {
-          bodyOfficeId: office!.id,
+          bodyOfficeId: office.id,
           sponsorId: sponsor.id,
           provisions: [
             {
@@ -502,7 +517,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         expect(redraft.authority[0]!.allowed, where).toBe(!granted);
         expect(redraft.authority[0]!.source, where).toBe(flipped.id);
         const changed = rows("local-income-tax-authority").find(
-          (r) => r.targetId === office!.id && !r.endedOn,
+          (r) => r.targetId === office.id && !r.endedOn,
         );
         expect(
           changed?.lawId,
@@ -661,6 +676,51 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
             `${where}: journal entry for ${row.id}`,
           ).toBe(true);
 
+        // Someone who lived alone leaves no heir: the estate goes to the
+        // state, deductible, so both laws are applied to it and nothing is due
+        // (the state is exempt from its own inheritance tax).
+        const alone = [...store.liveHouseholds()]
+          .filter(
+            (h) =>
+              store.countedMembers(h).length === 1 && householdCash(rt, h) > 0,
+          )
+          .sort((a, b) => a.id.localeCompare(b.id))[0];
+        expect(alone, `${where}: a counted household of one`).toBeDefined();
+        const lone = store.ids[store.countedMembers(alone!)[0]!]!;
+        const leftBehind = countedEstateOf(core, lone as never)!;
+        expect(leftBehind.heirs, where).toEqual([]);
+        removeCountedPerson(core, lone as never);
+        settleCountedEstate(api, {
+          deceasedId: lone as never,
+          placeId: lawChain(api).townPlaceId,
+          estate: leftBehind,
+        });
+        const assessedAlone = rows("estate-tax").filter((r) =>
+          r.targetId.startsWith(lone),
+        );
+        expect(
+          assessedAlone.some(
+            (r) =>
+              r.target === "group" &&
+              r.count >= 1 &&
+              r.what === "estate-assessed" &&
+              r.amountMinor === 0,
+          ),
+          `${where}: estate of ${lone} assessed on nothing`,
+        ).toBe(true);
+        if (
+          lawInForce(api, "inheritance-tax").levels.some(
+            (l) => l.level === "state" && l.row,
+          )
+        )
+          expect(
+            rows("inheritance-tax").some(
+              (r) =>
+                r.target === "government" && r.what === "inheritance-assessed",
+            ),
+            `${where}: the state as heir of ${lone}, exempt`,
+          ).toBe(true);
+
         evidence.push(
           `local-income-tax-authority: ${authority[0]!.id} (${authority[0]!.target}, grants a power and moves no money by its terms)`,
         );
@@ -734,16 +794,22 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           const year = core.date.slice(0, 4);
           if (federal && state && outside)
             advanceCore(core, makeIsoDate(`${year}-06-30`));
-          const corporation = (not?: string) =>
+          // Locations of a corporation (a business an organization owns), not
+          // among those `not` names. A location can spend its cash on the
+          // quarter day before its tax is taken, so several are set up at once
+          // and the ones that could pay are the ones read.
+          const corporations = (not: readonly string[] = [], most = 6) =>
             [...core.finance.businesses.entries()]
-              .filter(([id, books]) => !books.closedAt && id !== not)
+              .filter(([id, books]) => !books.closedAt && !not.includes(id))
               .map(([id]) => id)
               .sort()
-              .find((id) => {
+              .filter((id) => {
                 const owner = ownerOf(api, id);
                 return !!owner && core.organizations.has(owner);
-              });
-          const business = corporation();
+              })
+              .slice(0, most);
+          const julyBusinesses = corporations();
+          const business = julyBusinesses[0];
           if (!federal || !state || !outside || !business) {
             tried.push(
               `${where}: ${!state ? "no state corporate rate" : !business ? "no business an organization owns" : "no federal treasury or outside account"}`,
@@ -787,7 +853,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
               .put({ id, minor: Number.MAX_SAFE_INTEGER / 4 });
             setCash(
               id,
-              core.date,
+              `${id}:${core.date}`,
               cashMinor(accounts.balance(accounts.main(id))),
             );
           };
@@ -806,16 +872,21 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
 
           // July 1, no profit: federal 2,000,000 and state 1,000,000 owed, and
           // cash for about half. Each treasury is paid its share of what it is owed.
-          owe(
-            business,
-            { [federal.id]: 2_000_000, [state.id]: 1_000_000 },
-            () => 1_500_000,
-          );
+          for (const id of julyBusinesses)
+            owe(
+              id,
+              { [federal.id]: 2_000_000, [state.id]: 1_000_000 },
+              () => 1_500_000,
+            );
           advanceCore(core, makeIsoDate(`${year}-07-01`));
-          const july = paidOn(business, `${year}-07-01`);
+          const paying =
+            julyBusinesses.find(
+              (id) => (paidOn(id, `${year}-07-01`).record?.paidMinor ?? 0) > 0,
+            ) ?? business;
+          const july = paidOn(paying, `${year}-07-01`);
           expect(
             july.record,
-            `${where}: ${business} July record`,
+            `${where}: ${paying} July record (${julyBusinesses.length} locations set up)`,
           ).toBeDefined();
           expect(july.record!.taxMinor, `${where}: no profit, no new tax`).toBe(
             0,
@@ -856,15 +927,20 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
             citation: "Test repeal",
           });
           advanceCore(core, makeIsoDate(`${year}-09-30`));
-          // A location still open (the one above may have closed short of
-          // cash), given the cash to pay.
-          const second = corporation(business) ?? corporation();
-          if (!second) {
+          // Locations still open (the ones above may have closed short of
+          // cash), each given the cash to pay.
+          const octoberBusinesses = corporations(julyBusinesses);
+          if (!octoberBusinesses.length) {
             tried.push(`${where}: no corporation location open in September`);
             continue;
           }
-          owe(second, { [state.id]: 1_000_000 }, (held) => held + 1_000_000);
+          for (const id of octoberBusinesses)
+            owe(id, { [state.id]: 1_000_000 }, (held) => held + 1_000_000);
           advanceCore(core, makeIsoDate(`${year}-10-01`));
+          const second =
+            octoberBusinesses.find(
+              (id) => paidOn(id, `${year}-10-01`).state === 1_000_000,
+            ) ?? octoberBusinesses[0]!;
           const october = paidOn(second, `${year}-10-01`);
           expect(october.record, `${where}: October record`).toBeDefined();
           expect(
@@ -877,7 +953,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
             `${where}: nothing left owed`,
           ).toEqual({});
           console.info(
-            `law-wiring-taxes arrears ${where}: ${business} in July paid federal ${july.federal} and state ${july.state} of 2,000,000 and 1,000,000; ${second} on October 1 paid the repealed state ${october.state}`,
+            `law-wiring-taxes arrears ${where}: ${paying} in July paid federal ${july.federal} and state ${july.state} of 2,000,000 and 1,000,000; ${second} on October 1 paid the repealed state ${october.state}`,
           );
           return;
         }

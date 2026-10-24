@@ -2334,6 +2334,8 @@ export function countedEstateOf(
 ):
   | {
       readonly householdId: string;
+      /** The households the counted record stands for. */
+      readonly households: number;
       readonly bornOn: string;
       readonly heirs: readonly PersonId[];
       readonly estateMinor: number;
@@ -2347,6 +2349,7 @@ export function countedEstateOf(
   const members = store.countedCount(h);
   return {
     householdId: h.id,
+    households: store.weightOf(h),
     bornOn: store.born[m]!,
     heirs: inheritorsOf(store, h, m).map(
       (member) => store.ids[member]! as PersonId,

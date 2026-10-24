@@ -54,8 +54,9 @@
         "src/core2/counted-money.ts:413": 162,
         "src/core2/modules/budgets.ts:1160": 156,
         "src/core2/modules/counted-moves.ts:183": 128,
+        "src/core2/modules/outcome-web.ts:159": 8,
         "src/core2/life.ts:549": 2,
-        "src/core2/law-reach/group-b.ts:500": 2
+        "src/core2/law-reach/group-b.ts:505 <- src/core2/life.ts:549": 2
       },
       "openingRow": "law:US-MI:state:income-tax:general:2026-01-01:from-start",
       "money": {
@@ -217,7 +218,18 @@
         "cited": []
       },
       "web": {
-        "links": [],
+        "links": [
+          {
+            "key": "income-tax-rate-to-poverty",
+            "status": "about-zero",
+            "to": "household.poverty-pct"
+          },
+          {
+            "key": "income-tax-rate-to-out-migration",
+            "status": "about-zero",
+            "to": "population.out-migration"
+          }
+        ],
         "fired": [],
         "firedCount": 0
       },
@@ -246,20 +258,7 @@
           "income-tax|person_03c56c71b4e8aacd|2025-01-21"
         ]
       },
-      "seconds": 11
-    },
-    {
-      "key": "sales-tax",
-      "kind": "amount",
-      "family": "taxes-finance",
-      "inForceAtOpening": false,
-      "change": "sales-tax 6 -> 7 at state (law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4) effective 2025-01-21",
-      "lawIds": [
-        "law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
-        "law:US-MI:state:sales-tax:general:2026-01-01:from-start",
-        "law:US-MI:state:sales-tax:general:2025-02-26:law-wiring-dc491ba4-undo"
-      ],
-      "openingReach": {
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
@@ -271,137 +270,7 @@
         "ended": 0,
         "sample": []
       },
-      "reach": {
-        "fullPeople": 73,
-        "countedGroups": 30,
-        "countedPeople": 4710,
-        "households": 0,
-        "organizations": 15,
-        "governments": 0,
-        "other": 0,
-        "open": 118,
-        "ended": 0,
-        "sample": [
-          "applied|sales-tax|person_7b570565dc6dd202",
-          "applied|sales-tax|person_7b570665dc6dd3b5",
-          "applied|sales-tax|person_7b570365dc6dce9c",
-          "applied|sales-tax|person_7b570465dc6dd04f"
-        ]
-      },
-      "readers": {
-        "src/core2/life.ts:549": 2,
-        "src/core2/modules/budgets.ts:603": 1
-      },
-      "openingRow": "law:US-MI:state:sales-tax:general:2026-01-01:from-start",
-      "money": {
-        "direct": [
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
-            "treatment": 113059662,
-            "control": 113054820,
-            "ids": [
-              "journal:2025-01-26:1649",
-              "journal:2025-01-26:1652",
-              "journal:2025-01-28:1672"
-            ]
-          }
-        ],
-        "diff": [
-          {
-            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-            "treatment": 1593876,
-            "control": 1379040,
-            "ids": [
-              "journal:2025-02-01:1965",
-              "journal:2025-02-01:1967",
-              "journal:2025-02-01:1969"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 9767283,
-            "control": 9745174,
-            "ids": [
-              "journal:2025-01-26:1648",
-              "journal:2025-01-26:1651",
-              "journal:2025-01-28:1671"
-            ]
-          },
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
-            "treatment": 113059662,
-            "control": 113054820,
-            "ids": [
-              "journal:2025-01-26:1649",
-              "journal:2025-01-26:1652",
-              "journal:2025-01-28:1672"
-            ]
-          },
-          {
-            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
-            "treatment": 2245690,
-            "control": 2243269,
-            "ids": [
-              "journal:2025-01-25:1637",
-              "journal:2025-01-25:1639",
-              "journal:2025-01-25:1641"
-            ]
-          },
-          {
-            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
-            "treatment": 5764,
-            "control": 5713,
-            "ids": [
-              "journal:2025-01-26:1658",
-              "journal:2025-01-27:1670",
-              "journal:2025-01-28:1717"
-            ]
-          }
-        ],
-        "diffKinds": 5,
-        "cited": [
-          {
-            "token": "sales-tax",
-            "gross": 1593876,
-            "ids": [
-              "journal:2025-02-01:1965",
-              "journal:2025-02-01:1967",
-              "journal:2025-02-01:1969"
-            ]
-          }
-        ]
-      },
-      "web": {
-        "links": [],
-        "fired": [],
-        "firedCount": 0
-      },
-      "heard": {
-        "people": 77,
-        "sample": [
-          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
-          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
-          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4"
-        ]
-      },
-      "afterUndo": {
-        "fullPeople": 106,
-        "countedGroups": 23,
-        "countedPeople": 2668,
-        "households": 0,
-        "organizations": 14,
-        "governments": 0,
-        "other": 0,
-        "open": 143,
-        "ended": 0,
-        "sample": [
-          "applied|sales-tax|person_7b570565dc6dd202",
-          "applied|sales-tax|person_7b570665dc6dd3b5",
-          "applied|sales-tax|person_7b570365dc6dce9c",
-          "applied|sales-tax|person_7b570465dc6dd04f"
-        ]
-      },
-      "seconds": 10
+      "seconds": 15
     },
     {
       "key": "property-tax",
@@ -584,7 +453,7 @@
         "links": [
           {
             "key": "property-tax-to-rent",
-            "status": "outcome-not-produced",
+            "status": "built",
             "to": "housing.rent"
           }
         ],
@@ -616,7 +485,19 @@
           "applied|property-tax|household_fd4a6dcc7f26b570"
         ]
       },
-      "seconds": 10
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 13
     },
     {
       "key": "corporate-income-tax",
@@ -654,6 +535,7 @@
         "sample": []
       },
       "readers": {
+        "src/core2/modules/outcome-web.ts:199": 8,
         "src/core2/life.ts:549": 2
       },
       "openingRow": "law:US-MI:state:corporate-income-tax:general:2026-01-01:from-start",
@@ -708,7 +590,7 @@
         "links": [
           {
             "key": "corporate-tax-incidence",
-            "status": "outcome-not-produced",
+            "status": "built",
             "to": "labor.wages"
           }
         ],
@@ -735,7 +617,19 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 10
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 13
     },
     {
       "key": "estate-tax",
@@ -773,6 +667,7 @@
         "sample": []
       },
       "readers": {
+        "src/core2/modules/outcome-web.ts:159": 24,
         "src/core2/life.ts:549": 2
       },
       "openingRow": "law:US:federal:estate-tax:general:2025-01-01",
@@ -824,7 +719,13 @@
         "cited": []
       },
       "web": {
-        "links": [],
+        "links": [
+          {
+            "key": "estate-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
         "fired": [],
         "firedCount": 0
       },
@@ -848,7 +749,19 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 9
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
     },
     {
       "key": "inheritance-tax",
@@ -885,9 +798,144 @@
         "sample": []
       },
       "readers": {
+        "src/core2/modules/outcome-web.ts:159": 24,
         "src/core2/life.ts:549": 2
       },
       "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 9767283,
+            "control": 9745174,
+            "ids": [
+              "journal:2025-01-26:1648",
+              "journal:2025-01-26:1651",
+              "journal:2025-01-28:1671"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
+            "treatment": 113059662,
+            "control": 113054820,
+            "ids": [
+              "journal:2025-01-26:1649",
+              "journal:2025-01-26:1652",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
+            "treatment": 2245690,
+            "control": 2243269,
+            "ids": [
+              "journal:2025-01-25:1637",
+              "journal:2025-01-25:1639",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 5764,
+            "control": 5713,
+            "ids": [
+              "journal:2025-01-26:1658",
+              "journal:2025-01-27:1670",
+              "journal:2025-01-28:1717"
+            ]
+          }
+        ],
+        "diffKinds": 4,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "inheritance-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 77,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "local-income-tax-authority",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-income-tax-authority 1 -> 2 at state (law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+        "law:US-MI:state:local-income-tax-authority:general:2026-01-01:from-start",
+        "law:US-MI:state:local-income-tax-authority:general:2025-02-26:law-wiring-c99b7dfc-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|local-income-tax-authority|office:gus2025:166779:council"
+        ]
+      },
+      "readers": {
+        "src/core2/life.ts:549": 2,
+        "src/core2/modules/legislature.ts:926": 1
+      },
+      "openingRow": "law:US-MI:state:local-income-tax-authority:general:2026-01-01:from-start",
       "money": {
         "direct": [],
         "diff": [
@@ -943,9 +991,9 @@
       "heard": {
         "people": 77,
         "sample": [
-          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
-          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
-          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d"
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc"
         ]
       },
       "afterUndo": {
@@ -960,20 +1008,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 9
-    },
-    {
-      "key": "us-policy-positions:fiscal.adopt-income-tax",
-      "kind": "question",
-      "family": "taxes-finance",
-      "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b) effective 2025-02-26",
-      "lawIds": [
-        "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
-        "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9",
-        "law:place:2666300:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b"
-      ],
-      "openingReach": {
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
@@ -984,6 +1019,36 @@
         "open": 0,
         "ended": 0,
         "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "us-policy-positions:fiscal.adopt-income-tax",
+      "kind": "question",
+      "family": "taxes-finance",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
+        "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9",
+        "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 44,
+        "countedGroups": 28,
+        "countedPeople": 23.58417112299465,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 72,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.adopt-income-tax|person_0bbe6a59b6ca584c",
+          "applied|us-policy-positions:fiscal.adopt-income-tax|person_182e4b917b4e10f7",
+          "applied|us-policy-positions:fiscal.adopt-income-tax|person_b01262c16e8df335",
+          "applied|us-policy-positions:fiscal.adopt-income-tax|person_7b570665dc6dd3b5"
+        ]
       },
       "reach": {
         "fullPeople": 0,
@@ -1000,10 +1065,10 @@
       "readers": {
         "src/core2/tax-applied.ts:33": 56,
         "src/core2/modules/world-legislating.ts:253": 24,
-        "src/core2/modules/outcome-web.ts:158": 24,
+        "src/core2/modules/outcome-web.ts:159": 24,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
-        "src/core2/modules/legislature.ts:2101": 2,
+        "src/core2/modules/legislature.ts:2103": 2,
         "src/core2/modules/world-legislating.ts:333": 2
       },
       "openingRow": "law:US-MI:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
@@ -1063,7 +1128,7 @@
           },
           {
             "key": "income-tax-to-out-migration",
-            "status": "about-zero",
+            "status": "built",
             "to": "population.out-migration"
           }
         ],
@@ -1079,14 +1144,14 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 65,
+        "fullPeople": 68,
         "countedGroups": 21,
         "countedPeople": 18.496470588235297,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 86,
+        "open": 89,
         "ended": 0,
         "sample": [
           "applied|us-policy-positions:fiscal.adopt-income-tax|person_3f9b0f502a79bcc4",
@@ -1095,20 +1160,7 @@
           "applied|us-policy-positions:fiscal.adopt-income-tax|person_9c3c6cba58393dbf"
         ]
       },
-      "seconds": 8
-    },
-    {
-      "key": "us-policy-positions:fiscal.cap-property-tax-growth",
-      "kind": "question",
-      "family": "taxes-finance",
-      "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-02-26:law-wiring-5d3934d9-b) effective 2025-02-26",
-      "lawIds": [
-        "law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:starting",
-        "law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-5d3934d9",
-        "law:place:2666300:city:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-02-26:law-wiring-5d3934d9-b"
-      ],
-      "openingReach": {
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
@@ -1119,6 +1171,36 @@
         "open": 0,
         "ended": 0,
         "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "us-policy-positions:fiscal.cap-property-tax-growth",
+      "kind": "question",
+      "family": "taxes-finance",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:starting",
+        "law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-5d3934d9",
+        "law:US-MI:state:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-02-26:law-wiring-5d3934d9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 69,
+        "countedPeople": 138,
+        "households": 23,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 92,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.cap-property-tax-growth|household_1093158c88d35ce0",
+          "applied|us-policy-positions:fiscal.cap-property-tax-growth|household_1093188c88d361f9",
+          "applied|us-policy-positions:fiscal.cap-property-tax-growth|household_1093228c88d372f7",
+          "applied|us-policy-positions:fiscal.cap-property-tax-growth|household_fd4a6dcc7f26b570"
+        ]
       },
       "reach": {
         "fullPeople": 0,
@@ -1133,8 +1215,8 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 423,
-        "src/core2/modules/outcome-web.ts:158": 32,
+        "src/core2/modules/legislature.ts:2103": 423,
+        "src/core2/modules/outcome-web.ts:159": 32,
         "src/core2/modules/world-legislating.ts:253": 24,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/modules/budgets.ts:679": 10,
@@ -1247,37 +1329,7 @@
           "applied|us-policy-positions:fiscal.cap-property-tax-growth|household_fd4a6dcc7f26b570"
         ]
       },
-      "seconds": 9
-    },
-    {
-      "key": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "kind": "question",
-      "family": "taxes-finance",
-      "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-02-26:law-wiring-0854ab25-b) effective 2025-02-26",
-      "lawIds": [
-        "law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
-        "law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-        "law:place:2666300:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-02-26:law-wiring-0854ab25-b"
-      ],
-      "openingReach": {
-        "fullPeople": 20,
-        "countedGroups": 1,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 3,
-        "governments": 0,
-        "other": 0,
-        "open": 24,
-        "ended": 0,
-        "sample": [
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0bbe6b59b6ca59ff|2025-01-20",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_2dc9b318ebc09dba|2025-01-20",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_33f81e3b0c5194c6|2025-01-20",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_3f9b10502a79be77|2025-01-20"
-        ]
-      },
-      "reach": {
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
@@ -1286,131 +1338,10 @@
         "governments": 0,
         "other": 0,
         "open": 0,
-        "ended": 24,
+        "ended": 0,
         "sample": []
       },
-      "readers": {
-        "src/core2/modules/legislature.ts:2101": 398,
-        "src/core2/policy-authority.ts:45": 48,
-        "src/core2/modules/world-legislating.ts:253": 24,
-        "src/core2/modules/outcome-web.ts:158": 24,
-        "src/core2/modules/world-legislating.ts:183": 16,
-        "src/core2/life.ts:549": 5,
-        "src/core2/modules/budgets.ts:812": 4,
-        "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/law-reach/group-b.ts:231": 2
-      },
-      "openingRow": "law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
-      "money": {
-        "direct": [
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
-            "treatment": 113059662,
-            "control": 113054820,
-            "ids": [
-              "journal:2025-01-26:1649",
-              "journal:2025-01-26:1652",
-              "journal:2025-01-28:1672"
-            ]
-          }
-        ],
-        "diff": [
-          {
-            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-            "treatment": 1580515,
-            "control": 1379040,
-            "ids": [
-              "journal:2025-02-01:1965",
-              "journal:2025-02-01:1967",
-              "journal:2025-02-01:1969"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 9767283,
-            "control": 9745174,
-            "ids": [
-              "journal:2025-01-26:1648",
-              "journal:2025-01-26:1651",
-              "journal:2025-01-28:1671"
-            ]
-          },
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
-            "treatment": 113059662,
-            "control": 113054820,
-            "ids": [
-              "journal:2025-01-26:1649",
-              "journal:2025-01-26:1652",
-              "journal:2025-01-28:1672"
-            ]
-          },
-          {
-            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
-            "treatment": 2245690,
-            "control": 2243269,
-            "ids": [
-              "journal:2025-01-25:1637",
-              "journal:2025-01-25:1639",
-              "journal:2025-01-25:1641"
-            ]
-          },
-          {
-            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
-            "treatment": 5764,
-            "control": 5713,
-            "ids": [
-              "journal:2025-01-26:1658",
-              "journal:2025-01-27:1670",
-              "journal:2025-01-28:1717"
-            ]
-          }
-        ],
-        "diffKinds": 5,
-        "cited": []
-      },
-      "web": {
-        "links": [
-          {
-            "key": "grocery-exemption-to-poverty",
-            "status": "about-zero",
-            "to": "household.poverty-pct"
-          },
-          {
-            "key": "grocery-exemption-to-food-insecurity",
-            "status": "built",
-            "to": "household.food-insecurity"
-          }
-        ],
-        "fired": [],
-        "firedCount": 0
-      },
-      "heard": {
-        "people": 75,
-        "sample": [
-          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25"
-        ]
-      },
-      "afterUndo": {
-        "fullPeople": 142,
-        "countedGroups": 24,
-        "countedPeople": 2668,
-        "households": 0,
-        "organizations": 6,
-        "governments": 0,
-        "other": 0,
-        "open": 172,
-        "ended": 23,
-        "sample": [
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0161284dc68d528b|2025-02-26",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_02518394bd09bf0a|2025-02-26",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_06838a29d4276aae|2025-02-26",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0bbe6b59b6ca59ff|2025-02-26"
-        ]
-      },
-      "seconds": 9
+      "seconds": 11
     },
     {
       "key": "us-policy-positions:fiscal.graduated-income-tax",
@@ -1452,13 +1383,13 @@
         ]
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 214,
+        "src/core2/modules/legislature.ts:2103": 214,
         "src/core2/tax-applied.ts:33": 56,
         "src/core2/modules/world-legislating.ts:253": 32,
-        "src/core2/modules/outcome-web.ts:158": 24,
+        "src/core2/modules/outcome-web.ts:159": 24,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
-        "src/core2/law-reach/group-b.ts:231": 4,
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/life.ts:549": 4,
         "src/core2/modules/world-legislating.ts:333": 2
       },
       "openingRow": "law:US-MI:state:us-policy-positions:fiscal.graduated-income-tax:general:starting",
@@ -1486,7 +1417,7 @@
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:841",
             "treatment": 59223959057781,
             "control": 59223959042710,
             "ids": [
@@ -1584,7 +1515,7 @@
           },
           {
             "key": "graduated-income-tax-to-out-migration",
-            "status": "about-zero",
+            "status": "built",
             "to": "population.out-migration"
           }
         ],
@@ -1611,18 +1542,30 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 10
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 11
     },
     {
       "key": "us-policy-positions:fiscal.balanced-operating-budget",
       "kind": "question",
       "family": "taxes-finance",
       "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.balanced-operating-budget:general:2025-02-26:law-wiring-0b01ff0e-b) effective 2025-02-26",
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
       "lawIds": [
         "law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
         "law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-0b01ff0e",
-        "law:place:2666300:city:us-policy-positions:fiscal.balanced-operating-budget:general:2025-02-26:law-wiring-0b01ff0e-b"
+        "law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-02-26:law-wiring-0b01ff0e-b"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -1651,14 +1594,14 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 528,
+        "src/core2/modules/legislature.ts:2103": 528,
         "src/core2/policy-authority.ts:45": 45,
-        "src/core2/modules/outcome-web.ts:158": 32,
+        "src/core2/modules/outcome-web.ts:159": 32,
         "src/core2/modules/world-legislating.ts:253": 18,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
         "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/law-reach/group-b.ts:231": 2
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:573": 2
       },
       "openingRow": "law:US-MI:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
       "money": {
@@ -1749,34 +1692,49 @@
         "open": 1,
         "ended": 0,
         "sample": [
-          "applied|us-policy-positions:fiscal.balanced-operating-budget|place:2666300"
+          "applied|us-policy-positions:fiscal.balanced-operating-budget|US-MI"
         ]
       },
-      "seconds": 10
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 11
     },
     {
       "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
       "kind": "question",
       "family": "taxes-finance",
       "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:2666300:city:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-26:law-wiring-89d5b8d0-b) effective 2025-02-26",
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
       "lawIds": [
         "law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
         "law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-89d5b8d0",
-        "law:place:2666300:city:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-26:law-wiring-89d5b8d0-b"
+        "law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-26:law-wiring-89d5b8d0-b"
       ],
       "openingReach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 9,
+        "countedGroups": 1,
+        "countedPeople": 1,
         "households": 0,
         "organizations": 0,
         "governments": 1,
         "other": 0,
-        "open": 1,
+        "open": 11,
         "ended": 0,
         "sample": [
-          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|US-MI"
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|US-MI",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_33f81e3b0c5194c6",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_4f080fd099c4ed21",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9f731738b52b4db4"
         ]
       },
       "reach": {
@@ -1792,21 +1750,21 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 76,
+        "src/core2/modules/legislature.ts:2103": 76,
         "src/core2/policy-authority.ts:45": 48,
-        "src/core2/modules/outcome-web.ts:158": 32,
+        "src/core2/modules/outcome-web.ts:159": 32,
         "src/core2/modules/world-legislating.ts:253": 24,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
         "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/law-reach/group-b.ts:231": 2
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:573": 2
       },
       "openingRow": "law:US-MI:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
       "money": {
         "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:841",
             "treatment": 59218043774960,
             "control": 59223959042710,
             "ids": [
@@ -1890,20 +1848,35 @@
         ]
       },
       "afterUndo": {
+        "fullPeople": 9,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 11,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|US-MI",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_33f81e3b0c5194c6",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_4f080fd099c4ed21",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_9f731738b52b4db4"
+        ]
+      },
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
         "households": 0,
         "organizations": 0,
-        "governments": 1,
+        "governments": 0,
         "other": 0,
-        "open": 1,
+        "open": 0,
         "ended": 0,
-        "sample": [
-          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|place:2666300"
-        ]
+        "sample": []
       },
-      "seconds": 9
+      "seconds": 11
     },
     {
       "key": "us-policy-positions:fiscal.minimum-reserve-balance",
@@ -1942,34 +1915,20 @@
         ]
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 1119,
+        "src/core2/modules/legislature.ts:2103": 1119,
         "src/core2/policy-authority.ts:45": 48,
         "src/core2/modules/world-legislating.ts:253": 30,
-        "src/core2/modules/outcome-web.ts:158": 24,
+        "src/core2/modules/outcome-web.ts:159": 24,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
-        "src/core2/law-reach/group-b.ts:231": 4,
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:573": 4,
         "src/core2/modules/world-legislating.ts:333": 2
       },
       "openingRow": "law:US-MI:state:us-policy-positions:fiscal.minimum-reserve-balance:general:starting",
       "money": {
-        "direct": [
-          {
-            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199",
-            "treatment": 3669397,
-            "control": 0,
-            "ids": ["journal:2025-02-20:8319"]
-          }
-        ],
-        "diff": [
-          {
-            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199",
-            "treatment": 3669397,
-            "control": 0,
-            "ids": ["journal:2025-02-20:8319"]
-          }
-        ],
-        "diffKinds": 1,
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
         "cited": []
       },
       "web": {
@@ -2003,7 +1962,19 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 10
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 11
     }
   ]
 }

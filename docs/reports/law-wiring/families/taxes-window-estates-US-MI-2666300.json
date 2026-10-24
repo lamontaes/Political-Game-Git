@@ -1,0 +1,443 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 330,
+  "after": 10,
+  "results": [
+    {
+      "key": "estate-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "estate-tax 40 -> 44 at federal (law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+        "law:US:federal:estate-tax:general:2025-01-01",
+        "law:US:federal:estate-tax:general:2025-12-18:law-wiring-287823aa-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 2,
+        "countedGroups": 6,
+        "countedPeople": 6,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 8,
+        "ended": 0,
+        "sample": [
+          "applied|estate-tax|person_14e9184f935aac79|US",
+          "applied|estate-tax|person_024a51c849c59bed|US",
+          "applied|estate-tax|person_4b4eeb2da364728f|US",
+          "applied|estate-tax|person_a3ce56e5456a8502|US"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:160": 210,
+        "src/core2/laws-death-taxes.ts:55": 32,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US:federal:estate-tax:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:574",
+            "treatment": 356687635,
+            "control": 356395055,
+            "ids": [
+              "journal:2025-01-24:1635",
+              "journal:2025-01-25:1636",
+              "journal:2025-01-25:1638"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 181169330,
+            "control": 180886708,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 325823223,
+            "control": 326068150,
+            "ids": [
+              "journal:2025-01-26:1648",
+              "journal:2025-01-26:1651",
+              "journal:2025-01-28:1671"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:660",
+            "treatment": 180124359,
+            "control": 180043221,
+            "ids": [
+              "journal:2025-02-01:2664",
+              "journal:2025-02-01:2665",
+              "journal:2025-02-01:2667"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 62675009,
+            "control": 62741166,
+            "ids": [
+              "journal:2025-02-01:1964",
+              "journal:2025-02-01:1966",
+              "journal:2025-02-01:1968"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
+            "treatment": 2982742864,
+            "control": 2982782803,
+            "ids": [
+              "journal:2025-01-26:1649",
+              "journal:2025-01-26:1652",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:808",
+            "treatment": 169933400540266,
+            "control": 169933400571411,
+            "ids": [
+              "journal:2025-02-01:1739",
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 39180036,
+            "control": 39203341,
+            "ids": [
+              "journal:2025-02-01:1921",
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1923"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:841",
+            "treatment": 651098398700665,
+            "control": 651098398679737,
+            "ids": [
+              "journal:2025-02-01:1749",
+              "journal:2025-02-01:1750",
+              "journal:2025-02-01:1751"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
+            "treatment": 28488987,
+            "control": 28481931,
+            "ids": [
+              "journal:2025-01-25:1637",
+              "journal:2025-01-25:1639",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 209202877,
+            "control": 209206231,
+            "ids": [
+              "journal:2025-02-01:1945",
+              "journal:2025-02-01:1946",
+              "journal:2025-02-01:1947"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:308",
+            "treatment": 3557594,
+            "control": 3559646,
+            "ids": [
+              "journal:2025-09-01:56464",
+              "journal:2025-09-01:56465",
+              "journal:2025-09-01:56466"
+            ]
+          }
+        ],
+        "diffKinds": 26,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "estate-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 1,
+        "sample": [
+          "person_2dc9b118ebc09a54:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+          "person_2dc9b118ebc09a54:printed:outlet:magazine:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+          "person_2dc9b118ebc09a54:printed:outlet:cable:1:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 69
+    },
+    {
+      "key": "inheritance-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "inheritance-tax 0 -> 1 at state (law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+        "law:US-MI:state:inheritance-tax:general:2025-12-18:law-wiring-7e1c507d-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|inheritance-tax|organization:treasury:US-MI"]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:160": 210,
+        "src/core2/laws-death-taxes.ts:55": 16,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 180933954,
+            "control": 180886708,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 39172134,
+            "control": 39203341,
+            "ids": [
+              "journal:2025-02-01:1921",
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1923"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:841",
+            "treatment": 651098398699177,
+            "control": 651098398679737,
+            "ids": [
+              "journal:2025-02-01:1749",
+              "journal:2025-02-01:1750",
+              "journal:2025-02-01:1751"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
+            "treatment": 28467539,
+            "control": 28481931,
+            "ids": [
+              "journal:2025-01-25:1637",
+              "journal:2025-01-25:1639",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 326076561,
+            "control": 326068150,
+            "ids": [
+              "journal:2025-01-26:1648",
+              "journal:2025-01-26:1651",
+              "journal:2025-01-28:1671"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
+            "treatment": 2982788781,
+            "control": 2982782803,
+            "ids": [
+              "journal:2025-01-26:1649",
+              "journal:2025-01-26:1652",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 209203184,
+            "control": 209206231,
+            "ids": [
+              "journal:2025-02-01:1945",
+              "journal:2025-02-01:1946",
+              "journal:2025-02-01:1947"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:574",
+            "treatment": 356392140,
+            "control": 356395055,
+            "ids": [
+              "journal:2025-01-24:1635",
+              "journal:2025-01-25:1636",
+              "journal:2025-01-25:1638"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:660",
+            "treatment": 180040370,
+            "control": 180043221,
+            "ids": [
+              "journal:2025-02-01:2664",
+              "journal:2025-02-01:2665",
+              "journal:2025-02-01:2667"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:808",
+            "treatment": 169933400573954,
+            "control": 169933400571411,
+            "ids": [
+              "journal:2025-02-01:1739",
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 604646,
+            "control": 602389,
+            "ids": [
+              "journal:2025-01-26:1658",
+              "journal:2025-01-27:1670",
+              "journal:2025-01-28:1717"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
+            "treatment": 502877,
+            "control": 501310,
+            "ids": [
+              "journal:2025-04-01:17794",
+              "journal:2025-05-01:25590",
+              "journal:2025-06-01:33470"
+            ]
+          }
+        ],
+        "diffKinds": 26,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "inheritance-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 1,
+        "sample": [
+          "person_2dc9b118ebc09a54:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+          "person_2dc9b118ebc09a54:printed:outlet:magazine:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+          "person_2dc9b118ebc09a54:printed:outlet:national-paper:0:national:law-took-effect:law:US-MI:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 66
+    }
+  ]
+}

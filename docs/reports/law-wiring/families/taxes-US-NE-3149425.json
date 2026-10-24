@@ -54,8 +54,9 @@
         "src/core2/modules/budgets.ts:1160": 200,
         "src/core2/counted-money.ts:413": 134,
         "src/core2/modules/counted-moves.ts:183": 124,
+        "src/core2/modules/outcome-web.ts:159": 16,
         "src/core2/life.ts:549": 2,
-        "src/core2/law-reach/group-b.ts:500": 2
+        "src/core2/law-reach/group-b.ts:505 <- src/core2/life.ts:549": 2
       },
       "openingRow": "law:US-NE:state:income-tax:general:2026-01-01:from-start",
       "money": {
@@ -71,13 +72,19 @@
             ]
           },
           {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199 <- src/core2/budgets-treasury.ts:573",
+            "treatment": 464836,
+            "control": 96996,
+            "ids": ["journal:2025-02-01:1636"]
+          },
+          {
             "kind": "accounts.transfer @ src/core2/counted-money.ts:660",
             "treatment": 12252892,
             "control": 12273558,
             "ids": [
-              "journal:2025-02-01:3030",
               "journal:2025-02-01:3031",
-              "journal:2025-02-01:3032"
+              "journal:2025-02-01:3032",
+              "journal:2025-02-01:3033"
             ]
           }
         ],
@@ -97,10 +104,16 @@
             "treatment": 2962062,
             "control": 3577397,
             "ids": [
-              "journal:2025-02-19:8100",
               "journal:2025-02-19:8101",
-              "journal:2025-02-19:8102"
+              "journal:2025-02-19:8102",
+              "journal:2025-02-19:8103"
             ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199 <- src/core2/budgets-treasury.ts:573",
+            "treatment": 464836,
+            "control": 96996,
+            "ids": ["journal:2025-02-01:1636"]
           },
           {
             "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
@@ -127,9 +140,9 @@
             "treatment": 12252892,
             "control": 12273558,
             "ids": [
-              "journal:2025-02-01:3030",
               "journal:2025-02-01:3031",
-              "journal:2025-02-01:3032"
+              "journal:2025-02-01:3032",
+              "journal:2025-02-01:3033"
             ]
           },
           {
@@ -147,9 +160,9 @@
             "treatment": 14768028,
             "control": 14780490,
             "ids": [
-              "journal:2025-02-01:1889",
               "journal:2025-02-01:1890",
-              "journal:2025-02-01:1891"
+              "journal:2025-02-01:1891",
+              "journal:2025-02-01:1892"
             ]
           },
           {
@@ -157,9 +170,9 @@
             "treatment": 3555882,
             "control": 3565960,
             "ids": [
-              "journal:2025-02-01:1920",
               "journal:2025-02-01:1921",
-              "journal:2025-02-01:1924"
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1925"
             ]
           },
           {
@@ -167,9 +180,9 @@
             "treatment": 798927,
             "control": 804921,
             "ids": [
-              "journal:2025-02-01:7566",
               "journal:2025-02-01:7567",
-              "journal:2025-02-01:7568"
+              "journal:2025-02-01:7568",
+              "journal:2025-02-01:7569"
             ]
           },
           {
@@ -177,23 +190,34 @@
             "treatment": 1168842,
             "control": 1170873,
             "ids": [
-              "journal:2025-02-01:1922",
               "journal:2025-02-01:1923",
-              "journal:2025-02-01:1925"
+              "journal:2025-02-01:1924",
+              "journal:2025-02-01:1926"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
             "treatment": 26389,
             "control": 26376,
-            "ids": ["journal:2025-02-06:7815", "journal:2025-02-06:7816"]
+            "ids": ["journal:2025-02-06:7816", "journal:2025-02-06:7817"]
           }
         ],
-        "diffKinds": 11,
+        "diffKinds": 12,
         "cited": []
       },
       "web": {
-        "links": [],
+        "links": [
+          {
+            "key": "income-tax-rate-to-poverty",
+            "status": "about-zero",
+            "to": "household.poverty-pct"
+          },
+          {
+            "key": "income-tax-rate-to-out-migration",
+            "status": "about-zero",
+            "to": "population.out-migration"
+          }
+        ],
         "fired": [],
         "firedCount": 0
       },
@@ -222,20 +246,7 @@
           "income-tax|person_02977976e9a4e00e|2025-01-21"
         ]
       },
-      "seconds": 11
-    },
-    {
-      "key": "sales-tax",
-      "kind": "amount",
-      "family": "taxes-finance",
-      "inForceAtOpening": false,
-      "change": "sales-tax 6.98 -> 7.68 at state (law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4) effective 2025-01-21",
-      "lawIds": [
-        "law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
-        "law:US-NE:state:local-sales-tax-average:general:2026-01-01:from-start",
-        "law:US-NE:state:sales-tax:general:2025-02-26:law-wiring-dc491ba4-undo"
-      ],
-      "openingReach": {
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
@@ -247,127 +258,7 @@
         "ended": 0,
         "sample": []
       },
-      "reach": {
-        "fullPeople": 79,
-        "countedGroups": 1,
-        "countedPeople": 144,
-        "households": 0,
-        "organizations": 14,
-        "governments": 0,
-        "other": 0,
-        "open": 94,
-        "ended": 0,
-        "sample": [
-          "applied|sales-tax|person_3b8e45617114c97d",
-          "applied|sales-tax|person_3b8e44617114c7ca",
-          "applied|sales-tax|person_3b8e43617114c617",
-          "applied|sales-tax|person_03819202b5d285c1"
-        ]
-      },
-      "readers": {
-        "src/core2/life.ts:549": 2,
-        "src/core2/modules/budgets.ts:603": 1
-      },
-      "openingRow": "law:US-NE:state:local-sales-tax-average:general:2026-01-01:from-start",
-      "money": {
-        "direct": [
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
-            "treatment": 107884176,
-            "control": 107875863,
-            "ids": [
-              "journal:2025-01-28:1572",
-              "journal:2025-01-29:1610",
-              "journal:2025-01-30:1615"
-            ]
-          }
-        ],
-        "diff": [
-          {
-            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-            "treatment": 1505980,
-            "control": 1170873,
-            "ids": [
-              "journal:2025-02-01:1921",
-              "journal:2025-02-01:1923",
-              "journal:2025-02-01:1924"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 16164058,
-            "control": 16126582,
-            "ids": [
-              "journal:2025-01-28:1571",
-              "journal:2025-01-29:1609",
-              "journal:2025-01-30:1614"
-            ]
-          },
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
-            "treatment": 107884176,
-            "control": 107875863,
-            "ids": [
-              "journal:2025-01-28:1572",
-              "journal:2025-01-29:1610",
-              "journal:2025-01-30:1615"
-            ]
-          },
-          {
-            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
-            "treatment": 2887102,
-            "control": 2882999,
-            "ids": [
-              "journal:2025-01-25:1558",
-              "journal:2025-01-27:1570",
-              "journal:2025-01-28:1573"
-            ]
-          }
-        ],
-        "diffKinds": 4,
-        "cited": [
-          {
-            "token": "sales-tax",
-            "gross": 1505980,
-            "ids": [
-              "journal:2025-02-01:1921",
-              "journal:2025-02-01:1923",
-              "journal:2025-02-01:1924"
-            ]
-          }
-        ]
-      },
-      "web": {
-        "links": [],
-        "fired": [],
-        "firedCount": 0
-      },
-      "heard": {
-        "people": 72,
-        "sample": [
-          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
-          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
-          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4"
-        ]
-      },
-      "afterUndo": {
-        "fullPeople": 103,
-        "countedGroups": 1,
-        "countedPeople": 121,
-        "households": 0,
-        "organizations": 13,
-        "governments": 0,
-        "other": 0,
-        "open": 117,
-        "ended": 0,
-        "sample": [
-          "applied|sales-tax|person_3b8e45617114c97d",
-          "applied|sales-tax|person_3b8e44617114c7ca",
-          "applied|sales-tax|person_3b8e43617114c617",
-          "applied|sales-tax|person_03819202b5d285c1"
-        ]
-      },
-      "seconds": 10
+      "seconds": 15
     },
     {
       "key": "property-tax",
@@ -422,9 +313,9 @@
             "treatment": 1278421,
             "control": 1165480,
             "ids": [
-              "journal:2025-02-06:7717",
-              "journal:2025-02-06:7719",
-              "journal:2025-02-06:7720"
+              "journal:2025-02-06:7718",
+              "journal:2025-02-06:7720",
+              "journal:2025-02-06:7721"
             ]
           },
           {
@@ -432,9 +323,9 @@
             "treatment": 9441792,
             "control": 9379843,
             "ids": [
-              "journal:2025-02-01:1844",
               "journal:2025-02-01:1845",
-              "journal:2025-02-01:1846"
+              "journal:2025-02-01:1846",
+              "journal:2025-02-01:1847"
             ]
           },
           {
@@ -442,16 +333,16 @@
             "treatment": 3563410,
             "control": 3577397,
             "ids": [
-              "journal:2025-02-19:8103",
               "journal:2025-02-19:8104",
-              "journal:2025-02-19:8105"
+              "journal:2025-02-19:8105",
+              "journal:2025-02-19:8106"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
             "treatment": 26377,
             "control": 26376,
-            "ids": ["journal:2025-02-06:7818", "journal:2025-02-06:7819"]
+            "ids": ["journal:2025-02-06:7819", "journal:2025-02-06:7820"]
           }
         ],
         "diffKinds": 4,
@@ -460,27 +351,27 @@
             "token": "law:county:31053:county:property-tax:general:2025-01-21:law-wiring-be390296",
             "gross": 1978446,
             "ids": [
-              "journal:2025-02-06:7717",
               "journal:2025-02-06:7718",
-              "journal:2025-02-06:7719"
+              "journal:2025-02-06:7719",
+              "journal:2025-02-06:7720"
             ]
           },
           {
             "token": "property-tax",
             "gross": 1978446,
             "ids": [
-              "journal:2025-02-06:7717",
               "journal:2025-02-06:7718",
-              "journal:2025-02-06:7719"
+              "journal:2025-02-06:7719",
+              "journal:2025-02-06:7720"
             ]
           },
           {
             "token": "law-wiring-be390296",
             "gross": 1978446,
             "ids": [
-              "journal:2025-02-06:7717",
               "journal:2025-02-06:7718",
-              "journal:2025-02-06:7719"
+              "journal:2025-02-06:7719",
+              "journal:2025-02-06:7720"
             ]
           }
         ]
@@ -489,7 +380,7 @@
         "links": [
           {
             "key": "property-tax-to-rent",
-            "status": "outcome-not-produced",
+            "status": "built",
             "to": "housing.rent"
           }
         ],
@@ -521,7 +412,19 @@
           "applied|property-tax|household_01874ce9153f466d"
         ]
       },
-      "seconds": 9
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 14
     },
     {
       "key": "corporate-income-tax",
@@ -559,6 +462,7 @@
         "sample": []
       },
       "readers": {
+        "src/core2/modules/outcome-web.ts:199": 16,
         "src/core2/life.ts:549": 2
       },
       "openingRow": "law:US-NE:state:corporate-income-tax:general:2026-01-01:from-start",
@@ -603,7 +507,7 @@
         "links": [
           {
             "key": "corporate-tax-incidence",
-            "status": "outcome-not-produced",
+            "status": "built",
             "to": "labor.wages"
           }
         ],
@@ -630,7 +534,19 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 10
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
     },
     {
       "key": "estate-tax",
@@ -668,6 +584,7 @@
         "sample": []
       },
       "readers": {
+        "src/core2/modules/outcome-web.ts:159": 48,
         "src/core2/life.ts:549": 2
       },
       "openingRow": "law:US:federal:estate-tax:general:2025-01-01",
@@ -709,7 +626,13 @@
         "cited": []
       },
       "web": {
-        "links": [],
+        "links": [
+          {
+            "key": "estate-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
         "fired": [],
         "firedCount": 0
       },
@@ -733,7 +656,19 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 9
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
     },
     {
       "key": "inheritance-tax",
@@ -771,9 +706,134 @@
         "sample": []
       },
       "readers": {
+        "src/core2/modules/outcome-web.ts:159": 48,
         "src/core2/life.ts:549": 2
       },
       "openingRow": "law:US-NE:state:inheritance-tax:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 16164058,
+            "control": 16126582,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
+            "treatment": 107884176,
+            "control": 107875863,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
+            "treatment": 2887102,
+            "control": 2882999,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          }
+        ],
+        "diffKinds": 3,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "inheritance-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 72,
+        "sample": [
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 11
+    },
+    {
+      "key": "local-income-tax-authority",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "local-income-tax-authority 0 -> 1 at state (law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+        "law:US-NE:state:local-income-tax-authority:general:2026-01-01:from-start",
+        "law:US-NE:state:local-income-tax-authority:general:2025-02-26:law-wiring-c99b7dfc-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 1,
+        "governments": 0,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|local-income-tax-authority|office:gus2025:130224:council"
+        ]
+      },
+      "readers": {
+        "src/core2/life.ts:549": 2,
+        "src/core2/modules/legislature.ts:926": 1
+      },
+      "openingRow": "law:US-NE:state:local-income-tax-authority:general:2026-01-01:from-start",
       "money": {
         "direct": [],
         "diff": [
@@ -819,9 +879,9 @@
       "heard": {
         "people": 72,
         "sample": [
-          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
-          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
-          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d"
+          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc",
+          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:local-income-tax-authority:general:2025-01-21:law-wiring-c99b7dfc"
         ]
       },
       "afterUndo": {
@@ -836,20 +896,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 9
-    },
-    {
-      "key": "us-policy-positions:fiscal.adopt-income-tax",
-      "kind": "question",
-      "family": "taxes-finance",
-      "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b) effective 2025-02-26",
-      "lawIds": [
-        "law:US-NE:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
-        "law:US-NE:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9",
-        "law:place:3149425:city:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b"
-      ],
-      "openingReach": {
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
@@ -860,6 +907,36 @@
         "open": 0,
         "ended": 0,
         "sample": []
+      },
+      "seconds": 12
+    },
+    {
+      "key": "us-policy-positions:fiscal.adopt-income-tax",
+      "kind": "question",
+      "family": "taxes-finance",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+      "lawIds": [
+        "law:US-NE:state:us-policy-positions:fiscal.adopt-income-tax:general:starting",
+        "law:US-NE:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-01-21:law-wiring-8b13b3c9",
+        "law:US-NE:state:us-policy-positions:fiscal.adopt-income-tax:general:2025-02-26:law-wiring-8b13b3c9-b"
+      ],
+      "openingReach": {
+        "fullPeople": 51,
+        "countedGroups": 30,
+        "countedPeople": 29.18581657006478,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 81,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.adopt-income-tax|person_12c6e155ec0ef2f9",
+          "applied|us-policy-positions:fiscal.adopt-income-tax|person_ec73f444cf6e19d8",
+          "applied|us-policy-positions:fiscal.adopt-income-tax|group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-0:mortgage:45-64:working",
+          "applied|us-policy-positions:fiscal.adopt-income-tax|group:jurisdiction_45a3b3ebe97fe71d:town:one-adult:income-1:rent:18-29:working"
+        ]
       },
       "reach": {
         "fullPeople": 0,
@@ -874,9 +951,9 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 227,
+        "src/core2/modules/legislature.ts:2103": 227,
         "src/core2/tax-applied.ts:33": 54,
-        "src/core2/modules/outcome-web.ts:158": 48,
+        "src/core2/modules/outcome-web.ts:159": 48,
         "src/core2/modules/world-legislating.ts:253": 18,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
@@ -929,7 +1006,7 @@
           },
           {
             "key": "income-tax-to-out-migration",
-            "status": "about-zero",
+            "status": "built",
             "to": "population.out-migration"
           }
         ],
@@ -945,23 +1022,35 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 60,
+        "fullPeople": 63,
         "countedGroups": 30,
         "countedPeople": 27.792362768496417,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 90,
+        "open": 93,
         "ended": 0,
         "sample": [
           "applied|us-policy-positions:fiscal.adopt-income-tax|person_02977a76e9a4e1c1",
-          "applied|us-policy-positions:fiscal.adopt-income-tax|person_19d08872d5de309a",
           "applied|us-policy-positions:fiscal.adopt-income-tax|person_328f136709e7c650",
+          "applied|us-policy-positions:fiscal.adopt-income-tax|person_3b8e45617114c97d",
           "applied|us-policy-positions:fiscal.adopt-income-tax|person_02977976e9a4e00e"
         ]
       },
-      "seconds": 8
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
     },
     {
       "key": "us-policy-positions:fiscal.cap-property-tax-growth",
@@ -1003,8 +1092,8 @@
         ]
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 283,
-        "src/core2/modules/outcome-web.ts:158": 48,
+        "src/core2/modules/legislature.ts:2103": 283,
+        "src/core2/modules/outcome-web.ts:159": 48,
         "src/core2/modules/world-legislating.ts:253": 32,
         "src/core2/modules/budgets.ts:679": 18,
         "src/core2/modules/world-legislating.ts:183": 16,
@@ -1030,9 +1119,9 @@
             "treatment": 9329843,
             "control": 9379843,
             "ids": [
-              "journal:2025-02-01:1848",
               "journal:2025-02-01:1849",
-              "journal:2025-02-01:1850"
+              "journal:2025-02-01:1850",
+              "journal:2025-02-01:1851"
             ]
           },
           {
@@ -1040,16 +1129,16 @@
             "treatment": 3556564,
             "control": 3577397,
             "ids": [
-              "journal:2025-02-19:8103",
               "journal:2025-02-19:8104",
-              "journal:2025-02-19:8105"
+              "journal:2025-02-19:8105",
+              "journal:2025-02-19:8106"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
             "treatment": 26377,
             "control": 26376,
-            "ids": ["journal:2025-02-06:7818", "journal:2025-02-06:7819"]
+            "ids": ["journal:2025-02-06:7819", "journal:2025-02-06:7820"]
           }
         ],
         "diffKinds": 4,
@@ -1058,27 +1147,27 @@
             "token": "law:place:3149425:city:us-policy-positions:fiscal.cap-property-tax-growth:general:2025-01-21:law-wiring-5d3934d9",
             "gross": 1803556,
             "ids": [
-              "journal:2025-02-06:7717",
               "journal:2025-02-06:7718",
-              "journal:2025-02-06:7719"
+              "journal:2025-02-06:7719",
+              "journal:2025-02-06:7720"
             ]
           },
           {
             "token": "us-policy-positions:fiscal.cap-property-tax-growth",
             "gross": 1803556,
             "ids": [
-              "journal:2025-02-06:7717",
               "journal:2025-02-06:7718",
-              "journal:2025-02-06:7719"
+              "journal:2025-02-06:7719",
+              "journal:2025-02-06:7720"
             ]
           },
           {
             "token": "law-wiring-5d3934d9",
             "gross": 1803556,
             "ids": [
-              "journal:2025-02-06:7717",
               "journal:2025-02-06:7718",
-              "journal:2025-02-06:7719"
+              "journal:2025-02-06:7719",
+              "journal:2025-02-06:7720"
             ]
           }
         ]
@@ -1114,37 +1203,7 @@
         "ended": 0,
         "sample": []
       },
-      "seconds": 8
-    },
-    {
-      "key": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
-      "kind": "question",
-      "family": "taxes-finance",
-      "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-02-26:law-wiring-0854ab25-b) effective 2025-02-26",
-      "lawIds": [
-        "law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
-        "law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-        "law:place:3149425:city:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-02-26:law-wiring-0854ab25-b"
-      ],
-      "openingReach": {
-        "fullPeople": 29,
-        "countedGroups": 1,
-        "countedPeople": 0,
-        "households": 0,
-        "organizations": 3,
-        "governments": 0,
-        "other": 0,
-        "open": 33,
-        "ended": 0,
-        "sample": [
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_02977a76e9a4e1c1|2025-01-20",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_041c61dd02239832|2025-01-20",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0682d579c2eb84c6|2025-01-20",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_12c6e155ec0ef2f9|2025-01-20"
-        ]
-      },
-      "reach": {
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
@@ -1153,144 +1212,38 @@
         "governments": 0,
         "other": 0,
         "open": 0,
-        "ended": 33,
+        "ended": 0,
         "sample": []
       },
-      "readers": {
-        "src/core2/modules/legislature.ts:2101": 144,
-        "src/core2/modules/outcome-web.ts:158": 48,
-        "src/core2/policy-authority.ts:45": 25,
-        "src/core2/modules/world-legislating.ts:253": 18,
-        "src/core2/modules/world-legislating.ts:183": 16,
-        "src/core2/life.ts:549": 5,
-        "src/core2/modules/budgets.ts:812": 4,
-        "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/law-reach/group-b.ts:231": 2
-      },
-      "openingRow": "law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
-      "money": {
-        "direct": [
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
-            "treatment": 107890403,
-            "control": 107875863,
-            "ids": [
-              "journal:2025-01-28:1572",
-              "journal:2025-01-29:1610",
-              "journal:2025-01-30:1615"
-            ]
-          }
-        ],
-        "diff": [
-          {
-            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
-            "treatment": 1437054,
-            "control": 1170873,
-            "ids": [
-              "journal:2025-02-01:1917",
-              "journal:2025-02-01:1919",
-              "journal:2025-02-01:1920"
-            ]
-          },
-          {
-            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
-            "treatment": 16192909,
-            "control": 16126582,
-            "ids": [
-              "journal:2025-01-28:1571",
-              "journal:2025-01-29:1609",
-              "journal:2025-01-30:1614"
-            ]
-          },
-          {
-            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
-            "treatment": 107890403,
-            "control": 107875863,
-            "ids": [
-              "journal:2025-01-28:1572",
-              "journal:2025-01-29:1610",
-              "journal:2025-01-30:1615"
-            ]
-          },
-          {
-            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
-            "treatment": 2890261,
-            "control": 2882999,
-            "ids": [
-              "journal:2025-01-25:1558",
-              "journal:2025-01-27:1570",
-              "journal:2025-01-28:1573"
-            ]
-          }
-        ],
-        "diffKinds": 4,
-        "cited": []
-      },
-      "web": {
-        "links": [
-          {
-            "key": "grocery-exemption-to-poverty",
-            "status": "about-zero",
-            "to": "household.poverty-pct"
-          },
-          {
-            "key": "grocery-exemption-to-food-insecurity",
-            "status": "built",
-            "to": "household.food-insecurity"
-          }
-        ],
-        "fired": [],
-        "firedCount": 0
-      },
-      "heard": {
-        "people": 73,
-        "sample": [
-          "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-          "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
-          "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25"
-        ]
-      },
-      "afterUndo": {
-        "fullPeople": 146,
-        "countedGroups": 2,
-        "countedPeople": 121,
-        "households": 0,
-        "organizations": 6,
-        "governments": 0,
-        "other": 0,
-        "open": 154,
-        "ended": 32,
-        "sample": [
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-02-26",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-02-26",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_00dcb5d84e33b676|2025-02-26",
-          "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_014872ba8397579a|2025-02-26"
-        ]
-      },
-      "seconds": 9
+      "seconds": 11
     },
     {
       "key": "us-policy-positions:fiscal.graduated-income-tax",
       "kind": "question",
       "family": "taxes-finance",
       "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:fiscal.graduated-income-tax:general:2025-02-26:law-wiring-3f587300-b) effective 2025-02-26",
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
       "lawIds": [
         "law:US-NE:state:us-policy-positions:fiscal.graduated-income-tax:general:starting",
         "law:US-NE:state:us-policy-positions:fiscal.graduated-income-tax:general:2025-01-21:law-wiring-3f587300",
-        "law:place:3149425:city:us-policy-positions:fiscal.graduated-income-tax:general:2025-02-26:law-wiring-3f587300-b"
+        "law:US-NE:state:us-policy-positions:fiscal.graduated-income-tax:general:2025-02-26:law-wiring-3f587300-b"
       ],
       "openingReach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 51,
+        "countedGroups": 30,
+        "countedPeople": 29.18581657006478,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 0,
+        "open": 81,
         "ended": 0,
-        "sample": []
+        "sample": [
+          "applied|us-policy-positions:fiscal.graduated-income-tax|person_12c6e155ec0ef2f9",
+          "applied|us-policy-positions:fiscal.graduated-income-tax|person_ec73f444cf6e19d8",
+          "applied|us-policy-positions:fiscal.graduated-income-tax|group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-0:mortgage:45-64:working",
+          "applied|us-policy-positions:fiscal.graduated-income-tax|group:jurisdiction_45a3b3ebe97fe71d:town:one-adult:income-1:rent:18-29:working"
+        ]
       },
       "reach": {
         "fullPeople": 0,
@@ -1305,18 +1258,25 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 228,
+        "src/core2/modules/legislature.ts:2103": 228,
         "src/core2/tax-applied.ts:33": 54,
-        "src/core2/modules/outcome-web.ts:158": 48,
+        "src/core2/modules/outcome-web.ts:159": 48,
         "src/core2/modules/world-legislating.ts:253": 18,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
-        "src/core2/law-reach/group-b.ts:231": 4,
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/life.ts:549": 4,
         "src/core2/modules/world-legislating.ts:333": 2
       },
       "openingRow": "law:US-NE:state:us-policy-positions:fiscal.graduated-income-tax:general:starting",
       "money": {
-        "direct": [],
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199 <- src/core2/budgets-treasury.ts:573",
+            "treatment": 139791,
+            "control": 96996,
+            "ids": ["journal:2025-02-01:1636"]
+          }
+        ],
         "diff": [
           {
             "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
@@ -1339,13 +1299,19 @@
             ]
           },
           {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199 <- src/core2/budgets-treasury.ts:573",
+            "treatment": 139791,
+            "control": 96996,
+            "ids": ["journal:2025-02-01:1636"]
+          },
+          {
             "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
             "treatment": 3546664,
             "control": 3577397,
             "ids": [
-              "journal:2025-02-19:8103",
               "journal:2025-02-19:8104",
-              "journal:2025-02-19:8105"
+              "journal:2025-02-19:8105",
+              "journal:2025-02-19:8106"
             ]
           },
           {
@@ -1373,9 +1339,9 @@
             "treatment": 12269704,
             "control": 12273558,
             "ids": [
-              "journal:2025-02-01:3029",
               "journal:2025-02-01:3030",
-              "journal:2025-02-01:3031"
+              "journal:2025-02-01:3031",
+              "journal:2025-02-01:3032"
             ]
           },
           {
@@ -1383,9 +1349,9 @@
             "treatment": 14778574,
             "control": 14780490,
             "ids": [
-              "journal:2025-02-01:1885",
               "journal:2025-02-01:1886",
-              "journal:2025-02-01:1887"
+              "journal:2025-02-01:1887",
+              "journal:2025-02-01:1888"
             ]
           },
           {
@@ -1393,9 +1359,9 @@
             "treatment": 3564257,
             "control": 3565960,
             "ids": [
-              "journal:2025-02-01:1916",
-              "journal:2025-02-01:1918",
-              "journal:2025-02-01:1921"
+              "journal:2025-02-01:1917",
+              "journal:2025-02-01:1919",
+              "journal:2025-02-01:1922"
             ]
           },
           {
@@ -1403,9 +1369,9 @@
             "treatment": 803227,
             "control": 804921,
             "ids": [
-              "journal:2025-02-01:7565",
               "journal:2025-02-01:7566",
-              "journal:2025-02-01:7567"
+              "journal:2025-02-01:7567",
+              "journal:2025-02-01:7568"
             ]
           },
           {
@@ -1413,19 +1379,19 @@
             "treatment": 1170480,
             "control": 1170873,
             "ids": [
-              "journal:2025-02-01:1917",
-              "journal:2025-02-01:1919",
-              "journal:2025-02-01:1920"
+              "journal:2025-02-01:1918",
+              "journal:2025-02-01:1920",
+              "journal:2025-02-01:1921"
             ]
           },
           {
             "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
             "treatment": 26377,
             "control": 26376,
-            "ids": ["journal:2025-02-06:7818", "journal:2025-02-06:7819"]
+            "ids": ["journal:2025-02-06:7819", "journal:2025-02-06:7820"]
           }
         ],
-        "diffKinds": 11,
+        "diffKinds": 12,
         "cited": []
       },
       "web": {
@@ -1437,7 +1403,7 @@
           },
           {
             "key": "graduated-income-tax-to-out-migration",
-            "status": "about-zero",
+            "status": "built",
             "to": "population.out-migration"
           }
         ],
@@ -1453,34 +1419,46 @@
         ]
       },
       "afterUndo": {
-        "fullPeople": 60,
+        "fullPeople": 63,
         "countedGroups": 30,
         "countedPeople": 27.792362768496417,
         "households": 0,
         "organizations": 0,
         "governments": 0,
         "other": 0,
-        "open": 90,
+        "open": 93,
         "ended": 0,
         "sample": [
           "applied|us-policy-positions:fiscal.graduated-income-tax|person_02977a76e9a4e1c1",
-          "applied|us-policy-positions:fiscal.graduated-income-tax|person_19d08872d5de309a",
           "applied|us-policy-positions:fiscal.graduated-income-tax|person_328f136709e7c650",
+          "applied|us-policy-positions:fiscal.graduated-income-tax|person_3b8e45617114c97d",
           "applied|us-policy-positions:fiscal.graduated-income-tax|person_02977976e9a4e00e"
         ]
       },
-      "seconds": 9
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
     },
     {
       "key": "us-policy-positions:fiscal.balanced-operating-budget",
       "kind": "question",
       "family": "taxes-finance",
       "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:fiscal.balanced-operating-budget:general:2025-02-26:law-wiring-0b01ff0e-b) effective 2025-02-26",
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
       "lawIds": [
         "law:US-NE:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
         "law:US-NE:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-01-21:law-wiring-0b01ff0e",
-        "law:place:3149425:city:us-policy-positions:fiscal.balanced-operating-budget:general:2025-02-26:law-wiring-0b01ff0e-b"
+        "law:US-NE:state:us-policy-positions:fiscal.balanced-operating-budget:general:2025-02-26:law-wiring-0b01ff0e-b"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -1509,14 +1487,14 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 126,
-        "src/core2/modules/outcome-web.ts:158": 64,
+        "src/core2/modules/legislature.ts:2103": 126,
+        "src/core2/modules/outcome-web.ts:159": 64,
         "src/core2/policy-authority.ts:45": 25,
         "src/core2/modules/world-legislating.ts:253": 18,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
         "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/law-reach/group-b.ts:231": 2
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:573": 2
       },
       "openingRow": "law:US-NE:state:us-policy-positions:fiscal.balanced-operating-budget:general:starting",
       "money": {
@@ -1597,34 +1575,49 @@
         "open": 1,
         "ended": 0,
         "sample": [
-          "applied|us-policy-positions:fiscal.balanced-operating-budget|place:3149425"
+          "applied|us-policy-positions:fiscal.balanced-operating-budget|US-NE"
         ]
       },
-      "seconds": 10
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 12
     },
     {
       "key": "us-policy-positions:fiscal.fund-pensions-to-schedule",
       "kind": "question",
       "family": "taxes-finance",
       "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-26:law-wiring-89d5b8d0-b) effective 2025-02-26",
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
       "lawIds": [
         "law:US-NE:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
         "law:US-NE:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-01-21:law-wiring-89d5b8d0",
-        "law:place:3149425:city:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-26:law-wiring-89d5b8d0-b"
+        "law:US-NE:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:2025-02-26:law-wiring-89d5b8d0-b"
       ],
       "openingReach": {
-        "fullPeople": 0,
-        "countedGroups": 0,
-        "countedPeople": 0,
+        "fullPeople": 13,
+        "countedGroups": 1,
+        "countedPeople": 2,
         "households": 0,
         "organizations": 0,
         "governments": 1,
         "other": 0,
-        "open": 1,
+        "open": 15,
         "ended": 0,
         "sample": [
-          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|US-NE"
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|US-NE",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_328f136709e7c650",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_02977976e9a4e00e",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_12c6e055ec0ef146"
         ]
       },
       "reach": {
@@ -1640,41 +1633,28 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 213,
-        "src/core2/modules/outcome-web.ts:158": 64,
+        "src/core2/modules/legislature.ts:2103": 213,
+        "src/core2/modules/outcome-web.ts:159": 64,
         "src/core2/policy-authority.ts:45": 31,
         "src/core2/modules/world-legislating.ts:253": 30,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
         "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/law-reach/group-b.ts:231": 2
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:573": 2
       },
       "openingRow": "law:US-NE:state:us-policy-positions:fiscal.fund-pensions-to-schedule:general:starting",
       "money": {
-        "direct": [
-          {
-            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199",
-            "treatment": 29570711,
-            "control": 29835597,
-            "ids": ["journal:2025-02-20:8123"]
-          }
-        ],
+        "direct": [],
         "diff": [
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:829",
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:841",
             "treatment": 58547437946274,
             "control": 58548607800857,
             "ids": [
-              "journal:2025-02-01:1663",
               "journal:2025-02-01:1664",
-              "journal:2025-02-01:1665"
+              "journal:2025-02-01:1665",
+              "journal:2025-02-01:1666"
             ]
-          },
-          {
-            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199",
-            "treatment": 29570711,
-            "control": 29835597,
-            "ids": ["journal:2025-02-20:8123"]
           },
           {
             "kind": "accounts.transfer @ src/core2/counted-money.ts:574",
@@ -1691,9 +1671,9 @@
             "treatment": 9329843,
             "control": 9379843,
             "ids": [
-              "journal:2025-02-01:1845",
               "journal:2025-02-01:1846",
-              "journal:2025-02-01:1847"
+              "journal:2025-02-01:1847",
+              "journal:2025-02-01:1848"
             ]
           },
           {
@@ -1711,19 +1691,19 @@
             "treatment": 3556564,
             "control": 3577397,
             "ids": [
-              "journal:2025-02-19:8100",
               "journal:2025-02-19:8101",
-              "journal:2025-02-19:8102"
+              "journal:2025-02-19:8102",
+              "journal:2025-02-19:8103"
             ]
           },
           {
-            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:579",
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:591",
             "treatment": 37178541521432,
             "control": 37178541537624,
             "ids": [
-              "journal:2025-02-01:1640",
               "journal:2025-02-01:1641",
-              "journal:2025-02-01:1642"
+              "journal:2025-02-01:1642",
+              "journal:2025-02-01:1643"
             ]
           },
           {
@@ -1750,10 +1730,10 @@
             "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
             "treatment": 26377,
             "control": 26376,
-            "ids": ["journal:2025-02-06:7815", "journal:2025-02-06:7816"]
+            "ids": ["journal:2025-02-06:7816", "journal:2025-02-06:7817"]
           }
         ],
-        "diffKinds": 10,
+        "diffKinds": 9,
         "cited": []
       },
       "web": {
@@ -1787,31 +1767,46 @@
         ]
       },
       "afterUndo": {
+        "fullPeople": 11,
+        "countedGroups": 1,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 13,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|US-NE",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_328f136709e7c650",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_02977976e9a4e00e",
+          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|person_12c6e055ec0ef146"
+        ]
+      },
+      "afterUndoChanged": {
         "fullPeople": 0,
         "countedGroups": 0,
         "countedPeople": 0,
         "households": 0,
         "organizations": 0,
-        "governments": 1,
+        "governments": 0,
         "other": 0,
-        "open": 1,
+        "open": 0,
         "ended": 0,
-        "sample": [
-          "applied|us-policy-positions:fiscal.fund-pensions-to-schedule|place:3149425"
-        ]
+        "sample": []
       },
-      "seconds": 10
+      "seconds": 12
     },
     {
       "key": "us-policy-positions:fiscal.minimum-reserve-balance",
       "kind": "question",
       "family": "taxes-finance",
       "inForceAtOpening": true,
-      "change": "repealed at state effective 2025-01-21; then enacted at city (law:place:3149425:city:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-02-26:law-wiring-ce73b057-b) effective 2025-02-26",
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
       "lawIds": [
         "law:US-NE:state:us-policy-positions:fiscal.minimum-reserve-balance:general:starting",
         "law:US-NE:state:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-01-21:law-wiring-ce73b057",
-        "law:place:3149425:city:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-02-26:law-wiring-ce73b057-b"
+        "law:US-NE:state:us-policy-positions:fiscal.minimum-reserve-balance:general:2025-02-26:law-wiring-ce73b057-b"
       ],
       "openingReach": {
         "fullPeople": 0,
@@ -1840,32 +1835,26 @@
         "sample": []
       },
       "readers": {
-        "src/core2/modules/legislature.ts:2101": 596,
-        "src/core2/modules/outcome-web.ts:158": 64,
+        "src/core2/modules/legislature.ts:2103": 596,
+        "src/core2/modules/outcome-web.ts:159": 64,
         "src/core2/policy-authority.ts:45": 31,
         "src/core2/modules/world-legislating.ts:253": 30,
         "src/core2/modules/world-legislating.ts:183": 16,
         "src/core2/life.ts:549": 5,
         "src/core2/modules/world-legislating.ts:333": 2,
-        "src/core2/law-reach/group-b.ts:231": 2
+        "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:573": 2
       },
       "openingRow": "law:US-NE:state:us-policy-positions:fiscal.minimum-reserve-balance:general:starting",
       "money": {
         "direct": [
           {
-            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199",
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199 <- src/core2/budgets-treasury.ts:573",
             "treatment": 0,
-            "control": 29835597,
-            "ids": ["journal:2025-02-20:8126"]
+            "control": 96996,
+            "ids": ["journal:2025-02-01:1636"]
           }
         ],
         "diff": [
-          {
-            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199",
-            "treatment": 0,
-            "control": 29835597,
-            "ids": ["journal:2025-02-20:8126"]
-          },
           {
             "kind": "accounts.transfer @ src/core2/counted-money.ts:574",
             "treatment": 45169197,
@@ -1875,6 +1864,12 @@
               "journal:2025-01-25:1557",
               "journal:2025-01-27:1569"
             ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1199 <- src/core2/budgets-treasury.ts:573",
+            "treatment": 0,
+            "control": 96996,
+            "ids": ["journal:2025-02-01:1636"]
           },
           {
             "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
@@ -1977,10 +1972,22 @@
         "open": 1,
         "ended": 0,
         "sample": [
-          "applied|us-policy-positions:fiscal.minimum-reserve-balance|place:3149425"
+          "applied|us-policy-positions:fiscal.minimum-reserve-balance|US-NE"
         ]
       },
-      "seconds": 12
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 11
     }
   ]
 }

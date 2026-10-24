@@ -402,10 +402,10 @@
     "local-income-tax-authority": {
       "subject": "the state's grant of local income tax authority",
       "purpose": "set whether local governments may levy an income tax",
-      "raise": "local governments in the state shall have authority to levy an income tax",
-      "lower": "local governments in the state shall have no authority to levy an income tax",
-      "raiseTo": "local governments in the state shall have authority to levy an income tax",
-      "lowerTo": "local governments in the state shall have no authority to levy an income tax"
+      "raise": "the state's grant of local income tax authority shall be raised, and local governments in the state shall have authority to levy an income tax",
+      "lower": "the state's grant of local income tax authority shall be lowered, and local governments in the state shall have no authority to levy an income tax",
+      "raiseTo": "the state's grant of local income tax authority shall be raised, and local governments in the state shall have authority to levy an income tax",
+      "lowerTo": "the state's grant of local income tax authority shall be lowered, and local governments in the state shall have no authority to levy an income tax"
     },
     "social-security-tax": {
       "subject": "the Social Security payroll tax rate",
