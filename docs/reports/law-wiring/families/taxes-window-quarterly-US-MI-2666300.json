@@ -1,0 +1,294 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 175,
+  "after": 10,
+  "results": [
+    {
+      "key": "corporate-income-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "corporate-income-tax 6 -> 7 at state (law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636) effective 2025-01-21",
+      "lawIds": [
+        "law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636",
+        "law:US-MI:state:corporate-income-tax:general:2026-01-01:from-start",
+        "law:US-MI:state:corporate-income-tax:general:2025-07-16:law-wiring-f65e8636-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 4,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|corporate-income-tax|organization_474c2f7aee205efe",
+          "applied|corporate-income-tax|organization_8db451f4bbb5ec43",
+          "applied|corporate-income-tax|organization_a20f596c62c1cf6d",
+          "applied|corporate-income-tax|organization_e1c746b8ee72e0b6"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:196": 56,
+        "src/core2/modules/outcome-web.ts:216": 56,
+        "src/core2/modules/employer-taxes.ts:183": 4,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US-MI:state:corporate-income-tax:general:2026-01-01:from-start",
+      "money": {
+        "direct": [
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:326",
+            "treatment": 4067546,
+            "control": 3922121,
+            "ids": [
+              "journal:2025-07-01:46112",
+              "journal:2025-07-01:46119",
+              "journal:2025-07-01:46124"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
+            "treatment": 15914240,
+            "control": 15930103,
+            "ids": [
+              "journal:2025-01-25:1637",
+              "journal:2025-01-25:1639",
+              "journal:2025-01-25:1641"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:326",
+            "treatment": 4067546,
+            "control": 3922121,
+            "ids": [
+              "journal:2025-07-01:46112",
+              "journal:2025-07-01:46119",
+              "journal:2025-07-01:46124"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 17931566,
+            "control": 17957777,
+            "ids": [
+              "journal:2025-02-01:1921",
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1923"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:841",
+            "treatment": 355331379127820,
+            "control": 355331379108380,
+            "ids": [
+              "journal:2025-02-01:1749",
+              "journal:2025-02-01:1750",
+              "journal:2025-02-01:1751"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
+            "treatment": 15914240,
+            "control": 15930103,
+            "ids": [
+              "journal:2025-01-25:1637",
+              "journal:2025-01-25:1639",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 100135775,
+            "control": 100124907,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 161449346,
+            "control": 161443383,
+            "ids": [
+              "journal:2025-01-26:1648",
+              "journal:2025-01-26:1651",
+              "journal:2025-01-28:1671"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
+            "treatment": 869189188,
+            "control": 869194847,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
+            "treatment": 1536019752,
+            "control": 1536014500,
+            "ids": [
+              "journal:2025-01-26:1649",
+              "journal:2025-01-26:1652",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:808",
+            "treatment": 88766742239070,
+            "control": 88766742234432,
+            "ids": [
+              "journal:2025-02-01:1739",
+              "journal:2025-02-01:1740",
+              "journal:2025-02-01:1741"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:574",
+            "treatment": 193223875,
+            "control": 193226890,
+            "ids": [
+              "journal:2025-01-24:1635",
+              "journal:2025-01-25:1636",
+              "journal:2025-01-25:1638"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:660",
+            "treatment": 97918753,
+            "control": 97920458,
+            "ids": [
+              "journal:2025-02-01:2664",
+              "journal:2025-02-01:2665",
+              "journal:2025-02-01:2667"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 31564379,
+            "control": 31565382,
+            "ids": [
+              "journal:2025-02-01:1964",
+              "journal:2025-02-01:1966",
+              "journal:2025-02-01:1968"
+            ]
+          }
+        ],
+        "diffKinds": 20,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "corporate-tax-incidence",
+            "status": "built",
+            "to": "labor.wages"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "corporate-tax-incidence",
+            "effect": -0.039
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "corporate-tax-incidence",
+            "effect": -0.039
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "corporate-tax-incidence",
+            "effect": -0.039
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "corporate-tax-incidence",
+            "effect": -0.039
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "corporate-tax-incidence",
+            "effect": -0.039
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "corporate-tax-incidence",
+            "effect": -0.039
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "corporate-tax-incidence",
+            "effect": -0.039
+          }
+        ],
+        "firedCount": 7
+      },
+      "heard": {
+        "people": 1,
+        "sample": [
+          "person_2dc9b118ebc09a54:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636",
+          "person_2dc9b118ebc09a54:printed:outlet:magazine:0:national:law-took-effect:law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636",
+          "person_2dc9b118ebc09a54:printed:outlet:national-paper:0:national:law-took-effect:law:US-MI:state:corporate-income-tax:general:2025-01-21:law-wiring-f65e8636"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 4,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|corporate-income-tax|organization_474c2f7aee205efe|federal",
+          "applied|corporate-income-tax|organization_8db451f4bbb5ec43|federal",
+          "applied|corporate-income-tax|organization_a20f596c62c1cf6d|federal",
+          "applied|corporate-income-tax|organization_e1c746b8ee72e0b6|federal"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 40
+    }
+  ]
+}

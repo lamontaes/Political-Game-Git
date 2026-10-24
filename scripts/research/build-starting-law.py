@@ -202,7 +202,8 @@ def death_taxes(rows):
         rows.append(row(state, "state", "inheritance-tax", top, taxes["estateFrom"], FOREVER,
                         f"{law['source']} Exemptions and rates: {taxes['source']}.",
                         True, unit="percent-top-rate",
-                        terms={"classes": law["classes"], "others": law["others"]},
+                        terms={"classes": law["classes"], "others": law["others"],
+                               "governmentHeir": law["governmentHeir"]},
                         retrieved=taxes["retrieved"]))
 
 

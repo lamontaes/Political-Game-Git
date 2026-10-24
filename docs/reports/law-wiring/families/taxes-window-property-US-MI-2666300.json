@@ -1,0 +1,354 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 400,
+  "after": 10,
+  "results": [
+    {
+      "key": "property-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "property-tax 0.945 -> 1.04 at county (law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296) effective 2025-01-21",
+      "lawIds": [
+        "law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296",
+        "law:county:26129:county:property-tax:general:2026-01-01:from-start",
+        "law:county:26129:county:property-tax:general:2026-02-26:law-wiring-be390296-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 69,
+        "countedPeople": 103,
+        "households": 23,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 92,
+        "ended": 0,
+        "sample": [
+          "applied|property-tax|household_fd5480cc7f2f2a3e",
+          "applied|property-tax|household_fd5477cc7f2f1af3",
+          "applied|property-tax|household_fd4a6fcc7f26b8d6",
+          "applied|property-tax|household_1093158c88d35ce0"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/budgets.ts:671": 138,
+        "src/core2/modules/outcome-web.ts:224": 100,
+        "src/core2/life.ts:549": 6
+      },
+      "openingRow": "law:county:26129:county:property-tax:general:2026-01-01:from-start",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/budgets.ts:795",
+            "treatment": 16494615,
+            "control": 15005982,
+            "ids": [
+              "journal:2025-03-01:8579",
+              "journal:2025-03-01:8580",
+              "journal:2025-03-01:8581"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 50355731,
+            "control": 50297594,
+            "ids": [
+              "journal:2025-01-23:1634",
+              "journal:2025-02-06:8025",
+              "journal:2025-02-21:8362"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
+            "treatment": 3574289188,
+            "control": 3574289339,
+            "ids": [
+              "journal:2025-01-26:1649",
+              "journal:2025-01-26:1652",
+              "journal:2025-01-28:1672"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 266368301,
+            "control": 264644481,
+            "ids": [
+              "journal:2025-02-01:1945",
+              "journal:2025-02-01:1946",
+              "journal:2025-02-01:1947"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/budgets.ts:795",
+            "treatment": 16494615,
+            "control": 15005982,
+            "ids": [
+              "journal:2025-03-01:8579",
+              "journal:2025-03-01:8580",
+              "journal:2025-03-01:8581"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 205297148,
+            "control": 206567566,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1795",
+            "treatment": 10537743,
+            "control": 11780007,
+            "ids": [
+              "journal:2025-02-19:8297",
+              "journal:2025-02-19:8298",
+              "journal:2025-02-19:8300"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:771",
+            "treatment": 23915524,
+            "control": 22990797,
+            "ids": [
+              "journal:2025-02-03:7488",
+              "journal:2025-02-03:7489",
+              "journal:2025-02-03:7490"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:308",
+            "treatment": 2743646,
+            "control": 3619697,
+            "ids": [
+              "journal:2025-09-01:56461",
+              "journal:2025-09-01:56462",
+              "journal:2025-09-01:56463"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:841",
+            "treatment": 769319188301895,
+            "control": 769319187545037,
+            "ids": [
+              "journal:2025-02-01:1749",
+              "journal:2025-02-01:1750",
+              "journal:2025-02-01:1751"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 77623546,
+            "control": 76886943,
+            "ids": [
+              "journal:2025-02-01:1964",
+              "journal:2025-02-01:1966",
+              "journal:2025-02-01:1968"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 49861022,
+            "control": 49174498,
+            "ids": [
+              "journal:2025-02-01:1921",
+              "journal:2025-02-01:1922",
+              "journal:2025-02-01:1923"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
+            "treatment": 2125701189,
+            "control": 2126037385,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 407140705,
+            "control": 407312949,
+            "ids": [
+              "journal:2025-01-26:1648",
+              "journal:2025-01-26:1651",
+              "journal:2025-01-28:1671"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+            "treatment": 21970811,
+            "control": 21846872,
+            "ids": [
+              "journal:2025-02-01:1965",
+              "journal:2025-02-01:1967",
+              "journal:2025-02-01:1969"
+            ]
+          }
+        ],
+        "diffKinds": 35,
+        "cited": [
+          {
+            "token": "law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296",
+            "gross": 17922700,
+            "ids": [
+              "journal:2025-02-06:7934",
+              "journal:2025-02-06:7935",
+              "journal:2025-02-06:7936"
+            ]
+          },
+          {
+            "token": "property-tax",
+            "gross": 34417315,
+            "ids": [
+              "journal:2025-02-06:7934",
+              "journal:2025-02-06:7935",
+              "journal:2025-02-06:7936"
+            ]
+          },
+          {
+            "token": "law-wiring-be390296",
+            "gross": 17922700,
+            "ids": [
+              "journal:2025-02-06:7934",
+              "journal:2025-02-06:7935",
+              "journal:2025-02-06:7936"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "property-tax-to-rent",
+            "status": "built",
+            "to": "housing.rent"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "link": "property-tax-to-rent",
+            "effect": 0.009500000000000008
+          }
+        ],
+        "firedCount": 14
+      },
+      "heard": {
+        "people": 1,
+        "sample": [
+          "person_2dc9b118ebc09a54:printed:outlet:television:2:jurisdiction_971998ff58477430:law-took-effect:law:county:26129:county:property-tax:general:2025-01-21:law-wiring-be390296"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 44,
+        "countedPeople": 75,
+        "households": 44,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 88,
+        "ended": 0,
+        "sample": [
+          "applied|property-tax|household_1093158c88d35ce0",
+          "applied|property-tax|household_1093188c88d361f9",
+          "applied|property-tax|household_1093228c88d372f7",
+          "applied|property-tax|household_fd4a6dcc7f26b570"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 99
+    }
+  ]
+}

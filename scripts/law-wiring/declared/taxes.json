@@ -1,0 +1,11 @@
+{
+  "about": "Links a taxes and public finance law does not have by its own terms (status n/a, with the statute's or the research's reason).",
+  "laws": {
+    "local-income-tax-authority": {
+      "web": {
+        "status": "n/a",
+        "why": "The law only grants or withholds a power: a state's permission for its localities to levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023, Tables 1-4). By its terms it moves no place outcome of its own. What a locality does with the power is the income tax its council then enacts, and that rate's outcome links (income-tax-rate-to-poverty and income-tax-rate-to-out-migration in data/research/outcome-web/links.json, both researched at about zero) are the income-tax law's own."
+      }
+    }
+  }
+}

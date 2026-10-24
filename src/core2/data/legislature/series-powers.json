@@ -9,6 +9,10 @@
       "levels": ["federal", "state", "local"],
       "source": "U.S. Const. amend. XVI; state constitutions; local income taxes only where state law authorizes them"
     },
+    "local-income-tax-authority": {
+      "levels": ["state"],
+      "source": "State law decides whether its localities may levy an income tax (Tax Foundation, Local Income Taxes: A Primer, 2023)"
+    },
     "sales-tax": {
       "levels": ["state", "local"],
       "source": "No federal sales tax; local sales taxes only where state law authorizes them"

@@ -13,6 +13,7 @@
  * Nothing here draws a level or limits a factor. Engines that set a measure
  * themselves read the web's factor for it through `outcomeWebFactor`.
  */
+import { addDays, makeIsoDate } from "../kernel/dates";
 import regions from "../data/regional/regions.json" with { type: "json" };
 import {
   baseOf,
@@ -40,6 +41,7 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { propertyTaxRateInForce } from "../housing-property-tax";
+import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
 
@@ -187,7 +189,51 @@ const ENGINE_READERS: Readonly<
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
   },
+  // The corporate rate in force is the town's state law; other places keep
+  // their own. A state with no corporate income tax reads zero.
+  "state-corporate-rate": (api, placeId) => {
+    if (!readsTownLaw(api, placeId)) return null;
+    const state = lawInForce(api, "corporate-income-tax").levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    );
+    return { value: state?.row?.value ?? 0, recordId: state?.row?.id ?? null };
+  },
 };
+
+/**
+ * The level a law-read cause is measured from: the law in force the day
+ * before the web opened (the starting law), in the measure's own unit.
+ */
+const BASELINE_READERS: Readonly<
+  Record<
+    string,
+    (api: CoreAPI, placeId: string, openedAt: string) => number | undefined
+  >
+> = {
+  "state-corporate-rate": (api, placeId, openedAt) => {
+    if (!readsTownLaw(api, placeId)) return undefined;
+    const day = addDays(makeIsoDate(openedAt), -1);
+    const state = lawInForce(api, "corporate-income-tax", day).levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    );
+    return state?.row?.value ?? 0;
+  },
+  "property-tax-rate": (api, placeId, openedAt) => {
+    if (!readsTownLaw(api, placeId)) return undefined;
+    return (
+      lawInForce(api, "property-tax", addDays(makeIsoDate(openedAt), -1))
+        .value ?? undefined
+    );
+  },
+};
+
+/** The laws module's chain is the town's: other places keep their own laws. */
+function readsTownLaw(api: CoreAPI, placeId: string): boolean {
+  return (
+    api.state.placeMetadata?.housingTown === placeId &&
+    (api.state as CoreState).modules.has(LAWS_MODULE_ID)
+  );
+}
 
 /** An engine's record for a measure in a place today, or null where it keeps none. */
 function readEngine(
@@ -310,6 +356,13 @@ function baselineOf(r: Reading, measure: string): number | undefined {
       CALIBRATED_AT,
       true,
     );
+  const reader = engineMeasure(measure)?.baselineReader;
+  const opened = webState(r.api)?.openedAt;
+  const lawLevel =
+    reader && opened
+      ? BASELINE_READERS[reader]?.(r.api, r.placeId, opened)
+      : undefined;
+  if (lawLevel !== undefined) return lawLevel;
   return (
     fixedBaseline(measure, r.stateKey) ??
     (

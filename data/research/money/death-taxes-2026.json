@@ -56,6 +56,14 @@
         "maxRate": 16,
         "slideOver": 200000
       },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "Ky. Rev. Stat. 140.060",
+        "url": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=28979",
+        "quote": "all transfers to cities, and towns or public institutions in this state for public purposes shall be exempt from the tax imposed by this chapter.",
+        "reading": "The statute names cities, towns and public institutions in this state for public purposes, not the Commonwealth itself; the Commonwealth taking an estate by escheat is read as a public institution (ESTIMATED reading; no ruling found).",
+        "retrieved": "2026-10-24"
+      },
       "source": "Ky. Rev. Stat. 140.070 and 140.080: Class A (spouse, parent, child, grandchild, brother, sister) exempt; Class C 6 to 16 percent above $500, the top rate over $200,000."
     },
     "US-MD": {
@@ -73,6 +81,13 @@
         "maxRate": 10,
         "slideOver": 0
       },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "Md. Code, Tax-General 7-203(i)",
+        "url": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=gtg&section=7-203&enactments=false",
+        "quote": "The inheritance tax does not apply to the receipt of property that passes from a decedent to the State, a county, or a municipal corporation of the State.",
+        "retrieved": "2026-10-24"
+      },
       "source": "Md. Code, Tax-General 7-203: spouse, children, parents, grandparents, grandchildren and siblings exempt; others 10 percent."
     },
     "US-NE": {
@@ -89,6 +104,13 @@
         "minRate": 15,
         "maxRate": 15,
         "slideOver": 0
+      },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "Neb. Rev. Stat. 77-2007.03",
+        "url": "https://nebraskalegislature.gov/laws/statutes.php?statute=77-2007.03",
+        "quote": "Property transferred to either (a) the United States, or any of its departments, instrumentalities, or agencies, or (b) this state, or any governmental subdivision, department, agency, or instrumentality created by or under the laws of Nebraska, or any agency, institution, foundation, or fund administered or operated by any of the same shall be exempt from any inheritance tax imposed by sections 77-2001 to 77-2006.",
+        "retrieved": "2026-10-24"
       },
       "source": "Neb. Rev. Stat. 77-2004 to 77-2006 as amended by LB 310 (2022): spouse exempt; immediate relatives 1 percent above $100,000; others 15 percent above $25,000 (remote relatives, 11 percent above $40,000, are not a relation the game records)."
     },
@@ -112,6 +134,14 @@
         "maxRate": 16,
         "slideOver": 700000
       },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "N.J.S.A. 54:34-4(a)",
+        "url": "https://pub.njleg.gov/Bills/2024/S1000/556_I1.HTM",
+        "quote": "The following transfers of property shall be exempt from taxation: a. Property passing to or for the use of the State of New Jersey, or to or for the use of a municipal corporation within the State or other political subdivision thereof, for exclusively public purposes.",
+        "note": "Quoted from the NJ Legislature's bill S556 (2024), which prints this section as existing law. It names the State itself; the condition is exclusively public purposes, which the State taking an estate by escheat to its treasury meets.",
+        "retrieved": "2026-10-24"
+      },
       "source": "N.J.S.A. 54:34-2: Class A (spouse, parents, grandparents, children, grandchildren) exempt; Class C (siblings) 11 percent above $25,000 rising to 16 percent above $1,700,000; Class D 15 percent, 16 percent above $700,000."
     },
     "US-PA": {
@@ -128,6 +158,14 @@
         "minRate": 15,
         "maxRate": 15,
         "slideOver": 0
+      },
+      "governmentHeir": {
+        "exempt": true,
+        "cite": "72 P.S. 9111(b)",
+        "url": "https://codes.findlaw.com/pa/title-72-ps-taxation-and-fiscal-affairs/pa-st-sect-72-9111/",
+        "quote": "Transfers of property to or for the use of any of the following are exempt from inheritance tax: (1) The United States of America. (2) The Commonwealth of Pennsylvania. (3) A political subdivision of the Commonwealth of Pennsylvania.",
+        "note": "Section 9111(l) also exempts property awarded to the Commonwealth as statutory heir by escheat, otherwise than as custodian for a known distributee. The Department of Revenue's inheritance tax page says the 15 percent rate applies 'except charitable organizations, exempt institutions and government entities exempt from tax'.",
+        "retrieved": "2026-10-24"
       },
       "source": "72 P.S. 9116: spouse 0 percent; lineal heirs 4.5 percent; siblings 12 percent; others 15 percent (a parent inheriting from a child 21 or younger pays 0, not modeled)."
     }

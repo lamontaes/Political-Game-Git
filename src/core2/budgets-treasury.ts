@@ -227,6 +227,17 @@ export function registerLinePayments(payer: LinePayer): void {
 }
 
 /**
+ * The fiscal rules a treasury reads as it budgets (a balanced budget, pension
+ * funding, a minimum reserve): each month's close reads the rules in force and
+ * applies them to the budget it then pays from, before any line is paid.
+ */
+type TreasuryRule = (api: CoreAPI) => void;
+const treasuryRules: TreasuryRule[] = [];
+export function registerTreasuryRule(rule: TreasuryRule): void {
+  if (!treasuryRules.includes(rule)) treasuryRules.push(rule);
+}
+
+/**
  * Whether an employer and a treasury belong to one government: the same
  * recorded government key, or, for a state's or the nation's office, the same
  * jurisdiction.
@@ -575,6 +586,7 @@ export function aidedLines(
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
   if (!outside) return;
+  for (const rule of treasuryRules) rule(api);
   const accounts = api.accounts();
   const date = api.state.date;
   const months = treasuryParameter("monthsPerYear");

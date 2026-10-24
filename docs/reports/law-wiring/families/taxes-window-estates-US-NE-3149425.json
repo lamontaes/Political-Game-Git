@@ -1,0 +1,438 @@
+{
+  "seed": "5e27b0c4196fd3a8",
+  "place": {
+    "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+    "key": "3149425",
+    "name": "Uehling, Nebraska",
+    "state": "US-NE"
+  },
+  "window": 330,
+  "after": 10,
+  "results": [
+    {
+      "key": "estate-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "estate-tax 40 -> 44 at federal (law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa",
+        "law:US:federal:estate-tax:general:2025-01-01",
+        "law:US:federal:estate-tax:general:2025-12-18:law-wiring-287823aa-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 4,
+        "countedPeople": 4,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|estate-tax|person_b46139283211728b|US",
+          "applied|estate-tax|person_583b258c771d7e9f|US",
+          "applied|estate-tax|person_d0a6177f015c67d2|US",
+          "applied|estate-tax|person_4a16ed7b98b08ca5|US"
+        ]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:160": 426,
+        "src/core2/laws-death-taxes.ts:68": 16,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US:federal:estate-tax:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 275145711,
+            "control": 274867668,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 413999134,
+            "control": 413970520,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 221383632,
+            "control": 221406874,
+            "ids": [
+              "journal:2025-02-01:1845",
+              "journal:2025-02-01:1846",
+              "journal:2025-02-01:1847"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
+            "treatment": 3854556997,
+            "control": 3854567835,
+            "ids": [
+              "journal:2025-01-21:1476",
+              "journal:2025-01-21:1477",
+              "journal:2025-01-21:1478"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:808",
+            "treatment": 169746748951327,
+            "control": 169746748961278,
+            "ids": [
+              "journal:2025-02-01:1650",
+              "journal:2025-02-01:1651",
+              "journal:2025-02-01:1652"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
+            "treatment": 2844135655,
+            "control": 2844127044,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:660",
+            "treatment": 170543592,
+            "control": 170539938,
+            "ids": [
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035",
+              "journal:2025-02-01:3036"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
+            "treatment": 33136648,
+            "control": 33134419,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 183385581,
+            "control": 183383541,
+            "ids": [
+              "journal:2025-02-01:1890",
+              "journal:2025-02-01:1891",
+              "journal:2025-02-01:1892"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:574",
+            "treatment": 461173364,
+            "control": 461171583,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:326",
+            "treatment": 33009108,
+            "control": 33008209,
+            "ids": [
+              "journal:2025-07-01:47033",
+              "journal:2025-07-01:47034",
+              "journal:2025-07-01:47035"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 63715862,
+            "control": 63715193,
+            "ids": [
+              "journal:2025-02-01:1921",
+              "journal:2025-02-01:1923",
+              "journal:2025-02-01:1926"
+            ]
+          }
+        ],
+        "diffKinds": 27,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "estate-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 1,
+        "sample": [
+          "person_163e4399798d4f4a:printed:outlet:cable:0:national:law-took-effect:law:US:federal:estate-tax:general:2025-01-21:law-wiring-287823aa"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 60
+    },
+    {
+      "key": "inheritance-tax",
+      "kind": "amount",
+      "family": "taxes-finance",
+      "inForceAtOpening": false,
+      "change": "inheritance-tax 15 -> 17 at state (law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d) effective 2025-01-21",
+      "lawIds": [
+        "law:US-NE:state:inheritance-tax:general:2025-01-21:law-wiring-7e1c507d",
+        "law:US-NE:state:inheritance-tax:general:2025-01-01",
+        "law:US-NE:state:inheritance-tax:general:2025-12-18:law-wiring-7e1c507d-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": ["applied|inheritance-tax|organization:treasury:US-NE"]
+      },
+      "readers": {
+        "src/core2/modules/outcome-web.ts:160": 426,
+        "src/core2/laws-death-taxes.ts:68": 8,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US-NE:state:inheritance-tax:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 275198598,
+            "control": 274867668,
+            "ids": [
+              "journal:2025-01-21:1507",
+              "journal:2025-01-21:1508",
+              "journal:2025-01-21:1509"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 221321005,
+            "control": 221406874,
+            "ids": [
+              "journal:2025-02-01:1845",
+              "journal:2025-02-01:1846",
+              "journal:2025-02-01:1847"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 414043756,
+            "control": 413970520,
+            "ids": [
+              "journal:2025-01-28:1571",
+              "journal:2025-01-29:1609",
+              "journal:2025-01-30:1614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:808",
+            "treatment": 169746748939076,
+            "control": 169746748961278,
+            "ids": [
+              "journal:2025-02-01:1650",
+              "journal:2025-02-01:1651",
+              "journal:2025-02-01:1652"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1394",
+            "treatment": 2844147860,
+            "control": 2844127044,
+            "ids": [
+              "journal:2025-01-28:1572",
+              "journal:2025-01-29:1610",
+              "journal:2025-01-30:1615"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1224",
+            "treatment": 3854575630,
+            "control": 3854567835,
+            "ids": [
+              "journal:2025-01-21:1476",
+              "journal:2025-01-21:1477",
+              "journal:2025-01-21:1478"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:699",
+            "treatment": 33141453,
+            "control": 33134419,
+            "ids": [
+              "journal:2025-01-25:1558",
+              "journal:2025-01-27:1570",
+              "journal:2025-01-28:1573"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:660",
+            "treatment": 170537312,
+            "control": 170539938,
+            "ids": [
+              "journal:2025-02-01:3034",
+              "journal:2025-02-01:3035",
+              "journal:2025-02-01:3036"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+            "treatment": 431699,
+            "control": 429231,
+            "ids": [
+              "journal:2025-02-24:8224",
+              "journal:2025-02-25:8289",
+              "journal:2025-02-26:8295"
+            ]
+          },
+          {
+            "kind": "campaigns:ad-buy @ src/core2/modules/campaigns.ts:1467",
+            "treatment": 350753,
+            "control": 348414,
+            "ids": [
+              "journal:2025-05-01:25981",
+              "journal:2025-05-01:25982",
+              "journal:2025-06-01:33918"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 183382242,
+            "control": 183383541,
+            "ids": [
+              "journal:2025-02-01:1890",
+              "journal:2025-02-01:1891",
+              "journal:2025-02-01:1892"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:574",
+            "treatment": 461170303,
+            "control": 461171583,
+            "ids": [
+              "journal:2025-01-24:1556",
+              "journal:2025-01-25:1557",
+              "journal:2025-01-27:1569"
+            ]
+          }
+        ],
+        "diffKinds": 25,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "inheritance-tax-to-out-migration",
+            "status": "built",
+            "to": "population.out-migration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0
+      },
+      "heard": {
+        "people": 0,
+        "sample": []
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 65
+    }
+  ]
+}

@@ -399,6 +399,18 @@
       "raiseTo": "the inheritance tax rate shall be raised to {value}",
       "lowerTo": "the inheritance tax rate shall be lowered to {value}"
     },
+    "local-income-tax-authority": {
+      "origin": "authored",
+      "author": "Claude (laws lead, claude/law-wiring-taxes)",
+      "date": "2026-10-24",
+      "shippable": false,
+      "subject": "the state's grant of local income tax authority",
+      "purpose": "set whether local governments may levy an income tax",
+      "raise": "the state's grant of local income tax authority shall be raised, and local governments in the state shall have authority to levy an income tax",
+      "lower": "the state's grant of local income tax authority shall be lowered, and local governments in the state shall have no authority to levy an income tax",
+      "raiseTo": "the state's grant of local income tax authority shall be raised, and local governments in the state shall have authority to levy an income tax",
+      "lowerTo": "the state's grant of local income tax authority shall be lowered, and local governments in the state shall have no authority to levy an income tax"
+    },
     "social-security-tax": {
       "subject": "the Social Security payroll tax rate",
       "purpose": "set the Social Security payroll tax rate",

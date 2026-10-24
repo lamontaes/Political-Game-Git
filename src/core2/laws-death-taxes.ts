@@ -17,6 +17,22 @@ interface Schedule {
   readonly slideOver?: number;
 }
 
+/** The relation of a government that takes an estate no one else does. */
+export const GOVERNMENT_HEIR = "government";
+
+/**
+ * What a state's statute says of a government that takes an estate, kept on
+ * its inheritance-tax row (data/research/money/death-taxes-2026.json).
+ */
+interface GovernmentHeirTerm {
+  readonly exempt: boolean;
+  readonly cite?: string;
+  readonly url?: string;
+  readonly quote?: string;
+  /** Set where the statute does not name the case and we read it in. */
+  readonly reading?: string;
+}
+
 /** A tax owed to one jurisdiction under one law, in cents. */
 export interface DeathTax {
   readonly jurisdiction: string;
@@ -25,6 +41,17 @@ export interface DeathTax {
   readonly amountMinor: number;
   /** For an inheritance tax: the heir whose share paid it. */
   readonly heirId?: string;
+}
+
+/**
+ * A death tax a bill adopted where none stood sets only a rate: with no
+ * schedule of its own, it taxes the whole amount at that rate, with no
+ * exemption, until a bill gives it one.
+ */
+function flatSchedule(api: CoreAPI, rate: number): Schedule {
+  // stopgapId: SG-LAW-death-tax-no-schedule
+  api.stopgap("SG-LAW-death-tax-no-schedule");
+  return { exemption: 0, minRate: rate };
 }
 
 /** The row in force for a jurisdiction and series on a date: the latest that has begun and not ended. */
@@ -77,8 +104,13 @@ export function scheduleTax(
   return Math.round(sliding + beyond);
 }
 
-/** The estate taxes owed on an estate: the federal government's, then the decedent's state's. */
-export function estateTaxes(
+/**
+ * What the estate tax laws in force make of an estate: the federal
+ * government's, then the decedent's state's. Every row in force is read, so
+ * an estate under the exemption is assessed too (`amountMinor` zero): the law
+ * was applied to it and nothing is due.
+ */
+export function assessEstateTaxes(
   api: CoreAPI,
   stateKey: string | null,
   estateMinor: number,
@@ -87,20 +119,87 @@ export function estateTaxes(
   for (const jurisdiction of ["US", ...(stateKey ? [stateKey] : [])]) {
     const row = rowInForce(api, jurisdiction, "estate-tax");
     if (!row || row.value === null || row.value === undefined) continue;
-    const amountMinor = scheduleTax(
-      estateMinor,
-      row.terms as unknown as Schedule,
-      row.value,
-    );
-    if (amountMinor > 0)
-      out.push({
-        jurisdiction,
-        series: "estate-tax",
-        lawId: row.id,
-        amountMinor,
-      });
+    const schedule = row.terms as unknown as Schedule | undefined;
+    out.push({
+      jurisdiction,
+      series: "estate-tax",
+      lawId: row.id,
+      amountMinor: scheduleTax(
+        estateMinor,
+        schedule && "minRate" in schedule
+          ? schedule
+          : flatSchedule(api, row.value),
+        row.value,
+      ),
+    });
   }
   return out;
+}
+
+/** The estate taxes owed on an estate: the federal government's, then the decedent's state's. */
+export function estateTaxes(
+  api: CoreAPI,
+  stateKey: string | null,
+  estateMinor: number,
+): readonly DeathTax[] {
+  return assessEstateTaxes(api, stateKey, estateMinor).filter(
+    (tax) => tax.amountMinor > 0,
+  );
+}
+
+/**
+ * A state's inheritance tax law applied to one heir's share, by their
+ * relation to the decedent: null where the state levies none, else the
+ * assessment (`amountMinor` zero for a share under the exemption).
+ */
+export function assessInheritanceTax(
+  api: CoreAPI,
+  stateKey: string | null,
+  relation: string,
+  shareMinor: number,
+): DeathTax | null {
+  if (!stateKey) return null;
+  const row = rowInForce(api, stateKey, "inheritance-tax");
+  if (!row || row.value === null || row.value === undefined) return null;
+  const terms = row.terms as unknown as
+    | {
+        classes?: Record<string, Schedule>;
+        others?: Schedule;
+        governmentHeir?: GovernmentHeirTerm;
+      }
+    | undefined;
+  // A government that takes an estate (it escheats to the state) pays what the
+  // state's statute says. Each researched row carries the statute's term
+  // (`governmentHeir`, with its cite and quote); a state whose statute does
+  // not exempt a government is taxed here like any other heir, at its
+  // "government" class or else its rate for others. A row without the term (a
+  // bill adopted the tax) is assumed exempt, and a term marked with a
+  // `reading` is our reading of a statute that does not name the case.
+  const term = terms?.governmentHeir;
+  if (relation === GOVERNMENT_HEIR && term?.exempt !== false) {
+    if (!term || term.reading) {
+      // stopgapId: SG-LAW-government-heir-exempt-assumed
+      api.stopgap("SG-LAW-government-heir-exempt-assumed");
+    }
+    return {
+      jurisdiction: stateKey,
+      series: "inheritance-tax",
+      lawId: row.id,
+      amountMinor: 0,
+    };
+  }
+  return {
+    jurisdiction: stateKey,
+    series: "inheritance-tax",
+    lawId: row.id,
+    amountMinor: scheduleTax(
+      shareMinor,
+      terms?.classes?.[relation] ??
+        terms?.others ??
+        flatSchedule(api, row.value),
+      row.value,
+    ),
+  };
 }
 
 /** A state's inheritance tax on one heir's share, by their relation to the decedent. */
@@ -110,24 +209,6 @@ export function inheritanceTax(
   relation: string,
   shareMinor: number,
 ): DeathTax | null {
-  if (!stateKey) return null;
-  const row = rowInForce(api, stateKey, "inheritance-tax");
-  if (!row || row.value === null || row.value === undefined) return null;
-  const terms = row.terms as unknown as {
-    classes: Record<string, Schedule>;
-    others: Schedule;
-  };
-  const amountMinor = scheduleTax(
-    shareMinor,
-    terms.classes[relation] ?? terms.others,
-    row.value,
-  );
-  return amountMinor > 0
-    ? {
-        jurisdiction: stateKey,
-        series: "inheritance-tax",
-        lawId: row.id,
-        amountMinor,
-      }
-    : null;
+  const assessed = assessInheritanceTax(api, stateKey, relation, shareMinor);
+  return assessed && assessed.amountMinor > 0 ? assessed : null;
 }

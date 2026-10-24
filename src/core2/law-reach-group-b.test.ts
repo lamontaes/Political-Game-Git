@@ -5,6 +5,7 @@
  * treasury money, budget lines, tax law rows, records), and a repeal (or a
  * budget line back at its base) ends it.
  */
+import { appliedOn } from "./law-reach/applied";
 import { createHash } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -30,7 +31,7 @@ import type { LawInForceAnswer } from "./laws-in-force";
 import type { CoreAPI, CoreState } from "./types";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
-import { REACH_B_MODULE_ID } from "./law-reach/group-b-store";
+import { getRow, REACH_B_MODULE_ID } from "./law-reach/group-b-store";
 import type {
   GroupReach,
   OrganizationReach,
@@ -816,6 +817,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
     }
     const since = api.state.date;
     advanceCore(core, after(api.state.date, 30));
+    // A payday must fall in the window, or the act has no paycheck to change.
+    for (let month = 0; month < 3 && !paidSince(since); month += 1)
+      advanceCore(core, after(api.state.date, 30));
+    expect(paidSince(since), `${where}: no payday in 120 days`).toBe(true);
     const cityLines = [...core.people.keys()].flatMap((id) =>
       withholdingOf(api, id)
         .filter((w) => w.date >= since)
@@ -831,8 +836,13 @@ describe("law reach, group B: every policy reaches people through its engine", (
       ).toBeGreaterThan(0);
     // The act reaches the people whose paychecks it changed. Where the city
     // already had an income tax it wrote none, so it reached no one.
-    if (had) expect(reached(key), where).toBe(0);
-    else expect(openPeople(key).length, where).toBeGreaterThan(0);
+    // The withholding engine records the workers it took the tax from.
+    const appliedRows = appliedOn(api, key).filter(
+      (r) => r.target === "person" && r.amountMinor > 0,
+    );
+    // Where the city already had an income tax, the act wrote no row, so its own key reached no one.
+    if (had) expect(appliedRows.length, where).toBe(0);
+    else expect(appliedRows.length, where).toBeGreaterThan(0);
     report.cityIncomeTax = {
       paychecks: cityLines.length,
       collectedMinor: cityLines.reduce((n, l) => n + l.minor, 0),
@@ -840,6 +850,9 @@ describe("law reach, group B: every policy reaches people through its engine", (
     };
     enact(key, 0, LOCAL);
     expectEnded(key);
+    expect(appliedOn(api, key), `${where}: applied rows after repeal`).toEqual(
+      [],
+    );
     if (!had)
       expect(
         lawInForce(api, "income-tax").levels.find((l) => l.level === LOCAL)?.row
@@ -1175,7 +1188,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 1, gov.level);
     const reserve = `reserve:${gov.organizationId}`;
     const held = accounts.balance(reserve);
-    const target = group(key)!.terms.targetMinor!;
+    // The reserve engine keeps the target it set on its own row (the law's reach is its applied row).
+    const target = getRow<{ targetMinor: number }>(
+      api,
+      "taken",
+      `reserve|${key}|${gov.id}`,
+    )!.targetMinor;
     const spending = Object.values(
       budgetNow(api, gov.id)?.spendingMinor ?? {},
     ).reduce((a, b) => a + b, 0);
@@ -1189,6 +1207,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const numbers = `${where}: cash ${cash}, spending ${spending}, target ${target}, held ${held}`;
     expect(target, numbers).toBe(expected);
     expect(held, numbers).toBeLessThanOrEqual(target);
+    // The treasury is recorded as held to the reserve, with the cash set aside.
+    const reached = appliedOn(api, key).find((r) => r.targetId === gov.id);
+    expect(reached?.target, numbers).toBe("government");
+    expect(reached?.amountMinor, numbers).toBe(held);
     // Where the treasury had cash and the target is above zero, cash moved.
     if (cash > 0 && target > 0) expect(held, numbers).toBeGreaterThan(0);
     expect(
@@ -1198,6 +1220,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 0, gov.level);
     expect(accounts.balance(reserve)).toBe(0);
     expectEnded(key);
+    expect(appliedOn(api, key), numbers).toEqual([]);
   });
 
   it("a balanced-budget rule cuts spending to revenue", () => {

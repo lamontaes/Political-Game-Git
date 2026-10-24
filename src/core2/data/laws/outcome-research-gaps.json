@@ -27,23 +27,8 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "income-tax",
-      "outcome": "household income after tax and out-migration",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "sales-tax",
       "outcome": "household prices and local retail sales",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "estate-tax",
-      "outcome": "wealth transfers and charitable giving",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "inheritance-tax",
-      "outcome": "wealth transfers to heirs",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
@@ -119,11 +104,6 @@
     {
       "key": "us-policy-positions:technology-privacy.age-verification-for-social-media",
       "outcome": "youth social media use and mental health",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "local-income-tax-authority",
-      "outcome": "local income tax adoption",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {

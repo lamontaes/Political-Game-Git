@@ -28,6 +28,7 @@ import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { lawApplied } from "../law-reach/applied";
 import { noteTownRevenue } from "../budgets-treasury";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";
@@ -45,6 +46,8 @@ export interface ProfitTaxRecord {
   readonly taxMinor: number;
   readonly paidMinor: number;
   readonly arrearsAfterMinor: number;
+  /** What each government is still owed after this payment, by government id. */
+  readonly arrearsAfterByGovernment: Readonly<Record<string, number>>;
   readonly lawIds: readonly string[];
   readonly postings: readonly {
     id: string;
@@ -169,21 +172,26 @@ const QUARTER_DAYS_COUNT = 91;
  * A quarter's tax on profit (owner ruling, Oct 14): a business owned by
  * another organization (a corporation's location) pays the corporate rate in
  * force on its operating profit over the quarter, from its books, to the
- * federal treasury. An owner-run business's profit is its owner's income
+ * federal and state treasuries. An owner-run business's profit is its owner's income
  * under the law and is taxed as that (`passThrough`); property tax on
  * premises, which the books don't record, is not (registered stopgap).
  */
 function payProfitTaxes(api: CoreAPI): void {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return;
-  const treasury = governments(api).find((g) => g.id === "US");
-  if (!treasury) return;
-  // The federal rate, whatever the state adds on top: the state's own share
-  // goes to the state's treasury (pool item gov-town-payers-corporate-vehicle-tax),
-  // and a territory's tax that stands in place of it is paid there too.
-  const law =
-    lawInForce(api, "corporate-income-tax").levels.find(
-      (level) => level.level === "federal",
-    )?.row ?? null;
+  // The corporate rate in force at each level (a territory's own tax stands in
+  // place of the federal one), each paid to that level's treasury.
+  const levels = lawInForce(api, "corporate-income-tax")
+    .levels.filter(
+      (level) =>
+        !level.setAside &&
+        level.row &&
+        (level.row.value ?? 0) > 0 &&
+        (level.level === "federal" || level.level === "state"),
+    )
+    .flatMap((level) => {
+      const gov = governments(api).find((g) => g.id === level.jurisdiction);
+      return gov ? [{ row: level.row!, level: level.level, gov }] : [];
+    });
   // stopgapId: SG-WORLD-business-premises-property-tax
   api.stopgap(PREMISES_STOPGAP);
   const core = api.state as CoreState;
@@ -218,30 +226,68 @@ function payProfitTaxes(api: CoreAPI): void {
     // A business with no owner has no income to pass on; one an organization
     // owns pays the corporate rate below.
     if (!owner || !core.organizations.has(owner)) continue;
-    if (!law?.value) continue;
     const profit = total - last.minor;
     const key = `${id}:profit`;
-    const tax = profit > 0 ? Math.round((profit * law.value) / 100) : 0;
-    const owed = tax + arrearsOf(api, key);
+    const taxes = levels.map((l) => ({
+      ...l,
+      tax: profit > 0 ? Math.round((profit * l.row.value!) / 100) : 0,
+    }));
+    const tax = taxes.reduce((n, l) => n + l.tax, 0);
+    // Each treasury is owed its own arrears and this quarter's tax at its own
+    // rate; a treasury whose rate was repealed or lowered keeps what it was owed.
+    const before = profitArrearsOf(api, key);
+    const govs = [
+      ...taxes.map((l) => l.gov),
+      ...Object.keys(before)
+        .filter((g) => !taxes.some((l) => l.gov.id === g))
+        .sort()
+        .flatMap((g) => governments(api).filter((row) => row.id === g)),
+    ];
+    const owedBy = govs.map(
+      (g) =>
+        (before[g.id] ?? 0) + (taxes.find((l) => l.gov.id === g.id)?.tax ?? 0),
+    );
+    const owed = owedBy.reduce((n, o) => n + o, 0);
     if (owed <= 0) continue;
     const from = `cash:${id}:residual`;
     const paid = Math.min(owed, Math.max(0, api.accounts().balance(from)));
+    // What is paid goes to each treasury in proportion to what it is owed.
+    const shares = splitOwed(paid, owedBy);
+    const arrearsAfter: Record<string, number> = {};
+    for (const [index, g] of govs.entries())
+      if (owedBy[index]! - shares[index]! > 0)
+        arrearsAfter[g.id] = owedBy[index]! - shares[index]!;
     table(api, "arrears").put({
       id: key,
       minor: owed - paid,
+      byGovernment: arrearsAfter,
     } as unknown as ModuleRow);
     const recordId = `profit-tax:${id}:${api.state.date}`;
     const postings =
       paid > 0
         ? [
             { id: `${recordId}:out`, accountId: from, deltaMinor: -paid },
-            {
-              id: `${recordId}:in`,
-              accountId: `cash:${treasury.organizationId}:residual`,
-              deltaMinor: paid,
-            },
+            ...govs
+              .map((g, index) => ({
+                id: `${recordId}:in:${g.id}`,
+                accountId: `cash:${g.organizationId}:residual`,
+                deltaMinor: shares[index]!,
+              }))
+              .filter((p) => p.deltaMinor > 0),
           ]
         : [];
+    // The business was taxed at the rates in force: one row per level, the
+    // state's (the most local law) on the business itself.
+    for (const [index, l] of taxes.entries())
+      lawApplied(api, {
+        key: "corporate-income-tax",
+        lawId: l.row.id,
+        targetId: index === taxes.length - 1 ? id : `${id}|${l.level}`,
+        target: "organization",
+        engine: EMPLOYER_TAXES_MODULE_ID,
+        what: "profit-taxed",
+        amountMinor: shares[govs.indexOf(l.gov)]!,
+      });
     const record: ProfitTaxRecord = {
       id: recordId,
       date: api.state.date,
@@ -250,25 +296,33 @@ function payProfitTaxes(api: CoreAPI): void {
       taxMinor: tax,
       paidMinor: paid,
       arrearsAfterMinor: owed - paid,
-      lawIds: [law.id],
+      arrearsAfterByGovernment: arrearsAfter,
+      lawIds: taxes.map((l) => l.row.id),
       postings,
       source: {
-        tag: law.estimate ? "ESTIMATED" : "SOURCED",
-        citation: law.id,
+        tag: taxes.some((l) => l.row.estimate) ? "ESTIMATED" : "SOURCED",
+        citation: taxes.map((l) => l.row.id).join(" ; "),
         asOf: api.state.date,
-        ...(law.estimate
-          ? { estimatedFrom: `Law row read is an estimate: ${law.id}` }
+        ...(taxes.some((l) => l.row.estimate)
+          ? {
+              estimatedFrom: `Law rows read that are estimates: ${taxes
+                .filter((l) => l.row.estimate)
+                .map((l) => l.row.id)
+                .join(" ; ")}`,
+            }
           : {}),
       },
     };
     table(api, "profits").put(record as unknown as ModuleRow);
     if (!postings.length) continue;
     // The corporate line's outside payers owe that much less at their next installment.
-    noteTownRevenue(api, {
-      governmentId: treasury.id,
-      line: "corporateIncomeTax",
-      paidMinor: paid,
-    });
+    for (const [index, g] of govs.entries())
+      if (shares[index]! > 0)
+        noteTownRevenue(api, {
+          governmentId: g.id,
+          line: "corporateIncomeTax",
+          paidMinor: shares[index]!,
+        });
     api.postJournal({
       id: `journal:${api.state.date}:${core.cashJournal.nextSequence}`,
       date: api.state.date,
@@ -277,6 +331,30 @@ function payProfitTaxes(api: CoreAPI): void {
       postings,
     });
   }
+}
+
+/**
+ * Split a payment across what each treasury is owed, in proportion, in whole
+ * minor units: each share is rounded down, and the cents left go one at a
+ * time to the first treasuries still owed. No share exceeds what is owed.
+ */
+function splitOwed(paid: number, owed: readonly number[]): number[] {
+  const sum = owed.reduce((n, o) => n + o, 0);
+  const out = owed.map((o) => (sum > 0 ? Math.floor((paid * o) / sum) : 0));
+  let left = paid - out.reduce((n, o) => n + o, 0);
+  for (let index = 0; left > 0 && index < owed.length; index++)
+    if (out[index]! < owed[index]!) {
+      out[index] = out[index]! + 1;
+      left -= 1;
+    }
+  return out;
+}
+
+/** A business's unpaid corporate tax, by the government it is owed to. */
+function profitArrearsOf(api: CoreAPI, key: string): Record<string, number> {
+  const row = table(api, "arrears").get(key) as unknown as
+    { minor: number; byGovernment?: Record<string, number> } | undefined;
+  return { ...(row?.byGovernment ?? {}) };
 }
 
 /**
