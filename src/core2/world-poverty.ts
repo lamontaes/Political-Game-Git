@@ -12,6 +12,7 @@ import thresholds from "./data/world-metrics/poverty-thresholds-2024.json" with 
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { ageOn, type HouseholdKind } from "./counted-groups";
 import type { ClaimRow } from "./jobs-benefits";
+import { reachParameter } from "./law-reach/group-b-people";
 import { householdIncome, residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -62,7 +63,7 @@ export interface HouseholdPoverty {
 
 /**
  * What each household's open unemployment claims pay it over the coming year:
- * the weekly benefit times the weeks left on the claim, at most a year's 52.
+ * the weekly benefit times the weeks left on the claim, at most a year's weeks.
  * (Pay counts at its yearly rate and awards at theirs; a claim ends, so what it
  * still owes within the year is its yearly rate.) A counted claimant's claim
  * counts for their counted household by the same rule; the household record's
@@ -88,7 +89,11 @@ function claimIncome(core: CoreState): Map<string, number> {
     out.set(
       household,
       (out.get(household) ?? 0) +
-        claim.weeklyMinor * Math.min(52, Math.max(0, claim.weeksLeft)),
+        claim.weeklyMinor *
+          Math.min(
+            reachParameter("weeksPerYear"),
+            Math.max(0, claim.weeksLeft),
+          ),
     );
   }
   return out;
