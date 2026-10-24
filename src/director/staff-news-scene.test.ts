@@ -7,7 +7,13 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { townSeats } from "../core2/modules/offices";
-import { servingStaffOf, staffOf } from "../core2/modules/staff";
+import {
+  hireReasons,
+  hireStaff,
+  servingStaffOf,
+  staffCandidates,
+  staffOf,
+} from "../core2/modules/staff";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
@@ -17,10 +23,14 @@ import { purposeScene } from "./purpose-scene";
 // in committee or voted down on the floor), and the staff-news scene fires
 // from it with one of the sponsor's aides bringing the news, about that bill.
 // Places are drawn in turn until one has a watched sponsor with an aide whose
-// bill lost.
+// bill lost. Most losses come early in the year, before an official's own
+// review gets around to hiring, so each watched official with no aide hires
+// one on the first day through the staff module's own hiring (the candidate
+// its review ranks first), as the electoral test's candidates ask people to
+// volunteer.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DAYS = 150;
-const ATTEMPTS = 4;
+const ATTEMPTS = 8;
 
 it(`a bill that loses its vote is the sponsor's staff-news scene, about that bill (seed ${seed})`, () => {
   const tried: string[] = [];
@@ -37,6 +47,20 @@ it(`a bill that loses its vote is the sponsor's staff-news scene, about that bil
     for (const row of townSeats(api)) {
       const id = row.holder?.personId;
       if (id && core.people.get(id)?.alive) director.watch(core, id);
+    }
+    for (const officialId of [...director.ledger.people.keys()].sort()) {
+      if (servingStaffOf(api, officialId).length) continue;
+      const choice = staffCandidates(api, officialId)
+        .map((row) => ({ ...row, score: hireReasons(row).score }))
+        .sort(
+          (a, b) => b.score - a.score || a.personId.localeCompare(b.personId),
+        )[0];
+      if (choice)
+        hireStaff(
+          api,
+          { officialId, personId: choice.personId, role: "aide" },
+          choice,
+        );
     }
     advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
     // The losses of watched sponsors with an aide who was hired before that
