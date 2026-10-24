@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: effect-web-schools
 pr: #5609
 blocked-on:
 source: "Merger review of PR #5609, branch effect-web-schools"
-claimed-at:
+claimed-at: 2026-10-24T00:10:38.601Z
 ---
 
 **What.** PR #5609's school-outcomes reader classifies a full student from household job wages alone. Its counted path reads the household's wages, retirement and unplaced-worker pay through groupKeyOf, so meeting a student can change their income fifth while their recorded pay continues. Use the same recorded household-income basis in both paths instead of dropping income when a person is filled in.
