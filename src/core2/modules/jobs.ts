@@ -2346,8 +2346,10 @@ export function laborGroupShares(
           place !== undefined &&
           rt.store.strings[rt.store.placeIx[place]!] === placeId
         ) {
-          const w = rt.store.weightOf(
+          // As many jobs as the counted job stands for.
+          const w = rt.store.headsOfJob(
             rt.store.households[rt.store.household[place]!]!,
+            jobId,
           );
           out["labor.low-wage-jobs"].of += w;
           if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
