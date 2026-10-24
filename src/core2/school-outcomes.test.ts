@@ -40,6 +40,8 @@ import { ageOn } from "./counted-groups";
 import { fullHouseholdIncomes } from "./counted-income-fifth";
 import { webReach } from "./outcome-web-reach";
 import { setBookkeeping } from "./bookkeeping";
+import { personalityCataloguePack } from "./personality-catalogue";
+import { qualifiedTraitKey } from "./trait-packs";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
@@ -97,6 +99,17 @@ const rows = <T>(core: CoreState, name: string) =>
     .moduleState(SCHOOL_MODULE_ID)
     .table(name)
     .rows() as unknown as T[];
+
+describe("school standing", () => {
+  it("reads study traits people carry, by their qualified keys", () => {
+    const pack = personalityCataloguePack();
+    const known = new Set(
+      pack.traits.map((trait) => qualifiedTraitKey(pack.pack, trait.key)),
+    );
+    for (const key of schoolData.standing.traits)
+      expect(known.has(key), `${key} is a personality trait key`).toBe(true);
+  });
+});
 
 describe(`school outcomes (seed ${seed})`, () => {
   it("decides tests and graduation from the place's base, its web factor and each student's standing", () => {
@@ -387,4 +400,106 @@ describe(`a student filled in keeps the income fifth the counts gave them (seed 
       setBookkeeping(priorBookkeeping);
     }
   }, 1_500_000);
+});
+
+describe(`a counted student attends as the same place's full students do (seed ${seed})`, () => {
+  it("moves with that place's recorded attendance, and keeps its standing when the student is met", () => {
+    const priorBookkeeping = setBookkeeping(false);
+    try {
+      const tried: string[] = [];
+      for (let attempt = 0; attempt < 4; attempt++) {
+        const drawn = drawPlace(seed, `school-attendance:${attempt}`);
+        const where = `seed ${seed}, ${drawn.name} (${drawn.key}), attempt ${attempt}`;
+        const core = buildBenchWorld(drawn.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: drawn.key,
+        }).core as CoreState;
+        const api = coreAPI(core);
+        const startYear = schoolStartYear(
+          core.date,
+          schoolDays.schoolYear.firstDay,
+        );
+        const wAttend = api.parameter(
+          schoolData.standing.attendanceWeightParameter,
+        );
+        // A grade whose place holds two or more full students and a counted one.
+        const grades = Array.from(
+          { length: schoolData.tested.graduation + 1 },
+          (_, grade) => grade,
+        );
+        let found: {
+          grade: number;
+          placeId: string;
+          full: string[];
+          counted: string;
+        } | null = null;
+        for (const grade of grades) {
+          for (const [placeId, list] of studentsByPlace(
+            api,
+            grade,
+            startYear,
+            () => undefined,
+          )) {
+            const full = list.filter((s) => s.full).map((s) => s.id);
+            const counted = list.find((s) => !s.full);
+            if (full.length >= 2 && counted) {
+              found = { grade, placeId, full, counted: counted.id };
+              break;
+            }
+          }
+          if (found) break;
+        }
+        if (!found) {
+          tried.push(
+            `${where}: no grade with two full and one counted student in a place`,
+          );
+          continue;
+        }
+        const { grade, placeId, full, counted } = found;
+        const standingOf = (
+          id: string,
+          attendance: (personId: string) => number | undefined,
+        ) =>
+          studentsByPlace(api, grade, startYear, attendance)
+            .get(placeId)
+            ?.find((s) => s.id === id)?.standing;
+        // Every full student attends every day, then one attends 60% of days.
+        const everyDay = (id: string) => (full.includes(id) ? 1 : undefined);
+        const short = full[0]!;
+        const oneShort = (id: string) =>
+          id === short ? 0.6 : full.includes(id) ? 1 : undefined;
+        const meanDrop = (1 - 0.6) / full.length;
+        const before = standingOf(counted, everyDay)!;
+        const after = standingOf(counted, oneShort)!;
+        expect(
+          before - after,
+          `${where}: counted ${counted} follows the place's full attendance`,
+        ).toBeCloseTo(wAttend * meanDrop, 9);
+        expect(
+          standingOf(short, everyDay)! - standingOf(short, oneShort)!,
+          `${where}: ${short}'s own record`,
+        ).toBeCloseTo(wAttend * 0.4, 9);
+        // Met: a counted student filled in has no attendance record yet, so
+        // they read the same place mean as before and keep their standing.
+        fillInPerson(core, counted);
+        expect(
+          core.people.get(counted)?.placeId,
+          `${where}: ${counted} filled in`,
+        ).toBe(placeId);
+        expect(
+          standingOf(counted, oneShort),
+          `${where}: ${counted} keeps their standing when met`,
+        ).toBeCloseTo(after, 9);
+        console.info(
+          `school attendance ${where}: grade ${grade}, place ${placeId}, full ${full.length}, counted ${counted}: standing ${before.toFixed(4)} with every full student in school, ${after.toFixed(4)} with ${short} at 60%, ${standingOf(counted, oneShort)!.toFixed(4)} once met`,
+        );
+        return;
+      }
+      throw new Error(
+        `No drawn place had the students to check (seed ${seed}); tried ${tried.join("; ")}`,
+      );
+    } finally {
+      setBookkeeping(priorBookkeeping);
+    }
+  }, 900_000);
 });

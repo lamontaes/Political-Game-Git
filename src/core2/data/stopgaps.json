@@ -4973,6 +4973,18 @@
     "status": "open"
   },
   {
+    "id": "SG-SCHOOL-counted-attendance",
+    "kind": "behavior",
+    "file": "src/core2/school-outcomes.ts",
+    "line": 145,
+    "whatItFakes": "A counted student's attendance in the school standing, and a full student's before they have an attendance record, is the mean attendance share of the same place's full students of that grade, or every school day where the place has none recorded. The standing orders who in an income fifth passes or graduates; it never sets how many do.",
+    "why": "Only full people go to school day by day (school.ts records their days); a counted student has no attendance record. Today every full student attends every school day (SG-CORE-school-days), so the place's mean is every day and both tiers read the same value.",
+    "addedBy": "effect-web-schools",
+    "addedAt": "2026-10-24",
+    "replacement": "Counted students' attendance from the counted tier's own school days (the same attendance choice full students make, read for the group times its count), so the standing reads one recorded rule in both tiers.",
+    "status": "open"
+  },
+  {
     "id": "SG-TRAITS-counted-health-no-trait",
     "kind": "partial-model",
     "file": "src/core2/modules/health.ts",
