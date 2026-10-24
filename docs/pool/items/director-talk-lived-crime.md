@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: claude/talk-lived-crime
-pr: #5923
+pr: #5922
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T06:56:50.618Z
