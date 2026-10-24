@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5803
-blocked-on:
+blocked-on: world-counted-weight-release-grows-employer-staff (the pinned Washington, D.C. Census-size proof fails on that cause, PR #5803 comment 6331948796)
 source: added with npm run pool -- add
 claimed-at:
 ---
