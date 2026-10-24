@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-m0-12
 pr: #5872
 blocked-on:
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T04:24:37.875Z
 **Files.** scripts/roadmap/next-feature.ts, scripts/roadmap/next-feature.node-test.ts, docs/roadmap/features.json
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5872 (branch claude/quirky-ride-vrwwz4-m0-12): next-feature.ts:75-80 recommends an open item despite its unfinished after prerequisite; the real pool claim command rejects that recommendation, so share eligibility and add gated/claimable regression coverage; finish on that branch, merge main into it first.
