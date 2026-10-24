@@ -202,13 +202,19 @@ function terciles(by: Record<string, { lean: number; picked: boolean }[]>) {
 /** What the money decisions wrote in the year, by record id: foundings, purchases, rent settled, owners' draws. */
 function recordsOfYear(core: CoreState) {
   const api = coreAPI(core);
-  const rows = (moduleId: string, table: string) =>
-    core.modules.has(moduleId)
-      ? (api.moduleState(moduleId).table(table).rows() as unknown as {
-          id: string;
-          share?: number;
-        }[])
-      : [];
+  const rows = (moduleId: string, table: string) => {
+    // A table an older build does not have reads as empty.
+    try {
+      return core.modules.has(moduleId)
+        ? (api.moduleState(moduleId).table(table).rows() as unknown as {
+            id: string;
+            share?: number;
+          }[])
+        : [];
+    } catch {
+      return [];
+    }
+  };
   const ids = (list: { id: string }[]) => ({
     count: list.length,
     first: list.slice(0, 3).map((row) => row.id),
