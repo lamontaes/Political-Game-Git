@@ -45,6 +45,7 @@ import {
   CountedPersonHouseholdMap,
   CountedStore,
   decodeStore,
+  isDemoted,
   encodeStore,
   MemberState,
   type CountedHousehold,
@@ -2432,6 +2433,20 @@ export function removeCountedPerson(
   store.version++;
   store.membersVersion++;
   store.touch(h);
+  // Someone back in the counts (demoted) keeps their record: it dies with
+  // them and leaves the household, as a demotion leaves out members who died,
+  // so meeting the household again brings back only the living.
+  const kept = core.people.get(personId);
+  if (kept && isDemoted(kept)) {
+    const api = rt.api ?? coreAPI(core);
+    api.updatePerson(personId, { alive: false });
+    const home = core.households.get(kept.householdId);
+    if (home?.memberIds.includes(personId))
+      core.households.set(home.id, {
+        ...home,
+        memberIds: home.memberIds.filter((id) => id !== personId),
+      });
+  }
   h.jobs = h.jobs.filter((row) => row.personId !== personId);
   h.workCommitments = h.workCommitments.filter(
     (row) => row.personId !== personId,
