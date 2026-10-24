@@ -30,3 +30,7 @@ Sent back 2026-10-20 from PR #4937 (branch claude/living-costs-arrears): Morning
 Sent back 2026-10-22 from PR #4937 (branch claude/living-costs-arrears): Normal main integration conflicts in src/core2/living-costs-arrears.test.ts:65; preserve both full-household and counted-group arrears assertions.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #4937 (branch claude/living-costs-arrears): counted arrears test can pass with zero debt and never follows non-billing-day carry or repayment; add positive counted and annual full-household record witnesses plus the Done-when evidence table; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #4937 (branch claude/living-costs-arrears): repayment witnesses count any debt reduction despite write-off and construct journal IDs without requiring positive payment records; reconcile actual group payment, payer/payee postings and charge-off separately; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #4937 recheck (branch claude/living-costs-arrears): counted repayment still sums all positive postings instead of selecting the actual payee account, and full repayment sums all debits instead of recorded payer/member accounts; require those account-identity assertions while preserving the annual positive-payment and write-off reconciliation proof; finish on that branch, merge main into it first.

@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/web-reach-places-services
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-24T09:07:14.242Z
+claimed-at:
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the housing, transit, roads, parks and family family: 7 unwired links, 6 where the owning engine does not read the factor and 1 where nothing keeps the outcome. Their outcomes: housing.home-prices, housing.ac-share, transit.service-access, roads.poor-condition-pct, rail.intercity-ridership, parks.access-to-exercise and family.same-sex-marriages. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.

@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/web-reach-environment
+status: open
+claimed-by:
 pr: #5915
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-24T09:03:57.360Z
+claimed-at:
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the environment, disasters, farms and water family: 13 unwired links, 11 where the owning engine does not read the factor and 2 where nothing keeps the outcome. Their outcomes: env.particulates, env.emissions, env.litter, env.container-recycling-pct, disaster.damage, disaster.flood-damage, farmland.developed-acres, farmland.value-per-acre and water.irrigation-groundwater. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T09:03:57.360Z
 **Files.** src/core2/modules/disasters.ts, src/core2/outcome-web-reach.ts
 
 **Notes.** Split Oct 24 by the CTO from the effect-web audit (order `docs/work-orders/lead-effects-2026-10-24.md`). Counts from the capstone branch's unwired list on Oct 23 (effect-web-integration). Most environment links reach people only through health; follow each to the health engine or a price, not a new measure nobody reads. A PR names this item on line 1 and `Lead: effects` in its body.
+
+Sent back 2026-10-24 from PR #5915 (branch claude/web-reach-environment): Missing first two Done-when proofs: new tests hand-set web effects/values for weeks and retained matrix twins cover3months; supply named annual buildBenchWorld law-through-researched-lag records per link, or bound reader-contract completion while retaining this annual family acceptance open; finish on that branch, merge main into it first.
