@@ -19,6 +19,7 @@ import { appliedOn } from "./law-reach/applied";
 import { budgetToday } from "./law-reach/group-a-money";
 import {
   currentStaff,
+  reachParameter,
   STAFFING,
   townOrganizations,
 } from "./law-reach/group-a-records";
@@ -80,10 +81,15 @@ for (const key of Object.keys(STAFFING))
           );
           continue;
         }
+        // A raise of at least one position's cost, so a small town's line
+        // funds a whole position.
         amendBudget(api, {
           governmentId: gov.id,
           line,
-          deltaMinor: amount,
+          deltaMinor: Math.max(
+            amount,
+            reachParameter("publicPositionAnnualMinor"),
+          ),
           measureId: `test:${line}:up`,
         });
         advanceCore(core, addDays(makeIsoDate(core.date), 2));
@@ -108,8 +114,15 @@ for (const key of Object.keys(STAFFING))
         measureId: `test:${line}:up`,
       });
       // The employer posts its openings the next morning; the jobs engine's
-      // weekly matching fills them.
-      advanceCore(core, addDays(makeIsoDate(core.date), 1 + 14));
+      // weekly matching fills them from whoever is looking. A town where
+      // nobody takes one in twelve weeks has no seeker for it: redraw.
+      advanceCore(core, addDays(makeIsoDate(core.date), 1 + 7));
+      for (let week = 1; week < 12 && staff() <= held; week += 1)
+        advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      if (staff() <= held) {
+        tried.push(`${where}: no seeker took a ${line} opening in 12 weeks`);
+        continue;
+      }
       const funded = employers.reduce(
         (n, o) => n + Math.round(staffingOf(api, key, o.id)!.positions),
         0,

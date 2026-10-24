@@ -50,7 +50,7 @@ import {
 import { outsideAccountOf } from "./budgets-treasury";
 import { drawPlace } from "../../tests/golden-path/place";
 import { jobsAt } from "./law-reach/group-b-money";
-import { countedJob } from "./modules/residents";
+import { countedJob, residentsRuntime } from "./modules/residents";
 import { PUBLIC_EMPLOYER_CLASSES, PUBLIC_PAY_FLOOR } from "./public-pay-floor";
 
 const P = "us-policy-positions:government-operations.";
@@ -494,6 +494,28 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         const moneyOf = (needle: string) =>
           posts.find((p) => p.gross > 0 && p.id.includes(needle))?.id ?? null;
         const hire = lineHires[0];
+        // A line hire's pay: a named hire's payroll under their commitment,
+        // a counted hire's in their employer's wage post, from the hire on.
+        const hireEmployer = hire
+          ? ([...core.jobs.values()].find(
+              (j) => j.personId === hire.targetId && j.endsAt === undefined,
+            )?.organizationId ??
+            [...(residentsRuntime(core)?.jobs.values() ?? [])].find(
+              (j) => j.personId === hire.targetId && j.endsAt === undefined,
+            )?.organizationId)
+          : undefined;
+        const hirePay =
+          hire && hireEmployer
+            ? (posts.find(
+                (p) =>
+                  p.gross > 0 &&
+                  p.id.slice("journal:".length, "journal:".length + 10) >=
+                    hire.since &&
+                  / (residents:wages|work-payroll):/.test(p.id) &&
+                  (p.id.includes(hireEmployer) ||
+                    p.id.includes(`:${hire.targetId}`)),
+              )?.id ?? null)
+            : null;
         const reached = Object.fromEntries(
           [...VOTING_LAWS, REDISTRICT, TERM, LOBBY, HOME_RULE, ADMIN].map(
             (key) => {
@@ -506,9 +528,7 @@ describe(`government operations laws are applied by their engines (seed ${seed})
                 key === REDISTRICT
                   ? moneyOf("redistricting-commission:")
                   : key === ADMIN
-                    ? hire
-                      ? moneyOf(hire.targetId)
-                      : null
+                    ? hirePay
                     : VOTING_LAWS.includes(key)
                       ? moneyOf(`election-admin:${key}:`)
                       : null;
