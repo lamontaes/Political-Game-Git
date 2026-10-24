@@ -9,7 +9,7 @@
   "sourceUrl": "https://taxfoundation.org/data/all/state/state-income-tax-rates/",
   "retrievedOn": "2026-10-23",
   "limits": [
-    "A conversion's ratio is the new flat rate over the old schedule's top rate (single filer), from the two January 1 tables; it says what real legislatures chose, not what a given sponsor will write.",
+    "A conversion's ratio is the flat rate a state adopted over the top rate of the schedule it replaced (single filer), from the two January 1 tables; it says what real legislatures chose, not what a given sponsor will write.",
     "Mississippi kept its 5% top rate and dropped its 4% bracket (a zero bracket remains); Ohio kept its zero bracket under $26,050.",
     "Arizona and Idaho (2023) are left out: the 2022 page's continuation rows were not readable in the fetched copy.",
     "The flat-rate states come from data/research/laws/taxfoundation-2025-state-income-tax.json (the same Tax Foundation page, January 1, 2025)."
@@ -85,7 +85,7 @@
     "low": 0.667,
     "high": 1.0,
     "median": 0.786,
-    "unit": "new flat rate / old top rate"
+    "unit": "adopted flat rate / replaced top rate"
   },
   "flatRateStates2025": {
     "US-AZ": 2.5,
