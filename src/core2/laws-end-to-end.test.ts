@@ -279,6 +279,7 @@ it(`a player's bill is followed from negotiation to a named person and back, and
     else if (FAILED.has(run.status) && !failed) failed = run;
     else tried.push(`${run.where}: bill ${run.status}`);
   }
+  console.info(`laws-e2e passed over: ${tried.join("; ") || "none"}`);
   expect(
     passed,
     `no drawn place passed it: ${tried.join("; ")}`,
@@ -535,4 +536,32 @@ it(`a player's bill is followed from negotiation to a named person and back, and
     line,
     `${where}: ${personId}'s journal names the learned effect: ${lines.map((l) => l.text).join(" | ")}`,
   ).toBeDefined();
+
+  // The world runs on to a year from the opening: the record holds, and
+  // others the law reached learn of it the same way.
+  const yearEnd = addDays(makeIsoDate(gameStartDate()), 365);
+  if (yearEnd > core.date) advanceCore(core, yearEnd);
+  const learners = [...core.durableLog.values()].filter(
+    (row) =>
+      row.kind === "law.effect-learned" &&
+      lawIds.includes(String(row.facts?.lawId ?? "")),
+  );
+  expect(
+    learners.some((row) => row.id === found!.id),
+    `${where}: ${found!.id} stays on the record a year on`,
+  ).toBe(true);
+  const yearLines = composeJournal(core, director, personId, {
+    data: admitted,
+  }).flatMap((chapter) => chapter.lines);
+  expect(
+    yearLines.some((l) => l.sourceRecordIds.includes(found!.id)),
+    `${where}: ${personId}'s journal line holds a year on`,
+  ).toBe(true);
+  const reachedAtYear = appliedOn(api, key).filter((row) => !row.endedOn);
+  console.info(
+    `laws-e2e ${where}: YEAR to ${core.date}: ${key} ${inForce(api, key) ? "still law" : "no longer law"}; ${reachedAtYear.length} open applied rows; ${learners.length} people tied a bill to it from a story they heard (first ${learners
+      .slice(0, 3)
+      .map((row) => row.id)
+      .join(", ")})`,
+  );
 }, 3_600_000);
