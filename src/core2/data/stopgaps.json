@@ -5442,6 +5442,18 @@
     "status": "resolved"
   },
   {
+    "id": "SG-PEOPLE-counted-opening-exposure",
+    "kind": "estimated-behavior",
+    "file": "src/core2/births-counted.ts",
+    "line": 747,
+    "whatItFakes": "A counted woman first seen starts with the part of a whole exposure that her years since she could first be a parent would leave at today's rate (her age curve and her household's cushion now), not the exposure her own past would have left.",
+    "why": "Counted records keep no past, and starting every woman at zero would give no unplanned pregnancy for years and then the whole tier at once.",
+    "addedBy": "claude/unplanned-counted-tier",
+    "addedAt": "2026-10-24",
+    "replacement": "Her exposure since her last birth or partnering, read from a counted past once the opening reconstructs one (as SG-M1-opening-pregnancies does for full couples).",
+    "status": "open"
+  },
+  {
     "id": "SG-PEOPLE-unplanned-provider-distance",
     "kind": "missing-mechanic",
     "file": "src/core2/births-unplanned.ts",

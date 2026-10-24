@@ -219,6 +219,8 @@ const ageOf = (person: Pick<PersonInput, "birthDate">, date: string) =>
   Number(person.birthDate.slice(0, 4)) -
   (date.slice(5) < person.birthDate.slice(5) ? 1 : 0);
 
+const fractionOf = (value: number) => value - Math.floor(value);
+
 /** Whether a relative in a woman's counted household is her partner: an adult within one generation of her age. */
 export function partnerByAge(
   woman: Pick<PersonInput, "birthDate">,
@@ -736,9 +738,23 @@ export function applyCountedFlows(
             (today - Date.parse(kid.birthDate)) / MS_PER_DAY < spacing,
         );
         if (recent) continue;
-        const carried =
-          Number(store.table(exposureTable).get(woman.id)?.carry ?? 0) +
-          countedExposure(api, record, woman, date) * reviewShare;
+        const perReview = countedExposure(api, record, woman, date);
+        const held = store.table(exposureTable).get(woman.id);
+        // First seen, she has carried exposure since she came of age: the
+        // part of a whole that years of reviews at today's rate leave.
+        const opening = held
+          ? Number(held.carry)
+          : (api.stopgap("SG-PEOPLE-counted-opening-exposure"),
+            fractionOf(
+              perReview *
+                Math.max(
+                  0,
+                  ((ageOf(woman, date) - YOUNGEST_PARENT_AGE) *
+                    p("daysPerMeanYear")) /
+                    p("renewalReviewDays"),
+                ),
+            ));
+        const carried = opening + perReview * reviewShare;
         const due = carried >= p("one");
         store.table(exposureTable).put({
           id: woman.id,
