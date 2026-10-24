@@ -571,6 +571,91 @@ export function aidedLines(
   );
 }
 
+/**
+ * What an account's standing payments ask of it from today to the next
+ * monthly close: each obligation due by then, with what it already owes.
+ */
+function standingDue(api: CoreAPI, account: string, date: string): number {
+  const next = new Date(
+    Date.UTC(
+      Number(date.slice(0, 4)),
+      Number(date.slice(5, 7)),
+      Number(date.slice(8, 10)),
+    ),
+  )
+    .toISOString()
+    .slice(0, 10);
+  return api
+    .accounts()
+    .obligationsFrom(account)
+    .filter((row) => row.nextDueAt !== undefined && row.nextDueAt <= next)
+    .reduce(
+      (sum, row) =>
+        sum + row.amountMinor + (row.accruesArrears ? row.arrearsMinor : 0),
+      0,
+    );
+}
+
+/**
+ * The U.S. Treasury borrows an amount from the groups that hold its debt, in
+ * their shares, into its account; returns what each group lent.
+ */
+function borrowFederal(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  outside: string,
+  amountMinor: number,
+): Record<string, number> {
+  const accounts = api.accounts();
+  const date = api.state.date;
+  const lent: Record<string, number> = {};
+  const holders = federalDebtOf(api);
+  const wanted = splitBy(
+    amountMinor,
+    DEBT.holders.map((h) => h.share),
+  );
+  holders.forEach((holder, i) => {
+    if (wanted[i]! <= 0) return;
+    const paid = accounts.transfer({
+      // What the holder has lent so far keeps each borrowing's id its own.
+      id: `federal-borrowing:${holder.id}:${gov.id}:${date}:${holder.borrowedMinor}`,
+      from: accounts.main(outside),
+      to: accounts.main(gov.organizationId),
+      amountMinor: wanted[i]!,
+      reasonKey: "federal-borrowing",
+      source: {
+        tag: "SOURCED",
+        citation:
+          "U.S. Treasury, Monthly Treasury Statement fiscal 2025: outlays beyond receipts are financed by borrowing from the public; the holders and their shares are src/core2/data/budgets/federal-debt.json",
+        asOf: date,
+      },
+    }).paidMinor;
+    lent[holder.id] = paid;
+    table(api, "federalDebt").put({
+      ...holder,
+      balanceMinor: holder.balanceMinor + paid,
+      borrowedMinor: holder.borrowedMinor + paid,
+    } as unknown as ModuleRow);
+  });
+  return lent;
+}
+
+/**
+ * A standing federal payment added between closes (a covered adult's care
+ * from tomorrow) is paid from what the U.S. Treasury holds; it borrows any
+ * day what its account lacks for the payments due before the next close, as
+ * it does at each close. A town's other treasuries pay what they hold.
+ */
+export function fundFederalStanding(api: CoreAPI): void {
+  const outside = outsideAccountOf(api);
+  const gov = governments(api).find((g) => g.level === "federal");
+  if (!outside || !gov) return;
+  const main = api.accounts().main(gov.organizationId);
+  const short =
+    standingDue(api, main, api.state.date) - api.accounts().balance(main);
+  if (short > 0) borrowFederal(api, gov, outside, short);
+}
+
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
@@ -807,35 +892,13 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
     const interestByHolder: Record<string, number> = {};
     if (gov.level === "federal" && have < need) {
       // The U.S. Treasury borrows what the month's payments need beyond what
-      // it holds, issued to the groups that hold its debt in their shares.
-      const holders = federalDebtOf(api);
-      const wanted = splitBy(
-        need - have,
-        DEBT.holders.map((h) => h.share),
+      // it holds (past the month of standing payments it keeps back), issued
+      // to the groups that hold its debt in their shares.
+      Object.assign(
+        borrowedByHolder,
+        borrowFederal(api, gov, outside, need - have),
       );
-      holders.forEach((holder, i) => {
-        if (wanted[i]! <= 0) return;
-        const paid = accounts.transfer({
-          id: `federal-borrowing:${holder.id}:${gov.id}:${date}`,
-          from: accounts.main(outside),
-          to: main,
-          amountMinor: wanted[i]!,
-          reasonKey: "federal-borrowing",
-          source: {
-            tag: "SOURCED",
-            citation:
-              "U.S. Treasury, Monthly Treasury Statement fiscal 2025: outlays beyond receipts are financed by borrowing from the public; the holders and their shares are src/core2/data/budgets/federal-debt.json",
-            asOf: date,
-          },
-        }).paidMinor;
-        borrowedByHolder[holder.id] = paid;
-        borrowed += paid;
-        table(api, "federalDebt").put({
-          ...holder,
-          balanceMinor: holder.balanceMinor + paid,
-          borrowedMinor: holder.borrowedMinor + paid,
-        } as unknown as ModuleRow);
-      });
+      borrowed = Object.values(borrowedByHolder).reduce((n, v) => n + v, 0);
       have += borrowed;
     }
     const scale = need > 0 ? Math.min(1, Math.max(0, have) / need) : 1;
