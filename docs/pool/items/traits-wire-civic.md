@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-civic
 pr: #5657
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 
+claimed-at: 2026-10-24T16:12:41.027Z
 ---
 
 **What.** This is one bounded family of the trait wiring audit (`traits-wiring-audit`, reopened Oct 24). Every decision in the civic life and news family: voting turnout, telling news, meetings, parties, interest groups, press contact, believing a claim, persuasion and trust must run in a played year and weigh the person's traits at a size taken from research. A decision with no study keeps the owner's general weight of 1 only with a gap row that says why. Twins with traits flat or mirrored must show the decisions turning, at the rate the research gives, never at overwhelming odds.
