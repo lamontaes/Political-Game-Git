@@ -47,7 +47,9 @@ import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import { townSeats } from "../../src/core2/modules/offices";
-import { draftBill } from "../../src/core2/modules/legislature";
+import { draftBill, type Provision } from "../../src/core2/modules/legislature";
+import powersCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
+import powerQuestions from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
 
@@ -408,15 +410,46 @@ function townLevel(
   return null;
 }
 
+/**
+ * Laws the checker enacts at a level other than the town's lowest: an
+ * independent redistricting commission draws a state's lines (a town draws
+ * only its own ward lines, and most towns have none).
+ */
+const ENACT_AT: Readonly<Record<string, readonly string[]>> = {
+  "us-policy-positions:government-operations.independent-redistricting": [
+    "state",
+  ],
+};
+
+/**
+ * Set a question yes or no. A repeal ends it at every level that says yes and
+ * notes those levels in `repealed`; putting it back enacts it again at those
+ * same levels (a state's own law stays a state's), else at the town's level.
+ */
 function setQuestion(
   api: CoreAPI,
   law: LawEntry,
   value: 0 | 1,
   tag: string,
   ids: Set<string>,
+  repealed: { level: LawRowInput["level"]; jurisdiction: string }[] = [],
 ): string {
   const date = addDays(makeIsoDate(api.state.date), 1);
   const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  if (value === 1 && repealed.length) {
+    for (const at of repealed)
+      ids.add(
+        enactLaw(api, {
+          ...at,
+          series: law.key,
+          value: 1,
+          effectiveDate: date,
+          measureId: `law-wiring-${tag}`,
+          citation: "Law-wiring check: enact",
+        }).id,
+      );
+    return `enacted again at ${repealed.map((r) => r.level).join(", ")} effective ${date}`;
+  }
   if (value === 0) {
     // Repeal at every level whose latest row says yes.
     const levels: string[] = [];
@@ -442,10 +475,11 @@ function setQuestion(
       });
       ids.add(row.id);
       levels.push(level);
+      repealed.push({ level, jurisdiction });
     }
     return `repealed at ${levels.join(", ") || "no level"} effective ${date}`;
   }
-  const at = townLevel(api, law.catalog?.levels ?? null);
+  const at = townLevel(api, ENACT_AT[law.key] ?? law.catalog?.levels ?? null);
   if (!at) return "no level of the town's chain may enact it";
   const row = enactLaw(api, {
     ...at,
@@ -459,31 +493,78 @@ function setQuestion(
   return `enacted at ${at.level} (${row.id}) effective ${date}`;
 }
 
-/** The law amount a council's bill sets under each authority law, which the legislature reads at drafting. */
-const DRAFTED_UNDER: Readonly<Record<string, string>> = {
-  "local-minimum-wage-authority": "minimum-wage",
-  "us-policy-positions:labor-workforce.local-minimum-wage-authority":
-    "minimum-wage",
-  "local-income-tax-authority": "income-tax",
+/**
+ * The questions a town's body may legislate on only where the state grants
+ * home rule: their city cell in the powers catalog is unread or varies by
+ * state, so the authority check reads the home-rule law (policy-authority.ts).
+ */
+const HOME_RULE_QUESTIONS = Object.entries(
+  powerQuestions.questions as Record<
+    string,
+    { dial: string; levels: readonly string[]; gate?: unknown }
+  >,
+)
+  .filter(([, row]) => {
+    if (!row.levels.includes("city") || row.gate) return false;
+    const dial = (
+      powersCatalog.dials as unknown as {
+        id: string;
+        levels: Record<string, { may?: string; status?: string }>;
+      }[]
+    ).find((d) => d.id === row.dial);
+    const cell = dial?.levels.city;
+    return (
+      cell?.may === "UNKNOWN" ||
+      (cell?.may === "varies by state" && cell.status === "game-profile")
+    );
+  })
+  .map(([question]) => question)
+  .sort();
+
+/**
+ * What a council's bill drafts under each authority law, which the
+ * legislature reads at drafting: a law amount the authority law lets it set,
+ * or (home rule) the questions only home rule lets it answer.
+ */
+const DRAFTED_UNDER: Readonly<
+  Record<string, (api: CoreAPI) => readonly Provision[]>
+> = {
+  "local-minimum-wage-authority": (api) => amountUnder(api, "minimum-wage"),
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority": (api) =>
+    amountUnder(api, "minimum-wage"),
+  "local-income-tax-authority": (api) => amountUnder(api, "income-tax"),
+  "us-policy-positions:government-operations.broaden-local-authority": () =>
+    HOME_RULE_QUESTIONS.map((question) => ({
+      kind: "policy-question" as const,
+      question,
+      value: 1,
+    })),
 };
 
-function draftUnder(api: CoreAPI, series: string): void {
+function amountUnder(api: CoreAPI, series: string): readonly Provision[] {
+  const now = Number(lawInForce(api, series).value ?? 0);
+  return [
+    {
+      kind: "law-amount",
+      series,
+      value: series === "minimum-wage" ? now + 100 : Math.max(1, now + 1),
+      unit: series === "minimum-wage" ? "minor/hour" : "percent",
+    },
+  ];
+}
+
+function draftUnder(
+  api: CoreAPI,
+  provisions: (api: CoreAPI) => readonly Provision[],
+): void {
   const council = townSeats(api).find(
     (s) => s.office.kind === "council" && s.holder?.personId,
   );
   if (!council) return;
-  const now = Number(lawInForce(api, series).value ?? 0);
   draftBill(api, {
     bodyOfficeId: council.office.id,
     sponsorId: council.holder!.personId!,
-    provisions: [
-      {
-        kind: "law-amount",
-        series,
-        value: series === "minimum-wage" ? now + 100 : Math.max(1, now + 1),
-        unit: series === "minimum-wage" ? "minor/hour" : "percent",
-      },
-    ],
+    provisions: provisions(api),
   });
 }
 
@@ -608,6 +689,8 @@ interface Control {
   money: Map<string, { gross: number; posts: number; ids: string[] }>;
   reads: Map<string, Map<string, number>>;
   web: Map<string, number>;
+  /** Each law's reach at the end of the control window, where nothing changed it. */
+  reach: Map<string, ReachCount>;
 }
 
 /** The series a null law sets: no engine, handler or link reads it. */
@@ -651,7 +734,10 @@ function runControl(
     for (const l of webLinksOf(law))
       for (const e of webEffects(w.core, placeId, [l.key], "0000"))
         web.set(`${e.id}|${e.link}`, e.effect);
-  return { money, reads, web };
+  const reach = new Map(
+    laws.map((law) => [law.key, reachOf(w.core, law.key, null)] as const),
+  );
+  return { money, reads, web, reach };
 }
 
 function checkLaw(
@@ -687,13 +773,28 @@ function checkLaw(
           .map((r) => r.id)
           .sort()[0] ??
         null);
-  const openingReach = reachOf(core, law.key, null);
+  const drafts = DRAFTED_UNDER[law.key];
+  if (drafts && opening) {
+    // An authority law in force at the opening is read when a body drafts
+    // under it: a council member drafts one before it is repealed.
+    trace.on = true;
+    draftUnder(api, drafts);
+    trace.on = false;
+  }
+  // A law in force at the opening reaches whom the engines apply it to as
+  // they act, so its reach is what the control world (nothing changed)
+  // shows at the end of the window, not the opening day alone.
+  const openingReach = opening
+    ? (control.reach.get(law.key) ?? reachOf(core, law.key, null))
+    : reachOf(core, law.key, null);
   let how: string;
   let undo: () => void;
   if (law.kind === "question") {
-    how = setQuestion(api, law, opening ? 0 : 1, tag, ids);
+    const repealed: { level: LawRowInput["level"]; jurisdiction: string }[] =
+      [];
+    how = setQuestion(api, law, opening ? 0 : 1, tag, ids, repealed);
     undo = () => {
-      how += `; then ${setQuestion(api, law, opening ? 1 : 0, `${tag}-b`, ids)}`;
+      how += `; then ${setQuestion(api, law, opening ? 1 : 0, `${tag}-b`, ids, repealed)}`;
     };
   } else if (law.kind === "budget-line") {
     const c = changeBudget(api, law, tag, ids);
@@ -707,7 +808,6 @@ function checkLaw(
   citeTokens = [...ids, law.key, `law-wiring-${tag}`];
   const since = core.date;
   trace.on = true;
-  const drafts = DRAFTED_UNDER[law.key];
   if (drafts) {
     // An authority law is read when a body drafts a bill under it: once the
     // change has taken effect, a council member drafts one.
@@ -771,7 +871,12 @@ function checkLaw(
   // Repeal (or re-enact) and see whether reach ends (or returns).
   const changedIds = new Set(ids);
   undo();
-  step(core, AFTER);
+  if (drafts && opening) {
+    // Put back in force, it is read again at the next bill drafted under it.
+    step(core, 2);
+    draftUnder(api, drafts);
+    step(core, AFTER - 2);
+  } else step(core, AFTER);
   const after = reachOf(core, law.key, null);
   // An amount or a budget line is never repealed, only put back: what must stop is the changed row's own reach.
   const afterUndoChanged = reachOf(core, law.key, changedIds);
