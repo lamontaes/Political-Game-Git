@@ -3226,6 +3226,14 @@ L('follow','promise',A,'staff-news',[("I'll find out what it would take to bring
 L('follow','offer',A,'staff-news',[("We can bring it back next session.","calm",BL),("We rework it and bring it back.","calm",BL)])
 L('reply','refuse',Y,'staff-news',[("No. Let it go for now.","guarded",BL)])
 L('close','press',A,'staff-news',[("Let's sit down tomorrow and count for next time.","braced",BL)])
+# A committee trade coming due on the floor (legislature.ts recordPromises): the member promised their vote.
+# Each needs the fact your-promise, and with it they outrank the lines that don't fit a vote already traded.
+PR=['your-promise']
+L('state','ask',A,'confirm-vote',[("Your amendment is in {bill}. Are you still with me?","calm",PR),("I put your amendment in {bill}. I'm counting on your vote today.","calm",PR)])
+L('reply','bargain',Y,'confirm-vote',[("Keep my section in, and you have my vote.","guarded",PR)])
+L('follow','accept',A,'confirm-vote',[("It stays in. You have my word.","calm",PR)],after="Keep my section in, and you have my vote.")
+L('reply','deflect',Y,'confirm-vote',[("You'll see when the roll is called.","guarded",PR)],after='press')
+L('follow','press',A,'confirm-vote',[("We made a deal in committee. I need to know it holds.","braced",PR)])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}

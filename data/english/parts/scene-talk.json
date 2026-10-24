@@ -83487,6 +83487,164 @@
         "move": "press",
         "key": "news-received"
       }
+    },
+    {
+      "key": "scene-talk.state-ask.your-amendment-is-in-bill-are-you-still-with-me",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Your amendment is in {bill}. Are you still with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-put-your-amendment-in-bill-i-m-counting-on-your-vote-today",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I put your amendment in {bill}. I'm counting on your vote today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "ask",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.keep-my-section-in-and-you-have-my-vote",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Keep my section in, and you have my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.it-stays-in-you-have-my-word",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "It stays in. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "after": "scene-talk.reply-bargain.keep-my-section-in-and-you-have-my-vote",
+          "requiresFacts": ["your-promise"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.you-ll-see-when-the-roll-is-called",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "You'll see when the roll is called.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "after": "press",
+          "requiresFacts": ["your-promise"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "deflect",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.we-made-a-deal-in-committee-i-need-to-know-it-holds",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "We made a deal in committee. I need to know it holds.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["your-promise"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
     }
   ]
 }
