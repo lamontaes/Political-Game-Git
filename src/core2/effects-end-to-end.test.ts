@@ -23,10 +23,10 @@
  * the victims' own views are what move them, never a roll.
  *
  * Played in the bench world with every module, in a place drawn from all 56
- * on a seed nobody chose. A town's few hundred full households see a handful
- * of crimes a year, often none, so a year with no victimization that moved
- * someone while the link ran is drawn again, a bounded number of times, and
- * the draw says why.
+ * on a seed nobody chose, with the player having met 150 of the town's
+ * households. A town's full households see a handful of crimes a year, often
+ * none, so a year with no victimization that moved someone while the link ran
+ * is drawn again, a bounded number of times, and the draw says why.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -48,7 +48,9 @@ import {
 import { WORLD_METRICS_MODULE_ID } from "./modules/world-metrics";
 import { livedQuestion } from "./outcome-news";
 import { WEB_LINKS } from "./outcome-web-model";
-import { coreAPI } from "./state";
+import { coreAPI, fillInPerson } from "./state";
+import { countedHouseholdsByPlace } from "./modules/residents";
+import { lawChain } from "./modules/laws";
 import type { CoreState, PersonId } from "./types";
 import {
   CONVERSATION_DATA,
@@ -120,12 +122,35 @@ registerStanceListener((api, personId, topic) => {
       });
 });
 
+/**
+ * The world for a draw, with the player having met some of the town's
+ * households: a town's own full households (the player's circle, officials)
+ * are a few dozen, and a crime engine that owes each household its share sees
+ * a handful of them victimized a year, often none. Meeting more of the town
+ * (filling them in, as clicking on a neighbor does) gives the year more named
+ * people the record can reach; it changes no rate. The first households by
+ * id, so the same world comes back for the same seed.
+ */
+const MET_HOUSEHOLDS = Number(process.env.EFFECTS_END_TO_END_MET || 150);
+function build(drawSeed: string, placeKey: string) {
+  const world = buildBenchWorld(drawSeed, gameStartDate(), {
+    twoLevel: true,
+    placeKey,
+  });
+  const core = world.core as CoreState;
+  const town = lawChain(coreAPI(core)).townPlaceId;
+  const records = [...(countedHouseholdsByPlace(core).get(town) ?? [])]
+    .sort((a, b) => a.household.id.localeCompare(b.household.id))
+    .slice(0, MET_HOUSEHOLDS);
+  for (const record of records)
+    if (record.people[0] && !core.people.has(record.people[0].id))
+      fillInPerson(core, record.people[0].id);
+  return { core, director: world.director };
+}
+
 function play(drawSeed: string) {
   const place = drawPlace(drawSeed, "effects-end-to-end");
-  const core = buildBenchWorld(drawSeed, gameStartDate(), {
-    twoLevel: true,
-    placeKey: place.key,
-  }).core as CoreState;
+  const { core } = build(drawSeed, place.key);
   const api = coreAPI(core);
   let day = makeIsoDate(core.date);
   const end = addDays(day, 365);
@@ -267,11 +292,7 @@ describe(`unemployment to a named victim's view on the police (seed ${seed})`, (
       const date = makeIsoDate(
         victim.eventId.slice(victim.eventId.lastIndexOf(":") + 1),
       );
-      const { core: again, director } = buildBenchWorld(
-        drawSeed,
-        gameStartDate(),
-        { twoLevel: true, placeKey: run.place.key },
-      );
+      const { core: again, director } = build(drawSeed, run.place.key);
       advanceCore(again, addDays(date, -1));
       const members = (
         again.households.get(victim.householdId)?.memberIds ?? []
