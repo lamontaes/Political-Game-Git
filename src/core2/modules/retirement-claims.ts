@@ -57,7 +57,8 @@ export function retirementClaims(
   return runtimes.get(core)?.claimed ?? new Map();
 }
 
-function monthsAfter(date: string, months: number): IsoDate {
+/** The date this many months after another: the same day of the month, or the month's last day. */
+export function monthsAfter(date: string, months: number): IsoDate {
   const at = new Date(`${date}T00:00:00.000Z`);
   const day = at.getUTCDate();
   at.setUTCDate(1);

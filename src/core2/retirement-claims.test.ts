@@ -7,6 +7,7 @@ import { residentPerson, residentsRuntime } from "./modules/residents";
 import { enactLaw, openLaws } from "./modules/laws";
 import {
   claimRetirementNow,
+  monthsAfter,
   retirementClaims,
 } from "./modules/retirement-claims";
 import { PARAMETERS } from "./parameters";
@@ -81,20 +82,22 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
         },
         weights,
       );
-    // The birth year sets the full retirement age, which jumps at a year
-    // boundary, so the birth month is found by looking at each month in turn
-    // for the claim date nearest two months in, never by iterating to a fixed point.
+    // The birth year sets the full retirement age, which jumps between
+    // January 1 and January 2 (a person born on January 1 counts as born the
+    // year before: social-security-law.ts), so every birth day is tried, each
+    // claim dated as the engine dates it, for the one nearest two months in.
     let birthDate = `${firstBirthYear}-01-01`;
     let best = Infinity;
+    const last = Date.UTC(lastBirthYear, 11, 31);
     for (
-      let month = 0;
-      month < (lastBirthYear - firstBirthYear + 1) * 12;
-      month++
+      let at = Date.UTC(firstBirthYear, 0, 1);
+      at <= last;
+      at += 86_400_000
     ) {
-      const birth = new Date(Date.UTC(firstBirthYear, month, 1));
-      const born = birth.toISOString().slice(0, 10);
-      const claim = new Date(birth);
-      claim.setUTCMonth(claim.getUTCMonth() + claimMonths(born));
+      const born = new Date(at).toISOString().slice(0, 10);
+      const claim = new Date(
+        `${monthsAfter(born, claimMonths(born))}T00:00:00Z`,
+      );
       const away = Math.abs(
         (claim.getTime() - dayOne.getTime()) / 86_400_000 - 60,
       );
