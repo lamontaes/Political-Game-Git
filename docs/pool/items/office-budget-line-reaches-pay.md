@@ -5,12 +5,12 @@ area: office
 kind: wiring
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/budget-line-reaches-pay
+status: open
+claimed-by:
 pr: #5588
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T15:16:19.100Z
+claimed-at:
 ---
 
 **What.** PR #5573 showed the money moves against an amended administration line but a city employee's pay does not depend on the line's size. Make the line's amount an input the treasury reads when it sets or holds a department's payroll.
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5588 (branch claude/budget-line-reaches-pay): Merg
 Oct 21 (claude): PR #5588 carried #5632's staffing fixes, not this item's work, and its head failed the schools staffing test; it is now emptied to main and #5632 holds the staffing fix. Not built: a budget amendment that cuts a line does not yet change a named employee's later paycheck or hours. Start from `src/core2/modules/budgets.ts` and `treasury.ts` (where the treasury sets or holds a department's payroll) and read the amended line there. Claim released.
 
 Oct 21 (claude, second look): part of this is already on main. `law-reach-group-b.test.ts` "budget line schools: a change re-rates school staff pay from base" amends the schools line in a drawn place and asserts school staff `hourlyMinor` rises (`rerateJob`, by job record id) and returns to base on reversal, and the staffing test (#5632) shows a raise hiring named adults and a cut ending named teachers' jobs. What is still missing is the department-level case the item names: an administration or other non-school line cut changing a named employee's pay or hours (budgets.ts / treasury.ts). The item should be re-specified to that line, or closed against the schools proof, by the CTO. Not built.
+
+Sent back 2026-10-23 from PR #5588 (branch claude/budget-line-reaches-pay): the proof asserts ended job records rather than the named later paycheck/hours in acceptance (test:122-128); the raise case only checks funded positions (:130), and the body still says a one-third cut while code uses two thirds (:81-83); finish on that branch, merge main into it first.
