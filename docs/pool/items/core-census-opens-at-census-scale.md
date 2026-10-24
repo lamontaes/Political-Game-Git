@@ -23,4 +23,4 @@ claimed-at:
 
 **Notes.** Split from core-census-uncap-opening on Oct 23 by claude/sleepy-carson-f8omzd: the parent's two-minute line for the largest town cannot be met by that PR, because clean main's own New York year takes 335.2 s on the 4-core container; that line now waits on core-speed-year-over-limit-dense-town.
 
-Sent back 2026-10-23 from PR #5295 (branch claude/uncap): Remove dated owner notes from the new engine code and reconcile the release no-extra-wait promise with the documented 10.9 percent slowdown; finish on that branch, merge main into it first.
+Sent back 2026-10-24 from PR #5295 (branch claude/uncap): Remove dated owner notes from the new engine code and reconcile the release no-extra-wait promise with the documented 10.9 percent slowdown; finish on that branch, merge main into it first.
