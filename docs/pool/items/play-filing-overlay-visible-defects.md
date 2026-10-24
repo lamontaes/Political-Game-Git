@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-filing-overlay
-pr:
+pr: #5888
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T03:38:27.008Z
