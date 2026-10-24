@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/serene-mccarthy-ae8xo9
 pr: #5885
 blocked-on:
