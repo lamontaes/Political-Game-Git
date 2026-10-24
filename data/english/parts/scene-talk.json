@@ -16779,6 +16779,240 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.the-debate-is-over-and-the-candidates-are-leaving-the-stage-name-stops",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The debate is over, and the candidates are leaving the stage. {name} stops you on the way out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-cameras-are-off-name-walks-over-before-you-reach-the-door",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The cameras are off. {name} walks over before you reach the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.good-debate",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Good debate.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.that-went-well-for-you-didn-t-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "That went well for you, didn't it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.nice-answers-up-there-too-bad-none-of-them-were-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Nice answers up there. Too bad none of them were true.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.people-heard-you-tonight-they-won-t-forget-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "People heard you tonight. They won't forget it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-said-what-i-came-to-say-tonight",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I said what I came to say tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-could-have-said-that-on-stage",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You could have said that on stage.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.people-heard-me-tonight-that-s-enough-for-me",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "People heard me tonight. That's enough for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "rally-opponent",
+          "key": "threat",
+          "requiresFacts": ["debate"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "boast",
+        "key": "threat"
+      }
+    },
+    {
       "key": "scene-talk.follow-promise.i-ll-be-at-your-door-first-thing",
       "move": "follow-promise",
       "kind": "spoken",
