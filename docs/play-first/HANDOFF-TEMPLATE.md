@@ -2,7 +2,7 @@
 
 Before you stop for any reason (done, time box spent, usage out, blocked, the environment restarting), add one entry at the top of the log in `PROGRESS.md` (newest first), commit it on your item branch, and push. If your branch is gone, push the entry on `play-first/progress-<your agent>-<date>` and open a draft PR for it; never write to main by hand.
 
-Copy this block, one line, fields in this order, separated by ` · `:
+Copy this block, one line, fields in this order, separated by `·`:
 
 ```
 - <time UTC, YYYY-MM-DD HH:MM> · <agent/model> · <item id> · <branch> · <last push sha> · <state> · <next step> · <blocking>
