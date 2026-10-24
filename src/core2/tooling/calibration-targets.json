@@ -894,21 +894,6 @@
       "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
     },
     {
-      "parameter": "workSleepReserveHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 8,
-      "checkRange": {
-        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-      },
-      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
-      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
-      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "openStopgapId": "SG-P8-work-time-reserve",
-      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. The reserve is not actual recorded sleep; Table 3 personal care is broader and no complete diary or sleep bridge exists."
-    },
-    {
       "parameter": "workMorningStartMinute",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 480,
@@ -1515,21 +1500,6 @@
       "calibrationRange": null,
       "calibrated": false,
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "restDayHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-      },
-      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
-      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
-      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "openStopgapId": "SG-P8-work-time-reserve",
-      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Waking recovery is not an instrument-equivalent ATUS primary activity and its coefficient interval is unidentified."
     },
     {
       "parameter": "lifeEventStressScale",
