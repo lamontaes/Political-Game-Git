@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-opening-capital
-pr:
+pr: #5860
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-opening-capital-estimated-private-opening-cash-crosswalk, core-stopgap-opening-capital-modeled-unfunded-unsupported-opening-owner, core-stopgap-opening-capital-unmeasured-opening-private-cash-buffer-distribution"
 claimed-at: 2026-10-23T20:23:59.856Z
