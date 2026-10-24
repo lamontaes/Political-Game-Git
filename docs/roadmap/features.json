@@ -169,7 +169,7 @@
       "golden_path": "world",
       "package": "M1-regional",
       "test": "In a year, two randomly drawn states diverge plausibly in jobs and wages (each inside the real spread of one-year state changes since 2000); a town's prices and pay follow its region; each state's and metro's starting figures match real data.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-03-check.ts",
       "passes": false
     },
     {
@@ -179,7 +179,7 @@
       "golden_path": "world",
       "package": "M1-jobs",
       "test": "Over a year in a random place, unemployment, hiring and quitting stay within real ranges (federal job-turnover data), and every job change on record has a reason.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-04-check.ts",
       "passes": false
     },
     {
@@ -199,7 +199,7 @@
       "golden_path": "world",
       "package": "M1-credit",
       "test": "Every loan's money balances from lender to borrower and back; defaults follow borrowers' real circumstances, never a chance roll.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-06-check.ts",
       "passes": false
     },
     {
