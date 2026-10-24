@@ -1826,7 +1826,11 @@ function runWeek(api: CoreAPI): void {
   for (const claim of store(api)
     .table("claims")
     .query("open", [true]) as unknown as ClaimRow[]) {
-    if (controlled(c, claim.personId)) continue;
+    if (controlled(c, claim.personId)) {
+      // stopgapId: SG-WORLD-work-search-player-claim-exempt
+      api.stopgap("SG-WORLD-work-search-player-claim-exempt");
+      continue;
+    }
     store(api)
       .table("searches")
       .put({

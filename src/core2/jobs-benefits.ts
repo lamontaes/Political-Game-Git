@@ -287,6 +287,10 @@ export function payClaims(
       )
       .sort((a, b) => b.week.localeCompare(a.week))[0];
     const share = searchShare(search);
+    if (search && search.openings < search.required) {
+      // stopgapId: SG-WORLD-work-search-contacts-capped-by-openings
+      api.stopgap("SG-WORLD-work-search-contacts-capped-by-openings");
+    }
     if (search) searches!.put({ ...search, paidShare: share });
     // A claimant who is neither a full person nor still counted has left the
     // town's records (moved away): there is no one to pay.

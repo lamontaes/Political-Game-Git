@@ -53,23 +53,40 @@ it("a benefit week pays the share of its amount the claimant's contacts earn aga
     // proves the rest.) The record is the claim's own week.
     const before = jobs.table("claims").get(claim.id) as unknown as ClaimRow;
     const day = core.date;
-    jobs.table("searches").put({
-      id: `search:${claim.personId}:${day}`,
-      claimId: claim.id,
-      personId: claim.personId,
-      week: day,
-      contacts: 0,
-      openings: 3,
-      required: claim.contactsRequired!,
-    } as never);
-    // Advance to the claim's next pay day and one matching week beyond.
-    advanceCore(core, addDays(makeIsoDate(core.date), 8));
+    // Every week of this claim still waiting to be paid is a week with no
+    // contacts, including the ones the matching writes on the way to the pay
+    // day, so the benefit week that is paid can only be the denied one.
+    const deny = () => {
+      const waiting = searches().filter(
+        (s) => s.claimId === claim.id && s.paidShare === undefined,
+      );
+      if (!waiting.length)
+        jobs.table("searches").put({
+          id: `search:${claim.personId}:${core.date}`,
+          claimId: claim.id,
+          personId: claim.personId,
+          week: core.date,
+          contacts: 0,
+          openings: 3,
+          required: claim.contactsRequired!,
+        } as never);
+      for (const s of waiting)
+        jobs.table("searches").put({ ...s, contacts: 0, openings: 3 } as never);
+    };
+    // Advance to the claim's next pay day, a day at a time.
+    for (let step = 0; step < 8; step++) {
+      deny();
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const now = jobs.table("claims").get(claim.id) as unknown as
+        ClaimRow | undefined;
+      if (!now || !now.open || now.nextPayAt > before.nextPayAt) break;
+    }
     const after = jobs.table("claims").get(claim.id) as unknown as
       ClaimRow | undefined;
-    const denied = searches().find(
-      (s) => s.id === `search:${claim.personId}:${day}`,
-    )!;
-    if (after && after.open && after.nextPayAt > before.nextPayAt) {
+    const denied = searches()
+      .filter((s) => s.claimId === claim.id && s.paidShare !== undefined)
+      .sort((x, y) => y.week.localeCompare(x.week))[0];
+    if (denied && after && after.open && after.nextPayAt > before.nextPayAt) {
       expect(denied.paidShare, `${where} ${denied.id}`).toBe(0);
       expect(after.paidMinor, `${where} ${claim.id} paid`).toBe(
         before.paidMinor,
@@ -78,7 +95,7 @@ it("a benefit week pays the share of its amount the claimant's contacts earn aga
         before.weeksLeft,
       );
       process.stdout.write(
-        `${where}: ${claim.id} needs ${claim.contactsRequired} contacts a week; week record ${denied.id} paid share 0, weeks left stayed ${after.weeksLeft}\n`,
+        `${where}: ${claim.id} (from ${day}) needs ${claim.contactsRequired} contacts a week; week record ${denied.id} paid share 0, weeks left stayed ${after.weeksLeft}\n`,
       );
       return;
     }
