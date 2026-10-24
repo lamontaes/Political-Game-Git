@@ -5426,12 +5426,14 @@
     }
   },
   "traitWeightBusinessOwnerDraw": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the business.owner-draw decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.15,
+    "tag": "ESTIMATED",
+    "citation": "No study of owners' draws by personality has a number, so the target is assumed: an odds ratio of 1.49 between the thirds (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range of data/research/trait-effect-sizes.json). Weight set with scripts/traits/trait-calibrate.ts on played years of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 221 calls: weight 0.15, odds ratio 1.62) and Peacham, Vermont (place key 5054325, seed 58e683537f9b, 198 calls: weight 0.15, odds ratio 1.71), with the draw weighed against the business's cash beyond a month of everything it pays out.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.1,
+      "high": 0.35,
+      "unit": "weight",
+      "citation": "0.1 to 0.35 spans odds ratios of 1.3 to 1.9 between the thirds in the same calls."
     }
   },
   "traitWeightBusinessOpenLocation": {
@@ -5444,14 +5446,14 @@
     }
   },
   "traitWeightBusinessFound": {
-    "value": 2.04,
+    "value": 0.4,
     "tag": "ESTIMATED",
-    "citation": "Zhao and Seibert 2006, The Big Five personality dimensions and entrepreneurial status (Journal of Applied Psychology 91(2)): multiple R .37 across the five traits. Weight is ln(4.83) divided by 0.772, the mean lean gap between the thirds of counted adults leaning most and least toward founding (place key 3223500, seed 7ae8589566f5), so the odds ratio between the thirds is the study's 4.83. Full people found too rarely in a year to measure (2 of 12,867 weighings), so they take the same weight as counted people.",
+    "citation": "Zhao and Seibert 2006, The Big Five personality dimensions and entrepreneurial status (Journal of Applied Psychology 91(2)): multiple R .37 across the five traits, an odds ratio of 4.83 between the thirds. Weight set with scripts/traits/trait-calibrate.ts on played years of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 3,097 calls: weight 0.4, odds ratio 5.3) and Peacham, Vermont (place key 5054325, seed 58e683537f9b, 10,373 calls: weight 0.3, odds ratio 5.0). Full people take this weight on the chooser's arithmetic, where the best case sits within a point of not starting; the wider population keeps businessCountedFound's weight of 2.04 on its summed pull.",
     "spread": {
-      "low": 1.5,
-      "high": 2.6,
+      "low": 0.3,
+      "high": 0.55,
       "unit": "weight",
-      "citation": "Zhao, Seibert and Lumpkin 2010 give R .36; the weight range gives odds ratios of 3 to 7.5 between the thirds."
+      "citation": "Weights 0.3 to 0.55 give odds ratios of 3 to 6.5 between the thirds; Zhao, Seibert and Lumpkin 2010 give R .36."
     }
   },
   "traitWeightJobsReviewWorker": {
@@ -5477,12 +5479,14 @@
     }
   },
   "traitWeightJobsApply": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the jobs.apply decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "citation": "Kanfer, Wanberg and Kantrowitz 2001, Job search and employment (Journal of Applied Psychology 86(5)): every antecedent but optimism relates to job search behavior, population correlations from -.15 to .46 (abstract; no per-trait number was retrievable, so the size is assumed). Weight set with scripts/traits/trait-calibrate.ts on played years with the seeker's push to apply easing over the weeks looked (Holualoa, Hawaii, place key 1515700, seed 6f7794a4906f, 365 days, 1,386 calls) to an odds ratio of 1.31 between the thirds against an assumed 1.49 (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range of data/research/trait-effect-sizes.json). Most applications are settled by the pay offered, so few turn.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.2,
+      "high": 0.7,
+      "unit": "weight",
+      "citation": "The same decision fit 0.2, 0.7 and 0.4 in three runs of Holualoa's year; Peacham, Vermont (142 calls) had too few to fit. 0.2 to 0.7 spans odds ratios of 1.2 to 1.9 between the thirds."
     }
   },
   "traitWeightJobsAcceptOffer": {
@@ -5497,21 +5501,25 @@
     }
   },
   "traitWeightHousingBuyHome": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the housing.buy-home decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2,
+    "tag": "ESTIMATED",
+    "citation": "No study of personality and becoming a homeowner was found (data/research/trait-effect-sizes.json, housing.buy-home), so the target is assumed: an odds ratio of 1.49 between the thirds (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range). Weight set with scripts/traits/trait-calibrate.ts on a played year of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 341 weighings, 3 of them for buying) to an odds ratio of 1.68; Peacham, Vermont (140 weighings, 1 purchase) had too few to fit. A household buys only where its savings reach the down payment, so few weighings are close.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1,
+      "high": 3,
+      "unit": "weight",
+      "citation": "One draw with three buyers; 1 to 3 brackets the fit, and from 3.5 the odds ratio steps above 5 as the nearest households tip."
     }
   },
   "traitWeightCreditBorrow": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the credit.borrow decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.2,
+    "tag": "ESTIMATED",
+    "citation": "Brown and Taylor 2014, Household finances and the 'Big Five' personality traits (Journal of Economic Psychology 45), Table 3 singles, probability of holding unsecured debt per standard deviation: conscientiousness -3.37 points, openness +3.35, extraversion +3.07 (base rate 0.4847), the strongest an odds ratio of 1.34 between the thirds. Weight set with scripts/traits/trait-calibrate.ts on played years of Holualoa, Hawaii (place key 1515700, seed 6f7794a4906f, 10,357 calls: weight 1.15, odds ratio 1.34) and Peacham, Vermont (place key 5054325, seed 58e683537f9b, 5,491 calls: weight 1.2, odds ratio 1.34). A stock of debt held is the nearest published proxy for the chance of taking it on.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1.0,
+      "high": 1.4,
+      "unit": "weight",
+      "citation": "Weights 1.0 to 1.4 give odds ratios of 1.29 to 1.40 between the thirds in the same calls; the study's interval for conscientiousness is -6.0 to -0.7 points."
     }
   },
   "traitWeightCandidacyRun": {
@@ -5604,14 +5612,14 @@
     }
   },
   "traitWeightJobsCountedApply": {
-    "value": 0.35,
+    "value": 0.8,
     "tag": "ESTIMATED",
-    "citation": "Counted seekers weigh applying on the chooser's arithmetic (leanedByKinds). Direction only (Kanfer et al. 2001, Journal of Applied Psychology 86(5)). Weight set with scripts/traits/trait-calibrate.ts (place key 3223500, seed 7ae8589566f5, 365 played days, 16,011 calls) to an odds ratio of 1.57 against an assumed 1.49. Differs from the full-person weight because counted seekers' pay gaps put them near the threshold, while full seekers all sit at the unemployed need of 3.",
+    "citation": "Counted seekers weigh applying on the chooser's arithmetic (leanedByKinds) with the same push to apply as full seekers, easing over the weeks looked. Direction only (Kanfer et al. 2001, Journal of Applied Psychology 86(5)). Weight set with scripts/traits/trait-calibrate.ts (place key 1515700, seed 6f7794a4906f, 365 played days, 16,818 calls) to an odds ratio of 1.50 against an assumed 1.49 (1.2 per standard deviation, inside the 1.1 to 1.3 single-decision range). Larger than the full-person weight because counted seekers' applications are settled one opening at a time, so more of them sit near the threshold.",
     "spread": {
-      "low": 0.2,
-      "high": 0.5,
+      "low": 0.5,
+      "high": 1.0,
       "unit": "weight",
-      "citation": "0.1 to 0.4 spans odds ratios of about 1.2 to 2.1 in the same calls."
+      "citation": "0.5 to 1 spans odds ratios of about 1.3 to 1.7 between the thirds in the same calls."
     }
   },
   "traitWeightJobsCountedAccept": {
@@ -5637,12 +5645,14 @@
     }
   },
   "traitWeightRetirementClaimAge": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the retirement.claim-age decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.12,
+    "tag": "ESTIMATED",
+    "citation": "Greenberg, Hershfield, Shu and Spiller 2018 (working paper, 20th Annual Joint Meeting of the Retirement Research Consortium), Table 2: intended Social Security claiming age rises 0.218 years per standard deviation of openness and 0.211 of agreeableness (standardized beta 0.078 and 0.075 on the 2.8-year spread of intended ages); the thirds of a trait sit 2.18 standard deviations apart, so 0.475 years. scripts/traits/trait-calibrate.ts cannot fit it: the case for waiting past the full retirement age clusters at one score, so the odds ratio is 1 up to a weight of 0.12 and over 3,000 at 0.15. Weight fitted directly: 0.475 years divided by claimTraitPullYears (4) times the mean lean gap between the thirds of those weighed (1.08 in Holualoa, Hawaii, place key 1515700, seed 6f7794a4906f, 5,574 calls; 0.71 in Peacham, Vermont, place key 5054325, seed 58e683537f9b, 2,131 calls), 0.11 and 0.17, set at the pooled 0.12.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.07,
+      "high": 0.17,
+      "unit": "weight",
+      "citation": "The study's standard error (0.047 years for openness) gives 0.13 to 0.31 years per standard deviation, which at these lean gaps is a weight of 0.07 to 0.17."
     }
   },
   "traitWeightBringItUpBlame": {
