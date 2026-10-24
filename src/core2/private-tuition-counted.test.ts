@@ -31,6 +31,7 @@ it(`counted families are ranked with full ones each August, pay the school as a 
       placeKey: place.key,
     });
     const state = core as CoreState;
+    const startDate = core.date;
     const rt = residentsRuntime(state)!;
     const where = `${place.name} [${place.key}], seed ${seed}`;
     const schools = [...state.organizations.values()].filter(
@@ -136,6 +137,15 @@ it(`counted families are ranked with full ones each August, pay the school as a 
           together: fullIn === countedIn,
         });
       }
+    // An exact pair: a full and a counted household in one town holding the
+    // same cash per child, who are enrolled or left out together. A town with
+    // none is passed over and named; the draw goes on.
+    const exact = pairs.find((row) => row.gap === 0 && row.together);
+    if (!exact) {
+      tried[tried.length - 1] +=
+        " (no full and counted household hold the same cash per child)";
+      continue;
+    }
     // The closest pair of one full and one counted household that enrolled
     // together and the closest that stayed out together both exist.
     const nearest = (enrolledTogether: boolean) =>
@@ -155,8 +165,11 @@ it(`counted families are ranked with full ones each August, pay the school as a 
       outPair,
       `${where}: a full and a counted household stayed out together`,
     ).toBeDefined();
-    console.log(
-      `${where}: full ${inPair!.fullId} and counted ${inPair!.countedId} enrolled together (gap ${inPair!.gap.toFixed(2)} minor per child); full ${outPair!.fullId} and counted ${outPair!.countedId} stayed out together (gap ${outPair!.gap.toFixed(2)})`,
+    process.stdout.write(
+      `${where}: exact pair full ${exact.fullId} and counted ${exact.countedId} with the same cash per child ${plans.has(exact.countedId) ? "enrolled" : "stayed out"} together\n`,
+    );
+    process.stdout.write(
+      `${where}: full ${inPair!.fullId} and counted ${inPair!.countedId} enrolled together (gap ${inPair!.gap.toFixed(2)} minor per child); full ${outPair!.fullId} and counted ${outPair!.countedId} stayed out together (gap ${outPair!.gap.toFixed(2)})\n`,
     );
     // Each pays a child's tuition times its children, as a part of the school's flow.
     const perChild = Math.round(
@@ -175,7 +188,9 @@ it(`counted families are ranked with full ones each August, pay the school as a 
         row.financeKind === tuition.contractKind &&
         !row.endedAt,
     )!;
-    advanceCore(core, addDays(makeIsoDate(core.date), 45));
+    // The rest of the year, a day at a time as the game runs it: 365 days from the start.
+    advanceCore(core, addDays(makeIsoDate(startDate), 365));
+    expect(core.date, where).toBe(addDays(makeIsoDate(startDate), 365));
     expect(
       flow.lastPaidMinor ?? 0,
       `${where}: ${flow.id} was paid`,
@@ -183,25 +198,38 @@ it(`counted families are ranked with full ones each August, pay the school as a 
     // The tuition reached the school's account as a journal record.
     const record0 = state.cashJournal.latestByOwner.get(school);
     expect(record0, `${where}: the school's journal record`).toBeDefined();
-    console.log(
-      `${where}: ${flow.id} paid school ${school}, journal record ${record0!.id}`,
+    process.stdout.write(
+      `${where}: ${flow.id} paid school ${school}, journal record ${record0!.id}\n`,
     );
     // Filling a family in leaves its enrollment and its tuition as they were.
-    const before = plans.get(enrolled[0]!.householdId)!;
+    const plansNow = countedTuitionPlans(
+      state,
+      schoolIds,
+      tuition.contractKind,
+    );
+    const kept = enrolled.find((row) => plansNow.has(row.householdId));
+    expect(
+      kept,
+      `${where}: an enrolled counted family is still counted and enrolled at the year's end`,
+    ).toBeDefined();
+    const before = plansNow.get(kept!.householdId)!;
     const record =
-      rt.store.households[rt.store.householdOf.get(enrolled[0]!.householdId)!]!;
+      rt.store.households[rt.store.householdOf.get(kept!.householdId)!]!;
     fillInPerson(state, rt.store.ids[rt.store.countedMembers(record)[0]!]!);
     // Its part became what its own living plan pays that school.
-    const own = tuitionPlans(state).get(enrolled[0]!.householdId);
+    const own = tuitionPlans(state).get(kept!.householdId);
     expect(own, `${where}: the filled-in family pays the school`).toEqual(
       before,
     );
     expect(
       countedTuitionPlans(state, schoolIds, tuition.contractKind).has(
-        enrolled[0]!.householdId,
+        kept!.householdId,
       ),
       `${where}: its part left the merged flow`,
     ).toBe(false);
+    process.stdout.write(
+      `${where}: filled in ${kept!.householdId}; its tuition stays ${own!.monthlyMinor} minor a month to ${own!.schoolId}\n`,
+    );
     expect(core.cashJournal.totals.grossDebitMinor).toBe(
       core.cashJournal.totals.grossCreditMinor,
     );
