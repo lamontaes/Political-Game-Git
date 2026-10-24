@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-hire-own-calendar
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T14:40:47.250Z
 ---
 
 **What.** Since the counted household jobs change (PR 5609), a counted worker hired by the jobs engine keeps a work commitment and a payroll calendar with their household, so they are on that payroll when met. The calendar is the template job's own, and a founded firm hires from a template at another employer. In Long Hill, Connecticut (key 0943580, seed m7b, the speed:year town) person_707b5aaa29672c43 is hired at organization:founded:manufacturing:person_0df027d90f1245cc:2025-05-01 on the calendar of organization_978dd88ebc7f87a3. When a constituent case fills them in on 2025-10-17, the payroll check refuses the calendar and the year stops with 'Payroll calendar lacks independently resolved job/person/employer owners.' Main's Long Hill year ran through before that merge (bisected over every merge since 185d76d7ce: last good f3f3cccef1, first bad f1f23098bd).
