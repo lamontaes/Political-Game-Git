@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** In Anson, Texas the v0.22.10 release listed three U.S. senators, the U.S. Speaker from New York as one of my representatives, and about 180 state legislators in one column. The owner ruled Oct 16 that every legislator stays, behind a division filter, and Oct 15 that the player's own representatives are the key people. This part shows the player's own federal and state members first and puts the rest behind the filter.
 
-**Rules.** One rule, all 56 places: the player's districts are read from the place's records the same way everywhere. Estimate, never UNKNOWN: a district the data lacks starts from the real pattern, marked as an estimate.
+**Rules.** Serves LAW.md §1, Screens and menus; LAW.md §11, The world on screen makes sense. One rule, all 56 places: the player's districts are read from the place's records the same way everywhere. Estimate, never UNKNOWN: a district the data lacks starts from the real pattern, marked as an estimate.
 
 **Done when.** In a drawn place, Politics → Government shows exactly the place's number of U.S. senators, one U.S. representative and one state legislator per chamber as the player's own, with every other member reachable behind the division filter.
+
+**Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** Politics → Government shows your two U.S. senators, your one U.S. representative and your own state legislators first, with every other legislator behind the federal, state and local filter.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/bench/government.ts, src/core2/opening-key-people.ts, src/bench/play.mjs
 
