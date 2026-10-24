@@ -78,7 +78,7 @@
       "golden_path": "2",
       "package": "M0-people",
       "test": "Over 91 days in a random place: the player gains new acquaintances through real encounters, at least one grows closer, and visits to parents and siblings fall inside the survey ranges (GSS, ATUS); over years, circle turnover matches a sourced study.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-meeting-people.test.ts src/core2/m0-circle-turnover.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-meeting-people.test.ts && node --max-old-space-size=8192 --import tsx src/core2/tooling/m0-07-turnover-check.ts",
       "passes": false
     },
     {

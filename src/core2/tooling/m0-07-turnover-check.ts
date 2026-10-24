@@ -1,17 +1,20 @@
+/* global process, console */
+// Roadmap M0-07, over years: run with node --max-old-space-size=8192 --import tsx
+// src/core2/tooling/m0-07-turnover-check.ts (GOLDEN_PATH_SEED and
+// GOLDEN_PATH_PLACE_KEY from the runner). Exits nonzero naming each failed clause.
 import { randomBytes } from "node:crypto";
-import { describe, expect, it } from "vitest";
-import { buildBenchWorld } from "../bench/world";
-import { drawPlace } from "../../tests/golden-path/place.ts";
-import { setBookkeeping } from "./bookkeeping";
-import { currentCloseness } from "./closeness";
-import { gameStartDate } from "./game-start";
-import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
-import { advanceCore } from "./life";
-import { parameter } from "./parameters";
+import { buildBenchWorld } from "../../bench/world";
+import { drawPlace } from "../../../scripts/core2-year/place";
+import { setBookkeeping } from "../bookkeeping";
+import { currentCloseness } from "../closeness";
+import { gameStartDate } from "../game-start";
+import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
+import { advanceCore } from "../life";
+import { parameter } from "../parameters";
 import {
   CIRCLE_STUDY as research,
   circleRetentionRange,
-} from "./circle-turnover-check";
+} from "../circle-turnover-check";
 
 // M0-07, over years: the share of a circle still in it after a span matches
 // a sourced study. Mollenhorst, Volker and Flap (2014): 48% of the discussion
@@ -94,34 +97,44 @@ const spanYears = p("circleRetentionSpanYears");
 // Constant yearly retention: the study's share to the power years / span.
 const range = circleRetentionRange(YEARS);
 
-describe(`circle turnover over ${YEARS} years in ${placeName} (place ${place.key}, seed ${place.seed})`, () => {
-  const spread = core.data.parameters.circleRetentionShareOverSpan?.spread as
-    { low: number; high: number } | undefined;
-
-  it("reads the sourced study's share and range from the parameter table", () => {
-    expect(p("circleRetentionShareOverSpan")).toBe(study);
-    expect(spread).toEqual({
-      low: research.derivedRange.low,
-      high: research.derivedRange.high,
-      unit: expect.any(String),
-      citation: expect.any(String),
-    });
-    expect(spanYears).toBe(research.spanYears);
-  });
-
-  it("starts from many adult circles to total over, and the player has one", () => {
-    expect(people).toBeGreaterThanOrEqual(100);
-    expect(playerCircle?.length).toBe(CIRCLE_SIZE);
-  });
-
-  it(`keeps a share of circles in line with the study (${range.low.toFixed(3)} to ${range.high.toFixed(3)} after ${YEARS} years)`, () => {
-    const retained = kept / members;
-    // The numbers the report quotes: place, seed, the player's circle, the
-    // pooled share and the range it is checked against.
-    console.log(
-      `circle-turnover place=${place.key} seed=${place.seed} start-circle=${CIRCLE_SIZE} player-kept=${playerKept}/${CIRCLE_SIZE} people=${people} members=${members} retained=${retained.toFixed(3)} replaced=${(1 - retained).toFixed(3)} range=${range.low.toFixed(3)}-${range.high.toFixed(3)}`,
-    );
-    expect(retained).toBeGreaterThanOrEqual(range.low);
-    expect(retained).toBeLessThanOrEqual(range.high);
-  });
-});
+const failures: string[] = [];
+const spread = core.data.parameters.circleRetentionShareOverSpan?.spread as
+  { low: number; high: number } | undefined;
+if (p("circleRetentionShareOverSpan") !== study)
+  failures.push("the parameter table's share is not the study's");
+if (
+  spread?.low !== research.derivedRange.low ||
+  spread?.high !== research.derivedRange.high
+)
+  failures.push("the parameter table's range is not the study's");
+if (spanYears !== research.spanYears)
+  failures.push("the parameter table's span is not the study's");
+if (people < 100)
+  failures.push(`only ${people} adult circles to total over (need 100)`);
+if (playerCircle.length !== CIRCLE_SIZE)
+  failures.push(`the player's circle has ${playerCircle.length} ties`);
+const retained = kept / Math.max(1, members);
+if (retained < range.low || retained > range.high)
+  failures.push(
+    `${(100 * retained).toFixed(1)}% of circles kept after ${YEARS} years, outside the study's ${(100 * range.low).toFixed(1)}% to ${(100 * range.high).toFixed(1)}%`,
+  );
+const where = `${placeName} (${place.key}), seed ${place.seed}`;
+console.log(
+  JSON.stringify({
+    place: where,
+    years: YEARS,
+    circleSize: CIRCLE_SIZE,
+    people,
+    members,
+    retained: +retained.toFixed(3),
+    range: [+range.low.toFixed(3), +range.high.toFixed(3)],
+    playerKept: `${playerKept}/${CIRCLE_SIZE}`,
+  }),
+);
+if (failures.length) {
+  console.log(
+    `M0-07 turnover FAIL:\n${failures.map((f) => `${where}: ${f}`).join("\n")}`,
+  );
+  process.exit(1);
+}
+console.log(`M0-07 turnover passed: ${where}`);
