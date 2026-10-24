@@ -6,3 +6,5 @@ title: A raise to a budget line hires from the town's unemployed adults, not onl
 ---
 
 When a city or county raises the pay line of a department that hires (police, fire, schools), the new jobs now go to unemployed adults from the whole town, not only the handful of people the game already follows in detail.
+
+Hires now go to the most reliable jobless adult whether the game follows them closely or not, and layoffs let the newest hire go first across both groups.
