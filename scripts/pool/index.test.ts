@@ -311,6 +311,24 @@ describe("quality gate", () => {
     expect(quality("x-a.md", fm, withPr).join()).toMatch(/PR number/);
     expect(quality("x-a.md", { ...fm, after: "x-b" }, withPr)).toEqual([]);
   });
+  it("holds a play-first item to a time box of 4 hours or less, You will see and Screenshot", () => {
+    const lane = { ...fm, milestone: "play-first" };
+    const three =
+      "**Time box.** 3 hours; if not done, push what exists.\n\n**You will see.** The ballot pages to his race.\n\n**Screenshot.** Before and after, from a drawn place.\n\n**Files.**";
+    const shaped = GOOD.replace("**Files.**", three);
+    expect(quality("x-a.md", lane, shaped)).toEqual([]);
+    expect(quality("x-a.md", fm, GOOD)).toEqual([]);
+    const e = quality("x-a.md", lane, GOOD).join("\n");
+    expect(e).toMatch(/x-a: a play-first item needs a Time box/);
+    expect(e).toMatch(/needs its You will see line/);
+    expect(e).toMatch(/needs its Screenshot line/);
+    const long = shaped.replace("3 hours", "5 hours");
+    expect(quality("x-a.md", lane, long).join()).toMatch(/4 hours or less/);
+    expect(quality("x-a.md", { ...lane, priority: "3" }, GOOD).join()).toMatch(
+      /Time box/,
+    );
+    expect(quality("x-a.md", { ...lane, status: "blocked" }, GOOD)).toEqual([]);
+  });
   it("check fails with the item id, plain run warns", () => {
     const dir = fixture();
     writeFileSync(
