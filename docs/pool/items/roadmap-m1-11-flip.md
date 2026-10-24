@@ -22,3 +22,5 @@ claimed-at:
 **Files.** docs/roadmap/features.json, docs/reports/m0-m2-lead-2026-10-24/
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5972 (branch claude/quirky-ride-vrwwz4-m1-11-flag): m1-11-check.ts reconstructs event occurrence from drive answers and marks a missing kind not exercised, so an occurring eviction or closure whose response path disappears can pass; count producer events independently and add a missing-response break-it regression while another kind still answers, then finish on that branch, merge main into it first. The small-sample bound and verified screenshot are not this objection.
