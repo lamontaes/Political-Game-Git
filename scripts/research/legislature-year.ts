@@ -41,6 +41,9 @@ interface Clause {
   tag: string;
   statute?: string;
   appliesTo?: string;
+  kinds?: string[];
+  /** Further clauses the same level's law gives other classes or kinds of place (a first-class city, a village). */
+  alsoSourced?: Clause[];
 }
 const ordinance = read<{
   places: Record<string, Record<"municipal" | "county" | "numbering", Clause>>;
@@ -125,9 +128,10 @@ console.log("\nLocal ordinance form (state law beside the bills drafted):");
 const research = ordinance[postal];
 for (const level of ["municipal", "county", "numbering"] as const) {
   const r = research?.[level];
-  console.log(
-    `  ${level}: ${r?.clause ?? r?.template ?? "none"} (${r?.tag ?? "no row"}${r?.statute ? `, ${r.statute}${r.appliesTo ? `, ${r.appliesTo}` : ""}` : ""})`,
-  );
+  for (const each of r ? [r, ...(r.alsoSourced ?? [])] : [undefined])
+    console.log(
+      `  ${level}: ${each?.clause ?? each?.template ?? "none"} (${each?.tag ?? "no row"}${each?.statute ? `, ${each.statute}${each.appliesTo ? `, ${each.appliesTo}` : ""}${each.kinds ? `; covers ${each.kinds.join(", ")}` : ""}` : ""})`,
+    );
 }
 interface BillRow {
   id: string;

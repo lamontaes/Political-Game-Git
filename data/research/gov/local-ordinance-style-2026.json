@@ -8,7 +8,7 @@
   "geography": "state or territory, keyed by postal code; all 56 places",
   "sourceUrl": "per row (sourceUrl)",
   "retrievedOn": "2026-10-23",
-  "limits": "A SOURCED row quotes the state statute as fetched on Oct 23, 2026; {place}, {body} and {kind} mark the blanks the statute leaves for the town's name, its governing body and its kind (city, town, village). A statute often covers one class of city only (appliesTo); other classes and charter cities may differ. An ESTIMATED row is the national default from bill-forms.json, or (Texas) a statute read from a reproduction because the official page renders only by script. The clauses are research for the Words session: they reach no player text until the English engine's banks take them up. No statute read prescribes a local ordinance numbering; only the D.C. Council's rules do.",
+  "limits": "A SOURCED row quotes the state statute as fetched on Oct 23, 2026; {place}, {body} and {kind} mark the blanks the statute leaves for the town's name, its governing body and its kind (city, town, village). A statute often covers one class of city only (appliesTo); other classes and charter cities may differ. `kinds` names the kinds of place (city, town, village, county) a clause that quotes a statute covers; a statute that gives another kind its own words is a separate entry under alsoSourced, as Nebraska's village clause is, and the check script fails a clause whose scope its words or its quote do not support. An ESTIMATED row is the national default from bill-forms.json, or (Texas) a statute read from a reproduction because the official page renders only by script. The clauses are research for the Words session: they reach no player text until the English engine's banks take them up. No statute read prescribes a local ordinance numbering; only the D.C. Council's rules do.",
   "nationalDefault": {
     "clause": "Be it ordained by the {body}",
     "template": "{yyyy}-{n}",
@@ -169,6 +169,7 @@
       },
       "county": {
         "clause": "Be It Ordained by the Board of County Commissioners of {place} County:",
+        "kinds": ["county"],
         "appliesTo": "every county",
         "statute": "Fla. Stat. 125.67",
         "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2024/125.67",
@@ -221,6 +222,7 @@
     "ID": {
       "municipal": {
         "clause": "Be it ordained by the mayor and council of the city of {place}",
+        "kinds": ["city"],
         "appliesTo": "every city",
         "statute": "Idaho Code 50-901",
         "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/title50/t50ch9/sect50-901/",
@@ -296,6 +298,7 @@
     "KS": {
       "municipal": {
         "clause": "Be it ordained by the governing body of the city of {place}:",
+        "kinds": ["city"],
         "appliesTo": "every city",
         "statute": "K.S.A. 12-3005",
         "sourceUrl": "https://www.ksrevisor.org/statutes/chapters/ch12/012_030_0005.html",
@@ -335,6 +338,7 @@
     "LA": {
       "municipal": {
         "clause": "Be it ordained by the board of aldermen of the {kind} of {place}",
+        "kinds": ["city", "town", "village"],
         "appliesTo": "Lawrason Act municipalities (no home rule charter)",
         "statute": "La. R.S. 33:406(A)(1)",
         "sourceUrl": "https://legis.la.gov/Legis/Law.aspx?d=90492",
@@ -428,6 +432,7 @@
     "MN": {
       "municipal": {
         "clause": "The City Council of {place} ordains:",
+        "kinds": ["city"],
         "appliesTo": "statutory cities",
         "statute": "Minn. Stat. 412.191, subd. 4",
         "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/412.191",
@@ -467,6 +472,7 @@
     "MO": {
       "municipal": {
         "clause": "Be it ordained by the board of aldermen of the city of {place}, as follows:",
+        "kinds": ["city"],
         "appliesTo": "fourth-class cities",
         "statute": "RSMo 79.130.1",
         "sourceUrl": "https://revisor.mo.gov/main/OneSection.aspx?section=79.130",
@@ -506,7 +512,8 @@
     "NE": {
       "municipal": {
         "clause": "Be it ordained by the mayor and city council of the city of {place}",
-        "appliesTo": "cities of the second class and villages",
+        "kinds": ["city"],
+        "appliesTo": "cities of the second class",
         "statute": "Neb. Rev. Stat. 17-613",
         "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=17-613",
         "quote": "The style of all ordinances of a city of the second class or village shall be: Be it ordained by the mayor and city council of the city of ......, or the chairperson and board of trustees of the village of ....... .",
@@ -514,10 +521,20 @@
         "alsoSourced": [
           {
             "clause": "Be it ordained by the mayor and city council of the city of {place}",
+            "kinds": ["city"],
             "appliesTo": "cities of the first class",
             "statute": "Neb. Rev. Stat. 16-405",
             "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=16-405",
             "quote": "The style of ordinances of a city of the first class shall be: \"Be it ordained by the mayor and city council of the city of ................,\"",
+            "tag": "SOURCED"
+          },
+          {
+            "clause": "Be it ordained by the chairperson and board of trustees of the village of {place}",
+            "kinds": ["village"],
+            "appliesTo": "villages",
+            "statute": "Neb. Rev. Stat. 17-613",
+            "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=17-613",
+            "quote": "The style of all ordinances of a city of the second class or village shall be: Be it ordained by the mayor and city council of the city of ......, or the chairperson and board of trustees of the village of ....... .",
             "tag": "SOURCED"
           }
         ]
@@ -537,6 +554,7 @@
     "NV": {
       "municipal": {
         "clause": "The City Council of the City of {place} do ordain.",
+        "kinds": ["city"],
         "appliesTo": "cities under the general law (NRS chapter 266)",
         "statute": "NRS 266.115(1)",
         "sourceUrl": "https://www.leg.state.nv.us/NRS/NRS-266.html",
@@ -612,7 +630,8 @@
     "NY": {
       "municipal": {
         "clause": "Be it enacted by the {body} of the {place} as follows:",
-        "appliesTo": "every county, city, town and village (local laws)",
+        "kinds": ["city", "town", "village"],
+        "appliesTo": "every city, town and village (local laws)",
         "statute": "N.Y. Municipal Home Rule Law 20(2)",
         "sourceUrl": "https://www.nysenate.gov/legislation/laws/MHR/20",
         "quote": "Be it enacted by the (naming the legislative body) of the (name of local government) as follows:",
@@ -621,7 +640,8 @@
       },
       "county": {
         "clause": "Be it enacted by the {body} of the {place} as follows:",
-        "appliesTo": "every county, city, town and village (local laws)",
+        "kinds": ["county"],
+        "appliesTo": "every county (local laws)",
         "statute": "N.Y. Municipal Home Rule Law 20(2)",
         "sourceUrl": "https://www.nysenate.gov/legislation/laws/MHR/20",
         "quote": "Be it enacted by the (naming the legislative body) of the (name of local government) as follows:",
@@ -656,6 +676,7 @@
     "ND": {
       "municipal": {
         "clause": "Be it ordained by the {body} of the city of {place}.",
+        "kinds": ["city"],
         "appliesTo": "every city",
         "statute": "N.D.C.C. 40-11-01",
         "sourceUrl": "https://ndlegis.gov/cencode/t40c11.pdf",
@@ -677,6 +698,7 @@
     "OH": {
       "municipal": {
         "clause": "Be it ordained by the {body} of {place}, state of Ohio,",
+        "kinds": ["city", "village"],
         "appliesTo": "every city and village",
         "statute": "Ohio Rev. Code 731.18",
         "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-731.18",
@@ -788,6 +810,7 @@
     "SD": {
       "municipal": {
         "clause": "Be it ordained by the {kind} of {place}",
+        "kinds": ["city", "town"],
         "appliesTo": "every city and town",
         "statute": "SDCL 9-19-6",
         "sourceUrl": "https://sdlegislature.gov/api/Statutes/9-19-6.html",
@@ -827,6 +850,7 @@
     "TX": {
       "municipal": {
         "clause": "Be it ordained by the {body} of the {kind} of {place}.",
+        "kinds": ["city", "town", "village"],
         "appliesTo": "Type A general-law municipalities",
         "statute": "Tex. Local Gov't Code 52.002",
         "sourceUrl": "https://texas.public.law/statutes/tex._local_gov't_code_section_52.002",
@@ -903,6 +927,7 @@
     "WA": {
       "municipal": {
         "clause": "The city council of the city of {place} do ordain as follows:",
+        "kinds": ["city"],
         "appliesTo": "code cities (Title 35A RCW, mayor-council plan)",
         "statute": "RCW 35A.12.130",
         "sourceUrl": "https://app.leg.wa.gov/rcw/default.aspx?cite=35A.12.130",

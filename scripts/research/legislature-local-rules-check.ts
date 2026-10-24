@@ -11,6 +11,10 @@
  * - data/research/gov/local-ordinance-style-2026.json: the enacting clause
  *   and numbering state law gives a town's or county's ordinances, all 56
  *   places; an ESTIMATED row must equal bill-forms.json's national default.
+ *   A clause that quotes a statute also names the kinds of place it covers
+ *   (`kinds`: city, town, village, county), and the quote must support that
+ *   scope: a clause that names a city's council cannot be scoped to villages,
+ *   and a village clause must name the village's own board.
  * - data/research/gov/local-executive-introduction-2026.json: how a mayor or
  *   county executive brings a bill of their own, all 56 places; an ESTIMATED
  *   county row must follow from county-governing-bodies.json, and an
@@ -224,6 +228,103 @@ const fixedWords = (clause: string) =>
     )
     .filter((part) => part.length > 0);
 
+/**
+ * A quoted statute may give the shared lead once and then a form for each
+ * kind of place, joined by "or" ("Be it ordained by the mayor and city
+ * council of the city of ..., or the chairperson and board of trustees of the
+ * village of ..."). The clause's words are in the quote when they are one
+ * stretch of it, or the lead of the quote followed by one of its "or" forms.
+ */
+function wordsInQuote(words: string, squeezed: string): boolean {
+  const wanted = words.replace(/\s+/g, " ");
+  if (squeezed.includes(wanted)) return true;
+  const parts = wanted.split(" ");
+  for (let i = 3; i < parts.length; i += 1) {
+    const lead = parts.slice(0, i).join(" ");
+    const form = ` or ${parts.slice(i).join(" ")}`;
+    const at = squeezed.indexOf(lead);
+    if (at >= 0 && squeezed.indexOf(form, at + lead.length) >= 0) return true;
+  }
+  return false;
+}
+
+/** The kinds of place an enacting clause can cover; a county's own clause covers counties only. */
+const PLACE_KINDS = ["city", "town", "village", "county"] as const;
+const KIND_WORDS: Record<string, string> = {
+  city: "city",
+  cities: "city",
+  town: "town",
+  towns: "town",
+  village: "village",
+  villages: "village",
+  county: "county",
+  counties: "county",
+};
+/** The kinds of place a piece of text names ("city council" and "cities" both name the city). */
+const kindsNamed = (value: string): Set<string> =>
+  new Set(
+    (value.toLowerCase().match(/[a-z]+/g) ?? [])
+      .map((word) => KIND_WORDS[word])
+      .filter((kind): kind is string => kind !== undefined),
+  );
+/** A quote that speaks of the whole class ("each local government") does not list its kinds. */
+const WHOLE_CLASS = /local government|municipal corporation|municipality/;
+
+/**
+ * A clause that quotes a statute covers exactly the kinds of place its quote
+ * gives those words. Three ways it can be wrong, each a failure: the clause
+ * names one kind of place ("mayor and city council of the city of") and is
+ * scoped to another, the appliesTo note and the kinds disagree, or the clause
+ * leaves the kind to a blank ("of the {kind} of") or says nothing about it and
+ * the quote never mentions a kind it is scoped to.
+ */
+function checkScope(
+  where: string,
+  level: "municipal" | "county",
+  entry: {
+    clause: string;
+    kinds?: readonly string[];
+    appliesTo?: string;
+    quote: string;
+  },
+): void {
+  const { kinds } = entry;
+  if (
+    !Array.isArray(kinds) ||
+    kinds.length === 0 ||
+    new Set(kinds).size !== kinds.length ||
+    kinds.some((kind) => !(PLACE_KINDS as readonly string[]).includes(kind))
+  ) {
+    fail(
+      `${where}: kinds must list the kinds of place (${PLACE_KINDS.join(", ")}) the clause covers`,
+    );
+    return;
+  }
+  const scope = new Set(kinds);
+  if (level === "county" && (scope.size !== 1 || !scope.has("county")))
+    fail(`${where}: a county clause covers counties only`);
+  if (level === "municipal" && scope.has("county"))
+    fail(`${where}: a municipal clause cannot cover counties`);
+  const listed = (set: ReadonlySet<string>) => [...set].sort().join(", ");
+  const note = kindsNamed(entry.appliesTo ?? "");
+  if (note.size > 0 && listed(note) !== listed(scope))
+    fail(
+      `${where}: appliesTo names ${listed(note)} but kinds is ${listed(scope)}`,
+    );
+  const named = kindsNamed(fixedWords(entry.clause).join(" "));
+  if (named.size > 0) {
+    if (listed(named) !== listed(scope))
+      fail(
+        `${where}: the clause names the ${listed(named)} but is scoped to ${listed(scope)}`,
+      );
+  } else {
+    const quoted = kindsNamed(entry.quote);
+    for (const kind of scope)
+      if (!quoted.has(kind) && !WHOLE_CLASS.test(entry.quote.toLowerCase()))
+        fail(`${where}: the quoted statute never mentions a ${kind}`);
+  }
+}
+
 function checkOrdinanceStyle(): void {
   const local = (
     read(BILL_FORMS_PATH) as {
@@ -238,9 +339,15 @@ function checkOrdinanceStyle(): void {
         "municipal" | "county" | "numbering",
         SourcedRow & {
           clause?: string;
+          kinds?: readonly string[];
+          appliesTo?: string;
           template?: string;
           period?: string;
-          alsoSourced?: readonly (SourcedRow & { clause?: string })[];
+          alsoSourced?: readonly (SourcedRow & {
+            clause?: string;
+            kinds?: readonly string[];
+            appliesTo?: string;
+          })[];
         }
       >
     >;
@@ -266,8 +373,13 @@ function checkOrdinanceStyle(): void {
           const quote = each.quote.replace(/[^A-Za-z ]/g, " ").toLowerCase();
           const squeezed = quote.replace(/\s+/g, " ");
           for (const words of fixedWords(each.clause))
-            if (!squeezed.includes(words.replace(/\s+/g, " ")))
+            if (!wordsInQuote(words, squeezed))
               fail(`${where}: "${words}" is not in the quoted statute`);
+          checkScope(where, level, {
+            ...each,
+            clause: each.clause,
+            quote: each.quote,
+          });
         } else if (!sourced && each.clause !== local.enactingClause)
           fail(`${where}: ESTIMATED clause is not the national default`);
         if (sourced && each === entry)
