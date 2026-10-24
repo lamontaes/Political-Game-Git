@@ -134,7 +134,16 @@
     "speakAgainst": "Speak against"
   },
   "filing": {
-    "file": "File for this office"
+    "file": "File for this office",
+    "rules": {
+      "filing-deadline": "Filing deadline",
+      "already-filed": "Filed before",
+      "minimum-age": "Age",
+      "residency": "Residency",
+      "district-residency": "District residency",
+      "party-member": "Party membership",
+      "term-limit": "Term limit"
+    }
   },
   "authority": {
     "level-lacks-power": "Not a power of this body",

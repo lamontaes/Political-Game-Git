@@ -3946,11 +3946,11 @@
   "unmodeledLeisureValuePerHour": {
     "value": 0.46,
     "tag": "TUNABLE",
-    "citation": "Score an hour of the leisure the game does not model is worth; an act added to a free block after the activation's pick must score above its hours times this. Calibrated so visits fall on the ATUS 2025 share of people who socialize or communicate on a given day (30.4%, Table 1); no direct source for the value itself. Calibrated on two generated towns of 1,000 residents over 28 days (seeds p15-visit-a and -b: Albertville, Alabama; Kennedale, Texas): 0.4 gave 33.9% and 0.5 gave 28.6% of adult-days with a visit.",
+    "citation": "Score an hour of the leisure the game does not model is worth; an act added to a free block after the activation's pick must score above its hours times this. Calibrated so visits fall on the ATUS 2025 share of people who socialize or communicate on a given day (30.4%, Table 1); no direct source for the value itself. Calibrated on two generated towns of 1,000 residents over 28 days (seeds p15-visit-a and -b: Albertville, Alabama; Kennedale, Texas): 0.4 gave 33.9% and 0.5 gave 28.6% of adult-days with a visit. Band (Oct 23, 2026): ATUS 2025 Table 1, socializing and communicating, 30.4% of people 15 and over on an average day (men 28.2%, women 32.5%), in data/research/core/atus-2025-socializing.json; scripts/research/core-year.ts reports the town's share of adult-days with a visit against it and scripts/research/check-core-research.ts checks the file.",
     "stopgapId": "SG-P15-free-block-plan",
     "spread": {
       "status": "unmeasured",
-      "reason": "Calibrated to one ATUS share; no empirical range for the value of an hour of leisure in these score units."
+      "reason": "No published effect converts to the value of an hour in these score units (ATUS gives time and shares of people, not a score); the ATUS share is an outcome band the year run reports against, not a bound on this value."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

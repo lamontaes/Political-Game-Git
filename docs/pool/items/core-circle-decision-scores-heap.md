@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-circle-heap
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T15:30:56.380Z
 ---
 
 **What.** M0-13's 'memory at the end stays under 2000 MB' is the only assertion that fails in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4): golden-path-year on PR 5919's head 2cb06900b4 held 2,049 MB, and clean main 8a0497ab01 held 1,899 MB on Node 22 here (CI imports the engine at 399 MiB against 306 MiB here, so main sits at the edge on CI). The retained heap after the year is 1,870 MiB, and 626 MiB of it is the durable log's person.acted rows that still carry decision.scores: 6,690 rows of focus (circle) people from the last 30 days (circleDecisionDetailDays, src/core2/decision-detail.ts condenseCircleDecisions) holding 1,121,970 score rows (about 168 offers each, from scoreOffers in src/core2/choice.ts:282 called by activate in src/core2/life.ts:417) and 827,614 reasonTerms, because savesReasons (choice.ts:270) keeps the terms of every offer for every focus person while the choice.ts:348 comment says at most the selected and runner-up terms are kept. Measured by removing them from a finished year: stripping reasonTerms from the score rows frees 310 MiB, dropping the other people's scores 316 MiB more; the player's 365 rows are only 11 MiB. The pressure comes from the focus set growing from 33 to 190 people during the year, so big circles cost most; Decaturville, Tennessee and Lawrenceville, Virginia end at 597 and 688 MB.

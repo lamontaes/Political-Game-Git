@@ -5,10 +5,10 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5099
-blocked-on:
+blocked-on: play-paper-shows-local-ads
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
 claimed-at:
 ---
