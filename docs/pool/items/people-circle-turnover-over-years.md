@@ -5,10 +5,10 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: blocked
 claimed-by: claude/quirky-ride-vrwwz4-circle-turnover
 pr: #5913
-blocked-on:
+blocked-on: people-circle-turnover-too-low
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T15:16:05.149Z
 ---

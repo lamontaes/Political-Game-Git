@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-circle-turnover
+pr: #5913
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T15:25:34.409Z
 ---
 
 **What.** Roadmap M0-07 ends 'over years, circle turnover matches a sourced study', and nothing checked it. PR #5913 adds a check that plays three years of the bench world and asks how many of each adult full person's five closest ties on the first day are still among their five closest at the end, against Mollenhorst, Volker and Flap (2014), and makes it part of M0-07's command. The check fails on a real gap, which stays open in people-circle-turnover-too-low; the original acceptance stays open in people-circle-turnover-over-years.
