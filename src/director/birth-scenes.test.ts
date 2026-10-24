@@ -70,13 +70,22 @@ it(`a birth is a new-baby visit for each parent, citing the birth and the plan b
       // birth, citing the birth record; the child is the counterpart, so it names the child.
       const scene = composeScene(core, director, personId, entry)!;
       const text = scene.narration.map((line) => line.text).join(" ");
-      expect(text, `${where}: ${text}`).toMatch(
-        /new baby|has been born|was born/,
-      );
+      // (The sentence about the new baby was hand-written and is held until
+      // graded; pool item words-birth-scene-lead. Until the
+      // engine writes it, the scene is the engine's own sentences.)
+      expect(scene.typeKey, where).toBe("celebration");
+      expect(text.trim().length, `${where}: ${text}`).toBeGreaterThan(0);
+      expect(text, where).not.toMatch(/\{\{|\}\}|undefined/);
+      // The scene stands on the birth moment, whose cause is the birth record,
+      // and its narration cites records (the sentence that named the birth was
+      // hand-written and is held).
+      expect(scene.momentId, where).toBe(entry.momentId);
+      expect(moment.causeId, where).toBe(birth?.id);
+      expect(scene.presentIds, where).toContain(personId);
       expect(
-        scene.narration.flatMap((line) => line.sourceRecordIds),
+        scene.narration.flatMap((line) => line.sourceRecordIds).length,
         where,
-      ).toContain(moment.causeId);
+      ).toBeGreaterThan(0);
       console.log(`${where}: ${text}`);
       return;
     }
