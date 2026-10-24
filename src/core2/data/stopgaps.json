@@ -5454,6 +5454,18 @@
     "status": "open"
   },
   {
+    "id": "SG-PEOPLE-unplanned-counted-tier",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 183,
+    "whatItFakes": "Only full people in couples carry exposure toward an unplanned pregnancy; the counted households, who are most of a town, have none, so the rule applies only to the full tier.",
+    "why": "This change sources the trip to a provider for the full-tier rule; the counted tier's own exposure, per woman and couple times the households each record stands for, is its own piece of work.",
+    "addedBy": "claude/provider-distance",
+    "addedAt": "2026-10-24",
+    "replacement": "Resolved: counted households follow the same rule from their own records, each woman carrying her own exposure times the households her record stands for, kept across fill-in (pool item people-unplanned-counted-tier, PR #5757).",
+    "status": "resolved"
+  },
+  {
     "id": "SG-PEOPLE-unplanned-provider-distance",
     "kind": "missing-mechanic",
     "file": "src/core2/births-unplanned.ts",
