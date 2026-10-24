@@ -6153,6 +6153,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WEB-unread-justice-pretrial-detained",
+    "kind": "missing-mechanic",
+    "file": "src/core2/data/outcome-web/unwired.json",
+    "line": 422,
+    "whatItFakes": "end-cash-bail-to-pretrial-detention moves justice.pretrial-detained only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: justice.pretrial-detained moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces justice.pretrial-detained",
+    "addedBy": "EFFECT-WEB-WIRING",
+    "addedAt": "2026-10-20",
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
+  },
+  {
     "id": "SG-WEB-unread-justice-incarcerated-per-100k",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
