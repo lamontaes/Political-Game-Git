@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/speed-guard-deadline
-pr:
+pr: #5943
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T19:32:35.727Z

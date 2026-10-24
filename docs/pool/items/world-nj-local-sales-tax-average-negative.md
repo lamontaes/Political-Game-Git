@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/nj-local-sales-tax
-pr:
+pr: #5976
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T19:41:48.326Z
