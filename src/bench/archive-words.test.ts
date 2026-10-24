@@ -108,23 +108,43 @@ describe("archive death news words", () => {
   }, 600_000);
 });
 
-describe(`archive budget news words (${world.place.key}, seed ${seed})`, () => {
+describe("archive budget news words", () => {
   it("words an adopted budget by its largest spending line", () => {
-    const stories = coreAPI(world.core)
-      .moduleState(NEWS_MODULE_ID)
-      .table("stories")
-      .rows() as unknown as {
-      id: string;
-      kind: string;
-      date: string;
-      facts: Record<string, string>;
-    }[];
-    for (const story of stories.filter(
-      (row) => row.facts.recordKind === "budget-adopted",
-    )) {
-      const words = wordArchiveStory(world.core, story);
-      expect(words, story.id).not.toBeNull();
-      expect(words!.lede).toMatch(/^The budget includes \$[\d,]+ for .+\.$/);
+    // Some places archive no adopted budget: draw places (bounded) until one
+    // does, and require at least one so the test cannot pass unchecked.
+    let checked = 0;
+    const tried: string[] = [];
+    for (let draw = 0; draw < 8 && checked === 0; draw += 1) {
+      const place = drawPlace(`${seed}:${draw}`, "archive-budget-words");
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      tried.push(where);
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const stories = coreAPI(core)
+        .moduleState(NEWS_MODULE_ID)
+        .table("stories")
+        .rows() as unknown as {
+        id: string;
+        kind: string;
+        date: string;
+        facts: Record<string, string>;
+      }[];
+      for (const story of stories.filter(
+        (row) => row.facts.recordKind === "budget-adopted",
+      )) {
+        const words = wordArchiveStory(core, story);
+        expect(words, `${where}: ${story.id}`).not.toBeNull();
+        expect(words!.lede, `${where}: ${story.id}`).toMatch(
+          /^The budget includes \$[\d,]+ for .+\.$/,
+        );
+        checked += 1;
+      }
     }
-  }, 120_000);
+    expect(
+      checked,
+      `no adopted budget archived in 8 drawn places: ${tried.join("; ")}`,
+    ).toBeGreaterThan(0);
+  }, 600_000);
 });
