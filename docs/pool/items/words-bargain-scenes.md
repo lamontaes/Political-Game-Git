@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5949
 blocked-on:
 after: words-scenes-fire-in-play
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** The owner, Oct 24: passing along his bargaining votes and comments, make it happen, at least behind the scenes; the code is already there. The legislature already records a vote trade (bill-amendment, kind trade-amendment) when a sponsor gives a holdout a section for their vote, but the director sized no moment from it and the vote-asked and section-bargain scene types waited on producers that never came. This item sizes the record, fires both scenes from it with the right cast, stages them in the chamber the record names and gives their talk the bill and section.
