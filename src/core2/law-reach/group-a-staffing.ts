@@ -21,7 +21,10 @@ import {
   governments,
   lineBeforeBill,
 } from "../modules/budgets";
-import { countedStaffOf } from "../modules/residents";
+import { countedResidents } from "../electorate";
+import { lawChain } from "../modules/laws";
+import { countedParameter, residentsRuntime } from "../modules/residents";
+import { fillInPerson } from "../state";
 import { budgetToday } from "./group-a-money";
 import { onReachCalendar } from "./reach-workers";
 import {
@@ -94,7 +97,7 @@ export const staffing: PolicyHandler = (api, change) => {
         ? held.baseStaff
         : employers.length
           ? currentStaff(api, organizationId).length +
-            countedStaffOf(api.state as CoreState, organizationId)
+            countedStaff(api, organizationId).length
           : 0;
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.
@@ -140,26 +143,140 @@ export const staffing: PolicyHandler = (api, change) => {
   }
 };
 
-/** Named adults without work, the most reliable first. */
-function candidates(api: CoreAPI): readonly string[] {
+/**
+ * An employer's staff in the wider population, held in its counted wage flows
+ * (a school district's teachers): one model, two tiers, so a line change
+ * reaches them as it reaches the full staff. Each is filled in from the
+ * counts when the reach hires beside them or lets them go. `startsAt` is the
+ * day their work commitment began, the same date a full person's commitment
+ * carries, so one hire-date order covers both tiers.
+ */
+function countedStaff(
+  api: CoreAPI,
+  organizationId: string,
+): readonly { jobId: string; personId: string; startsAt: string }[] {
+  const rt = residentsRuntime(api.state as CoreState);
+  if (!rt) return [];
+  const out: { jobId: string; personId: string; startsAt: string }[] = [];
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.kind !== "wages" ||
+      flow.endedAt ||
+      flow.organizationId !== organizationId
+    )
+      continue;
+    for (const jobId of flow.jobIds ?? []) {
+      const job = rt.jobs.get(jobId);
+      // A counted job that has ended is no longer staff.
+      if (!job || job.endsAt !== undefined) continue;
+      const household = rt.households.get(
+        rt.householdOfPerson.get(job.personId) ?? "",
+      );
+      const commitment = household?.workCommitments.find(
+        (c) => c.jobId === jobId,
+      );
+      out.push({
+        jobId,
+        personId: job.personId,
+        startsAt: commitment?.startsAt ?? "",
+      });
+    }
+  }
+  return out.sort((a, b) => a.jobId.localeCompare(b.jobId));
+}
+
+/** A reach hire's rank: the more reliable and duty-bound first. The same for a named adult and a counted one. */
+function hireScore(traits: Readonly<Record<string, number>>): number {
+  return (
+    (traits["people-mind-v1:reliability"] ?? 0) +
+    (traits["personality-v1:facet-duty-bound"] ?? 0)
+  );
+}
+
+/**
+ * The counted adults whose fill-in gives them an outside job: in a household
+ * holding a share of the place's unplaced workers, its first working-age
+ * member without work takes the commuter job (the fill-in's own pick). They
+ * already work, so they are not jobless candidates in either tier.
+ */
+function commuters(
+  state: CoreState,
+  voters: ReadonlyMap<string, { birthDate: string; weeklyMinutes: number }>,
+): ReadonlySet<string> {
+  const out = new Set<string>();
+  const rt = residentsRuntime(state);
+  if (!rt) return out;
+  const from = countedParameter("countedWorkingAgeFrom");
+  const below = countedParameter("countedWorkingAgeBelow");
+  for (const h of rt.store.liveHouseholds()) {
+    if (h.unplacedWorkers <= 0) continue;
+    for (const m of rt.store.countedMembers(h)) {
+      const id = rt.store.ids[m]!;
+      const voter = voters.get(id);
+      if (!voter || voter.weeklyMinutes > 0) continue;
+      const age = ageOn(voter.birthDate, state.date);
+      if (age < from || age >= below) continue;
+      out.add(id);
+      break;
+    }
+  }
+  return out;
+}
+
+/**
+ * Adults without work who could fill a vacancy, named and counted ranked
+ * together by one rule (one model, two tiers): the most reliable first, then
+ * by id. Filling a counted adult in keeps their traits, so their place in this
+ * order is the same before and after.
+ */
+export function hiringOrder(api: CoreAPI): readonly string[] {
   const state = api.state as CoreState;
   const date = state.date;
   const from = reachParameter("adultAge");
   const below = reachParameter("hireAgeBelow");
-  const score = (traits: Record<string, number>) =>
-    (traits["people-mind-v1:reliability"] ?? 0) +
-    (traits["personality-v1:facet-duty-bound"] ?? 0);
-  return townPeople(api)
-    .filter((p) => {
-      const age = ageOn(p.birthDate, date);
-      if (age < from || age >= below) return false;
-      const job = p.jobId ? state.jobs.get(p.jobId) : undefined;
-      return !job || job.endsAt !== undefined;
-    })
-    .sort(
-      (a, b) => score(b.traits) - score(a.traits) || a.id.localeCompare(b.id),
+  const town = lawChain(api).townPlaceId;
+  const ranked: { id: string; score: number }[] = [];
+  for (const p of townPeople(api)) {
+    const age = ageOn(p.birthDate, date);
+    if (age < from || age >= below) continue;
+    const job = p.jobId ? state.jobs.get(p.jobId) : undefined;
+    if (job && job.endsAt === undefined) continue;
+    ranked.push({ id: p.id, score: hireScore(p.traits) });
+  }
+  const counted = countedResidents(state);
+  const working = commuters(state, new Map(counted.map((v) => [v.id, v])));
+  for (const voter of counted) {
+    const age = ageOn(voter.birthDate, date);
+    if (
+      voter.placeId !== town ||
+      working.has(voter.id) ||
+      voter.weeklyMinutes > 0 ||
+      age < from ||
+      age >= below
     )
-    .map((p) => p.id);
+      continue;
+    ranked.push({ id: voter.id, score: hireScore(voter.traits) });
+  }
+  return ranked
+    .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
+    .map((r) => r.id);
+}
+
+/**
+ * An employer's staff, named and counted, in the order a cut lets them go:
+ * the newest hires first across both tiers (latest start, then last job id).
+ */
+export function layoffOrder(
+  api: CoreAPI,
+  organizationId: string,
+): readonly { jobId: string; personId: string; startsAt: string }[] {
+  return [
+    ...currentStaff(api, organizationId),
+    ...countedStaff(api, organizationId),
+  ].sort(
+    (a, b) =>
+      b.startsAt.localeCompare(a.startsAt) || b.jobId.localeCompare(a.jobId),
+  );
 }
 
 function hire(
@@ -229,25 +346,36 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
     work.sourceRecordIds[0]!,
   ) as unknown as StaffingRow | undefined;
   if (!row) return;
-  const staff = currentStaff(api, row.organizationId);
-  // The district's counted workers fill positions too: the round hires or
-  // lays off named staff only for what the funded positions leave over.
-  const counted = countedStaffOf(api.state as CoreState, row.organizationId);
+  const state = api.state as CoreState;
+  const counted = countedStaff(api, row.organizationId);
+  const full = currentStaff(api, row.organizationId);
+  const headcount = full.length + counted.length;
   const target = Math.round(row.positions);
   const hired: string[] = [];
   const laidOff: string[] = [];
-  if (target > staff.length + counted && staff.length) {
-    const template = staff[0]!;
-    for (const personId of candidates(api)) {
-      if (staff.length + counted + hired.length >= target) break;
+  if (target > headcount && headcount) {
+    // Hires copy a coworker's job; a district staffed only from the counts
+    // fills one of them in to be the template.
+    if (!full.length) fillInPerson(state, counted[0]!.personId);
+    const template = currentStaff(api, row.organizationId)[0];
+    if (!template) return;
+    for (const personId of hiringOrder(api)) {
+      if (headcount + hired.length >= target) break;
+      // A counted adult becomes a full person from their records at hire.
+      if (!state.people.has(personId)) fillInPerson(state, personId);
       if (hire(api, row, personId, template, work.source)) hired.push(personId);
       else break;
     }
-  } else if (target < staff.length + counted) {
-    // The newest hires go first.
-    for (const s of [...staff].reverse()) {
-      if (staff.length + counted - laidOff.length <= target) break;
-      if (!api.state.people.has(s.personId)) continue;
+  } else if (target < headcount) {
+    // The newest hires go first, whichever tier they are in.
+    for (const s of layoffOrder(api, row.organizationId)) {
+      if (headcount - laidOff.length <= target) break;
+      if (!state.people.has(s.personId)) fillInPerson(state, s.personId);
+      if (!state.people.has(s.personId)) continue;
+      // Filling a person in keeps their job record; one that ended since the
+      // list was made is not laid off again.
+      const own = state.jobs.get(s.jobId);
+      if (!own || own.endsAt !== undefined) continue;
       api.endJob(s.jobId, work.key);
       laidOff.push(s.personId);
     }

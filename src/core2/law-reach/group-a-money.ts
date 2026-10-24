@@ -43,7 +43,7 @@ export const LEAVE_KEY =
 const PARKS_KEY =
   "us-policy-positions:civil-family-community.dedicated-parks-funding";
 
-const LEVEL_ORDER = ["federal", "state", "county", "township", "city"];
+const LEVEL_ORDER = ["federal", "state", "county", "city"];
 
 /** The government at the highest level that says yes (its treasury runs the program). */
 function governmentFor(
