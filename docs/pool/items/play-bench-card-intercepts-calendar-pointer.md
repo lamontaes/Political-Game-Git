@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 
 **What.** Fresh real-browser run on main-integrated #5869 head 03a8dc54d1: New game with empty Place, Skip opening, then Calendar pointer click times out because section#card intercepts pointer events. South Windham Maine; seed 3c088861-ddf4-4043-be35-04578d107721; viewport 1440x1000.
 
-**Rules.** Use real pointer and keyboard controls; preserve the player card and Calendar actions. Diagnose on current main; do not bypass hit testing with forced or DOM clicks.
+**Rules.** Wire to the world: verify the actual bench in a fresh world drawn from all 56 places using real pointer and keyboard controls; preserve the player card and Calendar actions. Diagnose on current main; do not bypass hit testing with forced or DOM clicks.
 
 **Done when.** A fresh drawn-place game at 1440x1000 opens Calendar with an ordinary pointer click after Skip opening, keyboard access also works, and an inspected native screenshot plus full seed/place and no page errors are recorded.
 
