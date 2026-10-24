@@ -2,7 +2,7 @@
 id: gov-press-outlet-revenue
 impact: minor
 section: Changed
-title: A newsroom earns what its audience is worth
+title: A town's paper is paid by its readers and by the businesses that advertise in it.
 ---
 
-A local paper, station or radio outlet now earns each month in step with how many of the town follow it, instead of the same amount all year.
+A local paper's readers now pay its subscription out of their household's living costs, and the town's businesses buy ads from their own costs, less when they are short of cash. Stations and the paper split the ad money by how many people follow each, so an outlet's revenue rises and falls with its audience. Where a small town's readers and advertisers pay less than its staff cost, the outlet's wider audience still covers the rest.

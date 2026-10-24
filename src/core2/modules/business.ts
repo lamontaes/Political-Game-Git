@@ -287,7 +287,7 @@ function scheduleMonth(api: CoreAPI): void {
 }
 
 /** A business's cash less what it owes on its credit lines and to its suppliers. */
-function netCash(c: CoreState, organizationId: string): number {
+export function netCash(c: CoreState, organizationId: string): number {
   // Supplier bills accrued on its sales are owed already, though not yet billed.
   // Whole cents: the books never carry a fraction of a cent.
   let owed = Math.floor(supplierBillsOwed(c, organizationId));

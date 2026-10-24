@@ -4,6 +4,8 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
+- **What happens to a town's paper or station when its town's readers and advertisers pay less than its people cost? (Oct 24, claude; stopgap SG-PEOPLE-press-bureau-shortfall.)** An outlet now earns from its readers' subscriptions and the ads the town's businesses buy (gov-press-outlet-revenue). In most small towns that comes to less than its reporter's and editor's pay. For now the outlet's wider audience (the town's outside customers) makes up the rest each week, in advance, so no outlet runs out of money. The alternative is that it cuts staff or closes, as many real local papers have.
+
 - **Counted people's out-of-town pay and non-local spending are labeled estimates (Oct 19, claude; stopgaps SG-CORE-outside-living-costs and SG-CORE-unplaced-workers-income, now resolved).** Counted workers the opening could not place earn the place's ACS median earnings, and the part of a counted household's living cost not bought from a local seller leaves the town (CEX and HUD), each flow carrying its ESTIMATED source and spread, as the Oct 14 stand-in audit (#4151) closed them. The alternative is to build recorded commutes (LEHD origin-destination flows) and an outside-spending model by category. Reopen the two rows if you want those built.
 
 ## Oct 22: rulings (owner, via the acting CTO)

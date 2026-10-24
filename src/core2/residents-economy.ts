@@ -429,34 +429,6 @@ export function scaleOutsideSales(
   return changed;
 }
 
-/** An outside buyer's flow at the opening's prices and no output limit, once the nation has scaled it. */
-export const outsideSalesBaseOf = (core: CoreState, id: string) =>
-  outsideBases.get(core)?.get(id);
-
-/**
- * An outside buyer's standing flow is re-sized to a new base amount (its
- * amount at the opening's prices and no output limit): the nation's scaling and
- * the payee's output limit are applied on top, as for every other
- * `outside-sales` flow. False when there is no such live flow.
- */
-export function setOutsideSalesBase(
-  core: CoreState,
-  id: string,
-  baseMinor: number,
-): boolean {
-  const flow = residentsRuntime(core)?.flows.get(id);
-  if (!flow || flow.endedAt || flow.kind !== "outside-sales") return false;
-  let bases = outsideBases.get(core);
-  if (!bases) outsideBases.set(core, (bases = new Map()));
-  bases.set(id, Math.max(0, baseMinor));
-  flow.amountMinor = Math.round(
-    Math.max(0, baseMinor) *
-      (outsideFactors.get(core)?.get(flow.placeId) ?? 1) *
-      limitOf(core, flow.payeeId),
-  );
-  return true;
-}
-
 /**
  * A business sells outside the town at `limit` of what it could (1 is no
  * limit): its outside buyers' flows are rescaled now and at every month's
