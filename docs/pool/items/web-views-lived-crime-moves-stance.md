@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/web-views-lived-crime
+status: open
+claimed-by:
 pr: #5895
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T03:19:15.436Z
+claimed-at:
 ---
 
 **What.** The crime engine writes a victimization record for each full household it victimizes (crime.victimized, naming the household's members, the web month and the links behind the month's factor), so an outcome-web link such as unemployment to burglary lands on named people. Nothing reads that record into the victims' views: being burglarized changes no one's mind about anything. The effects lead's order says a link is felt through a person's own experience, the news or a conversation, and its end-to-end proof needs a named person's view to move citing the lived event. Make the views engine read a lived condition the way it reads a heard one: each victim moves on the question that condition ties to, toward the side their own view already holds.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T03:19:15.436Z
 **Files.** src/core2/modules/views.ts, src/core2/data/news/outcome-news.json, src/core2/views-lived-crime.test.ts
 
 **Notes.** Added Oct 24 by the effects lead for effects-end-to-end-proof: in two drawn towns a burglarized resident was never also a reader of the month's crime story, so the news route alone does not reach the person the crime engine's record names.
+
+Sent back 2026-10-24 from PR #5895 (branch claude/web-views-lived-crime): Annual movement test only conditionally accepts signed delta >=0 without any positive actual move; require a positive signed before/after witness and freeze-stance break-it, and register the explicit counted lived-victim omission with a matching code marker (existing SG covers printed stories only); finish on that branch, merge main into it first.
