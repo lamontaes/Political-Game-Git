@@ -10,6 +10,7 @@ import startingLaw from "../../src/core2/data/laws/starting-law.json" with { typ
 import reachA from "../../src/core2/data/laws/reach-group-a.json" with { type: "json" };
 import reachB from "../../src/core2/data/laws/reach-group-b.json" with { type: "json" };
 import webLinks from "../../data/research/outcome-web/links.json" with { type: "json" };
+import webCoverage from "../../src/core2/data/outcome-web/coverage.json" with { type: "json" };
 import federalAnswers from "../../src/core2/data/legislature/federal-answers.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../../src/core2/policy-answers";
 import { policyHandlerKeys } from "../../src/core2/law-reach/host";
@@ -294,12 +295,24 @@ export function reachInData(law: LawEntry): {
 
 export interface WebLinkRow {
   key: string;
+  /** "built" where core2's outcome web computes the link (coverage.json), else the research label. */
   status: string;
+  /** The research label in links.json (about-zero: the research puts the effect at about zero). */
+  research: string;
   from: string;
   to: string;
+  source?: string;
   unsupportedReason: string | null;
 }
-const LINKS = (webLinks as unknown as { links: WebLinkRow[] }).links;
+/** The links core2's outcome web computes; links.json's label comes from the old simulation's list. */
+const CORE2_WIRED = new Set((webCoverage as { wired: string[] }).wired);
+const LINKS = (
+  webLinks as unknown as { links: Omit<WebLinkRow, "research">[] }
+).links.map((l) => ({
+  ...l,
+  research: l.status,
+  status: CORE2_WIRED.has(l.key) ? "built" : l.status,
+}));
 
 /**
  * Laws that reach the outcome web through a measure an engine sets from the

@@ -6,9 +6,8 @@
  *
  *   node --import tsx scripts/law-wiring/matrix.ts docs/reports/law-wiring/*.json
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import stopgaps from "../../src/core2/data/stopgaps.json" with { type: "json" };
-import declared from "./declared.json" with { type: "json" };
 import researchGaps from "../../src/core2/data/laws/outcome-research-gaps.json" with { type: "json" };
 import {
   allLaws,
@@ -40,6 +39,7 @@ interface ReachCount {
 }
 interface Result {
   key: string;
+  kind: string;
   error?: string;
   inForceAtOpening: boolean;
   change: string;
@@ -66,6 +66,8 @@ interface Result {
   };
   heard: { people: number; sample: string[] };
   afterUndo: ReachCount;
+  /** Reach still citing the changed row once the old amount is put back (older result files have none). */
+  afterUndoChanged?: ReachCount;
 }
 interface PlaceRun {
   seed: string;
@@ -108,16 +110,43 @@ const RESEARCH_GAPS = new Map(
   ).laws.map((row) => [row.key, row]),
 );
 
-/** Links a law does not have by its statute, or a stopgap for one law's link, by law key and link. */
-const DECLARED = (
-  declared as unknown as {
-    laws: Record<
-      string,
-      Record<string, { status: "n/a" | "stopgap"; id?: string; why: string }>
-    >;
+type Declared = Record<
+  string,
+  Record<string, { status: "n/a" | "stopgap"; id?: string; why: string }>
+>;
+/**
+ * Links a law does not have by its statute, or a stopgap for one law's link,
+ * by law key and link: declared.json, then one file per family in declared/
+ * (so family PRs do not edit one shared file).
+ */
+const DECLARED: Declared = (() => {
+  const dir = "scripts/law-wiring/declared";
+  const files = [
+    "scripts/law-wiring/declared.json",
+    ...(existsSync(dir)
+      ? readdirSync(dir)
+          .filter((f) => f.endsWith(".json"))
+          .sort()
+          .map((f) => `${dir}/${f}`)
+      : []),
+  ];
+  const out: Declared = {};
+  for (const file of files) {
+    const { laws } = JSON.parse(readFileSync(file, "utf8")) as {
+      laws: Declared;
+    };
+    for (const [key, links] of Object.entries(laws))
+      out[key] = { ...out[key], ...links };
   }
-).laws;
+  return out;
+})();
 
+/** Laws that grant or withhold a power: the legislature reads them when a body drafts under them. */
+const AUTHORITY_LAWS = new Set([
+  "local-minimum-wage-authority",
+  "us-policy-positions:labor-workforce.local-minimum-wage-authority",
+  "local-income-tax-authority",
+]);
 const isEngine = (file: string) =>
   !NOT_AN_EFFECT.some((p) => file.startsWith(p));
 
@@ -201,9 +230,18 @@ function systemsLink(
   }
   const engines = new Map<string, number>();
   const handlers = new Set<string>();
+  // An authority law's effect is the legislature's check when a body drafts under it.
+  const drafting = AUTHORITY_LAWS.has(law.key);
   for (const { r } of runs)
     for (const [frame, n] of Object.entries(r.readers ?? {})) {
-      if (isEngine(frame)) engines.set(frame, (engines.get(frame) ?? 0) + n);
+      // A law-reach read names the engine that called it ("reach <- caller").
+      const caller = frame.split(" <- ")[1];
+      if (
+        isEngine(frame) ||
+        (caller && caller !== "none" && isEngine(caller)) ||
+        (drafting && frame.startsWith("src/core2/modules/legislature"))
+      )
+        engines.set(frame, (engines.get(frame) ?? 0) + n);
       else if (frame.startsWith("src/core2/law-reach/")) handlers.add(frame);
     }
   if (engines.size)
@@ -295,8 +333,11 @@ function webLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   const fired = runs.flatMap(({ place, r }) =>
     (r.web?.fired ?? []).map((f) => ({ place, f })),
   );
-  const built = links.filter((l) => l.status === "built");
-  const notBuilt = links.filter((l) => l.status !== "built");
+  // A link the research puts at about zero is a researched result, not a
+  // gap: there is nothing for the web to move (links.json, status about-zero).
+  const zero = (l: { research: string }) => l.research === "about-zero";
+  const built = links.filter((l) => l.status === "built" && !zero(l));
+  const notBuilt = links.filter((l) => l.status !== "built" && !zero(l));
   if (fired.length) {
     const ev = fired
       .slice(0, 3)
@@ -312,11 +353,19 @@ function webLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
         }
       : { status: "wired", evidence: ev, why: "" };
   }
+  if (links.every(zero))
+    return {
+      status: "n/a",
+      evidence: links
+        .map((l) => `${l.key}: about-zero (${l.source ?? "links.json"})`)
+        .join("; "),
+      why: "the research puts every outcome link from it at about zero, so there is nothing for the web to move",
+    };
   if (!built.length)
     return {
       status: "missing",
       evidence: links.map((l) => `${l.key}: ${l.status}`).join(", "),
-      why: `every link is unbuilt: ${[...new Set(links.map((l) => l.status))].join(", ")}`,
+      why: `every link is unbuilt: ${[...new Set(notBuilt.map((l) => l.status))].join(", ")}`,
     };
   return {
     status: "missing",
@@ -357,6 +406,14 @@ function repealLink(runs: { place: string; r: Result }[]): Link {
       if (r.reach.open === 0 && r.afterUndo.open > 0) ok += 1;
       notes.push(
         `${place}: opening ${r.openingReach.open} -> after repeal ${r.reach.open} -> re-enacted ${r.afterUndo.open}`,
+      );
+    } else if (r.kind !== "question" && r.afterUndoChanged) {
+      // Putting the old amount back leaves the law applying to the same people under the old row: the changed row's reach must end.
+      if (r.reach.open === 0) continue;
+      had += 1;
+      if (r.afterUndoChanged.open === 0) ok += 1;
+      notes.push(
+        `${place}: ${r.reach.open} open under the changed row -> after the old amount is put back ${r.afterUndoChanged.open} still cite it`,
       );
     } else {
       if (r.reach.open === 0) continue;
@@ -440,16 +497,20 @@ function main(): void {
   const runs: PlaceRun[] = files.map(
     (f) => JSON.parse(readFileSync(f, "utf8")) as PlaceRun,
   );
-  const byKey = new Map<string, { place: string; r: Result }[]>();
+  // One result per law and place: a later file (a family's newer run) replaces an earlier one.
+  const byPlace = new Map<string, Map<string, { place: string; r: Result }>>();
   for (const run of runs)
     for (const r of run.results) {
-      const list = byKey.get(r.key) ?? [];
-      list.push({
+      const places = byPlace.get(r.key) ?? new Map();
+      places.set(run.place.key, {
         place: `${run.place.name}, ${run.place.state} (seed ${run.seed.slice(0, 16)})`,
         r,
       });
-      byKey.set(r.key, list);
+      byPlace.set(r.key, places);
     }
+  const byKey = new Map(
+    [...byPlace].map(([key, places]) => [key, [...places.values()]]),
+  );
   const rows = allLaws().map((law) => {
     const rs = (byKey.get(law.key) ?? []).filter(({ r }) => !r.error);
     const errors = (byKey.get(law.key) ?? [])
@@ -578,7 +639,11 @@ function main(): void {
   const out = {
     about:
       "One row per law: each of the nine wiring links (exists, change, reach, systems, money, web, knowing, repeal, allPlaces) graded wired, partial, missing or stopgap, with evidence and why. Built by scripts/law-wiring/matrix.ts from scripts/law-wiring/check.ts runs.",
-    places: runs.map((r) => ({ seed: r.seed, ...r.place })),
+    places: [
+      ...new Map(
+        runs.map((r) => [r.place.key, { seed: r.seed, ...r.place }]),
+      ).values(),
+    ],
     summary: {
       laws: rows.length,
       wired: rows.filter((r) => r.overall === "wired").length,
