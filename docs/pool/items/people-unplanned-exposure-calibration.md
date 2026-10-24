@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found while repairing src/core2/renewal.test.ts on PR #5749: Hopkins SC, Yuba WI and Tamuning GU (seed probe1) had 12, 2 and 14 couples and 0 unplanned in a year.
 
 Sent back 2026-10-23 from PR #5788 (branch claude/unplanned-exposure-calibration): the PR targets main while parents 5757, 5749 and 5695 are still open; its integrated diff includes the pregnancy engine, counted-tier code and provider research (11 files, 1808 lines), not just the declared parameter row, so correct the base or provide full-stack scope and checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5788 (branch claude/unplanned-exposure-calibration): full-stack scope is disclosed, but renewal.test.ts:61-79 still allows zero ordinary named pregnancies before forcing carry:1, and people-unplanned-pregnancy-decision.md still declares impact:none despite creating pregnancy outcomes and moving cash; take corrected parent acceptance/declaration or retarget the bounded slice; finish on that branch, merge main into it first.
