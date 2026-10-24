@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-live-households
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T03:01:08.229Z
 ---
 
 **What.** Two kernel readers allocate on every call in a played year. The counted store's liveHouseholds is a generator, so each walk of the town's 21,000 counted households allocates a result object per household, and the year walks them hundreds of times (credit, residents, place prices, the census, counted moves). A module table's rows() copies and freezes the whole table on every call, 65,968 times a year for the budgets engine's governments table and 25,434 for the offices table in Long Hill, Connecticut (seed m7b). The walk now reuses one result object and still skips a household that goes mid-walk and sees one added mid-walk; rows() hands out one frozen list until a row is written or removed.
