@@ -210,8 +210,8 @@ async function trial(base: CoreState, lifted: CoreState, days: number) {
   {
     play(base, 40);
     play(lifted, 40);
-    // The retirement-age link is carried by the jobs engine's retirement
-    // onset (the law in force), not the web, so only the web's two groups shift.
+    // The retirement-age link has its own year-long twin, fitted to its
+    // researched size (jobs-older-work-web.test.ts); only the other two shift here.
     const effects = {
       "universal-childcare-to-mothers-work": 0.6,
       "broadband-to-married-women-work": 0.3,

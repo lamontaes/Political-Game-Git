@@ -5,11 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-drives-respond
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T20:08:23.284Z
 ---
 
 **What.** Drives form as one scored choice among responses (carry on, take up a cause, hold a grudge, guard family, prove oneself, answer a calling) whose pressures and trait channels are prototype values (SG-P10-response-model and SG-P10-perception-model in src/core2/data/drives.json). The trajectory meta-analysis of Galatzer-Levy, Huang and Bonanno (2018) found 65.7% of people resilient after a potential trauma (95% interval 61.6 to 69.8), 20.8% recovering, 10.6% chronic and 8.9% delayed, stored in data/research/people/trauma-trajectories-2018.json. The response pressures should be set so the share who carry on after a bereavement lands in that band in played years, and each perception channel's trait list should be checked against an appraisal study with a published effect, recorded as its own research file. No convertible appraisal effect was found in the research pass, so that part starts with the search.
