@@ -33,6 +33,7 @@ import committeeDayData from "../data/legislature/committee-day.json" with { typ
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import { POLICY_QUESTIONS } from "../policy-answers";
+import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import { registerModule } from "../state";
 import type {
   ActionDefinition,
@@ -1302,6 +1303,72 @@ export function bodyReach(
   return kind === "county-board" ? "county" : "city";
 }
 
+const FEDERAL_ANSWERS = (
+  federalAnswers as unknown as {
+    questions: Record<string, { answer: string }>;
+  }
+).questions;
+
+/** A government's own answer in force on a policy question: its latest enacted row, else its recorded starting answer. */
+export function answerIn(
+  api: CoreAPI,
+  stateKey: string,
+  question: string,
+  /** Count acts already enacted that haven't taken effect yet. */
+  enacted = false,
+): number | null {
+  const rows = (
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .query("bySeries", [stateKey, question]) as unknown as LawRowInput[]
+  )
+    .filter((r) => enacted || r.effectiveDate <= api.state.date)
+    // Acts taking effect the same day: the one enacted last (stored last) is the law.
+    .map((row, order) => ({ row, order }))
+    .sort(
+      (a, b) =>
+        b.row.effectiveDate.localeCompare(a.row.effectiveDate) ||
+        b.order - a.order,
+    )
+    .map(({ row }) => row);
+  if (rows[0]) return rows[0].value === 1 ? 1 : -1;
+  const answer =
+    stateKey === "US"
+      ? FEDERAL_ANSWERS[question]?.answer
+      : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
+  return answer === "yes" ? 1 : answer === "no" ? -1 : null;
+}
+
+/** The government a bill legislates for: the nation, the state, or the county, township or place its body serves. */
+function billJurisdiction(api: CoreAPI, bill: BillRow): string {
+  const chain = lawChain(api);
+  const { federal, state, county, township } = billReach(api, bill);
+  return federal
+    ? "US"
+    : state
+      ? chain.stateKey
+      : (county ??
+        township ??
+        chain.levels[chain.levels.length - 1]!.jurisdiction);
+}
+
+/**
+ * Whether a section pointing this way would change the law at the bill's own
+ * level: a policy wanted where it isn't law there, or wanted gone where it
+ * is (an act enacted but not yet in effect counts). Nothing to undo where no
+ * law stands.
+ */
+function changesLaw(
+  api: CoreAPI,
+  bill: BillRow,
+  question: string,
+  direction: number,
+): boolean {
+  const yes = answerIn(api, billJurisdiction(api, bill), question, true) === 1;
+  return direction > 0 ? !yes : yes;
+}
+
 /**
  * When a bill takes effect if it became law today and named no date of its
  * own: a federal act on enactment (the general rule: Gozlon-Peretz v. United
@@ -1322,14 +1389,8 @@ export function effectiveRule(
   readonly cite: string;
 } {
   const chain = lawChain(api);
-  const { federal, state, county, township, level } = billReach(api, bill);
-  const jurisdiction = federal
-    ? "US"
-    : state
-      ? chain.stateKey
-      : (county ??
-        township ??
-        chain.levels[chain.levels.length - 1]!.jurisdiction);
+  const { federal, state, level } = billReach(api, bill);
+  const jurisdiction = billJurisdiction(api, bill);
   const base = { jurisdiction, level, federal, state } as const;
   if (federal)
     return {
@@ -3111,25 +3172,29 @@ function ownSections(
     official
       ? ownStance(official.ideal, official.signature, q)
       : viewOn(api, memberId, q, lean);
-  return Object.keys(POLICY_QUESTIONS)
-    .filter((q) => !touched.has(q))
-    .map((q) => ({ q, stance: stanceOn(q) }))
-    .filter(({ stance }) => stance !== 0)
-    .sort(
-      (a, b) =>
-        Math.abs(b.stance) - Math.abs(a.stance) || a.q.localeCompare(b.q),
-    )
-    .map(({ q, stance }): Provision => ({
-      kind: "policy-question",
-      question: q,
-      value: Math.sign(stance),
-    }))
-    .filter((p) =>
-      checkedText(api, bill.bodyOfficeId, [p]).authority.every(
-        (a) => a.allowed,
-      ),
-    )
-    .slice(0, count);
+  return (
+    Object.keys(POLICY_QUESTIONS)
+      .filter((q) => !touched.has(q))
+      .map((q) => ({ q, stance: stanceOn(q) }))
+      .filter(({ stance }) => stance !== 0)
+      .sort(
+        (a, b) =>
+          Math.abs(b.stance) - Math.abs(a.stance) || a.q.localeCompare(b.q),
+      )
+      // A section the law at this level already answers changes nothing.
+      .filter(({ q, stance }) => changesLaw(api, bill, q, Math.sign(stance)))
+      .map(({ q, stance }): Provision => ({
+        kind: "policy-question",
+        question: q,
+        value: Math.sign(stance),
+      }))
+      .filter((p) =>
+        checkedText(api, bill.bodyOfficeId, [p]).authority.every(
+          (a) => a.allowed,
+        ),
+      )
+      .slice(0, count)
+  );
 }
 
 /**
@@ -3390,6 +3455,21 @@ function countVote(api: CoreAPI, billId: string): BillRow {
   bill = { ...bill, ...checkedText(api, bill.bodyOfficeId, bill.provisions) };
   table(api, "bills").put(bill as unknown as ModuleRow);
   if (bill.status === "blocked") return bill;
+  // A bill whose every section another act has already made the law at its
+  // level (passed while this one waited) changes nothing: it dies unvoted,
+  // as a bill a committee holds does.
+  if (
+    bill.provisions.every(
+      (p) =>
+        p.kind === "policy-question" &&
+        !!p.question &&
+        !changesLaw(api, bill, p.question, p.value),
+    )
+  ) {
+    const moot: BillRow = { ...bill, status: "failed" };
+    table(api, "bills").put(moot as unknown as ModuleRow);
+    return moot;
+  }
   runBeforeVote(api, billId, "floor");
   bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
@@ -4223,7 +4303,13 @@ function enact(
           measureId: bill.number,
         });
     }
-    if (provision.kind === "policy-question" && provision.question)
+    // A section another act already made the law here (passed while this
+    // bill was pending) changes nothing and writes no law of its own.
+    if (
+      provision.kind === "policy-question" &&
+      provision.question &&
+      changesLaw(api, bill, provision.question, provision.value)
+    )
       enactLaw(api, {
         jurisdiction,
         level,

@@ -49,8 +49,8 @@ import {
   registerLegislatureHooks,
   type BillRow,
   type DeskAction,
+  answerIn,
 } from "./legislature";
-import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";

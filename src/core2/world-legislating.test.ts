@@ -20,7 +20,11 @@ import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
 import { meetingRule, meetsOn } from "./office-day-calendar";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { openLegislature, type CommitteeRecord } from "./modules/legislature";
+import {
+  openLegislature,
+  type CommitteeRecord,
+  answerIn,
+} from "./modules/legislature";
 import { budgetsOf, openBudgets } from "./modules/budgets";
 import { openLawReach, reachOn } from "./law-reach/host";
 import { REACH_A_MODULE_ID } from "./law-reach/group-a-records";
@@ -28,7 +32,6 @@ import {
   openWorldLegislating,
   legislativeSessionsOf,
   sessionsOf,
-  answerIn,
   windowsIn,
   WORLD_LEGISLATING_MODULE_ID,
 } from "./modules/world-legislating";
