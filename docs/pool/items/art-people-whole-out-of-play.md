@@ -5,9 +5,9 @@ area: art
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: art/people-whole-out-of-play
-pr:
+pr: #5898
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T04:30:20.875Z

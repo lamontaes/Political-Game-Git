@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/affectionate-clarke-7dknew
+pr: #5879
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T05:04:28.044Z
 ---
 
 **What.** The existing month-facts outcome-news test fails on clean main in Santa Rita, Guam. Its February event exists but lacks the rent fact that the test requires after shifting the prior web row. This reproduces with OUTCOME_NEWS_SEED=3483bea3d0727b46, independently of PR 5879 and its new stance reader.
