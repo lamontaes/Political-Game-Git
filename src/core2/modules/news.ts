@@ -585,7 +585,7 @@ export function createNewsModule(
         // A month's move in the town's conditions argues no change of its
         // own: each reader takes each condition it reports as a reason for
         // the side their own view already holds on the question that
-        // condition ties to (owner, Oct 22, 2026). A reader with no side on a
+        // condition ties to. A reader with no side on a
         // question has none to strengthen. The readers already hold the
         // story's facts; what they take from reading it is its source, whose
         // case it was and which outlet printed it (what they can bring up).

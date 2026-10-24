@@ -32,7 +32,7 @@ const QUESTIONS = data.questions as Readonly<
 /**
  * The policy question or budget line a story about this subject ties to:
  * its readers take the moved condition as a reason for the side they already
- * hold on it (owner, Oct 22, 2026). Null for a subject that ties to none.
+ * hold on it. Null for a subject that ties to none.
  */
 export function conditionQuestion(topic: string): string | null {
   return QUESTIONS[topic]?.question ?? null;
