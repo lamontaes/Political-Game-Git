@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5879
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-24 from PR #5879 (branch claude/affectionate-clarke-7dknew): Positive played-year witness rewrites web rent directly rather than ordinary condition producer; new dated owner annotations in news code must move to docs; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5879 (branch claude/affectionate-clarke-7dknew): Own Santa Rita Guam draw OUTCOME_NEWS_SEED=3483bea3d0727b46: new rent-year test line 282 finds zero moved readers despite nine printed outlets; full changed file fails; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5879 (branch claude/affectionate-clarke-7dknew): Explicit item rule requires counted followers to use the same stance reader, but new path and body defer all counted readers; complete that rule or publish a bounded full-reader completion item with honest remaining-gap routing; finish on that branch, merge main into it first.
