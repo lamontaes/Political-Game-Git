@@ -40,6 +40,7 @@ import {
 } from "./modules/offices";
 import { lobbyingBarredUntil } from "./law-reach/group-a-voting";
 import { decideToRun } from "./modules/candidacy";
+import { govReport } from "./gov-test-report";
 import {
   currentStaff,
   mechanicRow,
@@ -483,6 +484,50 @@ describe(`government operations laws are applied by their engines (seed ${seed})
             );
           }
         }
+
+        // The record of each law: an applied row, the money on the journal
+        // and the person, group or government reached, by id.
+        const moneyOf = (needle: string) =>
+          posts.find((p) => p.gross > 0 && p.id.includes(needle))?.id ?? null;
+        const hire = lineHires[0];
+        const reached = Object.fromEntries(
+          [...VOTING_LAWS, REDISTRICT, TERM, LOBBY, HOME_RULE, ADMIN].map(
+            (key) => {
+              const rows = open(api, key);
+              const row =
+                rows.find((r) => r.target === "person") ??
+                rows.find((r) => r.target === "group") ??
+                rows[0];
+              const money =
+                key === REDISTRICT
+                  ? moneyOf("redistricting-commission:")
+                  : key === ADMIN
+                    ? hire
+                      ? moneyOf(hire.targetId)
+                      : null
+                    : VOTING_LAWS.includes(key)
+                      ? moneyOf(`election-admin:${key}:`)
+                      : null;
+              return [
+                key,
+                {
+                  applied: row?.id ?? null,
+                  reached: row ? `${row.target} ${row.targetId}` : null,
+                  money,
+                },
+              ];
+            },
+          ),
+        );
+        govReport(
+          "law-wiring-government",
+          JSON.stringify({
+            seed,
+            place: where,
+            election: election.id,
+            reached,
+          }),
+        );
 
         // Repeal every law: each engine's rows end.
         for (const key of [...VOTING_LAWS, REDISTRICT, TERM, LOBBY, HOME_RULE])
