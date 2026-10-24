@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { piecesInput, piecesSource } from "./core-pieces-fixture";
 import { createLifeCore } from "./life";
+import { PEOPLE_MODULE_ID } from "./modules/people";
 import {
   coarseSteps,
   preStartHistory,
@@ -58,6 +59,7 @@ describe("history before the start", () => {
     const window = preStartWindow(core, "2024-01-15", "quarter");
     expect(runPreStart(core, window)).toEqual([
       "fixture-macro",
+      PEOPLE_MODULE_ID,
       "fixture-budgets",
     ]);
     expect(seen[0]).toBe("economy");

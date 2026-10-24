@@ -14,6 +14,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { collapseToTwoLevels } from "./residents";
 import { residentsRuntime } from "./modules/residents";
+import { withPublicSchoolDistrict } from "./opening-public-schools";
 import { enactLaw, lawChain, lawInForce, openLaws } from "./modules/laws";
 import {
   amendBudget,
@@ -77,7 +78,13 @@ const states = [...corePlaceStateIdentities()]
   .map((s) => s.jurisdictionKey)
   .sort();
 
-function build(): void {
+/**
+ * A town to run the cases in. The payment cases need payees (adults the
+ * expansion covers, adults the work requirement then reaches, and a child of
+ * preschool age), so a place without them is redrawn. The tax case needs none,
+ * so it alone keeps a pinned place (GOLDEN_PATH_PLACE_KEY).
+ */
+function build(options: { pinned: boolean }): void {
   for (let attempt = 0; attempt < 40; attempt += 1) {
     const state = pick(states, `state:${attempt}`);
     const places = [
@@ -88,13 +95,17 @@ function build(): void {
     ].sort((a, b) => a.key.localeCompare(b.key));
     if (!places.length) continue;
     const key =
-      process.env.GOLDEN_PATH_PLACE_KEY ?? pick(places, `place:${attempt}`).key;
-    const full = buildPopulation({
-      seed,
-      placeKey: key,
-      startedAt: START,
-      minimumPeople: 400,
-    });
+      (options.pinned ? process.env.GOLDEN_PATH_PLACE_KEY : undefined) ??
+      pick(places, `place:${attempt}`).key;
+    // The opening's public school district is the employer the school-pay tests need.
+    const full = withPublicSchoolDistrict(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 400,
+      }),
+    ).input;
     const year = Number(START.slice(0, 4));
     // An employed adult where the place has one (paychecks for the tax tests), else any adult.
     const adults = [...full.people]
@@ -126,9 +137,39 @@ function build(): void {
         (r) => r.named,
       );
     if (
-      !covers("health-human-services.expand-medicaid-eligibility").length ||
-      !covers("health-human-services.medicaid-work-requirement").length ||
-      !covers("education.universal-preschool").length
+      !options.pinned &&
+      (!covers("health-human-services.expand-medicaid-eligibility").length ||
+        !covers("health-human-services.medicaid-work-requirement").length ||
+        !covers("education.universal-preschool").length)
+    )
+      continue;
+    // The tests below need a private school, a school job and a state highway
+    // line; a place without one is redrawn, never skipped.
+    const stateGov = governments(api).find((g) => g.level === "state");
+    const inTown = (org: string) =>
+      core.organizations.get(org)?.placeId === town;
+    const hasPrivateSchool = [...core.organizations.values()].some(
+      (o) =>
+        o.classification === "service:private-school" && o.placeId === town,
+    );
+    const hasSchoolJob = [
+      ...core.jobs.values(),
+      ...(residentsRuntime(core)?.jobs.values() ?? []),
+    ].some(
+      (j) =>
+        j.endsAt === undefined &&
+        (j.hourlyMinor ?? 0) > 0 &&
+        inTown(j.organizationId) &&
+        core.organizations.get(j.organizationId)?.classification ===
+          "service:school",
+    );
+    const hasHighwayLine =
+      !!stateGov &&
+      residentsOf(api, stateGov) > 0 &&
+      (budgetNow(api, stateGov.id)?.spendingMinor.highways ?? 0) > 0;
+    if (
+      !options.pinned &&
+      (!hasPrivateSchool || !hasSchoolJob || !hasHighwayLine)
     )
       continue;
     const levels = new Set(governments(api).map((g) => g.level));
@@ -140,7 +181,7 @@ function build(): void {
     return;
   }
   throw new Error(
-    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult and a preschool-age child in forty draws (seed ${seed})`,
+    `no town with an employed adult, a Medicaid-eligible adult, a work-requirement adult, a preschool-age child, a private school, a school job and a state highway line in forty draws (seed ${seed})`,
   );
 }
 
@@ -307,7 +348,7 @@ const stepFor = (gov: GovernmentRow, name: string) =>
   );
 
 describe("law reach, group B: every policy reaches people through its engine", () => {
-  beforeAll(() => build());
+  beforeAll(() => build({ pinned: false }));
 
   it("registers a handler for every group B policy and budget line", () => {
     expect(GROUP_B_KEYS.length).toBe(34);
@@ -641,60 +682,6 @@ describe("law reach, group B: every policy reaches people through its engine", (
       ).toBe(0);
   });
 
-  it("a graduated income tax replaces the level's tax with a schedule; repeal restores the prior row", () => {
-    const key = Q("fiscal.graduated-income-tax");
-    const prior = lawInForce(api, "income-tax").levels.find(
-      (l) => l.level === LOCAL,
-    )?.row;
-    enact(key, 1, LOCAL);
-    const row = lawInForce(api, "income-tax").levels.find(
-      (l) => l.level === LOCAL,
-    )?.row;
-    if (!prior?.terms?.schedules)
-      expect(
-        (row?.terms?.schedules as { single: unknown } | undefined)?.single,
-        where,
-      ).toBeDefined();
-    const since = api.state.date;
-    advanceCore(core, after(api.state.date, 30));
-    const lines = [...core.people.keys()].flatMap((id) =>
-      withholdingOf(api, id)
-        .filter((w) => w.date >= since)
-        .flatMap((w) =>
-          w.lines.filter((l) => l.level === LOCAL && l.tax === "income"),
-        ),
-    );
-    if (paidSince(since)) expect(lines.length, where).toBeGreaterThan(0);
-    enact(key, 0, LOCAL);
-    const restored = lawInForce(api, "income-tax").levels.find(
-      (l) => l.level === LOCAL,
-    )?.row;
-    if (String(restored?.terms?.enactedBy ?? "").startsWith("flatten:")) {
-      // The level's tax was a graduated schedule (Guam's follows the federal
-      // one, and an earlier case in this file may have flattened it): repealing
-      // the act replaces the schedule with the level's flat rate
-      // (SG-GOV-REACH-B-flat-tax-replacement), a tax it wrote that still
-      // reaches workers, so the person rows stand and the schedule is gone.
-      expect(restored?.terms?.schedules, `${where} schedule`).toBeUndefined();
-      expect(restored?.unit, `${where} flat tax`).toBe("percent-flat");
-      return;
-    }
-    expectEnded(key);
-    expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
-    // Where the level's own tax is graduated, a "no" flattens it
-    // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
-    // taxpayers: the records still open belong to the repeal's own act, never
-    // to the earlier one it undid.
-    const stillOpen = openPeople(key);
-    if (!stillOpen.length) expectEnded(key);
-    else {
-      expect(restored?.unit, `${where} flat law`).toBe("percent-flat");
-      for (const row of stillOpen)
-        expect(row.lawId, `${where} ${row.id}`).toContain(`:TEST-${measure}`);
-      expect(openOrgs(key), `${where} ${key} employers`).toEqual([]);
-    }
-  });
-
   it("a city income tax drafted in the catalog's unit reaches workers (collection: audit item 8)", () => {
     enact("income-tax", 2, LOCAL, "percent");
     expect(openPeople("income-tax").length, where).toBeGreaterThan(0);
@@ -834,10 +821,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
         ),
     );
     const job = jobs.find((j) => (j.hourlyMinor ?? 0) > 0);
-    if (!job) {
-      report.schoolRaiseKept = "no school job in this place";
-      return;
-    }
+    expect(job, `${where} no school job`).toBeDefined();
+    if (!job) return;
     const base = line(gov, "schools");
     const step = stepFor(gov, "schools");
     // The line has seen this job once; then another rule (not the line) raises it.
@@ -1089,10 +1074,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
       "transportation-infrastructure.shift-highway-funds-to-transit",
     );
     const state = governments(api).find((g) => g.level === "state")!;
-    if (residentsOf(api, state) <= 0 || line(state, "highways") <= 0) {
-      report.highwayShift = "no state highway line in this place";
-      return;
-    }
+    expect(residentsOf(api, state), where).toBeGreaterThan(0);
+    expect(line(state, "highways"), where).toBeGreaterThan(0);
     const highways = line(state, "highways");
     const transit = line(state, "transit");
     enact(key, 1, "state");
@@ -1234,17 +1217,8 @@ describe("law reach, group B: every policy reaches people through its engine", (
     enact(key, 1, "state");
     const openBefore = openOrgs(key).length,
       school = openOrgs(key)[0];
-    if (!school) {
-      // A town with no private school has nothing to end: the reach finds
-      // none because the town holds none.
-      expect(
-        [...core.organizations.values()].filter(
-          (o) => o.classification === "service:private-school",
-        ),
-        where,
-      ).toEqual([]);
-      return;
-    }
+    expect(school, `${where} no private school reached`).toBeDefined();
+    if (!school) return;
     api.emit({
       id: `event:business.closed:${school.organizationId}`,
       date: api.state.date,
@@ -1268,5 +1242,63 @@ describe("law reach, group B: every policy reaches people through its engine", (
 
   it("reports", () => {
     govReport("law-reach-group-b", JSON.stringify({ place, ...report }));
+  });
+});
+
+describe("law reach, group B: a graduated income tax", () => {
+  beforeAll(() => build({ pinned: true }));
+
+  it("a graduated income tax replaces the level's tax with a schedule; repeal restores the prior row", () => {
+    const key = Q("fiscal.graduated-income-tax");
+    const prior = lawInForce(api, "income-tax").levels.find(
+      (l) => l.level === LOCAL,
+    )?.row;
+    enact(key, 1, LOCAL);
+    const row = lawInForce(api, "income-tax").levels.find(
+      (l) => l.level === LOCAL,
+    )?.row;
+    if (!prior?.terms?.schedules)
+      expect(
+        (row?.terms?.schedules as { single: unknown } | undefined)?.single,
+        where,
+      ).toBeDefined();
+    const since = api.state.date;
+    advanceCore(core, after(api.state.date, 30));
+    const lines = [...core.people.keys()].flatMap((id) =>
+      withholdingOf(api, id)
+        .filter((w) => w.date >= since)
+        .flatMap((w) =>
+          w.lines.filter((l) => l.level === LOCAL && l.tax === "income"),
+        ),
+    );
+    if (paidSince(since)) expect(lines.length, where).toBeGreaterThan(0);
+    enact(key, 0, LOCAL);
+    const restored = lawInForce(api, "income-tax").levels.find(
+      (l) => l.level === LOCAL,
+    )?.row;
+    if (String(restored?.terms?.enactedBy ?? "").startsWith("flatten:")) {
+      // The level's tax was a graduated schedule (Guam's follows the federal
+      // one, and an earlier case in this file may have flattened it): repealing
+      // the act replaces the schedule with the level's flat rate
+      // (SG-GOV-REACH-B-flat-tax-replacement), a tax it wrote that still
+      // reaches workers, so the person rows stand and the schedule is gone.
+      expect(restored?.terms?.schedules, `${where} schedule`).toBeUndefined();
+      expect(restored?.unit, `${where} flat tax`).toBe("percent-flat");
+      return;
+    }
+    expectEnded(key);
+    expect(restored?.value ?? 0).toBe(prior?.value ?? 0);
+    // Where the level's own tax is graduated, a "no" flattens it
+    // (SG-GOV-REACH-B-flat-tax-replacement), and that flat law reaches the
+    // taxpayers: the records still open belong to the repeal's own act, never
+    // to the earlier one it undid.
+    const stillOpen = openPeople(key);
+    if (!stillOpen.length) expectEnded(key);
+    else {
+      expect(restored?.unit, `${where} flat law`).toBe("percent-flat");
+      for (const row of stillOpen)
+        expect(row.lawId, `${where} ${row.id}`).toContain(`:TEST-${measure}`);
+      expect(openOrgs(key), `${where} ${key} employers`).toEqual([]);
+    }
   });
 });
