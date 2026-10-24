@@ -13,6 +13,7 @@ import { webFactorFor } from "./outcome-web-reach";
 import {
   settleFinanceContractJournal,
   transferFinanceCreditJournal,
+  transferWageFlowCreditJournal,
 } from "./finance-cash";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
@@ -1318,6 +1319,24 @@ export function transferCredit(
     reasonKey,
     sourceId,
     repayment,
+  );
+}
+
+/** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+export function transferWageFlowCredit(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  requested: number,
+  flowId: string,
+): CreditReceipt {
+  policy(api);
+  return transferWageFlowCreditJournal(
+    core,
+    api,
+    facilityId,
+    requested,
+    flowId,
   );
 }
 

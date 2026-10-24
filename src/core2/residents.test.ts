@@ -17,6 +17,9 @@ import { countedResidents } from "./electorate";
 import { citizenShareOf } from "./electorate-places";
 import { corePlaceByKey } from "./place-lookup";
 import { addDays } from "./kernel/dates";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -569,4 +572,115 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     ).length;
     expect(before - counted()).toBe(grown);
   }, 300_000);
+});
+
+// Pool item people-stopgap-residents-skipped-mechanic: a counted employer
+// short of cash on payday draws its credit line, as a full worker's payroll
+// does. A one-year played world in a place drawn from all 56 (bounded
+// redraws); a second build of the same world watches the payday's journal.
+describe(`a counted payroll short of cash draws its employer's credit line (seed ${seed})`, () => {
+  it("draws the shortfall on the payday, pays the workers in full and records no shortfall", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 6; attempt += 1) {
+      const drawn = drawPlace(`${seed}:${attempt}`, "wages-credit-draw");
+      const where = `${drawn.name} (${drawn.key}), seed ${drawn.seed}`;
+      const build = () => {
+        setBookkeeping(false);
+        return buildBenchWorld(drawn.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: drawn.key,
+        }).core;
+      };
+      // First pass: the year, day by day, noting each payday a line paid.
+      const core = build();
+      const rt = residentsRuntime(core)!;
+      const end = addDays(core.date, 365);
+      let draws = 0;
+      let found:
+        | { flowId: string; payerId: string; date: string; facilityId: string }
+        | undefined;
+      while (core.date < end) {
+        advanceCore(core, addDays(core.date, 1));
+        for (const flow of rt.flows.values()) {
+          if (flow.kind !== "wages" || flow.creditNeed?.date !== core.date)
+            continue;
+          draws += 1;
+          const facilityId = core.finance.businesses.get(
+            flow.payerId,
+          )?.creditFacilityId;
+          // A payday the line covered whole: the workers were paid what was asked.
+          if (
+            !found &&
+            facilityId &&
+            flow.lastPaidMinor === flow.lastRequestedMinor &&
+            !rt.shortfalls.has(`${flow.id}@${core.date}`)
+          )
+            found = {
+              flowId: flow.id,
+              payerId: flow.payerId,
+              date: core.date,
+              facilityId,
+            };
+        }
+      }
+      if (!found) {
+        tried.push(`${where}: ${draws} draws, none covering a whole payday`);
+        continue;
+      }
+      // Second pass: the same world to the day before, then that payday watched.
+      const watched = build();
+      advanceCore(watched, addDays(found.date, -1));
+      const before = watched.finance.facilities.get(found.facilityId);
+      const principalBefore = before?.principalMinor ?? 0;
+      watched.observer = true;
+      advanceCore(watched, found.date);
+      const flow = residentsRuntime(watched)!.flows.get(found.flowId)!;
+      expect(flow.creditNeed?.date, `${where}: ${found.flowId}`).toBe(
+        found.date,
+      );
+      const credit = watched.finance.latestCreditByFacility.get(
+        found.facilityId,
+      );
+      expect(credit, `${where}: ${found.facilityId}'s draw`).toBeDefined();
+      expect(credit!.date, where).toBe(found.date);
+      expect(credit!.transferredMinor, where).toBeGreaterThan(0);
+      expect(credit!.principalAfterMinor - credit!.principalBeforeMinor).toBe(
+        credit!.transferredMinor,
+      );
+      expect(
+        watched.finance.facilities.get(found.facilityId)!.principalMinor -
+          principalBefore,
+        `${where}: the facility's balance rose by the draw`,
+      ).toBeGreaterThanOrEqual(credit!.transferredMinor);
+      const receipts = [...watched.cashJournal.detailedReceipts.values()];
+      const drawReceipt = receipts.find(
+        (row) => row.sourceRef.id === credit!.id,
+      );
+      const payReceipt = receipts.find((row) =>
+        row.sourceRef.id.startsWith(`${found!.flowId}@${found!.date}`),
+      );
+      expect(
+        drawReceipt,
+        `${where}: the draw ${credit!.id} on the journal`,
+      ).toBeDefined();
+      expect(
+        payReceipt,
+        `${where}: the wages ${found.flowId} on the journal`,
+      ).toBeDefined();
+      expect(flow.lastPaidMinor, where).toBe(flow.lastRequestedMinor);
+      expect(
+        residentsRuntime(watched)!.shortfalls.has(
+          `${found.flowId}@${found.date}`,
+        ),
+        `${where}: no wage shortfall that payday`,
+      ).toBe(false);
+      process.stdout.write(
+        `WAGE DRAW ${where}: ${draws} draws in the year; ${found.payerId} drew ${credit!.transferredMinor} on ${found.date} in ${drawReceipt!.id} (${credit!.id}), facility ${found.facilityId} ${credit!.principalBeforeMinor} -> ${credit!.principalAfterMinor}; wages ${found.flowId} paid ${flow.lastPaidMinor} of ${flow.lastRequestedMinor} in ${payReceipt!.id}\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place had a counted payday its employer's credit line covered (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 3_600_000);
 });

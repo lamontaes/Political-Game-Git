@@ -71,6 +71,7 @@ import {
   settleFinanceContract,
   retireFinanceBudget,
   transferCredit,
+  transferWageFlowCredit,
   reviewBusiness,
   closeBusinessByChoice,
   closeEmployer,
@@ -984,6 +985,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     repayCredit(id, minor, reason, sourceId) {
       return transferCredit(core, api, id, minor, reason, sourceId, true);
+    },
+    drawWageFlowCredit(id, minor, flowId) {
+      return transferWageFlowCredit(core, api, id, minor, flowId);
     },
     reviewBusiness(id) {
       reviewBusiness(core, api, id);
