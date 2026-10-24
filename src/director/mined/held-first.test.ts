@@ -4,8 +4,7 @@ import { bringDataFromBank, sceneWordsFromBank } from "./scene-bank";
 import { journalDataFromBank } from "./journal-bank";
 
 /**
- * The grading-only `heldFirst` switch (owner, Oct 24: batch 22 read "in
- * scenes"): play never offers a line held until the owner grades it, and the
+ * The grading-only `heldFirst` switch: play never offers a line held until the owner grades it, and the
  * grading view offers the held ones wherever one fits, so each can be read
  * where play would say it.
  */

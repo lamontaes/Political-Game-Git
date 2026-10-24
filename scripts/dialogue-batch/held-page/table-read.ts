@@ -1,6 +1,5 @@
 /**
- * Batch 22 in context (owner, Oct 24: "Show them in scenes"; voice notes are
- * how he grades): plays the bench's world in a drawn place and shows every
+ * Batch 22 in context: plays the bench's world in a drawn place and shows every
  * held hand-written line where play would say it, as a table read.
  *
  *   node --import tsx scripts/dialogue-batch/held-page/table-read.ts batch-22 <seed> <days> <out.json>
