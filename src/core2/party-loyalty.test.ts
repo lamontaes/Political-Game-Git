@@ -14,6 +14,7 @@ import {
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import catalog from "./data/legislature/bill-catalog.json" with { type: "json" };
 import officials from "./data/officials/officials.json" with { type: "json" };
+import chamberLoyalty from "./data/officials/state-chamber-loyalty.json" with { type: "json" };
 import { drawPlace } from "../../scripts/core2-year/place";
 
 // Party loyalty in state chambers (pool item laws-party-loyalty): in a state
@@ -21,8 +22,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 // chambers as bills and every member votes. On the votes that split the two
 // parties (each party's majority on opposite sides), the members of a party
 // vote with their party's majority at about the target rate. The target is
-// the parameter's stated stand-in until the owner's own calibration input is
-// run; nothing from that input is read or shipped here.
+// the base weight; each chamber's own multiple (state-chamber-loyalty.json,
+// from the chamber's party polarization) is read at the vote.
 const seed = process.env.PARTY_LOYALTY_SEED ?? randomBytes(8).toString("hex");
 // The target is the federal party-unity figure (about 0.90, CQ Vote Studies),
 // 0.85 to 0.98 around it. One small chamber's unity swings by several points
@@ -147,3 +148,18 @@ it("state-chamber members vote with their party on a party-splitting vote at abo
   expect(row.value).toBeGreaterThanOrEqual(row.spread[0]!);
   expect(row.value).toBeLessThanOrEqual(row.spread[1]!);
 }, 1_800_000);
+
+it("every state chamber has a calibrated multiple inside the parameter's spread, centered near one", () => {
+  const chambers = Object.values(chamberLoyalty.chambers).flatMap((row) =>
+    Object.values(row),
+  );
+  expect(chamberLoyalty.tag).toBe("ESTIMATED");
+  expect(chambers.length).toBeGreaterThan(90);
+  for (const value of chambers) {
+    expect(value).toBeGreaterThanOrEqual(chamberLoyalty.spread[0]!);
+    expect(value).toBeLessThanOrEqual(chamberLoyalty.spread[1]!);
+  }
+  const mean = chambers.reduce((a, b) => a + b, 0) / chambers.length;
+  expect(mean).toBeGreaterThan(0.85);
+  expect(mean).toBeLessThan(1.1);
+});
