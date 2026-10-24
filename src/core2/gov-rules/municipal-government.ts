@@ -8,8 +8,8 @@
  * place, publisher id and the parts of its primary reading (enacted text
  * first, else the research transcription) the readers use: form, body size,
  * how the chief official is chosen, the mayor's title and position, and the
- * seat terms. `src/core2/gov-rules.test.ts` checks it against that corpus and
- * rewrites it when run with `GOV_RULES_WRITE=1`.
+ * seat terms. It was written from that corpus (last at 31477cb449); the
+ * file itself is now the record, and changes land in it directly.
  */
 import corpus from "./municipal-governments.json" with { type: "json" };
 import {
