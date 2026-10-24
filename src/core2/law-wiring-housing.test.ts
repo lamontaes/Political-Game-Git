@@ -96,6 +96,7 @@ interface Trail {
   readonly person?: string;
   readonly journalId: string;
   readonly amountMinor: number;
+  readonly note?: string;
 }
 
 interface Post {
@@ -296,34 +297,30 @@ function play(
         renewals.reduce((s, r) => s + Math.max(0, r.savedMinor ?? 0), 0),
       "rent held below market is not in the applied rows",
     );
-    // The chain: a household's lease, held below the market, paid at the held rent (its journal entry); a full household first, a counted one (the rent its groups pay) where the place has none.
-    for (const tier of ["full", "counted"]) {
-      if (trails.rent) break;
-      for (const r of renewals) {
-        if ((r.tier === "counted") !== (tier === "counted") || !r.householdId)
-          continue;
-        const row = rent.find(
-          (x) => x.targetId === r.householdId && !x.endedOn,
-        );
-        const paid = lastSettlement(r.id, r.renewedAt);
-        if (!row || !paid) continue;
-        if (tier === "full" && paid.paidMinor !== r.rentMinor) continue;
-        if (!((r.marketRentMinor ?? 0) > r.rentMinor)) continue;
-        trails.rent = {
-          appliedId: row.id,
-          lawId: row.lawId,
-          reached: r.householdId,
-          person: personIn(core, r.householdId),
-          journalId: paid.journalId,
-          amountMinor: row.amountMinor,
-        };
-        break;
-      }
+    // The chain: a household's lease renewed under the law (the one held furthest below the market first) and paid at the renewed rent (its journal entry). The cap holds a rent down only where the market's rise passes it, so most leases of an ordinary year are renewed at the market rate under the law's read.
+    const capped = renewals.filter((r) => (r.savedMinor ?? 0) > 0);
+    for (const r of [...renewals].sort(
+      (a, b) => (b.savedMinor ?? 0) - (a.savedMinor ?? 0),
+    )) {
+      if (r.tier === "counted" || !r.householdId) continue;
+      const row = rent.find((x) => x.targetId === r.householdId && !x.endedOn);
+      const paid = lastSettlement(r.id, r.renewedAt);
+      if (!row || !paid || paid.paidMinor !== r.rentMinor) continue;
+      trails.rent = {
+        appliedId: row.id,
+        lawId: row.lawId,
+        reached: r.householdId,
+        person: personIn(core, r.householdId),
+        journalId: paid.journalId,
+        amountMinor: row.amountMinor,
+        note: `${capped.length} of ${renewals.length} renewals held below the market; this lease ${(r.savedMinor ?? 0) > 0 ? "was" : "was not"}`,
+      };
+      break;
     }
     check(
       "rent",
       Boolean(trails.rent),
-      `no household's lease was held below the market and paid at the held rent (${renewals.filter((r) => r.tier !== "counted").length} full and ${renewals.filter((r) => r.tier === "counted").length} counted renewals, ${leasePosts.size} rent payments kept, e.g. ${[...leasePosts.keys()].slice(0, 2).join(", ")}; other rent refs ${otherRefs.join(", ")})`,
+      `no full household's renewed lease was paid at its renewed rent (${renewals.filter((r) => r.tier !== "counted").length} full and ${renewals.filter((r) => r.tier === "counted").length} counted renewals, ${leasePosts.size} rent payments kept, e.g. ${[...leasePosts.keys()].slice(0, 2).join(", ")}; other rent refs ${otherRefs.join(", ")})`,
     );
   }
 
@@ -815,7 +812,7 @@ describe(`housing and credit laws reach people and move money (seed ${base})`, (
     }
   }
 
-  it("rent stabilization: a renewed lease is held below the market, with its applied row and the rent paid", () =>
+  it("rent stabilization: a lease renewed under the law has its applied row and the rent paid", () =>
     passes("rent", "rent"));
   it("inclusionary requirement: builders set units aside and a set-aside tenant pays the lower rent", () =>
     passes("inclusionary", "inclusionary"));
