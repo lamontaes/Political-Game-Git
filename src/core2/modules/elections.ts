@@ -24,7 +24,7 @@ import filingTerms from "../../../data/research/elections/candidate-filing-terms
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
+import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByJurisdictionId, corePlaceByKey } from "../place-lookup";
 import {
@@ -84,8 +84,8 @@ export interface RequirementCheck {
     | "minimum-age"
     | "residency"
     | "party-member"
-    | "term-limit";
-
+    | "term-limit"
+    | "district-residency";
   readonly met: boolean;
   readonly required: string;
   readonly actual: string;
@@ -527,6 +527,24 @@ export function filingOfficeFor(
   return filingRulesFor(api, contest, side);
 }
 
+/**
+ * The ward a ward seat represents and the ward a person lives in, null for an
+ * at-large seat or a person whose home is not placed. The voting engine holds
+ * the town's wards and registers the lookup.
+ */
+let wardResidency:
+  | ((
+      api: CoreAPI,
+      contest: ContestRow,
+      person: Readonly<PersonState>,
+    ) => { readonly seatWard: number; readonly homeWard: number } | null)
+  | null = null;
+export function registerWardResidency(
+  lookup: NonNullable<typeof wardResidency>,
+): void {
+  wardResidency = lookup;
+}
+
 /** The day someone born on `birthDate` turns `years` (a February 29 birthday counts on March 1 in a common year). */
 function birthdayOn(birthDate: string, years: number): string {
   const year = Number(birthDate.slice(0, 4)) + years;
@@ -620,6 +638,25 @@ export function checkEligibility(
       source: rules.source,
     },
   ];
+  // A seat chosen by part of town asks its candidate to live in that part.
+  // The check carries the two wards as record data; the clerk's words for it
+  // come from the English engine.
+  // stopgapId: SG-GOV-ward-residency
+  const wards =
+    resident && !holdsSeat
+      ? (wardResidency?.(api, contest, person) ?? null)
+      : null;
+  if (wards !== null) {
+    api.stopgap("SG-GOV-ward-residency");
+    checks.push({
+      rule: "district-residency",
+      met: wards.homeWard === wards.seatWard,
+      required: String(wards.seatWard),
+      actual: String(wards.homeWard),
+      source:
+        "Assumed: most ward and district charters ask it (SG-GOV-ward-residency)",
+    });
+  }
   // Registration is research metadata, not a modeled status. The game has
   // no separate registration step (AGENTS.md: no paperwork); do not report
   // an adult resident as registered without a registration record.

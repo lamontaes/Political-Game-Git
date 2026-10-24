@@ -355,8 +355,7 @@
   "lookBacks": {
     "memorable": [
       "journal.memoir-hook.ill-never-forget-it",
-      "journal.memoir-hook.ill-never-forget-that",
-      "journal.memoir-hook.that-was-a-turning-point"
+      "journal.memoir-hook.ill-never-forget-that"
     ],
     "youngOnly": ["journal.memoir-hook.i-never-knew"],
     "turning": ["journal.memoir-hook.that-was-a-turning-point"]
