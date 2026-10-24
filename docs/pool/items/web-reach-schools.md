@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-reach-schools
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 2026-10-24T09:04:23.795Z
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the school outcomes family: 15 unwired links, 2 where the owning engine does not read the factor and 13 where nothing keeps the outcome. Their outcomes: school.test-scores, school.graduation, school.absence, school.learning, school.years-completed, school.college-completion-pct and the rest. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
