@@ -43,7 +43,7 @@ import {
 
 const STAFFING_KIND = "law-reach-a-staffing";
 
-interface StaffingRow {
+export interface StaffingRow {
   readonly id: string;
   readonly key: string;
   readonly organizationId: string;
@@ -51,8 +51,30 @@ interface StaffingRow {
   readonly positions: number;
   readonly lawId: string;
   readonly setOn: string;
-  /** The fiscal year the base staff was taken in; a new year starts from the staff then in place. */
+  /** The fiscal year the base staff was taken in. */
   readonly fiscalYear?: number;
+  /**
+   * The staff the employer held before the line's first change: while the
+   * line funds more positions than this, a raise's hires are its reach.
+   */
+  readonly openingStaff?: number;
+}
+
+/**
+ * The staff a line's base funds at one employer this fiscal year. Within a
+ * year it is the base the year's first change took. A new year starts from
+ * the positions the line it carried in funded: a position the line funded
+ * that nobody filled is still funded, so putting the line back cuts only
+ * what the change added, never the staff the employer opened with. With no
+ * earlier change, it is the staff in place.
+ */
+export function baseStaffFor(
+  held: StaffingRow | null,
+  fiscalYear: number,
+  inPlace: number,
+): number {
+  if (!held) return inPlace;
+  return held.fiscalYear === fiscalYear ? held.baseStaff : held.positions;
 }
 
 /** The staffing a budget line funds at one employer, if a change has set it. */
@@ -89,13 +111,13 @@ export const staffing: PolicyHandler = (api, change) => {
     : [gov.organizationId];
   for (const organizationId of funded) {
     const held = staffingOf(api, change.key, organizationId);
-    const baseStaff =
-      held?.fiscalYear === budget.fiscalYear
-        ? held.baseStaff
-        : employers.length
-          ? currentStaff(api, organizationId).length +
-            countedStaffOf(api.state as CoreState, organizationId)
-          : 0;
+    const inPlace = employers.length
+      ? currentStaff(api, organizationId).length +
+        countedStaffOf(api.state as CoreState, organizationId)
+      : 0;
+    const baseStaff = employers.length
+      ? baseStaffFor(held, budget.fiscalYear, inPlace)
+      : 0;
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.
     const positions = employers.length
@@ -111,6 +133,7 @@ export const staffing: PolicyHandler = (api, change) => {
       lawId: change.lawId,
       setOn: api.state.date,
       fiscalYear: budget.fiscalYear,
+      openingStaff: held?.openingStaff ?? baseStaff,
     };
     table.put(row as unknown as ModuleRow);
     writeRows(api, change.key, change.lawId, specOf(change.key, "positions"), [
@@ -230,8 +253,16 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
     for (const s of currentStaff(api, org.id)) funded.add(s.personId);
     for (const job of countedJobsOf(state, org.id)) funded.add(job.personId);
   }
+  // Put back at or below the staff the employer opened with, the line pays
+  // for no raise: a raise's hire still on staff (the base had room once
+  // others left) holds a base position, and the raise no longer applies to
+  // them. A raise carried into a new fiscal year still funds its hires.
+  const raised = row.positions > (row.openingStaff ?? row.baseStaff);
   for (const r of appliedOn(api, row.key))
-    if (r.what === "hired-on-budget-line" && !funded.has(r.targetId))
+    if (
+      r.what === "hired-on-budget-line" &&
+      (!funded.has(r.targetId) || !raised)
+    )
       lawNoLongerApplies(api, row.key, r.targetId);
   for (const s of laidOff)
     lawApplied(api, {
