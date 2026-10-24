@@ -13,5 +13,10 @@
     "value": 1.5,
     "tag": "TUNABLE",
     "citation": "Weight on the member's closeness to the firm's owner, which counts more for a member whose traits lean to bending rules and trusting and less for one who follows rules (a sliding scale, no threshold). Local officials favor firms they know where oversight is thin (Coviello and Gagliarducci 2017, Tenure in Office and Public Procurement, American Economic Journal: Economic Policy 9(3):59-105). Spread 0.5 to 3."
+  },
+  "contractBribeWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Weight on a taken bribe in a member's ranking of the bidder who paid it, as the log of the bribe over the member's month of living costs (a bribe of a month's costs is worth about 0.7 of that log). Bribery in procurement follows the bribe's size against what the official earns (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 3). Spread 1 to 4."
   }
 }
