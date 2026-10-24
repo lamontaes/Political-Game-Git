@@ -5,10 +5,10 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/quirky-ride-vrwwz4-news-small-place
 pr:
-blocked-on:
+blocked-on: people-town-neighbors-no-ties
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T04:44:50.131Z
 ---
