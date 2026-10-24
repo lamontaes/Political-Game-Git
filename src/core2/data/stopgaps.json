@@ -1,5 +1,17 @@
 [
   {
+    "id": "SG-WORLD-salem-county-sales-rate",
+    "kind": "missing-data",
+    "file": "data/research/laws/local-starting-law/sales-tax.json",
+    "line": 1477,
+    "whatItFakes": "Sales in Salem County, New Jersey and in the state's Urban Enterprise Zones are taxed at the full state rate of 6.625 percent; by state law their sellers collect half that, 3.3125 percent.",
+    "why": "The starting law keeps one state sales-tax rate per state and a local add-on; a county or zone whose state rate is reduced has no row of its own. The Tax Foundation table folds the reduction into a negative local average, which a local add-on cannot be, so New Jersey now has no local-average row, like the other states without local sales taxes.",
+    "addedBy": "claude/nj-local-sales-tax",
+    "addedAt": "2026-10-24",
+    "replacement": "A county and zone sales-tax row read from the state statute, so a seller in Salem County or an Urban Enterprise Zone charges its reduced state rate.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-staff-hire-out-of-work",
     "kind": "missing-engine",
     "file": "src/core2/modules/staff.ts",
