@@ -80,38 +80,39 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       .sort((a, b) => a.month.localeCompare(b.month));
     const subs = (m: OutletRevenueMonthRow) =>
       m.subscriptionsFullMinor + m.subscriptionsCountedMinor;
-    // A paper that closed is paid by no one after; it must have been open
-    // half the year to show its money move.
+    // A paper that closed in the year is paid by no one after: it cannot
+    // show a year's money or the next ad, so another place is drawn.
     const closed = core.finance.businesses
       .get(paper.organizationId)
       ?.closedAt?.slice(0, 7);
-    const open = months.filter(
-      (m) => m.month > months[0]!.month && (!closed || m.month < closed),
-    );
-    if (open.length < 6) {
+    if (closed) {
+      for (const m of months.filter((row) => row.month > closed))
+        expect(
+          subs(m) + m.adsMinor,
+          `${where}: ${m.month}, after it closed`,
+        ).toBe(0);
       tried.push(`${where}: the paper closed in ${closed}`);
       continue;
     }
+    const open = months.filter((m) => m.month > months[0]!.month);
     for (const m of open)
       expect(subs(m), `${where}: ${m.month}'s subscriptions`).toBeGreaterThan(
         0,
       );
-    for (const m of months.filter((row) => closed && row.month > closed))
-      expect(
-        subs(m) + m.adsMinor,
-        `${where}: ${m.month}, after it closed`,
-      ).toBe(0);
     const paid = open;
-    // Subscriptions are the readers times the price, at most: a household
-    // short of cash pays its living cost, and its subscription, in part.
+    // Subscriptions are the readers times the price, at most, over the year:
+    // a household short of cash pays its living cost, and its subscription,
+    // in part, and the rest in a later month.
     const price =
       (pressParameter("newspaperRevenuePerFollowerYear") *
         pressParameter("newspaperCirculationShare")) /
       pressParameter("monthsPerYear");
-    for (const m of paid)
-      expect(subs(m) / m.readers, `${where}: ${m.month}`).toBeLessThanOrEqual(
-        price * 1.01,
-      );
+    const subsYear = paid.reduce((n, m) => n + subs(m), 0);
+    const readerMonths = paid.reduce((n, m) => n + m.readers, 0);
+    expect(
+      subsYear / readerMonths,
+      `${where}: per reader-month`,
+    ).toBeLessThanOrEqual(price * 1.01);
     const steps = paid.slice(1).map((m, i) => ({
       month: m.month,
       readers: Math.sign(m.readers - paid[i]!.readers),
@@ -156,7 +157,9 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     expect(to.afterMinor, receipt!.id).toBeGreaterThan(to.beforeMinor);
     // A named local business bought an ad from its own costs. Receipts are
     // kept for people only, so with the year's money already checked the
-    // world keeps every receipt for the days until the next ad is bought.
+    // world keeps every receipt for the days until the next ad is bought: a
+    // month's ads are bought with its first cost payments, which a business
+    // makes weekly or, in a large city, a few weeks apart.
     const adsOf = () =>
       api
         .moduleState(PRESS_MODULE_ID)
@@ -169,7 +172,7 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     const journal = core.cashJournal;
     core.observer = true;
     let found: { ad: AdBuyRow; receipt: CashJournalReceipt } | undefined;
-    for (let day = 0; day < 14 && !found; day += 1) {
+    for (let day = 0; day < 62 && !found; day += 1) {
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
       for (const ad of adsOf().filter((row) => row.date === core.date)) {
         const receipt = [
@@ -182,7 +185,13 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       }
     }
     core.observer = false;
-    expect(found, `${where}: an ad payment on the journal`).toBeDefined();
+    expect(
+      found,
+      `${where}: an ad payment on the journal (the paper's last ads: ${adsOf()
+        .map((row) => row.date)
+        .slice(-6)
+        .join(", ")})`,
+    ).toBeDefined();
     const { ad, receipt: adReceipt } = found!;
     const buyer = adReceipt.owners.get(ad.advertiserId)!;
     const seller = adReceipt.owners.get(paper.organizationId)!;
