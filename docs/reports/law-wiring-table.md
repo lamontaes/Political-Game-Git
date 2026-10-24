@@ -5,9 +5,9 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | Law                                          | Family             | exists | change | reach | systems | money | web | knowing | repeal | allPlaces | Overall    |
 | -------------------------------------------- | ------------------ | ------ | ------ | ----- | ------- | ----- | --- | ------- | ------ | --------- | ---------- |
 | Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
-| fare free transit                            | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
-| mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
-| public broadband                             | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
+| fare free transit                            | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| public broadband                             | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | shift highway funds to transit               | infrastructure     | yes    | yes    | part  | part    | yes   | NO  | yes     | yes    | part      | partly     |
 | Medicare tax rate                            | healthcare         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | Medicaid federal match                       | healthcare         | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
@@ -21,14 +21,14 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | raise teacher minimum salary                 | education          | yes    | yes    | yes   | part    | NO    | NO  | yes     | yes    | yes       | partly     |
 | Spending: higherEducation                    | education          | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
 | Local income tax rate                        | taxes-finance      | yes    | yes    | yes   | yes     | NO    | SG  | yes     | NO     | yes       | partly     |
-| Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | NO     | yes       | partly     |
+| Local sales tax rate                         | taxes-finance      | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | Property tax rate                            | taxes-finance      | yes    | yes    | NO    | yes     | yes   | NO  | yes     | NO     | NO        | partly     |
 | Corporate income tax rate                    | taxes-finance      | yes    | yes    | NO    | NO      | NO    | NO  | yes     | NO     | NO        | partly     |
 | Estate tax rate                              | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 | Inheritance tax rate                         | taxes-finance      | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 | adopt income tax                             | taxes-finance      | yes    | yes    | NO    | NO      | NO    | n/a | yes     | NO     | NO        | partly     |
 | cap property tax growth                      | taxes-finance      | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
-| exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | NO    | NO  | yes     | yes    | yes       | partly     |
+| exempt groceries from sales tax              | taxes-finance      | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | graduated income tax                         | taxes-finance      | yes    | yes    | part  | part    | yes   | n/a | yes     | yes    | part      | partly     |
 | balanced operating budget                    | taxes-finance      | yes    | yes    | yes   | part    | NO    | yes | yes     | yes    | yes       | partly     |
 | fund pensions to schedule                    | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes | yes     | yes    | yes       | partly     |
@@ -53,12 +53,12 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | right to work                                | labor              | yes    | yes    | yes   | SG      | yes   | yes | yes     | yes    | yes       | stopgapped |
 | legalize cannabis sales                      | business           | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | cap consumer loan rates                      | business           | yes    | yes    | SG    | yes     | SG    | yes | yes     | NO     | NO        | partly     |
-| ban new gas hookups                          | energy-environment | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
-| clean electricity standard                   | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
+| ban new gas hookups                          | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| clean electricity standard                   | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | clean air plan for polluted counties         | energy-environment | yes    | yes    | NO    | yes     | NO    | NO  | yes     | NO     | NO        | partly     |
 | Spending: naturalResources                   | energy-environment | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
-| bottle deposit                               | energy-environment | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
-| price carbon                                 | energy-environment | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
+| bottle deposit                               | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
+| price carbon                                 | energy-environment | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | Spending: police                             | justice            | yes    | yes    | part  | yes     | yes   | NO  | yes     | NO     | yes       | partly     |
 | civilian oversight of police                 | justice            | yes    | yes    | part  | NO      | yes   | NO  | yes     | yes    | yes       | partly     |
 | partner with federal immigration enforcement | justice            | yes    | yes    | yes   | NO      | yes   | yes | yes     | yes    | yes       | partly     |
@@ -101,26 +101,9 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - web: every link is unbuilt: size-not-set (registered SG-GOV-REACH-B-road-condition)
 - knowing: nobody heard of it: the change is not a news story anyone receives
 
-**fare free transit** (`us-policy-positions:transportation-infrastructure.fare-free-transit`)
-
-- reach: handler registered (group B, mechanic transit-fares) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-transit-fare-price)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-transit-fare-price)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
 **mileage fee replaces fuel tax** (`us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax`)
 
-- reach: handler registered (group B, mechanic price-payment) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-mileage-fee-price)
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure vehicle miles traveled and fuel use (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**public broadband** (`us-policy-positions:transportation-infrastructure.public-broadband`)
-
-- reach: handler registered (group B, mechanic price-payment) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-broadband-bill)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-broadband-bill)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **shift highway funds to transit** (`us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit`)
 
@@ -205,8 +188,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Local sales tax rate** (`sales-tax`)
 
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure household prices and local retail sales (SG-LAW-outcome-link-unresearched)
-- repeal: repeal leaves reach rows open (or re-enacting does not reopen them)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **Property tax rate** (`property-tax`)
 
@@ -256,11 +238,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - reach: handler registered (group B, mechanic property-assessment) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-property-tax-bills)
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
-
-**exempt groceries from sales tax** (`us-policy-positions:fiscal.exempt-groceries-from-sales-tax`)
-
-- money: no money flow: nobody pays or receives anything because of it
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)
 
 **graduated income tax** (`us-policy-positions:fiscal.graduated-income-tax`)
 
@@ -408,19 +385,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
-**ban new gas hookups** (`us-policy-positions:environment-energy.ban-new-gas-hookups`)
-
-- reach: handler registered (group B, mechanic housing-construction) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-building-cost)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-building-cost)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**clean electricity standard** (`us-policy-positions:environment-energy.clean-electricity-standard`)
-
-- reach: handler registered (group B, mechanic price-payment) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-energy-price)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
 **clean air plan for polluted counties** (`us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties`)
 
 - reach: handler registered (group B, mechanic compliance-cost) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)
@@ -433,19 +397,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - web: no researched outcome-web link starts from this law or a measure it sets; the research would measure land conservation and park visits (SG-LAW-outcome-link-unresearched)
 - knowing: nobody heard of it: the change is not a news story anyone receives
-
-**bottle deposit** (`us-policy-positions:environment-energy.bottle-deposit`)
-
-- reach: handler registered (group B, mechanic price-payment) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-retail-price)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
-
-**price carbon** (`us-policy-positions:environment-energy.price-carbon`)
-
-- reach: handler registered (group B, mechanic price-payment) but it recorded nobody in Prescott, Michigan, US-MI (seed a91c03e7d2b84f10) or Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8) (registered SG-GOV-REACH-B-energy-price)
-- web: built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place) (registered SG-GOV-REACH-B-energy-price)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **Spending: police** (`budget-line:police`)
 
