@@ -5150,9 +5150,9 @@
     }
   },
   "circleDecisionDetailDays": {
-    "value": 30,
+    "value": 7,
     "tag": "TUNABLE",
-    "citation": "Owner rulings, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): how long a circle member's act keeps every option's score before only its chosen reasons remain.",
+    "citation": "Owner rulings, Oct 11 ('save why reasons only for the player and the people they deal with') and Oct 12 (running memory stays small): how long a circle member's act keeps every option's score before only its chosen reasons remain. Set to the spread's low end on Oct 24: at 30 days a played year in a large town (South Burlington, Vermont) held 2,904 MB against the 2,000 MB memory bound, most of it these kept scores.",
     "spread": {
       "low": 7,
       "high": 90,
