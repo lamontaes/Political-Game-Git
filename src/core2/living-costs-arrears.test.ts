@@ -267,25 +267,52 @@ it("a full household and a counted group each carry a living cost across a day w
                 flow.payeeId,
               );
               const lines = entries.flatMap((e) => e.postings);
+              // The payer's accounts: those owned by the members of the
+              // paying household.
+              const household = core.people.get(flow.payerId)?.householdId;
+              const payerAccounts = new Set(
+                [...core.people.values()]
+                  .filter((person) => person.householdId === household)
+                  .flatMap((person) => [
+                    ...(core.cashJournal.accountsByOwner.get(person.id) ?? []),
+                  ]),
+              );
               // What the household paid: the debits out of its members'
-              // accounts. The payee is credited its share and the governments
-              // their part of the living cost, in the same entries.
+              // accounts, and no debit from anyone else. The payee is
+              // credited its share and the governments their part of the
+              // living cost, in the same entries.
               const paid = lines
+                .filter(
+                  (p) => payerAccounts.has(p.accountId) && p.deltaMinor < 0,
+                )
+                .reduce((n, p) => n - p.deltaMinor, 0);
+              const debited = lines
                 .filter((p) => p.deltaMinor < 0)
                 .reduce((n, p) => n - p.deltaMinor, 0);
               const credited = lines
                 .filter((p) => p.deltaMinor > 0)
                 .reduce((n, p) => n + p.deltaMinor, 0);
-              const toPayee = lines
+              // The payee's credit, in an entry that also debits the household.
+              const toPayee = entries
+                .filter((e) =>
+                  e.postings.some(
+                    (p) => payerAccounts.has(p.accountId) && p.deltaMinor < 0,
+                  ),
+                )
+                .flatMap((e) => e.postings)
                 .filter((p) => p.accountId === payee && p.deltaMinor > 0)
                 .reduce((n, p) => n + p.deltaMinor, 0);
               const written = (flow.writtenOffMinor ?? 0) - before.written;
               const at = `${where}: flow ${flow.id} on ${core.date}`;
               expect(before.owed - flow.arrearsMinor, at).toBe(paid + written);
+              expect(debited, `${at}: debits from the household only`).toBe(
+                paid,
+              );
               if (paid > 0) {
+                expect(payee, `${at}: the payee's account`).toBeDefined();
                 expect(credited, `${at}: the credits`).toBe(paid);
                 expect(toPayee, `${at}: the payee's credit`).toBeGreaterThan(0);
-                seen.fullRepaid ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}; paid ${paid} (${toPayee} to the payee) by journal ${entries.map((e) => e.journalId).join(", ")}`;
+                seen.fullRepaid ??= `flow ${flow.id} on ${core.date}: owed ${before.owed} then ${flow.arrearsMinor}; paid ${paid} from household ${household} (${toPayee} to payee ${flow.payeeId}, ${payee}) by journal ${entries.map((e) => e.journalId).join(", ")}`;
               }
             }
           }
@@ -322,14 +349,23 @@ it("a full household and a counted group each carry a living cost across a day w
               (writtenByFlow.get(flow!.id) ?? 0) + written,
             );
             if (paid > 0) {
-              const credited = lines
-                .filter((p) => p.deltaMinor > 0)
+              // The flow's own payee is credited in an entry that debits this
+              // group's fund.
+              const payee = core.cashJournal.residualAccountByOwner.get(
+                flow!.payeeId,
+              );
+              expect(payee, `${at}: the payee's account`).toBeDefined();
+              const paying = entries.filter((e) =>
+                e.postings.some(
+                  (p) => p.accountId === fund && p.deltaMinor < 0,
+                ),
+              );
+              const toPayee = paying
+                .flatMap((e) => e.postings)
+                .filter((p) => p.accountId === payee && p.deltaMinor > 0)
                 .reduce((n, p) => n + p.deltaMinor, 0);
-              expect(
-                credited,
-                `${at}: the payee's credit`,
-              ).toBeGreaterThanOrEqual(paid);
-              seen.countedRepaid ??= `group ${group} on ${core.date}: owed ${before} then ${owed}; paid ${paid} from fund ${fund} by journal ${entries.map((e) => e.journalId).join(", ")} on ${flow!.id}`;
+              expect(toPayee, `${at}: the payee's credit`).toBeGreaterThan(0);
+              seen.countedRepaid ??= `group ${group} on ${core.date}: owed ${before} then ${owed}; paid ${paid} from fund ${fund}, ${toPayee} to payee ${flow!.payeeId} (${payee}) by journal ${paying.map((e) => e.journalId).join(", ")} on ${flow!.id}`;
             }
           }
           // What the groups' debt fell by beyond their payments is exactly
