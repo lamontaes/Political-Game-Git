@@ -21,7 +21,7 @@ Sessions cannot message each other, and nobody tries. Three files on `main` carr
 - **Adopting someone's PR is said in both places:** your channel block names the PR and the branch, and the pool item's Notes carry the branch (claiming the item transfers the branch to you).
 - **Every role reads the channel's CTO section at the start of each pass.** The CTO section is where rulings, reassignments, the freeze and the merge priorities are relayed; a role that did not read it is working from stale orders.
 - **Every two hours** while you run, and whenever you need something, add a status block. The block's shape is at the top of the channel.
-- **The CTO relays.** At each pass the CTO reads `PROGRESS.md`, then the channel, then rewrites `MERGE-FIRST.md`, and answers every `Needs from others:` line in its own section, addressed to the role that asked. A question a standing rule answers is ruled by the CTO and recorded in `docs/coordination/OWNER-DECISIONS.md`; only the owner's own calls go to him.
+- **The CTO relays nothing by hand.** The pool item with `lead:` is what carries a need to its role. At each pass the CTO reads `PROGRESS.md`, then the channel, then rewrites `MERGE-FIRST.md`, and answers every `Needs from others:` line in its own section, addressed to the role that asked. A question a standing rule answers is ruled by the CTO and recorded in `docs/coordination/OWNER-DECISIONS.md`; only the owner's own calls go to him.
 - **Rulings live in one place:** `docs/coordination/OWNER-DECISIONS.md` for the owner's and the CTO's rulings; `docs/play-first/LAW.md` for the game-as-played law the lane follows. The channel points at them; it never holds a ruling alone.
 
 ## What a block says

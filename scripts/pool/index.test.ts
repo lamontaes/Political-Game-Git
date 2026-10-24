@@ -38,7 +38,7 @@ describe("pool index", () => {
     const text = readFileSync(join(dir, "INDEX.md"), "utf8");
     expect(text).toContain("**2 items:** 1 open, 0 claimed, 1 in-pr");
     expect(text).toContain(
-      "[laws-b](items/laws-b.md) | Title of laws-b | laws | wiring | 1 | M |  | #12 |",
+      "[laws-b](items/laws-b.md) | Title of laws-b | laws |  | wiring | 1 | M |  | #12 |",
     );
     expect(run(dir, true).errors).toEqual([]);
     writeFileSync(join(dir, "items", "laws-c.md"), item("laws-c"));
