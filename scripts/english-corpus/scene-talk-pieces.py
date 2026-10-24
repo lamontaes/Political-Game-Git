@@ -3195,6 +3195,17 @@ A_(P,"I'm not going line by line in a hallway.",[('press',"Then pick one line.")
 L('open','greet',A,'join-cause',[("Have you got a second for a neighbor?","calm"),("I won't keep you long.","calm"),("I've been trying to catch you for a week.","hopeful"),("Mind if I walk with you a bit?","calm"),("You probably don't remember me.","nervous"),("I hope this isn't a bad time.","nervous")])
 A_('constituent-help',"Watch the city's website. It'll be there the day it happens.",[('ask',"Which page? Nobody can find anything on that site.","curious")])
 L('open','greet',A,'join-cause',[("Thanks for stopping. I know you're busy.","calm"),("I've got something I think you'll want to hear.","hopeful"),("Do you have five minutes? Just five.","calm"),("I've been meaning to come by your office.","calm"),("Can I bend your ear for a second?","calm"),("Glad I caught you before you left.","calm"),("I'm with the group that's been calling you.","nervous"),("I'll be honest, I almost didn't come over.","nervous")])
+# Vote trades (legislature.ts adopt(), kind trade-amendment): the holdout's own section goes in, so these
+# need the fact section-added, and with it they outrank the lines about a section coming out.
+ADDED=['section-added']
+L('state','bargain',A,'section-bargain',[("Put my amendment in {bill}, and you have my vote.","braced",ADDED),("I'll vote yes on {bill} if my amendment goes in.","braced",ADDED),("I can get to yes on {bill}. I need my amendment in it.","braced",ADDED)])
+L('reply','agree',Y,'section-bargain',[("Fine. It goes in as section {section}.","calm",ADDED),("All right. Your amendment goes in.","calm",ADDED)])
+L('reply','refuse',Y,'section-bargain',[("Your amendment isn't going in.","braced",ADDED),("I can't put that in {bill}.","braced",ADDED)])
+L('reply','bargain',Y,'section-bargain',[("I'll take part of it. Not all of it.","guarded",ADDED),("What if we soften it first?","calm",ADDED)])
+L('reply','lie',Y,'section-bargain',[("I was going to put it in anyway.","guarded",ADDED)])
+L('follow','confront',A,'section-bargain',[("You spent an hour fighting it in committee.","braced",K+ADDED)],after='lie')
+L('reply','bargain',Y,'ask-vote',[("Put my amendment in {bill}, and you'll have my vote.","braced",ADDED)])
+L('follow','accept',A,'ask-vote',[("Then your amendment goes in. Deal.","calm",ADDED)],after='bargain')
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}

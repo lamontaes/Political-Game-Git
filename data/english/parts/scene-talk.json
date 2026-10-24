@@ -82562,6 +82562,346 @@
         "move": "greet",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.state-bargain.put-my-amendment-in-bill-and-you-have-my-vote",
+      "move": "state-bargain",
+      "kind": "spoken",
+      "text": "Put my amendment in {bill}, and you have my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-bargain.i-ll-vote-yes-on-bill-if-my-amendment-goes-in",
+      "move": "state-bargain",
+      "kind": "spoken",
+      "text": "I'll vote yes on {bill} if my amendment goes in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-bargain.i-can-get-to-yes-on-bill-i-need-my-amendment-in-it",
+      "move": "state-bargain",
+      "kind": "spoken",
+      "text": "I can get to yes on {bill}. I need my amendment in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.fine-it-goes-in-as-section-section",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Fine. It goes in as section {section}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-your-amendment-goes-in",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "All right. Your amendment goes in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.your-amendment-isn-t-going-in",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Your amendment isn't going in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-put-that-in-bill",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't put that in {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-take-part-of-it-not-all-of-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll take part of it. Not all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.what-if-we-soften-it-first",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "What if we soften it first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-was-going-to-put-it-in-anyway",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I was going to put it in anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "guarded",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.you-spent-an-hour-fighting-it-in-committee",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "You spent an hour fighting it in committee.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "section-bargain",
+          "key": "vote-wanted",
+          "after": "lie",
+          "requiresFacts": ["knows-truth", "section-added"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "confront",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.put-my-amendment-in-bill-and-you-ll-have-my-vote",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Put my amendment in {bill}, and you'll have my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "braced",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-your-amendment-goes-in-deal",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then your amendment goes in. Deal.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "bargain",
+          "requiresFacts": ["section-added"]
+        }
+      ],
+      "bearing": "calm",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
     }
   ]
 }
