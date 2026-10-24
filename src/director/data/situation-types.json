@@ -2279,7 +2279,6 @@
         {
           "match": {
             "label": "cause:event:public-comment",
-            "selfNamed": true,
             "causeNames": "subject"
           },
           "causeEngine": "meetings",
