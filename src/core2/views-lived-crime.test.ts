@@ -40,12 +40,26 @@ interface Move {
   readonly personId: string;
   readonly date: string;
   readonly cause: Stance["causes"][number];
-  readonly side: string;
+  /** The side the person's view holds after the move: a lived crime only firms it up. */
+  readonly side: "enact" | "repeal" | null;
   readonly viewNow: number;
+  /**
+   * The stance as a signed amount (enact positive, repeal negative) before and
+   * after the day's write. A reason for the other side of a stance weakens it
+   * and keeps its side while strength is left (`modules/views.ts`), so the
+   * direction of a move is read from this, not from the stance's side.
+   */
+  readonly signedBefore: number | undefined;
+  readonly signedNow: number;
+  /** How many of the stance's causes are dated that day. */
+  readonly causesToday: number;
   /** Their household when they moved: a household can change within the year. */
   readonly householdId: string | undefined;
 }
 const MOVES = new WeakMap<object, Move[]>();
+const SIGNED = new WeakMap<object, Map<string, number>>();
+const signed = (stance: Stance) =>
+  (stance.desiredChange === "enact" ? 1 : -1) * stance.strength;
 registerStanceListener((api, personId, topic) => {
   if (topic !== POLICE) return;
   const stance = api
@@ -55,6 +69,14 @@ registerStanceListener((api, personId, topic) => {
   const moves = MOVES.get(api.state) ?? [];
   MOVES.set(api.state, moves);
   const view = viewOf(api, personId);
+  const viewNow = view ? viewOn(api, personId, topic, view.lean) : 0;
+  const last = SIGNED.get(api.state) ?? new Map<string, number>();
+  SIGNED.set(api.state, last);
+  const signedBefore = last.get(personId);
+  last.set(personId, signed(stance));
+  const causesToday = stance.causes.filter(
+    (cause) => cause.date === api.state.date,
+  ).length;
   for (const cause of stance.causes)
     if (
       cause.date === api.state.date &&
@@ -64,8 +86,11 @@ registerStanceListener((api, personId, topic) => {
         personId,
         date: api.state.date,
         cause,
-        side: stance.desiredChange,
-        viewNow: view ? viewOn(api, personId, topic, view.lean) : 0,
+        side: viewNow > 0 ? "enact" : viewNow < 0 ? "repeal" : null,
+        viewNow,
+        signedBefore,
+        signedNow: signed(stance),
+        causesToday,
         householdId: (api.state as CoreState).people.get(personId)?.householdId,
       });
 });
@@ -167,11 +192,16 @@ describe(`a victimization moves its victims' view on the police (seed ${seed})`,
           );
           expect(move.cause.speakerId, at).toBeUndefined();
           expect(move.cause.change, at).toBeGreaterThan(0);
-          // Toward the side their own view holds.
-          expect(["enact", "repeal"], at).toContain(move.side);
-          expect(Math.sign(move.viewNow), at).toBe(
-            move.side === "enact" ? 1 : -1,
-          );
+          // Toward the side their own view holds (a stance at full strength
+          // cannot move further; on a day with other causes the move is
+          // theirs too).
+          expect(move.side, at).not.toBeNull();
+          if (move.signedBefore !== undefined && move.causesToday === 1)
+            expect(
+              (move.signedNow - move.signedBefore) *
+                (move.side === "enact" ? 1 : -1),
+              at,
+            ).toBeGreaterThanOrEqual(0);
         }
       }
       // A victimization record moves no one outside the household it names.
