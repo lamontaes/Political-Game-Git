@@ -50,7 +50,8 @@ their fixed time (process start, opening, modules), the measured runs play the
 longest span up to `measuredDays` (a whole year) whose three pairs and two
 profiles fit the time left with `runTimeMargin`, never shorter than a warmup.
 A small town plays its whole year; a large drawn town plays the part of the
-year that fits, so every town compares three pairs instead of failing on time.
+year that fits, so a town whose month fits compares three pairs instead of
+failing on time; a town too slow for even that measures as many pairs as fit.
 After the first measured pair, another starts only while the last pair's time
 times `runTimeMargin` still fits, and each profile (the head's first) only
 while its last run's time times `profileTimeMargin` does, in case the year's
