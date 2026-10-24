@@ -1,12 +1,12 @@
 /**
  * The integrity family in play: a place drawn from all 56, built as the game
  * builds it (`buildBenchWorld`, two-level, every module), plays its first
- * two months. Two residents who faced about the same case for an integrity
- * decision (bringing a problem to an official, an official helping with it,
- * an official hiring or keeping staff, a staffer seeing a case through,
- * tipping a reporter), one leaning toward it and one away, decided
- * differently; the test names both, and the case the yes side opened when
- * it was bringing one.
+ * four months (integrity decisions come a few hundred a season). Two
+ * residents who faced about the same case for an integrity decision
+ * (bringing a problem to an official, an official helping with it, an
+ * official hiring or keeping staff, a staffer seeing a case through, tipping
+ * a reporter), one leaning toward it and one away, decided differently; the
+ * test names both, and the case the yes side opened when it was bringing one.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -36,7 +36,7 @@ describe("integrity decisions in a played window", () => {
         const seed = `${RUN_SEED}:integrity-played:${attempt}`;
         return { seed, place: drawPlace(seed, "trait-wiring") };
       },
-      62,
+      120,
       INTEGRITY,
     );
     const cases = Object.values(
