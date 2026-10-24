@@ -15,6 +15,10 @@
  *   latest decided local race (0 to 1).
  * - `budget.parks-added-pct`: the city's parks line above its Census base this
  *   fiscal year, in percent.
+ * - `budget.highways-added-pct`: the town's highway spending above its Census
+ *   base this fiscal year, in percent: each government's highways line
+ *   weighted by the town's share of its residents, since the state and county
+ *   carry the roads.
  * - `labor.minimum-wage`: the governing minimum wage, dollars an hour.
  * - `labor.minimum-wage-to-median`: that wage over the median hourly pay of
  *   the town's current jobs (0 to about 1).
@@ -38,6 +42,7 @@ import {
   budgetsOf,
   governments,
 } from "./modules/budgets";
+import { townShareOf } from "./budgets-treasury";
 
 export const GOV_MEASURES = [
   "labor.minimum-wage-change-pct",
@@ -46,6 +51,7 @@ export const GOV_MEASURES = [
   "election.incumbent-reelection",
   "voting.local-turnout",
   "budget.parks-added-pct",
+  "budget.highways-added-pct",
   "labor.minimum-wage",
   "labor.minimum-wage-to-median",
   "voting.youth-turnout",
@@ -178,6 +184,24 @@ export function govMeasure(api: CoreAPI, measure: string): number | null {
       const now = budget.spendingMinor.parks ?? 0;
       return base ? ((now - base) / base) * 100 : null;
     }
+    case "budget.highways-added-pct": {
+      if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
+      // Each government's highways line against its Census base, by the town's share of it.
+      let base = 0;
+      let now = 0;
+      for (const gov of governments(api)) {
+        const budget = budgetsOf(api, gov.id)
+          .filter((b) => b.startsOn <= date)
+          .at(-1);
+        const share = townShareOf(api, gov);
+        if (!budget || !share) continue;
+        base +=
+          share *
+          (baseBudget(api, gov, budget.fiscalYear).spendingMinor.highways ?? 0);
+        now += share * (budget.spendingMinor.highways ?? 0);
+      }
+      return base ? ((now - base) / base) * 100 : null;
+    }
     case "labor.minimum-wage": {
       const now = lawInForce(api, "minimum-wage", date).value;
       return now === null ? null : now / 100;
@@ -252,6 +276,16 @@ export function govMeasureRecord(api: CoreAPI, measure: string): string | null {
     return (
       lawInForce(api, "minimum-wage", api.state.date).governing?.id ?? null
     );
+  if (measure === "budget.highways-added-pct") {
+    // The state's budget carries most of the roads; the record is the first government's budget in force that has the line.
+    for (const gov of governments(api)) {
+      const budget = budgetsOf(api, gov.id)
+        .filter((b) => b.startsOn <= api.state.date)
+        .at(-1);
+      if (budget && (budget.spendingMinor.highways ?? 0) > 0) return budget.id;
+    }
+    return null;
+  }
   if (measure === "budget.parks-added-pct") {
     if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
     const city = governments(api).find((g) => g.level === "city");

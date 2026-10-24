@@ -2086,26 +2086,6 @@
       "notes": "Dettling finds no effect for single women or men, so the engine applies the factor only to women with a partner in the household."
     },
     {
-      "key": "road-condition-to-vehicle-costs",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
-      "to": "household.vehicle-costs",
-      "strength": "weak",
-      "shape": {
-        "kind": "linear"
-      },
-      "size": null,
-      "per": "condition",
-      "lagMonths": 0,
-      "group": "drivers",
-      "owner": "M",
-      "anchor": "(to confirm)",
-      "source": "to confirm",
-      "from": "roads.condition",
-      "evidence": "to-confirm",
-      "notes": "Unsupported until confirmed: the row is marked to confirm with no source, and vehicle costs are not a kept place outcome."
-    },
-    {
       "key": "corporate-tax-incidence",
       "status": "outcome-not-produced",
       "unsupportedReason": "outcome-not-produced",
@@ -5739,6 +5719,28 @@
       "source": "Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty",
       "range": [-0.3, -0.08],
       "notes": "No engine keeps road condition (stopgap SG-EFFECT-WEB-prices-roads-condition); its effect reaches households through poor-roads-to-prices."
+    },
+    {
+      "key": "highways-spending-to-poor-roads",
+      "status": "cause-not-recorded",
+      "unsupportedReason": "cause-not-recorded",
+      "from": "budget.highways-added-pct",
+      "to": "roads.poor-condition-pct",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": -0.00093,
+      "per": "percent that the town's highway spending (each government's highways line by the town's share of it) stands above its Census base, as a share of the roads in poor condition, after the first year of work",
+      "lagMonths": 12,
+      "group": "place",
+      "owner": "O",
+      "evidence": "provisional",
+      "anchor": "The FHWA's 25th Conditions and Performance Report projects the share of travel on pavements with poor ride quality in 2038 against capital spending by all governments: 15.7% at $79.0 billion a year (the Maintain scenario, which holds 2018's 15.8% about level), 9.6% at $115.1 billion (the 2014 to 2018 average, 46% more) and 6.2% at $151.1 billion (31% more again). That is a 39% fall in poor pavement for the first 46% more and 35% for the next 31%: about -1.0% in the poor share for each 1% more spending, over twenty years (-0.85 and -1.13). Exhibit 8-13 shows the gain comes early: at flat spending the poor share falls from 15.8% to 11.8% in five years and 7.3% in twenty, 47% of the gain in the first five. Taking the gain as even over those five years, a year of work gives 9.4% of it, so a 1% rise in highway spending cuts the poor share by about 0.093% after a year. Only that first step is carried, since a link acts in one step; the rest of the twenty-year gain is left out rather than counted early. The game's highways line also carries maintenance and operations, and a rise in it is taken as the same percent rise in capital spending",
+      "source": "FHWA, Status of the Nation's Highways, Bridges, and Transit: Conditions and Performance, 25th Edition Report to Congress (2024), Highlights pp. xi-xii (\"The average annual level of investment associated with this scenario is $79.0 billion, 31.4 percent lower than the level of the Sustain 2014-2018 Spending scenario\"; \"the share of travel on pavements with poor ride quality is projected to improve (i.e., to be reduced) from 15.8 percent to 6.2 percent\" at $151.1 billion), Exhibit 7-6 (poor ride quality in 2038: 15.7% at $79.0 billion, 9.6% at $115.1 billion, 6.2% at $151.1 billion) and Exhibit 8-13 and its text (\"By 2023, the proportion of VMT on pavements with poor ride quality decreases to 12.9 percent and to 11.8 percent under the ramped spending and flat spending assumptions, respectively. By the end of 20-year period ... reaches 7.3 percent\"), https://www.fhwa.dot.gov/policy/25cpr/pdf/CP25_Full_Report.pdf and CP25_LittleBook.pdf, retrieved 2026-10-24",
+      "range": [-0.00106, -0.0008],
+      "rangeSource": "The elasticity between the Maintain and Sustain scenarios (-0.85) and between Sustain and Improve (-1.13), each times the 9.4% of the twenty-year gain that comes in one year (even accrual over the first five, Exhibit 8-13): FHWA 25th C&P Report, Exhibits 7-6 and 8-13.",
+      "notes": "Replaces road-condition-to-vehicle-costs, a placeholder marked to confirm with no source: a poor road costs drivers through poor-roads-to-prices, which reads this measure's movement. The highways line also sets the poor share directly in the place-prices engine (poorRoadShareAt); that effect is the repair bill at once, this one the place's recorded road condition over time. The even accrual over five years is judged; the report gives only the five- and twenty-year points."
     },
     {
       "key": "poor-roads-to-prices",

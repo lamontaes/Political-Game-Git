@@ -6,8 +6,11 @@
  *   premium to the government that runs it (state over city), through the
  *   journal on payday. Claims for leave wait on a birth or illness engine
  *   (SG-GOV-REACH-A-leave-claims).
- * - Dedicated parks funding: the parks line of the government that passed it
- *   rises by the dedicated share; a repeal takes the same amount back out.
+ * - Dedicated parks funding (and the police oversight share of a facial
+ *   recognition limit): the line of the government that passed it rises by the
+ *   dedicated share; the treasury reads the law again each month it closes and
+ *   each year a budget is adopted, so a new fiscal year's budget carries it; a
+ *   repeal takes the same amount back out.
  *   The housing line pays its rent assistance in the housing engine (housing-assistance.ts).
  */
 import { paidLeaveProgram, paidLeavePremium } from "../paid-leave";

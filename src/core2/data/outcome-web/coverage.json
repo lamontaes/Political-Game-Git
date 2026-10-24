@@ -121,6 +121,7 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
+    "highways-spending-to-poor-roads",
     "poor-roads-to-prices",
     "parks-spending-to-exercise-access"
   ],
@@ -347,10 +348,6 @@
     },
     "broadband-to-employment": {
       "waitingOn": ["labor.employment-rate"],
-      "needsSize": true
-    },
-    "road-condition-to-vehicle-costs": {
-      "waitingOn": ["roads.condition", "household.vehicle-costs"],
       "needsSize": true
     },
     "incentive-deal-to-industry-jobs": {
@@ -715,10 +712,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "household.vehicle-costs": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "housing.home-prices": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -857,10 +850,6 @@
     },
     "program.summer-jobs-slots": {
       "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "roads.condition": {
-      "owner": "OPUS-CORE",
       "links": 1
     },
     "school.absence": {

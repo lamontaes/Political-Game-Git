@@ -288,6 +288,13 @@
       "reader": "parks-added-pct",
       "field": "",
       "unitScale": 1
+    },
+    "budget.highways-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "gov-measures budget.highways-added-pct: the town's highway spending above its Census base this fiscal year, in percent (each government's highways line in the budgets module, by the town's share of it)",
+      "reader": "highways-added-pct",
+      "field": "",
+      "unitScale": 1
     }
   },
   "measureOwners": {

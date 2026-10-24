@@ -187,14 +187,20 @@ const ENGINE_READERS: Readonly<
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
   },
-  // The city's parks line above its Census base (gov-measures keeps the reading).
-  "parks-added-pct": (api) => {
-    const value = govMeasure(api, "budget.parks-added-pct");
-    return value === null
-      ? null
-      : { value, recordId: govMeasureRecord(api, "budget.parks-added-pct") };
-  },
+  // A budget line above its Census base (gov-measures keeps the readings).
+  "parks-added-pct": (api) => lineAddedPct(api, "budget.parks-added-pct"),
+  "highways-added-pct": (api) => lineAddedPct(api, "budget.highways-added-pct"),
 };
+
+function lineAddedPct(
+  api: CoreAPI,
+  measure: string,
+): { value: number; recordId: string | null } | null {
+  const value = govMeasure(api, measure);
+  return value === null
+    ? null
+    : { value, recordId: govMeasureRecord(api, measure) };
+}
 
 /** An engine's record for a measure in a place today, or null where it keeps none. */
 function readEngine(

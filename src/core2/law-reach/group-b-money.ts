@@ -970,6 +970,19 @@ interface MoveRow {
   readonly fresh?: boolean;
 }
 
+/** Whether the act's move is already made in the budget in force at its level (the treasury's monthly re-read need not run it again). */
+export function moveMadeThisYear(
+  api: CoreAPI,
+  key: string,
+  level: string,
+): boolean {
+  const gov = governmentAt(api, level);
+  const budget = gov && budgetNow(api, gov.id);
+  if (!gov || !budget) return false;
+  const prior = getRow<MoveRow>(api, "taken", `move|${key}|${gov.id}`);
+  return !!prior && !prior.undone && prior.budgetId === budget.id;
+}
+
 /**
  * An act that moves budget money at its level: `plan` says how much each line
  * changes in the budget in force; applied once per fiscal year while the act

@@ -58,6 +58,7 @@ import {
   jobsAt,
   modeledShare,
   moveBudget,
+  moveMadeThisYear,
   payBenefits,
   payCoverage,
   payPreschool,
@@ -889,6 +890,8 @@ export function registerGroupB(): void {
   });
   for (const key of Object.keys(data.policies))
     registerPolicyHandler(key, (api, change) => {
+      // The treasury's monthly re-read of a standing line law: nothing to do once this year's budget holds the move.
+      if (change.standing && moveMadeThisYear(api, key, change.level)) return;
       forgetTownFacts(api);
       const row = lawRow(api, change.lawId);
       const enacting = key.includes(":")

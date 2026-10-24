@@ -250,15 +250,6 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         `${ownerOf(api, farm?.targetId ?? "") ?? "no person"} / ${farm?.targetId}`,
       );
 
-      // Builders barred from farmland: the housing engine records the builder it applied the law to.
-      const land = rowsOn(KEYS.farmland)[0];
-      note(
-        "farmland protection",
-        land?.id,
-        land && postWith(land.targetId)?.id,
-        land?.targetId,
-      );
-
       // A law that adds to a budget line: the treasury pays the line; the government and its residents are reached.
       const line = (
         label: string,
@@ -334,20 +325,24 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         `${woman} / ${women?.targetId}`,
       );
 
-      // Discrimination: a hire made over the age penalty takes weeks; keep stepping, up to a year, until one is paid.
+      // Two chains take weeks: a hire made over the age penalty, and a builder the farmland rule restricts. Keep stepping, up to a year, until both are on the journal.
       const hired = () =>
         rowsOn(KEYS.discrimination, "hired-over-age-penalty").find((r) =>
           postWith(r.targetId.replace("hired:", ""), "work-payroll"),
         );
+      const restricted = () =>
+        rowsOn(KEYS.farmland).find((r) => postWith(r.targetId));
       recordAll = false;
-      for (let days = 0; days < 360 && !hired(); days += 30) {
+      for (let days = 0; days < 360 && !(hired() && restricted()); days += 30) {
         for (const r of rowsOn(KEYS.discrimination, "hired-over-age-penalty"))
           watch.add(r.targetId.replace("hired:", ""));
+        for (const r of rowsOn(KEYS.farmland)) watch.add(r.targetId);
         step(core, 30);
       }
       setJournalTrace(null);
       const hire = hired();
-      if (!hire) continue;
+      const land = restricted();
+      if (!hire || !land) continue;
       expect(
         rowsOn(KEYS.discrimination, "hiring-bound-by-ban").length,
         `${where}: small employers bound`,
@@ -358,6 +353,13 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         hire.id,
         postWith(hiredId, "work-payroll")?.id,
         hiredId,
+      );
+      // Builders barred from farmland: the housing engine records the builder it applied the law to.
+      note(
+        "farmland protection",
+        land.id,
+        postWith(land.targetId)?.id,
+        land.targetId,
       );
 
       expect(chains.length, `${where}: a chain for each of 13 laws`).toBe(13);

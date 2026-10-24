@@ -46,7 +46,11 @@ import {
   townOrganizations,
   townPeople,
 } from "./law-reach/group-a-records";
-import { budgetToday, leavePremiumsOf } from "./law-reach/group-a-money";
+import {
+  baseLine,
+  budgetToday,
+  leavePremiumsOf,
+} from "./law-reach/group-a-money";
 import { staffingOf } from "./law-reach/group-a-staffing";
 import {
   ALL_MAIL,
@@ -644,6 +648,32 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       });
       advanceCore(core, after(api.state.date, 1));
     });
+
+  // Last in the file: it lives a year, which the tests above (they share this town) must not.
+  it("the treasury reads a dedicated parks levy again when a new fiscal year's budget is adopted, and a repeal ends it", () => {
+    const key =
+      "us-policy-positions:civil-family-community.dedicated-parks-funding";
+    const gov = cityGov();
+    const share = reachParameter("parksDedicatedShare");
+    enact(key, "city", 1);
+    const first = budgetToday(api, gov)!;
+    // Live to the next fiscal year's start: its budget begins without the levy.
+    for (
+      let i = 0;
+      i < 14 && budgetToday(api, gov)!.fiscalYear === first.fiscalYear;
+      i += 1
+    )
+      advanceCore(core, after(api.state.date, 30));
+    const next = budgetToday(api, gov)!;
+    expect(next.fiscalYear, where).toBeGreaterThan(first.fiscalYear);
+    // The law is still in force, so the new year's line carries the levy on its own base.
+    const base = baseLine(api, gov, next, "parks");
+    expect(next.spendingMinor.parks, where).toBe(
+      base + Math.round(base * share),
+    );
+    enact(key, "city", 0);
+    expect(budgetToday(api, gov)!.spendingMinor.parks ?? 0, where).toBe(base);
+  });
 
   it("reports", () => {
     govReport("law-reach-group-a", JSON.stringify(report));
