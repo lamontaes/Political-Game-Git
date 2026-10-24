@@ -136,16 +136,26 @@ const run = (attemptSeed: string): boolean => {
         (cause) => scenesOf(personId, cause),
       );
     const sponsorScenes = actOf(sponsorId);
-    if (type && executiveId && executiveId !== sponsorId) {
+    // The act's own record names whoever sat at the desk that day, and the
+    // director casts the signer from it. The office can change hands, or its
+    // official be filled in, during the run: the one who acted held it when
+    // the run began or holds it now.
+    const actorId = String(acted.facts.executiveId ?? "");
+    const holders = [
+      executiveId,
+      executiveOf(api, seat!.office.id).term?.personId,
+    ];
+    if (type && actorId && actorId !== sponsorId) {
+      expect(holders, `${bill.id}: the act's executive`).toContain(actorId);
       expect(sponsorScenes.map((row) => row.typeKey)).toContain(type);
       const scene = sponsorScenes.find((row) => row.typeKey === type)!;
       const executive = scene.roles.find(
         (row) => row.role === (type === "veto" ? "executive" : "signer"),
       )!;
-      expect(executive.personIds).toEqual([executiveId]);
+      expect(executive.personIds).toEqual([actorId]);
       // The executive's own moment is not a scene about their own bill.
-      expect(actOf(executiveId).map((row) => row.typeKey)).not.toContain(type);
-      lines.push(`${action} by ${executiveId}`);
+      expect(actOf(actorId).map((row) => row.typeKey)).not.toContain(type);
+      lines.push(`${action} by ${actorId}`);
     }
   }
   console.log(`SCENES ${place.name} ${seed}\n${lines.join("\n")}`);
