@@ -6,6 +6,7 @@
 // id), the overlay must fit the window and nothing may cover it.
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { checkRuleLabels } from "./filing-rule-labels.mjs";
 const browser = await chromium.launch({
   executablePath: process.env.BENCH_BROWSER ?? "/usr/bin/chromium",
 });
@@ -39,11 +40,11 @@ try {
     .evaluate((e) => e.click());
   const go = page.locator("#sheet-body button", { hasText: /Go/ });
   await go.first().waitFor();
-  const controls = await (
-    await page.request.get("http://localhost:3000/api/controls")
-  )
-    .json()
-    .catch(() => null);
+  const controlsResponse = await page.request.get(
+    "http://localhost:3000/api/controls",
+  );
+  assert.ok(controlsResponse.ok(), "the controls data did not load");
+  const controls = await controlsResponse.json();
   let opened = false;
   for (let i = 0; i < (await go.count()) && !opened; i++) {
     const label = await go.nth(i).getAttribute("aria-label");
@@ -70,19 +71,7 @@ try {
     .locator("#filing-checks .row > :first-child")
     .allInnerTexts();
   console.log("Rules:", labels.join(" | "));
-  for (const label of labels)
-    assert.ok(
-      !/^[a-z]+(-[a-z]+)+$/.test(label.trim()),
-      `a rule reads as its id: ${label}`,
-    );
-  if (controls?.filing?.rules)
-    for (const label of labels)
-      assert.ok(
-        Object.values(controls.filing.rules).some(
-          (word) => word.toLowerCase() === label.trim().toLowerCase(),
-        ),
-        `${label} is not a rule name from the controls data`,
-      );
+  checkRuleLabels(labels, controls);
   // The overlay fits the window, and the news card is not over it.
   const box = await page.locator("#filing-overlay").boundingBox();
   assert.ok(
