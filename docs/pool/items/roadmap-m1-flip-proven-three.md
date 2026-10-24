@@ -28,3 +28,5 @@ Sent back 2026-10-24 from PR #5875 (branch claude/quirky-ride-vrwwz4-m1-flags): 
 Rescoped Oct 24 by the M0-M2 lead after the merger's send-back on #5875: M1-10 leaves this item, because its test injects a fixture event into a views-only world; its played-world proof is roadmap-m1-10-views-played-world.
 
 Sent back 2026-10-24 from PR #5875 (branch claude/quirky-ride-vrwwz4-m1-flags): Registered M1-02 command fails in independent Swanton NE draw with zero bank lines/repricings, byte-identical on clean main; newly accepted flag lacks its positive loan-cost witness; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5875 (branch claude/quirky-ride-vrwwz4-m1-flags): Routed item still requires M1-01 and M1-02 while body withdraws M1-02; additionally unreported campaign runtime changes need their own accurate scope and acceptance evidence; finish on that branch, merge main into it first.
