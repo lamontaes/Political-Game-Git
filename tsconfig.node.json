@@ -69,7 +69,6 @@
     "src/core2/work-patterns.ts",
     "src/core2/work-schedules.ts",
     "src/core2/starting-cash.ts",
-    "src/source/**/*.ts",
     "src/player/LifeStartTransition.tsx",
     "src/player/observer-run-controller.ts",
     "src/player/observer-run-protocol.ts",

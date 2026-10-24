@@ -3,7 +3,6 @@ import { runtimeContentOrigin } from "./scripts/dev-lab/runtime-content-origin";
 import { renameSync, rmSync } from "node:fs";
 import { resolve } from "node:path";
 import { sites } from "@openai/sites-vite-plugin";
-import react from "@vitejs/plugin-react";
 import { configDefaults, defineConfig, type Plugin } from "vitest/config";
 import {
   buildIdentityDefines,
@@ -49,7 +48,6 @@ export default defineConfig({
     playIsIndex(),
     runtimeArtBuild(),
     runtimeContentOrigin(),
-    react(),
     sites(),
     identifiedBuild(),
   ],
@@ -61,13 +59,6 @@ export default defineConfig({
   optimizeDeps: {
     noDiscovery: true,
     holdUntilCrawlEnd: false,
-    include: [
-      "react",
-      "react-dom",
-      "react-dom/client",
-      "react/jsx-runtime",
-      "react/jsx-dev-runtime",
-    ],
   },
   build: {
     outDir: "dist/client",
