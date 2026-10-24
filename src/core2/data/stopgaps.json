@@ -5030,6 +5030,19 @@
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
     "replacement": "Once the coverage record is on main, the coverage decision reads webFactorFor(\"health.uninsured-pct\", subject) with the moderators already in links.json (unemployment by sex and age), and medical debt reads the coverage record.",
+    "status": "resolved",
+    "resolution": "The coverage review (modules/coverage.ts, holdersToday) reads the web's factor for health.uninsured-pct for each worker's age and sex, full and counted alike, so the running uninsured-share links (unemployment, Medicaid expansion, the work requirement) change who holds an employer plan, by coverage record; proved by src/core2/coverage-web.test.ts. The medical-debt link and the marriage-equality link are registered on their own in SG-EW-HEALTH-medical-debt-reader."
+  },
+  {
+    "id": "SG-EW-HEALTH-medical-debt-reader",
+    "kind": "missing-record",
+    "file": "src/core2/health-web.ts",
+    "line": 1,
+    "whatItFakes": "The Medicaid expansion to medical debt link (medicaid-expansion-to-medical-debt) moves only the web's own finance.medical-debt-in-collections number; no household's books hold a medical debt, so no one's money moves with it. The marriage-equality-to-coverage link has no running cause (the law has been national since 2015, link status cause-not-recorded), so it moves nothing.",
+    "why": "No household or counted group records medical bills or debts in collection, so there is nothing for a debt decision to multiply by the web's factor.",
+    "addedBy": "claude/web-coverage-reads",
+    "addedAt": "2026-10-24",
+    "replacement": "A medical-debt record on the household's books, decided from the household's own coverage record times the web's factor, which the medical-debt link then reads like the coverage links.",
     "status": "open"
   },
   {
