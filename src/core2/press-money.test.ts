@@ -31,7 +31,7 @@ const YEAR_DAYS = 365;
 
 it(`a paper's revenue is its readers' subscriptions and local businesses' ads, and follows its audience (seed ${seed})`, () => {
   const tried: string[] = [];
-  for (let draw = 0; draw < 6; draw += 1) {
+  for (let draw = 0; draw < 10; draw += 1) {
     const place = drawPlace(`${seed}:${draw}`, "press-money");
     const where = `${place.name} (${place.key}), seed ${place.seed}, base ${seed}:${draw}`;
     const { core: world } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -41,20 +41,21 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     const core = world as CoreState;
     const api = coreAPI(core);
     const rt = residentsRuntime(core);
-    // A town with a local paper and a full household that reads it.
-    const paper = outletsHere(api).find(
-      (o) => o.tier === "local" && o.kind === "newspaper",
-    );
-    const reader = paper
-      ? followersOf(api, paper.id)
+    // The town's local papers, each with a full household that reads it,
+    // whose payer's receipts the journal keeps through the year.
+    const papers = outletsHere(api)
+      .filter((o) => o.tier === "local" && o.kind === "newspaper")
+      .flatMap((paper) => {
+        const reader = followersOf(api, paper.id)
           .map((id) => core.people.get(id))
           .find(
             (p) =>
               p?.householdId &&
               rt?.flows.get(`residents:outside-living:${p.householdId}`),
-          )
-      : undefined;
-    if (!paper || !reader) {
+          );
+        return reader ? [{ paper, reader }] : [];
+      });
+    if (!papers.length) {
       tried.push(`${where}: no local paper with a full reader household`);
       continue;
     }
@@ -65,78 +66,95 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       ),
       where,
     ).toEqual([]);
-    const home = core.households.get(reader.householdId!)!;
-    const living = rt!.flows.get(`residents:outside-living:${home.id}`)!;
-    // Keep the journal's receipts for the reader household's payer.
-    core.focusPersonIds.add(living.payerId);
+    const livingOf = (householdId: string) =>
+      rt!.flows.get(`residents:outside-living:${householdId}`)!;
+    for (const { reader } of papers)
+      core.focusPersonIds.add(livingOf(reader.householdId!).payerId);
     advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
-    const months = (
-      api
-        .moduleState(PRESS_MODULE_ID)
-        .table("revenueMonths")
-        .query("byOutlet", [paper.id]) as unknown as OutletRevenueMonthRow[]
-    )
-      .slice()
-      .sort((a, b) => a.month.localeCompare(b.month));
     const subs = (m: OutletRevenueMonthRow) =>
       m.subscriptionsFullMinor + m.subscriptionsCountedMinor;
-    // A paper that closed in the year is paid by no one after: it cannot
-    // show a year's money or the next ad, so another place is drawn.
-    const closed = core.finance.businesses
-      .get(paper.organizationId)
-      ?.closedAt?.slice(0, 7);
-    if (closed) {
-      for (const m of months.filter((row) => row.month > closed))
-        expect(
-          subs(m) + m.adsMinor,
-          `${where}: ${m.month}, after it closed`,
-        ).toBe(0);
-      tried.push(`${where}: the paper closed in ${closed}`);
-      continue;
-    }
-    const open = months.filter((m) => m.month > months[0]!.month);
-    for (const m of open)
-      expect(subs(m), `${where}: ${m.month}'s subscriptions`).toBeGreaterThan(
-        0,
-      );
-    const paid = open;
-    // Subscriptions are the readers times the price, at most, over the year:
-    // a household short of cash pays its living cost, and its subscription,
-    // in part, and the rest in a later month.
     const price =
       (pressParameter("newspaperRevenuePerFollowerYear") *
         pressParameter("newspaperCirculationShare")) /
       pressParameter("monthsPerYear");
-    const subsYear = paid.reduce((n, m) => n + subs(m), 0);
-    const readerMonths = paid.reduce((n, m) => n + m.readers, 0);
-    expect(
-      subsYear / readerMonths,
-      `${where}: per reader-month`,
-    ).toBeLessThanOrEqual(price * 1.01);
-    const steps = paid.slice(1).map((m, i) => ({
-      month: m.month,
-      readers: Math.sign(m.readers - paid[i]!.readers),
-      revenue: Math.sign(subs(m) - subs(paid[i]!)),
-    }));
-    if (
-      !steps.some((s) => s.readers > 0) ||
-      !steps.some((s) => s.readers < 0)
-    ) {
-      tried.push(`${where}: the paper's readers did not both rise and fall`);
-      continue;
+    // The first paper that stayed open and whose readers both rose and fell.
+    let chosen:
+      | {
+          paper: (typeof papers)[number]["paper"];
+          reader: (typeof papers)[number]["reader"];
+          months: OutletRevenueMonthRow[];
+          steps: { month: string; readers: number; revenue: number }[];
+        }
+      | undefined;
+    for (const { paper, reader } of papers) {
+      const months = (
+        api
+          .moduleState(PRESS_MODULE_ID)
+          .table("revenueMonths")
+          .query("byOutlet", [paper.id]) as unknown as OutletRevenueMonthRow[]
+      )
+        .slice()
+        .sort((a, b) => a.month.localeCompare(b.month));
+      // A paper that closed is paid by no one after.
+      const closed = core.finance.businesses
+        .get(paper.organizationId)
+        ?.closedAt?.slice(0, 7);
+      if (closed) {
+        for (const m of months.filter((row) => row.month > closed))
+          expect(
+            subs(m) + m.adsMinor,
+            `${where}: ${paper.id} in ${m.month}, after it closed`,
+          ).toBe(0);
+        tried.push(`${where}: ${paper.id} closed in ${closed}`);
+        continue;
+      }
+      const open = months.filter((m) => m.month > months[0]!.month);
+      for (const m of open)
+        expect(
+          subs(m),
+          `${where}: ${paper.id}'s subscriptions in ${m.month}`,
+        ).toBeGreaterThan(0);
+      // Subscriptions are the readers times the price, at most, over the
+      // year: a household short of cash pays its living cost, and its
+      // subscription, in part, and the rest in a later month.
+      expect(
+        open.reduce((n, m) => n + subs(m), 0) /
+          open.reduce((n, m) => n + m.readers, 0),
+        `${where}: ${paper.id} per reader-month`,
+      ).toBeLessThanOrEqual(price * 1.01);
+      const steps = open.slice(1).map((m, i) => ({
+        month: m.month,
+        readers: Math.sign(m.readers - open[i]!.readers),
+        revenue: Math.sign(subs(m) - subs(open[i]!)),
+      }));
+      if (
+        !steps.some((step) => step.readers > 0) ||
+        !steps.some((step) => step.readers < 0)
+      ) {
+        tried.push(
+          `${where}: ${paper.id}'s readers did not both rise and fall`,
+        );
+        continue;
+      }
+      chosen = { paper, reader, months, steps };
+      break;
     }
+    if (!chosen) continue;
+    const { paper, reader, months, steps } = chosen;
     // Its revenue rose in a month its readers rose, and fell in one they fell.
     const trail = steps
-      .map((s) => `${s.month} ${s.readers}/${s.revenue}`)
+      .map((step) => `${step.month} ${step.readers}/${step.revenue}`)
       .join(" ");
     expect(
-      steps.some((s) => s.readers > 0 && s.revenue > 0),
+      steps.some((step) => step.readers > 0 && step.revenue > 0),
       `${where}: ${trail}`,
     ).toBe(true);
     expect(
-      steps.some((s) => s.readers < 0 && s.revenue < 0),
+      steps.some((step) => step.readers < 0 && step.revenue < 0),
       `${where}: ${trail}`,
     ).toBe(true);
+    const home = core.households.get(reader.householdId!)!;
+    const living = livingOf(home.id);
     // The named reader household paid the paper from its own cash.
     const receipt = [
       ...(core.cashJournal.detailedByOwner.get(living.payerId) ?? []),
