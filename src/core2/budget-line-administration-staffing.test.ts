@@ -1,8 +1,10 @@
 /**
- * A cut to a city's administration line ends a named city employee's job (pool
- * item office-budget-line-reaches-pay): the mayor's amended line is the adopted
- * line, the staffing reach reads it, and city hall ends its newest hires' jobs,
- * so their later paychecks stop. A place is drawn from all 56 on a seed nobody
+ * A cut to a city's administration line ends a named city employee's job and a
+ * raise hires new ones (pool item office-budget-line-reaches-pay): the mayor's
+ * amended line is the adopted line, the staffing reach reads it, and city hall
+ * ends its newest hires' jobs or hires. The treasury's later paydays follow:
+ * a laid-off person's job is no longer paid once their last pay has gone out,
+ * and a new hire is paid, by payroll journal entry id. A place is drawn from all 56 on a seed nobody
  * chose (ADMIN_LINE_SEED pins one).
  */
 import { randomBytes } from "node:crypto";
@@ -89,6 +91,14 @@ for (const direction of ["cut", "raise"] as const)
         mayorId,
         {} as never,
       );
+      // Every payroll payday the treasury posts from the bill on, by journal entry id.
+      const paydays: { id: string; date: string }[] = [];
+      const post = api.postJournal.bind(api);
+      api.postJournal = (entry) => {
+        if (entry.sourceRef.kind === "work-payroll")
+          paydays.push({ id: entry.sourceRef.id, date: api.state.date });
+        return post(entry);
+      };
       advanceCore(core, addDays(makeIsoDate(next), 10));
       const adopted = budgetsOf(api, city.id).find(
         (b) => b.startsOn === next || b.adoptedOn === next,
@@ -116,18 +126,67 @@ for (const direction of ["cut", "raise"] as const)
       expect(row!.positions, detail).toBeCloseTo(
         row!.baseStaff * ((priorLine + change) / priorLine),
       );
+      // A person's paydays: the journal entries naming one of their work commitments.
+      const commitmentsOf = (jobId: string) =>
+        [...core.work.commitments.values()].filter((c) => c.jobId === jobId);
+      const paydaysOf = (jobId: string) =>
+        paydays.filter((d) =>
+          commitmentsOf(jobId).some((c) => d.id.includes(c.id)),
+        );
+      // Let two more months of paydays run so a changed paycheck shows.
+      advanceCore(core, addDays(makeIsoDate(next), 75));
       if (direction === "cut") {
         expect(row!.positions, detail).toBeLessThan(staffInPlace);
         expect(laidOff.length, detail).toBeGreaterThan(0);
         // Their later pay stops: each laid-off person's job at city hall
-        // carries an end date, by job record id.
+        // carries an end date, and no payday names that job's commitment
+        // once the last pay for the work done has gone out, while a
+        // retained employee is still paid after that date.
+        const retained = employees(district.id).filter((j) =>
+          staffBefore.includes(j.personId),
+        );
         for (const personId of laidOff) {
           const ended = [...core.jobs.values()].find(
             (j) => j.personId === personId && j.organizationId === district.id,
           );
           expect(ended?.endsAt, `${detail}: ${ended?.id}`).toBeDefined();
+          const endedOn = ended!.endsAt!;
+          const lastPayOn = addDays(makeIsoDate(endedOn), 31);
+          const late = paydaysOf(ended!.id).filter((d) => d.date > lastPayOn);
+          expect(
+            late.map((d) => `${d.id} on ${d.date}`),
+            `${detail}: ${ended!.id} ended ${endedOn}, still paid after ${lastPayOn}`,
+          ).toEqual([]);
+          // The job's work commitment ended with it, so payroll has no
+          // commitment left to pay.
+          const commitments = commitmentsOf(ended!.id);
+          for (const c of commitments)
+            expect(c.endsAt, `${detail}: ${c.id}`).toBeDefined();
+          // Where city hall keeps a named employee, that person is still paid
+          // after the laid-off person's last pay.
+          const stayer = retained.find((j) =>
+            paydaysOf(j.id).some((d) => d.date > lastPayOn),
+          );
+          if (retained.length > 0)
+            expect(
+              stayer,
+              `${detail}: no retained employee paid after ${lastPayOn} (${ended!.id} ended ${endedOn})`,
+            ).toBeDefined();
         }
-      } else expect(row!.positions, detail).toBeGreaterThan(staffInPlace);
+      } else {
+        expect(row!.positions, detail).toBeGreaterThan(staffInPlace);
+        // A raise hires: a named person with no job at city hall before now
+        // holds a current one, and a payday names that job's commitment.
+        const hired = employees(district.id).filter(
+          (j) => !staffBefore.includes(j.personId),
+        );
+        expect(hired.length, `${detail}: no new hire`).toBeGreaterThan(0);
+        const paid = hired.filter((j) => paydaysOf(j.id).length > 0);
+        expect(
+          paid.length,
+          `${detail}: no payday for any of ${hired.map((j) => j.id).join(", ")}`,
+        ).toBeGreaterThan(0);
+      }
       return;
     }
     throw new Error(`no drawn place had the pieces: ${tried.join("; ")}`);
