@@ -108,6 +108,48 @@
       "source": "Hours a candidate without a job spends knocking doors on a campaign day: two shifts.",
       "spread": [3, 6]
     },
+    "rivalCallNeedWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more of a rival's campaign hours go to call time for money when the campaign's bank is empty than when it is full; checked against the spread of money raised in a race.",
+      "spread": [0, 2]
+    },
+    "rivalCallStandingWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more of a rival's hours go to call time for money when they are well known, because donors are easier to reach.",
+      "spread": [0, 2]
+    },
+    "rivalDoorUnknownWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more of a rival's hours go to doors when they are unknown, because name recognition is built on doors.",
+      "spread": [0, 2]
+    },
+    "rivalActBaseScore": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "The pull a whole campaign act (an evening event, a press interview) has for a rival with no money or standing behind it; checked against how often rivals in a race hold an event or sit for one.",
+      "spread": [0, 0.5]
+    },
+    "rivalEventRichWeight": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How much more a rival leans on an event the more money the campaign holds, because a self-funding candidate buys rooms and staff where a poor one knocks doors; checked against the spread of events held in a race.",
+      "spread": [1, 5]
+    },
+    "rivalInterviewKnownWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much more a rival leans on press interviews the better known they are, because reporters ask for the known; checked against interviews held per candidate in a race.",
+      "spread": [0, 4]
+    },
+    "rivalInterviewIncumbentWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much more a rival who holds the seat leans on press and their record than a challenger.",
+      "spread": [0, 2]
+    },
     "minimumVolunteerAge": {
       "value": 16,
       "tag": "ESTIMATED",
