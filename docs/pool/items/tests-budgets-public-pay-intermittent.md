@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/budgets-pay-intermittent
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T20:03:50.985Z
 ---
 
 **What.** src/core2/budgets-public-pay.test.ts plays 90 days in Marlborough, New Hampshire on its fixed seed 109a7b3b1d5c1715d738e7b8ca9deec614910239 and expects the public employers' wages drawn from the treasury to equal what the payroll ledger says was paid. On Oct 24 it failed once at line 81, expected 11549162 to be 12181567, in a run of six budgets and withholding test files at two workers on a 4-core container, then passed alone and again in the same six-file run. A fixed-seed world should give the same number every time, so something in the run depends on more than the seed, or the test reads a ledger that can include pay the journal hook did not see.
