@@ -22,9 +22,9 @@
  ],
  "summary": {
   "laws": 89,
-  "wired": 11,
+  "wired": 12,
   "partly": 71,
-  "stopgapped": 7,
+  "stopgapped": 6,
   "byLink": {
    "exists": {
     "wired": 89,
@@ -65,8 +65,8 @@
     "wired": 31,
     "partial": 1,
     "missing": 11,
-    "stopgap": 37,
-    "n/a": 9
+    "stopgap": 36,
+    "n/a": 10
    },
    "knowing": {
     "wired": 81,
@@ -4678,7 +4678,7 @@
    "family": "justice",
    "reachGroup": "A",
    "mechanic": "staffing",
-   "overall": "stopgapped",
+   "overall": "wired",
    "links": {
     "exists": {
      "status": "wired",
@@ -4706,9 +4706,9 @@
      "why": ""
     },
     "web": {
-     "status": "stopgap",
-     "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-     "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure fire deaths and property loss (SG-LAW-outcome-link-unresearched)"
+     "status": "n/a",
+     "evidence": "fire-spending-to-fire-deaths: about-zero (Jennings 2002 (Memphis, 4,990 residential fires); Shoffner 2023)",
+     "why": "the research puts every outcome link from it at about zero, so there is nothing for the web to move"
     },
     "knowing": {
      "status": "wired",

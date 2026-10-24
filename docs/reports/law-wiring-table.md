@@ -70,7 +70,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | permit to carry concealed | justice | yes | yes | yes | yes | yes | yes | yes | yes | yes | wired |
 | raise handgun purchase age | justice | yes | yes | yes | yes | yes | yes | yes | yes | yes | wired |
 | stand your ground | justice | yes | yes | yes | yes | yes | yes | yes | yes | yes | wired |
-| Spending: fire | justice | yes | yes | yes | yes | yes | SG | yes | yes | yes | stopgapped |
+| Spending: fire | justice | yes | yes | yes | yes | yes | n/a | yes | yes | yes | wired |
 | all mail voting | government | yes | yes | yes | part | NO | yes | yes | yes | yes | partly |
 | automatic voter registration | government | yes | yes | yes | part | NO | yes | yes | yes | yes | partly |
 | independent redistricting | government | yes | yes | part | SG | SG | yes | yes | yes | yes | partly |
@@ -466,7 +466,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Spending: fire** (`budget-line:fire`)
 
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure fire deaths and property loss (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **all mail voting** (`us-policy-positions:government-operations.all-mail-voting`)
 
