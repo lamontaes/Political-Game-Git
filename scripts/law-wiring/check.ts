@@ -735,6 +735,8 @@ function changeBudget(
     line,
     deltaMinor: delta,
     measureId: `law-wiring-${tag}`,
+    // As a passed budget bill's change does, it carries into later years.
+    carry: true,
   });
   ids.add(`law-wiring-${tag}`);
   return {
@@ -748,6 +750,7 @@ function changeBudget(
         line,
         deltaMinor: -delta,
         measureId: `law-wiring-${tag}-undo`,
+        carry: true,
       });
     },
   };

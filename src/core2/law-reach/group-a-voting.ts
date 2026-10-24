@@ -413,8 +413,16 @@ onReachCalendar(OWED_KIND, (api, work) => {
   if (left >= 1) scheduleOwed(api, id);
 });
 
-/** Election laws already applied to the roll, by law, moment and day or contest. */
-const charged = new WeakMap<object, Set<string>>();
+/**
+ * Who each election law has already been paid for today, by law and moment:
+ * a voter (or the people a counted group stands for) on the rolls of several
+ * contests that share one ballot is served once that day, and a second change
+ * to the same law on one day processes no one twice.
+ */
+const charged = new WeakMap<
+  object,
+  { date: string; served: Map<string, Map<string, number>> }
+>();
 
 /**
  * Apply the election laws in force to the roll, at registration (the day a
@@ -440,16 +448,23 @@ export function applyElectionLaws(
     if (!laws.has(spec.key) || (only && !only.includes(spec.key))) continue;
     const lawId = yesLevels(api, spec.key)[0]?.lawId;
     if (!lawId) continue;
-    // A second change to the same law on one day brings the roll up to it
-    // again, but its registrations were processed and paid for the first time.
-    const done = charged.get(api.state) ?? new Set<string>();
-    charged.set(api.state, done);
-    const chargeId = `${spec.key}:${moment}:${contestId ?? api.state.date}`;
-    const again = done.has(chargeId);
-    done.add(chargeId);
-    const unit =
-      spec.paidAt === moment && !again ? reachParameter(spec.cost) : 0;
-    const planned = roll.map((v) => unit * spec.share(api, v, laws) * v.count);
+    // Each voter is paid for once a day per law and moment: the contests on
+    // one ballot share its mailing and its registrations at the polls, and a
+    // second change to the same law on one day processes no one again.
+    let today = charged.get(api.state);
+    if (!today || today.date !== api.state.date) {
+      today = { date: api.state.date, served: new Map() };
+      charged.set(api.state, today);
+    }
+    const servedKey = `${spec.key}:${moment}`;
+    const served = today.served.get(servedKey) ?? new Map<string, number>();
+    today.served.set(servedKey, served);
+    const unit = spec.paidAt === moment ? reachParameter(spec.cost) : 0;
+    const planned = roll.map((v) => {
+      const before = served.get(v.id) ?? 0;
+      served.set(v.id, Math.max(before, v.count));
+      return unit * spec.share(api, v, laws) * Math.max(0, v.count - before);
+    });
     const plannedTotal = planned.reduce((a, b) => a + b, 0);
     // The treasury pays what it holds and owes the rest (payElectionCost), so
     // each voter's row carries what the law cost to serve them, funded or owed.
@@ -554,18 +569,40 @@ export function termLimitReached(
       const end = t.endDate && t.endDate < date ? t.endDate : date;
       return sum + yearsBetween(t.startDate, end);
     }, 0);
-  const reached = years >= reachParameter("termLimitYears");
+  return years >= reachParameter("termLimitYears");
+}
+
+/**
+ * A person files for a legislative office under a term limit in force: the
+ * elections engine counted their years against it, and the limit kept them
+ * off the ballot or let them on. Called where the filing is decided, never
+ * where a screen previews eligibility.
+ */
+export function recordTermLimitFiling(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): void {
+  if (!inForce(api, TERM_LIMITS)) return;
   const lawId = yesLevels(api, TERM_LIMITS)[0]?.lawId;
-  if (lawId)
-    lawApplied(api, {
-      key: TERM_LIMITS,
-      lawId,
-      targetId: personId,
-      target: "person",
-      engine: "core2-elections-v1",
-      what: reached ? "kept-off-ballot" : "term-count-checked",
-    });
-  return reached;
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as { kind?: string } | undefined;
+  const legislative = selectorGroup("legislators").some((k) =>
+    (office?.kind ?? "").startsWith(k),
+  );
+  if (!lawId || !legislative) return;
+  lawApplied(api, {
+    key: TERM_LIMITS,
+    lawId,
+    targetId: personId,
+    target: "person",
+    engine: "core2-elections-v1",
+    what: termLimitReached(api, personId, officeId)
+      ? "kept-off-ballot"
+      : "term-count-checked",
+  });
 }
 
 /**

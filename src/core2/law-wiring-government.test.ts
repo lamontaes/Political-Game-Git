@@ -32,7 +32,8 @@ import { allGovernmentUnits } from "./reference/government-units";
 import { holdElection } from "./modules/voting";
 import { policyAuthority } from "./policy-authority";
 import { POLICY_QUESTIONS } from "./policy-answers";
-import { checkEligibility } from "./modules/elections";
+import { checkEligibility, fileCandidacy } from "./modules/elections";
+import { draftBill } from "./modules/legislature";
 import {
   OFFICES_MODULE_ID,
   townSeats,
@@ -369,32 +370,76 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           `${where}: ${weigher!.id} weighed the revolving-door law`,
         ).toBeLessThan(0);
 
-        // Home rule: a body drafting a bill under a question the state's
-        // grant decides (a power cell the catalog marks unknown) reads it.
-        let homeRuleQuestion = "";
-        for (const question of Object.keys(POLICY_QUESTIONS)) {
-          policyAuthority(api, question, "city");
-          if (open(api, HOME_RULE).length) {
-            homeRuleQuestion = question;
-            break;
-          }
-        }
-        if (!homeRuleQuestion) {
+        // Home rule: a question the state's grant decides (a power cell the
+        // catalog marks unknown) is one a council may answer under it.
+        // Checking what a council may do, as a screen does, records nothing;
+        // drafting a bill under it records the government the grant let.
+        const homeRuleRowsBefore = open(api, HOME_RULE).length;
+        const homeRuleQuestion =
+          Object.keys(POLICY_QUESTIONS).find((question) => {
+            const source = policyAuthority(api, question, "city").source;
+            const row = api
+              .moduleState(LAWS_MODULE_ID)
+              .table("laws")
+              .get(source) as unknown as LawRowInput | undefined;
+            return row?.series === HOME_RULE && row.value === 1;
+          }) ?? "";
+        expect(
+          open(api, HOME_RULE).length,
+          `${where}: checking what a council may do recorded home rule`,
+        ).toBe(homeRuleRowsBefore);
+        const homeRuleCouncil = townSeats(api).find(
+          (s) =>
+            (s.office.kind === "council" ||
+              s.office.kind === "township-board") &&
+            s.holder?.personId,
+        );
+        if (homeRuleQuestion && homeRuleCouncil)
+          draftBill(api, {
+            bodyOfficeId: homeRuleCouncil.office.id,
+            sponsorId: homeRuleCouncil.holder!.personId!,
+            provisions: [
+              {
+                kind: "policy-question",
+                question: homeRuleQuestion,
+                value: 1,
+              },
+            ],
+          });
+        if (!homeRuleQuestion || !open(api, HOME_RULE).length) {
           tried.push(
             `${drawn.name} (${drawn.key}): no question's power cell is decided by home rule`,
           );
           continue;
         }
-        // Term limits: the filing check on each legislative seat's incumbent.
-        for (const contest of contestsOf(api).filter(
-          (c) => c.incumbentTermId !== null,
-        )) {
-          const term = api
-            .moduleState(OFFICES_MODULE_ID)
-            .table("terms")
-            .get(contest.incumbentTermId!) as unknown as TermRow | undefined;
-          if (term?.personId) checkEligibility(api, term.personId, contest.id);
-        }
+        // Term limits: each legislative seat's incumbent files to run again,
+        // and the filing reads the limit. A screen's preview of eligibility
+        // records nothing.
+        const termRowsBefore = open(api, TERM).length;
+        const incumbents = contestsOf(api)
+          .filter((c) => c.incumbentTermId !== null)
+          .map((contest) => ({
+            contest,
+            personId: (
+              api
+                .moduleState(OFFICES_MODULE_ID)
+                .table("terms")
+                .get(contest.incumbentTermId!) as unknown as TermRow | undefined
+            )?.personId,
+          }))
+          .filter((row) => row.personId);
+        for (const { contest, personId } of incumbents)
+          checkEligibility(api, personId!, contest.id);
+        expect(
+          open(api, TERM).length,
+          `${where}: previewing eligibility recorded the term limit`,
+        ).toBe(termRowsBefore);
+        for (const { contest, personId } of incumbents)
+          fileCandidacy(api, {
+            personId: personId!,
+            contestId: contest.id,
+            platform: [],
+          });
         // Election day: ballots mailed, registrations at the polls, wards.
         const before = posts.length;
         const owedBeforeDay = new Map(VOTING_LAWS.map((k) => [k, owedOf(k)]));
@@ -417,6 +462,43 @@ describe(`government operations laws are applied by their engines (seed ${seed})
           dayCharged(SAME_DAY),
           `${where}: polls registrations, paid or owed by ${electionAdmin.id}`,
         ).toBeGreaterThan(0);
+        // Another contest on the same ballot mails no voter a second ballot:
+        // the county pays for each voter once that day.
+        const sameBallot = contestsOf(api).find(
+          (c) =>
+            c.id !== election.id && c.electionDate === election.electionDate,
+        );
+        if (sameBallot) {
+          const mailedOnce = dayCharged(ALL_MAIL);
+          const rowsOnce = new Map(
+            open(api, ALL_MAIL).map((r) => [r.id, r.amountMinor]),
+          );
+          const second = posts.length;
+          holdElection(api, sameBallot.id);
+          const secondPaid = posts
+            .slice(second)
+            .filter((p) => p.id.includes(`election-admin:${ALL_MAIL}:`))
+            .reduce((n, p) => n + p.gross, 0);
+          const charged =
+            dayPaid(ALL_MAIL) +
+            secondPaid +
+            owedOf(ALL_MAIL) -
+            (owedBeforeDay.get(ALL_MAIL) ?? 0);
+          // Only voters not on the first contest's roll add to the cost.
+          const added = open(api, ALL_MAIL).filter(
+            (r) => (rowsOnce.get(r.id) ?? 0) === 0,
+          ).length;
+          if (!added)
+            expect(
+              charged,
+              `${where}: ${sameBallot.id} charged the ballots again`,
+            ).toBe(mailedOnce);
+          for (const [id, amount] of rowsOnce)
+            expect(
+              open(api, ALL_MAIL).find((r) => r.id === id)?.amountMinor,
+              `${where}: ${id} charged twice for one ballot`,
+            ).toBe(amount);
+        }
 
         // The outcome web read the laws.
         const months = (
