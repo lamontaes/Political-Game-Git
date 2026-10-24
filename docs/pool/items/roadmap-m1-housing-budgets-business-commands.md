@@ -9,7 +9,6 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-after: roadmap-m1-economy-commands
 source: added with npm run pool -- add
 ---
 
