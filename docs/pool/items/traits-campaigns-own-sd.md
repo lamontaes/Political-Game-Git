@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-campaigns-own-sd
-pr:
+pr: #5882
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T02:57:25.374Z
