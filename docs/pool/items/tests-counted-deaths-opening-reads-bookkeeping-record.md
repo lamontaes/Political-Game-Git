@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T17:06:17.014Z
 **Files.** src/core2/counted-deaths-opening.test.ts
 
 **Notes.** Found Oct 24 by the speed lead while testing core-speed-counted-renewal-pass; red on main, not caused by that change.
+
+Sent back 2026-10-24 from PR #5904 (branch claude/counted-deaths-opening-bookkeeping): the audit is marked fixed without its requested Centennial regression and the primary evidence row admits changed assertions; reconcile a bounded split or complete the requested proof on that branch, merge main into it first.
