@@ -74,6 +74,14 @@ function checkTerritoryBudget(
   );
   expect(chief, `${where}: election chief`).toBeDefined();
   expect(chief!.jobId, `${where}: ${chief!.id} has a job`).toBeDefined();
+  const job = core.jobs.get(chief!.jobId!);
+  expect(
+    job?.wageDailyMinor,
+    `${where}: ${chief!.id}'s job ${chief!.jobId} is paid`,
+  ).toBeGreaterThan(0);
+  console.log(
+    `territory-budget ${where}: administration room ${room}, chief ${chief!.id}, job ${chief!.jobId}`,
+  );
 }
 
 it("American Samoa's treasury carries a budget in Pago Pago, seed e5 (the reported case)", () => {
