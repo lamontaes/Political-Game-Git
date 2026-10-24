@@ -31,7 +31,7 @@ Any agent with repository access (Claude, Codex, Cursor, Antigravity or another)
 
 ### Checker
 
-> Read AGENTS.md and .agents/skills/browser-visual-acceptance/SKILL.md in lamontaes/Political-Game-Git. Start the bench (`npm run bench`) and play as the owner would, one hour, from a new game in a drawn place: note every defect with what you did, what you saw and what you expected, and file each as a pool item in docs/pool/items (kind bug, priority 1 for anything that stops play), with screenshots, on one branch and one PR. Never edit code. You are in a cloud environment: set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
+> Read AGENTS.md and the "Done" section of .agents/skills/play-first/SKILL.md in lamontaes/Political-Game-Git. Start the bench (`npm run bench`) and play as the owner would, one hour, from a new game in a drawn place: note every defect with what you did, what you saw and what you expected, and file each as a pool item in docs/pool/items (kind bug, priority 1 for anything that stops play), with screenshots, on one branch and one PR. Never edit code. You are in a cloud environment: set OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" on every npm command and never ask the owner to confirm it.
 
 ## The item file
 
