@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/speed-guard-deadline
 pr: #5943
 blocked-on:
