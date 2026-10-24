@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/credit.ts, src/core2/budgets-treasury.ts, src/core2/outcome-web-reach.ts
 
 **Notes.** Split Oct 24 by the CTO from the effect-web audit (order `docs/work-orders/lead-effects-2026-10-24.md`). Counts from the capstone branch's unwired list on Oct 23 (effect-web-integration). Poverty is counted from paychecks (effect-web-poverty merged); never let a web link move a household's money a second time. A PR names this item on line 1 and `Lead: effects` in its body.
+
+Sent back 2026-10-24 from PR #5905 (branch claude/web-reach-public-finance): parent-incarceration-to-income is counted as carried and removed from unwired, but its table supplies only static source matching instead of the required drawn-place played record chain and record ID; finish on that branch, merge main into it first.
