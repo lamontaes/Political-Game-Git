@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/unplaced-return-share
-pr:
+pr: #5938
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T12:10:42.980Z
