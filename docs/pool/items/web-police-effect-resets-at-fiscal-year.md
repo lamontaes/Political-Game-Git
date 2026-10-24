@@ -1,7 +1,7 @@
 ---
 id: web-police-effect-resets-at-fiscal-year
 title: "The outcome web's police effect falls to almost nothing when a city's fiscal year turns, though the raised police service holds"
-area: web
+area: core
 kind: bug
 priority: 2
 size: S
