@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-law-reach
-pr:
+pr: #5863
 blocked-on:
 source: "collapsed Oct 19, 2026 from laws-stopgap-group-b-money-missing-data, laws-stopgap-laws-data-gap, laws-stopgap-reach-group-a-missing-mechanic"
 claimed-at: 2026-10-23T20:24:22.294Z
