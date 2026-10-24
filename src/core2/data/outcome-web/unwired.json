@@ -182,18 +182,6 @@
       "stopgapId": "SG-WEB-unread-household-income"
     },
     {
-      "link": "school-spending-to-attainment",
-      "outcome": "school.years-completed",
-      "reason": "no measure: the web does not keep school.years-completed and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-SCHOOL-links-not-running"
-    },
-    {
-      "link": "child-coverage-to-graduation",
-      "outcome": "school.graduation",
-      "reason": "no measure: the web does not keep school.graduation and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-SCHOOL-links-not-running"
-    },
-    {
       "link": "teacher-quality-to-earnings",
       "outcome": "labor.earnings-at-28",
       "reason": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
@@ -201,18 +189,6 @@
     },
     {
       "link": "class-size-to-scores",
-      "outcome": "school.test-scores",
-      "reason": "no measure: the web does not keep school.test-scores and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-SCHOOL-links-not-running"
-    },
-    {
-      "link": "prek-to-graduation",
-      "outcome": "school.graduation",
-      "reason": "no measure: the web does not keep school.graduation and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-SCHOOL-links-not-running"
-    },
-    {
-      "link": "family-income-to-scores",
       "outcome": "school.test-scores",
       "reason": "no measure: the web does not keep school.test-scores and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-SCHOOL-links-not-running"
@@ -551,7 +527,7 @@
       "link": "tuition-freeze-to-college-completion",
       "outcome": "school.college-completion-pct",
       "reason": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research finds no effect (about zero), so an engine would multiply by one",
-      "stopgapId": "SG-WEB-unread-school-college-completion-pct"
+      "stopgapId": "SG-SCHOOL-links-not-running"
     },
     {
       "link": "balanced-budget-to-borrowing-cost",
