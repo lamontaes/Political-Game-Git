@@ -41,11 +41,7 @@ import {
   residentsRuntime,
 } from "../../src/core2/modules/residents";
 import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
-import {
-  BUDGETS_MODULE_ID,
-  budgetsOf,
-  governments,
-} from "../../src/core2/modules/budgets";
+import { budgetsOf, governments } from "../../src/core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import {
@@ -282,6 +278,29 @@ function playWorld(seed: string) {
       t.endDate <= end,
   );
   countCalls(core);
+  // Paychecks after January 1: the withholding entry the journal posts for
+  // every paycheck names each tax it withheld in its posting ids
+  // (`<id>:tax:<index>:<level>:<tax>`, src/core2/modules/budgets.ts
+  // postWithholding); the budgets module keeps its own row only for the
+  // player's circle.
+  const withheldTaxes = new Set<string>();
+  let withheldPaychecks = 0;
+  const journalApi = coreAPI(core);
+  const postJournal = journalApi.postJournal.bind(journalApi);
+  journalApi.postJournal = (entry) => {
+    if (
+      entry.sourceRef.kind === "budgets:withholding" &&
+      entry.date >= nextJanuary
+    ) {
+      withheldPaychecks++;
+      for (const p of entry.postings) {
+        const named = /:tax:\d+:([a-z]+):([a-z-]+)$/.exec(p.id);
+        if (named && p.deltaMinor > 0)
+          withheldTaxes.add(`${named[1]}:${named[2]}`);
+      }
+    }
+    return postJournal(entry);
+  };
 
   // Day by day, watching what only shows on the day it happens.
   const cashYesterday = new Map<string, number>();
@@ -458,16 +477,7 @@ function playWorld(seed: string) {
         );
 
   // Break 4: withholding continues after January 1.
-  const withheld = rowsOf(core, BUDGETS_MODULE_ID, "withholding").filter(
-    (r) => String(r.date) >= nextJanuary,
-  );
-  const taxes = new Set(
-    withheld.flatMap((r) =>
-      (r.lines as { tax: string; level: string; minor: number }[])
-        .filter((l) => l.minor > 0)
-        .map((l) => `${l.level}:${l.tax}`),
-    ),
-  );
+  const taxes = withheldTaxes;
   // Residents of the five territories owe no federal income tax on income
   // earned there (26 U.S.C. 931 to 933: Puerto Rico excludes it, and Guam,
   // the Virgin Islands, American Samoa and the Northern Marianas pay their
@@ -482,7 +492,7 @@ function playWorld(seed: string) {
   verdicts["taxes are withheld after January 1"] = federalWithheld
     ? pass(`withheld after ${nextJanuary}: ${[...taxes].join(", ")}`)
     : fail(
-        `After ${nextJanuary}, ${withheld.length} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
+        `After ${nextJanuary}, ${withheldPaychecks} paychecks withheld only ${[...taxes].join(", ") || "nothing"}: federal income tax and Social Security stopped. The laws module's starting tax rows (src/core2/data/laws/starting-law.json, read by src/core2/modules/budgets.ts withhold) must carry forward until a law changes them.`,
       );
 
   // Break 6: a passed budget changes the adopted spending.
