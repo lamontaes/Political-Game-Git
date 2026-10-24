@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "address",
-  "description": "Public address in the register cards' moves: the House and Senate floor, a state floor, committee hearings, public comment at a council or board, the chair running a meeting, and campaign remarks, victory and concession. Every part is a whole sentence said in public-domain federal records (the Congressional Record, hearings, EAC and FEC meetings), with record words as slots. Campaign sources (rallies, ads) give patterns only; their wording ships only when a federal record also says it. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record. A real politician's campaign slogan never ships, even when public domain.",
+  "description": "Public address in the register cards' moves: the House and Senate floor, a state floor, committee hearings, public comment at a council or board, the chair running a meeting, and campaign remarks, victory and concession. Every part is a whole sentence said in public-domain federal records (the Congressional Record, hearings, EAC and FEC meetings), with record words as slots. Campaign sources (rallies, ads) give patterns only; their wording ships only when a federal record also says it. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record. A real politician's campaign slogan never ships, even when public domain. The core of a rally is longer than its openers and closers (owner, Oct 15, evening: short openers and closers, longer choices on different subjects at the core), so a part runs to 22 words.",
   "slots": {
     "name": "A person's name from the records (the honoree, the speaker, a member).",
     "bill": "A measure on the floor, as its record names it.",
@@ -24,7 +24,7 @@
     "date": "Election day, from the contest record.",
     "state": "What the speaker means to restore, as the record says it."
   },
-  "maxWords": 16,
+  "maxWords": 22,
   "mining": {
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/address.json",
@@ -4814,58 +4814,6 @@
       }
     },
     {
-      "key": "address.campaign-thanks.thank-you-so-much",
-      "move": "campaign-thanks",
-      "kind": "spoken",
-      "text": "Thank you so much.",
-      "uses": [
-        {
-          "move": "campaign-thanks",
-          "subject": "campaign",
-          "role": "thanks",
-          "choice": "thanks"
-        },
-        {
-          "move": "campaign-close",
-          "subject": "campaign",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "transcriptsUsing": 1669,
-      "bySource": {
-        "Federal Election Commission (fec.gov)": 1,
-        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
-        "National Archives History Office oral history project": 6,
-        "National Archives History Office oral history project (nprc-oral-histories)": 2,
-        "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "U.S. Army Center of Military History": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 34,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 4,
-        "U.S. Senate Historical Office oral history": 6,
-        "briefing": 171,
-        "crec": 15,
-        "dcpd": 531,
-        "hearings": 796,
-        "house": 27,
-        "nasa": 13,
-        "nasa2": 10,
-        "nps": 48,
-        "nps.gov": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60273",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60273/html/CHRG-119shrg60273.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      },
-      "tag": {
-        "move": "thank"
-      }
-    },
-    {
       "key": "address.campaign-thanks.its-great-to-be-here",
       "move": "campaign-thanks",
       "kind": "spoken",
@@ -9172,6 +9120,295 @@
       },
       "tag": {
         "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-self.i-grew-up-in-place-i-know-these-streets-and-i-know-the-peopl",
+      "move": "campaign-self",
+      "kind": "spoken",
+      "text": "I grew up in {place}. I know these streets, and I know the people on them.",
+      "uses": [
+        {
+          "move": "campaign-self",
+          "subject": "campaign",
+          "role": "self",
+          "choice": "self"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-self.i-worked-at-employer-for-years-years-i-know-what-a-paycheck-",
+      "move": "campaign-self",
+      "kind": "spoken",
+      "text": "I worked at {employer} for {years} years. I know what a paycheck means to a family here.",
+      "uses": [
+        {
+          "move": "campaign-self",
+          "subject": "campaign",
+          "role": "self",
+          "choice": "self"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-self.i-know-what-it-s-like-to-hardship-i-haven-t-forgotten-it-and",
+      "move": "campaign-self",
+      "kind": "spoken",
+      "text": "I know what it's like to {hardship}. I haven't forgotten it, and I won't forget it in office.",
+      "uses": [
+        {
+          "move": "campaign-self",
+          "subject": "campaign",
+          "role": "self",
+          "choice": "self"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-self.i-was-born-and-raised-in-place-everything-i-have-i-owe-to-pl",
+      "move": "campaign-self",
+      "kind": "spoken",
+      "text": "I was born and raised in {place}. Everything I have, I owe to {place}.",
+      "uses": [
+        {
+          "move": "campaign-self",
+          "subject": "campaign",
+          "role": "self",
+          "choice": "self"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-issue.we-need-to-goal-not-next-year-not-after-the-next-election-no",
+      "move": "campaign-issue",
+      "kind": "spoken",
+      "text": "We need to {goal}. Not next year, not after the next election. Now.",
+      "uses": [
+        {
+          "move": "campaign-issue",
+          "subject": "campaign",
+          "role": "issue",
+          "choice": "issue"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-issue.this-election-is-about-issue-every-family-in-place-has-a-sta",
+      "move": "campaign-issue",
+      "kind": "spoken",
+      "text": "This election is about {issue}. Every family in {place} has a stake in it, and every family deserves an answer.",
+      "uses": [
+        {
+          "move": "campaign-issue",
+          "subject": "campaign",
+          "role": "issue",
+          "choice": "issue"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-issue.it-s-time-to-goal-i-ll-say-it-on-my-first-day-in-office-and-",
+      "move": "campaign-issue",
+      "kind": "spoken",
+      "text": "It's time to {goal}. I'll say it on my first day in office, and I'll keep saying it until it's done.",
+      "uses": [
+        {
+          "move": "campaign-issue",
+          "subject": "campaign",
+          "role": "issue",
+          "choice": "issue"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-issue.prices-are-too-high-and-the-people-of-place-are-the-ones-pay",
+      "move": "campaign-issue",
+      "kind": "spoken",
+      "text": "Prices are too high, and the people of {place} are the ones paying for it.",
+      "uses": [
+        {
+          "move": "campaign-issue",
+          "subject": "campaign",
+          "role": "issue",
+          "choice": "issue",
+          "requiresFacts": ["issue-prices"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-issue.this-is-about-jobs-good-work-close-to-home-that-pays-enough-",
+      "move": "campaign-issue",
+      "kind": "spoken",
+      "text": "This is about jobs. Good work, close to home, that pays enough to raise a family.",
+      "uses": [
+        {
+          "move": "campaign-issue",
+          "subject": "campaign",
+          "role": "issue",
+          "choice": "issue",
+          "requiresFacts": ["issue-jobs"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-issue.this-is-about-our-children-the-schools-they-go-to-and-the-to",
+      "move": "campaign-issue",
+      "kind": "spoken",
+      "text": "This is about our children: the schools they go to and the town they grow up in.",
+      "uses": [
+        {
+          "move": "campaign-issue",
+          "subject": "campaign",
+          "role": "issue",
+          "choice": "issue",
+          "requiresFacts": ["issue-children"]
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "tell",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-contrast.opponent-voted-against-issue-i-would-have-voted-for-it-and-i",
+      "move": "campaign-contrast",
+      "kind": "spoken",
+      "text": "{opponent} voted against {issue}. I would have voted for it, and I will when I get the chance.",
+      "uses": [
+        {
+          "move": "campaign-contrast",
+          "subject": "campaign",
+          "role": "contrast",
+          "choice": "contrast"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-contrast.opponent-voted-for-issue-i-think-that-was-wrong-and-i-ll-say",
+      "move": "campaign-contrast",
+      "kind": "spoken",
+      "text": "{opponent} voted for {issue}. I think that was wrong, and I'll say so to anyone who asks.",
+      "uses": [
+        {
+          "move": "campaign-contrast",
+          "subject": "campaign",
+          "role": "contrast",
+          "choice": "contrast"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "address.campaign-contrast.my-opponent-wants-to-goal-i-think-we-can-do-better-than-that",
+      "move": "campaign-contrast",
+      "kind": "spoken",
+      "text": "My opponent wants to {goal}. I think we can do better than that.",
+      "uses": [
+        {
+          "move": "campaign-contrast",
+          "subject": "campaign",
+          "role": "contrast",
+          "choice": "contrast"
+        }
+      ],
+      "shippable": false,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-15",
+      "tag": {
+        "move": "disagree",
         "key": "vote-wanted"
       }
     }
