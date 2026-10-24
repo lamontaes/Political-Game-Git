@@ -1878,11 +1878,11 @@
     "kind": "estimated-calendar",
     "file": "src/core2/modules/elections.ts",
     "line": 402,
-    "whatItFakes": "For 4 of the 56 places a town's filing deadline is the estimate, because each municipality's charter or code sets it (Alaska, Delaware, Florida and Maryland, the rows marked unread in src/core2/data/elections/filing-deadlines.json): the median number of days between the candidate filing deadline and the primary over the places with a 2026 row (85 days before the election). 38 more rows there are tagged ESTIMATED: read from search excerpts or summaries, not the current code.",
+    "whatItFakes": "For 4 of the 56 places a town's filing deadline is the estimate, because each municipality's charter or code sets it (Alaska, Delaware, Florida and Maryland, the rows marked unread in src/core2/data/elections/filing-deadlines.json): the median number of days between the candidate filing deadline and the primary over the places with a 2026 row (85 days before the election). 39 more rows there are tagged ESTIMATED (New York's among them: its party date, the first Thursday in April, is read, but an independent's petition closes 24 to 23 weeks before the general election and the row holds one date, so independents close about eight weeks early): read from search excerpts or summaries, not the current code.",
     "why": "Many states write the deadline against a primary, a charter or a window the town calendar does not hold, and each statute must be read to structure it.",
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
-    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): New York (Elec. Law 6-158, 8-100), Guam (3 GCA 15201, 15206) and Puerto Rico (Electoral Code art. 7.14) read from their codes and tagged SOURCED, read by src/core2/elections-calendar.ts municipalFilingDeadline. Still to do, in research-elections-filing-rules-statutes: each charter place's deadline estimated from a sample of its own municipal codes, and each ESTIMATED row checked against the current statute.",
+    "replacement": "Narrowed Oct 23, 2026 (research-elections-sourced-parameters): Guam (3 GCA 15201, 15206) and Puerto Rico (Electoral Code art. 7.14) read from their codes and tagged SOURCED, and New York (Elec. Law 6-158, 8-100) read for the party date and tagged ESTIMATED until a side-specific deadline is wired, read by src/core2/elections-calendar.ts municipalFilingDeadline. Still to do, in research-elections-filing-rules-statutes: each charter place's deadline estimated from a sample of its own municipal codes, and each ESTIMATED row checked against the current statute.",
     "status": "open"
   },
   {
