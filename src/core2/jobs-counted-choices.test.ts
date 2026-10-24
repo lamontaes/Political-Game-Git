@@ -69,7 +69,7 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
           .table("countedSeekers")
           .rows() as unknown as Seeker[])
           if (
-            row.reasonKey === JOBS_DATA.reasons.startedLooking &&
+            byChoice.has(row.reasonKey) &&
             row.reasons &&
             !looking.has(row.personId) &&
             residentPerson(world.core, row.personId)
@@ -115,7 +115,7 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
     );
   }, 3_600_000);
 
-  it("someone already looking who now prefers to wait stops looking, full or counted alike, with the claim ended", () => {
+  it("someone already looking who now prefers to wait stops looking, full or counted alike, while a laid-off claimant keeps searching and claiming", () => {
     const tried: string[] = [];
     for (let draw = 0; draw < DRAWS; draw += 1) {
       const place = drawPlace(draw ? `${seed}:${draw}` : seed, "jobs-wait");
@@ -135,25 +135,57 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
             open: boolean;
           }[]
         ).filter((row) => row.personId === personId && row.open).length;
+      // A search begun by choosing to look, which the same review weighs again for both tiers.
+      const byChoice = new Set<string>([
+        JOBS_DATA.reasons.startedLooking,
+        "opening-unemployed",
+      ]);
       let date = makeIsoDate(start);
       let full: Seeker | undefined;
       let counted: Seeker | undefined;
-      for (let day = 0; day < 365 && !(full && counted); day += 1) {
+      // A search begun by losing a job, with its claim open: the review leaves it to a hire.
+      let fullLost: Seeker | undefined;
+      let countedLost: Seeker | undefined;
+      const found = () => full && counted && fullLost && countedLost;
+      for (let day = 0; day < 365 && !found(); day += 1) {
         date = addDays(date, 1);
         advanceCore(world.core, date);
+        const claimed = new Set(
+          (
+            jobs.table("claims").rows() as unknown as {
+              personId: string;
+              open: boolean;
+            }[]
+          )
+            .filter((row) => row.open)
+            .map((row) => row.personId),
+        );
+        const lost = (row: Seeker) =>
+          !row.employed &&
+          !byChoice.has(row.reasonKey) &&
+          claimed.has(row.personId);
+        fullLost ??= (jobs.table("seekers").rows() as unknown as Seeker[]).find(
+          (row) => lost(row) && world.core.people.has(row.personId),
+        );
+        countedLost ??= (
+          jobs.table("countedSeekers").rows() as unknown as Seeker[]
+        ).find((row) => lost(row) && residentPerson(world.core, row.personId));
         full ??= (jobs.table("seekers").rows() as unknown as Seeker[]).find(
-          (row) => !row.employed && world.core.people.has(row.personId),
+          (row) =>
+            !row.employed &&
+            byChoice.has(row.reasonKey) &&
+            world.core.people.has(row.personId),
         );
         counted ??= (
           jobs.table("countedSeekers").rows() as unknown as Seeker[]
         ).find(
           (row) =>
             !row.employed &&
-            row.reasonKey === JOBS_DATA.reasons.startedLooking &&
+            byChoice.has(row.reasonKey) &&
             residentPerson(world.core, row.personId),
         );
       }
-      if (!full || !counted) continue;
+      if (!full || !counted || !fullLost || !countedLost) continue;
       // Looking is now far below waiting for everyone: the same circumstances for both tiers.
       const baseline = world.core.data.parameters.jobsEnterBaseline!;
       const kept = baseline.value;
@@ -162,14 +194,18 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
         openClaims(full.personId),
         openClaims(counted.personId),
       ];
+      const lostClaimsBefore = [
+        openClaims(fullLost.personId),
+        openClaims(countedLost.personId),
+      ];
       try {
         reviewJobless(api);
         reviewCountedEntry(api);
       } finally {
         baseline.value = kept;
       }
-      console.log(
-        `wait review: ${where}; full seeker ${full.personId} (open claims ${claimsBefore[0]}), counted seeker ${counted.personId} (open claims ${claimsBefore[1]})`,
+      process.stdout.write(
+        `wait review: ${where}; full seeker ${full.personId} (${full.reasonKey}, open claims ${claimsBefore[0]}), counted seeker ${counted.personId} (${counted.reasonKey}, open claims ${claimsBefore[1]})\n`,
       );
       expect(jobs.table("seekers").get(full.personId), where).toBeUndefined();
       expect(
@@ -178,10 +214,21 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
       ).toBeUndefined();
       expect(openClaims(full.personId), where).toBe(0);
       expect(openClaims(counted.personId), where).toBe(0);
+      process.stdout.write(
+        `laid off: full ${fullLost.personId} (${fullLost.reasonKey}, open claims ${lostClaimsBefore[0]}), counted ${countedLost.personId} (${countedLost.reasonKey}, open claims ${lostClaimsBefore[1]})\n`,
+      );
+      expect(jobs.table("seekers").get(fullLost.personId), where).toBeDefined();
+      expect(
+        jobs.table("countedSeekers").get(countedLost.personId),
+        where,
+      ).toBeDefined();
+      expect(openClaims(fullLost.personId), where).toBe(lostClaimsBefore[0]);
+      expect(openClaims(countedLost.personId), where).toBe(lostClaimsBefore[1]);
+      expect(lostClaimsBefore, where).toEqual([1, 1]);
       return;
     }
     throw new Error(
-      `No already-seeking full and counted person in ${DRAWS} places: ${tried.join("; ")}`,
+      `No already-seeking full and counted person, by choice and laid off with a claim, in ${DRAWS} places: ${tried.join("; ")}`,
     );
   }, 3_600_000);
 });
