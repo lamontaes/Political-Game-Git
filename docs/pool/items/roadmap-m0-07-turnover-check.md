@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-circle-turnover
 pr: #5913
 blocked-on:
