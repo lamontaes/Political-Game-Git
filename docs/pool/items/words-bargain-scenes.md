@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-24 from PR #5949 (branch words/bargain-scenes): new bargain-scenes.test.ts:14 and carried purpose-scene.ts:2 / purpose-scenes.test.ts:22 embed dated owner instructions forbidden by the merger morning check; retain the quotes in docs and remove the dated source notes; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5949 (branch words/bargain-scenes): dated-owner-note repair accepted, but corrective 0c03e8a017 explicitly carries substantive parent features #5914 and #5942, both checked live open/unmerged; wait for their reviewed main delivery rather than merging them through this later scene PR, then finish on this branch, merge main into it first. No completed local gate or new runtime defect claimed.
