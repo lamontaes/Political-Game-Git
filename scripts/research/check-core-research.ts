@@ -97,6 +97,9 @@ interface RecallPlace {
   tag?: string;
   encoded?: Partial<Record<(typeof BAR_FIELDS)[number], number>>;
   spread?: [number, number];
+  /** A bar the statute sets as a fraction of the term, for the term lengths it serves. */
+  fractionOfTerm?: { of: [number, number]; termYears: number[] };
+  estimatedFrom?: string;
 }
 const recall = read<{ places: Record<string, RecallPlace> }>(
   "data/research/core/recall-timing-statutes-2026.json",
@@ -121,9 +124,53 @@ for (const [code, row] of Object.entries(recall.places)) {
     problems.push(`${code}: tag ${engine.tag} against ${row.tag}`);
   if (row.tag === "ESTIMATED") {
     const spread = engine.spread as [number, number] | undefined;
-    const value = row.encoded?.closingDays ?? row.encoded?.openingDays ?? 0;
-    if (!spread || spread[0] > value || spread[1] < value)
-      problems.push(`${code}: estimated bar ${value} outside spread ${spread}`);
+    const values = [
+      row.encoded?.closingDays ?? row.encoded?.openingDays ?? 0,
+      ...(row.encoded?.longTermOpeningDays !== undefined
+        ? [row.encoded.longTermOpeningDays]
+        : []),
+    ];
+    if (!row.estimatedFrom?.trim())
+      problems.push(`${code}: estimated bar has no estimatedFrom`);
+    if (
+      !spread ||
+      !row.spread ||
+      spread[0] !== row.spread[0] ||
+      spread[1] !== row.spread[1]
+    )
+      problems.push(
+        `${code}: spread ${spread} in recall-bars.json, ${row.spread} in the statute row`,
+      );
+    for (const value of values)
+      if (!spread || spread[0] > value || spread[1] < value)
+        problems.push(
+          `${code}: estimated bar ${value} outside spread ${spread}`,
+        );
+  }
+  // A bar set as a fraction of the term: the statute's days for each term
+  // length it serves (term years x 365 x fraction) fall inside the spread, and
+  // the days the engine returns for that term length are the statute's, within
+  // the spread's width, so the approximation is the one the spread states.
+  if (row.fractionOfTerm) {
+    const spread = engine.spread as [number, number] | undefined;
+    const [numerator, denominator] = row.fractionOfTerm.of;
+    for (const years of row.fractionOfTerm.termYears) {
+      const statuteDays = (years * 365 * numerator) / denominator;
+      const long =
+        row.encoded?.longTermAboveYears !== undefined &&
+        years > row.encoded.longTermAboveYears;
+      const engineDays = long
+        ? (row.encoded?.longTermOpeningDays ?? row.encoded?.openingDays ?? 0)
+        : (row.encoded?.openingDays ?? 0);
+      if (!spread || statuteDays < spread[0] - 1 || statuteDays > spread[1] + 1)
+        problems.push(
+          `${code}: statute bar ${statuteDays} days for a ${years}-year term outside spread ${spread}`,
+        );
+      if (!spread || engineDays < spread[0] || engineDays > spread[1])
+        problems.push(
+          `${code}: engine bar ${engineDays} days for a ${years}-year term outside spread ${spread}`,
+        );
+    }
   }
 }
 for (const code of Object.keys(bars.states))
@@ -266,6 +313,8 @@ if (problems.length) {
   console.error(problems.join("\n"));
   process.exit(1);
 }
+const statuteRead = (tag: string) =>
+  Object.values(recall.places).filter((row) => row.tag === tag).length;
 console.log(
-  `core research checks pass: ${Object.values(recall.places).filter((row) => row.tag === "SOURCED" || row.tag === "ESTIMATED").length} statute-read recall bars match recall-bars.json; 56 places in each per-place file; every band recomputes.`,
+  `core research checks pass: ${statuteRead("SOURCED")} SOURCED and ${statuteRead("ESTIMATED")} ESTIMATED statute-read recall bars match recall-bars.json; 56 places in each per-place file; every band recomputes.`,
 );

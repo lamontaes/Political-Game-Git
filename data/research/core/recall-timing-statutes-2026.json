@@ -76,7 +76,7 @@
     },
     "FL": {
       "localRecall": true,
-      "tag": "SOURCED",
+      "tag": "ESTIMATED",
       "statute": "Fla. Stat. 100.361(8)",
       "url": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0100/Sections/0100.361.html",
       "quotes": [
@@ -87,7 +87,9 @@
         "longTermOpeningDays": 365,
         "longTermAboveYears": 2
       },
-      "encodingNote": "One-fourth of the term: 183 days of a two-year term, 365 days of a four-year term. The bar table holds one value per term band, so a three-year term takes the four-year value (91 days longer than a quarter of three years).",
+      "fractionOfTerm": { "of": [1, 4], "termYears": [2, 3, 4] },
+      "spread": [182, 365],
+      "estimatedFrom": "The statute bars a petition until one-fourth of the term is served: term years x 365 / 4 days, which is 182.5 days of a two-year term, 273.75 of a three-year term and 365 of a four-year term. The engine's day count is two values, 183 days for a term of two years or less and 365 for a longer one (longTermOpeningDays), so it equals the statute for a two-year term (within half a day) and a four-year term, is 91 days long (365 against 273.75) for a three-year term, and would be 183 days short (365 against 547.5) for a six-year term. The spread, 182 to 365 days, is the statute's bar for terms of 2, 3 and 4 years, the lengths the game reads for local seats: the 18 seat terms in src/core2/gov-rules/municipal-governments.json are all 2, 3 or 4 years, and the modal council term (ICMA 2018, 63.6% of at-large councils), the default mayor term and the state's county schedule (data/research/government/county-election-schedule-by-state.json) are each 4 years. No compiled charter reading for this state carries a term length, so today its council, mayor and county commission seats take four years, where the engine is exact; the 91-day gap appears for a three-year term (13.1% of at-large councils in the ICMA 2018 table). Registered as SG-GOV-recall-bars-term-fraction; the builder item gov-recall-bars-fraction-of-term encodes a fraction-of-term bar.",
       "afterFailed": "not stated in the sections read"
     },
     "GA": {
