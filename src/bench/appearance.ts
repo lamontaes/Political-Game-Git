@@ -135,12 +135,10 @@ export function drawnAppearance(
   seed: string,
   draw: number,
 ): LookRecipe {
-  const all = sexes();
-  const sex = all.includes(gender)
-    ? gender
-    : all[hash(`${seed}:${draw}:body`) % all.length]!;
   const pick = (items: readonly string[], key: string) =>
     items[hash(`${seed}:${draw}:${key}`) % items.length]!;
+  const all = sexes();
+  const sex = all.includes(gender) ? gender : pick(all, "body");
   return settled({
     sex,
     build: pick(options("build", sex), "build"),
