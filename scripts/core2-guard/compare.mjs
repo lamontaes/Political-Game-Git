@@ -37,7 +37,6 @@ export function compare(base, head) {
     for (const key of [
       "seed",
       "placeKey",
-      "inputHash",
       "startedAt",
       "days",
       "settings",
@@ -56,6 +55,12 @@ export function compare(base, head) {
       )
     )
       throw new Error("Revision changed inside measured group");
+  // A change to data the opening reads changes the input between base and
+  // head; it is timed on the same seed, place, days, settings and host, and
+  // reported. Inside one revision the input must not change.
+  for (const group of [base, head])
+    if (group.some((row) => row.inputHash !== group[0].inputHash))
+      throw new Error("Incomparable measurement: inputHash inside a revision");
   const baseMs = median(base.map((row) => row.millisecondsPerDay)),
     headMs = median(head.map((row) => row.millisecondsPerDay)),
     ratio = headMs / baseMs;
@@ -81,6 +86,11 @@ export function compare(base, head) {
       head: Math.max(...head.map((row) => row.peakRssMiB)),
     },
     opening: { base: base[0].opening, head: head[0].opening },
+    inputHash: {
+      base: base[0].inputHash,
+      head: head[0].inputHash,
+      changed: base[0].inputHash !== head[0].inputHash,
+    },
     yearEstimateScope:
       "Relative estimate from identical 31-day windows; not a full-year two-minute proof",
   };

@@ -1,6 +1,33 @@
 {
   "entries": [
     {
+      "version": "0.22.9",
+      "releasedOn": "2026-10-24",
+      "revision": "57b0111b6720023840d713e583e8e2b20b29f4a7",
+      "changeIds": [
+        "core-counted-weight-headcount-red-maricopa",
+        "core-speed-guard-refuses-changed-opening",
+        "traits-campaigns-own-sd"
+      ]
+    },
+    {
+      "version": "0.22.8",
+      "releasedOn": "2026-10-24",
+      "revision": "f1f23098bd147b18f08c173535dd21a03ca098b7",
+      "changeIds": [
+        "core-counted-household-jobs-in-step",
+        "effect-web-schools",
+        "hearing-speaker-named",
+        "pool-health-split",
+        "release-feed-check",
+        "research-core-parameters-sourced-parameters",
+        "screens-2026-10-19-report",
+        "staff-aides-miss-every-scheduled-day",
+        "test-assistance-work-time-limit-fixture",
+        "web-calibrate-births-full"
+      ]
+    },
+    {
       "version": "0.22.7",
       "releasedOn": "2026-10-24",
       "revision": "b02f41afca7363e0e9ec27e3386e24bb3942ad96",

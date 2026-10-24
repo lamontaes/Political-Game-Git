@@ -21,3 +21,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** scripts/traits/trait-wiring-matrix.ts, data/content/trait-decision-gaps.json, src/core2/modules/campaigns.ts, src/bench/campaign.ts
 
 **Notes.** Split Oct 24 by the CTO from `traits-wiring-audit` (order `docs/work-orders/lead-traits-2026-10-24.md`). The list with file and line for each is in `docs/reports/trait-wiring-2026-10-20.md`, "Decisions that never ran".
+
+Sent back 2026-10-24 UTC from PR #5886 (branch claude/traits-decisions-never-run): Done-when row 2 lacks actual decision record IDs (examples only actor/date/result, some date only); row 3 appointments.weigh and housing.settle-arrears gap fixes name no tracked item; capture owning record IDs and link or file the missing bounded work; finish on that branch, merge main into it first.
