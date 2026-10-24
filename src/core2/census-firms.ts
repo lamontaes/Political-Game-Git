@@ -3,8 +3,8 @@
  * the sample it was generated from, so its firms are sized to match: each
  * firm's yearly demand, capacity, payroll and outside costs, the supplier
  * budgets it pays and the cash it keeps against payroll are the sample's
- * times the place's scale (owner, Oct 15: a town opens at its real Census
- * size). Without it the weighted residents pay the same few firms the same
+ * times the place's scale, because a town opens at its real Census
+ * size. Without it the weighted residents pay the same few firms the same
  * amount, spending beyond their capacity goes outside the town, and the firms
  * pay the weighted workers a wage bill their sales never planned for.
  */

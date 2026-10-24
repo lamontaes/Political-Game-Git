@@ -281,7 +281,7 @@ function* benchWorldStages(
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
     playerId = entrantOf(input, place.context.jurisdiction.id);
-    // A town opens at its real Census size (owner, Oct 15): the sample is the
+    // A town opens at its real Census size: the sample is the
     // people generated, and each counted household stands for as many real
     // households as the Census count is over the sample, unless asked for.
     const countScale =
