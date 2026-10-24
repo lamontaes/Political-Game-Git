@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-views-lived-crime
 pr: #5895
 blocked-on:
