@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2
+milestone: play-first
 ---
 
 **What.** On the v0.22.10 release, on Monday December 14, 2026 (six weeks after I won my council seat), the screen says SOMETHING NEEDS YOU with no talk box and no message; Day and Week are grayed and Continue is the only control. Each Continue returns to the same date and screen, two Week presses wait almost two minutes and change nothing, and Quit to title then CONTINUE returns to the same lock. The pause behind it is a held job offer: the game's stop names reason "job-offered" for a Janitor job at $13.48 an hour (record job-offer:position:organization_e3138a3bdaea64a0:2026-12-01:4:person_fe9956e2c35fa4e5, hold true), but the play screen never shows the offer or a way to take or turn it down. A player can do nothing but close the game.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/play.mjs, src/bench/handler.ts, src/bench/jobs.ts, src/core2/modules/jobs.ts, src/bench/data/controls.json
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:36 to 16:42; screenshots 83-dec-needs-7, 83-dec-needs-9, 84, 86, 87, 88, 89, 90. Pause id player:person_fe9956e2c35fa4e5:707. Stopper 3 of 3; this one ends play. assigned: Play fixer (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:36 to 16:42; screenshots 83-dec-needs-7, 83-dec-needs-9, 84, 86, 87, 88, 89, 90. Pause id player:person_fe9956e2c35fa4e5:707. Stopper 3 of 3; this one ends play. Lead: m0-m2 (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).

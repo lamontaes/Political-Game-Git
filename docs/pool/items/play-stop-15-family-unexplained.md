@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2
+milestone: play-first
 ---
 
 **What.** I made Bo Snider on the v0.22.10 release. The first evening at home shows five people; hovering names John, Paula, Parker and Madison Stein, and nothing on screen says they are my family until I click one ("father"). The People web adds sisters Luna and Elizabeth Stein, grandmother Blair Stein and uncle Brandon Valentine; nobody shares my surname and nothing says why. The fifth person in the room is unnamed. I expected a line on the first night saying who lives with me.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/opening-story.ts, src/bench/opening.ts, src/bench/family.ts, src/bench/scene.ts
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:52; screenshots 11, 13, 23. assigned: Play fixer (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:52; screenshots 11, 13, 23. Lead: m0-m2 (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).

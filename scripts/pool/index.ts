@@ -219,11 +219,11 @@ export function buildIndex(items: Item[]): string {
     (s) => `${items.filter((i) => i.status === s).length} ${s}`,
   ).join(", ");
   const table = (xs: Item[]): string[] => [
-    "| id | title | area | kind | priority | size | claimed-by | pr | blocked-on |",
-    "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+    "| id | title | area | lead | kind | priority | size | claimed-by | pr | blocked-on |",
+    "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
     ...sorted(xs).map(
       (i) =>
-        `| [${i.id}](items/${i.id}.md) | ${cell(i.title)} | ${i.area} | ${i.kind} | ${i.priority} | ${sizeOf(i)} | ${cell(i["claimed-by"])} | ${cell(i.pr)} | ${cell(i["blocked-on"])} |`,
+        `| [${i.id}](items/${i.id}.md) | ${cell(i.title)} | ${i.area} | ${cell(i.lead)} | ${i.kind} | ${i.priority} | ${sizeOf(i)} | ${cell(i["claimed-by"])} | ${cell(i.pr)} | ${cell(i["blocked-on"])} |`,
     ),
   ];
   const out = [
@@ -248,7 +248,7 @@ export function buildIndex(items: Item[]): string {
       .slice(0, 15)
       .map(
         (i, n) =>
-          `${n + 1}. [${i.id}](items/${i.id}.md) (${i.area}, ${i.kind}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
+          `${n + 1}. [${i.id}](items/${i.id}.md) (${i.area}${i.lead ? `, lead ${i.lead}` : ""}, ${i.kind}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
       ),
     "",
   ];

@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: laws
+milestone: play-first
 ---
 
 **What.** After filing for Anson City Council on the v0.22.10 release, I opened Politics → Campaigns. Give a speech made the button disappear and nothing else happened: no speech, no audience, no words. Ask for an interview added the line "Ask for an interview" and nothing more. Call donors added "Call donors" and the total stayed "$0.00 raised". Hold an event stayed grayed with no reason. Only Knock on doors shows a scene, and its voters can't be clicked. I expected each action to show what happened: what I said, who answered, money raised or a reason it wasn't.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/bench/campaign.ts, src/core2/modules/campaigns.ts, src/bench/play.mjs
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:05, 16:06; screenshots 49, 50, 53, 54, 55. assigned: Gov fixer (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:05, 16:06; screenshots 49, 50, 53, 54, 55. Lead: laws (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
