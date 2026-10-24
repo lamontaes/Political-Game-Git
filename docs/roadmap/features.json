@@ -98,7 +98,7 @@
       "golden_path": "core",
       "package": "M0-core",
       "test": "Module state, accounts with one balanced writer, the institution calendar and voter groups each have their own contract tests; the speed budget holds; the first two M1 ports build on them without patching the core.",
-      "command": "npx vitest run src/core2/module-state.test.ts src/core2/accounts.test.ts src/core2/module-calendar.test.ts src/core2/voter-groups.test.ts",
+      "command": "NODE_OPTIONS=--max-old-space-size=8192 npx vitest run src/core2/module-state.test.ts src/core2/accounts.test.ts src/core2/module-calendar.test.ts src/core2/voter-groups.test.ts",
       "passes": false
     },
     {
