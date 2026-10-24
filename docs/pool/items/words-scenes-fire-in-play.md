@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/scenes-fire-in-play
+pr: #5914
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T05:50:48.896Z
 ---
 
 **What.** The owner, Oct 24: start getting the grades and the scenes wired, triggering from records; Wildermyth is the model and the opening is the current example of a scene. He accepts that the first scenes may read badly as long as the mechanism works. The director already stages scenes from records and the English engine words them, but scenes with a purpose (a vote asked, a bargain, a donor, a reporter) play only on the review page, because their lines are held until graded. This item makes the staged scenes, purpose scenes included, play on the play screen from the lines that are released, with each scene naming the records and the world's numbers that fired it.
