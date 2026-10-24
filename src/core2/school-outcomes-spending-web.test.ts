@@ -7,8 +7,11 @@
  * chose, in three worlds that are identical but for one thing each:
  *  - base: nothing changed;
  *  - amended: the schools line of the town's budget raised, the real cause;
- *  - shifted: the link's effect on the web's month rows set to many times
- *    the researched one, so a small town's seniors can show it.
+ *  - raised far: the same line raised many times over, so the link's effect
+ *    the web computes by June is large enough for a small town's seniors to
+ *    show it. (Setting the effect on the web's rows by hand did not hold: a
+ *    law that takes effect on graduation day rewrites the month's row before
+ *    the school engine reads it.)
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -39,8 +42,9 @@ const seed = process.env.SCHOOL_SPENDING_SEED || randomBytes(8).toString("hex");
 const LINK = "school-spending-to-attainment";
 const CAUSE = "budget.schools-added-pct";
 const MEASURE = SCHOOL_MEASURE.graduation;
-const SHIFT = 0.3;
 const RAISE = 0.1;
+/** Eight times the line: by June the web's twelve-year mean of the cause gives an effect of about 0.1 to 0.3. */
+const FAR_RAISE = 8;
 /** From late January through the last day of school. */
 const DAYS = 165;
 const ATTEMPTS = 5;
@@ -74,7 +78,7 @@ const webRows = (core: CoreState, placeId: string) =>
   ].sort((a, b) => a.month.localeCompare(b.month));
 
 /** The raise: the schools line of the first city or county budget in the town that has one. */
-function raiseSchoolsLine(core: CoreState, placeId: string) {
+function raiseSchoolsLine(core: CoreState, placeId: string, raise: number) {
   const api = coreAPI(core);
   const town = governments(api).filter(
     (gov) =>
@@ -94,7 +98,7 @@ function raiseSchoolsLine(core: CoreState, placeId: string) {
     if (!pick && base > 0) pick = { id: gov.id, line: base };
   }
   if (!pick) return null;
-  const deltaMinor = Math.round(pick.line * RAISE);
+  const deltaMinor = Math.round(pick.line * raise);
   const amended = amendBudget(api, {
     governmentId: pick.id,
     line: "schools",
@@ -113,7 +117,7 @@ function raiseSchoolsLine(core: CoreState, placeId: string) {
 /** Plays the world from the game start to the end of the school year; null where the amended world gives no signal. */
 function play(
   drawn: Drawn,
-  how: { amend?: boolean; shift?: boolean },
+  how: { amend?: number },
 ): World | { skipped: string } {
   const opening = gameStartDate();
   const built = buildBenchWorld(drawn.seed, opening, {
@@ -121,7 +125,6 @@ function play(
     placeKey: drawn.key,
   });
   const core = built.core as CoreState;
-  const api = coreAPI(core);
   let amended: World["amended"];
   let day = makeIsoDate(opening);
   const end = addDays(day, DAYS);
@@ -133,21 +136,9 @@ function play(
     // The raise comes the day after the web's opening month row is written,
     // so that row reads the budget at its Census base.
     if (how.amend && step === 1) {
-      const raised = raiseSchoolsLine(core, built.placeId);
+      const raised = raiseSchoolsLine(core, built.placeId, how.amend);
       if (!raised) return { skipped: "no city or county schools line" };
       amended = raised;
-    }
-    // The web writes its month on the 3rd, and writes it again whenever a law
-    // takes effect, which drops a shift laid earlier; from the 3rd on, the
-    // twin raises the effect again in any of the month's rows without it.
-    if (how.shift && Number(core.date.slice(8)) >= 3) {
-      const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
-      for (const row of months.rows() as unknown as WebMonth[])
-        if (row.month === core.date.slice(0, 7) && row.effects[LINK] !== SHIFT)
-          months.put({
-            ...row,
-            effects: { ...row.effects, [LINK]: SHIFT },
-          } as never);
     }
     if (how.amend && step === 45) {
       // A fiscal year that turned over has dropped the raise from the budget in force.
@@ -183,7 +174,7 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
     let amended: World | null = null;
     for (let attempt = 0; attempt < ATTEMPTS && !amended; attempt += 1) {
       const candidate = drawPlace(`${seed}:${attempt}`, "school-spending-web");
-      const world = play(candidate, { amend: true });
+      const world = play(candidate, { amend: RAISE });
       const where = `${candidate.name}, ${candidate.state} (seed ${candidate.seed})`;
       if ("skipped" in world) tried.push(`${where}: ${world.skipped}`);
       else if (!groupsOf(world.core, world.placeId).length)
@@ -200,7 +191,9 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
     const where = `${drawn.name}, ${drawn.state}, seed ${drawn.seed}`;
 
     const base = play(drawn, {}) as World;
-    const shifted = play(drawn, { shift: true }) as World;
+    const shifted = play(drawn, { amend: FAR_RAISE });
+    if ("skipped" in shifted)
+      throw new Error(`${where}: raised far: ${shifted.skipped}`);
     expect(base.placeId).toBe(amended.placeId);
     expect(shifted.placeId).toBe(amended.placeId);
     const placeId = amended.placeId;
@@ -287,22 +280,31 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
       (row) => row.id === baseMeasure.webRecordId,
     )!;
 
-    // 4. The shifted twin shows the same read at a size a small town can show:
-    // every fifth's factor and expected count rise, and graduates are added,
-    // by person record where a full senior is.
+    // 4. The far-raised twin shows the same read at a size a small town can
+    // show: each fifth's factor is the read month's, with a larger part from
+    // this link, so every fifth's factor and expected count rise, and
+    // graduates are added, by person record where a full senior is.
     const shiftedGroups = groupsOf(shifted.core, placeId);
     const shiftedMeasure = measureOf(shifted.core, placeId)!;
     const shiftedWeb = webRows(shifted.core, placeId).find(
       (row) => row.id === shiftedMeasure.webRecordId,
     )!;
-    expect(shiftedWeb.effects[LINK]).toBe(SHIFT);
+    expect(shiftedWeb.effects[LINK]).toBeGreaterThan(
+      graduationWeb.effects[LINK]!,
+    );
     expect(baseWebRow.effects[LINK]).toBeCloseTo(0, 9);
     for (const group of shiftedGroups) {
       const before = baseGroups.find((g) => g.id === group.id)!;
-      const w = subjectWeight(LINK, { incomeFifth: group.incomeFifth });
-      expect(group.factor / before.factor, group.id).toBeCloseTo(
-        (1 + SHIFT * w) / (1 + baseWebRow.effects[LINK]! * w),
+      expect(group.factor, group.id).toBeCloseTo(
+        factorOf(shiftedWeb, group.incomeFifth),
         9,
+      );
+      expect(before.factor, before.id).toBeCloseTo(
+        factorOf(baseWebRow, group.incomeFifth),
+        9,
+      );
+      expect(group.factor, group.id).toBeGreaterThan(
+        factorOf(shiftedWeb, group.incomeFifth, LINK),
       );
       expect(group.expected, group.id).toBeGreaterThan(before.expected);
     }
@@ -332,7 +334,7 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
     expect(shiftedResults.length).toBeGreaterThan(0);
 
     console.log(
-      `school spending to graduation: ${where}, test seed ${seed}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}. Raised ${raise.governmentId} schools line by ${raise.deltaMinor} (${raise.pct.toFixed(3)}% of the town's schools lines): web ${first.id} reads ${CAUSE} ${first.values[CAUSE]!.toFixed(3)} from ${first.engineSources[CAUSE]}, link effect ${first.effects[LINK]!.toExponential(3)} then ${lastRaised.effects[LINK]!.toExponential(3)} at ${lastRaised.id}. Graduation ${raisedMeasure.id} (read ${graduationWeb.id}): factor by income fifth with the link / without it ${raisedGroups.map((g) => `${g.incomeFifth}:${g.factor.toFixed(4)}/${factorOf(graduationWeb, g.incomeFifth, LINK).toFixed(4)}`).join(" ")}. Shifted to ${SHIFT} (read ${shiftedMeasure.webRecordId}): graduates ${passed(baseGroups)} -> ${passed(shiftedGroups)} of ${shiftedGroups.reduce((n, g) => n + g.students, 0)}, value ${baseMeasure.value.toFixed(2)} -> ${shiftedMeasure.value.toFixed(2)}; ${flipped.length} of ${shiftedResults.length} full seniors newly graduate [${flipped.slice(0, 4).join(", ")}].`,
+      `school spending to graduation: ${where}, test seed ${seed}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}. Raised ${raise.governmentId} schools line by ${raise.deltaMinor} (${raise.pct.toFixed(3)}% of the town's schools lines): web ${first.id} reads ${CAUSE} ${first.values[CAUSE]!.toFixed(3)} from ${first.engineSources[CAUSE]}, link effect ${first.effects[LINK]!.toExponential(3)} then ${lastRaised.effects[LINK]!.toExponential(3)} at ${lastRaised.id}. Graduation ${raisedMeasure.id} (read ${graduationWeb.id}): factor by income fifth with the link / without it ${raisedGroups.map((g) => `${g.incomeFifth}:${g.factor.toFixed(4)}/${factorOf(graduationWeb, g.incomeFifth, LINK).toFixed(4)}`).join(" ")}. Raised ${FAR_RAISE} times over, link effect ${shiftedWeb.effects[LINK]!.toFixed(4)} (read ${shiftedMeasure.webRecordId}): graduates ${passed(baseGroups)} -> ${passed(shiftedGroups)} of ${shiftedGroups.reduce((n, g) => n + g.students, 0)}, value ${baseMeasure.value.toFixed(2)} -> ${shiftedMeasure.value.toFixed(2)}; ${flipped.length} of ${shiftedResults.length} full seniors newly graduate [${flipped.slice(0, 4).join(", ")}].`,
     );
   }, 3_600_000);
 });
