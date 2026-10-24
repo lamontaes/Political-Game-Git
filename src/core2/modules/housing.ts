@@ -1002,6 +1002,50 @@ function buyOffer(
 }
 
 /**
+ * Why a renter household would buy, each reason sliding with the household's
+ * own record and none a bar: owning's cost over the rent (the interest, the
+ * rest of the payment being equity), the share of the down payment it is
+ * short, children at home, the head's age, years in the lease, and savings
+ * beyond the down payment. `baseline` is how far buying sits below renting
+ * before these.
+ */
+export function homeBuyReasons(
+  p: (key: string) => number,
+  c: {
+    interestMinor: number;
+    rentMinor: number;
+    incomeMinor: number;
+    downMinor: number;
+    meansMinor: number;
+    children: number;
+    /** The age pull, 0 to 1 (`buyingAgeShape`). */
+    agePull: number;
+    leaseYears: number;
+  },
+): Record<string, number> {
+  return {
+    baseline: p("housingBuyBaseline"),
+    cost:
+      -p("housingBuyCostWeight") *
+      ((c.interestMinor - c.rentMinor) / c.incomeMinor),
+    // The share of the down payment the household is short, from none to all of it: a household with nine tenths of it is nearly as ready as one with all of it.
+    down:
+      -p("housingBuyDownWeight") * Math.max(0, 1 - c.meansMinor / c.downMinor),
+    children: (p("housingBuyChildWeight") * Math.min(c.children, 3)) / 3,
+    age: p("housingBuyAgeWeight") * c.agePull,
+    tenure:
+      p("housingBuyTenureWeight") *
+      Math.min(1, c.leaseYears / p("housingBuyTenureYears")),
+    savings:
+      p("housingBuySavingsWeight") *
+      Math.min(
+        1,
+        Math.max(0, Math.log((c.meansMinor + 1) / (c.downMinor + 1))),
+      ),
+  };
+}
+
+/**
  * A full renter household weighs buying a home each month: what owning would
  * cost against its rent, and the down payment against its cash. A buyer gets
  * as much home as the town bank will finance on its income (the bank's yes
@@ -1073,34 +1117,17 @@ function buyHomes(api: CoreAPI): void {
     // What it can put down: cash, and the savings the bank holds for it.
     const savings = depositsHeld(c, household.id);
     const means = cash + savings;
-    const reasons = {
-      baseline: p("housingBuyBaseline"),
-      cost:
-        -p("housingBuyCostWeight") * ((interest - lease.amountMinor) / income),
-      down:
-        -p("housingBuyDownWeight") *
-        Math.max(0, Math.log((down + 1) / (means + 1))),
-      // What really pulls a household toward owning, each sliding with the
-      // household's own record: children at home, the head's age, years in
-      // the lease and savings beyond the down payment.
-      children:
-        (p("housingBuyChildWeight") * Math.min(childrenAt(api, members), 3)) /
-        3,
-      age:
-        p("housingBuyAgeWeight") *
-        buyingAgeShape(api, ageOnDate(head!.birthDate, c.date)),
-      tenure:
-        p("housingBuyTenureWeight") *
-        Math.min(
-          1,
-          daysBetweenText(lease.firstDueAt, c.date) /
-            p("daysPerMeanYear") /
-            p("housingBuyTenureYears"),
-        ),
-      savings:
-        p("housingBuySavingsWeight") *
-        Math.min(1, Math.max(0, Math.log((means + 1) / (down + 1)))),
-    };
+    const reasons = homeBuyReasons(p, {
+      interestMinor: interest,
+      rentMinor: lease.amountMinor,
+      incomeMinor: income,
+      downMinor: down,
+      meansMinor: means,
+      children: childrenAt(api, members),
+      agePull: buyingAgeShape(api, ageOnDate(head!.birthDate, c.date)),
+      leaseYears:
+        daysBetweenText(lease.firstDueAt, c.date) / p("daysPerMeanYear"),
+    });
     const result = chooseAct(c, head!.id, [
       buyOffer(false, household.id, {}),
       buyOffer(true, household.id, reasons),
@@ -1238,6 +1265,24 @@ function review(api: CoreAPI): void {
   occupyCompletedRentals(api);
   landlordPayout(api);
   buyHomes(api);
+  // A household behind on rent weighs settling part of it from its spare cash before the landlord weighs the lease.
+  for (const [id, row] of [...c.finance.contracts].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  ))
+    if (id.startsWith("lease:") && !row.endedAt && row.arrearsMinor > 0) {
+      const settled = settleArrears(api, id, "arrears-settled");
+      // What the household owed, held and was willing to settle this month (paid 0 when it holds nothing beyond a month's living); a payment's ledger entries are `arrears-settled:<lease>:<date>:<payer>`.
+      store(api)
+        .table("settlements")
+        .put({
+          id: `settlement:${id}:${c.date}`,
+          leaseId: id,
+          householdId: row.householdId,
+          date: c.date,
+          paidMinor: settled.paidMinor,
+          ...settled.read,
+        });
+    }
   // The landlord weighs each late lease past the grace period: how many months of rent are owed and how long.
   const late: { id: string; score: number; months: number }[] = [];
   for (const [id, row] of c.finance.contracts) {
@@ -1339,7 +1384,12 @@ function landlordPulls<T extends { id: string; score: number }>(
 }
 
 /** The household's members pay toward the lease's arrears from their cash, largest balance first. */
-function payArrears(api: CoreAPI, leaseId: string, owed: number): number {
+function payArrears(
+  api: CoreAPI,
+  leaseId: string,
+  owed: number,
+  entry = "arrears",
+): number {
   const c = core(api),
     lease = c.finance.contracts.get(leaseId)!;
   let paid = 0;
@@ -1350,7 +1400,7 @@ function payArrears(api: CoreAPI, leaseId: string, owed: number): number {
     if (paid >= owed) break;
     paid += transferCash(
       api,
-      `arrears:${leaseId}:${c.date}:${id}`,
+      `${entry}:${leaseId}:${c.date}:${id}`,
       id,
       lease.payeeId,
       owed - paid,
@@ -1945,15 +1995,18 @@ function remove(api: CoreAPI, caseId: string, owed: number): void {
 }
 
 /**
- * A filled-in household settles part of the arrears its group ran up: the
- * cash its members hold beyond a month of living cost, times how far their
- * traits lean toward settling what is owed over letting it lapse (a sliding
- * scale, no fixed share). What it does not settle stays on the lease and goes
- * to the cure deadline as any household's arrears do.
+ * A household behind on rent settles part of what it owes: the cash its
+ * members hold beyond a month of living cost, times how far their traits lean
+ * toward settling what is owed over letting it lapse (a sliding scale, no
+ * fixed share). It runs each month for every full household with rent owed,
+ * and once when a counted household behind is filled in (its group's arrears
+ * become the lease's). What it does not settle stays on the lease and goes to
+ * the cure deadline as any household's arrears do.
  */
-function settleFilledInArrears(
+function settleArrears(
   api: CoreAPI,
   leaseId: string,
+  entry: string,
 ): {
   paidMinor: number;
   read: {
@@ -1997,6 +2050,7 @@ function settleFilledInArrears(
           api,
           leaseId,
           Math.min(owedMinor, Math.round(spare * willingness)),
+          entry,
         )
       : 0;
   return {
@@ -2015,6 +2069,7 @@ export const HOUSING_MODULE: CoreModule = {
       renewals: {},
       mortgages: {},
       purchases: {},
+      settlements: {},
       dwellings: {},
       counsel: {},
       assessments: {},
@@ -2056,7 +2111,7 @@ export const HOUSING_MODULE: CoreModule = {
       // The household settles part of it now, from its own cash and traits:
       // what its members hold beyond a month's living, times how far their
       // traits lean toward settling what is owed over letting it lapse.
-      const settled = settleFilledInArrears(api, lease);
+      const settled = settleArrears(api, lease, "arrears-fill-in");
       store(api)
         .table("cases")
         .put({
