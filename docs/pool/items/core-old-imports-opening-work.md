@@ -29,3 +29,5 @@ claimed-at:
 Reconciled Oct 23: only the old runtime path `workSchedulesFor` (and the old World types) remain to replace; the pattern table already lives in core. PR #5035 is a definition-only slice and does not complete this item, so its `pr:` link is cleared.
 
 Sent back 2026-10-23 from PR #5035 (branch claude/old-imports-opening-work): The definition-only slice names already-ported helpers and pattern data, while its in-pr PR link would falsely complete the still-unimplemented opening-work task; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from planning PR #5035 (branch claude/old-imports-opening-work): own-environment applicable checks passed on 2f8bcb91dc390ed3df2a36eb86799138682257db, but the head-pinned merge returned 405 merge conflicts after main advanced; implementation acceptance remains open. Finish the planning merge on that branch, merge current main into it first and rerun the changed-file checks.
