@@ -50,6 +50,7 @@ let NAMES: Record<string, string> | undefined;
 export function wordArchiveStory(
   core: CoreState,
   story: StoredStory,
+  options: { heldFirst?: boolean } = {},
 ): WordedStory | null {
   if (story.kind !== "press.archived") return null;
   const recordKind = story.facts.recordKind;
@@ -110,7 +111,7 @@ export function wordArchiveStory(
       sourceRecordIds: row.sourceRecordIds,
     })),
   };
-  const composed = composeNewsStory(packet, kind);
+  const composed = composeNewsStory(packet, kind, options);
   if (!composed.headline && !composed.lede) return null;
   return {
     ...(composed.headline ? { headline: composed.headline } : {}),

@@ -85,47 +85,52 @@ function engineText(text: string): string {
 /** A mined sentence as the engine's template variant. */
 type MinedVariant = Extract<LinePartVariant, { kind: "template" }>;
 
+/**
+ * A role's sentences. Play says only shipped parts. A grading page
+ * (`heldFirst`) says the held ones wherever one fits, so the owner reads each
+ * in a real story; a role no held part fits keeps its shipped parts.
+ */
 function variants(
   bank: Bank,
   match: (use: { subject: string; role: string }) => boolean,
+  heldFirst = false,
 ): MinedVariant[] {
-  return bank.parts
-    .filter(
-      (part) =>
-        part.shippable && !heldByGrades(part.key) && part.uses.some(match),
-    )
-    .map((part) => {
-      // "Good morning" is said only in the morning, "Good evening" and
-      // "tonight" only in the evening, from the broadcast's record.
-      const requires = [
-        ...(part.uses.find(match)?.requiresFacts ?? []),
-        // An outcome is said only when the story's record has that outcome.
-        ...(/\b(?:won|wins|elected|reelected|re-elected)\b/i.test(part.text)
-          ? ["won"]
-          : []),
-        ...(/\b(?:lost|loses|conceded)\b/i.test(part.text) ? ["lost"] : []),
-        ...(/\b(?:passed|passes|approved|approves|adopts)\b/i.test(part.text)
-          ? ["passed"]
-          : []),
-        ...(/\b(?:failed|rejected|rejects|vetoed)\b/i.test(part.text)
-          ? ["failed"]
-          : []),
-        // "The unemployment rate fell to ..." only when the record says it fell.
-        ...(/\bunemployment rate fell\b/i.test(part.text)
-          ? ["unemployment-down"]
-          : []),
-        ...(/\bmorning\b/i.test(part.text) ? ["morning"] : []),
-        ...(/\b(?:evening|tonight|night)\b/i.test(part.text)
-          ? ["evening"]
-          : []),
-      ];
-      return {
-        key: part.key,
-        kind: "template" as const,
-        text: engineText(part.text),
-        ...(requires?.length ? { requiresFacts: requires } : {}),
-      };
-    });
+  const fits = (part: Bank["parts"][number]) =>
+    !heldByGrades(part.key) && part.uses.some(match);
+  const shipped = bank.parts.filter((part) => part.shippable && fits(part));
+  const held = heldFirst
+    ? bank.parts.filter((part) => !part.shippable && fits(part))
+    : [];
+  return (held.length ? held : shipped).map((part) => {
+    // "Good morning" is said only in the morning, "Good evening" and
+    // "tonight" only in the evening, from the broadcast's record.
+    const requires = [
+      ...(part.uses.find(match)?.requiresFacts ?? []),
+      // An outcome is said only when the story's record has that outcome.
+      ...(/\b(?:won|wins|elected|reelected|re-elected)\b/i.test(part.text)
+        ? ["won"]
+        : []),
+      ...(/\b(?:lost|loses|conceded)\b/i.test(part.text) ? ["lost"] : []),
+      ...(/\b(?:passed|passes|approved|approves|adopts)\b/i.test(part.text)
+        ? ["passed"]
+        : []),
+      ...(/\b(?:failed|rejected|rejects|vetoed)\b/i.test(part.text)
+        ? ["failed"]
+        : []),
+      // "The unemployment rate fell to ..." only when the record says it fell.
+      ...(/\bunemployment rate fell\b/i.test(part.text)
+        ? ["unemployment-down"]
+        : []),
+      ...(/\bmorning\b/i.test(part.text) ? ["morning"] : []),
+      ...(/\b(?:evening|tonight|night)\b/i.test(part.text) ? ["evening"] : []),
+    ];
+    return {
+      key: part.key,
+      kind: "template" as const,
+      text: engineText(part.text),
+      ...(requires?.length ? { requiresFacts: requires } : {}),
+    };
+  });
 }
 
 function line(
@@ -179,7 +184,9 @@ export interface NewsStory {
 export function composeNewsStory(
   packet: GroundedEnglishPacket,
   kind: StoryKind,
+  options: { heldFirst?: boolean } = {},
 ): NewsStory {
+  const heldFirst = options.heldFirst ?? false;
   const roles = STORY_KINDS[kind];
   const ids = new Set<string>();
   const keep = (
@@ -195,8 +202,10 @@ export function composeNewsStory(
       `${kind}/headline`,
       "news",
       "tell",
-      variants(HEADLINES_BANK, (use) =>
-        (roles.headline as readonly string[]).includes(use.role),
+      variants(
+        HEADLINES_BANK,
+        (use) => (roles.headline as readonly string[]).includes(use.role),
+        heldFirst,
       ),
     ),
   );
@@ -206,8 +215,10 @@ export function composeNewsStory(
       `${kind}/lede`,
       "news",
       "tell",
-      variants(NEWS_BANK, (use) =>
-        (roles.lede as readonly string[]).includes(use.role),
+      variants(
+        NEWS_BANK,
+        (use) => (roles.lede as readonly string[]).includes(use.role),
+        heldFirst,
       ),
     ),
   );
@@ -220,6 +231,7 @@ export function composeNewsStory(
     variants(
       NEWSCAST_BANK,
       (use) => use.subject === subject && use.role === name,
+      heldFirst,
     );
   const broadcast: NewsStory["broadcast"] = [];
   const say = (
