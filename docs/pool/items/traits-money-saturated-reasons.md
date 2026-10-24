@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/traits-money
+pr: #5587
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T15:42:11.072Z
 ---
 
 **What.** In a played year four money decisions are settled by circumstances alone: every full job seeker scores the same unemployed need, nobody buys a home, every owner draws, and founding's market-room reason weighs about 6 against a trait lean held within -1 to 1. Personality turned none of them in the drawn year (business.found 46,674 calls, 0 turned). Give each decision reasons that differ between people (the seeker's own pay gap and search length, the renter's savings against a down payment, the owner's cash against a month of costs, the market room scaled to the founder's own money), then calibrate their weights with scripts/traits/trait-calibrate.ts.
