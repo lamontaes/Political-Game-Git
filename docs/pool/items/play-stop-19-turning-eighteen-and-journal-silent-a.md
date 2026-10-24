@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** I started at 17 with a February 3 birthday on the v0.22.10 release. Coming up listed three family birthdays and not mine, and pressing Week across February 3 showed nothing. Turning 18 is golden-path step 1. This part puts the player's own birthday under Coming up and marks the day on screen.
 
-**Rules.** This is a game, not a spreadsheet: turning 18 is golden-path step 1 and the player sees it the day it happens. No hand-written player text: the moment's words come from the director and the English engine.
+**Rules.** Serves LAW.md §5, Journal and the past; LAW.md §9, Time. This is a game, not a spreadsheet: turning 18 is golden-path step 1 and the player sees it the day it happens. No hand-written player text: the moment's words come from the director and the English engine.
 
 **Done when.** In a drawn place, a life started at 17 lists its own 18th birthday under Coming up, and advancing across that day stops on a moment or a journal toast that names it, shown by a screenshot.
+
+**Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** Coming up lists your own 18th birthday, and on the day the game marks it on screen (you can vote and run now).
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/bench/calendar.ts, src/bench/play.mjs
 
