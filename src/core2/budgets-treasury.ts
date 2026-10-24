@@ -29,6 +29,7 @@ import {
 } from "./modules/budgets";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { rerateCountedRetirement, residentsRuntime } from "./modules/residents";
+import { countedHeadsOf, countedJobsOf } from "./residents-economy";
 import { setRecipientIncomeAmount } from "./finance-state";
 import { retirementClaims } from "./modules/retirement-claims";
 import { newsKey, storiesHeard, type Story } from "./modules/news";
@@ -279,15 +280,105 @@ export function notePublicPay(
   );
   if (!gov) return;
   const line = lineForPost(gov.level, input.jobId);
-  const since = (table(api, "sinceClose").get(gov.id) as unknown as
-    { lines: Record<string, number> } | undefined) ?? { lines: {} };
+  const since = sinceCloseOf(api, gov.id);
   table(api, "sinceClose").put({
+    ...since,
     id: gov.id,
     lines: {
       ...since.lines,
       [line]: (since.lines[line] ?? 0) + input.paidMinor,
     },
   } as unknown as ModuleRow);
+}
+
+/**
+ * A government pays a program's running cost out of one of its budget lines
+ * to the suppliers outside the town (ballot printers, the postal service,
+ * the motor vehicle office): the money leaves the treasury's account for the
+ * outside account, is kept as a payment by line, and counts against the line
+ * so the month's close does not pay it a second time. Returns what was paid
+ * (less than asked where the treasury holds less).
+ */
+export function chargeLine(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  input: {
+    readonly id: string;
+    readonly line: string;
+    readonly amountMinor: number;
+    readonly reasonKey: string;
+    readonly source: Source;
+  },
+): number {
+  const amountMinor = Math.floor(input.amountMinor);
+  const outside = outsideAccountOf(api);
+  if (amountMinor <= 0 || !outside) return 0;
+  const accounts = api.accounts();
+  const receipt = accounts.transfer({
+    id: input.id,
+    from: accounts.main(gov.organizationId),
+    to: accounts.main(outside),
+    amountMinor,
+    reasonKey: input.reasonKey,
+    source: input.source,
+    partial: true,
+  });
+  const paid = receipt.paidMinor;
+  if (paid <= 0) return 0;
+  const payee = PAYEES.payees["contractors"]!;
+  table(api, "spendingPayments").put({
+    id: input.id,
+    governmentId: gov.id,
+    line: input.line,
+    payeeId: "contractors",
+    payeeName: payee.name,
+    kind: payee.kind,
+    date: api.state.date,
+    amountMinor: paid,
+  } as unknown as ModuleRow);
+  const since = sinceCloseOf(api, gov.id);
+  table(api, "sinceClose").put({
+    id: gov.id,
+    lines: {
+      ...since.lines,
+      [input.line]: (since.lines[input.line] ?? 0) + paid,
+    },
+    charged: {
+      ...since.charged,
+      [input.line]: (since.charged?.[input.line] ?? 0) + paid,
+    },
+  } as unknown as ModuleRow);
+  return paid;
+}
+
+/** What a treasury has paid suppliers outside the town on its lines since its last close (`chargeLine`), not yet in a month's record. */
+export function chargedSinceClose(api: CoreAPI, governmentId: string): number {
+  return Object.values(sinceCloseOf(api, governmentId).charged ?? {}).reduce(
+    (a, b) => a + b,
+    0,
+  );
+}
+
+/**
+ * What a treasury paid on its lines since its last close: the in-town wages
+ * it paid (`notePublicPay`) and, within that, what it paid suppliers outside
+ * the town (`chargeLine`, `charged`). Both count against the line at the close.
+ */
+function sinceCloseOf(
+  api: CoreAPI,
+  governmentId: string,
+): {
+  readonly lines: Record<string, number>;
+  readonly charged?: Record<string, number>;
+} {
+  return (
+    (table(api, "sinceClose").get(governmentId) as unknown as
+      | {
+          lines: Record<string, number>;
+          charged?: Record<string, number>;
+        }
+      | undefined) ?? { lines: {} }
+  );
 }
 
 /** What a treasury keeps back at a close: wages for the coming month of the employees it pays, and what it still owes them. */
@@ -309,13 +400,19 @@ export function payrollReserve(api: CoreAPI, gov: GovernmentRow): number {
     )
       funded.add(employer.id);
   }
-  for (const employerId of funded)
+  for (const employerId of funded) {
     for (const jobId of core.finance.jobsByOrganization.get(employerId) ?? []) {
       const job = core.jobs.get(jobId);
       if (!job) continue;
       reserve += core.work.totalsByJob.get(jobId)?.arrearsMinor ?? 0;
       if (job.endsAt === undefined) reserve += job.wageDailyMinor * monthDays;
     }
+    // Its counted workers, whose wages this treasury pays too, each job for
+    // the people its worker's household stands for.
+    for (const job of countedJobsOf(core, employerId))
+      reserve +=
+        job.wageDailyMinor * monthDays * countedHeadsOf(core, job.personId);
+  }
   return Math.round(reserve);
 }
 
@@ -419,6 +516,8 @@ export function postPayCapDaily(
 export interface TreasuryLine {
   readonly dueMinor: number;
   readonly inTownMinor: number;
+  /** Of what was paid on the line since the last close, what went to suppliers outside the town (`chargeLine`): counted in inTownMinor. */
+  readonly chargedMinor?: number;
   readonly aidMinor: number;
   readonly providersMinor: number;
   readonly outsideMinor: number;
@@ -715,11 +814,9 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       } satisfies TreasuryMonthRow as unknown as ModuleRow);
       continue;
     }
-    const since =
-      (
-        table(api, "sinceClose").get(gov.id) as unknown as
-          { lines: Record<string, number> } | undefined
-      )?.lines ?? {};
+    const sinceClose = sinceCloseOf(api, gov.id);
+    const since = sinceClose.lines;
+    const chargedSince = sinceClose.charged ?? {};
     table(api, "sinceClose").put({ id: gov.id, lines: {} } as ModuleRow);
     const inTown: Record<string, number> = { ...since };
     for (const payer of linePayers)
@@ -962,6 +1059,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       lines[line] = {
         dueMinor: d,
         inTownMinor: inTown[line] ?? 0,
+        ...(chargedSince[line] ? { chargedMinor: chargedSince[line] } : {}),
         aidMinor: aidPaidLine,
         providersMinor: providersPaid,
         outsideMinor: outsidePaid,
@@ -977,6 +1075,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         lines[line] = {
           dueMinor: 0,
           inTownMinor: minor,
+          ...(chargedSince[line] ? { chargedMinor: chargedSince[line] } : {}),
           aidMinor: 0,
           providersMinor: 0,
           outsideMinor: 0,
