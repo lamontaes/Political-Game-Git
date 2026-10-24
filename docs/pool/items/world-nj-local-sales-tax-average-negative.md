@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/nj-local-sales-tax
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T19:41:48.326Z
 ---
 
 **What.** The starting law row for New Jersey's local-sales-tax-average in src/core2/data/starting-law.json is -0.02, tagged ESTIMATED with a spread of 0 to 3.313, from the Tax Foundation's state and local sales tax table. Its own data note says the table shows the average as negative because Salem County charges half the state rate in place of it. The price engine collects only under positive rates, so the row reaches no seller in any New Jersey town and the prices family test had to treat a rate at or below zero as reaching nobody. The prices helper found it on Oct 24 while fixing laws-prices-local-sales-tax-average-no-seller.

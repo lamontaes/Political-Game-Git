@@ -5,7 +5,7 @@ area: release
 kind: cleanup
 priority: 1
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5867
 after:
@@ -29,3 +29,5 @@ Checked Oct 22 against main d3078aca9f (readers searched in code, config, workfl
 Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Current main bb72a66781 conflicts in package-lock.json; merger aborted integration and did not claim a gate pass; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Normal merge of current main into corrective head e0682e9be6 conflicts in package-lock.json; reconcile/regenerate the lock with latest main and rerun required checks/build/golden-path acceptance; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5867 (branch claude/stoic-rubin-6vq560): Lock conflict repaired; deletion removes trace report still cited by pool evidence and content-pack examples still required by live system docs; preserve or replace evidence and update live pointers; finish on that branch, merge main into it first.
