@@ -5,12 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/web-reach-public-finance
+status: open
+claimed-by:
 pr: #5905
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 2026-10-24T09:04:05.880Z
+claimed-at:
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the household money, debt and public finance family: 20 unwired links, 13 where the owning engine does not read the factor and 7 where nothing keeps the outcome. Their outcomes: household.income, household.child-poverty, household.food-insecurity, household.vehicle-costs, finance.past-due-debt, finance.medical-debt-in-collections, finance.high-cost-loans, gov.borrowing-cost, gov.nondisaster-transfers, program.snap-receipt and the rest. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
