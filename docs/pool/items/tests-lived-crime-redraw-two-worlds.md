@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/lived-crime-redraw-memory
-pr:
+pr: #5978
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T18:34:01.995Z

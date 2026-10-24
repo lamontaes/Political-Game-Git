@@ -1,6 +1,12 @@
 {
   "entries": [
     {
+      "version": "0.23.4",
+      "releasedOn": "2026-10-24",
+      "revision": "88bcdef4624f71771e43fec9114763cef503503b",
+      "changeIds": ["world-counted-claim-pays-after-household-leaves"]
+    },
+    {
       "version": "0.23.3",
       "releasedOn": "2026-10-24",
       "revision": "6a647abc41c7725770263e30def1322cd8c43d61",

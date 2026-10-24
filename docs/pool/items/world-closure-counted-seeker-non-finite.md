@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/closure-seeker-finite
-pr:
+pr: #5981
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T20:03:46.873Z

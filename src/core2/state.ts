@@ -1,3 +1,4 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   closenessAfter,
@@ -2237,6 +2238,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           job.id,
         );
         api.updatePerson(row.id, { jobId: job.id });
+        refreshOfficeStaff(core, job.organizationId);
       }
       admitted.push(core.people.get(row.id)!);
       continue;
@@ -2266,6 +2268,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+      refreshOfficeStaff(core, job.organizationId);
     }
   }
   // Their economic life moves from the merged flows to their own records.

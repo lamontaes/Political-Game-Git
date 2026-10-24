@@ -296,6 +296,17 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.23.4
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A retiree in the town's wider population takes their Social Security with
+  them when they move away** When a household from the town's wider population
+  moved away, a Social Security award one of its members had claimed during play
+  kept paying into the town they left. It now ends the day they leave.
+
 ## PRE-ALPHA 0.23.3
 
 _Released October 24, 2026._
