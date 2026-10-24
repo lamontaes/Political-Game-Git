@@ -25,4 +25,4 @@ claimed-at:
 
 Sent back 2026-10-23 from PR #5843 (branch cto/pool-done-on-merge-fix): The required ten-merge operational proof is explicitly absent, and routing would prematurely complete the broad item; the changed no-op and exhausted-retry paths also lack behavior coverage; finish on that branch, merge main into it first.
 
-Split 2026-10-23: the workflow and pool-command change with its behavior tests is PR #5843 under release-pool-done-on-merge-per-pr-group. This item stays open for the operational proof only: after the next burst of ten or more merges, zero cancelled done-on-merge runs and every merged PR that named an item done.
+Split 2026-10-23: the workflow and pool-command change with its behavior tests is PR #5843 under release-pool-done-on-merge-per-pr-group. This item stays open for the operational proof only: after the next burst of ten or more merges, zero canceled done-on-merge runs and every merged PR that named an item done.
