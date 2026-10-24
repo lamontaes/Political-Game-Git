@@ -385,10 +385,10 @@
       "spread": [20000, 150000]
     },
     "groupJoinBar": {
-      "value": 1,
+      "value": 0.44,
       "tag": "TUNABLE",
-      "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), with their trait lean toward joining added (about -1 to 1 times the trait weight), to join a group over it: checked over two random played worlds so a small share join on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023).",
-      "spread": [0.75, 1.5]
+      "source": "How strongly a resident must feel about a bill's question (stances run about 0 to 0.7, doubled where it touches their own life), plus how strongly the group's members already draw them in, to join a group over it: checked over a played election-window year of Halfway, Missouri (seed 3e9ed70a5fb7) so that about one in six residents weighed on each bill joins (16%), a small share on the most divisive questions and almost none on mild ones, near the roughly one in ten adults who report working with others in their community to solve a problem in a year (AmeriCorps and Census Bureau, Civic Engagement and Volunteering Supplement, 2021 to 2023). The resident's trait lean toward joining is added at the decision's weight (0.1).",
+      "spread": [0.2, 0.8]
     },
     "carryStandingWeight": {
       "value": 0.3,
@@ -426,6 +426,12 @@
       "tag": "TUNABLE",
       "source": "How far past neutral a member's view on their group's question must cross to the other side before they leave, doubled for someone who follows politics most of the time (they hold on to a commitment longer). Group members who change their minds tend to drift out rather than quit at the first doubt (Han 2014, How Organizations Develop Activists). No study sets the size; checked by members leaving only after hearing cases against their side.",
       "spread": [0.05, 0.25]
+    },
+    "groupDrawWeight": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "How much a resident's closest tie to a member already in a group (closeness today, 0 to 1) adds to their reason to join it: people are most often drawn into groups through people they know who are already in them (Verba, Schlozman and Brady 1995, Voice and Equality: recruitment through social networks). No study reports the size against the question's own pull.",
+      "spread": [0.5, 3]
     },
     "groupFoundingMembers": {
       "value": 3,
@@ -607,11 +613,29 @@
       "source": "Days between a local party committee's meetings: county and town committees commonly meet monthly under their party rules (e.g. state party bylaws for county committees), some every other month or quarterly.",
       "spread": [30, 90]
     },
-    "partyMeetingAttendBar": {
-      "value": 0.5,
+    "partyMeetingAttendEase": {
+      "value": 1.9,
       "tag": "TUNABLE",
-      "source": "How far a member's trait lean toward attending (about -1 to 1) must reach for them to show up at a party meeting: only the most inclined do, checked against the 6 to 10% of adults who report attending a political meeting in a year (American National Election Studies, 'attended political meetings', 2016 to 2024).",
-      "spread": [0.3, 0.8]
+      "source": "What a party member has going for them to show up at the monthly meeting before the evening's cost: loyalty to the party and a taste for the room. Set so that about one member in five goes to a given meeting, the share the earlier flat bar gave (19% of members weighed in a played election-window year of Halfway, Missouri, seed 3e9ed70a5fb7), with the cost of the evening now split into the member's work hours and distance (partyMeetingFreeTimeWeight, partyMeetingDistanceWeight). Party members go far more often than other adults, 6 to 10% of whom report attending a political meeting in a year (American National Election Studies, 'attended political meetings', 2016 to 2024).",
+      "spread": [1.2, 2.6]
+    },
+    "partyMeetingFreeTimeWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much a full working week of work (turnoutWorkWeekMinutes, 2,400 minutes) takes from a member's reason to go to an evening meeting; a member with no work hours loses nothing. No study gives the size: voting already counts work hours as a cost the same way (turnout), and the party meeting does the same.",
+      "spread": [1, 3]
+    },
+    "partyMeetingDistanceWeight": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "How much the farthest-out home (a distance share near 1) takes from a member's reason to go to the meeting; a home at the middle of town loses nothing. No study gives the size; distance to a meeting is a recognized cost of attending but no source reports its weight against the other reasons.",
+      "spread": [0.5, 3]
+    },
+    "partyMeetingHalfDistanceMiles": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "The distance from the middle of town at which the distance cost reaches half its weight (the share is miles over miles plus this distance): about a ten-minute drive in town. A household's distance is an estimate from its place's land area and a point fixed by the world's seed (home-distance.ts).",
+      "spread": [1, 8]
     },
     "partiesJoinBase": {
       "value": 0.5,

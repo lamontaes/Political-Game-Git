@@ -27,7 +27,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { believesClaim } from "../heard-claims";
+import { believesClaim, claimFit } from "../heard-claims";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import { viewOf } from "./views";
 import { measureOfFactKey } from "../outcome-news";
@@ -566,9 +566,11 @@ export function createNewsModule(
           storiesOwedAtContact(api, tellerPerson),
         );
         // Whether the listener takes a told story in is theirs to decide:
-        // the benefit of the doubt against their own lean toward doubting.
+        // the benefit of the doubt, more for a teller they are close to and
+        // a story that argues as they already lean, against their own lean
+        // toward doubting. Decided once for each side a story argues.
         const listenerPerson = api.state.people.get(listener);
-        let believes: boolean | undefined;
+        const believed = new Map<string, boolean>();
         let passed = api.parameter("zero");
         for (const story of tellable(api, teller, since)) {
           if (passed >= toTell || !fresh(story)) break;
@@ -576,9 +578,22 @@ export function createNewsModule(
           if (heardRecently(api, listener, story.id)) continue;
           const refusal = `${listener}:${story.id}`;
           if (refused(api).has(refusal)) continue;
-          believes ??= listenerPerson
-            ? believesClaim(api.state, listenerPerson)
-            : true;
+          const side = `${story.topic ?? ""}|${story.desiredChange ?? ""}`;
+          let believes = believed.get(side);
+          if (believes === undefined) {
+            believes = listenerPerson
+              ? believesClaim(api.state, listenerPerson, {
+                  tellerId: teller,
+                  fit: claimFit(
+                    api,
+                    listenerPerson,
+                    story.topic,
+                    story.desiredChange,
+                  ),
+                })
+              : true;
+            believed.set(side, believes);
+          }
           if (!believes) {
             // Told, and not taken in; the paper can still reach them.
             refused(api).add(refusal);

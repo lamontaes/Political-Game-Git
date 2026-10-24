@@ -36,7 +36,7 @@ import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { applyCoreEvent, coreAPI } from "../core2/state";
-import { believesClaim } from "../core2/heard-claims";
+import { believesClaim, type HeardClaim } from "../core2/heard-claims";
 import { decisionLean } from "../core2/trait-decisions";
 import type {
   CoreAPI,
@@ -2268,13 +2268,15 @@ function endConversation(
 
 /**
  * Whether a hearer doubts a claim they cannot check: the usual benefit of the
- * doubt (truth-default) against every trait's lean toward doubting.
+ * doubt (truth-default), more for a teller they are close to, against every
+ * trait's lean toward doubting.
  */
 export function doubtsClaim(
-  core: Pick<CoreState, "data">,
-  hearer: Pick<PersonState, "traits">,
+  core: Pick<CoreState, "data" | "date" | "relationships">,
+  hearer: Pick<PersonState, "traits"> & { id?: string },
+  claim?: HeardClaim,
 ): boolean {
-  return !believesClaim(core, hearer);
+  return !believesClaim(core, hearer, claim);
 }
 
 /** The player says a choice: it is recorded, and the other person replies. */
@@ -2334,7 +2336,7 @@ export function say(
     const keeps = core.modules.has(BELIEFS_MODULE_ID);
     for (const hearerId of hearers) {
       const hearer = core.people.get(hearerId);
-      if (hearer && doubtsClaim(core, hearer)) {
+      if (hearer && doubtsClaim(core, hearer, { tellerId: playerId })) {
         if (hearerId === otherId) doubted = true;
         continue;
       }

@@ -17,6 +17,9 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter } from "../campaign-views";
+import { currentCloseness } from "../closeness";
+import { countedPersonOf } from "../counted-actor";
+import { parameter } from "../parameters";
 import { leanedYes } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
@@ -168,15 +171,22 @@ function bill(api: CoreAPI, billId: string): BillRow {
     .get(billId) as unknown as BillRow;
 }
 
-/** The owner weighs the bill's cost against the dues, then the owner's own traits; no owner keeps the cost rule. */
-function ownerJoins(
+/**
+ * The owner weighs the bill's cost against the dues, then the owner's own
+ * traits, as a full person or as the counted person they are (most owners are
+ * counted until met: one rule for both tiers). An owner who is neither (an
+ * outside firm's parent, or no owner) keeps the cost rule.
+ */
+export function ownerJoins(
   api: CoreAPI,
   orgId: string,
   cost: number,
   dues: number,
 ): boolean {
   const owner = ownerOf(api, orgId);
-  const person = owner ? api.state.people.get(owner) : undefined;
+  const person = owner
+    ? (api.state.people.get(owner) ?? countedPersonOf(api.state, owner))
+    : undefined;
   if (!person) return true;
   return leanedYes(
     api.state,
@@ -586,7 +596,13 @@ function organizeResidents(api: CoreAPI, b: BillRow): void {
     const joining = onSide.filter(
       (row) =>
         !joined.has(row.p.id) &&
-        joinsGroup(api, row.p, row.view * side, row.touches),
+        joinsGroup(
+          api,
+          row.p,
+          row.view * side,
+          row.touches,
+          groupDraw(state, row.p.id, joined),
+        ),
     );
     if (!existing && joining.length < campaignParameter("groupFoundingMembers"))
       continue;
@@ -706,14 +722,16 @@ const groupIdFor = (town: string, question: string, side: number) =>
 
 /**
  * Whether a resident joins a side's group: how hard the side pulls them (their
- * view toward it, doubled where it touches their own life) against the bar,
- * and their traits toward joining on top.
+ * view toward it, doubled where it touches their own life) and how strongly
+ * the group's members already draw them in (their closest tie to one), against
+ * the bar, and their traits toward joining on top.
  */
 function joinsGroup(
   api: CoreAPI,
   person: Readonly<PersonState>,
   toward: number,
   touches: boolean,
+  drawn: number,
 ): boolean {
   return leanedYes(
     api.state,
@@ -722,9 +740,32 @@ function joinsGroup(
     "join",
     "stay-out",
     Math.max(0, toward) *
-      (1 + meetingParameter("lifeConcernWeight") * (touches ? 1 : 0)) -
+      (1 + meetingParameter("lifeConcernWeight") * (touches ? 1 : 0)) +
+      campaignParameter("groupDrawWeight") * drawn -
       campaignParameter("groupJoinBar"),
   );
+}
+
+/**
+ * How strongly a group's current members draw a resident in: the closeness
+ * today of their closest tie to a member (0 with no member among their ties,
+ * or no group yet). The group's stake in the person is their friends in it.
+ */
+function groupDraw(
+  state: CoreState,
+  personId: string,
+  members: ReadonlySet<string>,
+): number {
+  if (!members.size) return parameter("zero", state.data.parameters);
+  let closest = parameter("zero", state.data.parameters);
+  for (const key of state.relationshipsByPerson.get(personId) ?? []) {
+    const tie = state.relationships.get(key);
+    if (!tie) continue;
+    const other = tie.actorId === personId ? tie.otherId : tie.actorId;
+    if (members.has(other))
+      closest = Math.max(closest, currentCloseness(state, tie));
+  }
+  return closest;
 }
 
 /** Take a resident out of a side's group (no-op if they are not in it). */
@@ -800,7 +841,17 @@ function reviewMember(api: CoreAPI, personId: string, question: string): void {
     ) as unknown as GroupRow | undefined;
     if (
       other &&
-      joinsGroup(api, person, -view * side, concerns(api, person)(question))
+      joinsGroup(
+        api,
+        person,
+        -view * side,
+        concerns(api, person)(question),
+        groupDraw(
+          api.state as CoreState,
+          personId,
+          new Set(other.memberPersonIds ?? []),
+        ),
+      )
     )
       joinSide(api, personId, town, question, -side);
     return;

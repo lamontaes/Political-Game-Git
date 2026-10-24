@@ -18,7 +18,7 @@ import type {
   CoreModule,
   PersonId,
 } from "../types";
-import { believesClaim } from "../heard-claims";
+import { believesClaim, claimFit } from "../heard-claims";
 import { decisionKinds } from "../trait-decisions";
 import { stancesOf, VIEWS_SPEAKER_KEY } from "./views";
 
@@ -153,9 +153,13 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
       : [];
     // Each one told decides for themselves whether to take it in, as anyone
     // does a claim they cannot check; only those who do are moved by it.
-    const toIds = told.filter((id) =>
-      believesClaim(api.state, api.state.people.get(id)!),
-    );
+    const toIds = told.filter((id) => {
+      const hearer = api.state.people.get(id)!;
+      return believesClaim(api.state, hearer, {
+        tellerId: listenerId,
+        fit: claimFit(api, hearer, speech.topic, speech.desiredChange),
+      });
+    });
     if (toIds.length)
       api.emit({
         id: `${speech.id}:retold:${listenerId}`,

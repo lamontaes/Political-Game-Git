@@ -5,11 +5,23 @@
  */
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
+import { buildBenchWorld } from "../../bench/world";
+import { countedPersonOf } from "../counted-actor";
+import { gameStartDate } from "../game-start";
+import { addDays } from "../kernel/dates";
+import { advanceCore } from "../life";
+import { coreAPI } from "../state";
 import { drawnRaceWorld, RUN_SEED, weightOf } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
-import { personLean } from "../campaign-views";
+import { setTraitProbe } from "../trait-probe";
+import { campaignParameter, personLean } from "../campaign-views";
 import { viewOn } from "./views";
-import { INTEREST_GROUPS_MODULE_ID, type GroupRow } from "./interest-groups";
+import { ownerOf } from "./business";
+import {
+  INTEREST_GROUPS_MODULE_ID,
+  ownerJoins,
+  type GroupRow,
+} from "./interest-groups";
 import type { CoreAPI, CoreState } from "../types";
 
 const SEED = `${RUN_SEED}:interest-groups`;
@@ -119,4 +131,66 @@ describe("interest-groups.lobbyist reads the speaker's calibrated lean toward se
       ).toBeGreaterThan(0);
     }
   });
+});
+
+describe("interest-groups.employer-join reads a counted owner's lean toward joining", () => {
+  it("owners who are counted people, not full ones, weigh joining too, and two with the same stake decide differently for their temperament", () => {
+    const tried: string[] = [];
+    for (let attempt = 0; attempt < 3; attempt++) {
+      const seed = `${RUN_SEED}:employer-owners:${attempt}`;
+      const place = drawPlace(seed, "trait-wiring");
+      const start = gameStartDate();
+      // The game's own build (two-level): most owners are counted until met.
+      const world = buildBenchWorld(seed, start, {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      // The business engine records its owners on the first day.
+      advanceCore(world.core, addDays(start, 1));
+      const owners = [...world.core.organizations.values()].flatMap((org) => {
+        const id = ownerOf(coreAPI(world.core), org.id);
+        return id &&
+          !world.core.people.has(id) &&
+          countedPersonOf(world.core, id)
+          ? [{ orgId: org.id, ownerId: id }]
+          : [];
+      });
+      const calls: { actorId?: string; lean: number; yes?: boolean }[] = [];
+      setTraitProbe({
+        formula(row) {
+          if (row.decisionId === "interest-groups.employer-join")
+            calls.push({ actorId: row.actorId, lean: row.lean, yes: row.yes });
+        },
+      });
+      let joined: string[] = [];
+      try {
+        // A bill that costs each of them a little more than the dues: the case is the same, so the lean settles it.
+        const dues = campaignParameter("groupDuesMinor");
+        joined = owners
+          .filter((o) =>
+            ownerJoins(coreAPI(world.core), o.orgId, dues * 1.1, dues),
+          )
+          .map((o) => o.ownerId);
+      } finally {
+        setTraitProbe(undefined);
+      }
+      tried.push(
+        `${place.name} (${place.key}), seed ${seed}: ${owners.length} counted owners, ${calls.length} weighed`,
+      );
+      expect(calls.length, tried.join("; ")).toBe(owners.length);
+      const yes = calls.filter((c) => c.yes);
+      const no = calls.filter((c) => !c.yes);
+      if (!yes.length || !no.length) continue;
+      const mostWilling = yes.sort((a, b) => b.lean - a.lean)[0]!;
+      const leastWilling = no.sort((a, b) => a.lean - b.lean)[0]!;
+      console.log(
+        `employer-join at ${tried.at(-1)}: ${mostWilling.actorId} (lean ${mostWilling.lean.toFixed(3)}) joined; ${leastWilling.actorId} (lean ${leastWilling.lean.toFixed(3)}) stayed out; ${joined.length} of ${owners.length} joined`,
+      );
+      expect(mostWilling.lean).toBeGreaterThan(leastWilling.lean);
+      expect(joined).toContain(mostWilling.actorId);
+      expect(joined).not.toContain(leastWilling.actorId);
+      return;
+    }
+    throw new Error(`no draw held owners who split: ${tried.join("; ")}`);
+  }, 300_000);
 });

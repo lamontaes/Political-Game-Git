@@ -849,26 +849,6 @@
       "notes": "Proxy: taking a stranger's call to give an opinion is reaching across to a public figure or institution (Mondak et al. 2010, extraversion, predicted probability 0.27 to 0.49); no study of poll response by personality was found. Predicted probability rises 0.27 to 0.49 (22 points) across the full extraversion range; logit coefficient 0.92 (SE .27). This describes a citizen contacting an official, used here as a proxy; no study of officials opening their doors to constituents by personality was found. Not per SD."
     },
     {
-      "id": "parties.join",
-      "trait": "none found",
-      "outcome": "joining a political party",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a usable personality effect size was found. Mondak et al. (2010) work for a party or candidate (openness logit 2.02) is the nearest proxy and is listed under campaigns.volunteer."
-    },
-    {
-      "id": "interest-groups.member-join",
-      "trait": "none found",
-      "outcome": "joining an interest group or civic organization",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No verified personality effect size found."
-    },
-    {
       "id": "recalls.sign",
       "trait": "none found",
       "outcome": "signing a recall or petition",
@@ -887,32 +867,6 @@
       "quote": "",
       "quoteVerified": false,
       "notes": "No verified study found with a number linking openness to ballot-measure votes."
-    },
-    {
-      "id": "conversation.believe-claim",
-      "trait": "agreeableness / openness (not measured); analytic thinking and bullshit receptivity measured instead",
-      "outcome": "perceived accuracy of fake news headlines",
-      "effect": null,
-      "source": {
-        "authors": "Pennycook, G., & Rand, D. G.",
-        "year": 2020,
-        "title": "Who falls for fake news? The roles of bullshit receptivity, overclaiming, familiarity, and analytic thinking",
-        "venue": "Journal of Personality 88(2), 185-200",
-        "url": "https://doi.org/10.1111/jopy.12476"
-      },
-      "quote": "The tendency to ascribe profundity to randomly generated sentences-pseudo-profound bullshit receptivity-correlates positively with perceptions of fake news accuracy, and negatively with the ability to differentiate between fake and real news (media truth discernment).",
-      "quoteVerified": true,
-      "notes": "This study measures cognitive style, not Big Five traits, so no Big Five effect size is given; no verified agreeableness or openness number for belief in claims was found."
-    },
-    {
-      "id": "press.follow-news",
-      "trait": "none found",
-      "outcome": "following political news / political interest",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No verified personality effect size found. Mondak et al. (2010) report openness effects on political knowledge and efficacy but the numbers were not extracted."
     },
     {
       "id": "housing.buy-home",
@@ -1425,26 +1379,6 @@
       "notes": "No study with a personality effect size on answering an exit poll was found; the general weight (1) stands."
     },
     {
-      "id": "parties.attend",
-      "trait": "none found",
-      "outcome": "attending a party meeting",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on attending a party meeting was found (Mondak et al. 2010 cover meetings with an official and campaign rallies, listed under meetings.take-part); the general weight (1) stands."
-    },
-    {
-      "id": "interest-groups.lobbyist",
-      "trait": "none found",
-      "outcome": "serving as a group's spokesperson or lobbyist",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on acting as a group's lobbyist was found; the general weight (1) stands."
-    },
-    {
       "id": "interest-groups.employer-join",
       "trait": "none found",
       "outcome": "an employer joining an employers' association",
@@ -1453,26 +1387,6 @@
       "quote": "",
       "quoteVerified": false,
       "notes": "No study with a personality effect size on a business owner joining an association was found; the general weight (1) stands."
-    },
-    {
-      "id": "jobs-benefits.file-claim",
-      "trait": "none found",
-      "outcome": "filing for unemployment benefits once eligible",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on filing an unemployment claim was found; the general weight (1) stands."
-    },
-    {
-      "id": "speech.retell",
-      "trait": "none found",
-      "outcome": "retelling a speech one heard to one's household",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on retelling a speech was found (Lin et al. 2024, listed under news.pass-on, covers information sharing on social media); the general weight (1) stands."
     },
     {
       "id": "outcome.news-reaction",
@@ -1505,6 +1419,686 @@
       "quote": "Substantively, the largest effects in Table 2 are those for openness and extraversion.",
       "quoteVerified": true,
       "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,060; controls age, female, black); the trait is scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE.  No study of officials who host a town hall was found, so the attendee coefficient stands in for the host: the same extraversion pull toward being in the room. Extraversion's standard deviation is 0.26 of its full range (the paper's Table 1, as in the meetings.take-part row)."
+    },
+    {
+      "id": "parties.join",
+      "trait": "extraversion",
+      "outcome": "being a member of a political party versus the general population (194 members of 8 Czech parties, 2005; NEO-FFI)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 1.41,
+        "low": 1.21,
+        "high": 1.65
+      },
+      "source": {
+        "authors": "Linkov, V.",
+        "year": 2020,
+        "title": "Political party membership and personality characteristics in the Czech Republic (2005)",
+        "venue": "E-psychologie 14(2), 26-38",
+        "url": "https://e-psycholog.eu/pdf/linkov.pdf"
+      },
+      "quote": "Procedure: \"Population sample means were 21.8 (SD = 8.8, 95% CI 21.29 – 22.31) for neuroticism; 29.9 (SD = 8.0, 95% CI 29.40 – 30.32) for extraversion; 29.8 (SD = 6.8, 95% CI 29.40 -30.18) for openness to experience; 30.6 (SD = 5.9, 95% CI 30.24 – 30.92) for agreeableness; and 30.9 (SD = 7.8, 95% CI 30.44 – 31.33) for conscientiousness.\" Sample: \"I obtained a total of 194 respondents (see Table 1).\" Table 2, Extraversion party-sample means: CSSD \"34.16\", SZ \"30.58\", ODS \"31.69\", KDU-CSL \"31.50\", KSCM \"31.20\", ODA \"32.29\", ED \"36.41\", MDS \"33.64\"; Results: \"ED members scored higher in extraversion (t=6.400, p< 0.05)\". Discussion: \"Members of three parties scored high in extraversion\".",
+      "quoteVerified": true,
+      "notes": "DERIVED by the research helper from the paper's printed party means (not printed in the paper as one number): the member-count-weighted mean of the eight parties' scale means (Table 1 sample sizes 43, 24, 35, 18, 15, 31, 17, 11) minus the population mean, divided by the population SD, gives a standardized mean difference d = +0.346. For a normally distributed trait with equal spread in members and non-members, the log-odds of being a member rises by d per standard deviation of the trait whatever the membership rate, so odds-ratio-per-sd = exp(d). low/high use SE(d) of about 0.078 (members n = 194, population N = 1,165) and assume members' SD equals the population SD. Limits: members were met at party meetings or reached by other members (so they are active members and the sample is not random), party samples are small (11 to 43), the population sample is Czech NEO-FFI norms, and 2005 social desirability may inflate differences. Party-level Cohen's d printed in Table 2 range widely (extraversion: ED 1.02, CSSD 0.55, MDS 0.53, ODA 0.34, SZ 0.08; only CSSD, ODA, ED significant). A different country, small and non-random: treat as a rough size for the trait pull on joining a party, with extraversion the clearest and the sign of agreeableness and conscientiousness varying by party. Replaces the existing 'none found' row, whose nearest proxy was Mondak et al.'s work for a party or candidate."
+    },
+    {
+      "id": "parties.join",
+      "trait": "neuroticism (low emotional stability)",
+      "outcome": "being a member of a political party versus the general population (194 members of 8 Czech parties, 2005; NEO-FFI)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.8,
+        "low": 0.68,
+        "high": 0.93
+      },
+      "source": {
+        "authors": "Linkov, V.",
+        "year": 2020,
+        "title": "Political party membership and personality characteristics in the Czech Republic (2005)",
+        "venue": "E-psychologie 14(2), 26-38",
+        "url": "https://e-psycholog.eu/pdf/linkov.pdf"
+      },
+      "quote": "Procedure: \"Population sample means were 21.8 (SD = 8.8, 95% CI 21.29 – 22.31) for neuroticism; 29.9 (SD = 8.0, 95% CI 29.40 – 30.32) for extraversion; 29.8 (SD = 6.8, 95% CI 29.40 -30.18) for openness to experience; 30.6 (SD = 5.9, 95% CI 30.24 – 30.92) for agreeableness; and 30.9 (SD = 7.8, 95% CI 30.44 – 31.33) for conscientiousness.\" Sample: \"I obtained a total of 194 respondents (see Table 1).\" Table 2, Neuroticism party-sample means: CSSD \"19.28\", SZ \"20.88\", ODS \"20.63\", KDU-CSL \"22.94\", KSCM \"18.47\", ODA \"16.45\", ED \"20.82\", MDS \"21.36\"; Results: \"The members of ODA scored lower in neuroticism (t=4.330, p<0.05)\". Abstract: \"Members of former governing parties, which had long been out of power, scored lower in neuroticism than the general population.\"",
+      "quoteVerified": true,
+      "notes": "DERIVED by the research helper from the paper's printed party means (not printed in the paper as one number): the member-count-weighted mean of the eight parties' scale means (Table 1 sample sizes 43, 24, 35, 18, 15, 31, 17, 11) minus the population mean, divided by the population SD, gives a standardized mean difference d = -0.227. For a normally distributed trait with equal spread in members and non-members, the log-odds of being a member rises by d per standard deviation of the trait whatever the membership rate, so odds-ratio-per-sd = exp(d). low/high use SE(d) of about 0.078 (members n = 194, population N = 1,165) and assume members' SD equals the population SD. Limits: members were met at party meetings or reached by other members (so they are active members and the sample is not random), party samples are small (11 to 43), the population sample is Czech NEO-FFI norms, and 2005 social desirability may inflate differences. Party-level Cohen's d printed in Table 2 range widely (extraversion: ED 1.02, CSSD 0.55, MDS 0.53, ODA 0.34, SZ 0.08; only CSSD, ODA, ED significant). A different country, small and non-random: treat as a rough size for the trait pull on joining a party, with extraversion the clearest and the sign of agreeableness and conscientiousness varying by party. Replaces the existing 'none found' row, whose nearest proxy was Mondak et al.'s work for a party or candidate."
+    },
+    {
+      "id": "parties.join",
+      "trait": "agreeableness",
+      "outcome": "being a member of a political party versus the general population (194 members of 8 Czech parties, 2005; NEO-FFI)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.83,
+        "low": 0.71,
+        "high": 0.97
+      },
+      "source": {
+        "authors": "Linkov, V.",
+        "year": 2020,
+        "title": "Political party membership and personality characteristics in the Czech Republic (2005)",
+        "venue": "E-psychologie 14(2), 26-38",
+        "url": "https://e-psycholog.eu/pdf/linkov.pdf"
+      },
+      "quote": "Procedure: \"Population sample means were 21.8 (SD = 8.8, 95% CI 21.29 – 22.31) for neuroticism; 29.9 (SD = 8.0, 95% CI 29.40 – 30.32) for extraversion; 29.8 (SD = 6.8, 95% CI 29.40 -30.18) for openness to experience; 30.6 (SD = 5.9, 95% CI 30.24 – 30.92) for agreeableness; and 30.9 (SD = 7.8, 95% CI 30.44 – 31.33) for conscientiousness.\" Sample: \"I obtained a total of 194 respondents (see Table 1).\" Table 2, Agreeableness party-sample means: CSSD \"28.98\", SZ \"30.58\", ODS \"28.71\", KDU-CSL \"29.22\", KSCM \"33.40\", ODA \"29.06\", ED \"30.41\", MDS \"26.64\". Abstract: \"The members of three right-wing parties scored lower in agreeableness and the members of one left-wing party were higher in agreeableness than the general population\".",
+      "quoteVerified": true,
+      "notes": "DERIVED by the research helper from the paper's printed party means (not printed in the paper as one number): the member-count-weighted mean of the eight parties' scale means (Table 1 sample sizes 43, 24, 35, 18, 15, 31, 17, 11) minus the population mean, divided by the population SD, gives a standardized mean difference d = -0.187. For a normally distributed trait with equal spread in members and non-members, the log-odds of being a member rises by d per standard deviation of the trait whatever the membership rate, so odds-ratio-per-sd = exp(d). low/high use SE(d) of about 0.078 (members n = 194, population N = 1,165) and assume members' SD equals the population SD. Limits: members were met at party meetings or reached by other members (so they are active members and the sample is not random), party samples are small (11 to 43), the population sample is Czech NEO-FFI norms, and 2005 social desirability may inflate differences. Party-level Cohen's d printed in Table 2 range widely (extraversion: ED 1.02, CSSD 0.55, MDS 0.53, ODA 0.34, SZ 0.08; only CSSD, ODA, ED significant). A different country, small and non-random: treat as a rough size for the trait pull on joining a party, with extraversion the clearest and the sign of agreeableness and conscientiousness varying by party. Replaces the existing 'none found' row, whose nearest proxy was Mondak et al.'s work for a party or candidate."
+    },
+    {
+      "id": "parties.attend",
+      "trait": "extraversion",
+      "outcome": "attended a campaign rally (CT Survey, 2008; sample mean 14.9 percent)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 1.049,
+        "low": 0.573,
+        "high": 1.525,
+        "traitSd": 0.29
+      },
+      "source": {
+        "authors": "Gerber, A. S., Huber, G. A., Doherty, D., Dowling, C. M., Raso, C., & Ha, S. E.",
+        "year": 2011,
+        "title": "Personality Traits and Participation in Political Processes (On-line Appendix, Tables A12a and A13)",
+        "venue": "Journal of Politics 73(3), 692-706 (on-line appendix)",
+        "url": "https://huber.research.yale.edu/materials/21_appendix.pdf"
+      },
+      "quote": "Table A12a, column (3) \"Attended Rally\", row Extraversion (0-1): \"1.049\" with robust standard error \"[0.243]***\". Table A1, CT Survey, Extraversion (0-1): SD \"[.29]\". Table A12b, Attended Rally, Extraversion: \"54.8%\" (proportional change in the probability for a two standard deviation increase, model baseline probability \"10.6%\"). Text: \"this relationship is particularly pronounced for forms of participation that involve interacting with others, such as attending a rally or speaking at a local meeting\"",
+      "quoteVerified": true,
+      "notes": "Logit coefficient from Table A12a of the on-line appendix to Gerber et al. (2011, Journal of Politics 73(3):692-706; DOI 10.1017/S0022381611000399), CT Survey (2008 Connecticut telephone-recruited survey, N = 1,924; controls race, age, age squared, income, education); trait scaled 0 to 1, so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x robust SE. Per SD multiply by the CT-survey SD from Table A1. Proxy: no study of attending a party's own meeting was found; a campaign rally is the nearest measured partisan gathering. The same appendix gives extraversion on attending a local meeting 0.800 [0.176] (baseline 37.2 percent), and in the CCAP national panel (Table A13, N = 11,281) extraversion on attending a rally 1.301 [0.310] (SD .2424); other traits are small there (agreeableness -0.110, conscientiousness -0.153, emotional stability 0.373, openness -0.467, none significant)."
+    },
+    {
+      "id": "parties.attend",
+      "trait": "extraversion",
+      "outcome": "attended political meetings or election rallies (2006 CES)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 1.65,
+        "low": 0.67,
+        "high": 2.63,
+        "traitSd": 0.26
+      },
+      "source": {
+        "authors": "Mondak, J. J., Hibbing, M. V., Canache, D., Seligson, M. A., & Anderson, M. R.",
+        "year": 2010,
+        "title": "Personality and Civic Engagement: An Integrative Framework for the Study of Trait Effects on Political Behavior",
+        "venue": "American Political Science Review 104(1), 85-110",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/mondak_et_al._2010.pdf"
+      },
+      "quote": "Table 2, row \"Attend meetings or election rallies (1,066)\", column Extraversion: \"1.65∗∗\", standard error \"(0.50)\". Table 2 notes: \"Cell entries are binomial logistic regression coefficients\" and \"All personality variables range in value from 0 to 1.\" Table 1, Extraversion: Scale Mean (SD) \"0.41\" \"(0.26)\".",
+      "quoteVerified": true,
+      "notes": "Coefficient is the binomial logit coefficient from Mondak et al. (2010) Table 2 (2006 Cooperative Congressional Election Study, US adults, N about 1,066; controls age, female, black); traits are scaled 0 to 1 so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x reported SE. Per SD multiply by 0.26 (Table 1). Proxy: a party meeting is a kind of political meeting or rally; the survey does not separate party meetings. The same Mondak row is already used for meetings.take-part (attended meetings or election rallies, extraversion 1.65) and is reused here for a different decision. Same row, other traits: openness 1.33* (SE .60; traitSd 0.22), conscientiousness -0.54, agreeableness -0.93, emotional stability -0.92."
+    },
+    {
+      "id": "interest-groups.member-join",
+      "trait": "agreeableness",
+      "outcome": "membership of (quasi-)political associations (political parties, labor unions, professional organizations, religious, women's, advocacy and environmental organizations) versus no membership; Dutch Family Survey 2000, n = 1,283",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.79,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Bekkers, R. H. F. P.",
+        "year": 2005,
+        "title": "Participation in Voluntary Associations: Relations with Resources, Personality, and Political Values",
+        "venue": "Political Psychology 26(3), 439-454",
+        "url": "https://dspace.library.uu.nl/handle/1874/10717"
+      },
+      "quote": "Table 1, row Agreeableness, column (Quasi-)Political, Model 1: \"0.79*\" (Model 2 \"0.90\"). Table 1 notes: \"Entries are relative risk ratios for z-standardized variables. Odds ratios below 1.00 indicate a negative relationship; odds ratios above 1.00 indicate a positive relationship.\" \"Reference category: no membership.\" Text: \"All independent variables (except dummies for gender and political preferences) were z-standardized, which enables a comparison of effect sizes.\"",
+      "quoteVerified": true,
+      "notes": "Multinomial-logit relative risk ratio (an odds ratio against the no-membership category) per 1 SD of the trait, Model 1 (personality, empathy, gender and age only, entered before acquired resources as the paper argues). Model 2 adds education, church attendance, postmaterialism, political preference and interest and shrinks the personality effects (conscientiousness 0.83, agreeableness 0.90, extraversion 1.15, openness 1.00). The paper prints significance stars, not SEs, so low/high are null. The dependent variable covers seven organization types in one category, so it is membership of an interest-type group, not of one policy group; the nonpolitical category (sports, hobby, social-service, cultural) is separate. Netherlands, 2000. Largest effect in the political column; the paper notes agreeableness was atypical of political activists even with empathic concern controlled. Same row, Both types: Model 1 \"0.92\"."
+    },
+    {
+      "id": "interest-groups.member-join",
+      "trait": "conscientiousness",
+      "outcome": "membership of (quasi-)political associations (political parties, labor unions, professional organizations, religious, women's, advocacy and environmental organizations) versus no membership; Dutch Family Survey 2000, n = 1,283",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.81,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Bekkers, R. H. F. P.",
+        "year": 2005,
+        "title": "Participation in Voluntary Associations: Relations with Resources, Personality, and Political Values",
+        "venue": "Political Psychology 26(3), 439-454",
+        "url": "https://dspace.library.uu.nl/handle/1874/10717"
+      },
+      "quote": "Table 1, row Conscientiousness, column (Quasi-)Political, Model 1: \"0.81*\" (Model 2 \"0.83(*)\"); column Both, Model 1 \"0.75***\". Table 2, Membership vs no participation, Model 1: \"0.81**\". Table 1 notes: \"Entries are relative risk ratios for z-standardized variables. Odds ratios below 1.00 indicate a negative relationship; odds ratios above 1.00 indicate a positive relationship.\" \"Reference category: no membership.\" Text: \"All independent variables (except dummies for gender and political preferences) were z-standardized, which enables a comparison of effect sizes.\"",
+      "quoteVerified": true,
+      "notes": "Multinomial-logit relative risk ratio (an odds ratio against the no-membership category) per 1 SD of the trait, Model 1 (personality, empathy, gender and age only, entered before acquired resources as the paper argues). Model 2 adds education, church attendance, postmaterialism, political preference and interest and shrinks the personality effects (conscientiousness 0.83, agreeableness 0.90, extraversion 1.15, openness 1.00). The paper prints significance stars, not SEs, so low/high are null. The dependent variable covers seven organization types in one category, so it is membership of an interest-type group, not of one policy group; the nonpolitical category (sports, hobby, social-service, cultural) is separate. Netherlands, 2000. Conscientious people are less likely to join, which the paper calls surprising; same direction in every column. Table 2 (any membership, not volunteering): 0.81 (Model 1), 0.87(*) (Model 2)."
+    },
+    {
+      "id": "interest-groups.member-join",
+      "trait": "extraversion",
+      "outcome": "membership of (quasi-)political associations (political parties, labor unions, professional organizations, religious, women's, advocacy and environmental organizations) versus no membership; Dutch Family Survey 2000, n = 1,283",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 1.14,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Bekkers, R. H. F. P.",
+        "year": 2005,
+        "title": "Participation in Voluntary Associations: Relations with Resources, Personality, and Political Values",
+        "venue": "Political Psychology 26(3), 439-454",
+        "url": "https://dspace.library.uu.nl/handle/1874/10717"
+      },
+      "quote": "Table 1, row Extraversion, column (Quasi-)Political, Model 1: \"1.14\" (Model 2 \"1.15\"); column Both, Model 1 \"1.13(*)\". Table 2, Volunteering vs no participation, Model 1: \"1.21*\". Table 1 notes: \"Entries are relative risk ratios for z-standardized variables. Odds ratios below 1.00 indicate a negative relationship; odds ratios above 1.00 indicate a positive relationship.\" \"Reference category: no membership.\" Text: \"All independent variables (except dummies for gender and political preferences) were z-standardized, which enables a comparison of effect sizes.\"",
+      "quoteVerified": true,
+      "notes": "Multinomial-logit relative risk ratio (an odds ratio against the no-membership category) per 1 SD of the trait, Model 1 (personality, empathy, gender and age only, entered before acquired resources as the paper argues). Model 2 adds education, church attendance, postmaterialism, political preference and interest and shrinks the personality effects (conscientiousness 0.83, agreeableness 0.90, extraversion 1.15, openness 1.00). The paper prints significance stars, not SEs, so low/high are null. The dependent variable covers seven organization types in one category, so it is membership of an interest-type group, not of one policy group; the nonpolitical category (sports, hobby, social-service, cultural) is separate. Netherlands, 2000. Not significant for political-group membership (1.14) but positive in every column and significant for volunteering (1.21*, Model 2 1.25*)."
+    },
+    {
+      "id": "press.follow-news",
+      "trait": "extraversion",
+      "outcome": "number of different news sources consumed in the past six months (German adults)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.16,
+        "low": 0.076,
+        "high": 0.242
+      },
+      "source": {
+        "authors": "Sindermann, C., Schmitt, H. S., Rozgonjuk, D., Elhai, J. D., & Montag, C.",
+        "year": 2021,
+        "title": "The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption",
+        "venue": "Heliyon 7(3), e06503",
+        "url": "https://doi.org/10.1016/j.heliyon.2021.e06503"
+      },
+      "quote": "Table 1, row \"13. Number of news sources consumed | 20.25 (11.24) | 20.52 (11.34) | 19.19 (10.93) | r = 0.00, p = .974 | r = -0.12, p = .008 | r = 0.09, p = .041 | r = 0.05, p = .288 | r = -0.07, p = .135 | r = 0.01, p = .834 | r = 0.06, p = .143 | r = 0.12, p = .004 | r = -0.07, p = .115 | r = 0.16, p < .001 | r = 0.04, p = .363 | r = -0.09, p = .049\"; the twelve correlation cells run across columns 1 to 12, so column 8 is Openness (\"r = 0.12, p = .004\"), 9 Conscientiousness, 10 Extraversion (\"r = 0.16, p < .001\"), 11 Agreeableness, 12 Neuroticism (\"r = -0.09, p = .049\"). Method: \"The total number of different news sources consumed was assessed for the past six months prior to participation in the present study.\"",
+      "quoteVerified": true,
+      "notes": "Pearson correlation in a preregistered online study of German adults (N = 530; 396 men, 130 women, 4 non-binary; recruited by snowballing, so not representative; BFI-44 German version, scale 1 to 5). low/high are the Fisher-z 95% interval for N = 530 (computed by the helper; the paper prints r and p only). The authors call their effect sizes small and the study preliminary. Outcome: how many different news sources a person consumed in the past six months, the nearest published measure of how much a person follows the news. Number of sources is a breadth measure, not time spent or interest in politics, and news was not limited to political news. Conscientiousness -0.07 (p = .115), agreeableness 0.04 (p = .363)."
+    },
+    {
+      "id": "press.follow-news",
+      "trait": "openness to experience",
+      "outcome": "number of different news sources consumed in the past six months (German adults)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.12,
+        "low": 0.035,
+        "high": 0.203
+      },
+      "source": {
+        "authors": "Sindermann, C., Schmitt, H. S., Rozgonjuk, D., Elhai, J. D., & Montag, C.",
+        "year": 2021,
+        "title": "The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption",
+        "venue": "Heliyon 7(3), e06503",
+        "url": "https://doi.org/10.1016/j.heliyon.2021.e06503"
+      },
+      "quote": "Table 1, row \"13. Number of news sources consumed | 20.25 (11.24) | 20.52 (11.34) | 19.19 (10.93) | r = 0.00, p = .974 | r = -0.12, p = .008 | r = 0.09, p = .041 | r = 0.05, p = .288 | r = -0.07, p = .135 | r = 0.01, p = .834 | r = 0.06, p = .143 | r = 0.12, p = .004 | r = -0.07, p = .115 | r = 0.16, p < .001 | r = 0.04, p = .363 | r = -0.09, p = .049\"; the twelve correlation cells run across columns 1 to 12, so column 8 is Openness (\"r = 0.12, p = .004\"), 9 Conscientiousness, 10 Extraversion (\"r = 0.16, p < .001\"), 11 Agreeableness, 12 Neuroticism (\"r = -0.09, p = .049\"). Method: \"The total number of different news sources consumed was assessed for the past six months prior to participation in the present study.\"",
+      "quoteVerified": true,
+      "notes": "Pearson correlation in a preregistered online study of German adults (N = 530; 396 men, 130 women, 4 non-binary; recruited by snowballing, so not representative; BFI-44 German version, scale 1 to 5). low/high are the Fisher-z 95% interval for N = 530 (computed by the helper; the paper prints r and p only). The authors call their effect sizes small and the study preliminary. Outcome: how many different news sources a person consumed in the past six months, the nearest published measure of how much a person follows the news. Number of sources is a breadth measure, not time spent or interest in politics, and news was not limited to political news. Matches the authors' hypothesis from earlier work that openness goes with more news use."
+    },
+    {
+      "id": "press.follow-news",
+      "trait": "neuroticism",
+      "outcome": "number of different news sources consumed in the past six months (German adults)",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.09,
+        "low": -0.174,
+        "high": -0.005
+      },
+      "source": {
+        "authors": "Sindermann, C., Schmitt, H. S., Rozgonjuk, D., Elhai, J. D., & Montag, C.",
+        "year": 2021,
+        "title": "The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption",
+        "venue": "Heliyon 7(3), e06503",
+        "url": "https://doi.org/10.1016/j.heliyon.2021.e06503"
+      },
+      "quote": "Table 1, row \"13. Number of news sources consumed | 20.25 (11.24) | 20.52 (11.34) | 19.19 (10.93) | r = 0.00, p = .974 | r = -0.12, p = .008 | r = 0.09, p = .041 | r = 0.05, p = .288 | r = -0.07, p = .135 | r = 0.01, p = .834 | r = 0.06, p = .143 | r = 0.12, p = .004 | r = -0.07, p = .115 | r = 0.16, p < .001 | r = 0.04, p = .363 | r = -0.09, p = .049\"; the twelve correlation cells run across columns 1 to 12, so column 8 is Openness (\"r = 0.12, p = .004\"), 9 Conscientiousness, 10 Extraversion (\"r = 0.16, p < .001\"), 11 Agreeableness, 12 Neuroticism (\"r = -0.09, p = .049\"). Method: \"The total number of different news sources consumed was assessed for the past six months prior to participation in the present study.\"",
+      "quoteVerified": true,
+      "notes": "Pearson correlation in a preregistered online study of German adults (N = 530; 396 men, 130 women, 4 non-binary; recruited by snowballing, so not representative; BFI-44 German version, scale 1 to 5). low/high are the Fisher-z 95% interval for N = 530 (computed by the helper; the paper prints r and p only). The authors call their effect sizes small and the study preliminary. Outcome: how many different news sources a person consumed in the past six months, the nearest published measure of how much a person follows the news. Number of sources is a breadth measure, not time spent or interest in politics, and news was not limited to political news. Negative: more neurotic people consume slightly fewer sources (p = .049, not significant after the authors' Holm correction)."
+    },
+    {
+      "id": "views.persuasion",
+      "trait": "openness to experience",
+      "outcome": "being moved toward a discussion partner's political view (openness x discussant-view interaction, 2006 National survey)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.66,
+        "low": 0.111,
+        "high": 1.209,
+        "traitSd": 0.22
+      },
+      "source": {
+        "authors": "Hibbing, M. V., Ritchie, M., & Anderson, M. R.",
+        "year": 2011,
+        "title": "Personality and Political Discussion",
+        "venue": "Political Behavior 33(4), 601-624",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/hibbing_ritchie_and_anderson_2011.pdf"
+      },
+      "quote": "Table 4, column \"2006 National survey\" Full model (4), row \"Influence–openness interaction\": \"0.66*\", standard error \"(0.28)\". Note: \"Cell entries are ordered logistic regression coefficients.\" Text: \"Individuals with high scores on openness to experience are more influenced by the partisan makeup of their network.\" and \"As a discussion network shifts from overwhelmingly Democrat to overwhelmingly Republican, an individual with the lowest score on openness becomes only 2 points more positive in their assessment of President Bush, shifting from 0.33 to 0.35. For an individual with maximum openness, they shift a staggering 83 points, from 0.03 to 0.86\". Table 1B (2006 National survey), Openness to experience: Scale mean (SD) \"0.46 (0.22)\".",
+      "quoteVerified": true,
+      "notes": "Ordered-logistic INTERACTION coefficient from Hibbing, Ritchie & Anderson (2011) Table 4: dependent variable is approval of President Bush (4-point scale); the coefficient multiplies (the discussant's or network's political view, coded -2 to 2 or -4 to 4) x (openness, scaled 0 to 1), so it is the extra pull per unit of the other person's view that a respondent gains going from lowest to highest openness, i.e. how far the hearer's openness scales being moved by what a discussion partner thinks. low/high = coefficient +/- 1.96 x SE. Per SD multiply by the openness SD from Table 1. The main discussant-view coefficient in the same model is not significant (0.19 SE .17; -0.16 SE .18), so openness carries nearly all of the measured influence. This is the nearer-to-national sample (2006 Congressional Elections Study, N=1,003). Influence-extraversion -0.22 (SE .20), agreeableness -0.06 (SE .21), conscientiousness 0.27 (SE .20), emotional stability 0.36 (SE .24): none significant. The study measures change of a standing political evaluation under social influence, not a single persuasion event, and is cross-sectional."
+    },
+    {
+      "id": "views.persuasion",
+      "trait": "openness to experience",
+      "outcome": "being moved toward a discussion partner's political view (openness x discussant-view interaction, 2004 Community survey)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.45,
+        "low": -0.001,
+        "high": 0.901,
+        "traitSd": 0.27
+      },
+      "source": {
+        "authors": "Hibbing, M. V., Ritchie, M., & Anderson, M. R.",
+        "year": 2011,
+        "title": "Personality and Political Discussion",
+        "venue": "Political Behavior 33(4), 601-624",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/hibbing_ritchie_and_anderson_2011.pdf"
+      },
+      "quote": "Table 4, column \"2004 Community survey\" Full model (2), row \"Influence–openness interaction\": \"0.45*\", standard error \"(0.23)\". Other interactions: Influence–conscientiousness \"0.29 (0.19)\", Influence–extraversion \"0.06 (0.19)\", Influence–agreeableness \"-0.28 (0.22)\", Influence–emotional stability \"-0.02 (0.20)\". Text: \"we do find a substantial effect the hypothesis which states that openness to experience is significantly related to discussant influence.\" Table 1A, Openness to experience: Scale mean (SD) \"0.62 (0.27)\".",
+      "quoteVerified": true,
+      "notes": "Ordered-logistic INTERACTION coefficient from Hibbing, Ritchie & Anderson (2011) Table 4: dependent variable is approval of President Bush (4-point scale); the coefficient multiplies (the discussant's or network's political view, coded -2 to 2 or -4 to 4) x (openness, scaled 0 to 1), so it is the extra pull per unit of the other person's view that a respondent gains going from lowest to highest openness, i.e. how far the hearer's openness scales being moved by what a discussion partner thinks. low/high = coefficient +/- 1.96 x SE. Per SD multiply by the openness SD from Table 1. The main discussant-view coefficient in the same model is not significant (0.19 SE .17; -0.16 SE .18), so openness carries nearly all of the measured influence. Replication in an Indiana community sample (N=705). Predicted approval rises 50 points (0.22 to 0.72) for low openness and from 0.09 to 0.84 for maximum openness as the discussant moves from Democrat to Republican."
+    },
+    {
+      "id": "views.trust",
+      "trait": "agreeableness (FFM)",
+      "outcome": "sending money to an anonymous partner as trustor in the Trust Game (behavioral trust in a stranger; meta-analysis of 28 independent samples)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.09,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
+        "year": 2020,
+        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
+        "venue": "Psychological Bulletin 146(1), 30-90",
+        "url": "https://zenodo.org/record/3731374"
+      },
+      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"FFM agreeableness\": \".16ⴱ (51) .08ⴱ⫺ (16) .07ⴱ⫺ (18) .09ⴱ⫺ (28) .13ⴱ (28) .07ⴱ⫺ (47)\", so TG trustor = \".09\" with k = \"(28)\". HEXACO agreeableness TG trustor \".09ⴱ (12)\".",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation between the trait and how much a trustor sends to an unknown trustee (k = 28 independent samples; the table prints significance marks, not CIs, per game, so low/high are null). The Trust Game is the standard lab measure of behavioral trust in a stranger and is used here as the nearest meta-analytic effect of a hearer's trait on trusting another person; it measures trust with money at stake in a one-shot game, not trust in a speaker's word, and the studies span many countries and student samples. The same value, .09, holds for HEXACO agreeableness (k = 12). For context, the paper's overall (all games) correlation for the separate trait 'trust propensity' is .14 (k = 144) and .16 for trustors (k = 44), which is a measure of trust itself, not a Big Five trait. Two of the paper's overall Big Five results: openness .07 (k = 164), extraversion .01 (k = 173), neuroticism -.00 (k = 115)."
+    },
+    {
+      "id": "views.trust",
+      "trait": "conscientiousness",
+      "outcome": "sending money to an anonymous partner as trustor in the Trust Game (behavioral trust in a stranger; meta-analysis of 34 independent samples)",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.05,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
+        "year": 2020,
+        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
+        "venue": "Psychological Bulletin 146(1), 30-90",
+        "url": "https://zenodo.org/record/3731374"
+      },
+      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"Conscientiousness\": \"⫺.00 (68) .02 (25) .02 (25) ⫺.05ⴱ⫺ (34) .00 (31) ⫺.01 (57)\", so TG trustor = \"⫺.05ⴱ⫺ (34)\".",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation between the trait and how much a trustor sends to an unknown trustee (k = 34 independent samples; the table prints significance marks, not CIs, per game, so low/high are null). The Trust Game is the standard lab measure of behavioral trust in a stranger and is used here as the nearest meta-analytic effect of a hearer's trait on trusting another person; it measures trust with money at stake in a one-shot game, not trust in a speaker's word, and the studies span many countries and student samples. Negative: more conscientious trustors send slightly less. For context, the paper's overall (all games) correlation for the separate trait 'trust propensity' is .14 (k = 144) and .16 for trustors (k = 44), which is a measure of trust itself, not a Big Five trait. Two of the paper's overall Big Five results: openness .07 (k = 164), extraversion .01 (k = 173), neuroticism -.00 (k = 115)."
+    },
+    {
+      "id": "views.trust",
+      "trait": "honesty-humility (HEXACO)",
+      "outcome": "sending money to an anonymous partner as trustor in the Trust Game (behavioral trust in a stranger; meta-analysis of 12 independent samples)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.11,
+        "low": null,
+        "high": null
+      },
+      "source": {
+        "authors": "Thielmann, I., Spadaro, G., & Balliet, D.",
+        "year": 2020,
+        "title": "Personality and prosocial behavior: A theoretical framework and meta-analysis",
+        "venue": "Psychological Bulletin 146(1), 30-90",
+        "url": "https://zenodo.org/record/3731374"
+      },
+      "quote": "Table 8 \"Between Traits and Prosocial Behavior Within Each Game, Including the Number of Independent Samples (k; in Parentheses)\", columns DG, UG proposer, UG responder, TG trustor, TG trustee, SDG; row \"Honesty-humility\": \".26ⴱ (43) .09ⴱ⫺ (16) .02⫺ (15) .11ⴱ⫺ (12) .22ⴱ (7) .18ⴱ⫺ (27)\", so TG trustor = \".11ⴱ⫺ (12)\".",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation between the trait and how much a trustor sends to an unknown trustee (k = 12 independent samples; the table prints significance marks, not CIs, per game, so low/high are null). The Trust Game is the standard lab measure of behavioral trust in a stranger and is used here as the nearest meta-analytic effect of a hearer's trait on trusting another person; it measures trust with money at stake in a one-shot game, not trust in a speaker's word, and the studies span many countries and student samples. Honesty-humility is much stronger for the trustee role (.22, k = 7) than for trusting (.11). For context, the paper's overall (all games) correlation for the separate trait 'trust propensity' is .14 (k = 144) and .16 for trustors (k = 44), which is a measure of trust itself, not a Big Five trait. Two of the paper's overall Big Five results: openness .07 (k = 164), extraversion .01 (k = 173), neuroticism -.00 (k = 115)."
+    },
+    {
+      "id": "views.trust",
+      "trait": "agreeableness",
+      "outcome": "Interpersonal Trust Scale (IPTS) score, general trust in other people, German adults",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.2,
+        "low": 0.117,
+        "high": 0.28
+      },
+      "source": {
+        "authors": "Sindermann, C., Schmitt, H. S., Rozgonjuk, D., Elhai, J. D., & Montag, C.",
+        "year": 2021,
+        "title": "The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption",
+        "venue": "Heliyon 7(3), e06503",
+        "url": "https://doi.org/10.1016/j.heliyon.2021.e06503"
+      },
+      "quote": "Table 1, row \"19. IPTS | 2.98 (0.51) | 2.99 (0.51) | 2.94 (0.48) | r = -0.17, p < .001 | r = -0.15, p < .001 | r = 0.25, p < .001 | r = 0.07, p = .105 | r = 0.14, p = .002 | r = 0.08, p = .057 | r = 0.24, p < .001 | r = 0.13, p = .002 | r = 0.01, p = .831 | r = 0.01, p = .740 | r = 0.20, p < .001 | r = -0.17, p < .001\"; cells 8 to 12 are Openness \"r = 0.13, p = .002\", Conscientiousness \"r = 0.01, p = .831\", Extraversion \"r = 0.01, p = .740\", Agreeableness \"r = 0.20, p < .001\", Neuroticism \"r = -0.17, p < .001\". Note: \"IPTS = Interpersonal Trust Scale\".",
+      "quoteVerified": true,
+      "notes": "Pearson correlation in a preregistered online study of German adults (N = 530; 396 men, 130 women, 4 non-binary; recruited by snowballing, so not representative; BFI-44 German version, scale 1 to 5). low/high are the Fisher-z 95% interval for N = 530 (computed by the helper; the paper prints r and p only). The authors call their effect sizes small and the study preliminary. Outcome is a scale of trust in other people in general (the nearest published measure of how far a person trusts others by disposition), not trust in one speaker on one occasion. Openness 0.13 (p = .002), neuroticism -0.17 (p < .001), conscientiousness 0.01, extraversion 0.01. Complements the Thielmann et al. (2020) behavioral-trust rows."
+    },
+    {
+      "id": "views.trust",
+      "trait": "neuroticism",
+      "outcome": "Interpersonal Trust Scale (IPTS) score, general trust in other people, German adults",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.17,
+        "low": -0.252,
+        "high": -0.086
+      },
+      "source": {
+        "authors": "Sindermann, C., Schmitt, H. S., Rozgonjuk, D., Elhai, J. D., & Montag, C.",
+        "year": 2021,
+        "title": "The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption",
+        "venue": "Heliyon 7(3), e06503",
+        "url": "https://doi.org/10.1016/j.heliyon.2021.e06503"
+      },
+      "quote": "Table 1, row \"19. IPTS\", column 12 (Neuroticism): \"r = -0.17, p < .001\" (the full row is \"19. IPTS | 2.98 (0.51) | 2.99 (0.51) | 2.94 (0.48) | r = -0.17, p < .001 | r = -0.15, p < .001 | r = 0.25, p < .001 | r = 0.07, p = .105 | r = 0.14, p = .002 | r = 0.08, p = .057 | r = 0.24, p < .001 | r = 0.13, p = .002 | r = 0.01, p = .831 | r = 0.01, p = .740 | r = 0.20, p < .001 | r = -0.17, p < .001\"). Note: \"IPTS = Interpersonal Trust Scale\".",
+      "quoteVerified": true,
+      "notes": "Pearson correlation in a preregistered online study of German adults (N = 530; 396 men, 130 women, 4 non-binary; recruited by snowballing, so not representative; BFI-44 German version, scale 1 to 5). low/high are the Fisher-z 95% interval for N = 530 (computed by the helper; the paper prints r and p only). The authors call their effect sizes small and the study preliminary. More neurotic (less emotionally stable) people trust others less; same table as the agreeableness row."
+    },
+    {
+      "id": "conversation.believe-claim",
+      "trait": "agreeableness / openness (not measured); analytic thinking and bullshit receptivity measured instead",
+      "outcome": "perceived accuracy of fake news headlines",
+      "effect": null,
+      "source": {
+        "authors": "Pennycook, G., & Rand, D. G.",
+        "year": 2020,
+        "title": "Who falls for fake news? The roles of bullshit receptivity, overclaiming, familiarity, and analytic thinking",
+        "venue": "Journal of Personality 88(2), 185-200",
+        "url": "https://doi.org/10.1111/jopy.12476"
+      },
+      "quote": "The tendency to ascribe profundity to randomly generated sentences-pseudo-profound bullshit receptivity-correlates positively with perceptions of fake news accuracy, and negatively with the ability to differentiate between fake and real news (media truth discernment).",
+      "quoteVerified": true,
+      "notes": "This study measures cognitive style, not Big Five traits, so no Big Five effect size is given; no verified agreeableness or openness number for belief in claims was found."
+    },
+    {
+      "id": "conversation.believe-claim",
+      "trait": "agreeableness",
+      "outcome": "belief in conspiracy theories (generic and specific; meta-analysis, 13 studies, 74 effect sizes, 12,086 persons)",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.02,
+        "low": -0.09,
+        "high": 0.04
+      },
+      "source": {
+        "authors": "Goreis, A., & Voracek, M.",
+        "year": 2019,
+        "title": "A Systematic Review and Meta-Analysis of Psychological Research on Conspiracy Beliefs: Field Characteristics, Measurement Instruments, and Associations With Personality Traits",
+        "venue": "Frontiers in Psychology 10, 205",
+        "url": "https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00205/pdf"
+      },
+      "quote": "Results: \"Similar results were found for agreeableness (r = −0.02,\" [the sentence continues after a page break and a figure caption] \"95% CI −0.09 to 0.04, p = 0.534), conscientiousness (r = 0.01, 95% CI −0.02 to 0.05, p = 0.433), extraversion (r = 0.01, 95% CI −0.02 to 0.03, p = 0.575), and neuroticism (r = 0.03, 95% CI −0.02 to 0.09, p = 0.204). None of the overall associations were significant (all ps > 0.05).\" Abstract: \"Meta-analysis revealed that agreeableness, openness to experience, and the remaining Big Five personality factors were not significantly associated with conspiracy beliefs if effect sizes are aggregated.\"",
+      "quoteVerified": true,
+      "notes": "Random-effects pooled Pearson r between the trait and conspiracy-belief scores (k = 13 effect sizes, n = 10315); none of the five pooled correlations is significant (all p > .05). Used as the nearest published measure of how much a hearer's personality moves belief in an uncheckable, unflattering claim; belief in conspiracy theories is a stable attitude, not belief in one told claim on one occasion, and the paper notes high heterogeneity across studies (I2 = 87 to 91 percent for agreeableness and openness). Read as evidence that the trait pull on believing a claim is near zero, so the lean weight should stay small, not as a sign that high-agreeableness hearers doubt more. The existing Pennycook and Rand (2020) row for this decision gives direction only (cognitive style, not Big Five)."
+    },
+    {
+      "id": "conversation.believe-claim",
+      "trait": "openness to experience",
+      "outcome": "belief in conspiracy theories (generic and specific; meta-analysis, 13 studies, 74 effect sizes, 12,086 persons)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.02,
+        "low": -0.06,
+        "high": 0.09
+      },
+      "source": {
+        "authors": "Goreis, A., & Voracek, M.",
+        "year": 2019,
+        "title": "A Systematic Review and Meta-Analysis of Psychological Research on Conspiracy Beliefs: Field Characteristics, Measurement Instruments, and Associations With Personality Traits",
+        "venue": "Frontiers in Psychology 10, 205",
+        "url": "https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00205/pdf"
+      },
+      "quote": "Results: \"With openness to experience, a correlation coefficient of r = 0.02 (p = 0.612) with a 95% confidence interval (CI) of −0.06 to 0.09 emerged.\" \"None of the overall associations were significant (all ps > 0.05).\"",
+      "quoteVerified": true,
+      "notes": "Random-effects pooled Pearson r between the trait and conspiracy-belief scores (k = 14 effect sizes, n = 5252); none of the five pooled correlations is significant (all p > .05). Used as the nearest published measure of how much a hearer's personality moves belief in an uncheckable, unflattering claim; belief in conspiracy theories is a stable attitude, not belief in one told claim on one occasion, and the paper notes high heterogeneity across studies (I2 = 87 to 91 percent for agreeableness and openness). Read as evidence that the trait pull on believing a claim is near zero, so the lean weight should stay small, not as a sign that high-agreeableness hearers doubt more. The existing Pennycook and Rand (2020) row for this decision gives direction only (cognitive style, not Big Five)."
+    },
+    {
+      "id": "conversation.believe-claim",
+      "trait": "emotional stability / neuroticism",
+      "outcome": "belief in conspiracy theories (generic and specific; meta-analysis, 13 studies, 74 effect sizes, 12,086 persons)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.03,
+        "low": -0.02,
+        "high": 0.09
+      },
+      "source": {
+        "authors": "Goreis, A., & Voracek, M.",
+        "year": 2019,
+        "title": "A Systematic Review and Meta-Analysis of Psychological Research on Conspiracy Beliefs: Field Characteristics, Measurement Instruments, and Associations With Personality Traits",
+        "venue": "Frontiers in Psychology 10, 205",
+        "url": "https://www.frontiersin.org/articles/10.3389/fpsyg.2019.00205/pdf"
+      },
+      "quote": "Results: \"95% CI −0.09 to 0.04, p = 0.534), conscientiousness (r = 0.01, 95% CI −0.02 to 0.05, p = 0.433), extraversion (r = 0.01, 95% CI −0.02 to 0.03, p = 0.575), and neuroticism (r = 0.03, 95% CI −0.02 to 0.09, p = 0.204). None of the overall associations were significant (all ps > 0.05).\" (neuroticism, n = 11,456 over 16 effect sizes; positive r means more neurotic, i.e. less emotionally stable, people hold more conspiracy beliefs).",
+      "quoteVerified": true,
+      "notes": "Random-effects pooled Pearson r between the trait and conspiracy-belief scores (k = 16 effect sizes, n = 11456); none of the five pooled correlations is significant (all p > .05). Used as the nearest published measure of how much a hearer's personality moves belief in an uncheckable, unflattering claim; belief in conspiracy theories is a stable attitude, not belief in one told claim on one occasion, and the paper notes high heterogeneity across studies (I2 = 87 to 91 percent for agreeableness and openness). Read as evidence that the trait pull on believing a claim is near zero, so the lean weight should stay small, not as a sign that high-agreeableness hearers doubt more. The existing Pennycook and Rand (2020) row for this decision gives direction only (cognitive style, not Big Five)."
+    },
+    {
+      "id": "conversation.believe-claim",
+      "trait": "extraversion",
+      "outcome": "number of 16 fake news headlines judged true (belief in unverified false claims), German adults",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.09,
+        "low": 0.005,
+        "high": 0.174
+      },
+      "source": {
+        "authors": "Sindermann, C., Schmitt, H. S., Rozgonjuk, D., Elhai, J. D., & Montag, C.",
+        "year": 2021,
+        "title": "The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption",
+        "venue": "Heliyon 7(3), e06503",
+        "url": "https://doi.org/10.1016/j.heliyon.2021.e06503"
+      },
+      "quote": "Table 1, row \"10. Extraversion | 3.17 (0.81) | 3.08 (0.81) | 3.44 (0.75) | r = 0.09, p = .030\", first correlation cell = column 1, \"1. Number of fake news items misclassified as true\". Discussion: \"A positive association of Extraversion with fake news misclassification was also found but only in the correlational analysis.\" Regression (Table 4 shows the standardized model for discernment; Table 2 for fake items): Extraversion \"0.064\" with standard error \"0.045\".",
+      "quoteVerified": true,
+      "notes": "Pearson correlation in a preregistered online study of German adults (N = 530; 396 men, 130 women, 4 non-binary; recruited by snowballing, so not representative; BFI-44 German version, scale 1 to 5). low/high are the Fisher-z 95% interval for N = 530 (computed by the helper; the paper prints r and p only). The authors call their effect sizes small and the study preliminary. Outcome is how many of 16 fake news headlines a person rated as true (not limited to political claims). It is the nearest published Big Five link to believing an unverifiable claim. Other traits, same column 1: openness -0.04 (p = .332), conscientiousness 0.01 (p = .882), agreeableness -0.03 (p = .436), neuroticism -0.03 (p = .423). The paper's own conclusion: most Big Five traits were neither associated with misclassifying fake news as true nor true news as fake; the interpersonal trust scale had the largest link (r = -0.17 with believing fake news). The regression with standardized variables gave extraversion B = 0.064 (SE .045, p = .158). Supports a very small trait weight."
+    },
+    {
+      "id": "conversation.believe-claim",
+      "trait": "agreeableness",
+      "outcome": "number of 16 fake news headlines judged true (belief in unverified false claims), German adults",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.03,
+        "low": -0.115,
+        "high": 0.055
+      },
+      "source": {
+        "authors": "Sindermann, C., Schmitt, H. S., Rozgonjuk, D., Elhai, J. D., & Montag, C.",
+        "year": 2021,
+        "title": "The evaluation of fake and true news: on the role of intelligence, personality, interpersonal trust, ideological attitudes, and news consumption",
+        "venue": "Heliyon 7(3), e06503",
+        "url": "https://doi.org/10.1016/j.heliyon.2021.e06503"
+      },
+      "quote": "Table 1, row \"11. Agreeableness | 3.53 (0.51) | 3.50 (0.51) | 3.59 (0.53) | r = -0.03, p = .436\", first correlation cell = column 1, \"1. Number of fake news items misclassified as true\". Discussion: \"most of the personality traits, hence, non-ability traits, did not play a major role in explaining either of the tendencies.\"",
+      "quoteVerified": true,
+      "notes": "Pearson correlation in a preregistered online study of German adults (N = 530; 396 men, 130 women, 4 non-binary; recruited by snowballing, so not representative; BFI-44 German version, scale 1 to 5). low/high are the Fisher-z 95% interval for N = 530 (computed by the helper; the paper prints r and p only). The authors call their effect sizes small and the study preliminary. Agreeableness is the trait the believe-claim lean leans on (trust and concede); the correlation is not different from zero. See the extraversion row for the other traits."
+    },
+    {
+      "id": "speech.retell",
+      "trait": "conscientiousness",
+      "outcome": "frequency of discussing local politics with family members (4-point scale; proxy for retelling a heard speech to the household)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.63,
+        "low": 0.081,
+        "high": 1.179,
+        "traitSd": 0.29
+      },
+      "source": {
+        "authors": "Hibbing, M. V., Ritchie, M., & Anderson, M. R.",
+        "year": 2011,
+        "title": "Personality and Political Discussion",
+        "venue": "Political Behavior 33(4), 601-624",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/hibbing_ritchie_and_anderson_2011.pdf"
+      },
+      "quote": "Table 2, Model (1) Family, row Conscientiousness: \"0.63*\", standard error \"(0.28)\"; Extraversion \"0.33\" \"(0.27)\"; Openness \"0.00\" \"(0.34)\"; Agreeableness \"0.10\" \"(0.32)\"; Emotional stability \"0.20\" \"(0.30)\". Note: \"Cell entries are ordered logistic regression coefficients. The dependent variable in each model is the response on a four-point scale (high scores indicate more frequent discussion) to a question asking respondents to assess how often they discuss local politics in the particular context (with family, in church, etc.).\" Table 1A, Conscientiousness: Scale mean (SD) \"0.54 (0.29)\".",
+      "quoteVerified": true,
+      "notes": "Ordered-logistic coefficient from Hibbing, Ritchie & Anderson (2011) Table 2 (2004 Community survey, Indiana adults, N about 649 in the family column; controls age, race, sex, education); traits are scaled 0 to 1 so the coefficient is the change in the cumulative log-odds of a higher discussion-frequency category from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x SE. Per standard deviation multiply by the trait's Table 1A (2004 Community survey) SD. Proxy: how often one talks about local politics with family, which is the household-talk part of retelling a speech; the survey does not ask about retelling a specific speech. Conscientiousness is the only trait significant for family discussion (p<.05); with general discussion frequency controlled (model 2) it stays 0.66 (SE .29). Extraversion is positive but not significant here (0.33, SE .27, traitSd 0.28), though it is significant for clubs (1.05***), church (0.62*) and work (0.57*)."
+    },
+    {
+      "id": "speech.retell",
+      "trait": "extraversion",
+      "outcome": "frequency of discussing local politics with family members (4-point scale; proxy for retelling a heard speech to the household)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.33,
+        "low": -0.199,
+        "high": 0.859,
+        "traitSd": 0.28
+      },
+      "source": {
+        "authors": "Hibbing, M. V., Ritchie, M., & Anderson, M. R.",
+        "year": 2011,
+        "title": "Personality and Political Discussion",
+        "venue": "Political Behavior 33(4), 601-624",
+        "url": "https://sites.ucmerced.edu/files/mhibbing/files/hibbing_ritchie_and_anderson_2011.pdf"
+      },
+      "quote": "Table 2, Model (1) Family, row Extraversion: \"0.33\", standard error \"(0.27)\". Table 1A, Extraversion: Scale mean (SD) \"0.46 (0.28)\". Note: \"Cell entries are ordered logistic regression coefficients.\"",
+      "quoteVerified": true,
+      "notes": "Ordered-logistic coefficient from Hibbing, Ritchie & Anderson (2011) Table 2 (2004 Community survey, Indiana adults, N about 649 in the family column; controls age, race, sex, education); traits are scaled 0 to 1 so the coefficient is the change in the cumulative log-odds of a higher discussion-frequency category from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x SE. Per standard deviation multiply by the trait's Table 1A (2004 Community survey) SD. Not significant (p>.10); included because the speech.retell lean (speak out, engage) is mostly extraversion. Same table, other settings: friends 0.51# (SE .27), clubs 1.05*** (SE .29), church 0.62* (SE .28), work 0.57* (SE .28)."
+    },
+    {
+      "id": "jobs-benefits.file-claim",
+      "trait": "neuroticism",
+      "outcome": "taking up (claiming) Legacy Benefits / Universal Credit when eligible, UKHLS 2010-2019 (dynamic random-effects probit marginal effect per SD)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 0.6,
+        "low": 0.01,
+        "high": 1.19
+      },
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Vella, M., Richiardi, M., & van de Ven, J.",
+        "year": 2025,
+        "title": "Mind vs Matter: Economic and psychologic determinants of take-up rates of social benefits in the UK",
+        "venue": "CeMPA Working Paper 6/24 (University of Essex), revised December 2025",
+        "url": "https://www.iser.essex.ac.uk/wp-content/uploads/files/working-papers/cempa/cempa6-24.pdf"
+      },
+      "quote": "Table 2, Personality Traits, row Neuroticism, column LB/UC: \".006\" with standard error \"(.003)\" (column CB: \".000\" \"(.001)\"). Abstract: \"Personality traits and cognitive skills do not exhibit a strong and direct effect.\" Section 3.3: \"The analysis in this study utilises measures derived by standardising the scores obtained from the factor analysis.\" Section 3 on marginal effects: \"The marginal effect of an explanatory variable on the probability of take-up is the change in the probability of take-up resulting from a one-unit change in the explanatory variable (if continuous)\".",
+      "quoteVerified": true,
+      "notes": "UK Household Longitudinal Study, eligibility simulated with UKMOD; N = 7,723 person-years for LB/UC. LB/UC is a group of means-tested benefits (income-based Jobseeker's Allowance, income-related ESA, Income Support, Housing Benefit, tax credits, then Universal Credit), the nearest published take-up-among-the-eligible estimate to filing for unemployment benefits; no study of unemployment-insurance filing by personality was found. Traits are standardized factor scores (unit = 1 SD), so the marginal effect is per SD, entered here in percentage points. low/high = value +/- 1.96 x SE. The paper's finding is a weak direct effect: all five traits are within 0.6 percentage points of zero per SD while prior claiming (24.4 pp) and the simulated benefit amount matter far more; use as evidence for a small personality weight. Neuroticism .006 (.003); extraversion .004 (.003); agreeableness -.001 (.004); openness -.003 (.004); conscientiousness -.004 (.004). baseRate is not stated in the text (take-up shown only in Figure 1, roughly 50 to 90 percent across benefits and years), so the calibrator's default of 0.5 applies. Largest of the five."
+    },
+    {
+      "id": "jobs-benefits.file-claim",
+      "trait": "extraversion",
+      "outcome": "taking up (claiming) Legacy Benefits / Universal Credit when eligible, UKHLS 2010-2019 (dynamic random-effects probit marginal effect per SD)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 0.4,
+        "low": -0.19,
+        "high": 0.99
+      },
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Vella, M., Richiardi, M., & van de Ven, J.",
+        "year": 2025,
+        "title": "Mind vs Matter: Economic and psychologic determinants of take-up rates of social benefits in the UK",
+        "venue": "CeMPA Working Paper 6/24 (University of Essex), revised December 2025",
+        "url": "https://www.iser.essex.ac.uk/wp-content/uploads/files/working-papers/cempa/cempa6-24.pdf"
+      },
+      "quote": "Table 2, Personality Traits, row Extraversion, column LB/UC: \".004\" with standard error \"(.003)\" (column CB: \".000\" \"(.001)\"). Abstract: \"Personality traits and cognitive skills do not exhibit a strong and direct effect.\" Section 3.3: \"The analysis in this study utilises measures derived by standardising the scores obtained from the factor analysis.\" Section 3 on marginal effects: \"The marginal effect of an explanatory variable on the probability of take-up is the change in the probability of take-up resulting from a one-unit change in the explanatory variable (if continuous)\".",
+      "quoteVerified": true,
+      "notes": "UK Household Longitudinal Study, eligibility simulated with UKMOD; N = 7,723 person-years for LB/UC. LB/UC is a group of means-tested benefits (income-based Jobseeker's Allowance, income-related ESA, Income Support, Housing Benefit, tax credits, then Universal Credit), the nearest published take-up-among-the-eligible estimate to filing for unemployment benefits; no study of unemployment-insurance filing by personality was found. Traits are standardized factor scores (unit = 1 SD), so the marginal effect is per SD, entered here in percentage points. low/high = value +/- 1.96 x SE. The paper's finding is a weak direct effect: all five traits are within 0.6 percentage points of zero per SD while prior claiming (24.4 pp) and the simulated benefit amount matter far more; use as evidence for a small personality weight. Neuroticism .006 (.003); extraversion .004 (.003); agreeableness -.001 (.004); openness -.003 (.004); conscientiousness -.004 (.004). baseRate is not stated in the text (take-up shown only in Figure 1, roughly 50 to 90 percent across benefits and years), so the calibrator's default of 0.5 applies. Not significant."
+    },
+    {
+      "id": "jobs-benefits.file-claim",
+      "trait": "conscientiousness",
+      "outcome": "taking up (claiming) Legacy Benefits / Universal Credit when eligible, UKHLS 2010-2019 (dynamic random-effects probit marginal effect per SD)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": -0.4,
+        "low": -1.18,
+        "high": 0.38
+      },
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Vella, M., Richiardi, M., & van de Ven, J.",
+        "year": 2025,
+        "title": "Mind vs Matter: Economic and psychologic determinants of take-up rates of social benefits in the UK",
+        "venue": "CeMPA Working Paper 6/24 (University of Essex), revised December 2025",
+        "url": "https://www.iser.essex.ac.uk/wp-content/uploads/files/working-papers/cempa/cempa6-24.pdf"
+      },
+      "quote": "Table 2, Personality Traits, row Conscientiousness, column LB/UC: \"-.004\" with standard error \"(.004)\" (column CB: \"-.001\" \"(.001)\"). Abstract: \"Personality traits and cognitive skills do not exhibit a strong and direct effect.\" Section 3.3: \"The analysis in this study utilises measures derived by standardising the scores obtained from the factor analysis.\" Section 3 on marginal effects: \"The marginal effect of an explanatory variable on the probability of take-up is the change in the probability of take-up resulting from a one-unit change in the explanatory variable (if continuous)\".",
+      "quoteVerified": true,
+      "notes": "UK Household Longitudinal Study, eligibility simulated with UKMOD; N = 7,723 person-years for LB/UC. LB/UC is a group of means-tested benefits (income-based Jobseeker's Allowance, income-related ESA, Income Support, Housing Benefit, tax credits, then Universal Credit), the nearest published take-up-among-the-eligible estimate to filing for unemployment benefits; no study of unemployment-insurance filing by personality was found. Traits are standardized factor scores (unit = 1 SD), so the marginal effect is per SD, entered here in percentage points. low/high = value +/- 1.96 x SE. The paper's finding is a weak direct effect: all five traits are within 0.6 percentage points of zero per SD while prior claiming (24.4 pp) and the simulated benefit amount matter far more; use as evidence for a small personality weight. Neuroticism .006 (.003); extraversion .004 (.003); agreeableness -.001 (.004); openness -.003 (.004); conscientiousness -.004 (.004). baseRate is not stated in the text (take-up shown only in Figure 1, roughly 50 to 90 percent across benefits and years), so the calibrator's default of 0.5 applies. Not significant; negative sign means more conscientious eligible people claim slightly less."
+    },
+    {
+      "id": "jobs-benefits.file-claim",
+      "trait": "neuroticism",
+      "outcome": "taking up Legacy Benefits / Universal Credit when eligible, UKHLS 2010-2019 (static probit, no lagged take-up; marginal effect derived at a take-up rate of 0.5)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.15,
+        "low": 1.9,
+        "high": 4.4
+      },
+      "baseRate": 0.5,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Vella, M., Richiardi, M., & van de Ven, J.",
+        "year": 2025,
+        "title": "Mind vs Matter: Economic and psychologic determinants of take-up rates of social benefits in the UK",
+        "venue": "CeMPA Working Paper 6/24 (University of Essex), revised December 2025",
+        "url": "https://www.iser.essex.ac.uk/wp-content/uploads/files/working-papers/cempa/cempa6-24.pdf"
+      },
+      "quote": "Table B.1 \"Estimates from a probit model of take-up, all years\", Personality Traits, row Neuroticism, column LB/UC: \".079***\" with standard error \"(.016)\"; Agreeableness \".028*\" \"(.016)\"; Openness \"-.016\" \"(.017)\"; Conscientiousness \"-.015\" \"(.017)\"; Extraversion \".013\" \"(.016)\". Section 3.3: \"The analysis in this study utilises measures derived by standardising the scores obtained from the factor analysis.\"",
+      "quoteVerified": true,
+      "notes": "DERIVED value, not printed in the paper: the paper prints this probit coefficient (a latent-index change per SD of the standardized trait); the percentage-point value here is coefficient x 0.3989 (the standard normal density at a take-up rate of 0.5) x 100 = 3.15 pp, an assumption because the paper gives no overall take-up rate in text (Figure 1 shows LB/UC take-up between roughly 50 and 90 percent). low/high = (coefficient +/- 1.96 x SE) x 0.3989 x 100. This static model omits last year's take-up and so counts all of the persistent personality difference; the paper's dynamic model (Table 2, separate row) controls for state dependence and shows only 0.6 pp per SD. Use the dynamic row for a conservative size and this row for the total association. Only neuroticism is clearly significant here; agreeableness is .028 (SE .016, p<.10)."
+    },
+    {
+      "id": "interest-groups.lobbyist",
+      "trait": "extraversion",
+      "outcome": "spoke at a local public meeting (CT Survey, 2008; sample mean 14.7 percent)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.978,
+        "low": 0.502,
+        "high": 1.454,
+        "traitSd": 0.29
+      },
+      "source": {
+        "authors": "Gerber, A. S., Huber, G. A., Doherty, D., Dowling, C. M., Raso, C., & Ha, S. E.",
+        "year": 2011,
+        "title": "Personality Traits and Participation in Political Processes (On-line Appendix, Tables A12a and A13)",
+        "venue": "Journal of Politics 73(3), 692-706 (on-line appendix)",
+        "url": "https://huber.research.yale.edu/materials/21_appendix.pdf"
+      },
+      "quote": "Table A12a, column (6) \"Speak at Local Meeting\", row Extraversion (0-1): \"0.978\" with robust standard error \"[0.243]***\". Table A1, CT Survey, Extraversion (0-1): SD \"[.29]\". Text: \"this relationship is particularly pronounced for forms of participation that involve interacting with others, such as attending a rally or speaking at a local meeting\" and the effect of a 2 SD increase in extraversion on speaking at a local meeting is \"52.7%\" of the baseline (Table A12b).",
+      "quoteVerified": true,
+      "notes": "Logit coefficient from Table A12a of the on-line appendix to Gerber et al. (2011, Journal of Politics 73(3):692-706; DOI 10.1017/S0022381611000399), CT Survey (2008 Connecticut telephone-recruited survey, N = 1,924; controls race, age, age squared, income, education); trait scaled 0 to 1, so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x robust SE. Per SD multiply by the CT-survey SD from Table A1. Proxy: no study of who serves as a group's spokesperson or lobbyist was found; speaking up in front of others at a local public meeting is the nearest measured public-advocacy act. Same column: agreeableness -0.763 [0.319]**, openness 0.626 [0.317]**, emotional stability 0.529 [0.307]*, conscientiousness 0.426 [0.396]. Among those who attended a meeting (column 7, N = 721): extraversion 0.591 [0.297]**, agreeableness -1.107 [0.404]***."
+    },
+    {
+      "id": "interest-groups.lobbyist",
+      "trait": "agreeableness",
+      "outcome": "spoke at a local public meeting (CT Survey, 2008; sample mean 14.7 percent)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": -0.763,
+        "low": -1.388,
+        "high": -0.138,
+        "traitSd": 0.2088
+      },
+      "source": {
+        "authors": "Gerber, A. S., Huber, G. A., Doherty, D., Dowling, C. M., Raso, C., & Ha, S. E.",
+        "year": 2011,
+        "title": "Personality Traits and Participation in Political Processes (On-line Appendix, Tables A12a and A13)",
+        "venue": "Journal of Politics 73(3), 692-706 (on-line appendix)",
+        "url": "https://huber.research.yale.edu/materials/21_appendix.pdf"
+      },
+      "quote": "Table A12a, column (6) \"Speak at Local Meeting\", row Agreeableness (0-1): \"-0.763\" with robust standard error \"[0.319]**\". Table A1, CT Survey, Agreeableness (0-1): SD \"[.2088]\". Text: \"However, we find a strong negative and statistically significant relationship between this trait and more conflictual forms of participation such as speaking at a local meeting (-29.5%).\"",
+      "quoteVerified": true,
+      "notes": "Logit coefficient from Table A12a of the on-line appendix to Gerber et al. (2011, Journal of Politics 73(3):692-706; DOI 10.1017/S0022381611000399), CT Survey (2008 Connecticut telephone-recruited survey, N = 1,924; controls race, age, age squared, income, education); trait scaled 0 to 1, so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x robust SE. Per SD multiply by the CT-survey SD from Table A1. Negative: more agreeable residents are much less likely to speak at a local meeting, which the authors tie to conflict avoidance. Conditional on attending a meeting (column 7) agreeableness is -1.107 [0.404]***."
     }
   ]
 }

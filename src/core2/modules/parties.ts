@@ -26,7 +26,12 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
-import { personLean, PLATFORM_QUESTIONS } from "../campaign-views";
+import {
+  campaignParameter,
+  personLean,
+  PLATFORM_QUESTIONS,
+} from "../campaign-views";
+import { homeDistanceMiles } from "../home-distance";
 import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import { MOVED_AWAY_EVENT } from "./moves";
@@ -629,6 +634,31 @@ export function chooseChair(
 }
 
 /**
+ * A member's case for going to a party meeting, before temperament: the
+ * reason every member has to go, less the hours their work already takes of a working
+ * week (free time) and less how far from the meeting their home is (the
+ * household's distance from the middle of town against a distance that costs
+ * a trip the most). Both slide: a retiree across town and a worker next door
+ * are each in between.
+ */
+function attendCase(core: CoreState, member: Readonly<PersonState>): number {
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(member.id) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  const workShare = Math.min(
+    1,
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes"),
+  );
+  const miles = homeDistanceMiles(core, member.householdId);
+  const farShare = miles / (miles + value("partyMeetingHalfDistanceMiles"));
+  return (
+    value("partyMeetingAttendEase") -
+    value("partyMeetingFreeTimeWeight") * workShare -
+    value("partyMeetingDistanceWeight") * farShare
+  );
+}
+
+/**
  * The parties' monthly meeting in town. Adults with no tie yet (come of age,
  * moved in, met for the first time) take one by the opening's rule: a lean
  * as firm as the town's party identifiers' takes the party on its side, the
@@ -758,7 +788,7 @@ function partyMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
             "parties.attend",
             "attend",
             "stay-home",
-            -value("partyMeetingAttendBar"),
+            attendCase(core, m),
           ),
       )
       .map((m) => m.id);
