@@ -24,8 +24,8 @@ import { spokenDesignation } from "../english/bill-names";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
 
-// A bill on the player's desk is a scene (owner, Oct 24: "fix the goddamn
-// scenes"). When the council passes a bill and the mayor, the player, has a
+// A bill on the player's desk is a scene. When the council passes a bill and
+// the mayor, the player, has a
 // veto under the state's law, the legislature records the presentment
 // (bill-presented); the mayor's aide, or the town's clerk where they have
 // none, brings it to sign or veto, and the talk names the bill from that
@@ -117,9 +117,8 @@ it(`a bill presented to the mayor's desk is the desk scene, brought by their aid
       recordId: presented!.facts!.officeId,
     });
     // The talk names the bill from the record and stands on it.
-    const result = purposeScene(core, director, mayor! as PersonId, entry!, {
-      includeHeld: true,
-    });
+    // The lines that play, as ordinary play says them.
+    const result = purposeScene(core, director, mayor! as PersonId, entry!);
     expect(result?.kind, where).toBe("composed");
     if (result?.kind !== "composed") return;
     // Said as a clerk reads it: "Ordinance 2025-1".
