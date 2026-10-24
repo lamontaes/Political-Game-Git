@@ -224,7 +224,7 @@ export function decideSchoolOutcome(
   if (kind === "graduation") api.stopgap(data.stopgaps.collegeCompletion);
   // stopgapId: SG-SCHOOL-hispanic-enrollment (no enrollment by ethnicity; that measure stays the web's ledger)
   api.stopgap("SG-SCHOOL-hispanic-enrollment");
-  // stopgapId: SG-SCHOOL-links-not-running (thirteen links into school outcomes lack a size, a recorded cause or a per-student exposure record)
+  // stopgapId: SG-SCHOOL-links-not-running (eight links into school outcomes lack a recorded cause or a per-student exposure record)
   api.stopgap("SG-SCHOOL-links-not-running");
   const written: SchoolMeasureRow[] = [];
   const carry = table(api, "carry");

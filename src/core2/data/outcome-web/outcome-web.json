@@ -281,6 +281,13 @@
       "reader": "property-tax-rate",
       "field": "",
       "unitScale": 100
+    },
+    "budget.schools-added-pct": {
+      "owner": "OPUS-GOV",
+      "record": "the schools lines of the town's city and county budgets in force (the budgets module's rows the school engine's spending measure reads), together, above their Census base for the fiscal year, as a percent",
+      "reader": "schools-line-above-base",
+      "field": "",
+      "unitScale": 1
     }
   },
   "measureOwners": {
