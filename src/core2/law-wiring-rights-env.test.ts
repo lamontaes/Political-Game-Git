@@ -224,7 +224,8 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         );
         const post = row && postWith(`compliance:cost:${row.targetId}:`, cause);
         const person =
-          personOf(key, rowsOn(key)) ?? ownerOf(api, row?.targetId ?? "");
+          personOf(key, rowsOn(key)) ??
+          (row ? ownerOf(api, row.targetId) : undefined);
         note(
           label,
           row?.id,
@@ -248,7 +249,7 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         "groundwater limit",
         farm?.id,
         farm && postWith(farm.targetId)?.id,
-        `${ownerOf(api, farm?.targetId ?? "") ?? "no person"} / ${farm?.targetId}`,
+        `${(farm && ownerOf(api, farm.targetId)) ?? "no person"} / ${farm?.targetId}`,
       );
 
       // A law that adds to a budget line: the treasury pays the line; the government and its residents are reached.
@@ -315,14 +316,23 @@ it("names, for each law, the record, the journal entry and who it reached", () =
         );
       }
 
-      // Counted women of childbearing age: the law moves births; no entry cites it, so the money named is the woman's own.
+      // Counted women of childbearing age: the law moves births, and no journal entry cites it, so the money named is a reached woman's own household's.
       const women = rowsOn(KEYS.abortion).find((r) => r.target === "group");
       expect(women?.count ?? 0, `${where}: women`).toBeGreaterThan(0);
-      const woman = personOf(KEYS.abortion, rowsOn(KEYS.abortion));
+      const reachedWomen = [
+        ...new Set(rowsOn(KEYS.abortion).map((r) => r.lawId)),
+      ]
+        .flatMap((lawId) => reachedBy(api, KEYS.abortion, lawId))
+        .map((r) => r.personId)
+        .filter((id) => api.state.people.has(id));
+      const homeOf = (id: string) => api.state.people.get(id)?.householdId;
+      const entryOf = (id: string) =>
+        postWith(id) ?? (homeOf(id) ? postWith(homeOf(id)!) : undefined);
+      const woman = reachedWomen.find((id) => entryOf(id));
       note(
         "restriction on abortion",
         women?.id,
-        woman && postWith(woman)?.id,
+        woman && entryOf(woman)?.id,
         `${woman} / ${women?.targetId}`,
       );
 
