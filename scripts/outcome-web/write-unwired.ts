@@ -3,7 +3,8 @@
  * effect does not yet reach an engine's own records, with the exact reason
  * (from the effect matrix) and the open stopgap that carries it. A link a
  * family's own stopgap row already names keeps that row; the rest share one
- * row per outcome measure. src/core2/outcome-web-unwired.test.ts fails when
+ * row per outcome measure; a shared row no link cites any more is kept as
+ * resolved. src/core2/outcome-web-unwired.test.ts fails when
  * this file and the matrix disagree.
  *
  *   node --import tsx scripts/outcome-web/write-unwired.ts
@@ -54,13 +55,25 @@ if (process.argv[1]?.endsWith("write-unwired.ts")) {
     id: string;
     file?: string;
     line?: number;
+    status?: string;
   }[];
   const byId = new Map<string, UnwiredRow[]>();
   for (const row of rows)
     if (row.stopgapId.startsWith("SG-WEB-unread-"))
       byId.set(row.stopgapId, [...(byId.get(row.stopgapId) ?? []), row]);
-  const kept = registry.filter(
-    (row) => !row.id.startsWith("SG-WEB-unread-") || byId.has(row.id),
+  // A shared row no unwired link cites any more stays in the registry as
+  // resolved, its history kept: its links now reach an engine's records.
+  const kept = registry.map((row) =>
+    row.id.startsWith("SG-WEB-unread-") &&
+    !byId.has(row.id) &&
+    row.status !== "resolved"
+      ? {
+          ...row,
+          status: "resolved",
+          replacement:
+            "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+        }
+      : row,
   );
   for (const [id, links] of byId) {
     const line = lines.findIndex((l) => l.includes(`"stopgapId": "${id}"`)) + 1;
