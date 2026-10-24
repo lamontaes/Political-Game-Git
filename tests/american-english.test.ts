@@ -238,6 +238,11 @@ const ALLOWED_PHRASES: readonly {
     reason: "a real party name, if one is ever quoted",
   },
   {
+    pattern: /\bBribes in the analysed cases\b/g,
+    reason:
+      "a summary of the OECD Foreign Bribery Report (2014), quoted verbatim in the corruption research",
+  },
+  {
     pattern:
       /\b(?:church|parish|youth|associate|Baptist|Methodist|Presbyterian|Lutheran|Unitarian|Protestant|Episcopal|ordained|pastor and) ministers?\b|\bministers? of the (?:gospel|church)\b/gi,
     reason: "clergy: a church minister is American usage",
@@ -370,10 +375,10 @@ const ALLOWED_FILES: readonly {
       "census place and county names as published (Sauk Centre, Grey Eagle, Ward County), and quotes of D.C.'s wards",
   },
   {
-    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026|ballot-order-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
+    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026|ballot-order-2026|eavs-2024-polling-places)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
     words: /^wards?$/i,
     reason:
-      "research facts about real charters and statutes: D.C.'s eight wards, and the municipal filing rules whose recorded seat type is ward; never deleted",
+      "research facts about real charters and statutes: D.C.'s eight wards, the municipal filing rules whose recorded seat type is ward, and a polling-place count quoted verbatim ('one precinct or ward'); never deleted",
   },
 ];
 

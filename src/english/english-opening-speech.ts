@@ -36,6 +36,8 @@ interface MinedPart {
   text: string;
   uses: { subject: string; role: string; requiresFacts?: string[] }[];
   shippable: boolean;
+  /** How the sentence lands (glad, braced, tender, calm), for the speaker's trait pulls. */
+  bearing?: string;
 }
 export const OPENING_SPEECH_BANK = bankJson as unknown as {
   parts: MinedPart[];
@@ -162,6 +164,7 @@ function variantsFor(
         key: part.key,
         kind: "template" as const,
         text: engineText(part.text),
+        ...(part.bearing ? { bearing: part.bearing } : {}),
         ...(chair ? { stages: chair } : {}),
         ...(requires?.length ? { requiresFacts: requires } : {}),
       };
@@ -206,12 +209,16 @@ export interface OpeningSection {
  * The whole speech, section by section. The packet carries the world's facts
  * (`unemployment-rate`, `jobs-added`, `inflation-down`, a guest's `name`, the
  * administration's `goal`, ...) and the Speaker's gender as its stage
- * (`chair-male` or `chair-female`). Null when the speech can't open or close
- * from the record.
+ * (`chair-male` or `chair-female`). The President's recorded traits are the
+ * voice: through the calibration table they pull each pick toward the bearing
+ * and length that person favors (a combative President toward braced lines, a
+ * warm one toward tender and glad ones), never deciding a line alone. Null
+ * when the speech can't open or close from the record.
  */
 export function composeOpeningSpeech(
   packet: GroundedEnglishPacket,
   kind: OpeningSpeechKind,
+  speakerTraits?: Readonly<Record<string, number>>,
 ): OpeningSection[] | null {
   const sections: OpeningSection[] = [];
   for (const section of OPENING_SECTIONS) {
@@ -221,6 +228,7 @@ export function composeOpeningSpeech(
           { ...packet, momentKey: `${packet.momentKey}/${section.level}` },
           "election-night",
           moves,
+          speakerTraits ? { speakerTraits } : {},
         )
       : null;
     if (!address || address.kind !== "rendered") {
