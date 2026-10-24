@@ -126,6 +126,8 @@ class AttendanceBatch {
   readonly zero: number;
   readonly one: number;
   readonly viewParameters: Record<string, Parameter> = Object.create(null);
+  // Play keeps no validator view, so parameters are read without a view row.
+  private readonly viewing = bookkeeping();
   constructor(
     readonly core: CoreState,
     api: CoreAPI,
@@ -148,15 +150,15 @@ class AttendanceBatch {
     const value = this.reads.field(row, "value");
     if (!Number.isFinite(value))
       throw new Error("Non-finite attendance parameter.");
-    this.viewParameters[key] = {
-      value,
-      tag: this.reads.field(row, "tag"),
-      citation: this.reads.field(row, "citation"),
-    };
+    if (this.viewing)
+      this.viewParameters[key] = {
+        value,
+        tag: this.reads.field(row, "tag"),
+        citation: this.reads.field(row, "citation"),
+      };
     return value;
   }
-  map<K, V>(target: Map<K, V>, key: K, next: V): void {
-    this.reads.mapGet(target, key);
+  private noDuplicate(target: Map<unknown, unknown>, key: unknown): void {
     if (
       this.operations.some(
         (row) =>
@@ -166,6 +168,10 @@ class AttendanceBatch {
       )
     )
       throw new Error("Duplicate attendance mutation target.");
+  }
+  map<K, V>(target: Map<K, V>, key: K, next: V): void {
+    this.reads.mapGet(target, key);
+    if (this.viewing) this.noDuplicate(target, key);
     this.operations.push({
       kind: "map",
       target: target as Map<unknown, unknown>,
@@ -175,15 +181,7 @@ class AttendanceBatch {
   }
   delete<K, V>(target: Map<K, V>, key: K): void {
     this.reads.mapGet(target, key);
-    if (
-      this.operations.some(
-        (row) =>
-          (row.kind === "map" || row.kind === "delete") &&
-          row.target === target &&
-          Object.is(row.key, key),
-      )
-    )
-      throw new Error("Duplicate attendance mutation target.");
+    if (this.viewing) this.noDuplicate(target, key);
     this.operations.push({
       kind: "delete",
       target: target as Map<unknown, unknown>,
@@ -406,11 +404,27 @@ function basis(
   batch: AttendanceBatch,
   commitmentId: string,
   calendar: WorkPayrollCalendarInput,
+  play = false,
 ): WorkPayrollBasis {
   const r = batch.reads,
     core = batch.core,
     work = r.field(core, "work"),
     row = r.mapGet(r.field(work, "commitments"), commitmentId);
+  if (play && row) {
+    // Play resolves the owner rows by their ids; the owner and Source checks
+    // below run with bookkeeping on.
+    const job = r.mapGet(r.field(core, "jobs"), row.jobId);
+    return {
+      calendarId: calendar.id,
+      commitmentId,
+      jobId: row.jobId,
+      personId: row.personId,
+      organizationId: row.organizationId,
+      jobSource: job!.source,
+      paySource: row.paySource,
+      scheduleSource: row.scheduleSource,
+    };
+  }
   if (
     !row ||
     r.field(row, "id") !== commitmentId ||
@@ -567,10 +581,14 @@ export function recordWorkAttendance(
   api: CoreAPI,
   raw: WorkAttendanceInput,
 ): WorkAttendanceResult {
-  const controlSnapshot = snapshotExplicitControlV1(core),
+  // Play reads the live rows and writes the result; the detached views, the
+  // descriptor and Source guards and the dated-result validator run with
+  // bookkeeping on (tests, the bench).
+  const play = !bookkeeping(),
+    controlSnapshot = snapshotExplicitControlV1(core),
     batch = new AttendanceBatch(core, api),
     r = batch.reads,
-    input = shallow(r, raw),
+    input = play ? raw : shallow(r, raw),
     work = r.field(core, "work"),
     data = r.field(r.field(core, "data"), "work"),
     date = r.field(core, "date"),
@@ -583,16 +601,36 @@ export function recordWorkAttendance(
     previous = r.mapGet(r.field(work, "lastAttendanceByJob"), input.jobId);
   if (!row || !actor || !job)
     throw new Error("Attendance actual owner is absent.");
-  // The validator consumes these actual terms and bounded slot geometry, not a
-  // detached commitment or unrelated job metadata. Actor replacement still owns
-  // a complete shallow preimage so no unrelated property/reference is lost.
-  ordinaryRow(row);
-  ordinaryRow(job);
-  if (previous) ordinaryRow(previous);
-  // Play updates the worker's own row in place; bookkeeping stages a copy.
-  const live = !bookkeeping(),
-    actorView = live ? actor : shallow(r, actor),
-    commitment = {
+  const calendarId = r.field(row, "payrollCalendarId"),
+    calendars = r.field(work, "payrollCalendars"),
+    calendar = calendarId ? r.mapGet(calendars, calendarId) : undefined;
+  if (!calendar)
+    throw new Error(
+      "Attendance has no independently admitted actual payroll calendar.",
+    );
+  const today = r.mapGet(r.field(work, "timeByPerson"), input.personId);
+  let commitment: {
+      id: string;
+      jobId: string;
+      personId: string;
+      organizationId: string;
+    } = row,
+    actorView = actor,
+    reasons: DecisionResult["selectedReasons"],
+    compactChoice: WorkAttendanceResult["compactChoice"],
+    todayView = today as
+      | { date: string; workMinutes: number; discretionaryMinutes: number }
+      | undefined,
+    viewApi = api;
+  if (!play) {
+    // The validator consumes these actual terms and bounded slot geometry, not a
+    // detached commitment or unrelated job metadata. Actor replacement still owns
+    // a complete shallow preimage so no unrelated property/reference is lost.
+    ordinaryRow(row);
+    ordinaryRow(job);
+    if (previous) ordinaryRow(previous);
+    actorView = shallow(r, actor);
+    const commitmentView = {
       id: r.field(row, "id"),
       jobId: r.field(row, "jobId"),
       personId: r.field(row, "personId"),
@@ -610,198 +648,220 @@ export function recordWorkAttendance(
           minutes: r.field(slot, "minutes"),
         };
       }),
-    },
-    jobView = {
-      id: r.field(job, "id"),
-      personId: r.field(job, "personId"),
-      organizationId: r.field(job, "organizationId"),
-      endsAt: r.field(job, "endsAt"),
-    },
-    priorView = previous
-      ? {
-          date: r.field(previous, "date"),
-          payRemainderMinor: r.field(previous, "payRemainderMinor"),
-        }
-      : undefined,
-    calendarId = r.field(row, "payrollCalendarId"),
-    calendars = r.field(work, "payrollCalendars"),
-    calendar = calendarId ? r.mapGet(calendars, calendarId) : undefined;
-  if (
-    !calendar ||
-    !admittedWorkPayrollCalendarMatches(core, calendarId!, calendar) ||
-    r.mapGet(
-      r.field(work, "payrollCalendarByCommitment"),
-      input.commitmentId,
-    ) !== calendarId ||
-    r.mapGet(r.field(work, "payrollCalendarByJob"), input.jobId) !== calendarId
-  )
-    throw new Error(
-      "Attendance has no independently admitted actual payroll calendar.",
-    );
-  const owner = basis(batch, input.commitmentId, calendar),
+    };
+    commitment = commitmentView;
+    if (
+      !admittedWorkPayrollCalendarMatches(core, calendarId!, calendar) ||
+      r.mapGet(
+        r.field(work, "payrollCalendarByCommitment"),
+        input.commitmentId,
+      ) !== calendarId ||
+      r.mapGet(r.field(work, "payrollCalendarByJob"), input.jobId) !==
+        calendarId
+    )
+      throw new Error(
+        "Attendance has no independently admitted actual payroll calendar.",
+      );
+  }
+  const owner = basis(batch, input.commitmentId, calendar, play),
     ownedCalendarId = r.field(calendar, "id");
-  // These Source graphs were fully checked by the old commitment detachment.
-  // Keep their ordinary-data, dense-array, descriptor, cycle and late-drift checks.
-  guardSourceData(r, owner.paySource, zero, one);
-  guardSourceData(r, owner.scheduleSource, zero, one);
+  if (!play) {
+    // These Source graphs were fully checked by the old commitment detachment.
+    // Keep their ordinary-data, dense-array, descriptor, cycle and late-drift checks.
+    guardSourceData(r, owner.paySource, zero, one);
+    guardSourceData(r, owner.scheduleSource, zero, one);
+  }
   const detailed =
     r.field(core, "observer") ||
     r.field(core, "playerId") === actorView.id ||
     r.member(r.field(core, "focusPersonIds"), actorView.id) ||
     controlSnapshot.personId === actorView.id;
-  if (!input.decision)
-    throw new Error("Attendance needs its actual shared-score choice.");
-  ordinaryRow(input.decision);
-  ordinaryRow(data);
-  const decision = {
-      actorId: r.field(input.decision, "actorId"),
-      date: r.field(input.decision, "date"),
-      selected: r.field(input.decision, "selected"),
-      reasonKey: r.field(input.decision, "reasonKey"),
-      selectedReasons: r.field(input.decision, "selectedReasons"),
-    },
-    offer = decision.selected
-      ? {
-          definition: r.field(decision.selected, "definition"),
-          targetId: r.field(decision.selected, "targetId"),
-          availableHours: r.field(decision.selected, "availableHours"),
-          effortHours: r.field(decision.selected, "effortHours"),
-          driveId: r.field(decision.selected, "driveId"),
-        }
+  if (!play) {
+    if (!input.decision)
+      throw new Error("Attendance needs its actual shared-score choice.");
+    ordinaryRow(input.decision);
+    ordinaryRow(data);
+    const checked = {
+        actorId: r.field(input.decision, "actorId"),
+        date: r.field(input.decision, "date"),
+        selected: r.field(input.decision, "selected"),
+        reasonKey: r.field(input.decision, "reasonKey"),
+        selectedReasons: r.field(input.decision, "selectedReasons"),
+      },
+      checkedOffer = checked.selected
+        ? {
+            definition: r.field(checked.selected, "definition"),
+            targetId: r.field(checked.selected, "targetId"),
+            availableHours: r.field(checked.selected, "availableHours"),
+            effortHours: r.field(checked.selected, "effortHours"),
+            driveId: r.field(checked.selected, "driveId"),
+          }
+        : undefined;
+    if (!checkedOffer) throw new Error("Attendance has no selected offer.");
+    ordinaryRow(checked.selected!);
+    const checkedDefinition = checkedOffer.definition,
+      checkedAttendance = r.field(data, "attendanceAction"),
+      checkedAbsence = r.field(data, "absenceAction");
+    if (
+      checkedDefinition !== checkedAttendance &&
+      checkedDefinition !== checkedAbsence
+    )
+      throw new Error(
+        "Attendance choice must use its actual registered work action.",
+      );
+    ordinaryRow(checkedDefinition);
+    ordinaryRow(checkedAttendance);
+    ordinaryRow(checkedAbsence);
+    const actionView = {
+        id: r.field(checkedDefinition, "id"),
+        effect: r.field(checkedDefinition, "effect"),
+      },
+      cfg = {
+        sleepReserveParameter: r.field(data, "sleepReserveParameter"),
+        attendanceAction: { effect: r.field(checkedAttendance, "effect") },
+        absenceAction: { effect: r.field(checkedAbsence, "effect") },
+      };
+    reasons = checked.selectedReasons
+      ? shallow(r, checked.selectedReasons)
       : undefined;
-  if (!offer) throw new Error("Attendance has no selected offer.");
-  ordinaryRow(decision.selected!);
-  const definition = offer.definition,
-    attendance = r.field(data, "attendanceAction"),
-    absence = r.field(data, "absenceAction");
-  if (definition !== attendance && definition !== absence)
-    throw new Error(
-      "Attendance choice must use its actual registered work action.",
-    );
-  ordinaryRow(definition);
-  ordinaryRow(attendance);
-  ordinaryRow(absence);
-  const actionView = {
-      id: r.field(definition, "id"),
-      effect: r.field(definition, "effect"),
-    },
-    cfg = {
-      sleepReserveParameter: r.field(data, "sleepReserveParameter"),
-      attendanceAction: { effect: r.field(attendance, "effect") },
-      absenceAction: { effect: r.field(absence, "effect") },
-    },
-    reasons = decision.selectedReasons
-      ? shallow(r, decision.selectedReasons)
-      : undefined;
-  if (
-    reasons &&
-    Object.values(reasons).some((value) => !Number.isFinite(value))
-  )
-    throw new Error("Attendance choice reasons are non-finite.");
-  // This private validator view contains only guarded fields the unchanged
-  // validator reads. Detailed retention below still detaches the original graph.
-  const decisionView = {
-    ...decision,
-    selected: { ...offer, definition: actionView },
-    selectedReasons: reasons,
-    scores: undefined,
-    selectedReasonTerms: undefined,
-  } as unknown as DecisionResult;
-  const today = r.mapGet(r.field(work, "timeByPerson"), input.personId);
-  if (today) ordinaryRow(today);
-  const todayView = today
+    if (
+      reasons &&
+      Object.values(reasons).some((value) => !Number.isFinite(value))
+    )
+      throw new Error("Attendance choice reasons are non-finite.");
+    // This private validator view contains only guarded fields the unchanged
+    // validator reads. Detailed retention below still detaches the original graph.
+    const decisionView = {
+      ...checked,
+      selected: { ...checkedOffer, definition: actionView },
+      selectedReasons: reasons,
+      scores: undefined,
+      selectedReasonTerms: undefined,
+    } as unknown as DecisionResult;
+    if (today) ordinaryRow(today);
+    todayView = today
       ? {
           date: r.field(today, "date"),
           workMinutes: r.field(today, "workMinutes"),
           discretionaryMinutes: r.field(today, "discretionaryMinutes"),
         }
-      : undefined,
-    plannedMap = r.mapGet(
-      r.field(work, "plannedByCommitmentResidue"),
-      input.commitmentId,
-    ),
-    plannedView = new Map<number, number>();
-  if (plannedMap) {
-    r.payload(plannedMap, zero, one);
-    for (const [key] of nativeEntries.call(plannedMap))
-      plannedView.set(key, r.mapGet(plannedMap, key)!);
+      : undefined;
+    const plannedMap = r.mapGet(
+        r.field(work, "plannedByCommitmentResidue"),
+        input.commitmentId,
+      ),
+      plannedView = new Map<number, number>();
+    if (plannedMap) {
+      r.payload(plannedMap, zero, one);
+      for (const [key] of nativeEntries.call(plannedMap))
+        plannedView.set(key, r.mapGet(plannedMap, key)!);
+    }
+    for (const key of [
+      "hoursPerDay",
+      "minutesPerHour",
+      "daysPerWeek",
+      "mondayIndex",
+      "isoMonthCharacters",
+      r.field(data, "sleepReserveParameter"),
+    ])
+      batch.parameter(key);
+    const jobView = {
+        id: r.field(job, "id"),
+        personId: r.field(job, "personId"),
+        organizationId: r.field(job, "organizationId"),
+        endsAt: r.field(job, "endsAt"),
+      },
+      priorView = previous
+        ? {
+            date: r.field(previous, "date"),
+            payRemainderMinor: r.field(previous, "payRemainderMinor"),
+          }
+        : undefined;
+    const view = {
+      date,
+      startedAt: r.field(core, "startedAt"),
+      people: new Map([[input.personId, actorView]]),
+      jobs: new Map([[input.jobId, jobView]]),
+      work: {
+        commitments: new Map([[input.commitmentId, commitment]]),
+        lastResultByJob: new Map(priorView ? [[input.jobId, priorView]] : []),
+        plannedByCommitmentResidue: new Map([
+          [input.commitmentId, plannedView],
+        ]),
+        timeByPerson: new Map(todayView ? [[input.personId, todayView]] : []),
+      },
+      data: { work: cfg, parameters: batch.viewParameters },
+    } as unknown as CoreState;
+    viewApi = {
+      state: view,
+      parameter: (key: string) => batch.parameter(key),
+    } as unknown as CoreAPI;
+    validateDatedWorkResult(view, viewApi, {
+      ...input,
+      requestedMinor: input.earnedMinor,
+      decision: decisionView,
+    } as WorkResultInput);
+    if (
+      checked.selected !== r.field(input.decision, "selected") ||
+      checkedOffer.targetId !== commitment.id ||
+      !Number.isFinite(checkedOffer.availableHours) ||
+      checkedOffer.availableHours < zero ||
+      (checkedOffer.effortHours !== undefined &&
+        (!Number.isFinite(checkedOffer.effortHours) ||
+          checkedOffer.effortHours < zero))
+    )
+      throw new Error(
+        "Attendance choice does not retain its actual selected identity/time.",
+      );
+    const rawCompact = r.field(input.decision, "compactChoice");
+    compactChoice =
+      rawCompact === undefined ? undefined : detached(r, rawCompact);
+    const compact = compactChoice,
+      why = reasons;
+    if (compact) validateCompactChoice(compact);
+    if (
+      compact &&
+      (compact.version !== "core2-compact-choice-v1" ||
+        compact.actorId !== actorView.id ||
+        compact.date !== date ||
+        compact.chosen.actionId !== actionView.id ||
+        compact.chosen.targetId !== checkedOffer.targetId ||
+        compact.chosen.availableHours !== checkedOffer.availableHours ||
+        compact.chosen.driveId !== checkedOffer.driveId ||
+        compact.chosen.effortHours !==
+          (checkedOffer.effortHours ??
+            batch.parameter(r.field(checkedDefinition, "effortParameter"))) ||
+        !why ||
+        Object.keys(compact.chosen.contributions).length !==
+          Object.keys(why).length ||
+        compact.chosen.score !==
+          Object.values(why).reduce((sum, value) => sum + value, zero) ||
+        Object.keys(why).some(
+          (key) =>
+            compact.chosen.contributions[key as keyof typeof why] !==
+            why[key as keyof typeof why],
+        ))
+    )
+      throw new Error(
+        "Attendance compact choice disagrees with its actual selected evidence.",
+      );
+    availableSource(r, input.source, date, zero, one);
+  } else {
+    if (!input.decision?.selected)
+      throw new Error("Attendance has no selected offer.");
+    reasons = input.decision.selectedReasons;
+    compactChoice = input.decision.compactChoice;
   }
-  for (const key of [
-    "hoursPerDay",
-    "minutesPerHour",
-    "daysPerWeek",
-    "mondayIndex",
-    "isoMonthCharacters",
-    r.field(data, "sleepReserveParameter"),
-  ])
-    batch.parameter(key);
-  const view = {
-    date,
-    startedAt: r.field(core, "startedAt"),
-    people: new Map([[input.personId, actorView]]),
-    jobs: new Map([[input.jobId, jobView]]),
-    work: {
-      commitments: new Map([[input.commitmentId, commitment]]),
-      lastResultByJob: new Map(priorView ? [[input.jobId, priorView]] : []),
-      plannedByCommitmentResidue: new Map([[input.commitmentId, plannedView]]),
-      timeByPerson: new Map(todayView ? [[input.personId, todayView]] : []),
+  const selected = input.decision!.selected!,
+    definition = r.field(selected, "definition"),
+    offer = {
+      targetId: r.field(selected, "targetId"),
+      driveId: r.field(selected, "driveId"),
     },
-    data: { work: cfg, parameters: batch.viewParameters },
-  } as unknown as CoreState;
-  const viewApi = {
-    state: view,
-    parameter: (key: string) => batch.parameter(key),
-  } as unknown as CoreAPI;
-  const validationInput = {
-    ...input,
-    requestedMinor: input.earnedMinor,
-    decision: decisionView,
-  } as WorkResultInput;
-  validateDatedWorkResult(view, viewApi, validationInput);
-  if (
-    decision.selected !== r.field(input.decision, "selected") ||
-    offer.targetId !== commitment.id ||
-    !Number.isFinite(offer.availableHours) ||
-    offer.availableHours < zero ||
-    (offer.effortHours !== undefined &&
-      (!Number.isFinite(offer.effortHours) || offer.effortHours < zero))
-  )
-    throw new Error(
-      "Attendance choice does not retain its actual selected identity/time.",
-    );
-  const rawCompact = r.field(input.decision, "compactChoice");
-  const compactChoice =
-    rawCompact === undefined ? undefined : detached(r, rawCompact);
-  if (compactChoice) validateCompactChoice(compactChoice);
-  if (
-    compactChoice &&
-    (compactChoice.version !== "core2-compact-choice-v1" ||
-      compactChoice.actorId !== actorView.id ||
-      compactChoice.date !== date ||
-      compactChoice.chosen.actionId !== actionView.id ||
-      compactChoice.chosen.targetId !== offer.targetId ||
-      compactChoice.chosen.availableHours !== offer.availableHours ||
-      compactChoice.chosen.driveId !== offer.driveId ||
-      compactChoice.chosen.effortHours !==
-        (offer.effortHours ??
-          batch.parameter(r.field(definition, "effortParameter"))) ||
-      !reasons ||
-      Object.keys(compactChoice.chosen.contributions).length !==
-        Object.keys(reasons).length ||
-      compactChoice.chosen.score !==
-        Object.values(reasons).reduce((sum, value) => sum + value, zero) ||
-      Object.keys(reasons).some(
-        (key) =>
-          compactChoice.chosen.contributions[key as keyof typeof reasons] !==
-          reasons[key as keyof typeof reasons],
-      ))
-  )
-    throw new Error(
-      "Attendance compact choice disagrees with its actual selected evidence.",
-    );
-  availableSource(r, input.source, date, zero, one);
-  const selectedId = actionView.id,
-    actionKind = r.field(definition, "effect"),
+    attendance = r.field(data, "attendanceAction"),
+    monthsPerYear = batch.parameter("monthsPerYear"),
+    selectedId = r.field(definition, "id");
+  const actionKind = r.field(definition, "effect"),
     attended = actionKind === r.field(attendance, "effect"),
     before = minor(actorView.actCount, zero),
     after = minor(before + one, zero),
@@ -809,7 +869,7 @@ export function recordWorkAttendance(
   const resolved = workPayPeriodOnDate(r, calendar, date, {
       zero,
       one,
-      monthsPerYear: batch.parameter("monthsPerYear"),
+      monthsPerYear,
     }),
     periodId = workEarnedPayPeriodId(
       ownedCalendarId,
@@ -840,7 +900,7 @@ export function recordWorkAttendance(
       source: input.source,
     },
     periodId,
-    { zero, one, monthsPerYear: batch.parameter("monthsPerYear") },
+    { zero, one, monthsPerYear },
   );
   const full: WorkAttendanceResult = {
     id: input.id,
@@ -875,7 +935,7 @@ export function recordWorkAttendance(
   nextActor.actCount = after;
   const actualKinds = r.field(actor, "actsByKind");
   r.payload(actualKinds, zero, one);
-  const kinds = live
+  const kinds = play
     ? actualKinds
     : new Map<string, number>(nativeEntries.call(actualKinds));
   kinds.set(
@@ -925,7 +985,7 @@ export function recordWorkAttendance(
   );
   const totals = r.field(work, "totalsByJob"),
     oldTotals = r.mapGet(totals, input.jobId),
-    old = oldTotals ? shallow(r, oldTotals) : undefined;
+    old = oldTotals && !play ? shallow(r, oldTotals) : oldTotals;
   if (
     (old?.requestedMinor ?? zero) !==
       (priorLedger ? r.field(priorLedger, "earnedMinor") : zero) ||
@@ -985,7 +1045,7 @@ export function recordWorkAttendance(
     rollupKey = week + ":" + input.jobId,
     rollups = r.field(work, "rollups"),
     priorRollup = r.mapGet(rollups, rollupKey),
-    rollup = priorRollup ? shallow(r, priorRollup) : undefined;
+    rollup = priorRollup && !play ? shallow(r, priorRollup) : priorRollup;
   batch.map(rollups, rollupKey, {
     weekStartedAt: week,
     jobId: input.jobId,
@@ -1056,7 +1116,7 @@ export function recordWorkAttendance(
   const periodIndexes = r.field(work, "earnedPayPeriodByCommitmentIndex"),
     priorIndex = r.mapGet(periodIndexes, commitment.id),
     nextIndex =
-      live && priorIndex
+      play && priorIndex
         ? priorIndex
         : new Map<number, string>(
             priorIndex
@@ -1110,7 +1170,7 @@ export function recordWorkAttendance(
     if (!known) throw new Error("Missing watched worker knowledge index.");
     // Replace the owned inner map; never mutate an injected map/property callback.
     r.payload(known, zero, one);
-    const nextKnown = live
+    const nextKnown = play
         ? known
         : new Map<string, KnownFact>(nativeEntries.call(known)),
       key = "job:" + input.jobId + ":latest-work-attendance";
