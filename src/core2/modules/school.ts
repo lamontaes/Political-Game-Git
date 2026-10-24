@@ -31,8 +31,21 @@ const ageOn = (birthDate: string, date: string) => {
   return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
 };
 
+/** Whether a date is on the base calendar is the same all run: kept once worked out. */
+const BASE_DAYS = new Map<string, boolean>();
+const BASE_DAYS_LIMIT = 50_000;
+
 /** A weekday inside the base school year, outside its recorded breaks. */
 function onBaseCalendar(date: string): boolean {
+  const held = BASE_DAYS.get(date);
+  if (held !== undefined) return held;
+  const result = baseCalendarDay(date);
+  if (BASE_DAYS.size >= BASE_DAYS_LIMIT) BASE_DAYS.clear();
+  BASE_DAYS.set(date, result);
+  return result;
+}
+
+function baseCalendarDay(date: string): boolean {
   const day = new Date(`${date}T00:00:00Z`).getUTCDay();
   if (day === 0 || day === 6) return false;
   const md = date.slice(5);
