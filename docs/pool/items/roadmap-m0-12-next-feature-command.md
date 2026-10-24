@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-m0-12
-pr:
+pr: #5872
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T00:59:01.349Z
