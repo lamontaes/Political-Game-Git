@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: blocked
+status: in-pr
 claimed-by:
 pr: #5925
 blocked-on: core-speed-work-attendance-in-play
