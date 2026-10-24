@@ -29,7 +29,7 @@ import { incomeBandOf } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
-import { newsKey, storiesHeard } from "./news";
+import { newsKey, onStoryHeard, storiesHeard, type Story } from "./news";
 import { lawApplied, type AppliedTarget } from "../law-reach/applied";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 
@@ -451,33 +451,103 @@ function saleReceipt(
  * A person ties a price change to the law that caused it only when they heard
  * a story about that law: then they hold a view of the law, citing the story
  * (views read the learned-effect event). Until then they only felt the price.
- * Once per person and law.
+ * Once per person and law. They learn on the month the change is settled if
+ * they have heard by then, or the day they hear a story about the law after
+ * their household has paid it (`learnOnHearing`).
  */
 function learnFromStory(
   api: CoreAPI,
   rule: Rule,
   personId: string,
+  householdId: string,
   change: { payMinor: number; refundMinor: number },
   /** The household's monthly earnings, for how large the change is to them. */
   monthlyEarningsMinor: number,
 ): void {
-  if (!rule.cause.startsWith("law:")) return;
-  const parts = rule.cause.split(":");
-  const lawId = parts.slice(3).join(":");
+  const law = lawOf(rule);
   const moved = Math.round(change.refundMinor) - Math.round(change.payMinor);
-  if (!lawId || !moved) return;
-  const share = Math.max(
-    -1,
-    Math.min(1, moved / Math.max(monthlyEarningsMinor, Math.abs(moved))),
+  if (!law || !moved) return;
+  // What the household paid under the law, for a story heard later.
+  store(api)
+    .table("felt")
+    .put({
+      id: `${householdId}|${law.lawId}`,
+      householdId,
+      payerId: personId,
+      ruleId: rule.id,
+      key: law.key,
+      lawId: law.lawId,
+      movedMinor: moved,
+      monthlyEarningsMinor,
+      date: api.state.date,
+    });
+  const story = storiesHeard(api, personId).find(
+    (s) => s.facts.lawId === law.lawId,
   );
+  if (story)
+    emitLearned(api, {
+      personId,
+      lawId: law.lawId,
+      key: law.key,
+      ruleId: rule.id,
+      moved,
+      monthlyEarningsMinor,
+      story,
+    });
+}
+
+/** A story about a law reaches the payer of a household that already paid under it: they tie the change to the law now. */
+function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
+  const lawId = story.facts?.lawId;
+  if (!lawId || !api.state.modules.has(PLACE_PRICES_MODULE_ID)) return;
+  const householdId = api.state.people.get(personId)?.householdId;
+  if (!householdId) return;
+  const felt = store(api)
+    .table("felt")
+    .get(`${householdId}|${lawId}`) as unknown as
+    | {
+        payerId: string;
+        ruleId: string;
+        key: string;
+        movedMinor: number;
+        monthlyEarningsMinor: number;
+      }
+    | undefined;
+  if (!felt || felt.payerId !== personId) return;
+  emitLearned(api, {
+    personId,
+    lawId,
+    key: felt.key,
+    ruleId: felt.ruleId,
+    moved: felt.movedMinor,
+    monthlyEarningsMinor: felt.monthlyEarningsMinor,
+    story,
+  });
+}
+onStoryHeard(learnOnHearing);
+
+function emitLearned(
+  api: CoreAPI,
+  input: {
+    readonly personId: string;
+    readonly lawId: string;
+    readonly key: string;
+    readonly ruleId: string;
+    readonly moved: number;
+    readonly monthlyEarningsMinor: number;
+    readonly story: Story;
+  },
+): void {
+  const { personId, lawId, moved, story } = input;
   const learned = store(api).table("learned");
   const key = `${personId}|${lawId}`;
   if (learned.get(key)) return;
-  const story = storiesHeard(api, personId).find(
-    (s) => s.facts.lawId === lawId,
-  );
   const person = api.state.people.get(personId);
-  if (!story || !person?.alive) return;
+  if (!person?.alive) return;
+  const share = Math.max(
+    -1,
+    Math.min(1, moved / Math.max(input.monthlyEarningsMinor, Math.abs(moved))),
+  );
   // The bill that enacted the law, where one did: the journal names the law by it.
   const billId = (
     api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
@@ -489,7 +559,7 @@ function learnFromStory(
     kind: "law.effect-learned",
     personIds: [personId],
     placeId: person.placeId,
-    topic: `${parts[1]}:${parts[2]}`,
+    topic: input.key,
     desiredChange: moved < 0 ? "repeal" : "enact",
     moodImpulse: share * api.parameter("pricesChangeImpulseScale"),
     stressImpulse:
@@ -498,7 +568,7 @@ function learnFromStory(
       lawId,
       ...(typeof billId === "string" ? { billId } : {}),
       learnedFrom: newsKey(story.id),
-      priceRuleId: rule.id,
+      priceRuleId: input.ruleId,
       movedMinor: String(moved),
     },
     publicRecord: false,
@@ -1028,7 +1098,7 @@ function month(api: CoreAPI): void {
         sellers,
         { targetId: household.id, target: "household" },
       );
-      learnFromStory(api, rule, payer, change, pay);
+      learnFromStory(api, rule, payer, household.id, change, pay);
     }
     // Apply the same nonlinear consumption rule to each counted household.
     // Averaging incomes before applying the elasticity changes the total.
@@ -1154,6 +1224,7 @@ export const PLACE_PRICES_MODULE: CoreModule = {
       state: {},
       rules: { indexes: { all: { fields: ["isRule"] } } },
       learned: {},
+      felt: {},
     },
   },
   onDay(api) {

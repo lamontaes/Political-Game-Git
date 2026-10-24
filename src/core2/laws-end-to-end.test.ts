@@ -20,6 +20,8 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { composeJournal } from "../director/journal";
+import { composeScene } from "../director/scene";
+import { SCENE_BANK, sceneWordsFromBank } from "../director/mined/scene-bank";
 import {
   JOURNAL_BANK,
   journalDataFromBank,
@@ -208,7 +210,20 @@ function play(attempt: number, tried: string[]): Played | null {
         6,
       );
   console.info(
-    `laws-e2e ${where}: bill ${bill.number} ${status}; ${votes.length} votes, e.g. ${votes
+    `laws-e2e ${where}: bill ${bill.number} ${status}; ${votes.length} votes (${[
+      ...votes.reduce(
+        (by, v) =>
+          by.set(
+            v.memberId.split(":")[4] ?? "?",
+            (by.get(v.memberId.split(":")[4] ?? "?") ?? 0) + 1,
+          ),
+        new Map<string, number>(),
+      ),
+    ]
+      .map(([body, n]) => `${body} ${n}`)
+      .join(
+        ", ",
+      )}; ${new Set(votes.map((v) => v.memberId)).size} members), e.g. ${votes
       .slice(0, 4)
       .map(
         (v) =>
@@ -463,6 +478,34 @@ it(`a player's bill is followed from negotiation to a named person and back, and
     .map((row) => book.momentsById.get(row.momentId))
     .find((m) => m?.label === "cause:event:law.effect-learned");
   expect(moment, `${where}: the director scheduled the moment`).toBeDefined();
+  // The scene the director stages from that moment. Play narrates only
+  // graded scene words, and the bank's day and home sentences wait on the
+  // owner's grade (shippable: false), so the proof words the scene with them
+  // admitted, to show the moment's records composing into the narration.
+  const entry = book.schedule.find((row) => row.momentId === moment!.id)!;
+  const scene = composeScene(core, director, personId, entry);
+  expect(scene, `${where}: the moment's scene`).not.toBeNull();
+  const worded = composeScene(
+    core,
+    director,
+    personId,
+    entry,
+    sceneWordsFromBank({
+      parts: SCENE_BANK.parts.map((part) => ({ ...part, shippable: true })),
+    }),
+  )!;
+  const sceneText = worded.narration.map((l) => l.text).join(" ");
+  expect(
+    sceneText.trim().length,
+    `${where}: ${worded.momentId}`,
+  ).toBeGreaterThan(0);
+  expect(sceneText, `${where}: ${sceneText}`).not.toMatch(
+    /\{\{|\}\}|undefined/,
+  );
+  expect(
+    worded.narration.flatMap((l) => l.sourceRecordIds),
+    `${where}: the narration cites the moment's cause`,
+  ).toContain(moment!.causeId);
   // The journal's lines for a learned law effect are authored and wait on
   // the owner's grade (shippable: false): play's journal leaves them out, and
   // the proof words the journal with them admitted, to show the records
@@ -486,7 +529,7 @@ it(`a player's bill is followed from negotiation to a named person and back, and
   }).flatMap((chapter) => chapter.lines);
   const line = lines.find((l) => l.sourceRecordIds.includes(found!.id));
   console.info(
-    `laws-e2e ${where}: CHAIN bill ${passed!.billNumber} -> law ${lawIds.join(",")} -> applied ${applied!.id} (${applied!.amountMinor} minor) -> price ${String(found!.facts.priceRuleId)} moved ${String(found!.facts.movedMinor)} -> story ${story!.id} -> learned ${found!.id} -> stance ${stance!.id} -> moment ${moment!.id} -> journal ${line ? `"${line.text}"` : "none"}`,
+    `laws-e2e ${where}: CHAIN bill ${passed!.billNumber} -> law ${lawIds.join(",")} -> applied ${applied!.id} (${applied!.amountMinor} minor) -> price ${String(found!.facts.priceRuleId)} moved ${String(found!.facts.movedMinor)} -> story ${story!.id} -> learned ${found!.id} -> stance ${stance!.id} -> moment ${moment!.id} -> scene ${scene!.typeKey} at ${scene!.setting.kind} citing ${moment!.causeId} ("${sceneText}") -> journal ${line ? `"${line.text}"` : "none"}`,
   );
   expect(
     line,

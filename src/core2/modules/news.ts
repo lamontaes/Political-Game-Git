@@ -97,6 +97,17 @@ const stories = (api: CoreAPI) =>
 const deliveries = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("deliveries");
 const heard = (api: CoreAPI) => api.moduleState(NEWS_MODULE_ID).table("heard");
+
+/**
+ * Engines that act the moment a person hears a story: the price engine ties
+ * a price change the person's household already paid to the law the story
+ * names. A listener returns at once for a story it does not concern.
+ */
+type HeardListener = (api: CoreAPI, personId: PersonId, story: Story) => void;
+const heardListeners: HeardListener[] = [];
+export function onStoryHeard(listener: HeardListener): void {
+  if (!heardListeners.includes(listener)) heardListeners.push(listener);
+}
 const delivered = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("delivered");
 
@@ -351,6 +362,7 @@ function hear(
         personId,
       });
   }
+  for (const listener of heardListeners) listener(api, personId, story);
   return true;
 }
 
