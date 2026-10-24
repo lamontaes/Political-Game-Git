@@ -1,0 +1,99 @@
+/**
+ * The health links that wait, each with the one reason it cannot reach a
+ * person's records yet (web-health-waiting-links-named). Each cites the
+ * health engine's own stopgap in the unwired list, that stopgap names it, and
+ * the reason holds in the code: no engine records the outcome, the link has
+ * no size (or about zero), or its cause is not recorded on the person. The
+ * day an engine reads one of these outcomes, or a link gets a size, this test
+ * fails and says to wire the link.
+ */
+import { readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import { describe, expect, it } from "vitest";
+import unwired from "./data/outcome-web/unwired.json" with { type: "json" };
+import stopgaps from "./data/stopgaps.json" with { type: "json" };
+import { WEB_LINKS } from "./outcome-web-model";
+
+const WAITING = {
+  /** The outcome is no engine's record: a child's asthma, a teen's cannabis use, Part D spending, a birth weight. */
+  "SG-EW-HEALTH-condition-record": [
+    "gas-hookup-ban-to-child-asthma",
+    "cannabis-sales-to-youth-use",
+    "drug-negotiation-to-out-of-pocket",
+    "water-violations-to-infant-health",
+  ],
+  /** No researched size the game can apply, or about zero. */
+  "SG-EW-HEALTH-unsized-links": [
+    "congestion-to-premature-births",
+    "heat-to-deaths",
+    "education-to-mortality",
+    "eviction-to-hospital-visits",
+    "coverage-to-blood-pressure",
+    "recession-to-total-mortality",
+  ],
+  /** The cause is the person's own history, which no record keeps. */
+  "SG-EW-HEALTH-person-level": [
+    "coverage-to-catastrophic-bills",
+    "coverage-to-depression",
+    "job-loss-to-death-risk",
+    "long-hours-to-heart-and-stroke",
+    "child-food-stamps-to-adult-health",
+    "eitc-to-low-birthweight",
+  ],
+} as const;
+
+const link = (key: string) => WEB_LINKS.find((row) => row.key === key)!;
+const rows = (unwired as { links: { link: string; stopgapId: string }[] })
+  .links;
+
+/** Engine code and data: every source file under src/core2 but tests and the web's own generated files. */
+function sources(dir = "src/core2"): string[] {
+  return readdirSync(dir, { withFileTypes: true }).flatMap((entry) => {
+    const path = join(dir, entry.name);
+    if (entry.isDirectory())
+      return path === "src/core2/data/outcome-web" ? [] : sources(path);
+    if (path === "src/core2/data/stopgaps.json") return [];
+    return /\.(ts|json)$/.test(path) && !path.endsWith(".test.ts")
+      ? [path]
+      : [];
+  });
+}
+const SOURCES = sources().map((path) => ({
+  path,
+  text: readFileSync(path, "utf8"),
+}));
+
+describe("health links that wait, and why", () => {
+  for (const [stopgapId, keys] of Object.entries(WAITING))
+    for (const key of keys)
+      it(`${key} waits on ${stopgapId}`, () => {
+        // The unwired list files it under the health engine's own stopgap,
+        // and that open row names it.
+        expect(
+          rows.find((row) => row.link === key)?.stopgapId,
+          `${key} in unwired.json`,
+        ).toBe(stopgapId);
+        const row = (
+          stopgaps as { id: string; status?: string; whatItFakes?: string }[]
+        ).find((one) => one.id === stopgapId)!;
+        expect(row.status, stopgapId).toBe("open");
+        expect(row.whatItFakes, stopgapId).toContain(`(${key})`);
+        const web = link(key);
+        if (stopgapId === "SG-EW-HEALTH-unsized-links")
+          // No size, or one the research finds about zero.
+          expect(
+            web.size === null || Math.abs(web.size ?? 0) < 1e-9,
+            `${key}: size ${web.size}; wire it`,
+          ).toBe(true);
+        else {
+          // No engine code or data names the outcome: the day one reads it,
+          // wire the link.
+          const readers = SOURCES.filter((file) =>
+            file.text.includes(`"${web.to}"`),
+          ).map((file) => file.path);
+          expect(readers, `${key}: an engine reads ${web.to}; wire it`).toEqual(
+            [],
+          );
+        }
+      });
+});

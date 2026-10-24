@@ -59,7 +59,7 @@
       "link": "congestion-to-premature-births",
       "outcome": "health.premature-births",
       "reason": "no measure: the web does not keep health.premature-births and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-health-premature-births"
+      "stopgapId": "SG-EW-HEALTH-unsized-links"
     },
     {
       "link": "birth-year-pollution-to-adult-earnings",
@@ -71,13 +71,13 @@
       "link": "water-violations-to-infant-health",
       "outcome": "health.low-birthweight",
       "reason": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-low-birthweight"
+      "stopgapId": "SG-EW-HEALTH-condition-record"
     },
     {
       "link": "heat-to-deaths",
       "outcome": "health.heat-deaths",
       "reason": "no measure: the web does not keep health.heat-deaths and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-health-heat-deaths"
+      "stopgapId": "SG-EW-HEALTH-unsized-links"
     },
     {
       "link": "carbon-monoxide-to-absence",
@@ -107,7 +107,7 @@
       "link": "coverage-to-catastrophic-bills",
       "outcome": "health.catastrophic-medical-bills",
       "reason": "no measure: the web does not keep health.catastrophic-medical-bills and no engine produces it; nothing in the core records its cause, health.coverage",
-      "stopgapId": "SG-WEB-unread-health-catastrophic-medical-bills"
+      "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
       "link": "coverage-to-medical-debt",
@@ -119,13 +119,13 @@
       "link": "coverage-to-depression",
       "outcome": "health.depression",
       "reason": "no measure: the web does not keep health.depression and no engine produces it; nothing in the core records its cause, health.coverage",
-      "stopgapId": "SG-WEB-unread-health-depression"
+      "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
       "link": "coverage-to-blood-pressure",
       "outcome": "health.blood-pressure",
       "reason": "no measure: the web does not keep health.blood-pressure and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
-      "stopgapId": "SG-WEB-unread-health-blood-pressure"
+      "stopgapId": "SG-EW-HEALTH-unsized-links"
     },
     {
       "link": "work-requirement-to-employment",
@@ -137,31 +137,31 @@
       "link": "job-loss-to-death-risk",
       "outcome": "health.death-risk",
       "reason": "no measure: the web does not keep health.death-risk and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-WEB-unread-health-death-risk"
+      "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
       "link": "recession-to-total-mortality",
       "outcome": "health.mortality-all",
       "reason": "no measure: the web does not keep health.mortality-all and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
-      "stopgapId": "SG-WEB-unread-health-mortality-all"
+      "stopgapId": "SG-EW-HEALTH-unsized-links"
     },
     {
       "link": "long-hours-to-heart-and-stroke",
       "outcome": "health.stroke-and-heart-deaths",
       "reason": "no measure: the web does not keep health.stroke-and-heart-deaths and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-WEB-unread-health-stroke-and-heart-deaths"
+      "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
       "link": "eitc-to-low-birthweight",
       "outcome": "health.low-birthweight",
       "reason": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.eitc-dollars",
-      "stopgapId": "SG-WEB-unread-health-low-birthweight"
+      "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
       "link": "child-food-stamps-to-adult-health",
       "outcome": "health.adult-metabolic-syndrome",
       "reason": "no measure: the web does not keep health.adult-metabolic-syndrome and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-WEB-unread-health-adult-metabolic-syndrome"
+      "stopgapId": "SG-EW-HEALTH-person-level"
     },
     {
       "link": "child-benefit-to-child-poverty",
@@ -287,13 +287,13 @@
       "link": "education-to-mortality",
       "outcome": "health.mortality-all",
       "reason": "no measure: the web does not keep health.mortality-all and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-health-mortality-all"
+      "stopgapId": "SG-EW-HEALTH-unsized-links"
     },
     {
       "link": "eviction-to-hospital-visits",
       "outcome": "health.hospital-visits",
       "reason": "no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-health-hospital-visits"
+      "stopgapId": "SG-EW-HEALTH-unsized-links"
     },
     {
       "link": "transit-loss-to-unemployment",
@@ -425,7 +425,7 @@
       "link": "cannabis-sales-to-youth-use",
       "outcome": "health.youth-cannabis-use",
       "reason": "engine doesn't read the factor: health.youth-cannabis-use moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-youth-cannabis-use"
+      "stopgapId": "SG-EW-HEALTH-condition-record"
     },
     {
       "link": "loan-rate-cap-to-high-cost-borrowing",
@@ -473,7 +473,7 @@
       "link": "drug-negotiation-to-out-of-pocket",
       "outcome": "health.drug-out-of-pocket",
       "reason": "engine doesn't read the factor: health.drug-out-of-pocket moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-drug-out-of-pocket"
+      "stopgapId": "SG-EW-HEALTH-condition-record"
     },
     {
       "link": "federal-loan-cap-to-high-cost-loans",
@@ -527,7 +527,7 @@
       "link": "gas-hookup-ban-to-child-asthma",
       "outcome": "health.child-asthma-pct",
       "reason": "engine doesn't read the factor: health.child-asthma-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-health-child-asthma-pct"
+      "stopgapId": "SG-EW-HEALTH-condition-record"
     },
     {
       "link": "tuition-freeze-to-college-completion",

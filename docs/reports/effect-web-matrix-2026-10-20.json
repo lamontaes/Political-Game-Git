@@ -1021,7 +1021,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-premature-births"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "birth-year-pollution-to-adult-earnings",
@@ -1120,7 +1120,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-low-birthweight"
+      "stopgap": "SG-EW-HEALTH-condition-record"
     },
     {
       "key": "heat-to-deaths",
@@ -1170,7 +1170,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-heat-deaths"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "carbon-monoxide-to-absence",
@@ -1513,7 +1513,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-catastrophic-medical-bills"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "coverage-to-medical-debt",
@@ -1611,7 +1611,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-depression"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "coverage-to-blood-pressure",
@@ -1661,7 +1661,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-blood-pressure"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "coverage-to-mortality-55-64",
@@ -1856,7 +1856,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-death-risk"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "recession-to-total-mortality",
@@ -1905,7 +1905,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-mortality-all"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "long-hours-to-heart-and-stroke",
@@ -1955,7 +1955,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-stroke-and-heart-deaths"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "eitc-to-low-birthweight",
@@ -2004,7 +2004,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-low-birthweight"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "child-food-stamps-to-adult-health",
@@ -2054,7 +2054,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-adult-metabolic-syndrome"
+      "stopgap": "SG-EW-HEALTH-person-level"
     },
     {
       "key": "child-benefit-to-child-poverty",
@@ -2221,7 +2221,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2283, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2321, src/core2/modules/jobs.ts:2323, src/core2/modules/jobs.ts:2343, src/core2/modules/jobs.ts:2345"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2295, src/core2/modules/jobs.ts:2304, src/core2/modules/jobs.ts:2333, src/core2/modules/jobs.ts:2335, src/core2/modules/jobs.ts:2355, src/core2/modules/jobs.ts:2357"
         },
         "varied": {
           "status": "fail",
@@ -3293,7 +3293,7 @@
         }
       },
       "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-mortality-all"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "new-apartments-to-nearby-rent",
@@ -3579,7 +3579,7 @@
         }
       },
       "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-hospital-visits"
+      "stopgap": "SG-EW-HEALTH-unsized-links"
     },
     {
       "key": "home-prices-to-owner-births",
@@ -3838,7 +3838,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2281, src/core2/modules/jobs.ts:2290"
+          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2293, src/core2/modules/jobs.ts:2302"
         },
         "varied": {
           "status": "pass",
@@ -4562,7 +4562,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2280, src/core2/modules/jobs.ts:2289"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2301"
         },
         "varied": {
           "status": "fail",
@@ -5939,7 +5939,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-health-youth-cannabis-use"
+      "stopgap": "SG-EW-HEALTH-condition-record"
     },
     {
       "key": "loan-rate-cap-to-high-cost-borrowing",
@@ -6007,7 +6007,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2280, src/core2/modules/jobs.ts:2289"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2301"
         },
         "varied": {
           "status": "fail",
@@ -6435,7 +6435,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2283, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2321, src/core2/modules/jobs.ts:2323, src/core2/modules/jobs.ts:2343, src/core2/modules/jobs.ts:2345"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2295, src/core2/modules/jobs.ts:2304, src/core2/modules/jobs.ts:2333, src/core2/modules/jobs.ts:2335, src/core2/modules/jobs.ts:2355, src/core2/modules/jobs.ts:2357"
         },
         "varied": {
           "status": "fail",
@@ -6794,7 +6794,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-health-drug-out-of-pocket"
+      "stopgap": "SG-EW-HEALTH-condition-record"
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",
@@ -9589,7 +9589,7 @@
         }
       },
       "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-health-child-asthma-pct"
+      "stopgap": "SG-EW-HEALTH-condition-record"
     },
     {
       "key": "tuition-freeze-to-college-completion",
@@ -11779,7 +11779,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2283, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2321, src/core2/modules/jobs.ts:2323, src/core2/modules/jobs.ts:2343, src/core2/modules/jobs.ts:2345",
+      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2295, src/core2/modules/jobs.ts:2304, src/core2/modules/jobs.ts:2333, src/core2/modules/jobs.ts:2335, src/core2/modules/jobs.ts:2355, src/core2/modules/jobs.ts:2357",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11790,7 +11790,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2281, src/core2/modules/jobs.ts:2290",
+      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2293, src/core2/modules/jobs.ts:2302",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -11834,7 +11834,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2280, src/core2/modules/jobs.ts:2289",
+      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2301",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11845,7 +11845,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2282, src/core2/modules/jobs.ts:2291, src/core2/modules/jobs.ts:2311",
+      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2294, src/core2/modules/jobs.ts:2303, src/core2/modules/jobs.ts:2323",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
