@@ -309,7 +309,7 @@ console.log(
 );
 const plans = store.table("plans").rows();
 console.log(
-  `Weights and pulls (15 TUNABLE rows): no convertible source; they shape the ${plans.length} plan records (${plans.filter((row) => row.agreed).length} agreed), checked only through the town's births above. Records: ${sample(plans.map((row) => String(row.id)))}.`,
+  `Weights and pulls (14 TUNABLE rows): no convertible source; they shape the ${plans.length} plan records (${plans.filter((row) => row.agreed).length} agreed), checked only through the town's births above. Records: ${sample(plans.map((row) => String(row.id)))}.`,
 );
 
 // ── Drives ──────────────────────────────────────────────────────────────
