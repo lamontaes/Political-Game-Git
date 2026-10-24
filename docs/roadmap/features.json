@@ -279,7 +279,7 @@
       "golden_path": "world",
       "package": "M1-other-places",
       "test": "In a year, other places' populations and voters' views change from their own conditions within real ranges, and their public events are recorded with place and date so news (M2-09) can carry them. (Narrowed by the owner, Oct 10: other councils legislating is M3-10; news delivery is M2-09.)",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m1-13-check.ts",
       "passes": false
     },
     {
