@@ -38,6 +38,7 @@ import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import { VOTING_MODULE_ID, turnoutOn, type ResultRow } from "./voting";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import { countedResidents } from "../electorate";
+import { NEWS_MODULE_ID, storiesHeard } from "./news";
 import { citizenShareOf } from "../electorate-places";
 import { electorateChange } from "../electorate-inputs";
 import recallBarData from "../data/campaigns/recall-bars.json" with { type: "json" };
@@ -51,14 +52,23 @@ const daysBetween = (from: string, to: string) =>
 
 export const RECALLS_MODULE_ID = "core2-recalls-v1";
 
+/** Misconduct on the record that can ground a recall: a criminal charge and a press exposure. */
+const MISCONDUCT_EVENTS = ["justice.charged", "press.exposed"];
+
 export interface RecallRow {
   readonly id: string;
   readonly termId: string;
   readonly seatId: string;
   readonly memberId: string;
   readonly organizerId: string;
+  /** The ordinance a vote on it caused this, or the misconduct record's event id. */
   readonly lawId: string;
+  /** The ordinance's question, or `misconduct` for a petition over a charge or an exposure. */
   readonly question: string;
+  /** What started it: a member's vote on an ordinance (the default), or misconduct on the record. */
+  readonly cause?: "ordinance" | "misconduct";
+  /** For misconduct: how a story about it is known (the charge's case id or the exposure's topic). */
+  readonly causeMatch?: string;
   readonly started: string;
   readonly due: string;
   readonly required: number;
@@ -78,8 +88,11 @@ export const RECALLS_MODULE: CoreModule = {
       recalls: { indexes: { byTerm: { fields: ["termId"] } } },
     },
   },
-  eventKinds: ["law-took-effect"],
-  onEvent: (api, event) => weighOrdinance(api, event),
+  eventKinds: ["law-took-effect", ...MISCONDUCT_EVENTS],
+  onEvent: (api, event) =>
+    MISCONDUCT_EVENTS.includes(event.kind)
+      ? noteMisconduct(api, event)
+      : weighOrdinance(api, event),
   onCalendarWork: (api, work) => recallWork(api, work),
 };
 
@@ -345,6 +358,54 @@ export function recallRule(api: CoreAPI) {
   };
 }
 
+/**
+ * Whether a serving member is open to a recall petition now: past the
+ * state's opening bar and before its closing bar for their term, with no
+ * petition against them circulating or on the ballot and none that failed or
+ * kept them this term.
+ */
+function openToRecall(api: CoreAPI, term: TermRow): boolean {
+  // stopgapId: SG-GOV-recall-bars-national (states with no row in recall-bars.json take one national bar)
+  if (!recallBarsFor(stateUsps(api), undefined))
+    api.stopgap("SG-GOV-recall-bars-national");
+  // The term began one term's length before it ends (a term held at the
+  // opening records the opening as its start).
+  const years = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .get(term.officeId) as unknown as { termYears?: number } | undefined
+  )?.termYears;
+  const since =
+    term.endDate && years
+      ? `${Number(term.endDate.slice(0, 4)) - years}${term.endDate.slice(4)}`
+      : term.startDate;
+  const bars = recallBarsFor(stateUsps(api), years) ?? {
+    openingDays: campaignParameter("recallTermOpeningDays"),
+    closingDays: 0,
+  };
+  if (daysBetween(since, api.state.date) < bars.openingDays) return false;
+  // Some statutes also bar a petition in the last months of the term.
+  if (
+    bars.closingDays &&
+    term.endDate &&
+    daysBetween(api.state.date, term.endDate) <= bars.closingDays
+  )
+    return false;
+  const prior = table(api).query("byTerm", [term.id]) as unknown as RecallRow[];
+  if (
+    prior.some(
+      (r) =>
+        r.status === "circulating" ||
+        r.status === "on-ballot" ||
+        r.status === "failed" ||
+        r.status === "kept",
+    )
+  )
+    return false;
+  return true;
+}
+
 function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
   if (facts.level !== "city" && facts.level !== "county") return;
@@ -375,46 +436,7 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     // A member's committee and floor votes are one member to hold to account.
     if (!term || term.status !== "serving" || seen.has(term.id)) return [];
     seen.add(term.id);
-    // stopgapId: SG-GOV-recall-bars-national (states with no row in recall-bars.json take one national bar)
-    if (!recallBarsFor(stateUsps(api), undefined))
-      api.stopgap("SG-GOV-recall-bars-national");
-    // The term began one term's length before it ends (a term held at the
-    // opening records the opening as its start).
-    const years = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("offices")
-        .get(term.officeId) as unknown as { termYears?: number } | undefined
-    )?.termYears;
-    const since =
-      term.endDate && years
-        ? `${Number(term.endDate.slice(0, 4)) - years}${term.endDate.slice(4)}`
-        : term.startDate;
-    const bars = recallBarsFor(stateUsps(api), years) ?? {
-      openingDays: campaignParameter("recallTermOpeningDays"),
-      closingDays: 0,
-    };
-    if (daysBetween(since, api.state.date) < bars.openingDays) return [];
-    // Some statutes also bar a petition in the last months of the term.
-    if (
-      bars.closingDays &&
-      term.endDate &&
-      daysBetween(api.state.date, term.endDate) <= bars.closingDays
-    )
-      return [];
-    const prior = table(api).query("byTerm", [
-      term.id,
-    ]) as unknown as RecallRow[];
-    if (
-      prior.some(
-        (r) =>
-          r.status === "circulating" ||
-          r.status === "on-ballot" ||
-          r.status === "failed" ||
-          r.status === "kept",
-      )
-    )
-      return [];
+    if (!openToRecall(api, term)) return [];
     return [{ vote, side, term }];
   });
   // Each resident moved enough to organize brings one petition, against the
@@ -464,16 +486,162 @@ function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     if (!best) break;
     used.add(best.p.id);
     open.splice(open.indexOf(best.target), 1);
+    const side = best.target.side;
     startRecall(api, {
       organizer: best.p,
       term: best.target.term,
       memberId: best.target.vote.memberId,
-      side: best.target.side,
-      row,
-      enacted,
       rule,
+      grievanceOf: (p) => grievance(api, p, row.series, enacted, side),
+      lawId: row.id,
+      question: row.series,
     });
   }
+}
+
+/**
+ * Misconduct on the record against a serving local official (a criminal
+ * charge, a press exposure): once the news has had time to reach the town
+ * (`recallMisconductNewsDays`), the residents who heard of it weigh a
+ * petition (`weighMisconduct`). Misconduct is a ground in every state, so this
+ * holds where the state's recall rule requires grounds as well.
+ */
+function noteMisconduct(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const officialId = event.personIds?.[0];
+  if (!officialId || !recallRule(api)) return;
+  const term = termOf(api, officialId);
+  if (!term || term.status !== "serving" || !localOffice(api, term)) return;
+  const match =
+    event.kind === "justice.charged" ? event.facts?.caseId : event.topic;
+  if (!match) return;
+  api.moduleCalendar(RECALLS_MODULE_ID).schedule({
+    key: `misconduct:${event.id}`,
+    date: addDays(
+      api.state.date,
+      campaignParameter("recallMisconductNewsDays"),
+    ),
+    kind: "misconduct-check",
+    source: {
+      tag: "ESTIMATED",
+      citation:
+        "News of an official's misconduct reaches the town before anyone organizes",
+      asOf: api.state.date,
+      estimatedFrom: "recallMisconductNewsDays",
+    },
+    sourceRecordIds: [event.id, event.kind, officialId, match],
+  });
+}
+
+/** Whether a term's office is a city's, a county's or a township's, which the municipal recall rule covers. */
+function localOffice(api: CoreAPI, term: TermRow): boolean {
+  const level = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .get(term.officeId) as unknown as { level?: string } | undefined
+  )?.level;
+  return level === "city" || level === "county" || level === "township";
+}
+
+/** The town's named adults who heard a story about the misconduct (`kind|match`), from the news engine's record of who heard what. */
+function heardOfMisconduct(api: CoreAPI, cause: string): Set<string> {
+  const [kind, match] = cause.split("|");
+  const out = new Set<string>();
+  if (!api.state.modules.has(NEWS_MODULE_ID)) return out;
+  for (const p of adults(api))
+    if (
+      storiesHeard(api, p.id).some(
+        (story) =>
+          story.kind === kind &&
+          (story.facts.caseId === match || story.topic === match),
+      )
+    )
+      out.add(p.id);
+  return out;
+}
+
+/**
+ * How aggrieved a voter is by a member's misconduct: its weight if they heard
+ * of it, less their closeness to the member and the bar a petition or a
+ * removal asks of anyone. A counted voter keeps no record of what they heard,
+ * so the share of the town's named adults who heard stands for their
+ * exposure (SG-GOV-recall-counted-exposure).
+ */
+function misconductGrievance(
+  api: CoreAPI,
+  voter: TownVoter,
+  memberId: string,
+  heard: ReadonlySet<string>,
+  exposure: number,
+): number {
+  const weight = campaignParameter("recallMisconductWeight");
+  const bar = campaignParameter("recallMisconductBar");
+  if (voter.counted) {
+    // stopgapId: SG-GOV-recall-counted-exposure
+    api.stopgap("SG-GOV-recall-counted-exposure");
+    return weight * exposure - bar;
+  }
+  return (
+    (heard.has(voter.id) ? weight : 0) -
+    closenessBetween(api.state as CoreState, voter.id, memberId) -
+    bar
+  );
+}
+
+/**
+ * On the day set by `noteMisconduct`: each named adult who heard of the
+ * misconduct weighs organizing a petition (their grievance and their lean
+ * toward organizing at the decision's weight, against the effort), and the
+ * most moved starts one; neighbors then sign by `startRecall`'s rule.
+ */
+function weighMisconduct(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  const [eventId, kind, memberId, match] = work.sourceRecordIds;
+  const rule = recallRule(api);
+  const term = memberId ? termOf(api, memberId) : undefined;
+  if (!rule || !term || term.status !== "serving" || !openToRecall(api, term))
+    return;
+  const cause = `${kind}|${match}`;
+  const heard = heardOfMisconduct(api, cause);
+  if (!heard.size) return;
+  const exposure = heard.size / Math.max(1, adults(api).length);
+  let best: { p: Readonly<PersonState>; drive: number } | null = null;
+  for (const p of adults(api)) {
+    if (!heard.has(p.id) || p.id === memberId) continue;
+    const drive =
+      misconductGrievance(
+        api,
+        {
+          id: p.id,
+          traits: p.traits,
+          placeId: p.placeId,
+          weight: 1,
+          counted: false,
+        },
+        memberId!,
+        heard,
+        exposure,
+      ) +
+      decisionTraitWeight(api.state, "recalls.organize") *
+        decisionLean(api.state, p, "recalls.organize", "organize", "leave-it");
+    if (drive <= campaignParameter("recallOrganizerEffort")) continue;
+    if (!best || drive > best.drive) best = { p, drive };
+  }
+  if (!best) return;
+  startRecall(api, {
+    organizer: best.p,
+    term,
+    memberId: memberId!,
+    rule,
+    grievanceOf: (voter) =>
+      misconductGrievance(api, voter, memberId!, heard, exposure),
+    lawId: eventId!,
+    question: "misconduct",
+    cause: "misconduct",
+    causeMatch: cause,
+  });
 }
 
 function startRecall(
@@ -482,21 +650,24 @@ function startRecall(
     readonly organizer: Readonly<PersonState>;
     readonly term: TermRow;
     readonly memberId: string;
-    readonly side: number;
-    readonly row: LawRowInput;
-    readonly enacted: number;
     readonly rule: NonNullable<ReturnType<typeof recallRule>>;
+    /** Each voter's grievance with the member over what started the petition. */
+    readonly grievanceOf: (voter: TownVoter) => number;
+    readonly lawId: string;
+    readonly question: string;
+    readonly cause?: "misconduct";
+    readonly causeMatch?: string;
   },
 ): void {
-  const { organizer, term, row, enacted, side, rule } = input;
-  // Neighbors sign for their own reasons: they oppose how the member voted.
+  const { organizer, term, rule } = input;
+  // Neighbors sign for their own reasons: their grievance with the member.
   // The counted residents sign by the same rule, each record for as many
   // voters as its household stands for.
   const voters = townVoters(api);
   const signers = voters.filter(
     (p) =>
       p.id !== term.personId &&
-      grievance(api, p, row.series, enacted, side) +
+      input.grievanceOf(p) +
         decisionTraitWeight(api.state, "recalls.sign") *
           decisionLean(api.state, p, "recalls.sign", "sign", "pass") >
         0,
@@ -511,8 +682,11 @@ function startRecall(
     seatId: term.seatId,
     memberId: input.memberId,
     organizerId: organizer.id,
-    lawId: row.id,
-    question: row.series,
+    lawId: input.lawId,
+    question: input.question,
+    ...(input.cause
+      ? { cause: input.cause, causeMatch: input.causeMatch ?? "" }
+      : {}),
     started: api.state.date,
     due: addDays(api.state.date, rule.circulationDays),
     required: resolveRequiredSignatures(rule.threshold, base.count),
@@ -544,7 +718,7 @@ function startRecall(
     facts: {
       recallId: recall.id,
       termId: term.id,
-      lawId: row.id,
+      lawId: input.lawId,
       memberId: input.memberId,
     },
   });
@@ -562,6 +736,7 @@ function startRecall(
 }
 
 function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  if (work.kind === "misconduct-check") return weighMisconduct(api, work);
   const recall = table(api).get(work.sourceRecordIds[0]!) as unknown as
     RecallRow | undefined;
   if (!recall) return;
@@ -591,26 +766,12 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     return;
   }
   if (work.kind !== "recall-vote" || recall.status !== "on-ballot") return;
-  const law = api
-    .moduleState(LAWS_MODULE_ID)
-    .table("laws")
-    .get(recall.lawId) as unknown as LawRowInput | undefined;
-  const enacted = law?.value === 1 ? 1 : -1;
-  // The member's own vote on the law, from the record.
-  const side =
-    (
-      votesOn(api, billIdFor(law)) as unknown as {
-        memberId: string;
-        vote: string;
-      }[]
-    ).find((v) => v.memberId === recall.memberId)?.vote === "no"
-      ? -1
-      : 1;
+  const grievanceOf = voteGrievance(api, recall);
   let remove = 0;
   let keep = 0;
   for (const p of townVoters(api)) {
     const g =
-      grievance(api, p, recall.question, enacted, side) +
+      grievanceOf(p) +
       decisionTraitWeight(api.state, "recalls.vote") *
         decisionLean(api.state, p, "recalls.vote", "remove", "keep");
     const t = turnoutOn(api, p, { remove: { total: g }, keep: { total: -g } });
@@ -634,6 +795,39 @@ function recallWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     keep: String(result.keep),
   });
   if (removed) vacateSeat(api, recall.seatId, "recalled");
+}
+
+/**
+ * Each voter's grievance on a recall's ballot, by what started it: the
+ * member's own vote on the ordinance against the voter's view of it, or the
+ * misconduct as far as the voter heard of it by the vote.
+ */
+function voteGrievance(
+  api: CoreAPI,
+  recall: RecallRow,
+): (voter: TownVoter) => number {
+  if (recall.cause === "misconduct") {
+    const heard = heardOfMisconduct(api, recall.causeMatch ?? "");
+    const exposure = heard.size / Math.max(1, adults(api).length);
+    return (voter) =>
+      misconductGrievance(api, voter, recall.memberId, heard, exposure);
+  }
+  const law = api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .get(recall.lawId) as unknown as LawRowInput | undefined;
+  const enacted = law?.value === 1 ? 1 : -1;
+  // The member's own vote on the law, from the record.
+  const side =
+    (
+      votesOn(api, billIdFor(law)) as unknown as {
+        memberId: string;
+        vote: string;
+      }[]
+    ).find((v) => v.memberId === recall.memberId)?.vote === "no"
+      ? -1
+      : 1;
+  return (voter) => grievance(api, voter, recall.question, enacted, side);
 }
 
 /** A recall step's outcome as a public record the press and the director read, by the recall's id. */

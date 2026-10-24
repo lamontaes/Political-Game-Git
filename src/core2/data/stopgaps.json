@@ -1227,7 +1227,7 @@
     "id": "SG-GOV-recall-signature-groups",
     "kind": "missing-data",
     "file": "src/core2/modules/recalls.ts",
-    "line": 311,
+    "line": 323,
     "whatItFakes": "A recall petition's required signatures read the state's named base from the world's records where it holds them (votes cast for the office, or at the town's last election of that level, from the recorded results). Where it holds none, the base is sized from the real averages: registered voters (the town's eligible voters times the national registration share), the last gubernatorial vote (the town's population times the voting share, scaled to a midterm), and votes cast before the town has held an election.",
     "why": "The world keeps no voter rolls and does not keep a statewide race's votes by town, and a new town has held no election yet. The counted residents sign and vote by the same rule as named people, and the base is a whole count of voters.",
     "addedBy": "OPUS-GOV",
@@ -3905,7 +3905,7 @@
     "id": "SG-GOV-recall-bars-national",
     "kind": "assumed-data",
     "file": "src/core2/modules/recalls.ts",
-    "line": 203,
+    "line": 368,
     "whatItFakes": "One national bar on when a local recall may start (not in a term's first 180 days; not again in a term after one failed), not each state's own statute.",
     "why": "The owner's ruling (Oct 14): the recall rule reads the place's statute (grounds, signatures, cooling period). The municipal rule pack holds grounds, threshold and circulation window, but no cooling period yet.",
     "addedBy": "OPUS-GOV",
@@ -5549,6 +5549,18 @@
     "addedBy": "claude/territory-admin-line",
     "addedAt": "2026-10-18",
     "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recall-counted-exposure",
+    "kind": "missing-record",
+    "file": "src/core2/modules/recalls.ts",
+    "line": 580,
+    "whatItFakes": "A counted voter weighing a recall over misconduct reads the share of the town's named adults who heard of it as their own exposure, since counted residents keep no record of the stories they heard.",
+    "why": "The news engine records who heard a story only for named people; the counted population has no hearing record of its own.",
+    "addedBy": "Claude (traits lead)",
+    "addedAt": "2026-10-24",
+    "replacement": "A per-group hearing record for counted residents, kept by the news engine, that the recall reads like a named voter's.",
     "status": "open"
   }
 ]
