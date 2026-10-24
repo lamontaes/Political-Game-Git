@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-city-treasury
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T00:47:15.174Z
 ---
 
 **What.** The M0-08 money year (scripts/core2-year/closures.mjs) on main b09ba675cd in Dickens, Iowa (place key 1921360, runner seed 54e03066883f228dfe2b9acb51259d9f50dd7d3f92fa9a6d906d613dc601faa8) reports 'every dollar balances: false'. The City of Dickens as an employer paid $7,018,385,225,687 into the town and $7,013,270,603,554 out in one year, and the government-treasury owner kind closed the year at $5.17 billion from $0. A city of about 180 people spends a few hundred thousand dollars a year, so something multiplies or loops a city payment. Find which writer posts it and fix it at the root.
