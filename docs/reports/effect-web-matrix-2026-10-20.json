@@ -80,7 +80,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:586, src/core2/public-safety.ts:92"
+          "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:92"
         },
         "varied": {
           "status": "fail",
@@ -174,7 +174,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/public-safety.ts:86"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:86"
         },
         "varied": {
           "status": "fail",
@@ -220,7 +220,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:624, src/core2/public-safety.ts:80"
+          "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:80"
         },
         "varied": {
           "status": "fail",
@@ -267,7 +267,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -315,7 +315,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:586, src/core2/modules/crime.ts:599, src/core2/public-safety.ts:98"
+          "evidence": "src/core2/modules/crime.ts:562, src/core2/modules/crime.ts:575, src/core2/public-safety.ts:98"
         },
         "varied": {
           "status": "fail",
@@ -364,7 +364,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep justice.low-level-arrests and no engine produces it"
+          "why": "no measure: the web does not keep justice.low-level-arrests and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -414,7 +414,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep crime.youth-violent-arrests and no engine produces it"
+          "why": "no measure: the web does not keep crime.youth-violent-arrests and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -464,7 +464,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep crime.all and no engine produces it"
+          "why": "no measure: the web does not keep crime.all and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -514,7 +514,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep crime.reoffense and no engine produces it"
+          "why": "no measure: the web does not keep crime.reoffense and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -563,7 +563,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep justice.conviction and no engine produces it"
+          "why": "no measure: the web does not keep justice.conviction and no engine produces it; nothing in the core records its cause, justice.pretrial-detained"
         },
         "varied": {
           "status": "fail",
@@ -612,7 +612,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.formal-employment and no engine produces it"
+          "why": "no measure: the web does not keep labor.formal-employment and no engine produces it; nothing in the core records its cause, justice.pretrial-detained"
         },
         "varied": {
           "status": "fail",
@@ -661,7 +661,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep crime.larceny and no engine produces it"
+          "why": "no measure: the web does not keep crime.larceny and no engine produces it; nothing in the core records its cause, law.low-level-offense-reclassified"
         },
         "varied": {
           "status": "fail",
@@ -850,7 +850,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:474, src/core2/modules/moves.ts:823"
+          "evidence": "src/core2/modules/counted-moves.ts:479, src/core2/modules/moves.ts:823"
         },
         "varied": {
           "status": "pass",
@@ -994,7 +994,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.premature-births and no engine produces it"
+          "why": "no measure: the web does not keep health.premature-births and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -1044,7 +1044,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.earnings-at-30 and no engine produces it"
+          "why": "no measure: the web does not keep labor.earnings-at-30 and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -1143,7 +1143,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.heat-deaths and no engine produces it"
+          "why": "no measure: the web does not keep health.heat-deaths and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "partial",
@@ -1193,7 +1193,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.absence and no engine produces it"
+          "why": "no measure: the web does not keep school.absence and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -1281,7 +1281,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger energy.electricity-price, which src/core2/modules/place-prices.ts:867, src/core2/modules/place-prices.ts:932 reads into its own records"
+          "evidence": "web ledger energy.electricity-price, which src/core2/modules/place-prices.ts:881, src/core2/modules/place-prices.ts:946 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -1291,7 +1291,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: housing.ac-share moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: housing.ac-share moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -1340,7 +1340,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep gov.nondisaster-transfers and no engine produces it"
+          "why": "no measure: the web does not keep gov.nondisaster-transfers and no engine produces it; nothing in the core records its cause, disaster.severe"
         },
         "varied": {
           "status": "fail",
@@ -1388,7 +1388,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:474, src/core2/modules/moves.ts:823"
+          "evidence": "src/core2/modules/counted-moves.ts:479, src/core2/modules/moves.ts:823"
         },
         "varied": {
           "status": "fail",
@@ -1437,7 +1437,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "world-metrics months.medianHomeValueMinor",
-          "why": "engine doesn't read the factor: an engine records housing.home-prices, but nothing multiplies its rates by the link's effect"
+          "why": "engine doesn't read the factor: an engine records housing.home-prices, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, disaster.severe"
         },
         "varied": {
           "status": "fail",
@@ -1487,7 +1487,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.catastrophic-medical-bills and no engine produces it"
+          "why": "no measure: the web does not keep health.catastrophic-medical-bills and no engine produces it; nothing in the core records its cause, health.coverage"
         },
         "varied": {
           "status": "fail",
@@ -1536,7 +1536,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, health.coverage-pct"
         },
         "varied": {
           "status": "fail",
@@ -1585,7 +1585,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.depression and no engine produces it"
+          "why": "no measure: the web does not keep health.depression and no engine produces it; nothing in the core records its cause, health.coverage"
         },
         "varied": {
           "status": "fail",
@@ -1635,7 +1635,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.blood-pressure and no engine produces it"
+          "why": "no measure: the web does not keep health.blood-pressure and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -1781,7 +1781,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.employment-rate and no engine produces it"
+          "why": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -1831,7 +1831,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.death-risk and no engine produces it"
+          "why": "no measure: the web does not keep health.death-risk and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -1880,7 +1880,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.mortality-all and no engine produces it"
+          "why": "no measure: the web does not keep health.mortality-all and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -1930,7 +1930,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.stroke-and-heart-deaths and no engine produces it"
+          "why": "no measure: the web does not keep health.stroke-and-heart-deaths and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -1979,7 +1979,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: health.low-birthweight moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, program.eitc-dollars"
         },
         "varied": {
           "status": "fail",
@@ -2029,7 +2029,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.adult-metabolic-syndrome and no engine produces it"
+          "why": "no measure: the web does not keep health.adult-metabolic-syndrome and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -2079,7 +2079,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep household.child-poverty and no engine produces it"
+          "why": "no measure: the web does not keep household.child-poverty and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -2223,7 +2223,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2205, src/core2/modules/jobs.ts:2214, src/core2/modules/jobs.ts:2243, src/core2/modules/jobs.ts:2245, src/core2/modules/jobs.ts:2265, src/core2/modules/jobs.ts:2267"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2260, src/core2/modules/jobs.ts:2269, src/core2/modules/jobs.ts:2298, src/core2/modules/jobs.ts:2300, src/core2/modules/jobs.ts:2320, src/core2/modules/jobs.ts:2322"
         },
         "varied": {
           "status": "fail",
@@ -2321,7 +2321,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "world-metrics months.medianHouseholdEarningsMinor",
-          "why": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect"
+          "why": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -2372,7 +2372,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.years-completed and no engine produces it"
+          "why": "no measure: the web does not keep school.years-completed and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -2423,7 +2423,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.graduation and no engine produces it"
+          "why": "no measure: the web does not keep school.graduation and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -2474,7 +2474,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it"
+          "why": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -2524,7 +2524,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.test-scores and no engine produces it"
+          "why": "no measure: the web does not keep school.test-scores and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -2574,7 +2574,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.graduation and no engine produces it"
+          "why": "no measure: the web does not keep school.graduation and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -2624,7 +2624,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.test-scores and no engine produces it"
+          "why": "no measure: the web does not keep school.test-scores and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -2674,7 +2674,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.adult-earnings and no engine produces it"
+          "why": "no measure: the web does not keep labor.adult-earnings and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -2724,7 +2724,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.test-scores and no engine produces it"
+          "why": "no measure: the web does not keep school.test-scores and no engine produces it; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -2774,7 +2774,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.graduation and no engine produces it"
+          "why": "no measure: the web does not keep school.graduation and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -2825,7 +2825,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.test-scores and no engine produces it"
+          "why": "no measure: the web does not keep school.test-scores and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -2874,7 +2874,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.far-below-proficient and no engine produces it"
+          "why": "no measure: the web does not keep school.far-below-proficient and no engine produces it; nothing in the core records its cause, health.blood-lead"
         },
         "varied": {
           "status": "fail",
@@ -2923,7 +2923,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.learning and no engine produces it"
+          "why": "no measure: the web does not keep school.learning and no engine produces it; nothing in the core records its cause, env.school-year-temperature"
         },
         "varied": {
           "status": "partial",
@@ -2962,7 +2962,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:890 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:904 reads into its own records"
         },
         "size": {
           "status": "partial",
@@ -2972,7 +2972,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.test-scores and no engine produces it"
+          "why": "no measure: the web does not keep school.test-scores and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -3020,7 +3020,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: school.hispanic-enrollment moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: school.hispanic-enrollment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces school.hispanic-enrollment"
         },
         "varied": {
           "status": "fail",
@@ -3070,7 +3070,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep school.graduation and no engine produces it"
+          "why": "no measure: the web does not keep school.graduation and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3121,7 +3121,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.earnings and no engine produces it"
+          "why": "no measure: the web does not keep labor.earnings and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3171,7 +3171,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep justice.incarceration-risk and no engine produces it"
+          "why": "no measure: the web does not keep justice.incarceration-risk and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3210,7 +3210,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger school.graduation-pct, which src/core2/school-outcomes.ts:36 reads into its own records"
+          "evidence": "web ledger school.graduation-pct, which src/core2/school-outcomes.ts:37 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -3268,7 +3268,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.mortality-all and no engine produces it"
+          "why": "no measure: the web does not keep health.mortality-all and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3307,7 +3307,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.new-large-buildings, which src/core2/housing-construction.ts:248 reads into its own records"
+          "evidence": "web ledger housing.new-large-buildings, which src/core2/housing-construction.ts:268 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3316,7 +3316,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-occupancy.ts:337"
+          "evidence": "src/core2/housing-occupancy.ts:379"
         },
         "varied": {
           "status": "fail",
@@ -3363,7 +3363,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-construction.ts:253"
+          "evidence": "src/core2/housing-construction.ts:273"
         },
         "varied": {
           "status": "fail",
@@ -3410,7 +3410,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:476, src/core2/modules/moves.ts:828"
+          "evidence": "src/core2/modules/counted-moves.ts:481, src/core2/modules/moves.ts:828"
         },
         "varied": {
           "status": "pass",
@@ -3457,7 +3457,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:372"
+          "evidence": "src/core2/housing-homeless.ts:384"
         },
         "varied": {
           "status": "fail",
@@ -3496,7 +3496,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:711, src/core2/modules/moves.ts:73 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:710, src/core2/modules/moves.ts:73 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3505,7 +3505,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:372"
+          "evidence": "src/core2/housing-homeless.ts:384"
         },
         "varied": {
           "status": "fail",
@@ -3544,7 +3544,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:711, src/core2/modules/moves.ts:73 reads into its own records"
+          "evidence": "web ledger housing.eviction, which src/core2/modules/health.ts:710, src/core2/modules/moves.ts:73 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3554,7 +3554,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep health.hospital-visits and no engine produces it"
+          "why": "no measure: the web does not keep health.hospital-visits and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3601,7 +3601,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:575"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
         },
         "varied": {
           "status": "pass",
@@ -3647,7 +3647,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:575"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
         },
         "varied": {
           "status": "pass",
@@ -3693,7 +3693,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-occupancy.ts:337"
+          "evidence": "src/core2/housing-occupancy.ts:379"
         },
         "varied": {
           "status": "fail",
@@ -3743,7 +3743,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "world-metrics months.unemploymentRate",
-          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect"
+          "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3783,7 +3783,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:890 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:904 reads into its own records"
         },
         "size": {
           "status": "fail",
@@ -3793,7 +3793,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.employment-rate and no engine produces it"
+          "why": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3832,7 +3832,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:890 reads into its own records"
+          "evidence": "web ledger broadband.home-access, which src/core2/modules/place-prices.ts:904 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -3840,7 +3840,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2203, src/core2/modules/jobs.ts:2212"
+          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2258, src/core2/modules/jobs.ts:2267"
         },
         "varied": {
           "status": "pass",
@@ -3889,7 +3889,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep household.vehicle-costs and no engine produces it"
+          "why": "no measure: the web does not keep household.vehicle-costs and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3937,7 +3937,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1485"
+          "evidence": "src/core2/modules/jobs.ts:1547"
         },
         "varied": {
           "status": "pass",
@@ -3986,7 +3986,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.deal-industry-jobs and no engine produces it"
+          "why": "no measure: the web does not keep labor.deal-industry-jobs and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -4036,7 +4036,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep economy.broad-growth and no engine produces it"
+          "why": "no measure: the web does not keep economy.broad-growth and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -4083,7 +4083,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:575"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
         },
         "varied": {
           "status": "pass",
@@ -4130,7 +4130,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: labor.undocumented-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: labor.undocumented-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.undocumented-employment"
         },
         "varied": {
           "status": "fail",
@@ -4178,7 +4178,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: labor.us-born-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: labor.us-born-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.us-born-employment"
         },
         "varied": {
           "status": "fail",
@@ -4227,7 +4227,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:575"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
         },
         "varied": {
           "status": "fail",
@@ -4276,7 +4276,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:575"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
         },
         "varied": {
           "status": "fail",
@@ -4326,7 +4326,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep family.same-sex-marriages and no engine produces it"
+          "why": "no measure: the web does not keep family.same-sex-marriages and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -4375,7 +4375,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, law.marriage-equality"
         },
         "varied": {
           "status": "fail",
@@ -4423,7 +4423,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:575"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
         },
         "varied": {
           "status": "pass",
@@ -4518,7 +4518,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it"
+          "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied"
         },
         "varied": {
           "status": "fail",
@@ -4565,7 +4565,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2202, src/core2/modules/jobs.ts:2211"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2257, src/core2/modules/jobs.ts:2266"
         },
         "varied": {
           "status": "fail",
@@ -4755,7 +4755,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "src/core2/gov-measures.ts",
-          "why": "engine doesn't read the factor: an engine records voting.party-share, but nothing multiplies its rates by the link's effect"
+          "why": "engine doesn't read the factor: an engine records voting.party-share, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -4805,7 +4805,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: gov.borrowing-cost moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -4854,7 +4854,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "src/core2/gov-measures.ts",
-          "why": "engine doesn't read the factor: an engine records voting.local-turnout, but nothing multiplies its rates by the link's effect"
+          "why": "engine doesn't read the factor: an engine records voting.local-turnout, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, press.local-newspaper"
         },
         "varied": {
           "status": "fail",
@@ -4903,7 +4903,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "src/core2/gov-measures.ts",
-          "why": "engine doesn't read the factor: an engine records election.incumbent-reelection, but nothing multiplies its rates by the link's effect"
+          "why": "engine doesn't read the factor: an engine records election.incumbent-reelection, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, gov.corruption-exposed"
         },
         "varied": {
           "status": "partial",
@@ -4953,7 +4953,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep press.media-trust and no engine produces it"
+          "why": "no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -5003,7 +5003,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "src/core2/gov-measures.ts",
-          "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect"
+          "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -5053,7 +5053,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "src/core2/gov-measures.ts",
-          "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect"
+          "why": "engine doesn't read the factor: an engine records election.incumbent-vote, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -5103,7 +5103,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep disaster.damage and no engine produces it"
+          "why": "no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -5153,7 +5153,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep approval.incumbent and no engine produces it"
+          "why": "no measure: the web does not keep approval.incumbent and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -5392,7 +5392,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:36"
+          "evidence": "src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "fail",
@@ -5439,7 +5439,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:37"
+          "evidence": "src/core2/school-outcomes.ts:38"
         },
         "varied": {
           "status": "fail",
@@ -5487,7 +5487,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: justice.pretrial-detained moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: justice.pretrial-detained moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces justice.pretrial-detained"
         },
         "varied": {
           "status": "fail",
@@ -5537,7 +5537,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: justice.incarcerated-per-100k moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: justice.incarcerated-per-100k moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -5635,7 +5635,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep voting.registration and no engine produces it"
+          "why": "no measure: the web does not keep voting.registration and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -5777,7 +5777,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-construction.ts:248"
+          "evidence": "src/core2/housing-construction.ts:268"
         },
         "varied": {
           "status": "fail",
@@ -5824,7 +5824,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/health.ts:711, src/core2/modules/moves.ts:73"
+          "evidence": "src/core2/modules/health.ts:710, src/core2/modules/moves.ts:73"
         },
         "varied": {
           "status": "fail",
@@ -5871,7 +5871,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:372"
+          "evidence": "src/core2/housing-homeless.ts:384"
         },
         "varied": {
           "status": "fail",
@@ -6014,7 +6014,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2202, src/core2/modules/jobs.ts:2211"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2257, src/core2/modules/jobs.ts:2266"
         },
         "varied": {
           "status": "fail",
@@ -6157,7 +6157,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/finance-state.ts:1414"
+          "evidence": "src/core2/finance-state.ts:1411"
         },
         "varied": {
           "status": "fail",
@@ -6204,7 +6204,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:867, src/core2/modules/place-prices.ts:932"
+          "evidence": "src/core2/modules/place-prices.ts:881, src/core2/modules/place-prices.ts:946"
         },
         "varied": {
           "status": "fail",
@@ -6443,7 +6443,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2205, src/core2/modules/jobs.ts:2214, src/core2/modules/jobs.ts:2243, src/core2/modules/jobs.ts:2245, src/core2/modules/jobs.ts:2265, src/core2/modules/jobs.ts:2267"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2260, src/core2/modules/jobs.ts:2269, src/core2/modules/jobs.ts:2298, src/core2/modules/jobs.ts:2300, src/core2/modules/jobs.ts:2320, src/core2/modules/jobs.ts:2322"
         },
         "varied": {
           "status": "fail",
@@ -6491,7 +6491,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: justice.federal-incarcerated-per-100k moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: justice.federal-incarcerated-per-100k moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces justice.federal-incarcerated-per-100k"
         },
         "varied": {
           "status": "fail",
@@ -6635,7 +6635,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/finance-state.ts:1414"
+          "evidence": "src/core2/finance-state.ts:1411"
         },
         "varied": {
           "status": "fail",
@@ -6682,7 +6682,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:372"
+          "evidence": "src/core2/housing-homeless.ts:384"
         },
         "varied": {
           "status": "fail",
@@ -6873,7 +6873,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it"
+          "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -6922,7 +6922,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep labor.workforce and no engine produces it"
+          "why": "no measure: the web does not keep labor.workforce and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -6969,7 +6969,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:34"
+          "evidence": "src/core2/school-outcomes.ts:35"
         },
         "varied": {
           "status": "fail",
@@ -7016,7 +7016,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:35"
+          "evidence": "src/core2/school-outcomes.ts:36"
         },
         "varied": {
           "status": "fail",
@@ -7063,7 +7063,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -7110,7 +7110,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:34"
+          "evidence": "src/core2/school-outcomes.ts:35"
         },
         "varied": {
           "status": "pass",
@@ -7156,7 +7156,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:36"
+          "evidence": "src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "pass",
@@ -7202,7 +7202,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:34"
+          "evidence": "src/core2/school-outcomes.ts:35"
         },
         "varied": {
           "status": "fail",
@@ -7249,7 +7249,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:36"
+          "evidence": "src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "fail",
@@ -7296,7 +7296,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:34"
+          "evidence": "src/core2/school-outcomes.ts:35"
         },
         "varied": {
           "status": "fail",
@@ -7344,7 +7344,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:36"
+          "evidence": "src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "fail",
@@ -7383,7 +7383,7 @@
       "points": {
         "cause": {
           "status": "pass",
-          "evidence": "web ledger school.graduation-pct, which src/core2/school-outcomes.ts:36 reads into its own records"
+          "evidence": "web ledger school.graduation-pct, which src/core2/school-outcomes.ts:37 reads into its own records"
         },
         "size": {
           "status": "pass",
@@ -7439,7 +7439,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:586, src/core2/public-safety.ts:92"
+          "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:92"
         },
         "varied": {
           "status": "fail",
@@ -7485,7 +7485,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/public-safety.ts:86"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:86"
         },
         "varied": {
           "status": "fail",
@@ -7531,7 +7531,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:624, src/core2/public-safety.ts:80"
+          "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:80"
         },
         "varied": {
           "status": "fail",
@@ -7626,7 +7626,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:575"
+          "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604"
         },
         "varied": {
           "status": "fail",
@@ -7720,7 +7720,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:36"
+          "evidence": "src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "fail",
@@ -7767,7 +7767,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -7814,7 +7814,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -7861,7 +7861,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:34"
+          "evidence": "src/core2/school-outcomes.ts:35"
         },
         "varied": {
           "status": "fail",
@@ -7908,7 +7908,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:36"
+          "evidence": "src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "fail",
@@ -7955,7 +7955,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:34"
+          "evidence": "src/core2/school-outcomes.ts:35"
         },
         "varied": {
           "status": "fail",
@@ -8050,7 +8050,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -8097,7 +8097,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -8286,7 +8286,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:34"
+          "evidence": "src/core2/school-outcomes.ts:35"
         },
         "varied": {
           "status": "fail",
@@ -8429,7 +8429,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -8572,7 +8572,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:372"
+          "evidence": "src/core2/housing-homeless.ts:384"
         },
         "varied": {
           "status": "fail",
@@ -8619,7 +8619,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:372"
+          "evidence": "src/core2/housing-homeless.ts:384"
         },
         "varied": {
           "status": "partial",
@@ -8666,7 +8666,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:372"
+          "evidence": "src/core2/housing-homeless.ts:384"
         },
         "varied": {
           "status": "fail",
@@ -8713,7 +8713,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -8760,7 +8760,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -8807,7 +8807,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -8854,7 +8854,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624"
+          "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600"
         },
         "varied": {
           "status": "fail",
@@ -9049,7 +9049,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep crime.rate-index and no engine produces it"
+          "why": "no measure: the web does not keep crime.rate-index and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -9098,7 +9098,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep crime.rate-index and no engine produces it"
+          "why": "no measure: the web does not keep crime.rate-index and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -9146,7 +9146,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:36"
+          "evidence": "src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "fail",
@@ -9195,7 +9195,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep crime.rate-index and no engine produces it"
+          "why": "no measure: the web does not keep crime.rate-index and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -9433,7 +9433,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1486"
+          "evidence": "src/core2/modules/jobs.ts:1548"
         },
         "varied": {
           "status": "pass",
@@ -9479,7 +9479,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:35"
+          "evidence": "src/core2/school-outcomes.ts:36"
         },
         "varied": {
           "status": "fail",
@@ -9526,7 +9526,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:890"
+          "evidence": "src/core2/modules/place-prices.ts:904"
         },
         "varied": {
           "status": "pass",
@@ -9621,7 +9621,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "why": "engine doesn't read the factor: school.college-completion-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -9668,7 +9668,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:474, src/core2/modules/moves.ts:823"
+          "evidence": "src/core2/modules/counted-moves.ts:479, src/core2/modules/moves.ts:823"
         },
         "varied": {
           "status": "fail",
@@ -9715,7 +9715,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:474, src/core2/modules/moves.ts:823"
+          "evidence": "src/core2/modules/counted-moves.ts:479, src/core2/modules/moves.ts:823"
         },
         "varied": {
           "status": "fail",
@@ -9906,7 +9906,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:885, src/core2/modules/place-prices.ts:936"
+          "evidence": "src/core2/modules/place-prices.ts:899, src/core2/modules/place-prices.ts:950"
         },
         "varied": {
           "status": "fail",
@@ -10002,7 +10002,7 @@
         "reaches": {
           "status": "fail",
           "evidence": "-",
-          "why": "no measure: the web does not keep government.member-market-returns and no engine produces it"
+          "why": "no measure: the web does not keep government.member-market-returns and no engine produces it; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -10049,7 +10049,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1486"
+          "evidence": "src/core2/modules/jobs.ts:1548"
         },
         "varied": {
           "status": "fail",
@@ -10097,7 +10097,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:35"
+          "evidence": "src/core2/school-outcomes.ts:36"
         },
         "varied": {
           "status": "fail",
@@ -10339,7 +10339,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1486"
+          "evidence": "src/core2/modules/jobs.ts:1548"
         },
         "varied": {
           "status": "fail",
@@ -10436,7 +10436,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/place-prices.ts:885, src/core2/modules/place-prices.ts:936"
+          "evidence": "src/core2/modules/place-prices.ts:899, src/core2/modules/place-prices.ts:950"
         },
         "varied": {
           "status": "fail",
@@ -10582,7 +10582,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/finance-state.ts:1414"
+          "evidence": "src/core2/finance-state.ts:1411"
         },
         "varied": {
           "status": "fail",
@@ -10722,7 +10722,7 @@
     {
       "measure": "births.rate",
       "status": "engine-reads-web",
-      "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:575",
+      "evidence": "src/core2/births-counted.ts:295, src/core2/births-counted.ts:298, src/core2/births-counted.ts:604",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -10747,7 +10747,7 @@
     {
       "measure": "broadband.home-access",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:890",
+      "evidence": "src/core2/modules/place-prices.ts:904",
       "countedTwice": false,
       "asCause": [
         "home-internet-to-scores",
@@ -10788,7 +10788,7 @@
     {
       "measure": "crime.assault",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:624, src/core2/public-safety.ts:80",
+      "evidence": "src/core2/modules/crime.ts:600, src/core2/public-safety.ts:80",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-assault", "crime-level-to-assault"]
@@ -10796,7 +10796,7 @@
     {
       "measure": "crime.burglary",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:586, src/core2/public-safety.ts:92",
+      "evidence": "src/core2/modules/crime.ts:562, src/core2/public-safety.ts:92",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-burglary", "crime-level-to-burglary"]
@@ -10834,7 +10834,7 @@
     {
       "measure": "crime.property",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:586, src/core2/modules/crime.ts:599, src/core2/public-safety.ts:98",
+      "evidence": "src/core2/modules/crime.ts:562, src/core2/modules/crime.ts:575, src/core2/public-safety.ts:98",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["police-to-property-crime"]
@@ -10872,7 +10872,7 @@
     {
       "measure": "crime.robbery",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:612, src/core2/public-safety.ts:86",
+      "evidence": "src/core2/modules/crime.ts:588, src/core2/public-safety.ts:86",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["unemployment-to-robbery", "crime-level-to-robbery"]
@@ -10889,7 +10889,7 @@
     {
       "measure": "crime.violent",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/crime.ts:612, src/core2/modules/crime.ts:624",
+      "evidence": "src/core2/modules/crime.ts:588, src/core2/modules/crime.ts:600",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -10999,7 +10999,7 @@
     {
       "measure": "energy.electricity-price",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:867, src/core2/modules/place-prices.ts:932",
+      "evidence": "src/core2/modules/place-prices.ts:881, src/core2/modules/place-prices.ts:946",
       "countedTwice": false,
       "asCause": ["energy-price-to-ac-use"],
       "asOutcome": ["clean-electricity-to-price"]
@@ -11531,7 +11531,7 @@
     {
       "measure": "household.prices",
       "status": "engine-reads-web",
-      "evidence": "src/core2/finance-state.ts:1414",
+      "evidence": "src/core2/finance-state.ts:1411",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11561,7 +11561,7 @@
     {
       "measure": "housing.eviction",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/health.ts:711, src/core2/modules/moves.ts:73",
+      "evidence": "src/core2/modules/health.ts:710, src/core2/modules/moves.ts:73",
       "countedTwice": false,
       "asCause": ["eviction-to-homelessness", "eviction-to-hospital-visits"],
       "asOutcome": ["right-to-counsel-to-evictions"]
@@ -11580,7 +11580,7 @@
     {
       "measure": "housing.homelessness",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-homeless.ts:372",
+      "evidence": "src/core2/housing-homeless.ts:384",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11605,7 +11605,7 @@
     {
       "measure": "housing.new-large-buildings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-construction.ts:248",
+      "evidence": "src/core2/housing-construction.ts:268",
       "countedTwice": false,
       "asCause": ["new-apartments-to-nearby-rent"],
       "asOutcome": ["housing-by-right-to-new-buildings"]
@@ -11621,7 +11621,7 @@
     {
       "measure": "housing.rent",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-occupancy.ts:337",
+      "evidence": "src/core2/housing-occupancy.ts:379",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["new-apartments-to-nearby-rent", "property-tax-to-rent"]
@@ -11637,7 +11637,7 @@
     {
       "measure": "housing.rental-supply",
       "status": "engine-reads-web",
-      "evidence": "src/core2/housing-construction.ts:253",
+      "evidence": "src/core2/housing-construction.ts:273",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-rental-supply"]
@@ -11645,7 +11645,7 @@
     {
       "measure": "housing.renter-moves",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:476, src/core2/modules/moves.ts:828",
+      "evidence": "src/core2/modules/counted-moves.ts:481, src/core2/modules/moves.ts:828",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["rent-control-to-tenant-stays"]
@@ -11792,7 +11792,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2205, src/core2/modules/jobs.ts:2214, src/core2/modules/jobs.ts:2243, src/core2/modules/jobs.ts:2245, src/core2/modules/jobs.ts:2265, src/core2/modules/jobs.ts:2267",
+      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2260, src/core2/modules/jobs.ts:2269, src/core2/modules/jobs.ts:2298, src/core2/modules/jobs.ts:2300, src/core2/modules/jobs.ts:2320, src/core2/modules/jobs.ts:2322",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11803,7 +11803,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2203, src/core2/modules/jobs.ts:2212",
+      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2258, src/core2/modules/jobs.ts:2267",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -11811,7 +11811,7 @@
     {
       "measure": "labor.median-earnings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1486",
+      "evidence": "src/core2/modules/jobs.ts:1548",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11847,7 +11847,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2202, src/core2/modules/jobs.ts:2211",
+      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2257, src/core2/modules/jobs.ts:2266",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11858,7 +11858,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2204, src/core2/modules/jobs.ts:2213, src/core2/modules/jobs.ts:2233",
+      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2259, src/core2/modules/jobs.ts:2268, src/core2/modules/jobs.ts:2288",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -11910,7 +11910,7 @@
     {
       "measure": "labor.wages",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1485",
+      "evidence": "src/core2/modules/jobs.ts:1547",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["corporate-tax-incidence"]
@@ -12015,7 +12015,7 @@
     {
       "measure": "population.out-migration",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/counted-moves.ts:474, src/core2/modules/moves.ts:823",
+      "evidence": "src/core2/modules/counted-moves.ts:479, src/core2/modules/moves.ts:823",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12210,7 +12210,7 @@
     {
       "measure": "school.graduation-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/school-outcomes.ts:36",
+      "evidence": "src/core2/school-outcomes.ts:37",
       "countedTwice": false,
       "asCause": ["graduation-to-turnout", "graduation-to-poverty"],
       "asOutcome": [
@@ -12244,7 +12244,7 @@
     {
       "measure": "school.math-proficient-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/school-outcomes.ts:34",
+      "evidence": "src/core2/school-outcomes.ts:35",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12269,7 +12269,7 @@
     {
       "measure": "school.reading-proficient-pct",
       "status": "engine-reads-web",
-      "evidence": "src/core2/school-outcomes.ts:35",
+      "evidence": "src/core2/school-outcomes.ts:36",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -12281,7 +12281,7 @@
     {
       "measure": "school.spending-per-student",
       "status": "engine-reads-web",
-      "evidence": "src/core2/school-outcomes.ts:37",
+      "evidence": "src/core2/school-outcomes.ts:38",
       "countedTwice": false,
       "asCause": ["school-spending-to-attainment"],
       "asOutcome": ["equalized-funding-to-spending"]
@@ -12360,7 +12360,7 @@
     {
       "measure": "transit.ridership",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/place-prices.ts:885, src/core2/modules/place-prices.ts:936",
+      "evidence": "src/core2/modules/place-prices.ts:899, src/core2/modules/place-prices.ts:950",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [

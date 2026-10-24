@@ -203,7 +203,37 @@ function stopgapFor(key: string): string | undefined {
   )?.id;
 }
 
+/**
+ * What the link's own research record says stands in its way, in words: a
+ * failing reach names it after the engine's gap, so each unwired link carries
+ * its specific reason (data/research/outcome-web/links.json `status`).
+ */
+function researchBlocker(
+  link: WebLink & { status?: string; notes?: string },
+): string | undefined {
+  switch (link.status) {
+    case "size-not-set":
+      return "its research gives no size the game can apply, so the web does not run it";
+    case "about-zero":
+      return "its research finds no effect (about zero), so an engine would multiply by one";
+    case "cause-not-recorded":
+      return `nothing in the core records its cause, ${link.from}`;
+    case "outcome-not-produced":
+      return `no engine produces ${link.to}`;
+    case "person-level":
+      return "it needs each person's own exposure record, which no engine keeps";
+    default:
+      return undefined;
+  }
+}
+
 function reaches(link: WebLink & { carriedBy?: string }): Point {
+  const point = reachPoint(link);
+  const blocker = point.status === "pass" ? undefined : researchBlocker(link);
+  return blocker ? { ...point, why: `${point.why}; ${blocker}` } : point;
+}
+
+function reachPoint(link: WebLink & { carriedBy?: string }): Point {
   if (link.carriedBy)
     return {
       status: "pass",
