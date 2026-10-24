@@ -1,0 +1,402 @@
+{
+  "id": "bea-2023-use-summary-buyer-shares",
+  "publisher": "U.S. Bureau of Economic Analysis",
+  "vintage": "Annual input-output accounts, summary level, 1997-2023 (released September 26, 2024); year 2023, with 2019-2023 as the spread",
+  "table": "The Use of Commodities by Industries, Before Redefinitions (Producers' Prices) - Summary (IOUse_Before_Redefinitions_PRO_1997-2023_Summary.xlsx)",
+  "title": "Who buys each outside-product commodity class: businesses, households, federal and state and local governments, and exports",
+  "universe": "Gross domestic use of each commodity at producers' prices, in millions of dollars: intermediate use by private industries, personal consumption expenditures, private fixed investment, government intermediate use, consumption and investment, and exports; imports and inventory change are left out",
+  "geography": "United States (national; the shares are the same rule in every place)",
+  "sourceUrl": "https://apps.bea.gov/industry/iTables%20Static%20Files/AllTablesIO.zip",
+  "archiveSha256": "ab316fa88157f8a96270334b1a6afa664fcf39a6c94f9c8e4ad061d930e81918",
+  "retrievedOn": "2026-10-23",
+  "buyerColumns": {
+    "businesses": "all private industry columns (111CA through 81) plus F02S, F02E, F02N (nonresidential private fixed investment)",
+    "households": "F010 (personal consumption expenditures) plus F02R (residential private fixed investment)",
+    "federal": "GFGD, GFGN, GFE plus F06C-F07N",
+    "stateLocal": "GSLG, GSLE plus F10C-F10N",
+    "exports": "F040"
+  },
+  "limits": "National buyer mix, not a town's outside share: who buys a commodity, not whether the buyer lives in the town (the existing outside-market shares in src/core2/data/outside-market.json say that). Personal consumption includes services paid for households by Medicare, Medicaid and private insurers (nursing homes, schools). Real estate uses Other real estate (ORE), which leaves out owner-occupied housing. A small negative federal use of farm products is set to zero.",
+  "classifications": {
+    "enterprise:agriculture": {
+      "commodities": ["111CA"],
+      "millions2023": {
+        "businesses": 433022,
+        "households": 119040,
+        "federal": 0,
+        "stateLocal": 3957,
+        "exports": 51923
+      },
+      "shares": {
+        "businesses": 0.712,
+        "households": 0.196,
+        "federal": 0.0,
+        "stateLocal": 0.007,
+        "exports": 0.085
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.69,
+          "high": 0.727
+        },
+        "households": {
+          "low": 0.178,
+          "high": 0.203
+        },
+        "federal": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "stateLocal": {
+          "low": 0.006,
+          "high": 0.008
+        },
+        "exports": {
+          "low": 0.085,
+          "high": 0.102
+        }
+      },
+      "tag": "SOURCED"
+    },
+    "enterprise:mining": {
+      "commodities": ["212"],
+      "millions2023": {
+        "businesses": 85168,
+        "households": 158,
+        "federal": 3262,
+        "stateLocal": 7823,
+        "exports": 21982
+      },
+      "shares": {
+        "businesses": 0.719,
+        "households": 0.001,
+        "federal": 0.028,
+        "stateLocal": 0.066,
+        "exports": 0.186
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.688,
+          "high": 0.729
+        },
+        "households": {
+          "low": 0.001,
+          "high": 0.002
+        },
+        "federal": {
+          "low": 0.021,
+          "high": 0.032
+        },
+        "stateLocal": {
+          "low": 0.051,
+          "high": 0.074
+        },
+        "exports": {
+          "low": 0.186,
+          "high": 0.215
+        }
+      },
+      "tag": "SOURCED"
+    },
+    "enterprise:construction": {
+      "commodities": ["23"],
+      "millions2023": {
+        "businesses": 974598,
+        "households": 902828,
+        "federal": 49383,
+        "stateLocal": 541406,
+        "exports": 123
+      },
+      "shares": {
+        "businesses": 0.395,
+        "households": 0.366,
+        "federal": 0.02,
+        "stateLocal": 0.219,
+        "exports": 0.0
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.357,
+          "high": 0.398
+        },
+        "households": {
+          "low": 0.345,
+          "high": 0.412
+        },
+        "federal": {
+          "low": 0.018,
+          "high": 0.022
+        },
+        "stateLocal": {
+          "low": 0.206,
+          "high": 0.236
+        },
+        "exports": {
+          "low": 0.0,
+          "high": 0.0
+        }
+      },
+      "tag": "SOURCED"
+    },
+    "enterprise:manufacturing": {
+      "commodities": [
+        "321",
+        "327",
+        "331",
+        "332",
+        "333",
+        "334",
+        "335",
+        "3361MV",
+        "3364OT",
+        "337",
+        "339",
+        "311FT",
+        "313TT",
+        "315AL",
+        "322",
+        "323",
+        "324",
+        "325",
+        "326"
+      ],
+      "millions2023": {
+        "businesses": 5209958,
+        "households": 2446684,
+        "federal": 272454,
+        "stateLocal": 462001,
+        "exports": 1067029
+      },
+      "shares": {
+        "businesses": 0.551,
+        "households": 0.259,
+        "federal": 0.029,
+        "stateLocal": 0.049,
+        "exports": 0.113
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.549,
+          "high": 0.566
+        },
+        "households": {
+          "low": 0.244,
+          "high": 0.27
+        },
+        "federal": {
+          "low": 0.028,
+          "high": 0.032
+        },
+        "stateLocal": {
+          "low": 0.041,
+          "high": 0.053
+        },
+        "exports": {
+          "low": 0.108,
+          "high": 0.12
+        }
+      },
+      "tag": "SOURCED"
+    },
+    "enterprise:transportation": {
+      "commodities": ["484"],
+      "millions2023": {
+        "businesses": 285198,
+        "households": 133558,
+        "federal": 11409,
+        "stateLocal": 12776,
+        "exports": 38651
+      },
+      "shares": {
+        "businesses": 0.592,
+        "households": 0.277,
+        "federal": 0.024,
+        "stateLocal": 0.027,
+        "exports": 0.08
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.578,
+          "high": 0.598
+        },
+        "households": {
+          "low": 0.26,
+          "high": 0.283
+        },
+        "federal": {
+          "low": 0.023,
+          "high": 0.031
+        },
+        "stateLocal": {
+          "low": 0.026,
+          "high": 0.028
+        },
+        "exports": {
+          "low": 0.08,
+          "high": 0.089
+        }
+      },
+      "tag": "SOURCED"
+    },
+    "enterprise:insurance": {
+      "commodities": ["524"],
+      "millions2023": {
+        "businesses": 888108,
+        "households": 500084,
+        "federal": 9709,
+        "stateLocal": 19014,
+        "exports": 25583
+      },
+      "shares": {
+        "businesses": 0.616,
+        "households": 0.347,
+        "federal": 0.007,
+        "stateLocal": 0.013,
+        "exports": 0.018
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.605,
+          "high": 0.621
+        },
+        "households": {
+          "low": 0.345,
+          "high": 0.361
+        },
+        "federal": {
+          "low": 0.004,
+          "high": 0.007
+        },
+        "stateLocal": {
+          "low": 0.013,
+          "high": 0.014
+        },
+        "exports": {
+          "low": 0.016,
+          "high": 0.018
+        }
+      },
+      "tag": "SOURCED"
+    },
+    "enterprise:real-estate": {
+      "commodities": ["ORE"],
+      "millions2023": {
+        "businesses": 1795006,
+        "households": 160929,
+        "federal": 24362,
+        "stateLocal": 33214,
+        "exports": 3359
+      },
+      "shares": {
+        "businesses": 0.89,
+        "households": 0.08,
+        "federal": 0.012,
+        "stateLocal": 0.016,
+        "exports": 0.002
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.861,
+          "high": 0.89
+        },
+        "households": {
+          "low": 0.08,
+          "high": 0.111
+        },
+        "federal": {
+          "low": 0.008,
+          "high": 0.014
+        },
+        "stateLocal": {
+          "low": 0.016,
+          "high": 0.018
+        },
+        "exports": {
+          "low": 0.002,
+          "high": 0.003
+        }
+      },
+      "tag": "SOURCED"
+    },
+    "service:private-school": {
+      "commodities": ["61"],
+      "millions2023": {
+        "businesses": 20033,
+        "households": 459417,
+        "federal": 217,
+        "stateLocal": 14457,
+        "exports": 4809
+      },
+      "shares": {
+        "businesses": 0.04,
+        "households": 0.921,
+        "federal": 0.0,
+        "stateLocal": 0.029,
+        "exports": 0.01
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.03,
+          "high": 0.041
+        },
+        "households": {
+          "low": 0.916,
+          "high": 0.94
+        },
+        "federal": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "stateLocal": {
+          "low": 0.022,
+          "high": 0.031
+        },
+        "exports": {
+          "low": 0.006,
+          "high": 0.015
+        }
+      },
+      "tag": "SOURCED"
+    },
+    "service:nursing-home": {
+      "commodities": ["623"],
+      "millions2023": {
+        "businesses": 0,
+        "households": 311448,
+        "federal": 4350,
+        "stateLocal": 2274,
+        "exports": 143
+      },
+      "shares": {
+        "businesses": 0.0,
+        "households": 0.979,
+        "federal": 0.014,
+        "stateLocal": 0.007,
+        "exports": 0.0
+      },
+      "spread": {
+        "businesses": {
+          "low": 0.0,
+          "high": 0.0
+        },
+        "households": {
+          "low": 0.979,
+          "high": 0.987
+        },
+        "federal": {
+          "low": 0.007,
+          "high": 0.014
+        },
+        "stateLocal": {
+          "low": 0.004,
+          "high": 0.007
+        },
+        "exports": {
+          "low": 0.0,
+          "high": 0.001
+        }
+      },
+      "tag": "SOURCED"
+    }
+  }
+}

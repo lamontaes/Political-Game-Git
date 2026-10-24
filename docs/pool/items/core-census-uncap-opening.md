@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/uncap
+status: blocked
+claimed-by:
 pr: #5295
-blocked-on: core-census-weight-readers
+blocked-on: core-speed-year-over-limit-dense-town
 milestone:
 source: "split of core-town-size-census (L): owner ruling core-od-town-size, OWNER-DECISIONS.md"
 claimed-at: 2026-10-23T21:30:20.833Z
@@ -27,3 +27,5 @@ claimed-at: 2026-10-23T21:30:20.833Z
 Measured Oct 17 (claude session), with PR 4862 (unplaced workers' pay and the groups' savings follow the town's weight) applied: Washington, D.C. (reference population 693,645) opened with `countScale` 69 (the Census count over the 10,000-person sample; `buildBenchWorld("big1", "2025-01-20", { twoLevel: true, placeKey: <D.C.>, countScale: 69 })`) holds 723,466 counted people and 1,586 full ones, opens in 48 seconds and plays a whole year in 167 seconds on this 4-core container (about 2.5 times slower than the Mac, so near 70 seconds there), with the journal balanced and 268 fill-ins. Sixty days at scale 69 take 31.7 seconds against 34.4 at scale one, so the weight itself costs no speed. Without PR 4862 the same town drained its group funds in weeks (they held $15 million against $739 million of weighted opening cash after 40 days), tripled its counted seekers and fill-ins, and ran 40 percent slower because the extra fill-ins each rescan every flow. What is left before the cap goes: counted wages and the seekers still run about three times a small town's per person until the hiring item (PR 4784) lands; the businesses are still the sample's (`world-census-weight-economy`), which is why owner draws, wages and purchases per resident are short (see `world-census-weight-owner-draws`). The uncap itself is then a default: in `src/bench/world.ts`, `countScale` ← the town's reference population over its sampled people when above one, and the same default wherever an opening is built.
 
 Sent back 2026-10-23 from PR #5295 (branch claude/uncap): Normal main integration conflicts in src/bench/world.ts; resolve the code conflict and rerun changed-file checks and the named large-town proof; finish on that branch, merge main into it first.
+
+Oct 23 (claude/sleepy-carson-f8omzd, after the PR 5295 send-back): the conflict is resolved and the opening at Census scale is split out as core-census-opens-at-census-scale, which PR 5295 now carries. Measured on the 4-core container, one process at a time: Washington, D.C. models 688,313 of its 693,645 (clean main 10,000) and plays its year in 176.6 s against main's 213.6 s; New York, the largest town, plays its year in 371.7 s against main's 335.2 s (10.9 percent slower). The two-minute line cannot be met by that PR while main's own New York year is 335.2 s, so this item waits on core-speed-year-over-limit-dense-town. The cap line is not met as written: `Math.min(target, real)` now sets the sample size, and the town reaches its Census size through the counted households' weight; the CTO decides whether that closes it.
