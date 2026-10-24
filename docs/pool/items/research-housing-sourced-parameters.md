@@ -35,3 +35,7 @@ Figures found Oct 20 for SG-WORLD-housing-island-areas (claude/political-game-po
 Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-housing-sourced-parameters.md (7 rows: 1 sourced, 5 estimated, 1 mechanic).
 
 Oct 20: the island-areas row moved to its own item, world-housing-island-areas-sourced.
+
+Oct 24, 2026: split. PR 5873 (item research-housing-eviction-in-force-pr-index) delivers 46 eviction steps in 21 places read from statute text in force on January 20, 2025, Puerto Rico's FHFA price index, Minnesota and Texas foreclosure rows, and research files for shelter beds and mortgage shares. Still open here: 25 places' eviction steps (14 code sites the cloud could not reach), the later laws waiting on world-housing-eviction-law-dated-phases, 55 places' foreclosure statutes, and three reads not confirmed in force (Massachusetts, the Northern Marianas and Wyoming). Also open: prices for the four island areas, territory shelter counts (none found), and two mechanics, world-housing-shelter-beds-by-place and world-housing-mortgages-county-shares.
+
+Sent back 2026-10-23 from PR #5488 (branch claude/island-areas-housing): main integration conflicts in housing.ts, housing/housing.json and housing-island-areas.test.ts; the island-only slice also needs a bounded item/table instead of completing the seven-row research umbrella; finish on that branch, merge main into it first.

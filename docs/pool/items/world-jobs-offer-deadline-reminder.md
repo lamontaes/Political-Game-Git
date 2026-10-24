@@ -5,12 +5,12 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/offer-deadline
+status: open
+claimed-by:
 pr: #5232
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T12:38:34.871Z
+claimed-at:
 ---
 
 **What.** Replace a one-time offer-deadline reminder with a held stop once the play screen shows the player's offers with accept and decline controls. An unanswered offer should lapse only when the player lets it, rather than disappearing without a visible choice. The player sees the offer arrive, a reminder before its deadline, and the decision to accept or decline.
@@ -26,3 +26,5 @@ claimed-at: 2026-10-21T12:38:34.871Z
 Sent back 2026-10-20 from PR #5232 (branch claude/political-game-pool-3xfqef-2): deletes stopgap row SG-WORLD-jobs-offer-deadline-reminder; mark it resolved with its replacement instead; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5232 (branch claude/political-game-pool-3xfqef-2): jobs-player-offers.test.ts fails on the merged head: 'A job ends before its day's work, from calendar work.'; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5232 (branch claude/political-game-pool-3xfqef-2): the body lacks the Done-when evidence table, a one-year buildBenchWorld job/decision/claim proof and affected person record ID required by item line 20; finish on that branch, merge main into it first.

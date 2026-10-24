@@ -37,7 +37,10 @@ const QUESTIONS = [EXPAND, MEDICAID_WORK, ASSIST_WORK, PRESCHOOL, VOUCHER];
 const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const TRIES = 12;
 const ENACTED_DAYS = 40;
-const HELD_MONTHS = 8;
+// The slowest link lags six months and reads the law as it stood that long ago
+// on the web's own row day, so a hold needs the lag plus three rows to show it
+// whatever day of the month the law changed.
+const HELD_MONTHS = 9;
 const DAYS_PER_MONTH = 30;
 
 interface Taken {
@@ -314,7 +317,15 @@ it("health, assistance and school laws reach people, move money and move outcome
   const tried: string[] = [];
   try {
     for (let n = 0; n < TRIES; n += 1) {
-      const draw = drawPlace(SEED, `law-wiring-health-schools-${n}`);
+      // GOLDEN_PATH_PLACE_KEY and GOLDEN_PATH_WORLD_SEED pin one place's world.
+      const draw = process.env.GOLDEN_PATH_PLACE_KEY
+        ? {
+            name: "pinned place",
+            state: "pinned",
+            key: process.env.GOLDEN_PATH_PLACE_KEY,
+            seed: process.env.GOLDEN_PATH_WORLD_SEED ?? SEED,
+          }
+        : drawPlace(SEED, `law-wiring-health-schools-${n}`);
       const where = `${draw.name} (${draw.state}, ${draw.key}), seed ${draw.seed}`;
       const why = tryPlace(where, draw.seed, draw.key);
       if (why === null) return;
