@@ -53,6 +53,11 @@ export interface StaffingRow {
   readonly setOn: string;
   /** The fiscal year the base staff was taken in. */
   readonly fiscalYear?: number;
+  /**
+   * The staff the employer held before the line's first change: while the
+   * line funds more positions than this, a raise's hires are its reach.
+   */
+  readonly openingStaff?: number;
 }
 
 /**
@@ -105,13 +110,13 @@ export const staffing: PolicyHandler = (api, change) => {
     ? employers.map((o) => o.id)
     : [gov.organizationId];
   for (const organizationId of funded) {
+    const held = staffingOf(api, change.key, organizationId);
+    const inPlace = employers.length
+      ? currentStaff(api, organizationId).length +
+        countedStaffOf(api.state as CoreState, organizationId)
+      : 0;
     const baseStaff = employers.length
-      ? baseStaffFor(
-          staffingOf(api, change.key, organizationId),
-          budget.fiscalYear,
-          currentStaff(api, organizationId).length +
-            countedStaffOf(api.state as CoreState, organizationId),
-        )
+      ? baseStaffFor(held, budget.fiscalYear, inPlace)
       : 0;
     // With no such employer in the town (a county jail elsewhere), the
     // government's record carries the positions the change funds or cuts.
@@ -128,6 +133,7 @@ export const staffing: PolicyHandler = (api, change) => {
       lawId: change.lawId,
       setOn: api.state.date,
       fiscalYear: budget.fiscalYear,
+      openingStaff: held?.openingStaff ?? baseStaff,
     };
     table.put(row as unknown as ModuleRow);
     writeRows(api, change.key, change.lawId, specOf(change.key, "positions"), [
@@ -247,10 +253,11 @@ onReachCalendar(STAFFING_KIND, (api, work) => {
     for (const s of currentStaff(api, org.id)) funded.add(s.personId);
     for (const job of countedJobsOf(state, org.id)) funded.add(job.personId);
   }
-  // Put back at or below its base, the line pays for no raise: a raise's
-  // hire still on staff (the base had room once others left) holds a base
-  // position, and the raise no longer applies to them.
-  const raised = row.positions > row.baseStaff;
+  // Put back at or below the staff the employer opened with, the line pays
+  // for no raise: a raise's hire still on staff (the base had room once
+  // others left) holds a base position, and the raise no longer applies to
+  // them. A raise carried into a new fiscal year still funds its hires.
+  const raised = row.positions > (row.openingStaff ?? row.baseStaff);
   for (const r of appliedOn(api, row.key))
     if (
       r.what === "hired-on-budget-line" &&
