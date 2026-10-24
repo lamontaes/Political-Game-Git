@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/candidacy-runner-files
-pr:
+pr: #5948
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T12:58:37.578Z

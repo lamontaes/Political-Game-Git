@@ -285,7 +285,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     ["medicaid-expansion-to-coverage"],
     ["medicaid-expansion-to-medical-debt"],
     ["work-requirement-to-coverage"],
-    ["snap-work-requirement-to-participation"],
   ];
   for (const [link] of lags)
     expect(
@@ -294,6 +293,12 @@ function tryPlace(where: string, seed: string, key: string): string | null {
         `the web link ${link} never fired (baseline yes: ${JSON.stringify([...baselineYes])}; last month ${JSON.stringify(webMonths(api).at(-1)?.values)}; date ${api.state.date})`,
       ),
     ).toBeTruthy();
+  // The assistance work requirement is the SNAP benefit's own (read above, for
+  // each person it reaches), so the web does not also cut SNAP receipt for it.
+  expect(
+    firedIn(api, "snap-work-requirement-to-participation"),
+    say("the web ran the SNAP work requirement link the benefit carries"),
+  ).toBeUndefined();
 
   // Repeal ends every payment and every applied row.
   for (const q of QUESTIONS) repeal(api, q, "off");

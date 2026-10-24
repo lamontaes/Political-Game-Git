@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/press-outlet-revenue
+status: blocked
+claimed-by:
 pr: #5099
-blocked-on:
+blocked-on: play-paper-shows-local-ads
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
-claimed-at: 2026-10-24T10:11:43.276Z
+claimed-at:
 ---
 
 **What.** An outlet's revenue is one standing monthly payment from the town's outside customers, sized at the opening from its audience and a per-follower amount by kind. Local businesses buy no ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks (stopgap SG-PEOPLE-press-outlet-revenue). Make the outlet earn from its audience's subscriptions and from local businesses that choose to advertise, each a payment from a named payer's own account, and delete the standing payment in the same change.
@@ -24,3 +24,5 @@ claimed-at: 2026-10-24T10:11:43.276Z
 **Notes.** The revenue half of gov-stopgap-press-faked-mechanic. Local advertising needs businesses that choose to advertise, which the business engine does not model yet; that may need its own item first.
 
 Sent back 2026-10-23 from PR #5099 (branch claude/press-outlet-revenue): The 45-day/helper-only revenue proof does not supply the required annual audience-change and named local advertising-payer chain; the broader stopgap remains open. Rechecked unchanged head 9678cefc3d; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5099#issuecomment-6328540445; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5099 (branch claude/press-outlet-revenue): Current body lacks Done-when table and still describes old partial work; parent also requires a visible local shop ad, but adBuys UI reader remains open in play-paper-shows-local-ads; publish complete evidence/reader or bound completion item; finish on that branch, merge main into it first.
