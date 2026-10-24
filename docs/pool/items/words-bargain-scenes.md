@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5949
 blocked-on:
 after: words-scenes-fire-in-play
 source: added with npm run pool -- add
