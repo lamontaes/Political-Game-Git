@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/laws-end-to-end-proof
-pr:
+pr: #5968
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 ---
@@ -21,3 +21,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** src/core2/laws-end-to-end.test.ts, src/bench/path-check.ts, scripts/law-wiring/year.ts, docs/reports/law-wiring-2026-10-20.md
 
 **Notes.** Added Oct 24 by the CTO as the laws lead's acceptance (docs/work-orders/lead-laws-2026-10-24.md). Built last, once the families land; the lead may start it earlier on a stopgap and say so. Where a link of the chain breaks, file it as its own item and name it here.
+
+In PR #5968 (laws lead, Oct 24). The done-when's screenshots line waits on the owner grading nine wording pieces; the lead moved it to `laws-end-to-end-screenshots` (blocked on that grading) and asked the CTO in the PR to accept the split.

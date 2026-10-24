@@ -38,7 +38,6 @@
     "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
-    "snap-work-requirement-to-participation",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
     "end-cash-bail-to-pretrial-detention",
@@ -408,6 +407,10 @@
     "economy-to-approval": {
       "waitingOn": [],
       "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
+    },
+    "snap-work-requirement-to-participation": {
+      "waitingOn": [],
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
     },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],
