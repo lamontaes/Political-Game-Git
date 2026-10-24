@@ -58,7 +58,8 @@ it("a counted claimant's award ends on the day their household moves away", () =
       };
       const end = addDays(makeIsoDate(core.date), 365);
       while (core.date < end) {
-        advanceCore(core, addDays(makeIsoDate(core.date), 28));
+        const next = addDays(makeIsoDate(core.date), 28);
+        advanceCore(core, next < end ? next : end);
         scan();
       }
       const outs = new Map(
