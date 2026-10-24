@@ -3,8 +3,8 @@
 # scoped by purpose, step, move and the reply it answers; blocks are applied in order and
 # later DROP sets remove lines the owner cut. Run from the repo root: python3 scripts/english-corpus/scene-talk-pieces.py,
 # then: node --import tsx scripts/english-corpus/tag-moves.ts && npx prettier --write data/english/parts/scene-talk.json
-# Every piece is written held (shippable false) until the owner grades it good (AGENTS.md, "No hand-written player text");
-# a piece the grade ledger (data/english/part-grades.json, from apply-grades.ts) counts good is written shippable.
+# Every piece plays unless the owner's grades reject it (owner, Oct 24: grades tune the engine, they never gate it):
+# a piece the grade ledger (data/english/part-grades.json, from apply-grades.ts) holds is written held (shippable false).
 import json,re,collections
 VOTE=['ask-vote','confirm-vote','section-bargain']
 FAVOR=['carry-bill','donor-ask','party-ask']
@@ -3213,11 +3213,16 @@ for e in E:
             continue
         bm=f"{e['step']}-{e['move']}"
         parts[t]={"key":textkey[t],"move":bm,"kind":"spoken","text":t,"uses":[use],"bearing":e['bearing'],"shippable":False,"origin":"authored","author":"Words session","date":"2026-10-15"}
-# Released on the owner's own grade: good at least once in the ledger, the rule the bank test enforces.
+# Held only on the owner's own rejection: heldByGrades in src/english/english-grades.ts, the rule the bank test enforces.
 ledger=json.load(open('data/english/part-grades.json'))['parts']
-for part in parts.values():
-    counts=ledger.get(part['key'],{})
-    if counts.get('good',0)>0 or counts.get('sharedGood',0)>0: part['shippable']=True
+def held(counts):
+    if not counts: return False
+    if counts.get('good',0)>0 or counts.get('sharedGood',0)>0: return False
+    if counts.get('bad',0)+counts.get('fix',0)>0: return True
+    if counts.get('sharedBad',0)+counts.get('sharedFix',0)>=2: return True
+    axes=list((counts.get('axes') or {}).values())
+    return bool(axes) and all(a.get('good',0)==0 and a.get('bad',0)+a.get('fix',0)>0 for a in axes)
+for part in parts.values(): part['shippable']=not held(ledger.get(part['key']))
 p='data/english/parts/scene-talk.json'; bank=json.load(open(p))
 bank['parts']=list(parts.values())
 bank['description']=bank['description'].replace("a generic piece names no purpose, and a piece that only fits one purpose or situation key names it.","each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`.")

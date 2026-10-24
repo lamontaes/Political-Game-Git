@@ -10,6 +10,7 @@ import { createDirector } from "./ledger";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import type { Fact } from "./render";
 import situationFile from "./data/situation-types.json" with { type: "json" };
+import { heldByGrades } from "../english/english-grades";
 
 // Scenes with a purpose (owner, Oct 15, evening): a setup, a person with a
 // purpose, stakes, and an exchange that plays to resolved or refused, worded
@@ -88,8 +89,8 @@ const facts: Record<string, Fact> = {
   employer: fact("the hardware store"),
   when: fact("this morning"),
 };
-// The bank's parts are authored and held until the owner grades them; the
-// engine is tested the way the review page composes, with held parts in.
+// The engine is tested the way the grading page composes, with every part in,
+// even the ones the owner rejected; "plays every purpose in play" checks play.
 const HELD = { includeHeld: true } as const;
 const types = (
   situationFile as unknown as { types: PurposeType[] }
@@ -195,7 +196,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     );
     expect(result.kind).toBe("skipped");
   });
-  it("keeps a scene out of play while its words are held until graded", () => {
+  it("plays every purpose in play, and never says a line the owner rejected", () => {
+    // Owner, Oct 24: every piece of dialogue is in the game; his grades take
+    // out the lines he rejects and tune the rest.
     for (const type of types) {
       const result = composeSceneTalk(
         core,
@@ -204,7 +207,11 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         type,
         facts,
       );
-      expect(result.kind, type.key).toBe("skipped");
+      expect(result.kind, type.key).toBe("composed");
+      if (result.kind !== "composed") continue;
+      for (const line of result.talk.lines)
+        for (const part of line.parts)
+          expect(heldByGrades(part), `${type.key}: ${part}`).toBe(false);
     }
   });
   it("composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes", () => {
