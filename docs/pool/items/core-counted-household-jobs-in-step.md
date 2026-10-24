@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-household-jobs-in-step
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T08:18:33.607Z
 ---
 
 **What.** The jobs engine ends, starts and re-rates counted jobs in the residents runtime's job rows and wage flows, but the counted household's own jobs list, its yearly wages and each member's job id keep the opening's values. Every reader of a counted household's income (the school engine's income fifth, crime exposure, coverage) reads pay the household no longer earns, and a counted worker hired during the year loses that job when the player meets them, since fill-in hands over the household's own jobs list. In Snow Lake Shores, Mississippi (seed 99129b78328b41a6) a household counted at 107,299 dollars a year was filled in at 20,393.
