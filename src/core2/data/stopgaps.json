@@ -2714,8 +2714,8 @@
     "kind": "assumed-data",
     "file": "src/core2/membership-dues.ts",
     "line": 48,
-    "whatItFakes": "A union local's members are the place's employed at its state's 2025 membership rate (the nation's where BLS has no row), paying dues from the wider population's pooled cash; nobody is recorded as a member.",
-    "why": "The opening records no memberships.",
+    "whatItFakes": "A union local's members are recorded on jobs at its state's 2025 membership rate (the nation's where BLS has no row), but no worker chooses to join or leave; full members pay dues from their own cash, counted members from their place's pooled cash.",
+    "why": "Joining and leaving are not yet a choice from pay, job and views.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Members recorded on people (by industry and state, BLS Union Members tables), each choosing to join or leave from their pay, job and views; dues from their own cash.",
@@ -4887,6 +4887,18 @@
     "replacement": "The owner's ruling on which pre-vote hooks run on the committee day (docs/coordination/OWNER-DECISIONS.md).",
     "status": "resolved",
     "resolution": "The committee's day runs whatever the records already fire for a body on a sitting day, at the stage the body's own rules put them, from data. The pre-vote hooks are named (staff-brief, interest-organize, public-comment, own-vote); src/core2/data/legislature/committee-day.json says which run at the committee stage, holdCommittee runs those before the committee decides and marks them on the bill (hooksRun), and the floor day runs only those not yet run."
+  },
+  {
+    "id": "SG-WORLD-business-union-members-rule",
+    "kind": "missing-mechanic",
+    "file": "src/core2/membership-dues.ts",
+    "line": 1,
+    "whatItFakes": "Which workers hold a union membership is chosen by pay alone (the jobs nearest the place's median pay first, until the state's BLS rate is met), not by anything the worker chooses. Dues are still drawn from the wider population's pooled cash.",
+    "why": "Deferred to 1.0 by the owner's ruling on unions (OWNER-DECISIONS.md: unions, membership rules and strikes come after early access, and the union owner-decision rows do not block the early-access build), so the simplest version stands until then. No dice: the rate checks the count and picks no worker.",
+    "addedBy": "claude/union-membership-record",
+    "addedAt": "2026-10-19",
+    "replacement": "With 1.0: what makes a worker join or leave (pay, job, views), each worker's choice through the shared chooser, and every member's dues from their own cash.",
+    "status": "open"
   },
   {
     "id": "SG-GOV-clemency-boards",
