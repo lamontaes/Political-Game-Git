@@ -60,17 +60,15 @@ export function provenanceProblems(part: Part): string[] {
     problems.push("a mined part names its source document");
   if (!/^\d{4}-\d{2}-\d{2}$/.test(source?.date ?? ""))
     problems.push("a mined part carries its source date");
-  // Where the wording came from never decides whether it plays (owner,
-  // Oct 24: "There's no copyright problems"); the source is a note.
+  // Where the wording came from never decides whether it plays; the source
+  // is a note.
   if (!/^https:\/\//.test(source?.url ?? ""))
     problems.push("a mined part carries an https source url");
   return problems;
 }
 
 /**
- * A part plays exactly when the owner's grades don't hold it (owner, Oct 24:
- * "Quit worrying about my grades ... Get the English engine in the game.
- * That should make every single piece of dialogue available."). The grade
+ * A part plays exactly when the owner's grades don't hold it. The grade
  * step (`scripts/dialogue-batch/apply-grades.ts`) sets the flag across every
  * bank, so a part he graded bad or fix stops playing everywhere and every
  * other part plays.
