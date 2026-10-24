@@ -7,9 +7,10 @@ priority: 1
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5639
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** PR #5639 substitutes all full students average attendance for every counted student, and defaults that average to 1. The new shortcut is not registered.
