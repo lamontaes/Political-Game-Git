@@ -77,15 +77,21 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
           (row) => row.contestId === c.id && row.personId === personId,
         )!;
         expect(d).toBeDefined();
-        // A serving incumbent weighs standing again (voting.stand-again);
-        // everyone else weighs entering the race on its several reasons.
+        // Someone serving the seat on the day they decided weighs standing
+        // again (voting.stand-again); everyone else, including someone who
+        // decided before they took the seat, weighs entering the race on its
+        // several reasons.
         const term = c.incumbentTermId
           ? rows<TermRow>(OFFICES_MODULE_ID, "terms").find(
               (t) => t.id === c.incumbentTermId,
             )
           : undefined;
-        if (term?.status === "serving" && term.personId === personId)
-          expect(Object.keys(d.reasons)).toEqual(["standAgain"]);
+        const servingThen =
+          term?.personId === personId &&
+          term.startDate <= d.date &&
+          (term.status === "serving" ||
+            (term.endDate !== null && term.endDate > d.date));
+        if (servingThen) expect(Object.keys(d.reasons)).toEqual(["standAgain"]);
         else expect(Object.keys(d.reasons).length).toBeGreaterThan(5);
         expect(d.run).toBe(w!.runIds.includes(personId));
       }
