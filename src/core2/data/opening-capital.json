@@ -44,12 +44,11 @@
   "openingPriorNamespace": "p8:opening-employer-cash-buffer:WHO:v2",
   "tailSpanParameter": "openingEmployerCashBufferTailSpan",
   "spreadStopgapId": "SG-P8-opening-private-cash-buffer-spread",
-  "spreadTargetRef": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD",
   "openingPriorAssumptions": {
     "stopgapId": "SG-P8-opening-private-cash-buffer-spread",
     "observed": "Only each industry's q25, median and q75 anchors are observed in the frozen JPMC source. The empirical IQR remains the ESTIMATED median parameter's numeric spread and the supplemental DAYS check target.",
-    "unmeasured": "Stable uniform firm startup ranks, piecewise-linear interpolation, extrapolated tails and the local employer cash-debit crosswalk are assumptions. They do not constitute an observed full distribution or individual firm measurement.",
-    "endpointRecipe": "low=max(zero,q25-tailSpan*(median-q25)); high=q75+tailSpan*(q75-median). Nonnegative cash is a mathematical constraint, not a survival floor. Tail span is an open TUNABLE with an independent blocked empirical target.",
+    "unmeasured": "Stable uniform firm startup ranks, piecewise-linear interpolation, straight tail segments, one all-industries tail span and the local employer cash-debit crosswalk are assumptions. They do not constitute an observed full distribution or individual firm measurement.",
+    "endpointRecipe": "low=max(zero,q25-tailSpan*(median-q25)); high=q75+tailSpan*(q75-median). Nonnegative cash is a mathematical constraint, not a survival floor. Tail span is ESTIMATED from the report's drawn all-industries distribution (Figure 5) in data/research/core/jpmci-cash-buffer-days-2016.json.",
     "identityScope": "World seed plus firm ID in this domain only; no date, requested future year, projected deficit, outcome draw or runtime refill input. Quantile is assigned during fresh population opening generation only."
   },
   "unsupportedOpening": {
