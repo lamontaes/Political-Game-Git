@@ -53,7 +53,7 @@ const WEB_FILES = new Set([
 /** Readers that turn an outcome into what people notice and how they vote. */
 const KNOWING = /electorate-inputs|views|news|press|director|english/;
 const ACCESSORS =
-  /outcomeWebFactor|placeOutcome|webReach|webFactorFor|turnoutWeb|deathWebFactor/;
+  /outcomeWebFactor|placeOutcome|webReach|webFactorFor|webLevel|turnoutWeb|deathWebFactor/;
 
 function files(dir: string): string[] {
   return readdirSync(dir).flatMap((name) => {
@@ -233,7 +233,10 @@ function reaches(link: WebLink & { carriedBy?: string }): Point {
   return blocker ? { ...point, why: `${point.why}; ${blocker}` } : point;
 }
 
-function reachPoint(link: WebLink & { carriedBy?: string }): Point {
+function reachPoint(
+  link: WebLink & { carriedBy?: string },
+  seen: ReadonlySet<string> = new Set(),
+): Point {
   if (link.carriedBy)
     return {
       status: "pass",
@@ -241,6 +244,19 @@ function reachPoint(link: WebLink & { carriedBy?: string }): Point {
     };
   const engine = engineReaders(link.to);
   if (engine.length) return { status: "pass", evidence: where(engine) };
+  // A kept outcome no engine reads still reaches people when a running link
+  // starts from it and that link reaches: the web carries it on the next month.
+  if (keptOutcome(link.to))
+    for (const next of FROM.get(link.to) ?? []) {
+      if (seen.has(next.key) || next.key === link.key) continue;
+      if (!linkCoverage(next).wired) continue;
+      const through = reachPoint(next, new Set([...seen, link.key]));
+      if (through.status === "pass")
+        return {
+          status: "pass",
+          evidence: `through ${next.key}: ${through.evidence}`,
+        };
+    }
   if (
     engineMeasure(link.to) ||
     (GOV_MEASURES as readonly string[]).includes(link.to)

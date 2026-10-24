@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/polling-place-town-government
-pr:
+pr: #5911
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T06:30:40.716Z
