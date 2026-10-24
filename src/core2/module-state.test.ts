@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { setBookkeeping } from "./bookkeeping";
 import { createCore, coreAPI, registerModule } from "./state";
 import { piecesInput } from "./core-pieces-fixture";
 import type { CoreModule } from "./types";
@@ -201,5 +202,62 @@ describe("registered module state", () => {
     expect(first.map((r) => r.id)).toEqual(["a"]);
     table.remove("a");
     expect(table.rows().map((r) => r.id)).toEqual(["b"]);
+  });
+  it("reads the same rows in the same order in play, where the checks are off", () => {
+    const run = (on: boolean) => {
+      const previous = setBookkeeping(on);
+      try {
+        const api = coreAPI(world()),
+          table = api.moduleState("law").table("enactments"),
+          ids = (index: string, values: (string | number)[]) =>
+            table.query(index, values).map((r) => r.id);
+        table.put(row);
+        table.put({ ...row, id: "b", citation: "statute:b" });
+        table.put({ ...row, id: "c", citation: "statute:c" });
+        // Rewritten with the same index keys, a row moves to the end of its
+        // index and of the table, as erasing and inserting it does.
+        table.put({ ...row, amount: 11 });
+        const rewritten = {
+          place: ids("byPlaceDate", ["place", row.date]),
+          rows: table.rows().map((r) => r.id),
+        };
+        table.put({ ...row, id: "b", citation: "statute:b", placeId: "other" });
+        const moved = {
+          place: ids("byPlaceDate", ["place", row.date]),
+          other: ids("byPlaceDate", ["other", row.date]),
+          rows: table.rows().map((r) => r.id),
+        };
+        const removed = [table.remove("c"), table.remove("c")];
+        return {
+          rewritten,
+          moved,
+          removed,
+          place: ids("byPlaceDate", ["place", row.date]),
+          cited: table.query("byCitation", ["statute:a"]),
+          none: ids("byCitation", ["statute:c"]),
+          size: table.size,
+          same: api.moduleState("law").table("enactments") === table,
+        };
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    const play = run(false);
+    expect(play).toEqual(run(true));
+    expect(play.rewritten).toEqual({
+      place: ["b", "c", "a"],
+      rows: ["b", "c", "a"],
+    });
+    expect(play.moved).toEqual({
+      place: ["c", "a"],
+      other: ["b"],
+      rows: ["c", "a", "b"],
+    });
+    expect(play.removed).toEqual([true, false]);
+    expect(play.place).toEqual(["a"]);
+    expect(play.cited).toEqual([{ ...row, amount: 11 }]);
+    expect(play.none).toEqual([]);
+    expect(play.size).toBe(2);
+    expect(play.same).toBe(true);
   });
 });

@@ -1,3 +1,4 @@
+import { bookkeeping } from "./bookkeeping";
 import { moduleData, moduleKey, type ModuleRow } from "./module-data";
 import type { CoreModule, CoreState } from "./types";
 
@@ -54,6 +55,8 @@ interface Store {
 }
 const stores = new WeakMap<CoreState, Map<string, Store>>();
 const facades = new WeakMap<Store, ModuleStateStore>();
+/** Each core's facades by module id, for play's lookup (installing resets one). */
+const facadesByCore = new WeakMap<CoreState, Map<string, ModuleStateStore>>();
 function freshTable(definition: ModuleTableDefinition): Table {
   return {
     definition,
@@ -98,16 +101,18 @@ export function installModuleState(
   let modules = stores.get(core);
   if (!modules) stores.set(core, (modules = new Map()));
   modules.set(store.module.id, store);
+  facadesByCore.get(core)?.delete(store.module.id);
 }
 function indexKey(values: readonly unknown[]): string {
-  for (const value of values)
-    if (
-      value !== null &&
-      typeof value !== "string" &&
-      typeof value !== "boolean" &&
-      !(typeof value === "number" && Number.isFinite(value))
-    )
-      throw new Error("Module index values must be finite scalars.");
+  if (bookkeeping())
+    for (const value of values)
+      if (
+        value !== null &&
+        typeof value !== "string" &&
+        typeof value !== "boolean" &&
+        !(typeof value === "number" && Number.isFinite(value))
+      )
+        throw new Error("Module index values must be finite scalars.");
   return JSON.stringify(values);
 }
 /** Each table definition's indexes as a list, built once (writes are frequent). */
@@ -145,26 +150,42 @@ function rowKeys(table: Table, row: ModuleRow): [string, string][] {
   return keys;
 }
 function insert(table: Table, row: ModuleRow): void {
-  moduleKey(row.id);
+  // The id, validation and unique checks only ever throw on a broken caller,
+  // so they run with bookkeeping on (tests and the bench), not in play.
+  const checked = bookkeeping();
+  if (checked) moduleKey(row.id);
   const keys = rowKeys(table, row);
-  table.definition.validate?.(row);
-  for (const [name, key] of keys) {
-    const def = table.definition.indexes![name]!;
-    if (!def.unique) continue;
-    const ids = table.indexes.get(name)!.get(key);
-    if (ids)
-      for (const id of ids)
-        if (id !== row.id)
-          throw new Error(`Duplicate unique module index: ${name}`);
+  if (checked) {
+    table.definition.validate?.(row);
+    for (const [name, key] of keys) {
+      const def = table.definition.indexes![name]!;
+      if (!def.unique) continue;
+      const ids = table.indexes.get(name)!.get(key);
+      if (ids)
+        for (const id of ids)
+          if (id !== row.id)
+            throw new Error(`Duplicate unique module index: ${name}`);
+    }
   }
   const old = table.rows.get(row.id);
-  if (old) erase(table, old);
+  // A rewritten row keeps each index set whose key did not change, moved to
+  // the set's end as erasing and inserting it would; rows keep that order too.
+  const oldKeys = old ? rowKeys(table, old) : undefined;
+  if (old) table.rows.delete(row.id);
   table.rows.set(row.id, row);
   table.list = undefined;
-  for (const [name, key] of keys) {
+  for (let at = 0; at < keys.length; at++) {
+    const [name, key] = keys[at]!;
     const index = table.indexes.get(name)!;
+    const was = oldKeys?.[at]![1];
+    if (was !== undefined && was !== key) {
+      const ids = index.get(was)!;
+      ids.delete(row.id);
+      if (!ids.size) index.delete(was);
+    }
     let ids = index.get(key);
     if (!ids) index.set(key, (ids = new Set()));
+    else if (was === key) ids.delete(row.id);
     ids.add(row.id);
   }
 }
@@ -204,13 +225,21 @@ export function moduleState(
   core: CoreState,
   moduleId: string,
 ): ModuleStateStore {
+  // In play an engine's facade is one lookup; its owner was checked when made.
+  if (!bookkeeping()) {
+    const known = facadesByCore.get(core)?.get(moduleId);
+    if (known) return known;
+  }
   const store = stores.get(core)?.get(moduleKey(moduleId));
   if (!store || core.modules.get(moduleId) !== store.module)
     throw new Error("Module has no registered state.");
   // One facade per store: engines ask for it per row, and every method below
   // checks ownership on each use, so reusing it changes nothing but speed.
   const cached = facades.get(store);
-  if (cached) return cached;
+  if (cached) {
+    remember(core, moduleId, cached);
+    return cached;
+  }
   const check = () => {
     if (core.modules.get(moduleId) !== store.module || store.busy)
       throw new Error("Module state owner is stale or reentrant.");
@@ -229,25 +258,41 @@ export function moduleState(
     moduleId,
     schemaVersion: store.schemaVersion,
     table(name: string): ModuleTable {
-      check();
       const known = tableFacades.get(name);
+      if (known && !bookkeeping()) return known;
+      check();
       if (known) return known;
       moduleKey(name);
       if (!store.tables.has(name))
         throw new Error(`Unregistered module table: ${name}`);
       const current = () => store.tables.get(name)!;
       const facade: ModuleTable = Object.freeze({
+        // In play (bookkeeping off) each call skips the owner, reentrancy, key
+        // and arity checks, which only ever throw on a broken caller, and a
+        // query's fresh list is not frozen; the rows themselves always are.
         get(id: string) {
+          if (!bookkeeping()) {
+            tableTrace?.(moduleId, name, "get");
+            return current().rows.get(id);
+          }
           check();
           tableTrace?.(moduleId, name, "get");
           return current().rows.get(moduleKey(id));
         },
         put(row: ModuleRow) {
           tableTrace?.(moduleId, name, "put");
+          if (!bookkeeping()) return insert(current(), moduleData(row));
           operation(() => insert(current(), moduleData(row)));
         },
         remove(id: string) {
           tableTrace?.(moduleId, name, "remove");
+          if (!bookkeeping()) {
+            const table = current(),
+              row = table.rows.get(id);
+            if (!row) return false;
+            erase(table, row);
+            return true;
+          }
           return operation(() => {
             const row = current().rows.get(moduleKey(id));
             if (!row) return false;
@@ -257,6 +302,11 @@ export function moduleState(
         },
         query(index: string, values: readonly ModuleIndexValue[]) {
           tableTrace?.(moduleId, name, "query", { index, values });
+          if (!bookkeeping()) {
+            const table = current(),
+              ids = table.indexes.get(index)!.get(indexKey(values));
+            return ids ? Array.from(ids, (id) => table.rows.get(id)!) : NONE;
+          }
           return operation(() => {
             const table = current(),
               def = table.definition.indexes?.[moduleKey(index)];
@@ -270,13 +320,13 @@ export function moduleState(
           });
         },
         rows() {
-          check();
+          if (bookkeeping()) check();
           tableTrace?.(moduleId, name, "rows");
           const table = current();
           return (table.list ??= Object.freeze([...table.rows.values()]));
         },
         get size() {
-          check();
+          if (bookkeeping()) check();
           return current().rows.size;
         },
       });
@@ -323,8 +373,20 @@ export function moduleState(
     },
   });
   facades.set(store, facade);
+  remember(core, moduleId, facade);
   return facade;
 }
+function remember(
+  core: CoreState,
+  moduleId: string,
+  facade: ModuleStateStore,
+): void {
+  let byId = facadesByCore.get(core);
+  if (!byId) facadesByCore.set(core, (byId = new Map()));
+  byId.set(moduleId, facade);
+}
+/** The one empty query result handed out in play. */
+const NONE: readonly ModuleRow[] = Object.freeze([]);
 
 /** Rows in each module table, by "module/table" (memory checks and the bench). */
 export function moduleTableSizes(core: CoreState): Record<string, number> {
