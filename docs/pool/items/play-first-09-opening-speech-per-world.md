@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** The owner's read of the playtest screenshots: the opening speech is generated per world and per president from the game's numbers, not formulaic. PR #5902 (merged after the v0.22.10 build) put the President's voice and own issues into the address, but every world still cites one number (unemployment) and keeps one eight-line shape. This item finishes it: the address reads several of the world's own numbers and records, and its length and order follow the President and the year.
 
-**Rules.** Wire to the world: every fact line reads a record of this world (the economy, laws passed, the last election) and cites it. No hand-written player text: the lines come from the English engine's opening-speech bank.
+**Rules.** Serves LAW.md §3, The opening and speeches; LAW.md §10, The owner's read of the Oct 24 screenshots. Wire to the world: every fact line reads a record of this world (the economy, laws passed, the last election) and cites it. No hand-written player text: the lines come from the English engine's opening-speech bank.
 
 **Done when.** In two drawn places, the opening addresses differ in length and section order, each cites at least three of its world's own records besides unemployment, and a test fails when two worlds produce the same line sequence, shown by a screenshot of each.
+
+**Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** Two new games in two drawn places open with addresses of different length and shape, each citing that world's own numbers and that President's own issues.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/director/opening-story.ts, src/english/english-opening-speech.ts, data/english/parts/opening-speech.json
 
