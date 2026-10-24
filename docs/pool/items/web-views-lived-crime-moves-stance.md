@@ -5,12 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/web-views-lived-crime
 pr: #5895
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T17:45:24.792Z
 ---
 
 **What.** The crime engine writes a victimization record for each full household it victimizes (crime.victimized, naming the household's members, the web month and the links behind the month's factor), so an outcome-web link such as unemployment to burglary lands on named people. Nothing reads that record into the victims' views: being burglarized changes no one's mind about anything. The effects lead's order says a link is felt through a person's own experience, the news or a conversation, and its end-to-end proof needs a named person's view to move citing the lived event. Make the views engine read a lived condition the way it reads a heard one: each victim moves on the question that condition ties to, toward the side their own view already holds.
