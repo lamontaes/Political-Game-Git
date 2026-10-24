@@ -375,10 +375,37 @@ it(`a player's bill is followed from negotiation to a named person and back, and
   }
   const reached = appliedOn(api, key);
   expect(reached.length, `${where}: the law reached no one`).toBeGreaterThan(0);
-  expect(
-    found,
-    `${where}: no reached person learned it from a story`,
-  ).toBeDefined();
+  if (!found) {
+    // Why no one learned it: who the law reached by name, the stories about
+    // it, and which reached people heard one.
+    const named = reached.flatMap((r) =>
+      r.target === "person"
+        ? [r.targetId]
+        : r.target === "household"
+          ? [...(core.households.get(r.targetId)?.memberIds ?? [])]
+          : [],
+    );
+    const heardIt = named.filter((id) =>
+      storiesHeard(api, id).some((s) =>
+        lawIds.some((lawId) => String(s.facts?.lawId ?? "") === lawId),
+      ),
+    );
+    const stories = (
+      api.moduleState("news").table("stories").rows() as unknown as {
+        id: string;
+        facts?: Record<string, string>;
+      }[]
+    ).filter((s) => lawIds.includes(String(s.facts?.lawId ?? "")));
+    expect(
+      found,
+      `${where}: no reached person learned it from a story: ${reached.length} applied rows, ${named.length} named people reached, ${stories.length} stories about the law (${stories
+        .slice(0, 3)
+        .map((s) => s.id)
+        .join(
+          ", ",
+        )}), ${heardIt.length} reached people heard one (${heardIt.slice(0, 3).join(", ")})`,
+    ).toBeDefined();
+  }
   const personId = found!.personId;
   const applied = reached.find(
     (r) =>
