@@ -4,7 +4,9 @@
  * witnesses, and each grieves from the closeness the opening recorded for
  * the tie (core-counted-death-relations). A place is drawn from all 56 on a
  * seed nobody chose, redrawn until a full person's counted relative dies
- * within a played year; DEATH_NOTICE_SEED pins one.
+ * within a played year; DEATH_NOTICE_SEED pins one. The world always plays the
+ * whole year, and the death must fall inside it, between the opening and the
+ * end.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -49,17 +51,18 @@ it(`a counted relative's death reaches a full relative who grieves from their re
         ]);
       }
     // Month by month, so each death's notice and grief are read as it lands.
-    const end = addDays(gameStartDate(), 365);
+    const opening = gameStartDate();
+    const end = addDays(opening, 365);
     let found:
       | {
           deceasedId: string;
-          countsId: string;
+          diedOn: string;
           eventId: string;
           relative: string;
           grief: number;
         }
       | undefined;
-    while (!found && core.date < end) {
+    while (core.date < end) {
       advanceCore(
         core,
         addDays(core.date, 30) < end ? addDays(core.date, 30) : end,
@@ -80,7 +83,7 @@ it(`a counted relative's death reaches a full relative who grieves from their re
           if (!eventId) continue;
           found = {
             deceasedId,
-            countsId: eventId.slice(eventId.lastIndexOf(":") + 1),
+            diedOn: eventId.slice(eventId.lastIndexOf(":") + 1),
             eventId,
             relative: relative.personId,
             grief: grief.grief,
@@ -89,6 +92,8 @@ it(`a counted relative's death reaches a full relative who grieves from their re
         }
       }
     }
+    // The year was played to its end, whether or not a witness was found.
+    expect(core.date, `${where}: the played year completed`).toBe(end);
     if (!found) {
       tried.push(`${where}: no counted relative of a full person died`);
       continue;
@@ -96,8 +101,13 @@ it(`a counted relative's death reaches a full relative who grieves from their re
     expect(found.grief, `${where}: ${found.relative} grieves`).toBeGreaterThan(
       0,
     );
+    // The counted death fell inside the played year, by date.
+    expect(
+      found.diedOn > opening && found.diedOn <= end,
+      `${where}: ${found.deceasedId} died on ${found.diedOn}, outside ${opening} to ${end}`,
+    ).toBe(true);
     process.stdout.write(
-      `DEATH NOTICE ${where}: ${found.deceasedId} died on ${found.countsId}; ${found.eventId} reached ${found.relative}, grief ${found.grief.toFixed(4)} on ${core.date} (opening closeness ${kin
+      `DEATH NOTICE ${where}: ${found.deceasedId} died on ${found.diedOn} (year ${opening} to ${end}, played to ${core.date}); ${found.eventId} reached ${found.relative}, grief ${found.grief.toFixed(4)} when read (opening closeness ${kin
         .get(found.deceasedId)!
         .find((k) => k.personId === found!.relative)!
         .closeness.toFixed(4)})\n`,
