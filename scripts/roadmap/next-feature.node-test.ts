@@ -6,9 +6,9 @@ import { after, describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { carriers, nextFeature, unfinished } from "./next-feature";
 
-const item = (id: string, status: string, body: string) => ({
+const item = (id: string, status: string, body: string, after = "") => ({
   id,
-  text: `---\nid: ${id}\ntitle: "${id}"\nstatus: ${status}\n---\n\n${body}\n`,
+  text: `---\nid: ${id}\ntitle: "${id}"\nstatus: ${status}\n${after ? `after: ${after}\n` : ""}---\n\n${body}\n`,
 });
 
 describe("the top unfinished roadmap spec", () => {
@@ -40,7 +40,10 @@ describe("the top unfinished roadmap spec", () => {
 
   const root = mkdtempSync(join(tmpdir(), "next-feature-"));
   after(() => rmSync(root, { recursive: true, force: true }));
-  const write = (items: ReturnType<typeof item>[]) => {
+  const write = (
+    items: ReturnType<typeof item>[],
+    more: { id: string; passes: boolean }[] = [],
+  ) => {
     rmSync(join(root, "docs"), { recursive: true, force: true });
     mkdirSync(join(root, "docs/roadmap"), { recursive: true });
     mkdirSync(join(root, "docs/pool/items"), { recursive: true });
@@ -50,6 +53,7 @@ describe("the top unfinished roadmap spec", () => {
         features: [
           { id: "M0-01", milestone: "M0", title: "One", passes: true },
           { id: "M0-02", milestone: "M0", title: "Two", passes: false },
+          ...more.map((m) => ({ ...m, milestone: "M0", title: m.id })),
         ],
       }),
     );
@@ -93,5 +97,52 @@ describe("the top unfinished roadmap spec", () => {
     const r = run();
     assert.equal(r.code, 1);
     assert.match(r.out, /M0-02 has no live pool item/);
+  });
+
+  it("skips an item that waits on an unfinished one, as pool claim does", () => {
+    write([
+      item("dep", "open", "Something else."),
+      item("a-gated", "open", "Flips M0-02.", "dep"),
+      item("b-alt", "open", "Also M0-02."),
+    ]);
+    const r = run();
+    assert.equal(r.code, 0);
+    assert.match(r.out, /Carried by a-gated \(open, after dep\)/);
+    assert.match(r.out, /Start on: b-alt \(M0-02\)/);
+  });
+
+  it("takes the next spec when every item of the top one waits", () => {
+    write(
+      [
+        item("dep", "claimed", "Something else."),
+        item("gated", "open", "Flips M0-02.", "dep"),
+        item("three", "open", "Flips M0-03."),
+      ],
+      [{ id: "M0-03", passes: false }],
+    );
+    const r = run();
+    assert.equal(r.code, 0);
+    assert.match(r.out, /Top unfinished spec: M0-02/);
+    assert.match(r.out, /Start on: three \(M0-03\)/);
+  });
+
+  it("starts on a waiting item once what it waits on is done", () => {
+    write([
+      item("dep", "done", "Something else."),
+      item("gated", "open", "Flips M0-02.", "dep"),
+    ]);
+    assert.match(run().out, /Start on: gated \(M0-02\)/);
+  });
+
+  it("fails and says so when no item can be claimed", () => {
+    write([
+      item("dep", "in-pr", "Something else."),
+      item("gated", "open", "Flips M0-02.", "dep"),
+      item("taken", "claimed", "Also M0-02."),
+    ]);
+    const r = run();
+    assert.equal(r.code, 1);
+    assert.doesNotMatch(r.out, /Start on:/);
+    assert.match(r.out, /No unfinished spec has an item a session can claim/);
   });
 });
