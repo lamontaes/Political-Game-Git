@@ -21,7 +21,7 @@ import { advanceCore } from "./life";
 import { demoteHousehold } from "./modules/counted-demotion";
 import { healthReport } from "./modules/health";
 import { residentPerson, residentsRuntime } from "./modules/residents";
-import { coreAPI, fillInPerson, personOrFillIn } from "./state";
+import { coreAPI, fillInPerson, personOrFillIn, registerModule } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 const place = drawPlace(seed, "core2-health-demoted");
@@ -44,9 +44,14 @@ it(`leaves a person's booked illness to the counts once their household returns 
       ...(player?.knownIds ?? []),
     ]);
     // Counted households filled in, as meeting them would, a batch at a time;
-    // the health engine books the newcomers' health the next day.
+    // the health engine books the newcomers' health the next day. Households
+    // of two or more, so one member is left to meet if the ill one dies.
     const records = [...rt.households.values()]
-      .filter((record) => record.people.every((p) => !circle.has(p.id)))
+      .filter(
+        (record) =>
+          record.people.length >= 2 &&
+          record.people.every((p) => !circle.has(p.id)),
+      )
       .sort((a, b) => a.household.id.localeCompare(b.household.id));
     let found:
       { personId: string; householdId: string; endsBy: string } | undefined;
@@ -66,7 +71,7 @@ it(`leaves a person's booked illness to the counts once their household returns 
         .cases.filter(
           (c) =>
             ids.has(c.personId) &&
-            c.onsetDate > today &&
+            c.onsetDate > addDays(today, 1) &&
             c.onsetDate < horizon &&
             core.people.get(c.personId)?.alive,
         )
@@ -95,8 +100,31 @@ it(`leaves a person's booked illness to the counts once their household returns 
     ).toBeDefined();
     const { personId, householdId, endsBy } = found!;
     // The household goes back to the counts, as the monthly review sends one
-    // long out of the player's life.
-    expect(demoteHousehold(api, householdId, today)).toBeDefined();
+    // long out of the player's life: from the next day's calendar work,
+    // before anyone in it works that day.
+    let demoted: ReturnType<typeof demoteHousehold>;
+    registerModule(core, {
+      id: "test:health-demoted",
+      onCalendarWork: (calendarApi, work) => {
+        if (work.kind === "test-demotion")
+          demoted = demoteHousehold(calendarApi, householdId, today);
+      },
+    });
+    const demotedOn = addDays(today, 1);
+    api.moduleCalendar("test:health-demoted").schedule({
+      key: `demote:${householdId}`,
+      date: demotedOn,
+      kind: "test-demotion",
+      source: {
+        tag: "ESTIMATED",
+        asOf: today,
+        citation: "The monthly review's demotion, booked for the test.",
+        estimatedFrom: "Owner ruling, Oct 15, 2026: 180 to 240 days",
+      },
+      sourceRecordIds: [householdId],
+    });
+    advanceCore(core, makeIsoDate(demotedOn));
+    expect(demoted, `${where}: ${householdId} returned`).toBeDefined();
     expect(isDemoted(core.people.get(personId)!)).toBe(true);
     advanceCore(core, makeIsoDate(endsBy));
     const kept = core.people.get(personId)!;
@@ -117,8 +145,8 @@ it(`leaves a person's booked illness to the counts once their household returns 
     )
       .map((p) => p.id)
       .find((id) => residentPerson(core, id) !== undefined);
-    if (!living) return;
-    const back = personOrFillIn(core, living)!;
+    expect(living, `${where}: a living member of ${householdId}`).toBeDefined();
+    const back = personOrFillIn(core, living!)!;
     expect(isDemoted(back), `${where}: ${living} back`).toBe(false);
     for (const id of core.households.get(back.householdId)!.memberIds) {
       const member = core.people.get(id)!;
@@ -126,7 +154,7 @@ it(`leaves a person's booked illness to the counts once their household returns 
       expect(isDemoted(member), `${where}: ${id} back`).toBe(false);
     }
     console.info(
-      `health-demoted ${where}: ${personId} of ${householdId} returned to the counts on ${today} before their booked illness; ${counted ? "still counted" : "died in the counts"} through ${endsBy}, household brought back by ${living}`,
+      `health-demoted ${where}: ${personId} of ${householdId} returned to the counts on ${demotedOn} before their booked illness; ${counted ? "still counted" : "died in the counts"} through ${endsBy}, household brought back by ${living}`,
     );
   } finally {
     setBookkeeping(was);
