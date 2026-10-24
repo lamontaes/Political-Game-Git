@@ -2136,6 +2136,9 @@ function hireCounted(
     : undefined;
   if (previous?.organizationId === position.organizationId) return false;
   if (!addCountedJob(c, job, template.id)) return false;
+  // The hire stands for the jobs the opening offered (one, or the leaver's it
+  // replaces), not every household the seeker's record stands for.
+  residentsRuntime(c)?.store.setJobHeads(job.id, position.heads ?? 1);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
