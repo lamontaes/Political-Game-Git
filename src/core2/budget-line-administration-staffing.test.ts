@@ -14,6 +14,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { currentStaff } from "./law-reach/group-a-records";
 import { staffingOf } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
@@ -52,9 +53,11 @@ for (const direction of ["cut", "raise"] as const)
         [...core.jobs.values()].filter(
           (j) => j.organizationId === organizationId && !j.endsAt,
         );
-      // City hall employees: named jobs and counted workers on its payroll.
+      // City hall's staff as the staffing reach counts it: named jobs with a
+      // current work commitment, and counted workers on its payroll.
       const staffIn = (organizationId: string) =>
-        employees(organizationId).length + countedStaffOf(core, organizationId);
+        currentStaff(api, organizationId).length +
+        countedStaffOf(core, organizationId);
       if (!mayor || !city || !district || employees(district.id).length < 1) {
         tried.push(
           `${where}: no mayor, city or city hall with a named employee`,
