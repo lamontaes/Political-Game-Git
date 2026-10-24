@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: done
+claimed-by: words/opening-speech-per-world
+pr: #5902
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T05:07:23.850Z
 ---
 
 **What.** The owner, Oct 24: the opening speech seems pretty fixed right now; at the start of every game the English generator should compose it, since every world is different, so the speeches differ by the person, their personality and the world. The opening address is composed in src/english/english-opening-speech.ts from the world's records. This item makes the address the speaker gives depend on the speaker's recorded traits and on the world's own numbers (prices, jobs, the laws in force), so two worlds give two different addresses, each line citing the record it came from.

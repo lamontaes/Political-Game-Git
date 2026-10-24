@@ -14,6 +14,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { chargeDecisionDays, dispositionDays } from "./justice-law";
 import { advanceCore } from "./life";
 import { considerBribe } from "./modules/corruption";
 import {
@@ -25,8 +26,16 @@ import { lawChain } from "./modules/laws";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { resultsOf, stateOfficeOf } from "./office-day-state";
 import { coreAPI } from "./state";
+import type { CoreAPI } from "./types";
 
 const ATTEMPTS = 12;
+
+// Past the hearing of a case opened today: the charge decision, then the
+// state's time to disposition (pleas wait for it as trials do), then a month.
+const pastHearing = (api: CoreAPI) =>
+  chargeDecisionDays(api).days +
+  dispositionDays(api, lawChain(api).stateKey).days +
+  30;
 
 function playPlace(seed: string, skipped: string[]): string | null {
   const place = drawPlace(seed, "computer-clemency");
@@ -58,11 +67,20 @@ function playPlace(seed: string, skipped: string[]): string | null {
   const alive = (id: string) =>
     core.people.get(id)?.alive &&
     core.cashJournal.residualAccountByOwner.has(id);
+  // The bribes fill the prisons; the governor is not offered one, so the
+  // governor who takes up the petitions is the one the run opened with. A
+  // governor convicted at the same hearing as everyone else can leave the
+  // seat to a successor on record only by identity, whose days nobody plays
+  // (Sinajana, Guam, seed 449d6cfb96d84c74:0).
   const officials = [
     ...new Set(
       terms
         .filter(
-          (t) => t.status === "serving" && t.personId && alive(t.personId),
+          (t) =>
+            t.status === "serving" &&
+            t.personId &&
+            t.personId !== governor.personId &&
+            alive(t.personId),
         )
         .map((t) => t.personId!),
     ),
@@ -85,21 +103,36 @@ function playPlace(seed: string, skipped: string[]): string | null {
         stakeMinor: 50_000_000,
         subjectId: `favor:${offerer.id}:${official}`,
       });
-  advanceCore(core, addDays(makeIsoDate(core.date), 240));
+  advanceCore(core, addDays(makeIsoDate(core.date), pastHearing(api)));
   if (!prisonersServing(api).length) {
     skipped.push(`${where}: nobody in prison`);
     return null;
   }
   // Nobody plays the governor: the weekly petitions come up by themselves.
   advanceCore(core, addDays(makeIsoDate(core.date), 120));
-  const decided = resultsOf(api, governor.personId).filter(
-    (row) => row.kind === "clemency",
-  );
+  // The seat's holders, not only the governor the run opened with: one who
+  // leaves office during the run is followed by a successor who takes up the
+  // petitions.
+  const holders = [
+    ...new Set(
+      (
+        api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .rows() as unknown as TermRow[]
+      )
+        .filter((t) => t.officeId === governor.officeId && t.personId)
+        .map((t) => t.personId!),
+    ),
+  ];
+  const decided = holders
+    .flatMap((id) => resultsOf(api, id))
+    .filter((row) => row.kind === "clemency");
   // A governor with authority and a state prisoner serving is the case: it
   // must have taken a petition up, never be skipped for the next draw.
   expect(
     decided.length,
-    `${where}: governor ${governor.personId} took up no petition in 120 days with ${prisonersServing(api, state).length} serving`,
+    `${where}: governors ${holders.join(", ")} took up no petition in 360 days with ${prisonersServing(api, state).length} serving`,
   ).toBeGreaterThan(0);
   for (const row of decided) {
     expect(row.by, `${where}: ${row.id}`).toBe("character");
@@ -116,7 +149,7 @@ function playPlace(seed: string, skipped: string[]): string | null {
       `${where}: a granted petition names its sentence`,
     ).toBeTruthy();
   }
-  return `${where}: governor ${governor.personId} decided ${decided.length} petitions (${granted.length} granted, ${decided.length - granted.length} refused); clemency records ${clemenciesOf(api, governor.personId).length}`;
+  return `${where}: governors ${holders.join(", ")} decided ${decided.length} petitions (${granted.length} granted, ${decided.length - granted.length} refused; first ${decided[0]!.id}); clemency records ${holders.reduce((n, id) => n + clemenciesOf(api, id).length, 0)}`;
 }
 
 it("a computer governor takes up the weekly petition and grants or refuses it by recorded reasons", () => {

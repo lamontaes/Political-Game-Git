@@ -15,7 +15,7 @@ import type { ModuleTable } from "./module-state";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
-import { residentPerson, residentsRuntime } from "./modules/residents";
+import { residentFacts, residentsRuntime } from "./modules/residents";
 import { decisionLean } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, JobInput, Source } from "./types";
@@ -155,11 +155,11 @@ export function fileClaim(
 ): ClaimRow | undefined {
   const c = api.state as CoreState;
   const full = c.people.get(job.personId);
-  const placeId = (full ?? residentPerson(c, job.personId))?.placeId;
+  const placeId = (full ?? residentFacts(c, job.personId))?.placeId;
   if (!placeId) return undefined;
   // An eligible worker files unless their traits lean hard toward skipping;
   // the record's traits are the full person's or the counted worker's own.
-  const filer = full ?? residentPerson(c, job.personId);
+  const filer = full ?? residentFacts(c, job.personId);
   if (
     filer &&
     api.parameter("benefitsFileBase") +

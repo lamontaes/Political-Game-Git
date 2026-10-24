@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/play-bench-follow-decisions
-pr:
+pr: #5889
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T03:31:11.460Z
