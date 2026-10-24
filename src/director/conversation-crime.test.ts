@@ -18,7 +18,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { coreAPI } from "../core2/state";
-import type { PersonId } from "../core2/kernel/brands";
+import type { PersonId } from "../core2/types";
 import {
   CONVERSATION_DATA,
   openConversation,
@@ -39,10 +39,11 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
       "conversation-crime",
     );
     const where = `${place.name} (${place.key}), seed ${place.seed}, base ${base}`;
-    // A first pass finds the first full household the crime engine
-    // victimizes that has two living members, without the director: watching
-    // a whole town is slow. The same seed builds the same world, so a second
-    // pass watches that household only and plays to just after the crime.
+    // A first pass plays the year without the director (watching a whole
+    // town is slow) and finds the first full household the crime engine
+    // victimized that has two living members. The same seed builds the same
+    // world, so a second pass watches that household only, from the day
+    // before the crime to the year's end.
     const build = () => {
       setBookkeeping(false);
       return buildBenchWorld(place.seed, gameStartDate(), {
@@ -54,7 +55,7 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
     const end = addDays(makeIsoDate(first.date), YEAR_DAYS);
     let victimized:
       { eventId: string; householdId: string; date: string } | undefined;
-    while (!victimized && first.date < end) {
+    while (first.date < end) {
       const next = addDays(makeIsoDate(first.date), MONTH_DAYS);
       advanceCore(first, next < end ? next : end);
       const months = coreAPI(first)
@@ -160,6 +161,8 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
       `${where}: ${found.victim} raises ${found.causeId} (lines: ${talk.lines.map((l) => l.subjectId).join(", ")})`,
     ).toBeDefined();
     expect(raised!.sourceRecordIds, where).toContain(found.causeId);
+    advanceCore(core, end);
+    expect(core.date, `${where}: the watched year plays to its end`).toBe(end);
     process.stdout.write(
       `CRIME TALK ${where}: ${found.victim} to housemate ${found.listener}, subject ${subject!.id} (stage ${subject!.stage}), said "${raised!.text}" from ${found.causeId}\n`,
     );
