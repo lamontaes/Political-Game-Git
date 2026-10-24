@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-outlet-revenue
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T15:32:14.104Z
 ---
 
 **What.** The money half of gov-press-outlet-revenue. An outlet's revenue was one standing monthly payment from the town's outside customers (stopgap SG-PEOPLE-press-outlet-revenue). Replace it with subscriptions paid from reader households' own living costs (the counted households by the same rule, times their readers) and ads the town's businesses buy out of their own costs on a sliding scale to their cash, split by audience, and delete the standing payment.
