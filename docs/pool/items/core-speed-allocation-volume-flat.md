@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: core-speed-journal-posting-in-play, core-speed-work-attendance-in-play, core-speed-work-payroll-in-play, core-speed-counted-renewal-pass
 source: added with npm run pool -- add
 ---
 
