@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5866
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found on PR #5803 (world-census-scale-closures-large-cities): it blocks that item's Washington, D.C. closure comparison after the Oct 22 main merge, which lowered the firm's residents' purchases by about 5 percent (18,574,370,233 to 17,667,652,857 minor units in 340 days) and tipped a firm already losing money at the Census size before the merge.
 
 Sent back 2026-10-23 from PR #5866 (branch claude/weight-release-heads): counted-groups.ts:465-472 loses heads without a keeper (10 to1) and creates heads for a fractional fill-in (10.5 to11), reproduced in a direct store probe; preserve both cases and register/file the acknowledged seeker gap; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5866 (branch claude/weight-release-heads): Checked 6083aadaf5 passed local gate and all5 changed tests, but pinned merge rejected405; fresh main90fb2a3982 conflicts in src/core2/modules/jobs.ts and stopgaps.json; preserve main staffing and per-job-head accounting, plus every registry row byID; finish on that branch, merge main into it first.
