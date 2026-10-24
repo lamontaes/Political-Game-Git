@@ -37,6 +37,12 @@
       "source": "The civic temperament (duty plus half of sociability) a resident needs to come to a town hall.",
       "spread": [0, 1]
     },
+    "townHallHours": {
+      "value": 1.5,
+      "tag": "TUNABLE",
+      "source": "Hours a town hall runs: the time a new acquaintance made there has spent together on first meeting.",
+      "spread": [1, 3]
+    },
     "questionsPerTownHall": {
       "value": 4,
       "tag": "TUNABLE",

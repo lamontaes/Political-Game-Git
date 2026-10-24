@@ -27,6 +27,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { lawChain } from "./laws";
+import { meetAtMeeting } from "../encounters";
 import { residentsRuntime } from "./residents";
 import { isDemoted } from "../counted-groups";
 import {
@@ -571,6 +572,15 @@ export function holdTownHall(
       });
       return cause ? [cause] : [];
     });
+  // Those who came and did not know the host meet them there.
+  meetAtMeeting(
+    api,
+    input.hostId,
+    attendees.map((p) => p.id),
+    meetingParameter("townHallHours"),
+    id,
+    lawChain(api).townPlaceId,
+  );
   const row: TownHallRow = {
     id,
     hostId: input.hostId,
