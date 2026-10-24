@@ -9,7 +9,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | public broadband                             | infrastructure     | yes    | yes    | SG    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
 | shift highway funds to transit               | infrastructure     | yes    | yes    | part  | part    | yes   | NO  | yes     | yes    | part      | partly     |
-| Medicare tax rate                            | healthcare         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| Medicare tax rate                            | healthcare         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | Medicaid federal match                       | healthcare         | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 | expand medicaid eligibility                  | healthcare         | yes    | yes    | yes   | part    | SG    | yes | yes     | yes    | yes       | partly     |
 | medicaid work requirement                    | healthcare         | yes    | yes    | yes   | part    | SG    | SG  | yes     | yes    | yes       | partly     |
@@ -35,10 +35,10 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | minimum reserve balance                      | taxes-finance      | yes    | yes    | yes   | part    | yes   | yes | yes     | yes    | yes       | partly     |
 | SNAP maximum benefit                         | assistance         | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 | Spending: welfareAndMedicaid                 | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
-| Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| Federal unemployment tax rate                | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
+| State unemployment tax rate                  | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | Unemployment weekly maximum                  | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
-| Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| Social Security tax rate                     | assistance         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | allow multifamily in single family zones     | housing            | yes    | yes    | SG    | yes     | SG    | SG  | yes     | NO     | NO        | partly     |
 | Spending: housing                            | housing            | yes    | yes    | part  | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
 | inclusionary requirement                     | housing            | yes    | yes    | SG    | yes     | yes   | n/a | yes     | NO     | NO        | partly     |
@@ -131,7 +131,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Medicare tax rate** (`medicare-tax`)
 
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **Medicaid federal match** (`medicaid-match`)
 
@@ -295,11 +295,11 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Federal unemployment tax rate** (`federal-unemployment-tax`)
 
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **State unemployment tax rate** (`state-unemployment-tax`)
 
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure employer hiring (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **Unemployment weekly maximum** (`unemployment-weekly-maximum`)
 
@@ -307,7 +307,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 **Social Security tax rate** (`social-security-tax`)
 
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure take-home pay and labor supply (SG-LAW-outcome-link-unresearched)
+- web: the research puts every outcome link from it at about zero, so there is nothing for the web to move
 
 **allow multifamily in single family zones** (`us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones`)
 
