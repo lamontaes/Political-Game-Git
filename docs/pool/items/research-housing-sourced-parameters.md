@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-housing
-pr:
+pr: #5873
 blocked-on:
 source: "collapsed Oct 19, 2026 from world-stopgap-housing-assumed-data, world-stopgap-housing-estimated-law, world-stopgap-housing-foreclosure-assumed-data, world-stopgap-housing-homeless-assumed-data, world-stopgap-housing-mortgages-assumed-data"
 claimed-at: 2026-10-23T20:24:07.373Z
