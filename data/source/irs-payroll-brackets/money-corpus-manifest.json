@@ -1,0 +1,25 @@
+{
+  "canonicalSha256": "f5c4891eb81119dd0621636e448f6a9de5e7cc9861fa3d0c6e48d0e017a9c6d2",
+  "compiler": "scripts/source/regional-money/missing-money-sources.ts",
+  "corpusPath": "data/source/irs-payroll-brackets/money-corpus.json.gz",
+  "coverage": {
+    "annualIndividualSchedules": 4,
+    "geography": "United States federal",
+    "payrollSchedules": 6,
+    "territories": "Territory-specific payroll rules are not compiled here"
+  },
+  "inputs": [
+    {
+      "artifactId": "irs-annual-brackets-2026",
+      "localPath": "data/source/irs-payroll-brackets/raw/irb-2025-45.html",
+      "sha256": "91ebd07596b5ce55ebb30342905de549af1519435d332dd1dd97a2a70412a399"
+    },
+    {
+      "artifactId": "irs-15t-2026",
+      "localPath": "data/source/irs-payroll-brackets/raw/p15t.html",
+      "sha256": "8fa20bf3a8b98d6958d2fa5c10deb19fb15c37e128d4198e3841c61b464aa735"
+    }
+  ],
+  "recordCount": 76,
+  "runtimeWired": false
+}

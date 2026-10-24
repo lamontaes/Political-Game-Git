@@ -1,0 +1,24 @@
+{
+  "canonicalSha256": "fa17f99bfda9fa4776e24f6e934f6c75f79d79bef14be0d9747c9fa19258ba0c",
+  "compiler": "scripts/source/regional-money/missing-money-sources.ts",
+  "corpusPath": "data/source/scf-household-finance/money-corpus.json.gz",
+  "coverage": {
+    "geography": "United States",
+    "groups": [
+      "all-families",
+      "income-percentile",
+      "reference-person-age"
+    ],
+    "stateSpecific": false,
+    "territories": "No separate territory calibration supplied"
+  },
+  "inputs": [
+    {
+      "artifactId": "scf-public-tables",
+      "localPath": "data/source/scf-household-finance/raw/scf2022-public-nominal.xlsx",
+      "sha256": "d86453504a7e0b6b4717e20257302c5855d0c822d645d2df3e4ea575877a0b9e"
+    }
+  ],
+  "recordCount": 13,
+  "runtimeWired": false
+}

@@ -1,0 +1,63 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "pmms-archives",
+      "bytes": {
+        "length": 90153,
+        "sha256": "027aecc916b321f337a36a6fa6a065812651622a4d2181f254f5f56622dde503"
+      },
+      "localPath": "data/source/freddie-mac-mortgage-rates/raw/pmms-archives.html",
+      "mediaType": "text/html",
+      "provider": "Freddie Mac",
+      "publisher": {
+        "documentationUrl": "https://www.freddiemac.com/pmms/pmms_archives",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 90153,
+        "retrievedAt": "2026-09-27T00:06:25.714Z",
+        "url": "https://www.freddiemac.com/pmms/pmms_archives"
+      },
+      "rights": {
+        "attributionRequired": "UNKNOWN",
+        "declaredLicense": null,
+        "status": "UNKNOWN"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "pmms-history",
+      "bytes": {
+        "length": 97457,
+        "sha256": "83206cc456e2dba3c6298dc7668a435499483c576095e70f9c3def8a43bf4a2b"
+      },
+      "localPath": "data/source/freddie-mac-mortgage-rates/raw/PMMS_history.csv",
+      "mediaType": "text/plain",
+      "provider": "Freddie Mac",
+      "publisher": {
+        "documentationUrl": "https://www.freddiemac.com/pmms/docs/PMMS_history.csv",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": null
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 97457,
+        "retrievedAt": "2026-09-27T00:17:18.576Z",
+        "url": "https://www.freddiemac.com/pmms/docs/PMMS_history.csv"
+      },
+      "rights": {
+        "attributionRequired": true,
+        "declaredLicense": "Freddie Mac PMMS archives: Information from this document may be used with proper attribution. Alteration of this document or its content is strictly prohibited. https://www.freddiemac.com/pmms/pmms_archives",
+        "status": "declared-license"
+      },
+      "storage": "committed"
+    }
+  ],
+  "domain": "freddie-mac-mortgage-rates"
+}
