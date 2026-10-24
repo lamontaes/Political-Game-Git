@@ -1,0 +1,32 @@
+{
+  "about": "Votes cast in each territory's 2024 delegate or resident commissioner race and its registered voters, sizing a delegate race the town does not vote in. Votes: certified results as reproduced on Wikipedia (DC Board of Elections, Guam Election Commission, American Samoa Election Office, CNMI Commonwealth Election Commission, Puerto Rico); registered voters: EAC 2024 Election Administration and Voting Survey, item A1a. The Virgin Islands total is derived from a vote share (plus or minus 100). Registered voters stand in for eligible citizens (an underestimate), marked ESTIMATED.",
+  "tag": "ESTIMATED",
+  "asOf": "2024-11-05",
+  "places": {
+    "PR": {
+      "votes": 1219538,
+      "registered": 1987317,
+      "turnoutOfRegistered": 0.614
+    },
+    "GU": {
+      "votes": 29271,
+      "registered": 62098,
+      "turnoutOfRegistered": 0.471
+    },
+    "VI": {
+      "votes": 14167,
+      "registered": 56304,
+      "turnoutOfRegistered": 0.252
+    },
+    "AS": {
+      "votes": 9888,
+      "registered": 15948,
+      "turnoutOfRegistered": 0.62
+    },
+    "MP": {
+      "votes": 12225,
+      "registered": 19329,
+      "turnoutOfRegistered": 0.632
+    }
+  }
+}

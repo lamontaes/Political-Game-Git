@@ -23,6 +23,8 @@ claimed-at:
 
 **Notes.** The rows still blocked on the Census API key are named in the README.
 
+Applied Oct 20 (claude, PR for SG-GOV-delegate-race-size): PR, GU, VI, MP delegate races sized from src/core2/data/elections/delegate-races-2024.json (votes cast and registered voters, EAVS 2024); AS has no two-party lean on record and stays unsized. Row kept open with revised text.
+
 Applied Oct 20 (claude, PR for SG-GOV-statewide-parties-unverified, C-government-law): 49 rows verified against Ballotpedia lose their `estimated` flag; corrections: MP lieutenant governor Independent -> Republican, CA / WA / ND superintendents (nonpartisan offices) party -> none, GA public service commission kept Republican as the 3R-2D majority with the note. Still estimated (11 rows: AZ and NJ lieutenant governor, HI OHA, VI boards, MP attorney general, others the research marked low). Note: claude/apply-stopgap-research also claimed this item; rows applied so far are in #5461, #5465, #5466 and this PR, so check those before taking a row.
 
 Applied Oct 20 (claude, PR for SG-GOV-ballot-order-estimates): 14 places (CT DE GU IA ID MD MO ND NE NM PR SD VA WY) set from the researched statute readings with estimate false; new kind endorsed-first-then-alphabetical (CT primary; ordered alphabetically until endorsements are a record); AS MP VI PA WI IN stay estimate true as the research says.
