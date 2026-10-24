@@ -4,7 +4,11 @@ import { afterAll, describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { BenchPlayer } from "../bench/player";
 import { gameStartDate } from "./game-start";
-import { considerBribe, type CrimeRecord } from "./modules/corruption";
+import {
+  CORRUPTION_MODULE_ID,
+  considerBribe,
+  type CrimeRecord,
+} from "./modules/corruption";
 import {
   JUSTICE_MODULE_ID,
   inCustody,
@@ -30,7 +34,20 @@ import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 // of the player's own, then the player is released with the record.
 // The forced part is only the offers: everything after them is the engines'.
 const seed = process.env.JUSTICE_SEED ?? randomBytes(8).toString("hex");
-const world = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
+/** A failure while the world is built or played names the seed and place, so the run can be repeated. */
+function named<T>(step: string, run: () => T, place?: string): T {
+  try {
+    return run();
+  } catch (error) {
+    throw new Error(
+      `justice-player, seed ${seed}${place ? `, ${place}` : ""}, ${step}: ${(error as Error).message}`,
+      { cause: error },
+    );
+  }
+}
+const world = named("building the world", () =>
+  buildBenchWorld(seed, gameStartDate(), { twoLevel: true }),
+);
 const core = world.core;
 const api = coreAPI(core);
 const rows = <T>(name: string) =>
@@ -171,58 +188,75 @@ const ownInvestigations = () =>
   );
 const playerCustody = () =>
   rows<CustodyRow>("custody").find((c) => c.personId === playerId);
-if (playerId) {
-  player.select(playerId);
-  for (let guard = 0; guard < 5_000 && core.date < stopAt; guard++) {
-    // Election Day stops the skip at the polls; the character leaves and
-    // decides its own races, as the bench's own control does.
-    if (player.pollingPlace) {
-      pollingDates.push(core.date);
-      player.leavePolls();
-    }
-    const result =
-      player.packet?.kind === "stop"
-        ? player.resume({ kind: "stop", pauseId: player.packet.pauseId })
-        : player.advance("calendar", addDays(makeIsoDate(core.date), 365));
-    for (const answer of result.selfChosen)
-      ownChoiceDates.push(`${answer.at.date} ${answer.actionId}`);
-    logAt.set(core.date, core.durableLog.size);
-    // The director summarizes moments older than its window, so scenes are
-    // read as the run goes.
-    for (const entry of world.director.ledger.people.get(playerId)?.schedule ??
-      [])
-      for (const binding of entry.bindings)
+// The player can die in the run (the health engine's hazard, as in play):
+// the run ends there, and the case is checked as far as it went.
+let diedBy: string | undefined;
+if (playerId)
+  named(
+    "playing the run",
+    () => {
+      player.select(playerId!);
+      for (let guard = 0; guard < 5_000 && core.date < stopAt; guard++) {
+        if (!core.people.get(playerId!)?.alive) {
+          diedBy = core.date;
+          break;
+        }
+        // Election Day stops the skip at the polls; the character leaves and
+        // decides its own races, as the bench's own control does.
+        if (player.pollingPlace) {
+          pollingDates.push(core.date);
+          player.leavePolls();
+        }
+        const result =
+          player.packet?.kind === "stop"
+            ? player.resume({ kind: "stop", pauseId: player.packet.pauseId })
+            : player.advance("calendar", addDays(makeIsoDate(core.date), 365));
+        for (const answer of result.selfChosen)
+          ownChoiceDates.push(`${answer.at.date} ${answer.actionId}`);
+        logAt.set(core.date, core.durableLog.size);
+        // The director summarizes moments older than its window, so scenes are
+        // read as the run goes.
+        for (const entry of world.director.ledger.people.get(playerId)
+          ?.schedule ?? [])
+          for (const binding of entry.bindings)
+            if (
+              entry.outcome !== "journal-line" &&
+              !scenes.includes(binding.typeKey)
+            )
+              scenes.push(binding.typeKey);
+        const custody = playerCustody();
+        if (custody?.status === "released" && core.date > custody.until) break;
         if (
-          entry.outcome !== "journal-line" &&
-          !scenes.includes(binding.typeKey)
+          custody?.status === "serving" &&
+          core.date >= yearInto(custody.from)
         )
-          scenes.push(binding.typeKey);
-    const custody = playerCustody();
-    if (custody?.status === "released" && core.date > custody.until) break;
-    if (custody?.status === "serving" && core.date >= yearInto(custody.from))
-      break;
-    // Every report weighed and declined: nothing more is coming.
-    const weighed = ownInvestigations();
-    if (
-      weighed.length &&
-      weighed.length === ownComplaints().length &&
-      weighed.every((i) => !i.opened)
-    )
-      break;
-    const cases = rows<CaseRow>("cases").filter(
-      (c) => c.defendantId === playerId,
-    );
-    if (
-      cases.length &&
-      cases.every((c) => c.status === "acquitted" || c.status === "no-charge")
-    )
-      break;
-  }
-  const book = world.director.ledger.people.get(playerId);
-  for (const entry of book?.schedule ?? [])
-    if (entry.coverage?.label.includes("justice"))
-      coverage.push(entry.coverage);
-}
+          break;
+        // Every report weighed and declined: nothing more is coming.
+        const weighed = ownInvestigations();
+        if (
+          weighed.length &&
+          weighed.length === ownComplaints().length &&
+          weighed.every((i) => !i.opened)
+        )
+          break;
+        const cases = rows<CaseRow>("cases").filter(
+          (c) => c.defendantId === playerId,
+        );
+        if (
+          cases.length &&
+          cases.every(
+            (c) => c.status === "acquitted" || c.status === "no-charge",
+          )
+        )
+          break;
+      }
+      const book = world.director.ledger.people.get(playerId!);
+      for (const entry of book?.schedule ?? [])
+        if (entry.coverage?.label.includes("justice"))
+          coverage.push(entry.coverage);
+    },
+    lawChain(api).placeName,
+  );
 /** The world's log length on the last date at or before the given one. */
 const logOn = (date: string) =>
   Math.max(0, ...[...logAt].filter(([d]) => d <= date).map(([, n]) => n));
@@ -237,6 +271,7 @@ afterAll(() => {
           seed,
           place: lawChain(api).placeName,
           playerId,
+          diedBy,
           scenes,
           coverage,
           pollingDates,
@@ -275,13 +310,30 @@ describe(`the player's own act is reported, weighed and, if charged, tried and s
     const cases = rows<CaseRow>("cases").filter(
       (c) => c.defendantId === playerId,
     );
-    if (!ownInvestigations().some((i) => i.opened)) {
-      // Declined: no case, and the player goes on with their own choices.
-      expect(cases).toEqual([]);
+    if (ownInvestigations().some((i) => i.opened))
+      expect(cases.length, `seed ${seed}`).toBeGreaterThan(0);
+    if (!cases.length) {
+      // Declined, and no other investigation reached the player: the player
+      // goes on with their own choices.
       expect(inCustody(api, playerId!)).toBe(false);
       return;
     }
-    expect(cases.length).toBeGreaterThan(0);
+    // Every case on the player is for the player's own bribes, whichever
+    // report opened it: an investigation charges everyone its bribe payments
+    // connect, so another offerer's case can reach the player (Reidsville,
+    // North Carolina, seed dd6f9b4e986f6310).
+    const crimes = api
+      .moduleState(CORRUPTION_MODULE_ID)
+      .table("crimes")
+      .rows() as unknown as CrimeRecord[];
+    const own = new Set(
+      crimes.filter((c) => c.offererId === playerId).map((c) => c.id),
+    );
+    for (const row of cases)
+      expect(
+        row.crimeIds.some((id) => own.has(id)),
+        `seed ${seed}: ${row.id}`,
+      ).toBe(true);
     if (cases.some((c) => c.status !== "no-charge"))
       expect(scenes).toContain("hearing");
     if (cases.some((c) => c.status === "convicted" || c.status === "acquitted"))
@@ -308,6 +360,12 @@ describe(`the player's own act is reported, weighed and, if charged, tried and s
     ).toEqual([]);
     // The world kept writing its record while the player served.
     expect(logOn(served)).toBeGreaterThan(logOn(custody.from));
+    if (diedBy && custody.status !== "released") {
+      // The player died while serving: the run ended at the death, and the
+      // term ends with them on its release date.
+      expect(["serving", "died"], `seed ${seed}`).toContain(custody.status);
+      return;
+    }
     expect(isExplicitlyControlledPersonV1(core, playerId!)).toBe(true);
     if (custody.status === "released") {
       // Released, still the player, with the record on them.
