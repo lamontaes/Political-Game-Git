@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-reach-civic
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 2026-10-24T09:09:02.343Z
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the votes, approval and the press family: 8 unwired links, 5 where the owning engine does not read the factor and 3 where nothing keeps the outcome. Their outcomes: voting.local-turnout, voting.party-share, voting.registration, approval.incumbent, election.incumbent-vote, election.incumbent-reelection and press.media-trust. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
