@@ -7,7 +7,10 @@ import { advanceCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
-import type { TreasuryMonthRow } from "./budgets-treasury";
+import {
+  registerTreasuryBeforePaying,
+  type TreasuryMonthRow,
+} from "./budgets-treasury";
 import {
   onTreasuryBeforePaying,
   registerGovernmentExecutive,
@@ -181,6 +184,22 @@ it("in a played year the real chief executive weighs the monthly close, and each
       });
     return emit(event as never);
   }) as typeof api.emit;
+  // Every monthly close that reaches the diversion hook, with the officeholder
+  // it would weigh: the ordinary route is checked even where nobody takes any.
+  const weighed: { govId: string; date: string; executive?: string }[] = [];
+  registerTreasuryBeforePaying((hookApi, gov) => {
+    if (hookApi.state !== core) return;
+    const executive = governmentExecutive(hookApi, gov);
+    const person = executive ? hookApi.state.people.get(executive) : undefined;
+    weighed.push({
+      govId: gov.id,
+      date: hookApi.state.date,
+      executive:
+        person?.alive && person.livingCostDailyMinor > 0
+          ? person.id
+          : undefined,
+    });
+  });
   advanceCore(core, addDays(makeIsoDate(core.date), 365));
   const months = api
     .moduleState(BUDGETS_MODULE_ID)
@@ -190,7 +209,21 @@ it("in a played year the real chief executive weighs the monthly close, and each
   expect(months.length, `${where}: no treasury closed a month`).toBeGreaterThan(
     0,
   );
+  // The close called the hook, and in at least one month a living
+  // officeholder with costs of their own was the one weighing it.
+  expect(
+    weighed.length,
+    `${where}: the close reached the hook`,
+  ).toBeGreaterThan(0);
+  const real = weighed.filter((w) => w.executive);
+  expect(
+    real.length,
+    `${where}: a real chief executive weighed a month (${weighed.length} closes)`,
+  ).toBeGreaterThan(0);
   for (const record of diverted) {
     expect(record.holder, `${where}: ${record.id}`).toBe(record.personId);
   }
+  console.info(
+    `treasury-diversion year ${where}: ${weighed.length} closes reached the hook, ${real.length} weighed by a living officeholder (first ${real[0]!.executive} for ${real[0]!.govId} on ${real[0]!.date}); ${diverted.length} diversions${diverted.length ? ` (${diverted.map((d) => d.id).join(", ")})` : ""}`,
+  );
 }, 900_000);
