@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/hearing-scene-sponsor
-pr:
+pr: #5932
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T09:33:15.494Z
