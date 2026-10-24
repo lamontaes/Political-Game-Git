@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
-pr: #5968
-blocked-on:
+pr: 5968
+blocked-on: words-law-effect-learned-journal; the CTO accepting the screenshot split (laws-end-to-end-screenshots)
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at: 
 ---
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Added Oct 24 by the CTO as the laws lead's acceptance (docs/work-orders/lead-laws-2026-10-24.md). Built last, once the families land; the lead may start it earlier on a stopgap and say so. Where a link of the chain breaks, file it as its own item and name it here.
 
 In PR #5968 (laws lead, Oct 24). The done-when's screenshots line waits on the owner grading nine wording pieces; the lead moved it to `laws-end-to-end-screenshots` (blocked on that grading) and asked the CTO in the PR to accept the split.
+
+Laws lead, Oct 24 20:25: blocked. Merger 0's send-back (18:51) is right: the proof's journal row and bank lines are the Words session's files, so they move to , and the screenshots wait on the owner's grading (), a split the CTO has not yet accepted. The branch stays claude/laws-end-to-end-proof; it drops its copy of the two bank files once Words lands them.
