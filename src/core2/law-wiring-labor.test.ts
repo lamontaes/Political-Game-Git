@@ -169,8 +169,13 @@ function run(specId: string) {
   const countedJobs = [...(rt?.jobs.values() ?? [])].filter(
     (j) => j.endsAt === undefined && !core.jobs.has(j.id),
   );
-  const fullJobs = [...core.jobs.values()].filter(
-    (j) => j.endsAt === undefined,
+  const town = lawChain(api).townPlaceId;
+  // A resident's job (an official's seat pay is not a worker's).
+  const namedJobs = [...core.jobs.values()].filter(
+    (j) => j.endsAt === undefined && core.people.has(j.personId),
+  );
+  const fullJobs = namedJobs.filter(
+    (j) => core.people.get(j.personId)?.placeId === town,
   );
   if (!fullJobs.length || !countedJobs.length)
     throw new NoSubject("no full or counted jobs");
@@ -281,9 +286,19 @@ function run(specId: string) {
   if (!filed.full || !filed.counted)
     throw new NoSubject("no full and counted worker could file a claim");
   // The weekly maximum fixes the benefit of a claimant whose share of pay is above it: the town's best-paid full worker files too.
-  const top = [...fullJobs]
-    .filter((j) => j.personId !== filed.full)
-    .sort((a, b) => (b.wageDailyMinor ?? 0) - (a.wageDailyMinor ?? 0))[0];
+  // A resident of the town if one earns above the maximum; else the best-paid named person.
+  const byPay = (list: readonly JobInput[]) =>
+    [...list]
+      .filter((j) => j.personId !== filed.full)
+      .sort((a, b) => (b.wageDailyMinor ?? 0) - (a.wageDailyMinor ?? 0));
+  const maxNow =
+    (lawInForce(api, "unemployment-weekly-maximum").value ?? 0) *
+    api.parameter("minorPerDollar");
+  const resident = byPay(fullJobs)[0];
+  const top =
+    resident && (resident.wageDailyMinor ?? 0) * 7 * 0.6 > maxNow
+      ? resident
+      : byPay(namedJobs)[0];
   const capped =
     top && fileClaim(api, claims, top as JobInput, "labor-test", 52)
       ? top.personId
@@ -303,7 +318,8 @@ function run(specId: string) {
     `raise: no pay raised under ${enacted.raise?.join(",")}`,
   );
   const wageLaw = amountAt(api, "minimum-wage", 1.1, "wage");
-  step(5);
+  // Payroll runs on the raised wages before the chain is read.
+  step(35);
   // ---- minimum wage (amount) ---------------------------------------------
   const wage = rows(api, "minimum-wage");
   need(
@@ -436,11 +452,13 @@ function run(specId: string) {
     ownerId: string,
     sign: 1 | -1,
     hint: RegExp,
+    after = "",
   ): JournalEntry | undefined => {
     const account = accountOf(ownerId);
     return account
       ? entries.find(
           (e) =>
+            e.date >= after &&
             hint.test(`${e.kind} ${e.id} ${e.sourceId}`) &&
             e.postings.some(
               (p) =>
@@ -455,7 +473,11 @@ function run(specId: string) {
     pick: (r: LawAppliedRow) => boolean,
     journalOf: (r: LawAppliedRow) => JournalEntry | undefined | string,
   ) => {
-    const r = rows(api, key).find(pick);
+    const r = rows(api, key)
+      .filter(pick)
+      .sort(
+        (a, b) => a.since.localeCompare(b.since) || a.id.localeCompare(b.id),
+      )[0];
     need(r, `${law}: no applied row`);
     if (!r) return;
     const j = journalOf(r);
@@ -479,9 +501,10 @@ function run(specId: string) {
       journal: typeof j === "string" ? j : j.id,
     });
   };
-  const raised = (r: LawAppliedRow) =>
-    r.target === "person" && r.amountMinor > 0;
-  const paid = (r: LawAppliedRow) => entryOf(r.targetId, 1, /pay/i);
+  const named = (r: LawAppliedRow) =>
+    r.target === "person" && core.people.has(r.targetId);
+  const raised = (r: LawAppliedRow) => named(r) && r.amountMinor > 0;
+  const paid = (r: LawAppliedRow) => entryOf(r.targetId, 1, /pay/i, r.since);
   cite("minimum-wage", "minimum-wage", raised, paid);
   cite("raise-federal-minimum-wage", KEYS.federal, raised, paid);
   cite("raise-minimum-wage", KEYS.raise, raised, paid);
@@ -504,7 +527,7 @@ function run(specId: string) {
     "paid-family-leave",
     KEYS.leave,
     (r) => r.target === "person",
-    (r) => entryOf(r.targetId, -1, /leave|premium|withhold/i),
+    (r) => entryOf(r.targetId, -1, /leave|premium|withhold/i, r.since),
   );
   cite(
     "right-to-work",
@@ -524,7 +547,7 @@ function run(specId: string) {
       s,
       s,
       (r) => r.target === "person",
-      (r) => entryOf(r.targetId, -1, /withhold/i),
+      (r) => entryOf(r.targetId, -1, /withhold/i, r.since),
     );
   for (const s of ["state-unemployment-tax", "federal-unemployment-tax"])
     cite(
@@ -541,7 +564,9 @@ function run(specId: string) {
       },
     );
   const benefit = (who: string) =>
-    entries.find((e) => e.id.startsWith(`unemployment-benefit:${who}:`));
+    entries.find((e) =>
+      `${e.id} ${e.sourceId}`.includes(`unemployment-benefit:${who}:`),
+    );
   cite(
     "unemployment-insurance",
     "unemployment-insurance",
