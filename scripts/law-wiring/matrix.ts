@@ -60,6 +60,8 @@ interface Result {
     diff: { kind: string; treatment: number; control: number; ids: string[] }[];
     diffKinds: number;
     cited: { token: string; gross: number; ids: string[] }[];
+    /** Posts citing a law in force at the opening in the control world, where it stays in force (older result files have none). */
+    controlCited?: { token: string; gross: number; ids: string[] }[];
   };
   web: {
     links: { key: string; status: string; to: string }[];
@@ -294,16 +296,36 @@ function systemsLink(
   };
 }
 
+const fileOf = (frame: string) => frame.split(" <- ")[0]!.replace(/:\d+$/, "");
+/**
+ * A post is the law's own only where the file that posted it read the law in
+ * that run. Older result files also counted any law-reach file (law reach
+ * holds every law's handlers) and the day loop (which calls every module's
+ * day), so both are checked here too.
+ */
+function ownPost(kind: string, r: Result): boolean {
+  const file = fileOf(kind.split(" @ ")[1] ?? "");
+  if (file === "src/core2/life.ts") return false;
+  return Object.keys(r.readers ?? {}).some((f) => fileOf(f) === file);
+}
+
 function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
   const direct = runs.flatMap(({ place, r }) =>
-    (r.money?.direct ?? []).map((d) => ({ place, d })),
+    (r.money?.direct ?? [])
+      .filter((d) => ownPost(d.kind, r))
+      .map((d) => ({ place, d })),
   );
   const cited = runs.flatMap(({ place, r }) =>
     (r.money?.cited ?? [])
       .filter((c) => c.gross > 0)
       .map((c) => ({ place, c })),
   );
-  if (direct.length || cited.length) {
+  const controlCited = runs.flatMap(({ place, r }) =>
+    (r.money?.controlCited ?? [])
+      .filter((c) => c.gross > 0)
+      .map((c) => ({ place, c })),
+  );
+  if (direct.length || cited.length || controlCited.length) {
     const ev = [
       ...direct
         .slice(0, 3)
@@ -316,6 +338,12 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
         .map(
           ({ place, c }) =>
             `${place}: posts citing ${c.token}: ${c.gross} (${c.ids[0]})`,
+        ),
+      ...controlCited
+        .slice(0, 2)
+        .map(
+          ({ place, c }) =>
+            `${place}: in force in the control world, posts citing ${c.token}: ${c.gross} (${c.ids[0]})`,
         ),
     ].join("; ");
     return { status: "wired", evidence: ev, why: "" };
