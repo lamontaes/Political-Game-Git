@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/challenger-lost-primary
-pr:
+pr: #5950
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T14:36:32.004Z
