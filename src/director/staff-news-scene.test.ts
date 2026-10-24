@@ -24,7 +24,7 @@ import { purposeScene } from "./purpose-scene";
 // from it with one of the sponsor's aides bringing the news, about that bill.
 // Places are drawn in turn until one has a watched sponsor with an aide whose
 // bill lost. Most losses come early in the year, before an official's own
-// review gets round to hiring, so each watched official with no aide hires
+// review gets around to hiring, so each watched official with no aide hires
 // one on the first day through the staff module's own hiring (the candidate
 // its review ranks first), as the electoral test's candidates ask people to
 // volunteer.
