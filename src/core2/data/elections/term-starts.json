@@ -273,7 +273,7 @@
         "url": "https://50constitutions.org/fl/constitution/section-id-64838"
       },
       "stateLegislative": {
-        "tag": "SOURCED",
+        "tag": "ESTIMATED",
         "rule": {
           "month": 11,
           "nth": 1,
@@ -283,7 +283,8 @@
         "citation": "Fla. Const. art. III, sec. 15",
         "url": "https://50constitutions.org/fl/constitution/section-id-64755",
         "excerpt": "Members of the legislature shall take office upon election.",
-        "note": "\"Upon election\" is election day itself, which the game cannot use (it takes the first start after election day). The nearest rule is the day after the election, {11,1,1,2}. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+        "note": "\"Upon election\" is election day itself, which the game cannot use (it takes the first start after election day). The nearest rule is the day after the election, {11,1,1,2}. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23.",
+        "estimatedFrom": "The clause fixes the term's start on election day itself (the Tuesday, 1 day after the first Monday in November), which ruleStartAfter cannot return because it takes the first start strictly after election day. The row carries the next day (offset 2), one day late; spread 0 to 1 day, the Wednesday after election day. Replaced when a term can start on the day of its election."
       }
     },
     "US-GA": {
@@ -355,7 +356,7 @@
         "url": "https://50constitutions.org/hi/constitution/section-id-66123"
       },
       "stateLegislative": {
-        "tag": "SOURCED",
+        "tag": "ESTIMATED",
         "rule": {
           "month": 11,
           "nth": 1,
@@ -365,7 +366,8 @@
         "citation": "Haw. Const. art. III, sec. 4",
         "url": "https://50constitutions.org/hi/constitution/section-id-65984",
         "excerpt": "The term of a member of the legislature shall begin on the day of the general election at which elected or if elected at a primary election, on the day of the general election immediately following the primary election at which elected.",
-        "note": "The term begins on election day itself, which the game cannot use; the nearest rule is the day after the election, {11,1,1,2}. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+        "note": "The term begins on election day itself, which the game cannot use; the nearest rule is the day after the election, {11,1,1,2}, one day late. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23.",
+        "estimatedFrom": "The clause fixes the term's start on election day itself (the Tuesday, 1 day after the first Monday in November), which ruleStartAfter cannot return because it takes the first start strictly after election day. The row carries the next day (offset 2), one day late; spread 0 to 1 day, the Wednesday after election day. Replaced when a term can start on the day of its election."
       }
     },
     "US-IA": {
@@ -1180,7 +1182,7 @@
         "note": "The inauguration itself happens at the organizational session that convenes on the second Tuesday in January (art. II, sec. 8, https://50constitutions.org/tn/constitution/section-id-87068); the term is counted from January 15. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
       },
       "stateLegislative": {
-        "tag": "SOURCED",
+        "tag": "ESTIMATED",
         "rule": {
           "month": 11,
           "nth": 1,
@@ -1190,7 +1192,8 @@
         "citation": "Tenn. Const. art. II, sec. 3",
         "url": "https://50constitutions.org/tn/constitution/section-id-87054",
         "excerpt": "Representatives shall hold office for two years and Senators for four years from the day of the general election",
-        "note": "The term runs from election day itself, which the game cannot use; the nearest rule is the day after the election, {11,1,1,2}. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23."
+        "note": "The term runs from election day itself, which the game cannot use; the nearest rule is the day after the election, {11,1,1,2}, one day late. Read in the 50constitutions.org mirror (University of Wisconsin State Democracy Research Initiative), current version as of 2026-10-23.",
+        "estimatedFrom": "The clause fixes the term's start on election day itself (the Tuesday, 1 day after the first Monday in November), which ruleStartAfter cannot return because it takes the first start strictly after election day. The row carries the next day (offset 2), one day late; spread 0 to 1 day, the Wednesday after election day. Replaced when a term can start on the day of its election."
       }
     },
     "US-TX": {
