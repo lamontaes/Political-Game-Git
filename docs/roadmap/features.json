@@ -160,7 +160,7 @@
       "package": "M1-macro",
       "test": "A one-year run keeps national figures within real historical spreads (each month's 12-month change in unemployment, prices and payroll jobs, and each quarter's output growth, inside the 5th to 95th percentile of 1990 to the latest year); a rate decision changes what loans cost in the town; every decision is traceable to the members' reasons, with no random draws.",
       "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts",
-      "passes": true
+      "passes": false
     },
     {
       "id": "M1-03",
