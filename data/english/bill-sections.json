@@ -401,7 +401,7 @@
     },
     "local-income-tax-authority": {
       "origin": "authored",
-      "author": "Claude Sonnet (laws lead, claude/law-wiring-taxes)",
+      "author": "Claude (laws lead, claude/law-wiring-taxes)",
       "date": "2026-10-24",
       "shippable": false,
       "subject": "the state's grant of local income tax authority",
