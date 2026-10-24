@@ -45,7 +45,7 @@ export const OFFICIALS_DATA = officialsData as unknown as {
     >;
     betweenBand: Weight;
   };
-  traits: { keys: Record<string, Spread> };
+  traits: { keys: Record<string, Spread>; levelSd: Weight };
   weights: Record<
     | "views"
     | "district"
@@ -155,6 +155,34 @@ export interface OfficialDraw {
 }
 
 /**
+ * An official's traits: the residents' temperament model's level on every
+ * trait (the same -2..2 levels and norms by age and sex a resident has), with
+ * the roster's selection shift on the facets that set officials apart
+ * (`traits.keys`: each one's mean in the roster's own spread, carried into
+ * residents' levels by `traits.levelSd`). So an official is read by the same
+ * trait table as a resident. `roster` gives those facets back on the roster's
+ * own scale, for the loyalty and ambition the roster's weights were set on.
+ */
+export function officialTraits(temperament: Readonly<Record<string, number>>): {
+  traits: Record<string, number>;
+  roster: Record<string, number>;
+} {
+  const data = OFFICIALS_DATA;
+  const levelSd = data.traits.levelSd.value;
+  const traits: Record<string, number> = { ...temperament };
+  const roster: Record<string, number> = {};
+  for (const [key, row] of Object.entries(data.traits.keys)) {
+    const level = Math.max(
+      -2,
+      Math.min(2, (temperament[key] ?? 0) + (row.mean / row.sd) * levelSd),
+    );
+    traits[key] = level;
+    roster[key] = Math.max(-1, Math.min(1, (level * row.sd) / levelSd));
+  }
+  return { traits, roster };
+}
+
+/**
  * Draw who an official is. `districtZ` is how far their district leans
  * their party's way against the party's other seats, in standard deviations
  * (0 where it isn't read).
@@ -169,6 +197,8 @@ export function drawOfficial(input: {
   readonly leader: boolean;
   /** The roster's caucus record for an independent, where it has one. */
   readonly caucus?: { caucus: string; formerParty?: string };
+  /** Their level on every trait from the residents' temperament model (opening-personality.ts). */
+  readonly temperament: Readonly<Record<string, number>>;
 }): OfficialDraw {
   const data = OFFICIALS_DATA;
   const at = (what: string) => `${input.seed}:official:${input.key}:${what}`;
@@ -214,27 +244,22 @@ export function drawOfficial(input: {
         data.signatureIssues.tiltSd.value *
         seededNormal(at(`tilt:${question}`)),
     }));
-  const traits: Record<string, number> = {};
-  for (const [key, row] of Object.entries(data.traits.keys))
-    traits[key] = Math.max(
-      -1,
-      Math.min(1, row.mean + row.sd * seededNormal(at(`trait:${key}`))),
-    );
+  const { traits, roster } = officialTraits(input.temperament);
   const l = data.loyalty;
   const loyalty = Math.max(
     l.floor,
     1 +
-      l.perDutyBound * traits["personality-v1:facet-duty-bound"]! +
-      l.perGenerous * traits["personality-v1:facet-generous"]! +
-      l.perConflict * traits["people-mind-v1:conflict"]! +
-      l.perRisk * traits["people-mind-v1:risk"]! +
+      l.perDutyBound * roster["personality-v1:facet-duty-bound"]! +
+      l.perGenerous * roster["personality-v1:facet-generous"]! +
+      l.perConflict * roster["people-mind-v1:conflict"]! +
+      l.perRisk * roster["people-mind-v1:risk"]! +
       (input.leader ? l.leadership : 0),
   );
   const a = data.ambitionTraits;
   const ambition = Math.max(
     0,
-    a.perEnterprising * traits["personality-v1:facet-enterprising"]! +
-      a.perRisk * traits["people-mind-v1:risk"]!,
+    a.perEnterprising * roster["personality-v1:facet-enterprising"]! +
+      a.perRisk * roster["people-mind-v1:risk"]!,
   );
   return {
     ideal,

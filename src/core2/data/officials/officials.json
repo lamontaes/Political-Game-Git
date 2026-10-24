@@ -114,7 +114,7 @@
     }
   },
   "traits": {
-    "about": "The personality facets drawn for each official, in the same units as residents' traits, from the world's seed. Officials are drawn from people suited to public life: more outgoing, dutiful and driven than average (Dietrich, Lasley, Mondak, Remmel and Turner 2012, 'Personality and Legislative Politics: The Big Five Trait Dimensions Among U.S. State Legislators', Political Psychology 33(2): legislators score above the public on extraversion and conscientiousness).",
+    "about": "Each official's traits are the residents' temperament model's level on every trait (the same -2..2 levels and norms by age and sex), and these facets carry the roster's selection shift: officials are drawn from people suited to public life, more outgoing, dutiful and driven than average (Dietrich, Lasley, Mondak, Remmel and Turner 2012, 'Personality and Legislative Politics: The Big Five Trait Dimensions Among U.S. State Legislators', Political Psychology 33(2): legislators score above the public on extraversion and conscientiousness). Each key's mean and spread are on the roster's own scale (-1..1); the shift is the mean over the spread, in standard deviations, carried into residents' levels by levelSd. Loyalty and ambition read these facets back on the roster's scale.",
     "tag": "ESTIMATED",
     "keys": {
       "personality-v1:facet-duty-bound": {
@@ -153,6 +153,11 @@
         "mean": 0.1,
         "sd": 0.35
       }
+    },
+    "levelSd": {
+      "value": 1.0954,
+      "tag": "SOURCED",
+      "citation": "The standard deviation of the residents' -2..2 trait levels: the owner-accepted 10/20/40/20/10 spread (src/core2/data/opening-kin.json, personality.levels), the square root of 0.1 x 4 + 0.2 x 1 + 0.4 x 0 + 0.2 x 1 + 0.1 x 4 = 1.2."
     },
     "spread": [0.2, 0.5]
   },
