@@ -551,6 +551,7 @@ export function createNewsModule(
         deliveries(api).remove(row.id);
       }
       // Today's readers of a printed story take in what it argued.
+      // stopgapId: SG-PEOPLE-counted-readers-stories (an outlet's counted followers are a count at delivery; their groups' views do not move)
       for (const [storyId, ids] of [...readers].sort((a, b) =>
         a[0].localeCompare(b[0]),
       )) {
