@@ -1180,7 +1180,7 @@ export function holdReserve(
   if (!input.inForce) {
     if (held > 0)
       accounts.transfer({
-        id: `reach-b:reserve-release:${gov.id}:${api.state.date}`,
+        id: `reach-b:reserve-release:${input.key}:${gov.id}:${api.state.date}`,
         from: accountId,
         to: main,
         amountMinor: held,
@@ -1210,7 +1210,7 @@ export function holdReserve(
   const receipt =
     need > 0
       ? accounts.transfer({
-          id: `reach-b:reserve:${gov.id}:${api.state.date}`,
+          id: `reach-b:reserve:${input.key}:${gov.id}:${api.state.date}`,
           from: main,
           to: accountId,
           amountMinor: need,
