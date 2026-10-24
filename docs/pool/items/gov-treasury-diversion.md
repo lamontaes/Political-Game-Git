@@ -37,6 +37,6 @@ Sent back 2026-10-17 from PR #4587 (branch claude/gov-treasury-diversion): Morni
 
 Sent back 2026-10-20 from PR #4587 (branch claude/gov-treasury-diversion): Morning check and test timeout: treasury-diversion.test.ts timed out, and corruption.diversions table has no non-test reader and no stopgap row; finish on that branch, merge main into it first.
 
-**Oct 20 finish.** Removed the write-only `corruption.diversions` table: the treasury-to-official transfer on the cash journal is the record (the treasury pays its lines from what is left; the official's cash is what their next choices weigh), and a `treasury.diverted` event names the official. The test now draws up to 4 places and 40 officials so it stays inside its timeout, and still fails loudly if nobody takes any.
-
 Sent back 2026-10-23 from PR #4587 (branch claude/gov-treasury-diversion): The body still describes the removed table and lacks its Done-when evidence table; the ordinary-year test can pass with zero diversions, while the positive case substitutes and funds residents by hand; add a positive ordinary generated-world money-chain witness by record id; finish on that branch, merge main into it first.
+
+**Oct 20 finish.** Removed the write-only `corruption.diversions` table: the treasury-to-official transfer on the cash journal is the record (the treasury pays its lines from what is left; the official's cash is what their next choices weigh), and a `treasury.diverted` event names the official. The test now draws up to 4 places and 40 officials so it stays inside its timeout, and still fails loudly if nobody takes any.
