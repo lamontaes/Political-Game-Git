@@ -355,5 +355,16 @@
       "unit": "score per log of cash over the down payment",
       "citation": "Savings beyond the down payment make a purchase feasible and are the main enabler of first-time buying (NAR 2025); a sliding pull by the log of means over the down payment, to one."
     }
+  },
+  "housingTenureShrinkHomes": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "A small place's ACS owner share is a sample reading (many tiny places read exactly 100% owned); it is pulled toward its county's share as if the county supplied this many homes (empirical-Bayes shrinkage of a binomial share).",
+    "spread": {
+      "low": 10,
+      "high": 100,
+      "unit": "homes",
+      "citation": "ACS 5-year tenure margins of error for places under 500 homes run roughly 5 to 15 points."
+    }
   }
 }
