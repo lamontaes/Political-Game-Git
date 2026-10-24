@@ -5,11 +5,12 @@ area: docs
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/research-estimate-acceptance
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T06:04:50.853Z
 ---
 
 **What.** The researcher skill tells an ESTIMATED parameter to keep its estimated-parameter stopgap open until the figure is SOURCED. The same skill later tells every stopgap row to be resolved, and research umbrella items copy that unconditional resolution into Done when. PRs #5848, #5856, #5860 and #5864 consequently report useful estimates while explicitly failing that acceptance; align the instruction and item scopes so complete research can be reviewed without completing unfinished mechanics.
