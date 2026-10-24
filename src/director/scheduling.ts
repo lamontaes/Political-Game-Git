@@ -57,6 +57,12 @@ export interface SituationCause {
     }[];
     /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
     occasion?: string;
+    /**
+     * The cause's own record names the moment's person (a public comment's
+     * speakers): someone who only heard of it from a tie matches nothing, so
+     * a hearing is never staged around a speaker who did not speak.
+     */
+    causeNames?: "subject";
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -232,6 +238,11 @@ export function causeMatches(
   if (
     match.occasion !== undefined &&
     speechOccasion(core, moment.causeId) !== match.occasion
+  )
+    return false;
+  if (
+    match.causeNames === "subject" &&
+    !core.durableLog.get(moment.causeId)?.personIds.includes(moment.personId)
   )
     return false;
   if (match.selfNamed && !moment.selfNamed) return false;

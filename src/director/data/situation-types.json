@@ -2381,7 +2381,8 @@
       "causes": [
         {
           "match": {
-            "label": "cause:event:public-comment"
+            "label": "cause:event:public-comment",
+            "causeNames": "subject"
           },
           "causeEngine": "meetings",
           "causeRecord": "public-comment",
