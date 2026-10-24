@@ -960,7 +960,7 @@ function replies(choices, onPick) {
   return choices.map((choice) => {
     const b = el("button", {
       type: "button",
-      className: `reply${choice.lie ? " lying" : ""}`,
+      className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
       // Filing is a control of its own, never worded like acknowledging a refusal.
       textContent:
         choice.control === "file"
@@ -1447,9 +1447,22 @@ async function campaignRows() {
 }
 
 // ---- A big moment, staged when it stops the clock ----
+// The grading view (/play?held=1): a scene may say lines still held until the
+// owner grades them, each marked, with the record that fired it.
+const HELD_VIEW =
+  new URLSearchParams(window.location.search).get("held") === "1";
+/** Why a scene is happening: its cause record and the facts it may say, by record. */
+function whyRows(why) {
+  return [
+    `${why.cause.kind} · ${why.cause.date} · ${why.cause.id}`,
+    ...why.facts.map(
+      (row) => `${row.key}: ${row.text} (${row.recordIds.join(", ")})`,
+    ),
+  ].map((text) => el("li", { className: "why", textContent: text }));
+}
 async function showStory(momentId) {
   const story = await api(
-    `/api/story?momentId=${encodeURIComponent(momentId)}`,
+    `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
   );
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
@@ -1459,17 +1472,54 @@ async function showStory(momentId) {
   $("talk-name").textContent = "";
   $("talk-lines").replaceChildren(
     ...story.narration.map((line) =>
-      el("li", { className: "speech narration", textContent: line.text }),
+      el("li", {
+        className: `speech narration${line.held ? " held" : ""}`,
+        textContent: line.text,
+      }),
     ),
+    ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
   );
+  // A scene with a purpose is its own exchange; any other opens a talk.
+  const withId = story.talk?.askerId ?? story.talkToId;
   $("talk-choices").replaceChildren(
-    ...(story.talkToId
-      ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId, momentId),
+    ...(withId
+      ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
+          story.talk ? playExchange(story) : talkTo(withId, momentId),
         )
       : []),
   );
   setScales({ available: false });
+}
+/** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
+function playExchange(story) {
+  const { talk } = story;
+  setWho(talk.askerId, story.names[talk.askerId]);
+  const said = [...talk.opening];
+  const lineOf = (line) =>
+    el("li", {
+      className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
+      textContent: line.text,
+    });
+  const play = (node) => {
+    said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
+    $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+    $("talk-choices").replaceChildren(
+      ...replies(
+        node.replies.map((reply) => ({
+          text: reply.line.text,
+          held: reply.line.held,
+          reply,
+        })),
+        ({ reply }) => {
+          said.push(reply.line);
+          if (reply.next) play(reply.next);
+          else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+          if (!reply.next) $("talk-choices").replaceChildren();
+        },
+      ),
+    );
+  };
+  play(talk.tree);
 }
 function storyStop(value) {
   return value?.kind === "stop"

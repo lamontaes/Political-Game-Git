@@ -89,6 +89,8 @@ export interface SituationLibrary {
     householdScenes: readonly string[];
     /** Records of the whole household that stage a family scene for each member. */
     householdRecordScenes?: readonly string[];
+    /** Records of the subject's own life the household meets at home: a filing, the count of their race. */
+    ownRecordScenes?: readonly string[];
   };
   types: readonly SituationType[];
 }
@@ -511,7 +513,9 @@ export function scheduleMoment(
         (id) => core.people.get(id)?.householdId === household,
       )) ||
       (library.scheduling.householdRecordScenes?.includes(moment.label) ??
-        false)) &&
+        false) ||
+      ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
+        moment.selfNamed === true)) &&
     bindings.some((row) => row.setting.kind === "home");
   const interrupt =
     (moment.impact >= options.interruptImpact || familyNews) && !filteredOut;

@@ -69,6 +69,11 @@ const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
 const SHIPPED = PARTS.filter(
   (part) => part.shippable === true && !heldByGrades(part.key),
 );
+const SHIPPED_KEYS = new Set(SHIPPED.map((part) => part.key));
+/** Whether play may say this piece: released and not failed by the owner's grades. */
+export function shipped(partKey: string): boolean {
+  return SHIPPED_KEYS.has(partKey);
+}
 
 interface Pull {
   move: string;

@@ -855,6 +855,8 @@ export async function benchRequest(
             player.personId,
             url.searchParams.get("momentId") ?? "",
             player.packet?.at.minuteOfDay ?? 12 * 60,
+            // ?held=1 on the play page: the grading view, held lines marked.
+            { held: url.searchParams.get("held") === "1" },
           ),
         );
         return;
