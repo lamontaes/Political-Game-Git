@@ -270,7 +270,7 @@ export function bringCases(api: CoreAPI): void {
       if (
         !leanedYes(
           api.state,
-          { traits: seeker.traits },
+          { id: seeker.personId, traits: seeker.traits },
           "constituent-cases.bring-case",
           "bring",
           "let-it-go",
