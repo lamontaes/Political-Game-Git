@@ -8,6 +8,7 @@ import { residentPerson, residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { isDemoted } from "./counted-groups";
 import { generatedOpening } from "./tooling/generated-world";
+import { corePlaceByKey } from "./place-lookup";
 import type { CoreState } from "./types";
 
 const after = (days: number) => {
@@ -91,4 +92,69 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
     advanceCore(core, after(330));
     expect(total(core)).toBe(start);
   }, 600_000);
+});
+
+describe(`a filled-in household that moved away from the counted places (seed ${seed})`, () => {
+  it("stays filled in where it lives, since no counts are kept there, and the year goes on", () => {
+    const core = createLifeCore(
+      generatedOpening(place, {
+        twoLevel: true,
+        settings: { population: 1500 },
+      }),
+    );
+    const rt = residentsRuntime(core)!;
+    const kept = new Set(rt.input.accounts.map((row) => row.placeId));
+    const player = core.playerId ? core.people.get(core.playerId) : undefined;
+    const circle = new Set([
+      ...(player?.familyIds ?? []),
+      ...(player?.knownIds ?? []),
+    ]);
+    // A counted household with no job to keep it in town, out of the
+    // player's circle.
+    const record = [...rt.households.values()]
+      .filter(
+        (row) =>
+          row.people.length > 0 &&
+          !row.jobs.length &&
+          row.people.every((p) => !circle.has(p.id)),
+      )
+      .sort((a, b) => a.household.id.localeCompare(b.household.id))[0];
+    expect(
+      record,
+      `${place.name}: a counted household without a job`,
+    ).toBeDefined();
+    const first = record!.people[0]!.id;
+    fillInPerson(core, first);
+    const home = core.people.get(first)!.householdId;
+    // Its people on a tier the days run, as the Brandsville, Missouri
+    // household was that doubled up with a relative in another town after an
+    // eviction (housing-homeless.ts) and stopped the year when the review
+    // returned it to counts not kept there.
+    for (const id of core.households.get(home)!.memberIds)
+      coreAPI(core).updatePerson(id, { tier: "weekly" });
+    const members = core.households.get(home)!.memberIds;
+    // It moves away the way the moves engine moves a household
+    // (modules/moves.ts), to a place the counts do not keep.
+    const away = corePlaceByKey(place.key)!.stateJurisdictionKey;
+    expect(kept.has(away)).toBe(false);
+    coreAPI(core).relocatePeopleV1({
+      personIds: members,
+      placeId: away,
+      householdId: home,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Test: a household that moved out of town.",
+      },
+    });
+    const where = `${place.name}: ${home} moved to ${away}`;
+    // Past the world's 180 to 240 days, through every monthly review.
+    advanceCore(core, after(300));
+    expect(
+      countedDemotions(coreAPI(core)).filter((row) => row.householdId === home),
+      where,
+    ).toEqual([]);
+    for (const id of members)
+      expect(isDemoted(core.people.get(id)!), `${where}: ${id}`).toBe(false);
+  }, 1_800_000);
 });
