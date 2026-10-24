@@ -21,6 +21,6 @@ claimed-at:
 
 **Files.** src/core2/housing-calibration.test.ts
 
-**Notes.** TODO
+**Notes.** Sent back 2026-10-23 from PR #5324 (branch claude/release-red-housing): the PR body lacks the mandatory Done-when evidence table and still says the failure was not reproduced; put the bounded ten-case proof, replay seed and main-only HUD result in the body and replace the item TODO acceptance; finish on that branch, merge main into it first.
 
-Sent back 2026-10-23 from PR #5324 (branch claude/release-red-housing): the PR body lacks the mandatory Done-when evidence table and still says the failure was not reproduced; put the bounded ten-case proof, replay seed and main-only HUD result in the body and replace the item TODO acceptance; finish on that branch, merge main into it first.
+Found by running src/core2 on main, Oct 19 (release-suite-red-list-on-main): 'expected 0.25 to be greater than or equal to 0.6723044397463002' at housing-calibration.test.ts:81. The place and seed were not printed; print them first.
