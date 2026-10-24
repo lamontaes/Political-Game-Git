@@ -5,12 +5,12 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/old-imports-town-households
 pr: #5031
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T06:09:37.923Z
 ---
 
 **What.** The town household builder (`src/core2/town-households.ts`) imported the old engine's name drawing, identity generation, cohort given names, name corpus and world types. Read the core's own copies of each (`gov-rules/given-name-cohorts`, `gov-rules/names-data`, `gov-rules/person-identity`, `person-names`) and take the world as its seed and start date, so the file imports nothing from `src/simulation`. The old engine's two callers keep their behavior by passing the name corpus themselves.
