@@ -15,14 +15,17 @@
  * (5) every job change on record names a reason from the jobs reasons table
  *     and who decided it, a decider that is a record in the world.
  * Rates are changes on record in the town's employers per hundred jobs at
- * the town's employers; the counted tier keeps no job-change records (owner,
- * Oct 14, ruling 3, src/core2/modules/jobs.ts noteCountedLeavers), so what is
- * measured is the record. Exits nonzero naming each failed clause.
+ * the town's employers, each record counted as the people it stands for (a
+ * counted worker's household weight). A counted worker who leaves keeps no
+ * change record (owner, Oct 14, ruling 3, src/core2/modules/jobs.ts
+ * noteCountedLeavers), so what is measured is the record. Exits nonzero naming each failed clause.
  */
 import regionsData from "../data/regional/regions.json" with { type: "json" };
 import turnover from "../../../data/research/jobs/series/turnover.json" with { type: "json" };
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import { residentsRuntime } from "../modules/residents";
+import { countedHeadsOf } from "../residents-economy";
+import { represented } from "./m1-measures";
 import { buildPlayedWorld, playYear } from "./m1-played-year";
 
 const world = buildPlayedWorld();
@@ -32,30 +35,38 @@ const jobs = api.moduleState("jobs");
 const townId = world.placeId;
 const orgPlace = (id: string) => core.organizations.get(id)?.placeId;
 
-/** The town's jobs today: full people's and the counted tier's, at the town's employers. */
+/** The people one record stands for: a full person one, a counted record its household's weight. */
+const heads = (personId: string) => countedHeadsOf(core, personId);
+/** The town's jobs today: full people's and the counted tier's, at the town's employers, as the people they stand for. */
 function employment(): number {
-  let n = 0;
-  for (const job of core.jobs.values())
-    if (job.endsAt === undefined && orgPlace(job.organizationId) === townId)
-      n += 1;
-  for (const job of residentsRuntime(core)?.jobs.values() ?? [])
-    if (job.endsAt === undefined && orgPlace(job.organizationId) === townId)
-      n += 1;
-  return n;
+  const inTown = (job: { endsAt?: string; organizationId: string }) =>
+    job.endsAt === undefined && orgPlace(job.organizationId) === townId;
+  return (
+    represented([...core.jobs.values()].filter(inTown), () => 1) +
+    represented(
+      [...(residentsRuntime(core)?.jobs.values() ?? [])].filter(inTown),
+      (job) => heads(job.personId),
+    )
+  );
 }
-/** The town's people out of work and looking: full seekers without a job and the counted tier's. */
+/** The town's people out of work and looking: full seekers without a job and the counted tier's, as the people they stand for. */
 function unemployed(): number {
-  let n = 0;
-  for (const row of jobs.table("seekers").rows() as unknown as {
-    placeId: string;
-    employed: boolean;
-  }[])
-    if (row.placeId === townId && !row.employed) n += 1;
-  for (const row of jobs.table("countedSeekers").rows() as unknown as {
-    placeId: string;
-  }[])
-    if (row.placeId === townId) n += 1;
-  return n;
+  const full = (
+    jobs.table("seekers").rows() as unknown as {
+      placeId: string;
+      employed: boolean;
+    }[]
+  ).filter((row) => row.placeId === townId && !row.employed);
+  const counted = (
+    jobs.table("countedSeekers").rows() as unknown as {
+      placeId: string;
+      personId: string;
+    }[]
+  ).filter((row) => row.placeId === townId);
+  return (
+    represented(full, () => 1) +
+    represented(counted, (row) => heads(row.personId))
+  );
 }
 
 const openingEmployment = employment();
@@ -102,12 +113,14 @@ const counts = {
   quits: Array<number>(12).fill(0),
   layoffs: Array<number>(12).fill(0),
 };
+// A change to a counted worker's job stands for their household's weight.
 for (const row of inTown) {
   const at = monthIndex(row.date) - 1;
-  if (row.kind === "hire") counts.hires[at]! += 1;
-  else if (row.kind === "quit") counts.quits[at]! += 1;
+  const n = heads(row.personId);
+  if (row.kind === "hire") counts.hires[at]! += n;
+  else if (row.kind === "quit") counts.quits[at]! += n;
   else if (row.kind === "layoff" || row.kind === "closure")
-    counts.layoffs[at]! += 1;
+    counts.layoffs[at]! += n;
 }
 const monthlyRate = (series: number[]) =>
   series.map((n, i) => (100 * n) / Math.max(1, employedAt[i]!));

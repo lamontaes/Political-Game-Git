@@ -24,6 +24,7 @@ import { stateFigures, REGIONS, type RegionMonth } from "../regional-model";
 import { type MacroMonth } from "../macro-model";
 import { advanceCore } from "../life";
 import { buildPlayedWorld, nextDay, playYear } from "./m1-played-year";
+import { openingRateMatches, weightedRate } from "./m1-measures";
 
 const world = buildPlayedWorld();
 const { api, core } = world;
@@ -204,18 +205,15 @@ for (const fips of fipsList) {
     failures.push(
       `${usps}: opening jobs ${jobsNow.toFixed(1)}k, real ${jobs}k`,
     );
-  const uNow =
-    rows.reduce((sum, row) => sum + row.unemploymentPct * people(row), 0) /
-    total;
-  // The rest of the state takes what the state's rate leaves after its metros; a metro above the state can leave it nothing, so the state's own rate stands there.
-  const rest = rows.find(
-    (row) => REGIONS.find((r) => r.id === row.regionId)!.kind !== "metro",
-  );
-  const restFloored =
-    rest !== undefined && rest.unemploymentPct === unemployment;
-  if (!restFloored && Math.abs(uNow - unemployment) > 1e-6)
+  const rates = rows.map((row) => ({
+    pct: row.unemploymentPct,
+    people: people(row),
+  }));
+  // No case is excused: a rest-of-state region floored at the state's own
+  // rate still leaves the state's weighted rate to match the published one.
+  if (!openingRateMatches(rates, unemployment))
     failures.push(
-      `${usps}: opening unemployment ${uNow.toFixed(3)}%, real ${unemployment}%`,
+      `${usps}: opening unemployment ${weightedRate(rates).toFixed(3)}%, real ${unemployment}%`,
     );
   if (pay !== undefined) {
     const payNow =
