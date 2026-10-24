@@ -57,3 +57,22 @@ test("input-budget failure stays red independently of timing", () => {
   assert.equal(result.speedPassed, true);
   assert.equal(result.openingBudgetPassed, false);
 });
+
+test("fewer measured pairs compare when both sides have the same count", () => {
+  // A large drawn town whose time budget allowed one or two pairs.
+  assert.equal(compare(rows([10]), rows([12])).ratio, 1.2);
+  assert.equal(compare(rows([10]), rows([12])).measuredPairs, 1);
+  const two = compare(rows([10, 20]), rows([12, 24]));
+  assert.equal(two.baseMillisecondsPerDay, 15);
+  assert.equal(two.headMillisecondsPerDay, 18);
+  assert.equal(two.measuredPairs, 2);
+  for (const [base, head] of [
+    [[10, 10], [10]],
+    [[], []],
+    [
+      [10, 10, 10, 10],
+      [10, 10, 10, 10],
+    ],
+  ])
+    assert.throws(() => compare(rows(base), rows(head)));
+});

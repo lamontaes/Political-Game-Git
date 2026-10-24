@@ -12,7 +12,7 @@ unchanged by these tools.
   Receipts also record the actual checked-out source revision.
 - Performance: `node --import tsx scripts/core2-guard/paired.mjs --base BASE --head HEAD --output /tmp/core2-paired.json`.
   Start with a clean registered checkout. The tool switches revisions
-  sequentially, then restores the original branch or detached commit.
+  in turn, then restores the original branch or detached commit.
 - Detector tests: `node --import tsx --test tests/golden-path/runner.node-test.mjs scripts/core2-guard/compare.node-test.mjs scripts/core2-guard/paired.node-test.mjs`.
   Run heavy commands through the repository storage wrapper in the cloud.
 
@@ -43,10 +43,17 @@ every module the bench installs (`buildBenchWorld`, opening October 12, 2026),
 the same path as `tests/golden-path/played-world.node-test.ts`. A revision
 whose bench can't hand over its opening input falls back to the generated
 opening; `settings.playedWorld` records which path ran.
-One warmup and three independent measured processes run per revision, one
-process at a time. The same seed, place, opening-input hash, settings, host,
-and month horizon must match; incomparable runs fail explicitly. Median
-simulation milliseconds per day determine the ratio. Initialization and opening
+One warmup and up to three independent measured processes run per revision,
+one process at a time, base and head alternating so the machine's drift falls
+on both. Each run plays a whole year, so a large drawn town can take minutes a
+run: after the first measured pair, another pair starts only while the last
+pair's time times `runTimeMargin` still fits the time left, and each profile
+(the head's first) only while its last run's time times `profileTimeMargin`
+does. A large town then measures one or two pairs instead of failing on time;
+the summary names how many. The same seed, place, opening-input hash,
+settings, host, and month horizon must match; incomparable runs fail
+explicitly. Median simulation milliseconds per day (the mean of the middle two
+for two pairs) determine the ratio. Initialization and opening
 phases are reported separately. A ratio above 1.20 is red. A failed opening-input budget is also red,
 independently of timing. Valid measurements still report both components when
 the baseline already exceeds an input budget. The relative year

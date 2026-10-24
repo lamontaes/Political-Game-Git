@@ -13,7 +13,7 @@ import {
 import { tmpdir } from "node:os";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { paired } from "./paired.mjs";
+import { nextPairFits, paired, profileFits } from "./paired.mjs";
 import { runMonth } from "./month.mjs";
 const scripts = dirname(fileURLToPath(import.meta.url));
 
@@ -124,4 +124,17 @@ writeFileSync(value('--output'), JSON.stringify(receipt));
   } finally {
     process.chdir(previous);
   }
+});
+
+test("another pair or a profile starts only while its last time fits what is left", () => {
+  // Six minutes a run, as a large drawn town's year took on GitHub's runner.
+  const run = 6 * 60_000;
+  assert.equal(nextPairFits(33 * 60_000, run, run), true);
+  assert.equal(nextPairFits(9 * 60_000, run, run), false);
+  assert.equal(nextPairFits(2 * run * 1.1, run, run), true);
+  // The margin: exactly the last pair's time is not enough.
+  assert.equal(nextPairFits(2 * run * 1.05, run, run), false);
+  assert.equal(profileFits(run * 1.1, run), false);
+  assert.equal(profileFits(9 * 60_000, run), true);
+  assert.equal(profileFits(3 * 60_000, run), false);
 });
