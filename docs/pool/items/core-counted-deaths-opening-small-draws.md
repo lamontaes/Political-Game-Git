@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T17:06:32.846Z
 **Files.** src/core2/counted-deaths-opening.test.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5904 (branch claude/counted-deaths-opening-bookkeeping): the audit is marked fixed without its requested Centennial regression and the primary evidence row admits changed assertions; reconcile a bounded split or complete the requested proof on that branch, merge main into it first.

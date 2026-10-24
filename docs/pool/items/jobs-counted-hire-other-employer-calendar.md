@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/counted-hire-own-calendar
-pr:
+pr: #5961
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T14:40:47.250Z

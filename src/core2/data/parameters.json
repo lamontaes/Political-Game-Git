@@ -798,6 +798,17 @@
     },
     "stopgapId": "SG-P15-distance-by-place"
   },
+  "causeHolderWeeklyContacts": {
+    "value": 15,
+    "tag": "TUNABLE",
+    "citation": "How many of their ties a person with a cause weighs contacting in a week (owner decision SG-PEOPLE-cause-holder-weekly-contacts). Studies of personal networks find layers of about 5 people in closest weekly touch and about 12 to 15 contacted at least monthly (the 'sympathy group'; Dunbar and colleagues' network-layer studies); the value is the upper layer, so the shortlist binds only for people whose cause has tied them to many more.",
+    "spread": {
+      "low": 5,
+      "high": 15,
+      "unit": "people",
+      "citation": "From the closest weekly layer to the monthly 'sympathy group' of personal-network studies; to be sourced from pages fetched by research before it leaves TUNABLE."
+    }
+  },
   "extendedKinVisitShare": {
     "value": 0.25,
     "tag": "TUNABLE",
