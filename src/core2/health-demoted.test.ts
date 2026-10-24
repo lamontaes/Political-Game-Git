@@ -121,7 +121,8 @@ function attempt(drawSeed: string): { proof: string } | { skipped: string } {
       tag: "ESTIMATED",
       asOf: today,
       citation: "The monthly review's demotion, booked for the test.",
-      estimatedFrom: "A scheduled demotion exercises the household return path.",
+      estimatedFrom:
+        "A scheduled demotion exercises the household return path.",
     },
     sourceRecordIds: [householdId],
   });
