@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.23.2",
+      "releasedOn": "2026-10-24",
+      "revision": "b0664a04bf477d8489e10e8ee7ec9c56980a6924",
+      "changeIds": [
+        "core-speed-work-payroll-in-play",
+        "gov-successor-governor-identity-only-no-office-day",
+        "roadmap-m0-07-turnover-check"
+      ]
+    },
+    {
       "version": "0.23.1",
       "releasedOn": "2026-10-24",
       "revision": "5bb94db1cb477c493502d5b62ec9c341a843ff9f",

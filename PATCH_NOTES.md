@@ -296,6 +296,19 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.23.2
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A governor who takes office mid-year starts the job the next office day**
+  When a governor left office during the year, the successor could sit in the
+  seat as a name only until some other part of the game happened to look at the
+  seat: weeks, or in Guam five months, with no clemency petitions taken up. Now
+  the successor becomes a full person on the governor's next office day and
+  takes up the weekly petitions from then on.
+
 ## PRE-ALPHA 0.23.1
 
 _Released October 24, 2026._
