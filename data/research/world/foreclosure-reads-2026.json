@@ -1,0 +1,222 @@
+{
+  "id": "foreclosure-reads-2026",
+  "publisher": "ATTOM (U.S. Foreclosure Market Report press releases); state legislatures (statute text)",
+  "vintage": "ATTOM Q2 2025, Q3 2025 and Q2 2026 releases; statutes in force Oct 23, 2026",
+  "table": "Average days to complete a foreclosure (national and the five longest and five shortest states each quarter); foreclosure notice and redemption periods read from statute text",
+  "title": "Foreclosure timelines: published averages and statute reads, Oct 23, 2026 pass",
+  "universe": "Residential properties completing foreclosure in the quarter (ATTOM); owner-occupied mortgages (statutes)",
+  "geography": "Nation and named states, keyed by postal code",
+  "sourceUrl": "per row",
+  "retrievedOn": "2026-10-23",
+  "limits": "ATTOM publishes per-state averages only for its five longest and five shortest states each quarter, so 42 of 56 places have no published average of their own and take the national figure. A state's figure is the latest of these three quarters that names it. Statute reads cover the fields listed; the rest of foreclosure.json still comes from secondary summaries (data/research/housing/foreclosure-steps-2026.json).",
+  "nationalDays": {
+    "value": 563,
+    "quarter": "2026-Q2",
+    "spread": {
+      "low": 563,
+      "high": 645,
+      "unit": "days from first public notice to completed foreclosure",
+      "basis": "national average in the three quarters read"
+    }
+  },
+  "quarters": [
+    {
+      "quarter": "2026-Q2",
+      "sourceUrl": "https://www.attomdata.com/news/market-trends/foreclosures/2026-mid-year-foreclosure-market-report/",
+      "nationalDays": 563,
+      "states": {
+        "LA": 3491,
+        "HI": 2293,
+        "NY": 2007,
+        "CT": 1626,
+        "NV": 1507,
+        "TX": 155,
+        "NH": 157,
+        "WY": 173,
+        "WV": 196,
+        "AK": 199
+      },
+      "quotes": [
+        "Properties foreclosed in Q2 2026 had been in the foreclosure process for an average of 563 days, the lowest level since 2013.",
+        "States with the longest average foreclosure timelines for homes foreclosed in Q2 2026 were Louisiana (3,491 days); Hawaii (2,293 days); New York (2,007 days); Connecticut (1,626 days); and Nevada (1,507 days).",
+        "States with the shortest average foreclosure timelines for homes foreclosed in Q2 2026 were Texas (155 days); New Hampshire (157 days); Wyoming (173 days); West Virginia (196 days); and Alaska (199 days)."
+      ]
+    },
+    {
+      "quarter": "2025-Q3",
+      "sourceUrl": "https://www.attomdata.com/news/market-trends/foreclosures/q3-and-september-2025-foreclosure-market-report/",
+      "nationalDays": 608,
+      "states": {
+        "LA": 3632,
+        "NV": 2667,
+        "RI": 1929,
+        "NY": 1867,
+        "HI": 1710,
+        "WV": 135,
+        "TX": 154,
+        "VA": 160,
+        "WY": 165,
+        "MT": 174
+      },
+      "quotes": [
+        "Properties foreclosed in Q3 2025 had been in the foreclosure process for an average of 608 days.",
+        "States with the longest average foreclosure timelines for homes foreclosed in Q3 2025 were Louisiana (3,632 days); Nevada (2,667 days); Rhode Island (1,929 days); New York (1,867 days); and Hawaii (1,710 days).",
+        "States with the shortest average foreclosure timelines for homes foreclosed in Q3 2025 were West Virginia (135 days); Texas (154 days); Virginia (160 days); Wyoming (165 days); and Montana (174 days)."
+      ]
+    },
+    {
+      "quarter": "2025-Q2",
+      "sourceUrl": "https://www.attomdata.com/news/market-trends/foreclosures/mid-year-2025-foreclosure-market-report/",
+      "nationalDays": 645,
+      "states": {
+        "LA": 3612,
+        "HI": 2746,
+        "NV": 1974,
+        "NY": 1927,
+        "CT": 1874,
+        "WY": 125,
+        "TX": 135,
+        "NH": 149,
+        "MT": 154,
+        "MN": 162
+      },
+      "quotes": [
+        "Properties foreclosed in Q2 2025 had been in the foreclosure process an average of 645 days.",
+        "States with the longest average foreclosure timelines for homes foreclosed in Q2 2025 were Louisiana (3,612 days); Hawaii (2,746 days); Nevada (1,974 days); New York (1,927 days); and Connecticut (1,874 days).",
+        "States with the shortest average foreclosure timelines for homes foreclosed in Q2 2025 were Wyoming (125 days); Texas (135 days); New Hampshire (149 days); Montana (154 days); and Minnesota (162 days)."
+      ]
+    }
+  ],
+  "stateDays": {
+    "AK": {
+      "days": 199,
+      "quarter": "2026-Q2"
+    },
+    "CT": {
+      "days": 1626,
+      "quarter": "2026-Q2"
+    },
+    "HI": {
+      "days": 2293,
+      "quarter": "2026-Q2"
+    },
+    "LA": {
+      "days": 3491,
+      "quarter": "2026-Q2"
+    },
+    "MN": {
+      "days": 162,
+      "quarter": "2025-Q2"
+    },
+    "MT": {
+      "days": 174,
+      "quarter": "2025-Q3"
+    },
+    "NH": {
+      "days": 157,
+      "quarter": "2026-Q2"
+    },
+    "NV": {
+      "days": 1507,
+      "quarter": "2026-Q2"
+    },
+    "NY": {
+      "days": 2007,
+      "quarter": "2026-Q2"
+    },
+    "RI": {
+      "days": 1929,
+      "quarter": "2025-Q3"
+    },
+    "TX": {
+      "days": 155,
+      "quarter": "2026-Q2"
+    },
+    "VA": {
+      "days": 160,
+      "quarter": "2025-Q3"
+    },
+    "WV": {
+      "days": 196,
+      "quarter": "2026-Q2"
+    },
+    "WY": {
+      "days": 173,
+      "quarter": "2026-Q2"
+    }
+  },
+  "statuteReads": {
+    "MN": [
+      {
+        "field": "saleNoticeDays",
+        "value": 42,
+        "statute": "Minn. Stat. 580.03",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/580.03",
+        "basis": "text",
+        "quote": "Six weeks' published notice shall be given that such mortgage will be foreclosed by sale of the mortgaged premises or some part thereof"
+      },
+      {
+        "field": "redemptionDaysAfterSale",
+        "value": 180,
+        "statute": "Minn. Stat. 580.23, subd. 1(a)",
+        "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/580.23",
+        "basis": "text",
+        "quote": "within six months after such sale, except as otherwise provided in subdivision 2 or section 582.032 or 582.32, may redeem such lands"
+      }
+    ],
+    "MT": [
+      {
+        "field": "saleNoticeDays",
+        "value": 120,
+        "statute": "Mont. Code Ann. 71-1-315(1)(a)",
+        "sourceUrl": "https://archive.legmt.gov/bills/mca/title_0710/chapter_0010/part_0030/section_0150/0710-0010-0030-0150.html",
+        "basis": "text",
+        "quote": "At least 120 days before the date fixed for the trustee's sale, a copy of the recorded notice of sale must be mailed by certified mail to:"
+      }
+    ],
+    "RI": [
+      {
+        "field": "saleNoticeDays",
+        "value": 21,
+        "statute": "R.I. Gen. Laws 34-27-4",
+        "sourceUrl": "https://webserver.rilegislature.gov/Statutes/TITLE34/34-27/34-27-4.htm",
+        "basis": "text",
+        "quote": "the first publication of the notice shall be at least twenty-one (21) days before the day of sale"
+      }
+    ],
+    "TX": [
+      {
+        "field": "process",
+        "value": "nonjudicial",
+        "statute": "Tex. Prop. Code 51.002(a)",
+        "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.51.htm",
+        "basis": "text",
+        "quote": "a sale of real property under a power of sale conferred by a deed of trust or other contract lien must be a public sale at auction held between 10 a.m. and 4 p.m. of the first Tuesday of a month"
+      },
+      {
+        "field": "noticeOfDefaultDays",
+        "value": 20,
+        "statute": "Tex. Prop. Code 51.002(d)",
+        "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.51.htm",
+        "basis": "text",
+        "quote": "giving the debtor at least 20 days to cure the default before notice of sale can be given under Subsection (b)"
+      },
+      {
+        "field": "saleNoticeDays",
+        "value": 21,
+        "statute": "Tex. Prop. Code 51.002(b)",
+        "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.51.htm",
+        "basis": "text",
+        "quote": "notice of the sale, which must include a statement of the earliest time at which the sale will begin, must be given at least 21 days before the date of the sale"
+      },
+      {
+        "field": "redemptionDaysAfterSale",
+        "value": 0,
+        "statute": "Tex. Prop. Code ch. 51",
+        "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.51.htm",
+        "basis": "absence",
+        "note": "Chapter 51 read whole (pr.51.htm): no redemption after a sale under a power of sale."
+      }
+    ]
+  }
+}
