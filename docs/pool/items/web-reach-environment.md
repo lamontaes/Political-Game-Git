@@ -5,9 +5,9 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/web-reach-environment
-pr:
+pr: #5915
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at: 2026-10-24T09:03:57.360Z
