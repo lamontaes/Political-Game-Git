@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 after: gov-outside-revenue-taxes,gov-outside-revenue-fees,gov-outside-revenue-borrowing,gov-outside-spending-payees
 source: added with npm run pool -- add
 claimed-at:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`). Claim released Oct 23: branch gone.
 
 Released Oct 20 (claude): siblings gov-outside-revenue-fees is still claimed and gov-outside-revenue-real-payers is blocked, so the plug still carries flows; retire it after both are done.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

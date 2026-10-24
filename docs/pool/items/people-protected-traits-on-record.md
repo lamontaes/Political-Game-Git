@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 source: laws lead, Oct 24, from the owner's ruling
 ---
 
@@ -21,3 +21,5 @@ source: laws lead, Oct 24, from the owner's ruling
 **Files.** src/core2/types.ts, src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/law-wiring-rights-env.test.ts
 
 **Notes.** Filed by the laws lead on Oct 24 from the owner's ruling.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
