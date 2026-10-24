@@ -26,3 +26,5 @@ claimed-at:
 Review correction 2026-10-23 for PR #5796 (branch claude/residents-cadence): the count-map objection was withdrawn because keys are created only from actual job-change records; the current head is being re-reviewed and gated.
 
 Sent back 2026-10-23 from PR #5796 (branch claude/residents-cadence): verified in a Census-weighted Olney world: turnover-check.ts:60-65 reports 3154 job records instead of 6995.687 represented jobs; job work-relationship_002e0e940f6cf21b represents 3.5797 but counts as one; use weighted employment and consistent event units, with a weighted-world regression (the prior count-map objection is withdrawn); finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5796 (branch claude/residents-cadence): turnover-check.ts:64-68 reweights past events from current representation; an unchanged weighted hire in generated Niceville FL (1248750, seed 118d0e8a347d62a772645a1341bcffcd88ba3e3e064306cc90a3bacbb8590f7a) changes 3 to 1 after fill-in; preserve event-time quantity and regress it, and supply the omitted spread and played-year CPS-absence evidence mappings; finish on that branch, merge main into it first.

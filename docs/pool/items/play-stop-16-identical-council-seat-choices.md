@@ -10,6 +10,8 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2
+milestone: play-first
 ---
 
 **What.** At the city secretary on the v0.22.10 release, Eden Rivera asks "What can I do for you?" and lists "I want to run for Council member." five times and "I want to run for Mayor." once. Nothing tells the five council lines apart (place number, who holds the seat, election date), and nothing says what filing needs before I choose. I picked the first and learned only afterward that it is for November 3, 2026, 21 months away. I expected each seat named with its election date and incumbent.
@@ -20,4 +22,4 @@ source: added with npm run pool -- add
 
 **Files.** src/director/filing-visit.ts, src/bench/filing.ts, src/bench/play.mjs
 
-**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:02; screenshot 43. assigned: Play fixer (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:02; screenshot 43. Lead: m0-m2 (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
