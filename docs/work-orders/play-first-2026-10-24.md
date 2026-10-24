@@ -1,5 +1,7 @@
 # Play first: the order the owner will feel (Oct 24, 2026)
 
+Superseded on Oct 24, 20:30 UTC by the play-first lane: `docs/play-first/ORDER.md` is the order, `docs/play-first/README.md` the rules, and every item's `lead:` is `play-first`. Kept for the record.
+
 Current as of 2026-10-24, 19:30 UTC (written by the acting CTO from the Oct 24 playtest, docs/reports/playtest-2026-10-24.md, and main at the sha the report and its 26 items landed)
 
 The owner: "Only the bare minimum needs to be put in the game right now. I still can't play the game."
@@ -21,11 +23,11 @@ Build tested: v0.22.10 (4c943f3), Anson, Texas, seed 670bd1f7-66a4-4345-9ccd-98b
 
 In fix order:
 
-| # | Item | What he sees |
-|---|------|--------------|
-| 1 | `play-stop-23-job-offer-hold-locks-the-game` | SOMETHING NEEDS YOU with nothing to answer; Day and Week gray; Continue loops; Quit and CONTINUE return to the lock. A `job-offered` hold (Janitor, $13.48/hour) the play screen never shows. |
-| 2 | `play-stop-21-ballot-stuck-on-first-page` | The ballot shows five county races; Continue does nothing; the other 20 races, his own council race among them, never come. |
-| 3 | `play-stop-22-election-win-never-shown` | He won 448 to 246 in the records; election night runs out after eight statewide races; Journal, News, Who you are and Government never say. |
+| #   | Item                                         | What he sees                                                                                                                                                                                  |
+| --- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1   | `play-stop-23-job-offer-hold-locks-the-game` | SOMETHING NEEDS YOU with nothing to answer; Day and Week gray; Continue loops; Quit and CONTINUE return to the lock. A `job-offered` hold (Janitor, $13.48/hour) the play screen never shows. |
+| 2   | `play-stop-21-ballot-stuck-on-first-page`    | The ballot shows five county races; Continue does nothing; the other 20 races, his own council race among them, never come.                                                                   |
+| 3   | `play-stop-22-election-win-never-shown`      | He won 448 to 246 in the records; election night runs out after eight statewide races; Journal, News, Who you are and Government never say.                                                   |
 
 **Tier 1 done when:** the owner, on the next Mac build, from a new life in a drawn place, reaches election night, votes in his own race, is told he won or lost on screen, and the game never locks on a hold the screen cannot show (every hold reason has a screen or is auto-resolved).
 
@@ -33,47 +35,47 @@ In fix order:
 
 The "wrong on its face" list, in the order he meets them.
 
-| Item | What he sees |
-|------|--------------|
-| `play-stop-01-talk-says-nothing` | Every conversation is a greeting and a goodbye; no reply choices; his mother runs the city's money and he can't ask her a thing. The single most-felt defect. |
-| `play-stop-02-developer-text-on-play-screens` | Mark gap in every talk box; "unemploymentPct 4.4 · jobsThousands 6909.0"; "Press.archived"; "FILING-DEADLINE 2025-02-08 / 2026-08-17"; the clerk says "on-ballot". |
-| `play-stop-03-player-drawn-as-strangers` | Never drawn as the character he made; a different person in each scene. |
-| `play-stop-04-filing-panel-runs-off-screen` | The filing panel is 3,117 pixels tall in a 900-pixel window and does not scroll; he filed as a Republican without seeing the party picker. |
-| `play-stop-05-politics-lists-wrong-officials` | Three U.S. senators for Texas, the New York Speaker as his congressman, 180 state legislators, no mayor, 28-year council terms, one party. |
-| `play-stop-06-texas-shows-local-income-tax` | "Local income tax rate 37% top rate" in Texas. |
-| `play-stop-07-every-day-starts-at-midnight` | Day skips Tuesday; every day is 12:00 AM in the bedroom; a 3-hour action moves the clock 0 hours; the city office is open in daylight at midnight on a Sunday. |
-| `play-stop-08-no-high-school-at-seventeen` | A 17-year-old lists "Anson Middle" and "Anson El"; no high school. |
-| `play-stop-09-jobs-here-count-too-high` | "2036 employed · 23 looking · 0 open" in a town of 2,570. |
-| `play-stop-10-two-unemployment-rates-one-night` | 4.1 and 4.4 percent the same evening, unlabeled. |
-| `play-stop-11-campaign-actions-do-nothing-visible` | Give a speech, Ask for an interview and Call donors show nothing; $0.00 raised in 21 months. |
-| `play-stop-12-status-card-covers-menu-after-canvass` | After Knock on doors the status card covers the six menu icons. |
-| `play-stop-20-sister-born-a-week-apart-runs-public-works` | His sister was born seven days after him and is the city's Public Works Director at 18. |
-| `play-stop-24-every-statewide-race-unopposed` | Every 2026 Texas statewide race an unopposed Republican; the House result shows two totals. |
-| `play-stop-25-door-count-stops-growing` | The door count stops at 1,080 from September 2025 to election day though he knocked every week. |
-| `play-stop-26-empty-something-needs-you` | SOMETHING NEEDS YOU with an empty box, seven times in 2026. |
+| Item                                                      | What he sees                                                                                                                                                       |
+| --------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `play-stop-01-talk-says-nothing`                          | Every conversation is a greeting and a goodbye; no reply choices; his mother runs the city's money and he can't ask her a thing. The single most-felt defect.      |
+| `play-stop-02-developer-text-on-play-screens`             | Mark gap in every talk box; "unemploymentPct 4.4 · jobsThousands 6909.0"; "Press.archived"; "FILING-DEADLINE 2025-02-08 / 2026-08-17"; the clerk says "on-ballot". |
+| `play-stop-03-player-drawn-as-strangers`                  | Never drawn as the character he made; a different person in each scene.                                                                                            |
+| `play-stop-04-filing-panel-runs-off-screen`               | The filing panel is 3,117 pixels tall in a 900-pixel window and does not scroll; he filed as a Republican without seeing the party picker.                         |
+| `play-stop-05-politics-lists-wrong-officials`             | Three U.S. senators for Texas, the New York Speaker as his congressman, 180 state legislators, no mayor, 28-year council terms, one party.                         |
+| `play-stop-06-texas-shows-local-income-tax`               | "Local income tax rate 37% top rate" in Texas.                                                                                                                     |
+| `play-stop-07-every-day-starts-at-midnight`               | Day skips Tuesday; every day is 12:00 AM in the bedroom; a 3-hour action moves the clock 0 hours; the city office is open in daylight at midnight on a Sunday.     |
+| `play-stop-08-no-high-school-at-seventeen`                | A 17-year-old lists "Anson Middle" and "Anson El"; no high school.                                                                                                 |
+| `play-stop-09-jobs-here-count-too-high`                   | "2036 employed · 23 looking · 0 open" in a town of 2,570.                                                                                                          |
+| `play-stop-10-two-unemployment-rates-one-night`           | 4.1 and 4.4 percent the same evening, unlabeled.                                                                                                                   |
+| `play-stop-11-campaign-actions-do-nothing-visible`        | Give a speech, Ask for an interview and Call donors show nothing; $0.00 raised in 21 months.                                                                       |
+| `play-stop-12-status-card-covers-menu-after-canvass`      | After Knock on doors the status card covers the six menu icons.                                                                                                    |
+| `play-stop-20-sister-born-a-week-apart-runs-public-works` | His sister was born seven days after him and is the city's Public Works Director at 18.                                                                            |
+| `play-stop-24-every-statewide-race-unopposed`             | Every 2026 Texas statewide race an unopposed Republican; the House result shows two totals.                                                                        |
+| `play-stop-25-door-count-stops-growing`                   | The door count stops at 1,080 from September 2025 to election day though he knocked every week.                                                                    |
+| `play-stop-26-empty-something-needs-you`                  | SOMETHING NEEDS YOU with an empty box, seven times in 2026.                                                                                                        |
 
 ## Tier 3: confusions (7)
 
-| Item | What he sees |
-|------|--------------|
-| `play-stop-13-start-a-life-or-new-world` | New Game opens Custom world / Start a life / New world with no description. |
-| `play-stop-14-town-list-stops-at-400` | The Texas town list stops at the 400th town; 10 towns have no count; two appear twice. |
-| `play-stop-15-family-unexplained` | He is Bo Snider; everyone at home is a Stein; nothing says who they are. |
-| `play-stop-16-identical-council-seat-choices` | "I want to run for Council member." five times, identical. |
-| `play-stop-17-see-through-panels` | The room shows through the text of every panel. |
-| `play-stop-18-race-line-unreadable` | "Doors 172 · +105 · −67 · Retold 86 · +57 · −16". |
+| Item                                               | What he sees                                                                                           |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `play-stop-13-start-a-life-or-new-world`           | New Game opens Custom world / Start a life / New world with no description.                            |
+| `play-stop-14-town-list-stops-at-400`              | The Texas town list stops at the 400th town; 10 towns have no count; two appear twice.                 |
+| `play-stop-15-family-unexplained`                  | He is Bo Snider; everyone at home is a Stein; nothing says who they are.                               |
+| `play-stop-16-identical-council-seat-choices`      | "I want to run for Council member." five times, identical.                                             |
+| `play-stop-17-see-through-panels`                  | The room shows through the text of every panel.                                                        |
+| `play-stop-18-race-line-unreadable`                | "Doors 172 · +105 · −67 · Retold 86 · +57 · −16".                                                      |
 | `play-stop-19-turning-eighteen-and-journal-silent` | Turning 18 passes silently; the journal is empty for three weeks; his birthday is not on the calendar. |
 
 ## Assignments
 
 Owned by the files each item names. Each play-stop item carries `lead: <name>` in its front matter (`m0-m2`, `laws`, `words`, `effects`) and `milestone: play-first`; the Notes line repeats it.
 
-| Owner | Session | Items | Area |
-|-------|---------|-------|------|
-| **Words lead** (src/director/conversation.ts, scene-talk.ts, journal.ts) | existing | 01; 19 (journal lines) | words |
-| **M0–M2 lead** (src/core2/player-v1.ts, deep-past.ts, town-households.ts, opening-employment.ts, modules/jobs.ts, modules/campaigns.ts, modules/residents.ts; play screen: src/bench/play.mjs, play.html, play.css, handler.ts, scene.ts, calendar.ts) | existing | play-stop first, in order: 23, 21, 22 (Tier 1); then 03, 04, 07 (screen half), 12, 26, 02; then 13, 14, 15, 16, 17, 18, 19 (calendar and birthday screen); also 08, 09, 20, 25 | core, play |
-| **Laws lead** (src/bench/government.ts, results.ts, campaign.ts; src/core2/opening-key-people.ts, modules/offices.ts, candidacy.ts, elections.ts, campaigns.ts) | existing | 05, 24, 11 | gov, elections |
-| **Effects lead** (src/core2/modules/laws.ts, data/legislature/bill-catalog.json, data/laws/starting-law.json; src/director/opening-story.ts, src/bench/economy.ts) | existing | 06, 10 | laws, world |
+| Owner                                                                                                                                                                                                                                                  | Session  | Items                                                                                                                                                                          | Area           |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------- |
+| **Words lead** (src/director/conversation.ts, scene-talk.ts, journal.ts)                                                                                                                                                                               | existing | 01; 19 (journal lines)                                                                                                                                                         | words          |
+| **M0–M2 lead** (src/core2/player-v1.ts, deep-past.ts, town-households.ts, opening-employment.ts, modules/jobs.ts, modules/campaigns.ts, modules/residents.ts; play screen: src/bench/play.mjs, play.html, play.css, handler.ts, scene.ts, calendar.ts) | existing | play-stop first, in order: 23, 21, 22 (Tier 1); then 03, 04, 07 (screen half), 12, 26, 02; then 13, 14, 15, 16, 17, 18, 19 (calendar and birthday screen); also 08, 09, 20, 25 | core, play     |
+| **Laws lead** (src/bench/government.ts, results.ts, campaign.ts; src/core2/opening-key-people.ts, modules/offices.ts, candidacy.ts, elections.ts, campaigns.ts)                                                                                        | existing | 05, 24, 11                                                                                                                                                                     | gov, elections |
+| **Effects lead** (src/core2/modules/laws.ts, data/legislature/bill-catalog.json, data/laws/starting-law.json; src/director/opening-story.ts, src/bench/economy.ts)                                                                                     | existing | 06, 10                                                                                                                                                                         | laws, world    |
 
 Split items:
 
