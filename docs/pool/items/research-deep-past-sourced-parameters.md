@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-deep-past
-pr:
+pr: #5854
 blocked-on:
 source: "collapsed Oct 19, 2026 from art-stopgap-opening-partnership-estimated-behavior, core-stopgap-civic-inputs-civic-data-vintage-and-permission, core-stopgap-deep-past-generated-history-proxy, core-stopgap-deep-past-shared-past-generation-gap, core-stopgap-opening-peer-network-generated-historical-social-prior, core-stopgap-opening-profile-partial-model"
 claimed-at: 2026-10-23T20:23:55.403Z

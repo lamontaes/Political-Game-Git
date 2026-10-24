@@ -32,3 +32,5 @@ Sent back 2026-10-22 from PR #5669 (branch claude/law-wiring-rights-env): Fresh 
 Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): Election-cost repayment at group-a-voting.ts:340-349 stops after repeal even when owedMinor remains positive; preserve and settle incurred debt and add a nonempty repeal regression; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5589 (branch claude/law-wiring-labor): Missing Done when evidence table for the drawn-place, nine-link checker/matrix and family record-ID acceptance; add verifiable evidence and bound the family scope; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5582 (branch claude/law-wiring-government): Debt-repeal fix is present, but the table explicitly leaves family acceptance unmet and committed matrix links missing/partial; complete it or use a valid bounded cost/debt item with full evidence; finish on that branch, merge main into it first.
