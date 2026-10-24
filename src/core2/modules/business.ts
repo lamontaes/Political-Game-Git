@@ -7,6 +7,7 @@
  * adults choose whether to found one. Chains are repeated growth, never
  * scripted. Every payment moves through the ledger.
  */
+import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
@@ -91,6 +92,8 @@ interface OwnerRow {
   lossMonths?: number;
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
+  /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
+  splitThrough?: number;
   tradingId?: string;
 }
 
@@ -191,9 +194,7 @@ function outsideOwned(api: CoreAPI): Map<string, string> {
   for (const row of sized) {
     // Stop where one more would overshoot the share by more than it falls short.
     if (taken + row.staff / 2 > share * total) break;
-    const parent = [...c.organizations.values()].find(
-      (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-    )?.id;
+    const parent = townOutsideOf(c.organizations.values(), row.placeId)?.id;
     if (!parent) continue;
     out.set(row.id, parent);
     taken += row.staff;
@@ -287,7 +288,7 @@ function scheduleMonth(api: CoreAPI): void {
 }
 
 /** A business's cash less what it owes on its credit lines and to its suppliers. */
-function netCash(c: CoreState, organizationId: string): number {
+export function netCash(c: CoreState, organizationId: string): number {
   // Supplier bills accrued on its sales are owed already, though not yet billed.
   // Whole cents: the books never carry a fraction of a cent.
   let owed = Math.floor(supplierBillsOwed(c, organizationId));
@@ -453,11 +454,7 @@ export function estateHeir(
     .sort();
   if (kin[0]) return kin[0];
   const placeId = c.organizations.get(organizationId)?.placeId;
-  return (
-    [...c.organizations.values()].find(
-      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-    )?.id ?? ownerId
-  );
+  return townOutsideOf(c.organizations.values(), placeId)?.id ?? ownerId;
 }
 
 function succeed(api: CoreAPI): void {
@@ -531,9 +528,7 @@ function membershipPayouts(api: CoreAPI): void {
       "membership:labor-union"
     )
       continue;
-    const outside = [...c.organizations.values()].find(
-      (row) => row.placeId === org.placeId && row.outsideFlow !== undefined,
-    );
+    const outside = townOutsideOf(c.organizations.values(), org.placeId);
     if (!outside) continue;
     let daily = 0;
     for (const id of c.finance.jobsByOrganization.get(org.id) ?? []) {
@@ -849,6 +844,7 @@ function bookedMonth(
   | "wagesThrough"
   | "operatingThrough"
   | "outsideThrough"
+  | "splitThrough"
   | "lossMonths"
   | "tradingId"
 > {
@@ -896,6 +892,9 @@ function bookedMonth(
     wagesThrough: book.wagesPaidMinor,
     operatingThrough: book.operatingPaidMinor,
     outsideThrough: outsidePaid,
+    splitThrough:
+      residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
+        ?.splitPaidMinor ?? 0,
     lossMonths,
     tradingId,
   };
@@ -991,9 +990,7 @@ function payCompliance(api: CoreAPI): void {
     const book = c.finance.businesses.get(row.organizationId);
     if (!book || book.closedAt) continue;
     const placeId = c.organizations.get(row.organizationId)?.placeId;
-    const outside = [...c.organizations.values()].find(
-      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-    )?.id;
+    const outside = townOutsideOf(c.organizations.values(), placeId)?.id;
     const to = row.payeeId ?? outside;
     if (!to) continue;
     const requested = Math.floor(
@@ -1083,9 +1080,11 @@ function recordOutsideCosts(api: CoreAPI): void {
         payeeId: flow.payeeId,
         paidInTown: inTown,
       });
+    // What it paid elsewhere (its ads in the town's outlets) was not the seller's sale.
+    const elsewhere = (flow.splitPaidMinor ?? 0) - (row.splitThrough ?? 0);
     if (inTown) {
-      seller.receivedMinor += amount;
-      seller.salesReceivedMinor += amount;
+      seller.receivedMinor += amount - elsewhere;
+      seller.salesReceivedMinor += amount - elsewhere;
     }
   }
 }

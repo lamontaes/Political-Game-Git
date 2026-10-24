@@ -4785,7 +4785,7 @@
         }
       ],
       "bearing": "guarded",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -7929,7 +7929,7 @@
         }
       ],
       "bearing": "braced",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -8922,7 +8922,7 @@
         }
       ],
       "bearing": "calm",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -10853,7 +10853,7 @@
         }
       ],
       "bearing": "braced",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -11800,7 +11800,7 @@
         }
       ],
       "bearing": "calm",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -11964,7 +11964,7 @@
         }
       ],
       "bearing": "anxious",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -12190,7 +12190,7 @@
         }
       ],
       "bearing": "braced",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -12413,7 +12413,7 @@
         }
       ],
       "bearing": "braced",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -14465,7 +14465,7 @@
         }
       ],
       "bearing": "guarded",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -14943,7 +14943,7 @@
         }
       ],
       "bearing": "braced",
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
