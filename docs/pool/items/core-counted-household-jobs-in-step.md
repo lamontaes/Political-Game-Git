@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/counted-household-jobs-in-step
 pr: #5933
 blocked-on:
