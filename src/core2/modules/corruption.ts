@@ -10,7 +10,7 @@
  */
 import { scoreOffers, decisionFromScores } from "../choice";
 import { closenessBetween, currentCloseness } from "../closeness";
-import { decisionKinds, decisionLean } from "../trait-decisions";
+import { decisionKinds } from "../trait-decisions";
 import rows from "../data/corruption/parameters.json" with { type: "json" };
 import type { CashJournalPosting } from "../journal";
 import type { Parameter } from "../parameters";
@@ -84,21 +84,6 @@ function closeness(api: CoreAPI, a: PersonId, b: PersonId): number {
   return closenessBetween(api.state, a, b);
 }
 
-/** The person's lean toward a corrupt act, from every trait through the shared trait table, about -1..1. */
-function temperament(
-  api: CoreAPI,
-  person: Readonly<PersonState>,
-  role: "offer" | "take" | "tell",
-): number {
-  return decisionLean(
-    api.state,
-    person,
-    `corruption.${role}`,
-    `corruption-${role}-yes`,
-    `corruption-${role}-no`,
-  );
-}
-
 function decide(
   api: CoreAPI,
   personId: PersonId,
@@ -146,10 +131,26 @@ function decide(
 }
 
 /**
+ * A person's money pressure: a month of their living costs against that month
+ * plus the cash they hold, between 0 (a deep cushion) and 1 (nothing put by).
+ * An official weighs it in deciding whether to take a bribe.
+ */
+function pressure(api: CoreAPI, person: Readonly<PersonState>): number {
+  const month = person.livingCostDailyMinor * c(api, "daysPerMonth");
+  return (
+    (c(api, "corruptionPressureWeight") * month) /
+    (month + person.liquidMinor + api.parameter("one"))
+  );
+}
+
+/**
  * What an official weighs in taking a bribe of this size from someone this
- * close: their temperament, the bribe against a month of living costs plus
- * the cash on hand (larger for someone with little cushion), and the tie.
- * Read without paying, so a calibration can order a town's adults by it.
+ * close, besides their temperament (the shared chooser's trait term, at the
+ * decision's own weight): the bribe's share of itself plus a month of living
+ * costs and the cash on hand, their own money pressure, and the tie. Each is
+ * a share between 0 and 1, so a larger bribe tempts more without overwhelming
+ * honesty. Read without paying, so a calibration can order a town's adults by
+ * it.
  */
 export function takeValues(
   api: CoreAPI,
@@ -159,13 +160,37 @@ export function takeValues(
 ): Record<string, number> {
   const month = official.livingCostDailyMinor * c(api, "daysPerMonth");
   return {
-    temperament:
-      c(api, "corruptionTakeTraitWeight") * temperament(api, official, "take"),
-    // The bribe's share of the bribe plus the cushion: a sliding scale, not a ratio that grows without bound.
     need:
       (c(api, "corruptionNeedWeight") * amountMinor) /
       (amountMinor + month + official.liquidMinor + api.parameter("one")),
+    pressure: pressure(api, official),
     tie: c(api, "corruptionTieWeight") * tie,
+  };
+}
+
+/**
+ * What someone who wants a favor weighs in offering an official a bribe for
+ * it, besides their temperament (the shared chooser's trait term, at the
+ * decision's own weight): how much the favor matters, its worth against a
+ * year of their own living costs; their tie to the official; and the bribes
+ * they have learned the official took. Read without paying, so the audit's
+ * kept calls show the case.
+ */
+export function offerValues(
+  api: CoreAPI,
+  offerer: Readonly<PersonState>,
+  stakeMinor: number,
+  tie: number,
+  heardOf: number,
+): Record<string, number> {
+  return {
+    stake: Math.log1p(
+      stakeMinor /
+        (offerer.livingCostDailyMinor * api.parameter("daysPerMeanYear") +
+          api.parameter("one")),
+    ),
+    tie: c(api, "corruptionTieWeight") * tie,
+    reputation: c(api, "corruptionReputationWeight") * Math.log1p(heardOf),
   };
 }
 
@@ -180,7 +205,6 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
   );
   if (amount <= api.parameter("zero")) return null;
   const tie = closeness(api, ask.offererId, ask.officialId);
-  const one = api.parameter("one");
   // What the offerer has learned of this official: bribes they are known to
   // have taken, from the offerer's own knowledge records.
   const heardOf = crimesKnownTo(api, ask.offererId)
@@ -191,20 +215,7 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
     api,
     ask.offererId,
     "offer",
-    {
-      temperament:
-        c(api, "corruptionTraitWeight") * temperament(api, offerer, "offer"),
-      // How much the favor matters: its worth against a year of the
-      // offerer's living costs.
-      stake: Math.log1p(
-        ask.stakeMinor /
-          (offerer.livingCostDailyMinor * api.parameter("daysPerMeanYear") +
-            one),
-      ),
-      tie: c(api, "corruptionTieWeight") * tie,
-      reputation:
-        c(api, "corruptionReputationWeight") * Math.log1p(heardOf.length),
-    },
+    offerValues(api, offerer, ask.stakeMinor, tie, heardOf.length),
     ask.subjectId,
   );
   const take = offer.yes
@@ -379,9 +390,6 @@ export const corruptionModule: CoreModule = {
           {
             soured:
               c(api, "corruptionTellWeight") * (level.before - level.after),
-            temperament:
-              c(api, "corruptionTraitWeight") *
-              temperament(api, teller, "tell"),
           },
           crime.id,
         );
@@ -434,7 +442,7 @@ export const corruptionModule: CoreModule = {
 /**
  * Whoever learns of a bribe decides whether to take it to the press: the
  * farther they are from the official, the less they hold back, and their
- * temperament leans one way or the other. A report is public record, so the
+ * temperament leans one way or the other (the chooser's trait term). A report is public record, so the
  * local outlet carries it and readers and word of mouth spread it; nobody
  * holds the scandal against the official until it reaches them.
  */
@@ -459,8 +467,6 @@ function reportToPress(
             listenerId,
             crime.officialId,
           )),
-      temperament:
-        c(api, "corruptionTraitWeight") * temperament(api, listener, "tell"),
     },
     `${crime.id}:report`,
   );

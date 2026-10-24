@@ -1,17 +1,22 @@
 /**
  * Who takes a bribe is calibrated to honesty (pool item
- * people-corruption-honest-pull-calibrated): across the adults of fourteen towns
- * drawn from all 56 on a seed nobody chose (TAKE_CALIBRATION_SEED pins one),
- * offered a $2,000 bribe by someone they are fairly close to, a small share
- * take it, and the third of the town with the highest lean toward corruption
- * takes it as many times more often than the lowest third as the latent model
- * of honesty-humility against workplace deviance gives (Pletzer, Bentvelzen,
- * Oostrom and de Vries 2019, Journal of Vocational Behavior 112:369-383,
- * corrected rho -0.482), computed here at the rate the town shows.
+ * people-corruption-honest-pull-calibrated): across the adults of fourteen
+ * towns drawn from all 56 on a seed nobody chose (TAKE_CALIBRATION_SEED pins
+ * one), offered a $2,000 bribe by someone they are fairly close to, a small
+ * share take it, and the third of the town with the highest lean toward
+ * corruption takes it as many times more often than the lowest third as the
+ * latent model of honesty-humility against workplace deviance gives (Pletzer,
+ * Bentvelzen, Oostrom and de Vries 2019, Journal of Vocational Behavior
+ * 112:369-383, corrected rho -0.482), computed here at the rate the towns
+ * show. A take is scored as the chooser plays it: the engine's reasons plus
+ * the decision's trait term at its own weight. A larger bribe raises the share
+ * gradually, not all at once. (Offers are fitted on the asks play makes, from
+ * the trait audit's kept calls: see corruptionHonestPull.)
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { traitLean } from "./choice";
 import { buildDeepPast } from "./deep-past";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { createLifeCore } from "./life";
@@ -19,7 +24,8 @@ import { corruptionModule, takeValues } from "./modules/corruption";
 import rows from "./data/corruption/parameters.json" with { type: "json" };
 import { buildPopulation } from "./population";
 import { coreAPI } from "./state";
-import { decisionLean } from "./trait-decisions";
+import { decisionKinds, decisionTraitWeight } from "./trait-decisions";
+import type { CoreState, PersonState } from "./types";
 
 const seed =
   process.env.TAKE_CALIBRATION_SEED ?? randomBytes(8).toString("hex");
@@ -72,9 +78,23 @@ function latentRatio(rate: number): number {
   return third(-8, -cut) / third(cut, 8);
 }
 
-it("a small share of adults take a modest bribe, and the least honest third far more often than the most honest", () => {
+/** The chooser's trait term for taking, against refusing, at the decision's own weight. */
+function traitTerm(core: CoreState, person: PersonState): number {
+  const lean = (option: string) =>
+    traitLean(core, person, decisionKinds("corruption.take", option));
+  return (
+    decisionTraitWeight(core, "corruption.take") *
+    (lean("corruption-take-yes") - lean("corruption-take-no"))
+  );
+}
+
+const sum = (values: Record<string, number>) =>
+  Object.values(values).reduce((a, b) => a + b, 0);
+
+/** The share of fourteen drawn towns' adults who take a bribe of this size, and of the most and least honest thirds. */
+function calibrate(askMinor: number) {
   let total = 0;
-  let taken = 0;
+  let yes = 0;
   const thirds = [0, 0, 0];
   const counts = [0, 0, 0];
   const names: string[] = [];
@@ -99,37 +119,36 @@ it("a small share of adults take a modest bribe, and the least honest third far 
           ageOnDate(makeIsoDate(p.birthDate), makeIsoDate(input.startedAt)) >=
             21,
       )
-      .map((p) => ({
-        lean: decisionLean(
-          core,
-          p,
-          "corruption.take",
-          "corruption-take-yes",
-          "corruption-take-no",
-        ),
-        takes:
-          Object.values(takeValues(api, p, ASK_MINOR, TIE)).reduce(
-            (a, b) => a + b,
-            0,
-          ) > PULL,
-      }))
-      .sort((a, b) => a.lean - b.lean);
+      .map((p) => {
+        const term = traitTerm(core, p);
+        return {
+          term,
+          yes: sum(takeValues(api, p, askMinor, TIE)) + term > PULL,
+        };
+      })
+      .sort((a, b) => a.term - b.term);
     adults.forEach((adult, i) => {
       const third = Math.min(2, Math.floor((i * 3) / adults.length));
       counts[third]! += 1;
-      thirds[third]! += adult.takes ? 1 : 0;
+      thirds[third]! += adult.yes ? 1 : 0;
       total += 1;
-      taken += adult.takes ? 1 : 0;
+      yes += adult.yes ? 1 : 0;
     });
   }
-  const where = `${names.join("; ")}; run seed ${seed}`;
-  const rate = taken / total;
+  return {
+    where: `${names.join("; ")}; run seed ${seed}`,
+    rate: yes / total,
+    honest: thirds[0]! / counts[0]!,
+    corruptible: thirds[2]! / counts[2]!,
+  };
+}
+
+it("a small share of adults take a modest bribe, the least honest third far more often than the most honest, and a larger bribe tempts more of them gradually", () => {
+  const { where, rate, honest, corruptible } = calibrate(ASK_MINOR);
   expect(rate, `overall rate ${rate}: ${where}`).toBeGreaterThan(0.03);
   expect(rate, `overall rate ${rate}: ${where}`).toBeLessThan(0.12);
-  const low = thirds[2]! / counts[2]!;
-  const high = thirds[0]! / counts[0]!;
-  expect(high, `most honest third takes at all: ${where}`).toBeGreaterThan(0);
-  const ratio = low / high;
+  expect(honest, `most honest third takes at all: ${where}`).toBeGreaterThan(0);
+  const ratio = corruptible / honest;
   const target = latentRatio(rate);
   expect(
     ratio,
@@ -139,4 +158,8 @@ it("a small share of adults take a modest bribe, and the least honest third far 
     ratio,
     `ratio ${ratio} against the latent model's ${target}: ${where}`,
   ).toBeLessThan(target * 3);
-}, 900_000);
+  // Five times the bribe tempts more people, but not twice as many.
+  const larger = calibrate(ASK_MINOR * 5).rate;
+  expect(larger, `a $10,000 bribe: ${larger}; ${where}`).toBeGreaterThan(rate);
+  expect(larger, `a $10,000 bribe: ${larger}; ${where}`).toBeLessThan(rate * 2);
+}, 1_800_000);

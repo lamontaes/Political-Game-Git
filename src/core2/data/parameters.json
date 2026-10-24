@@ -5536,21 +5536,25 @@
     }
   },
   "traitWeightCorruptionOffer": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the corruption.offer decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the corruption.offer decision, against its row in data/research/trait-effect-sizes.json (Pletzer, Bentvelzen, Oostrom and de Vries 2019, Journal of Vocational Behavior 112:369-383: honesty-humility against workplace deviance, corrected rho -0.482). Fitted Oct 24, 2026 on the offers play actually weighs: 16,228 asks kept by the trait audit in eleven played years of buildBenchWorld (Parkway, Missouri; Peacham, Vermont; Holualoa, Hawaii twice; Ilwaco, Washington; New Preston, Connecticut; Ora, Indiana; Arbela, Missouri; Jerry City, Ohio; New Britain, Connecticut; and the money branch's Peacham), each ask's favor, tie and reputation read from its kept case, with temperament carried by the shared chooser's trait term at traitWeightCorruptionOffer. Offers come from a town's lobbyists and bidding owners, not its adults at large, so a fit over every adult at one fixed favor would put the line where only money pressure reaches and no well-off lobbyist would ever offer. Fitted with corruptionHonestPull (3): 6.9 percent of asks offered, ratio between the thirds 7.8 against 11.0. It replaces the offer's own temperament term (corruptionTraitWeight, 1 on a lean scaled to -1 to 1), which the chooser's trait term had doubled.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 1,
+      "high": 2.25,
+      "unit": "weight",
+      "citation": "Measured on the same 16,228 asks at the fitted pull: from 1 to 2.25 the rate stays 6.9 to 7.4 percent and the ratio 7.5 to 7.8; at 2.5 and above the most honest third never offers."
     }
   },
   "traitWeightCorruptionTake": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the corruption.take decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 2.2,
+    "tag": "ESTIMATED",
+    "citation": "The trait weight of the corruption.take decision. Calibrated Oct 24, 2026 against its row in data/research/trait-effect-sizes.json (Pletzer, Bentvelzen, Oostrom and de Vries 2019, Journal of Vocational Behavior 112:369-383: honesty-humility against workplace deviance, corrected rho -0.482): on the adults of fourteen drawn towns (run seed fit1, label take-calibration) and checked on fourteen more (check2), the weight at which the third leaning most toward corruption takes as many times as often as the third leaning least as the latent model gives at the rate the towns show. Fitted with corruptionNeedWeight (0.5), corruptionPressureWeight (5.5) and corruptionTakeHonestPull (4.65): 6.3 percent take a $2,000 bribe from someone with a tie of 0.3, ratio 9.9 against 11.6 (check towns 7.2 percent, 11.8 against 10.7).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 2.0,
+      "high": 2.4,
+      "unit": "weight",
+      "citation": "Measured on both sets of fourteen towns at the fitted reasons and pull: at 2.0 the fit towns' ratio between thirds is 0.66 of the latent model's and at 2.4 the check towns' is 1.54 of it; at 2.2 both sets are within a factor of 1.2."
     }
   },
   "traitWeightCorruptionTell": {
