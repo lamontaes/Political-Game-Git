@@ -8,6 +8,7 @@
  */
 import reach from "../data/laws/reach-group-a.json" with { type: "json" };
 import parameters from "../data/laws/reach-group-a-parameters.json" with { type: "json" };
+import publicPayFloor from "../data/laws/public-pay-floor.json" with { type: "json" };
 import { registerModule } from "../state";
 import type {
   CoreAPI,
@@ -128,7 +129,13 @@ export function reachParameter(key: string): number {
   return row.value;
 }
 
+const PUBLIC_EMPLOYERS: readonly string[] = Object.keys(
+  publicPayFloor.employerLevels,
+);
+
 export function selectorGroup(name: string): readonly string[] {
+  // The public employers are the classes the public pay mechanics raise pay at.
+  if (name === "publicEmployers") return PUBLIC_EMPLOYERS;
   return data.selectors[name] ?? data.extraSelectors[name] ?? [];
 }
 

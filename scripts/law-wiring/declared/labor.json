@@ -1,0 +1,11 @@
+{
+  "about": "Links a labor or pay law does not have by its own terms, each with the statute or research that says so. Read by scripts/law-wiring/matrix.ts with declared.json.",
+  "laws": {
+    "unemployment-insurance": {
+      "repeal": {
+        "status": "n/a",
+        "why": "A claimant's benefit rights are determined when the claim is established and benefits are payable during the benefit year (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2021, chapter 3, Monetary Entitlement: \"An individual's benefit rights are determined using wages and employment from a specific period of time called a base-period. Once a claim is established, benefits are payable during a period of time called the benefit year.\"). Putting the old terms back governs the claims filed after it; a claim already filed keeps being paid, and recorded, on the terms it was filed under."
+      }
+    }
+  }
+}

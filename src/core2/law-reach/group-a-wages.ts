@@ -7,7 +7,7 @@
  */
 import type { Source } from "../types";
 import type { ModuleRow } from "../module-data";
-import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
+import { lawChain, lawInForce, LAWS_MODULE_ID } from "../modules/laws";
 import { holdFederalWage, holdRaisedWage } from "../question-wages";
 import { raiseToFloor } from "../wage-floor";
 import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
@@ -89,5 +89,14 @@ export const localWageAuthority: PolicyHandler = (api, change) => {
     citation: `Local minimum wage authority granted by ${change.lawId}`,
     asOf: api.state.date,
   };
-  raiseToFloor(api, source, { key: AUTHORITY_KEY, lawId: change.lawId });
+  // Pay rises under the grant only where the wage in force is a place's own,
+  // which the state had set aside until now; a worker raised to the state's
+  // or the nation's floor is that floor's, not the grant's.
+  const governing = lawInForce(api, "minimum-wage").governing;
+  const ownWage = governing?.level === "city" || governing?.level === "county";
+  raiseToFloor(
+    api,
+    source,
+    ownWage ? { key: AUTHORITY_KEY, lawId: change.lawId } : undefined,
+  );
 };
