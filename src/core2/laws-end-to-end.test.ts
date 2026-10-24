@@ -622,9 +622,24 @@ it(`a player's bill is followed from negotiation to a named person and back, and
       .map((row) => row.personId),
   );
   const payersHeard = felt.filter((row) => heardOn.has(row.payerId));
+  // The town's named households and residents a year on: more are filled in
+  // over the year as people are met, and households move in and out.
+  const livingInTown = [...core.households.values()].filter(
+    (h) =>
+      h.placeId === town &&
+      h.memberIds.some((id) => core.people.get(id)?.alive),
+  );
+  const townNow = {
+    households: livingInTown.length,
+    residents: new Set(
+      livingInTown.flatMap((h) =>
+        h.memberIds.filter((id) => core.people.get(id)?.alive),
+      ),
+    ),
+  };
   const missed = payersHeard.filter((row) => !learnedBy.has(row.payerId));
   console.info(
-    `laws-e2e ${where}: KNOWING of the town's ${new Set(residents.map((id) => core.people.get(id)?.householdId)).size} named households and ${residents.length} named residents at the law's start, ${felt.length} named households paid under it; ${heardOn.size} people heard a story about it; ${payersHeard.length} of those households' payers heard one; ${learnedBy.size} people tied a bill to it (${[...learnedBy].filter((id) => payersHeard.some((row) => row.payerId === id)).length} of them those payers); payers who heard and did not: ${
+    `laws-e2e ${where}: KNOWING of the town's ${townNow.households} named households and ${townNow.residents.size} named residents a year on, ${felt.length} named households paid under it; ${heardOn.size} people heard a story about it (${[...heardOn.keys()].filter((id) => townNow.residents.has(id)).length} of them living in town a year on); ${payersHeard.length} of those households' payers heard one; ${learnedBy.size} people tied a bill to it (${[...learnedBy].filter((id) => payersHeard.some((row) => row.payerId === id)).length} of them those payers); payers who heard and did not: ${
       missed
         .slice(0, 5)
         .map(
