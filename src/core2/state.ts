@@ -815,7 +815,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         input.liquidMinor !== zero ||
         input.livingCostDailyMinor !== zero ||
         input.jobId !== undefined ||
-        parents[0] === parents[1] ||
+        parents.length < 1 ||
+        new Set(parents).size !== parents.length ||
         !household ||
         household.placeId !== input.placeId ||
         household.memberIds.includes(input.id) ||

@@ -17,6 +17,7 @@ export const BIRTHS_STOPGAP = "SG-M1-births-circumstances";
 export interface BirthCouple {
   id: string;
   motherId: string;
+  /** Empty when the mother has no recorded partner: she plans from her own records. */
   otherParentId: string;
   startedAt: string;
   childIds: readonly string[];
@@ -92,7 +93,9 @@ export function birthCircumstances(
 ) {
   const p = (key: string) => renewalParameter(api, key);
   const mother = api.state.people.get(couple.motherId)!;
-  const partner = api.state.people.get(couple.otherParentId)!;
+  const partner = couple.otherParentId
+    ? api.state.people.get(couple.otherParentId)
+    : undefined;
   const age = ageOnDate(mother.birthDate, asOf);
   const births = couple.childIds
     .flatMap((id) => {
@@ -146,16 +149,17 @@ export function birthCircumstances(
       )
     : p("zero");
   const employed = [mother, partner].filter(
-    (person) => wage(person) > p("zero"),
+    (person): person is Readonly<PersonState> =>
+      !!person && wage(person) > p("zero"),
   ).length;
-  const relationship = [
-    ...(api.state.relationshipsByPerson.get(actor.id) ?? []),
-  ]
-    .map((id) => api.state.relationships.get(id))
-    .find(
-      (row) =>
-        row?.otherId === (actor.id === mother.id ? partner.id : mother.id),
-    );
+  const relationship = partner
+    ? [...(api.state.relationshipsByPerson.get(actor.id) ?? [])]
+        .map((id) => api.state.relationships.get(id))
+        .find(
+          (row) =>
+            row?.otherId === (actor.id === mother.id ? partner.id : mother.id),
+        )
+    : undefined;
   const conditions = conditionsOf(api, mother.id);
   const distance = (age - p("renewalAgeCenter")) / p("renewalAgeSpread");
   // SG-M1-births-circumstances: record proxies explicitly; no missing medical fact means permission.
@@ -198,10 +202,11 @@ export function birthCircumstances(
           ? currentCloseness(api.state, relationship)
           : p("renewalUnknownCloseness")) -
         p("one")),
-    partnership:
-      mother.householdId === partner.householdId
+    partnership: partner
+      ? mother.householdId === partner.householdId
         ? p("one")
-        : -p("renewalWaitPull"),
+        : -p("renewalWaitPull")
+      : -p("renewalNoPartnerPull"),
   };
 }
 

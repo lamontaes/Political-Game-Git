@@ -396,3 +396,7 @@ The owner reviewed scenes 1 to 28 of batch 13 ("a solid step forward") and asked
 - **Work-recovery hours (#5077):** stays ESTIMATED with its spread until the research carries per-episode lengths; no change to the value on a guess.
 - **Rows with no engine (#4146):** the keep/delete list is accepted under "replace, never layer"; anything deleted that the golden path later needs returns as a pool item.
 - **Questions sent to the owner (Oct 19):** the pairing rule (#4963); whether public contract awards exist (`gov-bribe-buys-a-contract`); the four screens' visual review.
+
+## Oct 21: full women with no partner (people-full-couples-plan-share-fell, stopgap SG-PEOPLE-births-no-partner-owner-decision)
+
+- **Question:** the full tier is mostly one-person households (26 of 990 full women aged 15 to 49 were in a couple), so full births ran about ten times below the CDC rates. Built the simplest version: a woman with no recorded partner plans a birth alone from her own age, money, health and home, the other parent unrecorded, weighing `renewalNoPartnerPull`. Alternative: give the full tier partners at the opening. Which should it be?

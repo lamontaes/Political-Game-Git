@@ -1,4 +1,24 @@
 {
+  "renewalFertileFromAge": {
+    "value": 15,
+    "tag": "SOURCED",
+    "citation": "NCHS National Vital Statistics Reports, Births: Final Data, Table 3: birth rates are published for women 15 to 44 and 45 to 49, the childbearing ages; a woman below 15 does not plan a birth here, and the age term of the plan score stays a sliding scale above it. Bounds of who is asked, never a rate."
+  },
+  "renewalFertileToAge": {
+    "value": 49,
+    "tag": "SOURCED",
+    "citation": "NCHS National Vital Statistics Reports, Births: Final Data, Table 3: the oldest published maternal age band is 45 to 49 (a woman older than 49 is not asked)."
+  },
+  "renewalNoPartnerPull": {
+    "value": 4.5,
+    "tag": "TUNABLE",
+    "citation": "A mother with no recorded partner in her home weighs this against planning a birth, where a partner living elsewhere weighs renewalWaitPull. Fitted so the full women's births by age band follow the NCHS 2024 rates (src/core2/births-full-coverage.test.ts); the rates check totals and never pick a birth.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Fitted in one generated town on one seed (Highland, Illinois, e4c92d02a84d3098:1) and checked in two others; sensitivity window 3 to 6 not yet examined."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
   "renewalReviewDays": {
     "value": 91,
     "tag": "TUNABLE",
