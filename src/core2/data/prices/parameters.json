@@ -65,6 +65,18 @@
       "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles."
     }
   },
+  "pricesReturnSpread": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "Container Recycling Institute: states with a deposit redeem about 60 to 90 percent of containers, around the 73 percent average in the goods table; how far one person's traits move their own return share from that average is an estimate.",
+    "estimatedFrom": "Container Recycling Institute state redemption rates spread around the sourced average; a person's own lean maps linearly across it.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.3,
+      "unit": "share of containers",
+      "citation": "Container Recycling Institute: deposit-state redemption rates run from about 60 to 90 percent."
+    }
+  },
   "pricesIncomeFloorShare": {
     "value": 0.15,
     "tag": "TUNABLE",
