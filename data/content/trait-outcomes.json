@@ -78,7 +78,7 @@
       "title": "Promotion and pay by temperament",
       "engine": "src/core2/modules/jobs.ts",
       "wired": "partly",
-      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:2679); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
+      "why": "Pay is the job's own rate (src/core2/modules/jobs.ts:1247, stopgap SG-TRAITS-pay-growth-by-performance); no raise or promotion reads the worker's traits (Gensowski 2018: 16.7% of lifetime earnings per SD of conscientiousness).",
       "evidence": "Through hiring and layoffs: how a person works raises their value to an employer (src/core2/modules/jobs.ts:1314), so diligent people are hired sooner and let go later",
       "item": "owner-pay-growth-by-performance"
     },
