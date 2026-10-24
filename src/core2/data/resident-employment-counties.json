@@ -22,6 +22,28 @@
     "acs-age-70": "age-residents-no-armed-subtotal",
     "acs-age-75": "age-residents-no-armed-subtotal"
   },
+  "sources": {
+    "60": {
+      "citation": "U.S. Census Bureau, 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File for American Samoa, table PCT47 (Sex by Age by Employment Status for the Population 16 Years and Over in Households, excluding people in military housing units), island-wide record, as2020.dhc.zip, segment as000282020.dhc, https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/american-samoa/demographic-and-housing-characteristics-file/. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows carry the age total to match the ACS rows above.",
+      "asOf": "2020-04-01",
+      "limits": "Complete-count enumeration of the island, so no sampling margin of error exists and none is invented. Disclosure avoidance is data swapping (it leaves the island-wide marginal totals unchanged) and partially synthetic values for group quarters. Counts cover household residents only, so group quarters are left out (and in Guam the military installations, where only basic questions were asked). The island-wide record is published without suppression; village, district and municipality rows can be suppressed or blanked for reliability and are not used here."
+    },
+    "66": {
+      "citation": "U.S. Census Bureau, 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File for Guam, table PCT47 (Sex by Age by Employment Status for the Population 16 Years and Over in Households, excluding people in military housing units), island-wide record, gu2020.dhc.zip, segment gu000292020.dhc, https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/guam/demographic-and-housing-characteristics-file/. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows carry the age total to match the ACS rows above.",
+      "asOf": "2020-04-01",
+      "limits": "Complete-count enumeration of the island, so no sampling margin of error exists and none is invented. Disclosure avoidance is data swapping (it leaves the island-wide marginal totals unchanged) and partially synthetic values for group quarters. Counts cover household residents only, so group quarters are left out (and in Guam the military installations, where only basic questions were asked). The island-wide record is published without suppression; village, district and municipality rows can be suppressed or blanked for reliability and are not used here."
+    },
+    "69": {
+      "citation": "U.S. Census Bureau, 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File for the Commonwealth of the Northern Mariana Islands, table PCT47 (Sex by Age by Employment Status for the Population 16 Years and Over in Households, excluding people in military housing units), island-wide record, mp2020.dhc.zip, segment mp000292020.dhc, https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/commonwealth-of-the-northern-mariana-islands/demographic-and-housing-characteristics-file/. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows carry the age total to match the ACS rows above.",
+      "asOf": "2020-04-01",
+      "limits": "Complete-count enumeration of the island, so no sampling margin of error exists and none is invented. Disclosure avoidance is data swapping (it leaves the island-wide marginal totals unchanged) and partially synthetic values for group quarters. Counts cover household residents only, so group quarters are left out (and in Guam the military installations, where only basic questions were asked). The island-wide record is published without suppression; village, district and municipality rows can be suppressed or blanked for reliability and are not used here."
+    },
+    "78": {
+      "citation": "U.S. Census Bureau, 2020 Island Areas Censuses Demographic and Housing Characteristics Summary File for the U.S. Virgin Islands, table PCT47 (Sex by Age by Employment Status for the Population 16 Years and Over in Households, excluding people in military housing units), island-wide record, vi2020.dhc.zip, segment vi000312020.dhc, https://www2.census.gov/programs-surveys/decennial/2020/data/island-areas/us-virgin-islands/demographic-and-housing-characteristics-file/. Each age row pools the male and female cells; the civilian population is the pooled total minus the table's armed-forces subtotal, and 65-and-over rows carry the age total to match the ACS rows above.",
+      "asOf": "2020-04-01",
+      "limits": "Complete-count enumeration of the island, so no sampling margin of error exists and none is invented. Disclosure avoidance is data swapping (it leaves the island-wide marginal totals unchanged) and partially synthetic values for group quarters. Counts cover household residents only, so group quarters are left out (and in Guam the military installations, where only basic questions were asked). The island-wide record is published without suppression; village, district and municipality rows can be suppressed or blanked for reliability and are not used here."
+    }
+  },
   "counties": {
     "01001": {
       "acs-age-16": [3321, 1168],
@@ -48352,6 +48374,66 @@
       "acs-age-65": [2603, 353],
       "acs-age-70": [1937, 71],
       "acs-age-75": [3940, 51]
+    },
+    "60": {
+      "acs-age-16": [3854, 312],
+      "acs-age-20": [1314, 494],
+      "acs-age-22": [1750, 954],
+      "acs-age-25": [2982, 1855],
+      "acs-age-30": [2840, 1899],
+      "acs-age-35": [5929, 3963],
+      "acs-age-45": [6196, 3856],
+      "acs-age-55": [2596, 1203],
+      "acs-age-60": [886, 359],
+      "acs-age-62": [1084, 326],
+      "acs-age-65": [1328, 327],
+      "acs-age-70": [888, 148],
+      "acs-age-75": [897, 84]
+    },
+    "66": {
+      "acs-age-16": [8959, 1604],
+      "acs-age-20": [4005, 1977],
+      "acs-age-22": [5941, 3464],
+      "acs-age-25": [10034, 6757],
+      "acs-age-30": [8783, 5884],
+      "acs-age-35": [16358, 11005],
+      "acs-age-45": [19091, 13058],
+      "acs-age-55": [9606, 6215],
+      "acs-age-60": [3468, 1977],
+      "acs-age-62": [4687, 2233],
+      "acs-age-65": [6621, 2330],
+      "acs-age-70": [4845, 1068],
+      "acs-age-75": [5520, 506]
+    },
+    "69": {
+      "acs-age-16": [3039, 437],
+      "acs-age-20": [1227, 550],
+      "acs-age-22": [1680, 941],
+      "acs-age-25": [3109, 1853],
+      "acs-age-30": [3020, 1810],
+      "acs-age-35": [6591, 4127],
+      "acs-age-45": [8059, 5015],
+      "acs-age-55": [3374, 1972],
+      "acs-age-60": [1140, 616],
+      "acs-age-62": [1349, 637],
+      "acs-age-65": [1434, 574],
+      "acs-age-70": [767, 154],
+      "acs-age-75": [591, 73]
+    },
+    "78": {
+      "acs-age-16": [3739, 840],
+      "acs-age-20": [1569, 814],
+      "acs-age-22": [2249, 1336],
+      "acs-age-25": [4323, 2893],
+      "acs-age-30": [4418, 3137],
+      "acs-age-35": [9670, 7015],
+      "acs-age-45": [11907, 8605],
+      "acs-age-55": [6828, 4419],
+      "acs-age-60": [2722, 1553],
+      "acs-age-62": [3738, 1683],
+      "acs-age-65": [5692, 1789],
+      "acs-age-70": [5224, 931],
+      "acs-age-75": [7481, 595]
     }
   }
 }

@@ -1,6 +1,9 @@
 import { resolveLawInForce } from "./laws-in-force";
 import { lawChainForPlace, startingLawRows } from "./laws-starting";
-import { openingEmploymentFromRecordedRoles } from "./opening-employment";
+import {
+  DEFAULT_RESIDENT_EMPLOYMENT,
+  openingEmploymentFromRecordedRoles,
+} from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
 import {
   departmentGovernment,
@@ -845,13 +848,20 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobByPerson.set(job.personId, job);
   }
   const countyGeoidByPerson = new Map<string, string>();
+  // A place with no county of its own (an island area's) reads its
+  // state-equivalent's row of the employment table, where the table has one.
+  const stateEquivalent = place.sourceGeoid?.slice(0, 2);
+  const stateEquivalentRow =
+    stateEquivalent &&
+    stateEquivalent in DEFAULT_RESIDENT_EMPLOYMENT.countyCounts
+      ? stateEquivalent
+      : undefined;
   for (const plan of plans) {
     const county = counties.find(
       (row) => row.place.context.jurisdiction.id === plan.countyId,
     );
-    if (county?.place.sourceGeoid)
-      for (const id of plan.ids)
-        countyGeoidByPerson.set(id, county.place.sourceGeoid);
+    const geoid = county?.place.sourceGeoid ?? stateEquivalentRow;
+    if (geoid) for (const id of plan.ids) countyGeoidByPerson.set(id, geoid);
   }
   const openingAllocation =
     options.openingEmployment === false
