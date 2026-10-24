@@ -5,12 +5,12 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/press-outlet-revenue
 pr: #5099
 blocked-on:
 source: "gov-stopgap-press-faked-mechanic, PR #4596"
-claimed-at:
+claimed-at: 2026-10-24T10:11:43.276Z
 ---
 
 **What.** An outlet's revenue is one standing monthly payment from the town's outside customers, sized at the opening from its audience and a per-follower amount by kind. Local businesses buy no ads, households' own reading spending still goes to the outside account, and the payment does not follow the audience as it grows or shrinks (stopgap SG-PEOPLE-press-outlet-revenue). Make the outlet earn from its audience's subscriptions and from local businesses that choose to advertise, each a payment from a named payer's own account, and delete the standing payment in the same change.
