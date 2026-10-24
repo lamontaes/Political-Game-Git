@@ -5,10 +5,10 @@
     "lawLinks": 118,
     "webCoverageWired": 121,
     "allEightPoints": 0,
-    "reachesOrCarried": 109,
-    "namedInAStopgap": 118,
+    "reachesOrCarried": 119,
+    "namedInAStopgap": 108,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 109,
+    "reachesTheWorld": 119,
     "withAnyModerator": 22,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 109,
+        "pass": 119,
         "partial": 0,
-        "fail": 112,
+        "fail": 102,
         "n/a": 0
       },
       "varied": {
@@ -1239,9 +1239,8 @@
           "evidence": "data/research/outcome-web/links.json:671 size -0.023, range [-0.107, 0.048], Zigler, Choirat and Dominici 2018 (Epidemiology); Chay and Greenstone 2003"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.particulates moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through particles-to-infant-deaths: src/core2/health-web.ts:56"
         },
         "varied": {
           "status": "fail",
@@ -1268,8 +1267,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-env-particulates"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "energy-price-to-ac-use",
@@ -1729,9 +1728,8 @@
           "evidence": "data/research/outcome-web/links.json:878 size 0.32, range [0.2, 0.4], CBO supplemental estimate for Public Law 119-21 (2025); Sommers et al. 2019 (NEJM)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "partial",
@@ -1758,8 +1756,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-uninsured-pct"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "work-requirement-to-employment",
@@ -2223,7 +2221,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2260, src/core2/modules/jobs.ts:2269, src/core2/modules/jobs.ts:2298, src/core2/modules/jobs.ts:2300, src/core2/modules/jobs.ts:2320, src/core2/modules/jobs.ts:2322"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2283, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2321, src/core2/modules/jobs.ts:2323, src/core2/modules/jobs.ts:2343, src/core2/modules/jobs.ts:2345"
         },
         "varied": {
           "status": "fail",
@@ -3840,7 +3838,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2258, src/core2/modules/jobs.ts:2267"
+          "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2281, src/core2/modules/jobs.ts:2290"
         },
         "varied": {
           "status": "pass",
@@ -3937,7 +3935,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1547"
+          "evidence": "src/core2/modules/jobs.ts:1552"
         },
         "varied": {
           "status": "pass",
@@ -4373,9 +4371,8 @@
           "evidence": "data/research/outcome-web/links.json:2373 size -0.007, range [-0.012, -0.002], Carpenter, Eppink, Gonzales and McKay 2021 (JPAM)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it; nothing in the core records its cause, law.marriage-equality"
+          "status": "pass",
+          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "fail",
@@ -4402,8 +4399,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 2,
-      "stopgap": "SG-WEB-unread-health-uninsured-pct"
+      "wiredPoints": 3,
+      "stopgap": null
     },
     {
       "key": "abortion-ban-to-births",
@@ -4565,7 +4562,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2257, src/core2/modules/jobs.ts:2266"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2280, src/core2/modules/jobs.ts:2289"
         },
         "varied": {
           "status": "fail",
@@ -5199,9 +5196,8 @@
           "evidence": "data/research/outcome-web/links.json:2785 size -0.15, range [-0.2, -0.1], Courtemanche, Marton, Ukert, Yelowitz and Zapata 2017 (JPAM)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "fail",
@@ -5228,8 +5224,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-health-uninsured-pct"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "medicaid-expansion-to-mortality",
@@ -6014,7 +6010,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2257, src/core2/modules/jobs.ts:2266"
+          "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2280, src/core2/modules/jobs.ts:2289"
         },
         "varied": {
           "status": "fail",
@@ -6346,9 +6342,8 @@
           "evidence": "data/research/outcome-web/links.json:3476 size 0.063, range [0.03, 0.08], Cawley, Moriya and Simon 2015"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: health.uninsured-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
         },
         "varied": {
           "status": "pass",
@@ -6374,8 +6369,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-WEB-unread-health-uninsured-pct"
+      "wiredPoints": 5,
+      "stopgap": null
     },
     {
       "key": "federal-minimum-wage-to-poverty",
@@ -6443,7 +6438,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2260, src/core2/modules/jobs.ts:2269, src/core2/modules/jobs.ts:2298, src/core2/modules/jobs.ts:2300, src/core2/modules/jobs.ts:2320, src/core2/modules/jobs.ts:2322"
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2283, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2321, src/core2/modules/jobs.ts:2323, src/core2/modules/jobs.ts:2343, src/core2/modules/jobs.ts:2345"
         },
         "varied": {
           "status": "fail",
@@ -6585,9 +6580,8 @@
           "evidence": "data/research/outcome-web/links.json:3650 size -0.005, range [-0.015, -0.001], Henneman et al. 2023, Science 382; U.S. EPA 2024, Regulatory Impact Analysis for the Carbon Pollution Standards"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.particulates moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through particles-to-infant-deaths: src/core2/health-web.ts:56"
         },
         "varied": {
           "status": "fail",
@@ -6614,8 +6608,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-env-particulates"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "tariffs-to-prices",
@@ -8900,9 +8894,8 @@
           "evidence": "data/research/outcome-web/links.json:5019 size -0.01, range [-0.03, 0], Ji, Li, Lee, Luke and Mavrothalassitis 2024, working paper, Cleaner Bills, Cleaner Air"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.particulates moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through particles-to-infant-deaths: src/core2/health-web.ts:56"
         },
         "varied": {
           "status": "fail",
@@ -8929,8 +8922,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-env-particulates"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "carbon-price-to-particulates",
@@ -8949,9 +8942,8 @@
           "evidence": "data/research/outcome-web/links.json:5039 size -0.005, range [-0.02, 0], Hernandez-Cortes and Meng 2023, Journal of Public Economics 217"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: env.particulates moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through particles-to-infant-deaths: src/core2/health-web.ts:56"
         },
         "varied": {
           "status": "fail",
@@ -8978,8 +8970,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-env-particulates"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "retirement-age-to-poverty",
@@ -9433,7 +9425,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1548"
+          "evidence": "src/core2/modules/jobs.ts:1553"
         },
         "varied": {
           "status": "pass",
@@ -10049,7 +10041,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1548"
+          "evidence": "src/core2/modules/jobs.ts:1553"
         },
         "varied": {
           "status": "fail",
@@ -10191,9 +10183,8 @@
           "evidence": "data/research/outcome-web/links.json:5649 size 0.06, range [0.01, 0.18], GAO-07-772, Highway and Transit Investments: Flexible Funding Supports State and Local Transportation Priorities (2007); Census Bureau, 2022 Census of Governments: Finance, Table 1 (state highways); FTA National Transit Database 2024 (data.transportation.gov ekg5-frzt, total operating expenses)"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: transit.service-access moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through transit-service-to-ridership: src/core2/modules/place-prices.ts:899, src/core2/modules/place-prices.ts:950"
         },
         "varied": {
           "status": "fail",
@@ -10220,8 +10211,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-transit-service-access"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "farmland-easements-to-farmland-lost",
@@ -10339,7 +10330,7 @@
         },
         "reaches": {
           "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1548"
+          "evidence": "src/core2/modules/jobs.ts:1553"
         },
         "varied": {
           "status": "fail",
@@ -10531,9 +10522,8 @@
           "evidence": "data/research/outcome-web/links.json:5795 size -0.18, range [-0.3, -0.08], Transportation for America, Repair Priorities (2014): states spent $16.5 billion a year repairing roads and $20.4 billion adding lanes in 2009 to 2011 (45% repair); Repair Priorities 2026: states with good roads spend more than $2.35 on repair per $1 on expansion (70% repair). FHWA, 25th Conditions and Performance Report (2024), Exhibits 7-5 and 7-6: raising highway rehabilitation from $31.4 billion to $49.4 billion a year (+57%) cuts the 2038 share of travel on poor pavement from 15.7% to 9.6%, and from $49.4 billion to $64.6 billion (+31%) from 9.6% to 6.2%; Exhibit 8-13: at flat spending 15.8% falls to 11.8% in five years and 7.3% in twenty"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "-",
-          "why": "engine doesn't read the factor: roads.poor-condition-pct moves only in the web's monthly ledger; no engine multiplies its own rates by it"
+          "status": "pass",
+          "evidence": "through poor-roads-to-prices: src/core2/finance-state.ts:1411"
         },
         "varied": {
           "status": "fail",
@@ -10560,8 +10550,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": "SG-WEB-unread-roads-poor-condition-pct"
+      "wiredPoints": 4,
+      "stopgap": null
     },
     {
       "key": "poor-roads-to-prices",
@@ -11792,7 +11782,7 @@
     {
       "measure": "labor.low-wage-jobs",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2260, src/core2/modules/jobs.ts:2269, src/core2/modules/jobs.ts:2298, src/core2/modules/jobs.ts:2300, src/core2/modules/jobs.ts:2320, src/core2/modules/jobs.ts:2322",
+      "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2283, src/core2/modules/jobs.ts:2292, src/core2/modules/jobs.ts:2321, src/core2/modules/jobs.ts:2323, src/core2/modules/jobs.ts:2343, src/core2/modules/jobs.ts:2345",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11803,7 +11793,7 @@
     {
       "measure": "labor.married-women-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2258, src/core2/modules/jobs.ts:2267",
+      "evidence": "src/core2/jobs-web.ts:17, src/core2/modules/jobs.ts:2281, src/core2/modules/jobs.ts:2290",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["broadband-to-married-women-work"]
@@ -11811,7 +11801,7 @@
     {
       "measure": "labor.median-earnings",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1548",
+      "evidence": "src/core2/modules/jobs.ts:1553",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11847,7 +11837,7 @@
     {
       "measure": "labor.mothers-participation",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2257, src/core2/modules/jobs.ts:2266",
+      "evidence": "src/core2/jobs-web.ts:16, src/core2/modules/jobs.ts:2280, src/core2/modules/jobs.ts:2289",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": [
@@ -11858,7 +11848,7 @@
     {
       "measure": "labor.older-employment",
       "status": "engine-reads-web",
-      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2259, src/core2/modules/jobs.ts:2268, src/core2/modules/jobs.ts:2288",
+      "evidence": "src/core2/jobs-web.ts:18, src/core2/modules/jobs.ts:2282, src/core2/modules/jobs.ts:2291, src/core2/modules/jobs.ts:2311",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["retirement-age-to-older-work"]
@@ -11910,7 +11900,7 @@
     {
       "measure": "labor.wages",
       "status": "engine-reads-web",
-      "evidence": "src/core2/modules/jobs.ts:1547",
+      "evidence": "src/core2/modules/jobs.ts:1552",
       "countedTwice": false,
       "asCause": [],
       "asOutcome": ["corporate-tax-incidence"]
