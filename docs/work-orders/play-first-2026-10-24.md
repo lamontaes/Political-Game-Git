@@ -6,6 +6,8 @@ The owner: "Only the bare minimum needs to be put in the game right now. I still
 
 The playtest's headline: **Not tonight: he can file for council and campaign, but the ballot won't reach his own race, no screen says he won, and six weeks later the game locks on December 14, 2026.**
 
+Owner, Oct 24: no new sessions; every lead takes its play-stop items from the pool before anything else it has open; the `lead:` field names the owner.
+
 Build tested: v0.22.10 (4c943f3), Anson, Texas, seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. 55 minutes of play; no crash; three stoppers; 26 pool items, all `play-stop-*`. PR #5956 stays open as the record; its items and report are on main.
 
 ## How this order is used
@@ -64,20 +66,19 @@ The "wrong on its face" list, in the order he meets them.
 
 ## Assignments
 
-Owned by the files each item names. Each item's `area` field is set to match and its Notes carry `assigned: <lead>`.
+Owned by the files each item names. Each play-stop item carries `lead: <name>` in its front matter (`m0-m2`, `laws`, `words`, `effects`) and `milestone: play-first`; the Notes line repeats it.
 
 | Owner | Session | Items | Area |
 |-------|---------|-------|------|
-| **Play fixer** (new session; src/bench play screen: play.mjs, play.html, play.css, handler.ts, scene.ts, and the director's scene files) | new, Sonnet high, no subagents | 23, 21, 22 (Tier 1, in that order); then 03, 04, 07 (screen half), 12, 26, 02; then 13, 14, 15, 16, 17, 18, 19 (calendar and birthday screen) | play |
 | **Words lead** (src/director/conversation.ts, scene-talk.ts, journal.ts) | existing | 01; 19 (journal lines) | words |
-| **Gov fixer** (new session; src/bench/government.ts, results.ts, campaign.ts; src/core2/opening-key-people.ts, modules/offices.ts, candidacy.ts, elections.ts, campaigns.ts) | new, Sonnet high, no subagents | 05, 24, 11 | gov, elections |
-| **M0–M2 lead** (src/core2/player-v1.ts, deep-past.ts, town-households.ts, opening-employment.ts, modules/jobs.ts, modules/campaigns.ts, modules/residents.ts) | existing | 07 (core clock), 08, 09, 20, 25 | core |
+| **M0–M2 lead** (src/core2/player-v1.ts, deep-past.ts, town-households.ts, opening-employment.ts, modules/jobs.ts, modules/campaigns.ts, modules/residents.ts; play screen: src/bench/play.mjs, play.html, play.css, handler.ts, scene.ts, calendar.ts) | existing | play-stop first, in order: 23, 21, 22 (Tier 1); then 03, 04, 07 (screen half), 12, 26, 02; then 13, 14, 15, 16, 17, 18, 19 (calendar and birthday screen); also 08, 09, 20, 25 | core, play |
+| **Laws lead** (src/bench/government.ts, results.ts, campaign.ts; src/core2/opening-key-people.ts, modules/offices.ts, candidacy.ts, elections.ts, campaigns.ts) | existing | 05, 24, 11 | gov, elections |
 | **Effects lead** (src/core2/modules/laws.ts, data/legislature/bill-catalog.json, data/laws/starting-law.json; src/director/opening-story.ts, src/bench/economy.ts) | existing | 06, 10 | laws, world |
 
 Split items:
 
-- **07** (every day at midnight): the M0–M2 lead owns the clock (`advancePlayerV1` in src/core2/player-v1.ts lands every advance at `minuteOfDay: 0` of the next day, and a 3-hour act does not spend 3 hours); the Play fixer owns the screen half (the office open at midnight, the scene's time of day in src/bench/scene.ts and play.mjs). Two PRs, both body line 1 `play-stop-07-every-day-starts-at-midnight`; the item closes on the second.
-- **19** (turning 18 and journal): the Play fixer owns the calendar entry and the birthday moment on screen (src/bench/calendar.ts, play.mjs); the Words lead owns the journal lines (src/director/journal.ts, present tense "I filed to run for..."). Two PRs, same rule.
+- **07** (every day at midnight): the M0–M2 lead owns the clock (`advancePlayerV1` in src/core2/player-v1.ts lands every advance at `minuteOfDay: 0` of the next day, and a 3-hour act does not spend 3 hours); the M0–M2 lead owns the screen half (the office open at midnight, the scene's time of day in src/bench/scene.ts and play.mjs). Two PRs, both body line 1 `play-stop-07-every-day-starts-at-midnight`; the item closes on the second.
+- **19** (turning 18 and journal): the M0–M2 lead owns the calendar entry and the birthday moment on screen (src/bench/calendar.ts, play.mjs); the Words lead owns the journal lines (src/director/journal.ts, present tense "I filed to run for..."). Two PRs, same rule.
 
 Priorities in the pool: Tier 1 and Tier 2 are p1; Tier 3 is p2.
 
