@@ -23,6 +23,8 @@ interface Link {
   status: Status;
   evidence: string;
   why: string;
+  /** Money graded only by posts that differ from the control world, with no post citing the law or a direct flow: a statute-based not-applicable declaration overrides it. */
+  untraced?: boolean;
 }
 
 interface ReachCount {
@@ -63,6 +65,19 @@ interface Result {
     links: { key: string; status: string; to: string }[];
     fired: { id: string; link: string; effect: number }[];
     firedCount: number;
+    /** The run's window in days, and the law causes the web read differently from the control world (older result files have neither). */
+    windowDays?: number;
+    cause?: {
+      id: string;
+      month: string;
+      link: string;
+      from: string;
+      lagMonths: number;
+      treated: number;
+      control: number;
+    }[];
+    /** The first law row a body (not the checker) enacted on the law's key in the window, which can put a changed cause back. */
+    reenacted?: { id: string; effectiveDate: string; value: number } | null;
   };
   heard: { people: number; sample: string[] };
   afterUndo: ReachCount;
@@ -320,6 +335,7 @@ function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
         )
         .join("; "),
       why: "",
+      untraced: true,
     };
   return {
     status: "missing",
@@ -410,6 +426,52 @@ function webLink(
       evidence: links.map((l) => `${l.key}: ${l.status}`).join(", "),
       why: `every link is unbuilt: ${[...new Set(notBuilt.map((l) => l.status))].join(", ")}`,
     };
+  // A built, sized link to a kept measure whose lag outlasts the run cannot
+  // show its effect in it. It counts when the web read the law's cause as
+  // changed in the run (differently from the control world): the effect then
+  // lands the lag's months after that month row.
+  // It also counts when the world itself changed the law back before the lag
+  // ended: the cause the web read as changed did not last the link's lag, and
+  // the law row that reversed it is named.
+  const monthIndex = (month: string) =>
+    Number(month.slice(0, 4)) * 12 + Number(month.slice(5, 7));
+  const lagged = runs.flatMap(({ place, r }) =>
+    (r.web?.cause ?? [])
+      .filter((c) => built.some((l) => l.key === c.link))
+      .flatMap((c) => {
+        if (c.lagMonths > (r.web.windowDays ?? 35) / 30)
+          return [
+            {
+              place,
+              text: `${c.link} lags ${c.lagMonths} months, past the run's window; the web read ${c.from} as ${c.treated} (control ${c.control}) in ${c.id} (${c.month})`,
+            },
+          ];
+        const back = r.web.reenacted;
+        return back &&
+          back.value === c.control &&
+          monthIndex(back.effectiveDate) - monthIndex(c.month) < c.lagMonths
+          ? [
+              {
+                place,
+                text: `${c.link} lags ${c.lagMonths} months; the web read ${c.from} as ${c.treated} (control ${c.control}) in ${c.id} (${c.month}), but the world put it back with ${back.id} on ${back.effectiveDate}, before the lag ended`,
+              },
+            ]
+          : [];
+      }),
+  );
+  if (lagged.length) {
+    const ev = lagged
+      .slice(0, 3)
+      .map(({ place, text }) => `${place}: ${text}`)
+      .join("; ");
+    return notBuilt.length
+      ? {
+          status: "partial",
+          evidence: ev,
+          why: `links not built: ${notBuilt.map((l) => `${l.key} (${l.status})`).join(", ")}`,
+        }
+      : { status: "wired", evidence: ev, why: "" };
+  }
   return {
     status: "missing",
     evidence: built.map((l) => l.key).join(", "),
@@ -633,8 +695,15 @@ function main(): void {
     // A link the statute itself does not have (declared.json: a law that moves
     // no money, a rule with no researched outcome), or a stopgap registered
     // for exactly this law and link, explains a link that is not wired.
+    // A law that moves no money by its terms is declared so even where some
+    // post differed from the control world without citing it: that money is
+    // not the law's (a traced post, direct or citing the law, still wins).
     for (const [k, d] of Object.entries(DECLARED[law.key] ?? {}))
-      if (links[k] && links[k]!.status !== "wired") {
+      if (
+        links[k] &&
+        (links[k]!.status !== "wired" ||
+          (k === "money" && links[k]!.untraced && d.status === "n/a"))
+      ) {
         const sgRow = d.id ? stopgapOf(d.id) : null;
         if (d.status === "stopgap" && !sgRow?.open) continue;
         links[k] = {

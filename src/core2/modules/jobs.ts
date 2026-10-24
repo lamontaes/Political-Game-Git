@@ -44,11 +44,17 @@ import {
   participationShift,
   type LaborFacts,
 } from "../jobs-web";
-import { residentPerson, residentsRuntime } from "./residents";
+import {
+  countedHouseholdJobChanged,
+  keepCalendar,
+  residentFacts,
+  residentsRuntime,
+} from "./residents";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
+import { lawApplied } from "../law-reach/applied";
 import {
   addCountedJob,
   countedHeadsOf,
@@ -112,6 +118,8 @@ export interface PositionRow {
   raises?: number;
   firstHourlyMinor?: number;
   raisedBy?: string;
+  /** The budget line (and the measure that changed it) that funds this opening at a public employer. */
+  fundedBy?: { readonly key: string; readonly lawId: string };
 }
 /** A job offered to the person the player controls: theirs to accept or decline. */
 export interface JobOfferRow {
@@ -211,7 +219,7 @@ function traitsOf(
 ): Readonly<Record<string, number>> {
   return (
     core(api).people.get(personId)?.traits ??
-    residentPerson(core(api), personId)?.traits ??
+    residentFacts(core(api), personId)?.traits ??
     {}
   );
 }
@@ -1353,7 +1361,7 @@ function layOff(
   // Read before the event: an event can fill a counted worker in, after which
   // the counts no longer hold them.
   const placeId = (c.people.get(job.personId) ??
-    residentPerson(c, job.personId))!.placeId;
+    residentFacts(c, job.personId))!.placeId;
   api.emit({
     id: `event:work.job-lost:${api.state.date}:${job.id}`,
     date: api.state.date,
@@ -1789,7 +1797,7 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
-    if (!c.people.has(seeker.personId) && !residentPerson(c, seeker.personId)) {
+    if (!c.people.has(seeker.personId) && !residentFacts(c, seeker.personId)) {
       store(api).table("countedSeekers").remove(seeker.personId);
       continue;
     }
@@ -2092,7 +2100,25 @@ function hireCounted(
     ? countedJobOfPerson(c, seeker.personId)
     : undefined;
   if (previous?.organizationId === position.organizationId) return false;
-  if (!addCountedJob(c, job, template.id)) return false;
+  // The role's schedule and payday, as a full hire takes them, kept with the
+  // household so the worker is on that payroll the day they are met.
+  const role = roleTemplate(c, { ...position, templateJobId: template.id });
+  const commitment: WorkCommitmentInput | undefined = role && {
+    ...role.commitment,
+    organizationId: position.organizationId,
+    id: `work-commitment:${jobId}`,
+    jobId,
+    personId: seeker.personId,
+    payrollCalendarId: role.calendar.id,
+    startsAt: addDays(makeIsoDate(api.state.date), 1),
+    endsAt: undefined,
+    hourlyMinor: position.hourlyMinor,
+    scheduleTemplateJobId: role.template.id,
+    paySource: job.source,
+    scheduleSource: job.source,
+  };
+  if (!addCountedJob(c, job, template.id, commitment)) return false;
+  if (role) keepCalendar(c, role.calendar);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
@@ -2129,6 +2155,7 @@ function hireCounted(
   store(api)
     .table("positions")
     .put({ ...position, status: "filled", filledBy: seeker.personId });
+  fundedHire(api, position, seeker.personId, "group", positionHeads(position));
   store(api).table("countedSeekers").remove(seeker.personId);
   endClaim(api, store(api).table("claims"), seeker.personId);
   record(api, {
@@ -2203,7 +2230,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
     for (const job of countedJobsOf(c, organizationId)) {
       // An owner retires through their business (the business module's closing choice), not off its payroll.
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       if (!person) continue;
       const age =
         daysBetweenText(person.birthDate, c.date) / p("jobsDaysPerYear");
@@ -2459,7 +2486,7 @@ function reviewCountedQuits(api: CoreAPI): void {
     for (const job of countedJobsOf(c, organizationId)) {
       if (inCustody(api, job.personId)) continue;
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
       const payGap = Math.max(0, (going.get(roleOf(job)) ?? pay) / pay - 1);
@@ -2535,7 +2562,7 @@ function reviewCountedLooking(api: CoreAPI): void {
       if (seekers.get(job.personId) || inCustody(api, job.personId)) continue;
       // An owner runs their own business; they don't look for a job elsewhere.
       if (ownerOf(api, organizationId) === job.personId) continue;
-      const person = residentPerson(c, job.personId);
+      const person = residentFacts(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
       const payGap = Math.max(
@@ -2799,7 +2826,6 @@ function offerToPlayer(
     sourceRecordIds: [id],
   });
   if (!isExplicitlyControlledPersonV1(c, personId)) return;
-  stopgap("SG-WORLD-jobs-offer-deadline-reminder");
   const stopSource = source(
     api,
     `${position.organizationId} offered ${position.title} at ${position.hourlyMinor} cents an hour (${id}).`,
@@ -2825,13 +2851,12 @@ function offerToPlayer(
       recordId: `${id}:deadline`,
       controlledPersonId: personId,
       at: { date: deadline, minuteOfDay: 0 },
-      // A reminder, not a hold: until the play screen can answer an offer
-      // (OPUS-PLAY), a held deadline would stop the clock for good.
-      // stopgapId: SG-WORLD-jobs-offer-deadline-reminder
+      // Held: the clock stops at the deadline until the player answers on
+      // the play screen or the employer's withdrawal settles the offer.
       kind: "interrupt",
       reasonKey: jobsData.reasons.offered,
       source: stopSource,
-      hold: false,
+      hold: true,
     }),
   ]);
 }
@@ -3036,6 +3061,7 @@ function hire(
         ? { ...position, heads: left }
         : { ...position, status: "filled", filledBy: person.id },
     );
+  fundedHire(api, position, person.id, "person", 1);
   store(api).table("seekers").remove(person.id);
   endSpell(api, person.id);
   // The new hire meets the full people already working there.
@@ -3060,6 +3086,109 @@ function hire(
       hourlyMinor: position.hourlyMinor,
     },
   });
+}
+
+/**
+ * A hire to an opening a budget line funds: the jobs engine applied the
+ * line's change to this worker (a named person, or a counted worker standing
+ * for the jobs the opening stood for).
+ */
+function fundedHire(
+  api: CoreAPI,
+  position: PositionRow,
+  personId: string,
+  target: "person" | "group",
+  count: number,
+): void {
+  if (!position.fundedBy) return;
+  lawApplied(api, {
+    key: position.fundedBy.key,
+    lawId: position.fundedBy.lawId,
+    targetId: personId,
+    target,
+    engine: JOBS_MODULE_ID,
+    what: "hired-on-budget-line",
+    count,
+  });
+}
+
+/**
+ * Openings a budget line newly funds at a public employer, posted like any
+ * opening at the employer's pay for the role: the week's matching fills them
+ * from named and counted seekers alike, and each hire records the line.
+ */
+export function postFundedOpenings(
+  api: CoreAPI,
+  input: {
+    readonly organizationId: string;
+    readonly templateJobId: string;
+    readonly count: number;
+    readonly key: string;
+    readonly lawId: string;
+  },
+): number {
+  // With no jobs engine (a unit test's small world) nobody fills an opening.
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return 0;
+  const c = core(api);
+  const template = jobById(api, input.templateJobId);
+  const placeId = c.organizations.get(input.organizationId)?.placeId;
+  if (!template || !placeId) return 0;
+  let posted = 0;
+  for (; posted < input.count; posted += 1)
+    store(api)
+      .table("positions")
+      .put({
+        id: `position:${input.organizationId}:${api.state.date}:${input.key}:${posted}`,
+        organizationId: input.organizationId,
+        placeId,
+        templateJobId: template.id,
+        title: template.title,
+        occupation: roleOf(template),
+        hourlyMinor: payFor(api, input.organizationId, template),
+        openedAt: api.state.date,
+        status: "open",
+        reasonKey: jobsData.reasons.opening,
+        fundedBy: { key: input.key, lawId: input.lawId },
+      } satisfies PositionRow);
+  return posted;
+}
+
+/** An employer's open openings a budget line funds. */
+export function fundedOpenings(
+  api: CoreAPI,
+  organizationId: string,
+  key: string,
+): readonly PositionRow[] {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return [];
+  return openPositions(api, organizationId).filter(
+    (row) => row.fundedBy?.key === key,
+  );
+}
+
+/** Withdraw an opening the line no longer funds (it was cut back before anyone filled it). */
+export function withdrawOpening(api: CoreAPI, position: PositionRow): void {
+  store(api)
+    .table("positions")
+    .put({ ...position, status: "withdrawn" });
+}
+
+/** End a counted worker's job: a public employer let them go when its line was cut. */
+export function layOffCounted(api: CoreAPI, jobId: string): boolean {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return false;
+  const c = core(api);
+  const job = residentsRuntime(c)?.jobs.get(jobId);
+  if (!job) return false;
+  endCountedJob(c, jobId);
+  record(api, {
+    personId: job.personId,
+    organizationId: job.organizationId,
+    jobId,
+    kind: "layoff",
+    reasonKey: jobsData.reasons.layoff,
+    decidedBy: job.organizationId,
+    values: { hourlyMinor: job.hourlyMinor ?? 0, counted: 1 },
+  });
+  return true;
 }
 
 export const JOBS_MODULE: CoreModule = {
@@ -3138,9 +3267,12 @@ export const JOBS_MODULE: CoreModule = {
       // Only jobs named by this closure ended because of it. A same-day quit did not.
       // Looking for another job does not keep this job alive after closure.
       // The job ends with the employer today; its wage flow stops paying at its next date.
-      if (!job.endsAt && !endCountedJob(core(api), job.id))
-        rt!.jobs.set(job.id, { ...job, endsAt: api.state.date });
-      const person = residentPerson(core(api), job.personId);
+      if (!job.endsAt && !endCountedJob(core(api), job.id)) {
+        const ended = { ...job, endsAt: api.state.date };
+        rt!.jobs.set(job.id, ended);
+        countedHouseholdJobChanged(core(api), ended);
+      }
+      const person = residentFacts(core(api), job.personId);
       if (!person) continue;
       record(api, {
         personId: job.personId,

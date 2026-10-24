@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #5848
+pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable"
 claimed-at:
@@ -27,3 +27,7 @@ claimed-at:
 **Notes.** Folded from: core-stopgap-content-estimated-behavior, core-stopgap-content-uncalibrated-tunable. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 
 Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-content-sourced-parameters.md (2 rows: 0 sourced, 2 estimated, 0 mechanic).
+
+Oct 24, 2026: split. PR 5848 (item research-content-atus-lookup-hours) delivers lookupHours as ESTIMATED at 0.91 hours (spread 0.72 to 1.06, BLS American Time Use Survey 2025), its research file and a played-year check. Still open here: careNeedHalfExcessHazard stays TUNABLE because no published figure measures care per unit of condition hazard. SG-P8-civic-progress stays open because the look-up, join, organize and approach acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable). SG-P8-life-utility stays open because the engine still scores one act per activation instead of a day's time plan (builder item core-stopgap-content-estimated-behavior).
+
+Sent back 2026-10-23 from PR #5848 (branch claude/dreamy-tesla-bgi3ui): The acceptance table explicitly leaves the care coefficient and both stopgap-resolution rows unmet; bound the completed ATUS and lookupHours slice separately while preserving the unidentified coefficient and mechanic work open; finish on that branch, merge main into it first.

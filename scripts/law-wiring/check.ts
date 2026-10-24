@@ -51,10 +51,12 @@ import { draftBill, type Provision } from "../../src/core2/modules/legislature";
 import powersCatalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import powerQuestions from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import { placeLocalities, placeStateKeys } from "../../src/core2/places";
+import { linkCoverage, WEB_LINKS } from "../../src/core2/outcome-web-model";
 import { allLaws, webLinksOf, type LawEntry } from "./catalog";
 
 const ROOT = `${process.cwd()}/`;
-const AFTER = 10;
+/** Days after a repeal (or the old amount put back) before reach is read again: a month, so an engine that applies a law at a monthly close runs once. */
+const AFTER = 31;
 
 const arg = (name: string) => {
   const i = process.argv.indexOf(`--${name}`);
@@ -333,6 +335,44 @@ function webEffects(
   return out;
 }
 
+/**
+ * The law causes the web read, month by month, for the links of these laws
+ * that run on core2 (a built, sized link to a kept measure whose cause is a
+ * law). A link with a long lag moves its outcome that many months after the
+ * cause changes; what a run can show of it is the cause the web read.
+ */
+function webCauses(
+  core: CoreState,
+  placeId: string,
+  laws: readonly LawEntry[],
+) {
+  const links = laws.flatMap((law) =>
+    WEB_LINKS.filter(
+      (l) =>
+        l.from.startsWith("law:") &&
+        linkCoverage(l).wired &&
+        webLinksOf(law).some((w) => w.key === l.key),
+    ),
+  );
+  if (!core.modules.has(OUTCOME_WEB_MODULE_ID) || !links.length) return [];
+  const rows = coreAPI(core)
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months")
+    .query("byPlace", [placeId]) as unknown as {
+    id: string;
+    date: string;
+    values: Record<string, number>;
+  }[];
+  return rows.flatMap((row) =>
+    links.flatMap((link) => {
+      const value = row.values?.[link.from];
+      return typeof value === "number"
+        ? [{ id: row.id, date: row.date, link, value }]
+        : [];
+    }),
+  );
+}
+
 function heardOf(
   core: CoreState,
   lawIds: ReadonlySet<string>,
@@ -340,7 +380,8 @@ function heardOf(
   since: string,
 ) {
   const api = coreAPI(core);
-  if (!core.modules.has("news")) return { people: 0, sample: [] as string[] };
+  if (!core.modules.has("news"))
+    return { people: 0, sample: [] as string[], ids: new Set<string>() };
   const news = api.moduleState("news");
   const stories = new Map<string, boolean>();
   const people = new Set<string>();
@@ -377,7 +418,39 @@ function heardOf(
       if (sample.length < 3) sample.push(row.id);
     }
   }
-  return { people: people.size, sample };
+  return { people: people.size, sample, ids: people };
+}
+
+/**
+ * Plays a window in steps shorter than the news engine's memory (it forgets
+ * who heard a story after 30 days), so everyone who heard about the law at
+ * any point in a long window is counted, not only those still remembered on
+ * its last day. With `peak`, it also keeps the step at which the changed rows
+ * reached the most people.
+ */
+function stepHearing(
+  core: CoreState,
+  days: number,
+  heard: { people: Set<string>; sample: string[] },
+  lawIds: ReadonlySet<string>,
+  key: string,
+  since: string,
+  peak?: { reach: ReachCount | null },
+): void {
+  for (let left = days; left > 0;) {
+    const d = Math.min(28, left);
+    step(core, d);
+    left -= d;
+    if (peak) {
+      const now = reachOf(core, key, lawIds);
+      if (!peak.reach || now.open > peak.reach.open) peak.reach = now;
+    }
+    const now = heardOf(core, lawIds, key, since);
+    for (const id of now.ids) heard.people.add(id);
+    for (const id of now.sample)
+      if (heard.sample.length < 3 && !heard.sample.includes(id))
+        heard.sample.push(id);
+  }
 }
 
 function snapshotMoney() {
@@ -670,6 +743,8 @@ function changeBudget(
     line,
     deltaMinor: delta,
     measureId: `law-wiring-${tag}`,
+    // As a passed budget bill's change does, it carries into later years.
+    carry: true,
   });
   ids.add(`law-wiring-${tag}`);
   return {
@@ -683,6 +758,7 @@ function changeBudget(
         line,
         deltaMinor: -delta,
         measureId: `law-wiring-${tag}-undo`,
+        carry: true,
       });
     },
   };
@@ -705,7 +781,9 @@ interface Control {
   money: Map<string, { gross: number; posts: number; ids: string[] }>;
   reads: Map<string, Map<string, number>>;
   web: Map<string, number>;
-  /** Each law's reach at the end of the control window, where nothing changed it. */
+  /** The law causes the web read in the control world, by month row and link. */
+  cause: Map<string, number>;
+  /** Each law's reach in the control window, where nothing changed it, at its widest step. */
   reach: Map<string, ReachCount>;
 }
 
@@ -739,8 +817,20 @@ function runControl(
       citation: "Law-wiring check: null control",
     });
   }
+  // Each law's reach where nothing changed it, at its widest step of the
+  // window: over a long window a body in play may change a law already in
+  // force, and the people it reached until then still count.
+  const reach = new Map<string, ReachCount>();
   trace.on = true;
-  step(w.core, 1 + WINDOW);
+  for (let left = 1 + WINDOW; left > 0;) {
+    const d = Math.min(28, left);
+    step(w.core, d);
+    left -= d;
+    for (const law of laws) {
+      const now = reachOf(w.core, law.key, null);
+      if (now.open > (reach.get(law.key)?.open ?? -1)) reach.set(law.key, now);
+    }
+  }
   trace.on = false;
   const money = snapshotMoney();
   const reads = trace.reads;
@@ -750,10 +840,11 @@ function runControl(
     for (const l of webLinksOf(law))
       for (const e of webEffects(w.core, placeId, [l.key], "0000"))
         web.set(`${e.id}|${e.link}`, e.effect);
-  const reach = new Map(
-    laws.map((law) => [law.key, reachOf(w.core, law.key, null)] as const),
-  );
-  return { money, reads, web, reach };
+  const cause = new Map<string, number>();
+  for (const law of laws)
+    for (const c of webCauses(w.core, placeId, [law]))
+      cause.set(`${c.id}|${c.link.key}`, c.value);
+  return { money, reads, web, cause, reach };
 }
 
 function checkLaw(
@@ -827,21 +918,49 @@ function checkLaw(
   }
   citeTokens = [...ids, law.key, `law-wiring-${tag}`];
   const since = core.date;
+  const heardInWindow = { people: new Set<string>(), sample: [] as string[] };
+  // A repeal is measured on the window's last day (its reach must be gone);
+  // an enactment by whom it reached at any step of the window.
+  const peak = opening ? undefined : { reach: null as ReachCount | null };
   trace.on = true;
   if (drafts) {
     // An authority law is read when a body drafts a bill under it: once the
     // change has taken effect, a council member drafts one.
-    step(core, 2);
+    stepHearing(core, 2, heardInWindow, ids, law.key, since, peak);
     draftUnder(api, drafts);
-    step(core, WINDOW - 1);
-  } else step(core, 1 + WINDOW);
+    stepHearing(core, WINDOW - 1, heardInWindow, ids, law.key, since, peak);
+  } else
+    stepHearing(core, 1 + WINDOW, heardInWindow, ids, law.key, since, peak);
   trace.on = false;
   const money = snapshotMoney();
   const reads = trace.reads.get(law.key) ?? new Map();
   const controlReads = control.reads.get(law.key) ?? new Map();
   // Only reach under the rows the checker changed (or repealed) counts: a body in
   // play may enact the law again during a long window, and its rows are its own.
-  const reach = reachOf(core, law.key, ids);
+  // Once a body's own row takes over, the people the change reached cite that
+  // row, so an enactment's reach is its widest step in the window.
+  const reachAtEnd = reachOf(core, law.key, ids);
+  const reach =
+    peak?.reach && peak.reach.open > reachAtEnd.open ? peak.reach : reachAtEnd;
+  // Law rows a body in play (not the checker) put in force on the series in the window.
+  const inPlay = lawChain(api)
+    .levels.flatMap(
+      ({ jurisdiction }) =>
+        api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .query("bySeries", [
+            jurisdiction,
+            law.key,
+          ]) as unknown as LawRowInput[],
+    )
+    .filter((r) => r.effectiveDate > since && !ids.has(r.id))
+    .map((r) => ({
+      id: r.id,
+      level: r.level,
+      effectiveDate: r.effectiveDate,
+      value: Number(r.value),
+    }));
   const links = webLinksOf(law);
   const treated = webEffects(
     core,
@@ -870,7 +989,40 @@ function checkLaw(
     )
       web.push({ id, link, effect: 0 });
   }
-  const heard = heardOf(core, ids, law.key, since);
+  // The law cause the web read differently from the control world, per link
+  // (what a link whose lag outlasts this window can show of itself).
+  const cause = webCauses(core, placeId, [law])
+    .filter((c) => c.date >= since)
+    .flatMap((c) => {
+      const held = control.cause.get(`${c.id}|${c.link.key}`);
+      return held !== undefined && held !== c.value
+        ? [
+            {
+              id: c.id,
+              month: c.id.slice(-"YYYY-MM".length),
+              link: c.link.key,
+              from: c.link.from,
+              lagMonths: c.link.lagMonths,
+              treated: c.value,
+              control: held,
+            },
+          ]
+        : [];
+    });
+  // The law row a body (not the checker) put the law back with in the window:
+  // a cause the world itself reversed did not last the lag.
+  const reenacted =
+    cause.length > 0
+      ? ([...inPlay].sort(
+          (a, b) =>
+            a.effectiveDate.localeCompare(b.effectiveDate) ||
+            a.id.localeCompare(b.id),
+        )[0] ?? null)
+      : null;
+  const heard = {
+    people: heardInWindow.people.size,
+    sample: heardInWindow.sample,
+  };
   // Money: each journal source kind whose total differs from the control's.
   const moneyDiff: {
     kind: string;
@@ -933,6 +1085,8 @@ function checkLaw(
     lawIds: [...ids],
     openingReach,
     reach,
+    reachAtEnd,
+    inPlay,
     readers: Object.fromEntries([...readers].sort((a, b) => b[1] - a[1])),
     openingRow,
     money: {
@@ -945,6 +1099,9 @@ function checkLaw(
       links: links.map((l) => ({ key: l.key, status: l.status, to: l.to })),
       fired: web.slice(0, 12),
       firedCount: web.length,
+      windowDays: WINDOW,
+      cause: cause.slice(0, 12),
+      reenacted,
     },
     heard,
     afterUndo: after,
@@ -987,10 +1144,20 @@ function main(): void {
     : lawControl;
   console.error(`control world: ${Math.round((Date.now() - t) / 1000)}s`);
   // A run picks up where an earlier one on the same file stopped.
-  const results: { key: string; error?: string }[] = existsSync(out)
+  const results: {
+    key: string;
+    kind?: string;
+    family?: string;
+    error?: string;
+  }[] = existsSync(out)
     ? (
         JSON.parse(readFileSync(out, "utf8")) as {
-          results: { key: string; error?: string }[];
+          results: {
+            key: string;
+            kind?: string;
+            family?: string;
+            error?: string;
+          }[];
         }
       ).results.filter((r) => !r.error)
     : [];
