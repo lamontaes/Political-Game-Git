@@ -10,6 +10,8 @@
  */
 import { scoreOffers, decisionFromScores } from "../choice";
 import { closenessBetween, currentCloseness } from "../closeness";
+import { registerTreasuryBeforePaying } from "../budgets-treasury";
+import { type GovernmentRow } from "./budgets";
 import { decisionKinds, decisionLean } from "../trait-decisions";
 import rows from "../data/corruption/parameters.json" with { type: "json" };
 import type { CashJournalPosting } from "../journal";
@@ -35,6 +37,16 @@ const c = (api: CoreAPI, key: string) => {
   if (row.stopgapId) api.stopgap(row.stopgapId);
   return row.value;
 };
+
+/** Who holds a government's chief executive office (set by the legislature module, which reads the offices). */
+type GovernmentExecutive = (
+  api: CoreAPI,
+  gov: GovernmentRow,
+) => PersonId | undefined;
+let executiveOfGovernment: GovernmentExecutive | undefined;
+export function registerGovernmentExecutive(fn: GovernmentExecutive): void {
+  executiveOfGovernment = fn;
+}
 
 export interface BribeAsk {
   offererId: PersonId;
@@ -285,6 +297,90 @@ export function crimesKnownTo(api: CoreAPI, personId: PersonId): CrimeRecord[] {
     .map((fact) => table(api, "crimes").get(fact.key.slice("crime:".length)))
     .filter(Boolean) as unknown as CrimeRecord[];
 }
+
+/**
+ * Each month, after a treasury's revenue is in and before it pays its lines,
+ * the government's chief executive weighs taking a small part of the line
+ * that is due the most for themselves, through the same chooser as taking a
+ * bribe: their traits, their need (their own cash against a month's living
+ * costs) and the pull of honesty. A diversion is a transfer from the
+ * treasury's account to the official's own on the cash journal, so the
+ * treasury pays its lines from what is left. Nothing surfaces it: an audit is
+ * the second door into the complaint record.
+ */
+export function onTreasuryBeforePaying(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  due: Readonly<Record<string, number>>,
+): void {
+  if (!api.state.modules.has(CORRUPTION_MODULE_ID) || !executiveOfGovernment)
+    return;
+  const accounts = api.accounts();
+  const owners = (api.state as CoreState).cashJournal.residualAccountByOwner;
+  const officialId = executiveOfGovernment(api, gov);
+  const official = officialId ? api.state.people.get(officialId) : undefined;
+  if (!official?.alive || !owners.has(official.id)) return;
+  // The line due the most this month.
+  const [line, owed] = Object.entries(due).sort(
+    (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
+  )[0] ?? ["", 0];
+  const treasury = accounts.main(gov.organizationId);
+  const month = official.livingCostDailyMinor * c(api, "daysPerMonth");
+  const amount = Math.min(
+    Math.round(owed * c(api, "diversionShareOfLine")),
+    Math.round(month * c(api, "diversionMonthsOfLiving")),
+    Math.max(0, accounts.balance(treasury)),
+  );
+  if (amount <= api.parameter("zero")) return;
+  const date = api.state.date;
+  const subjectId = `diversion:${gov.id}:${line}:${date}`;
+  const decision = decide(
+    api,
+    official.id,
+    "take",
+    {
+      temperament:
+        c(api, "corruptionTraitWeight") * temperament(api, official, "take"),
+      need:
+        (c(api, "corruptionNeedWeight") * amount) /
+        (month + official.liquidMinor + api.parameter("one")),
+    },
+    subjectId,
+  );
+  if (!decision.yes) return;
+  const transferId = `diversion:${gov.id}:${official.id}:${date}`;
+  const receipt = accounts.transfer({
+    id: transferId,
+    from: treasury,
+    to: accounts.main(official.id),
+    amountMinor: amount,
+    reasonKey: "corruption.diversion",
+    source: {
+      tag: "ESTIMATED",
+      citation: "An official diverted part of a budget line to themselves.",
+      asOf: date,
+      estimatedFrom: "SG-P15-corruption-weights",
+    },
+  });
+  if (receipt.paidMinor <= 0) return;
+  // The transfer is the record: the treasury pays its lines from what is
+  // left, and the official's own cash is what their next choices weigh.
+  api.emit({
+    id: subjectId,
+    date,
+    kind: "treasury.diverted",
+    personIds: [official.id],
+    placeId: official.placeId,
+    facts: { [`diversion:${transferId}`]: line },
+    source: {
+      tag: "ESTIMATED",
+      citation: "An official diverted part of a budget line to themselves.",
+      asOf: date,
+      estimatedFrom: "SG-P15-corruption-weights",
+    },
+  });
+}
+registerTreasuryBeforePaying(onTreasuryBeforePaying);
 
 export const corruptionModule: CoreModule = {
   id: CORRUPTION_MODULE_ID,

@@ -227,6 +227,21 @@ export function registerLinePayments(payer: LinePayer): void {
 }
 
 /**
+ * Called for each treasury after its revenue is in and before it pays its
+ * lines, with what each line is due this month: an official who controls the
+ * money may take some, and the payments then scale to what is left.
+ */
+type TreasuryBeforePaying = (
+  api: CoreAPI,
+  gov: GovernmentRow,
+  due: Readonly<Record<string, number>>,
+) => void;
+const beforePayingHooks: TreasuryBeforePaying[] = [];
+export function registerTreasuryBeforePaying(hook: TreasuryBeforePaying): void {
+  if (!beforePayingHooks.includes(hook)) beforePayingHooks.push(hook);
+}
+
+/**
  * Whether an employer and a treasury belong to one government: the same
  * recorded government key, or, for a state's or the nation's office, the same
  * jurisdiction.
@@ -774,6 +789,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       aidTotal +
       Object.values(plan).reduce((s, p) => s + p.providers + p.outside, 0);
     const main = accounts.main(gov.organizationId);
+    for (const hook of beforePayingHooks) hook(api, gov, due);
     // The next month's wages, and any earned and unpaid, are kept back from
     // the lines so the payroll is paid first (a treasury that spent it all at
     // each close left its own employees unpaid).

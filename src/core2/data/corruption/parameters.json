@@ -64,6 +64,18 @@
     "citation": "The most a taken bribe moves the official's position on the decision it bought, reached as the bribe grows against a month of their living costs (a member's whole position runs about -1 to 1). A bribe is a payment for a specific decision (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 4). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-corruption-weights"
   },
+  "diversionShareOfLine": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "The share of a budget line's month of payments an official who diverts takes for themselves. Occupational fraud against governments runs to losses in the low hundreds of thousands of dollars a case (Association of Certified Fraud Examiners, Report to the Nations), a small part of a line's payments, taken to be unnoticed. Spread 0.005 to 0.05.",
+    "stopgapId": "SG-P15-corruption-weights"
+  },
+  "diversionMonthsOfLiving": {
+    "value": 2.5,
+    "tag": "TUNABLE",
+    "citation": "The most an official takes in one month, in months of their own living costs: a sum small enough to go unnoticed in a line of millions and large enough to tempt someone strained. It sets the need term of the choice at most this size, against the pull of honesty (3), so only strained, risk-taking officials take it: most of the 80 most cash-strained residents of a generated town decline (src/core2/treasury-diversion.test.ts). An official with no costs of their own takes nothing. Spread 1.5 to 4.",
+    "stopgapId": "SG-P15-corruption-weights"
+  },
   "bribeBreachHoursPerDayOfCost": {
     "value": 1,
     "tag": "TUNABLE",

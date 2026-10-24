@@ -60,7 +60,7 @@ import { recordVote, votesOf } from "./record";
 import { viewOn } from "./views";
 import { ownStance } from "../officials-roster";
 import { closenessBetween } from "../closeness";
-import { bribePull } from "./corruption";
+import { bribePull, registerGovernmentExecutive } from "./corruption";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
 import {
   BUDGETS_MODULE_ID,
@@ -3456,6 +3456,24 @@ function countVote(api: CoreAPI, billId: string): BillRow {
   table(api, "bills").put(passed as unknown as ModuleRow);
   return executiveAction(api, passed, tallies);
 }
+
+/**
+ * The person who holds a government's chief executive office (the mayor,
+ * county executive, governor or President), when that office is held by a
+ * person in the world. Read through the body that adopts the government's
+ * budget.
+ */
+export function governmentExecutive(
+  api: CoreAPI,
+  gov: GovernmentRow,
+): string | undefined {
+  const chambers = budgetChambers(api, gov);
+  if (!chambers) return undefined;
+  const id = executiveOf(api, chambers.introducedIn).term?.personId;
+  return id && api.state.people.has(id) ? id : undefined;
+}
+
+registerGovernmentExecutive((api, gov) => governmentExecutive(api, gov));
 
 /**
  * The elected executive over a body's bills (the mayor, county executive,
