@@ -4595,14 +4595,27 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
-  "grudgeConfrontSettles": {
-    "value": 0.25,
+  "grudgeConfrontRecencyWeight": {
+    "value": 4,
     "tag": "TUNABLE",
-    "citation": "Share of a grudge's strength one confrontation settles, after the act's own reinforcement: having had it out with the person, the score is partly settled, so each confrontation leaves the grudge weaker and the next one less pressing, with no cooldown and no cutoff. Without it a grudge against a living person was confronted almost daily for months (126 to 179 confrontations per grudge in Rockport, Texas, seed cbf9ae5a6ee7), since every act refills a drive. Checked so a grudge leads to a handful of confrontations in a played year. Revenge studies find punishing does not end rumination (Carlsmith, Wilson and Gilbert 2008, Journal of Personality and Social Psychology 95(6)), so the share stays well below one.",
+    "citation": "How strongly having just confronted the person a grudge is held against weighs against confronting them again (a reason in the chooser, fading at grudgeConfrontRecencyDays). Without it a laid-off holder, whose stress and unmet safety the act answers, confronted the same person several times a day for months (179 confrontations on 179 days for one grudge in Rockport, Texas, seed cbf9ae5a6ee7, where a confrontation's other reasons summed to about 3.2). Checked so a grudge leads to an occasional confrontation, not a daily one, in a played year.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
-      "reason": "No study measures how much of a grudge one confrontation settles on this strength scale."
+      "reason": "No study measures confrontation spacing on the chooser's utility scale."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "grudgeConfrontRecencyDays": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "Days over which the weight of a recent confrontation against another fades by a factor of e (about two-thirds gone after two months).",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study measures how long people wait before confronting the same person again."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

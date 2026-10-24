@@ -34,6 +34,7 @@ import type {
   IsoDate,
   PersonId,
   PersonState,
+  ReasonBinding,
 } from "../types";
 
 /**
@@ -993,6 +994,15 @@ function servingDrives(
     .map((row) => row.drive);
 }
 
+/** A grudge's confrontation weighs how recently the holder last had it out with the person. */
+const CONFRONT_RECENCY: readonly ReasonBinding[] = [
+  {
+    id: "confront-recency",
+    provider: "drives:confront-recency",
+    weightParameter: "grudgeConfrontRecencyWeight",
+  },
+];
+
 function driveOffer(
   api: CoreAPI,
   action: ActionDefinition,
@@ -1456,6 +1466,31 @@ export function createDrivesModule(
         );
       },
     },
+    reasonProviders: {
+      // Having just had it out with someone weighs against doing it again,
+      // fading as the days pass: no cooldown, no cutoff.
+      [CONFRONT_RECENCY[0]!.provider]: (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        if (!drive) return;
+        // The latest confrontation among the drive's kept act traces.
+        let last: string | undefined;
+        for (const act of drive.acts)
+          if (
+            act.actionId === offer.definition.id &&
+            act.basis === "scored" &&
+            (!last || act.date > last)
+          )
+            last = act.date;
+        if (!last) return;
+        const days = daysBetweenText(last, api.state.date);
+        return {
+          value: -Math.exp(-days / api.parameter("grudgeConfrontRecencyDays")),
+          sourceIds: [drive.id],
+        };
+      },
+    },
     // Only the events a rule answers or a drive act emits reach this module.
     eventKinds: [
       ...new Set([
@@ -1685,7 +1720,10 @@ export function createDrivesModule(
             (drive) =>
               drive.targetId && api.state.people.get(drive.targetId)?.alive,
           )
-          .map((drive) => driveOffer(api, action, drive.targetId!, drive)),
+          .map((drive) => ({
+            ...driveOffer(api, action, drive.targetId!, drive),
+            reasonBindings: CONFRONT_RECENCY,
+          })),
       "known-public-figure": (api, actor, action) => {
         const out: ActOffer[] = [];
         for (const drive of servingDrives(api, actor, action))
@@ -1878,13 +1916,6 @@ export function createDrivesModule(
       confront: (api, actorId, offer) => {
         const drive = drivesOf(api, actorId, offer);
         traceAct(api, actorId, offer, drive);
-        // Having it out settles part of the score: the grudge is left weaker
-        // and the next confrontation less pressing (no cooldown, no cutoff).
-        drive.anchorStrength =
-          currentStrength(api, drive) *
-          (api.parameter("one") - api.parameter("grudgeConfrontSettles"));
-        drive.anchorDate = api.state.date;
-        writeDrive(api, drive, drive.anchorStrength);
         api.relationship(
           actorId,
           offer.targetId,
