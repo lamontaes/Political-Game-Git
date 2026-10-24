@@ -31,7 +31,13 @@ import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
 import { newsKey, onStoryHeard, storiesHeard, type Story } from "./news";
 import { lawApplied, type AppliedTarget } from "../law-reach/applied";
-import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
+import type {
+  CoreAPI,
+  CoreModule,
+  CoreState,
+  KnownFact,
+  Source,
+} from "../types";
 
 export const PLACE_PRICES_MODULE_ID = "place-prices";
 export const PRICES_PARAMETERS = pricesParameters as unknown as Readonly<
@@ -481,10 +487,26 @@ function learnFromStory(
       monthlyEarningsMinor,
       date: api.state.date,
     });
-  const story = storiesHeard(api, personId).find(
-    (s) => s.facts.lawId === law.lawId,
-  );
-  if (story)
+  // A story they heard about the law: one still in the news, or one they
+  // heard before the household's bill first changed (the news forgets a
+  // story after its days, but the person remembers hearing it).
+  const remembered = store(api)
+    .table("heardLaws")
+    .get(`${personId}|${law.lawId}`) as unknown as
+    { storyId: string; known?: KnownFact } | undefined;
+  const storyId =
+    storiesHeard(api, personId).find((s) => s.facts.lawId === law.lawId)?.id ??
+    remembered?.storyId;
+  // A story remembered after the news forgot it is known again as they
+  // first heard it (its day and how it reached them).
+  if (
+    storyId &&
+    storyId === remembered?.storyId &&
+    remembered.known &&
+    !api.knows(personId, newsKey(storyId))
+  )
+    api.observe(personId, remembered.known);
+  if (storyId)
     emitLearned(api, {
       personId,
       lawId: law.lawId,
@@ -492,11 +514,16 @@ function learnFromStory(
       ruleId: rule.id,
       moved,
       monthlyEarningsMinor,
-      story,
+      storyId,
     });
 }
 
-/** A story about a law reaches the payer of a household that already paid under it: they tie the change to the law now. */
+/**
+ * A story about a law reaches a person. If their household already paid
+ * under it and they paid, they tie the change to the law now; otherwise they
+ * remember hearing it, for the month their household's bill changes. Only a
+ * law the price engine prices is remembered.
+ */
 function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
   const lawId = story.facts?.lawId;
   if (!lawId || !api.state.modules.has(PLACE_PRICES_MODULE_ID)) return;
@@ -513,16 +540,39 @@ function learnOnHearing(api: CoreAPI, personId: string, story: Story): void {
         monthlyEarningsMinor: number;
       }
     | undefined;
-  if (!felt || felt.payerId !== personId) return;
-  emitLearned(api, {
-    personId,
-    lawId,
-    key: felt.key,
-    ruleId: felt.ruleId,
-    moved: felt.movedMinor,
-    monthlyEarningsMinor: felt.monthlyEarningsMinor,
-    story,
-  });
+  if (felt && felt.payerId === personId) {
+    emitLearned(api, {
+      personId,
+      lawId,
+      key: felt.key,
+      ruleId: felt.ruleId,
+      moved: felt.movedMinor,
+      monthlyEarningsMinor: felt.monthlyEarningsMinor,
+      storyId: story.id,
+    });
+    return;
+  }
+  const heard = store(api).table("heardLaws");
+  const id = `${personId}|${lawId}`;
+  if (heard.get(id)) return;
+  // The price rule a law sets is written at the first bill after it takes
+  // effect, often after its story ran, so the law's question decides.
+  const series = (
+    api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as unknown as
+      { series?: string } | undefined
+  )?.series;
+  // What they now know of the story, kept with the memory: the news forgets
+  // a story's key after its days, and the views engine reads it.
+  const known = api.knows(personId, newsKey(story.id));
+  if (series && PRICE_LAW_QUESTIONS.has(series))
+    heard.put({
+      id,
+      personId,
+      lawId,
+      storyId: story.id,
+      date: api.state.date,
+      ...(known ? { known: { ...known } } : {}),
+    });
 }
 onStoryHeard(learnOnHearing);
 
@@ -535,10 +585,11 @@ function emitLearned(
     readonly ruleId: string;
     readonly moved: number;
     readonly monthlyEarningsMinor: number;
-    readonly story: Story;
+    /** The story about the law they heard, which the learned event cites. */
+    readonly storyId: string;
   },
 ): void {
-  const { personId, lawId, moved, story } = input;
+  const { personId, lawId, moved, storyId } = input;
   const learned = store(api).table("learned");
   const key = `${personId}|${lawId}`;
   if (learned.get(key)) return;
@@ -567,18 +618,18 @@ function emitLearned(
     facts: {
       lawId,
       ...(typeof billId === "string" ? { billId } : {}),
-      learnedFrom: newsKey(story.id),
+      learnedFrom: newsKey(storyId),
       priceRuleId: input.ruleId,
       movedMinor: String(moved),
     },
     publicRecord: false,
     source: {
       tag: "SOURCED",
-      citation: `Learned from ${story.id} that ${lawId} changed what they pay`,
+      citation: `Learned from ${storyId} that ${lawId} changed what they pay`,
       asOf: api.state.date,
     },
   });
-  learned.put({ id: key, personId, lawId, storyId: story.id });
+  learned.put({ id: key, personId, lawId, storyId });
 }
 
 /** The policy key and law row a price rule cites, or null for a rule no statute set. */
@@ -750,6 +801,25 @@ function settle(
     transferCash(api, `${sourceId}:pay`, accountOwnerId, to, pay, rule.source);
 }
 
+/** The statutes the price engine prices, by policy question. */
+const PRICE_LAWS = {
+  cleanElectricity:
+    "us-policy-positions:environment-energy.clean-electricity-standard",
+  carbonPrice: "us-policy-positions:environment-energy.price-carbon",
+  bottleDeposit: "us-policy-positions:environment-energy.bottle-deposit",
+  mileageFee:
+    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+  publicBroadband:
+    "us-policy-positions:transportation-infrastructure.public-broadband",
+  fareFreeTransit:
+    "us-policy-positions:transportation-infrastructure.fare-free-transit",
+  cannabisSales:
+    "us-policy-positions:business-commerce.legalize-cannabis-sales",
+} as const;
+const PRICE_LAW_QUESTIONS: ReadonlySet<string> = new Set(
+  Object.values(PRICE_LAWS),
+);
+
 /** Read statutes where the existing price engine is about to charge use. */
 function readPriceLaws(api: CoreAPI): void {
   if (!api.state.modules.has(LAWS_MODULE_ID)) return;
@@ -820,7 +890,7 @@ function readPriceLaws(api: CoreAPI): void {
   // stopgapId: SG-GOV-REACH-B-energy-price — calibrated consumption and
   // policy sizes, not metered utility bills or a delivered explanation yet.
   sync(
-    "us-policy-positions:environment-energy.clean-electricity-standard",
+    PRICE_LAWS.cleanElectricity,
     {
       good: "electricity",
       kind: "share",
@@ -829,7 +899,7 @@ function readPriceLaws(api: CoreAPI): void {
     "SG-GOV-REACH-B-energy-price",
   );
   sync(
-    "us-policy-positions:environment-energy.price-carbon",
+    PRICE_LAWS.carbonPrice,
     {
       good: "fuel",
       kind: "share",
@@ -845,7 +915,7 @@ function readPriceLaws(api: CoreAPI): void {
   // stopgapId: SG-GOV-REACH-B-retail-price — container use and redemption
   // still use household estimates rather than individual return decisions.
   sync(
-    "us-policy-positions:environment-energy.bottle-deposit",
+    PRICE_LAWS.bottleDeposit,
     {
       good: "beverage-container",
       kind: "per-unit",
@@ -856,7 +926,7 @@ function readPriceLaws(api: CoreAPI): void {
   );
   // stopgapId: SG-GOV-REACH-B-mileage-fee-price
   sync(
-    "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+    PRICE_LAWS.mileageFee,
     {
       good: "vehicle-miles",
       kind: "per-unit",
@@ -868,7 +938,7 @@ function readPriceLaws(api: CoreAPI): void {
   );
   // stopgapId: SG-GOV-REACH-B-broadband-bill
   sync(
-    "us-policy-positions:transportation-infrastructure.public-broadband",
+    PRICE_LAWS.publicBroadband,
     {
       good: "broadband",
       kind: "offer",
@@ -879,7 +949,7 @@ function readPriceLaws(api: CoreAPI): void {
   );
   // stopgapId: SG-GOV-REACH-B-transit-fare-price
   sync(
-    "us-policy-positions:transportation-infrastructure.fare-free-transit",
+    PRICE_LAWS.fareFreeTransit,
     {
       good: "transit-fare",
       kind: "price",
@@ -891,7 +961,7 @@ function readPriceLaws(api: CoreAPI): void {
   // businesses sell; no dedicated dispensary, license or tax yet.
   // Legal adult-use sales: residents buy from the town's licensed sellers.
   sync(
-    "us-policy-positions:business-commerce.legalize-cannabis-sales",
+    PRICE_LAWS.cannabisSales,
     {
       good: "cannabis",
       kind: "sale",
@@ -1225,6 +1295,7 @@ export const PLACE_PRICES_MODULE: CoreModule = {
       rules: { indexes: { all: { fields: ["isRule"] } } },
       learned: {},
       felt: {},
+      heardLaws: {},
     },
   },
   onDay(api) {

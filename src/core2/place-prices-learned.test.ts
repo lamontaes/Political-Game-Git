@@ -10,6 +10,7 @@ import type { CoreEventInput } from "./types";
 import { coreAPI, registerModule } from "./state";
 import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { newsKey, printStory, storiesHeard } from "./modules/news";
+import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
 import { stancesOf, viewOf } from "./modules/views";
 
 // A price law's effect on a household is tied to the law only by someone who
@@ -42,11 +43,30 @@ it(`a household that heard the story learns what the price law did to them (${wh
       onEvent: (_api, event) => {
         heard.push(event);
         const from = String(event.facts?.learnedFrom);
+        const personId = event.personIds[0]!;
+        // The story they heard: one still in the news, or one they heard
+        // before their household's bill first changed, which the price
+        // engine remembers after the news stops carrying it.
+        const story = api
+          .moduleState("news")
+          .table("stories")
+          .rows()
+          .find((s) => newsKey(String(s.id)) === from) as unknown as
+          { id: string; facts?: { lawId?: string } } | undefined;
+        const lawOfStory = story?.facts?.lawId;
+        const stillHeard = storiesHeard(api, personId).some(
+          (s) => s.id === story?.id,
+        );
+        const remembered = (
+          api
+            .moduleState(PLACE_PRICES_MODULE_ID)
+            .table("heardLaws")
+            .get(`${personId}|${lawOfStory}`) as unknown as
+            { storyId?: string } | undefined
+        )?.storyId;
         cited.set(
           String(event.id),
-          storiesHeard(api, event.personIds[0]!).find(
-            (s) => newsKey(s.id) === from,
-          )?.facts.lawId,
+          stillHeard || remembered === story?.id ? lawOfStory : undefined,
         );
       },
     });

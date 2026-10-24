@@ -45,7 +45,8 @@ import {
   type MemberPosition,
 } from "./modules/legislature";
 import { lawChain, LAWS_MODULE_ID } from "./modules/laws";
-import { storiesHeard } from "./modules/news";
+import { onStoryHeard, storiesHeard } from "./modules/news";
+import { PLACE_PRICES_MODULE_ID } from "./modules/place-prices";
 import { townSeats } from "./modules/offices";
 import { stancesOf } from "./modules/views";
 import { coreAPI } from "./state";
@@ -129,11 +130,17 @@ function play(attempt: number, tried: string[]): Played | null {
     placeKey: drawn.key,
   });
   const api = coreAPI(core);
-  const seat = townSeats(api).find(
-    (row) => row.office.kind === "legislature-lower" && row.holder,
-  );
+  // The town's seat in the state's lawmaking chamber: the lower house, or the
+  // one chamber where the legislature has only one.
+  const seat =
+    townSeats(api).find(
+      (row) => row.office.kind === "legislature-lower" && row.holder,
+    ) ??
+    townSeats(api).find(
+      (row) => row.office.kind === "legislature-unicameral" && row.holder,
+    );
   if (!seat) {
-    tried.push(`${where}: no state house seat`);
+    tried.push(`${where}: no seat in the state legislature`);
     return null;
   }
   const playerId = seat.holder!.personId ?? `official:${seat.holder!.id}`;
@@ -348,6 +355,18 @@ it(`a player's bill is followed from negotiation to a named person and back, and
     0,
   );
   for (const id of residents) director.watch(core, id);
+  // Every first hearing of a story about the law, by person, for the year's
+  // account of who heard it and who tied a bill to it.
+  const lawRowIds = rows.map((r) => r.id);
+  const heardOn = new Map<string, string>();
+  onStoryHeard((hearApi, id, story) => {
+    if (
+      hearApi.state === core &&
+      lawRowIds.includes(String(story.facts?.lawId ?? "")) &&
+      !heardOn.has(id)
+    )
+      heardOn.set(id, String(hearApi.state.date));
+  });
   if (effective > core.date)
     advanceCore(core, addDays(makeIsoDate(effective), 1));
   expect(inForce(api, key), `${where}: ${key} is law after ${effective}`).toBe(
@@ -356,21 +375,31 @@ it(`a player's bill is followed from negotiation to a named person and back, and
   const lawIds = rows.map((r) => r.id);
   // Each week: whoever the law has reached is watched, until one of them
   // ties a changed bill to the law from a story they heard.
+  // A learned cost becomes a director's moment only when it is large enough
+  // to matter to that person (the director's moment floor, `ledger.ts`): the
+  // chain follows the first learner whose moment the director staged, and
+  // counts the learners whose cost fell below the floor.
+  const belowFloor = new Set<string>();
   const learned = () => {
-    for (const row of core.durableLog.values())
+    for (const row of core.durableLog.values()) {
       if (
-        row.kind === "law.effect-learned" &&
-        lawIds.some((id) => String(row.facts?.lawId ?? "") === id) &&
-        // Learned after the director began watching them.
-        String(row.date) >
-          (director.ledger.people.get(row.personIds?.[0] ?? "")?.watchedSince ??
-            "9999")
+        row.kind !== "law.effect-learned" ||
+        !lawIds.some((id) => String(row.facts?.lawId ?? "") === id)
       )
-        return {
-          id: row.id,
-          personId: row.personIds![0]!,
-          facts: (row.facts ?? {}) as Record<string, unknown>,
-        };
+        continue;
+      const book = director.ledger.people.get(row.personIds?.[0] ?? "");
+      // Learned after the director began watching them.
+      if (!book || String(row.date) <= book.watchedSince) continue;
+      if (![...book.momentsById.values()].some((m) => m.causeId === row.id)) {
+        belowFloor.add(row.id);
+        continue;
+      }
+      return {
+        id: row.id,
+        personId: row.personIds![0]!,
+        facts: (row.facts ?? {}) as Record<string, unknown>,
+      };
+    }
     return undefined;
   };
   const everHeard = new Set<string>();
@@ -443,7 +472,7 @@ it(`a player's bill is followed from negotiation to a named person and back, and
         .map((s) => s.id)
         .join(
           ", ",
-        )}), ${heardIt.length} reached people heard one (${heardIt.slice(0, 3).join(", ")}), ${paying} applied rows moved money, ${paid} minor in all, ${payersHeard} households whose payer heard one, ${anyLearned.length} learned events for the law's key under ids ${[...new Set(anyLearned)].join(", ")}`,
+        )}), ${heardIt.length} reached people heard one (${heardIt.slice(0, 3).join(", ")}), ${paying} applied rows moved money, ${paid} minor in all, ${payersHeard} households whose payer heard one, ${belowFloor.size} learners whose cost fell below the director's moment floor, ${anyLearned.length} learned events for the law's key under ids ${[...new Set(anyLearned)].join(", ")}`,
     ).toBeDefined();
   }
   const personId = found!.personId;
@@ -454,13 +483,19 @@ it(`a player's bill is followed from negotiation to a named person and back, and
   );
   expect(applied, `${where}: ${personId} has an applied row`).toBeDefined();
   // The story they heard, which the learned event cites.
-  const story = storiesHeard(api, personId).find((s) =>
-    String(found!.facts.learnedFrom ?? "").endsWith(s.id),
-  );
+  // The story stays on the news record after the news stops carrying it,
+  // and the person heard it (a hearing the proof saw as it happened).
+  const story = (
+    api.moduleState("news").table("stories").rows() as unknown as {
+      id: string;
+      facts?: Record<string, string>;
+    }[]
+  ).find((s) => String(found!.facts.learnedFrom ?? "").endsWith(s.id));
+  expect(story, `${where}: ${found!.id} cites a story on record`).toBeDefined();
   expect(
-    story,
-    `${where}: ${found!.id} cites a story ${personId} heard`,
-  ).toBeDefined();
+    heardOn.has(personId),
+    `${where}: ${personId} heard a story about the law`,
+  ).toBe(true);
   // Their view moved, citing the event and the story.
   const stance = stancesOf(api, personId).find((s) =>
     s.causes.some((c) => c.eventId === found!.id),
@@ -475,9 +510,11 @@ it(`a player's bill is followed from negotiation to a named person and back, and
   );
   // The director's moment from the learned effect, and the journal line.
   const book = director.ledger.people.get(personId)!;
+  // The moment the learned event caused; its label names the strongest
+  // channel it moved (a feeling, a cause, a tie), so it is found by its cause.
   const moment = book.schedule
     .map((row) => book.momentsById.get(row.momentId))
-    .find((m) => m?.label === "cause:event:law.effect-learned");
+    .find((m) => m?.causeId === found!.id);
   expect(moment, `${where}: the director scheduled the moment`).toBeDefined();
   // The scene the director stages from that moment. Play narrates only
   // graded scene words, and the bank's day and home sentences wait on the
@@ -530,7 +567,7 @@ it(`a player's bill is followed from negotiation to a named person and back, and
   }).flatMap((chapter) => chapter.lines);
   const line = lines.find((l) => l.sourceRecordIds.includes(found!.id));
   console.info(
-    `laws-e2e ${where}: CHAIN bill ${passed!.billNumber} -> law ${lawIds.join(",")} -> applied ${applied!.id} (${applied!.amountMinor} minor) -> price ${String(found!.facts.priceRuleId)} moved ${String(found!.facts.movedMinor)} -> story ${story!.id} -> learned ${found!.id} -> stance ${stance!.id} -> moment ${moment!.id} -> scene ${scene!.typeKey} at ${scene!.setting.kind} citing ${moment!.causeId} ("${sceneText}") -> journal ${line ? `"${line.text}"` : "none"}`,
+    `laws-e2e ${where}: ${belowFloor.size} learners before this one fell below the director's moment floor; CHAIN bill ${passed!.billNumber} -> law ${lawIds.join(",")} -> applied ${applied!.id} (${applied!.amountMinor} minor) -> price ${String(found!.facts.priceRuleId)} moved ${String(found!.facts.movedMinor)} -> story ${story!.id} -> learned ${found!.id} -> stance ${stance!.id} -> moment ${moment!.id} (${moment!.label}) -> scene ${scene!.typeKey} at ${scene!.setting.kind} citing ${moment!.causeId} ("${sceneText}") -> journal ${line ? `"${line.text}"` : "none"}`,
   );
   expect(
     line,
@@ -558,10 +595,54 @@ it(`a player's bill is followed from negotiation to a named person and back, and
     `${where}: ${personId}'s journal line holds a year on`,
   ).toBe(true);
   const reachedAtYear = appliedOn(api, key).filter((row) => !row.endedOn);
+  // Who heard, who paid and who tied the two together. The durable log keeps
+  // only the player's circle's events, so the price engine's own records
+  // count: what each household last paid under the law and who paid it, and
+  // everyone who learned the law changed it.
+  const felt = (
+    api.moduleState(PLACE_PRICES_MODULE_ID).table("felt").rows() as unknown as {
+      householdId: string;
+      payerId: string;
+      lawId: string;
+      movedMinor: number;
+      date: string;
+    }[]
+  ).filter((row) => lawIds.includes(row.lawId));
+  const learnedBy = new Set(
+    (
+      api
+        .moduleState(PLACE_PRICES_MODULE_ID)
+        .table("learned")
+        .rows() as unknown as { personId: string; lawId: string }[]
+    )
+      .filter((row) => lawIds.includes(row.lawId))
+      .map((row) => row.personId),
+  );
+  const payersHeard = felt.filter((row) => heardOn.has(row.payerId));
+  const missed = payersHeard.filter((row) => !learnedBy.has(row.payerId));
   console.info(
-    `laws-e2e ${where}: YEAR to ${core.date}: ${key} ${inForce(api, key) ? "still law" : "no longer law"}; ${reachedAtYear.length} open applied rows; ${learners.length} people tied a bill to it from a story they heard (first ${learners
-      .slice(0, 3)
-      .map((row) => row.id)
-      .join(", ")})`,
+    `laws-e2e ${where}: KNOWING ${felt.length} named households paid under it; ${heardOn.size} people heard a story about it; ${payersHeard.length} of those households' payers heard one; ${learnedBy.size} people tied a bill to it (${[...learnedBy].filter((id) => payersHeard.some((row) => row.payerId === id)).length} of them those payers); payers who heard and did not: ${
+      missed
+        .slice(0, 5)
+        .map(
+          (row) =>
+            `${row.payerId} heard ${heardOn.get(row.payerId)}, last paid ${row.date} (${row.movedMinor})`,
+        )
+        .join("; ") || "none"
+    }`,
+  );
+  // Where the law is gone a year on, the row that ended it.
+  const ended = inForce(api, key)
+    ? undefined
+    : (
+        api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .query("bySeriesOnly", [key]) as unknown as LawRowInput[]
+      )
+        .filter((row) => row.effectiveDate <= api.state.date)
+        .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+  console.info(
+    `laws-e2e ${where}: YEAR to ${core.date}: ${key} ${ended ? `no longer law (ended by ${ended.id}, value ${String(ended.value)}, effective ${ended.effectiveDate})` : "still law"}; ${reachedAtYear.length} open applied rows; ${learners.length} learned events kept in the circle's log`,
   );
 }, 3_600_000);
