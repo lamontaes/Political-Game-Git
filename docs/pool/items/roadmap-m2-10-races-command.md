@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T05:10:38.373Z
 **Files.** src/bench/m2-10-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m2-filing-races-flags (CTO branch).
+
+Sent back 2026-10-24 from PR #5880 (branch claude/quirky-ride-vrwwz4-m2-10): seating checker accepts a January 20 term for a January 3 seat and skips every seating assertion when a House seating date moves beyond the observed day; validate real dates before skipping and add regressions; finish on that branch, merge main into it first.
