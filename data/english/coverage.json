@@ -74,6 +74,7 @@
       "unknown": 59
     },
     "unknown": {
+      "unknown": 49,
       "journal": 25,
       "legislation": 8,
       "notices": 2,
@@ -83,8 +84,7 @@
       "campaign": 2,
       "interview": 1,
       "emotion": 6,
-      "conversation": 2,
-      "unknown": 44
+      "conversation": 2
     }
   },
   "gradedByBatch": {
@@ -122,6 +122,11 @@
     "batch-13": {
       "naturalness": {
         "unknown": 59
+      }
+    },
+    "batch-22": {
+      "unknown": {
+        "unknown": 5
       }
     }
   }
