@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/corruption-dulac-answer
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T09:46:48.304Z
 ---
 
 **What.** The accepted golden-path spec M3-09 (src/core2/corruption.test.ts) fails for Dulac, Louisiana (key 2221940, seed 85dd5f6c7746eccd0c937fe4f99a09c9b2b151392136efcb5109e58c9de16b86) in the case that draws more offers to an official the offerer has learned took a bribe: ask(other.id, "reputation-other") returns null at line 244, so the test throws reading its reasons. Bisected on main: it passes at 185d76d7ce and fails from e382438ccc (research: source the deep past, partner age gap, peer group and opening profile rows, from PR 5854), which changes who exists in a generated town. The test draws three fresh places each run, so it fails only on some draws and sends random PRs red. Find why no answer comes back for that official in Dulac (no eligible other official, or the ask path refusing) and fix the cause, never by skipping the place.
