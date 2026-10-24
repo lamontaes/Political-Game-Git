@@ -63,6 +63,7 @@ const WORK_REQUIREMENT_DAYS = 10;
 // on the web's own row day, so a hold needs the lag plus three rows to show it
 // whatever day of the month the law changed.
 const HELD_MONTHS = 9;
+const MODERATED_MONTHS = 3;
 const DAYS_PER_MONTH = 30;
 
 interface Taken {
@@ -251,12 +252,33 @@ function tryPlace(where: string, seed: string, key: string): string | null {
   // The Medicaid work requirement comes a month after the expansion, so the
   // coverage it ends was being paid first and the payment it stops is on the
   // journal.
+  const taken = () => rowsOf<Taken>(api, "taken");
   for (const q of QUESTIONS) if (q !== MEDICAID_WORK) enact(api, q, "on");
   advance(core, ENACTED_DAYS - WORK_REQUIREMENT_DAYS);
+  // Whatever day of the month a close falls on, the requirement comes after
+  // every coverage payment then open has paid something (a treasury pays
+  // what it holds), so the coverage it ends was paid and is on the journal.
+  const coverageRows = () =>
+    taken().filter(
+      (t) =>
+        t.key === `coverage|${EXPAND}` &&
+        !accounts.obligation(t.obligationId)?.endedAt,
+    );
+  for (
+    let wait = 0;
+    wait < 2 * DAYS_PER_MONTH &&
+    !(
+      coverageRows().length > 0 &&
+      coverageRows().every(
+        (t) => (accounts.obligation(t.obligationId)?.paidMinor ?? 0) > 0,
+      )
+    );
+    wait += 1
+  )
+    advance(core, 1);
   enact(api, MEDICAID_WORK, "on");
   advance(core, WORK_REQUIREMENT_DAYS);
 
-  const taken = () => rowsOf<Taken>(api, "taken");
   const open = (prefix: string) =>
     taken().filter(
       (r) => r.key === prefix && !accounts.obligation(r.obligationId)?.endedAt,
@@ -408,7 +430,35 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     money: string | null,
   ) => {
     expect(row, say(`${name}: no applied record`)).toBeDefined();
-    expect(money, say(`${name}: no journal entry of its money`)).not.toBeNull();
+    expect(
+      money,
+      say(
+        `${name}: no journal entry of its money (today ${api.state.date}, enacted ${enactedOn}; rows ${JSON.stringify(
+          taken()
+            .filter(
+              (t) =>
+                t.obligationId &&
+                (String(t.key).includes(name.split(".").at(-1) ?? name) ||
+                  String(t.key).startsWith("ended")),
+            )
+            .map((t) => {
+              const o = accounts.obligation(t.obligationId);
+              return [
+                t.key.slice(0, 12),
+                t.governmentId === federal.id ? "fed" : "state",
+                String(t.recipientId).slice(-6),
+                t.obligationId.slice(-10),
+                o?.endedAt,
+                o?.paidMinor,
+                o?.lastReceipt?.date,
+              ];
+            })
+            .slice(-24),
+        )}; applied ${JSON.stringify(
+          ended.map((r) => [r.target, String(r.targetId).slice(-6), r.what]),
+        )})`,
+      ),
+    ).not.toBeNull();
     chain[name] = {
       applied: row!.id,
       reached: `${row!.target} ${row!.targetId}`,
@@ -416,8 +466,13 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     };
   };
   const moneyTo = (rowKey: string, reached: (id: string) => boolean) => {
-    const t = taken().find((x) => x.key === rowKey && reached(x.recipientId));
-    return t ? journalOf(t.obligationId) : null;
+    // The first payment of this kind to anyone reached that the journal has.
+    for (const t of taken())
+      if (t.key === rowKey && reached(t.recipientId)) {
+        const entry = journalOf(t.obligationId);
+        if (entry) return entry;
+      }
+    return null;
   };
   const expandRow = covered.find(
     (r) =>
@@ -437,15 +492,21 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     matchRows.find((r) => r.targetId === federal.id),
     federalCoverage ? journalOf(federalCoverage.obligationId) : null,
   );
-  const endedRow = ended.find(
+  // The coverage the requirement ends: a named adult's, else a counted
+  // group's (a town can have only counted adults who fail its hours test);
+  // the payment it stopped is the ended obligation's last one.
+  const endedPerson = ended.find(
     (r) =>
       r.target === "person" &&
       moneyTo(`ended|${EXPAND}`, (id) => id === r.targetId),
   );
+  const endedRow = endedPerson ?? ended.find((r) => r.target === "group");
   record(
     MEDICAID_WORK,
     endedRow,
-    moneyTo(`ended|${EXPAND}`, (id) => id === endedRow?.targetId),
+    moneyTo(`ended|${EXPAND}`, (id) =>
+      endedPerson ? id === endedPerson.targetId : true,
+    ),
   );
   const snapHousehold = snapRows.find(
     (r) =>
@@ -488,15 +549,21 @@ function tryPlace(where: string, seed: string, key: string): string | null {
       members(prekHousehold?.targetId ?? "").includes(id),
     ),
   );
-  const voucherRow = appliedOn(api, VOUCHER).find(
+  // The household that pays private tuition: a named payer, else the counted
+  // households of a group (their voucher goes to that group's fund account).
+  const voucherPerson = appliedOn(api, VOUCHER).find(
     (r) =>
       r.target === "person" &&
       moneyTo(`voucher|${VOUCHER}`, (id) => id === r.targetId),
   );
   record(
     VOUCHER,
-    voucherRow,
-    moneyTo(`voucher|${VOUCHER}`, (id) => id === voucherRow?.targetId),
+    voucherPerson ?? appliedOn(api, VOUCHER).find((r) => r.target === "group"),
+    moneyTo(`voucher|${VOUCHER}`, (id) =>
+      voucherPerson
+        ? id === voucherPerson.targetId
+        : id.startsWith("fund-account:"),
+    ),
   );
   // A raised teacher's pay after the raise: a named teacher's payroll under
   // their commitment, a counted teacher's in the wage flow that pays the job.
@@ -540,13 +607,21 @@ function tryPlace(where: string, seed: string, key: string): string | null {
   const snapRaise = raiseSnapMaximum(api, "snap-raise");
   if (!snapRaise) return "no SNAP maximum to raise";
 
+  // The work requirement's link reads the requirement only where the
+  // expansion is law, both as they stood a lag ago, and the web's rows fall
+  // on irregular days. Where the place began with the expansion the hold
+  // repeals it, so the expansion stays three months (longer than any gap
+  // between two rows) with the requirement before that repeal.
+  const moderatedMonths = baselineYes.get(EXPAND) ? MODERATED_MONTHS : 0;
+
   // Hold every law a different way from where the place began (laws it
   // already had are repealed, the others stay) so each link's cause differs
   // from its baseline, and wait out the 6-month lag of the slower links.
   // The played world legislates on its own (a bill may repeal a question
   // mid-run), so each month the held state is set again where a bill moved it.
-  for (let month = 0; month < HELD_MONTHS; month += 1) {
+  for (let month = 0; month < HELD_MONTHS + moderatedMonths; month += 1) {
     for (const q of QUESTIONS) {
+      if (q === EXPAND && month < moderatedMonths) continue;
       const saysYes = levelsSayingYes(api, q).length > 0;
       if (baselineYes.get(q) && saysYes) repeal(api, q, `hold-${month}`);
       if (!baselineYes.get(q) && !saysYes) enact(api, q, `hold-${month}`);
@@ -567,7 +642,14 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     expect(
       firedIn(api, link!),
       say(
-        `the web link ${link} never fired (baseline yes: ${JSON.stringify([...baselineYes])}; last month ${JSON.stringify(webMonths(api).at(-1)?.values)}; date ${api.state.date})`,
+        `the web link ${link} never fired (baseline yes: ${JSON.stringify([...baselineYes])}; rows ${JSON.stringify(
+          webMonths(api).map((m) => [
+            m.date,
+            m.values[`law:${MEDICAID_WORK}`],
+            m.values[`law:${EXPAND}`],
+            m.effects[link!],
+          ]),
+        )}; date ${api.state.date})`,
       ),
     ).toBeTruthy();
 
