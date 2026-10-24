@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** The owner's title ruling (Oct 8) names recognizable national scenes: the White House at night, the Lincoln Memorial, a rally, the convention. A Firefly painting of the Lincoln Memorial at night waits in art/incoming/firefly (title-lincoln-night-a__215378c3.jpg), and the title's scene list (src/bench/title.ts TITLE_SCENES) has no Lincoln Memorial. This item imports the painting through the asset pipeline and adds it to the title's rotation.
 
-**Rules.** This is a game, not a spreadsheet: the title is a full-window national scene, never a panel. Replace, never layer: the imported file leaves art/incoming/firefly in the same change.
+**Rules.** Serves LAW.md §1, Screens and menus. This is a game, not a spreadsheet: the title is a full-window national scene, never a panel. Replace, never layer: the imported file leaves art/incoming/firefly in the same change.
 
 **Done when.** On the title in a drawn place's build, the Lincoln Memorial at night shows full-window in the rotation, imported with its provenance, shown by a full-window screenshot for the owner's yes.
+
+**Time box.** 2 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** The title screen's rotation includes the Lincoln Memorial at night, full-window, with the menu over it.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/bench/title.ts, art/incoming/firefly/index.json
 
