@@ -2087,7 +2087,10 @@ function hireCounted(
     personId: seeker.personId,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily: hours,
     wageDailyMinor: Math.round(position.hourlyMinor * hours),
@@ -3014,7 +3017,10 @@ function hire(
     personId: person.id,
     organizationId: position.organizationId,
     title: position.title,
-    occupationClassification: template.occupationClassification,
+    // Kept only when the template has one: a job record holds no undefined field.
+    ...(template.occupationClassification !== undefined
+      ? { occupationClassification: template.occupationClassification }
+      : {}),
     hourlyMinor: position.hourlyMinor,
     hoursDaily,
     wageDailyMinor: Math.round(position.hourlyMinor * hoursDaily),
