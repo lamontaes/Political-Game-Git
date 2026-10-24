@@ -5,11 +5,12 @@ area: elections
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-m2-03
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T02:13:50.373Z
 ---
 
 **What.** Roadmap M2-03, filing in person, reads passes: false with command null on main, so it can never pass. The play screen files through the bench's own calls: the Travel sheet opens the filing office's visit (openBenchFilingVisit), the player names an office and the clerk answers from its records, the overlay shows the rules, platform and party, and Filing files once (chooseAtCounter). A headless check on those calls, in the runner's drawn place, can prove the spec without a browser in CI.
