@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-change-nets-zero
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T19:03:39.807Z
 ---
 
 **What.** The played-world check (tests/golden-path/played-world.node-test.ts, break 12) passes only when the counted population's net change, end plus people filled in minus start, is not zero. In Red Hook, U.S. Virgin Islands (seed dd2a567a9de59b2aa505dcfcefc990ab11e0f8553f1a0fdefa4dcaf4845d0ed8) the year had 7 counted births, 58 counted moves in and out, and counted deaths, and still failed with 'The counted population stayed at 950'. 902 counted at the end plus 48 filled in is exactly 950, so the events cancelled. It turned lamontaes/Political-Game-Git#5967 red, and clean main fails the same seed.
