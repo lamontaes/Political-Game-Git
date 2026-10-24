@@ -99,6 +99,8 @@ const SKIP = [
   "src/core2/cash-host.ts",
   "scripts/law-wiring/",
 ];
+/** The day loop, which calls every module's day: never an engine of its own. */
+const DAY_LOOP = "src/core2/life.ts";
 function readerFrame(): string {
   const stack = new Error().stack ?? "";
   let reach: string | undefined;
@@ -785,6 +787,8 @@ interface Control {
   cause: Map<string, number>;
   /** Each law's reach in the control window, where nothing changed it, at its widest step. */
   reach: Map<string, ReachCount>;
+  /** Posts citing each law's key in the control world, where a law in force at the opening stays in force. */
+  cited: Map<string, { gross: number; ids: string[] }>;
 }
 
 /** The series a null law sets: no engine, handler or link reads it. */
@@ -803,7 +807,8 @@ function runControl(
 ): Control {
   const w = build(drawn);
   trackedKeys = new Set(laws.map((l) => l.key));
-  citeTokens = [];
+  // What a law already in force pays here is the money its repeal stops.
+  citeTokens = laws.map((l) => l.key);
   resetTrace();
   if (nullLaw) {
     const api = coreAPI(w.core);
@@ -834,6 +839,7 @@ function runControl(
   trace.on = false;
   const money = snapshotMoney();
   const reads = trace.reads;
+  const cited = new Map(trace.cited);
   const placeId = lawChain(coreAPI(w.core)).townPlaceId;
   const web = new Map<string, number>();
   for (const law of laws)
@@ -844,7 +850,7 @@ function runControl(
   for (const law of laws)
     for (const c of webCauses(w.core, placeId, [law]))
       cause.set(`${c.id}|${c.link.key}`, c.value);
-  return { money, reads, web, cause, reach };
+  return { money, reads, web, cause, reach, cited };
 }
 
 function checkLaw(
@@ -1049,7 +1055,12 @@ function checkLaw(
     token,
     ...v,
   }));
-  // Money a file that read this law (or law reach itself) posted differently from the control.
+  // Money a file that read this law posted differently from the control. A
+  // law-reach file counts only where it read this law: law reach holds every
+  // law's handlers, and another law's handler can post differently in this
+  // run. The day loop is no engine: a read or a post it is named for came from
+  // the laws engine's own calendar or the accounts engine's scheduled
+  // obligations, which every law's run shares.
   const readerFiles = new Set(
     [...reads.keys(), ...controlReads.keys()].map((f) =>
       f.split(" <- ")[0]!.replace(/:\d+$/, ""),
@@ -1058,8 +1069,15 @@ function checkLaw(
   const direct = moneyDiff.filter((d) => {
     const file =
       d.kind.split(" @ ")[1]?.split(" <- ")[0]!.replace(/:\d+$/, "") ?? "";
-    return file.startsWith("src/core2/law-reach/") || readerFiles.has(file);
+    return file !== DAY_LOOP && readerFiles.has(file);
   });
+  // A law in force at the opening stays in force in the control world: what
+  // it paid there, citing its key, is the money its repeal stopped.
+  const controlCited = opening
+    ? [...control.cited.entries()]
+        .filter(([token]) => token === law.key)
+        .map(([token, v]) => ({ token, ...v }))
+    : [];
 
   // Repeal (or re-enact) and see whether reach ends (or returns).
   const changedIds = new Set(ids);
@@ -1094,6 +1112,7 @@ function checkLaw(
       diff: moneyDiff.slice(0, 12),
       diffKinds: moneyDiff.length,
       cited,
+      controlCited,
     },
     web: {
       links: links.map((l) => ({ key: l.key, status: l.status, to: l.to })),
