@@ -706,7 +706,7 @@ function payRedistrictingCommission(api: CoreAPI, source: Source): void {
       reachParameter("monthsPerYear"),
   );
   const paid = chargeLine(api, gov, {
-    id: `redistricting-commission:${gov.id}:${api.state.date}`,
+    id: `redistricting-commission:${REDISTRICTING}:${gov.id}:${api.state.date}`,
     line: ELECTION_LINE,
     amountMinor,
     reasonKey: "redistricting-commission",
