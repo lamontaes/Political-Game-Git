@@ -81,10 +81,16 @@ describe("a settlement under the right to counsel is a notice", () => {
             (st) => st.topic === RIGHT_TO_COUNSEL,
           );
           expect(stance?.desiredChange, `${where}: ${row.id}`).toBe("enact");
+          // The view's cause for this case cites the notice. Other causes
+          // (a debate that day) may be recorded after it.
+          const cause = stance!.causes.find(
+            (c) => c.eventId === `event:law.effect-learned:${row.id}:${today}`,
+          );
           expect(
-            stance!.causes.at(-1)?.learnedFrom,
+            cause?.learnedFrom,
             `${where}: ${row.id} ${JSON.stringify(stance!.causes)}`,
           ).toBe(notice);
+          expect(cause!.change, `${where}: ${row.id}`).toBeGreaterThan(0);
           checked += 1;
         }
       }
