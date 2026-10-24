@@ -41,19 +41,25 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     const core = world as CoreState;
     const api = coreAPI(core);
     const rt = residentsRuntime(core);
-    // The town's local papers, each with a full household that reads it,
-    // whose payer's receipts the journal keeps through the year.
+    // The town's local papers, each with the full households that read it
+    // (up to twelve), whose members' receipts the journal keeps through the
+    // year: a reader may stop reading or move, and a household's living
+    // cost is paid by whichever member can.
+    const READER_HOUSEHOLDS = 12;
     const papers = outletsHere(api)
       .filter((o) => o.tier === "local" && o.kind === "newspaper")
       .flatMap((paper) => {
-        const reader = followersOf(api, paper.id)
-          .map((id) => core.people.get(id))
-          .find(
-            (p) =>
-              p?.householdId &&
-              rt?.flows.get(`residents:outside-living:${p.householdId}`),
-          );
-        return reader ? [{ paper, reader }] : [];
+        const homes = [
+          ...new Set(
+            followersOf(api, paper.id)
+              .map((id) => core.people.get(id)?.householdId)
+              .filter(
+                (id): id is string =>
+                  !!id && !!rt?.flows.get(`residents:outside-living:${id}`),
+              ),
+          ),
+        ].slice(0, READER_HOUSEHOLDS);
+        return homes.length ? [{ paper, homes }] : [];
       });
     if (!papers.length) {
       tried.push(`${where}: no local paper with a full reader household`);
@@ -66,10 +72,10 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       ),
       where,
     ).toEqual([]);
-    const livingOf = (householdId: string) =>
-      rt!.flows.get(`residents:outside-living:${householdId}`)!;
-    for (const { reader } of papers)
-      core.focusPersonIds.add(livingOf(reader.householdId!).payerId);
+    for (const { homes } of papers)
+      for (const id of homes)
+        for (const member of core.households.get(id)?.memberIds ?? [])
+          core.focusPersonIds.add(member);
     advanceCore(core, addDays(makeIsoDate(core.date), YEAR_DAYS));
     const subs = (m: OutletRevenueMonthRow) =>
       m.subscriptionsFullMinor + m.subscriptionsCountedMinor;
@@ -81,12 +87,12 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
     let chosen:
       | {
           paper: (typeof papers)[number]["paper"];
-          reader: (typeof papers)[number]["reader"];
+          homes: readonly string[];
           months: OutletRevenueMonthRow[];
           steps: { month: string; readers: number; revenue: number }[];
         }
       | undefined;
-    for (const { paper, reader } of papers) {
+    for (const { paper, homes } of papers) {
       const months = (
         api
           .moduleState(PRESS_MODULE_ID)
@@ -136,11 +142,11 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
         );
         continue;
       }
-      chosen = { paper, reader, months, steps };
+      chosen = { paper, homes, months, steps };
       break;
     }
     if (!chosen) continue;
-    const { paper, reader, months, steps } = chosen;
+    const { paper, homes, months, steps } = chosen;
     // Its revenue rose in a month its readers rose, and fell in one they fell.
     const trail = steps
       .map((step) => `${step.month} ${step.readers}/${step.revenue}`)
@@ -153,23 +159,28 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       steps.some((step) => step.readers < 0 && step.revenue < 0),
       `${where}: ${trail}`,
     ).toBe(true);
-    const home = core.households.get(reader.householdId!)!;
-    const living = livingOf(home.id);
-    // The named reader household paid the paper from its own cash.
-    const receipt = [
-      ...(core.cashJournal.detailedByOwner.get(living.payerId) ?? []),
-    ]
-      .map((id) => core.cashJournal.detailedReceipts.get(id))
+    // A named reader household paid the paper from its own cash.
+    const journal = core.cashJournal;
+    const receipt = [...core.focusPersonIds]
+      .flatMap((id) => [...(journal.detailedByOwner.get(id) ?? [])])
+      .map((id) => journal.detailedReceipts.get(id))
       .find(
         (r) =>
-          r?.sourceRef.id.startsWith(`${living.id}@`) &&
-          r.owners.get(paper.organizationId) !== undefined,
+          homes.some((home) =>
+            r?.sourceRef.id.startsWith(`residents:outside-living:${home}@`),
+          ) && r!.owners.get(paper.organizationId) !== undefined,
       );
     expect(
       receipt,
-      `${where}: ${home.id}'s subscription to ${paper.organizationId}`,
+      `${where}: a reader household's subscription to ${paper.organizationId}`,
     ).toBeDefined();
-    const own = receipt!.owners.get(living.payerId)!;
+    const home = homes.find((id) =>
+      receipt!.sourceRef.id.startsWith(`residents:outside-living:${id}@`),
+    )!;
+    const payerId = [...receipt!.owners.keys()].find(
+      (id) => id !== paper.organizationId && core.people.has(id),
+    )!;
+    const own = receipt!.owners.get(payerId)!;
     const to = receipt!.owners.get(paper.organizationId)!;
     expect(own.afterMinor, receipt!.id).toBeLessThan(own.beforeMinor);
     expect(to.afterMinor, receipt!.id).toBeGreaterThan(to.beforeMinor);
@@ -187,7 +198,6 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
       adsOf().length,
       `${where}: ads bought from ${paper.id} in the year`,
     ).toBeGreaterThan(0);
-    const journal = core.cashJournal;
     core.observer = true;
     let found: { ad: AdBuyRow; receipt: CashJournalReceipt } | undefined;
     for (let day = 0; day < 62 && !found; day += 1) {
@@ -231,7 +241,7 @@ it(`a paper's revenue is its readers' subscriptions and local businesses' ads, a
         `${m.month}: readers ${m.readers.toFixed(1)}, subscriptions ${subs(m)} (${m.subscriberPayments} full payments), ads ${m.adsMinor} (${m.adPayments}), wider audience ${m.shortfallMinor}`,
     );
     process.stdout.write(
-      `PRESS MONEY ${where}: ${paper.organizationId}\n  ${year.join("\n  ")}\n  reader ${reader.id} of ${home.id} paid in ${receipt!.id} (${receipt!.sourceRef.id}: ${own.beforeMinor - own.afterMinor} from ${living.payerId}, ${to.afterMinor - to.beforeMinor} to the paper)\n  ad ${ad.id}: ${ad.advertiserId} paid ${ad.amountMinor} in ${ad.transferId} in ${adReceipt.id} (its cash ${buyer.beforeMinor} to ${buyer.afterMinor}; the paper's ${seller.beforeMinor} to ${seller.afterMinor})\n`,
+      `PRESS MONEY ${where}: ${paper.organizationId}\n  ${year.join("\n  ")}\n  ${home} paid in ${receipt!.id} (${receipt!.sourceRef.id}: ${own.beforeMinor - own.afterMinor} from ${payerId}, ${to.afterMinor - to.beforeMinor} to the paper)\n  ad ${ad.id}: ${ad.advertiserId} paid ${ad.amountMinor} in ${ad.transferId} in ${adReceipt.id} (its cash ${buyer.beforeMinor} to ${buyer.afterMinor}; the paper's ${seller.beforeMinor} to ${seller.afterMinor})\n`,
     );
     return;
   }
