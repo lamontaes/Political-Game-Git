@@ -582,7 +582,63 @@ loaders.watch = async () => {
   );
 };
 
-// 5. Experiments -------------------------------------------------------------
+// 5. Golden path --------------------------------------------------------------
+// The bench's own reading of the golden path (src/bench/progress.ts): each
+// step's status and the record that shows it, and each world piece with the
+// modules that run it.
+const evidenceIds = (e) =>
+  !e
+    ? []
+    : (e.recordIds ??
+      [e.contestId, e.targetId, e.personId, e.householdId].filter(Boolean));
+loaders.path = async () => {
+  const id = state.playerId ? `?id=${encodeURIComponent(state.playerId)}` : "";
+  const progress = await api(`/api/progress${id}`);
+  $("path-furthest").textContent = `furthestReachedStep ${
+    progress.furthestReachedStep ?? "none"
+  } · ${progress.date}`;
+  table(
+    "path-steps",
+    [
+      { name: "Step", value: (r) => r.step },
+      { name: "Label", value: (r) => r.label },
+      { name: "Status", value: (r) => r.status },
+      { name: "Evidence", value: (r) => r.evidence?.kind },
+      {
+        name: "Record",
+        value: (r) =>
+          el(
+            "span",
+            {},
+            r.evidence?.moduleId ?? "",
+            ...evidenceIds(r.evidence).map((rid) =>
+              el(
+                "span",
+                { className: "id", onclick: () => traceId(rid) },
+                `${rid} `,
+              ),
+            ),
+          ),
+      },
+      { name: "Missing module", value: (r) => r.missingModule },
+    ],
+    progress.steps,
+    undefined,
+    (r) => (r.status === "not in the new core yet" ? "dev" : ""),
+  );
+  table(
+    "path-world",
+    [
+      { name: "Piece", value: (r) => r.label },
+      { name: "Status", value: (r) => r.status },
+      { name: "Running modules", value: (r) => r.runningModules?.join(" · ") },
+      { name: "Missing module", value: (r) => r.missingModule },
+    ],
+    progress.world,
+  );
+};
+
+// 6. Experiments -------------------------------------------------------------
 loaders.experiments = async () => {
   const { builtIn, saved } = await api("/api/dev/experiments");
   table(
