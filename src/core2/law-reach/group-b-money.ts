@@ -1248,6 +1248,13 @@ export function incomeTaxAct(
   const id = `tax|${input.key}|${input.level}`;
   const prior = getRow<TaxRow>(api, "taken", id);
   const current = levelRow(api, input.level);
+  // A territory's own income tax stands in place of the federal one under
+  // federal law (26 U.S.C. 931 to 933), whatever rate its legislature sets:
+  // an act that rewrites the territory's tax keeps that standing.
+  const standing =
+    current?.terms?.replacesFederal === true
+      ? { replacesFederal: true }
+      : undefined;
   const enact = (
     value: number,
     unit: string,
@@ -1263,7 +1270,7 @@ export function incomeTaxAct(
       effectiveDate: api.state.date,
       measureId: `${tag}:${input.lawId}`,
       citation: `Act ${input.lawId}`,
-      ...(terms ? { terms } : {}),
+      ...(terms || standing ? { terms: { ...terms, ...standing } } : {}),
     });
   const hasTax = !!current && (current.value ?? 0) > 0;
   const scope = input.level === "state" ? "state" : "local";

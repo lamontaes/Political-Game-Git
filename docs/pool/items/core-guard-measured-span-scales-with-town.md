@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/speed-guard-deadline
+pr: #5943
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T19:32:35.727Z
 ---
 
 **What.** The paired guard now measures as many base and head pairs as fit its 45-minute budget (core-guard-deadline-large-town). On a four-core container Derry, New Hampshire (key 3317860) takes about 11 minutes a run, so it fits one warmup and one pair. That one pair read a ratio of 1.142 on a change to tests only: both sides took the same 585,997 acts, the base 492 s and the head 562 s for the year, its opening 46.9 against 50.4 s. One pair cannot tell a 15 percent slowdown from the machine's drift between two processes ten minutes apart, so a large town can fail a test-only change on noise or pass a real slowdown. Scaling the measured span with the town (the guard's rule allows it) would let three pairs and both profiles fit every town.

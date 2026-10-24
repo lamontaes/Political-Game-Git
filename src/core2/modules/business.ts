@@ -92,6 +92,8 @@ interface OwnerRow {
   lossMonths?: number;
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
+  /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
+  splitThrough?: number;
   tradingId?: string;
 }
 
@@ -286,7 +288,7 @@ function scheduleMonth(api: CoreAPI): void {
 }
 
 /** A business's cash less what it owes on its credit lines and to its suppliers. */
-function netCash(c: CoreState, organizationId: string): number {
+export function netCash(c: CoreState, organizationId: string): number {
   // Supplier bills accrued on its sales are owed already, though not yet billed.
   // Whole cents: the books never carry a fraction of a cent.
   let owed = Math.floor(supplierBillsOwed(c, organizationId));
@@ -842,6 +844,7 @@ function bookedMonth(
   | "wagesThrough"
   | "operatingThrough"
   | "outsideThrough"
+  | "splitThrough"
   | "lossMonths"
   | "tradingId"
 > {
@@ -889,6 +892,9 @@ function bookedMonth(
     wagesThrough: book.wagesPaidMinor,
     operatingThrough: book.operatingPaidMinor,
     outsideThrough: outsidePaid,
+    splitThrough:
+      residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
+        ?.splitPaidMinor ?? 0,
     lossMonths,
     tradingId,
   };
@@ -1074,9 +1080,11 @@ function recordOutsideCosts(api: CoreAPI): void {
         payeeId: flow.payeeId,
         paidInTown: inTown,
       });
+    // What it paid elsewhere (its ads in the town's outlets) was not the seller's sale.
+    const elsewhere = (flow.splitPaidMinor ?? 0) - (row.splitThrough ?? 0);
     if (inTown) {
-      seller.receivedMinor += amount;
-      seller.salesReceivedMinor += amount;
+      seller.receivedMinor += amount - elsewhere;
+      seller.salesReceivedMinor += amount - elsewhere;
     }
   }
 }
