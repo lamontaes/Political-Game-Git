@@ -5,10 +5,10 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5926
-blocked-on:
+blocked-on: gov-service-charges-by-use
 source: added with npm run pool -- add
 claimed-at:
 ---
