@@ -5,11 +5,12 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-reach-environment
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 2026-10-24T09:03:57.360Z
 ---
 
 **What.** The outcome web holds 221 researched links; after the merged engine families about 109 reach an engine's records and 112 do not, each listed with its reason and stopgap in `src/core2/data/outcome-web/unwired.json` (written by `scripts/outcome-web/write-unwired.ts`; on the capstone branch until it merges). This item is the environment, disasters, farms and water family: 13 unwired links, 11 where the owning engine does not read the factor and 2 where nothing keeps the outcome. Their outcomes: env.particulates, env.emissions, env.litter, env.container-recycling-pct, disaster.damage, disaster.flood-damage, farmland.developed-acres, farmland.value-per-acre and water.irrigation-groundwater. Make the engine that owns each outcome multiply its own rates by the link's effect per person, so real records move, or give the link one specific reason it cannot.
