@@ -57,7 +57,6 @@ import { incomeBandOf } from "../counted-income-fifth";
 export { incomeBandOf };
 import { placeDistrictPopulations } from "../../districts/place-population-share";
 import districtIncome from "../data/district-household-income.json" with { type: "json" };
-import { stopgap } from "../stopgaps";
 import { corePlaceByKey } from "../place-lookup";
 import { weightedPayrollMinor } from "../residents-economy";
 import {
@@ -429,9 +428,6 @@ function jobless(
   }
   return n;
 }
-
-const FILLED_UNPLACED_STOPGAP = "SG-CORE-filled-unplaced-income";
-export const DISTRICT_STOPGAP = "SG-CORE-district-placement";
 
 /** The town's districts and their people (state House, else state Senate), by GEOID. */
 export function townDistricts(core: CoreState): [string, number][] {
