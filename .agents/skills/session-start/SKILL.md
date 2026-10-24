@@ -57,7 +57,7 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
    - **Research values:** reopen the page. The quote must contain the number, and the URL must be the page you read. For an election, record the deciding round, which may be a runoff, not the first round.
 5. **Rules the merger checks:**
    - Don't touch guard allowlists or skip lists to clear a red check.
-   - Authored English is never `shippable: true` before grading, and only the Words session edits `data/english/`, `src/english/` or `src/director/`.
+   - A bank part's `shippable` flag matches the grade ledger (it plays unless the owner's grades reject it; owner, Oct 24), and only the Words session edits `data/english/`, `src/english/` or `src/director/`.
    - No state, city or GEOID in logic.
    - No record that nothing reads.
 6. **If a line can't be met,** don't open the PR as done. Either keep building, or file what blocks you as its own pool item, set your item `blocked-on` it with one Notes line, and open the PR only for what it really finishes, under a separate item whose done-when matches.

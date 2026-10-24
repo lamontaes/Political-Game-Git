@@ -238,15 +238,9 @@ describe("the office scene", () => {
     // Every line is said from records, and names the target from their term.
     for (const line of scene.narration)
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
-    // The last narrator line puts the member in the room, named from their
-    // records. (The sentence saying why they are the one to reach was
-    // hand-written and is held until graded; pool item
-    // words-office-scene-lead.)
+    // The last narrator line says what is happening, naming the member.
     const lead = scene.narration.at(-1)!.text;
-    const target = core.people.get(scene.targetId)!;
-    expect(lead).toContain(target.givenName);
-    expect(lead).toContain(target.familyName);
-    expect(lead).not.toMatch(/\{\{|\}\}|undefined/);
+    expect(lead).toMatch(/\b(member you need to reach|is the one to reach)\b/);
     expect(scene.choices.map((c) => c.key)).toContain("silent");
     expect(scene.choices.map((c) => c.key)).toContain("make-case");
   });

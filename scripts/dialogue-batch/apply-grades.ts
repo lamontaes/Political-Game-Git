@@ -637,6 +637,46 @@ function without(
   };
 }
 
+export const PARTS_DIR = "data/english/parts";
+
+/**
+ * Every bank's part plays unless the owner's grades hold it (owner, Oct 24:
+ * "Quit worrying about my grades ... Get the English engine in the game.
+ * That should make every single piece of dialogue available."). A grade run
+ * sets the flag across every bank at once, so a batch's grades reach the
+ * whole game: a part graded bad or fix stops playing everywhere, and every
+ * other part plays.
+ */
+export function releaseBanks(
+  ledger: PartGradeLedger,
+  dir = PARTS_DIR,
+): { released: number; held: number } {
+  let released = 0;
+  let held = 0;
+  for (const name of readdirSync(dir)
+    .filter((entry) => entry.endsWith(".json"))
+    .sort()) {
+    const file = join(dir, name);
+    const bank = JSON.parse(readFileSync(file, "utf8")) as {
+      parts?: { key: string; shippable?: boolean }[];
+    };
+    if (!Array.isArray(bank.parts)) continue;
+    let changed = false;
+    for (const part of bank.parts) {
+      const plays = !heldByGrades(part.key, ledger);
+      if (part.shippable === plays) continue;
+      part.shippable = plays;
+      changed = true;
+      if (plays) released += 1;
+      else held += 1;
+    }
+    if (!changed) continue;
+    writeFileSync(file, `${JSON.stringify(bank, null, 2)}\n`);
+    execSync(`npx prettier --write ${file}`, { stdio: "ignore" });
+  }
+  return { released, held };
+}
+
 function main() {
   const graded = readGradedBatches();
   const ledger = withKept(
@@ -689,6 +729,10 @@ function main() {
   );
   console.log(
     `Wrote ${LEDGER_FILE}: ${ledger.batches.length} graded batches, ${Object.keys(ledger.parts).length} parts graded, ${held.length} held back.`,
+  );
+  const banks = releaseBanks(ledger);
+  console.log(
+    `Banks in ${PARTS_DIR}: ${banks.released} parts now play, ${banks.held} now held by the grades.`,
   );
 }
 
