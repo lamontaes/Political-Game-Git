@@ -2085,361 +2085,721 @@
     "value": 978,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 923.75,
+      "high": 1032.25,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell B520 ($27.68); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareNortheastAnnualUsd": {
     "value": 1064,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 909.98,
+      "high": 1218.02,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell C520 ($78.58); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareMidwestAnnualUsd": {
     "value": 971,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 872.9,
+      "high": 1069.1,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell D520 ($50.05); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareSouthAnnualUsd": {
     "value": 827,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 736.64,
+      "high": 917.36,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell E520 ($46.1); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareWestAnnualUsd": {
     "value": 1184,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1080.59,
+      "high": 1287.41,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell F520 ($52.76); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareSize1AnnualUsd": {
     "value": 619,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 543.6,
+      "high": 694.4,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell C521 ($38.47); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareSize2AnnualUsd": {
     "value": 1023,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 962.71,
+      "high": 1083.29,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell E521 ($30.76); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareSize3AnnualUsd": {
     "value": 1188,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1067.22,
+      "high": 1308.78,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell F521 ($61.62); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareSize4AnnualUsd": {
     "value": 1347,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1214.58,
+      "high": 1479.42,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell G521 ($67.56); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareSize5plusAnnualUsd": {
     "value": 1144,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1008.17,
+      "high": 1279.83,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell H521 ($69.3); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesNationalAnnualUsd": {
     "value": 1374,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1310.28,
+      "high": 1437.72,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell B285 ($32.51); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesNortheastAnnualUsd": {
     "value": 1366,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1228.84,
+      "high": 1503.16,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell C285 ($69.98); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesMidwestAnnualUsd": {
     "value": 1213,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1117.55,
+      "high": 1308.45,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell D285 ($48.7); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesSouthAnnualUsd": {
     "value": 1367,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1241.72,
+      "high": 1492.28,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell E285 ($63.92); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesWestAnnualUsd": {
     "value": 1546,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1419.89,
+      "high": 1672.11,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell F285 ($64.34); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesSize1AnnualUsd": {
     "value": 1015,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 927.33,
+      "high": 1102.67,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell C286 ($44.73); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesSize2AnnualUsd": {
     "value": 1474,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1379.57,
+      "high": 1568.43,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell E286 ($48.18); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesSize3AnnualUsd": {
     "value": 1405,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1290.91,
+      "high": 1519.09,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell F286 ($58.21); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesSize4AnnualUsd": {
     "value": 1827,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1698.11,
+      "high": 1955.89,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell G286 ($65.76); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerOtherHouseholdExpensesSize5plusAnnualUsd": {
     "value": 1519,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1319.65,
+      "high": 1718.35,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell H286 ($101.71); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsNationalAnnualUsd": {
     "value": 935,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 857.03,
+      "high": 1012.97,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell B489 ($39.78); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsNortheastAnnualUsd": {
     "value": 982,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 868.1,
+      "high": 1095.9,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell C489 ($58.11); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsMidwestAnnualUsd": {
     "value": 930,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 769.59,
+      "high": 1090.41,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell D489 ($81.84); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsSouthAnnualUsd": {
     "value": 709,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 597.26,
+      "high": 820.74,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell E489 ($57.01); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsWestAnnualUsd": {
     "value": 1304,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1066.49,
+      "high": 1541.51,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell F489 ($121.18); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsSize1AnnualUsd": {
     "value": 434,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 376.57,
+      "high": 491.43,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell C490 ($29.3); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsSize2AnnualUsd": {
     "value": 933,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 813.36,
+      "high": 1052.64,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell E490 ($61.04); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsSize3AnnualUsd": {
     "value": 982,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 817.58,
+      "high": 1146.42,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell F490 ($83.89); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsSize4AnnualUsd": {
     "value": 1801,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1425.27,
+      "high": 2176.73,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell G490 ($191.7); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerFeesAdmissionsSize5plusAnnualUsd": {
     "value": 1323,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1096.82,
+      "high": 1549.18,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell H490 ($115.4); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousNationalAnnualUsd": {
     "value": 1218,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1065.85,
+      "high": 1370.15,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell B544 ($77.63); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousNortheastAnnualUsd": {
     "value": 1069,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 900.56,
+      "high": 1237.44,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell C544 ($85.94); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousMidwestAnnualUsd": {
     "value": 1142,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 899.08,
+      "high": 1384.92,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell D544 ($123.94); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousSouthAnnualUsd": {
     "value": 1029,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 833.47,
+      "high": 1224.53,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell E544 ($99.76); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousWestAnnualUsd": {
     "value": 1744,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1219.39,
+      "high": 2268.61,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell F544 ($267.66); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousSize1AnnualUsd": {
     "value": 1096,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 737.63,
+      "high": 1454.37,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell C545 ($182.84); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousSize2AnnualUsd": {
     "value": 1115,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 949.91,
+      "high": 1280.09,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell E545 ($84.23); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousSize3AnnualUsd": {
     "value": 1360,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1142.99,
+      "high": 1577.01,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell F545 ($110.72); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousSize4AnnualUsd": {
     "value": 1546,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1086.85,
+      "high": 2005.15,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell G545 ($234.26); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMiscellaneousSize5plusAnnualUsd": {
     "value": 1319,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1010.03,
+      "high": 1627.97,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell H545 ($157.64); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneNationalAnnualUsd": {
     "value": 1460,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1421.74,
+      "high": 1498.26,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell B255 ($19.52); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneNortheastAnnualUsd": {
     "value": 1509,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1420.55,
+      "high": 1597.45,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell C255 ($45.13); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneMidwestAnnualUsd": {
     "value": 1355,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1245.73,
+      "high": 1464.27,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell D255 ($55.75); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneSouthAnnualUsd": {
     "value": 1432,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1372.81,
+      "high": 1491.19,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell E255 ($30.2); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneWestAnnualUsd": {
     "value": 1570,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1510.79,
+      "high": 1629.21,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell F255 ($30.21); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneSize1AnnualUsd": {
     "value": 849,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 813.25,
+      "high": 884.75,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell C256 ($18.24); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneSize2AnnualUsd": {
     "value": 1451,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1404.29,
+      "high": 1497.71,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell E256 ($23.83); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneSize3AnnualUsd": {
     "value": 1758,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1665.14,
+      "high": 1850.86,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell F256 ($47.38); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneSize4AnnualUsd": {
     "value": 2031,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1910.95,
+      "high": 2151.05,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell G256 ($61.25); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerTelephoneSize5plusAnnualUsd": {
     "value": 2203,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 2071.43,
+      "high": 2334.57,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell H256 ($67.13); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesNationalAnnualUsd": {
     "value": 1252,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1146.57,
+      "high": 1357.43,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell B468 ($53.79); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesNortheastAnnualUsd": {
     "value": 1270,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1044.66,
+      "high": 1495.34,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell C468 ($114.97); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesMidwestAnnualUsd": {
     "value": 1385,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1132.65,
+      "high": 1637.35,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell D468 ($128.75); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesSouthAnnualUsd": {
     "value": 1025,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 842.05,
+      "high": 1207.95,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell E468 ($93.34); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesWestAnnualUsd": {
     "value": 1514,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1270.33,
+      "high": 1757.67,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1800, calendar 2024, standard error in cell F468 ($124.32); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesSize1AnnualUsd": {
     "value": 943,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 730.03,
+      "high": 1155.97,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell C469 ($108.66); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesSize2AnnualUsd": {
     "value": 1250,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1117.23,
+      "high": 1382.77,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell E469 ($67.74); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesSize3AnnualUsd": {
     "value": 1268,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1063.18,
+      "high": 1472.82,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell F469 ($104.5); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesSize4AnnualUsd": {
     "value": 1896,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1502.88,
+      "high": 2289.12,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell G469 ($200.57); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerMedicalServicesSize5plusAnnualUsd": {
     "value": 1373,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "stopgapId": "SG-P8-opening-customer-generation"
+    "stopgapId": "SG-P8-opening-customer-generation",
+    "spread": {
+      "low": 1114.22,
+      "high": 1631.78,
+      "unit": "USD per consumer unit per year",
+      "citation": "BLS CEX Table 1400, calendar 2024, standard error in cell H469 ($132.03); the 95 percent interval of the published mean (mean plus or minus 1.96 standard errors), sampling error only, not the spread of individual budgets; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx"
+    }
   },
   "openingCustomerPersonalCareAnnualNationalUsd": {
     "value": 478.51,
@@ -2495,7 +2855,7 @@
     "citation": "Monthly standing purchase-budget aggregation; source tables do not establish invoice cadence.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured."
+      "reason": "A calendar convention, not a measured quantity: CEX publishes annual means per consumer unit, and no published table gives the invoice cadence of these services or the start dates of agreements already running at the opening. The annual amounts do not depend on it."
     },
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
@@ -2509,7 +2869,7 @@
     "citation": "One day before opening is a fictional bookkeeping convention for generated prior agreements, not a measured agreement-date distribution.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured."
+      "reason": "A calendar convention, not a measured quantity: CEX publishes annual means per consumer unit, and no published table gives the invoice cadence of these services or the start dates of agreements already running at the opening. The annual amounts do not depend on it."
     },
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION"
@@ -2520,21 +2880,33 @@
   "openingCustomerSizeTopCode": {
     "value": 5,
     "tag": "SOURCED",
-    "citation": "BLS CEX Table 1400 groups five or more consumer-unit members in one column. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "citation": "BLS CEX Table 1400, calendar 2024: the size-of-consumer-unit columns end at 'Five or more people' (header cell H4), so a household of five or more takes that column; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. A column boundary of the source table, read as the lookup key for which published mean applies, not a behavior threshold. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPublicCleaningBudgetShare": {
-    "value": 0.1,
+    "value": 0.124,
     "tag": "ESTIMATED",
-    "citation": "A disclosed tenth of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "estimatedFrom": "A disclosed tenth of public-building spending is reserved for contracted custodial operations in the fictional opening appropriation. FAR 37.101 recognizes janitorial service contracts; neither FAR nor Census identifies this fraction.",
+    "citation": "Cleaning share of local general-public-buildings spending = cleaning's share of an office building's operating cost times the current-operations share of that spending. BOMA International, Experience Exchange Report, 2012 data (reported by Building Design+Construction, Nov. 6, 2013): total operating expenses $7.86 per square foot, cleaning $1.44 (derived from '$0.06 (4.0 percent) less'); https://bdcnetwork.com/energy-efficiency-measures-paying-commercial-building-owners-says-boma-study?page=11. U.S. Census Bureau, 2022 Census of Governments: Finance, 22statetypepu.txt, local E31 $9,275,602 thousand of E31+F31 $13,733,818 thousand; https://www2.census.gov/programs-surveys/gov-finances/tables/2022/2022_Individual_Unit_File.zip. Research files data/research/core/building-operating-cost-janitorial-share.json and data/research/core/census-2022-local-public-buildings-by-government-type.json; checked by scripts/research/check-opening-customer-priors.ts.",
+    "estimatedFrom": "0.183 (BOMA 2012 cleaning / total operating expenses) x 0.6754 (Census 2022 local general-public-buildings current operations / current operations plus construction) = 0.124. Office-building benchmarks stand in for public buildings; the town's public employers carry no custodian role (src/core2/town-workplaces.ts), so the whole cleaning share is bought from building-services firms.",
+    "spread": {
+      "low": 0.091,
+      "high": 0.179,
+      "unit": "fraction of local general-public-buildings spending",
+      "citation": "Low: BOMA 2012 cleaning share 0.183 x the 10th-percentile state current-operations share 0.4988; high: IFMA 2000 median janitorial share 0.193 ($1.08 of $5.59 per square foot, https://www.fmlink.com/?p=13268) x the 90th-percentile state share 0.9294 (Census 2022, 51 states and D.C.)."
+    },
     "stopgapId": "SG-P8-opening-customer-public-procurement"
   },
   "openingCustomerLocalAuthorityBudgetCoverage": {
-    "value": 0.25,
+    "value": 0.8,
     "tag": "ESTIMATED",
-    "citation": "A disclosed quarter of the local general-public-buildings per-resident aggregate is represented by the admitted office buyer accounts. Census aggregates all local units; this coverage is an uncalibrated opening proxy. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
-    "estimatedFrom": "A disclosed quarter of the local general-public-buildings per-resident aggregate is represented by the admitted office buyer accounts. Census aggregates all local units; this coverage is an uncalibrated opening proxy.",
+    "citation": "U.S. Census Bureau, 2022 Census of Governments: Finance, 22statetypepu.txt: county, municipal and township governments make all local general-public-buildings spending (current operations 9,275,602 thousand; special and school districts 0), counties 4,625,728 thousand (0.4987); https://www2.census.gov/programs-surveys/gov-finances/tables/2022/2022_Individual_Unit_File.zip. Census 2025 Government Units listing (src/core2/reference/government-units.ts): 19,482 of the 32,508 playable places have a municipal or township government. Research file data/research/core/census-2022-local-public-buildings-by-government-type.json; checked by scripts/research/check-opening-customer-priors.ts.",
+    "estimatedFrom": "The buyers are the place's own general-purpose government and its county. Where both buy, they represent all of the spending (1.0); where the county is the only buyer (a census-designated place) it represents the county share 0.4987. Weighted by the playable places: 0.5993 x 1 + 0.4007 x 0.4987 = 0.8. One national value until the opening reads each place's buyer types against its state's shares (per-state table in the research file).",
+    "spread": {
+      "low": 0.243,
+      "high": 1,
+      "unit": "fraction of local general-public-buildings spending",
+      "citation": "Low: the 10th-percentile county share among the 48 states with county governments (0.243), a county-only buyer; high: 1.0, the county and the place's own government together (Census 2022 Census of Governments: Finance, 22statetypepu.txt)."
+    },
     "stopgapId": "SG-P8-opening-customer-public-procurement"
   },
   "openingCustomerLocalBuildingTotalUsd_US": {
@@ -3434,7 +3806,7 @@
   "personalitySociabilityRiskCorrelation": {
     "value": 0.34,
     "tag": "ESTIMATED",
-    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34.",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4, https://cran.r-project.org/package=psychTools, data/neo.rda, read Oct 24, 2026): E2 Gregariousness with E5 Excitement-Seeking, r = .34. Research file data/research/people/neo-pi-r-facet-correlations-1992.json; the value and its interval are checked by scripts/research/people-parameters-check.ts.",
     "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
     "stopgapId": "SG-P15-personality-mapping",
     "spread": {
@@ -3447,7 +3819,7 @@
   "personalityReliabilityImpulseCorrelation": {
     "value": -0.45,
     "tag": "ESTIMATED",
-    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45.",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4, https://cran.r-project.org/package=psychTools, data/neo.rda, read Oct 24, 2026): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45. Research file data/research/people/neo-pi-r-facet-correlations-1992.json; the value and its interval are checked by scripts/research/people-parameters-check.ts.",
     "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
     "stopgapId": "SG-P15-personality-mapping",
     "spread": {
@@ -4172,16 +4544,14 @@
     }
   },
   "volunteerHours": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Hours of one volunteering session for a cause group. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "value": 2.18,
+    "tag": "SOURCED",
+    "citation": "Hours of one volunteering act for a cause group: one participant-day of volunteering. BLS American Time Use Survey 2025, Table 1, https://www.bls.gov/news.release/atus.t01.htm: volunteering (organizational and civic activities), 2.18 hours a day for those who volunteered that day (5.3% of people on an average day). Research file data/research/people/atus-2025-volunteering.json, checked by scripts/research/people-parameters-check.ts.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No volunteering-session duration source has been read into the repository yet."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 2.16,
+      "high": 2.2,
+      "unit": "hours per participant-day",
+      "citation": "The same table: women 2.16, men 2.20."
     }
   },
   "driveConfrontHours": {
