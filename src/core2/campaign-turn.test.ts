@@ -273,12 +273,21 @@ describe("campaigns that raise and spend", () => {
         );
         continue;
       }
+      // The turn went on after the gift (its doors warm the people it
+      // reaches), so the donor may now give more in all: asked once more,
+      // they give what they'd give now (Green Isle, Minnesota, seed
+      // 3d29bb4ba93ab238770ab3570ad393b0144d225cabba0415b78f6a7fd4ccb5bc).
+      askForDonation(api, rival.id, gift.donorId);
+      const total = giftOf(api, rival.id, gift.donorId)!;
       // Forget every payment record: the donor has still given what they'd give.
       const money = api.moduleState(CAMPAIGNS_MODULE_ID).table("money");
       for (const row of money.rows().slice()) money.remove(row.id);
       expect(askForDonation(api, rival.id, gift.donorId), where).toBe(0);
       expect(giftOf(api, rival.id, gift.donorId)!.totalMinor, where).toBe(
-        gift.totalMinor,
+        total.totalMinor,
+      );
+      console.info(
+        `campaign-turn donor ${where}: ${gift.donorId} gave ${gift.totalMinor} to ${rival.id}, ${total.totalMinor} in all, and nothing more with the payments forgotten`,
       );
       return;
     }

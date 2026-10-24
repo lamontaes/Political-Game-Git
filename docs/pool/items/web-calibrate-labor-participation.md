@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/labor-participation-web
 pr: #5776
 blocked-on:

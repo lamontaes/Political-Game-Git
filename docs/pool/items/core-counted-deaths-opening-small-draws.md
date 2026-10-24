@@ -10,7 +10,7 @@ claimed-by: claude/counted-deaths-opening-bookkeeping
 pr: #5904
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T11:23:10.518Z
+claimed-at: 2026-10-24T17:06:32.846Z
 ---
 
 **What.** src/core2/counted-deaths-opening.test.ts fails on seed ca31b9e4225f7b58 because all six towns it draws expect fewer than 10 deaths, so the test has no town to check. The taxes helper saw it on Oct 24 and confirmed it fails the same with its estate change switched off, so it is not that change. The test needs a town whose expected deaths are enough to check, or a check that holds for small towns too.
