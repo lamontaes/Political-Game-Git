@@ -653,6 +653,8 @@ export function countedClosurePulls(
   lossMonths: number,
   agePull: number,
   netCashMinor: number,
+  /** How many firms the book's yearly figures stand for (its counted workers' weight); its cash already does. */
+  weight = 1,
 ): {
   share: number;
   bar: number;
@@ -660,10 +662,11 @@ export function countedClosurePulls(
 } {
   const p = (key: string) => api.parameter(key);
   const monthlyCosts =
-    (book.annualPayrollMinor + book.annualOtherCostsMinor) /
+    ((book.annualPayrollMinor + book.annualOtherCostsMinor) * weight) /
     p("macroMonthsPerYear");
   const runway = monthlyCosts > 0 ? netCashMinor / monthlyCosts : 0;
-  const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
+  const monthlyPayroll =
+    (book.annualPayrollMinor * weight) / p("macroMonthsPerYear");
   const pulls = {
     losses: p("businessCloseLossWeight") * lossMonths,
     age: agePull,
@@ -747,12 +750,24 @@ function reviewClosures(api: CoreAPI): void {
         );
     } else {
       // Outside firm: causes summed against the stay bar, sliding.
+      // Its cash, debts and unpaid wages are its counted workers' weight's,
+      // so its costs are weighed the same way.
+      const weight =
+        book.annualPayrollMinor > 0
+          ? weightedPayrollMinor(
+              c,
+              row.id,
+              book.annualPayrollMinor,
+              p("jobsDaysPerYear"),
+            ) / book.annualPayrollMinor
+          : 1;
       const { share, pulls, bar } = countedClosurePulls(
         api,
         book,
         losses,
         reasons.age,
         netCash(c, row.id),
+        weight,
       );
       if (share > 0)
         counted.push({

@@ -39,6 +39,7 @@ import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
 import { bankDepositLiability } from "../accounts";
 import { reviewBankDeposits } from "../credit-deposits";
+import { weightedPayrollMinor } from "../residents-economy";
 
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import { lawApplied } from "../law-reach/applied";
@@ -457,9 +458,16 @@ function review(api: CoreAPI): void {
     a[0].localeCompare(b[0]),
   )) {
     if (books.closedAt || books.creditFacilityId) continue;
+    // The paydays a line covers are the weighted ones, as the firm's cash
+    // is: a counted worker's record stands for its household's weight.
+    const payroll = weightedPayrollMinor(
+      c,
+      id,
+      books.annualPayrollMinor,
+      p("jobsDaysPerYear"),
+    );
     const cover =
-      (books.annualPayrollMinor / p("macroMonthsPerYear")) *
-      p("creditLineMonthsOfPayroll");
+      (payroll / p("macroMonthsPerYear")) * p("creditLineMonthsOfPayroll");
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
@@ -470,7 +478,13 @@ function review(api: CoreAPI): void {
     const ownerId =
       (owners?.get(id) as { ownerId?: string } | undefined)?.ownerId ??
       managerOf(c, id);
-    const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
+    // Its sales stand for the same weight as its payroll.
+    const monthlySales =
+      (books.annualDemandMinor *
+        (books.annualPayrollMinor > 0
+          ? payroll / books.annualPayrollMinor
+          : p("one"))) /
+      p("macroMonthsPerYear");
     // The owner weighs the rate the bank will charge this borrower, risk spread and all.
     const rate = quotedLineRate(api, lineTerms(api, books).spreadPct);
     const reasons = {
