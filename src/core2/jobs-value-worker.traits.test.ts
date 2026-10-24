@@ -1,6 +1,6 @@
 /**
  * How a worker works, in play: a place drawn from all 56, built as the game
- * builds it (`buildBenchWorld`, two-level, every module), plays its first three
+ * builds it (`buildBenchWorld`, two-level, every module), plays its first four
  * months. When a business lets a worker go, it lets go of the one it values
  * least: tenure plus how they work (`jobs.value-worker`, the worker's lean
  * toward diligence, sized from Barrick and Mount 1991). The test names a
@@ -23,8 +23,9 @@ interface Change {
   values?: Readonly<Record<string, number>>;
 }
 
-const DAYS = 90;
-const MAX_DRAWS = 3;
+const DAYS = 120;
+/** Many small towns lay nobody off in four months: the next draw is tried. */
+const MAX_DRAWS = 6;
 
 describe("an employer values how a worker works", () => {
   it("lets go of a worker for how they work, by record", () => {
