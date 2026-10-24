@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/tooling/m0-07-turnover-check.ts, src/core2/circle-turnover-check.ts, data/research/people/mollenhorst-2014-network-turnover.json, docs/roadmap/features.json
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5913 (branch claude/quirky-ride-vrwwz4-circle-turnover): current main after #5957 conflicts in src/core2/decision-detail.ts and src/core2/data/parameters.json; resolve on this branch preserving main's accepted circle-retention fix, then push for a fresh local gate; finish on that branch, merge main into it first.
