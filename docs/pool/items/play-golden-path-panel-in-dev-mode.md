@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-dev-panel
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T04:44:44.871Z
 ---
 
 **What.** Roadmap M0-05 is 'The golden path and world panel'. Its command (src/bench/m0-check.ts M0-05) passes on main b09ba675cd in Sarben, Nebraska: steps 1 to 11 reachable with evidence, and the world pieces each say whether they run. But no screen draws it: src/bench/play.mjs and dev.mjs never call /api/progress or /api/world-panels, so the owner cannot see it in the bench. Show the steps and the world pieces in Dev mode (the owner's test bench), drawn from benchProgress and worldPanels record data.
