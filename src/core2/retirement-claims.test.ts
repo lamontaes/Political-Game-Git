@@ -35,14 +35,19 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
   it("starts each claimant's monthly award, and every dollar balances", () => {
     // One full adult, born so their own claim date falls two months in. They
     // are moved to an earlier birth date, never a later one, so nothing they
-    // already know predates their birth.
+    // already know predates their birth. A claim comes between 62 and 70, so
+    // that birth lies 70 to 62 years before day one; the search spans it with
+    // a year to spare on each side.
     const input = generatedOpening(place, { twoLevel: true });
+    const startYear = Number(input.startedAt.slice(0, 4));
+    const firstBirthYear = startYear - 71;
+    const lastBirthYear = startYear - 61;
     const adult = input.people
       .filter(
         (row) =>
           row.id !== input.playerId &&
           !row.jobId &&
-          row.birthDate > "1962-12-31",
+          row.birthDate > `${lastBirthYear}-12-31`,
       )
       .sort((a, b) => a.id.localeCompare(b.id))[0]!;
     const weights = {
@@ -79,10 +84,14 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     // The birth year sets the full retirement age, which jumps at a year
     // boundary, so the birth month is found by looking at each month in turn
     // for the claim date nearest two months in, never by iterating to a fixed point.
-    let birthDate = "1959-01-01";
+    let birthDate = `${firstBirthYear}-01-01`;
     let best = Infinity;
-    for (let month = 0; month < 6 * 12; month++) {
-      const birth = new Date(Date.UTC(1957, month, 1));
+    for (
+      let month = 0;
+      month < (lastBirthYear - firstBirthYear + 1) * 12;
+      month++
+    ) {
+      const birth = new Date(Date.UTC(firstBirthYear, month, 1));
       const born = birth.toISOString().slice(0, 10);
       const claim = new Date(birth);
       claim.setUTCMonth(claim.getUTCMonth() + claimMonths(born));
@@ -106,6 +115,9 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     advanceCore(core, daysAfterStart(365));
     const claims = retirementClaims(core);
     expect(claims.has(adult.id)).toBe(true);
+    process.stdout.write(
+      `RETIREMENT ${place.name} (seed ${seed}): ${adult.id} moved to born ${birthDate}, a claim ${best} days from two months in; claimed ${claims.get(adult.id)!.date}\n`,
+    );
     const flows = residentsRuntime(core)!.flows;
     let counted = 0;
     for (const [personId, row] of claims) {
