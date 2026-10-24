@@ -526,6 +526,14 @@
     },
     "state-unemployment-tax-to-unemployment": {
       "waitingOn": ["labor.unemployment-pct"]
+    },
+    "unemployment-insurance-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    "unemployment-weekly-maximum-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
     }
   },
   "measuresWanted": {

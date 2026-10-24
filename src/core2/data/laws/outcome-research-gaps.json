@@ -52,11 +52,6 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "unemployment-weekly-maximum",
-      "outcome": "unemployment duration and household income",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "budget-line:housing",
       "outcome": "homelessness and rent burden",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
@@ -109,11 +104,6 @@
     {
       "key": "local-minimum-wage-authority",
       "outcome": "local minimum wage adoption",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "unemployment-insurance",
-      "outcome": "unemployment duration and household income",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     }
   ]
