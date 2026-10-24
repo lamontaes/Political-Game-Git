@@ -12435,7 +12435,7 @@
     "seed": "ew20oct26",
     "place": "Paris, Arkansas, US-AR (0553480)",
     "months": 3,
-    "seconds": 1781,
+    "seconds": 1729,
     "results": [
       {
         "cause": "births.rate-index",
@@ -12541,6 +12541,11 @@
             "record": "core2-renewal-v1/counts:text",
             "control": 3301768187,
             "shifted": 376873711
+          },
+          {
+            "record": "core2-renewal-v1/plans:sum",
+            "control": -3297.777327275429,
+            "shifted": -3259.8884442738413
           },
           {
             "record": "housing/taxArrears:sum",
@@ -12800,8 +12805,8 @@
           },
           {
             "record": "core2-renewal-v1/plans:sum",
-            "control": -3298.666157291326,
-            "shifted": -3289.9229492918184
+            "control": -3297.777327275429,
+            "shifted": -3289.034119275922
           },
           {
             "record": "credit/applications:sum",
@@ -13402,8 +13407,8 @@
           },
           {
             "record": "core2-renewal-v1/plans:sum",
-            "control": -3298.666157291326,
-            "shifted": -3298.681584668731
+            "control": -3297.777327275429,
+            "shifted": -3297.792754652834
           },
           {
             "record": "credit/applications:sum",
@@ -13752,8 +13757,8 @@
           },
           {
             "record": "core2-renewal-v1/plans:sum",
-            "control": -3298.666157291326,
-            "shifted": -3291.312193293162
+            "control": -3297.777327275429,
+            "shifted": -3290.4233632772653
           },
           {
             "record": "credit/applications:sum",
@@ -14012,8 +14017,8 @@
           },
           {
             "record": "core2-renewal-v1/plans:sum",
-            "control": -3298.666157291326,
-            "shifted": -3298.6667893451836
+            "control": -3297.777327275429,
+            "shifted": -3297.7779593292867
           },
           {
             "record": "credit/applications:sum",
