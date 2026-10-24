@@ -109,6 +109,7 @@ type EventKindKey =
   | "strengthened";
 type FactKey =
   | "responsible"
+  | "decidedBy"
   | "drive"
   | "origin"
   | "condition"
@@ -391,9 +392,19 @@ type RequirementTest = (
   event: CoreEventInput,
 ) => boolean;
 
-function responsibleId(data: DrivesData, event: CoreEventInput) {
+/** Who an event holds responsible for a harm: a person or institution its record names. */
+export function responsibleId(
+  data: DrivesData,
+  event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
+) {
   const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
   if (named) return named;
+  // The person the record names as deciding the harm (the owner or manager
+  // who decided a layoff), when they are a living full person: a grudge can
+  // then be held against someone, not only the institution.
+  const decider = event.facts?.[data.factKeys.decidedBy];
+  if (decider && people.get(decider)?.alive) return decider;
   // Some engines name the responsible party as the event's topic (the
   // employer behind a layoff, the landlord behind an eviction).
   if (data.responsibleInTopic?.includes(event.kind) && event.topic)
@@ -411,7 +422,7 @@ const requirementOperations: Readonly<Record<string, RequirementTest>> = {
   "event-topic": (_api, _data, _actor, event) =>
     !!event.topic && !!event.desiredChange,
   "event-responsible": (api, data, actor, event) => {
-    const id = responsibleId(data, event);
+    const id = responsibleId(data, event, api.state.people);
     return (
       !!id &&
       id !== actor.id &&
@@ -496,8 +507,9 @@ function driveIdentity(
   kind: DriveKindRow,
   actor: Readonly<PersonState>,
   event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
 ) {
-  const responsible = responsibleId(data, event);
+  const responsible = responsibleId(data, event, people);
   const topic =
     kind.shareable && event.topic
       ? event.topic
@@ -792,7 +804,13 @@ export function respond(
       const urgency = considered.find(
         (entry) => entry.responseId === row.id,
       )!.urgency;
-      const identity = driveIdentity(data, kind, actor, event);
+      const identity = driveIdentity(
+        data,
+        kind,
+        actor,
+        event,
+        api.state.people,
+      );
       trace.driveId = identity.id;
       const holders = counted ? runtime.countedByPerson : runtime.byPerson;
       let mine = holders.get(actor.id);

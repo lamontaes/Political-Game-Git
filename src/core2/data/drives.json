@@ -32,6 +32,7 @@
   "closureEventKind": "organization.closed",
   "factKeys": {
     "responsible": "responsible",
+    "decidedBy": "decidedBy",
     "drive": "drive",
     "origin": "origin",
     "condition": "condition",
