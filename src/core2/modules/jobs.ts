@@ -165,6 +165,9 @@ interface EmployerRow {
 function store(api: CoreAPI) {
   return api.moduleState(JOBS_MODULE_ID);
 }
+/** The reason on a seeker row for someone jobless when the world opened. */
+const OPENING_UNEMPLOYED = "opening-unemployed";
+
 const core = (api: CoreAPI) => api.state as CoreState;
 
 function source(api: CoreAPI, estimatedFrom: string): Source {
@@ -619,7 +622,7 @@ function openSeekers(api: CoreAPI): void {
       .sort((a, b) => days(a) - days(b) || a.id.localeCompare(b.id))
       .slice(0, quotas.get(key) ?? 0)
       .forEach((person) =>
-        startSeeking(api, person.id, false, "opening-unemployed", 0),
+        startSeeking(api, person.id, false, OPENING_UNEMPLOYED, 0),
       );
   }
 }
@@ -683,7 +686,7 @@ function openCountedSeekers(api: CoreAPI): void {
           placeId: row.placeId,
           employed: false,
           since: c.date,
-          reasonKey: "opening-unemployed",
+          reasonKey: OPENING_UNEMPLOYED,
           referenceHourlyMinor: 0,
         }),
       );
@@ -1678,7 +1681,7 @@ function raisePay(api: CoreAPI): void {
 }
 
 /** Jobless working-age adults choose whether to look for work, pushed by how few days their household's money covers. */
-function reviewJobless(api: CoreAPI): void {
+export function reviewJobless(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     [young, old] = jobsData.workingAge as [number, number];
@@ -1695,10 +1698,13 @@ function reviewJobless(api: CoreAPI): void {
       !person.alive ||
       person.jobId ||
       inCustody(api, person.id) ||
-      controlled(c, person.id) ||
-      store(api).table("seekers").get(person.id)
+      controlled(c, person.id)
     )
       continue;
+    // Someone already looking is weighed again below, as a counted seeker is.
+    const seeking = store(api).table("seekers").get(person.id) as
+      SeekerRow | undefined;
+    if (seeking && !searchBeganByChoice(seeking)) continue;
     if (!c.households.has(person.householdId) || inactive.has(person.tier))
       continue;
     // Without the two-level population, only people who have worked in this world are in its labor market (see the opening-seekers stopgap).
@@ -1738,14 +1744,57 @@ function reviewJobless(api: CoreAPI): void {
           unemploymentGap(api, person.placeId),
       }),
     ]);
-    if (result.selected!.definition.id === jobsData.actions.look.id)
-      startSeeking(
-        api,
-        person.id,
-        false,
-        "started-looking",
-        lastPay(api, person.id),
-      );
+    settleEntryChoice(
+      api,
+      person.id,
+      "seekers",
+      result.selected!.definition.id === jobsData.actions.look.id,
+      seeking,
+      () =>
+        startSeeking(
+          api,
+          person.id,
+          false,
+          jobsData.reasons.startedLooking,
+          lastPay(api, person.id),
+        ),
+    );
+  }
+}
+
+/**
+ * Whether a search began as the choice to look for work (the opening's
+ * jobless and those who started looking), which the monthly review weighs
+ * again. A search that began with losing a job, or from a job already held, is
+ * ended by being hired, not by this review.
+ */
+function searchBeganByChoice(seeker: SeekerRow): boolean {
+  return (
+    !seeker.employed &&
+    (seeker.reasonKey === jobsData.reasons.startedLooking ||
+      seeker.reasonKey === OPENING_UNEMPLOYED)
+  );
+}
+
+/**
+ * The one result of weighing waiting against looking, for a full person and a
+ * counted one alike: looking starts a search when none is open; waiting ends
+ * the search of someone who has no job (the seeker row, the open spell and
+ * the claim), and leaves someone who is employed and shopping around alone.
+ */
+function settleEntryChoice(
+  api: CoreAPI,
+  personId: string,
+  table: "seekers" | "countedSeekers",
+  looks: boolean,
+  seeking: SeekerRow | undefined,
+  start: () => void,
+): void {
+  if (looks) {
+    if (!seeking) start();
+  } else if (seeking && searchBeganByChoice(seeking)) {
+    store(api).table(table).remove(personId);
+    endSpell(api, personId);
   }
 }
 
@@ -2482,7 +2531,7 @@ function reviewCountedWorkers(
  * household's money covers, the place's unemployment and their traits. The
  * same comparison starts the search and, for someone already looking, ends it.
  */
-function reviewCountedEntry(api: CoreAPI): void {
+export function reviewCountedEntry(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     rt = residentsRuntime(c);
@@ -2532,9 +2581,13 @@ function reviewCountedEntry(api: CoreAPI): void {
             -p("jobsUnemploymentEntryWeight") * unemploymentGap(api, placeId),
         }),
       ]);
-      const seeking = seekers.get(personId) as SeekerRow | undefined;
-      if (result.selected!.definition.id === jobsData.actions.look.id) {
-        if (!seeking)
+      settleEntryChoice(
+        api,
+        personId,
+        "countedSeekers",
+        result.selected!.definition.id === jobsData.actions.look.id,
+        seekers.get(personId) as SeekerRow | undefined,
+        () =>
           seekers.put({
             id: personId,
             isSeeker: true,
@@ -2545,11 +2598,8 @@ function reviewCountedEntry(api: CoreAPI): void {
             reasonKey: jobsData.reasons.startedLooking,
             referenceHourlyMinor: 0,
             reasons: reasonsOf(result),
-          } as never);
-      } else if (seeking && !seeking.employed) {
-        seekers.remove(personId);
-        endClaim(api, store(api).table("claims"), personId);
-      }
+          } as never),
+      );
     }
   }
 }

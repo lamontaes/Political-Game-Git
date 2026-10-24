@@ -17,6 +17,8 @@ import {
   JOBS_DATA,
   JOBS_MODULE_ID,
   retirementOnsetYears,
+  reviewCountedEntry,
+  reviewJobless,
 } from "./modules/jobs";
 import { residentPerson } from "./modules/residents";
 import { coreAPI } from "./state";
@@ -110,6 +112,76 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
     }
     throw new Error(
       `No counted retirement and search in a year in ${DRAWS} places: ${tried.join("; ")}`,
+    );
+  }, 3_600_000);
+
+  it("someone already looking who now prefers to wait stops looking, full or counted alike, with the claim ended", () => {
+    const tried: string[] = [];
+    for (let draw = 0; draw < DRAWS; draw += 1) {
+      const place = drawPlace(draw ? `${seed}:${draw}` : seed, "jobs-wait");
+      const where = `${place.key} (seed ${place.seed})`;
+      tried.push(where);
+      const start = gameStartDate();
+      const world = buildBenchWorld(place.seed, start, {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const api = coreAPI(world.core);
+      const jobs = api.moduleState(JOBS_MODULE_ID);
+      const openClaims = (personId: string) =>
+        (
+          jobs.table("claims").rows() as unknown as {
+            personId: string;
+            open: boolean;
+          }[]
+        ).filter((row) => row.personId === personId && row.open).length;
+      let date = makeIsoDate(start);
+      let full: Seeker | undefined;
+      let counted: Seeker | undefined;
+      for (let day = 0; day < 365 && !(full && counted); day += 1) {
+        date = addDays(date, 1);
+        advanceCore(world.core, date);
+        full ??= (jobs.table("seekers").rows() as unknown as Seeker[]).find(
+          (row) => !row.employed && world.core.people.has(row.personId),
+        );
+        counted ??= (
+          jobs.table("countedSeekers").rows() as unknown as Seeker[]
+        ).find(
+          (row) =>
+            !row.employed &&
+            row.reasonKey === JOBS_DATA.reasons.startedLooking &&
+            residentPerson(world.core, row.personId),
+        );
+      }
+      if (!full || !counted) continue;
+      // Looking is now far below waiting for everyone: the same circumstances for both tiers.
+      const baseline = world.core.data.parameters.jobsEnterBaseline!;
+      const kept = baseline.value;
+      baseline.value = -1000;
+      const claimsBefore = [
+        openClaims(full.personId),
+        openClaims(counted.personId),
+      ];
+      try {
+        reviewJobless(api);
+        reviewCountedEntry(api);
+      } finally {
+        baseline.value = kept;
+      }
+      console.log(
+        `wait review: ${where}; full seeker ${full.personId} (open claims ${claimsBefore[0]}), counted seeker ${counted.personId} (open claims ${claimsBefore[1]})`,
+      );
+      expect(jobs.table("seekers").get(full.personId), where).toBeUndefined();
+      expect(
+        jobs.table("countedSeekers").get(counted.personId),
+        where,
+      ).toBeUndefined();
+      expect(openClaims(full.personId), where).toBe(0);
+      expect(openClaims(counted.personId), where).toBe(0);
+      return;
+    }
+    throw new Error(
+      `No already-seeking full and counted person in ${DRAWS} places: ${tried.join("; ")}`,
     );
   }, 3_600_000);
 });
