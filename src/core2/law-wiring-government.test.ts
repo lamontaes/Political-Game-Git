@@ -497,37 +497,24 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         // position's); a counted hire is paid in its employer's wage post.
         const hire =
           lineHires.find((r) => r.target === "person") ?? lineHires[0];
-        // A line hire's pay: a named hire's payroll under their commitment,
-        // a counted hire's in their employer's wage post, from the hire on;
-        // else the treasury's post for the line itself, which cites it.
-        const hireEmployer = hire
-          ? ([...core.jobs.values()].find(
+        // A line hire's pay: a named hire's payroll under their commitment
+        // (its job is the funded position's, so the post cites the line); a
+        // counted hire's in the wage flow that pays their job.
+        const rt = residentsRuntime(core);
+        const countedHireJob = hire
+          ? [...(rt?.jobs.values() ?? [])].find(
               (j) => j.personId === hire.targetId && j.endsAt === undefined,
-            )?.organizationId ??
-            [...(residentsRuntime(core)?.jobs.values() ?? [])].find(
-              (j) => j.personId === hire.targetId && j.endsAt === undefined,
-            )?.organizationId)
+            )
+          : undefined;
+        const hireFlow = countedHireJob
+          ? rt?.wageFlowByJob.get(countedHireJob.id)
           : undefined;
         const hirePay =
-          hire && hireEmployer
-            ? (posts.find(
-                (p) =>
-                  p.gross > 0 &&
-                  p.id.slice("journal:".length, "journal:".length + 10) >=
-                    hire.since &&
-                  / (residents:wages|work-payroll):/.test(p.id) &&
-                  (p.id.includes(hireEmployer) ||
-                    p.id.includes(`:${hire.targetId}`)),
-              )?.id ?? null)
-            : null;
-        if (hire && !hirePay)
-          console.info(
-            `law-wiring-government ${where}: line hire ${hire.id} at ${hireEmployer ?? "no employer found"}; posts naming it: ${posts
-              .filter((p) => hireEmployer && p.id.includes(hireEmployer))
-              .slice(0, 3)
-              .map((p) => p.id)
-              .join(", ")}`,
-          );
+          moneyOf(ADMIN) ??
+          (hireFlow
+            ? (posts.find((p) => p.gross > 0 && p.id.includes(hireFlow.id))
+                ?.id ?? null)
+            : null);
         const reached = Object.fromEntries(
           [...VOTING_LAWS, REDISTRICT, TERM, LOBBY, HOME_RULE, ADMIN].map(
             (key) => {
@@ -540,9 +527,7 @@ describe(`government operations laws are applied by their engines (seed ${seed})
                 key === REDISTRICT
                   ? moneyOf("redistricting-commission:")
                   : key === ADMIN
-                    ? (hirePay ??
-                      moneyOf(`${ADMIN}`) ??
-                      moneyOf("law-wiring-government-admin"))
+                    ? hirePay
                     : VOTING_LAWS.includes(key)
                       ? moneyOf(`election-admin:${key}:`)
                       : null;
@@ -557,12 +542,29 @@ describe(`government operations laws are applied by their engines (seed ${seed})
             },
           ),
         );
+        // The line's money reached a hire: a named hire's payroll citing the
+        // line, or the wage flow that pays a counted hire.
+        expect(
+          hirePay,
+          `${where}: the administration line's hire was paid (${hire?.id})`,
+        ).not.toBeNull();
         govReport(
           "law-wiring-government",
           JSON.stringify({
             seed,
             place: where,
             election: election.id,
+            adminHire: hire
+              ? {
+                  row: hire.id,
+                  job: countedHireJob?.id ?? null,
+                  flow: hireFlow?.id ?? null,
+                  payerId: hireFlow?.payerId ?? null,
+                  lastPaidMinor:
+                    (hireFlow as { lastPaidMinor?: number } | undefined)
+                      ?.lastPaidMinor ?? null,
+                }
+              : null,
             reached,
           }),
         );
