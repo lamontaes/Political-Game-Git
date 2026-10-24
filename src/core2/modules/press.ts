@@ -678,13 +678,6 @@ export function openPress(core: CoreState): readonly OutletRow[] {
       audienceRevenueMinor: expectedRevenueYearMinor(api, outlet),
     } as unknown as ModuleRow);
   }
-  // Its first week's wider-audience part, in advance.
-  payWiderAudience(
-    api,
-    outletMoneyDeps(api),
-    outsideCustomersOf(core, town),
-    api.parameter("daysPerWeek"),
-  );
   scheduleWeek(api, api.state.date);
   pressStaffChanged(api);
   return outletsHere(api);
