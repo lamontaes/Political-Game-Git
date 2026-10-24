@@ -124,29 +124,29 @@
       "fix": "In flight elsewhere."
     },
     "housing.buy-home": {
-      "class": "weight too small",
-      "why": "Runs at the housing review but every household keeps renting (the buy baseline and down-payment terms outweigh any lean).",
-      "fix": "Calibrate the buy reasons so some households buy, then the trait weight."
+      "class": "no study number",
+      "why": "No study of personality and becoming a homeowner was found, so the weight stays at the general 1 and the fits against an assumed 1.49 between the thirds are kept here: Holualoa, Hawaii 2.05 (341 weighings, 3 buyers, odds ratio 1.68); Peacham, Vermont none reachable (140 weighings, 1 purchase); place key 2371780 0.1 (791 weighings, 16 buyers, odds ratio 11 at weight 1). A renter now weighs the share of the down payment it is short, from none to all of it (homeBuyReasons, src/core2/modules/housing.ts), instead of a log that ran to minus thirty, and buying sits 0.6 below renting before cost, so households that can pay the down payment sit within reach of a lean. Counted renter households do not buy at all yet (pool item world-counted-renters-buy), so this decision has no counted counterpart.",
+      "fix": "A homeownership study with a trait number, and the counted renters' purchase path."
     },
     "jobs.apply": {
-      "class": "weight too small",
-      "why": "Ran 545 times; the pick never changed with personality.",
-      "fix": "Calibrate against job-search research."
-    },
-    "jobs.review-worker": {
-      "class": "weight too small",
-      "why": "Ran 2,059 times; the pick never changed with personality.",
-      "fix": "Calibrate against turnover research."
+      "class": "no study number",
+      "why": "Kanfer et al. 2001 give only the range of correlations across all antecedents of job search behavior (-.15 to .46; the abstract has no per-trait number), so the target is assumed (an odds ratio of 1.49 between the thirds, 1.2 per standard deviation). A seeker's push to apply now eases with the weeks looked (applyNeed, src/core2/modules/jobs.ts), so some applications sit near waiting; the weight fit 0.2, 0.7 and 0.4 in three runs of Holualoa's year (about 1,400 calls each) and 0.35 in a third town (658 calls), so 0.7, the top of the fits, stands. In small places (Peacham, 142 calls; 137 calls in a second drawn town) too few calls sit near waiting to fit, and at lower weights none turned.",
+      "fix": "A study that reports a per-trait size for job search intensity."
     },
     "drives.respond": {
       "class": "circumstances saturate the choice",
       "why": "Personality turned none of 1,471 drive responses in Ely, Nevada at any weight up to 8: the drive's own strength separates the options. No study gives a size (neuroticism and rumination is the direction).",
       "fix": "None until the options score closer or a study gives a size; the general trait weight of 1 stands."
     },
-    "credit.borrow": {
-      "class": "rare",
-      "why": "Ran 16 times in the year.",
-      "fix": "Check what triggers borrowing; calibrate."
+    "business.open-location": {
+      "class": "weight too small",
+      "why": "Owners never open a second location in 282 weighings: the expand score sits 6 to 9 below keeping (baseline -3, room term, src/core2/modules/business.ts:1551), and no study of owners' expansion by personality has a number.",
+      "fix": "Find a study of owner expansion and calibrate the expand baseline against it."
+    },
+    "business.owner-draw": {
+      "class": "no study number",
+      "why": "No study of owners' draws by personality has a number, so the target is assumed (an odds ratio of 1.49 between the thirds). An owner now weighs the business's cash against a month of everything it pays out, not only payroll (a firm with no payroll had no cushion, so all its cash looked spare and every owner drew), so 40 to 50 percent of weighings sit within a point of keeping. The weight fits 0.15 to 0.35 across four draws (Holualoa 192 and 221 weighings, Peacham 196, a third town 199; odds ratios 1.6 to 1.7), and 0.35, the top of the fits, stands because at 0.15 almost nothing turned in a small town (206 weighings).",
+      "fix": "A study that reports owners' withdrawals by trait."
     },
     "school.attend": {
       "class": "circumstances saturate the choice",
@@ -162,6 +162,16 @@
       "class": "circumstances tie",
       "why": "Most adults a campaign reaches share one reason total: no warmth toward the candidate yet, no tie, no family link and no work hours (src/core2/modules/campaigns.ts volunteerReason). Where the yes line falls inside that pile, temperament alone sorts them, so one town's odds ratio between the thirds of lean runs from about 1 to over 30 (Red Cliff, Colorado, 424 calls: 34.6 at a one-in-twenty yes share, against Mondak et al.'s 2.41).",
       "fix": "Give the volunteer choice the person's own free time, interest in the race and agreement with the platform, then calibrate the weight."
+    },
+    "housing.settle-arrears": {
+      "class": "counted households have no arrears of their own",
+      "why": "Runs each month for every full household with rent owed (src/core2/modules/housing.ts, review calls settleArrears and writes a `settlements` row per household and month; South Paris, Maine: 17 rows, 8 of them with a payment; Arroyo Hondo, New Mexico: 4 rows, none paid) and once when a counted household behind on rent is filled in. It does not run monthly for counted households: their rent is paid from a pool shared by place, and the pool repays its group's arrears every month before anything else (src/core2/counted-money.ts, chargeGroups asks rent plus the group's arrears), so there is no moment when a counted household holds cash and chooses between settling and letting it lapse. Households behind on rent seldom hold cash beyond a month's living, so most weighings paid nothing. Willingness is a share, so the general weight of 1 stands with no study.",
+      "fix": "Give counted households cash and arrears of their own (stopgap SG-WORLD-housing-counted-rent), then weigh them monthly like the full ones."
+    },
+    "jobs.raise-for-opening": {
+      "class": "a size, not a choice",
+      "why": "How much of the affordable raise an owner gives an unfilled seat is a share (open-handedness times what the seat can carry), not a two-way choice, so scripts/traits/trait-calibrate.ts cannot fit it. Thielmann, Spadaro and Balliet 2020 (Psychological Bulletin 146(1), Table 8) give the nearest size: agreeableness .08 and honesty-humility .09 with what an ultimatum proposer offers (data/research/trait-effect-sizes.json, jobs.raise-for-opening), a lab game with students, so the general weight of 1 stands.",
+      "fix": "A study of employers' wage offers by trait, or a fit of the share against the correlation of .08."
     }
   }
 }

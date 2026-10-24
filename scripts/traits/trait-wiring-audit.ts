@@ -15,6 +15,7 @@ import { forgetTraitLeans } from "../../src/core2/choice";
 import { gameStartDate } from "../../src/core2/game-start";
 import { advanceCore } from "../../src/core2/life";
 import { residentsRuntime } from "../../src/core2/modules/residents";
+import { coreAPI } from "../../src/core2/state";
 import { setTraitProbe } from "../../src/core2/trait-probe";
 import type { CoreState } from "../../src/core2/types";
 import { drawPlace } from "../../tests/golden-path/place";
@@ -198,6 +199,47 @@ function terciles(by: Record<string, { lean: number; picked: boolean }[]>) {
   );
 }
 
+/** What the money decisions wrote in the year, by record id: foundings, purchases, rent settled, owners' draws. */
+function recordsOfYear(core: CoreState) {
+  const api = coreAPI(core);
+  const rows = (moduleId: string, table: string) => {
+    // A table an older build does not have reads as empty.
+    try {
+      return core.modules.has(moduleId)
+        ? (api.moduleState(moduleId).table(table).rows() as unknown as {
+            id: string;
+            share?: number;
+          }[])
+        : [];
+    } catch {
+      return [];
+    }
+  };
+  const ids = (list: { id: string }[]) => ({
+    count: list.length,
+    first: list.slice(0, 3).map((row) => row.id),
+  });
+  const founded = [...core.organizations.keys()]
+    .filter(
+      (id) =>
+        id.startsWith("organization:founded:") ||
+        id.startsWith("organization:location:"),
+    )
+    .map((id) => ({ id }));
+  return {
+    founded: ids(founded),
+    purchases: ids(rows("housing", "purchases")),
+    settlements: ids(rows("housing", "settlements")),
+    settlementsPaid: ids(
+      rows("housing", "settlements").filter(
+        (row) => (row as unknown as { paidMinor: number }).paidMinor > 0,
+      ),
+    ),
+    ownerDraws: ids(rows("business", "draws").filter((row) => row.share! > 0)),
+    ownerDrawMonths: rows("business", "draws").length,
+  };
+}
+
 const events: Record<string, number> = {};
 for (const id of core.eventIds) {
   const kind = id.split(":")[1] ?? id;
@@ -223,6 +265,7 @@ writeFileSync(
     ),
     formula: Object.fromEntries(formula),
     events,
+    records: recordsOfYear(core),
     people: [...opening].map(([id, traits]) => {
       const p = core.people.get(id);
       return {

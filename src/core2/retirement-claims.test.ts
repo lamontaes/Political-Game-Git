@@ -13,7 +13,7 @@ import { PARAMETERS } from "./parameters";
 import { retirementClaimAgeMonths } from "./retirement-claim";
 import { startingSocialSecurityAges } from "./social-security-law";
 import { coreAPI, fillInPerson } from "./state";
-import { decisionLean } from "./trait-decisions";
+import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 import { daysAfterStart } from "./tooling/test-days";
@@ -66,13 +66,14 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
             held.livingCostDailyMinor > 0
               ? held.liquidMinor / ((held.livingCostDailyMinor * 365.2425) / 12)
               : weights.fullBufferMonths,
-          patience: decisionLean(
-            live,
-            held,
-            "retirement.claim-age",
-            "wait-to-claim",
-            "claim-now",
-          ),
+          patience:
+            decisionLean(
+              live,
+              held,
+              "retirement.claim-age",
+              "wait-to-claim",
+              "claim-now",
+            ) * decisionTraitWeight(live, "retirement.claim-age"),
         },
         weights,
       );

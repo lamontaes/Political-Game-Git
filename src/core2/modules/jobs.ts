@@ -18,11 +18,11 @@ import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import { traitLean } from "../choice";
 import {
   decisionLean,
+  decisionTraitTerm,
   decisionTraitWeight,
-  traitLeanBetween,
+  leanedByKinds,
 } from "../trait-decisions";
 import {
   businessTradingMonth,
@@ -443,6 +443,28 @@ function noteCountedLeavers(api: CoreAPI): void {
       ...(Object.keys(heads).length ? { countedHeads: heads } : {}),
     });
   }
+}
+
+/**
+ * A seeker's push to apply: a jobless seeker needs work, and the push fades
+ * as the search drags on (a long search wears down the effort a seeker puts
+ * in: Krueger and Mueller 2011 report search time falling sharply through
+ * the spell). It is half its starting size after `jobsSearchFatigueWeeks`; a
+ * worker looking while employed has none. The one reason full and counted
+ * seekers weigh, so a seeker's own search length, not a flat constant, sets
+ * where personality can tip the choice.
+ */
+export function applyNeed(
+  p: (key: string) => number,
+  seeker: Pick<SeekerRow, "employed" | "since">,
+  today: string,
+): number {
+  if (seeker.employed) return p("zero");
+  const weeks = daysBetweenText(seeker.since, today) / p("daysPerWeek");
+  return (
+    p("jobsUnemployedNeedWeight") /
+    (p("one") + weeks / p("jobsSearchFatigueWeeks"))
+  );
 }
 
 function startSeeking(
@@ -1756,6 +1778,7 @@ function runWeek(api: CoreAPI): void {
     )
       continue;
     const reference = seeker.referenceHourlyMinor;
+    const needWork = applyNeed(p, seeker, c.date);
     const scored = scoreOffers(c, person.id, [
       offer("wait", seeker.id, {}),
       ...nearby.map((position) =>
@@ -1763,7 +1786,7 @@ function runWeek(api: CoreAPI): void {
           pay:
             p("jobsApplyPayWeight") *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
-          needWork: seeker.employed ? 0 : p("jobsUnemployedNeedWeight"),
+          needWork,
         }),
       ),
     ]);
@@ -1800,20 +1823,25 @@ function runWeek(api: CoreAPI): void {
     }
     // The same reasons a full person weighs: pay against their reference,
     // the need for work, and every trait's lean toward applying or waiting.
-    const person = { traits: traitsOf(api, seeker.personId) };
-    const traitTerm =
-      p("traitWeight") *
-      (traitLean(c, person, jobsData.actions.apply.actKinds) -
-        traitLean(c, person, jobsData.actions.wait.actKinds));
+    const person = {
+      id: seeker.personId,
+      traits: traitsOf(api, seeker.personId),
+    };
     const reference = seeker.referenceHourlyMinor;
+    const needWork = applyNeed(p, seeker, c.date);
     for (const position of byPlace.get(seeker.placeId) ?? [])
       if (
-        p("jobsRateWeight") *
-          (p("jobsApplyPayWeight") *
-            (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
-            (seeker.employed ? 0 : p("jobsUnemployedNeedWeight"))) +
-          traitTerm >
-        0
+        leanedByKinds(
+          c,
+          person,
+          "jobs.counted-apply",
+          jobsData.actions.apply.actKinds,
+          jobsData.actions.wait.actKinds,
+          p("jobsRateWeight") *
+            (p("jobsApplyPayWeight") *
+              (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
+              needWork),
+        )
       )
         apply(position.id, seeker);
   }
@@ -1889,22 +1917,23 @@ function runWeek(api: CoreAPI): void {
       if (isCounted(api, best.personId)) {
         // A counted seeker answers the offer by the same reasons a full person
         // weighs, every trait included.
-        const person = { traits: traitsOf(api, best.personId) };
+        const person = {
+          id: best.personId,
+          traits: traitsOf(api, best.personId),
+        };
         // An employed worker measures the offer against the job they hold now, and moving costs something.
         const current = best.employed
           ? countedJobOfPerson(c, best.personId)?.hourlyMinor
           : undefined;
         const reference = current ?? best.referenceHourlyMinor;
-        const accepts =
-          acceptScore(
-            p,
-            position.hourlyMinor,
-            reference,
-            best.employed,
-            p("traitWeight") *
-              (traitLean(c, person, jobsData.actions.accept.actKinds) -
-                traitLean(c, person, jobsData.actions.decline.actKinds)),
-          ) > 0;
+        const accepts = leanedByKinds(
+          c,
+          person,
+          "jobs.counted-accept",
+          jobsData.actions.accept.actKinds,
+          jobsData.actions.decline.actKinds,
+          acceptScore(p, position.hourlyMinor, reference, best.employed),
+        );
         placed = accepts && hireCounted(api, position, best, fit(best));
       } else if (controlled(c, best.personId)) {
         // A past decline or lapse is an answer, not a permanent hold.
@@ -2240,13 +2269,13 @@ function reviewCountedRetirements(api: CoreAPI): void {
           -countedShift(api, job.personId, person.placeId, p) +
           p("jobsRetireBaseline") +
           p("jobsRetireAgeWeight") * past +
-          p("traitWeight") *
-            traitLeanBetween(
-              c,
-              person,
-              jobsData.actions.leave.actKinds,
-              jobsData.actions.stay.actKinds,
-            ),
+          decisionTraitTerm(
+            c,
+            person,
+            "jobs.counted-retire",
+            jobsData.actions.leave.actKinds,
+            jobsData.actions.stay.actKinds,
+          ),
       });
     }
   }
@@ -2496,9 +2525,10 @@ function reviewCountedQuits(api: CoreAPI): void {
             payGap,
             tenureYears: countedTenureYears(api, job),
             unemploymentGapPts: unemploymentGap(api, person.placeId),
-            restless: traitLeanBetween(
+            restless: decisionTraitTerm(
               c,
               person,
+              "jobs.counted-look",
               jobsData.actions.look.actKinds,
               jobsData.actions.stay.actKinds,
             ),
@@ -2566,9 +2596,10 @@ function reviewCountedLooking(api: CoreAPI): void {
         (going.get(job.occupationClassification ?? job.title) ?? pay) / pay - 1,
       );
       // Every trait's lean toward looking around over staying put.
-      const restless = traitLeanBetween(
+      const restless = decisionTraitTerm(
         c,
         person,
+        "jobs.counted-look",
         jobsData.actions.look.actKinds,
         jobsData.actions.stay.actKinds,
       );
@@ -2581,7 +2612,7 @@ function reviewCountedLooking(api: CoreAPI): void {
           p("jobsPayGapWeight") * payGap -
           p("jobsUnemploymentLookWeight") *
             unemploymentGap(api, person.placeId) +
-          p("traitWeight") * restless,
+          restless,
       });
     }
   }
@@ -2666,7 +2697,7 @@ function countedTenureYears(api: CoreAPI, job: JobInput): number {
  * A counted worker's pull to quit to nothing this month: the typical-tenure
  * baseline, less for a longer tenure and more for a shorter one, more for pay
  * below the going rate, less where the place's unemployment is above the
- * natural rate, and their traits' lean toward change. Sliding in each.
+ * natural rate, and their traits' lean toward change (`restless`, already weighted by the decision's calibrated trait weight). Sliding in each.
  */
 export function quitScore(
   p: (key: string) => number,
@@ -2684,7 +2715,7 @@ export function quitScore(
       (Math.log1p(p("jobsTypicalTenureYears")) -
         Math.log1p(reasons.tenureYears)) -
     p("jobsUnemploymentQuitWeight") * reasons.unemploymentGapPts +
-    p("traitWeight") * (reasons.restless ?? 0)
+    (reasons.restless ?? 0)
   );
 }
 
