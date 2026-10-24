@@ -8,7 +8,8 @@
 import type { Source } from "../types";
 import type { ModuleRow } from "../module-data";
 import { lawChain, LAWS_MODULE_ID } from "../modules/laws";
-import { holdFederalWage, holdRaisedWage, raiseToFloor } from "../wage-floor";
+import { holdFederalWage, holdRaisedWage } from "../question-wages";
+import { raiseToFloor } from "../wage-floor";
 import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
 import { lawApplied } from "./applied";
 import type { PolicyHandler } from "./host";
