@@ -1,0 +1,1727 @@
+{
+ "seed": "5e27b0c4196fd3a8",
+ "place": {
+  "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+  "key": "3149425",
+  "name": "Uehling, Nebraska",
+  "state": "US-NE"
+ },
+ "window": 35,
+ "after": 10,
+ "results": [
+  {
+   "key": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-02-26:law-wiring-167ca21b-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 145,
+    "households": 38,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 72,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_b1a74e583922519a",
+     "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_b1a74b5839224c81",
+     "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_b1a74758392245b5",
+     "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|household_019bcce91550c8f7"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/place-prices.ts:688": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:transportation-infrastructure.fare-free-transit:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 44951187,
+      "control": 44920649,
+      "ids": [
+       "journal:2025-01-24:1557",
+       "journal:2025-01-25:1558",
+       "journal:2025-01-25:1560"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9122317,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:595",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1639",
+       "journal:2025-02-01:1640",
+       "journal:2025-02-01:1641"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4429243,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8180",
+       "journal:2025-02-19:8181",
+       "journal:2025-02-19:8182"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1099125,
+      "control": 1097499,
+      "ids": [
+       "journal:2025-02-06:7797",
+       "journal:2025-02-06:7799",
+       "journal:2025-02-06:7800"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+      "treatment": 1012046,
+      "control": 1011316,
+      "ids": [
+       "journal:2025-02-06:7872",
+       "journal:2025-02-14:8082",
+       "journal:2025-02-21:8245"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+      "treatment": 34,
+      "control": 33,
+      "ids": [
+       "journal:2025-02-24:8300"
+      ]
+     }
+    ],
+    "diffKinds": 7,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+      "gross": 51751,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "gross": 51751,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "law-wiring-167ca21b",
+      "gross": 51751,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "fare-free-transit-to-ridership",
+      "status": "built",
+      "to": "transit.ridership"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 16
+  },
+  {
+   "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-02-26:law-wiring-9b95e871-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 145,
+    "households": 38,
+    "organizations": 0,
+    "governments": 1,
+    "other": 0,
+    "open": 73,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_b1a74e583922519a",
+     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_b1a74b5839224c81",
+     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_b1a74758392245b5",
+     "applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_019bcce91550c8f7"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/legislature.ts:2081": 2,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/place-prices.ts:688": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9326796,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 45080155,
+      "control": 44920649,
+      "ids": [
+       "journal:2025-01-24:1557",
+       "journal:2025-01-25:1558",
+       "journal:2025-01-25:1560"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1237884,
+      "control": 1097499,
+      "ids": [
+       "journal:2025-02-03:7682",
+       "journal:2025-02-03:7684",
+       "journal:2025-02-03:7686"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4427900,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8252",
+       "journal:2025-02-19:8253",
+       "journal:2025-02-19:8254"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+      "treatment": 1011702,
+      "control": 1011316,
+      "ids": [
+       "journal:2025-02-06:7944",
+       "journal:2025-02-14:8154",
+       "journal:2025-02-21:8317"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+      "treatment": 34,
+      "control": 33,
+      "ids": [
+       "journal:2025-02-24:8372"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+      "gross": 524655,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
+      "gross": 524655,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "law-wiring-9b95e871",
+      "gross": 524655,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:transportation-infrastructure.public-broadband",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+    "law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-02-26:law-wiring-6d3c33c8-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 145,
+    "households": 38,
+    "organizations": 0,
+    "governments": 1,
+    "other": 0,
+    "open": 73,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_b1a74e583922519a",
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_b1a74b5839224c81",
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_b1a74758392245b5",
+     "applied|us-policy-positions:transportation-infrastructure.public-broadband|household_019bcce91550c8f7"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 458,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 28,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/place-prices.ts:688": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:transportation-infrastructure.public-broadband:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9529220,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1853",
+       "journal:2025-02-01:1854",
+       "journal:2025-02-01:1855"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1455387,
+      "control": 1097499,
+      "ids": [
+       "journal:2025-02-03:7682",
+       "journal:2025-02-03:7684",
+       "journal:2025-02-03:7686"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 45211019,
+      "control": 44920649,
+      "ids": [
+       "journal:2025-01-24:1557",
+       "journal:2025-01-25:1558",
+       "journal:2025-01-25:1560"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4436595,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8252",
+       "journal:2025-02-19:8253",
+       "journal:2025-02-19:8254"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+      "treatment": 1014112,
+      "control": 1011316,
+      "ids": [
+       "journal:2025-02-06:7944",
+       "journal:2025-02-14:8154",
+       "journal:2025-02-21:8317"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+      "treatment": 35,
+      "control": 33,
+      "ids": [
+       "journal:2025-02-24:8372"
+      ]
+     }
+    ],
+    "diffKinds": 6,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+      "gross": 1270782,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "us-policy-positions:transportation-infrastructure.public-broadband",
+      "gross": 1270782,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "law-wiring-6d3c33c8",
+      "gross": 1270782,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "public-broadband-to-home-access",
+      "status": "built",
+      "to": "broadband.home-access"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:transportation-infrastructure.public-broadband:general:2025-01-21:law-wiring-6d3c33c8"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "sales-tax",
+   "kind": "amount",
+   "family": "taxes-finance",
+   "inForceAtOpening": false,
+   "change": "sales-tax 1.472 -> 1.62 at state (law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4) effective 2025-01-21",
+   "lawIds": [
+    "law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
+    "law:US-NE:state:local-sales-tax-average:general:2025-01-01",
+    "law:US-NE:state:sales-tax:general:2025-02-26:law-wiring-dc491ba4-undo"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 78,
+    "countedGroups": 1,
+    "countedPeople": 145,
+    "households": 0,
+    "organizations": 14,
+    "governments": 0,
+    "other": 0,
+    "open": 93,
+    "ended": 0,
+    "sample": [
+     "applied|sales-tax|person_3b8e45617114c97d",
+     "applied|sales-tax|person_3b8e44617114c7ca",
+     "applied|sales-tax|person_3b8e43617114c617",
+     "applied|sales-tax|person_03819202b5d285c1"
+    ]
+   },
+   "readers": {
+    "src/core2/life.ts:549": 2,
+    "src/core2/modules/budgets.ts:645": 1
+   },
+   "openingRow": "law:US-NE:state:local-sales-tax-average:general:2025-01-01",
+   "money": {
+    "direct": [
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1432",
+      "treatment": 109541634,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+      "treatment": 540190,
+      "control": 1174309,
+      "ids": [
+       "journal:2025-02-01:1924",
+       "journal:2025-02-01:1925",
+       "journal:2025-02-01:1927"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16664876,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1574",
+       "journal:2025-01-29:1612",
+       "journal:2025-01-30:1617"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1432",
+      "treatment": 109541634,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2907397,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561",
+       "journal:2025-01-27:1573"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": [
+     {
+      "token": "sales-tax",
+      "gross": 540190,
+      "ids": [
+       "journal:2025-02-01:1924",
+       "journal:2025-02-01:1925",
+       "journal:2025-02-01:1927"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 69,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 100,
+    "countedGroups": 1,
+    "countedPeople": 124,
+    "households": 0,
+    "organizations": 13,
+    "governments": 0,
+    "other": 0,
+    "open": 114,
+    "ended": 0,
+    "sample": [
+     "applied|sales-tax|person_3b8e45617114c97d",
+     "applied|sales-tax|person_3b8e44617114c7ca",
+     "applied|sales-tax|person_3b8e43617114c617",
+     "applied|sales-tax|person_03819202b5d285c1"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:fiscal.exempt-groceries-from-sales-tax",
+   "kind": "question",
+   "family": "taxes-finance",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
+    "law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+    "law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-02-26:law-wiring-0854ab25-b"
+   ],
+   "openingReach": {
+    "fullPeople": 120,
+    "countedGroups": 2,
+    "countedPeople": 145,
+    "households": 0,
+    "organizations": 6,
+    "governments": 0,
+    "other": 0,
+    "open": 128,
+    "ended": 2,
+    "sample": [
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_02977a76e9a4e1c1|2025-01-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_041c61dd02239832|2025-01-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_0682d579c2eb84c6|2025-01-20",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_12c6e155ec0ef2f9|2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 33,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 144,
+    "src/core2/policy-authority.ts:45": 37,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 18,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/budgets.ts:854": 4,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/law-reach/group-b.ts:229 <- src/core2/life.ts:549": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1432",
+      "treatment": 109541634,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+      "treatment": 1440311,
+      "control": 1174309,
+      "ids": [
+       "journal:2025-02-01:1920",
+       "journal:2025-02-01:1921",
+       "journal:2025-02-01:1923"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16664876,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1574",
+       "journal:2025-01-29:1612",
+       "journal:2025-01-30:1617"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1432",
+      "treatment": 109541634,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2907397,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561",
+       "journal:2025-01-27:1573"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "grocery-exemption-to-poverty",
+      "status": "about-zero",
+      "to": "household.poverty-pct"
+     },
+     {
+      "key": "grocery-exemption-to-food-insecurity",
+      "status": "built",
+      "to": "household.food-insecurity"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 69,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:fiscal.exempt-groceries-from-sales-tax:general:2025-01-21:law-wiring-0854ab25"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 142,
+    "countedGroups": 2,
+    "countedPeople": 124,
+    "households": 0,
+    "organizations": 6,
+    "governments": 0,
+    "other": 0,
+    "open": 150,
+    "ended": 32,
+    "sample": [
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person:press:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-02-26",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person:press:outlet:newspaper:1:jurisdiction_45a3b3ebe97fe71d:owner:0|2025-02-26",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_00dcb5d84e33b676|2025-02-26",
+     "us-policy-positions:fiscal.exempt-groceries-from-sales-tax|person_014872ba8397579a|2025-02-26"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 32,
+    "sample": []
+   },
+   "seconds": 11
+  },
+  {
+   "key": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+   "kind": "question",
+   "family": "business",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+    "law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-02-26:law-wiring-68b8ed3c-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 59,
+    "countedGroups": 35,
+    "countedPeople": 247,
+    "households": 17,
+    "organizations": 6,
+    "governments": 0,
+    "other": 0,
+    "open": 117,
+    "ended": 0,
+    "sample": [
+     "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_eadfec9a418d1fed:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_eadfeb9a418d1e3a:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_57205fbf262dbbec:2025-01-21",
+     "reach:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c:adults:person_572060bf262dbd9f:2025-01-21"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 460,
+    "src/core2/modules/outcome-web.ts:158": 84,
+    "src/core2/modules/world-legislating.ts:253": 30,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/place-prices.ts:688": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:business-commerce.legalize-cannabis-sales:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9373318,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 45072972,
+      "control": 44920649,
+      "ids": [
+       "journal:2025-01-24:1557",
+       "journal:2025-01-25:1558",
+       "journal:2025-01-25:1560"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1249822,
+      "control": 1097499,
+      "ids": [
+       "journal:2025-02-03:7776",
+       "journal:2025-02-03:7779",
+       "journal:2025-02-03:7782"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+      "treatment": 1178725,
+      "control": 1174309,
+      "ids": [
+       "journal:2025-02-01:1924",
+       "journal:2025-02-01:1925",
+       "journal:2025-02-01:1927"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+      "gross": 581276,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "us-policy-positions:business-commerce.legalize-cannabis-sales",
+      "gross": 581276,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "law-wiring-68b8ed3c",
+      "gross": 581276,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "cannabis-sales-to-youth-use",
+      "status": "built",
+      "to": "health.youth-cannabis-use"
+     },
+     {
+      "key": "cannabis-sales-to-violent-crime",
+      "status": "built",
+      "to": "crime.violent"
+     },
+     {
+      "key": "cannabis-sales-to-overdose-deaths",
+      "status": "built",
+      "to": "health.overdose-deaths"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "cannabis-sales-to-youth-use",
+      "effect": -0.04
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "cannabis-sales-to-youth-use",
+      "effect": -0.04
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:business-commerce.legalize-cannabis-sales:general:2025-01-21:law-wiring-68b8ed3c"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 63,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 63,
+    "sample": []
+   },
+   "seconds": 12
+  },
+  {
+   "key": "us-policy-positions:environment-energy.ban-new-gas-hookups",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+    "law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-02-26:law-wiring-16f91ec9-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:environment-energy.ban-new-gas-hookups|organization:landlord:jurisdiction_45a3b3ebe97fe71d"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/policy-authority.ts:45": 6,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/housing.ts:1654": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:environment-energy.ban-new-gas-hookups:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9081700,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "gas-hookup-ban-to-child-asthma",
+      "status": "built",
+      "to": "health.child-asthma-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.ban-new-gas-hookups:general:2025-01-21:law-wiring-16f91ec9"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 12
+  },
+  {
+   "key": "us-policy-positions:environment-energy.clean-electricity-standard",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad",
+    "law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-02-26:law-wiring-9486c1ad-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 145,
+    "households": 38,
+    "organizations": 27,
+    "governments": 0,
+    "other": 0,
+    "open": 99,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:environment-energy.clean-electricity-standard|household_b1a74e583922519a",
+     "applied|us-policy-positions:environment-energy.clean-electricity-standard|household_b1a74b5839224c81",
+     "applied|us-policy-positions:environment-energy.clean-electricity-standard|household_b1a74758392245b5",
+     "applied|us-policy-positions:environment-energy.clean-electricity-standard|household_019bcce91550c8f7"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 3346,
+    "src/core2/modules/outcome-web.ts:158": 60,
+    "src/core2/modules/world-legislating.ts:253": 20,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/place-prices.ts:688": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9332233,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1118907,
+      "control": 1097499,
+      "ids": [
+       "journal:2025-02-03:7637",
+       "journal:2025-02-03:7638",
+       "journal:2025-02-03:7639"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4421805,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8199",
+       "journal:2025-02-19:8200",
+       "journal:2025-02-19:8201"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+      "treatment": 1010746,
+      "control": 1011316,
+      "ids": [
+       "journal:2025-02-06:7891",
+       "journal:2025-02-14:8101",
+       "journal:2025-02-21:8264"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad",
+      "gross": 253783,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "us-policy-positions:environment-energy.clean-electricity-standard",
+      "gross": 253783,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "law-wiring-9486c1ad",
+      "gross": 253783,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "clean-electricity-to-price",
+      "status": "built",
+      "to": "energy.electricity-price"
+     },
+     {
+      "key": "clean-electricity-to-particulates",
+      "status": "built",
+      "to": "env.particulates"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.clean-electricity-standard:general:2025-01-21:law-wiring-9486c1ad"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:environment-energy.bottle-deposit",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15",
+    "law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-02-26:law-wiring-7596dc15-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 145,
+    "households": 38,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 72,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:environment-energy.bottle-deposit|household_b1a74e583922519a",
+     "applied|us-policy-positions:environment-energy.bottle-deposit|household_b1a74b5839224c81",
+     "applied|us-policy-positions:environment-energy.bottle-deposit|household_b1a74758392245b5",
+     "applied|us-policy-positions:environment-energy.bottle-deposit|household_019bcce91550c8f7"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:158": 84,
+    "src/core2/policy-authority.ts:45": 36,
+    "src/core2/modules/legislature.ts:2081": 35,
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/place-prices.ts:688": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:environment-energy.bottle-deposit:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1111145,
+      "control": 1097499,
+      "ids": [
+       "journal:2025-02-03:7637",
+       "journal:2025-02-03:7638",
+       "journal:2025-02-03:7639"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9108281,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4422832,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8172",
+       "journal:2025-02-19:8173",
+       "journal:2025-02-19:8174"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+      "treatment": 1011114,
+      "control": 1011316,
+      "ids": [
+       "journal:2025-02-06:7864",
+       "journal:2025-02-14:8074",
+       "journal:2025-02-21:8237"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15",
+      "gross": 21834,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "us-policy-positions:environment-energy.bottle-deposit",
+      "gross": 21834,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "law-wiring-7596dc15",
+      "gross": 21834,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "container-deposit-to-litter",
+      "status": "built",
+      "to": "env.litter"
+     },
+     {
+      "key": "container-deposit-to-prices",
+      "status": "built",
+      "to": "household.prices"
+     },
+     {
+      "key": "container-deposit-to-recycling",
+      "status": "built",
+      "to": "env.container-recycling-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.bottle-deposit:general:2025-01-21:law-wiring-7596dc15"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 13
+  },
+  {
+   "key": "us-policy-positions:environment-energy.price-carbon",
+   "kind": "question",
+   "family": "energy-environment",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
+    "law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-02-26:law-wiring-6c6b4297-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 145,
+    "households": 38,
+    "organizations": 27,
+    "governments": 1,
+    "other": 0,
+    "open": 100,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:environment-energy.price-carbon|household_b1a74e583922519a",
+     "applied|us-policy-positions:environment-energy.price-carbon|household_b1a74b5839224c81",
+     "applied|us-policy-positions:environment-energy.price-carbon|household_b1a74758392245b5",
+     "applied|us-policy-positions:environment-energy.price-carbon|household_019bcce91550c8f7"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:158": 60,
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/modules/legislature.ts:2081": 30,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/modules/place-prices.ts:688": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:environment-energy.price-carbon:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 10321958,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 1253202,
+      "control": 1097499,
+      "ids": [
+       "journal:2025-02-03:7637",
+       "journal:2025-02-03:7638",
+       "journal:2025-02-03:7639"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4400583,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8197",
+       "journal:2025-02-19:8198",
+       "journal:2025-02-19:8199"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/moves.ts:689",
+      "treatment": 1008088,
+      "control": 1011316,
+      "ids": [
+       "journal:2025-02-06:7889",
+       "journal:2025-02-14:8099",
+       "journal:2025-02-21:8262"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:446",
+      "treatment": 26476,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7910",
+       "journal:2025-02-06:7911"
+      ]
+     }
+    ],
+    "diffKinds": 5,
+    "cited": [
+     {
+      "token": "law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
+      "gross": 1382989,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "us-policy-positions:environment-energy.price-carbon",
+      "gross": 1382989,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     },
+     {
+      "token": "law-wiring-6c6b4297",
+      "gross": 1382989,
+      "ids": [
+       "journal:2025-02-03:7605",
+       "journal:2025-02-03:7606",
+       "journal:2025-02-03:7607"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "carbon-price-to-emissions",
+      "status": "built",
+      "to": "env.emissions"
+     },
+     {
+      "key": "carbon-price-to-particulates",
+      "status": "built",
+      "to": "env.particulates"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:environment-energy.price-carbon:general:2025-01-21:law-wiring-6c6b4297"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 12
+  }
+ ]
+}
