@@ -17,6 +17,16 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(60000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
+let filedContest = "";
+page.on("response", async (r) => {
+  if (new URL(r.url()).pathname === "/api/filing/choose") {
+    try {
+      const j = await r.json();
+      console.log("CHOOSE RESULT:", JSON.stringify(j.result ?? null).slice(0, 300));
+      if (j.result?.status === "on-ballot") filedContest = j.result.filing.contestId;
+    } catch {}
+  }
+});
 const draws = [];
 try {
   // A life with a parties module (tiny towns have none): redraw, all draws logged.
@@ -146,6 +156,12 @@ try {
         console.log("Filing as:", texts[c]);
         await page.locator("#talk-choices button", { hasText: texts[c] }).first().click();
         await page.waitForTimeout(2000);
+        console.log(
+          "Overlay open:",
+          await page.locator("#filing-overlay:not([hidden])").count(),
+          "choices:",
+          await page.locator("#talk-choices button").allInnerTexts().catch(() => []),
+        );
         if (await page.locator("#filing-overlay:not([hidden])").count()) {
           await page.locator("#filing-party option").nth(1).waitFor({ timeout: 10000 }).catch(() => {});
           if ((await page.locator("#filing-party option").count()) > 1)
@@ -165,11 +181,56 @@ try {
     }
     const lines = await page.locator("#talk-lines").innerText().catch(() => "");
     if (/filed|thank you|congratulations|on the ballot/i.test(lines)) filed = lines.slice(-120);
+    if (filedContest) filed = `on-ballot ${filedContest}`;
     await page.locator("#talk-leave").click().catch(() => {});
     }
   }
   assert.ok(filed, "could not file for a seat through the UI");
   console.log("PASS filed:", filed);
+  // Run the clock to election day with the calendar's skip-forward.
+  await page.locator('[data-tab="calendar"]').first().evaluate((e) => e.click());
+  for (let m = 0; m < 30; m += 1) {
+    const heading = await page.locator(".calendar-heading h3").innerText().catch(() => "?");
+    if (/November 2026/.test(heading)) break;
+    await page.getByRole("button", { name: "Next month", exact: true }).click();
+    await page.waitForTimeout(600);
+  }
+  console.log("Calendar:", await page.locator(".calendar-heading h3").innerText().catch(() => "?"));
+  const day3 = page.locator(".month .day", { hasText: /^3$/ });
+  await day3.first().click();
+  await page.waitForTimeout(1000);
+  console.log("Clock:", await page.locator("#card-clock").innerText().catch(() => "?"));
+  await page.screenshot({ path: "docs/reports/ballot-pages-2026-10-24/calendar-nov.png" });
+  // Run time forward with the skip control; answer stops until the ballot shows.
+  const skip = page.locator(".calendar-details .skip-forward");
+  console.log("Skip-forward present:", await skip.count());
+  if (await skip.count()) {
+    await skip.first().click();
+    await page.waitForTimeout(3000);
+  }
+  for (let s = 0; s < 60; s += 1) {
+    if (await page.locator("#ballot:not([hidden])").count()) break;
+    const clock = await page.locator("#card-clock").innerText().catch(() => "?");
+    if (/November 3, 2026/.test(clock)) break;
+    const talk = page.locator("#talk:not([hidden]) #talk-choices button");
+    if (await talk.count()) {
+      console.log("Stop: talk,", await talk.first().innerText().catch(() => "?"));
+      await talk.first().click();
+      await page.waitForTimeout(1500);
+      continue;
+    }
+    const cont = page.locator("#game.cinema #continue, #scene-continue");
+    if (await cont.count()) {
+      await cont.first().click();
+      await page.waitForTimeout(1500);
+      continue;
+    }
+    console.log("Stop clock:", clock);
+    await page.waitForTimeout(2000);
+  }
+  console.log("Clock:", await page.locator("#card-clock").innerText().catch(() => "?"));
+  console.log("Ballot visible:", await page.locator("#ballot:not([hidden])").count());
+  await page.screenshot({ path: "docs/reports/ballot-pages-2026-10-24/before-ballot.png" });
 } finally {
   await browser.close();
 }
