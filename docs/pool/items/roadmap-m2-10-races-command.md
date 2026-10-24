@@ -5,12 +5,12 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-m2-10
 pr: #5880
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-24T05:10:38.373Z
 ---
 
 **What.** Roadmap M2-10, state and federal races in the world, reads passes: false with command null on main. src/core2/world-races.test.ts covers its clauses in a hand-built world of 120 people with chosen modules and ignores the runner's drawn place, which cannot prove play. A check on the bench world, opened three weeks before November 2026 and November 2028 in the runner's place, reads every race the world runs and who serves after the real seating dates.
