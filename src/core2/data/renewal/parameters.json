@@ -344,12 +344,13 @@
   "renewalTravelCostPerMileMinor": {
     "value": 60,
     "tag": "ESTIMATED",
-    "citation": "Cost of getting there per mile, in cents (round trip fuel and a share of lodging); used only to weigh the cost against her cash.",
+    "citation": "Cost of getting there per mile, in cents; used only to weigh the cost against her cash. IRS standard mileage rates, https://www.irs.gov/tax-professionals/standard-mileage-rates, 2025 row: \"2025 | 70 | 14 | 21\" (business, charity, medical cents per mile).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "40 to 90 cents."
+      "low": 21,
+      "high": 70,
+      "unit": "cents per mile",
+      "citation": "The IRS 2025 medical rate (driving's variable cost, what the IRS allows for travel to medical care) to its business rate (the whole cost of owning and driving a car), from the same table."
     },
-    "stopgapId": "SG-PEOPLE-unplanned-pregnancy",
-    "estimatedFrom": "IRS 2026 mileage rate plus lodging share."
+    "estimatedFrom": "Between the IRS 2025 medical and business mileage rates, nearer the business rate for a trip far enough to need a share of lodging."
   }
 }

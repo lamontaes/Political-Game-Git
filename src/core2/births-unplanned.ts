@@ -9,7 +9,6 @@ import type { CoreAPI } from "./types";
 
 export const ABORTION_LAW_SERIES =
   "us-policy-positions:civil-family-community.restrict-abortion";
-export const UNPLANNED_STOPGAP = "SG-PEOPLE-unplanned-pregnancy";
 
 interface MilesRow {
   readonly miles: number;
