@@ -1040,6 +1040,12 @@
       "tag": "ESTIMATED",
       "citation": "An officeholder introducing a bill or casting a vote on one. No Social Readjustment Rating Scale item covers it (Holmes and Rahe 1967); sized like hearing back from a town office (0.15), below filing to run (0.28), so it reaches the member's journal without interrupting play (interrupt line 0.5). Checked by the vote and the introduction appearing as journal lines in a played year.",
       "estimatedFrom": "Holmes and Rahe (1967), no matching item; spread 0.05 to 0.28"
+    },
+    "directorVictimizedImpact": {
+      "value": 0.25,
+      "tag": "ESTIMATED",
+      "citation": "A crime against one's household or oneself, sized as the Social Readjustment Rating Scale's 'Change in living conditions', 25 life-change units divided by 100, up to 'Personal injury or illness', 53, for a robbery or an assault (Holmes and Rahe 1967, J Psychosom Res 11(2):213-8; the scale has no crime item). It reaches the people the crime engine's record names.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.25 to 0.53"
     }
   },
   "channels": [
@@ -1282,6 +1288,11 @@
       "eventKind": "housing.eviction",
       "channel": "feeling",
       "impactParameter": "directorEvictionImpact"
+    },
+    {
+      "eventKind": "crime.victimized",
+      "channel": "feeling",
+      "impactParameter": "directorVictimizedImpact"
     },
     {
       "eventKind": "housing.status-changed",
