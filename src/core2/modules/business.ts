@@ -49,7 +49,7 @@ import {
   shiftPurchaseShare,
 } from "../residents-economy";
 import {
-  residentPerson,
+  residentFacts,
   countedFundOf,
   residentsRuntime,
   supplierBillsOwed,
@@ -322,7 +322,7 @@ function countedFacts(
 function ownerPerson(c: CoreState, personId: string) {
   const full = c.people.get(personId);
   if (full) return { person: full, full: true, alive: full.alive };
-  const counted = residentPerson(c, personId);
+  const counted = residentFacts(c, personId);
   return counted
     ? {
         person: { ...counted, needs: {} as Record<string, number> },
