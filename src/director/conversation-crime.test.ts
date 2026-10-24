@@ -16,6 +16,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import types from "../core2/data/crime/victimization.json" with { type: "json" };
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
@@ -62,7 +63,7 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
         .table("months")
         .rows() as unknown as {
         date: string;
-        victims: { eventId: string; householdId: string }[];
+        victims: { eventId: string; householdId: string; type: string }[];
       }[];
       for (const month of [...months].sort((a, b) =>
         a.date.localeCompare(b.date),
@@ -71,6 +72,13 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
           const members =
             first.households.get(victim.householdId)?.memberIds ?? [];
           if (members.filter((id) => first.people.get(id)?.alive).length < 2)
+            continue;
+          // A crime against the household names every member, so the
+          // listener holds a moment of it too (a robbery names one person).
+          if (
+            (types.types as Record<string, { unit: string }>)[victim.type]
+              ?.unit === "person"
+          )
             continue;
           victimized ??= { ...victim, date: month.date };
         }
@@ -106,13 +114,27 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
         .get(id)
         ?.moments.find((row) => row.causeId === victimized!.eventId);
       if (!moment || moment.label !== VICTIMIZED) continue;
-      const housemate = members.find((other) => other !== id);
-      if (!housemate) continue;
+      // The talk is the listener's scene: its occasion is the listener's own
+      // moment of the same crime, as a scene opens a talk on the player's
+      // moment (openConversation reads it from the listener's ledger).
+      const listener = members
+        .filter((other) => other !== id)
+        .map((other) => ({
+          other,
+          own: director.ledger.people
+            .get(other)
+            ?.moments.find(
+              (row) =>
+                row.causeId === victimized!.eventId && row.label === VICTIMIZED,
+            ),
+        }))
+        .find((row) => row.own);
+      if (!listener) continue;
       found = {
         victim: id as PersonId,
-        listener: housemate as PersonId,
+        listener: listener.other as PersonId,
         causeId: moment.causeId,
-        momentId: moment.id,
+        momentId: listener.own!.id,
       };
       break;
     }
