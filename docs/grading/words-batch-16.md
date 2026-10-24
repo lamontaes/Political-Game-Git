@@ -49,7 +49,7 @@ Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too sh
 
 ## Scene 1: argument (threat, ends in personal) — proof scene
 
-*Tests neighbor-argument; the asker is warm; push-back, walking away. Records: vote:bill:office:gus2025:101811:board:2027-03-26:person_9e002a561a4b29bc:58:person_b6f0d51289db799a, bill:office:gus2025:101811:board:2027-03-26:person_9e002a561a4b29bc:58, person_9e002a561a4b29bc, person_b6f0d51289db799a.*
+_Tests neighbor-argument; the asker is warm; push-back, walking away. Records: vote:bill:office:gus2025:101811:board:2027-03-26:person_9e002a561a4b29bc:58:person_b6f0d51289db799a, bill:office:gus2025:101811:board:2027-03-26:person_9e002a561a4b29bc:58, person_9e002a561a4b29bc, person_b6f0d51289db799a._
 
 > You're in the cereal aisle when Kelly Riggs parks a cart across from you.
 
@@ -63,7 +63,7 @@ You could say:
 
 1. Which part of it hit you? I ask because the numbers we saw said fewer accidents, and if that's wrong on your street, I want to know.
 2. You think I wanted this?
-3. Come to the meeting Thursday. I'll sit next to you while you say it.  *(the page follows this one)*
+3. Come to the meeting Thursday. I'll sit next to you while you say it. _(the page follows this one)_
 4. I'm just here for cereal.
 
 **Kelly Riggs:** I've been to meetings.
@@ -72,26 +72,26 @@ You could say:
 
 - You: Which part of it hit you? I ask because the numbers we saw said fewer accidents, and if that's wrong on your street, I want to know.
   - Kelly Riggs: Numbers. Come stand on my corner at five.
-  - *Ends: You'll stand on their corner*
+  - _Ends: You'll stand on their corner_
 - You: You think I wanted this?
   - Kelly Riggs: You voted for it, didn't you?
   - You: I did. It was that or a bigger cut somewhere else, and I'd rather answer to you in a grocery store than to the people who'd have lost more.
     - Kelly Riggs: I still don't like it. But okay.
-    - *Ends: You talked it through*
+    - _Ends: You talked it through_
   - You: Then come say that Thursday, in front of all of us. I'll put you first on the list.
     - Kelly Riggs: Okay. Thursday.
-    - *Ends: They'll come to the hearing*
+    - _Ends: They'll come to the hearing_
 - You ★: Come to the meeting Thursday. I'll sit next to you while you say it.
   - Kelly Riggs: I've been to meetings.
-  - *Ends: Left it there*
+  - _Ends: Left it there_
 - You: I'm just here for cereal.
-  - *Ends: You walked away: Kelly Riggs: Enjoy your cereal.*
+  - _Ends: You walked away: Kelly Riggs: Enjoy your cereal._
 
 <sub>L1 narrate/narrate/scene-talk/braced/14w1s [scene-talk.narrate-narrate.you-re-in-the-cereal-aisle-when-name-parks-a-cart-across-from-you]; L2 open/greet/scene-talk/braced/9w1s [scene-talk.open-greet.so-you-re-the-one-who-voted-for-bill]; L3 state/confront/scene-talk/braced/14w1s [scene-talk.state-confront.i-ve-lived-on-that-street-a-long-time-and-you-just-made-it-worse]; L4 reply/tell/scene-talk/calm/27w2s [scene-talk.reply-tell.which-part-of-it-hit-you-i-ask-because-the-numbers-we-saw-said-fewer-a]; L5 reply/confront/scene-talk/braced/5w1s [scene-talk.reply-confront.you-think-i-wanted-this]; L6 reply/offer/scene-talk/calm/14w2s [scene-talk.reply-offer.come-to-the-meeting-thursday-i-ll-sit-next-to-you-while-you-say-it]; L7 reply/leave/scene-talk/calm/5w1s [scene-talk.reply-leave.i-m-just-here-for-cereal]; L14 follow/refuse/scene-talk/braced/4w1s [scene-talk.follow-refuse.i-ve-been-to-meetings]</sub>
 
 ## Scene 2: apology (routine, ends in personal) — proof scene
 
-*Tests owed-apology; the asker is cold; push-back, walking away. Records: vote:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5:official:term:seat:US-DE:lower:024:0:2026-10-12, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, official:term:seat:US-DE:upper:002:0:2026-10-12, official:term:seat:US-DE:lower:024:0:2026-10-12.*
+_Tests owed-apology; the asker is cold; push-back, walking away. Records: vote:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5:official:term:seat:US-DE:lower:024:0:2026-10-12, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, official:term:seat:US-DE:upper:002:0:2026-10-12, official:term:seat:US-DE:lower:024:0:2026-10-12._
 
 > After the meeting, Ryan Wagner waits until the room is nearly empty.
 
@@ -105,7 +105,7 @@ You could say:
 
 1. You're right. I went after you to win a point, and it wasn't fair. I'll say so at the next meeting.
 2. I went after the idea, not you. I can see it didn't come across that way.
-3. It was a tense night for everybody.  *(the page follows this one)*
+3. It was a tense night for everybody. _(the page follows this one)_
 4. You started it.
 
 **Ryan Wagner:** A tense night. That's what you've got?
@@ -113,7 +113,7 @@ You could say:
 You could say:
 
 1. I will. First thing on the agenda, in my own words.
-2. I have to go.  *(the page follows this one)*
+2. I have to go. _(the page follows this one)_
 
 **Ryan Wagner:** Good night.
 
@@ -121,27 +121,27 @@ You could say:
 
 - You: You're right. I went after you to win a point, and it wasn't fair. I'll say so at the next meeting.
   - Ryan Wagner: Say it out loud, then. At the meeting.
-  - *Ends: A half apology*
+  - _Ends: A half apology_
 - You: I went after the idea, not you. I can see it didn't come across that way.
   - Ryan Wagner: It came across exactly the way you meant it.
   - You: Fine. I'm sorry. I'll say it at the meeting.
     - Ryan Wagner: Say it out loud, then. At the meeting.
-    - *Ends: You came around*
+    - _Ends: You came around_
   - You: Then we're done talking.
     - Ryan Wagner: Grow up.
-    - *Ends: A grudge*
+    - _Ends: A grudge_
   - You: I have to go.
-    - *Ends: A grudge: Ryan Wagner: Good night.*
+    - _Ends: A grudge: Ryan Wagner: Good night._
 - You ★: It was a tense night for everybody.
   - Ryan Wagner: A tense night. That's what you've got?
   - You: I will. First thing on the agenda, in my own words.
     - Ryan Wagner: Say it out loud, then. At the meeting.
-    - *Ends: A half apology*
+    - _Ends: A half apology_
   - You ★: I have to go.
-    - *Ends: A grudge: Ryan Wagner: Good night.*
+    - _Ends: A grudge: Ryan Wagner: Good night._
 - You: You started it.
   - Ryan Wagner: Grow up.
-  - *Ends: A grudge*
+  - _Ends: A grudge_
 
 Other personalities: warm leans to “I went after the idea, not you. I can see it didn't come across that way.” and it ends resolved; stubborn leans to “You started it.” and it ends open; boastful leans to “I went after the idea, not you. I can see it didn't come across that way.” and it ends open.
 
@@ -149,7 +149,7 @@ Other personalities: warm leans to “I went after the idea, not you. I can see 
 
 ## Scene 3: reach-out (favor-asked, ends in personal) — proof scene
 
-*Tests favor-job; the asker is boastful; push-back. Records: person_b6f0d31289db7634, person_b6f0d41289db77e7, official:seat:US-MS:governor, organization:outside-government:US-MS.*
+_Tests favor-job; the asker is boastful; push-back. Records: person_b6f0d31289db7634, person_b6f0d41289db77e7, official:seat:US-MS:governor, organization:outside-government:US-MS._
 
 > Jeffrey Shepard catches you outside the hardware store. You've known each other a long time.
 
@@ -164,13 +164,13 @@ You could say:
 1. I can't do that. If I make that call, it's in the paper by Friday, and he's the one who pays for it.
 2. Tell him to apply to the posting. I'll make sure somebody reads it.
 3. Have him call my office Monday. I'll see what's open.
-4. What's he done so far?  *(the page follows this one)*
+4. What's he done so far? _(the page follows this one)_
 
 **Jeffrey Shepard:** He's been looking a long time. Nothing comes through.
 
 You could say:
 
-1. I'm sorry. I can't be the one who gets him in.  *(the page follows this one)*
+1. I'm sorry. I can't be the one who gets him in. _(the page follows this one)_
 2. There's a posting at public works this week. Tell him to apply by Friday and use my name as a reference.
 3. Have him call me. I'll see what's real.
 
@@ -180,34 +180,34 @@ You could say:
 
 - You: I can't do that. If I make that call, it's in the paper by Friday, and he's the one who pays for it.
   - Jeffrey Shepard: I figured. I had to ask.
-  - *Ends: Refused*
+  - _Ends: Refused_
 - You: Tell him to apply to the posting. I'll make sure somebody reads it.
   - Jeffrey Shepard: Somebody. Not you?
   - You: Not me. That's the whole point.
     - Jeffrey Shepard: I figured. I had to ask.
-    - *Ends: You held to the posting*
+    - _Ends: You held to the posting_
   - You: All right. Me. Have him send it to me directly.
     - Jeffrey Shepard: That's all I'm asking.
-    - *Ends: You'll make the call*
+    - _Ends: You'll make the call_
 - You: Have him call my office Monday. I'll see what's open.
   - Jeffrey Shepard: That's all I'm asking.
-  - *Ends: You'll make the call*
+  - _Ends: You'll make the call_
 - You ★: What's he done so far?
   - Jeffrey Shepard: He's been looking a long time. Nothing comes through.
   - You ★: I'm sorry. I can't be the one who gets him in.
     - Jeffrey Shepard: I figured. I had to ask.
-    - *Ends: Refused*
+    - _Ends: Refused_
   - You: There's a posting at public works this week. Tell him to apply by Friday and use my name as a reference.
     - Jeffrey Shepard: Somebody. Not you?
     - You: Not me. That's the whole point.
       - Jeffrey Shepard: I figured. I had to ask.
-      - *Ends: You held to the posting*
+      - _Ends: You held to the posting_
     - You: All right. Me. Have him send it to me directly.
       - Jeffrey Shepard: That's all I'm asking.
-      - *Ends: You'll make the call*
+      - _Ends: You'll make the call_
   - You: Have him call me. I'll see what's real.
     - Jeffrey Shepard: That's all I'm asking.
-    - *Ends: You'll make the call*
+    - _Ends: You'll make the call_
 
 Other personalities: warm leans to “What's he done so far?” and it ends resolved; cold leans to “I can't do that. If I make that call, it's in the paper by Friday, and he's the one who pays for it.” and it ends refused.
 
@@ -215,7 +215,7 @@ Other personalities: warm leans to “What's he done so far?” and it ends reso
 
 ## Scene 4: funeral (loss, ends in personal) — proof scene
 
-*Tests funeral-cause; the asker is warm; walking away. Records: person:press:outlet:online:0:national:head:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28, life.death:person:press:outlet:online:0:national:owner:0:2027-08-28, person:press:outlet:online:0:national:owner:0, person:press:outlet:online:0:national:reporter:0, person:press:outlet:online:0:national:head:0.*
+_Tests funeral-cause; the asker is warm; walking away. Records: person:press:outlet:online:0:national:head:0:2027-08-28:life.death:person:press:outlet:online:0:national:owner:0:2027-08-28, life.death:person:press:outlet:online:0:national:owner:0:2027-08-28, person:press:outlet:online:0:national:owner:0, person:press:outlet:online:0:national:reporter:0, person:press:outlet:online:0:national:head:0._
 
 > The service is over. People are standing around the coffee urn, and Patricia Hutchinson makes their way over to you.
 
@@ -229,14 +229,14 @@ You could say:
 
 1. Tell me what it was, and I'll put it on the agenda myself. I can't promise it passes. I can promise it gets a vote with Nancy Schneider's name on it.
 2. Not today. Let me get through today. Call my office Monday, and we'll talk about it properly.
-3. What was it, exactly?  *(the page follows this one)*
+3. What was it, exactly? _(the page follows this one)_
 4. This isn't the place for it.
 
 **Patricia Hutchinson:** Every spring Nancy Schneider called the council about the same thing, and every spring somebody said next year.
 
 You could say:
 
-1. Then it goes on the agenda this spring. I'll call you when it's scheduled.  *(the page follows this one)*
+1. Then it goes on the agenda this spring. I'll call you when it's scheduled. _(the page follows this one)_
 2. That's the state's road. I can carry it to them. I can't make them say yes.
 3. I need some air.
 
@@ -246,29 +246,29 @@ You could say:
 
 - You: Tell me what it was, and I'll put it on the agenda myself. I can't promise it passes. I can promise it gets a vote with Nancy Schneider's name on it.
   - Patricia Hutchinson: Nancy Schneider would have liked that.
-  - *Ends: You promised to carry it on*
+  - _Ends: You promised to carry it on_
 - You: Not today. Let me get through today. Call my office Monday, and we'll talk about it properly.
   - Patricia Hutchinson: Monday, then.
-  - *Ends: Not today*
+  - _Ends: Not today_
 - You ★: What was it, exactly?
   - Patricia Hutchinson: Every spring Nancy Schneider called the council about the same thing, and every spring somebody said next year.
   - You ★: Then it goes on the agenda this spring. I'll call you when it's scheduled.
     - Patricia Hutchinson: That's all I wanted. Thank you.
-    - *Ends: You promised to carry it on*
+    - _Ends: You promised to carry it on_
   - You: That's the state's road. I can carry it to them. I can't make them say yes.
     - Patricia Hutchinson: Monday, then.
-    - *Ends: Not today*
+    - _Ends: Not today_
   - You: I need some air.
-    - *Ends: You walked off: Patricia Hutchinson: Go on. I'll find you later.*
+    - _Ends: You walked off: Patricia Hutchinson: Go on. I'll find you later._
 - You: This isn't the place for it.
   - Patricia Hutchinson: You're right. I'm sorry.
-  - *Ends: Not today*
+  - _Ends: Not today_
 
 <sub>L1 narrate/narrate/scene-talk/solemn/20w2s [scene-talk.narrate-narrate.the-service-is-over-people-are-standing-around-the-coffee-urn-and-name]; L2 open/greet/scene-talk/solemn/7w1s [scene-talk.open-greet.deceased-talked-about-you-you-know]; L3 state/request/scene-talk/solemn/26w3s [scene-talk.state-request.deceased-had-one-more-fight-left-at-the-council-and-never-got-to-it-so]; L4 reply/promise/scene-talk/tender/31w3s [scene-talk.reply-promise.tell-me-what-it-was-and-i-ll-put-it-on-the-agenda-myself-i-can-t-promi]; L5 reply/decline/scene-talk/tender/17w3s [scene-talk.reply-decline.not-today-let-me-get-through-today-call-my-office-monday-and-we-ll-tal]; L6 reply/ask/scene-talk/tender/4w1s [scene-talk.reply-ask.what-was-it-exactly]; L7 reply/deflect/scene-talk/guarded/6w1s [scene-talk.reply-deflect.this-isn-t-the-place-for-it]; L10 follow/answer/scene-talk/solemn/18w1s [scene-talk.follow-answer.every-spring-deceased-called-the-council-about-the-same-thing-and-ever]; L11 reply/promise/scene-talk/tender/14w2s [scene-talk.reply-promise.then-it-goes-on-the-agenda-this-spring-i-ll-call-you-when-it-s-schedul]; L12 reply/decline/scene-talk/guarded/16w3s [scene-talk.reply-decline.that-s-the-state-s-road-i-can-carry-it-to-them-i-can-t-make-them-say-y]; L13 reply/leave/scene-talk/solemn/4w1s [scene-talk.reply-leave.i-need-some-air]; L14 follow/thank/scene-talk/solemn/6w2s [scene-talk.follow-thank.that-s-all-i-wanted-thank-you]</sub>
 
 ## Scene 5: betrayal (threat, ends in personal) — proof scene
 
-*Tests betrayal-explain; the asker is cold; a bargain, walking away. Records: vote:bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26:official:term:seat:US-DE:upper:015:0:2026-10-12, bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, official:term:seat:US-DE:lower:001:0:2026-10-12, official:term:seat:US-DE:upper:015:0:2026-10-12.*
+_Tests betrayal-explain; the asker is cold; a bargain, walking away. Records: vote:bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26:official:term:seat:US-DE:upper:015:0:2026-10-12, bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, official:term:seat:US-DE:lower:001:0:2026-10-12, official:term:seat:US-DE:upper:015:0:2026-10-12._
 
 > Jose Molina is waiting by your car. They don't say hello.
 
@@ -283,7 +283,7 @@ You could say:
 1. Why?
 2. All these years, and you hand my memo to a reporter.
 3. Okay. Thank you for telling me yourself.
-4. I can't do this right now.  *(the page follows this one)*
+4. I can't do this right now. _(the page follows this one)_
 
 **Jose Molina:** I'll go.
 
@@ -293,21 +293,21 @@ You could say:
   - Jose Molina: Because you were going to bury it, and people on my street were going to pay for it. I didn't see another way.
   - You: You might be right. I'm still angry.
     - Jose Molina: I didn't think you'd say that.
-    - *Ends: Forgiven*
+    - _Ends: Forgiven_
   - You: So you decided for me.
     - Jose Molina: I know. I'd do it again, and I'm sorry.
-    - *Ends: You cut them off*
+    - _Ends: You cut them off_
   - You: Then you owe me one. A big one.
     - Jose Molina: Fair. I owe you one.
-    - *Ends: They owe you now*
+    - _Ends: They owe you now_
 - You: All these years, and you hand my memo to a reporter.
   - Jose Molina: I know. I'd do it again, and I'm sorry.
-  - *Ends: You cut them off*
+  - _Ends: You cut them off_
 - You: Okay. Thank you for telling me yourself.
   - Jose Molina: I didn't think you'd say that.
-  - *Ends: Forgiven*
+  - _Ends: Forgiven_
 - You ★: I can't do this right now.
-  - *Ends: You cut them off: Jose Molina: I'll go.*
+  - _Ends: You cut them off: Jose Molina: I'll go._
 
 Other personalities: warm leans to “Why?” and it ends resolved; stubborn leans to “All these years, and you hand my memo to a reporter.” and it ends open.
 
@@ -315,7 +315,7 @@ Other personalities: warm leans to “Why?” and it ends resolved; stubborn lea
 
 ## Scene 6: accusation (threat, ends in personal) — proof scene
 
-*Tests conflict-accuse; the asker is boastful; a lie, caught and believed, push-back, walking away. Records: vote:bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0:official:seat:US-VA:us-house:10, bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0, official:seat:US-NJ:us-house:02, official:seat:US-VA:us-house:10.*
+_Tests conflict-accuse; the asker is boastful; a lie, caught and believed, push-back, walking away. Records: vote:bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0:official:seat:US-VA:us-house:10, bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0, official:seat:US-NJ:us-house:02, official:seat:US-VA:us-house:10._
 
 > Before the vote on "Medicaid work requirement", Tammy Kelly leans over and lowers their voice.
 
@@ -327,7 +327,7 @@ Other personalities: warm leans to “Why?” and it ends resolved; stubborn lea
 
 You could say:
 
-1. There is. I reported it in writing, and counsel said I could vote. I'll get you the letter.  *(the page follows this one)*
+1. There is. I reported it in writing, and counsel said I could vote. I'll get you the letter. _(the page follows this one)_
 2. No. Where did you hear that?
 3. Say that on the record if you believe it.
 4. I'll step out on this one. Not because I've done anything, but because you asked, and others will.
@@ -337,7 +337,7 @@ You could say:
 
 You could say:
 
-1. Because the rule says I can, and the people who sent me sent me to vote.  *(the page follows this one)*
+1. Because the rule says I can, and the people who sent me sent me to vote. _(the page follows this one)_
 2. Fine. I'll step out.
 3. We're voting.
 
@@ -349,34 +349,34 @@ You could say:
   - Tammy Kelly: Then why vote at all?
   - You ★: Because the rule says I can, and the people who sent me sent me to vote.
     - Tammy Kelly: Send me the letter. That's all I need.
-    - *Ends: You showed it was disclosed*
+    - _Ends: You showed it was disclosed_
   - You: Fine. I'll step out.
     - Tammy Kelly: Send me the letter. That's all I need.
-    - *Ends: You'll step aside on it*
+    - _Ends: You'll step aside on it_
   - You: We're voting.
-    - *Ends: It's a feud now: Tammy Kelly: Then I'll raise it from the floor.*
+    - _Ends: It's a feud now: Tammy Kelly: Then I'll raise it from the floor._
 - You: No. Where did you hear that?
   - Tammy Kelly: It's on the list in the packet. Page four.
   - You: Fine. It's on the list. I reported it, and I'll show you.
     - Tammy Kelly: Then why vote at all?
     - You: Because the rule says I can, and the people who sent me sent me to vote.
       - Tammy Kelly: Send me the letter. That's all I need.
-      - *Ends: You showed it was disclosed*
+      - _Ends: You showed it was disclosed_
   - You: Fine. I'll step out.
     - Tammy Kelly: Send me the letter. That's all I need.
-    - *Ends: You'll step aside on it*
+    - _Ends: You'll step aside on it_
   - You: We're voting.
-    - *Ends: It's a feud now: Tammy Kelly: Then I'll raise it from the floor.*
+    - _Ends: It's a feud now: Tammy Kelly: Then I'll raise it from the floor._
 - You: Say that on the record if you believe it.
   - Tammy Kelly: I will.
-  - *Ends: It's a feud now*
+  - _Ends: It's a feud now_
 - You: I'll step out on this one. Not because I've done anything, but because you asked, and others will.
   - Tammy Kelly: Send me the letter. That's all I need.
-  - *Ends: You'll step aside on it*
+  - _Ends: You'll step aside on it_
 - You: Never heard of the firm.
-  - *if not:*
+  - _if not:_
     - Tammy Kelly: Okay. Then somebody gave me bad information.
-    - *Ends: Left it there*
+    - _Ends: Left it there_
 
 Other personalities: warm leans to “I'll step out on this one. Not because I've done anything, but because you asked, and others will.” and it ends resolved; cold leans to “Say that on the record if you believe it.” and it ends open.
 
@@ -384,7 +384,7 @@ Other personalities: warm leans to “I'll step out on this one. Not because I'v
 
 ## Scene 7: warning (threat, ends in personal) — proof scene
 
-*Tests protest-warning; the asker is cold; push-back. Records: town-hall:person_a52334a2a50177be:2026-10-19, term:seat:gus2025:101811:sheriff:0:2027-01-01:elected, person_a52334a2a50177be.*
+_Tests protest-warning; the asker is cold; push-back. Records: town-hall:person_a52334a2a50177be:2026-10-19, term:seat:gus2025:101811:sheriff:0:2027-01-01:elected, person_a52334a2a50177be._
 
 > Alicia McCarthy, the police chief, asks for ten minutes. Not on the phone.
 
@@ -397,7 +397,7 @@ Other personalities: warm leans to “I'll step out on this one. Not because I'v
 You could say:
 
 1. I'm not canceling. What do you need to keep it safe?
-2. How sure are you?  *(the page follows this one)*
+2. How sure are you? _(the page follows this one)_
 3. Then cancel it. Say it was my call.
 4. Move it inside, and I'll go out and meet them before it starts.
 
@@ -407,7 +407,7 @@ You could say:
 
 1. Put the risk in writing for me, and we go ahead.
 2. Fine. We cancel.
-3. Then I'll meet them at the door, not in the street.  *(the page follows this one)*
+3. Then I'll meet them at the door, not in the street. _(the page follows this one)_
 
 **Alicia McCarthy:** Going out to them is the part I'd skip.
 
@@ -417,38 +417,38 @@ You could say:
   - Alicia McCarthy: Eight more officers and the south lot. That's overtime, and the council will ask.
   - You: Put the risk in writing for me, and we go ahead.
     - Alicia McCarthy: Then we'll make it work.
-    - *Ends: Going ahead, with officers*
+    - _Ends: Going ahead, with officers_
   - You: Fine. We cancel.
     - Alicia McCarthy: Good. I'll put it out.
-    - *Ends: Event canceled*
+    - _Ends: Event canceled_
   - You: Then I'll meet them at the door, not in the street.
     - Alicia McCarthy: Going out to them is the part I'd skip.
-    - *Ends: You overruled the chief*
+    - _Ends: You overruled the chief_
 - You ★: How sure are you?
   - Alicia McCarthy: Sure enough to be in your office on a Thursday.
   - You: Put the risk in writing for me, and we go ahead.
     - Alicia McCarthy: Eight more officers and the south lot. That's overtime, and the council will ask.
-    - *Ends: Going ahead, with officers*
+    - _Ends: Going ahead, with officers_
   - You: Fine. We cancel.
     - Alicia McCarthy: Good. I'll put it out.
-    - *Ends: Event canceled*
+    - _Ends: Event canceled_
   - You ★: Then I'll meet them at the door, not in the street.
     - Alicia McCarthy: Going out to them is the part I'd skip.
-    - *Ends: You overruled the chief*
+    - _Ends: You overruled the chief_
 - You: Then cancel it. Say it was my call.
   - Alicia McCarthy: Good. I'll put it out.
-  - *Ends: Event canceled*
+  - _Ends: Event canceled_
 - You: Move it inside, and I'll go out and meet them before it starts.
   - Alicia McCarthy: Going out to them is the part I'd skip.
   - You: Put the risk in writing for me, and we go ahead.
     - Alicia McCarthy: Eight more officers and the south lot. That's overtime, and the council will ask.
-    - *Ends: Going ahead, with officers*
+    - _Ends: Going ahead, with officers_
   - You: Fine. We cancel.
     - Alicia McCarthy: Good. I'll put it out.
-    - *Ends: Event canceled*
+    - _Ends: Event canceled_
   - You: Then I'll meet them at the door, not in the street.
     - Alicia McCarthy: Then we'll make it work.
-    - *Ends: You'll meet the protesters*
+    - _Ends: You'll meet the protesters_
 
 Other personalities: warm leans to “How sure are you?” and it ends open; stubborn leans to “How sure are you?” and it ends open; anxious leans to “How sure are you?” and it ends open; boastful leans to “How sure are you?” and it ends open.
 
@@ -456,7 +456,7 @@ Other personalities: warm leans to “How sure are you?” and it ends open; stu
 
 ## Scene 8: reconciliation (routine, ends in personal) — proof scene
 
-*Tests ally-return; the asker is cold; a bargain, push-back, walking away. Records: vote:bill:office:US-DE:legislature-lower:2027-02-22:official:term:seat:US-DE:lower:034:0:2026-10-12:44:official:term:seat:US-DE:upper:018:0:2026-10-12, bill:office:US-DE:legislature-lower:2027-02-22:official:term:seat:US-DE:lower:034:0:2026-10-12:44, official:term:seat:US-DE:lower:034:0:2026-10-12, official:term:seat:US-DE:upper:018:0:2026-10-12.*
+_Tests ally-return; the asker is cold; a bargain, push-back, walking away. Records: vote:bill:office:US-DE:legislature-lower:2027-02-22:official:term:seat:US-DE:lower:034:0:2026-10-12:44:official:term:seat:US-DE:upper:018:0:2026-10-12, bill:office:US-DE:legislature-lower:2027-02-22:official:term:seat:US-DE:lower:034:0:2026-10-12:44, official:term:seat:US-DE:lower:034:0:2026-10-12, official:term:seat:US-DE:upper:018:0:2026-10-12._
 
 > Gary Tran stops you on the courthouse steps. You haven't spoken since the split.
 
@@ -470,7 +470,7 @@ You could say:
 
 1. Then come by Thursday. Bring your people.
 2. Say it at Tuesday's meeting, in front of everyone. Then we'll talk.
-3. You were loud about it. You can be loud somewhere else.  *(the page follows this one)*
+3. You were loud about it. You can be loud somewhere else. _(the page follows this one)_
 4. What changed?
 
 **Gary Tran:** I'm asking. I don't ask much.
@@ -479,23 +479,23 @@ You could say:
 
 - You: Then come by Thursday. Bring your people.
   - Gary Tran: Thursday.
-  - *Ends: Welcomed back*
+  - _Ends: Welcomed back_
 - You: Say it at Tuesday's meeting, in front of everyone. Then we'll talk.
   - Gary Tran: Tuesday. I'll say it.
-  - *Ends: Back, on your terms*
+  - _Ends: Back, on your terms_
 - You ★: You were loud about it. You can be loud somewhere else.
   - Gary Tran: I'm asking. I don't ask much.
-  - *Ends: Turned away*
+  - _Ends: Turned away_
 - You: What changed?
   - Gary Tran: I found out who was paying for the other side. I didn't like it.
   - You: Then I believe you. Come Thursday.
     - Gary Tran: Thursday.
-    - *Ends: Welcomed back*
+    - _Ends: Welcomed back_
   - You: Then say that in public, and you're in.
     - Gary Tran: Tuesday. I'll say it.
-    - *Ends: Back, on your terms*
+    - _Ends: Back, on your terms_
   - You: I'll think about it.
-    - *Ends: Turned away: Gary Tran: I'll see you around.*
+    - _Ends: Turned away: Gary Tran: I'll see you around._
 
 Other personalities: warm leans to “What changed?” and it ends resolved; boastful leans to “What changed?” and it ends resolved.
 
@@ -503,7 +503,7 @@ Other personalities: warm leans to “What changed?” and it ends resolved; boa
 
 ## Scene 9: floor-vote (vote-wanted, ends in bill) — proof scene
 
-*Tests floor-switch; the asker is warm; a bargain, push-back. Records: vote:bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23:official:term:seat:US-DE:lower:030:0:2026-10-12, bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23, official:term:seat:US-DE:lower:008:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12.*
+_Tests floor-switch; the asker is warm; a bargain, push-back. Records: vote:bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23:official:term:seat:US-DE:lower:030:0:2026-10-12, bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23, official:term:seat:US-DE:lower:008:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12._
 
 > The roll call on "Civilian oversight of police" is halfway through when Patricia Hubbard comes down the aisle to your desk.
 
@@ -515,7 +515,7 @@ Other personalities: warm leans to “What changed?” and it ends resolved; boa
 
 You could say:
 
-1. Fine. You'll remember this.  *(the page follows this one)*
+1. Fine. You'll remember this. _(the page follows this one)_
 2. Then you need somebody who isn't me. My district's against it, and I told them where I'd be.
 3. Put my district's money back in the budget, and I'm yours.
 4. I'll pass.
@@ -526,29 +526,29 @@ You could say:
 
 - You ★: Fine. You'll remember this.
   - Patricia Hubbard: I will. Thank you.
-  - *Ends: You switched; they owe you*
+  - _Ends: You switched; they owe you_
 - You: Then you need somebody who isn't me. My district's against it, and I told them where I'd be.
   - Patricia Hubbard: Can't you go with us once?
   - You: All right. Once.
     - Patricia Hubbard: I will. Thank you.
-    - *Ends: You switched; they owe you*
+    - _Ends: You switched; they owe you_
   - You: Not this one.
     - Patricia Hubbard: Then don't come to me in the spring.
-    - *Ends: You held your vote*
+    - _Ends: You held your vote_
 - You: Put my district's money back in the budget, and I'm yours.
   - Patricia Hubbard: Done. Don't look at me when it posts.
-  - *Ends: You switched for a price*
+  - _Ends: You switched for a price_
 - You: I'll pass.
   - Patricia Hubbard: The roll's still open. Last chance.
   - You: All right. Once.
     - Patricia Hubbard: I will. Thank you.
-    - *Ends: You switched; they owe you*
+    - _Ends: You switched; they owe you_
   - You: Not this one.
     - Patricia Hubbard: Then don't come to me in the spring.
-    - *Ends: You held your vote*
+    - _Ends: You held your vote_
   - You: Then I'll pass, and you can call it what you want.
     - Patricia Hubbard: Passing is a no with better manners.
-    - *Ends: You passed*
+    - _Ends: You passed_
 
 Other personalities: cold leans to “Not this one.” and it ends refused; anxious leans to “I'll pass.” and it ends open; boastful leans to “Put my district's money back in the budget, and I'm yours.” and it ends resolved.
 
@@ -556,7 +556,7 @@ Other personalities: cold leans to “Not this one.” and it ends refused; anxi
 
 ## Scene 10: appointment (honor, ends in political) — proof scene
 
-*Tests appointment-offer; the asker is warm; a bargain, push-back. Records: appointment:US-DE:budget, official:term:seat:US-DE:upper:015:0:2026-10-12, person_a52334a2a50177be.*
+_Tests appointment-offer; the asker is warm; a bargain, push-back. Records: appointment:US-DE:budget, official:term:seat:US-DE:upper:015:0:2026-10-12, person_a52334a2a50177be._
 
 > Brittany Tucker from the governor's office calls while you're between meetings.
 
@@ -569,7 +569,7 @@ Other personalities: cold leans to “Not this one.” and it ends refused; anxi
 You could say:
 
 1. Tell the governor yes.
-2. What comes with it, and who would I answer to?  *(the page follows this one)*
+2. What comes with it, and who would I answer to? _(the page follows this one)_
 3. Then no. Thank the governor for me.
 4. I'll take it if I keep my own voice. Nobody tells me what to say.
 
@@ -579,7 +579,7 @@ You could say:
 
 1. Then yes.
 2. Then it's not for me. Thank the governor.
-3. Then I'll do it if I keep my own voice. Nobody tells me what to say.  *(the page follows this one)*
+3. Then I'll do it if I keep my own voice. Nobody tells me what to say. _(the page follows this one)_
 
 **Brittany Tucker:** I can't promise that on the governor's behalf.
 
@@ -587,30 +587,30 @@ You could say:
 
 - You: Tell the governor yes.
   - Brittany Tucker: Wonderful. The paperwork comes Monday.
-  - *Ends: You took the seat*
+  - _Ends: You took the seat_
 - You ★: What comes with it, and who would I answer to?
   - Brittany Tucker: You'd answer to the governor. It's long hours, and they'd like someone who knows your part of town.
   - You: Then yes.
     - Brittany Tucker: Wonderful. The paperwork comes Monday.
-    - *Ends: You took the seat*
+    - _Ends: You took the seat_
   - You: Then it's not for me. Thank the governor.
     - Brittany Tucker: Think it over. It's not offered twice.
-    - *Ends: You turned it down*
+    - _Ends: You turned it down_
   - You ★: Then I'll do it if I keep my own voice. Nobody tells me what to say.
     - Brittany Tucker: I can't promise that on the governor's behalf.
-    - *Ends: Left it there*
+    - _Ends: Left it there_
 - You: Then no. Thank the governor for me.
   - Brittany Tucker: Think it over. It's not offered twice.
-  - *Ends: You turned it down*
+  - _Ends: You turned it down_
 - You: I'll take it if I keep my own voice. Nobody tells me what to say.
   - Brittany Tucker: That's understood. It's your voice.
-  - *Ends: You took it on your terms*
+  - _Ends: You took it on your terms_
 
 <sub>L1 narrate/narrate/scene-talk/calm/11w1s [scene-talk.narrate-narrate.name-from-the-governor-s-office-calls-while-you-re-between-meetings]; L2 open/greet/scene-talk/glad/5w1s [scene-talk.open-greet.it-s-good-news-i-promise]; L3 state/offer/scene-talk/calm/19w2s [scene-talk.state-offer.the-governor-would-like-you-to-serve-as-office-we-d-like-an-answer-by-]; L4 reply/agree/scene-talk/glad/4w1s [scene-talk.reply-agree.tell-the-governor-yes]; L5 reply/ask/scene-talk/guarded/10w1s [scene-talk.reply-ask.what-comes-with-it-and-who-would-i-answer-to]; L6 reply/decline/scene-talk/calm/7w2s [scene-talk.reply-decline.then-no-thank-the-governor-for-me]; L7 reply/bargain/scene-talk/guarded/15w2s [scene-talk.reply-bargain.i-ll-take-it-if-i-keep-my-own-voice-nobody-tells-me-what-to-say]; L9 follow/answer/scene-talk/calm/18w2s [scene-talk.follow-answer.you-d-answer-to-the-governor-it-s-long-hours-and-they-d-like-someone-w]; L10 reply/agree/scene-talk/calm/2w1s [scene-talk.reply-agree.then-yes]; L11 reply/decline/scene-talk/calm/8w2s [scene-talk.reply-decline.then-it-s-not-for-me-thank-the-governor]; L12 reply/bargain/scene-talk/guarded/16w2s [scene-talk.reply-bargain.then-i-ll-do-it-if-i-keep-my-own-voice-nobody-tells-me-what-to-say]; L15 follow/refuse/scene-talk/guarded/8w1s [scene-talk.follow-refuse.i-can-t-promise-that-on-the-governor-s-behalf]</sub>
 
 ## Scene 11: recall (threat, ends in political) — proof scene
 
-*Tests recall-confront; the asker is stubborn; push-back, walking away. Records: term:seat:US-DE:upper:010:0:2027-01-01:elected, official:seat:US-RI:lower:sample:Republican:0, official:term:seat:US-DE:upper:010:0:2026-10-12.*
+_Tests recall-confront; the asker is stubborn; push-back, walking away. Records: term:seat:US-DE:upper:010:0:2027-01-01:elected, official:seat:US-RI:lower:sample:Republican:0, official:term:seat:US-DE:upper:010:0:2026-10-12._
 
 > Michelle Rice is at a folding table outside the grocery store with a clipboard and a stack of petitions. You'd have to walk right past.
 
@@ -623,7 +623,7 @@ You could say:
 You could say:
 
 1. Is that the only reason on the petition?
-2. You're telling people I did things I didn't do.  *(the page follows this one)*
+2. You're telling people I did things I didn't do. _(the page follows this one)_
 3. Go ahead. I'll win the vote.
 4. It's your right. Good luck with it.
 
@@ -635,28 +635,28 @@ You could say:
   - Michelle Rice: That and you stopped holding office hours.
   - You: Fair. Office hours start again next week, and you can come first.
     - Michelle Rice: Then we'll set it up. I'll hold you to it.
-    - *Ends: A meeting set*
+    - _Ends: A meeting set_
   - You: Office hours never stopped. They moved to Tuesday nights, and nobody printed it.
     - Michelle Rice: Tuesday nights. Then I'll see you there, and so will everybody I bring.
-    - *Ends: They'll come Tuesday night*
+    - _Ends: They'll come Tuesday night_
   - You: Have a good day.
-    - *Ends: You walked away: Michelle Rice: We'll have the signatures by Friday.*
+    - _Ends: You walked away: Michelle Rice: We'll have the signatures by Friday._
 - You ★: You're telling people I did things I didn't do.
   - Michelle Rice: Then say that at the forum. In front of people.
-  - *Ends: You walked away*
+  - _Ends: You walked away_
 - You: Go ahead. I'll win the vote.
   - Michelle Rice: Then say that at the forum. In front of people.
-  - *Ends: You dared them to try*
+  - _Ends: You dared them to try_
 - You: It's your right. Good luck with it.
   - Michelle Rice: Don't walk past. Tell me why you voted for it.
   - You: I voted for it because the other choice was a cut that hurt more people. Put me on the forum. I'll say that and take questions until they run out.
     - Michelle Rice: Then we'll set it up. I'll hold you to it.
-    - *Ends: A meeting set*
+    - _Ends: A meeting set_
   - You: I'm not debating you at a card table.
     - Michelle Rice: Then say that at the forum. In front of people.
-    - *Ends: You walked away*
+    - _Ends: You walked away_
   - You: Have a good day.
-    - *Ends: You walked away: Michelle Rice: We'll have the signatures by Friday.*
+    - _Ends: You walked away: Michelle Rice: We'll have the signatures by Friday._
 
 Other personalities: warm leans to “Is that the only reason on the petition?” and it ends resolved; cold leans to “It's your right. Good luck with it.” and it ends open; anxious leans to “It's your right. Good luck with it.” and it ends resolved.
 
@@ -664,7 +664,7 @@ Other personalities: warm leans to “Is that the only reason on the petition?�
 
 ## Scene 12: public-hearing (routine, ends in bill) — proof scene
 
-*Tests hearing-testify; the asker is warm; walking away. Records: town-hall:person_bc041df6bd9d1a47:2027-03-29, bill:office:US-DE:legislature-lower:2027-03-06:official:term:seat:US-DE:lower:001:0:2026-10-12:55, person_bc041df6bd9d1a47, person_1629cc78a3f713b1.*
+_Tests hearing-testify; the asker is warm; walking away. Records: town-hall:person_bc041df6bd9d1a47:2027-03-29, bill:office:US-DE:legislature-lower:2027-03-06:official:term:seat:US-DE:lower:001:0:2026-10-12:55, person_bc041df6bd9d1a47, person_1629cc78a3f713b1._
 
 > It's public comment on "Restrict abortion". Alicia Keller calls your name, and you step up to the microphone.
 
@@ -679,13 +679,13 @@ You could say:
 1. I've read "Restrict abortion" twice. The part that worries me is who it reaches first, and nobody on my street was asked. I'd like the council to hear from them before it votes.
 2. Hold the vote one week, and hear from the people it reaches first.
 3. You decided this before tonight. This is for show.
-4. Has anybody up there talked to the people this reaches?  *(the page follows this one)*
+4. Has anybody up there talked to the people this reaches? _(the page follows this one)_
 
 **Alicia Keller:** Staff, can you answer that?
 
 You could say:
 
-1. Then I'd like that in writing, please.  *(the page follows this one)*
+1. Then I'd like that in writing, please. _(the page follows this one)_
 2. Thank you.
 3. I'm done.
 
@@ -697,38 +697,38 @@ You could say:
   - Alicia Keller: Is your concern the bill, or how it was done?
   - You: How it was done. Ask us first, and I'll sit down.
     - Alicia Keller: Thank you. It's in the record.
-    - *Ends: Your testimony is on the record*
+    - _Ends: Your testimony is on the record_
   - You: I'm done.
-    - *Ends: You left the podium: Alicia Keller: Next speaker.*
+    - _Ends: You left the podium: Alicia Keller: Next speaker._
 - You: Hold the vote one week, and hear from the people it reaches first.
   - Alicia Keller: Staff will bring us who it reaches by the next meeting.
   - You: Then I'd like that in writing, please.
     - Alicia Keller: We can't respond to that during public comment.
-    - *Ends: Gaveled down*
+    - _Ends: Gaveled down_
   - You: Thank you.
     - Alicia Keller: Staff will follow up with you by Friday.
-    - *Ends: Your testimony is on the record*
+    - _Ends: Your testimony is on the record_
   - You: I'm done.
-    - *Ends: You left the podium: Alicia Keller: Next speaker.*
+    - _Ends: You left the podium: Alicia Keller: Next speaker._
 - You: You decided this before tonight. This is for show.
   - Alicia Keller: Please address the chair, not the members.
-  - *Ends: Gaveled down*
+  - _Ends: Gaveled down_
 - You ★: Has anybody up there talked to the people this reaches?
   - Alicia Keller: Staff, can you answer that?
   - You ★: Then I'd like that in writing, please.
     - Alicia Keller: Staff will bring us who it reaches by the next meeting.
-    - *Ends: Your change goes to the committee*
+    - _Ends: Your change goes to the committee_
   - You: Thank you.
     - Alicia Keller: Staff will follow up with you by Friday.
-    - *Ends: Your testimony is on the record*
+    - _Ends: Your testimony is on the record_
   - You: I'm done.
-    - *Ends: You left the podium: Alicia Keller: Next speaker.*
+    - _Ends: You left the podium: Alicia Keller: Next speaker._
 
 <sub>L1 narrate/narrate/scene-talk/braced/18w2s [scene-talk.narrate-narrate.it-s-public-comment-on-bill-name-calls-your-name-and-you-step-up-to-th]; L2 open/call-to-order/scene-talk/calm/4w1s [scene-talk.open-call-to-order.you-have-three-minutes]; L3 state/call-to-order/scene-talk/calm/9w1s [scene-talk.state-call-to-order.please-state-your-name-and-address-for-the-record]; L4 reply/tell/scene-talk/braced/33w3s [scene-talk.reply-tell.i-ve-read-bill-twice-the-part-that-worries-me-is-who-it-reaches-first-]; L5 reply/request/scene-talk/calm/13w1s [scene-talk.reply-request.hold-the-vote-one-week-and-hear-from-the-people-it-reaches-first]; L6 reply/confront/scene-talk/braced/9w2s [scene-talk.reply-confront.you-decided-this-before-tonight-this-is-for-show]; L7 reply/ask/scene-talk/braced/10w1s [scene-talk.reply-ask.has-anybody-up-there-talked-to-the-people-this-reaches]; L21 follow/answer/scene-talk/calm/5w1s [scene-talk.follow-answer.staff-can-you-answer-that]; L22 reply/request/scene-talk/calm/7w1s [scene-talk.reply-request.then-i-d-like-that-in-writing-please]; L23 reply/thank/scene-talk/calm/2w1s [scene-talk.reply-thank.thank-you]; L24 reply/leave/scene-talk/braced/2w1s [scene-talk.reply-leave.i-m-done]; L25 follow/answer/scene-talk/calm/11w1s [scene-talk.follow-answer.staff-will-bring-us-who-it-reaches-by-the-next-meeting]</sub>
 
 ## Scene 13: scandal (threat, ends in political) — proof scene
 
-*Tests scandal-comment; the asker is warm; a lie, caught and believed, push-back, walking away. Records: remark:bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59:person:press:outlet:television:0:jurisdiction_59500182da2857ae:reporter:0, bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, outlet:television:0:jurisdiction_59500182da2857ae, person:press:outlet:television:0:jurisdiction_59500182da2857ae:reporter:0, person_bc041df6bd9d1a47.*
+_Tests scandal-comment; the asker is warm; a lie, caught and believed, push-back, walking away. Records: remark:bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59:person:press:outlet:television:0:jurisdiction_59500182da2857ae:reporter:0, bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, outlet:television:0:jurisdiction_59500182da2857ae, person:press:outlet:television:0:jurisdiction_59500182da2857ae:reporter:0, person_bc041df6bd9d1a47._
 
 > Your phone rings at four. It's Erin Henry from Wzvr-Tv.
 
@@ -742,7 +742,7 @@ You could say:
 
 1. It's true, and I should have said so sooner. Put that in. And put in that I'm fixing it.
 2. That's wrong. What's the specific claim, and who's your source on the date?
-3. No comment at this time.  *(the page follows this one)*
+3. No comment at this time. _(the page follows this one)_
 4. Who gave you this?
 5. I was never there. Check the minutes.
 
@@ -754,38 +754,38 @@ You could say:
   - Erin Henry: Fixing it how?
   - You: I'm paying it back, and I've asked the clerk to post the records. You can have them tomorrow.
     - Erin Henry: That goes in too.
-    - *Ends: Story runs with your apology*
+    - _Ends: Story runs with your apology_
   - You: I have to go.
-    - *Ends: Story runs with your apology: Erin Henry: It runs at six.*
+    - _Ends: Story runs with your apology: Erin Henry: It runs at six._
 - You: That's wrong. What's the specific claim, and who's your source on the date?
   - Erin Henry: I've got it from two people. Do you want to correct anything specific?
   - You: One thing: the date's wrong. I can send you the calendar.
     - Erin Henry: Send it. If it checks out, I'll change it.
-    - *Ends: Story runs with your denial*
+    - _Ends: Story runs with your denial_
   - You: Fine. Most of it's right. Give me until four-thirty for a statement.
     - Erin Henry: Four-thirty. I'll hold the space.
-    - *Ends: Story runs with your apology*
+    - _Ends: Story runs with your apology_
   - You: I have to go.
-    - *Ends: Story runs with your denial: Erin Henry: It runs at six.*
+    - _Ends: Story runs with your denial: Erin Henry: It runs at six._
 - You ★: No comment at this time.
   - Erin Henry: Then I'll say you declined to comment.
-  - *Ends: Story runs: no comment*
+  - _Ends: Story runs: no comment_
 - You: Who gave you this?
   - Erin Henry: You know I can't tell you that.
-  - *Ends: You went after the source*
+  - _Ends: You went after the source_
 - You: I was never there. Check the minutes.
-  - *if Erin Henry knows:*
+  - _if Erin Henry knows:_
     - Erin Henry: The minutes have you there.
-    - *Ends: Caught lying to the press*
-  - *if not:*
+    - _Ends: Caught lying to the press_
+  - _if not:_
     - Erin Henry: Then I'll put that you deny it.
-    - *Ends: Your lie goes in the story*
+    - _Ends: Your lie goes in the story_
 
 <sub>L1 narrate/narrate/scene-talk/braced/10w2s [scene-talk.narrate-narrate.your-phone-rings-at-four-it-s-name-from-outlet]; L2 open/greet/scene-talk/calm/8w1s [scene-talk.open-greet.i-m-filing-at-five-so-i-ll-be-quick]; L3 state/ask/scene-talk/calm/18w2s [scene-talk.state-ask.we-re-running-a-story-about-story-i-want-to-give-you-a-chance-to-respo]; L4 reply/confess/scene-talk/contrite/19w3s [scene-talk.reply-confess.it-s-true-and-i-should-have-said-so-sooner-put-that-in-and-put-in-that]; L5 reply/deny/scene-talk/braced/13w2s [scene-talk.reply-deny.that-s-wrong-what-s-the-specific-claim-and-who-s-your-source-on-the-da]; L6 reply/refuse/scene-talk/guarded/5w1s [scene-talk.reply-refuse.no-comment-at-this-time]; L7 reply/confront/scene-talk/braced/4w1s [scene-talk.reply-confront.who-gave-you-this]; L8 reply/lie/scene-talk/calm/7w2s [scene-talk.reply-lie.i-was-never-there-check-the-minutes]; L21 follow/accept/scene-talk/calm/7w1s [scene-talk.follow-accept.then-i-ll-say-you-declined-to-comment]</sub>
 
 ## Scene 14: law-takes-effect (news-received, ends in money) — proof scene
 
-*Tests law-reaches; the asker is stubborn; push-back, walking away. Records: us-policy-positions:fiscal.graduated-income-tax|person_101b6f28a0113031|2026-11-12, law:US-DE:state:us-policy-positions:fiscal.graduated-income-tax:general:starting, person_101b6f28a0113031, official:term:seat:US-DE:lower:029:0:2026-10-12.*
+_Tests law-reaches; the asker is stubborn; push-back, walking away. Records: us-policy-positions:fiscal.graduated-income-tax|person_101b6f28a0113031|2026-11-12, law:US-DE:state:us-policy-positions:fiscal.graduated-income-tax:general:starting, person_101b6f28a0113031, official:term:seat:US-DE:lower:029:0:2026-10-12._
 
 > You're in line at the pharmacy when Justin Le turns around.
 
@@ -800,14 +800,14 @@ You could say:
 1. I did vote for it. It was trading against a cut that would have hit more families than this one. That's not an answer for yours, I know.
 2. Give me your number. I'll call before Friday.
 3. This isn't the place.
-4. The state forced our hand on that.  *(the page follows this one)*
+4. The state forced our hand on that. _(the page follows this one)_
 
 **Justin Le:** That's not an answer for my kids.
 
 You could say:
 
 1. No, it isn't. Let me see if there's a waiver. Here's my card.
-2. Tell me how much. If there's a hardship waiver, I'll find it, and I'll call you myself.  *(the page follows this one)*
+2. Tell me how much. If there's a hardship waiver, I'll find it, and I'll call you myself. _(the page follows this one)_
 3. I'm sorry. I have to go.
 
 **Justin Le:** Every month. I'll hold you to it.
@@ -818,28 +818,28 @@ You could say:
   - Justin Le: That's not an answer for my kids.
   - You: No, it isn't. Let me see if there's a waiver. Here's my card.
     - Justin Le: At least you said it to my face.
-    - *Ends: You explained your vote*
+    - _Ends: You explained your vote_
   - You: Tell me how much. If there's a hardship waiver, I'll find it, and I'll call you myself.
     - Justin Le: Every month. I'll hold you to it.
-    - *Ends: You explained your vote*
+    - _Ends: You explained your vote_
   - You: I'm sorry. I have to go.
-    - *Ends: They left angry: Justin Le: I'll remember this in November.*
+    - _Ends: They left angry: Justin Le: I'll remember this in November._
 - You: Give me your number. I'll call before Friday.
   - Justin Le: Every month. I'll hold you to it.
-  - *Ends: You promised to look at it*
+  - _Ends: You promised to look at it_
 - You: This isn't the place.
   - Justin Le: Then where is? You don't answer email.
-  - *Ends: Left it there*
+  - _Ends: Left it there_
 - You ★: The state forced our hand on that.
   - Justin Le: That's not an answer for my kids.
   - You: No, it isn't. Let me see if there's a waiver. Here's my card.
     - Justin Le: At least you said it to my face.
-    - *Ends: You explained your vote*
+    - _Ends: You explained your vote_
   - You ★: Tell me how much. If there's a hardship waiver, I'll find it, and I'll call you myself.
     - Justin Le: Every month. I'll hold you to it.
-    - *Ends: You promised to look at it*
+    - _Ends: You promised to look at it_
   - You: I'm sorry. I have to go.
-    - *Ends: You blamed someone else: Justin Le: I'll remember this in November.*
+    - _Ends: You blamed someone else: Justin Le: I'll remember this in November._
 
 Other personalities: warm leans to “The state forced our hand on that.” and it ends resolved.
 
@@ -847,7 +847,7 @@ Other personalities: warm leans to “The state forced our hand on that.” and 
 
 ## Scene 15: layoff (loss, ends in money) — proof scene
 
-*Tests layoff-terms; the asker is warm; a bargain, walking away. Records: person_b6f0d51289db799a:2027-07-01:job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, organization_b74b9bd31243618a, person_565366c9720b41e5, person_b6f0d51289db799a.*
+_Tests layoff-terms; the asker is warm; a bargain, walking away. Records: person_b6f0d51289db799a:2027-07-01:job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, job:position:organization_b74b9bd31243618a:2027-06-01:2:person_b6f0d61289db7b4d, organization_b74b9bd31243618a, person_565366c9720b41e5, person_b6f0d51289db799a._
 
 > Victor Villanueva asks you into the small office and shuts the door. There's an envelope on the desk with your name on it.
 
@@ -859,7 +859,7 @@ Other personalities: warm leans to “The state forced our hand on that.” and 
 
 You could say:
 
-1. Why me? I've got more years than half that shift.  *(the page follows this one)*
+1. Why me? I've got more years than half that shift. _(the page follows this one)_
 2. Two more months of pay and you'll write me a reference. Then I go quietly.
 3. You knew this last week. You let me pick up Saturday.
 4. Okay. What do I sign?
@@ -868,7 +868,7 @@ You could say:
 
 You could say:
 
-1. Then give me two months' pay and a reference, in writing.  *(the page follows this one)*
+1. Then give me two months' pay and a reference, in writing. _(the page follows this one)_
 2. You argued for me. Sure.
 3. I'm going to clean out my locker.
 
@@ -880,21 +880,21 @@ You could say:
   - Victor Villanueva: It wasn't my list. They went by department, not years. I argued for you. I lost.
   - You ★: Then give me two months' pay and a reference, in writing.
     - Victor Villanueva: I don't have that kind of money to give out. I'm sorry.
-    - *Ends: Left it there*
+    - _Ends: Left it there_
   - You: You argued for me. Sure.
     - Victor Villanueva: That's not how it went.
-    - *Ends: You walked out*
+    - _Ends: You walked out_
   - You: I'm going to clean out my locker.
-    - *Ends: You walked out: Victor Villanueva: Take your time with it.*
+    - _Ends: You walked out: Victor Villanueva: Take your time with it._
 - You: Two more months of pay and you'll write me a reference. Then I go quietly.
   - Victor Villanueva: I don't have that kind of money to give out. I'm sorry.
-  - *Ends: Left it there*
+  - _Ends: Left it there_
 - You: You knew this last week. You let me pick up Saturday.
   - Victor Villanueva: That's not how it went.
-  - *Ends: You walked out*
+  - _Ends: You walked out_
 - You: Okay. What do I sign?
   - Victor Villanueva: Sign at the bottom. And I'll write the reference myself, tonight.
-  - *Ends: A reference promised*
+  - _Ends: A reference promised_
 
 Other personalities: stubborn leans to “Why me? I've got more years than half that shift.” and it ends open.
 
@@ -902,7 +902,7 @@ Other personalities: stubborn leans to “Why me? I've got more years than half 
 
 ## Scene 16: eviction-notice (loss, ends in money) — proof scene
 
-*Tests eviction-terms; the asker is warm; push-back, walking away. Records: person_5df2739ae2587c09:2027-05-23:event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, person_5df2709ae25876f0, person_5df2739ae2587c09.*
+_Tests eviction-terms; the asker is warm; push-back, walking away. Records: person_5df2739ae2587c09:2027-05-23:event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, person_5df2709ae25876f0, person_5df2739ae2587c09._
 
 > Sean Robbins is on your front step with a folded paper and doesn't come in.
 
@@ -915,7 +915,7 @@ Other personalities: stubborn leans to “Why me? I've got more years than half 
 You could say:
 
 1. I can pay half now and the rest on the first. My hours got cut. They're coming back.
-2. Is there a hearing date on that?  *(the page follows this one)*
+2. Is there a hearing date on that? _(the page follows this one)_
 3. You can't just put me out. I know my rights.
 4. Okay. Thirty days.
 
@@ -923,7 +923,7 @@ You could say:
 
 You could say:
 
-1. Give me till the hearing. If I can't pay by then, I'll go.  *(the page follows this one)*
+1. Give me till the hearing. If I can't pay by then, I'll go. _(the page follows this one)_
 2. Then I'll see you at the hearing.
 3. I have to go inside.
 
@@ -933,29 +933,29 @@ You could say:
 
 - You: I can pay half now and the rest on the first. My hours got cut. They're coming back.
   - Sean Robbins: Half now and the rest on the first. In writing. Miss it and we're back here.
-  - *Ends: A payment plan*
+  - _Ends: A payment plan_
 - You ★: Is there a hearing date on that?
   - Sean Robbins: It's on the back. The court sends its own letter.
   - You ★: Give me till the hearing. If I can't pay by then, I'll go.
     - Sean Robbins: Half now and the rest on the first. In writing. Miss it and we're back here.
-    - *Ends: A payment plan*
+    - _Ends: A payment plan_
   - You: Then I'll see you at the hearing.
     - Sean Robbins: Bring the rent, not a lawyer.
-    - *Ends: See you at the hearing*
+    - _Ends: See you at the hearing_
   - You: I have to go inside.
-    - *Ends: Door closed: Sean Robbins: Thirty days.*
+    - _Ends: Door closed: Sean Robbins: Thirty days._
 - You: You can't just put me out. I know my rights.
   - Sean Robbins: Then I'll see you in court.
-  - *Ends: See you in court*
+  - _Ends: See you in court_
 - You: Okay. Thirty days.
   - Sean Robbins: I'll give the deposit back clean if the place is clean.
-  - *Ends: You'll move out*
+  - _Ends: You'll move out_
 
 <sub>L1 narrate/narrate/scene-talk/braced/15w1s [scene-talk.narrate-narrate.name-is-on-your-front-step-with-a-folded-paper-and-doesn-t-come-in]; L2 open/greet/scene-talk/nervous/7w2s [scene-talk.open-greet.got-a-minute-it-s-about-the-rent]; L3 state/deliver-news/scene-talk/guarded/14w3s [scene-talk.state-deliver-news.this-is-a-notice-you-ve-got-thirty-days-i-m-sorry-it-came-to-this]; L4 reply/plea/scene-talk/anxious/18w3s [scene-talk.reply-plea.i-can-pay-half-now-and-the-rest-on-the-first-my-hours-got-cut-they-re-]; L5 reply/ask/scene-talk/anxious/7w1s [scene-talk.reply-ask.is-there-a-hearing-date-on-that]; L6 reply/confront/scene-talk/braced/10w2s [scene-talk.reply-confront.you-can-t-just-put-me-out-i-know-my-rights]; L7 reply/accept/scene-talk/hurt/3w2s [scene-talk.reply-accept.okay-thirty-days]; L9 follow/answer/scene-talk/calm/10w2s [scene-talk.follow-answer.it-s-on-the-back-the-court-sends-its-own-letter]; L10 reply/plea/scene-talk/anxious/13w2s [scene-talk.reply-plea.give-me-till-the-hearing-if-i-can-t-pay-by-then-i-ll-go]; L11 reply/accept/scene-talk/braced/7w1s [scene-talk.reply-accept.then-i-ll-see-you-at-the-hearing]; L12 reply/leave/scene-talk/hurt/5w1s [scene-talk.reply-leave.i-have-to-go-inside]; L13 follow/accept/scene-talk/guarded/16w3s [scene-talk.follow-accept.half-now-and-the-rest-on-the-first-in-writing-miss-it-and-we-re-back-h]</sub>
 
 ## Scene 17: reunion (arrival, ends in personal) — fallback (the generic arc for its key; fired by the director)
 
-*Tests fallback:arrival; the asker is warm; walking away. Records: person_15ba64778a4af32c:2026-10-19:cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard, cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard, person_6863eb73f501765e, person_15ba64778a4af32c.*
+_Tests fallback:arrival; the asker is warm; walking away. Records: person_15ba64778a4af32c:2026-10-19:cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard, cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard, person_6863eb73f501765e, person_15ba64778a4af32c._
 
 > Liam Melendez is there when you walk in.
 
@@ -968,7 +968,7 @@ You could say:
 You could say:
 
 1. Long. I'll tell you about it after I sit down.
-2. What did I miss?  *(the page follows this one)*
+2. What did I miss? _(the page follows this one)_
 3. Good to see a face I know.
 4. Give me ten minutes to drop my things.
 
@@ -978,15 +978,15 @@ You could say:
 
 - You: Long. I'll tell you about it after I sit down.
   - Liam Melendez: Take your time.
-  - *Ends: Welcomed in*
+  - _Ends: Welcomed in_
 - You ★: What did I miss?
   - Liam Melendez: Less than you'd think. More than you'd like.
-  - *Ends: Welcomed in*
+  - _Ends: Welcomed in_
 - You: Good to see a face I know.
   - Liam Melendez: Take your time.
-  - *Ends: Welcomed in*
+  - _Ends: Welcomed in_
 - You: Give me ten minutes to drop my things.
-  - *Ends: Catch up later: Liam Melendez: Glad you're here.*
+  - _Ends: Catch up later: Liam Melendez: Glad you're here._
 
 Other personalities: cold leans to “Give me ten minutes to drop my things.” and it ends open.
 
@@ -994,7 +994,7 @@ Other personalities: cold leans to “Give me ten minutes to drop my things.” 
 
 ## Scene 18: celebration (honor, ends in personal) — fallback (the generic arc for its key; fired by the director)
 
-*Tests fallback:honor; the asker is cold; walking away. Records: person_02140118cffd720f:2026-12-07:job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c, job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c, person_02140018cffd705c, person_02140118cffd720f.*
+_Tests fallback:honor; the asker is cold; walking away. Records: person_02140118cffd720f:2026-12-07:job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c, job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c, person_02140018cffd705c, person_02140118cffd720f._
 
 > Abigail Alexander catches you with a grin.
 
@@ -1009,7 +1009,7 @@ You could say:
 1. Thanks. I'm still getting used to it.
 2. Took long enough, didn't it?
 3. Honestly, I didn't think it would happen. I'd stopped checking the mail.
-4. It's not that big a deal.  *(the page follows this one)*
+4. It's not that big a deal. _(the page follows this one)_
 
 **Abigail Alexander:** It's a big deal. Let somebody be happy for you.
 
@@ -1017,20 +1017,20 @@ You could say:
 
 - You: Thanks. I'm still getting used to it.
   - Abigail Alexander: We're celebrating. I'm not taking no.
-  - *Ends: Celebrating: Abigail Alexander: Proud of you.*
+  - _Ends: Celebrating: Abigail Alexander: Proud of you._
 - You: Took long enough, didn't it?
   - Abigail Alexander: We're celebrating. I'm not taking no.
-  - *Ends: Celebrating*
+  - _Ends: Celebrating_
 - You: Honestly, I didn't think it would happen. I'd stopped checking the mail.
   - Abigail Alexander: So what happens now?
   - You: Now I find out what I actually signed up for.
     - Abigail Alexander: Then we'd better celebrate before they bury you in work.
-    - *Ends: Celebrating: Abigail Alexander: Proud of you.*
+    - _Ends: Celebrating: Abigail Alexander: Proud of you._
   - You: I should get going. Thank you, really.
-    - *Ends: Brushed it off: Abigail Alexander: Go. I'm buying next time.*
+    - _Ends: Brushed it off: Abigail Alexander: Go. I'm buying next time._
 - You ★: It's not that big a deal.
   - Abigail Alexander: It's a big deal. Let somebody be happy for you.
-  - *Ends: Brushed it off*
+  - _Ends: Brushed it off_
 
 Other personalities: warm leans to “It's not that big a deal.” and it ends open; stubborn leans to “Took long enough, didn't it?” and it ends open; boastful leans to “Took long enough, didn't it?” and it ends open.
 
@@ -1038,7 +1038,7 @@ Other personalities: warm leans to “It's not that big a deal.” and it ends o
 
 ## Scene 19: news-arrives (news-received, ends in personal) — fallback (the generic arc for its key; fired by the director)
 
-*Tests fallback:news-received; the asker is warm; walking away. Records: person_f9be8df45e5d128c:2027-02-23:event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06, event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06, person_f9be8ef45e5d143f, person_f9be8df45e5d128c.*
+_Tests fallback:news-received; the asker is warm; walking away. Records: person_f9be8df45e5d128c:2027-02-23:event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06, event:housing.eviction:eviction:lease:household_a65000c2069a87bc:2027-02-06, person_f9be8ef45e5d143f, person_f9be8df45e5d128c._
 
 > Alicia McCarthy comes over with news.
 
@@ -1050,7 +1050,7 @@ Other personalities: warm leans to “It's not that big a deal.” and it ends o
 
 You could say:
 
-1. What happened?  *(the page follows this one)*
+1. What happened? _(the page follows this one)_
 2. I heard this morning. I'm still taking it in.
 3. Thanks for telling me yourself.
 4. Can it wait? I've got a lot on today.
@@ -1061,26 +1061,25 @@ You could say:
 
 - You ★: What happened?
   - Alicia McCarthy: I'll tell you what I know, which isn't much yet.
-  - *Ends: Left it there*
+  - _Ends: Left it there_
 - You: I heard this morning. I'm still taking it in.
   - Alicia McCarthy: Do you need anything?
   - You: I don't know yet. Ask me tomorrow.
     - Alicia McCarthy: Tomorrow, then.
-    - *Ends: Heard it from a friend*
+    - _Ends: Heard it from a friend_
   - You: I need to sit with this a while.
-    - *Ends: Put off for later: Alicia McCarthy: I'll let you know if I hear more.*
+    - _Ends: Put off for later: Alicia McCarthy: I'll let you know if I hear more._
 - You: Thanks for telling me yourself.
   - Alicia McCarthy: Do you need anything?
   - You: I don't know yet. Ask me tomorrow.
     - Alicia McCarthy: Tomorrow, then.
-    - *Ends: Heard it from a friend*
+    - _Ends: Heard it from a friend_
   - You: I need to sit with this a while.
-    - *Ends: Put off for later: Alicia McCarthy: I'll let you know if I hear more.*
+    - _Ends: Put off for later: Alicia McCarthy: I'll let you know if I hear more._
 - You: Can it wait? I've got a lot on today.
   - Alicia McCarthy: It can wait. Not long, though.
-  - *Ends: Put off for later*
+  - _Ends: Put off for later_
 
 Other personalities: cold leans to “Can it wait? I've got a lot on today.” and it ends resolved.
 
 <sub>L1 narrate/narrate/scene-talk/curious/6w1s [scene-talk.narrate-narrate.name-comes-over-with-news]; L2 open/greet/scene-talk/curious/3w1s [scene-talk.open-greet.did-you-hear]; L3 state/deliver-news/scene-talk/calm/13w1s [scene-talk.state-deliver-news.i-ve-got-some-news-and-i-wanted-you-to-hear-it-from-me]; L4 reply/ask/scene-talk/curious/2w1s [scene-talk.reply-ask.what-happened]; L5 reply/tell/scene-talk/calm/9w2s [scene-talk.reply-tell.i-heard-this-morning-i-m-still-taking-it-in]; L6 reply/thank/scene-talk/calm/5w1s [scene-talk.reply-thank.thanks-for-telling-me-yourself]; L7 reply/deflect/scene-talk/guarded/9w2s [scene-talk.reply-deflect.can-it-wait-i-ve-got-a-lot-on-today]; L8 follow/answer/scene-talk/calm/10w1s [scene-talk.follow-answer.i-ll-tell-you-what-i-know-which-isn-t-much-yet]</sub>
-

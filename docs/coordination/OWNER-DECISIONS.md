@@ -357,6 +357,7 @@ The owner reviewed scenes 1 to 28 of batch 13 ("a solid step forward") and asked
 ## Oct 16, afternoon: batch 16 review (owner, voice notes)
 
 A step forward, still awkward. Rules that apply to every scene:
+
 - **Say what happened.** A complaint names the concrete effect ("you made it worse" without saying what is weird); the asker cites what changed, from the record.
 - **Mirror escalation.** When the other person escalates, the player can escalate back, not only de-escalate or leave ("Then we're done talking" is an exit, not a back-and-forth). He liked the pressing in the apology scene.
 - **"Why?" is always there** when someone asks something of you (the floor switch had no "Why?").
@@ -369,6 +370,7 @@ A step forward, still awkward. Rules that apply to every scene:
 ## Oct 19: batch 17 review (owner, voice notes)
 
 Rules that apply to every scene:
+
 - **Every claim has a reason the listener can follow.** A complaint says why the change hurts this person ("I must lock up any gun where a child could reach it" left him asking why that is bad for her: is she a hunter, conservative?). A narrator line names the thing it refers to ("because you can't decide": decide what?). A petition, a forum or office hours appear only after the scene has said what they are.
 - **American usage.** People say "have to", not "must", about what a law makes them do; "the eleven o'clock news", not "the eleven o'clock"; "put the vote on hold", not "hold the vote"; "the people this affects", not "reaches"; an office is named as people say it ("the finance secretary"), never as "Budget Director / Finance Secretary".
 - **A reply answers the line right before it.** "I will. First thing on the agenda" after "A tense night. That's what you've got?" makes no sense; neither does "Ten minutes" after the player asked for five, "Not this one" after an offer, or "Thank you. That's noted" after an apology to the chair.
@@ -427,7 +429,6 @@ Rules that apply to every scene:
 
 - **The director and the English engine are two layers under one contract.** The director says what is happening and why, by record (roles, purpose, stakes, the move at each turn, the facts to cite by record id), with no words. The English engine says how it is said: it fills each move from the banks, graded by move. Nothing crosses the seam. The one blurred place, `src/director/scene-talk.ts` picking pieces from `data/english/parts/scene-talk.json`, moves into the English engine on its own PR after the current item, with what was deleted counted in the PR body.
 
-
 ## Oct 19, evening: batch 19 review (owner)
 
 - **Scenes need a reason and stakes.** "There are scenes being generated, but why?" Each batch scene was a stand-in in a random life; nothing the player had done (campaigning, a vote, being accused, holding office) led to it, and some scenes should lead to a game screen (drafting a bill). Not every scene needs stakes, but the batch must show a life where they build.
@@ -436,6 +437,7 @@ Rules that apply to every scene:
 - **Casting fits the life.** An 80-year-old is not told to wait a cycle or that they'll land on their feet; the trainer on a first day is not the boss; the poll worker and the voter are told apart by role.
 - **Lines carry the thread.** "Then we'll settle it at the next meeting" dropped the personal grievance she came with; "bring your numbers" twice is redundant; "can't afford a yes" sounds like a bribe and should be a real trade from the district's interests (its industries, its employers).
 - **Wording took a step back in places:** "Before the day eats us", "picked the diner, and the back booth, and already ordered", "Take the message. I'm not holding the room", "I'll help anyway".
+
 ## Oct 19: rulings (owner, via the acting CTO)
 
 - **A counted household's arrears when it is filled in (owner, Oct 19):** "It depends on the people; it can be yes or no." A household filled in carries back rent or not from its own record: its income against its housing cost over the months it has been counted, the place's conditions, and the household's traits once filled in. No fixed share carries, no fixed share is cured. Closes the Open bullet of Oct 17 (SG-WORLD-housing-fill-in-arrears); the "carry" build is the stand-in until the read is built.

@@ -41,7 +41,7 @@ Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too sh
 
 ## Scene 1: argument (threat, ends in personal) — proof scene
 
-*Tests neighbor-argument; the asker is warm; push-back, walking away. Records: reach:law:US-DE:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting:parents:person_ad6661730b7a44c8:2026-10-12, law:US-DE:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting, official:term:seat:US-DE:upper:003:0:2026-10-12, person_ad6661730b7a44c8.*
+_Tests neighbor-argument; the asker is warm; push-back, walking away. Records: reach:law:US-DE:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting:parents:person_ad6661730b7a44c8:2026-10-12, law:US-DE:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting, official:term:seat:US-DE:upper:003:0:2026-10-12, person_ad6661730b7a44c8._
 
 > You're in the cereal aisle when Leslie Robbins parks a cart across from you.
 
@@ -53,7 +53,7 @@ Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too sh
 
 You could say:
 
-1. What happened, exactly?  *(the page follows this one)*
+1. What happened, exactly? _(the page follows this one)_
 2. Which part of it hit you? I ask because if it's landing wrong on your street, I want to know.
 3. Then come to a meeting and say it, instead of ambushing me by the cereal.
 4. Come to the meeting Thursday. I'll sit next to you while you say it.
@@ -63,7 +63,7 @@ You could say:
 
 You could say:
 
-1. That's on me. I voted for what I thought it would fix, and I didn't think enough about people in your spot. Tell me what it's done to you, and I'll look at it this week.  *(the page follows this one)*
+1. That's on me. I voted for what I thought it would fix, and I didn't think enough about people in your spot. Tell me what it's done to you, and I'll look at it this week. _(the page follows this one)_
 2. You think I wanted this?
 3. I'm sorry. I mean that. I have to go.
 
@@ -75,44 +75,44 @@ You could say:
   - Leslie Robbins: I must lock up any gun where a child could reach it. Nobody asked people like me before you voted.
   - You ★: That's on me. I voted for what I thought it would fix, and I didn't think enough about people in your spot. Tell me what it's done to you, and I'll look at it this week.
     - Leslie Robbins: You're not the one living with it.
-    - *Ends: You owned it*
+    - _Ends: You owned it_
   - You: You think I wanted this?
     - Leslie Robbins: You voted for it, didn't you?
     - You: I did. Did you read it, or just the flyer?
       - Leslie Robbins: I read enough to know what it costs me.
-      - *Ends: A scene in the aisle: Leslie Robbins: Think about that before your next vote.*
+      - _Ends: A scene in the aisle: Leslie Robbins: Think about that before your next vote._
     - You: Then come say that Thursday, in front of all of us. I'll put you first on the list.
       - Leslie Robbins: I've been to three meetings. Nobody up there listened.
-      - *Ends: Left it there: Leslie Robbins: Think about that before your next vote.*
+      - _Ends: Left it there: Leslie Robbins: Think about that before your next vote._
     - You: Not here. Call my office.
-      - *Ends: Brushed them off: Leslie Robbins: That's what I figured. Everybody says call the office.*
+      - _Ends: Brushed them off: Leslie Robbins: That's what I figured. Everybody says call the office._
   - You: I'm sorry. I mean that. I have to go.
-    - *Ends: Brushed them off: Leslie Robbins: Sure you will.*
+    - _Ends: Brushed them off: Leslie Robbins: Sure you will._
 - You: Which part of it hit you? I ask because if it's landing wrong on your street, I want to know.
   - Leslie Robbins: You're not the one living with it.
   - You: You think I wanted this?
     - Leslie Robbins: You voted for it, didn't you?
     - You: I did. Did you read it, or just the flyer?
       - Leslie Robbins: I read enough to know what it costs me.
-      - *Ends: A scene in the aisle: Leslie Robbins: Think about that before your next vote.*
+      - _Ends: A scene in the aisle: Leslie Robbins: Think about that before your next vote._
     - You: Then come say that Thursday, in front of all of us. I'll put you first on the list.
       - Leslie Robbins: I've been to three meetings. Nobody up there listened.
-      - *Ends: Left it there: Leslie Robbins: Think about that before your next vote.*
+      - _Ends: Left it there: Leslie Robbins: Think about that before your next vote._
     - You: Not here. Call my office.
-      - *Ends: Brushed them off: Leslie Robbins: That's what I figured. Everybody says call the office.*
+      - _Ends: Brushed them off: Leslie Robbins: That's what I figured. Everybody says call the office._
   - You: I'm sorry. I mean that. I have to go.
-    - *Ends: Brushed them off: Leslie Robbins: Sure you will.*
+    - _Ends: Brushed them off: Leslie Robbins: Sure you will._
 - You: Then come to a meeting and say it, instead of ambushing me by the cereal.
   - Leslie Robbins: I'm saying it right here. Where you shop. Where my neighbors can hear.
   - You: Fine. Say it louder, then. I'll answer every word of it.
-    - *Ends: A scene in the aisle: Leslie Robbins: Think about that before your next vote.*
+    - _Ends: A scene in the aisle: Leslie Robbins: Think about that before your next vote._
   - You: Not here. Call my office.
-    - *Ends: Brushed them off: Leslie Robbins: That's what I figured. Everybody says call the office.*
+    - _Ends: Brushed them off: Leslie Robbins: That's what I figured. Everybody says call the office._
 - You: Come to the meeting Thursday. I'll sit next to you while you say it.
   - Leslie Robbins: Okay. Thursday.
-  - *Ends: They'll be there Thursday*
+  - _Ends: They'll be there Thursday_
 - You: Let me think about what you said. I'll call you.
-  - *Ends: Brushed them off: Leslie Robbins: Sure you will.*
+  - _Ends: Brushed them off: Leslie Robbins: Sure you will._
 
 Other personalities: cold leans to “You think I wanted this?” and it ends open; stubborn leans to “Then come to a meeting and say it, instead of ambushing me by the cereal.” and it ends open; anxious leans to “What happened, exactly?” and it ends open; boastful leans to “Which part of it hit you? I ask because if it's landing wrong on your street, I want to know.” and it ends open.
 
@@ -120,7 +120,7 @@ Other personalities: cold leans to “You think I wanted this?” and it ends op
 
 ## Scene 2: apology (routine, ends in personal) — proof scene
 
-*Tests owed-apology; the asker is cold; push-back, walking away. Records: vote:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5:official:term:seat:US-DE:lower:024:0:2026-10-12, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, official:term:seat:US-DE:upper:002:0:2026-10-12, official:term:seat:US-DE:lower:024:0:2026-10-12.*
+_Tests owed-apology; the asker is cold; push-back, walking away. Records: vote:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5:official:term:seat:US-DE:lower:024:0:2026-10-12, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, official:term:seat:US-DE:upper:002:0:2026-10-12, official:term:seat:US-DE:lower:024:0:2026-10-12._
 
 > After the meeting, Ryan Wagner waits until the room is nearly empty.
 
@@ -134,7 +134,7 @@ You could say:
 
 1. You're right. I went after you to win a point, and it wasn't fair. I'll say so at the next meeting.
 2. I went after the idea, not you. I can see it didn't come across that way.
-3. It was a tense night for everybody.  *(the page follows this one)*
+3. It was a tense night for everybody. _(the page follows this one)_
 4. You want a fight, you'll get one. Tuesday, at the mic.
 
 **Ryan Wagner:** A tense night. That's what you've got?
@@ -143,13 +143,13 @@ You could say:
 
 1. I will. First thing on the agenda, in my own words.
 2. Let's talk tomorrow, when we're both calmer.
-3. That's what I've got. You want more, say it in public.  *(the page follows this one)*
+3. That's what I've got. You want more, say it in public. _(the page follows this one)_
 
 **Ryan Wagner:** Fine. I will. Tuesday, at the mic.
 
 You could say:
 
-1. Then say it in public, and see who claps.  *(the page follows this one)*
+1. Then say it in public, and see who claps. _(the page follows this one)_
 2. I have to go.
 
 **Ryan Wagner:** Grow up.
@@ -162,28 +162,28 @@ You could say:
   - Ryan Wagner: Say it out loud, then. At the meeting.
   - You: I will. First thing on the agenda, in my own words.
     - Ryan Wagner: All right. That I'll take.
-    - *Ends: Apology accepted*
+    - _Ends: Apology accepted_
   - You: Let's talk tomorrow, when we're both calmer.
-    - *Ends: A grudge: Ryan Wagner: Good night.*
+    - _Ends: A grudge: Ryan Wagner: Good night._
   - You: That's what I've got. You want more, say it in public.
     - Ryan Wagner: Fine. I will. Tuesday, at the mic.
     - You: Then say it in public, and see who claps.
       - Ryan Wagner: Grow up.
-      - *Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday.*
+      - _Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday._
     - You: I have to go.
-      - *Ends: A grudge: Ryan Wagner: Good night.*
+      - _Ends: A grudge: Ryan Wagner: Good night._
 - You: I went after the idea, not you. I can see it didn't come across that way.
   - Ryan Wagner: It came across exactly the way you meant it.
   - You: Fine. I'm sorry. I'll say it at the meeting.
     - Ryan Wagner: Say it out loud, then. At the meeting.
     - You: I will. First thing on the agenda, in my own words.
       - Ryan Wagner: All right. That I'll take.
-      - *Ends: Apology accepted*
+      - _Ends: Apology accepted_
     - You: Let's talk tomorrow, when we're both calmer.
-      - *Ends: A grudge: Ryan Wagner: Good night.*
+      - _Ends: A grudge: Ryan Wagner: Good night._
     - You: That's what I've got. You want more, say it in public.
       - Ryan Wagner: Fine. I will. Tuesday, at the mic.
-      - *Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday.*
+      - _Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday._
   - You: Then we're done talking.
     - Ryan Wagner: Grow up.
     - You: Grow up? You came at me first, and you did it in front of the press.
@@ -192,30 +192,30 @@ You could say:
         - Ryan Wagner: Say it out loud, then. At the meeting.
         - You: I will. First thing on the agenda, in my own words.
           - Ryan Wagner: At the next meeting. Okay.
-          - *Ends: Apology accepted*
+          - _Ends: Apology accepted_
         - You: That's what I've got. You want more, say it in public.
           - Ryan Wagner: Fine. I will. Tuesday, at the mic.
-          - *Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday.*
+          - _Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday._
       - You: Then let's finish it properly. Tuesday, in front of everybody.
-        - *Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday.*
+        - _Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday._
     - You: Let's talk tomorrow, when we're both calmer.
-      - *Ends: A grudge: Ryan Wagner: Good night.*
+      - _Ends: A grudge: Ryan Wagner: Good night._
   - You: I have to go.
-    - *Ends: A grudge: Ryan Wagner: Good night.*
+    - _Ends: A grudge: Ryan Wagner: Good night._
 - You ★: It was a tense night for everybody.
   - Ryan Wagner: A tense night. That's what you've got?
   - You: I will. First thing on the agenda, in my own words.
     - Ryan Wagner: Say it out loud, then. At the meeting.
-    - *Ends: A half apology*
+    - _Ends: A half apology_
   - You: Let's talk tomorrow, when we're both calmer.
-    - *Ends: A grudge: Ryan Wagner: Good night.*
+    - _Ends: A grudge: Ryan Wagner: Good night._
   - You ★: That's what I've got. You want more, say it in public.
     - Ryan Wagner: Fine. I will. Tuesday, at the mic.
     - You ★: Then say it in public, and see who claps.
       - Ryan Wagner: Grow up.
-      - *Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday.*
+      - _Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday._
     - You: I have to go.
-      - *Ends: A grudge: Ryan Wagner: Good night.*
+      - _Ends: A grudge: Ryan Wagner: Good night._
 - You: You want a fight, you'll get one. Tuesday, at the mic.
   - Ryan Wagner: Grow up.
   - You: Grow up? You came at me first, and you did it in front of the press.
@@ -224,16 +224,16 @@ You could say:
       - Ryan Wagner: Say it out loud, then. At the meeting.
       - You: I will. First thing on the agenda, in my own words.
         - Ryan Wagner: All right. That I'll take.
-        - *Ends: Apology accepted*
+        - _Ends: Apology accepted_
       - You: That's what I've got. You want more, say it in public.
         - Ryan Wagner: Fine. I will. Tuesday, at the mic.
-        - *Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday.*
+        - _Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday._
     - You: Then let's finish it properly. Tuesday, in front of everybody.
-      - *Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday.*
+      - _Ends: It goes public Tuesday: Ryan Wagner: Then I'll see you Tuesday._
     - You: Let's talk tomorrow, when we're both calmer.
-      - *Ends: A grudge: Ryan Wagner: Good night.*
+      - _Ends: A grudge: Ryan Wagner: Good night._
   - You: I have to go.
-    - *Ends: A grudge: Ryan Wagner: Good night.*
+    - _Ends: A grudge: Ryan Wagner: Good night._
 
 Other personalities: warm leans to “I went after the idea, not you. I can see it didn't come across that way.” and it ends resolved; stubborn leans to “You want a fight, you'll get one. Tuesday, at the mic.” and it ends open; anxious leans to “It was a tense night for everybody.” and it ends open; boastful leans to “I went after the idea, not you. I can see it didn't come across that way.” and it ends open.
 
@@ -241,7 +241,7 @@ Other personalities: warm leans to “I went after the idea, not you. I can see 
 
 ## Scene 3: first-day (arrival, ends in personal) — proof scene
 
-*Tests first-day-ropes; the asker is warm; walking away. Records: person_6863e973f50172f8:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab, job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab, organization_9bd3c01bc76bc742, person_15ba67778a4af845, person_6863e973f50172f8.*
+_Tests first-day-ropes; the asker is warm; walking away. Records: person_6863e973f50172f8:2027-04-05:job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab, job:position:organization_9bd3c01bc76bc742:2027-04-01:2:person_6863ea73f50174ab, organization_9bd3c01bc76bc742, person_15ba67778a4af845, person_6863e973f50172f8._
 
 > It's your first morning at New Castle County Diner. Alexis Fisher, who's been there longer than anyone, is waiting with a ring of keys.
 
@@ -254,7 +254,7 @@ Other personalities: warm leans to “I went after the idea, not you. I can see 
 You could say:
 
 1. Whatever nobody else wants to do. I'll start there and learn the place from the bottom.
-2. Who had this job before me?  *(the page follows this one)*
+2. Who had this job before me? _(the page follows this one)_
 3. Honestly, I don't know yet. Walk me through a normal day, and I'll tell you after.
 4. Is it true nobody lasts here past a year?
 
@@ -268,34 +268,34 @@ You could say:
     - Alexis Fisher: The inventory. It's in the back, and it hasn't been counted since spring.
     - You: Then I'll count it. Show me the back.
       - Alexis Fisher: Back's this way. Bring a pencil.
-      - *Ends: Priorities set*
+      - _Ends: Priorities set_
     - You: Point me where to start. I'll find the rest.
-      - *Ends: Left it there: Alexis Fisher: Through the kitchen. Watch the wet floor.*
+      - _Ends: Left it there: Alexis Fisher: Through the kitchen. Watch the wet floor._
   - You: Let me put my things down first.
-    - *Ends: Left it there: Alexis Fisher: Through the kitchen. Watch the wet floor.*
+    - _Ends: Left it there: Alexis Fisher: Through the kitchen. Watch the wet floor._
 - You ★: Who had this job before me?
   - Alexis Fisher: Somebody who left in a hurry. You'll find their coffee mug in the drawer.
-  - *Ends: Left it there*
+  - _Ends: Left it there_
 - You: Honestly, I don't know yet. Walk me through a normal day, and I'll tell you after.
   - Alexis Fisher: A normal day. Bring coffee. It's a long one.
-  - *Ends: Priorities set*
+  - _Ends: Priorities set_
 - You: Is it true nobody lasts here past a year?
   - Alexis Fisher: Fair question. It's been a rough year. I'll tell you why over lunch.
   - You: Thank you. Show me.
     - Alexis Fisher: Come on. Mind the step.
     - You: Lead the way.
       - Alexis Fisher: This way.
-      - *Ends: An ally on day one: Alexis Fisher: Welcome aboard.*
+      - _Ends: An ally on day one: Alexis Fisher: Welcome aboard._
     - You: I'll find the coffee first.
-      - *Ends: Left it there: Alexis Fisher: Through the kitchen. Watch the wet floor.*
+      - _Ends: Left it there: Alexis Fisher: Through the kitchen. Watch the wet floor._
   - You: Let me put my things down first.
-    - *Ends: Left it there: Alexis Fisher: Through the kitchen. Watch the wet floor.*
+    - _Ends: Left it there: Alexis Fisher: Through the kitchen. Watch the wet floor._
 
 <sub>L1 narrate/narrate/scene-talk/curious/24w2s [scene-talk.narrate-narrate.it-s-your-first-morning-at-office-name-who-s-been-there-longer-than-an]; L2 open/greet/scene-talk/calm/10w2s [scene-talk.open-greet.you-found-the-place-most-don-t-on-the-first-try]; L3 state/ask/scene-talk/calm/17w2s [scene-talk.state-ask.before-the-rush-starts-i-need-to-know-one-thing-what-do-you-want-to-le]; L4 reply/answer/scene-talk/calm/16w2s [scene-talk.reply-answer.whatever-nobody-else-wants-to-do-i-ll-start-there-and-learn-the-place-]; L5 reply/ask/scene-talk/curious/6w1s [scene-talk.reply-ask.who-had-this-job-before-me]; L6 reply/tell/scene-talk/calm/16w2s [scene-talk.reply-tell.honestly-i-don-t-know-yet-walk-me-through-a-normal-day-and-i-ll-tell-y]; L7 reply/confront/scene-talk/braced/9w1s [scene-talk.reply-confront.is-it-true-nobody-lasts-here-past-a-year]; L17 follow/answer/scene-talk/calm/14w2s [scene-talk.follow-answer.somebody-who-left-in-a-hurry-you-ll-find-their-coffee-mug-in-the-drawe]</sub>
 
 ## Scene 4: last-day (departure, ends in personal) — proof scene
 
-*Tests last-day-farewell; the asker is anxious; push-back, walking away. Records: official:seat:US-AR:lower:sample:Republican:5:2026-11-01:job:office:seat:US-AR:lower:sample:Republican:5:official:seat:US-AR:lower:sample:Republican:5, job:office:seat:US-AR:lower:sample:Republican:5:official:seat:US-AR:lower:sample:Republican:5, organization:outside-government:US-AR, official:seat:US-AR:governor, official:seat:US-AR:lower:sample:Republican:5.*
+_Tests last-day-farewell; the asker is anxious; push-back, walking away. Records: official:seat:US-AR:lower:sample:Republican:5:2026-11-01:job:office:seat:US-AR:lower:sample:Republican:5:official:seat:US-AR:lower:sample:Republican:5, job:office:seat:US-AR:lower:sample:Republican:5:official:seat:US-AR:lower:sample:Republican:5, organization:outside-government:US-AR, official:seat:US-AR:governor, official:seat:US-AR:lower:sample:Republican:5._
 
 > Your office is boxes now. David Nash leans in the doorway like they've done a hundred times.
 
@@ -310,14 +310,14 @@ You could say:
 1. Most days, no. The days it was, it was worth all the rest. You know which ones I mean.
 2. Are you staying on with whoever's next?
 3. Ask me in a year, over lunch. I'm buying.
-4. Help me with this box, and I'll tell you.  *(the page follows this one)*
+4. Help me with this box, and I'll tell you. _(the page follows this one)_
 
 **David Nash:** That's what you always say.
 
 You could say:
 
 1. It was. Most of it. Now grab the other end.
-2. I'd better go before I get sentimental.  *(the page follows this one)*
+2. I'd better go before I get sentimental. _(the page follows this one)_
 
 **David Nash:** Too late for that. Go on.
 
@@ -327,33 +327,33 @@ You could say:
   - David Nash: Which one would you do over?
   - You: The first budget. I said yes too fast, and I've been paying for it since.
     - David Nash: Everybody's got one. Yours was a good one to have.
-    - *Ends: You said what it meant*
+    - _Ends: You said what it meant_
   - You: Come here. One more for the road.
-    - *Ends: You said what it meant: David Nash: Come here, then.*
+    - _Ends: You said what it meant: David Nash: Come here, then._
 - You: Are you staying on with whoever's next?
   - David Nash: If they'll have me. Somebody has to remember where the files are.
   - You: Then do me a favor. Tell them the truth about me, the good and the rest.
     - David Nash: I will. Mostly the good.
-    - *Ends: You said what it meant*
+    - _Ends: You said what it meant_
   - You: Then I'll call you when I need to find a file. Which will be next week.
     - David Nash: A year. I'm writing it down.
-    - *Ends: You'll stay in touch*
+    - _Ends: You'll stay in touch_
   - You: I'd better go before I get sentimental.
-    - *Ends: Slipped out: David Nash: Too late for that. Go on.*
+    - _Ends: Slipped out: David Nash: Too late for that. Go on._
 - You: Ask me in a year, over lunch. I'm buying.
   - David Nash: A year. I'm writing it down.
-  - *Ends: You'll stay in touch*
+  - _Ends: You'll stay in touch_
 - You ★: Help me with this box, and I'll tell you.
   - David Nash: That's what you always say.
   - You: It was. Most of it. Now grab the other end.
     - David Nash: Which one would you do over?
     - You: The first budget. I said yes too fast, and I've been paying for it since.
       - David Nash: Everybody's got one. Yours was a good one to have.
-      - *Ends: You said what it meant*
+      - _Ends: You said what it meant_
     - You: Come here. One more for the road.
-      - *Ends: You said what it meant: David Nash: Come here, then.*
+      - _Ends: You said what it meant: David Nash: Come here, then._
   - You ★: I'd better go before I get sentimental.
-    - *Ends: Slipped out: David Nash: Too late for that. Go on.*
+    - _Ends: Slipped out: David Nash: Too late for that. Go on._
 
 Other personalities: warm leans to “Are you staying on with whoever's next?” and it ends resolved; cold leans to “Help me with this box, and I'll tell you.” and it ends open; stubborn leans to “Ask me in a year, over lunch. I'm buying.” and it ends resolved; boastful leans to “Most days, no. The days it was, it was worth all the rest. You know which ones I mean.” and it ends resolved.
 
@@ -361,7 +361,7 @@ Other personalities: warm leans to “Are you staying on with whoever's next?”
 
 ## Scene 5: advice (routine, ends in personal) — proof scene
 
-*Tests mentor-advice; the asker is cold; push-back, walking away. Records: term:seat:US-DE:upper:004:0:2027-01-01:elected, official:term:seat:US-DE:upper:004:0:2026-10-12, official:term:seat:US-DE:lower:039:0:2026-10-12.*
+_Tests mentor-advice; the asker is cold; push-back, walking away. Records: term:seat:US-DE:upper:004:0:2027-01-01:elected, official:term:seat:US-DE:upper:004:0:2026-10-12, official:term:seat:US-DE:lower:039:0:2026-10-12._
 
 > Ronald Gill held office long before you did. You've asked for coffee because you can't decide.
 
@@ -374,7 +374,7 @@ Other personalities: warm leans to “Are you staying on with whoever's next?”
 You could say:
 
 1. What did you do when it was you?
-2. If I wait, somebody else takes it, and I'm waiting another eight years.  *(the page follows this one)*
+2. If I wait, somebody else takes it, and I'm waiting another eight years. _(the page follows this one)_
 3. That's what I was afraid you'd say. And probably right.
 4. I've already told people I'm running. Backing out now costs me something too.
 
@@ -386,31 +386,31 @@ You could say:
   - Ronald Gill: I ran too early and lost it close. Then I waited, and won it going away.
   - You: Close is a door. I'd rather knock on it now.
     - Ronald Gill: Maybe. Or you lose, and nobody remembers you in eight years either.
-    - *Ends: Your own way*
+    - _Ends: Your own way_
   - You: Going away. Okay. That's what I needed to hear.
     - Ronald Gill: I'll make some calls. If you wait, you wait with friends.
     - You: I'd like that. Thank you.
-      - *Ends: You took the advice: Ronald Gill: Finish your coffee. It's on me.*
+      - _Ends: You took the advice: Ronald Gill: Finish your coffee. It's on me._
     - You: I should go think.
-      - *Ends: Thinking it over: Ronald Gill: Whatever you decide, call me before you announce.*
+      - _Ends: Thinking it over: Ronald Gill: Whatever you decide, call me before you announce._
   - You: Let me sleep on it. I'll call you Sunday.
-    - *Ends: Thinking it over: Ronald Gill: Whatever you decide, call me before you announce.*
+    - _Ends: Thinking it over: Ronald Gill: Whatever you decide, call me before you announce._
 - You ★: If I wait, somebody else takes it, and I'm waiting another eight years.
   - Ronald Gill: Maybe. Or you lose, and nobody remembers you in eight years either.
-  - *Ends: Your own way*
+  - _Ends: Your own way_
 - You: That's what I was afraid you'd say. And probably right.
   - Ronald Gill: I'll make some calls. If you wait, you wait with friends.
   - You: I'd like that. Thank you.
-    - *Ends: You took the advice: Ronald Gill: Finish your coffee. It's on me.*
+    - _Ends: You took the advice: Ronald Gill: Finish your coffee. It's on me._
   - You: I should go think.
-    - *Ends: Thinking it over: Ronald Gill: Whatever you decide, call me before you announce.*
+    - _Ends: Thinking it over: Ronald Gill: Whatever you decide, call me before you announce._
 - You: I've already told people I'm running. Backing out now costs me something too.
   - Ronald Gill: Who did you tell? Exactly?
   - You: My family, my staff, and the party chair. In that order.
     - Ronald Gill: Then you've told the right people. The rest can wait a week.
-    - *Ends: Thinking it over*
+    - _Ends: Thinking it over_
   - You: Let me sleep on it. I'll call you Sunday.
-    - *Ends: Thinking it over: Ronald Gill: Whatever you decide, call me before you announce.*
+    - _Ends: Thinking it over: Ronald Gill: Whatever you decide, call me before you announce._
 
 Other personalities: warm leans to “What did you do when it was you?” and it ends resolved; anxious leans to “What did you do when it was you?” and it ends resolved.
 
@@ -418,7 +418,7 @@ Other personalities: warm leans to “What did you do when it was you?” and it
 
 ## Scene 6: polling-place (routine, ends in political) — proof scene
 
-*Tests poll-problem; the asker is warm; walking away. Records: polling-place:jurisdiction_59500182da2857ae:1, person:press:outlet:radio:0:jurisdiction_59500182da2857ae:reporter:0, person_f9be90f45e5d17a5.*
+_Tests poll-problem; the asker is warm; walking away. Records: polling-place:jurisdiction_59500182da2857ae:1, person:press:outlet:radio:0:jurisdiction_59500182da2857ae:reporter:0, person_f9be90f45e5d17a5._
 
 > You give your name at the table in the polling place in Brookside. Michael Howell runs a finger down the list twice.
 
@@ -430,7 +430,7 @@ Other personalities: warm leans to “What did you do when it was you?” and it
 
 You could say:
 
-1. I've voted here for years. What changed?  *(the page follows this one)*
+1. I've voted here for years. What changed? _(the page follows this one)_
 2. I'm on the ballot. Check again.
 3. Can you call the county office and check?
 4. Then give me a provisional ballot.
@@ -439,7 +439,7 @@ You could say:
 
 You could say:
 
-1. Then call the county. If they moved me, I want it in writing.  *(the page follows this one)*
+1. Then call the county. If they moved me, I want it in writing. _(the page follows this one)_
 2. Nobody told me. If it happened to me, how many others?
 3. Fine. Provisional. I'm not leaving without voting.
 4. I'll come back after work.
@@ -448,7 +448,7 @@ You could say:
 
 You could say:
 
-1. Ten minutes. I'll wait.  *(the page follows this one)*
+1. Ten minutes. I'll wait. _(the page follows this one)_
 2. Forget it. I'll go across town.
 
 **Michael Howell:** County says you're on the list across town. You can vote there, or vote provisional here.
@@ -463,34 +463,34 @@ You could say:
     - Michael Howell: I'll call. Stand to the side, and it'll take ten minutes.
     - You ★: Ten minutes. I'll wait.
       - Michael Howell: County says you're on the list across town. You can vote there, or vote provisional here.
-      - *Ends: A provisional ballot: Michael Howell: Next in line, please.*
+      - _Ends: A provisional ballot: Michael Howell: Next in line, please._
     - You: Forget it. I'll go across town.
-      - *Ends: Left without voting: Michael Howell: Polls close at eight. You've got time.*
+      - _Ends: Left without voting: Michael Howell: Polls close at eight. You've got time._
   - You: Nobody told me. If it happened to me, how many others?
     - Michael Howell: I know who you are. I'm sorry. I still can't hand you a ballot that isn't yours.
-    - *Ends: A scene at the polls: Michael Howell: I'll note it in the log.*
+    - _Ends: A scene at the polls: Michael Howell: I'll note it in the log._
   - You: Fine. Provisional. I'm not leaving without voting.
     - Michael Howell: Fill this out. It counts once they check you.
-    - *Ends: A provisional ballot: Michael Howell: Next in line, please.*
+    - _Ends: A provisional ballot: Michael Howell: Next in line, please._
   - You: I'll come back after work.
-    - *Ends: Left without voting: Michael Howell: Polls close at eight. You've got time.*
+    - _Ends: Left without voting: Michael Howell: Polls close at eight. You've got time._
 - You: I'm on the ballot. Check again.
   - Michael Howell: I know who you are. I'm sorry. I still can't hand you a ballot that isn't yours.
-  - *Ends: A scene at the polls: Michael Howell: I'll note it in the log.*
+  - _Ends: A scene at the polls: Michael Howell: I'll note it in the log._
 - You: Can you call the county office and check?
   - Michael Howell: I'll call. Stand to the side, and it'll take ten minutes.
   - You: Ten minutes. I'll wait.
     - Michael Howell: County says you're on the list across town. You can vote there, or vote provisional here.
     - You: Provisional, here. I'm not driving across town.
       - Michael Howell: Fill this out. It counts once they check you.
-      - *Ends: A provisional ballot: Michael Howell: Next in line, please.*
+      - _Ends: A provisional ballot: Michael Howell: Next in line, please._
     - You: Forget it. I'll go across town.
-      - *Ends: Left without voting: Michael Howell: Polls close at eight. You've got time.*
+      - _Ends: Left without voting: Michael Howell: Polls close at eight. You've got time._
   - You: I'll come back after work.
-    - *Ends: Left without voting: Michael Howell: Polls close at eight. You've got time.*
+    - _Ends: Left without voting: Michael Howell: Polls close at eight. You've got time._
 - You: Then give me a provisional ballot.
   - Michael Howell: Fill this out. It counts once they check you.
-  - *Ends: A provisional ballot: Michael Howell: Next in line, please.*
+  - _Ends: A provisional ballot: Michael Howell: Next in line, please._
 
 Other personalities: cold leans to “Can you call the county office and check?” and it ends resolved; stubborn leans to “I've voted here for years. What changed?” and it ends open; anxious leans to “I've voted here for years. What changed?” and it ends resolved; boastful leans to “I've voted here for years. What changed?” and it ends open.
 
@@ -498,7 +498,7 @@ Other personalities: cold leans to “Can you call the county office and check?�
 
 ## Scene 7: race-won (honor, ends in political) — proof scene
 
-*Tests victory-night; the asker is stubborn; push-back, walking away. Records: result:contest:seat:US-DE:treasurer:2026-11-03, contest:seat:US-DE:treasurer:2026-11-03, person:press:outlet:television:1:jurisdiction_59500182da2857ae:head:0, official:term:seat:US-DE:treasurer:2026-10-12, official:term:seat:US-DE:upper:015:0:2026-10-12.*
+_Tests victory-night; the asker is stubborn; push-back, walking away. Records: result:contest:seat:US-DE:treasurer:2026-11-03, contest:seat:US-DE:treasurer:2026-11-03, person:press:outlet:television:1:jurisdiction_59500182da2857ae:head:0, official:term:seat:US-DE:treasurer:2026-10-12, official:term:seat:US-DE:upper:015:0:2026-10-12._
 
 > The room is loud. Jessica Sparks pulls you into a hallway with a sheet of paper and a pen.
 
@@ -513,14 +513,14 @@ You could say:
 1. That they ran hard, and I'll need their voters by Monday. Write that.
 2. I'm going to thank the people who knocked doors by name. All of them. Then I'll say something about Brittany Tucker.
 3. What did they say about us tonight?
-4. That the voters made it pretty clear who they wanted.  *(the page follows this one)*
+4. That the voters made it pretty clear who they wanted. _(the page follows this one)_
 
 **Jessica Sparks:** Say that, and it's the only line anybody plays tomorrow.
 
 You could say:
 
 1. You're right. Cut it.
-2. Let them play it. We won.  *(the page follows this one)*
+2. Let them play it. We won. _(the page follows this one)_
 3. They're chanting. Let's go.
 
 **Jessica Sparks:** Your call. It's your name on the door.
@@ -531,28 +531,28 @@ You could say:
   - Jessica Sparks: Monday's fine. Tonight, though, give the room one line it can cheer.
   - You: One line, then. 'We start Monday.'
     - Jessica Sparks: 'We start Monday.' They'll love it.
-    - *Ends: A promise on stage*
+    - _Ends: A promise on stage_
   - You: They're chanting. Let's go.
-    - *Ends: Left it there: Jessica Sparks: Go. They're waiting.*
+    - _Ends: Left it there: Jessica Sparks: Go. They're waiting._
 - You: I'm going to thank the people who knocked doors by name. All of them. Then I'll say something about Brittany Tucker.
   - Jessica Sparks: All of them? Okay. Start with the ones who drove.
-  - *Ends: A gracious speech*
+  - _Ends: A gracious speech_
 - You: What did they say about us tonight?
   - Jessica Sparks: That you bought the race. It was on the eleven o'clock.
   - You: Then say we didn't buy it. We knocked it, door by door.
     - Jessica Sparks: Door by door. Write that on your hand.
-    - *Ends: A promise on stage*
+    - _Ends: A promise on stage_
   - You: They're chanting. Let's go.
-    - *Ends: Left it there: Jessica Sparks: Go. They're waiting.*
+    - _Ends: Left it there: Jessica Sparks: Go. They're waiting._
 - You ★: That the voters made it pretty clear who they wanted.
   - Jessica Sparks: Say that, and it's the only line anybody plays tomorrow.
   - You: You're right. Cut it.
     - Jessica Sparks: Cut. Now go be gracious.
-    - *Ends: Left it there*
+    - _Ends: Left it there_
   - You ★: Let them play it. We won.
-    - *Ends: A victory lap: Jessica Sparks: Your call. It's your name on the door.*
+    - _Ends: A victory lap: Jessica Sparks: Your call. It's your name on the door._
   - You: They're chanting. Let's go.
-    - *Ends: Left it there: Jessica Sparks: Go. They're waiting.*
+    - _Ends: Left it there: Jessica Sparks: Go. They're waiting._
 
 Other personalities: warm leans to “What did they say about us tonight?” and it ends resolved; cold leans to “That the voters made it pretty clear who they wanted.” and it ends open; anxious leans to “What did they say about us tonight?” and it ends open.
 
@@ -560,7 +560,7 @@ Other personalities: warm leans to “What did they say about us tonight?” and
 
 ## Scene 8: race-lost (loss, ends in political) — proof scene
 
-*Tests concession-call; the asker is anxious; push-back, walking away. Records: result:contest:seat:US-DE:treasurer:2026-11-03, contest:seat:US-DE:treasurer:2026-11-03, person:press:outlet:television:1:jurisdiction_59500182da2857ae:head:0, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:treasurer:2026-10-12.*
+_Tests concession-call; the asker is anxious; push-back, walking away. Records: result:contest:seat:US-DE:treasurer:2026-11-03, contest:seat:US-DE:treasurer:2026-11-03, person:press:outlet:television:1:jurisdiction_59500182da2857ae:head:0, official:term:seat:US-DE:upper:015:0:2026-10-12, official:term:seat:US-DE:treasurer:2026-10-12._
 
 > It's past eleven. The numbers on the screen stopped moving an hour ago. Jessica Sparks, your campaign manager, has your phone in hand.
 
@@ -575,14 +575,14 @@ You could say:
 1. Dial it. I'll keep it short.
 2. What's still out? Tell me the precincts.
 3. Not tonight. Not until every ballot's counted.
-4. Give me ten minutes alone first.  *(the page follows this one)*
+4. Give me ten minutes alone first. _(the page follows this one)_
 
 **Jessica Sparks:** People are watching what you do tonight more than they watched the race.
 
 You could say:
 
 1. Then we wait. If I'm wrong, I'll eat it in the morning.
-2. I need some air first. Five minutes.  *(the page follows this one)*
+2. I need some air first. Five minutes. _(the page follows this one)_
 
 **Jessica Sparks:** Ten minutes. I'll be outside the door.
 
@@ -590,32 +590,32 @@ You could say:
 
 - You: Dial it. I'll keep it short.
   - Jessica Sparks: I'll get them on the line.
-  - *Ends: You called and conceded*
+  - _Ends: You called and conceded_
 - You: What's still out? Tell me the precincts.
   - Jessica Sparks: Two, and they're both Michael Norton's. Even if we took every vote, it's not enough.
   - You: Then let's do it right. Get them on the line.
     - Jessica Sparks: I'll get them on the line.
-    - *Ends: Conceded once you saw the numbers*
+    - _Ends: Conceded once you saw the numbers_
   - You: Not yet. Let me read the numbers myself.
-    - *Ends: Waiting on the count: Jessica Sparks: Ten minutes. I'll be outside the door.*
+    - _Ends: Waiting on the count: Jessica Sparks: Ten minutes. I'll be outside the door._
 - You: Not tonight. Not until every ballot's counted.
   - Jessica Sparks: Your volunteers are in that room. They want to hear it from you, not from TV.
   - You: You're right. Get me the phone, and get the volunteers a microphone.
     - Jessica Sparks: I'll get them on the line.
-    - *Ends: Conceded, after a fight*
+    - _Ends: Conceded, after a fight_
   - You: Not yet. Let me read the numbers myself.
-    - *Ends: Waiting on the count: Jessica Sparks: Ten minutes. I'll be outside the door.*
+    - _Ends: Waiting on the count: Jessica Sparks: Ten minutes. I'll be outside the door._
 - You ★: Give me ten minutes alone first.
   - Jessica Sparks: People are watching what you do tonight more than they watched the race.
   - You: Then we wait. If I'm wrong, I'll eat it in the morning.
     - Jessica Sparks: Your volunteers are in that room. They want to hear it from you, not from TV.
     - You: You're right. Get me the phone, and get the volunteers a microphone.
       - Jessica Sparks: I'll get them on the line.
-      - *Ends: Conceded, after a fight*
+      - _Ends: Conceded, after a fight_
     - You: Not yet. Let me read the numbers myself.
-      - *Ends: Waiting on the count: Jessica Sparks: Ten minutes. I'll be outside the door.*
+      - _Ends: Waiting on the count: Jessica Sparks: Ten minutes. I'll be outside the door._
   - You ★: I need some air first. Five minutes.
-    - *Ends: Waiting on the count: Jessica Sparks: Ten minutes. I'll be outside the door.*
+    - _Ends: Waiting on the count: Jessica Sparks: Ten minutes. I'll be outside the door._
 
 Other personalities: warm leans to “What's still out? Tell me the precincts.” and it ends resolved; cold leans to “Not tonight. Not until every ballot's counted.” and it ends open; stubborn leans to “Not tonight. Not until every ballot's counted.” and it ends resolved.
 
@@ -623,7 +623,7 @@ Other personalities: warm leans to “What's still out? Tell me the precincts.�
 
 ## Scene 9: floor-vote (vote-wanted, ends in bill) — proof scene
 
-*Tests floor-switch; the asker is anxious; a bargain, push-back, walking away. Records: vote:bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23:official:term:seat:US-DE:lower:030:0:2026-10-12, bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23, official:term:seat:US-DE:lower:008:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12.*
+_Tests floor-switch; the asker is anxious; a bargain, push-back, walking away. Records: vote:bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23:official:term:seat:US-DE:lower:030:0:2026-10-12, bill:office:US-DE:legislature-lower:2027-01-31:official:term:seat:US-DE:lower:008:0:2026-10-12:23, official:term:seat:US-DE:lower:008:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12._
 
 > The roll call on "Civilian oversight of police" is halfway through when Patricia Hubbard comes down the aisle to your desk.
 
@@ -639,7 +639,7 @@ You could say:
 2. Fine. You'll remember this.
 3. Then you need somebody who isn't me. My district's against it, and I told them where I'd be.
 4. Put my district's money back in the budget, and I'm yours.
-5. I'll pass.  *(the page follows this one)*
+5. I'll pass. _(the page follows this one)_
 
 **Patricia Hubbard:** The roll's still open. Last chance.
 
@@ -647,7 +647,7 @@ You could say:
 
 1. All right. Once.
 2. Not this one.
-3. Then I'll pass, and you can call it what you want.  *(the page follows this one)*
+3. Then I'll pass, and you can call it what you want. _(the page follows this one)_
 4. Ask me again after the next name.
 
 **Patricia Hubbard:** Passing is a no with better manners.
@@ -660,83 +660,83 @@ You could say:
     - Patricia Hubbard: One vote. I'm not asking for your soul.
     - You: Once. Write it down.
       - Patricia Hubbard: I will. Thank you.
-      - *Ends: You switched; they owe you*
+      - _Ends: You switched; they owe you_
     - You: No. And don't ask me on the floor again.
       - Patricia Hubbard: Then don't come to me in the spring.
       - You: Not this one.
         - Patricia Hubbard: Can't you go with us once?
         - You: Fine. This once, and you owe me.
           - Patricia Hubbard: I will. Thank you.
-          - *Ends: You switched; they owe you*
+          - _Ends: You switched; they owe you_
         - You: Ask somebody else.
-          - *Ends: You held your vote: Patricia Hubbard: Then I'll find it somewhere else. Remember that you didn't help.*
+          - _Ends: You held your vote: Patricia Hubbard: Then I'll find it somewhere else. Remember that you didn't help._
       - You: Then don't come to me when your bill's up.
         - Patricia Hubbard: Fair enough. We're even, then.
-        - *Ends: Left it there*
+        - _Ends: Left it there_
   - You: Then move me. What's it worth to you?
     - Patricia Hubbard: Your district's money stays in the budget. That's what I've got.
     - You: Done. Put it in writing tonight.
       - Patricia Hubbard: I will. Thank you.
-      - *Ends: You switched; they owe you*
+      - _Ends: You switched; they owe you_
     - You: Not this one.
       - Patricia Hubbard: Can't you go with us once?
       - You: Fine. This once, and you owe me.
         - Patricia Hubbard: I will. Thank you.
-        - *Ends: You switched; they owe you*
+        - _Ends: You switched; they owe you_
       - You: Ask somebody else.
         - Patricia Hubbard: One vote. I'm not asking for your soul.
         - You: Once. Write it down.
           - Patricia Hubbard: I will. Thank you.
-          - *Ends: You switched; they owe you*
+          - _Ends: You switched; they owe you_
         - You: No. And don't ask me on the floor again.
           - Patricia Hubbard: Then don't come to me in the spring.
-          - *Ends: You held your vote: Patricia Hubbard: Then I'll find it somewhere else. Remember that you didn't help.*
+          - _Ends: You held your vote: Patricia Hubbard: Then I'll find it somewhere else. Remember that you didn't help._
   - You: All right. Once.
     - Patricia Hubbard: I will. Thank you.
-    - *Ends: You switched; they owe you*
+    - _Ends: You switched; they owe you_
   - You: Ask me again after the next name.
-    - *Ends: Left it there: Patricia Hubbard: The roll won't wait for you.*
+    - _Ends: Left it there: Patricia Hubbard: The roll won't wait for you._
 - You: Fine. You'll remember this.
   - Patricia Hubbard: I will. Thank you.
-  - *Ends: You switched; they owe you*
+  - _Ends: You switched; they owe you_
 - You: Then you need somebody who isn't me. My district's against it, and I told them where I'd be.
   - Patricia Hubbard: One vote. I'm not asking for your soul.
   - You: Fine. This once, and you owe me.
     - Patricia Hubbard: I will. Thank you.
-    - *Ends: You switched; they owe you*
+    - _Ends: You switched; they owe you_
   - You: No. And don't ask me on the floor again.
     - Patricia Hubbard: Can't you go with us once?
     - You: Once. Write it down.
       - Patricia Hubbard: I will. Thank you.
-      - *Ends: You switched; they owe you*
+      - _Ends: You switched; they owe you_
     - You: Ask somebody else.
       - Patricia Hubbard: Then don't come to me in the spring.
       - You: All right. Once.
         - Patricia Hubbard: I will. Thank you.
-        - *Ends: You switched; they owe you*
+        - _Ends: You switched; they owe you_
       - You: Not this one.
-        - *Ends: You held your vote: Patricia Hubbard: Then I'll find it somewhere else. Remember that you didn't help.*
+        - _Ends: You held your vote: Patricia Hubbard: Then I'll find it somewhere else. Remember that you didn't help._
       - You: Then don't come to me when your bill's up.
         - Patricia Hubbard: Fair enough. We're even, then.
-        - *Ends: Left it there*
+        - _Ends: Left it there_
   - You: Ask me again after the next name.
-    - *Ends: Left it there: Patricia Hubbard: The roll won't wait for you.*
+    - _Ends: Left it there: Patricia Hubbard: The roll won't wait for you._
 - You: Put my district's money back in the budget, and I'm yours.
   - Patricia Hubbard: Done. Don't look at me when it posts.
-  - *Ends: You switched for a price*
+  - _Ends: You switched for a price_
 - You ★: I'll pass.
   - Patricia Hubbard: The roll's still open. Last chance.
   - You: All right. Once.
     - Patricia Hubbard: I will. Thank you.
-    - *Ends: You switched; they owe you*
+    - _Ends: You switched; they owe you_
   - You: Not this one.
     - Patricia Hubbard: Then don't come to me in the spring.
-    - *Ends: You held your vote: Patricia Hubbard: Then I'll find it somewhere else. Remember that you didn't help.*
+    - _Ends: You held your vote: Patricia Hubbard: Then I'll find it somewhere else. Remember that you didn't help._
   - You ★: Then I'll pass, and you can call it what you want.
     - Patricia Hubbard: Passing is a no with better manners.
-    - *Ends: You passed*
+    - _Ends: You passed_
   - You: Ask me again after the next name.
-    - *Ends: Left it there: Patricia Hubbard: The roll won't wait for you.*
+    - _Ends: Left it there: Patricia Hubbard: The roll won't wait for you._
 
 Other personalities: warm leans to “Why me?” and it ends resolved; cold leans to “Not this one.” and it ends refused; stubborn leans to “Not this one.” and it ends refused; boastful leans to “Why me?” and it ends resolved.
 
@@ -744,7 +744,7 @@ Other personalities: warm leans to “Why me?” and it ends resolved; cold lean
 
 ## Scene 10: bill-signed (honor, ends in bill) — proof scene
 
-*Tests signing-ask; the asker is warm; a bargain, walking away. Records: desk:bill:office:US-DE:legislature-upper:2027-01-18:official:term:seat:US-DE:upper:020:0:2026-10-12:11, bill:office:US-DE:legislature-upper:2027-01-18:official:term:seat:US-DE:upper:020:0:2026-10-12:11, official:term:seat:US-DE:governor:2026-10-12, official:term:seat:US-DE:upper:020:0:2026-10-12.*
+_Tests signing-ask; the asker is warm; a bargain, walking away. Records: desk:bill:office:US-DE:legislature-upper:2027-01-18:official:term:seat:US-DE:upper:020:0:2026-10-12:11, bill:office:US-DE:legislature-upper:2027-01-18:official:term:seat:US-DE:upper:020:0:2026-10-12:11, official:term:seat:US-DE:governor:2026-10-12, official:term:seat:US-DE:upper:020:0:2026-10-12._
 
 > The cameras are packing up after the signing of "Public funds for private schooling". Kimberly Holloway keeps the pen and steers you to a corner.
 
@@ -757,7 +757,7 @@ Other personalities: warm leans to “Why me?” and it ends resolved; cold lean
 You could say:
 
 1. You'll have me.
-2. Which one?  *(the page follows this one)*
+2. Which one? _(the page follows this one)_
 3. You signed it because it was good. I'll read yours the same way.
 4. Early, if I get to change a word or two first.
 
@@ -765,7 +765,7 @@ You could say:
 
 You could say:
 
-1. Then I'm probably there already. Send it over.  *(the page follows this one)*
+1. Then I'm probably there already. Send it over. _(the page follows this one)_
 2. Then I'll tell you after I read it, like everyone else.
 3. Then I'll want my district's line moved up a year.
 4. Let me get back to my office.
@@ -776,38 +776,38 @@ You could say:
 
 - You: You'll have me.
   - Kimberly Holloway: Good. I knew you'd see it.
-  - *Ends: You owe the signer one*
+  - _Ends: You owe the signer one_
 - You ★: Which one?
   - Kimberly Holloway: The budget. Your district's in it more than you think.
   - You ★: Then I'm probably there already. Send it over.
     - Kimberly Holloway: Good. I knew you'd see it.
-    - *Ends: You owe the signer one*
+    - _Ends: You owe the signer one_
   - You: Then I'll tell you after I read it, like everyone else.
     - Kimberly Holloway: That's a fine answer for the cameras. They've gone home.
     - You: Fine. Early. This once.
       - Kimberly Holloway: Good. I knew you'd see it.
-      - *Ends: You owe the signer one*
+      - _Ends: You owe the signer one_
     - You: Then say it with the cameras here. I'll wait.
       - Kimberly Holloway: Nobody needs cameras for a thank-you.
-      - *Ends: No strings, on the record: Kimberly Holloway: I'll remember the answer.*
+      - _Ends: No strings, on the record: Kimberly Holloway: I'll remember the answer._
   - You: Then I'll want my district's line moved up a year.
     - Kimberly Holloway: Moved up a year. I can live with that.
-    - *Ends: A trade on the next bill*
+    - _Ends: A trade on the next bill_
   - You: Let me get back to my office.
-    - *Ends: Left it there: Kimberly Holloway: I'll remember the answer.*
+    - _Ends: Left it there: Kimberly Holloway: I'll remember the answer._
 - You: You signed it because it was good. I'll read yours the same way.
   - Kimberly Holloway: That's a fine answer for the cameras. They've gone home.
   - You: Fine. Early. This once.
     - Kimberly Holloway: Good. I knew you'd see it.
-    - *Ends: You owe the signer one*
+    - _Ends: You owe the signer one_
   - You: Then say it with the cameras here. I'll wait.
     - Kimberly Holloway: Nobody needs cameras for a thank-you.
-    - *Ends: No strings, on the record: Kimberly Holloway: I'll remember the answer.*
+    - _Ends: No strings, on the record: Kimberly Holloway: I'll remember the answer._
   - You: Let me get back to my office.
-    - *Ends: Left it there: Kimberly Holloway: I'll remember the answer.*
+    - _Ends: Left it there: Kimberly Holloway: I'll remember the answer._
 - You: Early, if I get to change a word or two first.
   - Kimberly Holloway: A word or two. Not a page.
-  - *Ends: A trade on the next bill*
+  - _Ends: A trade on the next bill_
 
 Other personalities: cold leans to “You signed it because it was good. I'll read yours the same way.” and it ends open; boastful leans to “Which one?” and it ends resolved.
 
@@ -815,7 +815,7 @@ Other personalities: cold leans to “You signed it because it was good. I'll re
 
 ## Scene 11: veto (loss, ends in bill) — proof scene
 
-*Tests veto-call; the asker is cold; a bargain, push-back, walking away. Records: desk:bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, official:term:seat:US-DE:governor:2026-10-12, official:term:seat:US-DE:lower:001:0:2026-10-12.*
+_Tests veto-call; the asker is cold; a bargain, push-back, walking away. Records: desk:bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, bill:office:US-DE:legislature-lower:2027-02-03:official:term:seat:US-DE:lower:001:0:2026-10-12:26, official:term:seat:US-DE:governor:2026-10-12, official:term:seat:US-DE:lower:001:0:2026-10-12._
 
 > Your phone shows the executive's office. Kimberly Holloway doesn't wait for hello.
 
@@ -828,7 +828,7 @@ Other personalities: cold leans to “You signed it because it was good. I'll re
 You could say:
 
 1. Why? You told me you'd sign it.
-2. Then I'll have the votes to override by Friday.  *(the page follows this one)*
+2. Then I'll have the votes to override by Friday. _(the page follows this one)_
 3. What would you sign?
 4. Thanks for calling yourself.
 
@@ -836,14 +836,14 @@ You could say:
 
 You could say:
 
-1. I counted them before I called you back.  *(the page follows this one)*
+1. I counted them before I called you back. _(the page follows this one)_
 2. I have to call my members.
 
 **Kimberly Holloway:** Then do it. I'll be watching the tally.
 
 You could say:
 
-1. Count them with me, then. The floor opens at nine.  *(the page follows this one)*
+1. Count them with me, then. The floor opens at nine. _(the page follows this one)_
 2. I need to talk to my members first.
 
 **Kimberly Holloway:** Then I'll see you on the floor.
@@ -855,33 +855,33 @@ You could say:
   - You: The cost came from your own budget office. I'll read them their number on the floor.
     - Kimberly Holloway: Then do it. I'll be watching the tally.
     - You: Count them with me, then. The floor opens at nine.
-      - *Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor.*
+      - _Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor._
     - You: I have to call my members.
-      - *Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor.*
+      - _Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor._
   - You: Then tell me the number you'd sign, and I'll take it to the members.
     - Kimberly Holloway: Cut the cost in half and take out the second phase. I'd sign that tomorrow.
-    - *Ends: A rewrite they'll sign*
+    - _Ends: A rewrite they'll sign_
   - You: Then it dies. I'll be back with it next year.
     - Kimberly Holloway: Next year, then. Bring me a cheaper one.
-    - *Ends: You let it go*
+    - _Ends: You let it go_
   - You: I need to talk to my members first.
-    - *Ends: Left it there: Kimberly Holloway: Then I'll see you on the floor.*
+    - _Ends: Left it there: Kimberly Holloway: Then I'll see you on the floor._
 - You ★: Then I'll have the votes to override by Friday.
   - Kimberly Holloway: You might. Count them twice before you say that on TV.
   - You ★: I counted them before I called you back.
     - Kimberly Holloway: Then do it. I'll be watching the tally.
     - You ★: Count them with me, then. The floor opens at nine.
-      - *Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor.*
+      - _Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor._
     - You: I need to talk to my members first.
-      - *Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor.*
+      - _Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor._
   - You: I have to call my members.
-    - *Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor.*
+    - _Ends: You'll try to override: Kimberly Holloway: Then I'll see you on the floor._
 - You: What would you sign?
   - Kimberly Holloway: Cut the cost in half and take out the second phase. I'd sign that tomorrow.
-  - *Ends: A rewrite they'll sign*
+  - _Ends: A rewrite they'll sign_
 - You: Thanks for calling yourself.
   - Kimberly Holloway: You'd do the same in my chair.
-  - *Ends: You let it go*
+  - _Ends: You let it go_
 
 Other personalities: warm leans to “Why? You told me you'd sign it.” and it ends resolved; anxious leans to “Why? You told me you'd sign it.” and it ends resolved.
 
@@ -889,7 +889,7 @@ Other personalities: warm leans to “Why? You told me you'd sign it.” and it 
 
 ## Scene 12: appointment (honor, ends in political) — proof scene
 
-*Tests appointment-offer; the asker is anxious; push-back, walking away. Records: appointment:US-DE:budget, official:term:seat:US-DE:upper:015:0:2026-10-12, person_a52334a2a50177be.*
+_Tests appointment-offer; the asker is anxious; push-back, walking away. Records: appointment:US-DE:budget, official:term:seat:US-DE:upper:015:0:2026-10-12, person_a52334a2a50177be._
 
 > Brittany Tucker from the governor's office calls. You've never spoken to the governor.
 
@@ -902,7 +902,7 @@ Other personalities: warm leans to “Why? You told me you'd sign it.” and it 
 You could say:
 
 1. Tell the governor yes.
-2. Give up my seat? Why would I do that?  *(the page follows this one)*
+2. Give up my seat? Why would I do that? _(the page follows this one)_
 3. Then no. Thank the governor for me.
 
 **Brittany Tucker:** Because from Budget Director / Finance Secretary you'd decide what a hundred councils argue about. And because the governor asked for you by name.
@@ -911,14 +911,14 @@ You could say:
 
 1. Then tell the governor I'll talk. Not yes. I'll talk.
 2. Then it's not for me. Thank the governor.
-3. Why me? We've never met.  *(the page follows this one)*
+3. Why me? We've never met. _(the page follows this one)_
 4. Let me talk to my family. I'll call you Friday.
 
 **Brittany Tucker:** That's the point. You voted against the governor's own people on "Right to work". The governor wants somebody who'll say no.
 
 You could say:
 
-1. Then yes.  *(the page follows this one)*
+1. Then yes. _(the page follows this one)_
 2. My district sent me to that seat. I'm not handing it back for a title.
 3. Let me sleep on it. I'll call you Tuesday.
 
@@ -928,38 +928,38 @@ You could say:
 
 - You: Tell the governor yes.
   - Brittany Tucker: Wonderful. The paperwork comes Monday.
-  - *Ends: You took the post*
+  - _Ends: You took the post_
 - You ★: Give up my seat? Why would I do that?
   - Brittany Tucker: Because from Budget Director / Finance Secretary you'd decide what a hundred councils argue about. And because the governor asked for you by name.
   - You: Then tell the governor I'll talk. Not yes. I'll talk.
     - Brittany Tucker: That's all I was told to get. I'll set it up.
-    - *Ends: You'll talk to the governor*
+    - _Ends: You'll talk to the governor_
   - You: Then it's not for me. Thank the governor.
     - Brittany Tucker: Think it over. It's not offered twice.
     - You: I'll pass. My district sent me to do a job, and I'm not done.
       - Brittany Tucker: The offer's good until Friday. After that, it's somebody else's.
-      - *Ends: You kept your seat*
+      - _Ends: You kept your seat_
     - You: Let me sleep on it. I'll call you Tuesday.
-      - *Ends: Thinking it over: Brittany Tucker: Don't make me chase you.*
+      - _Ends: Thinking it over: Brittany Tucker: Don't make me chase you._
   - You ★: Why me? We've never met.
     - Brittany Tucker: That's the point. You voted against the governor's own people on "Right to work". The governor wants somebody who'll say no.
     - You ★: Then yes.
       - Brittany Tucker: Wonderful. The paperwork comes Monday.
-      - *Ends: You'll talk to the governor*
+      - _Ends: You'll talk to the governor_
     - You: My district sent me to that seat. I'm not handing it back for a title.
       - Brittany Tucker: The offer's good until Friday. After that, it's somebody else's.
-      - *Ends: You kept your seat*
+      - _Ends: You kept your seat_
     - You: Let me sleep on it. I'll call you Tuesday.
-      - *Ends: Thinking it over: Brittany Tucker: Don't make me chase you.*
+      - _Ends: Thinking it over: Brittany Tucker: Don't make me chase you._
   - You: Let me talk to my family. I'll call you Friday.
-    - *Ends: Thinking it over: Brittany Tucker: Don't make me chase you.*
+    - _Ends: Thinking it over: Brittany Tucker: Don't make me chase you._
 - You: Then no. Thank the governor for me.
   - Brittany Tucker: Think it over. It's not offered twice.
   - You: I'll pass. My district sent me to do a job, and I'm not done.
     - Brittany Tucker: The offer's good until Friday. After that, it's somebody else's.
-    - *Ends: You kept your seat*
+    - _Ends: You kept your seat_
   - You: Let me sleep on it. I'll call you Tuesday.
-    - *Ends: Thinking it over: Brittany Tucker: Don't make me chase you.*
+    - _Ends: Thinking it over: Brittany Tucker: Don't make me chase you._
 
 Other personalities: warm leans to “Give up my seat? Why would I do that?” and it ends resolved; cold leans to “Give up my seat? Why would I do that?” and it ends resolved; stubborn leans to “Why me? We've never met.” and it ends resolved.
 
@@ -967,7 +967,7 @@ Other personalities: warm leans to “Give up my seat? Why would I do that?” a
 
 ## Scene 13: recall (threat, ends in political) — proof scene
 
-*Tests recall-confront; the asker is stubborn; push-back, walking away. Records: term:seat:US-DE:upper:010:0:2027-01-01:elected, official:seat:US-RI:lower:sample:Republican:0, official:term:seat:US-DE:upper:010:0:2026-10-12.*
+_Tests recall-confront; the asker is stubborn; push-back, walking away. Records: term:seat:US-DE:upper:010:0:2027-01-01:elected, official:seat:US-RI:lower:sample:Republican:0, official:term:seat:US-DE:upper:010:0:2026-10-12._
 
 > Michelle Rice is at a folding table outside the grocery store with a clipboard and a stack of petitions. You'd have to walk right past.
 
@@ -980,7 +980,7 @@ Other personalities: warm leans to “Give up my seat? Why would I do that?” a
 You could say:
 
 1. Can I see it?
-2. They'd care if you told them the whole thing. You won't, because then you'd have no table.  *(the page follows this one)*
+2. They'd care if you told them the whole thing. You won't, because then you'd have no table. _(the page follows this one)_
 3. Go ahead. I'll win the vote.
 4. It's your right. Good luck with it.
 5. I'm not signing my own recall. Good luck.
@@ -989,7 +989,7 @@ You could say:
 
 You could say:
 
-1. Fine. I'll stand right here and answer anybody who walks up.  *(the page follows this one)*
+1. Fine. I'll stand right here and answer anybody who walks up. _(the page follows this one)_
 2. Then let me tell them what it cost the other way. Give me five minutes at your table.
 3. I'll see you at the forum.
 
@@ -1001,49 +1001,49 @@ You could say:
   - Michelle Rice: Read the top. It's three lines, and your vote on "Inclusionary requirement" is the first one.
   - You: Then let me tell them what it cost the other way. Give me five minutes at your table.
     - Michelle Rice: Five minutes. Then you leave the table to me.
-    - *Ends: Five minutes at their table*
+    - _Ends: Five minutes at their table_
   - You: Office hours never stopped. They moved to Tuesday nights, and nobody printed it.
     - Michelle Rice: Tuesday nights. Then I'll see you there, and so will everybody I bring.
-    - *Ends: They'll come Tuesday night*
+    - _Ends: They'll come Tuesday night_
   - You: I'll see you at the forum.
-    - *Ends: You walked away: Michelle Rice: We'll be here every Saturday.*
+    - _Ends: You walked away: Michelle Rice: We'll be here every Saturday._
 - You ★: They'd care if you told them the whole thing. You won't, because then you'd have no table.
   - Michelle Rice: Then go tell them yourself. They're right behind you.
   - You ★: Fine. I'll stand right here and answer anybody who walks up.
     - Michelle Rice: Say it to them, not to me. I just hold the clipboard.
-    - *Ends: You walked away*
+    - _Ends: You walked away_
   - You: Then let me tell them what it cost the other way. Give me five minutes at your table.
     - Michelle Rice: Five minutes. Then you leave the table to me.
-    - *Ends: Five minutes at their table*
+    - _Ends: Five minutes at their table_
   - You: I'll see you at the forum.
-    - *Ends: You walked away: Michelle Rice: We'll be here every Saturday.*
+    - _Ends: You walked away: Michelle Rice: We'll be here every Saturday._
 - You: Go ahead. I'll win the vote.
   - Michelle Rice: Say it to them, not to me. I just hold the clipboard.
   - You: Fine. I'll stand right here and answer anybody who walks up.
     - Michelle Rice: Then say that at the forum. In front of people.
-    - *Ends: You dared them to try*
+    - _Ends: You dared them to try_
   - You: Then let me tell them what it cost the other way. Give me five minutes at your table.
     - Michelle Rice: Five minutes. Then you leave the table to me.
-    - *Ends: Five minutes at their table*
+    - _Ends: Five minutes at their table_
   - You: I'll see you at the forum.
-    - *Ends: You dared them to try: Michelle Rice: We'll have the signatures by Friday.*
+    - _Ends: You dared them to try: Michelle Rice: We'll have the signatures by Friday._
 - You: It's your right. Good luck with it.
   - Michelle Rice: Don't walk past. Tell me why you voted for it.
   - You: I voted for it because the other choice was a cut that hurt more people. Put me on the forum. I'll say that and take questions until they run out.
     - Michelle Rice: Then we'll set it up. I'll hold you to it.
-    - *Ends: A meeting set*
+    - _Ends: A meeting set_
   - You: I'm not debating you at a card table.
     - Michelle Rice: Say it to them, not to me. I just hold the clipboard.
     - You: Fine. I'll stand right here and answer anybody who walks up.
       - Michelle Rice: Then say that at the forum. In front of people.
-      - *Ends: You walked away*
+      - _Ends: You walked away_
     - You: Then let me tell them what it cost the other way. Give me five minutes at your table.
       - Michelle Rice: Five minutes. Then you leave the table to me.
-      - *Ends: Five minutes at their table*
+      - _Ends: Five minutes at their table_
   - You: I'll see you at the forum.
-    - *Ends: You walked away: Michelle Rice: We'll have the signatures by Friday.*
+    - _Ends: You walked away: Michelle Rice: We'll have the signatures by Friday._
 - You: I'm not signing my own recall. Good luck.
-  - *Ends: You walked away: Michelle Rice: We don't need yours.*
+  - _Ends: You walked away: Michelle Rice: We don't need yours._
 
 Other personalities: warm leans to “Can I see it?” and it ends resolved; cold leans to “It's your right. Good luck with it.” and it ends open; anxious leans to “It's your right. Good luck with it.” and it ends resolved; boastful leans to “Go ahead. I'll win the vote.” and it ends resolved.
 
@@ -1051,7 +1051,7 @@ Other personalities: warm leans to “Can I see it?” and it ends resolved; col
 
 ## Scene 14: public-hearing (routine, ends in bill) — proof scene
 
-*Tests hearing-testify; the asker is stubborn; walking away. Records: town-hall:person_bc041df6bd9d1a47:2027-03-29, bill:office:US-DE:legislature-lower:2027-03-06:official:term:seat:US-DE:lower:001:0:2026-10-12:55, person_bc041df6bd9d1a47, person_1629cc78a3f713b1.*
+_Tests hearing-testify; the asker is stubborn; walking away. Records: town-hall:person_bc041df6bd9d1a47:2027-03-29, bill:office:US-DE:legislature-lower:2027-03-06:official:term:seat:US-DE:lower:001:0:2026-10-12:55, person_bc041df6bd9d1a47, person_1629cc78a3f713b1._
 
 > It's public comment on "Restrict abortion". Alicia Keller calls your name, and you step up to the microphone.
 
@@ -1066,13 +1066,13 @@ You could say:
 1. Mei Drake, Brookside. I've read "Restrict abortion" twice, and nobody on my street was asked. I'd like the council to hear from the people it reaches first.
 2. Mei Drake, Brookside. Hold the vote one week and hear from the people it reaches first.
 3. Mei Drake, Brookside. You decided this before tonight, and you know it.
-4. Mei Drake, Brookside. Has anybody up there talked to the people this reaches?  *(the page follows this one)*
+4. Mei Drake, Brookside. Has anybody up there talked to the people this reaches? _(the page follows this one)_
 
 **Alicia Keller:** Staff, can you answer that?
 
 You could say:
 
-1. Then I'd like that in writing, please.  *(the page follows this one)*
+1. Then I'd like that in writing, please. _(the page follows this one)_
 2. Thank you.
 3. That's my time. I'll be back for the vote.
 
@@ -1084,48 +1084,47 @@ You could say:
   - Alicia Keller: Is your concern the bill, or how it was done?
   - You: How it was done. Ask us first, and I'll sit down.
     - Alicia Keller: Thank you. It's in the record.
-    - *Ends: Your testimony is on the record*
+    - _Ends: Your testimony is on the record_
   - You: Thank you. I'll be back for the vote.
-    - *Ends: You left the podium: Alicia Keller: The record will show you were here.*
+    - _Ends: You left the podium: Alicia Keller: The record will show you were here._
 - You: Mei Drake, Brookside. Hold the vote one week and hear from the people it reaches first.
   - Alicia Keller: Staff will bring us who it reaches by the next meeting.
   - You: Then I'd like that in writing, please.
     - Alicia Keller: We can't respond to that during public comment.
-    - *Ends: Gaveled down*
+    - _Ends: Gaveled down_
   - You: Thank you.
     - Alicia Keller: Staff will follow up with you by Friday.
     - You: I've heard by Friday before.
       - Alicia Keller: This time it's in the minutes. You can hold us to it.
-      - *Ends: Left it there*
+      - _Ends: Left it there_
     - You: Friday. I'll be watching for it.
       - Alicia Keller: You'll have it.
-      - *Ends: Left it there*
+      - _Ends: Left it there_
   - You: That's my time. I'll be back for the vote.
-    - *Ends: You left the podium: Alicia Keller: The record will show you were here.*
+    - _Ends: You left the podium: Alicia Keller: The record will show you were here._
 - You: Mei Drake, Brookside. You decided this before tonight, and you know it.
   - Alicia Keller: Please address the chair, not the members.
   - You: I'm sorry. I'll address the chair.
     - Alicia Keller: Thank you. That's noted.
-    - *Ends: Left it there*
+    - _Ends: Left it there_
   - You: That's my time. I'll be back for the vote.
-    - *Ends: Gaveled down: Alicia Keller: The record will show you were here.*
+    - _Ends: Gaveled down: Alicia Keller: The record will show you were here._
 - You ★: Mei Drake, Brookside. Has anybody up there talked to the people this reaches?
   - Alicia Keller: Staff, can you answer that?
   - You ★: Then I'd like that in writing, please.
     - Alicia Keller: Staff will bring us who it reaches by the next meeting.
-    - *Ends: Your change goes to the committee*
+    - _Ends: Your change goes to the committee_
   - You: Thank you.
     - Alicia Keller: Staff will follow up with you by Friday.
     - You: I've heard by Friday before.
       - Alicia Keller: This time it's in the minutes. You can hold us to it.
-      - *Ends: Left it there*
+      - _Ends: Left it there_
     - You: Friday. I'll be watching for it.
       - Alicia Keller: You'll have it.
-      - *Ends: Left it there*
+      - _Ends: Left it there_
   - You: That's my time. I'll be back for the vote.
-    - *Ends: You left the podium: Alicia Keller: The record will show you were here.*
+    - _Ends: You left the podium: Alicia Keller: The record will show you were here._
 
 Other personalities: warm leans to “Mei Drake, Brookside. Has anybody up there talked to the people this reaches?” and it ends open.
 
 <sub>L1 narrate/narrate/scene-talk/braced/18w2s [scene-talk.narrate-narrate.it-s-public-comment-on-bill-name-calls-your-name-and-you-step-up-to-th]; L2 open/call-to-order/scene-talk/calm/4w1s [scene-talk.open-call-to-order.you-have-three-minutes]; L3 state/call-to-order/scene-talk/calm/9w1s [scene-talk.state-call-to-order.please-state-your-name-and-address-for-the-record]; L4 reply/tell/scene-talk/braced/27w3s [scene-talk.reply-tell.self-place-i-ve-read-bill-twice-and-nobody-on-my-street-was-asked-i-d-]; L5 reply/request/scene-talk/calm/16w2s [scene-talk.reply-request.self-place-hold-the-vote-one-week-and-hear-from-the-people-it-reaches-]; L6 reply/confront/scene-talk/braced/12w2s [scene-talk.reply-confront.self-place-you-decided-this-before-tonight-and-you-know-it]; L7 reply/ask/scene-talk/braced/13w2s [scene-talk.reply-ask.self-place-has-anybody-up-there-talked-to-the-people-this-reaches]; L29 follow/answer/scene-talk/calm/5w1s [scene-talk.follow-answer.staff-can-you-answer-that]; L30 reply/request/scene-talk/calm/7w1s [scene-talk.reply-request.then-i-d-like-that-in-writing-please]; L31 reply/thank/scene-talk/calm/2w1s [scene-talk.reply-thank.thank-you]; L32 reply/leave/scene-talk/calm/9w2s [scene-talk.reply-leave.that-s-my-time-i-ll-be-back-for-the-vote]; L33 follow/answer/scene-talk/calm/11w1s [scene-talk.follow-answer.staff-will-bring-us-who-it-reaches-by-the-next-meeting]</sub>
-
