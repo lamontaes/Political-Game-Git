@@ -6,12 +6,12 @@ Four full-window screenshots (1672 x 941) of the bench play screen on main at co
 - **World seed:** `screens-2026-10-19`, opening date 2025-01-20.
 - **Player:** Kelsey Warren, 8:30 PM on opening day. One new life, no time advanced.
 
-| File | Screen |
-| --- | --- |
-| `1-money-overview.png` | Money and property |
+| File                         | Screen                                                                               |
+| ---------------------------- | ------------------------------------------------------------------------------------ |
+| `1-money-overview.png`       | Money and property                                                                   |
 | `2-travel-filing-office.png` | Travel, with the Secretary of State and Town or city clerk filing offices at the top |
-| `3-politics-hub.png` | Politics, Government tab, Local level |
-| `4-person-card.png` | Person card: Cora Warren, the player's sister, age 4 |
+| `3-politics-hub.png`         | Politics, Government tab, Local level                                                |
+| `4-person-card.png`          | Person card: Cora Warren, the player's sister, age 4                                 |
 
 ## What stands out
 
