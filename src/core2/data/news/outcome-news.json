@@ -1,5 +1,5 @@
 {
-  "about": "The place outcomes people can hear about: each is a kept outcome of the outcome web that another engine reads (the file that reads it is named), with the subject its story is about. A month's record names every one of these that moved; the press decides what to print. The views engine holds stances only on policy questions and budget lines, so none of these topics moves a view by itself: a heard story is a known fact, and what reads it (the electorate's town conditions) cites the story.",
+  "about": "The place outcomes people can hear about: each is a kept outcome of the outcome web that another engine reads (the file that reads it is named), with the subject its story is about. A month's record names every one of these that moved; the press decides what to print. A heard story is a known fact, and what reads it (the electorate's town conditions) cites the story. A story about a moved condition argues no change of its own, so each reader it reaches takes it as a reason for the side their own view already holds on the policy question or budget line its subject ties to (`questions`, by subject), by the views engine's heard-event amount.",
   "measures": {
     "labor.unemployment-pct": {
       "topic": "economy",
@@ -25,6 +25,20 @@
       "topic": "housing",
       "readBy": null,
       "stopgapId": "SG-WEB-knowing-rent-reader"
+    }
+  },
+  "questions": {
+    "economy": {
+      "question": "budget-line:incomeSecurity",
+      "why": "Unemployment rising is the case for or against spending on the jobless: unemployment insurance and other income support are the income-security line."
+    },
+    "crime": {
+      "question": "budget-line:police",
+      "why": "Crime rising is the case for or against spending on the police, the line voters tie most to crime."
+    },
+    "housing": {
+      "question": "us-policy-positions:housing-land-use.rent-stabilization",
+      "why": "Rent rising is the case for or against rent stabilization, the housing question voters tie most to rent."
     }
   }
 }
