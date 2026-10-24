@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-m0-09-flag
-pr:
+pr: #5960
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T17:26:57.599Z
