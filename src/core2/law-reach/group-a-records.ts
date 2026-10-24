@@ -536,7 +536,7 @@ function followsRecords(spec: ReachSpec): boolean {
 }
 
 /** The first day `ageOn` counts the person as this age (a leap-day birth turns it on March 1 in a common year). */
-function ageReachedOn(birthDate: string, age: number): string {
+export function ageReachedOn(birthDate: string, age: number): string {
   const year = Number(birthDate.slice(0, 4)) + age;
   const monthDay = birthDate.slice(5);
   const leap = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
@@ -623,7 +623,10 @@ onReachCalendar(REFRESH_KIND, (api, work) => {
 export function refreshAfterHouseholdChange(api: CoreAPI): void {
   for (const key of Object.keys(POLICIES)) {
     const policy = POLICIES[key]!;
-    if (!policy.reaches.some(followsRecords) || !openReach(api, key).length)
+    // The law's standing is read from the laws in force, not from its rows:
+    // a law that reaches nobody yet gains its first row on the day a household
+    // changes to fit it.
+    if (!policy.reaches.some(followsRecords) || !yesLevels(api, key)[0])
       continue;
     refreshRecords(api, key);
     scheduleRefresh(api, key);
