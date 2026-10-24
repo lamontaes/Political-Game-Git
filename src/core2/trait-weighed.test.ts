@@ -1,13 +1,16 @@
 /**
  * A two-way decision weighed by the shared formula (`leanedYes`) leaves a
  * `person.weighed` record for the player and anyone in focus, yes or no, with
- * the case and the trait term as its reasons; anyone else leaves none
- * (why-kept). Built on a drawn place's opening world.
+ * the case and the trait term as its reasons, and so does a choice among
+ * options by the shared chooser; anyone else leaves none (why-kept). Built on
+ * a drawn place's opening world.
  */
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
+import { chooseAct } from "./choice";
 import { gameStartDate } from "./game-start";
+import { availableActs } from "./life";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -63,5 +66,29 @@ describe(`weighed decisions keep their reasons for people in focus: ${where}`, (
       expect(scores[0]!.score).toBeCloseTo(bare + term, 9);
       expect(scores[1]!.score).toBe(0);
     }
+  }, 240_000);
+
+  it("records a choice among options for someone in focus, unless the caller commits it as an act", () => {
+    const person = [...core.people.values()].find(
+      (p) =>
+        p.alive &&
+        p.id !== core.playerId &&
+        !core.focusPersonIds.has(p.id) &&
+        availableActs(core, p.id).length >= 2,
+    );
+    expect(person, where).toBeDefined();
+    const offers = availableActs(core, person!.id);
+    chooseAct(core, person!.id, offers);
+    expect(weighedBy(person!.id), where).toEqual([]);
+
+    core.focusPersonIds.add(person!.id);
+    chooseAct(core, person!.id, offers, undefined, false, false);
+    expect(weighedBy(person!.id), where).toEqual([]);
+    const decision = chooseAct(core, person!.id, offers);
+    const [row] = weighedBy(person!.id);
+    expect(row?.actionId, where).toBe(decision.selected!.definition.id);
+    expect(
+      (row!.decision as DecisionResult).scores!.map((s) => s.actionId),
+    ).toEqual(offers.map((o) => o.definition.id));
   }, 240_000);
 });
