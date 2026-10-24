@@ -10,13 +10,21 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+lead: play-first
+milestone: play-first
 ---
 
 **What.** On the v0.22.10 release Day went from Monday 8:30 PM to Wednesday 12:00 AM, skipping Tuesday, and every later Day and Week landed at midnight. Knock on doors said 3 hours but the clock did not move. This part makes an advance land on the next morning and makes an act spend its hours on the player's clock.
 
-**Rules.** Sliding scales and causes: the clock moves by what the player does, so an act that takes 3 hours spends 3 hours. This is a game, not a spreadsheet: the player has to see days happen, not midnights.
+**Rules.** Serves LAW.md §9, Time. Sliding scales and causes: the clock moves by what the player does, so an act that takes 3 hours spends 3 hours. This is a game, not a spreadsheet: the player has to see days happen, not midnights.
 
 **Done when.** In a drawn place, Day pressed at 8:30 PM lands the next morning, Week lands on a morning seven days on, and a 3-hour act moves the clock 3 hours, checked by a test on the player's clock.
+
+**Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** Pressing Day from any evening lands on the next morning, and after a 3-hour campaign act the clock reads 3 hours later.
+
+**Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Files.** src/core2/player-v1.ts, src/bench/handler.ts
 
