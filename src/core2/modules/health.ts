@@ -65,6 +65,8 @@ export interface HealthData {
   calibrationCategory: "equal-mixture" | "male" | "female";
   onsetEventKind: string;
   deathEventKind: string;
+  /** A serious illness begun in the wider population, recorded for the person and their household. */
+  countedOnsetEventKind: string;
   /** A death in the wider population, recorded for the household that outlives them. */
   countedDeathEventKind: string;
   topicPrefix: string;
