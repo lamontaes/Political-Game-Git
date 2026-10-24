@@ -2143,14 +2143,30 @@ function hireCounted(
   // The role's schedule and payday, as a full hire takes them, kept with the
   // household so the worker is on that payroll the day they are met.
   const role = roleTemplate(c, { ...position, templateJobId: template.id });
+  const startsAt = addDays(makeIsoDate(api.state.date), 1);
+  // The hiring employer's own payroll, as a full hire's: a template at
+  // another employer lends its payday, not its calendar.
+  const calendar: WorkPayrollCalendarInput | undefined =
+    role &&
+    (role.calendar.organizationId === position.organizationId
+      ? role.calendar
+      : {
+          ...role.calendar,
+          organizationId: position.organizationId,
+          id: `payroll-calendar:${jobId}`,
+          workCommitmentIds: [`work-commitment:${jobId}`],
+          basisRecordIds: [position.organizationId],
+          effectiveFrom: [startsAt, role.calendar.effectiveFrom].sort().at(-1)!,
+          source: job.source,
+        });
   const commitment: WorkCommitmentInput | undefined = role && {
     ...role.commitment,
     organizationId: position.organizationId,
     id: `work-commitment:${jobId}`,
     jobId,
     personId: seeker.personId,
-    payrollCalendarId: role.calendar.id,
-    startsAt: addDays(makeIsoDate(api.state.date), 1),
+    payrollCalendarId: calendar!.id,
+    startsAt,
     endsAt: undefined,
     hourlyMinor: position.hourlyMinor,
     scheduleTemplateJobId: role.template.id,
@@ -2158,7 +2174,7 @@ function hireCounted(
     scheduleSource: job.source,
   };
   if (!addCountedJob(c, job, template.id, commitment)) return false;
-  if (role) keepCalendar(c, role.calendar);
+  if (calendar) keepCalendar(c, calendar);
   // The hire stands for the jobs the opening offered (one, or the leaver's it
   // replaces), not every household the seeker's record stands for.
   residentsRuntime(c)?.store.setJobHeads(job.id, position.heads ?? 1);
