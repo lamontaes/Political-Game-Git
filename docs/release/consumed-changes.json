@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.23.2",
+      "releasedOn": "2026-10-24",
+      "revision": "b0664a04bf477d8489e10e8ee7ec9c56980a6924",
+      "changeIds": [
+        "core-speed-work-payroll-in-play",
+        "gov-successor-governor-identity-only-no-office-day",
+        "roadmap-m0-07-turnover-check"
+      ]
+    },
+    {
+      "version": "0.23.1",
+      "releasedOn": "2026-10-24",
+      "revision": "5bb94db1cb477c493502d5b62ec9c341a843ff9f",
+      "changeIds": [
+        "gov-counted-bail-moves-the-cash",
+        "gov-justice-player-test-player-dies",
+        "gov-offices-office-seated-before-it-exists",
+        "roadmap-m1-11-played-year-check",
+        "tests-counted-deaths-opening-reads-bookkeeping-record",
+        "web-reach-civic",
+        "words-batches-as-artifacts",
+        "words-government-scenes-executive-changes",
+        "words-hearing-scene-for-the-sponsor"
+      ]
+    },
+    {
       "version": "0.23.0",
       "releasedOn": "2026-10-24",
       "revision": "d45543e61eeeecc1c61502af08639ae577e556da",

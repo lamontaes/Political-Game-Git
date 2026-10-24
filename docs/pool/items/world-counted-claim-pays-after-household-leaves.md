@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/counted-claim-household-leaves
+pr: #5973
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T19:10:15.459Z
 ---
 
 **What.** When the counted moves engine moves a household out of town (departCountedHousehold, src/core2/modules/residents.ts:2408), endHouseholdFlows ends only the retirement awards listed in the household's income contracts. An award claimed in play by a counted member is a residents flow named retirement-claim:<person> (src/core2/modules/retirement-claims.ts), which no income contract lists. So it keeps paying the residents account of the town they left. This is read from the code and not yet shown in a run. Garland, Tennessee (GOLDEN_PATH_SEED=1811f30aeb17dbb0025e759cc9df15bc, counted-demotion test) has a household that moved away on Nov 1, 2025 as move:out:household_4c1c42413e50aaf8:2025-11-01, but nobody in it had claimed.
