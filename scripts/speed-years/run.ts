@@ -24,6 +24,7 @@ import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
+import { corePlaceByKey } from "../../src/core2/place-lookup";
 import { drawPlace } from "../core2-year/place";
 import { compareYears, type SpeedReceipt, type YearTiming } from "./compare";
 
@@ -37,6 +38,11 @@ const years = Number(option("years", "1"));
 const maxSeconds = Number(option("max-seconds", "300"));
 const drawn = drawPlace(seed, "speed-year");
 const placeKey = option("place", drawn.key);
+// A named key is reported by its own name, not the seed's drawn place.
+const placeName =
+  placeKey === drawn.key
+    ? drawn.name
+    : (corePlaceByKey(placeKey)?.displayName ?? placeKey);
 const seconds = (since: number) =>
   Number(((performance.now() - since) / 1000).toFixed(1));
 
@@ -47,7 +53,7 @@ const world = buildBenchWorld(drawn.seed, gameStartDate(), {
   placeKey,
 });
 console.log(
-  `${drawn.name} (key ${placeKey}, seed ${seed}): built in ${seconds(built)} s`,
+  `${placeName} (key ${placeKey}, seed ${seed}): built in ${seconds(built)} s`,
 );
 /** A summary of the world at a year's end: its date, counts and every dollar held. */
 const fingerprint = (): string => {
