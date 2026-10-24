@@ -233,10 +233,10 @@
     "file": "src/director/data/opening-story.json",
     "line": 1,
     "whatItFakes": "Which of the bill catalog's policy names read as an action the President can ask Congress for, listed by their first word.",
-    "why": "The opening address needs the President's own issues as a {goal} now; the catalog names some questions as actions (\"raise minimum wage\") and some as things (\"paid family leave\").",
+    "why": "The opening address needs the President's own issues as a {goal} now; the catalog names some questions as actions (\"raise minimum wage\") and some as things (\"paid family leave\"). Resolved Oct 24 (words/opening-speech-per-world): the address asks for each question by its spoken ask in data/english/question-names.json (questionTo), the same name office scenes use; the action-word list is deleted.",
     "addedBy": "director/opening-story",
     "addedAt": "2026-10-14",
-    "replacement": "An action phrase on each policy question in OPUS-GOV's bill catalog, or a mined goal phrase per question from OPUS-WORDS. Resolved Oct 24 (words/opening-speech-per-world): the address asks for each question by its spoken ask in data/english/question-names.json (questionTo), the same name office scenes use; the action-word list is deleted.",
+    "replacement": "An action phrase on each policy question in OPUS-GOV's bill catalog, or a mined goal phrase per question from OPUS-WORDS.",
     "status": "resolved"
   },
   {
