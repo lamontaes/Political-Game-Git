@@ -4,11 +4,7 @@ import {
   PEOPLE_TRAITS,
   BALANCED_TRAIT,
 } from "./people-trait-definitions";
-import type {
-  TraitMovability,
-  TraitPack,
-  TraitScale,
-} from "../core2/trait-packs";
+import type { TraitMovability, TraitPack, TraitScale } from "./trait-packs";
 
 /**
  * The five ordinary-life traits, as the first pack.
@@ -58,9 +54,8 @@ const ORDINARY_LIFE_SCOPES = ["life:ordinary"] as const;
  * engine's.
  *
  * `settledByStrength` is what a value resists once it has stood for
- * `settlesOver` years, read against how strongly the person holds it. That is
- * the owner's answer to how personality change should be paced: it depends on
- * how strongly the trait is theirs. Somebody with no lean at all is a `subtle`
+ * `settlesOver` years, read against how strongly the person holds it, so
+ * how fast personality changes depends on how strongly the trait is theirs. Somebody with no lean at all is a `subtle`
  * hold and the easiest to move; somebody the whole town would name by this
  * trait is `strong` and takes a great deal.
  *
