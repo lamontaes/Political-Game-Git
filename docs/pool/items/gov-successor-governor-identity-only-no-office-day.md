@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5941
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** In Sinajana, Guam (CLEMENCY_AI_SEED=449d6cfb96d84c74, draw 0, on PR 5847's branch before its fix) the governor was convicted on July 22, 2025 and term:seat:US-GU:governor:2025-01-20 ended by conviction. The seat passed to term:seat:US-GU:governor:2025-07-22, whose personId stayed null through December 18, 2025. The office-day engine runs a computer governor's day only for a holder who is a person (stateOfficeOf in src/core2/office-day-state.ts), so no clemency petition was taken up for five months with 20 prisoners serving. SG-GOV-official-identity-only is marked resolved and says a holder seated later is filled in the first time their seat is read; the office-day path does not read it that way.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/office-day-state.ts, src/core2/modules/offices.ts, src/core2/modules/officials.ts
 
 **Notes.** Found Oct 24 from PR 5847's unit run; that PR's clemency test now leaves the governor out of its bribes, so this gap no longer fails the test.
+
+Sent back 2026-10-24 from PR #5941 (branch claude/successor-governor-person): the table names only a 240-plus-21-day (261-day) regression, not the required completed played year; supply full-year successor/office-day record evidence; finish on that branch, merge main into it first.

@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: done
 claimed-by: claude/territory-federal-withholding
-pr:
+pr: #5916
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T07:09:07.014Z
