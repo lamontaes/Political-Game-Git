@@ -3245,6 +3245,8 @@ function floorAmendments(
         kind,
         question: section.question!,
         direction: section.value > 0 ? "yes" : "no",
+        // The section's number in the bill as amended, counted from one.
+        section: String(current.provisions.length),
       },
     });
   };
@@ -3379,6 +3381,97 @@ function runBeforeVote(
   }
 }
 
+/**
+ * A bill that lost a vote, in its committee or on the floor: a record for its
+ * sponsor, who hears it that day, with the count it lost by. A committee that
+ * never heard the bill held no vote, so it records none.
+ */
+function recordFailure(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  stage: "committee" | "floor",
+  tally: { readonly yes: number; readonly no: number },
+): void {
+  if (!api.state.people.has(bill.sponsorId)) return;
+  // The seat the sponsor holds, whose office the news reaches.
+  const seat = chambersOf(api, bill)
+    .flatMap((body) => members(api, body))
+    .find((term) => memberKey(term) === bill.sponsorId);
+  api.emit({
+    id: `bill-failed:${bill.id}:${chamber}`,
+    date: api.state.date,
+    kind: "bill-failed",
+    personIds: [bill.sponsorId],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `${stage === "committee" ? "Committee vote" : "Vote"} on ${bill.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    facts: {
+      billId: bill.id,
+      number: bill.number,
+      level: billReach(api, bill).level,
+      chamber,
+      stage,
+      sponsorId: bill.sponsorId,
+      ...(seat ? { officeId: seat.officeId } : {}),
+      yes: String(tally.yes),
+      no: String(tally.no),
+    },
+  });
+}
+
+/**
+ * The floor day of a bill whose committee traded for votes: each member who
+ * traded their vote there for their own section, and sits on this floor, is
+ * a record for them and the sponsor, who comes to make sure of the vote.
+ */
+function recordPromises(api: CoreAPI, bill: BillRow, chamber: string): void {
+  const seats = members(api, chamber);
+  for (const deal of bill.deals) {
+    if (
+      deal.kind !== "trade-amendment" ||
+      deal.status !== "accepted" ||
+      deal.stage !== "committee" ||
+      deal.chamber !== chamber ||
+      !api.state.people.has(deal.memberId)
+    )
+      continue;
+    const seat = seats.find((term) => memberKey(term) === deal.memberId);
+    if (!seat) continue;
+    api.emit({
+      id: `vote-promise:${bill.id}:${chamber}:${deal.memberId}`,
+      date: api.state.date,
+      kind: "vote-promise",
+      personIds: [deal.memberId, bill.sponsorId].filter(
+        (id, index, ids) =>
+          api.state.people.has(id) && ids.indexOf(id) === index,
+      ),
+      placeId: lawChain(api).townPlaceId,
+      source: {
+        tag: "SOURCED",
+        citation: `${bill.number}: the committee trade of ${deal.date}, on the floor`,
+        asOf: api.state.date,
+      },
+      // The committee's trade is public record; this is that trade, due.
+      publicRecord: true,
+      facts: {
+        billId: bill.id,
+        number: bill.number,
+        level: billReach(api, bill).level,
+        chamber,
+        memberId: deal.memberId,
+        sponsorId: bill.sponsorId,
+        officeId: seat.officeId,
+        traded: deal.date,
+      },
+    });
+  }
+}
+
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const result = countVote(api, billId);
   // Votes are on the record once a bill is anything but unvoted or blocked.
@@ -3407,6 +3500,8 @@ function countVote(api: CoreAPI, billId: string): BillRow {
     if (committee && !committee.reported) {
       const held: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(held as unknown as ModuleRow);
+      if (committee.heard)
+        recordFailure(api, held, chamber, "committee", committee);
       return held;
     }
     // The floor's vote cites the report that sent the bill to it.
@@ -3414,6 +3509,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
       bill = { ...bill, committeeId: committee.id };
       table(api, "bills").put(bill as unknown as ModuleRow);
     }
+    recordPromises(api, bill, chamber);
     bill = floorAmendments(api, bill, chamber);
     const counted = chamberVote(api, bill, chamber);
     // A tie: the presiding officer who may break one does (the Vice President
@@ -3452,6 +3548,7 @@ function countVote(api: CoreAPI, billId: string): BillRow {
     if (tally.yes <= tally.no || cloture) {
       const failed: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(failed as unknown as ModuleRow);
+      recordFailure(api, failed, chamber, "floor", tally);
       return failed;
     }
   }
@@ -3594,6 +3691,33 @@ function executiveAction(
         kind: "signing-deadline",
         source: deadline.source,
         sourceRecordIds: [bill.id],
+      });
+      // Presentment: the bill on the executive's desk is public record, and
+      // the scene where it is brought to them stands on it.
+      api.emit({
+        id: `bill-presented:${bill.id}`,
+        date: api.state.date,
+        kind: "bill-presented",
+        personIds: [key, bill.sponsorId].filter(
+          (id, index, ids) =>
+            api.state.people.has(id) && ids.indexOf(id) === index,
+        ),
+        placeId: lawChain(api).townPlaceId,
+        source: {
+          tag: "SOURCED",
+          citation: `${bill.number} presented for signature by ${deadline.date}`,
+          asOf: api.state.date,
+        },
+        publicRecord: true,
+        news: true,
+        facts: {
+          billId: bill.id,
+          number: bill.number,
+          level: billReach(api, bill).level,
+          executiveId: key,
+          officeId: executiveOffice!.id,
+          signBy: deadline.date,
+        },
       });
       for (const hook of deskHooks)
         hook(api, {

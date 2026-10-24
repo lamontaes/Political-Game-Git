@@ -1254,6 +1254,31 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "bill-amendment",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "bill-presented",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "office.approached",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "bill-failed",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
+      "eventKind": "vote-promise",
+      "channel": "cause",
+      "impactParameter": "directorFloorVoteImpact"
+    },
+    {
       "eventKind": "executive-action",
       "channel": "cause",
       "impactParameter": "directorExecutiveActionImpact"
