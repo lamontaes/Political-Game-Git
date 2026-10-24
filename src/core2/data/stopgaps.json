@@ -4982,7 +4982,9 @@
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
     "replacement": "A conditions term in the plan score that reads webReach for the woman's own age and tenure, leaving out the links her own records already carry (unemployment), with a weight calibrated in a played year so full births move by the researched size, as counted births do.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-24",
+    "resolution": "Full couples' plan-a-child choice carries a web term in the plan score: renewalWebWeight times the birth-rate factor that lands on the mother's own age and home, less one (webFactorFor in src/core2/births-plan.ts), the same factor the counted women of that age and home are scaled by (src/core2/births-counted.ts). Unemployment, home prices and the abortion law now move full couples' plans, pregnancies and births as they move the counted tier's. The unemployment link is read through the factor like the others, so its effect is shared with the work and income terms. src/core2/births-full-web.test.ts follows a shifted web month row to the plans, pregnancies and births it tips in a played year, by record id."
   },
   {
     "id": "SG-TRAITS-counted-health-no-trait",
@@ -5535,6 +5537,18 @@
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-budget-mix",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 0,
+    "whatItFakes": "An island area's state-level government has no spending or revenue by function in the data (Census state finances cover the states and D.C.). Its budget takes the states' residents-weighted function mix, scaled to the area's own all-funds spending a resident where published (Guam, the Virgin Islands, Puerto Rico) and to the median of those where not (American Samoa, the Northern Marianas), with revenue equal to spending.",
+    "why": "public-budget-bases.json holds an all-funds total for three island areas and no breakdown for any; without a budget its treasury is empty and its officials and agencies cannot be paid.",
+    "addedBy": "claude/territory-admin-line",
+    "addedAt": "2026-10-18",
+    "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
     "status": "open"
   },
   {
