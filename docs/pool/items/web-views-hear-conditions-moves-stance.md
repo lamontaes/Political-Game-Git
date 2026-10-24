@@ -5,10 +5,10 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
 pr: #5879
-blocked-on:
+blocked-on: people-counted-readers-stances-from-stories
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -28,3 +28,5 @@ Sent back 2026-10-24 from PR #5879 (branch claude/affectionate-clarke-7dknew): P
 Sent back 2026-10-24 from PR #5879 (branch claude/affectionate-clarke-7dknew): Own Santa Rita Guam draw OUTCOME_NEWS_SEED=3483bea3d0727b46: new rent-year test line 282 finds zero moved readers despite nine printed outlets; full changed file fails; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5879 (branch claude/affectionate-clarke-7dknew): Explicit item rule requires counted followers to use the same stance reader, but new path and body defer all counted readers; complete that rule or publish a bounded full-reader completion item with honest remaining-gap routing; finish on that branch, merge main into it first.
+
+Oct 24 (effects lead): split after Merger 3's send-back on #5879. The full readers' step is web-views-hear-conditions-full-readers, which #5879 completes; the counted followers' step is people-counted-readers-stances-from-stories, registered on #5879 as SG-PEOPLE-counted-readers-stories. This item closes when both are done.
