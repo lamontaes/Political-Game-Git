@@ -28,3 +28,5 @@ Sent back 2026-10-20 from PR #5268 (branch claude/rival-campaign-day): the owner
 Sent back 2026-10-20 from PR #5268 (branch claude/rival-campaign-day): the chooser splits only calls and doors; the owner's Oct 20 ruling asks rivals to choose among the player's own campaign day acts (campaignDayChoices: ads, staff, events, press as well) by money, standing and traits; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5268 (branch claude/rival-campaign-day): current main conflicts in src/core2/campaign-turn.test.ts, and the body explicitly lacks played-world year/record-ID proof while the item acceptance is still TODO; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5268 (branch claude/rival-campaign-day): conflict and spec repaired, but Done-when act-mix row still explicitly Not shown; supply the drawn played-world campaign record proof; finish on that branch, merge main into it first.
