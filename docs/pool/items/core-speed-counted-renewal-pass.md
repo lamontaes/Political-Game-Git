@@ -17,8 +17,10 @@ claimed-at: 2026-10-24T01:41:53.134Z
 
 **Rules.** No dice: who falls ill, dies and is born stays exactly the same, by record id. Bookkeeping is a debug switch: the month's counts record is built only when it is kept. Speed: no change makes a year slower, measured before and after on the same machine.
 
-**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, one year, and Stanardsville, Virginia, seed cc91f5444b53bd47, three years) the deep fingerprint of people, money, the counted population, the kept log and journal totals is identical before and after; applyCountedFlows' inclusive time in a CPU profile falls by at least half; the births-counted, counted deaths and counted illness tests pass.
+**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, one year, and Stanardsville, Virginia, seed cc91f5444b53bd47, three years) the deep fingerprint of people, money, the counted population, the kept log and journal totals is identical before and after; a paired run of the same year (both checkouts in one process, months alternated) is faster by more than the A/A pair's noise, and applyCountedFlows' inclusive time in a CPU profile falls; the births-counted, counted deaths and counted illness tests pass.
 
 **Files.** src/core2/births-counted.ts
 
 **Notes.** Filed Oct 24 by the speed lead from the by-module profile in core-speed-year-over-limit-dense-town. The renewal half of core-speed-alloc-counted-births-followers (in-pr against bundle #5076, whose births-counted change is seven lines); this item is the bounded version on its own branch.
+
+Done when amended Oct 24 by the speed lead before the PR, from measurement: the 'at least half' target for applyCountedFlows was set before the profile was read. Most of what the old pass cost was garbage (a death cohort's array copied once per member added), which a CPU profile charges to the collector, not to the function; the year-level paired run is the acceptance that sees it.
