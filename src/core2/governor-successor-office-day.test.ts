@@ -6,8 +6,9 @@
  * Here the prisons fill by the engines' own convictions (the bribes are the
  * forced part, as in the clemency tests), the governor's seat is vacated by
  * the offices engine's own rule, and the successor must be a person who takes
- * up a petition. A place is drawn from all 56; set GOVERNOR_SUCCESSOR_SEED to
- * reproduce a run.
+ * up a petition within a week, and keep the seat's days through the rest of
+ * the played year, to the next January 20. A place is drawn from all 56; set
+ * GOVERNOR_SUCCESSOR_SEED to reproduce a run.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -137,7 +138,26 @@ function playPlace(seed: string, skipped: string[]): string | null {
     first.date <= addDays(makeIsoDate(seatedOn), 7),
     `${where}: ${term.id} seated ${seatedOn}, first petition ${first.id} on ${first.date}`,
   ).toBe(true);
-  return `${where}: ${governor.termId} left office on ${seatedOn}; ${term.id} is ${term.personId} and took up ${decided.length} petitions, first ${first.id} on ${first.date}`;
+  // The rest of the played year, through the next January 20: the
+  // successor keeps the seat as a person and keeps taking up its days.
+  const yearEnd = addDays(makeIsoDate(gameStartDate()), 365);
+  const checked = makeIsoDate(core.date);
+  advanceCore(core, yearEnd);
+  const holder = successor();
+  expect(
+    holder?.personId,
+    `${where}: ${governor.seatId} on ${yearEnd}`,
+  ).toBeTruthy();
+  const later = resultsOf(api, term.personId!).filter(
+    (row) => row.date > checked,
+  );
+  if (holder!.id === term.id)
+    expect(
+      later.length,
+      `${where}: ${term.personId} (${term.id}) took up no office-day entry from ${checked} to ${yearEnd}`,
+    ).toBeGreaterThan(0);
+  const last = [...later].sort((a, b) => b.date.localeCompare(a.date))[0];
+  return `${where}: ${governor.termId} left office on ${seatedOn}; ${term.id} is ${term.personId} and took up ${decided.length} petitions, first ${first.id} on ${first.date}; on ${yearEnd} ${holder!.id} holds the seat${holder!.id === term.id ? `, with ${later.length} office-day entries after ${checked}, last ${last?.id} on ${last?.date}` : ` after ${term.id}`}`;
 }
 
 it("a governor seated mid-year is a person who takes up the weekly petition", () => {
