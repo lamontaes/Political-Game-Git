@@ -120,10 +120,7 @@
       "tests": {
         "purpose": "owed-apology",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "The parking lot has mostly emptied out. Melanie Fernandez is leaning on your car."
@@ -588,10 +585,7 @@
       "tests": {
         "purpose": "first-day-ropes",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "You start today at the Town of Briarcliffe Acres treasury. Ryan King meets you at the door with a visitor badge and a mug that isn't yours yet."
@@ -1372,10 +1366,7 @@
       "tests": {
         "purpose": "last-day-farewell",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "Your last box is taped shut. Cheryl Chapman hangs back in the doorway with two cups of coffee."
@@ -1671,10 +1662,7 @@
       "tests": {
         "purpose": "mentor-advice",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "James Cook picked the diner, and the back booth, and already ordered for both of you. You came to ask about running for State Representative."
@@ -2529,17 +2517,12 @@
       "type": "polling-place",
       "place": "Briarcliffe Acres, South Carolina",
       "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-      "cast": [
-        "person_5d10eff8d8fac4d7",
-        "person_1514420acc194dc5"
-      ],
+      "cast": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
       "proof": true,
       "tests": {
         "purpose": "poll-problem",
         "profile": "own",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "The line at the polling place in Briarcliffe Acres moves fast until it reaches you. Sarah Strickland flips the binder back to the first page."
@@ -3413,9 +3396,7 @@
       "tests": {
         "purpose": "victory-night",
         "profile": "own",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "Somebody's playing music too loud in the ballroom. Dennis Caldwell, who ran your campaign, steers you into the coat room and shuts the door."
@@ -3861,10 +3842,7 @@
       "tests": {
         "purpose": "concession-call",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "The last precincts came in twenty minutes ago. Dennis Caldwell, your campaign manager, has the phone and hasn't dialed."
@@ -4593,11 +4571,7 @@
       "tests": {
         "purpose": "floor-switch",
         "profile": "own",
-        "branches": [
-          "a bargain",
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["a bargain", "push-back", "walking away"]
       },
       "narration": [
         "The clerk is calling names on \"Protect farmland from development\". Philip Martin slides into the empty chair next to you and leans close."
@@ -7415,10 +7389,7 @@
       "tests": {
         "purpose": "signing-ask",
         "profile": "own",
-        "branches": [
-          "a bargain",
-          "walking away"
-        ]
+        "branches": ["a bargain", "walking away"]
       },
       "narration": [
         "The signing's over, and staff are stacking the chairs. Lee Valenzuela, the governor, hands you one of the pens."
@@ -7773,19 +7744,12 @@
       "type": "veto",
       "place": "Briarcliffe Acres, South Carolina",
       "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-      "cast": [
-        "person_08d41c9395e98098",
-        "person_d5ef506cdca4f1d9"
-      ],
+      "cast": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
       "proof": true,
       "tests": {
         "purpose": "veto-call",
         "profile": "own",
-        "branches": [
-          "a bargain",
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["a bargain", "push-back", "walking away"]
       },
       "narration": [
         "You're halfway through dinner when the phone buzzes: the mayor's office. It's Ryan King on the line."
@@ -8189,10 +8153,7 @@
       "tests": {
         "purpose": "appointment-offer",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "Anna Mathews from the governor's office calls while you're between meetings."
@@ -8212,11 +8173,7 @@
         },
         "asked": {
           "name": "Janet Lee",
-          "facts": [
-            "59 years old",
-            "lives alone",
-            "serves as state senator"
-          ]
+          "facts": ["59 years old", "lives alone", "serves as state senator"]
         },
         "relation": "coworkers: they work for the same employer",
         "why": [
@@ -8672,10 +8629,7 @@
       "tests": {
         "purpose": "recall-confront",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "A card table has gone up by the post office doors. Carl Rose is behind it with petitions and a jar of pens."
@@ -8686,11 +8640,7 @@
       "context": {
         "asker": {
           "name": "Carl Rose",
-          "facts": [
-            "54 years old",
-            "lives alone",
-            "no job on record"
-          ]
+          "facts": ["54 years old", "lives alone", "no job on record"]
         },
         "asked": {
           "name": "Sharon Cortez",
@@ -9615,9 +9565,7 @@
       "tests": {
         "purpose": "hearing-testify",
         "profile": "own",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "The meeting runs late, and public comment on \"Rent stabilization\" starts after nine. Kristen Li reads your name off the sign-up sheet."
@@ -12920,9 +12868,7 @@
       "tests": {
         "purpose": "filing-clerk",
         "profile": "own",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "You walk into the South Carolina State Election Commission with your forms in a folder. Robin Winters is behind the counter, eating crackers out of a sleeve."
@@ -12933,11 +12879,7 @@
       "context": {
         "asker": {
           "name": "Robin Winters",
-          "facts": [
-            "51 years old",
-            "lives alone",
-            "no job on record"
-          ]
+          "facts": ["51 years old", "lives alone", "no job on record"]
         },
         "asked": {
           "name": "Cathy Young",
@@ -13185,17 +13127,12 @@
       "type": "new-baby",
       "place": "Briarcliffe Acres, South Carolina",
       "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-      "cast": [
-        "person_afc457064ce4a62b",
-        "person_9b07dce1ad468405"
-      ],
+      "cast": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
       "proof": true,
       "tests": {
         "purpose": "new-baby",
         "profile": "own",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "Nathan Mendez knocks quietly, in case Haris is asleep, and comes in with a bag of groceries."
@@ -13588,10 +13525,7 @@
       "tests": {
         "purpose": "join-cause",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "Lisa Jensen catches you outside the library with a stack of flyers about \"Ban discrimination in housing and work\"."
@@ -14135,9 +14069,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.we-both-said-things-in-there"
-          ],
+          "parts": ["scene-talk.reply-deflect.we-both-said-things-in-there"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -14515,9 +14447,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.close-warn.thursday-then-bring-your-numbers"
-          ],
+          "parts": ["scene-talk.close-warn.thursday-then-bring-your-numbers"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -15248,9 +15178,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.we-both-said-things-in-there"
-          ],
+          "parts": ["scene-talk.reply-deflect.we-both-said-things-in-there"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -15512,9 +15440,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.okay-that-s-a-start"
-          ],
+          "parts": ["scene-talk.follow-accept.okay-that-s-a-start"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -16245,9 +16171,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.we-both-said-things-in-there"
-          ],
+          "parts": ["scene-talk.reply-deflect.we-both-said-things-in-there"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -16333,9 +16257,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-confront.not-after-tonight-you-re-not"
-          ],
+          "parts": ["scene-talk.follow-confront.not-after-tonight-you-re-not"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -16509,9 +16431,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.close-warn.thursday-then-bring-your-numbers"
-          ],
+          "parts": ["scene-talk.close-warn.thursday-then-bring-your-numbers"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -17242,9 +17162,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.we-both-said-things-in-there"
-          ],
+          "parts": ["scene-talk.reply-deflect.we-both-said-things-in-there"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -17506,9 +17424,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.close-warn.thursday-then-bring-your-numbers"
-          ],
+          "parts": ["scene-talk.close-warn.thursday-then-bring-your-numbers"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -18240,9 +18156,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.we-both-said-things-in-there"
-          ],
+          "parts": ["scene-talk.reply-deflect.we-both-said-things-in-there"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -18460,9 +18374,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse"
-          ],
+          "parts": ["scene-talk.reply-leave.it-s-late-let-s-not-make-it-worse"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:045:0:official:term:seat:US-SC:lower:045:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -19200,9 +19112,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-what-did-they-tell-you"
-          ],
+          "parts": ["scene-talk.reply-ask.why-what-did-they-tell-you"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -19268,9 +19178,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.that-sounds-like-a-warning"
-          ],
+          "parts": ["scene-talk.reply-confront.that-sounds-like-a-warning"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -19336,9 +19244,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-thank.that-s-useful-thank-you"
-          ],
+          "parts": ["scene-talk.reply-thank.that-s-useful-thank-you"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -19404,9 +19310,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"
-          ],
+          "parts": ["scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -20429,9 +20333,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-what-did-they-tell-you"
-          ],
+          "parts": ["scene-talk.reply-ask.why-what-did-they-tell-you"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -20509,9 +20411,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.that-sounds-like-a-warning"
-          ],
+          "parts": ["scene-talk.reply-confront.that-sounds-like-a-warning"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -20669,9 +20569,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"
-          ],
+          "parts": ["scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -20709,9 +20607,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.you-ll-need-it-come-on"
-          ],
+          "parts": ["scene-talk.follow-accept.you-ll-need-it-come-on"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -21700,9 +21596,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-what-did-they-tell-you"
-          ],
+          "parts": ["scene-talk.reply-ask.why-what-did-they-tell-you"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -21780,9 +21674,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.that-sounds-like-a-warning"
-          ],
+          "parts": ["scene-talk.reply-confront.that-sounds-like-a-warning"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -21940,9 +21832,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"
-          ],
+          "parts": ["scene-talk.reply-leave.i-ll-figure-out-the-rest-as-i-go"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -21980,9 +21870,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.you-ll-get-it-come-on"
-          ],
+          "parts": ["scene-talk.follow-accept.you-ll-get-it-come-on"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -22971,9 +22859,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-what-did-they-tell-you"
-          ],
+          "parts": ["scene-talk.reply-ask.why-what-did-they-tell-you"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -23051,9 +22937,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.that-sounds-like-a-warning"
-          ],
+          "parts": ["scene-talk.reply-confront.that-sounds-like-a-warning"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -23251,9 +23135,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.you-ll-get-it-come-on"
-          ],
+          "parts": ["scene-talk.follow-accept.you-ll-get-it-come-on"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -24263,9 +24145,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.ask-me-after-the-coffee"
-          ],
+          "parts": ["scene-talk.reply-deflect.ask-me-after-the-coffee"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -24455,9 +24335,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-thank.you-d-better"
-          ],
+          "parts": ["scene-talk.follow-thank.you-d-better"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -24905,9 +24783,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-tell.more-than-i-thought-i-would"
-          ],
+          "parts": ["scene-talk.reply-tell.more-than-i-thought-i-would"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -25019,9 +24895,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.ask-me-after-the-coffee"
-          ],
+          "parts": ["scene-talk.reply-deflect.ask-me-after-the-coffee"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -25095,9 +24969,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-press.you-ve-had-half-of-it-already"
-          ],
+          "parts": ["scene-talk.follow-press.you-ve-had-half-of-it-already"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -25133,9 +25005,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-tell.fine-yes-i-m-going-to-miss-it"
-          ],
+          "parts": ["scene-talk.reply-tell.fine-yes-i-m-going-to-miss-it"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -25209,9 +25079,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.close-accept.go-on-i-ll-get-the-door"
-          ],
+          "parts": ["scene-talk.close-accept.go-on-i-ll-get-the-door"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -25656,9 +25524,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-tell.more-than-i-thought-i-would"
-          ],
+          "parts": ["scene-talk.reply-tell.more-than-i-thought-i-would"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -25770,9 +25636,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.ask-me-after-the-coffee"
-          ],
+          "parts": ["scene-talk.reply-deflect.ask-me-after-the-coffee"],
           "slotRecordIds": [
             "job:office:seat:US-AK:us-house:00:official:seat:US-AK:us-house:00",
             "organization:outside-government:US",
@@ -26299,9 +26163,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-does-one-good-year-look-like"
-          ],
+          "parts": ["scene-talk.reply-ask.what-does-one-good-year-look-like"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -26547,9 +26409,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.let-me-chew-on-that-literally"
-          ],
+          "parts": ["scene-talk.reply-leave.let-me-chew-on-that-literally"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -26640,9 +26500,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-disagree.you-sound-like-my-mother"
-          ],
+          "parts": ["scene-talk.reply-disagree.you-sound-like-my-mother"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -26671,9 +26529,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-thank.okay-that-one-landed"
-          ],
+          "parts": ["scene-talk.reply-thank.okay-that-one-landed"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -27927,9 +27783,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-does-one-good-year-look-like"
-          ],
+          "parts": ["scene-talk.reply-ask.what-does-one-good-year-look-like"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -28223,9 +28077,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.let-me-chew-on-that-literally"
-          ],
+          "parts": ["scene-talk.reply-leave.let-me-chew-on-that-literally"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -28334,9 +28186,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-disagree.you-sound-like-my-mother"
-          ],
+          "parts": ["scene-talk.reply-disagree.you-sound-like-my-mother"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -28371,9 +28221,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-thank.okay-that-one-landed"
-          ],
+          "parts": ["scene-talk.reply-thank.okay-that-one-landed"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -29671,9 +29519,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-does-one-good-year-look-like"
-          ],
+          "parts": ["scene-talk.reply-ask.what-does-one-good-year-look-like"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -29967,9 +29813,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.let-me-chew-on-that-literally"
-          ],
+          "parts": ["scene-talk.reply-leave.let-me-chew-on-that-literally"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -30078,9 +29922,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-disagree.you-sound-like-my-mother"
-          ],
+          "parts": ["scene-talk.reply-disagree.you-sound-like-my-mother"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -30115,9 +29957,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-thank.okay-that-one-landed"
-          ],
+          "parts": ["scene-talk.reply-thank.okay-that-one-landed"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -30226,9 +30066,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-disagree.that-s-a-year-i-don-t-have"
-          ],
+          "parts": ["scene-talk.reply-disagree.that-s-a-year-i-don-t-have"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:029:0:official:term:seat:US-SC:lower:029:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -31326,10 +31164,7 @@
         "open",
         "open"
       ],
-      "castRecordIds": [
-        "person_5d10eff8d8fac4d7",
-        "person_1514420acc194dc5"
-      ],
+      "castRecordIds": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
       "records": [
         "polling-place:jurisdiction_258c647381fe1a77:1",
         "person_5d10eff8d8fac4d7",
@@ -31403,9 +31238,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.hang-on-let-me-look-again"
-          ],
+          "parts": ["scene-talk.open-greet.hang-on-let-me-look-again"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -31648,9 +31481,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.fine-give-me-the-provisional"
-          ],
+          "parts": ["scene-talk.reply-accept.fine-give-me-the-provisional"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -31788,9 +31619,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.provisional-hand-it-over"
-          ],
+          "parts": ["scene-talk.reply-accept.provisional-hand-it-over"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -31920,10 +31749,7 @@
         "type": "polling-place",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_5d10eff8d8fac4d7",
-          "person_1514420acc194dc5"
-        ],
+        "cast": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
         "narration": [
           "The line at the polling place in Briarcliffe Acres moves fast until it reaches you. Sarah Strickland flips the binder back to the first page."
         ],
@@ -32783,10 +32609,7 @@
         "open",
         "open"
       ],
-      "castRecordIds": [
-        "person_5d10eff8d8fac4d7",
-        "person_1514420acc194dc5"
-      ],
+      "castRecordIds": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
       "records": [
         "polling-place:jurisdiction_258c647381fe1a77:1",
         "person_5d10eff8d8fac4d7",
@@ -32870,9 +32693,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.hang-on-let-me-look-again"
-          ],
+          "parts": ["scene-talk.open-greet.hang-on-let-me-look-again"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -33239,9 +33060,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.okay-what-are-my-options"
-          ],
+          "parts": ["scene-talk.reply-accept.okay-what-are-my-options"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -33362,9 +33181,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.fine-give-me-the-provisional"
-          ],
+          "parts": ["scene-talk.reply-accept.fine-give-me-the-provisional"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -33526,9 +33343,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.provisional-hand-it-over"
-          ],
+          "parts": ["scene-talk.reply-accept.provisional-hand-it-over"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -33635,10 +33450,7 @@
         "type": "polling-place",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_5d10eff8d8fac4d7",
-          "person_1514420acc194dc5"
-        ],
+        "cast": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
         "narration": [
           "The line at the polling place in Briarcliffe Acres moves fast until it reaches you. Sarah Strickland flips the binder back to the first page."
         ],
@@ -34498,10 +34310,7 @@
         "open",
         "open"
       ],
-      "castRecordIds": [
-        "person_5d10eff8d8fac4d7",
-        "person_1514420acc194dc5"
-      ],
+      "castRecordIds": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
       "records": [
         "polling-place:jurisdiction_258c647381fe1a77:1",
         "person_5d10eff8d8fac4d7",
@@ -34581,9 +34390,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.hang-on-let-me-look-again"
-          ],
+          "parts": ["scene-talk.open-greet.hang-on-let-me-look-again"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -34786,9 +34593,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-accept.what-can-i-do-right-now-today"
-          ],
+          "parts": ["scene-talk.reply-accept.what-can-i-do-right-now-today"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -34868,9 +34673,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.fine-give-me-the-provisional"
-          ],
+          "parts": ["scene-talk.reply-accept.fine-give-me-the-provisional"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -35032,9 +34835,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.provisional-hand-it-over"
-          ],
+          "parts": ["scene-talk.reply-accept.provisional-hand-it-over"],
           "slotRecordIds": [
             "person_1514420acc194dc5:2027-06-01:job:position:organization_26a4b8cf5398db86:2027-05-01:1:person_1514410acc194c12",
             "person_1514420acc194dc5",
@@ -35182,10 +34983,7 @@
         "type": "polling-place",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_5d10eff8d8fac4d7",
-          "person_1514420acc194dc5"
-        ],
+        "cast": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
         "narration": [
           "The line at the polling place in Briarcliffe Acres moves fast until it reaches you. Sarah Strickland flips the binder back to the first page."
         ],
@@ -36244,9 +36042,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.did-opponent-call-yet"
-          ],
+          "parts": ["scene-talk.reply-ask.did-opponent-call-yet"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -36414,9 +36210,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.they-re-getting-loud-let-s-go"
-          ],
+          "parts": ["scene-talk.reply-leave.they-re-getting-loud-let-s-go"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -37139,9 +36933,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.did-opponent-call-yet"
-          ],
+          "parts": ["scene-talk.reply-ask.did-opponent-call-yet"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -37339,9 +37131,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.they-re-getting-loud-let-s-go"
-          ],
+          "parts": ["scene-talk.reply-leave.they-re-getting-loud-let-s-go"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -37379,9 +37169,7 @@
           "lie": false,
           "words": 2,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.taken-go"
-          ],
+          "parts": ["scene-talk.follow-accept.taken-go"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -38071,9 +37859,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.did-opponent-call-yet"
-          ],
+          "parts": ["scene-talk.reply-ask.did-opponent-call-yet"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -38191,9 +37977,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-apologize.okay-okay-i-ll-behave"
-          ],
+          "parts": ["scene-talk.reply-apologize.okay-okay-i-ll-behave"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -38231,9 +38015,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.let-them-loop-it-it-s-true"
-          ],
+          "parts": ["scene-talk.reply-boast.let-them-loop-it-it-s-true"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -39052,9 +38834,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.did-opponent-call-yet"
-          ],
+          "parts": ["scene-talk.reply-ask.did-opponent-call-yet"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -39212,9 +38992,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.let-them-loop-it-it-s-true"
-          ],
+          "parts": ["scene-talk.reply-boast.let-them-loop-it-it-s-true"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -39492,9 +39270,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-apologize.okay-okay-i-ll-behave"
-          ],
+          "parts": ["scene-talk.reply-apologize.okay-okay-i-ll-behave"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -39572,9 +39348,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-warn.it-s-lost-plenty-of-second-terms"
-          ],
+          "parts": ["scene-talk.follow-warn.it-s-lost-plenty-of-second-terms"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -40385,9 +40159,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.did-opponent-call-yet"
-          ],
+          "parts": ["scene-talk.reply-ask.did-opponent-call-yet"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -40585,9 +40357,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.they-re-getting-loud-let-s-go"
-          ],
+          "parts": ["scene-talk.reply-leave.they-re-getting-loud-let-s-go"],
           "slotRecordIds": [
             "job:office:seat:US-SC:treasurer:official:term:seat:US-SC:treasurer:2026-10-12",
             "organization:treasury:US-SC",
@@ -41296,9 +41066,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.give-me-the-phone"
-          ],
+          "parts": ["scene-talk.reply-agree.give-me-the-phone"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -41330,9 +41098,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.how-close-was-it"
-          ],
+          "parts": ["scene-talk.reply-ask.how-close-was-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -42511,9 +42277,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.give-me-the-phone"
-          ],
+          "parts": ["scene-talk.reply-agree.give-me-the-phone"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -42551,9 +42315,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.how-close-was-it"
-          ],
+          "parts": ["scene-talk.reply-ask.how-close-was-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -42711,9 +42473,7 @@
           "lie": false,
           "words": 6,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.okay-the-call-first-then-them"
-          ],
+          "parts": ["scene-talk.reply-agree.okay-the-call-first-then-them"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -42751,9 +42511,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.not-yet-i-m-sorry"
-          ],
+          "parts": ["scene-talk.reply-refuse.not-yet-i-m-sorry"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -42871,9 +42629,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-i-ll-make-the-call"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-i-ll-make-the-call"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -42911,9 +42667,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.not-yet-i-m-not-ready"
-          ],
+          "parts": ["scene-talk.reply-refuse.not-yet-i-m-not-ready"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -43968,9 +43722,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.give-me-the-phone"
-          ],
+          "parts": ["scene-talk.reply-agree.give-me-the-phone"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -44008,9 +43760,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.how-close-was-it"
-          ],
+          "parts": ["scene-talk.reply-ask.how-close-was-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -44168,9 +43918,7 @@
           "lie": false,
           "words": 6,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.okay-the-call-first-then-them"
-          ],
+          "parts": ["scene-talk.reply-agree.okay-the-call-first-then-them"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -44208,9 +43956,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.not-yet-i-m-sorry"
-          ],
+          "parts": ["scene-talk.reply-refuse.not-yet-i-m-sorry"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -44328,9 +44074,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-i-ll-make-the-call"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-i-ll-make-the-call"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -45419,9 +45163,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.give-me-the-phone"
-          ],
+          "parts": ["scene-talk.reply-agree.give-me-the-phone"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -45459,9 +45201,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.how-close-was-it"
-          ],
+          "parts": ["scene-talk.reply-ask.how-close-was-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -45619,9 +45359,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-i-ll-make-the-call"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-i-ll-make-the-call"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -45659,9 +45397,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.not-yet-i-m-not-ready"
-          ],
+          "parts": ["scene-talk.reply-refuse.not-yet-i-m-not-ready"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:124:0:official:term:seat:US-SC:lower:124:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -46623,9 +46359,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.don-t-look-at-me-look-at-the-board"
-          ],
+          "parts": ["scene-talk.open-greet.don-t-look-at-me-look-at-the-board"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -46737,9 +46471,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"
-          ],
+          "parts": ["scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -46851,9 +46583,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-decide-when-i-hear-my-name"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-decide-when-i-hear-my-name"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -46927,9 +46657,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no"
-          ],
+          "parts": ["scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -47003,9 +46731,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.fine-yes-don-t-make-me-regret-it"
-          ],
+          "parts": ["scene-talk.reply-agree.fine-yes-don-t-make-me-regret-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -47079,9 +46805,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-thank.i-owe-you-i-ll-pay-it"
-          ],
+          "parts": ["scene-talk.follow-thank.i-owe-you-i-ll-pay-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -50061,9 +49785,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.don-t-look-at-me-look-at-the-board"
-          ],
+          "parts": ["scene-talk.open-greet.don-t-look-at-me-look-at-the-board"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -50193,9 +49915,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"
-          ],
+          "parts": ["scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -50325,9 +50045,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-m-abstaining"
-          ],
+          "parts": ["scene-talk.reply-stall.i-m-abstaining"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -50413,9 +50131,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no"
-          ],
+          "parts": ["scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -50501,9 +50217,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.fine-yes-don-t-make-me-regret-it"
-          ],
+          "parts": ["scene-talk.reply-agree.fine-yes-don-t-make-me-regret-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -50589,9 +50303,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-thank.i-owe-you-i-ll-pay-it"
-          ],
+          "parts": ["scene-talk.follow-thank.i-owe-you-i-ll-pay-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -53582,9 +53294,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.don-t-look-at-me-look-at-the-board"
-          ],
+          "parts": ["scene-talk.open-greet.don-t-look-at-me-look-at-the-board"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -53714,9 +53424,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"
-          ],
+          "parts": ["scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -53846,9 +53554,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-m-abstaining"
-          ],
+          "parts": ["scene-talk.reply-stall.i-m-abstaining"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -53934,9 +53640,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.if-it-means-that-much-to-you-okay"
-          ],
+          "parts": ["scene-talk.reply-agree.if-it-means-that-much-to-you-okay"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -54022,9 +53726,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.i-can-t-do-it-and-you-know-why"
-          ],
+          "parts": ["scene-talk.reply-refuse.i-can-t-do-it-and-you-know-why"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -54154,9 +53856,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-plea.i-know-i-m-asking-anyway"
-          ],
+          "parts": ["scene-talk.follow-plea.i-know-i-m-asking-anyway"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -54242,9 +53942,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.as-a-friend-i-m-telling-you-no"
-          ],
+          "parts": ["scene-talk.reply-refuse.as-a-friend-i-m-telling-you-no"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -54286,9 +53984,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-plea.then-i-ll-remember-it-as-a-friend"
-          ],
+          "parts": ["scene-talk.follow-plea.then-i-ll-remember-it-as-a-friend"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -54330,9 +54026,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.as-a-friend-fine-just-this-once"
-          ],
+          "parts": ["scene-talk.reply-agree.as-a-friend-fine-just-this-once"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -54374,9 +54068,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.i-can-t-i-m-sorry"
-          ],
+          "parts": ["scene-talk.reply-refuse.i-can-t-i-m-sorry"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -54418,9 +54110,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-plea.okay-i-had-to-ask"
-          ],
+          "parts": ["scene-talk.follow-plea.okay-i-had-to-ask"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -54462,9 +54152,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.okay-yes-don-t-make-me-regret-it"
-          ],
+          "parts": ["scene-talk.reply-agree.okay-yes-don-t-make-me-regret-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -57571,9 +57259,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.don-t-look-at-me-look-at-the-board"
-          ],
+          "parts": ["scene-talk.open-greet.don-t-look-at-me-look-at-the-board"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -57703,9 +57389,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"
-          ],
+          "parts": ["scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -57835,9 +57519,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-decide-when-i-hear-my-name"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-decide-when-i-hear-my-name"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -57923,9 +57605,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.as-a-friend-fine-just-this-once"
-          ],
+          "parts": ["scene-talk.reply-agree.as-a-friend-fine-just-this-once"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -58011,9 +57691,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.as-a-friend-i-m-telling-you-no"
-          ],
+          "parts": ["scene-talk.reply-refuse.as-a-friend-i-m-telling-you-no"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -58143,9 +57821,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-plea.then-i-ll-remember-it-as-a-friend"
-          ],
+          "parts": ["scene-talk.follow-plea.then-i-ll-remember-it-as-a-friend"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -58187,9 +57863,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.okay-yes-don-t-make-me-regret-it"
-          ],
+          "parts": ["scene-talk.reply-agree.okay-yes-don-t-make-me-regret-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -58231,9 +57905,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.i-can-t-do-it-and-you-know-why"
-          ],
+          "parts": ["scene-talk.reply-refuse.i-can-t-do-it-and-you-know-why"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -58275,9 +57947,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-plea.i-know-i-m-asking-anyway"
-          ],
+          "parts": ["scene-talk.follow-plea.i-know-i-m-asking-anyway"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -58319,9 +57989,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.if-it-means-that-much-to-you-okay"
-          ],
+          "parts": ["scene-talk.reply-agree.if-it-means-that-much-to-you-okay"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -58495,9 +58163,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.i-can-t-i-m-sorry"
-          ],
+          "parts": ["scene-talk.reply-refuse.i-can-t-i-m-sorry"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -58539,9 +58205,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-plea.okay-i-had-to-ask"
-          ],
+          "parts": ["scene-talk.follow-plea.okay-i-had-to-ask"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -61042,9 +60706,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.don-t-look-at-me-look-at-the-board"
-          ],
+          "parts": ["scene-talk.open-greet.don-t-look-at-me-look-at-the-board"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -61174,9 +60836,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"
-          ],
+          "parts": ["scene-talk.reply-agree.if-it-s-that-close-you-ve-got-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -61306,9 +60966,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-decide-when-i-hear-my-name"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-decide-when-i-hear-my-name"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -61394,9 +61052,7 @@
           "lie": false,
           "words": 6,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.all-right-yes-go-sit-down"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-yes-go-sit-down"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -61526,9 +61182,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.go-i-ll-vote-when-they-call-me"
-          ],
+          "parts": ["scene-talk.reply-leave.go-i-ll-vote-when-they-call-me"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -61570,9 +61224,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-press.the-clerk-s-three-names-away"
-          ],
+          "parts": ["scene-talk.follow-press.the-clerk-s-three-names-away"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:004:0:official:term:seat:US-SC:lower:004:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -64468,9 +64120,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.keep-it-you-earned-it"
-          ],
+          "parts": ["scene-talk.open-greet.keep-it-you-earned-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:governor:official:term:seat:US-SC:governor:2026-10-12",
             "organization:treasury:US-SC",
@@ -64570,9 +64220,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.which-bill-you-ve-got-four"
-          ],
+          "parts": ["scene-talk.reply-ask.which-bill-you-ve-got-four"],
           "slotRecordIds": [
             "job:office:seat:US-SC:governor:official:term:seat:US-SC:governor:2026-10-12",
             "organization:treasury:US-SC",
@@ -64706,9 +64354,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.the-budget-send-it-i-ll-go-first"
-          ],
+          "parts": ["scene-talk.reply-agree.the-budget-send-it-i-ll-go-first"],
           "slotRecordIds": [
             "job:office:seat:US-SC:governor:official:term:seat:US-SC:governor:2026-10-12",
             "organization:treasury:US-SC",
@@ -65284,9 +64930,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.keep-it-you-earned-it"
-          ],
+          "parts": ["scene-talk.open-greet.keep-it-you-earned-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:governor:official:term:seat:US-SC:governor:2026-10-12",
             "organization:treasury:US-SC",
@@ -65404,9 +65048,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.which-bill-you-ve-got-four"
-          ],
+          "parts": ["scene-talk.reply-ask.which-bill-you-ve-got-four"],
           "slotRecordIds": [
             "job:office:seat:US-SC:governor:official:term:seat:US-SC:governor:2026-10-12",
             "organization:treasury:US-SC",
@@ -65892,10 +65534,7 @@
         "resolved",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_08d41c9395e98098",
-        "person_d5ef506cdca4f1d9"
-      ],
+      "castRecordIds": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
       "records": [
         "desk:bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
         "bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
@@ -65966,9 +65605,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.sorry-to-interrupt-your-evening"
-          ],
+          "parts": ["scene-talk.open-greet.sorry-to-interrupt-your-evening"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -66366,10 +66003,7 @@
         "type": "veto",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_08d41c9395e98098",
-          "person_d5ef506cdca4f1d9"
-        ],
+        "cast": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
         "narration": [
           "You're halfway through dinner when the phone buzzes: the mayor's office. It's Ryan King on the line."
         ],
@@ -66743,10 +66377,7 @@
         "resolved",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_08d41c9395e98098",
-        "person_d5ef506cdca4f1d9"
-      ],
+      "castRecordIds": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
       "records": [
         "desk:bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
         "bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
@@ -66818,9 +66449,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.sorry-to-interrupt-your-evening"
-          ],
+          "parts": ["scene-talk.open-greet.sorry-to-interrupt-your-evening"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_08d41c9395e98098",
             "organization:treasury:place:4508830",
@@ -67084,10 +66713,7 @@
         "type": "veto",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_08d41c9395e98098",
-          "person_d5ef506cdca4f1d9"
-        ],
+        "cast": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
         "narration": [
           "You're halfway through dinner when the phone buzzes: the mayor's office. It's Ryan King on the line."
         ],
@@ -67615,9 +67241,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.yes-tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.yes-tell-the-executive-yes"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -67720,9 +67344,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.can-i-have-a-few-days-with-this"
-          ],
+          "parts": ["scene-talk.reply-stall.can-i-have-a-few-days-with-this"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -67790,9 +67412,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.when-you-put-it-like-that-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.when-you-put-it-like-that-yes"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -67895,9 +67515,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.and-who-fills-my-seat-if-i-go"
-          ],
+          "parts": ["scene-talk.reply-ask.and-who-fills-my-seat-if-i-go"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -67930,9 +67548,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-          ],
+          "parts": ["scene-talk.reply-leave.let-me-call-you-back-tomorrow"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -68000,9 +67616,7 @@
           "lie": false,
           "words": 3,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-yes"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -68792,9 +68406,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.yes-tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.yes-tell-the-executive-yes"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -68915,9 +68527,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.can-i-have-a-few-days-with-this"
-          ],
+          "parts": ["scene-talk.reply-stall.can-i-have-a-few-days-with-this"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -69079,9 +68689,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-          ],
+          "parts": ["scene-talk.reply-leave.let-me-call-you-back-tomorrow"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -69772,9 +69380,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.yes-tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.yes-tell-the-executive-yes"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -69895,9 +69501,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.can-i-have-a-few-days-with-this"
-          ],
+          "parts": ["scene-talk.reply-stall.can-i-have-a-few-days-with-this"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -70059,9 +69663,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.let-me-call-you-back-tomorrow"
-          ],
+          "parts": ["scene-talk.reply-leave.let-me-call-you-back-tomorrow"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -70748,9 +70350,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.yes-tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.yes-tell-the-executive-yes"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -70871,9 +70471,7 @@
           "lie": false,
           "words": 8,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.can-i-have-a-few-days-with-this"
-          ],
+          "parts": ["scene-talk.reply-stall.can-i-have-a-few-days-with-this"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US-SC:governor:2026-10-12:person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "organization:treasury:US-SC",
@@ -71491,9 +71089,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-figured-you-d-come-by-eventually"
-          ],
+          "parts": ["scene-talk.open-greet.i-figured-you-d-come-by-eventually"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -71553,9 +71149,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-does-it-say-i-did"
-          ],
+          "parts": ["scene-talk.reply-ask.what-does-it-say-i-did"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -71646,9 +71240,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.i-m-just-here-for-stamps"
-          ],
+          "parts": ["scene-talk.reply-deflect.i-m-just-here-for-stamps"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -71801,9 +71393,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-ve-said-what-i-came-to-say"
-          ],
+          "parts": ["scene-talk.reply-leave.i-ve-said-what-i-came-to-say"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -71863,9 +71453,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.then-show-me-the-copy"
-          ],
+          "parts": ["scene-talk.reply-confront.then-show-me-the-copy"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -71925,9 +71513,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-confront.here-read-it-out-loud"
-          ],
+          "parts": ["scene-talk.follow-confront.here-read-it-out-loud"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -73174,9 +72760,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-figured-you-d-come-by-eventually"
-          ],
+          "parts": ["scene-talk.open-greet.i-figured-you-d-come-by-eventually"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -73248,9 +72832,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-does-it-say-i-did"
-          ],
+          "parts": ["scene-talk.reply-ask.what-does-it-say-i-did"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -73359,9 +72941,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.i-m-just-here-for-stamps"
-          ],
+          "parts": ["scene-talk.reply-deflect.i-m-just-here-for-stamps"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -74622,9 +74202,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-figured-you-d-come-by-eventually"
-          ],
+          "parts": ["scene-talk.open-greet.i-figured-you-d-come-by-eventually"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -74696,9 +74274,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-does-it-say-i-did"
-          ],
+          "parts": ["scene-talk.reply-ask.what-does-it-say-i-did"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -74807,9 +74383,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.i-m-just-here-for-stamps"
-          ],
+          "parts": ["scene-talk.reply-deflect.i-m-just-here-for-stamps"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -75214,9 +74788,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-confront.fine-by-me-go-ahead"
-          ],
+          "parts": ["scene-talk.follow-confront.fine-by-me-go-ahead"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -75325,9 +74897,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-confront.that-s-the-whole-idea"
-          ],
+          "parts": ["scene-talk.follow-confront.that-s-the-whole-idea"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -76403,9 +75973,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-figured-you-d-come-by-eventually"
-          ],
+          "parts": ["scene-talk.open-greet.i-figured-you-d-come-by-eventually"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -76477,9 +76045,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-does-it-say-i-did"
-          ],
+          "parts": ["scene-talk.reply-ask.what-does-it-say-i-did"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -76588,9 +76154,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.i-m-just-here-for-stamps"
-          ],
+          "parts": ["scene-talk.reply-deflect.i-m-just-here-for-stamps"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -76884,9 +76448,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-confront.that-s-the-whole-idea"
-          ],
+          "parts": ["scene-talk.follow-confront.that-s-the-whole-idea"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -77106,9 +76668,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-confront.fine-by-me-go-ahead"
-          ],
+          "parts": ["scene-talk.follow-confront.fine-by-me-go-ahead"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -78175,9 +77735,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-figured-you-d-come-by-eventually"
-          ],
+          "parts": ["scene-talk.open-greet.i-figured-you-d-come-by-eventually"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -78249,9 +77807,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-does-it-say-i-did"
-          ],
+          "parts": ["scene-talk.reply-ask.what-does-it-say-i-did"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -78360,9 +77916,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-deflect.i-m-just-here-for-stamps"
-          ],
+          "parts": ["scene-talk.reply-deflect.i-m-just-here-for-stamps"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:079:0:2026-10-12:2026-11-01:job:office:seat:US-SC:lower:079:0:official:term:seat:US-SC:lower:079:0:2026-10-12",
             "official:cabinet:US:interior:2",
@@ -80081,9 +79635,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.thank-you-that-s-all-i-have"
-          ],
+          "parts": ["scene-talk.reply-leave.thank-you-that-s-all-i-have"],
           "slotRecordIds": [
             "job:position:organization_26a4b9cf5398dd39:2027-01-01:1:person_b280d0db0a3f25fe",
             "organization_26a4b9cf5398dd39",
@@ -84055,9 +83607,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.thank-you-that-s-all-i-have"
-          ],
+          "parts": ["scene-talk.reply-leave.thank-you-that-s-all-i-have"],
           "slotRecordIds": [
             "job:position:organization_26a4b9cf5398dd39:2027-01-01:1:person_b280d0db0a3f25fe",
             "organization_26a4b9cf5398dd39",
@@ -84147,9 +83697,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-thank.thank-you-i-appreciate-it"
-          ],
+          "parts": ["scene-talk.reply-thank.thank-you-i-appreciate-it"],
           "slotRecordIds": [
             "job:position:organization_26a4b9cf5398dd39:2027-01-01:1:person_b280d0db0a3f25fe",
             "organization_26a4b9cf5398dd39",
@@ -84193,9 +83741,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-press.in-writing-please"
-          ],
+          "parts": ["scene-talk.reply-press.in-writing-please"],
           "slotRecordIds": [
             "job:position:organization_26a4b9cf5398dd39:2027-01-01:1:person_b280d0db0a3f25fe",
             "organization_26a4b9cf5398dd39",
@@ -88260,9 +87806,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.thank-you-that-s-all-i-have"
-          ],
+          "parts": ["scene-talk.reply-leave.thank-you-that-s-all-i-have"],
           "slotRecordIds": [
             "job:position:organization_26a4b9cf5398dd39:2027-01-01:1:person_b280d0db0a3f25fe",
             "organization_26a4b9cf5398dd39",
@@ -92219,9 +91763,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.thank-you-that-s-all-i-have"
-          ],
+          "parts": ["scene-talk.reply-leave.thank-you-that-s-all-i-have"],
           "slotRecordIds": [
             "job:position:organization_26a4b9cf5398dd39:2027-01-01:1:person_b280d0db0a3f25fe",
             "organization_26a4b9cf5398dd39",
@@ -95000,9 +94542,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.open-greet.filing-hand-them-over-i-don-t-bite"
-          ],
+          "parts": ["scene-talk.open-greet.filing-hand-them-over-i-don-t-bite"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -95068,9 +94608,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-did-opponent-say"
-          ],
+          "parts": ["scene-talk.reply-ask.what-did-opponent-say"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -95102,9 +94640,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.good-i-d-rather-earn-it"
-          ],
+          "parts": ["scene-talk.reply-tell.good-i-d-rather-earn-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -95658,9 +95194,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.open-greet.filing-hand-them-over-i-don-t-bite"
-          ],
+          "parts": ["scene-talk.open-greet.filing-hand-them-over-i-don-t-bite"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -95738,9 +95272,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-did-opponent-say"
-          ],
+          "parts": ["scene-talk.reply-ask.what-did-opponent-say"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -95778,9 +95310,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.good-i-d-rather-earn-it"
-          ],
+          "parts": ["scene-talk.reply-tell.good-i-d-rather-earn-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -95938,9 +95468,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.black-ink-then-let-s-get-mine-in"
-          ],
+          "parts": ["scene-talk.reply-agree.black-ink-then-let-s-get-mine-in"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -95978,9 +95506,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.blue-ink-i-m-not-worried-yet"
-          ],
+          "parts": ["scene-talk.reply-boast.blue-ink-i-m-not-worried-yet"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -96409,9 +95935,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.open-greet.filing-hand-them-over-i-don-t-bite"
-          ],
+          "parts": ["scene-talk.open-greet.filing-hand-them-over-i-don-t-bite"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -96489,9 +96013,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-did-opponent-say"
-          ],
+          "parts": ["scene-talk.reply-ask.what-did-opponent-say"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -96529,9 +96051,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.good-i-d-rather-earn-it"
-          ],
+          "parts": ["scene-talk.reply-tell.good-i-d-rather-earn-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -97120,9 +96640,7 @@
           "lie": false,
           "words": 7,
           "sentences": 3,
-          "parts": [
-            "scene-talk.open-greet.filing-hand-them-over-i-don-t-bite"
-          ],
+          "parts": ["scene-talk.open-greet.filing-hand-them-over-i-don-t-bite"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -97200,9 +96718,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-did-opponent-say"
-          ],
+          "parts": ["scene-talk.reply-ask.what-did-opponent-say"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -97240,9 +96756,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.good-i-d-rather-earn-it"
-          ],
+          "parts": ["scene-talk.reply-tell.good-i-d-rather-earn-it"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -97400,9 +96914,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.never-mind-where-s-the-pen"
-          ],
+          "parts": ["scene-talk.reply-agree.never-mind-where-s-the-pen"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -97480,9 +96992,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.right-here-sign-at-the-x"
-          ],
+          "parts": ["scene-talk.follow-accept.right-here-sign-at-the-x"],
           "slotRecordIds": [
             "job:office:seat:US-SC:lower:076:0:official:term:seat:US-SC:lower:076:0:2026-10-12",
             "organization:treasury:US-SC",
@@ -97755,10 +97265,7 @@
         "resolved",
         "open"
       ],
-      "castRecordIds": [
-        "person_afc457064ce4a62b",
-        "person_9b07dce1ad468405"
-      ],
+      "castRecordIds": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
       "records": [
         "person_9b07dce1ad468405:2026-12-26:person_ebcd5ecc7918b927:birth",
         "person_ebcd5ecc7918b927",
@@ -98011,9 +97518,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.do-you-want-to-hold-kid-carefully"
-          ],
+          "parts": ["scene-talk.reply-ask.do-you-want-to-hold-kid-carefully"],
           "slotRecordIds": [
             "job:public:town:city-attorney:person_afc457064ce4a62b",
             "organization:treasury:place:4508830",
@@ -98083,9 +97588,7 @@
           "lie": false,
           "words": 6,
           "sentences": 3,
-          "parts": [
-            "scene-talk.follow-answer.give-me-kid-oh-hello-kid"
-          ],
+          "parts": ["scene-talk.follow-answer.give-me-kid-oh-hello-kid"],
           "slotRecordIds": [
             "job:public:town:city-attorney:person_afc457064ce4a62b",
             "organization:treasury:place:4508830",
@@ -98191,9 +97694,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-think-kid-s-about-to-wake-up"
-          ],
+          "parts": ["scene-talk.reply-leave.i-think-kid-s-about-to-wake-up"],
           "slotRecordIds": [
             "job:public:town:city-attorney:person_afc457064ce4a62b",
             "organization:treasury:place:4508830",
@@ -98255,10 +97756,7 @@
         "type": "new-baby",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_afc457064ce4a62b",
-          "person_9b07dce1ad468405"
-        ],
+        "cast": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
         "narration": [
           "Nathan Mendez knocks quietly, in case Haris is asleep, and comes in with a bag of groceries."
         ],
@@ -98623,10 +98121,7 @@
         "resolved",
         "open"
       ],
-      "castRecordIds": [
-        "person_afc457064ce4a62b",
-        "person_9b07dce1ad468405"
-      ],
+      "castRecordIds": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
       "records": [
         "person_9b07dce1ad468405:2026-12-26:person_ebcd5ecc7918b927:birth",
         "person_ebcd5ecc7918b927",
@@ -98911,9 +98406,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.do-you-want-to-hold-kid-carefully"
-          ],
+          "parts": ["scene-talk.reply-ask.do-you-want-to-hold-kid-carefully"],
           "slotRecordIds": [
             "job:public:town:city-attorney:person_afc457064ce4a62b",
             "organization:treasury:place:4508830",
@@ -99023,10 +98516,7 @@
         "type": "new-baby",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_afc457064ce4a62b",
-          "person_9b07dce1ad468405"
-        ],
+        "cast": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
         "narration": [
           "Nathan Mendez knocks quietly, in case Haris is asleep, and comes in with a bag of groceries."
         ],
@@ -99535,9 +99025,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-would-that-look-like-for-me"
-          ],
+          "parts": ["scene-talk.reply-ask.what-would-that-look-like-for-me"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -99571,9 +99059,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.thursday-works-what-time"
-          ],
+          "parts": ["scene-talk.reply-agree.thursday-works-what-time"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -99715,9 +99201,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
-          ],
+          "parts": ["scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -99823,9 +99307,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-thank.that-s-all-i-ask-thank-you"
-          ],
+          "parts": ["scene-talk.follow-thank.that-s-all-i-ask-thank-you"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -100287,9 +99769,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-would-that-look-like-for-me"
-          ],
+          "parts": ["scene-talk.reply-ask.what-would-that-look-like-for-me"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -100329,9 +99809,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.thursday-works-what-time"
-          ],
+          "parts": ["scene-talk.reply-agree.thursday-works-what-time"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -101087,9 +100565,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-would-that-look-like-for-me"
-          ],
+          "parts": ["scene-talk.reply-ask.what-would-that-look-like-for-me"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -101129,9 +100605,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.thursday-works-what-time"
-          ],
+          "parts": ["scene-talk.reply-agree.thursday-works-what-time"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -101297,9 +100771,7 @@
           "lie": false,
           "words": 8,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"
-          ],
+          "parts": ["scene-talk.reply-agree.phone-calls-i-can-do-put-me-down"],
           "slotRecordIds": [
             "person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0:2027-09-01:job:public:staff:person_d5ef506cdca4f1d9:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:head:0",
             "job:public:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0:person:press:outlet:newspaper:0:jurisdiction_258c647381fe1a77:reporter:0",

@@ -52,7 +52,7 @@ Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too sh
 
 ## Scene 1: press-interview (routine, ends in political) — proof scene
 
-*Tests press-comment; the asker is warm; a lie, caught and believed, push-back, walking away. Records: interview:outlet:radio:0:jurisdiction_59500182da2857ae:filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc:2026-10-19:0, outlet:radio:0:jurisdiction_59500182da2857ae, person:press:outlet:radio:0:jurisdiction_59500182da2857ae:reporter:0, person_9e002a561a4b29bc.*
+_Tests press-comment; the asker is warm; a lie, caught and believed, push-back, walking away. Records: interview:outlet:radio:0:jurisdiction_59500182da2857ae:filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc:2026-10-19:0, outlet:radio:0:jurisdiction_59500182da2857ae, person:press:outlet:radio:0:jurisdiction_59500182da2857ae:reporter:0, person_9e002a561a4b29bc._
 
 > Michael Howell, a reporter for Weom, catches you on your way out.
 
@@ -64,7 +64,7 @@ Grade each line 1 to 5 on naturalness, prose, sentence structure, length (too sh
 
 You could say:
 
-1. I'm voting for it, and you can quote me.  *(the page follows this one)*
+1. I'm voting for it, and you can quote me. _(the page follows this one)_
 2. You'll have to ask the chair.
 3. I'm not doing this in a hallway.
 4. I've always supported it.
@@ -73,7 +73,7 @@ You could say:
 
 You could say:
 
-1. I'd tell them I listened, and I still disagree.  *(the page follows this one)*
+1. I'd tell them I listened, and I still disagree. _(the page follows this one)_
 2. I've been on the record longer than you've been on this beat.
 3. I've got a meeting. Walk with me if you want.
 
@@ -81,14 +81,14 @@ You could say:
 
 You could say:
 
-1. You can quote me.  *(the page follows this one)*
+1. You can quote me. _(the page follows this one)_
 2. I've got a meeting. Walk with me if you want.
 
 **Michael Howell:** Even if it costs you votes?
 
 You could say:
 
-1. Yes. Some things matter more than one election.  *(the page follows this one)*
+1. Yes. Some things matter more than one election. _(the page follows this one)_
 2. I've got a meeting. Walk with me if you want.
 
 **Michael Howell:** Thanks for your time.
@@ -103,229 +103,229 @@ You could say:
       - Michael Howell: Even if it costs you votes?
       - You ★: Yes. Some things matter more than one election.
         - Michael Howell: Thanks for your time.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've got a meeting. Walk with me if you want.
-        - *Ends open: Michael Howell: I'll call your office in the morning.*
+        - _Ends open: Michael Howell: I'll call your office in the morning._
     - You: I've got a meeting. Walk with me if you want.
-      - *Ends open: Michael Howell: I'll call your office in the morning.*
+      - _Ends open: Michael Howell: I'll call your office in the morning._
   - You: I've been on the record longer than you've been on this beat.
     - Michael Howell: Okay. I'll let you go.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've got a meeting. Walk with me if you want.
-    - *Ends open: Michael Howell: The story runs Thursday.*
+    - _Ends open: Michael Howell: The story runs Thursday._
 - You: You'll have to ask the chair.
   - Michael Howell: The vote's in two weeks. After is too late for my readers.
   - You: You'll have it the same day everybody else does.
     - Michael Howell: Then that's the quote.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: You'd write it the same whatever I said.
     - Michael Howell: Try me. Give me a reason I'd get wrong.
     - You: I've been on the record longer than you've been on this beat.
       - Michael Howell: Okay. I'll let you go.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've got a meeting. Walk with me if you want.
-      - *Ends open: Michael Howell: The story runs Thursday.*
+      - _Ends open: Michael Howell: The story runs Thursday._
     - You: I've always supported it.
-      - *if Michael Howell knows:*
+      - _if Michael Howell knows:_
         - Michael Howell: Daniel Copeland says you told them you were against it.
         - You: Okay. I said it. Things changed.
           - Michael Howell: What changed?
           - You: The numbers did. Look at the second page.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I'm not doing this in a hallway.
             - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
-            - *Ends refused: Michael Howell: I'll be at the next meeting.*
+            - _Ends refused: Michael Howell: I'll be at the next meeting._
           - You: That's all I've got for you.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: People say a lot of things.
           - Michael Howell: Everybody else on the council has told me where they are.
           - You: Put this in: I'll vote yes, and I'll own it.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: They'll see when I vote.
             - Michael Howell: Then that's the quote.
-            - *Ends open*
+            - _Ends open_
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: I'll call your office in the morning.*
+            - _Ends open: Michael Howell: I'll call your office in the morning._
         - You: Then Daniel Copeland has it wrong.
-          - *Ends open: Michael Howell: I'll remember you said that.*
-      - *if not:*
+          - _Ends open: Michael Howell: I'll remember you said that._
+      - _if not:_
         - Michael Howell: Then I'll put that in the story.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: I've got a meeting. Walk with me if you want.
-    - *Ends open: Michael Howell: The story runs Thursday.*
+    - _Ends open: Michael Howell: The story runs Thursday._
   - You: I've always supported it.
-    - *if Michael Howell knows:*
+    - _if Michael Howell knows:_
       - Michael Howell: Daniel Copeland says you told them you were against it.
       - You: Fine. I told them that. Then I changed my mind.
         - Michael Howell: What changed?
         - You: I read the whole bill.
           - Michael Howell: What do you say to people who disagree?
           - You: I'd tell them I listened, and I still disagree.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: That's all I'm saying today.
             - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
-            - *Ends refused: Michael Howell: I'll be at the next meeting.*
+            - _Ends refused: Michael Howell: I'll be at the next meeting._
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: I've been on the record longer than you've been on this beat.
           - Michael Howell: Okay. I'll let you go.
-          - *Ends open*
+          - _Ends open_
         - You: I'm not doing this in a hallway.
           - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
           - You: Put this in: I'll vote yes, and I'll own it.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: They'll see when I vote.
             - Michael Howell: Then that's the quote.
-            - *Ends open*
+            - _Ends open_
           - You: You'd write it the same whatever I said.
             - Michael Howell: Try me. Give me a reason I'd get wrong.
-            - *Ends open: Michael Howell: I'll be at the next meeting.*
+            - _Ends open: Michael Howell: I'll be at the next meeting._
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: That's all I've got for you.
-          - *Ends open: Michael Howell: The story runs Thursday.*
+          - _Ends open: Michael Howell: The story runs Thursday._
       - You: People say a lot of things.
         - Michael Howell: Everybody else on the council has told me where they are.
         - You: Put this in: I'll vote yes, and I'll own it.
           - Michael Howell: Even when it costs you the east side?
           - You: I'm voting for it, and you can quote me.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I don't do hallway interviews.
             - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
-            - *Ends refused: Michael Howell: I'll be at the next meeting.*
+            - _Ends refused: Michael Howell: I'll be at the next meeting._
           - You: We're done here.
-            - *Ends open: Michael Howell: I'll call your office in the morning.*
+            - _Ends open: Michael Howell: I'll call your office in the morning._
         - You: They'll see when I vote.
           - Michael Howell: Then that's the quote.
-          - *Ends open*
+          - _Ends open_
         - You: You'd write it the same whatever I said.
           - Michael Howell: Try me. Give me a reason I'd get wrong.
           - You: You never ask who wrote the bill.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: I've got a meeting. Walk with me if you want.
-          - *Ends open: Michael Howell: The story runs Thursday.*
+          - _Ends open: Michael Howell: The story runs Thursday._
       - You: Then Daniel Copeland has it wrong.
-        - *Ends open: Michael Howell: Then we'll see who's right.*
-    - *if not:*
+        - _Ends open: Michael Howell: Then we'll see who's right._
+    - _if not:_
       - Michael Howell: Then I'll put that in the story.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: I'm not doing this in a hallway.
   - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
   - You: You'll have it the same day everybody else does.
     - Michael Howell: Then that's the quote.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: You'd write it the same whatever I said.
     - Michael Howell: Try me. Give me a reason I'd get wrong.
     - You: I've been on the record longer than you've been on this beat.
       - Michael Howell: Okay. I'll let you go.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: We're done here.
-      - *Ends open: Michael Howell: I'll call your office in the morning.*
+      - _Ends open: Michael Howell: I'll call your office in the morning._
     - You: I've always supported it.
-      - *if Michael Howell knows:*
+      - _if Michael Howell knows:_
         - Michael Howell: Daniel Copeland says you told them you were against it.
         - You: Fine. I told them that. Then I changed my mind.
           - Michael Howell: What changed?
           - You: The numbers did. Look at the second page.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I don't do hallway interviews.
             - Michael Howell: Then I'll write that you declined to comment.
-            - *Ends refused*
+            - _Ends refused_
           - You: That's all I've got for you.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: People say a lot of things.
           - Michael Howell: Everybody else on the council has told me where they are.
           - You: Fine. I'm leaning yes. That's all you get.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: You'll have it the same day everybody else does.
             - Michael Howell: Then that's the quote.
-            - *Ends open*
+            - _Ends open_
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: Then Daniel Copeland has it wrong.
-          - *Ends open: Michael Howell: Then we'll see who's right.*
-      - *if not:*
+          - _Ends open: Michael Howell: Then we'll see who's right._
+      - _if not:_
         - Michael Howell: Then I'll put that in the story.
-        - *Ends resolved*
+        - _Ends resolved_
   - You: I've got a meeting. Walk with me if you want.
-    - *Ends open: Michael Howell: The story runs Thursday.*
+    - _Ends open: Michael Howell: The story runs Thursday._
   - You: I've always supported it.
-    - *if Michael Howell knows:*
+    - _if Michael Howell knows:_
       - Michael Howell: Daniel Copeland says you told them you were against it.
       - You: Fine. I told them that. Then I changed my mind.
         - Michael Howell: What changed?
         - You: I read the whole bill.
           - Michael Howell: Can I quote you on that?
           - You: Go ahead. I meant every word.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I don't do hallway interviews.
             - Michael Howell: Then I'll write that you declined to comment.
-            - *Ends refused*
+            - _Ends refused_
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: I've been on the record longer than you've been on this beat.
           - Michael Howell: Okay. I'll let you go.
-          - *Ends open*
+          - _Ends open_
         - You: Not today.
           - Michael Howell: Then I'll write that you declined to comment.
-          - *Ends refused*
+          - _Ends refused_
         - You: That's all I've got for you.
-          - *Ends open: Michael Howell: The story runs Thursday.*
+          - _Ends open: Michael Howell: The story runs Thursday._
       - You: People say a lot of things.
         - Michael Howell: Everybody else on the council has told me where they are.
         - You: Put this in: I'll vote yes, and I'll own it.
           - Michael Howell: Even when it costs you the east side?
           - You: I'm voting for it, and you can quote me.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: No comment.
             - Michael Howell: Then I'll write that you declined to comment.
-            - *Ends refused*
+            - _Ends refused_
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: You'll have it the same day everybody else does.
           - Michael Howell: Then that's the quote.
-          - *Ends open*
+          - _Ends open_
         - You: You'd write it the same whatever I said.
           - Michael Howell: Try me. Give me a reason I'd get wrong.
           - You: You never ask who wrote the bill.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: We're done here.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: I've got a meeting. Walk with me if you want.
-          - *Ends open: Michael Howell: I'll call your office in the morning.*
+          - _Ends open: Michael Howell: I'll call your office in the morning._
       - You: Then Daniel Copeland has it wrong.
-        - *Ends open: Michael Howell: I'll remember you said that.*
-    - *if not:*
+        - _Ends open: Michael Howell: I'll remember you said that._
+    - _if not:_
       - Michael Howell: Then I'll put that in the story.
-      - *Ends resolved*
+      - _Ends resolved_
 - You: I've always supported it.
-  - *if Michael Howell knows:*
+  - _if Michael Howell knows:_
     - Michael Howell: Daniel Copeland says you told them you were against it.
     - You: Okay. I said it. Things changed.
       - Michael Howell: What changed?
@@ -334,65 +334,65 @@ You could say:
         - You: Yes. Some things matter more than one election.
           - Michael Howell: What do you say to people who disagree?
           - You: I'd tell them I listened, and I still disagree.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: That's all I'm saying today.
             - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
-            - *Ends refused: Michael Howell: I'll be at the next meeting.*
+            - _Ends refused: Michael Howell: I'll be at the next meeting._
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: I've been on the record longer than you've been on this beat.
           - Michael Howell: Okay. I'll let you go.
-          - *Ends open*
+          - _Ends open_
         - You: I don't do hallway interviews.
           - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
           - You: Fine. I'm leaning yes. That's all you get.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: You'll have it the same day everybody else does.
             - Michael Howell: Then that's the quote.
-            - *Ends open*
+            - _Ends open_
           - You: You'd write it the same whatever I said.
             - Michael Howell: Try me. Give me a reason I'd get wrong.
-            - *Ends open: Michael Howell: I'll be at the next meeting.*
+            - _Ends open: Michael Howell: I'll be at the next meeting._
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: I've got a meeting. Walk with me if you want.
-          - *Ends open: Michael Howell: The story runs Thursday.*
+          - _Ends open: Michael Howell: The story runs Thursday._
       - You: I've been on the record longer than you've been on this beat.
         - Michael Howell: Okay. I'll let you go.
-        - *Ends open*
+        - _Ends open_
       - You: I'm not doing this in a hallway.
         - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
         - You: Put this in: I'll vote yes, and I'll own it.
           - Michael Howell: Even when it costs you the east side?
           - You: I'm voting for it, and you can quote me.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I don't do hallway interviews.
             - Michael Howell: Then I'll write that you declined to comment.
-            - *Ends refused*
+            - _Ends refused_
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: You'll have it the same day everybody else does.
           - Michael Howell: Then that's the quote.
-          - *Ends open*
+          - _Ends open_
         - You: You'd write it the same whatever I said.
           - Michael Howell: Try me. Give me a reason I'd get wrong.
           - You: You never ask who wrote the bill.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: We're done here.
-          - *Ends open: Michael Howell: The story runs Thursday.*
+          - _Ends open: Michael Howell: The story runs Thursday._
       - You: That's all I've got for you.
-        - *Ends open: Michael Howell: I'll call your office in the morning.*
+        - _Ends open: Michael Howell: I'll call your office in the morning._
     - You: People say a lot of things.
       - Michael Howell: Everybody else on the council has told me where they are.
       - You: Fine. I'm leaning yes. That's all you get.
@@ -400,61 +400,61 @@ You could say:
         - You: Leaning. Write it down.
           - Michael Howell: Can I quote you on that?
           - You: You can quote me.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I'm not doing this in a hallway.
             - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
-            - *Ends refused: Michael Howell: I'll be at the next meeting.*
+            - _Ends refused: Michael Howell: I'll be at the next meeting._
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: The story runs Thursday.*
+            - _Ends open: Michael Howell: The story runs Thursday._
         - You: I've been on the record longer than you've been on this beat.
           - Michael Howell: Okay. I'll let you go.
-          - *Ends open*
+          - _Ends open_
         - You: No comment.
           - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
           - You: Put this in: I'll vote yes, and I'll own it.
-            - *Ends resolved: Michael Howell: We'll see how it holds up after the vote.*
+            - _Ends resolved: Michael Howell: We'll see how it holds up after the vote._
           - You: They'll see when I vote.
             - Michael Howell: Then that's the quote.
-            - *Ends open*
+            - _Ends open_
           - You: You'd write it the same whatever I said.
             - Michael Howell: Try me. Give me a reason I'd get wrong.
-            - *Ends open: Michael Howell: I'll be at the next meeting.*
+            - _Ends open: Michael Howell: I'll be at the next meeting._
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: I'll call your office in the morning.*
+            - _Ends open: Michael Howell: I'll call your office in the morning._
         - You: That's my elevator.
-          - *Ends open: Michael Howell: The story runs Thursday.*
+          - _Ends open: Michael Howell: The story runs Thursday._
       - You: They'll see when I vote.
         - Michael Howell: Then that's the quote.
-        - *Ends open*
+        - _Ends open_
       - You: You'd write it the same whatever I said.
         - Michael Howell: Try me. Give me a reason I'd get wrong.
         - You: You never ask who wrote the bill.
           - Michael Howell: Even if it costs you votes?
           - You: Even then. It's the right call.
-            - *Ends resolved: Michael Howell: Got it. Thanks.*
+            - _Ends resolved: Michael Howell: Got it. Thanks._
           - You: I've been on the record longer than you've been on this beat.
             - Michael Howell: Okay. I'll let you go.
-            - *Ends open*
+            - _Ends open_
           - You: I don't do hallway interviews.
             - Michael Howell: Your vote is public. Your reasons don't have to be a secret.
-            - *Ends refused: Michael Howell: I'll be at the next meeting.*
+            - _Ends refused: Michael Howell: I'll be at the next meeting._
           - You: I've got a meeting. Walk with me if you want.
-            - *Ends open: Michael Howell: I'll call your office in the morning.*
+            - _Ends open: Michael Howell: I'll call your office in the morning._
         - You: I've been on the record longer than you've been on this beat.
           - Michael Howell: Okay. I'll let you go.
-          - *Ends open*
+          - _Ends open_
         - You: We're done here.
-          - *Ends open: Michael Howell: I'll call your office in the morning.*
+          - _Ends open: Michael Howell: I'll call your office in the morning._
       - You: I've got a meeting. Walk with me if you want.
-        - *Ends open: Michael Howell: I'll call your office in the morning.*
+        - _Ends open: Michael Howell: I'll call your office in the morning._
     - You: Then Daniel Copeland has it wrong.
-      - *Ends open: Michael Howell: Then we'll see who's right.*
-  - *if not:*
+      - _Ends open: Michael Howell: Then we'll see who's right._
+  - _if not:_
     - Michael Howell: Then I'll put that in the story.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: cold leans to “I'm voting no, and I'll tell you why.” and it ends resolved; stubborn leans to “I'm voting no, and I'll tell you why.” and it ends resolved; anxious leans to “I'm voting for it, and you can quote me.” and it ends resolved; boastful leans to “I'm voting for it, and you can quote me.” and it ends resolved.
 
@@ -462,7 +462,7 @@ Other personalities: cold leans to “I'm voting no, and I'll tell you why.” a
 
 ## Scene 2: campaign-stop (vote-wanted, ends in political) — proof scene
 
-*Tests rally-volunteer; the asker is cold; the player's character answering first. Records: filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8, person_565365c9720b4032, person_6863e973f50172f8.*
+_Tests rally-volunteer; the asker is cold; the player's character answering first. Records: filing:contest:seat:gus2025:101811:treasurer:0:2026-11-03:person_6863e973f50172f8, person_565365c9720b4032, person_6863e973f50172f8._
 
 > Your volunteers are packing up the campaign signs. Emily Villanueva catches you before you leave.
 
@@ -482,7 +482,7 @@ You could say:
 
 1. I'll be there at ten.
 2. Put them on the phones. The doors can wait a week.
-3. Where'd you drive in from?  *(the page follows this one)*
+3. Where'd you drive in from? _(the page follows this one)_
 4. Can it wait till tomorrow? I'm dead on my feet.
 
 **Emily Villanueva:** Out past the county line. Forty minutes.
@@ -493,16 +493,16 @@ You could say:
 - Emily Villanueva: Louder than the mic. It cut out twice.
 - You: I'll be there at ten.
   - Emily Villanueva: Ten. I'll tell them you said so.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Put them on the phones. The doors can wait a week.
   - Emily Villanueva: Phones. They'll grumble. They'll do it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: Where'd you drive in from?
   - Emily Villanueva: Out past the county line. Forty minutes.
-  - *Ends open*
+  - _Ends open_
 - You: Can it wait till tomorrow? I'm dead on my feet.
   - Emily Villanueva: Go home. I'll call you at eight.
-  - *Ends refused*
+  - _Ends refused_
 
 Other personalities: warm leans to “Where'd you drive in from?” and it ends open; stubborn leans to “Where'd you drive in from?” and it ends open; anxious leans to “Where'd you drive in from?” and it ends open; boastful leans to “Where'd you drive in from?” and it ends open.
 
@@ -510,7 +510,7 @@ Other personalities: warm leans to “Where'd you drive in from?” and it ends 
 
 ## Scene 3: vote-asked (vote-wanted, ends in bill) — proof scene
 
-*Tests ask-vote; the asker is stubborn; a lie, caught and believed, a bargain, push-back, walking away. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board.*
+_Tests ask-vote; the asker is stubborn; a lie, caught and believed, a bargain, push-back, walking away. Records: bill:office:gus2025:101811:board:2027-04-10:person_bc041df6bd9d1a47:59, person_9e002a561a4b29bc, person_bf349ec8efe6104f, office:gus2025:101811:board._
 
 > You're going over "Inclusionary requirement" at your desk when Kelly Riggs knocks on the open door.
 
@@ -522,7 +522,7 @@ Other personalities: warm leans to “Where'd you drive in from?” and it ends 
 
 You could say:
 
-1. You have my vote.  *(the page follows this one)*
+1. You have my vote. _(the page follows this one)_
 2. I've made up my mind. It's no.
 3. I'll vote yes, but I'm going to need a favor from you.
 4. Show me the language.
@@ -534,54 +534,54 @@ You could say:
 
 - You ★: You have my vote.
   - Kelly Riggs: Thank you. I won't forget it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I've made up my mind. It's no.
   - Kelly Riggs: All right. I had to ask.
-  - *Ends refused*
+  - _Ends refused_
 - You: I'll vote yes, but I'm going to need a favor from you.
   - Kelly Riggs: I don't trade favors for votes.
-  - *Ends refused: Kelly Riggs: You'll need friends after this vote. I won't be one.*
+  - _Ends refused: Kelly Riggs: You'll need friends after this vote. I won't be one._
 - You: Show me the language.
   - Kelly Riggs: What do you need to get there?
   - You: Fine. I'll do it, but this is the last time.
     - Kelly Riggs: Good. I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I can't be on it. I won't work against you either.
     - Kelly Riggs: Not against me. I'll take that.
-    - *Ends refused*
+    - _Ends refused_
   - You: I'll tell you before the vote.
-    - *Ends open: Kelly Riggs: Don't take too long.*
+    - _Ends open: Kelly Riggs: Don't take too long._
 - You: I'm leaning your way.
-  - *if Kelly Riggs knows:*
+  - _if Kelly Riggs knows:_
     - Kelly Riggs: That's not what you told Quinn Melendez.
     - You: Fine. I told them that. Then I changed my mind.
       - Kelly Riggs: What changed?
       - You: The numbers did. Look at the second page.
         - Kelly Riggs: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Inclusionary requirement".
         - Kelly Riggs: Suit yourself.
-        - *Ends refused*
+        - _Ends refused_
       - You: That's all I've got for you.
-        - *Ends open: Kelly Riggs: Think it over. I'll be back tomorrow.*
+        - _Ends open: Kelly Riggs: Think it over. I'll be back tomorrow._
     - You: People say a lot of things.
       - Kelly Riggs: That's not a no.
       - You: All right. You win. I'm in.
         - Kelly Riggs: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't be on it. I won't work against you either.
         - Kelly Riggs: Not against me. I'll take that.
-        - *Ends refused*
+        - _Ends refused_
       - You: Fix the funding section and I'm there.
         - Kelly Riggs: I can get you the funding section. Give me a day.
-        - *Ends open*
+        - _Ends open_
       - You: I've got to run. Call me tonight.
-        - *Ends open: Kelly Riggs: Think it over. I'll be back tomorrow.*
+        - _Ends open: Kelly Riggs: Think it over. I'll be back tomorrow._
     - You: Then Quinn Melendez has it wrong.
-      - *Ends open: Kelly Riggs: Then we'll see who's right.*
-  - *if not:*
+      - _Ends open: Kelly Riggs: Then we'll see who's right._
+  - _if not:_
     - Kelly Riggs: That's a relief.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “I'm with you on "Inclusionary requirement".” and it ends resolved; cold leans to “I'm with you on "Inclusionary requirement".” and it ends resolved; anxious leans to “Show me the language.” and it ends resolved; boastful leans to “Count me in.” and it ends resolved.
 
@@ -589,7 +589,7 @@ Other personalities: warm leans to “I'm with you on "Inclusionary requirement"
 
 ## Scene 4: vote-confirmed (vote-wanted, ends in bill) — proof scene
 
-*Tests confirm-vote; the asker is anxious; a lie, caught and believed, a bargain, push-back, walking away. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:3, person_bf349ec8efe6104f, person_a52334a2a50177be, office:gus2025:101811:board, promise:person_a52334a2a50177be:2026-10-26:interview:outlet:cable:0:national:us-policy-positions:justice-public-safety.civilian-oversight-of-police.*
+_Tests confirm-vote; the asker is anxious; a lie, caught and believed, a bargain, push-back, walking away. Records: bill:office:gus2025:101811:board:2026-10-27:person_a52334a2a50177be:3, person_bf349ec8efe6104f, person_a52334a2a50177be, office:gus2025:101811:board, promise:person_a52334a2a50177be:2026-10-26:interview:outlet:cable:0:national:us-policy-positions:justice-public-safety.civilian-oversight-of-police._
 
 > You promised Megan Nixon your vote on "Civilian oversight of police". Megan Nixon is at your door to make sure.
 
@@ -603,7 +603,7 @@ You could say:
 
 1. Count me in.
 2. I'm really worried about this vote. I can't do it.
-3. I'll vote yes, but I'm going to need a favor from you.  *(the page follows this one)*
+3. I'll vote yes, but I'm going to need a favor from you. _(the page follows this one)_
 4. Put me down undecided.
 5. I'm still with you.
 
@@ -615,71 +615,71 @@ You could say:
 
 - You: Count me in.
   - Megan Nixon: Good. I'll hold you to that.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'm really worried about this vote. I can't do it.
   - Megan Nixon: You told me yes. People are counting on that.
   - You: Okay. For you, I'll do it.
     - Megan Nixon: I knew I could count on you.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I can't be on it. I won't work against you either.
     - Megan Nixon: Not against me. I'll take that.
-    - *Ends refused*
+    - _Ends refused_
   - You: I'll tell you before the vote.
-    - *Ends open: Megan Nixon: Think it over. I'll be back tomorrow.*
+    - _Ends open: Megan Nixon: Think it over. I'll be back tomorrow._
 - You ★: I'll vote yes, but I'm going to need a favor from you.
   - Megan Nixon: Depends on the favor.
-  - *Ends open: Megan Nixon: Don't take too long.*
+  - _Ends open: Megan Nixon: Don't take too long._
 - You: Put me down undecided.
   - Megan Nixon: I need to know before the vote.
   - You: Okay. For you, I'll do it.
     - Megan Nixon: I knew I could count on you.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I can't be on it. I won't work against you either.
     - Megan Nixon: Not against me. I'll take that.
-    - *Ends refused*
+    - _Ends refused_
   - You: I'll tell you before the vote.
-    - *Ends open: Megan Nixon: Think it over. I'll be back tomorrow.*
+    - _Ends open: Megan Nixon: Think it over. I'll be back tomorrow._
 - You: I'm still with you.
-  - *if Megan Nixon knows:*
+  - _if Megan Nixon knows:_
     - Megan Nixon: That's not what you told Anya McKinney.
     - You: Fine. I told them that. Then I changed my mind.
       - Megan Nixon: Since when?
       - You: Since I read the final version.
         - Megan Nixon: I knew I could count on you.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry, but I'm a no on "Civilian oversight of police".
         - Megan Nixon: What changed?
         - You: All right. You win. I'm in.
           - Megan Nixon: Thank you. I won't forget it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't be on it. I won't work against you either.
           - Megan Nixon: Not against me. I'll take that.
-          - *Ends refused*
+          - _Ends refused_
         - You: Fix the funding section and I'm there.
           - Megan Nixon: I can get you the funding section. Give me a day.
-          - *Ends open*
+          - _Ends open_
         - You: That's all I've got for you.
-          - *Ends open: Megan Nixon: Think it over. I'll be back tomorrow.*
+          - _Ends open: Megan Nixon: Think it over. I'll be back tomorrow._
       - You: I have to be on the floor in five minutes.
-        - *Ends open: Megan Nixon: I'll call you before the vote.*
+        - _Ends open: Megan Nixon: I'll call you before the vote._
     - You: People say a lot of things.
       - Megan Nixon: That's not a no.
       - You: All right. You win. I'm in.
         - Megan Nixon: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't be on it. I won't work against you either.
         - Megan Nixon: Not against me. I'll take that.
-        - *Ends refused*
+        - _Ends refused_
       - You: Fix the funding section and I'm there.
         - Megan Nixon: I can get you the funding section. Give me a day.
-        - *Ends open*
+        - _Ends open_
       - You: I'll tell you before the vote.
-        - *Ends open: Megan Nixon: Don't take too long.*
+        - _Ends open: Megan Nixon: Don't take too long._
     - You: Then Anya McKinney has it wrong.
-      - *Ends open: Megan Nixon: Then we'll see who's right.*
-  - *if not:*
+      - _Ends open: Megan Nixon: Then we'll see who's right._
+  - _if not:_
     - Megan Nixon: Good. I'll put you down as a yes.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “What's in it for my district?” and it ends open; cold leans to “What's in it for my district?” and it ends open; stubborn leans to “I'll vote yes, but I'm going to need a favor from you.” and it ends open; boastful leans to “This is a two-way street. I'll need your vote on mine.” and it ends resolved.
 
@@ -687,7 +687,7 @@ Other personalities: warm leans to “What's in it for my district?” and it en
 
 ## Scene 5: bill-carry (favor-asked, ends in bill) — proof scene
 
-*Tests carry-bill; the asker is boastful; a lie, caught and believed, a bargain, push-back, walking away. Records: bill:office:US-DE:legislature-upper:2027-02-10:official:term:seat:US-DE:upper:020:0:2026-10-12:33, official:term:seat:US-DE:upper:020:0:2026-10-12, official:term:seat:US-DE:upper:017:0:2026-10-12, office:US-DE:legislature-upper.*
+_Tests carry-bill; the asker is boastful; a lie, caught and believed, a bargain, push-back, walking away. Records: bill:office:US-DE:legislature-upper:2027-02-10:official:term:seat:US-DE:upper:020:0:2026-10-12:33, official:term:seat:US-DE:upper:020:0:2026-10-12, official:term:seat:US-DE:upper:017:0:2026-10-12, office:US-DE:legislature-upper._
 
 > John Serrano comes in with a folder under one arm. It's "Legalize cannabis sales", and it needs a sponsor.
 
@@ -701,7 +701,7 @@ You could say:
 
 1. All right. I'll do it.
 2. I wish I could, but I can't.
-3. I'll carry it if you'll help me find the votes.  *(the page follows this one)*
+3. I'll carry it if you'll help me find the votes. _(the page follows this one)_
 4. Send me the draft. I'll read it tonight.
 5. I'm already carrying two bills. I don't have room.
 
@@ -711,7 +711,7 @@ You could say:
 
 You could say:
 
-1. Where are we now?  *(the page follows this one)*
+1. Where are we now? _(the page follows this one)_
 2. I can bring the members from my side.
 3. Give me a list of everyone who's undecided.
 
@@ -720,7 +720,7 @@ You could say:
 You could say:
 
 1. Good. That's a start.
-2. That's not enough. We'll lose on the floor.  *(the page follows this one)*
+2. That's not enough. We'll lose on the floor. _(the page follows this one)_
 3. I'll get you the rest.
 
 **John Serrano:** Then help me change some minds.
@@ -729,7 +729,7 @@ You could say:
 
 1. People say a lot of things.
 2. You're right. I'll make the calls.
-3. I have to go. Send me what you've got.  *(the page follows this one)*
+3. I have to go. Send me what you've got. _(the page follows this one)_
 
 **John Serrano:** Don't take too long.
 
@@ -737,10 +737,10 @@ You could say:
 
 - You: All right. I'll do it.
   - John Serrano: I knew I could count on you.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I wish I could, but I can't.
   - John Serrano: Suit yourself.
-  - *Ends refused*
+  - _Ends refused_
 - You ★: I'll carry it if you'll help me find the votes.
   - John Serrano: Deal. I'll start making calls tomorrow.
   - John Serrano: So where do you think the votes are?
@@ -750,97 +750,97 @@ You could say:
       - John Serrano: I'll keep counting. You keep talking to them.
       - You: All right. Send it over when it's ready.
         - John Serrano: You'll have it by morning.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Tonight would be better.
         - John Serrano: Tonight, then.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I have to go. Send me what you've got.
-        - *Ends open: John Serrano: Don't take too long.*
+        - _Ends open: John Serrano: Don't take too long._
     - You ★: That's not enough. We'll lose on the floor.
       - John Serrano: Then help me change some minds.
       - You: People say a lot of things.
         - John Serrano: Then tell me who's right.
         - You: Okay. For you, I'll do it.
           - John Serrano: That's all I needed to hear.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'm sorry. I just can't.
           - John Serrano: I understand. I'll ask around.
-          - *Ends refused*
+          - _Ends refused_
         - You: I have to go. Send me what you've got.
-          - *Ends open: John Serrano: Don't take too long.*
+          - _Ends open: John Serrano: Don't take too long._
       - You: You're right. I'll make the calls.
         - John Serrano: All right. I had to ask.
-        - *Ends resolved*
+        - _Ends resolved_
       - You ★: I have to go. Send me what you've got.
-        - *Ends open: John Serrano: Don't take too long.*
+        - _Ends open: John Serrano: Don't take too long._
     - You: I'll get you the rest.
       - John Serrano: That's what I wanted to hear.
-      - *Ends resolved*
+      - _Ends resolved_
   - You: I can bring the members from my side.
     - John Serrano: Good. Start there, and I'll work the rest.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Give me a list of everyone who's undecided.
     - John Serrano: I'll have it on your desk tomorrow.
     - You: Good. I'll start calling tonight.
       - John Serrano: I'll be at your door first thing.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: All right. Send it over when it's ready.
       - John Serrano: You'll have it by morning.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Tonight would be better.
       - John Serrano: Tonight, then.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I have to go. Send me what you've got.
-      - *Ends open: John Serrano: Don't take too long.*
+      - _Ends open: John Serrano: Don't take too long._
 - You: Send me the draft. I'll read it tonight.
   - John Serrano: Read the funding part first. That's where the fight is.
   - You: All right. You win. I'm in.
     - John Serrano: I knew I could count on you.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Give me a list of everyone who's undecided.
     - John Serrano: I'll have it on your desk tomorrow.
     - You: Good. I'll start calling tonight.
       - John Serrano: I'll be at your door first thing.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: All right. Send it over when it's ready.
       - John Serrano: You'll have it by morning.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Tonight would be better.
       - John Serrano: Tonight, then.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I have to go. Send me what you've got.
-      - *Ends open: John Serrano: Don't take too long.*
+      - _Ends open: John Serrano: Don't take too long._
   - You: Where are we now?
     - John Serrano: Short. I'll have a real count by Friday.
     - You: Good. That's a start.
       - John Serrano: I'll keep counting. You keep talking to them.
       - You: All right. Send it over when it's ready.
         - John Serrano: You'll have it by morning.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: Tonight would be better.
         - John Serrano: Tonight, then.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I have to be on the floor in five minutes.
-        - *Ends open: John Serrano: Think it over. I'll be back tomorrow.*
+        - _Ends open: John Serrano: Think it over. I'll be back tomorrow._
     - You: That's not enough. We'll lose on the floor.
       - John Serrano: We have time. The vote isn't until next month.
       - You: All right. Let's keep counting.
         - John Serrano: I'll call you every night with the number.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: We don't have time, and you know it.
         - John Serrano: Let's not fight each other. Let's fight for the votes.
-        - *Ends open: John Serrano: I won't forget this.*
+        - _Ends open: John Serrano: I won't forget this._
       - You: I have to go. Send me what you've got.
-        - *Ends open: John Serrano: Don't take too long.*
+        - _Ends open: John Serrano: Don't take too long._
     - You: I'll get you the rest.
       - John Serrano: That's what I wanted to hear.
-      - *Ends resolved*
+      - _Ends resolved_
   - You: I'll tell you before the vote.
-    - *Ends open: John Serrano: Don't take too long.*
+    - _Ends open: John Serrano: Don't take too long._
 - You: I'm already carrying two bills. I don't have room.
-  - *if not:*
+  - _if not:_
     - John Serrano: I understand. Maybe next session.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “All right. I'll do it.” and it ends resolved; cold leans to “I can't take that on right now.” and it ends refused; stubborn leans to “I wish I could, but I can't.” and it ends refused; anxious leans to “Send me the draft. I'll read it tonight.” and it ends resolved.
 
@@ -848,7 +848,7 @@ Other personalities: warm leans to “All right. I'll do it.” and it ends reso
 
 ## Scene 6: donor-ask (favor-asked, ends in money) — proof scene
 
-*Tests donor-ask; the asker is warm; a lie, caught and believed, a bargain, push-back, walking away. Records: filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc|person_9e002b561a4b2b6f, filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc, person_9e002b561a4b2b6f, person_9e002a561a4b29bc.*
+_Tests donor-ask; the asker is warm; a lie, caught and believed, a bargain, push-back, walking away. Records: filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc|person_9e002b561a4b2b6f, filing:contest:seat:gus2025:101811:board:0:2026-11-03:person_9e002a561a4b29bc, person_9e002b561a4b2b6f, person_9e002a561a4b29bc._
 
 > Simon Riggs, one of your donors, is on the line.
 
@@ -861,7 +861,7 @@ Other personalities: warm leans to “All right. I'll do it.” and it ends reso
 You could say:
 
 1. All right. I'll look at it again.
-2. Let me get you with my chief of staff.  *(the page follows this one)*
+2. Let me get you with my chief of staff. _(the page follows this one)_
 3. I can't promise how I'll vote. I can promise you a hearing.
 4. That's not a conversation for today.
 5. I already pushed for that. It's moving.
@@ -872,54 +872,54 @@ You could say:
 
 - You: All right. I'll look at it again.
   - Simon Riggs: Thank you. I won't forget it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: Let me get you with my chief of staff.
   - Simon Riggs: Lunch after the session, then.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I can't promise how I'll vote. I can promise you a hearing.
   - Simon Riggs: Fair enough.
-  - *Ends refused*
+  - _Ends refused_
 - You: That's not a conversation for today.
   - Simon Riggs: Then when? I've called three times.
   - You: Okay. For you, I'll do it.
     - Simon Riggs: That's all I needed to hear.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'll listen. I won't promise anything.
     - Simon Riggs: That's all I'm asking.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've got to run. Call me tonight.
-    - *Ends open: Simon Riggs: Think it over. I'll be back tomorrow.*
+    - _Ends open: Simon Riggs: Think it over. I'll be back tomorrow._
 - You: I already pushed for that. It's moving.
-  - *if Simon Riggs knows:*
+  - _if Simon Riggs knows:_
     - Simon Riggs: Natalie Wooten says it never left committee.
     - You: Fine. I told them that. Then I changed my mind.
       - Simon Riggs: What changed?
       - You: I read the whole bill.
         - Simon Riggs: Thank you. I won't forget it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm sorry. I just can't.
         - Simon Riggs: Then I'll take it up with somebody else.
-        - *Ends refused*
+        - _Ends refused_
       - You: That's all I've got for you.
-        - *Ends open: Simon Riggs: Think it over. I'll be back tomorrow.*
+        - _Ends open: Simon Riggs: Think it over. I'll be back tomorrow._
     - You: People say a lot of things.
       - Simon Riggs: That's not a no.
       - You: All right. You win. I'm in.
         - Simon Riggs: I knew you'd come around.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't promise how I'll vote. I can promise you a hearing.
         - Simon Riggs: Fair enough.
-        - *Ends refused*
+        - _Ends refused_
       - You: I'll listen. I won't promise anything.
         - Simon Riggs: That's all I'm asking.
-        - *Ends open*
+        - _Ends open_
       - You: I've got to run. Call me tonight.
-        - *Ends open: Simon Riggs: Don't take too long.*
+        - _Ends open: Simon Riggs: Don't take too long._
     - You: Then Natalie Wooten has it wrong.
-      - *Ends open: Simon Riggs: I'll remember you said that.*
-  - *if not:*
+      - _Ends open: Simon Riggs: I'll remember you said that._
+  - _if not:_
     - Simon Riggs: Good to hear. Keep me posted.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: cold leans to “All right. I'll look at it again.” and it ends resolved; stubborn leans to “Let me get you with my chief of staff.” and it ends resolved; anxious leans to “Let me get you with my chief of staff.” and it ends resolved; boastful leans to “Let me get you with my chief of staff.” and it ends resolved.
 
@@ -927,7 +927,7 @@ Other personalities: cold leans to “All right. I'll look at it again.” and i
 
 ## Scene 7: party-ask (favor-asked, ends in political) — proof scene
 
-*Tests party-ask; the asker is cold; a lie, caught and believed, a bargain, push-back, walking away. Records: party:US-DE:republican, filing:contest:seat:US-DE:us-house:00:2026-11-03:official:term:seat:US-DE:upper:019:0:2026-10-12, contest:seat:US-DE:us-house:00:2026-11-03, person_9e002a561a4b29bc, official:term:seat:US-DE:upper:019:0:2026-10-12.*
+_Tests party-ask; the asker is cold; a lie, caught and believed, a bargain, push-back, walking away. Records: party:US-DE:republican, filing:contest:seat:US-DE:us-house:00:2026-11-03:official:term:seat:US-DE:upper:019:0:2026-10-12, contest:seat:US-DE:us-house:00:2026-11-03, person_9e002a561a4b29bc, official:term:seat:US-DE:upper:019:0:2026-10-12._
 
 > Kelly Riggs, who chairs the Republican party, has asked to see you.
 
@@ -946,7 +946,7 @@ You could say:
 You could say:
 
 1. Yes. You can count on me.
-2. Not this time.  *(the page follows this one)*
+2. Not this time. _(the page follows this one)_
 3. If I run, I'll need the party behind me all the way.
 4. I have a job. Let me talk to my family first.
 5. I'm seriously thinking about it.
@@ -959,77 +959,77 @@ You could say:
 - Kelly Riggs: Because you can win it. We've looked at the numbers.
 - You: Yes. You can count on me.
   - Kelly Riggs: Thank you. I won't forget it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: Not this time.
   - Kelly Riggs: Suit yourself.
-  - *Ends refused*
+  - _Ends refused_
 - You: If I run, I'll need the party behind me all the way.
   - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I have a job. Let me talk to my family first.
   - Kelly Riggs: Filing closes Friday. You know that.
   - You: All right. You win. I'm in.
     - Kelly Riggs: I knew you'd come around.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I can't this time. Ask me in two years.
     - Kelly Riggs: Suit yourself.
-    - *Ends refused*
+    - _Ends refused_
   - You: I'll tell you before the vote.
-    - *Ends open: Kelly Riggs: Think it over. I'll be back tomorrow.*
+    - _Ends open: Kelly Riggs: Think it over. I'll be back tomorrow._
 - You: I'm seriously thinking about it.
-  - *if Kelly Riggs knows:*
+  - _if Kelly Riggs knows:_
     - Kelly Riggs: Aaron Robbins says you've already turned it down.
     - You: Okay. I said it. Things changed.
       - Kelly Riggs: What changed?
       - You: I read the whole bill.
         - Kelly Riggs: Good. I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: My family doesn't want me to.
         - Kelly Riggs: You should have told me weeks ago.
         - You: Fine. I'll do it, but this is the last time.
           - Kelly Riggs: Good. I'll call the county chairs in the morning.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't this time. Ask me in two years.
           - Kelly Riggs: All right. I had to ask.
-          - *Ends refused*
+          - _Ends refused_
         - You: If I run, I'll need the party behind me all the way.
           - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-          - *Ends open*
+          - _Ends open_
         - You: I'll tell you before the vote.
-          - *Ends open: Kelly Riggs: Don't take too long.*
+          - _Ends open: Kelly Riggs: Don't take too long._
       - You: It's personal.
         - Kelly Riggs: Personal how?
         - You: All right. You win. I'm in.
           - Kelly Riggs: I knew you'd come around.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I can't this time. Ask me in two years.
           - Kelly Riggs: Fair enough.
-          - *Ends refused*
+          - _Ends refused_
         - You: If I run, I'll need the party behind me all the way.
           - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-          - *Ends open*
+          - _Ends open_
         - You: I've got to run. Call me tonight.
-          - *Ends open: Kelly Riggs: Don't take too long.*
+          - _Ends open: Kelly Riggs: Don't take too long._
       - You: That's all I've got for you.
-        - *Ends open: Kelly Riggs: Don't take too long.*
+        - _Ends open: Kelly Riggs: Don't take too long._
     - You: People say a lot of things.
       - Kelly Riggs: That's not a no.
       - You: Fine. I'll do it, but this is the last time.
         - Kelly Riggs: Good. I'll hold you to that.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I can't this time. Ask me in two years.
         - Kelly Riggs: Fair enough.
-        - *Ends refused*
+        - _Ends refused_
       - You: If I run, I'll need the party behind me all the way.
         - Kelly Riggs: You'll have it. Money, volunteers, all of it.
-        - *Ends open*
+        - _Ends open_
       - You: I'll tell you before the vote.
-        - *Ends open: Kelly Riggs: Don't take too long.*
+        - _Ends open: Kelly Riggs: Don't take too long._
     - You: Then Aaron Robbins has it wrong.
-      - *Ends open: Kelly Riggs: I'll remember you said that.*
-  - *if not:*
+      - _Ends open: Kelly Riggs: I'll remember you said that._
+  - _if not:_
     - Kelly Riggs: Good. Don't take too long.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “All right. I'll do it.” and it ends resolved; stubborn leans to “Not this time.” and it ends refused; anxious leans to “I have a job. Let me talk to my family first.” and it ends refused; boastful leans to “If I run, I'll need the party behind me all the way.” and it ends resolved.
 
@@ -1037,7 +1037,7 @@ Other personalities: warm leans to “All right. I'll do it.” and it ends reso
 
 ## Scene 8: office-hours (favor-asked, ends in money) — proof scene
 
-*Tests constituent-help; the asker is stubborn; a lie, caught and believed, push-back, walking away. Records: person_5df2739ae2587c09:2027-05-23:event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, person_5df2739ae2587c09, person_d3c12275ee46b085.*
+_Tests constituent-help; the asker is stubborn; a lie, caught and believed, push-back, walking away. Records: person_5df2739ae2587c09:2027-05-23:event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, event:housing.eviction:eviction:lease:household_e3b7a1c2299a39ab:2027-05-06, person_5df2739ae2587c09, person_d3c12275ee46b085._
 
 > Andrew Robbins lives in Brookside and has come to your office for help.
 
@@ -1049,7 +1049,7 @@ Other personalities: warm leans to “All right. I'll do it.” and it ends reso
 
 You could say:
 
-1. I can ask them to look at it again. I can't promise how it comes out.  *(the page follows this one)*
+1. I can ask them to look at it again. I can't promise how it comes out. _(the page follows this one)_
 2. When did this start?
 3. I'm not sure my office can help with that.
 4. Let me have someone from my office call you tomorrow.
@@ -1061,42 +1061,42 @@ You could say:
 
 - You ★: I can ask them to look at it again. I can't promise how it comes out.
   - Andrew Robbins: Thank you. That's more than anyone else has done.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: When did this start?
   - Andrew Robbins: A few months now. It's been hard to keep up.
   - You: I'll call the housing office myself, today.
     - Andrew Robbins: That's more than the last office said.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Sit down with my caseworker before you go. Bring the papers.
     - Andrew Robbins: That's more than the last office said.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I have someone waiting. Leave your number at the front desk.
-    - *Ends open: Andrew Robbins: Please don't forget about us.*
+    - _Ends open: Andrew Robbins: Please don't forget about us._
 - You: I'm not sure my office can help with that.
   - Andrew Robbins: I've got nowhere else to go.
-  - *Ends refused*
+  - _Ends refused_
 - You: Let me have someone from my office call you tomorrow.
   - Andrew Robbins: Thank you. That's more than anyone else has done.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I already called them about it.
-  - *if Andrew Robbins knows:*
+  - _if Andrew Robbins knows:_
     - Andrew Robbins: They told me nobody's called.
     - You: Fine. I told them that. Then I changed my mind.
       - Andrew Robbins: Okay. At least you said it.
-      - *Ends open*
+      - _Ends open_
     - You: They lose half of what we send them.
       - Andrew Robbins: Then what are you for?
       - You: You're right. I'll call while you're sitting here.
         - Andrew Robbins: When? Today?
         - You: I have someone waiting. Leave your number at the front desk.
-          - *Ends open: Andrew Robbins: Please don't forget about us.*
+          - _Ends open: Andrew Robbins: Please don't forget about us._
       - You: I have someone waiting. Leave your number at the front desk.
-        - *Ends open: Andrew Robbins: Please don't forget about us.*
+        - _Ends open: Andrew Robbins: Please don't forget about us._
     - You: I called. They must have lost the message.
-      - *Ends open: Andrew Robbins: Then we'll see who's right.*
-  - *if not:*
+      - _Ends open: Andrew Robbins: Then we'll see who's right._
+  - _if not:_
     - Andrew Robbins: Thank you. I'll wait to hear from them.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “Bring me the letter they sent you. I need the date on it.” and it ends resolved; cold leans to “I can ask them to look at it again. I can't promise how it comes out.” and it ends resolved; anxious leans to “I can ask them to look at it again. I can't promise how it comes out.” and it ends resolved; boastful leans to “I can ask them to look at it again. I can't promise how it comes out.” and it ends resolved.
 
@@ -1104,7 +1104,7 @@ Other personalities: warm leans to “Bring me the letter they sent you. I need 
 
 ## Scene 9: family-filing (news-received, ends in political) — proof scene
 
-*Tests family-filing; the asker is warm; push-back, walking away. Records: filing:contest:seat:gus2025:101811:board:6:2026-11-03:person_d3c12275ee46b085, contest:seat:gus2025:101811:board:6:2026-11-03, person_d3c11e75ee46a9b9, person_d3c12275ee46b085.*
+_Tests family-filing; the asker is warm; push-back, walking away. Records: filing:contest:seat:gus2025:101811:board:6:2026-11-03:person_d3c12275ee46b085, contest:seat:gus2025:101811:board:6:2026-11-03, person_d3c11e75ee46a9b9, person_d3c12275ee46b085._
 
 > Word that you filed for County Commissioner got home before you did. Bentley Rivas is waiting.
 
@@ -1122,7 +1122,7 @@ You could say:
 
 You could say:
 
-1. I didn't tell you because I wasn't sure I'd go through with it.  *(the page follows this one)*
+1. I didn't tell you because I wasn't sure I'd go through with it. _(the page follows this one)_
 2. I'm going to need you on the phones.
 3. I was going to tell you tonight.
 4. We'll figure it out together. I promise.
@@ -1131,7 +1131,7 @@ You could say:
 
 You could say:
 
-1. You're right. I should have told you first.  *(the page follows this one)*
+1. You're right. I should have told you first. _(the page follows this one)_
 
 **Bentley Rivas:** Yes, you should have.
 
@@ -1143,30 +1143,30 @@ You could say:
   - Bentley Rivas: And now you're sure?
   - You ★: You're right. I should have told you first.
     - Bentley Rivas: Yes, you should have.
-    - *Ends resolved*
+    - _Ends resolved_
 - You: I'm going to need you on the phones.
   - Bentley Rivas: I'll do the yard signs. Not the phone calls.
   - You: Thank you. I mean it.
     - Bentley Rivas: Okay. Next time, tell me first.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: That's all I'm asking.
     - Bentley Rivas: Okay. But you're telling your mother.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm going to bed. We'll talk in the morning.
-    - *Ends open: Bentley Rivas: Fine. Morning, then.*
+    - _Ends open: Bentley Rivas: Fine. Morning, then._
 - You: I was going to tell you tonight.
   - Bentley Rivas: No. We talk about it now.
   - You: You're right. I should have told you first.
     - Bentley Rivas: Yes, you should have.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I won't let it take over our lives.
     - Bentley Rivas: I'll hold you to that.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm going to bed. We'll talk in the morning.
-    - *Ends open: Bentley Rivas: Fine. Morning, then.*
+    - _Ends open: Bentley Rivas: Fine. Morning, then._
 - You: We'll figure it out together. I promise.
   - Bentley Rivas: Next time I hear it from you first.
-  - *Ends resolved*
+  - _Ends resolved_
 
 Other personalities: cold leans to “It's been a long day.” and it ends resolved; stubborn leans to “I didn't tell you because I wasn't sure I'd go through with it.” and it ends resolved; anxious leans to “I was going to tell you tonight.” and it ends resolved.
 
@@ -1174,7 +1174,7 @@ Other personalities: cold leans to “It's been a long day.” and it ends resol
 
 ## Scene 10: family-win (honor, ends in political) — proof scene
 
-*Tests family-win; the asker is cold; push-back. Records: result:contest:seat:gus2025:101811:sheriff:0:2026-11-03, contest:seat:gus2025:101811:sheriff:0:2026-11-03, person_f9be8ef45e5d143f.*
+_Tests family-win; the asker is cold; push-back. Records: result:contest:seat:gus2025:101811:sheriff:0:2026-11-03, contest:seat:gus2025:101811:sheriff:0:2026-11-03, person_f9be8ef45e5d143f._
 
 > You won. Erin McCarthy is waiting at the door when you get home.
 
@@ -1188,7 +1188,7 @@ You could say:
 
 1. I couldn't have done it without you.
 2. Things will settle down now. I promise.
-3. I told you I'd win.  *(the page follows this one)*
+3. I told you I'd win. _(the page follows this one)_
 4. It hasn't sunk in yet.
 
 **Erin McCarthy:** Okay, okay. You won. Come inside.
@@ -1199,18 +1199,18 @@ You could say:
 
 - You: I couldn't have done it without you.
   - Erin McCarthy: Your phone hasn't stopped buzzing.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Things will settle down now. I promise.
   - Erin McCarthy: Go get some sleep. Big day tomorrow.
-  - *Ends resolved*
+  - _Ends resolved_
 - You ★: I told you I'd win.
   - Erin McCarthy: Okay, okay. You won. Come inside.
-  - *Ends open: Erin McCarthy: Your phone is going to ring all night.*
+  - _Ends open: Erin McCarthy: Your phone is going to ring all night._
 - You: It hasn't sunk in yet.
   - Erin McCarthy: So what happens now?
   - You: Now I find out where they keep the pens.
     - Erin McCarthy: Go get some sleep. Big day tomorrow.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “I still can't believe it.” and it ends resolved; stubborn leans to “I told you I'd win.” and it ends open; boastful leans to “I told you I'd win.” and it ends open.
 
@@ -1218,7 +1218,7 @@ Other personalities: warm leans to “I still can't believe it.” and it ends r
 
 ## Scene 11: family-loss (loss, ends in political) — proof scene
 
-*Tests family-loss; the asker is warm; push-back. Records: result:contest:seat:US-DE:us-house:00:2026-11-03, contest:seat:US-DE:us-house:00:2026-11-03, person_11d13d68898d12e8, person_11d13e68898d149b, official:term:seat:US-DE:us-house:00:2026-10-12.*
+_Tests family-loss; the asker is warm; push-back. Records: result:contest:seat:US-DE:us-house:00:2026-11-03, contest:seat:US-DE:us-house:00:2026-11-03, person_11d13d68898d12e8, person_11d13e68898d149b, official:term:seat:US-DE:us-house:00:2026-10-12._
 
 > You lost the race for U.S. Representative. The house is quiet when you get home, and Justin McConnell is still up.
 
@@ -1233,13 +1233,13 @@ You could say:
 1. Thanks for waiting up.
 2. Julie Nolan ran a dirty race.
 3. I'm fine. Really.
-4. This isn't the end of it.  *(the page follows this one)*
+4. This isn't the end of it. _(the page follows this one)_
 
 **Justin McConnell:** Are you sure that's what you want?
 
 You could say:
 
-1. It's hard to hear it was that close.  *(the page follows this one)*
+1. It's hard to hear it was that close. _(the page follows this one)_
 
 **Justin McConnell:** Eat something first.
 
@@ -1247,18 +1247,18 @@ You could say:
 
 - You: Thanks for waiting up.
   - Justin McConnell: Come to bed. It'll still be true in the morning.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Julie Nolan ran a dirty race.
   - Justin McConnell: You knocked every door on our street. I watched.
-  - *Ends open: Justin McConnell: I'm here when you want to talk.*
+  - _Ends open: Justin McConnell: I'm here when you want to talk._
 - You: I'm fine. Really.
   - Justin McConnell: Talk to me.
-  - *Ends open: Justin McConnell: I'm here when you want to talk.*
+  - _Ends open: Justin McConnell: I'm here when you want to talk._
 - You ★: This isn't the end of it.
   - Justin McConnell: Are you sure that's what you want?
   - You ★: It's hard to hear it was that close.
     - Justin McConnell: Eat something first.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: cold leans to “I'll run again.” and it ends resolved; stubborn leans to “This isn't the end of it.” and it ends resolved; anxious leans to “This isn't the end of it.” and it ends resolved; boastful leans to “This isn't the end of it.” and it ends resolved.
 
@@ -1266,7 +1266,7 @@ Other personalities: cold leans to “I'll run again.” and it ends resolved; s
 
 ## Scene 12: family-absence (threat, ends in political) — proof scene
 
-*Tests family-absence; the asker is cold; a lie, caught and believed, push-back, walking away. Records: term:seat:gus2025:101811:board:3:2026-10-12, person_bc041cf6bd9d1894, person_bc041df6bd9d1a47.*
+_Tests family-absence; the asker is cold; a lie, caught and believed, push-back, walking away. Records: term:seat:gus2025:101811:board:3:2026-10-12, person_bc041cf6bd9d1894, person_bc041df6bd9d1a47._
 
 > You've been at the office late every night this week. Olivia Keller is waiting up for you.
 
@@ -1281,14 +1281,14 @@ You could say:
 1. I've let things slide at home. I know.
 2. I'll be home more. I promise.
 3. Can we not do this tonight?
-4. This job doesn't leave much time. You know that.  *(the page follows this one)*
+4. This job doesn't leave much time. You know that. _(the page follows this one)_
 5. It was a late committee meeting. That's all.
 
 **Olivia Keller:** We miss you. That's all.
 
 You could say:
 
-1. This weekend is ours. No calls.  *(the page follows this one)*
+1. This weekend is ours. No calls. _(the page follows this one)_
 2. I know. I hate it too.
 3. Come here.
 4. I'm going to take a shower.
@@ -1299,69 +1299,69 @@ You could say:
 
 - You: I've let things slide at home. I know.
   - Olivia Keller: I just miss you, that's all.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I'll be home more. I promise.
   - Olivia Keller: You said that last month.
   - You: This weekend is ours. No calls.
     - Olivia Keller: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I've let things slide at home. I know.
     - Olivia Keller: I just miss you, that's all.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Come here.
     - Olivia Keller: Sit down. I'll heat it up.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm going to bed. We'll talk in the morning.
-    - *Ends open: Olivia Keller: Fine. Go.*
+    - _Ends open: Olivia Keller: Fine. Go._
 - You: Can we not do this tonight?
   - Olivia Keller: We miss you. That's all.
   - You: Sunday. Whole day. I'll turn the phone off.
     - Olivia Keller: I've heard that before.
     - You: This weekend is ours. No calls.
       - Olivia Keller: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Olivia Keller: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm going to bed. We'll talk in the morning.
-      - *Ends open: Olivia Keller: Fine. Go.*
+      - _Ends open: Olivia Keller: Fine. Go._
   - You: I know. I hate it too.
     - Olivia Keller: Saying sorry isn't the same as being here.
     - You: This weekend is ours. No calls.
       - Olivia Keller: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: You're right. I'm sorry.
       - Olivia Keller: Saturday. I'm writing it on the calendar.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm going to bed. We'll talk in the morning.
-      - *Ends open: Olivia Keller: Fine. Go.*
+      - _Ends open: Olivia Keller: Fine. Go._
   - You: Come here.
     - Olivia Keller: Sit down. I'll heat it up.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm going to take a shower.
-    - *Ends open: Olivia Keller: Fine. Go.*
+    - _Ends open: Olivia Keller: Fine. Go._
 - You ★: This job doesn't leave much time. You know that.
   - Olivia Keller: We miss you. That's all.
   - You ★: This weekend is ours. No calls.
     - Olivia Keller: I'm holding you to it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I know. I hate it too.
     - Olivia Keller: Saying sorry isn't the same as being here.
     - You: This weekend is ours. No calls.
       - Olivia Keller: I'm holding you to it.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I've let things slide at home. I know.
       - Olivia Keller: I just miss you, that's all.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I'm going to take a shower.
-      - *Ends open: Olivia Keller: Fine. Go.*
+      - _Ends open: Olivia Keller: Fine. Go._
   - You: Come here.
     - Olivia Keller: Sit down. I'll heat it up.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I'm going to take a shower.
-    - *Ends open: Olivia Keller: Fine. Go.*
+    - _Ends open: Olivia Keller: Fine. Go._
 - You: It was a late committee meeting. That's all.
-  - *if Olivia Keller knows:*
+  - _if Olivia Keller knows:_
     - Olivia Keller: I called the office. There was no meeting.
     - You: You're right. I'm sorry.
       - Olivia Keller: Thank you for telling me.
@@ -1369,284 +1369,284 @@ You could say:
         - Olivia Keller: Your plate's in the oven.
         - You: It's been a hard week at the office.
           - Olivia Keller: Come sit down. Tell me about it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'll be home more. I promise.
           - Olivia Keller: You said that last month.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I've let things slide at home. I know.
             - Olivia Keller: I just miss you, that's all.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm doing this for us, too.
             - Olivia Keller: We didn't ask for this.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to bed. We'll talk in the morning.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
         - You: It's just a busy stretch.
           - Olivia Keller: You said that last time.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I've let things slide at home. I know.
             - Olivia Keller: I just miss you, that's all.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: This job doesn't leave much time. You know that.
             - Olivia Keller: We miss you. That's all.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to bed. We'll talk in the morning.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
       - You: It's been a hard week at the office.
         - Olivia Keller: Come sit down. Tell me about it.
         - You: Thank you for waiting up.
           - Olivia Keller: Your plate's in the oven.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I'll be home more. I promise.
           - Olivia Keller: You said that last month.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I've let things slide at home. I know.
             - Olivia Keller: I just miss you, that's all.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm doing this for us, too.
             - Olivia Keller: We didn't ask for this.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to take a shower.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
         - You: Can we not do this tonight?
           - Olivia Keller: You said that last time.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I've let things slide at home. I know.
             - Olivia Keller: I just miss you, that's all.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: This job doesn't leave much time. You know that.
             - Olivia Keller: We miss you. That's all.
-            - *Ends open: Olivia Keller: I'm going to bed. We'll talk tomorrow.*
+            - _Ends open: Olivia Keller: I'm going to bed. We'll talk tomorrow._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to take a shower.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
       - You: I'll be home more. I promise.
         - Olivia Keller: You said that last month.
         - You: This weekend is ours. No calls.
           - Olivia Keller: I'm holding you to it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I've let things slide at home. I know.
           - Olivia Keller: I just miss you, that's all.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: This job doesn't leave much time. You know that.
           - Olivia Keller: We miss you. That's all.
           - You: Sunday. Whole day. I'll turn the phone off.
             - Olivia Keller: Saturday. I'm writing it on the calendar.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I know. I hate it too.
             - Olivia Keller: Saying sorry isn't the same as being here.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: Can we not do this tonight?
             - Olivia Keller: I've heard that before.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to bed. We'll talk in the morning.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
         - You: Come here.
           - Olivia Keller: Sit down. I'll heat it up.
           - You: Thank you for waiting up.
             - Olivia Keller: Your plate's in the oven.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's been a hard week at the office.
             - Olivia Keller: Come sit down. Tell me about it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: Can we not do this tonight?
             - Olivia Keller: I've heard that before.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
         - You: I'm going to bed. We'll talk in the morning.
-          - *Ends open: Olivia Keller: Fine. Go.*
+          - _Ends open: Olivia Keller: Fine. Go._
       - You: Can we not do this tonight?
         - Olivia Keller: I've heard that before.
         - You: This weekend is ours. No calls.
           - Olivia Keller: I'm holding you to it.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I've let things slide at home. I know.
           - Olivia Keller: I just miss you, that's all.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: This job doesn't leave much time. You know that.
           - Olivia Keller: We miss you. That's all.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I know. I hate it too.
             - Olivia Keller: Saying sorry isn't the same as being here.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's just a busy stretch.
             - Olivia Keller: You said that last time.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to bed. We'll talk in the morning.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
         - You: Come here.
           - Olivia Keller: Sit down. I'll heat it up.
           - You: Thank you for waiting up.
             - Olivia Keller: Your plate's in the oven.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's been a hard week at the office.
             - Olivia Keller: Come sit down. Tell me about it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'll be home more. I promise.
             - Olivia Keller: You said that last month.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's just a busy stretch.
             - Olivia Keller: You said that last time.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
         - You: I'm going to bed. We'll talk in the morning.
-          - *Ends open: Olivia Keller: Fine. Go.*
+          - _Ends open: Olivia Keller: Fine. Go._
     - You: Can we not do this tonight?
       - Olivia Keller: You said that last time.
       - You: This weekend is ours. No calls.
         - Olivia Keller: I'm holding you to it.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I've let things slide at home. I know.
         - Olivia Keller: I just miss you, that's all.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I'm doing this for us, too.
         - Olivia Keller: We didn't ask for this.
         - You: You're right. I'm sorry.
           - Olivia Keller: Saying sorry isn't the same as being here.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I've let things slide at home. I know.
             - Olivia Keller: I just miss you, that's all.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: This job doesn't leave much time. You know that.
             - Olivia Keller: We miss you. That's all.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to bed. We'll talk in the morning.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
         - You: This job doesn't leave much time. You know that.
           - Olivia Keller: We miss you. That's all.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I know. I hate it too.
             - Olivia Keller: Saying sorry isn't the same as being here.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's just a busy stretch.
             - Olivia Keller: I've heard that before.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to take a shower.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
         - You: I'll be home more. I promise.
           - Olivia Keller: You said that last month.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I've let things slide at home. I know.
             - Olivia Keller: I just miss you, that's all.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: This job doesn't leave much time. You know that.
             - Olivia Keller: We miss you. That's all.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: Come here.
             - Olivia Keller: Sit down. I'll heat it up.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm going to bed. We'll talk in the morning.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
         - You: Come here.
           - Olivia Keller: Sit down. I'll heat it up.
           - You: Thank you for waiting up.
             - Olivia Keller: Your plate's in the oven.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's been a hard week at the office.
             - Olivia Keller: Come sit down. Tell me about it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'll be home more. I promise.
             - Olivia Keller: You said that last month.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's just a busy stretch.
             - Olivia Keller: I've heard that before.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
         - You: I'm going to bed. We'll talk in the morning.
-          - *Ends open: Olivia Keller: Fine. Go.*
+          - _Ends open: Olivia Keller: Fine. Go._
       - You: Come here.
         - Olivia Keller: Sit down. I'll heat it up.
         - You: Thank you for waiting up.
           - Olivia Keller: Your plate's in the oven.
           - You: It's been a hard week at the office.
             - Olivia Keller: Come sit down. Tell me about it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'll be home more. I promise.
             - Olivia Keller: You said that last month.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's just a busy stretch.
             - Olivia Keller: I've heard that before.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
         - You: It's been a hard week at the office.
           - Olivia Keller: Come sit down. Tell me about it.
           - You: Thank you for waiting up.
             - Olivia Keller: Your plate's in the oven.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'll be home more. I promise.
             - Olivia Keller: You said that last month.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: It's just a busy stretch.
             - Olivia Keller: I've heard that before.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
         - You: I'll be home more. I promise.
           - Olivia Keller: You said that last month.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I've let things slide at home. I know.
             - Olivia Keller: I just miss you, that's all.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm doing this for us, too.
             - Olivia Keller: We didn't ask for this.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: I'm going to bed. We'll talk in the morning.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
         - You: It's just a busy stretch.
           - Olivia Keller: I've heard that before.
           - You: This weekend is ours. No calls.
             - Olivia Keller: I'm holding you to it.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: You're right. I'm sorry.
             - Olivia Keller: Saying sorry isn't the same as being here.
-            - *Ends resolved*
+            - _Ends resolved_
           - You: I'm doing this for us, too.
             - Olivia Keller: We didn't ask for this.
-            - *Ends open: Olivia Keller: We're not done talking about this.*
+            - _Ends open: Olivia Keller: We're not done talking about this._
           - You: I'm going to take a shower.
-            - *Ends open: Olivia Keller: Fine. Go.*
+            - _Ends open: Olivia Keller: Fine. Go._
       - You: I'm going to bed. We'll talk in the morning.
-        - *Ends open: Olivia Keller: Fine. Go.*
+        - _Ends open: Olivia Keller: Fine. Go._
     - You: This is the last late night. I promise.
-      - *Ends open: Olivia Keller: We're not done talking about this.*
-  - *if not:*
+      - _Ends open: Olivia Keller: We're not done talking about this._
+  - _if not:_
     - Olivia Keller: Okay. Come eat something.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “I'll be home more. I promise.” and it ends resolved; stubborn leans to “I'm doing this for us, too.” and it ends open; anxious leans to “I'm doing this for us, too.” and it ends open; boastful leans to “I'm doing this for us, too.” and it ends open.
 
@@ -1654,7 +1654,7 @@ Other personalities: warm leans to “I'll be home more. I promise.” and it en
 
 ## Scene 13: rally-opponent (threat, ends in political) — proof scene
 
-*Tests rally-opponent; the asker is stubborn; a lie, caught and believed, push-back, walking away. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, official:term:seat:US-DE:treasurer:2026-10-12, person_f9be8ef45e5d143f.*
+_Tests rally-opponent; the asker is stubborn; a lie, caught and believed, push-back, walking away. Records: filing:contest:seat:gus2025:101811:sheriff:0:2026-11-03:person_f9be8ef45e5d143f, official:term:seat:US-DE:treasurer:2026-10-12, person_f9be8ef45e5d143f._
 
 > Michael Norton is working the same crowd. Now Michael Norton is walking straight toward you.
 
@@ -1666,7 +1666,7 @@ Other personalities: warm leans to “I'll be home more. I promise.” and it en
 
 You could say:
 
-1. That's not true, and you know it.  *(the page follows this one)*
+1. That's not true, and you know it. _(the page follows this one)_
 2. People say a lot of things.
 3. You came all the way over here to tell me that?
 4. Look at this crowd. People know where I stand.
@@ -1676,7 +1676,7 @@ You could say:
 
 You could say:
 
-1. Tell that to the people who just clapped.  *(the page follows this one)*
+1. Tell that to the people who just clapped. _(the page follows this one)_
 2. Look at this crowd. People know where I stand.
 3. You came all the way over here to tell me that?
 4. I've got hands to shake.
@@ -1686,7 +1686,7 @@ You could say:
 You could say:
 
 1. I've won tougher races than this one.
-2. Say that on the debate stage.  *(the page follows this one)*
+2. Say that on the debate stage. _(the page follows this one)_
 3. I've got hands to shake.
 
 **Michael Norton:** I'll bring the transcript.
@@ -1694,7 +1694,7 @@ You could say:
 You could say:
 
 1. Look at this crowd. People know where I stand.
-2. You came all the way over here to tell me that?  *(the page follows this one)*
+2. You came all the way over here to tell me that? _(the page follows this one)_
 3. I've got hands to shake.
 
 **Michael Norton:** I've knocked more doors than you've driven past.
@@ -1711,96 +1711,96 @@ You could say:
       - Michael Norton: You'd better hope they don't look too closely.
       - You: Look at this crowd. People know where I stand.
         - Michael Norton: Clapping isn't voting.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: You came all the way over here to tell me that?
         - Michael Norton: Say that to the voters.
         - You: Look at this crowd. People know where I stand.
           - Michael Norton: Keep telling yourself that.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: Say that on the debate stage.
           - Michael Norton: I don't need a crowd. I need a precinct.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You ★: Say that on the debate stage.
       - Michael Norton: I'll bring the transcript.
       - You: Look at this crowd. People know where I stand.
         - Michael Norton: You'd better hope they don't look too closely.
         - You: I've won tougher races than this one.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: You came all the way over here to tell me that?
           - Michael Norton: I've knocked more doors than you've driven past.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You ★: You came all the way over here to tell me that?
         - Michael Norton: I've knocked more doors than you've driven past.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: Look at this crowd. People know where I stand.
     - Michael Norton: I'll bring the transcript.
     - You: Tell that to the people who just clapped.
       - Michael Norton: You'd better hope they don't look too closely.
       - You: I've won tougher races than this one.
         - Michael Norton: Say that to the voters.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: Say that on the debate stage.
         - Michael Norton: I've knocked more doors than you've driven past.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've won tougher races than this one.
       - Michael Norton: You'd better hope they don't look too closely.
       - You: Tell that to the people who just clapped.
         - Michael Norton: Funny. That's what you said last time.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: You came all the way over here to tell me that?
         - Michael Norton: I don't need a crowd. I need a precinct.
         - You: Tell that to the people who just clapped.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: Say that on the debate stage.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: Say that on the debate stage.
       - Michael Norton: You'd better hope they don't look too closely.
       - You: Tell that to the people who just clapped.
         - Michael Norton: Funny. That's what you said last time.
         - You: I've won tougher races than this one.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: You came all the way over here to tell me that?
           - Michael Norton: I've knocked more doors than you've driven past.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've won tougher races than this one.
         - Michael Norton: Funny. That's what you said last time.
         - You: Tell that to the people who just clapped.
           - Michael Norton: Clapping isn't voting.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: You came all the way over here to tell me that?
           - Michael Norton: Clapping isn't voting.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: You came all the way over here to tell me that?
         - Michael Norton: I've been here longer than you have.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: You came all the way over here to tell me that?
     - Michael Norton: I've been here longer than you have.
     - You: Tell that to the people who just clapped.
@@ -1809,38 +1809,38 @@ You could say:
         - Michael Norton: You'd better hope they don't look too closely.
         - You: I've won tougher races than this one.
           - Michael Norton: Funny. That's what you said last time.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: Say that on the debate stage.
           - Michael Norton: Funny. That's what you said last time.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: You'd better hope they don't look too closely.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: Say that on the debate stage.
       - Michael Norton: Funny. That's what you said last time.
       - You: Tell that to the people who just clapped.
         - Michael Norton: I'll bring the transcript.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: Look at this crowd. People know where I stand.
         - Michael Norton: I'll bring the transcript.
         - You: Tell that to the people who just clapped.
           - Michael Norton: Keep telling yourself that.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've won tougher races than this one.
           - Michael Norton: Clapping isn't voting.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: I've got hands to shake.
-    - *Ends open: Michael Norton: Shake fast.*
+    - _Ends open: Michael Norton: Shake fast._
 - You: People say a lot of things.
   - Michael Norton: I've been here longer than you have.
   - You: Tell that to the people who just clapped.
@@ -1851,70 +1851,70 @@ You could say:
         - Michael Norton: Your own mailers say otherwise.
         - You: I've won tougher races than this one.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: You came all the way over here to tell me that?
           - Michael Norton: I don't need a crowd. I need a precinct.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: I don't need a crowd. I need a precinct.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've won tougher races than this one.
       - Michael Norton: Clapping isn't voting.
       - You: That's not true, and you know it.
         - Michael Norton: I'll bring the transcript.
         - You: Look at this crowd. People know where I stand.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: I don't need a crowd. I need a precinct.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Look at this crowd. People know where I stand.
         - Michael Norton: Your own mailers say otherwise.
         - You: That's not true, and you know it.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: I've knocked more doors than you've driven past.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: I've knocked more doors than you've driven past.
         - You: That's not true, and you know it.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: You came all the way over here to tell me that?
           - Michael Norton: I don't need a crowd. I need a precinct.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: You came all the way over here to tell me that?
       - Michael Norton: I don't need a crowd. I need a precinct.
       - You: That's not true, and you know it.
         - Michael Norton: Clapping isn't voting.
         - You: I've won tougher races than this one.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: Say that on the debate stage.
           - Michael Norton: I've knocked more doors than you've driven past.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: I've knocked more doors than you've driven past.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: You came all the way over here to tell me that?
     - Michael Norton: Funny. That's what you said last time.
     - You: That's not true, and you know it.
@@ -1923,88 +1923,88 @@ You could say:
         - Michael Norton: I'll bring the transcript.
         - You: I've won tougher races than this one.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: Say that on the debate stage.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Look at this crowd. People know where I stand.
         - Michael Norton: Clapping isn't voting.
         - You: Tell that to the people who just clapped.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've won tougher races than this one.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: I've knocked more doors than you've driven past.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've won tougher races than this one.
       - Michael Norton: I'll bring the transcript.
       - You: Tell that to the people who just clapped.
         - Michael Norton: You'd better hope they don't look too closely.
         - You: That's not true, and you know it.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Look at this crowd. People know where I stand.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: Say that on the debate stage.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Look at this crowd. People know where I stand.
         - Michael Norton: Say that to the voters.
         - You: That's not true, and you know it.
           - Michael Norton: Clapping isn't voting.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: I've knocked more doors than you've driven past.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: Say that on the debate stage.
       - Michael Norton: You'd better hope they don't look too closely.
       - You: Tell that to the people who just clapped.
         - Michael Norton: Your own mailers say otherwise.
         - You: That's not true, and you know it.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Look at this crowd. People know where I stand.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Look at this crowd. People know where I stand.
         - Michael Norton: Keep telling yourself that.
         - You: That's not true, and you know it.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've won tougher races than this one.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: I've got hands to shake.
-    - *Ends open: Michael Norton: Shake fast.*
+    - _Ends open: Michael Norton: Shake fast._
 - You: You came all the way over here to tell me that?
   - Michael Norton: I've been here longer than you have.
   - You: That's not true, and you know it.
@@ -2015,110 +2015,110 @@ You could say:
         - Michael Norton: Funny. That's what you said last time.
         - You: Look at this crowd. People know where I stand.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: I've knocked more doors than you've driven past.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: I've knocked more doors than you've driven past.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: Look at this crowd. People know where I stand.
       - Michael Norton: Your own mailers say otherwise.
       - You: Tell that to the people who just clapped.
         - Michael Norton: You'd better hope they don't look too closely.
         - You: I've won tougher races than this one.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: I've knocked more doors than you've driven past.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've won tougher races than this one.
         - Michael Norton: Funny. That's what you said last time.
         - You: Tell that to the people who just clapped.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: You'd better hope they don't look too closely.
         - You: Tell that to the people who just clapped.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've won tougher races than this one.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: Say that on the debate stage.
       - Michael Norton: Clapping isn't voting.
       - You: Tell that to the people who just clapped.
         - Michael Norton: I'll bring the transcript.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've won tougher races than this one.
         - Michael Norton: Funny. That's what you said last time.
         - You: Tell that to the people who just clapped.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Look at this crowd. People know where I stand.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: Say that on the debate stage.
     - Michael Norton: I'll bring the transcript.
     - You: That's not true, and you know it.
       - Michael Norton: Keep telling yourself that.
       - You: Tell that to the people who just clapped.
         - Michael Norton: Funny. That's what you said last time.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: Look at this crowd. People know where I stand.
         - Michael Norton: Funny. That's what you said last time.
         - You: Tell that to the people who just clapped.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've won tougher races than this one.
           - Michael Norton: Clapping isn't voting.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: Look at this crowd. People know where I stand.
       - Michael Norton: Say that to the voters.
       - You: Tell that to the people who just clapped.
         - Michael Norton: Your own mailers say otherwise.
         - You: That's not true, and you know it.
           - Michael Norton: Clapping isn't voting.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've won tougher races than this one.
           - Michael Norton: Keep telling yourself that.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've won tougher races than this one.
         - Michael Norton: You'd better hope they don't look too closely.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: I've got hands to shake.
-    - *Ends open: Michael Norton: Shake fast.*
+    - _Ends open: Michael Norton: Shake fast._
 - You: Look at this crowd. People know where I stand.
   - Michael Norton: Keep telling yourself that.
   - You: That's not true, and you know it.
@@ -2127,100 +2127,100 @@ You could say:
       - Michael Norton: I'll bring the transcript.
       - You: I've won tougher races than this one.
         - Michael Norton: Say that to the voters.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: Say that on the debate stage.
         - Michael Norton: Say that to the voters.
         - You: I've won tougher races than this one.
           - Michael Norton: Clapping isn't voting.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: You came all the way over here to tell me that?
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've won tougher races than this one.
       - Michael Norton: Say that to the voters.
       - You: Tell that to the people who just clapped.
         - Michael Norton: Your own mailers say otherwise.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: You came all the way over here to tell me that?
         - Michael Norton: You'd better hope they don't look too closely.
         - You: Tell that to the people who just clapped.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: I've been here longer than you have.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: You came all the way over here to tell me that?
       - Michael Norton: I don't need a crowd. I need a precinct.
       - You: Tell that to the people who just clapped.
         - Michael Norton: Say that to the voters.
         - You: I've won tougher races than this one.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: Say that on the debate stage.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: Say that to the voters.
         - You: Tell that to the people who just clapped.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've won tougher races than this one.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: I've won tougher races than this one.
     - Michael Norton: Say that to the voters.
     - You: Tell that to the people who just clapped.
       - Michael Norton: Clapping isn't voting.
       - You: That's not true, and you know it.
         - Michael Norton: I'll bring the transcript.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: Say that on the debate stage.
         - Michael Norton: Funny. That's what you said last time.
         - You: That's not true, and you know it.
           - Michael Norton: Your own mailers say otherwise.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: You came all the way over here to tell me that?
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: You came all the way over here to tell me that?
       - Michael Norton: You'd better hope they don't look too closely.
       - You: Tell that to the people who just clapped.
         - Michael Norton: Your own mailers say otherwise.
         - You: That's not true, and you know it.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: I've knocked more doors than you've driven past.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: You came all the way over here to tell me that?
     - Michael Norton: I don't need a crowd. I need a precinct.
     - You: That's not true, and you know it.
@@ -2229,52 +2229,52 @@ You could say:
         - Michael Norton: Clapping isn't voting.
         - You: I've won tougher races than this one.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: Say that on the debate stage.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've won tougher races than this one.
         - Michael Norton: You'd better hope they don't look too closely.
         - You: Tell that to the people who just clapped.
           - Michael Norton: I'll bring the transcript.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: Say that on the debate stage.
           - Michael Norton: Funny. That's what you said last time.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: Say that on the debate stage.
         - Michael Norton: I've knocked more doors than you've driven past.
-        - *Ends open: Michael Norton: This isn't over.*
+        - _Ends open: Michael Norton: This isn't over._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: Say that on the debate stage.
       - Michael Norton: Your own mailers say otherwise.
       - You: That's not true, and you know it.
         - Michael Norton: I'll bring the transcript.
         - You: Tell that to the people who just clapped.
           - Michael Norton: You'd better hope they don't look too closely.
-          - *Ends open: Michael Norton: This isn't over.*
+          - _Ends open: Michael Norton: This isn't over._
         - You: I've won tougher races than this one.
           - Michael Norton: Say that to the voters.
-          - *Ends open: Michael Norton: See you on election day.*
+          - _Ends open: Michael Norton: See you on election day._
         - You: I've got hands to shake.
-          - *Ends open: Michael Norton: Shake fast.*
+          - _Ends open: Michael Norton: Shake fast._
       - You: I've won tougher races than this one.
         - Michael Norton: Funny. That's what you said last time.
-        - *Ends open: Michael Norton: See you on election day.*
+        - _Ends open: Michael Norton: See you on election day._
       - You: I've got hands to shake.
-        - *Ends open: Michael Norton: Shake fast.*
+        - _Ends open: Michael Norton: Shake fast._
     - You: I've got hands to shake.
-      - *Ends open: Michael Norton: Shake fast.*
+      - _Ends open: Michael Norton: Shake fast._
   - You: I've got hands to shake.
-    - *Ends open: Michael Norton: Shake fast.*
+    - _Ends open: Michael Norton: Shake fast._
 - You: I'm up six points. Check the paper.
-  - *if not:*
+  - _if not:_
     - Michael Norton: We'll see in November.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “Tell that to the people who just clapped.” and it ends open; cold leans to “That's not true, and you know it.” and it ends open; anxious leans to “Tell that to the people who just clapped.” and it ends open; boastful leans to “Tell that to the people who just clapped.” and it ends open.
 
@@ -2282,7 +2282,7 @@ Other personalities: warm leans to “Tell that to the people who just clapped.�
 
 ## Scene 14: desk-bill (vote-wanted, ends in bill) — proof scene
 
-*Tests desk-bill; the asker is anxious; push-back, walking away. Records: desk:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, staffer:official:term:seat:US-DE:governor:2026-10-12:person:aide:official:term:seat:US-DE:governor:2026-10-12:0, official:term:seat:US-DE:governor:2026-10-12.*
+_Tests desk-bill; the asker is anxious; push-back, walking away. Records: desk:bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, bill:office:US-DE:legislature-upper:2027-01-12:official:term:seat:US-DE:upper:002:0:2026-10-12:5, staffer:official:term:seat:US-DE:governor:2026-10-12:person:aide:official:term:seat:US-DE:governor:2026-10-12:0, official:term:seat:US-DE:governor:2026-10-12._
 
 > Jamie Moreno sets "Right to counsel in eviction" on your desk. You can sign it or veto it.
 
@@ -2297,13 +2297,13 @@ You could say:
 1. Give me a pen.
 2. I won't sign it as it is.
 3. Who voted against it?
-4. I want to sleep on it.  *(the page follows this one)*
+4. I want to sleep on it. _(the page follows this one)_
 
 **Jamie Moreno:** I'll need your answer by the end of the week.
 
 You could say:
 
-1. Fine. Bring it back. I'll sign.  *(the page follows this one)*
+1. Fine. Bring it back. I'll sign. _(the page follows this one)_
 2. Tell them it's a veto.
 3. Leave it here. I'll call you.
 
@@ -2313,30 +2313,30 @@ You could say:
 
 - You: Give me a pen.
   - Jamie Moreno: I'll send it to the clerk.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: I won't sign it as it is.
   - Jamie Moreno: I'll get the veto message drafted.
-  - *Ends refused*
+  - _Ends refused_
 - You: Who voted against it?
   - Jamie Moreno: It's all in the vote record.
   - You: Then I'll sign it.
     - Jamie Moreno: I'll send it to the clerk.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Then it gets a veto.
     - Jamie Moreno: I'll get the veto message drafted.
-    - *Ends refused*
+    - _Ends refused_
   - You: Leave it here. I'll call you.
-    - *Ends open: Jamie Moreno: Let me know when you've decided.*
+    - _Ends open: Jamie Moreno: Let me know when you've decided._
 - You ★: I want to sleep on it.
   - Jamie Moreno: I'll need your answer by the end of the week.
   - You ★: Fine. Bring it back. I'll sign.
     - Jamie Moreno: I'll send it to the clerk.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: Tell them it's a veto.
     - Jamie Moreno: I'll get the veto message drafted.
-    - *Ends refused*
+    - _Ends refused_
   - You: Leave it here. I'll call you.
-    - *Ends open: Jamie Moreno: Let me know when you've decided.*
+    - _Ends open: Jamie Moreno: Let me know when you've decided._
 
 Other personalities: warm leans to “What's in it?” and it ends resolved; cold leans to “I'm going to veto it.” and it ends refused; stubborn leans to “I'm going to veto it.” and it ends refused; boastful leans to “Who voted against it?” and it ends resolved.
 
@@ -2344,7 +2344,7 @@ Other personalities: warm leans to “What's in it?” and it ends resolved; col
 
 ## Scene 15: staff-news (news-received, ends in political) — proof scene
 
-*Tests staff-news; the asker is stubborn; a lie, caught and believed, push-back, walking away. Records: bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0, staffer:official:term:seat:US-DE:attorney-general:2026-10-12:person:aide:official:term:seat:US-DE:attorney-general:2026-10-12:0, official:seat:US-NJ:us-house:02, organization:press:newspaper:0:jurisdiction_59500182da2857ae.*
+_Tests staff-news; the asker is stubborn; a lie, caught and believed, push-back, walking away. Records: bill:federal:us-house:2026-10-13:official:seat:US-NJ:us-house:02:0, staffer:official:term:seat:US-DE:attorney-general:2026-10-12:person:aide:official:term:seat:US-DE:attorney-general:2026-10-12:0, official:seat:US-NJ:us-house:02, organization:press:newspaper:0:jurisdiction_59500182da2857ae._
 
 > Stephen Whitaker comes into your office and closes the door.
 
@@ -2357,7 +2357,7 @@ Other personalities: warm leans to “What's in it?” and it ends resolved; col
 You could say:
 
 1. Who changed their vote?
-2. Somebody leaked it. Find out who.  *(the page follows this one)*
+2. Somebody leaked it. Find out who. _(the page follows this one)_
 3. It's done. Let's deal with it.
 4. Not now. I need to think.
 5. I already knew.
@@ -2366,7 +2366,7 @@ You could say:
 
 You could say:
 
-1. Call me the minute it posts.  *(the page follows this one)*
+1. Call me the minute it posts. _(the page follows this one)_
 2. All right. Tell me what we do now.
 3. I need some air. Ten minutes.
 
@@ -2378,138 +2378,138 @@ You could say:
   - Stephen Whitaker: Give me an hour. I'll know who it was.
   - You: Did anybody call us first?
     - Stephen Whitaker: Nobody. We found out on the floor.
-    - *Ends open: Stephen Whitaker: We need a plan by morning.*
+    - _Ends open: Stephen Whitaker: We need a plan by morning._
   - You: Get me the list. I'll make the calls.
     - Stephen Whitaker: We put out a statement before it runs.
     - You: Draft it. I want to see it first.
       - Stephen Whitaker: I'll get started.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: No. We say nothing for now.
       - Stephen Whitaker: We can't sit on this.
       - You: Okay. Write something. I'll look at it.
         - Stephen Whitaker: You call them first, and we tell it our way.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: What are they saying?
         - Stephen Whitaker: That you didn't count your votes.
-        - *Ends open: Stephen Whitaker: This isn't going away on its own.*
+        - _Ends open: Stephen Whitaker: This isn't going away on its own._
       - You: I need some air. Ten minutes.
-        - *Ends open: Stephen Whitaker: We need a plan by morning.*
+        - _Ends open: Stephen Whitaker: We need a plan by morning._
     - You: Give me an hour before we decide.
       - Stephen Whitaker: One hour. Then it's out of our hands.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I need some air. Ten minutes.
-      - *Ends open: Stephen Whitaker: We need a plan by morning.*
+      - _Ends open: Stephen Whitaker: We need a plan by morning._
   - You: I need some air. Ten minutes.
-    - *Ends open: Stephen Whitaker: We need a plan by morning.*
+    - _Ends open: Stephen Whitaker: We need a plan by morning._
 - You ★: Somebody leaked it. Find out who.
   - Stephen Whitaker: I'll find out who it was.
   - You ★: Call me the minute it posts.
     - Stephen Whitaker: I'll get started.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: All right. Tell me what we do now.
     - Stephen Whitaker: We put out a statement before it runs.
     - You: Do it.
       - Stephen Whitaker: I'll get started.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: No. We say nothing for now.
       - Stephen Whitaker: We can't sit on this.
       - You: Okay. Write something. I'll look at it.
         - Stephen Whitaker: You call them first, and we tell it our way.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: What are they saying?
         - Stephen Whitaker: That you didn't count your votes.
         - You: Who changed their vote?
           - Stephen Whitaker: Give me an hour. I'll know who it was.
-          - *Ends open: Stephen Whitaker: We need a plan by morning.*
+          - _Ends open: Stephen Whitaker: We need a plan by morning._
         - You: Get me the list. I'll make the calls.
           - Stephen Whitaker: You call them first, and we tell it our way.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: I need some air. Ten minutes.
-          - *Ends open: Stephen Whitaker: We need a plan by morning.*
+          - _Ends open: Stephen Whitaker: We need a plan by morning._
       - You: I need some air. Ten minutes.
-        - *Ends open: Stephen Whitaker: We need a plan by morning.*
+        - _Ends open: Stephen Whitaker: We need a plan by morning._
     - You: Give me an hour before we decide.
       - Stephen Whitaker: One hour. Then it's out of our hands.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I need some air. Ten minutes.
-      - *Ends open: Stephen Whitaker: We need a plan by morning.*
+      - _Ends open: Stephen Whitaker: We need a plan by morning._
   - You: I need some air. Ten minutes.
-    - *Ends open: Stephen Whitaker: We need a plan by morning.*
+    - _Ends open: Stephen Whitaker: We need a plan by morning._
 - You: It's done. Let's deal with it.
   - Stephen Whitaker: You call them first, and we tell it our way.
   - You: Do it.
     - Stephen Whitaker: I'll get started.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: No. We say nothing for now.
     - Stephen Whitaker: We can't sit on this.
     - You: Okay. Write something. I'll look at it.
       - Stephen Whitaker: We put out a statement before it runs.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: Who changed their vote?
       - Stephen Whitaker: I'm still finding out. I'll have names tonight.
       - You: Did anybody call us first?
         - Stephen Whitaker: Nobody. We found out on the floor.
-        - *Ends open: Stephen Whitaker: We need a plan by morning.*
+        - _Ends open: Stephen Whitaker: We need a plan by morning._
       - You: Get me the list. I'll make the calls.
         - Stephen Whitaker: We put out a statement before it runs.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I need some air. Ten minutes.
-        - *Ends open: Stephen Whitaker: We need a plan by morning.*
+        - _Ends open: Stephen Whitaker: We need a plan by morning._
     - You: I need some air. Ten minutes.
-      - *Ends open: Stephen Whitaker: We need a plan by morning.*
+      - _Ends open: Stephen Whitaker: We need a plan by morning._
   - You: Give me an hour before we decide.
     - Stephen Whitaker: One hour. Then it's out of our hands.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I need some air. Ten minutes.
-    - *Ends open: Stephen Whitaker: We need a plan by morning.*
+    - _Ends open: Stephen Whitaker: We need a plan by morning._
 - You: Not now. I need to think.
   - Stephen Whitaker: Every hour we wait, they write it for us.
   - You: Okay. Write something. I'll look at it.
     - Stephen Whitaker: You call them first, and we tell it our way.
     - You: Draft it. I want to see it first.
       - Stephen Whitaker: I'll get started.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: No. We say nothing for now.
       - Stephen Whitaker: We can't sit on this.
-      - *Ends refused: Stephen Whitaker: This isn't going away on its own.*
+      - _Ends refused: Stephen Whitaker: This isn't going away on its own._
     - You: Give me an hour before we decide.
       - Stephen Whitaker: One hour. Then it's out of our hands.
-      - *Ends resolved*
+      - _Ends resolved_
     - You: I need some air. Ten minutes.
-      - *Ends open: Stephen Whitaker: We need a plan by morning.*
+      - _Ends open: Stephen Whitaker: We need a plan by morning._
   - You: Who changed their vote?
     - Stephen Whitaker: Give me an hour. I'll know who it was.
     - You: Did anybody call us first?
       - Stephen Whitaker: Nobody. We found out on the floor.
-      - *Ends open: Stephen Whitaker: We need a plan by morning.*
+      - _Ends open: Stephen Whitaker: We need a plan by morning._
     - You: Get me the list. I'll make the calls.
       - Stephen Whitaker: We put out a statement before it runs.
       - You: Do it.
         - Stephen Whitaker: I'll get started.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: No. We say nothing for now.
         - Stephen Whitaker: We can't sit on this.
         - You: Okay. Write something. I'll look at it.
           - Stephen Whitaker: You call them first, and we tell it our way.
-          - *Ends resolved*
+          - _Ends resolved_
         - You: What are they saying?
           - Stephen Whitaker: That you didn't count your votes.
-          - *Ends open: Stephen Whitaker: This isn't going away on its own.*
+          - _Ends open: Stephen Whitaker: This isn't going away on its own._
         - You: I need some air. Ten minutes.
-          - *Ends open: Stephen Whitaker: We need a plan by morning.*
+          - _Ends open: Stephen Whitaker: We need a plan by morning._
       - You: Give me an hour before we decide.
         - Stephen Whitaker: One hour. Then it's out of our hands.
-        - *Ends resolved*
+        - _Ends resolved_
       - You: I need some air. Ten minutes.
-        - *Ends open: Stephen Whitaker: We need a plan by morning.*
+        - _Ends open: Stephen Whitaker: We need a plan by morning._
     - You: I need some air. Ten minutes.
-      - *Ends open: Stephen Whitaker: We need a plan by morning.*
+      - _Ends open: Stephen Whitaker: We need a plan by morning._
   - You: I need some air. Ten minutes.
-    - *Ends open: Stephen Whitaker: We need a plan by morning.*
+    - _Ends open: Stephen Whitaker: We need a plan by morning._
 - You: I already knew.
-  - *if not:*
+  - _if not:_
     - Stephen Whitaker: I'll get started.
-    - *Ends resolved*
+    - _Ends resolved_
 
 Other personalities: warm leans to “Who changed their vote?” and it ends open; cold leans to “Somebody leaked it. Find out who.” and it ends resolved.
 
@@ -2517,7 +2517,7 @@ Other personalities: warm leans to “Who changed their vote?” and it ends ope
 
 ## Scene 16: section-bargain (vote-wanted, ends in bill) — proof scene
 
-*Tests section-bargain; the asker is warm; a bargain, push-back, walking away. Records: bill:office:US-DE:legislature-lower:2027-02-01:official:term:seat:US-DE:lower:001:0:2026-10-12:24, official:term:seat:US-DE:lower:041:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12, office:US-DE:legislature-lower.*
+_Tests section-bargain; the asker is warm; a bargain, push-back, walking away. Records: bill:office:US-DE:legislature-lower:2027-02-01:official:term:seat:US-DE:lower:001:0:2026-10-12:24, official:term:seat:US-DE:lower:041:0:2026-10-12, official:term:seat:US-DE:lower:030:0:2026-10-12, office:US-DE:legislature-lower._
 
 > The council is in recess. Ralph Morrow pulls you aside about "Universal preschool".
 
@@ -2529,7 +2529,7 @@ Other personalities: warm leans to “Who changed their vote?” and it ends ope
 
 You could say:
 
-1. Fine. Section 1 comes out.  *(the page follows this one)*
+1. Fine. Section 1 comes out. _(the page follows this one)_
 2. Section 1 stays.
 3. What if we change section 1 instead of dropping it?
 4. Ask me Thursday.
@@ -2540,23 +2540,23 @@ You could say:
 
 - You ★: Fine. Section 1 comes out.
   - Ralph Morrow: Thank you. I won't forget it.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Section 1 stays.
   - Ralph Morrow: I was there when you needed votes.
-  - *Ends refused: Ralph Morrow: I won't forget this.*
+  - _Ends refused: Ralph Morrow: I won't forget this._
 - You: What if we change section 1 instead of dropping it?
   - Ralph Morrow: Deal.
-  - *Ends resolved*
+  - _Ends resolved_
 - You: Ask me Thursday.
   - Ralph Morrow: You can't sit this one out.
   - You: You've made your point. Count me in.
     - Ralph Morrow: Thank you. I won't forget it.
-    - *Ends resolved*
+    - _Ends resolved_
   - You: I can't be on it. I won't work against you either.
     - Ralph Morrow: Not against me. I'll take that.
-    - *Ends refused*
+    - _Ends refused_
   - You: I've got to run. Call me tonight.
-    - *Ends open: Ralph Morrow: Don't take too long.*
+    - _Ends open: Ralph Morrow: Don't take too long._
 
 Other personalities: cold leans to “Section 1 stays.” and it ends open; stubborn leans to “I've made up my mind. It's no.” and it ends open; anxious leans to “I'm not there yet.” and it ends refused; boastful leans to “I'll cut half of section 1. Not all of it.” and it ends refused.
 
@@ -2564,7 +2564,7 @@ Other personalities: cold leans to “Section 1 stays.” and it ends open; stub
 
 ## Scene 17: reunion (arrival, ends in personal) — fired by the director
 
-*Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e.*
+_Fired by cause.shared:2026-10-19:person_6863eb73f501765e:person_15ba64778a4af32c:cause:us-policy-positions:environment-energy.clean-electricity-standard. Cast: person_15ba64778a4af32c, person_6863eb73f501765e._
 
 > It is a Monday in October. You're outside. Liam Melendez is with you. You and Liam are on the same side of an issue.
 
@@ -2576,7 +2576,7 @@ Other personalities: cold leans to “Section 1 stays.” and it ends open; stub
 
 ## Scene 18: celebration (honor, ends in personal) — fired by the director
 
-*Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_02140118cffd720f, person_02140018cffd705c.*
+_Fired by job:position:organization_ba65f029aa7bc179:2026-12-01:1:person_02140018cffd705c. Cast: person_02140118cffd720f, person_02140018cffd705c._
 
 > It is a Monday in December. You're at home. Your sister is waiting for you. Your sister wants to talk to you.
 
@@ -2588,11 +2588,10 @@ Other personalities: cold leans to “Section 1 stays.” and it ends open; stub
 
 ## Scene 19: funeral (loss, ends in personal) — fired by the director
 
-*Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:head:0, person:press:outlet:online:0:national:owner:0.*
+_Fired by life.death:person:press:outlet:online:0:national:owner:0:2027-08-28. Cast: person:press:outlet:online:0:national:head:0, person:press:outlet:online:0:national:owner:0._
 
 > This is a Saturday in August. Nancy Schneider passed away.
 
-*Journal:* Nancy Schneider died.
+_Journal:_ Nancy Schneider died.
 
 <sub>L1 narrator/narrate/scene-words/grieving/10w2s [scene-words.frame-day.this-is-a-weekday-in-month]; L2 journal/tell/journal/grieving/3w1s [journal.death-line-died.other-died]</sub>
-

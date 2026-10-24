@@ -122,10 +122,7 @@
       "tests": {
         "purpose": "neighbor-argument",
         "profile": "warm",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "You're in the cereal aisle when Nathan Mendez parks a cart across from you."
@@ -612,10 +609,7 @@
       "tests": {
         "purpose": "owed-apology",
         "profile": "cold",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "After the meeting, Melanie Fernandez waits until the room is nearly empty."
@@ -1473,10 +1467,7 @@
       "tests": {
         "purpose": "first-day-ropes",
         "profile": "warm",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "It's your first morning at the Town of Briarcliffe Acres treasury. Ryan King, who's been there longer than anyone, is waiting with a ring of keys."
@@ -1952,10 +1943,7 @@
       "tests": {
         "purpose": "last-day-farewell",
         "profile": "boastful",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "It's your last day. Your office is packed into boxes, and Cheryl Chapman leans in the doorway, same as every morning for years."
@@ -2325,10 +2313,7 @@
       "tests": {
         "purpose": "mentor-advice",
         "profile": "warm",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "James Cook has held office for years. You asked for coffee because you can't decide whether to run for State Representative this year."
@@ -2779,17 +2764,12 @@
       "type": "polling-place",
       "place": "Briarcliffe Acres, South Carolina",
       "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-      "cast": [
-        "person_5d10eff8d8fac4d7",
-        "person_1514420acc194dc5"
-      ],
+      "cast": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
       "proof": true,
       "tests": {
         "purpose": "poll-problem",
         "profile": "cold",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "You give your name at the table in the polling place in Briarcliffe Acres. Sarah Strickland runs a finger down the list twice."
@@ -3343,10 +3323,7 @@
       "tests": {
         "purpose": "victory-night",
         "profile": "stubborn",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "The room is loud. Dennis Caldwell, who ran your campaign, pulls you into a hallway with a sheet of paper and a pen."
@@ -3649,10 +3626,7 @@
       "tests": {
         "purpose": "concession-call",
         "profile": "cold",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "It's past eleven. The numbers on the screen stopped moving an hour ago. Dennis Caldwell, your campaign manager, has your phone in hand."
@@ -3999,11 +3973,7 @@
       "tests": {
         "purpose": "floor-switch",
         "profile": "anxious",
-        "branches": [
-          "a bargain",
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["a bargain", "push-back", "walking away"]
       },
       "narration": [
         "The roll call on \"Protect farmland from development\" is halfway through when Philip Martin comes down the aisle to your desk."
@@ -4844,10 +4814,7 @@
       "tests": {
         "purpose": "signing-ask",
         "profile": "warm",
-        "branches": [
-          "a bargain",
-          "walking away"
-        ]
+        "branches": ["a bargain", "walking away"]
       },
       "narration": [
         "The cameras are packing up after the signing of \"Age verification for social media\". Lee Valenzuela, the governor, keeps the pen and steers you to a corner."
@@ -5192,19 +5159,12 @@
       "type": "veto",
       "place": "Briarcliffe Acres, South Carolina",
       "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-      "cast": [
-        "person_08d41c9395e98098",
-        "person_d5ef506cdca4f1d9"
-      ],
+      "cast": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
       "proof": true,
       "tests": {
         "purpose": "veto-call",
         "profile": "cold",
-        "branches": [
-          "a bargain",
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["a bargain", "push-back", "walking away"]
       },
       "narration": [
         "Your phone lights up with the mayor's office. Ryan King doesn't wait for hello."
@@ -5575,14 +5535,9 @@
       "tests": {
         "purpose": "appointment-offer",
         "profile": "cold",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
-      "narration": [
-        "Anna Mathews calls from the governor's office."
-      ],
+      "narration": ["Anna Mathews calls from the governor's office."],
       "intro": [],
       "longestPath": 3,
       "nodes": 17,
@@ -5999,10 +5954,7 @@
       "tests": {
         "purpose": "recall-confront",
         "profile": "warm",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "Carl Rose is at a folding table outside the grocery store with a clipboard and a stack of petitions. You'd have to walk right past."
@@ -6433,9 +6385,7 @@
       "tests": {
         "purpose": "hearing-testify",
         "profile": "cold",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "It's public comment on \"Rent stabilization\". Kristen Li calls your name, and you step up to the microphone."
@@ -6998,9 +6948,7 @@
       "tests": {
         "purpose": "filing-clerk",
         "profile": "stubborn",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "The South Carolina State Election Commission is nearly empty when you come in to file for U.S. Senator. Robin Winters looks up from the counter."
@@ -7229,17 +7177,12 @@
       "type": "new-baby",
       "place": "Briarcliffe Acres, South Carolina",
       "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-      "cast": [
-        "person_afc457064ce4a62b",
-        "person_9b07dce1ad468405"
-      ],
+      "cast": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
       "proof": true,
       "tests": {
         "purpose": "new-baby",
         "profile": "cold",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "Nathan Mendez comes by with a covered dish to meet Haris."
@@ -7688,9 +7631,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-happened-exactly"
-          ],
+          "parts": ["scene-talk.reply-ask.what-happened-exactly"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -7762,9 +7703,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.you-think-i-wanted-this"
-          ],
+          "parts": ["scene-talk.reply-confront.you-think-i-wanted-this"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -7984,9 +7923,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.not-here-call-my-office"
-          ],
+          "parts": ["scene-talk.reply-leave.not-here-call-my-office"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -8677,9 +8614,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-happened-exactly"
-          ],
+          "parts": ["scene-talk.reply-ask.what-happened-exactly"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -8751,9 +8686,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.you-think-i-wanted-this"
-          ],
+          "parts": ["scene-talk.reply-confront.you-think-i-wanted-this"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -8825,9 +8758,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.not-here-call-my-office"
-          ],
+          "parts": ["scene-talk.reply-leave.not-here-call-my-office"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -8862,9 +8793,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-confront.you-voted-for-it-didn-t-you"
-          ],
+          "parts": ["scene-talk.follow-confront.you-voted-for-it-didn-t-you"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -9809,9 +9738,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-happened-exactly"
-          ],
+          "parts": ["scene-talk.reply-ask.what-happened-exactly"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -10744,9 +10671,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-happened-exactly"
-          ],
+          "parts": ["scene-talk.reply-ask.what-happened-exactly"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -10818,9 +10743,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.you-think-i-wanted-this"
-          ],
+          "parts": ["scene-talk.reply-confront.you-think-i-wanted-this"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -11040,9 +10963,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.not-here-call-my-office"
-          ],
+          "parts": ["scene-talk.reply-leave.not-here-call-my-office"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -11731,9 +11652,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-happened-exactly"
-          ],
+          "parts": ["scene-talk.reply-ask.what-happened-exactly"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -11805,9 +11724,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.you-think-i-wanted-this"
-          ],
+          "parts": ["scene-talk.reply-confront.you-think-i-wanted-this"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -12101,9 +12018,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.not-here-call-my-office"
-          ],
+          "parts": ["scene-talk.reply-leave.not-here-call-my-office"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "official:term:seat:US-SC:lower:061:0:2026-10-12",
@@ -13060,9 +12975,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.then-we-re-done-talking"
-          ],
+          "parts": ["scene-talk.reply-confront.then-we-re-done-talking"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -13101,9 +13014,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-have-to-go"
-          ],
+          "parts": ["scene-talk.reply-leave.i-have-to-go"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -13306,9 +13217,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.at-the-next-meeting-okay"
-          ],
+          "parts": ["scene-talk.follow-accept.at-the-next-meeting-okay"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -14520,9 +14429,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-confront.grow-up"
-          ],
+          "parts": ["scene-talk.follow-confront.grow-up"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -14766,9 +14673,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-have-to-go"
-          ],
+          "parts": ["scene-talk.reply-leave.i-have-to-go"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -14807,9 +14712,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.close-warn.then-i-ll-see-you-tuesday"
-          ],
+          "parts": ["scene-talk.close-warn.then-i-ll-see-you-tuesday"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -16021,9 +15924,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-confront.grow-up"
-          ],
+          "parts": ["scene-talk.follow-confront.grow-up"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -16267,9 +16168,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-have-to-go"
-          ],
+          "parts": ["scene-talk.reply-leave.i-have-to-go"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -16308,9 +16207,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.close-warn.then-i-ll-see-you-tuesday"
-          ],
+          "parts": ["scene-talk.close-warn.then-i-ll-see-you-tuesday"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -18976,9 +18873,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-confront.then-we-re-done-talking"
-          ],
+          "parts": ["scene-talk.reply-confront.then-we-re-done-talking"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -19017,9 +18912,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-have-to-go"
-          ],
+          "parts": ["scene-talk.reply-leave.i-have-to-go"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -19058,9 +18951,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-confront.grow-up"
-          ],
+          "parts": ["scene-talk.follow-confront.grow-up"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -19304,9 +19195,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.close-warn.then-i-ll-see-you-tuesday"
-          ],
+          "parts": ["scene-talk.close-warn.then-i-ll-see-you-tuesday"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:045:0:2026-10-12",
             "official:term:seat:US-SC:upper:030:0:2026-10-12",
@@ -20374,9 +20263,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.who-had-this-job-before-me"
-          ],
+          "parts": ["scene-talk.reply-ask.who-had-this-job-before-me"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person:press:outlet:newspaper:1:jurisdiction_258c647381fe1a77:head:0",
@@ -20530,9 +20417,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-thank.good-to-know-thanks"
-          ],
+          "parts": ["scene-talk.reply-thank.good-to-know-thanks"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person:press:outlet:newspaper:1:jurisdiction_258c647381fe1a77:head:0",
@@ -20608,9 +20493,7 @@
           "lie": false,
           "words": 1,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-accept.anytime"
-          ],
+          "parts": ["scene-talk.follow-accept.anytime"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person:press:outlet:newspaper:1:jurisdiction_258c647381fe1a77:head:0",
@@ -21293,9 +21176,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.who-had-this-job-before-me"
-          ],
+          "parts": ["scene-talk.reply-ask.who-had-this-job-before-me"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person:press:outlet:newspaper:1:jurisdiction_258c647381fe1a77:head:0",
@@ -21449,9 +21330,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-thank.good-to-know-thanks"
-          ],
+          "parts": ["scene-talk.reply-thank.good-to-know-thanks"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person:press:outlet:newspaper:1:jurisdiction_258c647381fe1a77:head:0",
@@ -21527,9 +21406,7 @@
           "lie": false,
           "words": 1,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-accept.anytime"
-          ],
+          "parts": ["scene-talk.follow-accept.anytime"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person:press:outlet:newspaper:1:jurisdiction_258c647381fe1a77:head:0",
@@ -22092,9 +21969,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.so-that-s-it-then"
-          ],
+          "parts": ["scene-talk.open-greet.so-that-s-it-then"],
           "slotRecordIds": [
             "official:seat:US-AK:us-house:00",
             "official:seat:US-VA:us-house:09",
@@ -22918,9 +22793,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.so-that-s-it-then"
-          ],
+          "parts": ["scene-talk.open-greet.so-that-s-it-then"],
           "slotRecordIds": [
             "official:seat:US-AK:us-house:00",
             "official:seat:US-VA:us-house:09",
@@ -23140,9 +23013,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-press.that-s-what-you-always-say"
-          ],
+          "parts": ["scene-talk.follow-press.that-s-what-you-always-say"],
           "slotRecordIds": [
             "official:seat:US-AK:us-house:00",
             "official:seat:US-VA:us-house:09",
@@ -23251,9 +23122,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.close-accept.too-late-for-that-go-on"
-          ],
+          "parts": ["scene-talk.close-accept.too-late-for-that-go-on"],
           "slotRecordIds": [
             "official:seat:US-AK:us-house:00",
             "official:seat:US-VA:us-house:09",
@@ -23704,9 +23573,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.so-that-s-it-then"
-          ],
+          "parts": ["scene-talk.open-greet.so-that-s-it-then"],
           "slotRecordIds": [
             "official:seat:US-AK:us-house:00",
             "official:seat:US-VA:us-house:09",
@@ -23926,9 +23793,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-thank.a-year-i-m-writing-it-down"
-          ],
+          "parts": ["scene-talk.follow-thank.a-year-i-m-writing-it-down"],
           "slotRecordIds": [
             "official:seat:US-AK:us-house:00",
             "official:seat:US-VA:us-house:09",
@@ -24383,9 +24248,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.so-that-s-it-then"
-          ],
+          "parts": ["scene-talk.open-greet.so-that-s-it-then"],
           "slotRecordIds": [
             "official:seat:US-AK:us-house:00",
             "official:seat:US-VA:us-house:09",
@@ -24605,9 +24468,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-ask.which-one-would-you-do-over"
-          ],
+          "parts": ["scene-talk.follow-ask.which-one-would-you-do-over"],
           "slotRecordIds": [
             "official:seat:US-AK:us-house:00",
             "official:seat:US-VA:us-house:09",
@@ -25215,9 +25076,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.you-look-like-you-haven-t-slept"
-          ],
+          "parts": ["scene-talk.open-greet.you-look-like-you-haven-t-slept"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:029:0:2026-10-12",
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:owner:0",
@@ -25285,9 +25144,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.were-you-ever-in-my-spot"
-          ],
+          "parts": ["scene-talk.reply-ask.were-you-ever-in-my-spot"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:029:0:2026-10-12",
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:owner:0",
@@ -25530,9 +25387,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-should-go-think"
-          ],
+          "parts": ["scene-talk.reply-leave.i-should-go-think"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:029:0:2026-10-12",
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:owner:0",
@@ -25600,9 +25455,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.so-you-d-really-sit-it-out"
-          ],
+          "parts": ["scene-talk.reply-ask.so-you-d-really-sit-it-out"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:029:0:2026-10-12",
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:owner:0",
@@ -25810,9 +25663,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-press.so-is-eight"
-          ],
+          "parts": ["scene-talk.follow-press.so-is-eight"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:029:0:2026-10-12",
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:owner:0",
@@ -26283,10 +26134,7 @@
         "open",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_5d10eff8d8fac4d7",
-        "person_1514420acc194dc5"
-      ],
+      "castRecordIds": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
       "records": [
         "polling-place:jurisdiction_258c647381fe1a77:1",
         "person_5d10eff8d8fac4d7",
@@ -26365,9 +26213,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.spell-the-last-name-for-me"
-          ],
+          "parts": ["scene-talk.open-greet.spell-the-last-name-for-me"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -26482,9 +26328,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-confront.i-m-on-the-ballot-check-again"
-          ],
+          "parts": ["scene-talk.reply-confront.i-m-on-the-ballot-check-again"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -26755,9 +26599,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-ll-come-back-after-work"
-          ],
+          "parts": ["scene-talk.reply-leave.i-ll-come-back-after-work"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -26872,9 +26714,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-request.call-the-county-now-i-ll-wait"
-          ],
+          "parts": ["scene-talk.reply-request.call-the-county-now-i-ll-wait"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -26911,9 +26751,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.forget-it-i-ll-go-across-town"
-          ],
+          "parts": ["scene-talk.reply-leave.forget-it-i-ll-go-across-town"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -26975,10 +26813,7 @@
         "type": "polling-place",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_5d10eff8d8fac4d7",
-          "person_1514420acc194dc5"
-        ],
+        "cast": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
         "narration": [
           "You give your name at the table in the polling place in Briarcliffe Acres. Sarah Strickland runs a finger down the list twice."
         ],
@@ -27522,10 +27357,7 @@
         "open",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_5d10eff8d8fac4d7",
-        "person_1514420acc194dc5"
-      ],
+      "castRecordIds": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
       "records": [
         "polling-place:jurisdiction_258c647381fe1a77:1",
         "person_5d10eff8d8fac4d7",
@@ -27601,9 +27433,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.spell-the-last-name-for-me"
-          ],
+          "parts": ["scene-talk.open-greet.spell-the-last-name-for-me"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -27718,9 +27548,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-confront.i-m-on-the-ballot-check-again"
-          ],
+          "parts": ["scene-talk.reply-confront.i-m-on-the-ballot-check-again"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -27913,9 +27741,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.forget-it-i-ll-go-across-town"
-          ],
+          "parts": ["scene-talk.reply-leave.forget-it-i-ll-go-across-town"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -27991,9 +27817,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.ten-minutes-i-ll-wait"
-          ],
+          "parts": ["scene-talk.reply-accept.ten-minutes-i-ll-wait"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -28030,9 +27854,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-ll-come-back-after-work"
-          ],
+          "parts": ["scene-talk.reply-leave.i-ll-come-back-after-work"],
           "slotRecordIds": [
             "person_5d10eff8d8fac4d7",
             "person_1514420acc194dc5",
@@ -28094,10 +27916,7 @@
         "type": "polling-place",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_5d10eff8d8fac4d7",
-          "person_1514420acc194dc5"
-        ],
+        "cast": ["person_5d10eff8d8fac4d7", "person_1514420acc194dc5"],
         "narration": [
           "You give your name at the table in the polling place in Briarcliffe Acres. Sarah Strickland runs a finger down the list twice."
         ],
@@ -28712,9 +28531,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.two-minutes-before-you-go-on"
-          ],
+          "parts": ["scene-talk.open-greet.two-minutes-before-you-go-on"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -28864,9 +28681,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-did-they-say-about-us-tonight"
-          ],
+          "parts": ["scene-talk.reply-ask.what-did-they-say-about-us-tonight"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -29016,9 +28831,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.they-re-chanting-let-s-go"
-          ],
+          "parts": ["scene-talk.reply-leave.they-re-chanting-let-s-go"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -29054,9 +28867,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.door-by-door-lead-with-that"
-          ],
+          "parts": ["scene-talk.follow-accept.door-by-door-lead-with-that"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -29444,9 +29255,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.two-minutes-before-you-go-on"
-          ],
+          "parts": ["scene-talk.open-greet.two-minutes-before-you-go-on"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -29596,9 +29405,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-did-they-say-about-us-tonight"
-          ],
+          "parts": ["scene-talk.reply-ask.what-did-they-say-about-us-tonight"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -29710,9 +29517,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-apologize.you-re-right-cut-it"
-          ],
+          "parts": ["scene-talk.reply-apologize.you-re-right-cut-it"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -29748,9 +29553,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.let-them-play-it-we-won"
-          ],
+          "parts": ["scene-talk.reply-boast.let-them-play-it-we-won"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -29786,9 +29589,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.give-me-one-minute-alone-first"
-          ],
+          "parts": ["scene-talk.reply-leave.give-me-one-minute-alone-first"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -30214,9 +30015,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.two-minutes-before-you-go-on"
-          ],
+          "parts": ["scene-talk.open-greet.two-minutes-before-you-go-on"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -30366,9 +30165,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-did-they-say-about-us-tonight"
-          ],
+          "parts": ["scene-talk.reply-ask.what-did-they-say-about-us-tonight"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -30480,9 +30277,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-apologize.you-re-right-cut-it"
-          ],
+          "parts": ["scene-talk.reply-apologize.you-re-right-cut-it"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -30518,9 +30313,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.let-them-play-it-we-won"
-          ],
+          "parts": ["scene-talk.reply-boast.let-them-play-it-we-won"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -30556,9 +30349,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.they-re-chanting-let-s-go"
-          ],
+          "parts": ["scene-talk.reply-leave.they-re-chanting-let-s-go"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -30983,9 +30774,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.two-minutes-before-you-go-on"
-          ],
+          "parts": ["scene-talk.open-greet.two-minutes-before-you-go-on"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -31135,9 +30924,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-did-they-say-about-us-tonight"
-          ],
+          "parts": ["scene-talk.reply-ask.what-did-they-say-about-us-tonight"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -31287,9 +31074,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.give-me-one-minute-alone-first"
-          ],
+          "parts": ["scene-talk.reply-leave.give-me-one-minute-alone-first"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:treasurer:2026-10-12",
@@ -31715,9 +31500,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.we-need-to-talk-about-the-call"
-          ],
+          "parts": ["scene-talk.open-greet.we-need-to-talk-about-the-call"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -31791,9 +31574,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.dial-it-i-ll-keep-it-short"
-          ],
+          "parts": ["scene-talk.reply-agree.dial-it-i-ll-keep-it-short"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -31905,9 +31686,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.give-me-ten-minutes-alone-first"
-          ],
+          "parts": ["scene-talk.reply-stall.give-me-ten-minutes-alone-first"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -32057,9 +31836,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-thank.i-ll-get-them-on-the-line"
-          ],
+          "parts": ["scene-talk.follow-thank.i-ll-get-them-on-the-line"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -32491,9 +32268,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.we-need-to-talk-about-the-call"
-          ],
+          "parts": ["scene-talk.open-greet.we-need-to-talk-about-the-call"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -32567,9 +32342,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.dial-it-i-ll-keep-it-short"
-          ],
+          "parts": ["scene-talk.reply-agree.dial-it-i-ll-keep-it-short"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -32681,9 +32454,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.give-me-ten-minutes-alone-first"
-          ],
+          "parts": ["scene-talk.reply-stall.give-me-ten-minutes-alone-first"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -32833,9 +32604,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-thank.i-ll-get-them-on-the-line"
-          ],
+          "parts": ["scene-talk.follow-thank.i-ll-get-them-on-the-line"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -33268,9 +33037,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.we-need-to-talk-about-the-call"
-          ],
+          "parts": ["scene-talk.open-greet.we-need-to-talk-about-the-call"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -33344,9 +33111,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.dial-it-i-ll-keep-it-short"
-          ],
+          "parts": ["scene-talk.reply-agree.dial-it-i-ll-keep-it-short"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -33458,9 +33223,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.give-me-ten-minutes-alone-first"
-          ],
+          "parts": ["scene-talk.reply-stall.give-me-ten-minutes-alone-first"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -33534,9 +33297,7 @@
           "lie": false,
           "words": 5,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.fine-i-ll-do-it-dial"
-          ],
+          "parts": ["scene-talk.reply-agree.fine-i-ll-do-it-dial"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -33648,9 +33409,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-thank.i-ll-get-them-on-the-line"
-          ],
+          "parts": ["scene-talk.follow-thank.i-ll-get-them-on-the-line"],
           "slotRecordIds": [
             "person:press:outlet:television:1:jurisdiction_258c647381fe1a77:head:0",
             "official:term:seat:US-SC:lower:124:0:2026-10-12",
@@ -34101,9 +33860,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-need-you-on-this-one"
-          ],
+          "parts": ["scene-talk.open-greet.i-need-you-on-this-one"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -34183,9 +33940,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-me"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -34347,9 +34102,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-pass"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-pass"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -34511,9 +34264,7 @@
           "lie": false,
           "words": 3,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-once"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-once"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -34552,9 +34303,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.ask-me-again-after-the-next-name"
-          ],
+          "parts": ["scene-talk.reply-leave.ask-me-again-after-the-next-name"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -34593,9 +34342,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-thank.i-will-thank-you"
-          ],
+          "parts": ["scene-talk.follow-thank.i-will-thank-you"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -35549,9 +35296,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-need-you-on-this-one"
-          ],
+          "parts": ["scene-talk.open-greet.i-need-you-on-this-one"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -35631,9 +35376,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-me"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -35795,9 +35538,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-pass"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-pass"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -35836,9 +35577,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-plea.can-t-you-go-with-us-once"
-          ],
+          "parts": ["scene-talk.follow-plea.can-t-you-go-with-us-once"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -35877,9 +35616,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.once-write-it-down"
-          ],
+          "parts": ["scene-talk.reply-agree.once-write-it-down"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -35959,9 +35696,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.ask-me-again-after-the-next-name"
-          ],
+          "parts": ["scene-talk.reply-leave.ask-me-again-after-the-next-name"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -36041,9 +35776,7 @@
           "lie": false,
           "words": 3,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-once"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-once"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -36082,9 +35815,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.spring-s-a-long-way-off"
-          ],
+          "parts": ["scene-talk.reply-refuse.spring-s-a-long-way-off"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -36205,9 +35936,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.fine-this-once-and-you-owe-me"
-          ],
+          "parts": ["scene-talk.reply-agree.fine-this-once-and-you-owe-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -36246,9 +35975,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.ask-somebody-else"
-          ],
+          "parts": ["scene-talk.reply-refuse.ask-somebody-else"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37243,9 +36970,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-need-you-on-this-one"
-          ],
+          "parts": ["scene-talk.open-greet.i-need-you-on-this-one"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37325,9 +37050,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-me"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37489,9 +37212,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-pass"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-pass"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37530,9 +37251,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-plea.can-t-you-go-with-us-once"
-          ],
+          "parts": ["scene-talk.follow-plea.can-t-you-go-with-us-once"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37571,9 +37290,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.fine-this-once-and-you-owe-me"
-          ],
+          "parts": ["scene-talk.reply-agree.fine-this-once-and-you-owe-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37612,9 +37329,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.ask-somebody-else"
-          ],
+          "parts": ["scene-talk.reply-refuse.ask-somebody-else"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37653,9 +37368,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.ask-me-again-after-the-next-name"
-          ],
+          "parts": ["scene-talk.reply-leave.ask-me-again-after-the-next-name"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37735,9 +37448,7 @@
           "lie": false,
           "words": 3,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-once"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-once"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37776,9 +37487,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.spring-s-a-long-way-off"
-          ],
+          "parts": ["scene-talk.reply-refuse.spring-s-a-long-way-off"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -37899,9 +37608,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.once-write-it-down"
-          ],
+          "parts": ["scene-talk.reply-agree.once-write-it-down"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -38935,9 +38642,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-need-you-on-this-one"
-          ],
+          "parts": ["scene-talk.open-greet.i-need-you-on-this-one"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -39017,9 +38722,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-me"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -39181,9 +38884,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-pass"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-pass"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -39263,9 +38964,7 @@
           "lie": false,
           "words": 3,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-once"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-once"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -39345,9 +39044,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.ask-me-again-after-the-next-name"
-          ],
+          "parts": ["scene-talk.reply-leave.ask-me-again-after-the-next-name"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -40343,9 +40040,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.i-need-you-on-this-one"
-          ],
+          "parts": ["scene-talk.open-greet.i-need-you-on-this-one"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -40425,9 +40120,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-me"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -40589,9 +40282,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-pass"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-pass"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -40753,9 +40444,7 @@
           "lie": false,
           "words": 3,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.all-right-once"
-          ],
+          "parts": ["scene-talk.reply-agree.all-right-once"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -40794,9 +40483,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.ask-me-again-after-the-next-name"
-          ],
+          "parts": ["scene-talk.reply-leave.ask-me-again-after-the-next-name"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -40876,9 +40563,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.done-put-it-in-writing-tonight"
-          ],
+          "parts": ["scene-talk.reply-agree.done-put-it-in-writing-tonight"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -40999,9 +40684,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.fine-this-once-and-you-owe-me"
-          ],
+          "parts": ["scene-talk.reply-agree.fine-this-once-and-you-owe-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -41081,9 +40764,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.ask-somebody-else"
-          ],
+          "parts": ["scene-talk.reply-refuse.ask-somebody-else"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -41122,9 +40803,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.done-don-t-make-me-regret-it"
-          ],
+          "parts": ["scene-talk.follow-accept.done-don-t-make-me-regret-it"],
           "slotRecordIds": [
             "official:term:seat:US-SC:lower:004:0:2026-10-12",
             "official:term:seat:US-SC:upper:032:0:2026-10-12",
@@ -42054,9 +41733,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.nice-work-on-this-one"
-          ],
+          "parts": ["scene-talk.open-greet.nice-work-on-this-one"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -42128,9 +41805,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.you-ll-have-me"
-          ],
+          "parts": ["scene-talk.reply-agree.you-ll-have-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -42165,9 +41840,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-early"
-          ],
+          "parts": ["scene-talk.reply-ask.why-early"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -42424,9 +42097,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.let-me-get-back-to-my-office"
-          ],
+          "parts": ["scene-talk.reply-leave.let-me-get-back-to-my-office"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -42461,9 +42132,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-thank.good-i-knew-you-d-see-it"
-          ],
+          "parts": ["scene-talk.follow-thank.good-i-knew-you-d-see-it"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -42901,9 +42570,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.nice-work-on-this-one"
-          ],
+          "parts": ["scene-talk.open-greet.nice-work-on-this-one"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -42975,9 +42642,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.you-ll-have-me"
-          ],
+          "parts": ["scene-talk.reply-agree.you-ll-have-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -43012,9 +42677,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-early"
-          ],
+          "parts": ["scene-talk.reply-ask.why-early"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -43160,9 +42823,7 @@
           "lie": false,
           "words": 4,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-agree.fine-early-this-once"
-          ],
+          "parts": ["scene-talk.reply-agree.fine-early-this-once"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -43234,9 +42895,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.let-me-get-back-to-my-office"
-          ],
+          "parts": ["scene-talk.reply-leave.let-me-get-back-to-my-office"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -43271,9 +42930,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-warn.then-i-hope-you-like-the-budget"
-          ],
+          "parts": ["scene-talk.follow-warn.then-i-hope-you-like-the-budget"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -43707,9 +43364,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.nice-work-on-this-one"
-          ],
+          "parts": ["scene-talk.open-greet.nice-work-on-this-one"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -43781,9 +43436,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.you-ll-have-me"
-          ],
+          "parts": ["scene-talk.reply-agree.you-ll-have-me"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -43818,9 +43471,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.why-early"
-          ],
+          "parts": ["scene-talk.reply-ask.why-early"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -43929,9 +43580,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.a-word-or-two-not-a-page"
-          ],
+          "parts": ["scene-talk.follow-accept.a-word-or-two-not-a-page"],
           "slotRecordIds": [
             "official:term:seat:US-SC:governor:2026-10-12",
             "official:term:seat:US-SC:lower:080:0:2026-10-12",
@@ -44293,10 +43942,7 @@
         "resolved",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_08d41c9395e98098",
-        "person_d5ef506cdca4f1d9"
-      ],
+      "castRecordIds": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
       "records": [
         "desk:bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
         "bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
@@ -44444,9 +44090,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.why-you-told-me-you-d-sign-it"
-          ],
+          "parts": ["scene-talk.reply-ask.why-you-told-me-you-d-sign-it"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -44518,9 +44162,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-bargain.what-would-you-sign"
-          ],
+          "parts": ["scene-talk.reply-bargain.what-would-you-sign"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -44555,9 +44197,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-accept.thanks-for-calling-yourself"
-          ],
+          "parts": ["scene-talk.reply-accept.thanks-for-calling-yourself"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -44800,10 +44440,7 @@
         "type": "veto",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_08d41c9395e98098",
-          "person_d5ef506cdca4f1d9"
-        ],
+        "cast": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
         "narration": [
           "Your phone lights up with the mayor's office. Ryan King doesn't wait for hello."
         ],
@@ -45159,10 +44796,7 @@
         "resolved",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_08d41c9395e98098",
-        "person_d5ef506cdca4f1d9"
-      ],
+      "castRecordIds": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
       "records": [
         "desk:bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
         "bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
@@ -45305,9 +44939,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.why-you-told-me-you-d-sign-it"
-          ],
+          "parts": ["scene-talk.reply-ask.why-you-told-me-you-d-sign-it"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -45379,9 +45011,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-bargain.what-would-you-sign"
-          ],
+          "parts": ["scene-talk.reply-bargain.what-would-you-sign"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -45416,9 +45046,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-accept.thanks-for-calling-yourself"
-          ],
+          "parts": ["scene-talk.reply-accept.thanks-for-calling-yourself"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -45476,10 +45104,7 @@
         "type": "veto",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_08d41c9395e98098",
-          "person_d5ef506cdca4f1d9"
-        ],
+        "cast": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
         "narration": [
           "Your phone lights up with the mayor's office. Ryan King doesn't wait for hello."
         ],
@@ -45835,10 +45460,7 @@
         "resolved",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_08d41c9395e98098",
-        "person_d5ef506cdca4f1d9"
-      ],
+      "castRecordIds": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
       "records": [
         "desk:bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
         "bill:office:gus2025:184059:council:2026-12-11:person_d5ef506cdca4f1d9:7",
@@ -45986,9 +45608,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.why-you-told-me-you-d-sign-it"
-          ],
+          "parts": ["scene-talk.reply-ask.why-you-told-me-you-d-sign-it"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -46060,9 +45680,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-bargain.what-would-you-sign"
-          ],
+          "parts": ["scene-talk.reply-bargain.what-would-you-sign"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -46097,9 +45715,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-accept.thanks-for-calling-yourself"
-          ],
+          "parts": ["scene-talk.reply-accept.thanks-for-calling-yourself"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -46282,9 +45898,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-have-to-call-my-members"
-          ],
+          "parts": ["scene-talk.reply-leave.i-have-to-call-my-members"],
           "slotRecordIds": [
             "person_08d41c9395e98098",
             "person_d5ef506cdca4f1d9",
@@ -46342,10 +45956,7 @@
         "type": "veto",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_08d41c9395e98098",
-          "person_d5ef506cdca4f1d9"
-        ],
+        "cast": ["person_08d41c9395e98098", "person_d5ef506cdca4f1d9"],
         "narration": [
           "Your phone lights up with the mayor's office. Ryan King doesn't wait for hello."
         ],
@@ -46786,9 +46397,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.it-s-good-news-i-promise"
-          ],
+          "parts": ["scene-talk.open-greet.it-s-good-news-i-promise"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -46862,9 +46471,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.tell-the-executive-yes"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -46900,9 +46507,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-would-i-actually-be-doing"
-          ],
+          "parts": ["scene-talk.reply-ask.what-would-i-actually-be-doing"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -47128,9 +46733,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.why-me-we-ve-never-met"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me-we-ve-never-met"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -47242,9 +46845,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.then-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.then-yes"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -47318,9 +46919,7 @@
           "lie": false,
           "words": 9,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that"
-          ],
+          "parts": ["scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -47422,9 +47021,7 @@
           "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
           "official:term:seat:US-SC:upper:019:0:2026-10-12"
         ],
-        "narration": [
-          "Anna Mathews calls from the governor's office."
-        ],
+        "narration": ["Anna Mathews calls from the governor's office."],
         "root": {
           "lines": [],
           "replies": [
@@ -47904,9 +47501,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.it-s-good-news-i-promise"
-          ],
+          "parts": ["scene-talk.open-greet.it-s-good-news-i-promise"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -47980,9 +47575,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.tell-the-executive-yes"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -48018,9 +47611,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.why-me-we-ve-never-met"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me-we-ve-never-met"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -48236,9 +47827,7 @@
           "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
           "official:term:seat:US-SC:upper:019:0:2026-10-12"
         ],
-        "narration": [
-          "Anna Mathews calls from the governor's office."
-        ],
+        "narration": ["Anna Mathews calls from the governor's office."],
         "root": {
           "lines": [],
           "replies": [
@@ -48718,9 +48307,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.it-s-good-news-i-promise"
-          ],
+          "parts": ["scene-talk.open-greet.it-s-good-news-i-promise"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -48794,9 +48381,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.tell-the-executive-yes"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -48832,9 +48417,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.why-me-we-ve-never-met"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me-we-ve-never-met"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -49050,9 +48633,7 @@
           "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
           "official:term:seat:US-SC:upper:019:0:2026-10-12"
         ],
-        "narration": [
-          "Anna Mathews calls from the governor's office."
-        ],
+        "narration": ["Anna Mathews calls from the governor's office."],
         "root": {
           "lines": [],
           "replies": [
@@ -49550,9 +49131,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.it-s-good-news-i-promise"
-          ],
+          "parts": ["scene-talk.open-greet.it-s-good-news-i-promise"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -49626,9 +49205,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.tell-the-executive-yes"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -49664,9 +49241,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.why-me-we-ve-never-met"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me-we-ve-never-met"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -49882,9 +49457,7 @@
           "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
           "official:term:seat:US-SC:upper:019:0:2026-10-12"
         ],
-        "narration": [
-          "Anna Mathews calls from the governor's office."
-        ],
+        "narration": ["Anna Mathews calls from the governor's office."],
         "root": {
           "lines": [],
           "replies": [
@@ -50372,9 +49945,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.it-s-good-news-i-promise"
-          ],
+          "parts": ["scene-talk.open-greet.it-s-good-news-i-promise"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -50448,9 +50019,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.tell-the-executive-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.tell-the-executive-yes"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -50486,9 +50055,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.why-me-we-ve-never-met"
-          ],
+          "parts": ["scene-talk.reply-ask.why-me-we-ve-never-met"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -50600,9 +50167,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.then-yes"
-          ],
+          "parts": ["scene-talk.reply-agree.then-yes"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -50714,9 +50279,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-would-i-actually-be-doing"
-          ],
+          "parts": ["scene-talk.reply-ask.what-would-i-actually-be-doing"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -50904,9 +50467,7 @@
           "lie": false,
           "words": 9,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that"
-          ],
+          "parts": ["scene-talk.reply-ask.give-up-my-seat-why-would-i-do-that"],
           "slotRecordIds": [
             "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
             "official:term:seat:US-SC:upper:019:0:2026-10-12",
@@ -51008,9 +50569,7 @@
           "person:aide:official:term:seat:US-SC:governor:2026-10-12:0",
           "official:term:seat:US-SC:upper:019:0:2026-10-12"
         ],
-        "narration": [
-          "Anna Mathews calls from the governor's office."
-        ],
+        "narration": ["Anna Mathews calls from the governor's office."],
         "root": {
           "lines": [],
           "replies": [
@@ -51560,9 +51119,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.can-i-see-it"
-          ],
+          "parts": ["scene-talk.reply-ask.can-i-see-it"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -51632,9 +51189,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.go-ahead-i-ll-win-the-vote"
-          ],
+          "parts": ["scene-talk.reply-boast.go-ahead-i-ll-win-the-vote"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -52437,9 +51992,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.can-i-see-it"
-          ],
+          "parts": ["scene-talk.reply-ask.can-i-see-it"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -52509,9 +52062,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.go-ahead-i-ll-win-the-vote"
-          ],
+          "parts": ["scene-talk.reply-boast.go-ahead-i-ll-win-the-vote"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -53314,9 +52865,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.can-i-see-it"
-          ],
+          "parts": ["scene-talk.reply-ask.can-i-see-it"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -53386,9 +52935,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.go-ahead-i-ll-win-the-vote"
-          ],
+          "parts": ["scene-talk.reply-boast.go-ahead-i-ll-win-the-vote"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -54191,9 +53738,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.can-i-see-it"
-          ],
+          "parts": ["scene-talk.reply-ask.can-i-see-it"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -54263,9 +53808,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.go-ahead-i-ll-win-the-vote"
-          ],
+          "parts": ["scene-talk.reply-boast.go-ahead-i-ll-win-the-vote"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -54479,9 +54022,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.go-ahead-they-re-right-here"
-          ],
+          "parts": ["scene-talk.follow-accept.go-ahead-they-re-right-here"],
           "slotRecordIds": [
             "official:cabinet:US:interior:2",
             "official:term:seat:US-SC:lower:079:0:2026-10-12",
@@ -55006,9 +54547,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-call-to-order.you-have-three-minutes"
-          ],
+          "parts": ["scene-talk.open-call-to-order.you-have-three-minutes"],
           "slotRecordIds": [
             "person_b280d0db0a3f25fe",
             "person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -55234,9 +54773,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-answer.staff-can-you-answer-that"
-          ],
+          "parts": ["scene-talk.follow-answer.staff-can-you-answer-that"],
           "slotRecordIds": [
             "person_b280d0db0a3f25fe",
             "person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -55310,9 +54847,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-thank.thank-you"
-          ],
+          "parts": ["scene-talk.reply-thank.thank-you"],
           "slotRecordIds": [
             "person_b280d0db0a3f25fe",
             "person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -55424,9 +54959,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-press.i-ve-heard-by-friday-before"
-          ],
+          "parts": ["scene-talk.reply-press.i-ve-heard-by-friday-before"],
           "slotRecordIds": [
             "person_b280d0db0a3f25fe",
             "person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -55462,9 +54995,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-accept.friday-i-ll-be-watching-for-it"
-          ],
+          "parts": ["scene-talk.reply-accept.friday-i-ll-be-watching-for-it"],
           "slotRecordIds": [
             "person_b280d0db0a3f25fe",
             "person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -56156,9 +55687,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-call-to-order.you-have-three-minutes"
-          ],
+          "parts": ["scene-talk.open-call-to-order.you-have-three-minutes"],
           "slotRecordIds": [
             "person_b280d0db0a3f25fe",
             "person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -56384,9 +55913,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-answer.staff-can-you-answer-that"
-          ],
+          "parts": ["scene-talk.follow-answer.staff-can-you-answer-that"],
           "slotRecordIds": [
             "person_b280d0db0a3f25fe",
             "person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -56460,9 +55987,7 @@
           "lie": false,
           "words": 2,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-thank.thank-you"
-          ],
+          "parts": ["scene-talk.reply-thank.thank-you"],
           "slotRecordIds": [
             "person_b280d0db0a3f25fe",
             "person:press:outlet:radio:0:jurisdiction_258c647381fe1a77:reporter:0",
@@ -57184,9 +56709,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.morning-here-to-file"
-          ],
+          "parts": ["scene-talk.open-greet.morning-here-to-file"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -57260,9 +56783,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-was-opponent-like"
-          ],
+          "parts": ["scene-talk.reply-ask.what-was-opponent-like"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -57298,9 +56819,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.i-know-that-s-why-i-m-here"
-          ],
+          "parts": ["scene-talk.reply-tell.i-know-that-s-why-i-m-here"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -57450,9 +56969,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.then-let-s-get-mine-in"
-          ],
+          "parts": ["scene-talk.reply-agree.then-let-s-get-mine-in"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -57488,9 +57005,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-boast.then-i-ll-bring-a-better-pen"
-          ],
+          "parts": ["scene-talk.reply-boast.then-i-ll-bring-a-better-pen"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -57847,9 +57362,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.morning-here-to-file"
-          ],
+          "parts": ["scene-talk.open-greet.morning-here-to-file"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -57923,9 +57436,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-was-opponent-like"
-          ],
+          "parts": ["scene-talk.reply-ask.what-was-opponent-like"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -57961,9 +57472,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.i-know-that-s-why-i-m-here"
-          ],
+          "parts": ["scene-talk.reply-tell.i-know-that-s-why-i-m-here"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -58113,9 +57622,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.fair-enough-where-do-i-sign"
-          ],
+          "parts": ["scene-talk.reply-agree.fair-enough-where-do-i-sign"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -58151,9 +57658,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.forget-i-asked"
-          ],
+          "parts": ["scene-talk.reply-leave.forget-i-asked"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -58510,9 +58015,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.morning-here-to-file"
-          ],
+          "parts": ["scene-talk.open-greet.morning-here-to-file"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -58586,9 +58089,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-was-opponent-like"
-          ],
+          "parts": ["scene-talk.reply-ask.what-was-opponent-like"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -58624,9 +58125,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.i-know-that-s-why-i-m-here"
-          ],
+          "parts": ["scene-talk.reply-tell.i-know-that-s-why-i-m-here"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -58776,9 +58275,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.fair-enough-where-do-i-sign"
-          ],
+          "parts": ["scene-talk.reply-agree.fair-enough-where-do-i-sign"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -58814,9 +58311,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.forget-i-asked"
-          ],
+          "parts": ["scene-talk.reply-leave.forget-i-asked"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -59170,9 +58665,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.morning-here-to-file"
-          ],
+          "parts": ["scene-talk.open-greet.morning-here-to-file"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -59246,9 +58739,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.what-was-opponent-like"
-          ],
+          "parts": ["scene-talk.reply-ask.what-was-opponent-like"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -59284,9 +58775,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.i-know-that-s-why-i-m-here"
-          ],
+          "parts": ["scene-talk.reply-tell.i-know-that-s-why-i-m-here"],
           "slotRecordIds": [
             "official:cabinet:US:agriculture:1",
             "official:term:seat:US-SC:lower:076:0:2026-10-12",
@@ -59643,10 +59132,7 @@
         "resolved",
         "open"
       ],
-      "castRecordIds": [
-        "person_afc457064ce4a62b",
-        "person_9b07dce1ad468405"
-      ],
+      "castRecordIds": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
       "records": [
         "person_9b07dce1ad468405:2026-12-26:person_ebcd5ecc7918b927:birth",
         "person_ebcd5ecc7918b927",
@@ -59718,9 +59204,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.let-me-see-that-baby"
-          ],
+          "parts": ["scene-talk.open-greet.let-me-see-that-baby"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -59790,9 +59274,7 @@
           "lie": false,
           "words": 4,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-tell.tired-happy-mostly-tired"
-          ],
+          "parts": ["scene-talk.reply-tell.tired-happy-mostly-tired"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -59898,9 +59380,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.do-you-want-to-hold-kid"
-          ],
+          "parts": ["scene-talk.reply-ask.do-you-want-to-hold-kid"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -59934,9 +59414,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-answer.i-thought-you-d-never-ask"
-          ],
+          "parts": ["scene-talk.follow-answer.i-thought-you-d-never-ask"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -59970,9 +59448,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.careful-with-the-head-there-you-go"
-          ],
+          "parts": ["scene-talk.reply-tell.careful-with-the-head-there-you-go"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -60042,9 +59518,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-should-feed-kid-soon"
-          ],
+          "parts": ["scene-talk.reply-leave.i-should-feed-kid-soon"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -60078,9 +59552,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.look-at-that-kid-likes-me"
-          ],
+          "parts": ["scene-talk.follow-accept.look-at-that-kid-likes-me"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -60100,10 +59572,7 @@
         "type": "new-baby",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_afc457064ce4a62b",
-          "person_9b07dce1ad468405"
-        ],
+        "cast": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
         "narration": [
           "Nathan Mendez comes by with a covered dish to meet Haris."
         ],
@@ -60371,10 +59840,7 @@
         "resolved",
         "open"
       ],
-      "castRecordIds": [
-        "person_afc457064ce4a62b",
-        "person_9b07dce1ad468405"
-      ],
+      "castRecordIds": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
       "records": [
         "person_9b07dce1ad468405:2026-12-26:person_ebcd5ecc7918b927:birth",
         "person_ebcd5ecc7918b927",
@@ -60442,9 +59908,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.let-me-see-that-baby"
-          ],
+          "parts": ["scene-talk.open-greet.let-me-see-that-baby"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -60514,9 +59978,7 @@
           "lie": false,
           "words": 4,
           "sentences": 3,
-          "parts": [
-            "scene-talk.reply-tell.tired-happy-mostly-tired"
-          ],
+          "parts": ["scene-talk.reply-tell.tired-happy-mostly-tired"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -60622,9 +60084,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-ask.do-you-want-to-hold-kid"
-          ],
+          "parts": ["scene-talk.reply-ask.do-you-want-to-hold-kid"],
           "slotRecordIds": [
             "person_afc457064ce4a62b",
             "person_9b07dce1ad468405",
@@ -60680,10 +60140,7 @@
         "type": "new-baby",
         "place": "Briarcliffe Acres, South Carolina",
         "seed": "4dc8c68c7f9f1be1bf4f5f72985993062aba54b9c1bc15b6be27866dab973774",
-        "cast": [
-          "person_afc457064ce4a62b",
-          "person_9b07dce1ad468405"
-        ],
+        "cast": ["person_afc457064ce4a62b", "person_9b07dce1ad468405"],
         "narration": [
           "Nathan Mendez comes by with a covered dish to meet Haris."
         ],

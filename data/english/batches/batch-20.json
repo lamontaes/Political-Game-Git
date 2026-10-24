@@ -245,11 +245,7 @@
       "tests": {
         "purpose": "press-comment",
         "profile": "own",
-        "branches": [
-          "a lie, caught and believed",
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["a lie, caught and believed", "push-back", "walking away"]
       },
       "narration": [
         "The ink on \"Right to counsel in eviction\" is barely dry when Nicholas Mayer, who covers you for WLPU-TV, falls into step beside you."
@@ -2250,11 +2246,7 @@
       "tests": {
         "purpose": "press-comment",
         "profile": "own",
-        "branches": [
-          "a lie, caught and believed",
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["a lie, caught and believed", "push-back", "walking away"]
       },
       "narration": [
         "You sent H.R. 2 over this morning. By noon Michael Woods from Beacon News Network has the numbers and wants yours."
@@ -7349,17 +7341,12 @@
       "type": "filing",
       "place": "Marseilles, Ohio",
       "seed": "life-1",
-      "cast": [
-        "person_c6422e660ed0adb9",
-        "person_e9fc62086c08a3a8"
-      ],
+      "cast": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
       "proof": true,
       "tests": {
         "purpose": "filing-clerk",
         "profile": "own",
-        "branches": [
-          "walking away"
-        ]
+        "branches": ["walking away"]
       },
       "narration": [
         "You hold the office of mayor and you're here to ask for it again. Benjamin Higgins slides the form across the counter."
@@ -7644,19 +7631,12 @@
       "type": "office-hours",
       "place": "Marseilles, Ohio",
       "seed": "life-1",
-      "cast": [
-        "person_5acfd15aefa20b21",
-        "person_e9fc62086c08a3a8"
-      ],
+      "cast": ["person_5acfd15aefa20b21", "person_e9fc62086c08a3a8"],
       "proof": true,
       "tests": {
         "purpose": "constituent-help",
         "profile": "own",
-        "branches": [
-          "a lie, caught and believed",
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["a lie, caught and believed", "push-back", "walking away"]
       },
       "narration": [
         "The town hall is running long. James Stone has held the microphone through two other questions and finally gets it back."
@@ -8275,10 +8255,7 @@
       "tests": {
         "purpose": "desk-bill",
         "profile": "own",
-        "branches": [
-          "push-back",
-          "walking away"
-        ]
+        "branches": ["push-back", "walking away"]
       },
       "narration": [
         "It's late. Heather Hale has H.R. 2 in a blue folder and a pen already uncapped."
@@ -8879,9 +8856,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.quick-one-before-you-go"
-          ],
+          "parts": ["scene-talk.open-greet.quick-one-before-you-go"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -9064,9 +9039,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.not-today-you-ll-get-a-statement"
-          ],
+          "parts": ["scene-talk.reply-refuse.not-today-you-ll-get-a-statement"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -9101,9 +9074,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it"
-          ],
+          "parts": ["scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -9471,9 +9442,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.i-m-not-answering-that-one"
-          ],
+          "parts": ["scene-talk.reply-refuse.i-m-not-answering-that-one"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -9508,9 +9477,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.you-ll-see-how-when-we-do-it"
-          ],
+          "parts": ["scene-talk.reply-leave.you-ll-see-how-when-we-do-it"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -9545,9 +9512,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-thank.they-ll-want-to-hear-that-thanks"
-          ],
+          "parts": ["scene-talk.follow-thank.they-ll-want-to-hear-that-thanks"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -11894,9 +11859,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.not-today-you-ll-get-a-statement"
-          ],
+          "parts": ["scene-talk.reply-refuse.not-today-you-ll-get-a-statement"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -11937,9 +11900,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it"
-          ],
+          "parts": ["scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -14415,9 +14376,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.quick-one-before-you-go"
-          ],
+          "parts": ["scene-talk.open-greet.quick-one-before-you-go"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -14624,9 +14583,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.not-today-you-ll-get-a-statement"
-          ],
+          "parts": ["scene-talk.reply-refuse.not-today-you-ll-get-a-statement"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -14667,9 +14624,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it"
-          ],
+          "parts": ["scene-talk.reply-lie.everyone-i-ve-heard-from-is-for-it"],
           "slotRecordIds": [
             "job:public:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0:person:press:outlet:television:0:jurisdiction_34a3922a91e5120e:reporter:0",
             "organization:press:television:0:jurisdiction_34a3922a91e5120e",
@@ -17679,9 +17634,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-answer.then-write-that-i-stand-by-it"
-          ],
+          "parts": ["scene-talk.reply-answer.then-write-that-i-stand-by-it"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -17713,9 +17666,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.write-that-it-ll-pass-then-check"
-          ],
+          "parts": ["scene-talk.reply-boast.write-that-it-ll-pass-then-check"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -17747,9 +17698,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.we-re-finished-here"
-          ],
+          "parts": ["scene-talk.reply-leave.we-re-finished-here"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -17781,9 +17730,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-lie.not-one-person-has-complained-to-me"
-          ],
+          "parts": ["scene-talk.reply-lie.not-one-person-has-complained-to-me"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -23390,9 +23337,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-ask.and-if-the-votes-aren-t-there"
-          ],
+          "parts": ["scene-talk.follow-ask.and-if-the-votes-aren-t-there"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -23470,9 +23415,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-boast.they-ll-be-there-watch"
-          ],
+          "parts": ["scene-talk.reply-boast.they-ll-be-there-watch"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -23510,9 +23453,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.i-m-not-counting-votes-for-you"
-          ],
+          "parts": ["scene-talk.reply-refuse.i-m-not-counting-votes-for-you"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -23590,9 +23531,7 @@
           "lie": false,
           "words": 3,
           "sentences": 1,
-          "parts": [
-            "scene-talk.follow-ask.starting-with-whose"
-          ],
+          "parts": ["scene-talk.follow-ask.starting-with-whose"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -23744,9 +23683,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.i-m-not-answering-that-one"
-          ],
+          "parts": ["scene-talk.reply-refuse.i-m-not-answering-that-one"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -23784,9 +23721,7 @@
           "lie": false,
           "words": 6,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.you-ll-find-out-when-they-vote"
-          ],
+          "parts": ["scene-talk.reply-leave.you-ll-find-out-when-they-vote"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -23824,9 +23759,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-thank.that-s-a-good-line-thanks"
-          ],
+          "parts": ["scene-talk.follow-thank.that-s-a-good-line-thanks"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -29560,9 +29493,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.good-question-wrong-day"
-          ],
+          "parts": ["scene-talk.reply-leave.good-question-wrong-day"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -29600,9 +29531,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-lie.there-s-nothing-left-to-negotiate"
-          ],
+          "parts": ["scene-talk.reply-lie.there-s-nothing-left-to-negotiate"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -29794,9 +29723,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.then-tell-them-that-i-m-late"
-          ],
+          "parts": ["scene-talk.reply-leave.then-tell-them-that-i-m-late"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -35525,9 +35452,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-stall.i-ll-tell-them-first-then-you"
-          ],
+          "parts": ["scene-talk.reply-stall.i-ll-tell-them-first-then-you"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -35605,9 +35530,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.that-s-the-last-question"
-          ],
+          "parts": ["scene-talk.reply-leave.that-s-the-last-question"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -35685,9 +35608,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.fair-i-ll-take-second"
-          ],
+          "parts": ["scene-talk.follow-accept.fair-i-ll-take-second"],
           "slotRecordIds": [
             "person:press:outlet:cable:0:national:reporter:0",
             "job:office:seat:US:president:official:term:seat:US:president:2025-01-20",
@@ -40821,10 +40742,7 @@
         "open",
         "open"
       ],
-      "castRecordIds": [
-        "person_c6422e660ed0adb9",
-        "person_e9fc62086c08a3a8"
-      ],
+      "castRecordIds": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
       "records": [
         "candidate-filed:filing:contest:seat:gus2025:172691:mayor:0:2025-11-04:person_e9fc62086c08a3a8",
         "person_e9fc62086c08a3a8:2025-06-07:candidate-filed:filing:contest:seat:gus2025:172691:mayor:0:2025-11-04:person_e9fc62086c08a3a8"
@@ -40896,9 +40814,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.morning-back-for-another-round"
-          ],
+          "parts": ["scene-talk.open-greet.morning-back-for-another-round"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -41040,9 +40956,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.same-as-last-time-i-m-in"
-          ],
+          "parts": ["scene-talk.reply-tell.same-as-last-time-i-m-in"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -41184,9 +41098,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.good-let-them-bring-it-back"
-          ],
+          "parts": ["scene-talk.reply-agree.good-let-them-bring-it-back"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -41292,9 +41204,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.done-you-re-on-it"
-          ],
+          "parts": ["scene-talk.follow-accept.done-you-re-on-it"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -41356,10 +41266,7 @@
         "type": "filing",
         "place": "Marseilles, Ohio",
         "seed": "life-1",
-        "cast": [
-          "person_c6422e660ed0adb9",
-          "person_e9fc62086c08a3a8"
-        ],
+        "cast": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
         "narration": [
           "You hold the office of mayor and you're here to ask for it again. Benjamin Higgins slides the form across the counter."
         ],
@@ -41622,10 +41529,7 @@
         "open",
         "open"
       ],
-      "castRecordIds": [
-        "person_c6422e660ed0adb9",
-        "person_e9fc62086c08a3a8"
-      ],
+      "castRecordIds": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
       "records": [
         "candidate-filed:filing:contest:seat:gus2025:172691:mayor:0:2025-11-04:person_e9fc62086c08a3a8",
         "person_e9fc62086c08a3a8:2025-06-07:candidate-filed:filing:contest:seat:gus2025:172691:mayor:0:2025-11-04:person_e9fc62086c08a3a8"
@@ -41703,9 +41607,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.morning-back-for-another-round"
-          ],
+          "parts": ["scene-talk.open-greet.morning-back-for-another-round"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -41865,9 +41767,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.same-as-last-time-i-m-in"
-          ],
+          "parts": ["scene-talk.reply-tell.same-as-last-time-i-m-in"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -42033,9 +41933,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.good-let-them-bring-it-back"
-          ],
+          "parts": ["scene-talk.reply-agree.good-let-them-bring-it-back"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -42159,9 +42057,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.done-you-re-on-it"
-          ],
+          "parts": ["scene-talk.follow-accept.done-you-re-on-it"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -42223,10 +42119,7 @@
         "type": "filing",
         "place": "Marseilles, Ohio",
         "seed": "life-1",
-        "cast": [
-          "person_c6422e660ed0adb9",
-          "person_e9fc62086c08a3a8"
-        ],
+        "cast": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
         "narration": [
           "You hold the office of mayor and you're here to ask for it again. Benjamin Higgins slides the form across the counter."
         ],
@@ -42489,10 +42382,7 @@
         "open",
         "open"
       ],
-      "castRecordIds": [
-        "person_c6422e660ed0adb9",
-        "person_e9fc62086c08a3a8"
-      ],
+      "castRecordIds": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
       "records": [
         "candidate-filed:filing:contest:seat:gus2025:172691:mayor:0:2025-11-04:person_e9fc62086c08a3a8",
         "person_e9fc62086c08a3a8:2025-06-07:candidate-filed:filing:contest:seat:gus2025:172691:mayor:0:2025-11-04:person_e9fc62086c08a3a8"
@@ -42565,9 +42455,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.morning-back-for-another-round"
-          ],
+          "parts": ["scene-talk.open-greet.morning-back-for-another-round"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -42727,9 +42615,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.same-as-last-time-i-m-in"
-          ],
+          "parts": ["scene-talk.reply-tell.same-as-last-time-i-m-in"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -42881,10 +42767,7 @@
         "type": "filing",
         "place": "Marseilles, Ohio",
         "seed": "life-1",
-        "cast": [
-          "person_c6422e660ed0adb9",
-          "person_e9fc62086c08a3a8"
-        ],
+        "cast": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
         "narration": [
           "You hold the office of mayor and you're here to ask for it again. Benjamin Higgins slides the form across the counter."
         ],
@@ -43147,10 +43030,7 @@
         "open",
         "open"
       ],
-      "castRecordIds": [
-        "person_c6422e660ed0adb9",
-        "person_e9fc62086c08a3a8"
-      ],
+      "castRecordIds": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
       "records": [
         "candidate-filed:filing:contest:seat:gus2025:172691:mayor:0:2025-11-04:person_e9fc62086c08a3a8",
         "person_e9fc62086c08a3a8:2025-06-07:candidate-filed:filing:contest:seat:gus2025:172691:mayor:0:2025-11-04:person_e9fc62086c08a3a8"
@@ -43228,9 +43108,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.open-greet.morning-back-for-another-round"
-          ],
+          "parts": ["scene-talk.open-greet.morning-back-for-another-round"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -43390,9 +43268,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-tell.same-as-last-time-i-m-in"
-          ],
+          "parts": ["scene-talk.reply-tell.same-as-last-time-i-m-in"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -43558,9 +43434,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.good-let-them-bring-it-back"
-          ],
+          "parts": ["scene-talk.reply-agree.good-let-them-bring-it-back"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -43684,9 +43558,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.done-you-re-on-it"
-          ],
+          "parts": ["scene-talk.follow-accept.done-you-re-on-it"],
           "slotRecordIds": [
             "job:public:town:city-clerk:person_c6422e660ed0adb9",
             "organization:treasury:place:3947992",
@@ -43748,10 +43620,7 @@
         "type": "filing",
         "place": "Marseilles, Ohio",
         "seed": "life-1",
-        "cast": [
-          "person_c6422e660ed0adb9",
-          "person_e9fc62086c08a3a8"
-        ],
+        "cast": ["person_c6422e660ed0adb9", "person_e9fc62086c08a3a8"],
         "narration": [
           "You hold the office of mayor and you're here to ask for it again. Benjamin Higgins slides the form across the counter."
         ],
@@ -44023,10 +43892,7 @@
         "resolved",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_5acfd15aefa20b21",
-        "person_e9fc62086c08a3a8"
-      ],
+      "castRecordIds": ["person_5acfd15aefa20b21", "person_e9fc62086c08a3a8"],
       "records": [
         "town-hall:town-hall:person_e9fc62086c08a3a8:2025-09-08",
         "us-policy-positions:labor-workforce.right-to-work",
@@ -44103,9 +43969,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.thanks-for-staying-for-all-of-us"
-          ],
+          "parts": ["scene-talk.open-greet.thanks-for-staying-for-all-of-us"],
           "slotRecordIds": [
             "work-relationship_98a95e3182d696fd",
             "organization_65f08d9e3d2eb4c8",
@@ -44665,10 +44529,7 @@
         "type": "office-hours",
         "place": "Marseilles, Ohio",
         "seed": "life-1",
-        "cast": [
-          "person_5acfd15aefa20b21",
-          "person_e9fc62086c08a3a8"
-        ],
+        "cast": ["person_5acfd15aefa20b21", "person_e9fc62086c08a3a8"],
         "narration": [
           "The town hall is running long. James Stone has held the microphone through two other questions and finally gets it back."
         ],
@@ -45264,10 +45125,7 @@
         "resolved",
         "resolved"
       ],
-      "castRecordIds": [
-        "person_5acfd15aefa20b21",
-        "person_e9fc62086c08a3a8"
-      ],
+      "castRecordIds": ["person_5acfd15aefa20b21", "person_e9fc62086c08a3a8"],
       "records": [
         "town-hall:town-hall:person_e9fc62086c08a3a8:2025-09-08",
         "us-policy-positions:labor-workforce.right-to-work",
@@ -45349,9 +45207,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.open-greet.thanks-for-staying-for-all-of-us"
-          ],
+          "parts": ["scene-talk.open-greet.thanks-for-staying-for-all-of-us"],
           "slotRecordIds": [
             "work-relationship_98a95e3182d696fd",
             "organization_65f08d9e3d2eb4c8",
@@ -45939,10 +45795,7 @@
         "type": "office-hours",
         "place": "Marseilles, Ohio",
         "seed": "life-1",
-        "cast": [
-          "person_5acfd15aefa20b21",
-          "person_e9fc62086c08a3a8"
-        ],
+        "cast": ["person_5acfd15aefa20b21", "person_e9fc62086c08a3a8"],
         "narration": [
           "The town hall is running long. James Stone has held the microphone through two other questions and finally gets it back."
         ],
@@ -46673,9 +46526,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.let-s-get-it-done"
-          ],
+          "parts": ["scene-talk.reply-agree.let-s-get-it-done"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -46708,9 +46559,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.start-drafting-the-veto-message"
-          ],
+          "parts": ["scene-talk.reply-refuse.start-drafting-the-veto-message"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -46813,9 +46662,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.here-on-the-line-and-date-it"
-          ],
+          "parts": ["scene-talk.follow-accept.here-on-the-line-and-date-it"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -47433,9 +47280,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.let-s-get-it-done"
-          ],
+          "parts": ["scene-talk.reply-agree.let-s-get-it-done"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -47474,9 +47319,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.start-drafting-the-veto-message"
-          ],
+          "parts": ["scene-talk.reply-refuse.start-drafting-the-veto-message"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -47638,9 +47481,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.then-it-s-fine-pen"
-          ],
+          "parts": ["scene-talk.reply-agree.then-it-s-fine-pen"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -47679,9 +47520,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.six-months-is-too-long-veto-it"
-          ],
+          "parts": ["scene-talk.reply-refuse.six-months-is-too-long-veto-it"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -47802,9 +47641,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-leave.i-ll-decide-in-the-morning"
-          ],
+          "parts": ["scene-talk.reply-leave.i-ll-decide-in-the-morning"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -47878,9 +47715,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.beat-beat.down-the-hall-a-phone-keeps-ringing"
-          ],
+          "parts": ["scene-talk.beat-beat.down-the-hall-a-phone-keeps-ringing"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -47919,9 +47754,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.close-warn.ten-days-goes-fast"
-          ],
+          "parts": ["scene-talk.close-warn.ten-days-goes-fast"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -48531,9 +48364,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.let-s-get-it-done"
-          ],
+          "parts": ["scene-talk.reply-agree.let-s-get-it-done"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -48572,9 +48403,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.i-m-not-signing-this-one"
-          ],
+          "parts": ["scene-talk.reply-refuse.i-m-not-signing-this-one"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -49307,9 +49136,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.give-me-the-pen"
-          ],
+          "parts": ["scene-talk.reply-agree.give-me-the-pen"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -49348,9 +49175,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.start-drafting-the-veto-message"
-          ],
+          "parts": ["scene-talk.reply-refuse.start-drafting-the-veto-message"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -50088,9 +49913,7 @@
           "lie": false,
           "words": 4,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-agree.let-s-get-it-done"
-          ],
+          "parts": ["scene-talk.reply-agree.let-s-get-it-done"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -50129,9 +49952,7 @@
           "lie": false,
           "words": 5,
           "sentences": 1,
-          "parts": [
-            "scene-talk.reply-refuse.start-drafting-the-veto-message"
-          ],
+          "parts": ["scene-talk.reply-refuse.start-drafting-the-veto-message"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -50293,9 +50114,7 @@
           "lie": false,
           "words": 5,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-agree.fine-i-ll-sign-it-now"
-          ],
+          "parts": ["scene-talk.reply-agree.fine-i-ll-sign-it-now"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -50334,9 +50153,7 @@
           "lie": false,
           "words": 6,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-refuse.let-them-count-it-s-still-no"
-          ],
+          "parts": ["scene-talk.reply-refuse.let-them-count-it-s-still-no"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -50375,9 +50192,7 @@
           "lie": false,
           "words": 4,
           "sentences": 2,
-          "parts": [
-            "scene-talk.reply-leave.let-them-count-goodnight"
-          ],
+          "parts": ["scene-talk.reply-leave.let-them-count-goodnight"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -50416,9 +50231,7 @@
           "lie": false,
           "words": 7,
           "sentences": 2,
-          "parts": [
-            "scene-talk.follow-accept.here-on-the-line-and-date-it"
-          ],
+          "parts": ["scene-talk.follow-accept.here-on-the-line-and-date-it"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",
@@ -50451,9 +50264,7 @@
           "lie": false,
           "words": 7,
           "sentences": 1,
-          "parts": [
-            "scene-talk.beat-beat.down-the-hall-a-phone-keeps-ringing"
-          ],
+          "parts": ["scene-talk.beat-beat.down-the-hall-a-phone-keeps-ringing"],
           "slotRecordIds": [
             "job:public:staff:official:term:seat:US:president:2025-01-20:person:aide:official:term:seat:US:president:2025-01-20:0",
             "organization:treasury:US",

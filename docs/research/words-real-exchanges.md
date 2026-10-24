@@ -3,6 +3,7 @@
 Honest scope note. Firing Line with Margaret Hoover has NO public transcripts I could reach (PBS posts captions only; searches returned listings). 60 Minutes full transcripts were also mostly unavailable; I read CBS's published Q&A/excerpt pages instead. For Firing Line I rely on the general format only (long-form, one guest, host cites the guest's own record and asks "so which is it"); I did not read any episode, so nothing below is attributed to it. Everything below is paraphrase; no passages copied.
 
 Sources actually read (all fetched this session):
+
 - S1. CBS News, Romney interview excerpt with Scott Pelley, 60 Minutes, Sept 2012: https://www.cbsnews.com/news/romney-my-campaign-doesnt-need-a-turnaround
 - S2. CBS News, Pelley/Morehouse Q&A on the el-Sisi 60 Minutes interview: https://www.cbsnews.com/news/president-el-sisi-how-egypt-tried-to-kill-a-60-minutes-interview
 - S3. CBS Face the Nation transcript, Sept 9, 2012 (O'Donnell with Ryan, Plouffe): https://www.cbsnews.com/news/face-the-nation-transcripts-september-9-2012-obama-ryan-plouffe
@@ -21,9 +22,11 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 ---
 
 ## 1. Reporter vs politician: stance, dodge, contradiction
+
 (a) Sources: S1, S2, S3 (plus Firing Line format notes above).
 
 (b) Turn by turn
+
 - Asker opens with a fact from the subject's own record (a vote, a poll, a past remark), not an abstract "what is your stance."
 - First answer is usually a pivot to the speaker's message ("the real issue is..."). Asker does not repeat the question; he says the answer didn't address it and names who wants it answered (donors, party, voters, "six weeks out"). Naming the audience raises the cost of dodging.
 - Second answer denies the premise ("we don't need a turnaround"). Asker changes the angle: brings in a third party's judgment (a columnist the subject respects) instead of his own opinion.
@@ -38,6 +41,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 (d) AI version gets wrong: balanced, complete answers; politely restates the question; concedes the point in one turn; each side speaks in matched-length paragraphs; no interruption; asker never escalates.
 
 (e) Patterns
+
 1. Cite-their-own-record opener (vote, quote, number).
 2. "That wasn't an answer" + name who is waiting for it.
 3. Pivot to message; asker lets it finish, then tries a different angle (third-party view, a number, a date).
@@ -50,9 +54,11 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 ---
 
 ## 2. Whipping a vote
+
 (a) Sources: S4, S5, S6, S10.
 
 (b) How it moves
+
 - The counter asks the MEMBER, not staff; a staffer's guess ("he'll probably be with us") is not counted. A member's own word is written down as yes. (S4)
 - Counting is done where people already are (lunch, floor), so no one is pulled out of what they were going to do. Categories are plain: yes, leaning yes, undecided, leaning no, no.
 - Closed-door trades are about promises kept: a leader insisted a past private commitment about timing be honored even after his own side broke it by accident. Trust ("your word") is the currency (S4, S10).
@@ -65,6 +71,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 (d) AI version: states the bill's merits in a speech, thanks the member, member "weighs both sides," refusal is a clean reasoned paragraph.
 
 (e) Patterns
+
 1. Ask for the vote as a favor tied to a past favor, not an argument.
 2. Hedge by naming one fixable thing ("if the language on X changes").
 3. Soft-no: "I can't be on it, but I won't work against you" (an actual middle position).
@@ -76,6 +83,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 ---
 
 ## 3. Volunteer approaches candidate after a rally
+
 (a) Sources: S11 (secondary), S6 (first-campaign texture); NO transcript of the post-rally moment found. Treat as thin; recommend a human check of real campaign-trail footage.
 
 (b)(c) From what I read: volunteer work is organized by person-by-person phone asks about what the person WANTS to do; asks are specific (Monday 5 p.m. phone bank, Sunday show-up, a six-block precinct), and tracked on a board with small rituals (a bell). Staff, not the candidate, make the weekend ask. Talk around events is about food, signs, a T-shirt, a float, the pile of things that went wrong. In Slattery's first race the signs went up in one day on the route the governor drove; the governor phoned by 7:30 a.m. (S6). Practical, small, concrete.
@@ -83,6 +91,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 (d) AI version: volunteer gushes about the speech's message, candidate says "your energy is what makes this work," ask is vague ("could you help out sometime?").
 
 (e) Patterns
+
 1. Volunteer opens with a small concrete detail (a line in the speech that got a reaction, the room's size, a heckler), not praise.
 2. Candidate answers with the person's name and one thing about them, then hands them to a named staffer.
 3. Ask is a time and place, with a fallback ("Saturday, ten, or the phones Monday if you can't").
@@ -92,9 +101,11 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 ---
 
 ## 4. Party chair recruiting; donor leaning
+
 (a) Sources: S5, S6, S7. No donor source found: the donor part is stand-in only.
 
 (b) Recruiting, real moves
+
 - Recruiter finds a person in the community, not a prominent name (S6). Recruiter keeps the candidate hanging until a deadline; the real objection surfaces the night before filing ("my wife doesn't want me to"), and the recruiter's answer is a flat "you should have told me weeks ago" (S6).
 - Recruiter plants the idea lightly: "maybe you should run," "people will appreciate your service," "think about it." Next-day call: the target admits liking the place or the office, then agrees without saying yes (S6).
 - Friends phone at night: "get in there, don't let anybody get ahead of you"; some promise to cover another region if the person builds one area. Then nothing happens for days and the person's spouse notes dryly that she hasn't seen his name in the paper (S7).
@@ -107,6 +118,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 (d) AI version: recruiter lists qualifications and says "you'd be a great candidate"; target considers pros and cons.
 
 (e) Patterns
+
 1. Soft plant, then silence, then next-day follow-up.
 2. Real objection surfaces late and is about home or work.
 3. Recruiter names who else is in or not in.
@@ -117,6 +129,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 ---
 
 ## 5. Family at home
+
 (a) Sources: S7, S8; snippets only for Schroeder, McGovern.
 
 (b)(c) Moves: the candidate announces rather than asks ("he came home and said he'd be the candidate"); the spouse's reply is brief ("I wished him well; I knew he could do it"), and the daughter and wife laugh telling it later. A wife dryly notes the absence of his name in the paper and says she doesn't care if he goes to Congress, she just wants to see his name (S7). A candidate rings his wife from a phone booth in the snow to say "I've decided" (S5); her first reply is "What decision?" Then he explains in a sentence. McGovern's absence is stated as a number (25 weekends in a row) and an effect on the kids, not a feeling word. A campaign means "every day and every night."
@@ -124,6 +137,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 (d) AI version: spouse says "I'm so proud of you but I'll miss you," the loss produces a comforting speech.
 
 (e) Patterns
+
 1. Announcement at dinner or by phone; reply is a question, not a feeling.
 2. Spouse jokes in the shape of a complaint (obituary, newspaper).
 3. Absence told as a count (weekends, nights), kids' school run, who drives.
@@ -133,6 +147,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 ---
 
 ## 6. Constituent at office hours
+
 (a) Sources: S9; Moseley Braun on constituent service via senate.gov oral history page (not read in full).
 
 (b)(c) Real shape: intake (name, identity, release forms) -> what we can and can't do -> follow-up schedule -> the agency's reply relayed. Typical requests: a misrouted benefit payment, a form, a "why did they decide this," an appeal, immigration, a service academy application. Staff cannot make an agency act; people's hopes run ahead of that, so the key spoken move is setting expectations ("I can ask them to look again; I can't promise how it goes"). Constituents bring papers, dates and a previous clerk's name, and often open with a long story before the ask.
@@ -140,6 +155,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 (d) AI version: instantly empathizes, promises help, resolves in one reply.
 
 (e) Patterns
+
 1. Constituent opens with the history, ask arrives at the end or only after a prompt.
 2. Official asks for one document or date before saying anything about outcome.
 3. "I can't promise" said plainly, then one thing that will be done and when.
@@ -149,6 +165,7 @@ Gaps to fill if a human can: actual Firing Line/60 Minutes full video captions; 
 ---
 
 ## Cross-cutting rules
+
 - Let the first answer miss. Real people answer a nearby question first; resolve over several turns, not one.
 - The asker never repeats the question; changes angle (record, number, third party, audience).
 - Concede wording, not substance; concede substance only after a cost (time, public pressure).
