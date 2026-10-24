@@ -20,10 +20,12 @@ const question =
 /**
  * Draws are screened against the state's researched starting answer, the row
  * the laws engine puts in force at the opening (modules/laws.ts), before any
- * is opened; at most OPENED screened places are opened.
+ * is opened; at most OPENED screened places are opened. In measured runs 3 of
+ * 9 opened places had no farm selling outside, so 12 all passed over comes
+ * about once in 530,000 runs.
  */
 const DRAWS = 2000;
-const OPENED = 8;
+const OPENED = 12;
 const startsWithLimit = (stateKey: string): boolean =>
   POLICY_QUESTIONS[question]?.answers[stateKey]?.answer === "yes";
 
@@ -241,9 +243,9 @@ it("reads withdrawal law at farm production and removes its limit on repeal", ()
   } finally {
     setBookkeeping(true);
   }
-  // Measured one at a time on a 4-core container: 57 to 381 seconds for a
+  // Measured one at a time on a 4-core container: 75 to 384 seconds for a
   // drawn place, its year and the second opening (the longest, Hampton, New
-  // Hampshire, a town at the 10,000-person sample). Each place passed over
-  // adds one opening, 4 to 37 seconds; 7 passed over and the longest year come
-  // to about 11 minutes, and 20 minutes leaves a slower runner nearly twice that.
-}, 1_200_000);
+  // Hampshire). Each place passed over adds one opening, 4 to 37 seconds; 11
+  // passed over and the longest year come to about 13 minutes, and 30 minutes
+  // leaves a slower runner twice that.
+}, 1_800_000);
