@@ -9,6 +9,7 @@ import {
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
 import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
+import { traitProbe } from "./trait-probe";
 import { compactOriginalAnswer } from "./compact-choice";
 import { FinanceReadGuard } from "./finance-plan";
 import {
@@ -391,6 +392,34 @@ function plannedDecision(core: CoreState, act: PlannedAct): DecisionResult {
 }
 
 /**
+ * Offers for one act and one drive that read nothing of their target (no
+ * reason binding on the act or the offer) and take the same hours score the
+ * same, so the chooser and the free-time plan always take the lowest-keyed of
+ * them (ties go to the lowest key). Only that one is scored for a chooser whose
+ * scores are not kept; who does what is unchanged.
+ */
+function withoutAlikeOffers(offers: readonly ActOffer[]): readonly ActOffer[] {
+  const kept: ActOffer[] = [];
+  const at = new Map<string, number>();
+  for (const offer of offers) {
+    if (
+      offer.definition.reasonBindings?.length ||
+      offer.reasonBindings?.length
+    ) {
+      kept.push(offer);
+      continue;
+    }
+    const group = `${offer.definition.id}\u0000${offer.driveId ?? ""}\u0000${offer.availableHours}\u0000${offer.effortHours}`;
+    const index = at.get(group);
+    if (index === undefined) {
+      at.set(group, kept.length);
+      kept.push(offer);
+    } else if (offer.targetId < kept[index]!.targetId) kept[index] = offer;
+  }
+  return kept;
+}
+
+/**
  * P15 part 2b: one scoring pass per activation. The chooser's pick happens
  * now; the rest of today's free hours and each later day up to the next
  * activation are filled from the same scores (free-block.ts).
@@ -404,23 +433,23 @@ export function activate(
   const actor = core.people.get(personId)!;
   const api = coreAPI(core);
   refreshNeeds(core, api, actor);
-  const offers = availableActs(core, personId).map((offer) =>
-    controller
-      ? {
-          ...offer,
-          effortHours:
-            offer.effortHours ??
-            api.parameter(offer.definition.effortParameter),
-        }
-      : offer,
-  );
-  const scored = scoreOffers(core, personId, offers);
-  const decision = decisionFromScores(core, personId, scored, !!controller);
   const retainFullScores =
     core.observer ||
     actor.id === core.playerId ||
     core.focusPersonIds.has(actor.id) ||
     isExplicitlyControlledPersonV1(core, actor.id);
+  const available = availableActs(core, personId);
+  const offers = controller
+    ? available.map((offer) => ({
+        ...offer,
+        effortHours:
+          offer.effortHours ?? api.parameter(offer.definition.effortParameter),
+      }))
+    : retainFullScores || traitProbe()
+      ? available
+      : withoutAlikeOffers(available);
+  const scored = scoreOffers(core, personId, offers);
+  const decision = decisionFromScores(core, personId, scored, !!controller);
   if (controller) {
     const originalReads = new FinanceReadGuard();
     originalReads.payload(
