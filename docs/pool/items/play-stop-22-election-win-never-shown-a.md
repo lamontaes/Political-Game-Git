@@ -1,0 +1,23 @@
+---
+id: play-stop-22-election-win-never-shown-a
+title: "Election night shows your own race first, with every candidate's votes"
+area: play
+kind: bug
+priority: 1
+size: M
+status: open
+claimed-by:
+pr:
+blocked-on:
+source: added with npm run pool -- add
+---
+
+**What.** On the v0.22.10 release I won my council seat 448 to 246 in the records, but election night showed eight statewide races and ran out before the county, city and council races. Nothing on screen said I won. This part puts the player's own contest first on election night with each candidate's total and the result in words.
+
+**Rules.** This is a game, not a spreadsheet: winning or losing is golden-path step 5 and the player sees it first. The chain is the acceptance: the screen reads the results record by its contest id.
+
+**Done when.** In a drawn place, after an election the player ran in, the first results page names the player's own contest, each candidate's votes and whether the player won, read from the results record by contest id, shown by a screenshot.
+
+**Files.** src/bench/results.ts, src/bench/play.mjs
+
+**Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-22-election-win-never-shown (Oct 24, lane). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
