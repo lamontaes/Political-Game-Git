@@ -5013,7 +5013,7 @@
     "kind": "missing-data",
     "file": "src/core2/data/laws/outcome-research-gaps.json",
     "line": 7,
-    "whatItFakes": "27 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
+    "whatItFakes": "The laws listed in outcome-research-gaps.json (each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
     "why": "data/research/outcome-web/links.json has no link from these laws or their measures; the laws' reach, engine reads and money are wired, but an outcome link needs a researched strength, shape and lag before the web can move anything.",
     "addedBy": "claude/law-wiring-audit",
     "addedAt": "2026-10-20",
@@ -5539,14 +5539,14 @@
   },
   {
     "id": "SG-LAW-estates-counted-people",
-    "kind": "faked-mechanic",
+    "kind": "estimated-behavior",
     "file": "src/core2/estates.ts",
-    "line": 292,
-    "whatItFakes": "Estate and inheritance taxes reach only full people: a counted resident who dies leaves no estate, so the wider population pays no death tax and its heirs are not taxed.",
-    "why": "The counted tier has no estates engine: counted deaths remove people from their group without settling an estate, heirs or a probate record.",
+    "line": 394,
+    "whatItFakes": "A counted heir's relation to the person who died is read from the years between them (a parent's age younger, a child; older, a parent; nearer, the partner), so a counted sibling is taxed as a partner; and only the town's own counted deaths are taxed, since the laws chain is the town's.",
+    "why": "The counts keep family pairs without their kind, so an inheritance tax class cannot be read from a counted record; the laws module keeps one town's chain of governments, so a counted death at another place has no law to read.",
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
-    "replacement": "A counted-estates step in the residents engine that settles each counted death's estate by group (assets, heirs by relation, the estate and inheritance tax rows in force) through the same laws-death-taxes functions, times the group's weight.",
+    "replacement": "The counted store keeps each family pair's kind (partner, child, parent, sibling), read for the inheritance class, and each place's own laws chain taxes its counted deaths through the same laws-death-taxes functions.",
     "status": "open"
   },
   {
@@ -5559,7 +5559,10 @@
     "addedBy": "claude/law-wiring",
     "addedAt": "2026-10-20",
     "replacement": "A bill-catalog grant/withdraw policy for local-income-tax-authority at the state level, with its section words from the Words line, enacted through the series-powers rows.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedBy": "claude/law-wiring-taxes",
+    "resolvedAt": "2026-10-24",
+    "resolution": "The bill catalog has a state-level policy for the grant (law:local-income-tax-authority, built by scripts/research/build-bill-catalog.py, with its section words in data/english/bill-sections.json and its power in series-powers.json), so a state legislature can grant or withdraw local income-tax authority and a body's draft reads the grant in force."
   },
   {
     "id": "SG-LAW-death-tax-no-schedule",

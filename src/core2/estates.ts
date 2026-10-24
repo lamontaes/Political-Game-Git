@@ -32,14 +32,19 @@
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { outsideGovernment } from "./outside-governments";
-import { estateTaxes, inheritanceTax, type DeathTax } from "./laws-death-taxes";
+import {
+  assessEstateTaxes,
+  assessInheritanceTax,
+  type DeathTax,
+} from "./laws-death-taxes";
 import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
-import { lawApplied } from "./law-reach/applied";
+import { appliedTo, lawApplied } from "./law-reach/applied";
 import { closenessBetween } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import type { ModuleRow } from "./module-data";
 import { personOrFillIn, registerModule } from "./state";
-import { residentPerson } from "./modules/residents";
+import { residentPerson, residentsRuntime } from "./modules/residents";
+import { countedHouseholdStands, countedPayment } from "./counted-money";
 import { isDemoted } from "./counted-groups";
 import {
   endRecipientIncomeAtDeath,
@@ -127,6 +132,20 @@ function stateOf(api: CoreAPI, person: Readonly<PersonState>): string | null {
     : undefined;
   if (own) return own.id;
   return api.state.modules.has(LAWS_MODULE_ID) ? lawChain(api).stateKey : null;
+}
+
+/**
+ * The record a death tax is applied to: the decedent for the state's estate
+ * tax, beside it the federal one (the row under `<decedent>|US`), and the heir
+ * whose share an inheritance tax took from.
+ */
+function appliedTarget(
+  personId: PersonId,
+  stateKey: string | null,
+  tax: Pick<DeathTax, "jurisdiction" | "heirId">,
+): string {
+  if (tax.heirId !== undefined) return tax.heirId;
+  return tax.jurisdiction === "US" && stateKey ? `${personId}|US` : personId;
 }
 
 /** The treasury a tax is paid to: the government's own where this world keeps it, else an outside government. */
@@ -298,8 +317,6 @@ export function settleEstate(
 ): readonly { toId: string; amountMinor: number }[] {
   const person = api.state.people.get(personId);
   if (!person || person.alive) return [];
-  // stopgapId: SG-LAW-estates-counted-people
-  api.stopgap("SG-LAW-estates-counted-people");
   const accounts = api.accounts();
   const from = accounts.main(personId);
   // Benefits, pensions and other standing payments to them stop with their death.
@@ -360,6 +377,158 @@ export function settleEstate(
     return paid;
   }
   return [...paid, ...distribute(api, personId, deathEventId, probate)];
+}
+
+/**
+ * The relation of a counted heir to the person who died: the counts keep
+ * family pairs without their kind, so it is read from the years between them.
+ * Someone a parent's age younger is a child, a parent's age older a parent,
+ * anyone nearer in age the partner (a sibling is told apart from a partner
+ * only in a full person's record).
+ */
+function countedRelation(
+  api: CoreAPI,
+  deceasedBorn: string,
+  heirBorn: string,
+): string {
+  // stopgapId: SG-LAW-estates-counted-people
+  api.stopgap("SG-LAW-estates-counted-people");
+  const years = api.parameter("minimumParentAgeAtBirth");
+  const gap =
+    daysBetweenText(deceasedBorn, heirBorn) / api.parameter("daysPerMeanYear");
+  return gap >= years ? "child" : gap <= -years ? "parent" : "partner";
+}
+
+/**
+ * A counted resident's estate, settled like a full person's: when a death in
+ * the counts passes the dead person's cash to the household that outlives
+ * them, the estate and inheritance taxes in force read the estate and each
+ * heir's share on the day, and what is due is paid from the heir's group to
+ * the named treasury, times the households the record stands for. Each law
+ * read is recorded against the dead person's record (the group of estates it
+ * stands for) and the heir's, with the money; an estate under the exemption
+ * is recorded with nothing due. Only the town's own state law is modeled.
+ */
+export function settleCountedEstate(
+  api: CoreAPI,
+  input: {
+    readonly deceasedId: PersonId;
+    readonly placeId: string;
+    readonly heirs: readonly {
+      readonly heirId: PersonId;
+      readonly amountMinor: number;
+    }[];
+  },
+): void {
+  const core = api.state as CoreState;
+  const rt = residentsRuntime(core);
+  const deceased = rt?.store.countedMember(input.deceasedId);
+  if (
+    !rt ||
+    deceased === undefined ||
+    !input.heirs.length ||
+    !api.state.modules.has(LAWS_MODULE_ID) ||
+    lawChain(api).townPlaceId !== input.placeId
+  )
+    return;
+  const store = rt.store;
+  const stateKey = lawChain(api).stateKey || null;
+  const estateMinor = input.heirs.reduce((n, h) => n + h.amountMinor, 0);
+  if (estateMinor <= 0) return;
+  const stands = countedHouseholdStands(
+    api,
+    store.households[store.household[deceased]!]!.id,
+  );
+  const households = stands?.households ?? 1;
+  const date = api.state.date;
+  const source = (citation: string) => ({
+    tag: "SOURCED" as const,
+    asOf: date,
+    citation,
+  });
+  const apply = (
+    tax: DeathTax,
+    heirId: PersonId | undefined,
+    paidMinor: number,
+  ) =>
+    lawApplied(api, {
+      key: tax.series,
+      lawId: tax.lawId,
+      targetId: appliedTarget(input.deceasedId, stateKey, { ...tax, heirId }),
+      target: "group",
+      count: households,
+      engine: ESTATES_MODULE_ID,
+      what:
+        paidMinor > 0
+          ? heirId
+            ? "inheritance-taxed"
+            : "estate-taxed"
+          : heirId
+            ? "inheritance-assessed"
+            : "estate-assessed",
+      amountMinor: paidMinor * households,
+    });
+  // The estate tax is figured on the whole estate; each heir bears their share of it.
+  const shares = new Map<PersonId, number>(
+    input.heirs.map((h) => [h.heirId, h.amountMinor]),
+  );
+  for (const tax of assessEstateTaxes(api, stateKey, estateMinor)) {
+    let paid = 0;
+    let left = tax.amountMinor;
+    input.heirs.forEach((h, index) => {
+      const part =
+        index === input.heirs.length - 1
+          ? left
+          : Math.floor((tax.amountMinor * h.amountMinor) / estateMinor);
+      left -= part;
+      if (part <= 0) return;
+      const moved = countedPayment(api, {
+        id: `estate:${input.deceasedId}:${tax.series}:${tax.jurisdiction}:${h.heirId}`,
+        placeId: input.placeId,
+        personId: h.heirId,
+        otherOwnerId: treasuryOf(api, tax.jurisdiction),
+        amountMinor: part,
+        reasonKey: `estate.${tax.series}`,
+        source: source(
+          `Estate of ${input.deceasedId}, a counted resident: ${tax.lawId}`,
+        ),
+      });
+      paid += moved;
+      shares.set(h.heirId, (shares.get(h.heirId) ?? 0) - moved);
+    });
+    apply(tax, undefined, paid);
+  }
+  const born = (id: PersonId) => {
+    const m = store.countedMember(id);
+    return m === undefined ? undefined : store.born[m];
+  };
+  const deceasedBorn = store.born[deceased];
+  for (const h of input.heirs) {
+    const heirBorn = born(h.heirId);
+    if (!deceasedBorn || !heirBorn) continue;
+    const assessment = assessInheritanceTax(
+      api,
+      stateKey,
+      countedRelation(api, deceasedBorn, heirBorn),
+      shares.get(h.heirId) ?? h.amountMinor,
+    );
+    if (!assessment) continue;
+    const moved =
+      assessment.amountMinor > 0
+        ? countedPayment(api, {
+            id: `estate:${input.deceasedId}:${assessment.series}:${assessment.jurisdiction}:${h.heirId}`,
+            placeId: input.placeId,
+            personId: h.heirId,
+            otherOwnerId: treasuryOf(api, assessment.jurisdiction),
+            amountMinor: assessment.amountMinor,
+            reasonKey: `estate.${assessment.series}`,
+            source: source(
+              `Estate of ${input.deceasedId}, a counted resident: ${assessment.lawId}`,
+            ),
+          })
+        : 0;
+    apply(assessment, h.heirId, moved);
+  }
 }
 
 /**
@@ -458,29 +627,49 @@ function distribute(
     lawApplied(api, {
       key: tax.series,
       lawId: tax.lawId,
-      targetId: heir
-        ? tax.heirId!
-        : tax.jurisdiction === "US" && stateKey
-          ? `${personId}|US`
-          : personId,
+      targetId: appliedTarget(personId, stateKey, tax),
       target: "person",
       engine: ESTATES_MODULE_ID,
       what: heir ? "inheritance-taxed" : "estate-taxed",
       amountMinor: tax.amountMinor,
     });
   };
+  // An estate (or an heir's share) under the exemption was assessed by the
+  // same law and owes nothing: the law was applied to it all the same.
+  const assessed = (tax: DeathTax, heirId?: PersonId) => {
+    const targetId = appliedTarget(personId, stateKey, { ...tax, heirId });
+    if (
+      appliedTo(api, targetId).some((r) => r.key === tax.series && !r.endedOn)
+    )
+      return;
+    lawApplied(api, {
+      key: tax.series,
+      lawId: tax.lawId,
+      targetId,
+      target: "person",
+      engine: ESTATES_MODULE_ID,
+      what: heirId ? "inheritance-assessed" : "estate-assessed",
+    });
+  };
   let net = estate;
   // The estate tax is figured on the whole estate (a revocable trust stays in
   // it) and each part pays its share of it.
   if (inherits)
-    for (const tax of estateTaxes(api, stateKey, plan.baseMinor ?? estate)) {
+    for (const tax of assessEstateTaxes(
+      api,
+      stateKey,
+      plan.baseMinor ?? estate,
+    )) {
       const key = `${tax.series}:${tax.jurisdiction}`;
       // The trust's pass pays its share of the tax; probate pays what is left of it.
       const due = trust
         ? Math.round(tax.amountMinor * plan.share)
         : tax.amountMinor - (plan.carry?.estateTax[key] ?? 0);
       const amountMinor = Math.min(Math.max(due, api.parameter("zero")), net);
-      if (amountMinor <= api.parameter("zero")) continue;
+      if (amountMinor <= api.parameter("zero")) {
+        assessed(tax);
+        continue;
+      }
       payTax({ ...tax, amountMinor });
       if (trust && plan.carry) plan.carry.estateTax[key] = amountMinor;
       net -= amountMinor;
@@ -506,7 +695,7 @@ function distribute(
     const before = plan.carry?.heirs[taker.id];
     const grossMinor = amountMinor;
     const whole = inherits
-      ? inheritanceTax(
+      ? assessInheritanceTax(
           api,
           stateKey,
           relations.get(taker.id) ?? "",
@@ -525,6 +714,7 @@ function distribute(
         grossMinor,
         taxMinor: owed?.amountMinor ?? api.parameter("zero"),
       };
+    if (whole && !owed) assessed(whole, taker.id);
     if (owed) {
       payTax({ ...owed, heirId: taker.id });
       amountMinor -= owed.amountMinor;

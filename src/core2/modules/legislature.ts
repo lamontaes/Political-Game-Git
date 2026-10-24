@@ -918,13 +918,19 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
     provision.kind === "law-amount" &&
     (provision.series === "income-tax" || provision.series === "sales-tax")
   ) {
-    const key =
+    // The state's grant of local income-tax authority is the row in force
+    // today (a later row withdraws what an earlier one granted); a local sales
+    // tax needs only that the state records one.
+    const rows =
       provision.series === "income-tax"
-        ? "local-income-tax-authority"
-        : "local-sales-tax-average";
-    const rows = (
-      laws.query("bySeriesOnly", [key]) as unknown as LawRowInput[]
-    ).filter((r) => r.jurisdiction === chain.stateKey);
+        ? lawInForce(api, "local-income-tax-authority")
+            .levels.filter((l) => l.level === "state" && l.row)
+            .map((l) => l.row!)
+        : (
+            laws.query("bySeriesOnly", [
+              "local-sales-tax-average",
+            ]) as unknown as LawRowInput[]
+          ).filter((r) => r.jurisdiction === chain.stateKey);
     const allowed =
       provision.series === "income-tax"
         ? rows.some((r) => r.value === 1)
@@ -1698,10 +1704,6 @@ function checkedText(
   );
   // The state's grant (or refusal) of local income-tax authority was read for
   // this body: it is the body the law lets tax, or keeps from taxing.
-  if (!stateBody) {
-    // stopgapId: SG-LAW-local-income-tax-authority-change
-    api.stopgap("SG-LAW-local-income-tax-authority-change");
-  }
   if (!stateBody)
     for (const [index, p] of provisions.entries()) {
       const read = authority[index]!;

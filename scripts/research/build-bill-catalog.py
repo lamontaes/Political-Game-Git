@@ -103,6 +103,8 @@ SERIES = {
     "corporate-income-tax": ("taxes-finance", "Taxes", "Corporate income tax rate", "percent-flat", ["federal", "state"]),
     "estate-tax": ("taxes-finance", "Taxes", "Estate tax rate", "percent-top-rate", ["federal", "state"]),
     "inheritance-tax": ("taxes-finance", "Taxes", "Inheritance tax rate", "percent-top-rate", ["state"]),
+    # A state grants (1) or withholds (0) its localities' authority to levy an income tax.
+    "local-income-tax-authority": ("taxes-finance", "Taxes", "Local income tax authority", "grant", ["state"]),
     "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages", ["federal"]),
     "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages", ["federal"]),
     "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent", ["federal"]),

@@ -40,6 +40,7 @@ import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { townMetrics, WORLD_METRICS_MODULE_ID } from "./world-metrics";
 import { propertyTaxRateInForce } from "../housing-property-tax";
+import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import { GOV_MEASURES, govMeasure, govMeasureRecord } from "../gov-measures";
 import { monthEvent } from "../outcome-news";
 
@@ -186,6 +187,19 @@ const ENGINE_READERS: Readonly<
   "property-tax-rate": (api, placeId) => {
     const rate = propertyTaxRateInForce(api, placeId);
     return rate ? { value: rate.share, recordId: rate.recordId } : null;
+  },
+  // The corporate rate in force is the town's state law; other places keep
+  // their own. A state with no corporate income tax reads zero.
+  "state-corporate-rate": (api, placeId) => {
+    if (
+      api.state.placeMetadata?.housingTown !== placeId ||
+      !(api.state as CoreState).modules.has(LAWS_MODULE_ID)
+    )
+      return null;
+    const state = lawInForce(api, "corporate-income-tax").levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    );
+    return { value: state?.row?.value ?? 0, recordId: state?.row?.id ?? null };
   },
 };
 

@@ -48,6 +48,7 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { assignDeathCause } from "./death-cause";
+import { settleCountedEstate } from "./estates";
 import { deathWebFactor } from "./health-web";
 import type { ResidentHouseholdRecord } from "./residents";
 import { webFactorFor } from "./outcome-web-reach";
@@ -431,8 +432,15 @@ export function applyCountedFlows(
             !row.deaths.includes(other.id),
         )
         .map((other) => other.id);
-      for (const heir of removeCountedPerson(core, person.id))
+      const heirs = removeCountedPerson(core, person.id);
+      for (const heir of heirs)
         row.estates.push({ deceasedId: person.id, ...heir });
+      // The death taxes in force read the estate that passed to them.
+      settleCountedEstate(api, {
+        deceasedId: person.id,
+        placeId,
+        heirs,
+      });
       row.deaths.push(person.id);
       // The death, for the household that outlives them: a private record
       // the people engines read (a counted death is no public notice).

@@ -399,6 +399,14 @@
       "raiseTo": "the inheritance tax rate shall be raised to {value}",
       "lowerTo": "the inheritance tax rate shall be lowered to {value}"
     },
+    "local-income-tax-authority": {
+      "subject": "the state's grant of local income tax authority",
+      "purpose": "set whether local governments may levy an income tax",
+      "raise": "local governments in the state shall have authority to levy an income tax",
+      "lower": "local governments in the state shall have no authority to levy an income tax",
+      "raiseTo": "local governments in the state shall have authority to levy an income tax",
+      "lowerTo": "local governments in the state shall have no authority to levy an income tax"
+    },
     "social-security-tax": {
       "subject": "the Social Security payroll tax rate",
       "purpose": "set the Social Security payroll tax rate",

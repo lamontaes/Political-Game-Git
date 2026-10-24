@@ -121,7 +121,9 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "estate-tax-to-out-migration",
+    "inheritance-tax-to-out-migration"
   ],
   "waiting": {
     "police-to-low-level-arrests": {
@@ -518,6 +520,14 @@
     },
     "parks-spending-to-exercise-access": {
       "waitingOn": ["budget.parks-added-pct"]
+    },
+    "income-tax-rate-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    "income-tax-rate-to-out-migration": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/counted-moves.ts: pullBetween reads the income-tax law in force into the income pull"
     }
   },
   "measuresWanted": {

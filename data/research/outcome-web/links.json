@@ -2114,17 +2114,17 @@
       "shape": {
         "kind": "linear"
       },
-      "size": 0.35,
-      "per": "workers bear 30-35% of the tax",
+      "size": -0.039,
+      "per": "percentage point of the state's top corporate income tax rate, in dollars of average hourly earnings of private employees",
       "lagMonths": 0,
       "group": "workers",
       "owner": "B",
-      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%",
-      "source": "Suarez Serrato and Zidar 2016 (AER)",
+      "anchor": "Owners about 40%, workers 30-35%, landowners 25-30%: workers bear about a third of the tax, which a point of the state rate spreads over the hours private employees work",
+      "source": "Suarez Serrato and Zidar 2016 (AER 106(9)), NBER w20289, abstract; state corporation net income tax collections, U.S. Census Bureau via FRED USCORPINCTX; private employment and hours, BLS CES via FRED USPRIV and AWHAETP",
       "from": "tax.state-corporate-rate",
       "evidence": "researched",
-      "range": [0, 0.7],
-      "notes": "Sized, with its cause recorded and its outcome missing: each place's top corporate income tax rate is now a place outcome (Tax Foundation, 2026), but wages by this key are not a kept place outcome (median earnings is a different measure), so the link moves nothing until one is produced. Varied by sex and age from Fuest, Peichl and Siegloch 2018 Table 5 (German local business tax; the US incidence size above is Suarez Serrato and Zidar). Skill is not a subject, so the finding that high-skilled workers bear none is not applied.",
+      "range": [-0.045, -0.031],
+      "notes": "Re-sized Oct 24, 2026 so the link can run on the law. The earlier size, +0.35, was the workers' share of the tax read as dollars an hour per point: forty times too large, and positive, which would have raised pay when the tax rose. The cause is now read from the state corporate rate in force (the laws module's row, src/core2/modules/outcome-web.ts reader state-corporate-rate), against the rate at the web's opening; the jobs engine reads the labor.wages factor when it sets new pay (src/core2/modules/jobs.ts payLevel). The estimate assumes collections scale with the statutory top rate; a real base shifts with apportionment and credits (ESTIMATED). Varied by sex and age from Fuest, Peichl and Siegloch 2018 Table 5 (German local business tax; the US incidence share above is Suarez Serrato and Zidar). Skill is not a subject, so the finding that high-skilled workers bear none is not applied.",
       "varies": [
         {
           "by": "sex",
@@ -2170,7 +2170,9 @@
           "quote": "Age: Young -0.516, Medium -0.420, Old -0.419 (all workers). \"we do not find strong evidence for different effects by age\"",
           "estimatedFrom": "The paper does not give its age cutoffs; they are set here at under 30, 30 to 49 and 50 and over. Shares are the 2025 CPS employed by age with the 25-34 and 45-54 bands split evenly. The paper also finds no negative wage effect for high-skilled workers (-0.011 against -0.431 medium and -0.454 low), which is not applied because a worker's skill is not a subject the engines carry."
         }
-      ]
+      ],
+      "rangeSource": "Derived Oct 24, 2026 from fetched figures. Workers' share of the incidence: the 2016 paper's text, \"the estimated share of the burden for workers is only 28%\", and its abstract, \"workers and landowners bear 30-35% and 25-30%\"; the authors' 2023 update (\"Further Results\", AEA Papers and Proceedings) finds \"firm owners bear roughly half of the incidence\" with workers and landowners at \"25-40 percent\". So 0.28 to 0.40 with 0.35 central. Tax per point: 2023 state corporation net income tax collections of $153,665,988 thousand (Census via FRED USCORPINCTX) over the 5.8-point mean top rate of the 56 places (place-outcome-bases-2024.json) is about $26.5 billion a point. Hours: 133,766 thousand private employees (FRED USPRIV, December 2023) times 34.4 weekly hours (FRED AWHAETP) times 52 weeks is about 239.3 billion hours a year. So a point costs workers 0.35 x $26.5 billion / 239.3 billion hours = $0.039 an hour (a 0.28 share gives $0.031 and 0.40 gives $0.044; the range is rounded out to $0.045). The sign is negative: a higher rate lowers pay.",
+      "readFrom": "tax.state-corporate-rate-in-force"
     },
     {
       "key": "incentive-deal-to-industry-jobs",
@@ -5801,6 +5803,96 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "income-tax-rate-to-poverty",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:income-tax",
+      "to": "household.poverty-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the income tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "The official poverty measure counts money income before taxes, so an income tax rate cannot move it",
+      "source": "U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)",
+      "range": [0, 0],
+      "rangeSource": "Census official poverty definition (fetched Oct 24, 2026): \"The official poverty definition uses money income before taxes and does not include capital gains or noncash benefits.\" A tax rate has no path to the official poverty rate by definition, so the range [0, 0] is the definitional zero, not a sampled interval.",
+      "notes": "Carried by definition: the poverty measure counts income before taxes. What a higher rate does to a household's take-home pay is paid by the withholding engine on each payday (src/core2/modules/budgets.ts, src/core2/counted-money.ts), by named worker and counted group, not by the web.",
+      "carriedBy": "src/core2/world-poverty.ts: the measure counts income before taxes"
+    },
+    {
+      "key": "income-tax-rate-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:income-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the income tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "Taxes move few people: \"millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance\"",
+      "source": "Young, Varner, Lurie and Prisinzano 2016, Millionaire Migration and Taxation of the Elite, American Sociological Review 81(3) (abstract at https://inequality.stanford.edu/node/7506)",
+      "range": [0, 0],
+      "rangeSource": "Young et al. 2016 abstract (fetched Oct 24, 2026): \"We find that millionaire tax flight is occurring, but only at the margins of statistical and socioeconomic significance.\" The abstract gives no migration rate, so no interval was retrieved; the range [0, 0] records the null for the population.",
+      "notes": "About zero for the population, kept at zero on the web. The response the research does find is at the top of the income distribution, and the engines already carry it from their own records: the counted-moves income pull reads the town state's income-tax law in force and the other states' 2026 table, by wage (src/core2/modules/counted-moves.ts, pullBetween), so a web read of the same rate would count it twice. Full people have no tax pull yet (stopgap SG-WEB-moves-full-tax-pull).",
+      "carriedBy": "src/core2/modules/counted-moves.ts: pullBetween reads the income-tax law in force into the income pull"
+    },
+    {
+      "key": "estate-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:estate-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the estate tax top rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "State inheritance and estate taxes have \"statistically significant, but modest, negative impacts\" on the number of estate tax returns filed in a state; federal estate tax returns number about 0.2 to 0.3 percent of deaths",
+      "source": "Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER w10645 (https://www.nber.org/papers/w10645); IRS Statistics of Income Publication 5332, Estate Tax Statistics (filing year 2024); CDC NCHS Data Brief 521",
+      "range": [0, 0],
+      "rangeSource": "Federal estate tax returns filed: 9,024 in 2023 and 7,195 in 2024 (IRS SOI Publication 5332, fetched Oct 24, 2026); resident deaths in 2023: 3,090,964 (CDC NCHS Data Brief 521). That is 0.23 to 0.29 percent of deaths, so even if every estate over the threshold moved, the place's out-migration would move by less than a third of one percent of the old. Bakija and Slemrod find the response among those estates modest. The range [0, 0] records the null for the population.",
+      "notes": "About zero for the place's population. The tax's reach is the estate itself, settled and taxed in the estates engine (src/core2/estates.ts) by named heir and counted group, and its money lands in the federal and state treasuries; the web has no place measure of wealth transfers or charitable giving to move (a missing measure, reported rather than faked)."
+    },
+    {
+      "key": "inheritance-tax-to-out-migration",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:inheritance-tax",
+      "to": "population.out-migration",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the inheritance tax top rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "F-cloud",
+      "evidence": "about-zero",
+      "anchor": "State inheritance and estate taxes have \"statistically significant, but modest, negative impacts\" on the number of estate tax returns filed in a state",
+      "source": "Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER w10645 (https://www.nber.org/papers/w10645)",
+      "range": [0, 0],
+      "rangeSource": "Bakija and Slemrod 2004 abstract (fetched Oct 24, 2026): the authors report \"statistically significant, but modest, negative impacts\" of high state inheritance and estate taxes on estate tax returns filed, for wealthy elderly people changing residence. Only the few estates over the exemptions are in reach (federal returns are 0.23 to 0.29 percent of deaths, IRS SOI Publication 5332 and CDC NCHS Data Brief 521), so the effect on the place's out-migration is about zero. The range [0, 0] records the null for the population.",
+      "notes": "About zero for the place's population. The tax's reach is each heir's share, settled and taxed in the estates engine (src/core2/estates.ts) by relation; the web has no place measure of wealth transfers to heirs to move (a missing measure, reported rather than faked)."
     }
   ],
   "calibratedAt": "2024-07-01"

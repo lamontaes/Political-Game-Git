@@ -281,6 +281,13 @@
       "reader": "property-tax-rate",
       "field": "",
       "unitScale": 100
+    },
+    "tax.state-corporate-rate-in-force": {
+      "owner": "OPUS-GOV",
+      "record": "the state corporate income tax rate in force for the town (the laws module's state row of corporate-income-tax), in percent of taxable corporate income; 0 where the state levies none",
+      "reader": "state-corporate-rate",
+      "field": "",
+      "unitScale": 1
     }
   },
   "measureOwners": {

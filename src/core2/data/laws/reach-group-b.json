@@ -168,6 +168,7 @@
     },
     "us-policy-positions:fiscal.balanced-operating-budget": {
       "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "balanced-budget",
       "effect": "balanced-budget-required",
       "kind": "rule",
@@ -200,6 +201,7 @@
     },
     "us-policy-positions:fiscal.fund-pensions-to-schedule": {
       "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "pension-funding",
       "effect": "pension-contribution-funded",
       "kind": "rule",
@@ -211,6 +213,7 @@
     },
     "us-policy-positions:fiscal.minimum-reserve-balance": {
       "appliedByEngine": true,
+      "reviewedByTreasury": true,
       "mechanic": "reserve",
       "effect": "minimum-reserve-held",
       "kind": "rule",
