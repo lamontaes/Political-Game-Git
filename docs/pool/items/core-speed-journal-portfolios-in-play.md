@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/journal-state.ts
 
 **Notes.** Filed Oct 24 by the speed lead from the journal helper's finding on claude/speed-journal-in-play; stacked on that branch.
+
+Not built, Oct 24 (speed lead): below the noise. In the paired CPU profile of Long Hill (seed m7b, base 185d76d7ce) with core-speed-journal-posting-in-play applied, `portfolios` takes 2.2 s of a 190 s year (it was 2.7 s before that change). Halving it would save about 1 s, well under the pairing's run-to-run noise of a few percent, so under the speed work order it is not shipped. Claim released; take it only if a later profile shows it has grown.
