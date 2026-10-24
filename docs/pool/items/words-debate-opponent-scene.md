@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/debate-opponent-scene
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T18:57:23.918Z
 ---
 
 **What.** The rally-opponent scene, where the other candidate confronts you in public, waits on a rally record nobody writes. The meetings engine already holds real debates between the candidates in a race and records each one (debate, naming every candidate who is a full person), but no scene fires from it. This item has the director size a debate for each candidate in it, and the rally-opponent scene fire from the debate record with another candidate on that record as the opponent who comes over after it. The talk uses lines about the debate that just ended, which outrank the lines about a rally crowd exactly when the debate fact is present.
