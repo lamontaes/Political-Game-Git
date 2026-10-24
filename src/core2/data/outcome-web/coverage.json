@@ -514,12 +514,28 @@
     },
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
+    },
+    "social-security-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "medicare-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "federal-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "state-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
     }
   },
   "measuresWanted": {
     "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 6
+    },
+    "labor.unemployment-pct": {
+      "owner": "OPUS-WORLD",
+      "links": 5
     },
     "school.test-scores": {
       "owner": "OPUS-GOV",
@@ -766,10 +782,6 @@
       "links": 1
     },
     "labor.formal-employment": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.unemployment-pct": {
       "owner": "OPUS-WORLD",
       "links": 1
     },

@@ -7,11 +7,6 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "medicare-tax",
-      "outcome": "take-home pay and labor supply",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "medicaid-match",
       "outcome": "state Medicaid enrollment and coverage",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
@@ -57,23 +52,8 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "federal-unemployment-tax",
-      "outcome": "employer hiring",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "state-unemployment-tax",
-      "outcome": "employer hiring",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "unemployment-weekly-maximum",
       "outcome": "unemployment duration and household income",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "social-security-tax",
-      "outcome": "take-home pay and labor supply",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {

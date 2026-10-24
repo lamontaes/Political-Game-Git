@@ -5801,6 +5801,94 @@
       "anchor": "Across the 50 states and D.C., each doubling of state and local parks spending per resident goes with 0.9 points more of residents near a park or recreation facility, with a 95% range of -1.6 to +3.3 points, once the rural share is held fixed: about zero, a cross-section fit and not a causal estimate (Research 1, from County Health Rankings 2025 and Census 2022 finances). A one percent rise in spending is 0.0144 of a doubling, 0.0129 points, 0.0157% of the median 82.25%, so the size is 0.000157 for each percent, and the range -0.000279 to +0.000575. A dedication adds about $9.26 a resident to a place that spends about $136, 6.8%, so access moves about 0.1% either way. The lag is the year a parks agency needs to spend new money on sites and hours, judged, not measured.",
       "source": "Research 1, 07 LAW EFFECT SIZES - Dedicated parks funding by place (September 29, 2026): County Health Rankings & Roadmaps 2025 (access to exercise opportunities, rural share) and Census Bureau 2022 Census of Governments: Finance (parks and recreation per resident)",
       "range": [-0.000279, 0.000575]
+    },
+    {
+      "key": "social-security-tax-to-unemployment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:social-security-tax",
+      "to": "labor.unemployment-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the payroll tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Payroll taxes land on wages, not on a place's employment: Gruber finds the tax \"fully on wages, with no effect on employment\"; Anderson and Meyer find the unemployment insurance payroll tax \"largely passed on to workers in the form of lower earnings\"; Saez, Schoefer and Seim find employment gains of about 2-3 percentage points for one group, young workers, whose employer tax fell 16 points.",
+      "source": "Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))",
+      "range": [0, 0.19],
+      "rangeSource": "Range [0, 0.19] percentage points of the place's unemployment rate for each percentage point of payroll tax rate. Gruber and Anderson and Meyer put the effect on employment at zero (wages absorb the tax). Saez, Schoefer and Seim's cut was 16 points (31% to 15%) and raised the treated group's employment rate 2 to 3 points, 0.125 to 0.1875 points of employment for each point of tax, for young workers only; applied to every worker it is the upper end, 0.19. Higher tax means more unemployment, so the range is zero or above.",
+      "notes": "About zero for a place's unemployment rate; the weight of the three studies. Gruber, The Incidence of Payroll Taxation: Evidence from Chile (J. Labor Econ. 15(3) S72-S101, 1997; NBER Working Paper 5053, https://www.nber.org/papers/w5053): \"I find strong evidence that the incidence of payroll taxation was fully on wages, with no effect on employment.\" The sample's average payroll tax rate fell from 30% to 5% over six years. Anderson and Meyer, The effects of the unemployment insurance payroll tax on wages, employment, claims and denials (J. Public Econ. 78(1-2) 81-106, 2000; NBER Working Paper 6808, https://www.nber.org/papers/w6808): \"industry average tax rates are largely passed on to workers in the form of lower earnings.\" Saez, Schoefer and Seim, Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden (Am. Econ. Rev. 109(5) 1717-1763, 2019; NBER Working Paper 23976, https://www.nber.org/papers/w23976): a cut \"from 31% down to 15% for young workers (aged 26 or less)\" had \"a zero effect on net-of-tax wages of young treated workers\" but \"compelling positive effects on the employment rate of the treated young workers, of about 2-3 percentage points.\"  No engine carries the wage incidence: the game's pay does not fall when a payroll tax rises, so this link records the employment result only (a pay response is a missing engine, not a link). The tax is 6.2% of wages up to the wage base, paid half by the worker and half by the employer (26 U.S.C. 3101(a) and 3111(a)); the studies' statutory incidence (employer or employee) does not change the result for employment."
+    },
+    {
+      "key": "medicare-tax-to-unemployment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:medicare-tax",
+      "to": "labor.unemployment-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the payroll tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Payroll taxes land on wages, not on a place's employment: Gruber finds the tax \"fully on wages, with no effect on employment\"; Anderson and Meyer find the unemployment insurance payroll tax \"largely passed on to workers in the form of lower earnings\"; Saez, Schoefer and Seim find employment gains of about 2-3 percentage points for one group, young workers, whose employer tax fell 16 points.",
+      "source": "Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))",
+      "range": [0, 0.19],
+      "rangeSource": "Range [0, 0.19] percentage points of the place's unemployment rate for each percentage point of payroll tax rate. Gruber and Anderson and Meyer put the effect on employment at zero (wages absorb the tax). Saez, Schoefer and Seim's cut was 16 points (31% to 15%) and raised the treated group's employment rate 2 to 3 points, 0.125 to 0.1875 points of employment for each point of tax, for young workers only; applied to every worker it is the upper end, 0.19. Higher tax means more unemployment, so the range is zero or above.",
+      "notes": "About zero for a place's unemployment rate; the weight of the three studies. Gruber, The Incidence of Payroll Taxation: Evidence from Chile (J. Labor Econ. 15(3) S72-S101, 1997; NBER Working Paper 5053, https://www.nber.org/papers/w5053): \"I find strong evidence that the incidence of payroll taxation was fully on wages, with no effect on employment.\" The sample's average payroll tax rate fell from 30% to 5% over six years. Anderson and Meyer, The effects of the unemployment insurance payroll tax on wages, employment, claims and denials (J. Public Econ. 78(1-2) 81-106, 2000; NBER Working Paper 6808, https://www.nber.org/papers/w6808): \"industry average tax rates are largely passed on to workers in the form of lower earnings.\" Saez, Schoefer and Seim, Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden (Am. Econ. Rev. 109(5) 1717-1763, 2019; NBER Working Paper 23976, https://www.nber.org/papers/w23976): a cut \"from 31% down to 15% for young workers (aged 26 or less)\" had \"a zero effect on net-of-tax wages of young treated workers\" but \"compelling positive effects on the employment rate of the treated young workers, of about 2-3 percentage points.\"  No engine carries the wage incidence: the game's pay does not fall when a payroll tax rises, so this link records the employment result only (a pay response is a missing engine, not a link). The tax is 1.45% of all wages, paid half by the worker and half by the employer (26 U.S.C. 3101(b)(1) and 3111(b)); the studies' statutory incidence (employer or employee) does not change the result for employment."
+    },
+    {
+      "key": "federal-unemployment-tax-to-unemployment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:federal-unemployment-tax",
+      "to": "labor.unemployment-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the payroll tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Payroll taxes land on wages, not on a place's employment: Gruber finds the tax \"fully on wages, with no effect on employment\"; Anderson and Meyer find the unemployment insurance payroll tax \"largely passed on to workers in the form of lower earnings\"; Saez, Schoefer and Seim find employment gains of about 2-3 percentage points for one group, young workers, whose employer tax fell 16 points.",
+      "source": "Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))",
+      "range": [0, 0.19],
+      "rangeSource": "Range [0, 0.19] percentage points of the place's unemployment rate for each percentage point of payroll tax rate. Gruber and Anderson and Meyer put the effect on employment at zero (wages absorb the tax). Saez, Schoefer and Seim's cut was 16 points (31% to 15%) and raised the treated group's employment rate 2 to 3 points, 0.125 to 0.1875 points of employment for each point of tax, for young workers only; applied to every worker it is the upper end, 0.19. Higher tax means more unemployment, so the range is zero or above.",
+      "notes": "About zero for a place's unemployment rate; the weight of the three studies. Gruber, The Incidence of Payroll Taxation: Evidence from Chile (J. Labor Econ. 15(3) S72-S101, 1997; NBER Working Paper 5053, https://www.nber.org/papers/w5053): \"I find strong evidence that the incidence of payroll taxation was fully on wages, with no effect on employment.\" The sample's average payroll tax rate fell from 30% to 5% over six years. Anderson and Meyer, The effects of the unemployment insurance payroll tax on wages, employment, claims and denials (J. Public Econ. 78(1-2) 81-106, 2000; NBER Working Paper 6808, https://www.nber.org/papers/w6808): \"industry average tax rates are largely passed on to workers in the form of lower earnings.\" Saez, Schoefer and Seim, Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden (Am. Econ. Rev. 109(5) 1717-1763, 2019; NBER Working Paper 23976, https://www.nber.org/papers/w23976): a cut \"from 31% down to 15% for young workers (aged 26 or less)\" had \"a zero effect on net-of-tax wages of young treated workers\" but \"compelling positive effects on the employment rate of the treated young workers, of about 2-3 percentage points.\"  No engine carries the wage incidence: the game's pay does not fall when a payroll tax rises, so this link records the employment result only (a pay response is a missing engine, not a link). The tax is paid by the employer only, 0.6% of the first $7,000 of each worker's wages after the credit (26 U.S.C. 3301, 3302, 3306(b)(1)); Anderson and Meyer study this kind of tax."
+    },
+    {
+      "key": "state-unemployment-tax-to-unemployment",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:state-unemployment-tax",
+      "to": "labor.unemployment-pct",
+      "strength": "about-zero",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "percentage point of the payroll tax rate",
+      "lagMonths": 0,
+      "group": "place",
+      "owner": "C",
+      "evidence": "about-zero",
+      "anchor": "Payroll taxes land on wages, not on a place's employment: Gruber finds the tax \"fully on wages, with no effect on employment\"; Anderson and Meyer find the unemployment insurance payroll tax \"largely passed on to workers in the form of lower earnings\"; Saez, Schoefer and Seim find employment gains of about 2-3 percentage points for one group, young workers, whose employer tax fell 16 points.",
+      "source": "Gruber 1997 (J. Labor Econ. 15(3) S72-S101); Anderson and Meyer 2000 (J. Public Econ. 78); Saez, Schoefer and Seim 2019 (Am. Econ. Rev. 109(5))",
+      "range": [0, 0.19],
+      "rangeSource": "Range [0, 0.19] percentage points of the place's unemployment rate for each percentage point of payroll tax rate. Gruber and Anderson and Meyer put the effect on employment at zero (wages absorb the tax). Saez, Schoefer and Seim's cut was 16 points (31% to 15%) and raised the treated group's employment rate 2 to 3 points, 0.125 to 0.1875 points of employment for each point of tax, for young workers only; applied to every worker it is the upper end, 0.19. Higher tax means more unemployment, so the range is zero or above.",
+      "notes": "About zero for a place's unemployment rate; the weight of the three studies. Gruber, The Incidence of Payroll Taxation: Evidence from Chile (J. Labor Econ. 15(3) S72-S101, 1997; NBER Working Paper 5053, https://www.nber.org/papers/w5053): \"I find strong evidence that the incidence of payroll taxation was fully on wages, with no effect on employment.\" The sample's average payroll tax rate fell from 30% to 5% over six years. Anderson and Meyer, The effects of the unemployment insurance payroll tax on wages, employment, claims and denials (J. Public Econ. 78(1-2) 81-106, 2000; NBER Working Paper 6808, https://www.nber.org/papers/w6808): \"industry average tax rates are largely passed on to workers in the form of lower earnings.\" Saez, Schoefer and Seim, Payroll Taxes, Firm Behavior, and Rent Sharing: Evidence from a Young Workers' Tax Cut in Sweden (Am. Econ. Rev. 109(5) 1717-1763, 2019; NBER Working Paper 23976, https://www.nber.org/papers/w23976): a cut \"from 31% down to 15% for young workers (aged 26 or less)\" had \"a zero effect on net-of-tax wages of young treated workers\" but \"compelling positive effects on the employment rate of the treated young workers, of about 2-3 percentage points.\"  No engine carries the wage incidence: the game's pay does not fall when a payroll tax rises, so this link records the employment result only (a pay response is a missing engine, not a link). The tax is paid by the employer only, on a state wage base of at least the $7,000 federal base (U.S. Department of Labor, Comparison of State Unemployment Insurance Laws 2025, chapter 2, Financing); Anderson and Meyer study this tax in Washington State."
     }
   ],
   "calibratedAt": "2024-07-01"
