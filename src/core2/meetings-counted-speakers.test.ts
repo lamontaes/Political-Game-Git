@@ -51,6 +51,9 @@ it(
       const seen = new Set(remarks().map((r) => r.id));
       // Speakers who were still counted the day before they spoke.
       const wereCounted = new Map<string, string>();
+      // Whether each was a living named person on the day they spoke (a speaker
+      // may die later in the year, which does not undo the fill-in).
+      const livingWhenSpoke = new Map<string, boolean>();
       let date = makeIsoDate(core.date);
       const end = addDays(date, 365);
       while (date < end) {
@@ -60,8 +63,13 @@ it(
         for (const r of remarks()) {
           if (seen.has(r.id)) continue;
           seen.add(r.id);
-          if (r.kind === "public-comment" && !full.has(r.personId))
+          if (r.kind === "public-comment" && !full.has(r.personId)) {
             wereCounted.set(r.personId, r.id);
+            livingWhenSpoke.set(
+              r.personId,
+              core.people.get(r.personId)?.alive === true,
+            );
+          }
         }
       }
       const fromRoom = (
@@ -80,7 +88,7 @@ it(
       );
       for (const [personId, remarkId] of wereCounted) {
         // Filled in: a named person, alive, in town, on the public record.
-        expect(core.people.get(personId)?.alive, `${where}: ${remarkId}`).toBe(
+        expect(livingWhenSpoke.get(personId), `${where}: ${remarkId}`).toBe(
           true,
         );
       }
