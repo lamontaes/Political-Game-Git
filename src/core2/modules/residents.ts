@@ -2707,7 +2707,11 @@ function startCommuterJob(
       "A filled-in household's share of the place's unplaced workers' pay, as a job with an employer outside the town (the place's commute shares).",
     estimatedFrom: `Flow ${flow.id}: ${amount} minor units every ${cadence} days over a ${weekHours}-hour week.`,
   };
-  const jobId = commuterJobId(personId, startsAt);
+  const plain = commuterJobId(personId, startsAt);
+  // A household filled in, returned to the counts and filled in again the
+  // same day already has an ended job under that id: this one also names
+  // the fill-in that starts it.
+  const jobId = core.jobs.has(plain) ? `${plain}:${rt.fillIns}` : plain;
   const job: JobInput = {
     id: jobId,
     personId,
@@ -2771,12 +2775,17 @@ export function returnCommuterPay(
       flow.placeId === h.placeId,
   );
   if (!base) return;
-  let others = 0;
-  for (const x of rt.store.liveHouseholds())
-    if (x.placeId === h.placeId && x !== h) others += x.unplacedWorkers;
-  const share = amountMinor / (base.amountMinor + amountMinor);
   base.amountMinor += amountMinor;
-  h.unplacedWorkers = share < 1 ? (share * others) / (1 - share) : 0;
+  // As many of the place's unplaced workers as the pay it brings back, at
+  // the place's pay per unplaced worker (the rate a counted household's
+  // income reads). A share of the other counted households' workers came to
+  // none once they were all filled in (Bentonia, Mississippi).
+  const perYear =
+    base.cadence.kind === "days"
+      ? DAYS_PER_YEAR / base.cadence.every
+      : 12 / base.cadence.every;
+  const perWorker = rt.unplacedPerWorker.get(h.placeId) ?? 0;
+  h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
 }
 
