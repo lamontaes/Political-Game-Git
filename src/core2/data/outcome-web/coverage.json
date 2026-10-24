@@ -534,6 +534,10 @@
     "home-rule-to-local-spending": {
       "waitingOn": [],
       "carriedBy": "src/core2/policy-authority.ts lets a town or county body legislate on what the state leaves to home rule, read by src/core2/modules/legislature.ts when a bill is drafted; the bills it passes set the ordinances and spending"
+    },
+    "public-pay-floor-to-other-employers-wages": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay"
     }
   },
   "measuresWanted": {

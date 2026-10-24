@@ -13,6 +13,7 @@ Inputs (all under data/research):
   money/death-taxes-2026.json                   estate and inheritance taxes
   laws/local-starting-law/*.json                local and benefit research (incl. territory corporate income tax)
   laws/starting-law-2026/labor-workforce.json   local minimum-wage authority
+  laws/local-starting-law/public-pay-floor.json the public pay floor (none in force)
 
 Run: python3 scripts/research/build-starting-law.py
 """
@@ -394,6 +395,14 @@ def benefits(rows):
         rows.append(item)
 
 
+def public_pay_floor(rows):
+    """The public pay floor law: none in force anywhere at the start (data/research/laws/local-starting-law/public-pay-floor.json)."""
+    for item in load(LOCAL / "public-pay-floor.json")["rows"]:
+        rows.append(row(item["jurisdiction"], item["level"], "public-pay-floor", item["value"],
+                        item["effectiveDate"], FOREVER, item["source"], item["estimate"],
+                        unit=item["unit"], note=item.get("note"), retrieved=item["retrieved"]))
+
+
 def basis_quarters(text):
     """How many quarters of wages a weekly benefit fraction applies to, from the row's own words.
 
@@ -444,6 +453,7 @@ def main():
     income_taxes(rows)
     sales_taxes(rows)
     benefits(rows)
+    public_pay_floor(rows)
     rows = dated(rows)
     by_jurisdiction = {}
     for item in rows:

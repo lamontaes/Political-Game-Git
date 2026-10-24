@@ -16,14 +16,14 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 11,
-    "partly": 73,
+    "wired": 12,
+    "partly": 72,
     "stopgapped": 5,
     "byLink": {
       "exists": {
-        "wired": 88,
+        "wired": 89,
         "partial": 0,
-        "missing": 1,
+        "missing": 0,
         "stopgap": 0,
         "n/a": 0
       },
@@ -35,9 +35,9 @@
         "n/a": 0
       },
       "reach": {
-        "wired": 43,
+        "wired": 44,
         "partial": 10,
-        "missing": 18,
+        "missing": 17,
         "stopgap": 16,
         "n/a": 2
       },
@@ -49,17 +49,17 @@
         "n/a": 0
       },
       "money": {
-        "wired": 51,
+        "wired": 52,
         "partial": 0,
-        "missing": 24,
+        "missing": 23,
         "stopgap": 14,
         "n/a": 0
       },
       "web": {
-        "wired": 29,
+        "wired": 30,
         "partial": 0,
         "missing": 12,
-        "stopgap": 39,
+        "stopgap": 38,
         "n/a": 9
       },
       "knowing": {
@@ -70,16 +70,16 @@
         "n/a": 0
       },
       "repeal": {
-        "wired": 49,
+        "wired": 50,
         "partial": 0,
-        "missing": 40,
+        "missing": 39,
         "stopgap": 0,
         "n/a": 0
       },
       "allPlaces": {
-        "wired": 52,
+        "wired": 53,
         "partial": 3,
-        "missing": 34,
+        "missing": 33,
         "stopgap": 0,
         "n/a": 0
       }
@@ -5130,12 +5130,12 @@
       "family": "government",
       "reachGroup": null,
       "mechanic": null,
-      "overall": "partly",
+      "overall": "wired",
       "links": {
         "exists": {
-          "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
-          "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
+          "status": "wired",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:public-pay-floor:general:1985-02-19",
+          "why": ""
         },
         "change": {
           "status": "wired",
@@ -5143,50 +5143,50 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): public-pay-floor 0 -> 1 at city (law:place:2666300:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): public-pay-floor 0 -> 1 at city (law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
-          "why": "no law-reach row: nothing records who it applies to"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 45 open (full 45, counted groups 0/0 people, households 0, orgs 0, govts 0) e.g. applied|public-pay-floor|person_2dc9b318ebc09dba; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 47 open (full 46, counted groups 1/2 people, households 0, orgs 0, govts 0) e.g. applied|public-pay-floor|person_ec73f444cf6e19d8",
+          "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/public-pay-floor.ts:30",
+          "evidence": "src/core2/public-pay-floor.ts:70",
           "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "journal trace: no post differs from the control world",
-          "why": "no money flow: nobody pays or receives anything because of it"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/life.ts:551 1625540 -> 1453890 (journal:2025-01-23:1633)",
+          "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure public-sector vacancies and turnover (SG-LAW-outcome-link-unresearched)"
+          "status": "wired",
+          "evidence": "public-pay-floor-to-other-employers-wages: carried by src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay (Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023))",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 67 people heard (person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 71 people heard (person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 77 people heard (person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 78 people heard (person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613)",
           "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "nothing reached, so nothing to stop"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 45 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 47 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
+          "status": "wired",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "why": "reaches nobody anywhere"
+          "why": ""
         }
       },
       "runs": [
         {
           "place": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10)",
-          "change": "public-pay-floor 0 -> 1 at city (law:place:2666300:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
+          "change": "public-pay-floor 0 -> 70000 at federal (law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
           "inForceAtOpening": false
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "public-pay-floor 0 -> 1 at city (law:place:3149425:city:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
+          "change": "public-pay-floor 0 -> 70000 at federal (law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
           "inForceAtOpening": false
         }
       ],

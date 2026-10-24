@@ -77,7 +77,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | require photo id to vote                     | government         | yes    | yes    | yes   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
 | same day voter registration                  | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | ban lobbying after office                    | government         | yes    | yes    | n/a   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
-| Public pay floor                             | government         | NO     | yes    | NO    | yes     | NO    | SG  | yes     | NO     | NO        | partly     |
+| Public pay floor                             | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | Spending: administration                     | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | broaden local authority                      | government         | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | legislative term limits                      | government         | yes    | yes    | n/a   | yes     | yes   | n/a | yes     | yes    | yes       | wired      |
@@ -522,15 +522,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 **ban lobbying after office** (`us-policy-positions:government-operations.ban-lobbying-after-office`)
 
 - reach: the ban binds former officeholders (a cooling-off period before they may lobby), and every officeholder is a full person by the two-level rule (AGENTS.md, two-level population), so no counted group can be in its reach; the full people it reached are named in the evidence
-
-**Public pay floor** (`public-pay-floor`)
-
-- exists: no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA...
-- reach: no law-reach row: nothing records who it applies to
-- money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure public-sector vacancies and turnover (SG-LAW-outcome-link-unresearched)
-- repeal: nothing reached, so nothing to stop
-- allPlaces: reaches nobody anywhere
 
 **legislative term limits** (`us-policy-positions:government-operations.legislative-term-limits`)
 

@@ -6,8 +6,9 @@
  * voters and counted groups) and the government that runs the election pays
  * for it from its administration line; term limits and the lobbying ban are
  * applied where a filing or a lobbyist is chosen; home rule is applied where
- * a body drafts a bill; ward lines are drawn by a commission; and the
- * administration line hires and lays off real staff. A repeal ends each.
+ * a body drafts a bill; ward lines are drawn by a commission; the
+ * administration line hires and lays off real staff; and the public pay floor
+ * raises every public job under it, named and counted. A repeal ends each.
  */
 import { createHash, randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
@@ -48,6 +49,9 @@ import {
 } from "./law-reach/group-a-records";
 import { outsideAccountOf } from "./budgets-treasury";
 import { drawPlace } from "../../tests/golden-path/place";
+import { jobsAt } from "./law-reach/group-b-money";
+import { countedJob } from "./modules/residents";
+import { PUBLIC_EMPLOYER_CLASSES, PUBLIC_PAY_FLOOR } from "./public-pay-floor";
 
 const P = "us-policy-positions:government-operations.";
 const ALL_MAIL = `${P}all-mail-voting`;
@@ -704,6 +708,156 @@ describe(`government operations laws are applied by their engines (seed ${seed})
       }
       throw new Error(
         `No drawn place owed a photo ID cost (seed ${seed}); tried ${tried.join("; ")}`,
+      );
+    } finally {
+      setJournalTrace(null);
+      setBookkeeping(priorBookkeeping);
+    }
+  }, 300_000);
+
+  it("the public pay floor raises every public job under it, named and counted, and its repeal ends their rows", () => {
+    const tried: string[] = [];
+    const posts: { id: string; date: string; gross: number }[] = [];
+    setJournalTrace((input) => {
+      let gross = 0;
+      for (const p of input.postings)
+        if (p.deltaMinor > 0) gross += p.deltaMinor;
+      posts.push({
+        id: `${input.id} ${input.sourceRef.id}`,
+        date: input.date,
+        gross,
+      });
+    });
+    const priorBookkeeping = setBookkeeping(false);
+    try {
+      for (let attempt = 0; attempt < 4; attempt++) {
+        const drawn = drawPlace(seed, `law-wiring-government-pay-${attempt}`);
+        const where = `seed ${seed}, ${drawn.name} (${drawn.key}), attempt ${attempt}`;
+        const core = buildBenchWorld(drawn.seed, gameStartDate(), {
+          twoLevel: true,
+          placeKey: drawn.key,
+        }).core as CoreState;
+        const api = coreAPI(core);
+        const jobs = jobsAt(api, PUBLIC_EMPLOYER_CLASSES).filter(
+          (j) => (j.hourlyMinor ?? 0) > 0 && j.wageDailyMinor > 0,
+        );
+        const federal = lawChain(api).levels.find((l) => l.level === "federal");
+        if (!jobs.some((j) => core.jobs.has(j.id)) || !federal) {
+          tried.push(`${drawn.name} (${drawn.key}): no named public job`);
+          continue;
+        }
+        // A floor a thousand dollars over the best-paid public job in town,
+        // so it binds every one of them.
+        const top = Math.max(...jobs.map((j) => j.wageDailyMinor));
+        const floor = Math.ceil((top * 365) / 100 / 1000) * 1000 + 1000;
+        const before = new Map(jobs.map((j) => [j.id, j.hourlyMinor ?? 0]));
+        const lawId = enactLaw(api, {
+          jurisdiction: federal.jurisdiction,
+          level: "federal",
+          series: PUBLIC_PAY_FLOOR,
+          value: floor,
+          effectiveDate: next(api),
+          measureId: "law-wiring-government-pay-floor",
+          citation: "Law-wiring test: a public pay floor",
+        }).id;
+        advanceCore(core, next(api, 2));
+        const raisedOn = api.state.date;
+        const rows = open(api, PUBLIC_PAY_FLOOR);
+        // Every named public job is raised and recorded by name; the counted
+        // ones are raised and recorded as their employer's group.
+        for (const job of jobs) {
+          const now = core.jobs.get(job.id) ?? countedJob(core, job.id);
+          expect(
+            now?.hourlyMinor ?? 0,
+            `${where}: ${job.id} raised to the floor`,
+          ).toBeGreaterThan(before.get(job.id)!);
+        }
+        const named = jobs.filter((j) => core.jobs.has(j.id));
+        for (const job of named)
+          expect(
+            rows.some(
+              (r) =>
+                r.target === "person" &&
+                r.targetId === job.personId &&
+                r.lawId === lawId,
+            ),
+            `${where}: ${job.personId} reached`,
+          ).toBe(true);
+        const counted = jobs.length - named.length;
+        expect(
+          rows
+            .filter((r) => r.target === "group")
+            .reduce((n, r) => n + r.count, 0),
+          `${where}: counted public workers reached`,
+        ).toBe(counted);
+        // The raised pay is what payroll pays: a pay post for a raised named
+        // job after the raise, on the journal (payroll posts each period
+        // under the worker's commitment to the job; a public employer's
+        // period can run a month).
+        advanceCore(core, next(api, 40));
+        const commitmentOf = new Map(
+          named.flatMap((j) =>
+            [...(core.work.commitmentsByPerson.get(j.personId) ?? [])]
+              .filter((id) => core.work.commitments.get(id)?.jobId === j.id)
+              .map((id) => [id, j] as const),
+          ),
+        );
+        const paid = posts.find(
+          (p) =>
+            p.date > raisedOn &&
+            p.gross > 0 &&
+            p.id.includes(" work-payroll:") &&
+            [...commitmentOf.keys()].some((id) => p.id.includes(`${id}:`)),
+        );
+        expect(
+          paid,
+          `${where}: a raised public worker paid after the raise`,
+        ).toBeDefined();
+        const job = [...commitmentOf].find(([id]) =>
+          paid!.id.includes(`${id}:`),
+        )![1];
+        const person = rows.find(
+          (r) => r.target === "person" && r.targetId === job.personId,
+        )!;
+        const pay = paid!.id;
+        const group = rows.find((r) => r.target === "group");
+        govReport(
+          "law-wiring-government",
+          JSON.stringify({
+            seed,
+            place: where,
+            [PUBLIC_PAY_FLOOR]: {
+              floor,
+              applied: person.id,
+              reached: `person ${person.targetId}`,
+              group: group ? `${group.id} (${group.count})` : null,
+              money: pay,
+            },
+          }),
+        );
+        // Putting the old amount back ends every row; the raises stay.
+        enactLaw(api, {
+          jurisdiction: federal.jurisdiction,
+          level: "federal",
+          series: PUBLIC_PAY_FLOOR,
+          value: 0,
+          effectiveDate: next(api),
+          measureId: "law-wiring-government-pay-floor-repeal",
+          citation: "Law-wiring test: the floor repealed",
+        });
+        advanceCore(core, next(api, 2));
+        expect(
+          open(api, PUBLIC_PAY_FLOOR).map((r) => r.id),
+          `${where}: pay floor rows ended after repeal`,
+        ).toEqual([]);
+        expect(
+          core.jobs.get(job.id)?.hourlyMinor ?? 0,
+          `${where}: ${job.id} keeps its raise`,
+        ).toBeGreaterThan(before.get(job.id)!);
+        return;
+      }
+      throw new Error(
+        `No drawn place had a named public job (seed ${seed}); tried ${tried.join("; ")}`,
       );
     } finally {
       setJournalTrace(null);

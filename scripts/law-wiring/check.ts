@@ -568,6 +568,16 @@ function draftUnder(
   });
 }
 
+/**
+ * The amount a body first enacts for a series that starts at none (0), where
+ * a token 1 would bind nobody: the public pay floor at the owner's own
+ * what-if example, a $70,000 public pay base (docs/coordination/OWNER-DECISIONS.md,
+ * "The economy must answer what if"; src/bench/data/dev-experiments.json).
+ */
+const FIRST_AMOUNT: Readonly<Record<string, number>> = {
+  "public-pay-floor": 70_000,
+};
+
 function changeAmount(
   api: CoreAPI,
   law: LawEntry,
@@ -592,7 +602,7 @@ function changeAmount(
       ? Number.isInteger(old)
         ? Math.max(old + 1, Math.round(old * 1.1))
         : Math.round(old * 1.1 * 100) / 100
-      : 1;
+      : (FIRST_AMOUNT[series] ?? 1);
   const date = addDays(makeIsoDate(api.state.date), 1);
   const row = enactLaw(api, {
     ...at,

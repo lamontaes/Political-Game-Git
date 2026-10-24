@@ -5890,6 +5890,29 @@
       "source": "Chen 2024, Local autonomy and service delivery: how does home rule shape the provision of local public services?, Public Management Review 26(1):1-24 (doi 10.1080/14719037.2022.2039953); Zhang, Nguyen-Hoang and Chen 2022, The impact of home rule on municipal boundary and fiscal expansion: Evidence from Texas, Journal of Regional Science 62(5):1442-1466 (doi 10.1111/jors.12610); abstracts read at ideas.repec.org",
       "notes": "Carried by the engine: home rule is what lets a town or county body legislate on what the state's law leaves to it (policyAuthority, src/core2/policy-authority.ts, read when the legislature drafts a bill), so the ordinances and the spending they fund come from the bodies' own bills, not from a rate the web moves. The abstracts give no effect size, so none is set.",
       "carriedBy": "src/core2/policy-authority.ts lets a town or county body legislate on what the state leaves to home rule, read by src/core2/modules/legislature.ts when a bill is drafted; the bills it passes set the ordinances and spending"
+    },
+    {
+      "key": "public-pay-floor-to-other-employers-wages",
+      "status": "about-zero",
+      "unsupportedReason": null,
+      "from": "law:public-pay-floor",
+      "to": "labor.wages",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0,
+      "per": "law in force (an employer-wide pay floor for the public employers it binds)",
+      "lagMonths": 0,
+      "group": "workers at other employers in the town",
+      "owner": "GOV",
+      "evidence": "about-zero",
+      "anchor": "\"we find that VMWs result in sizable wage increases and reductions in turnover at the companies that implemented them. Turning to wages at other companies, including those connected to the large retailer by worker flows, we estimate precise, economically negligible spillover effects.\" An employer-wide pay floor raises its own staff's pay; other employers' wages do not follow.",
+      "source": "Derenoncourt and Weil 2024, Voluntary Minimum Wages, NBER Working Paper 32546 (doi 10.3386/w32546), abstract; full text read at https://gceps.princeton.edu/wp-content/uploads/2024/06/wp333_Derenoncourt_VolMinWages.pdf (payroll data for thousands of firms, 2014 to 2023)",
+      "notes": "Carried by the engine: the floor raises the pay of the public employers it binds (holdPublicPay in src/core2/public-pay-floor.ts re-rates each named and counted job under it the day it takes effect and at each monthly review; the jobs engine posts a public opening at it, payFor in src/core2/modules/jobs.ts), and the wages measure reads that pay. Whether private employers follow is the owner's what-if question (OWNER-DECISIONS.md, the $70,000 public pay base); the research, on employer-wide minimums at the largest retailers, puts the spillover on other employers' wages at about zero, so the web adds nothing on top. The study's own-employer drop in turnover has no measure the web keeps (a missing measure, not a link).",
+      "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay",
+      "range": [-0.05, 0.05],
+      "rangeSource": "Derenoncourt and Weil 2024 estimate precise zero cross-employer wage elasticities in the six months after an employer-wide minimum; the band allows a small effect either way"
     }
   ],
   "calibratedAt": "2024-07-01"
