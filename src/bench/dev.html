@@ -157,6 +157,22 @@
         margin-left: 12px;
         word-break: break-word;
       }
+      .kv .block {
+        display: block;
+        margin-left: 14px;
+        white-space: pre-line;
+      }
+      .followed {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+        gap: 14px;
+      }
+      .followed-one {
+        min-width: 0;
+      }
+      .followed-one .scroll {
+        max-height: 56vh;
+      }
       .kv > span:first-child {
         color: var(--text-3);
       }
@@ -275,6 +291,10 @@
       </section>
 
       <section id="decisions" class="panel" hidden>
+        <div id="followed-box" hidden>
+          <div class="row"><span class="label">Followed</span></div>
+          <div id="followed" class="followed"></div>
+        </div>
         <div class="grid">
           <div>
             <div class="row">
@@ -285,6 +305,7 @@
           </div>
           <div>
             <div class="label" id="offers-name"></div>
+            <div id="offers-follow"></div>
             <div class="scroll"><table id="offers-table"></table></div>
             <div id="choose-result"></div>
           </div>
