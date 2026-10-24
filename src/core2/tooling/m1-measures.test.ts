@@ -3,7 +3,7 @@
 // its rest-of-state region carries the state's own rate.
 import { describe, expect, it } from "vitest";
 import {
-  eventTimeHeads,
+  changeHeads,
   openingRateMatches,
   represented,
   unemployedHeads,
@@ -50,18 +50,10 @@ describe("the M1 checks' measures", () => {
     // One jobless full seeker and one jobless household of three.
     expect(unemployedHeads(full, counted, "town", heads)).toBe(4);
   });
-  it("keep a change's people as they stood on its day after a fill-in", () => {
-    let weight = 3;
-    const atEvent = eventTimeHeads(() => weight);
-    const hire = { id: "job-change:2025-03-01:j:hire", personId: "worker" };
-    atEvent.see([hire]);
-    // The worker is filled in: they now stand for one person.
-    weight = 1;
-    atEvent.see([
-      hire,
-      { id: "job-change:2025-04-01:k:hire", personId: "worker" },
-    ]);
-    expect(atEvent.heads(hire)).toBe(3);
-    expect(atEvent.heads({ id: "job-change:2025-04-01:k:hire" })).toBe(1);
+  it("read a change's own kept count and never default one it lacks", () => {
+    expect(changeHeads({ heads: 3 })).toBe(3);
+    expect(changeHeads({ heads: 1 })).toBe(1);
+    expect(changeHeads({})).toBeUndefined();
+    expect(changeHeads({ heads: 0 })).toBeUndefined();
   });
 });

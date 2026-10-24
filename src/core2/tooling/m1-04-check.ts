@@ -26,7 +26,7 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import { residentsRuntime } from "../modules/residents";
 import { countedHeadsOf } from "../residents-economy";
 import {
-  eventTimeHeads,
+  changeHeads,
   represented,
   unemployedHeads,
   type SeekerLike,
@@ -67,24 +67,11 @@ function unemployed(): number {
 const openingEmployment = employment();
 const employedAt: number[] = [openingEmployment];
 const unemploymentPct: number[] = [];
-// Each change's people as they stood on its day: a counted worker filled in
-// later is one person now, but the hire stood for their household's weight.
-const atEvent = eventTimeHeads(heads);
-playYear(
-  world,
-  () => {
-    employedAt.push(employment());
-    const out = unemployed();
-    unemploymentPct.push((100 * out) / Math.max(1, out + employedAt.at(-1)!));
-  },
-  () =>
-    atEvent.see(
-      jobs.table("changes").rows() as unknown as {
-        id: string;
-        personId: string;
-      }[],
-    ),
-);
+playYear(world, () => {
+  employedAt.push(employment());
+  const out = unemployed();
+  unemploymentPct.push((100 * out) / Math.max(1, out + employedAt.at(-1)!));
+});
 
 // The changes on record in the year at the town's employers, by month.
 type Change = {
@@ -96,6 +83,7 @@ type Change = {
   kind: string;
   reasonKey?: string;
   decidedBy?: string;
+  heads?: number;
 };
 const changes = jobs.table("changes").rows() as unknown as Change[];
 const inTown = changes.filter(
@@ -121,15 +109,25 @@ const counts = {
   quits: Array<number>(12).fill(0),
   layoffs: Array<number>(12).fill(0),
 };
-// A change to a counted worker's job stands for their household's weight.
+// A change stands for the people its record kept when it happened (a counted
+// worker's household weight); a change that kept none is a failure, not one.
+let withoutHeads = 0;
 for (const row of inTown) {
   const at = monthIndex(row.date) - 1;
-  const n = atEvent.heads(row);
+  const n = changeHeads(row);
+  if (n === undefined) {
+    withoutHeads += 1;
+    continue;
+  }
   if (row.kind === "hire") counts.hires[at]! += n;
   else if (row.kind === "quit") counts.quits[at]! += n;
   else if (row.kind === "layoff" || row.kind === "closure")
     counts.layoffs[at]! += n;
 }
+if (withoutHeads)
+  failures.push(
+    `${withoutHeads} job changes at the town's employers keep no count of the people they stood for`,
+  );
 const monthlyRate = (series: number[]) =>
   series.map((n, i) => (100 * n) / Math.max(1, employedAt[i]!));
 const mean = (series: number[]) =>

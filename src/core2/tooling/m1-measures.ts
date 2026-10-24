@@ -57,22 +57,12 @@ export function unemployedHeads(
 }
 
 /**
- * Keeps each job change's people as they stood on the day it happened, so a
- * counted worker filled in later doesn't change an old month's count. Call
- * `see` at the end of every played day with the changes on record (a change
- * already seen keeps its first count); `heads`
- * reads the remembered count (a change never seen counts as one).
+ * The people a job change stood for when it happened, as the jobs engine kept
+ * it on the change (a counted worker's household weight, one for a full
+ * person). A change that kept no count gives undefined, never a default.
  */
-export function eventTimeHeads(heads: (personId: string) => number): {
-  see: (changes: Iterable<{ id: string; personId: string }>) => void;
-  heads: (change: { id: string }) => number;
-} {
-  const kept = new Map<string, number>();
-  return {
-    see(changes) {
-      for (const row of changes)
-        if (!kept.has(row.id)) kept.set(row.id, heads(row.personId));
-    },
-    heads: (change) => kept.get(change.id) ?? 1,
-  };
+export function changeHeads(change: { heads?: number }): number | undefined {
+  return typeof change.heads === "number" && change.heads > 0
+    ? change.heads
+    : undefined;
 }
