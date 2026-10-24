@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-research-weights
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T13:14:41.833Z
 ---
 
 **What.** Of 89 personality decisions with every traits family in, 53 still weigh temperament at the general weight of 1. A research pass on Oct 24 fetched and quoted studies for 21 of them (party joining and attending, group membership, following the news, persuasion, trust, believing a claim, retelling, bringing a case, filing a claim, claiming retirement, borrowing, hiring staff, a lobbyist speaking up, endorsing, planning a child, wills and trusts, contract awards, raising pay for an opening, accepting an appointment). Add those rows to data/research/trait-effect-sizes.json and calibrate each decision's weight against them with scripts/traits/trait-calibrate.ts on a played year, so the weight carries its study instead of the general 1.
