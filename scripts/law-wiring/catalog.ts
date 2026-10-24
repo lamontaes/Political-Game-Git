@@ -302,6 +302,8 @@ export interface WebLinkRow {
   from: string;
   to: string;
   source?: string;
+  /** The engine path that produces the outcome itself, so the web does not move it too. */
+  carriedBy?: string;
   unsupportedReason: string | null;
 }
 /** The links core2's outcome web computes; links.json's label comes from the old simulation's list. */
