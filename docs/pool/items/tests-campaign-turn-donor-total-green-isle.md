@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/campaign-donor-total
-pr:
+pr: #5940
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T12:19:44.804Z

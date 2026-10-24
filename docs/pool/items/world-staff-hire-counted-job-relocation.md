@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: claimed
 claimed-by: claude/staff-hire-counted-relocation
 pr: #5929
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T07:30:28.997Z
+claimed-at: 2026-10-24T15:55:24.635Z
 ---
 
 **What.** In a played world with no law changed, an official's staff review hires a counted resident and the fill-in throws: staffReview calls hireStaff, which calls fillInPerson, and state.ts:1542 throws 'Invalid relocation: one living household, no job held'. The taxes helper reproduced it in Audubon Park, Kentucky (drawPlace 'law-wiring-taxes:0', seed taxes-oct24-fixed) on 2026-01-15. A throw in the daily loop stops the year for anyone playing that town, so it blocks play, not only the test.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T07:30:28.997Z
 **Files.** src/core2/state.ts, src/core2/modules/staff.ts
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5929 (branch claude/staff-hire-counted-relocation): health-demoted.test.ts:120 can return before personOrFillIn and all returned-household assertions, allowing the crash-path regression to pass unexercised; require a mandatory living-household fill-in case; finish on that branch, merge main into it first.
