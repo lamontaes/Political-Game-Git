@@ -77,7 +77,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.thank-you-mr-speaker",
@@ -106,7 +107,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.thank-you-madam-speaker",
@@ -135,7 +137,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.my-fellow-americans",
@@ -171,7 +174,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.good-evening",
@@ -200,7 +204,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
@@ -354,7 +359,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-salutation.thank-you-everybody",
@@ -418,7 +424,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-occasion.we-have-a-lot-of-work-to-do",
@@ -447,7 +454,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-occasion.we-have-more-work-to-do",
@@ -476,7 +484,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-occasion.there-is-more-work-to-do",
@@ -505,7 +514,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-report.unemployment-is-at-unemployment-rate-percent",
@@ -540,7 +550,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-report.the-unemployment-rate-is-unemployment-rate-perce",
@@ -575,7 +586,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-report.unemployment-is-down-to-unemployment-rate-percen",
@@ -612,7 +624,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.unemployment-is-down",
@@ -798,7 +811,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-report.prices-are-still-too-high",
@@ -835,7 +849,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-report.prices-are-coming-down",
@@ -1020,7 +1035,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.wages-are-up",
@@ -1058,7 +1074,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.wages-are-going-up",
@@ -1095,7 +1112,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.wages-are-rising-faster-than-prices",
@@ -1132,7 +1150,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-economy-is-growing",
@@ -1169,7 +1188,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.the-economy-is-growing",
@@ -1206,7 +1226,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-economy-is-strong",
@@ -1244,7 +1265,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-economy-is-stronger",
@@ -1281,7 +1303,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-economy-is-booming",
@@ -1318,7 +1341,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.the-economy-is-booming",
@@ -1355,7 +1379,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.jobs-are-up",
@@ -1392,7 +1417,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.we-created-jobs-added-jobs",
@@ -1429,7 +1455,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.weve-created-jobs-added-new-jobs",
@@ -1466,7 +1493,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.we-created-jobs-added-new-jobs",
@@ -1503,7 +1531,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.we-have-created-jobs-added-new-jobs",
@@ -1541,7 +1570,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.our-businesses-created-jobs-added-new-jobs",
@@ -1578,7 +1608,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.we-cut-the-deficit",
@@ -1653,7 +1684,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-report.crime-is-down",
@@ -1690,7 +1722,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-ask-congress-to-goal",
@@ -1726,7 +1759,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-urge-congress-to-goal",
@@ -1762,7 +1796,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-call-on-congress-to-goal",
@@ -1798,7 +1833,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.im-calling-on-congress-to-goal",
@@ -1833,7 +1869,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.congress-must-goal",
@@ -1869,7 +1906,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.congress-should-goal",
@@ -1905,7 +1943,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.send-it-to-my-desk",
@@ -1940,7 +1979,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.pass-it",
@@ -1976,7 +2016,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.lets-get-it-done",
@@ -2011,7 +2052,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.lets-finish-the-job",
@@ -2046,7 +2088,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.lets-work-together",
@@ -2081,7 +2124,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.lets-come-together",
@@ -2116,7 +2160,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.we-can-do-this-together",
@@ -2151,7 +2196,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.this-is-not-a-partisan-issue",
@@ -2186,7 +2232,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.this-shouldnt-be-a-partisan-issue",
@@ -2221,7 +2268,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-congress.i-look-forward-to-working-with-you",
@@ -2256,7 +2304,8 @@
       },
       "tag": {
         "move": "request"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-governors.i-want-to-thank-the-governors",
@@ -2291,7 +2340,8 @@
       },
       "tag": {
         "move": "thank"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-governors.states-should-goal",
@@ -2326,7 +2376,8 @@
       },
       "tag": {
         "move": "thank"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-governors.thank-you-governor-name",
@@ -2361,7 +2412,8 @@
       },
       "tag": {
         "move": "thank"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-towns.its-happening-all-across-the-country",
@@ -2606,7 +2658,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.every-child-deserves-goal",
@@ -2641,7 +2694,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.every-american-deserves-goal",
@@ -2676,7 +2730,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.i-know-how-hard-it-is",
@@ -2711,7 +2766,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.i-know-its-hard",
@@ -2747,7 +2803,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.we-see-you",
@@ -2782,7 +2839,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.i-see-you",
@@ -2817,7 +2875,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.i-hear-you",
@@ -2852,7 +2911,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.youre-not-alone",
@@ -2887,7 +2947,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.you-are-not-alone",
@@ -2922,7 +2983,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.the-american-people-deserve-better",
@@ -2957,7 +3019,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-families.we-stand-with-you",
@@ -2992,7 +3055,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.were-with-you",
@@ -3027,7 +3091,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-families.we-are-with-you",
@@ -3062,7 +3127,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "tender"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-you-and-may-god-protect-our-troops",
@@ -3091,7 +3157,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-you-all-and-may-god-protect-our-troops",
@@ -3120,7 +3187,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-america",
@@ -3156,7 +3224,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-you-and-god-bless-the-united-states-of",
@@ -3185,7 +3254,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.thank-you-and-god-bless-america",
@@ -3220,7 +3290,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.thank-you-all",
@@ -3286,7 +3357,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.may-god-bless-america",
@@ -3321,7 +3393,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.god-bless-you-all",
@@ -3356,7 +3429,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.thank-you-and-god-bless-you",
@@ -3392,7 +3466,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.thank-you-god-bless-you-and-god-bless-the-united",
@@ -3421,7 +3496,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.may-god-protect-our-troops",
@@ -3456,7 +3532,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.may-god-bless-you-and-may-god-bless-the-united-s",
@@ -3491,7 +3568,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.state-of-the-union-close.lets-get-to-work",
@@ -3532,7 +3610,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-close.the-best-is-yet-to-come",
@@ -3567,7 +3646,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.the-future-is-ours",
@@ -3602,7 +3682,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.ive-never-been-more-optimistic-about-our-future",
@@ -3631,7 +3712,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.we-will-not-fail",
@@ -3667,7 +3749,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.state-of-the-union-close.we-can-do-this",
@@ -3697,7 +3780,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.we-are-the-united-states-of-america",
@@ -3726,7 +3810,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.were-the-united-states-of-america",
@@ -3755,7 +3840,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.state-of-the-union-close.theres-nothing-we-cant-do",
@@ -3784,7 +3870,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-salutation.my-fellow-citizens",
@@ -3814,7 +3901,8 @@
       },
       "tag": {
         "move": "greet"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.inaugural-salutation.thank-you-so-much",
@@ -3873,7 +3961,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.we-will-goal",
@@ -3962,7 +4051,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.we-are-one-people",
@@ -3991,7 +4081,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.we-are-a-great-nation",
@@ -4020,7 +4111,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.we-are-a-nation-of-immigrants",
@@ -4050,7 +4142,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.inaugural-occasion.i-will-never-let-you-down",
@@ -4079,7 +4172,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.i-will-never-stop-fighting-for-you",
@@ -4108,7 +4202,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.this-is-our-time",
@@ -4137,7 +4232,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "glad"
     },
     {
       "key": "opening-speech.inaugural-occasion.the-time-for-action-is-now",
@@ -4166,7 +4262,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.now-is-the-time",
@@ -4195,7 +4292,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.now-is-the-time-to-act",
@@ -4224,7 +4322,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.the-time-is-now",
@@ -4253,7 +4352,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "braced"
     },
     {
       "key": "opening-speech.inaugural-occasion.this-is-who-we-are",
@@ -4282,7 +4382,8 @@
       },
       "tag": {
         "move": "tell"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.inaugural-close.god-bless-you-and-god-bless-america",
@@ -4312,7 +4413,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     },
     {
       "key": "opening-speech.inaugural-close.so-help-me-god",
@@ -4341,7 +4443,8 @@
       },
       "tag": {
         "move": "close"
-      }
+      },
+      "bearing": "calm"
     }
   ]
 }

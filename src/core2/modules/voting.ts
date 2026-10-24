@@ -1902,6 +1902,9 @@ const PLACES_SOURCE =
  * voters need at the national count of voters per voting location, each in
  * the town government's building where the records hold one.
  */
+/** The classification a town's own government is recorded under. */
+const MUNICIPAL_GOVERNMENT = "service:municipal-government";
+
 export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
   const rows = table(api, "pollingPlaces");
   if (rows.size)
@@ -1916,16 +1919,14 @@ export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
     Math.ceil(voters / electionsParameter("votersPerVotingLocation")),
   );
   const core = api.state as CoreState;
+  // The town's own government, recorded as the disasters engine and the law
+  // reach read it; a place with none on record has no building yet.
   const building =
     [...core.organizations.values()]
       .filter(
         (o) =>
           o.placeId === townPlaceId &&
-          ((o as { classification?: string }).classification?.startsWith(
-            "government:",
-          ) ||
-            o.kind === "government" ||
-            o.kind === "local-government"),
+          o.classification === MUNICIPAL_GOVERNMENT,
       )
       .map((o) => o.id)
       .sort()[0] ?? null;
