@@ -5,10 +5,10 @@ area: people
 kind: owner-decision
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
 pr:
-blocked-on:
+blocked-on: owner
 source: added with npm run pool -- add
 ---
 
