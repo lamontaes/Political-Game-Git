@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/closure-seeker-finite
 pr: #5981
 blocked-on:
