@@ -25,4 +25,4 @@ claimed-at:
 
 In PR #5968 (laws lead, Oct 24). The done-when's screenshots line waits on the owner grading nine wording pieces; the lead moved it to `laws-end-to-end-screenshots` (blocked on that grading) and asked the CTO in the PR to accept the split.
 
-Laws lead, Oct 24 20:25: blocked. Merger 0's send-back (18:51) is right: the proof's journal row and bank lines are the Words session's files, so they move to , and the screenshots wait on the owner's grading (), a split the CTO has not yet accepted. The branch stays claude/laws-end-to-end-proof; it drops its copy of the two bank files once Words lands them.
+Laws lead, Oct 24 20:25: blocked. Merger 0's send-back (18:51) is right: the proof's journal row and bank lines are the Words session's files, so they move to `words-law-effect-learned-journal`, and the screenshots wait on the owner's grading (`laws-end-to-end-screenshots`), a split the CTO has not yet accepted. The branch stays claude/laws-end-to-end-proof; it drops its copy of the two bank files once Words lands them.
