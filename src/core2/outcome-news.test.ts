@@ -64,8 +64,19 @@ interface Move {
     readonly rememberedPrint: boolean;
   })[];
   readonly viewNow: number;
+  /**
+   * The stance as a signed amount (enact positive, repeal negative) before and
+   * after this move. A reason for the other side of a stance weakens it and
+   * keeps its side while any strength is left (`modules/views.ts`), so the
+   * side a move went toward is read from this, not from the stance's side.
+   */
+  readonly signedBefore: number | undefined;
+  readonly signedNow: number;
 }
 const MOVES = new WeakMap<object, Move[]>();
+const SIGNED = new WeakMap<object, Map<string, number>>();
+const signed = (stance: Stance) =>
+  (stance.desiredChange === "enact" ? 1 : -1) * stance.strength;
 const CONDITION_QUESTIONS = new Set(
   Object.values(NEWS_MEASURES)
     .map((spec) => conditionQuestion(spec.topic))
@@ -80,9 +91,15 @@ registerStanceListener((api, personId, topic) => {
     .table("stances")
     .get(`${personId}:${topic}`) as unknown as Stance;
   const view = viewOf(api, personId);
+  const last = SIGNED.get(api.state) ?? new Map<string, number>();
+  SIGNED.set(api.state, last);
+  const signedBefore = last.get(`${personId}:${topic}`);
+  last.set(`${personId}:${topic}`, signed(stance));
   moves.push({
     personId,
     topic,
+    signedBefore,
+    signedNow: signed(stance),
     date: api.state.date,
     stance,
     today: stance.causes
@@ -293,7 +310,15 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
       read.length,
       `readers moved by ${[...storyIds].join(", ")}`,
     ).toBeGreaterThan(0);
-    for (const { personId, date, stance, cause, viewNow } of read) {
+    for (const {
+      personId,
+      date,
+      cause,
+      viewNow,
+      signedBefore,
+      signedNow,
+      today,
+    } of read) {
       const storyId = storyOfReadEvent(cause.eventId)!;
       // `news.read:<story>:<date>:<side>:<question>`.
       const side = /:\d{4}-\d{2}-\d{2}:(enact|repeal):/.exec(
@@ -311,8 +336,15 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
       // Toward the side their own view held: the stance and the view sit on
       // the side the read event carried.
       expect(["enact", "repeal"], where).toContain(side);
-      expect(stance.desiredChange, where).toBe(side);
-      expect(Math.sign(viewNow), where).toBe(side === "enact" ? 1 : -1);
+      // The view sits on the side the read event carried, and the stance
+      // moved toward it (a stance at full strength cannot move further; on a
+      // day with other causes the move is theirs too).
+      const sign = side === "enact" ? 1 : -1;
+      expect(Math.sign(viewNow), where).toBe(sign);
+      if (signedBefore !== undefined && today.length === 1)
+        expect((signedNow - signedBefore) * sign, where).toBeGreaterThanOrEqual(
+          0,
+        );
     }
     const first = read[0]!;
     console.log(
@@ -352,9 +384,11 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
         personId,
         date,
         topic,
-        stance,
         cause,
         viewNow,
+        signedBefore,
+        signedNow,
+        today,
         storyId,
         wire,
       } of read) {
@@ -382,9 +416,14 @@ describe(`the town hears the outcome web's month (${place.name}, seed ${seed})`,
           `${where}: remembers who printed it`,
         ).toBe(true);
         expect(cause.change, where).toBeGreaterThan(0);
-        expect(Math.sign(viewNow), where).toBe(
-          stance.desiredChange === "enact" ? 1 : -1,
-        );
+        // Toward the side the read event carried, the reader's own.
+        const sign = /:\d{4}-\d{2}-\d{2}:enact:/.test(cause.eventId) ? 1 : -1;
+        expect(Math.sign(viewNow), where).toBe(sign);
+        if (signedBefore !== undefined && today.length === 1)
+          expect(
+            (signedNow - signedBefore) * sign,
+            where,
+          ).toBeGreaterThanOrEqual(0);
       }
       const first = read[0]!;
       const [, placeId, month] = first.wire.split(":");
