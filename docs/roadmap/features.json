@@ -259,7 +259,7 @@
       "golden_path": "world",
       "package": "M1-officials",
       "test": "Click any official in any state: a full record with personality, history, relationships and the positions behind their votes.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m1-12-check.ts",
       "passes": false
     },
     {
