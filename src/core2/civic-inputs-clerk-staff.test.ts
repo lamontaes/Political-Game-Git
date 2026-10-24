@@ -8,8 +8,10 @@ import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { addDays, makeIsoDate } from "./kernel/dates";
+import { addDays, ageOnDate, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { workedToday } from "./job-lifecycle";
+import { coreAPI } from "./state";
 import type { JobInput } from "./types";
 import { drawPlace } from "../../scripts/core2-year/place";
 
@@ -99,6 +101,62 @@ it("puts every municipal and county clerk job on its government office's staff",
           core.jobs.get(row.jobId)?.endsAt,
           `${where}: ${row.jobId} on ${office.id}'s staff has ended`,
         ).toBeUndefined();
+    // The same rule on the day a clerk leaves and another takes the post:
+    // the one who left comes off the staff and the new clerk goes on it.
+    const api = coreAPI(core);
+    // A job ends before its day's work, so step to a day the town clerk is
+    // off (a weekend), at most a week on.
+    const clerkJob = governed.find(
+      (job) => job.occupationClassification === "profession:municipal-clerk",
+    )!;
+    for (
+      let day = 0;
+      day < 7 && workedToday(core, { jobId: clerkJob.id });
+      day += 1
+    )
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const leaving = core.jobs.get(clerkJob.id);
+    expect(
+      leaving?.endsAt === undefined &&
+        !workedToday(core, { jobId: clerkJob.id }),
+      `${where}: town clerk ${clerkJob.id} still holds the job on a day off within a week`,
+    ).toBe(true);
+    const successor = [...core.people.values()].find(
+      (person) =>
+        person.alive &&
+        !person.jobId &&
+        person.id !== leaving!.personId &&
+        ageOnDate(person.birthDate, core.date) >= 18,
+    );
+    expect(
+      successor,
+      `${where}: a jobless adult to take the post`,
+    ).toBeDefined();
+    api.endJob(leaving!.id, `${leaving!.id}:left`);
+    const seat = `${leaving!.id}:successor`;
+    api.startSalariedPost({
+      id: seat,
+      personId: successor!.id,
+      organizationId: leaving!.organizationId,
+      title: leaving!.title,
+      wageDailyMinor: leaving!.wageDailyMinor,
+      hoursDaily: 0,
+      source: leaving!.source,
+      occupationClassification: leaving!.occupationClassification,
+    });
+    const staffed =
+      core.publicOrganizations.get(leaving!.organizationId)!.staff ?? [];
+    expect(
+      staffed.map((row) => row.jobId),
+      `${where}: ${leaving!.organizationId}'s staff after ${leaving!.id} left`,
+    ).not.toContain(leaving!.id);
+    expect(
+      staffed.find((row) => row.jobId === seat),
+      `${where}: ${successor!.id} seated as clerk`,
+    ).toMatchObject({ personId: successor!.id, title: leaving!.title });
+    process.stdout.write(
+      `${where}: ${leaving!.id} (${leaving!.personId}) left and ${successor!.id} took the post; ${leaving!.organizationId} staff ${staffed.map((row) => row.jobId).join(",")}\n`,
+    );
     process.stdout.write(
       `${where}: ${governed.length} current clerks (${hired} hired in the year), ${left.length} clerk jobs ended\n`,
     );
