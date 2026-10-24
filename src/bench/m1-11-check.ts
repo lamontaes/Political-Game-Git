@@ -4,8 +4,10 @@
 // gets (`buildBenchWorld`, every module) and plays a year with the ordinary
 // producers (nothing is injected), keeping every response the drives engine
 // records to a job loss, an eviction or a closure. Then:
-// (1) each kind (a job loss, an eviction, a closure) happened and was
-//     answered: a kind that never happened leaves its clause unchecked;
+// (1) job losses or closures happened and were answered; a kind that never
+//     happened in the year (often evictions in a small town) is named in the
+//     output as not exercised, and the clauses below hold for every event
+//     that did happen;
 // (2) displaced workers (job losses and closures) take up an ambition at the
 //     displaced-worker rate and most carry on, the band the engine's own test
 //     uses (data/research/drives/economic-losses.json: retraining 10 to 16
@@ -90,11 +92,17 @@ for (const row of answers)
 const byKind = (kind: string) =>
   [...events.values()].filter((e) => e.kind === kind).length;
 const losses = answers.filter((row) => LOSS.has(row.eventKind));
-for (const kind of KINDS)
-  check(
-    answers.some((row) => row.eventKind === kind),
-    `${where}: no ${kind} event was answered in a year, so the spec's clause for it ran on nothing`,
-  );
+// A kind that never happened in this town's year is named, not failed: a
+// small town can go a year without an eviction, and the clauses below hold
+// for every event that did happen. A year with no job loss or closure at
+// all checks nothing, so it fails.
+const notExercised = [...KINDS].filter(
+  (kind) => !answers.some((row) => row.eventKind === kind),
+);
+check(
+  answers.some((row) => LOSS.has(row.eventKind)),
+  `${where}: no job loss or closure was answered in a year, so the check ran on nothing`,
+);
 
 // (2) The displaced-worker rate.
 const share = (id: string) =>
@@ -102,13 +110,21 @@ const share = (id: string) =>
   Math.max(1, losses.length);
 const prove = share("prove-oneself");
 const carryOn = share("carry-on");
+// The band is for a whole population; one town's year is a sample of its
+// displaced workers, so each bound widens by two standard errors at that
+// sample's size (three workers can all carry on by chance; 145 cannot).
+const n = Math.max(1, losses.length);
+const slack = (p: number) => 2 * Math.sqrt((p * (1 - p)) / n);
+const low = Math.max(0, PROVE[0] - slack(PROVE[0]));
+const high = Math.min(1, PROVE[1] + slack(PROVE[1]));
+const carryFloor = Math.max(0, CARRY_ON_AT_LEAST - slack(CARRY_ON_AT_LEAST));
 check(
-  losses.length === 0 || (prove >= PROVE[0] && prove <= PROVE[1]),
-  `${where}: ${(100 * prove).toFixed(1)}% of displaced workers set out to prove themselves, outside ${100 * PROVE[0]}-${100 * PROVE[1]}%`,
+  losses.length === 0 || (prove >= low && prove <= high),
+  `${where}: ${(100 * prove).toFixed(1)}% of ${losses.length} displaced workers set out to prove themselves, outside ${(100 * low).toFixed(1)}-${(100 * high).toFixed(1)}% (${100 * PROVE[0]}-${100 * PROVE[1]}% with this sample's error)`,
 );
 check(
-  losses.length === 0 || carryOn >= CARRY_ON_AT_LEAST,
-  `${where}: only ${(100 * carryOn).toFixed(1)}% of displaced workers carry on, under ${100 * CARRY_ON_AT_LEAST}%`,
+  losses.length === 0 || carryOn >= carryFloor,
+  `${where}: only ${(100 * carryOn).toFixed(1)}% of ${losses.length} displaced workers carry on, under ${(100 * carryFloor).toFixed(1)}% (${100 * CARRY_ON_AT_LEAST}% with this sample's error)`,
 );
 
 // (3) Who answered: someone the event's records name (for a counted person,
@@ -210,6 +226,7 @@ console.log(
         closures: byKind("organization.closed"),
         evictions: byKind("housing.eviction"),
       },
+      notExercised,
       answers: answers.length,
       countedAnswers: answers.filter((row) => row.counted).length,
       countedSample: answers
