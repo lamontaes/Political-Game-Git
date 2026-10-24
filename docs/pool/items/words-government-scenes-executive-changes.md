@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/government-scenes-executive
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T08:13:40.964Z
 ---
 
 **What.** src/director/government-scenes.test.ts fails on clean main with GOLDEN_PATH_SEED=eea75e6a47d2d69eee412cf149b3235a556521e3: expected the signer to be official:term:seat:US-VA:governor:2025-01-20 but the scene names person_d93f767820f709c2. The test reads the executive serving when the run starts, while the legislature's executive-action record names whoever sits at the desk on the day of the act, and the director casts the signer from that record. When the governor's office changes hands or its official is filled in during the run, the test fails although the scene is right. It turns every PR's unit run red when its draw lands there.
