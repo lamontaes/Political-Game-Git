@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Never weaken a test: the spec stays as strict, it must measure the founder's means as the engine underwrites them. An effect is a read: the credit application row (credit.applications, application:2025-06-01:organization:founded:manufacturing:person_675c0fd04c6ccee2) already records equityMinor and the founding row records equityMinor, so the check can read them instead of cash. Ask why: the engine's loan is traced to the founder's equity by record id.
 
-**Done when.** M0-13 a new business's loan fits its founder is alive in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) because the check measures the founder's means as cash plus the savings moved in on the founding day (the founding row's equityMinor), still fails when a loan exceeds nine times that means (shown by a one-line break in credit.ts foundingLoanLimit), and the PR names the founding and application ids; the spec change is approved by the M0-13 owner first.
+**Done when.** In the played world (buildBenchWorld), M0-13 a new business's loan fits its founder is alive in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) because the check measures the founder's means as cash plus the savings moved in on the founding day (the founding row's equityMinor), still fails when a loan exceeds nine times that means (shown by a one-line break in credit.ts foundingLoanLimit), and the PR names the founding and application ids; the spec change is approved by the M0-13 owner first.
 
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/credit.ts, src/core2/modules/business.ts
 
