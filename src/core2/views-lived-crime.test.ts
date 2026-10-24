@@ -15,6 +15,7 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
+import types from "./data/crime/victimization.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -69,6 +70,18 @@ registerStanceListener((api, personId, topic) => {
       });
 });
 
+/**
+ * On the day of each victimization, the people its record would move: for a
+ * crime against the household, every member whose view takes a side on the
+ * police line (a lived crime only firms a side up, so the side after the day
+ * is the side before it); for one against a person, the record names one
+ * member, so `atMostOne`.
+ */
+interface Expected {
+  readonly holders: readonly string[];
+  readonly atMostOne: boolean;
+}
+
 function play(drawSeed: string) {
   const place = drawPlace(drawSeed, "views-lived-crime");
   const core = buildBenchWorld(drawSeed, gameStartDate(), {
@@ -76,20 +89,38 @@ function play(drawSeed: string) {
     placeKey: place.key,
   }).core as CoreState;
   const api = coreAPI(core);
+  const crimeMonths = () =>
+    api
+      .moduleState(CRIME_MODULE_ID)
+      .table("months")
+      .rows() as unknown as CrimeMonth[];
+  const expected = new Map<string, Expected>();
   let day = makeIsoDate(core.date);
   const end = addDays(day, 365);
   while (day < end) {
     day = addDays(day, 1);
     advanceCore(core, day);
+    for (const month of crimeMonths())
+      for (const victim of month.victims) {
+        if (expected.has(victim.eventId)) continue;
+        const memberIds = core.households.get(victim.householdId)?.memberIds;
+        const holders = (memberIds ?? []).filter((id) => {
+          const view = viewOf(api, id);
+          return view && viewOn(api, id, POLICE, view.lean) !== 0;
+        });
+        expected.set(victim.eventId, {
+          holders,
+          atMostOne:
+            (types.types as Record<string, { unit: string }>)[victim.type]
+              ?.unit === "person",
+        });
+      }
   }
-  const months = api
-    .moduleState(CRIME_MODULE_ID)
-    .table("months")
-    .rows() as unknown as CrimeMonth[];
+  const months = crimeMonths();
   const victims = months.flatMap((month) =>
     month.victims.map((victim) => ({ ...victim, month })),
   );
-  return { place, core, victims, moves: MOVES.get(core) ?? [] };
+  return { place, core, victims, expected, moves: MOVES.get(core) ?? [] };
 }
 
 describe(`a victimization moves its victims' view on the police (seed ${seed})`, () => {
@@ -109,7 +140,7 @@ describe(`a victimization moves its victims' view on the police (seed ${seed})`,
         throw new Error(
           `no full household was victimized in a year in ${REDRAWS} draws (${[...tried, where].join("; ")})`,
         );
-      const { victims, moves } = run;
+      const { victims, expected, moves } = run;
       const byEvent = new Map<string, Move[]>();
       for (const move of moves)
         byEvent.set(move.cause.eventId, [
@@ -122,6 +153,12 @@ describe(`a victimization moves its victims' view on the police (seed ${seed})`,
         expect(moved.length, `${at}: someone it names moved`).toBeGreaterThan(
           0,
         );
+        // Each person it names who holds a side moves: every such member of
+        // a burglarized household, the one victim of a robbery or assault.
+        const want = expected.get(victim.eventId)!;
+        const movers = new Set(moved.map((move) => move.personId));
+        if (want.atMostOne) expect(movers.size, at).toBe(1);
+        else expect([...movers].sort(), at).toEqual([...want.holders].sort());
         for (const move of moved) {
           // Only the household's own people, by their own experience: no
           // speaker, no record learned from someone else.
