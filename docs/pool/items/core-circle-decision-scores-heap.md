@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-circle-heap
-pr:
+pr: #5957
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T15:30:56.380Z

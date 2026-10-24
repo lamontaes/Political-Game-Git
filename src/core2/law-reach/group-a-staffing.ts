@@ -14,11 +14,10 @@ import type { ModuleRow } from "../module-data";
 import type { PolicyHandler } from "./host";
 import { appliedOn, lawApplied, lawNoLongerApplies } from "./applied";
 import {
-  adoptedLine,
   BUDGETS_MODULE_ID,
-  enactedBudgetChanges,
   governments,
   lineBeforeBill,
+  lineWithoutBills,
   type GovernmentRow,
 } from "../modules/budgets";
 import { countedStaffOf } from "../modules/residents";
@@ -73,10 +72,10 @@ export function lineRaisedByBills(
 ): boolean {
   const budget = budgetToday(api, gov);
   if (!budget) return false;
-  const withoutBills =
-    adoptedLine(api, gov, budget.fiscalYear, line) -
-    (enactedBudgetChanges(api, gov.id)[line] ?? 0);
-  return (budget.spendingMinor[line] ?? 0) > withoutBills;
+  return (
+    (budget.spendingMinor[line] ?? 0) >
+    lineWithoutBills(api, gov, budget.fiscalYear, line)
+  );
 }
 
 /**
