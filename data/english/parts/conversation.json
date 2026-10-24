@@ -5792,7 +5792,7 @@
         "nasa2": 1,
         "nps": 13
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -6912,7 +6912,7 @@
         "nasa2": 3,
         "nps": 17
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at a Campaign Rally for South Carolina Republican Senatorial Candidate Senator Darline Graham Nordone in Myrtle Beach, South Carolina",
         "date": "2026-08-21",
@@ -8585,7 +8585,7 @@
           "choice": "at"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-school-answers-more)",
       "date": "2026-10-15",
@@ -8606,7 +8606,7 @@
           "choice": "at"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-school-answers-more)",
       "date": "2026-10-15",
@@ -11419,7 +11419,7 @@
         "briefing": 1,
         "dcpd": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks to Servicemembers, First Responders, and Their Families on the Anniversary of the September 11, 2001, Terrorist Attacks at Joint Base Elmendorf- Richardson, Alaska",
         "date": "2023-09-11",
@@ -15504,7 +15504,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15526,7 +15526,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15548,7 +15548,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15570,7 +15570,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15592,7 +15592,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15614,7 +15614,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15636,7 +15636,7 @@
           "choice": "confess"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15658,7 +15658,7 @@
           "choice": "confess"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15680,7 +15680,7 @@
           "choice": "confess"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15702,7 +15702,7 @@
           "choice": "deflect"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15724,7 +15724,7 @@
           "choice": "deflect"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15746,7 +15746,7 @@
           "choice": "deflect"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15768,7 +15768,7 @@
           "choice": "refuse"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15796,7 +15796,7 @@
           "choice": "refuse"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15840,7 +15840,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15862,7 +15862,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15890,7 +15890,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15918,7 +15918,7 @@
           "choice": "promise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15940,7 +15940,7 @@
           "choice": "promise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15968,7 +15968,7 @@
           "choice": "promise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -15990,7 +15990,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16024,7 +16024,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16046,7 +16046,7 @@
           "choice": "blame"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16068,7 +16068,7 @@
           "choice": "blame"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16090,7 +16090,7 @@
           "choice": "blame"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16112,7 +16112,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16140,7 +16140,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16162,7 +16162,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16190,7 +16190,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16218,7 +16218,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16240,7 +16240,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16262,7 +16262,7 @@
           "choice": "apologize"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16284,7 +16284,7 @@
           "choice": "apologize"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16306,7 +16306,7 @@
           "choice": "apologize"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16328,7 +16328,7 @@
           "choice": "confess"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16350,7 +16350,7 @@
           "choice": "confess"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16372,7 +16372,7 @@
           "choice": "refuse"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16394,7 +16394,7 @@
           "choice": "promise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16416,7 +16416,7 @@
           "choice": "blame"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16438,7 +16438,7 @@
           "choice": "blame"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16460,7 +16460,7 @@
           "choice": "blame"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16488,7 +16488,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16516,7 +16516,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16538,7 +16538,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16560,7 +16560,7 @@
           "choice": "refuse"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16582,7 +16582,7 @@
           "choice": "refuse"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16604,7 +16604,7 @@
           "choice": "deflect"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16626,7 +16626,7 @@
           "choice": "deflect"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16648,7 +16648,7 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16670,7 +16670,7 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16692,7 +16692,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16714,7 +16714,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16736,7 +16736,7 @@
           "choice": "blame"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16758,7 +16758,7 @@
           "choice": "blame"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-justice-hearing-verdict-bank)",
       "date": "2026-10-19",
@@ -16781,7 +16781,7 @@
           "raises": "their-family"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16803,7 +16803,7 @@
           "raises": "their-family"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16825,7 +16825,7 @@
           "raises": "their-family"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16847,7 +16847,7 @@
           "raises": "their-family"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16870,7 +16870,7 @@
           "raises": "their-family"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16893,7 +16893,7 @@
           "raises": "their-family"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16916,7 +16916,7 @@
           "raises": "their-family"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16938,7 +16938,7 @@
           "raises": "their-family"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16960,7 +16960,7 @@
           "choice": "thanks"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -16982,7 +16982,7 @@
           "choice": "thanks"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17005,7 +17005,7 @@
           "stages": ["ill"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17028,7 +17028,7 @@
           "stages": ["ill"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17052,7 +17052,7 @@
           "stages": ["elsewhere"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17074,7 +17074,7 @@
           "stages": ["elsewhere"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17096,7 +17096,7 @@
           "stages": ["elsewhere"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17117,7 +17117,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17139,7 +17139,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17161,7 +17161,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17183,7 +17183,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17205,7 +17205,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17228,7 +17228,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17251,7 +17251,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17273,7 +17273,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17295,7 +17295,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17317,7 +17317,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17339,7 +17339,7 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17362,7 +17362,7 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17384,7 +17384,7 @@
           "choice": "congratulate"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17407,7 +17407,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17430,7 +17430,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17453,7 +17453,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17476,7 +17476,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17499,7 +17499,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17522,7 +17522,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17545,7 +17545,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17568,7 +17568,7 @@
           "choice": "condole"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17591,7 +17591,7 @@
           "choice": "condole"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17620,7 +17620,7 @@
           "choice": "help"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17643,7 +17643,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17666,7 +17666,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17689,7 +17689,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17712,7 +17712,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17735,7 +17735,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17758,7 +17758,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17781,7 +17781,7 @@
           "choice": "help"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17804,7 +17804,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17827,7 +17827,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17850,7 +17850,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17873,7 +17873,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17896,7 +17896,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17919,7 +17919,7 @@
           "choice": "comfort"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17942,7 +17942,7 @@
           "choice": "promise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17971,7 +17971,7 @@
           "choice": "reassure"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -17995,7 +17995,7 @@
           "stages": ["home"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18018,7 +18018,7 @@
           "stages": ["home"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18041,7 +18041,7 @@
           "stages": ["home"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18064,7 +18064,7 @@
           "stages": ["home"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18086,7 +18086,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18109,7 +18109,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18132,7 +18132,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18155,7 +18155,7 @@
           "choice": "thank"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18178,7 +18178,7 @@
           "choice": "thank"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18201,7 +18201,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18224,7 +18224,7 @@
           "choice": "tell"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18247,7 +18247,7 @@
           "choice": "open"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18269,7 +18269,7 @@
           "choice": "open"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18291,7 +18291,7 @@
           "choice": "open"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18313,7 +18313,7 @@
           "choice": "open"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18335,7 +18335,7 @@
           "choice": "open"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18357,7 +18357,7 @@
           "choice": "open"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18380,7 +18380,7 @@
           "stages": ["home"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18403,7 +18403,7 @@
           "stages": ["home"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18426,7 +18426,7 @@
           "stages": ["home"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18449,7 +18449,7 @@
           "stages": ["home"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18471,7 +18471,7 @@
           "choice": "bye"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18493,7 +18493,7 @@
           "choice": "bye"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18515,7 +18515,7 @@
           "choice": "bye"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18543,7 +18543,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18571,7 +18571,7 @@
           "choice": "ask"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18593,7 +18593,7 @@
           "choice": "tenure"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18615,7 +18615,7 @@
           "choice": "tenure"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18637,7 +18637,7 @@
           "choice": "ack"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18659,7 +18659,7 @@
           "choice": "ack"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18681,7 +18681,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18703,7 +18703,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18725,7 +18725,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18747,7 +18747,7 @@
           "choice": "not"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18769,7 +18769,7 @@
           "choice": "not"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18791,7 +18791,7 @@
           "choice": "not"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18813,7 +18813,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18835,7 +18835,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18857,7 +18857,7 @@
           "choice": "turn"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18879,7 +18879,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18901,7 +18901,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18923,7 +18923,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18945,7 +18945,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18967,7 +18967,7 @@
           "choice": "plain"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -18989,7 +18989,7 @@
           "choice": "plain"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19011,7 +19011,7 @@
           "choice": "years"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19033,7 +19033,7 @@
           "choice": "years"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19063,7 +19063,7 @@
           "requiresFacts": ["long-ago"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19093,7 +19093,7 @@
           "requiresFacts": ["long-ago"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19115,7 +19115,7 @@
           "choice": "turn"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19137,7 +19137,7 @@
           "choice": "turn"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19160,7 +19160,7 @@
           "stages": ["default"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19183,7 +19183,7 @@
           "stages": ["default"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19206,7 +19206,7 @@
           "stages": ["default"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19229,7 +19229,7 @@
           "stages": ["default"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19252,7 +19252,7 @@
           "stages": ["default"]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19274,7 +19274,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19297,7 +19297,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19320,7 +19320,7 @@
           "choice": "raise"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19343,7 +19343,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19365,7 +19365,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19387,7 +19387,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19409,7 +19409,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19431,7 +19431,7 @@
           "choice": "brief"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19453,7 +19453,7 @@
           "choice": "ok"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19475,7 +19475,7 @@
           "choice": "ok"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19497,7 +19497,7 @@
           "choice": "help"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -19520,7 +19520,7 @@
           "choice": "reassure"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",

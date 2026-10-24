@@ -98,7 +98,7 @@
       "kind": "written",
       "text": "The manager turned first to {topic}.",
       "minutesUsing": 36,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-06-17",
@@ -115,7 +115,7 @@
       "kind": "written",
       "text": "The manager then turned to {topic}.",
       "minutesUsing": 11,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Minutes of the Federal Open Market Committee",
         "date": "2026-03-18",

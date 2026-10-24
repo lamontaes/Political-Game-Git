@@ -9,6 +9,7 @@ import { printedStoryOf } from "../core2/modules/press";
 import { coreAPI } from "../core2/state";
 import { bringItUp, changesKnownTo } from "./bring-it-up";
 import { questionTopic } from "./question-names";
+import { properName } from "./words";
 
 // A neighbor says aloud what they read in the paper (pool item
 // gov-stopgap-press-desk-missing-record): in a played world, in a place drawn
@@ -18,7 +19,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? "bring-it-up-press";
 const place = drawPlace(seed, "bring-it-up-press");
 
 describe(`bring it up: a printed story in ${place.key} (seed ${place.seed})`, () => {
-  it("tells the neighbor of the printed story, says no hand-written line, and is retold as the same kind of change", () => {
+  it("names the outlet and the topic, and is retold as the same kind of change", () => {
     setBookkeeping(false);
     const world = buildBenchWorld(place.seed, "2026-10-12", {
       twoLevel: true,
@@ -49,17 +50,17 @@ describe(`bring it up: a printed story in ${place.key} (seed ${place.seed})`, ()
     const [change] = spoken(reader!.id);
     const story = printedStoryOf(api, storyOfReadEvent(change!.eventId)!)!;
     const said = bringItUp(core, reader!.id, listener);
-    // The reader still knows the story and tells the neighbor. The sentences
-    // that name the outlet and the topic are hand-written and held until
-    // graded (pool item words-bring-it-up-law-line, batch 22), so nothing is
-    // said aloud, never an empty or hand-written line, until the engine
-    // writes it.
     expect(said).not.toBeNull();
-    expect(said!.change.eventId).toBe(change!.eventId);
-    expect(core.organizations.has(story.organizationId)).toBe(true);
-    expect(questionTopic(story.topic)).toBeTruthy();
-    expect(said!.toldEventId).toBeTruthy();
-    expect(said!.lines).toEqual([]);
+    // One line: the outlet and the topic; no one is blamed for a story.
+    expect(said!.lines).toHaveLength(1);
+    const outlet = core.organizations.get(story.organizationId)!.name;
+    expect(said!.lines[0]!.text.toLowerCase()).toContain(
+      properName(outlet).toLowerCase(),
+    );
+    expect(said!.lines[0]!.text.toLowerCase()).toContain(
+      questionTopic(story.topic)!.toLowerCase(),
+    );
+    expect(said!.lines[0]!.sourceRecordIds).toContain(change!.eventId);
     expect(said!.change.kind).toBe("news.read");
     // The listener now holds it as heard, and says it as the same kind.
     const heard = changesKnownTo(core, listener).find(

@@ -51,7 +51,7 @@
       "move": "ordinance",
       "kind": "written",
       "text": "Council Resolutions and Ordinances: {designation}, {title}",
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "City Bulletin of Public Notices, Council Resolutions and Ordinances",
         "date": "2026-10-07",

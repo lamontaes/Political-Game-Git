@@ -12,9 +12,8 @@ import { coreAPI } from "../core2/state";
 import { spokenDesignation } from "../english/bill-names";
 import { purposeScene } from "./purpose-scene";
 
-// A vote trade is a scene for both sides (owner, Oct 24: "passing along his
-// bargaining votes and comments ... at least make it work behind the
-// scenes"). When a sponsor gives a holdout a section for their vote, the
+// A vote trade is a scene for both sides. When a sponsor gives a holdout a
+// section for their vote, the
 // legislature records it (bill-amendment, kind trade-amendment); the holdout
 // is asked for their vote by the sponsor, and the sponsor bargains with the
 // holdout over the section. Both are cast from the record and say its bill and
@@ -84,9 +83,8 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
         [holdout, ask.entry!],
         [sponsor, bargain.entry!],
       ] as const) {
-        const result = purposeScene(core, director, personId as never, entry, {
-          includeHeld: true,
-        });
+        // The lines that play, as ordinary play says them.
+        const result = purposeScene(core, director, personId as never, entry);
         expect(result?.kind, `${where}: ${personId}`).toBe("composed");
         if (result?.kind !== "composed") continue;
         const fact = (key: string) =>
@@ -118,9 +116,6 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
         director,
         sponsor as never,
         bargain.entry!,
-        {
-          includeHeld: true,
-        },
       );
       expect(
         asked?.kind === "composed" ? asked.scene.talk.state.text : "",
