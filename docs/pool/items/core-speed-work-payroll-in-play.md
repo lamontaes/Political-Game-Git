@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/work-payroll-cash.ts, src/core2/work-pay-period.ts
 
 **Notes.** Filed Oct 24 by the speed lead. Same helper as core-speed-work-attendance-in-play, after it.
+
+Sent back 2026-10-24 from PR #5925 (branch claude/speed-work-payroll): the explicit attendance prerequisite #5924 remains open and unmerged, so the carried work-pay-period stack must wait for that review; finish on that branch, merge main into it first after #5924 merges. No local gate, speed or fingerprint claim is made.
