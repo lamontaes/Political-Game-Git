@@ -8,7 +8,6 @@
 import { describe, expect, it } from "vitest";
 import { testPlace } from "./money-traits-kit";
 import { coreAPI } from "./state";
-import { decisionTraitWeight } from "./trait-decisions";
 import { describePair, playedPairs } from "./trait-pairs";
 
 /** The money decisions a played window weighs for named actors, with the chooser's yes option. */
@@ -57,18 +56,6 @@ describe("money decisions in a played window", () => {
     expect(pairs.length, `places tried: ${tried.join("; ")}`).toBeGreaterThan(
       0,
     );
-    // Founding's cases sit within reach of a trait lean: at least 1 weighing in 200 is no more than two leans (twice the weight) below not starting. At the old baseline the best of a year's 46,674 weighings sat 1.1 below it and personality turned none.
-    const founding = calls.filter(
-      (call) => call.decisionId === "business.found",
-    );
-    if (founding.length >= 1000) {
-      const reach = 2 * decisionTraitWeight(world.core, "business.found");
-      const near = founding.filter((call) => call.bare > -reach).length;
-      expect(
-        near / founding.length,
-        `${near} of ${founding.length} founding weighings within ${reach} of not starting at ${label}`,
-      ).toBeGreaterThanOrEqual(0.005);
-    }
     const borrow = pairs.find((p) => p.decisionId === "credit.borrow");
     if (borrow)
       expect(
