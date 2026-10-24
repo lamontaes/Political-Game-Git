@@ -62,6 +62,8 @@ import {
   SAME_DAY,
   termLimitReached,
 } from "./law-reach/group-a-voting";
+// After the engines: the outcome web reads this module while it loads.
+import { govMeasure } from "./gov-measures";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -648,6 +650,22 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
       });
       advanceCore(core, after(api.state.date, 1));
     });
+
+  it("a dedicated parks law at the state moves the town's parks measure the outcome web reads, and a repeal puts it back", () => {
+    const key =
+      "us-policy-positions:civil-family-community.dedicated-parks-funding";
+    const before = govMeasure(api, "budget.parks-added-pct") ?? 0;
+    enact(key, "state", 1);
+    expect(
+      govMeasure(api, "budget.parks-added-pct") ?? 0,
+      where,
+    ).toBeGreaterThan(before);
+    enact(key, "state", 0);
+    expect(govMeasure(api, "budget.parks-added-pct") ?? 0, where).toBeCloseTo(
+      before,
+      6,
+    );
+  });
 
   // Last in the file: it lives a year, which the tests above (they share this town) must not.
   it("the treasury reads a dedicated parks levy again when a new fiscal year's budget is adopted, and a repeal ends it", () => {

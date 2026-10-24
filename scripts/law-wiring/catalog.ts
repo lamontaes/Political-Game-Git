@@ -338,6 +338,9 @@ const MEASURES: Readonly<Record<string, readonly string[]>> = {
   "budget-line:police": ["police.officers-per-1000"],
   "budget-line:schools": ["school.spending-per-student"],
   "budget-line:highways": ["roads.condition", "roads.poor-condition-pct"],
+  "us-policy-positions:civil-family-community.dedicated-parks-funding": [
+    "budget.parks-added-pct",
+  ],
   "budget-line:corrections": ["justice.incarcerated-per-100k"],
   "property-tax": ["tax.property-rate"],
   "corporate-income-tax": ["tax.state-corporate-rate"],
