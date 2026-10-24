@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
-claimed-by: claude/release-red-housing
+status: open
+claimed-by:
 pr: #5324
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-19T23:59:25.221Z
+claimed-at:
 ---
 
 **What.** The housing-calibration test fails at line 81 with a value of 0.25 against a lower bound of 0.6723: the town's count should sit near its state's HUD rate, and it does not. Find whether the opening's housing mix or the calibration bound is wrong, and fix the one that is, so the count follows the state's rate. The town's housing then follows its state's rate.

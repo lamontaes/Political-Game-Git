@@ -1,7 +1,7 @@
 ---
 id: release-red-electorate-weight
-title: "The electorate-weight test fails on main at line 40: expected false to be true"
-area: release
+title: "electorate-weight test fails at line 40: a counted voter is not counted as many times as its household stands for"
+area: gov
 kind: bug
 priority: 2
 size: S
@@ -22,6 +22,7 @@ claimed-at:
 **Files.** src/core2/electorate-weight.test.ts, src/core2/electorate-inputs.ts, src/core2/electorate.ts
 
 **Notes.** Found by running src/core2 on main, Oct 19 (release-suite-red-list-on-main): AssertionError 'expected false to be true' at electorate-weight.test.ts:40. The failure did not print the place or seed; print them first.
-**Notes.** PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.
 
 PR #5318 sent back: Merge conflict with main in src/core2/electorate-weight.test.ts.
+
+Sent back 2026-10-23 from PR #5318 (branch claude/red-electorate-weight): Superseded by changes already on main; preserve the Oct 20 04:40 returned-open status instead of the older in-pr claim; no new implementation remains to merge; finish on that branch, merge main into it first.

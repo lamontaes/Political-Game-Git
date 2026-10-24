@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5764
 blocked-on:
