@@ -15,7 +15,7 @@ This folder is that place. It replaces the pool lists inside work orders, the "N
 - **Stale claims:** a claim older than 60 minutes with no pushed branch and no PR may be released and taken; say so in the item's Notes.
 - **Adding:** `npm run pool -- add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --rules ... --done ... --files ...` creates the item and pushes it to main. A priority 1 or 2 item must give all four body flags (`--notes` is optional); `add` refuses one that would fail the quality check below. Priority 3 may start from the template.
 - **Size** (owner, Oct 15): an L item is split by the session that claims it into bounded sub-items in the pool (each S or M with its own done-when) before any building; the L item becomes `blocked-on` its parts.
-- **Pick in order:** the index's "Next up" list (the first 15) is the order: priority (1 first), then size (S, M, L), then area, then id. A session with an assignment finishes it, then takes the pool from the top.
+- **Pick in order:** the index's "Next up" list (the first 15) is the order: play-first items come first, in the order the play-first work order gives; then priority, size, area, id. A session with an assignment finishes it, then takes the pool from the top.
 
 ## Prompts
 

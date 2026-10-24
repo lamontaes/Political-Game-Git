@@ -173,7 +173,7 @@
       "link": "snap-to-food-insecurity",
       "outcome": "household.food-insecurity",
       "reason": "engine doesn't read the factor: household.food-insecurity moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-household-food-insecurity"
+      "stopgapId": "SG-WEB-snap-receipt-ledger"
     },
     {
       "link": "parent-incarceration-to-household-income",
@@ -408,12 +408,6 @@
       "outcome": "finance.medical-debt-in-collections",
       "reason": "engine doesn't read the factor: finance.medical-debt-in-collections moves only in the web's monthly ledger; no engine multiplies its own rates by it",
       "stopgapId": "SG-WEB-unread-finance-medical-debt-in-collections"
-    },
-    {
-      "link": "snap-work-requirement-to-participation",
-      "outcome": "program.snap-receipt",
-      "reason": "engine doesn't read the factor: program.snap-receipt moves only in the web's monthly ledger; no engine multiplies its own rates by it",
-      "stopgapId": "SG-WEB-unread-program-snap-receipt"
     },
     {
       "link": "end-cash-bail-to-pretrial-detention",
