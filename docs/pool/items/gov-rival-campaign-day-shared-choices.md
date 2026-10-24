@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5268 (branch claude/rival-campaign-day): the choos
 Sent back 2026-10-23 from PR #5268 (branch claude/rival-campaign-day): current main conflicts in src/core2/campaign-turn.test.ts, and the body explicitly lacks played-world year/record-ID proof while the item acceptance is still TODO; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #5268 (branch claude/rival-campaign-day): conflict and spec repaired, but Done-when act-mix row still explicitly Not shown; supply the drawn played-world campaign record proof; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5268 (branch claude/rival-campaign-day): shared rival canvassing drops fillCounted:false at campaign-day.ts:384, causing knockDoors to materialize counted residents the player never met; preserve the counted route for world candidates and prove unchanged full-person population alongside player on-meet behavior; finish on that branch, merge main into it first.
