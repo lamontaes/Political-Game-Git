@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-city-treasury
+pr: #5891
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T14:49:01.043Z
 ---
 
 **What.** PR #5891 found why a 180-person city (Dickens, Iowa) showed about seven trillion dollars a year of employer flows: the treasury lookup took the first organization in town with an outside account, sorted by id, and a public employer's pay authority sorts before the outside market, so the federal and state monthly outside flows ran through the city. Thirteen other engines found the outside the same way. This bounded item is that lookup fix; the broader balance acceptance stays open in core-city-treasury-trillions-dickens, which waits on the M0-08 check's opening-timing fix.
