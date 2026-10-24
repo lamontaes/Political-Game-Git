@@ -2,7 +2,8 @@
  * A counted household's own jobs and yearly wages follow the jobs engine's
  * changes to its workers' jobs (hires, quits, layoffs, closures), so the
  * household's income reads the jobs its employers pay, and a member hired
- * during the year keeps that job, on its payroll, when the player meets them.
+ * during the year keeps that job, on its payroll, when the player meets them:
+ * the payday calendar it keeps is its own employer's.
  * Played for a
  * year in the bench world in a place drawn from all 56 on a seed nobody
  * chose; a year with no counted hire is drawn again, a bounded number of
@@ -16,6 +17,7 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { employerPayrollCalendar } from "./modules/jobs";
 import {
   countedHouseholdsByPlace,
   residentsRuntime,
@@ -103,6 +105,45 @@ describe(`a counted household's jobs follow its workers' jobs (seed ${seed})`, (
           households += 1;
         }
       expect(households, where).toBeGreaterThan(0);
+
+      // Each work commitment a counted household keeps names a payday calendar
+      // of its own employer, so meeting the worker can enroll them on it.
+      const calendars = new Map(
+        (rt.input.calendars ?? []).map((row) => [row.id, row]),
+      );
+      let commitments = 0;
+      for (const h of rt.store.liveHouseholds())
+        for (const commitment of h.workCommitments ?? []) {
+          if (!commitment.payrollCalendarId) continue;
+          const calendar = calendars.get(commitment.payrollCalendarId);
+          expect(
+            calendar?.organizationId,
+            `${where}: ${commitment.id} on ${commitment.payrollCalendarId}`,
+          ).toBe(commitment.organizationId);
+          commitments += 1;
+        }
+      expect(commitments, where).toBeGreaterThan(0);
+      // A hire at an employer that does not run the role's calendar (a new
+      // business takes its roles from an existing one) keeps the employer's
+      // copy of it: the same schedule and payday, under the employer's id.
+      const kept = [...calendars.values()];
+      const role = kept[0]!;
+      const other = kept.find(
+        (row) => row.organizationId !== role.organizationId,
+      )?.organizationId;
+      expect(other, `${where}: two employers' calendars`).toBeDefined();
+      const copy = employerPayrollCalendar(role, other!);
+      expect(copy.organizationId, `${where}: ${role.id} at ${other}`).toBe(
+        other,
+      );
+      expect(copy.id).toBe(`${role.id}:at:${other}`);
+      expect({
+        ...copy,
+        id: role.id,
+        organizationId: role.organizationId,
+        basisRecordIds: role.basisRecordIds,
+      }).toEqual(role);
+      expect(employerPayrollCalendar(role, role.organizationId)).toBe(role);
 
       // A member hired during the year keeps that job, with its pay, when met.
       const job = hired
