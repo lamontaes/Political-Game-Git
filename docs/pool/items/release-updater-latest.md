@@ -4,7 +4,7 @@ title: "Check for updates in the installed Mac app finds the newest release"
 area: release
 kind: bug
 priority: 2
-status: in-pr
+status: open
 claimed-by:
 pr: #5841
 blocked-on:
@@ -29,3 +29,5 @@ Checked Oct 15 by a Claude session. The release side is right: release.yml requi
 Oct 20 (pool feeder): spec written; the 'second release' blocker is gone (v0.19.2, v0.19.1 and earlier are published with both feeds), so the feed guard is buildable now; the Mac install step stays with the owner, and desktop/tests/updater.test.mjs says signed automatic installation is unproven until signing credentials exist.
 
 Sent back 2026-10-23 from PR #5841 (branch claude/release-feed-check): The release-feed checker credits a missing-subdirectory installer URL using the root file's hash/size and incorrectly returns no problems; validate the actual published asset name/path and add a negative regression.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5841 (branch claude/release-feed-check): path fix and 20 desktop tests pass, but next-release workflow and installed-Mac offer/install/launch rows remain future evidence; use a bounded feed-guard item and keep operational acceptance open, or supply it; finish on that branch, merge main into it first.
