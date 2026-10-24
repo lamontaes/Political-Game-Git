@@ -134,9 +134,16 @@ export function localAuthority(
   chain: LawChain,
   date: string,
 ): { allowed: boolean; measureId: string | null; preempts: boolean } {
-  const starting = authorityRows.find(
+  // A statute enacted in play amends the state's grant outright: its newest
+  // row stands over the research's row, as at every other level (`levelRow`).
+  const inState = authorityRows.filter(
     (row) => row.jurisdiction === chain.stateKey && inForceOn(row, date),
   );
+  const starting =
+    inState
+      .filter((row) => row.terms?.enactedBy !== undefined)
+      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0] ??
+    inState[0];
   const candidate = (
     answer: "yes" | "no",
     measureId: string,

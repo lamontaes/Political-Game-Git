@@ -13,8 +13,8 @@ import {
   lawChain,
   lawInForce,
   LAWS_MODULE_ID,
-  raiseToFloor,
 } from "../modules/laws";
+import { raiseToFloor } from "../wage-floor";
 import { BUDGETS_MODULE_ID, governments } from "../modules/budgets";
 import { lawApplied } from "./applied";
 import type { PolicyHandler } from "./host";

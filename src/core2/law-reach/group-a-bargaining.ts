@@ -9,12 +9,10 @@
  * contract already paid). A law that stood at the opening is already in the
  * pay the jobs were set from.
  */
-import type { CoreAPI, CoreState, Source } from "../types";
+import type { CoreAPI } from "../types";
 import type { ModuleRow } from "../module-data";
-import { PUBLIC_EMPLOYER_CLASSES } from "../public-pay-floor";
+import { holdBargainedPay } from "../public-bargaining";
 import type { PolicyHandler } from "./host";
-import { jobsAt } from "./group-b-money";
-import { payReach } from "./pay-reach";
 import { onReachCalendar } from "./reach-workers";
 import {
   ensureReachA,
@@ -26,8 +24,6 @@ import {
 
 const KIND = "law-reach-a-bargaining";
 const ROW = "public-bargaining";
-const BARGAINING_KEY =
-  "us-policy-positions:labor-workforce.public-sector-collective-bargaining";
 
 interface BargainingRow {
   readonly id: string;
@@ -74,36 +70,14 @@ function save(api: CoreAPI, row: BargainingRow, active: boolean): void {
 
 /** Raise each public job toward its bargained pay; returns the row with new bases. */
 function apply(api: CoreAPI, row: BargainingRow): BargainingRow {
-  const core = api.state as CoreState;
-  const share = premiumShare(row, core.date);
-  const premium = reachParameter("publicBargainingPayPremium");
-  const base: Record<string, number> = { ...row.baseMinor };
-  const source: Source = {
-    tag: "ESTIMATED",
-    asOf: core.date,
-    citation: `${row.lawId}; public-sector union wage premium`,
-    estimatedFrom:
-      "Public workers who bargain through a union are paid about five percent more than those who do not.",
+  return {
+    ...row,
+    baseMinor: holdBargainedPay(api, {
+      lawId: row.lawId,
+      share: premiumShare(row, api.state.date),
+      baseMinor: row.baseMinor,
+    }),
   };
-  const reach = payReach(api, {
-    key: BARGAINING_KEY,
-    lawId: row.lawId,
-    engine: REACH_A_MODULE_ID,
-    what: "bargained-pay-raised",
-  });
-  for (const job of jobsAt(api, PUBLIC_EMPLOYER_CLASSES)) {
-    const hourly = job.hourlyMinor ?? 0;
-    if (hourly <= 0) continue;
-    base[job.id] ??= hourly;
-    const target = Math.ceil(base[job.id]! * (1 + premium * share));
-    // Pay already above the bargained level (a floor, a raise) stays.
-    if (target > hourly) {
-      api.rerateJob(job.id, target, source);
-      reach.add(job, (job.wageDailyMinor * (target - hourly)) / hourly);
-    }
-  }
-  reach.flush();
-  return { ...row, baseMinor: base };
 }
 
 function schedule(api: CoreAPI, row: BargainingRow): void {

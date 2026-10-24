@@ -17,6 +17,7 @@
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
+    "minimum-wage-to-low-wage-jobs",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
@@ -121,7 +122,8 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "parks-spending-to-exercise-access"
   ],
   "waiting": {
     "police-to-low-level-arrests": {
@@ -234,9 +236,6 @@
     "minimum-wage-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts wageFloor raises pay; src/core2/world-poverty.ts counts it"
-    },
-    "minimum-wage-to-low-wage-jobs": {
-      "waitingOn": ["labor.minimum-wage-to-median"]
     },
     "unemployment-to-poverty": {
       "waitingOn": [],
@@ -515,9 +514,6 @@
     },
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
-    },
-    "parks-spending-to-exercise-access": {
-      "waitingOn": ["budget.parks-added-pct"]
     }
   },
   "measuresWanted": {
@@ -582,10 +578,6 @@
       "links": 2
     },
     "approval.incumbent": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "budget.parks-added-pct": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -775,10 +767,6 @@
     },
     "labor.formal-employment": {
       "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.minimum-wage-to-median": {
-      "owner": "OPUS-GOV",
       "links": 1
     },
     "labor.unemployment-pct": {
