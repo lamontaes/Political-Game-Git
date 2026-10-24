@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/office-before-it-exists
-pr:
+pr: #5952
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T14:56:01.343Z
