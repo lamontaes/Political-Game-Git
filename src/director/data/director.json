@@ -1279,6 +1279,11 @@
       "impactParameter": "directorFloorVoteImpact"
     },
     {
+      "eventKind": "debate",
+      "channel": "cause",
+      "impactParameter": "directorCampaignSpeechImpact"
+    },
+    {
       "eventKind": "executive-action",
       "channel": "cause",
       "impactParameter": "directorExecutiveActionImpact"

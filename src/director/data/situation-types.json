@@ -3152,6 +3152,13 @@
       "timing": "at-cause",
       "causes": [
         {
+          "match": { "label": "cause:event:debate", "selfNamed": true },
+          "causeEngine": "meetings",
+          "causeRecord": "debate",
+          "bind": { "opponent": "counterpart", "you": "subject" },
+          "opener": "opponent"
+        },
+        {
           "awaitingProducer": "rally",
           "causeEngine": "elections",
           "causeRecord": "campaign-event",

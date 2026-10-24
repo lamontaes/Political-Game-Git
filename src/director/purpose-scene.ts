@@ -142,6 +142,13 @@ export function purposeScene(
       text: said.traded ?? "",
       sourceRecordIds: [moment.causeId],
     };
+  // A debate the race just held (meetings.ts holdDebate): the lines about the
+  // debate that just ended need it.
+  if (record?.kind === "debate")
+    facts.debate = {
+      text: said.debateId ?? "",
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.office)
     facts.office = {
       text: said.office,
