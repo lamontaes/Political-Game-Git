@@ -1,0 +1,2156 @@
+{
+ "seed": "5e27b0c4196fd3a8",
+ "place": {
+  "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+  "key": "3149425",
+  "name": "Uehling, Nebraska",
+  "state": "US-NE"
+ },
+ "window": 35,
+ "after": 10,
+ "results": [
+  {
+   "key": "budget-line:police",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 police 4776349 -> 14776349 by law-wiring-e6fd8b9f",
+   "lawIds": [
+    "law-wiring-e6fd8b9f"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 2,
+    "countedGroups": 34,
+    "countedPeople": 145,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 37,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20",
+     "reach:law-wiring-e6fd8b9f:hired:person_03819202b5d285c1:2025-01-21",
+     "reach:law-wiring-e6fd8b9f:hired:person_5adf61e87a0a8e37:2025-01-21",
+     "applied|budget-line:police|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 17724608,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9721238,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-01-21:1542",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+      "treatment": 3722564,
+      "control": 3585745,
+      "ids": [
+       "journal:2025-02-01:1925",
+       "journal:2025-02-01:1928",
+       "journal:2025-02-01:1931"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:551",
+      "treatment": 604966,
+      "control": 689416,
+      "ids": [
+       "journal:2025-02-08:7843",
+       "journal:2025-02-15:8018",
+       "journal:2025-02-21:8193"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 109595214,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1576",
+       "journal:2025-01-29:1614",
+       "journal:2025-01-30:1619"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 14913209,
+      "control": 14845648,
+      "ids": [
+       "journal:2025-02-01:1894",
+       "journal:2025-02-01:1895",
+       "journal:2025-02-01:1896"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+      "treatment": 777641,
+      "control": 739130,
+      "ids": [
+       "journal:2025-02-01:7572",
+       "journal:2025-02-01:7573",
+       "journal:2025-02-01:7574"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:595",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1640",
+       "journal:2025-02-01:1641",
+       "journal:2025-02-01:1642"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+      "treatment": 1183954,
+      "control": 1174309,
+      "ids": [
+       "journal:2025-02-01:1926",
+       "journal:2025-02-01:1927",
+       "journal:2025-02-01:1929"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2894724,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1560",
+       "journal:2025-01-25:1562",
+       "journal:2025-01-27:1574"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 26723,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7822",
+       "journal:2025-02-06:7823"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+      "treatment": 189,
+      "control": 33,
+      "ids": [
+       "journal:2025-02-24:8224"
+      ]
+     }
+    ],
+    "diffKinds": 12,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "police-to-violent-crime",
+      "status": "built",
+      "to": "crime.violent"
+     },
+     {
+      "key": "police-to-property-crime",
+      "status": "built",
+      "to": "crime.property"
+     },
+     {
+      "key": "police-to-low-level-arrests",
+      "status": "size-not-set",
+      "to": "justice.low-level-arrests"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 2,
+    "countedGroups": 33,
+    "countedPeople": 124,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 36,
+    "ended": 2,
+    "sample": [
+     "reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20",
+     "reach:law-wiring-e6fd8b9f-undo:laid-off:person_5adf61e87a0a8e37:2025-02-26",
+     "reach:law-wiring-e6fd8b9f-undo:laid-off:person_03819202b5d285c1:2025-02-26",
+     "applied|budget-line:police|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 2,
+    "sample": []
+   },
+   "seconds": 14
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-26:law-wiring-d1a63142-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 1,
+    "governments": 1,
+    "other": 0,
+    "open": 2,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.civilian-oversight-of-police|organization_323a5cedbef21846",
+     "applied|us-policy-positions:justice-public-safety.civilian-oversight-of-police|place:3149425"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 587,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/life.ts:549": 25,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/modules/world-legislating.ts:333": 5,
+    "src/core2/public-safety.ts:125": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 32175,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820",
+       "journal:2025-02-06:7821"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16897446,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1574",
+       "journal:2025-01-29:1612",
+       "journal:2025-01-30:1617"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 109601382,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2932864,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561",
+       "journal:2025-01-27:1573"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 32175,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820",
+       "journal:2025-02-06:7821"
+      ]
+     },
+     {
+      "kind": "drive-donation @ src/core2/modules/drives.ts:1156",
+      "treatment": 0,
+      "control": 33,
+      "ids": [
+       "journal:2025-02-24:8226"
+      ]
+     }
+    ],
+    "diffKinds": 5,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "civilian-oversight-to-crime",
+      "status": "built",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "civilian-oversight-to-crime",
+      "from": "law:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "lagMonths": 12,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "civilian-oversight-to-crime",
+      "from": "law:us-policy-positions:justice-public-safety.civilian-oversight-of-police",
+      "lagMonths": 12,
+      "treated": 1,
+      "control": 0
+     }
+    ],
+    "reenacted": {
+     "id": "law:county:31053:county:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-02-20:2025-1",
+     "effectiveDate": "2025-02-20",
+     "value": 0
+    }
+   },
+   "heard": {
+    "people": 83,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.civilian-oversight-of-police:general:2025-01-21:law-wiring-d1a63142"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-02-26:law-wiring-8eb3a911-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 8,
+    "countedPeople": 8,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 8,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-0:rent:18-29:not-working",
+     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-2:mortgage:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-1:mortgage:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement|group:group:jurisdiction_45a3b3ebe97fe71d:town:one-adult:income-0:other:65-plus:retired"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 132,
+    "src/core2/modules/outcome-web.ts:158": 70,
+    "src/core2/modules/world-legislating.ts:253": 29,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 9,
+    "src/core2/modules/world-legislating.ts:333": 6,
+    "src/core2/public-safety.ts:125": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 26507,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820",
+       "journal:2025-02-06:7821"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16722578,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1574",
+       "journal:2025-01-29:1612",
+       "journal:2025-01-30:1617"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 109555712,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2913717,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561",
+       "journal:2025-01-27:1573"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 26507,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820",
+       "journal:2025-02-06:7821"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "enforcement-to-hispanic-enrollment",
+      "status": "built",
+      "to": "school.hispanic-enrollment"
+     },
+     {
+      "key": "enforcement-to-undocumented-employment",
+      "status": "built",
+      "to": "labor.undocumented-employment"
+     },
+     {
+      "key": "enforcement-to-us-born-employment",
+      "status": "built",
+      "to": "labor.us-born-employment"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "enforcement-to-undocumented-employment",
+      "effect": -0.057
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "enforcement-to-us-born-employment",
+      "effect": -0.005
+     }
+    ],
+    "firedCount": 2,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "enforcement-to-hispanic-enrollment",
+      "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "lagMonths": 24,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "enforcement-to-undocumented-employment",
+      "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "enforcement-to-us-born-employment",
+      "from": "law:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     }
+    ],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 83,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement:general:2025-01-21:law-wiring-8eb3a911"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 13
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.end-cash-bail",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-02-26:law-wiring-84938433-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 35,
+    "countedPeople": 35,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 35,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.end-cash-bail|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:rent:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.end-cash-bail|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.end-cash-bail|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-2:mortgage:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.end-cash-bail|group:group:jurisdiction_45a3b3ebe97fe71d:town:one-adult:income-1:mortgage:30-44:working"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 152,
+    "src/core2/modules/outcome-web.ts:158": 60,
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/public-safety.ts:125": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.end-cash-bail:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 18971,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 18971,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "end-cash-bail-to-pretrial-detention",
+      "status": "built",
+      "to": "justice.pretrial-detained"
+     },
+     {
+      "key": "end-cash-bail-to-violent-crime",
+      "status": "built",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "end-cash-bail-to-pretrial-detention",
+      "effect": -0.2
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "end-cash-bail-to-pretrial-detention",
+      "effect": -0.2
+     }
+    ],
+    "firedCount": 2,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "end-cash-bail-to-pretrial-detention",
+      "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "end-cash-bail-to-violent-crime",
+      "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
+      "lagMonths": 6,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "end-cash-bail-to-pretrial-detention",
+      "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "end-cash-bail-to-violent-crime",
+      "from": "law:us-policy-positions:justice-public-safety.end-cash-bail",
+      "lagMonths": 6,
+      "treated": 1,
+      "control": 0
+     }
+    ],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.end-cash-bail:general:2025-01-21:law-wiring-84938433"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 13
+  },
+  {
+   "key": "budget-line:corrections",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 corrections 0 -> 10000000 by law-wiring-b12dcfab",
+   "lawIds": [
+    "law-wiring-b12dcfab"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 35,
+    "countedPeople": 35,
+    "households": 0,
+    "organizations": 0,
+    "governments": 1,
+    "other": 0,
+    "open": 36,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:corrections|service:corrections",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-2:mortgage:45-64:working",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:rent:30-44:working"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:595",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1639",
+       "journal:2025-02-01:1640",
+       "journal:2025-02-01:1641"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "incarceration-to-crime",
+      "status": "about-zero",
+      "to": "crime.all"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 34,
+    "households": 0,
+    "organizations": 0,
+    "governments": 1,
+    "other": 0,
+    "open": 35,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:corrections|service:corrections",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-2:mortgage:45-64:working",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:rent:30-44:working"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 13
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting:restored:estimated:restored:2025-01-20"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 227,
+    "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:625": 40,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 18,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:467": 8,
+    "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:483": 8,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16664876,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1574",
+       "journal:2025-01-29:1612",
+       "journal:2025-01-30:1617"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 109541634,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2907397,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561",
+       "journal:2025-01-27:1573"
+      ]
+     }
+    ],
+    "diffKinds": 3,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "restore-voting-to-turnout",
+      "status": "built",
+      "to": "voting.turnout-pct"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "restore-voting-to-turnout",
+      "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "lagMonths": 0,
+      "treated": 0,
+      "control": 1
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "restore-voting-to-turnout",
+      "from": "law:us-policy-positions:justice-public-safety.restore-voting-after-sentence",
+      "lagMonths": 0,
+      "treated": 0,
+      "control": 1
+     }
+    ],
+    "reenacted": {
+     "id": "law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-04-30:LB 8",
+     "effectiveDate": "2025-04-30",
+     "value": 1
+    }
+   },
+   "heard": {
+    "people": 69,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-01-21:law-wiring-9af17480"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 1,
+    "sample": [
+     "reach:law:US-NE:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:2025-02-26:law-wiring-9af17480-b:restored:estimated:restored:2025-02-26"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 1,
+    "sample": []
+   },
+   "seconds": 13
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-01-21:law-wiring-e19ea271",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-02-26:law-wiring-e19ea271-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.raise-juvenile-court-age|group:named-residents"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 227,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 22,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/public-safety.ts:125": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 27147,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16664876,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1574",
+       "journal:2025-01-29:1612",
+       "journal:2025-01-30:1617"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 109541634,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2907397,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561",
+       "journal:2025-01-27:1573"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 27147,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "juvenile-court-age-to-crime",
+      "status": "built",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "juvenile-court-age-to-crime",
+      "from": "law:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "lagMonths": 0,
+      "treated": 0,
+      "control": 1
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "juvenile-court-age-to-crime",
+      "from": "law:us-policy-positions:justice-public-safety.raise-juvenile-court-age",
+      "lagMonths": 0,
+      "treated": 0,
+      "control": 1
+     }
+    ],
+    "reenacted": {
+     "id": "law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-05-06:LB 13",
+     "effectiveDate": "2025-05-06",
+     "value": 1
+    }
+   },
+   "heard": {
+    "people": 69,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-01-21:law-wiring-e19ea271",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-01-21:law-wiring-e19ea271",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-juvenile-court-age:general:2025-01-21:law-wiring-e19ea271"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 1,
+    "countedPeople": 1,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 1,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.raise-juvenile-court-age|group:named-residents"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 12
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.child-access-prevention",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-02-26:law-wiring-839e7cff-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 12,
+    "countedPeople": 79,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 12,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.child-access-prevention|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working",
+     "applied|us-policy-positions:justice-public-safety.child-access-prevention|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-1:rent:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.child-access-prevention|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:rent:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.child-access-prevention|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-0:rent:18-29:not-working"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 452,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/public-safety.ts:125": 4,
+    "src/core2/modules/world-legislating.ts:333": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.child-access-prevention:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:418",
+      "treatment": 68148,
+      "control": 13908,
+      "ids": [
+       "journal:2025-02-06:7821",
+       "journal:2025-02-06:7822"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:418",
+      "treatment": 68148,
+      "control": 13908,
+      "ids": [
+       "journal:2025-02-06:7821",
+       "journal:2025-02-06:7822"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4417014,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8107",
+       "journal:2025-02-19:8108",
+       "journal:2025-02-19:8109"
+      ]
+     }
+    ],
+    "diffKinds": 2,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "child-access-law-to-youth-gun-deaths",
+      "status": "built",
+      "to": "health.youth-firearm-deaths"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "child-access-law-to-youth-gun-deaths",
+      "effect": -0.13
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "child-access-law-to-youth-gun-deaths",
+      "effect": -0.13
+     }
+    ],
+    "firedCount": 2,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "child-access-law-to-youth-gun-deaths",
+      "from": "law:us-policy-positions:justice-public-safety.child-access-prevention",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "child-access-law-to-youth-gun-deaths",
+      "from": "law:us-policy-positions:justice-public-safety.child-access-prevention",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     }
+    ],
+    "reenacted": {
+     "id": "law:US-NE:state:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-05-20:LB 27",
+     "effectiveDate": "2025-05-20",
+     "value": 1
+    }
+   },
+   "heard": {
+    "people": 85,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.child-access-prevention:general:2025-01-21:law-wiring-839e7cff"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 12
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-02-26:law-wiring-e5f9b19b-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 35,
+    "countedPeople": 52,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 35,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.permit-to-carry-concealed|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working",
+     "applied|us-policy-positions:justice-public-safety.permit-to-carry-concealed|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-2:mortgage:45-64:working",
+     "applied|us-policy-positions:justice-public-safety.permit-to-carry-concealed|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-1:rent:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.permit-to-carry-concealed|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:rent:30-44:working"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 256,
+    "src/core2/modules/outcome-web.ts:158": 60,
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/public-safety.ts:125": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:418",
+      "treatment": 33791,
+      "control": 13908,
+      "ids": [
+       "journal:2025-02-06:7821",
+       "journal:2025-02-06:7822",
+       "journal:2025-02-06:7823"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:418",
+      "treatment": 33791,
+      "control": 13908,
+      "ids": [
+       "journal:2025-02-06:7821",
+       "journal:2025-02-06:7822",
+       "journal:2025-02-06:7823"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4421959,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8108",
+       "journal:2025-02-19:8109",
+       "journal:2025-02-19:8110"
+      ]
+     }
+    ],
+    "diffKinds": 2,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "concealed-carry-permit-to-firearm-homicide",
+      "status": "built",
+      "to": "crime.firearm-homicide"
+     },
+     {
+      "key": "carry-permit-to-violent-crime",
+      "status": "built",
+      "to": "crime.violent"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "concealed-carry-permit-to-firearm-homicide",
+      "effect": -0.08
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "concealed-carry-permit-to-firearm-homicide",
+      "effect": -0.08
+     }
+    ],
+    "firedCount": 2,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "concealed-carry-permit-to-firearm-homicide",
+      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "carry-permit-to-violent-crime",
+      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "lagMonths": 12,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "concealed-carry-permit-to-firearm-homicide",
+      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "carry-permit-to-violent-crime",
+      "from": "law:us-policy-positions:justice-public-safety.permit-to-carry-concealed",
+      "lagMonths": 12,
+      "treated": 1,
+      "control": 0
+     }
+    ],
+    "reenacted": {
+     "id": "law:US-NE:state:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-05-20:LB 24",
+     "effectiveDate": "2025-05-20",
+     "value": 1
+    }
+   },
+   "heard": {
+    "people": 86,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.permit-to-carry-concealed:general:2025-01-21:law-wiring-e5f9b19b"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 13
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": true,
+   "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2025-02-26",
+   "lawIds": [
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-01-21:law-wiring-ec1d9e98",
+    "law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-02-26:law-wiring-ec1d9e98-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 44,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 2,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.raise-handgun-purchase-age|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-1:rent:18-29:working",
+     "applied|us-policy-positions:justice-public-safety.raise-handgun-purchase-age|youth:jurisdiction_45a3b3ebe97fe71d"
+    ]
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 375,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 24,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/public-safety.ts:125": 4,
+    "src/core2/modules/world-legislating.ts:333": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:418",
+      "treatment": 13965,
+      "control": 13908,
+      "ids": [
+       "journal:2025-02-06:7821",
+       "journal:2025-02-06:7822"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16664876,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1574",
+       "journal:2025-01-29:1612",
+       "journal:2025-01-30:1617"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 109541634,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2907397,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561",
+       "journal:2025-01-27:1573"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:418",
+      "treatment": 13965,
+      "control": 13908,
+      "ids": [
+       "journal:2025-02-06:7821",
+       "journal:2025-02-06:7822"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4424926,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8107",
+       "journal:2025-02-19:8108",
+       "journal:2025-02-19:8109"
+      ]
+     }
+    ],
+    "diffKinds": 5,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "min-age-to-youth-gun-suicide",
+      "status": "built",
+      "to": "health.youth-firearm-suicide"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "min-age-to-youth-gun-suicide",
+      "effect": 0.18
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "min-age-to-youth-gun-suicide",
+      "effect": 0.18
+     }
+    ],
+    "firedCount": 2,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "min-age-to-youth-gun-suicide",
+      "from": "law:us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+      "lagMonths": 0,
+      "treated": 0,
+      "control": 1
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "min-age-to-youth-gun-suicide",
+      "from": "law:us-policy-positions:justice-public-safety.raise-handgun-purchase-age",
+      "lagMonths": 0,
+      "treated": 0,
+      "control": 1
+     }
+    ],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 69,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-01-21:law-wiring-ec1d9e98",
+     "person_014873ba8397594d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-01-21:law-wiring-ec1d9e98",
+     "person_3b8e45617114c97d:printed:outlet:cable:0:national:law-took-effect:law:US-NE:state:us-policy-positions:justice-public-safety.raise-handgun-purchase-age:general:2025-01-21:law-wiring-ec1d9e98"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 2,
+    "countedPeople": 43,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 2,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.raise-handgun-purchase-age|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-1:rent:18-29:working",
+     "applied|us-policy-positions:justice-public-safety.raise-handgun-purchase-age|youth:jurisdiction_45a3b3ebe97fe71d"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 12
+  },
+  {
+   "key": "us-policy-positions:justice-public-safety.stand-your-ground",
+   "kind": "question",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34) effective 2025-01-21; then repealed at city effective 2025-02-26",
+   "lawIds": [
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34",
+    "law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-02-26:law-wiring-a5971c34-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 35,
+    "countedPeople": 35,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 35,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:rent:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-2:mortgage:30-44:working",
+     "applied|us-policy-positions:justice-public-safety.stand-your-ground|group:group:jurisdiction_45a3b3ebe97fe71d:town:one-adult:income-1:mortgage:30-44:working"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/legislature.ts:2081": 51,
+    "src/core2/modules/outcome-web.ts:158": 36,
+    "src/core2/modules/world-legislating.ts:253": 32,
+    "src/core2/modules/world-legislating.ts:183": 16,
+    "src/core2/life.ts:549": 5,
+    "src/core2/modules/world-legislating.ts:333": 2,
+    "src/core2/public-safety.ts:125": 2
+   },
+   "openingRow": "law:US-NE:state:us-policy-positions:justice-public-safety.stand-your-ground:general:starting",
+   "money": {
+    "direct": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 26070,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820"
+      ]
+     }
+    ],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:456",
+      "treatment": 26070,
+      "control": 26475,
+      "ids": [
+       "journal:2025-02-06:7819",
+       "journal:2025-02-06:7820"
+      ]
+     }
+    ],
+    "diffKinds": 1,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "stand-your-ground-to-homicide",
+      "status": "built",
+      "to": "crime.firearm-homicide"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "link": "stand-your-ground-to-homicide",
+      "effect": 0.08
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "link": "stand-your-ground-to-homicide",
+      "effect": 0.08
+     }
+    ],
+    "firedCount": 2,
+    "windowDays": 35,
+    "cause": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-01",
+      "month": "2025-01",
+      "link": "stand-your-ground-to-homicide",
+      "from": "law:us-policy-positions:justice-public-safety.stand-your-ground",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-02",
+      "month": "2025-02",
+      "link": "stand-your-ground-to-homicide",
+      "from": "law:us-policy-positions:justice-public-safety.stand-your-ground",
+      "lagMonths": 0,
+      "treated": 1,
+      "control": 0
+     }
+    ],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 82,
+    "sample": [
+     "person_10606db92b470665:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34",
+     "person_014873ba8397594d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34",
+     "person_3b8e45617114c97d:printed:outlet:newspaper:0:jurisdiction_45a3b3ebe97fe71d:law-took-effect:law:place:3149425:city:us-policy-positions:justice-public-safety.stand-your-ground:general:2025-01-21:law-wiring-a5971c34"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 15
+  },
+  {
+   "key": "budget-line:fire",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 fire 4497704 -> 14497704 by law-wiring-aff49982",
+   "lawIds": [
+    "law-wiring-aff49982"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 2,
+    "countedGroups": 34,
+    "countedPeople": 63,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 37,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-aff49982:positions:organization_0b67d044f31d8f60:2025-01-20",
+     "reach:law-wiring-aff49982:hired:person_03819202b5d285c1:2025-01-21",
+     "reach:law-wiring-aff49982:hired:person_5adf61e87a0a8e37:2025-01-21",
+     "applied|budget-line:fire|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 9721523,
+      "control": 9101104,
+      "ids": [
+       "journal:2025-01-21:1542",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 16835868,
+      "control": 16598549,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+      "treatment": 3722564,
+      "control": 3585745,
+      "ids": [
+       "journal:2025-02-01:1925",
+       "journal:2025-02-01:1928",
+       "journal:2025-02-01:1931"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:551",
+      "treatment": 604966,
+      "control": 689416,
+      "ids": [
+       "journal:2025-02-08:7843",
+       "journal:2025-02-15:8018",
+       "journal:2025-02-21:8193"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 14913209,
+      "control": 14845648,
+      "ids": [
+       "journal:2025-02-01:1894",
+       "journal:2025-02-01:1895",
+       "journal:2025-02-01:1896"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+      "treatment": 777641,
+      "control": 739130,
+      "ids": [
+       "journal:2025-02-01:7572",
+       "journal:2025-02-01:7573",
+       "journal:2025-02-01:7574"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:595",
+      "treatment": 37178541521432,
+      "control": 37178541537624,
+      "ids": [
+       "journal:2025-02-01:1640",
+       "journal:2025-02-01:1641",
+       "journal:2025-02-01:1642"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 109536712,
+      "control": 109526130,
+      "ids": [
+       "journal:2025-01-28:1576",
+       "journal:2025-01-29:1614",
+       "journal:2025-01-30:1619"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/public-safety.ts:418",
+      "treatment": 4165,
+      "control": 13908,
+      "ids": [
+       "journal:2025-02-06:7824"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/purchase-tax.ts:268",
+      "treatment": 1183954,
+      "control": 1174309,
+      "ids": [
+       "journal:2025-02-01:1926",
+       "journal:2025-02-01:1927",
+       "journal:2025-02-01:1929"
+      ]
+     },
+     {
+      "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+      "treatment": 2894724,
+      "control": 2900134,
+      "ids": [
+       "journal:2025-01-25:1560",
+       "journal:2025-01-25:1562",
+       "journal:2025-01-27:1574"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 4426284,
+      "control": 4424954,
+      "ids": [
+       "journal:2025-02-19:8112",
+       "journal:2025-02-19:8113",
+       "journal:2025-02-19:8114"
+      ]
+     }
+    ],
+    "diffKinds": 14,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 35,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 2,
+    "countedGroups": 33,
+    "countedPeople": 55,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 36,
+    "ended": 2,
+    "sample": [
+     "reach:law-wiring-aff49982:positions:organization_0b67d044f31d8f60:2025-01-20",
+     "reach:law-wiring-aff49982-undo:laid-off:person_5adf61e87a0a8e37:2025-02-26",
+     "reach:law-wiring-aff49982-undo:laid-off:person_03819202b5d285c1:2025-02-26",
+     "applied|budget-line:fire|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 2,
+    "sample": []
+   },
+   "seconds": 16
+  }
+ ]
+}

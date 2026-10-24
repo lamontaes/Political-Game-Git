@@ -1,0 +1,596 @@
+{
+ "seed": "5e27b0c4196fd3a8",
+ "place": {
+  "seed": "a4e2c7a01cbd38db5b12d694a8610e04cd0edfde084d015590666753e6fdc2b3",
+  "key": "3149425",
+  "name": "Uehling, Nebraska",
+  "state": "US-NE"
+ },
+ "window": 65,
+ "after": 10,
+ "results": [
+  {
+   "key": "budget-line:police",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 police 4776349 -> 14776349 by law-wiring-e6fd8b9f",
+   "lawIds": [
+    "law-wiring-e6fd8b9f"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 2,
+    "countedGroups": 33,
+    "countedPeople": 124,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 36,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20",
+     "reach:law-wiring-e6fd8b9f:hired:person_03819202b5d285c1:2025-01-21",
+     "reach:law-wiring-e6fd8b9f:hired:person_5adf61e87a0a8e37:2025-01-21",
+     "applied|budget-line:police|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 63521866,
+      "control": 58238884,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+      "treatment": 117097202775507,
+      "control": 117097204015268,
+      "ids": [
+       "journal:2025-02-01:1663",
+       "journal:2025-02-01:1664",
+       "journal:2025-02-01:1665"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 31941209,
+      "control": 31379583,
+      "ids": [
+       "journal:2025-01-21:1542",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+      "treatment": 149901249,
+      "control": 149515137,
+      "ids": [
+       "journal:2025-01-21:1507",
+       "journal:2025-01-21:1508",
+       "journal:2025-01-21:1509"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 366757637,
+      "control": 366409492,
+      "ids": [
+       "journal:2025-01-28:1576",
+       "journal:2025-01-29:1614",
+       "journal:2025-01-30:1619"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:818",
+      "treatment": 37124043668815,
+      "control": 37124043942001,
+      "ids": [
+       "journal:2025-02-01:1653",
+       "journal:2025-02-01:1654",
+       "journal:2025-02-01:1655"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+      "treatment": 8708071,
+      "control": 8497317,
+      "ids": [
+       "journal:2025-02-01:1925",
+       "journal:2025-02-01:1928",
+       "journal:2025-02-01:1931"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:551",
+      "treatment": 1351741,
+      "control": 1520641,
+      "ids": [
+       "journal:2025-02-08:7843",
+       "journal:2025-02-15:8018",
+       "journal:2025-02-21:8193"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 32306889,
+      "control": 32202818,
+      "ids": [
+       "journal:2025-02-01:1894",
+       "journal:2025-02-01:1895",
+       "journal:2025-02-01:1896"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 89378757,
+      "control": 89424279,
+      "ids": [
+       "journal:2025-01-24:1558",
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+      "treatment": 621856852,
+      "control": 621815538,
+      "ids": [
+       "journal:2025-01-21:1476",
+       "journal:2025-01-21:1477",
+       "journal:2025-01-21:1478"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+      "treatment": 1672165,
+      "control": 1633654,
+      "ids": [
+       "journal:2025-02-01:7572",
+       "journal:2025-02-01:7573",
+       "journal:2025-02-01:7574"
+      ]
+     }
+    ],
+    "diffKinds": 18,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "police-to-violent-crime",
+      "status": "built",
+      "to": "crime.violent"
+     },
+     {
+      "key": "police-to-property-crime",
+      "status": "built",
+      "to": "crime.property"
+     },
+     {
+      "key": "police-to-low-level-arrests",
+      "status": "size-not-set",
+      "to": "justice.low-level-arrests"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+      "link": "police-to-violent-crime",
+      "effect": -0.011979042073985952
+     },
+     {
+      "id": "web:jurisdiction_45a3b3ebe97fe71d:2025-03",
+      "link": "police-to-property-crime",
+      "effect": -0.005989521036992976
+     }
+    ],
+    "firedCount": 2,
+    "windowDays": 65,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 2,
+    "countedGroups": 28,
+    "countedPeople": 107,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 31,
+    "ended": 2,
+    "sample": [
+     "reach:law-wiring-e6fd8b9f:positions:organization_323a5cedbef21846:2025-01-20",
+     "reach:law-wiring-e6fd8b9f-undo:laid-off:person_5adf61e87a0a8e37:2025-03-28",
+     "reach:law-wiring-e6fd8b9f-undo:laid-off:person_03819202b5d285c1:2025-03-28",
+     "applied|budget-line:police|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 2,
+    "sample": []
+   },
+   "seconds": 21
+  },
+  {
+   "key": "budget-line:corrections",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 corrections 0 -> 10000000 by law-wiring-b12dcfab",
+   "lawIds": [
+    "law-wiring-b12dcfab"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 34,
+    "countedPeople": 34,
+    "households": 0,
+    "organizations": 0,
+    "governments": 1,
+    "other": 0,
+    "open": 35,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:corrections|service:corrections",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-2:mortgage:45-64:working",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:rent:30-44:working"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:595",
+      "treatment": 74357083042864,
+      "control": 74357083059056,
+      "ids": [
+       "journal:2025-02-01:1639",
+       "journal:2025-02-01:1640",
+       "journal:2025-02-01:1641"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 31375639,
+      "control": 31379583,
+      "ids": [
+       "journal:2025-02-01:1849",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 89420848,
+      "control": 89424279,
+      "ids": [
+       "journal:2025-01-24:1557",
+       "journal:2025-01-25:1558",
+       "journal:2025-01-25:1560"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+      "treatment": 117097204015262,
+      "control": 117097204015268,
+      "ids": [
+       "journal:2025-02-01:1662",
+       "journal:2025-02-01:1663",
+       "journal:2025-02-01:1664"
+      ]
+     }
+    ],
+    "diffKinds": 4,
+    "cited": []
+   },
+   "web": {
+    "links": [
+     {
+      "key": "incarceration-to-crime",
+      "status": "about-zero",
+      "to": "crime.all"
+     }
+    ],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 65,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 29,
+    "countedPeople": 29,
+    "households": 0,
+    "organizations": 0,
+    "governments": 1,
+    "other": 0,
+    "open": 30,
+    "ended": 0,
+    "sample": [
+     "applied|budget-line:corrections|service:corrections",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:adults:income-2:mortgage:45-64:working",
+     "applied|budget-line:corrections|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:30-44:working"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 18
+  },
+  {
+   "key": "budget-line:fire",
+   "kind": "budget-line",
+   "family": "justice",
+   "inForceAtOpening": false,
+   "change": "place:3149425 fire 4497704 -> 14497704 by law-wiring-aff49982",
+   "lawIds": [
+    "law-wiring-aff49982"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 2,
+    "countedGroups": 33,
+    "countedPeople": 55,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 36,
+    "ended": 0,
+    "sample": [
+     "reach:law-wiring-aff49982:positions:organization_0b67d044f31d8f60:2025-01-20",
+     "reach:law-wiring-aff49982:hired:person_03819202b5d285c1:2025-01-21",
+     "reach:law-wiring-aff49982:hired:person_5adf61e87a0a8e37:2025-01-21",
+     "applied|budget-line:fire|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working"
+    ]
+   },
+   "readers": {},
+   "openingRow": null,
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+      "treatment": 59579726,
+      "control": 58238884,
+      "ids": [
+       "journal:2025-01-28:1575",
+       "journal:2025-01-29:1613",
+       "journal:2025-01-30:1618"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+      "treatment": 117097202775507,
+      "control": 117097204015268,
+      "ids": [
+       "journal:2025-02-01:1663",
+       "journal:2025-02-01:1664",
+       "journal:2025-02-01:1665"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 31941507,
+      "control": 31379583,
+      "ids": [
+       "journal:2025-01-21:1542",
+       "journal:2025-02-01:1850",
+       "journal:2025-02-01:1851"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+      "treatment": 8708410,
+      "control": 8497317,
+      "ids": [
+       "journal:2025-02-01:1925",
+       "journal:2025-02-01:1928",
+       "journal:2025-02-01:1931"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:818",
+      "treatment": 37124043762620,
+      "control": 37124043942001,
+      "ids": [
+       "journal:2025-02-01:1653",
+       "journal:2025-02-01:1654",
+       "journal:2025-02-01:1655"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/life.ts:551",
+      "treatment": 1351741,
+      "control": 1520641,
+      "ids": [
+       "journal:2025-02-08:7843",
+       "journal:2025-02-15:8018",
+       "journal:2025-02-21:8193"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+      "treatment": 149678889,
+      "control": 149515137,
+      "ids": [
+       "journal:2025-01-21:1507",
+       "journal:2025-01-21:1508",
+       "journal:2025-01-21:1509"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 32307297,
+      "control": 32202818,
+      "ids": [
+       "journal:2025-02-01:1894",
+       "journal:2025-02-01:1895",
+       "journal:2025-02-01:1896"
+      ]
+     },
+     {
+      "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1445",
+      "treatment": 366497380,
+      "control": 366409492,
+      "ids": [
+       "journal:2025-01-28:1576",
+       "journal:2025-01-29:1614",
+       "journal:2025-01-30:1619"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 89378757,
+      "control": 89424279,
+      "ids": [
+       "journal:2025-01-24:1558",
+       "journal:2025-01-25:1559",
+       "journal:2025-01-25:1561"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+      "treatment": 621856852,
+      "control": 621815538,
+      "ids": [
+       "journal:2025-01-21:1476",
+       "journal:2025-01-21:1477",
+       "journal:2025-01-21:1478"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+      "treatment": 1672165,
+      "control": 1633654,
+      "ids": [
+       "journal:2025-02-01:7572",
+       "journal:2025-02-01:7573",
+       "journal:2025-02-01:7574"
+      ]
+     }
+    ],
+    "diffKinds": 22,
+    "cited": []
+   },
+   "web": {
+    "links": [],
+    "fired": [],
+    "firedCount": 0,
+    "windowDays": 65,
+    "cause": [],
+    "reenacted": null
+   },
+   "heard": {
+    "people": 0,
+    "sample": []
+   },
+   "afterUndo": {
+    "fullPeople": 2,
+    "countedGroups": 28,
+    "countedPeople": 50,
+    "households": 0,
+    "organizations": 1,
+    "governments": 0,
+    "other": 0,
+    "open": 31,
+    "ended": 2,
+    "sample": [
+     "reach:law-wiring-aff49982:positions:organization_0b67d044f31d8f60:2025-01-20",
+     "reach:law-wiring-aff49982-undo:laid-off:person_5adf61e87a0a8e37:2025-03-28",
+     "reach:law-wiring-aff49982-undo:laid-off:person_03819202b5d285c1:2025-03-28",
+     "applied|budget-line:fire|group:group:jurisdiction_45a3b3ebe97fe71d:town:with-children:income-2:mortgage:45-64:working"
+    ]
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 2,
+    "sample": []
+   },
+   "seconds": 17
+  }
+ ]
+}
