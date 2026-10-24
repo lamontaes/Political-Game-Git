@@ -1,0 +1,3155 @@
+{
+  "seed": "a91c03e7d2b84f10",
+  "place": {
+    "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+    "key": "2666300",
+    "name": "Prescott, Michigan",
+    "state": "US-MI"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:government-operations.all-mail-voting",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612",
+        "law:place:2666300:city:us-policy-positions:government-operations.all-mail-voting:general:2026-01-22:law-wiring-d2e20612-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 52,
+        "countedGroups": 147,
+        "countedPeople": 147,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 199,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.all-mail-voting|person_ae720310206891fe",
+          "applied|us-policy-positions:government-operations.all-mail-voting|person_ae720410206893b1",
+          "applied|us-policy-positions:government-operations.all-mail-voting|person_3e57e994446bdc3c",
+          "applied|us-policy-positions:government-operations.all-mail-voting|person_3e57ea94446bddef"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 52,
+        "countedGroups": 147,
+        "countedPeople": 147,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 199,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.all-mail-voting|person_ae720310206891fe",
+          "applied|us-policy-positions:government-operations.all-mail-voting|person_ae720410206893b1",
+          "applied|us-policy-positions:government-operations.all-mail-voting|person_3e57e994446bdc3c",
+          "applied|us-policy-positions:government-operations.all-mail-voting|person_3e57ea94446bddef"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 318,
+        "src/core2/modules/world-legislating.ts:253": 296,
+        "src/core2/modules/legislature.ts:2094": 140,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:1055": 16,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:2470": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 4,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/electorate-inputs.ts:230": 4,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/life.ts:549": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:government-operations.all-mail-voting:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208788427950,
+            "control": 710208788484896,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:309",
+            "treatment": 17320410,
+            "control": 17263464,
+            "ids": [
+              "journal:2025-02-01:1888",
+              "journal:2025-03-01:8715",
+              "journal:2025-04-01:16313"
+            ]
+          }
+        ],
+        "diffKinds": 2,
+        "cited": [
+          {
+            "token": "us-policy-positions:government-operations.all-mail-voting",
+            "gross": 56946,
+            "ids": ["journal:2025-11-04:78167"]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "all-mail-voting-to-turnout",
+            "status": "built",
+            "to": "voting.turnout-pct"
+          },
+          {
+            "key": "all-mail-voting-to-party-share",
+            "status": "about-zero",
+            "to": "voting.party-share"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "link": "all-mail-voting-to-turnout",
+            "effect": 0.035
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "all-mail-voting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.all-mail-voting",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 143,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.all-mail-voting:general:2025-01-21:law-wiring-d2e20612"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 79
+    },
+    {
+      "key": "us-policy-positions:government-operations.automatic-voter-registration",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:starting",
+        "law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a",
+        "law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:2026-01-22:law-wiring-a42ed39a-b"
+      ],
+      "openingReach": {
+        "fullPeople": 41,
+        "countedGroups": 158,
+        "countedPeople": 158,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 199,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.automatic-voter-registration|person_ae720310206891fe",
+          "applied|us-policy-positions:government-operations.automatic-voter-registration|person_ae720410206893b1",
+          "applied|us-policy-positions:government-operations.automatic-voter-registration|person_3e57e994446bdc3c",
+          "applied|us-policy-positions:government-operations.automatic-voter-registration|person_3e57ea94446bddef"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 591,
+        "src/core2/modules/outcome-web.ts:158": 350,
+        "src/core2/modules/world-legislating.ts:253": 222,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:1055": 16,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:2470": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46472384,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 1940400241,
+            "control": 1942593101,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 424849575,
+            "control": 423918712,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 374653679,
+            "control": 374002702,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 64757199,
+            "control": 64139831,
+            "ids": [
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907",
+              "journal:2025-02-01:1908"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208788170169,
+            "control": 710208788484896,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079579606237,
+            "control": 177079579907146,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 241682547,
+            "control": 241937488,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3333219889,
+            "control": 3333473247,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46472384,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 348381898,
+            "control": 348581976,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 59741037,
+            "control": 59937173,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
+            "treatment": 11274600,
+            "control": 11449950,
+            "ids": [
+              "journal:2025-03-01:9713",
+              "journal:2025-04-01:17460",
+              "journal:2025-05-01:25100"
+            ]
+          }
+        ],
+        "diffKinds": 35,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "automatic-registration-to-turnout",
+            "status": "built",
+            "to": "voting.turnout-pct"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "automatic-registration-to-turnout",
+            "effect": -0.015
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "automatic-registration-to-turnout",
+            "effect": -0.015
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "automatic-registration-to-turnout",
+            "effect": -0.015
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "automatic-registration-to-turnout",
+            "effect": -0.015
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "automatic-registration-to-turnout",
+            "effect": -0.015
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "automatic-registration-to-turnout",
+            "effect": -0.015
+          }
+        ],
+        "firedCount": 6,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "automatic-registration-to-turnout",
+            "from": "law:us-policy-positions:government-operations.automatic-voter-registration",
+            "lagMonths": 12,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 91,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.automatic-voter-registration:general:2025-01-21:law-wiring-a42ed39a"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 97,
+        "countedGroups": 93,
+        "countedPeople": 93,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 190,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.automatic-voter-registration|person_0161274dc68d50d8",
+          "applied|us-policy-positions:government-operations.automatic-voter-registration|person_0161284dc68d528b",
+          "applied|us-policy-positions:government-operations.automatic-voter-registration|person_02518394bd09bf0a",
+          "applied|us-policy-positions:government-operations.automatic-voter-registration|person_02518494bd09c0bd"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 81
+    },
+    {
+      "key": "us-policy-positions:government-operations.independent-redistricting",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:government-operations.independent-redistricting:general:starting",
+        "law:US-MI:state:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557",
+        "law:US-MI:state:us-policy-positions:government-operations.independent-redistricting:general:2026-01-22:law-wiring-d8732557-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.independent-redistricting|US-MI"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:158": 396,
+        "src/core2/modules/legislature.ts:2094": 371,
+        "src/core2/modules/world-legislating.ts:253": 288,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/budgets.ts:628": 96,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/life.ts:549": 10,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:government-operations.independent-redistricting:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46472384,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8008",
+              "journal:2025-02-21:8335"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:309",
+            "treatment": 24684,
+            "control": 17263464,
+            "ids": ["journal:2025-11-04:78230"]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208805408788,
+            "control": 710208788484896,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 1940400241,
+            "control": 1942593101,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 424849581,
+            "control": 423918712,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 374653679,
+            "control": 374002702,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 64757199,
+            "control": 64139831,
+            "ids": [
+              "journal:2025-02-01:1905",
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079579606237,
+            "control": 177079579907146,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 241682547,
+            "control": 241937488,
+            "ids": [
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3333219889,
+            "control": 3333473247,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46472384,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8008",
+              "journal:2025-02-21:8335"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 348381888,
+            "control": 348581976,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 59741037,
+            "control": 59937173,
+            "ids": [
+              "journal:2025-02-01:1946",
+              "journal:2025-02-01:1948",
+              "journal:2025-02-01:1950"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "independent-redistricting-to-turnout",
+            "status": "built",
+            "to": "voting.turnout-pct"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "independent-redistricting-to-turnout",
+            "effect": -0.005
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "independent-redistricting-to-turnout",
+            "effect": -0.005
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "independent-redistricting-to-turnout",
+            "effect": -0.005
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "independent-redistricting-to-turnout",
+            "effect": -0.005
+          }
+        ],
+        "firedCount": 4,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "independent-redistricting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.independent-redistricting",
+            "lagMonths": 24,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "independent-redistricting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.independent-redistricting",
+            "lagMonths": 24,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "independent-redistricting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.independent-redistricting",
+            "lagMonths": 24,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "independent-redistricting-to-turnout",
+            "from": "law:us-policy-positions:government-operations.independent-redistricting",
+            "lagMonths": 24,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 71,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.independent-redistricting:general:2025-01-21:law-wiring-d8732557"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.independent-redistricting|US-MI"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 80
+    },
+    {
+      "key": "us-policy-positions:government-operations.require-photo-id-to-vote",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting",
+        "law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b",
+        "law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2026-01-22:law-wiring-232a6f8b-b"
+      ],
+      "openingReach": {
+        "fullPeople": 41,
+        "countedGroups": 158,
+        "countedPeople": 158,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 199,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_ae720310206891fe",
+          "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_ae720410206893b1",
+          "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_3e57e994446bdc3c",
+          "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_3e57ea94446bddef"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 999,
+        "src/core2/modules/outcome-web.ts:158": 300,
+        "src/core2/modules/world-legislating.ts:253": 222,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:1055": 16,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:2470": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46798503,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 1939989798,
+            "control": 1942593101,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 372927268,
+            "control": 374002702,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 349474126,
+            "control": 348581976,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3332600205,
+            "control": 3333473247,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 424773067,
+            "control": 423918712,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:308",
+            "treatment": 5046558,
+            "control": 4289034,
+            "ids": [
+              "journal:2025-09-01:55172",
+              "journal:2025-09-01:55173",
+              "journal:2025-09-01:55174"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 63661351,
+            "control": 64139831,
+            "ids": [
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907",
+              "journal:2025-02-01:1908"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 242391048,
+            "control": 241937488,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 59523846,
+            "control": 59937173,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+            "treatment": 18064559,
+            "control": 17756163,
+            "ids": [
+              "journal:2025-02-03:7435",
+              "journal:2025-02-03:7436",
+              "journal:2025-02-03:7437"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 177553499,
+            "control": 177335672,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 9540310,
+            "control": 9392200,
+            "ids": [
+              "journal:2025-02-19:8275",
+              "journal:2025-02-19:8276",
+              "journal:2025-02-19:8278"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "voter-id-to-turnout",
+            "status": "built",
+            "to": "voting.turnout-pct"
+          },
+          {
+            "key": "voter-id-to-registration",
+            "status": "about-zero",
+            "to": "voting.registration"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "voter-id-to-turnout",
+            "from": "law:us-policy-positions:government-operations.require-photo-id-to-vote",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 111,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.require-photo-id-to-vote:general:2025-01-21:law-wiring-232a6f8b"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 95,
+        "countedGroups": 95,
+        "countedPeople": 95,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 190,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_0161274dc68d50d8",
+          "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_0161284dc68d528b",
+          "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_02518394bd09bf0a",
+          "applied|us-policy-positions:government-operations.require-photo-id-to-vote|person_02518494bd09c0bd"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 80
+    },
+    {
+      "key": "us-policy-positions:government-operations.same-day-voter-registration",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:government-operations.same-day-voter-registration:general:starting",
+        "law:US-MI:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8",
+        "law:US-MI:state:us-policy-positions:government-operations.same-day-voter-registration:general:2026-01-22:law-wiring-ae301ed8-b"
+      ],
+      "openingReach": {
+        "fullPeople": 41,
+        "countedGroups": 158,
+        "countedPeople": 158,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 199,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_ae720310206891fe",
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_ae720410206893b1",
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_3e57e994446bdc3c",
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_3e57ea94446bddef"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 996,
+        "src/core2/modules/outcome-web.ts:158": 300,
+        "src/core2/modules/world-legislating.ts:253": 222,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:1055": 16,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/voting.ts:2470": 16,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:government-operations.same-day-voter-registration:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46472384,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 1940400242,
+            "control": 1942593101,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 424849769,
+            "control": 423918712,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 374653679,
+            "control": 374002702,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 64757129,
+            "control": 64139831,
+            "ids": [
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907",
+              "journal:2025-02-01:1908"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079579606244,
+            "control": 177079579907146,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208788194853,
+            "control": 710208788484896,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 241682547,
+            "control": 241937488,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3333219889,
+            "control": 3333473247,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46472384,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 348381898,
+            "control": 348581976,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 59741037,
+            "control": 59937173,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
+            "treatment": 11274600,
+            "control": 11449950,
+            "ids": [
+              "journal:2025-03-01:9713",
+              "journal:2025-04-01:17460",
+              "journal:2025-05-01:25100"
+            ]
+          }
+        ],
+        "diffKinds": 36,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "same-day-registration-to-youth-turnout",
+            "status": "built",
+            "to": "voting.youth-turnout"
+          }
+        ],
+        "fired": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "link": "same-day-registration-to-youth-turnout",
+            "effect": -0.13
+          }
+        ],
+        "firedCount": 13,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-07",
+            "month": "2025-07",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-08",
+            "month": "2025-08",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-09",
+            "month": "2025-09",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-10",
+            "month": "2025-10",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-11",
+            "month": "2025-11",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-12",
+            "month": "2025-12",
+            "link": "same-day-registration-to-youth-turnout",
+            "from": "law:us-policy-positions:government-operations.same-day-voter-registration",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 71,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.same-day-voter-registration:general:2025-01-21:law-wiring-ae301ed8"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 97,
+        "countedGroups": 93,
+        "countedPeople": 93,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 190,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_0161274dc68d50d8",
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_0161284dc68d528b",
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_02518394bd09bf0a",
+          "applied|us-policy-positions:government-operations.same-day-voter-registration|person_02518494bd09c0bd"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 80
+    },
+    {
+      "key": "us-policy-positions:government-operations.ban-lobbying-after-office",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e",
+        "law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2026-01-22:law-wiring-36fe109e-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 190,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 190,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_0e958e70e62d2b8a:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_0bbe6a59b6ca584c:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_3f9b10502a79be77:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_423656f02ae97942:2025-01-21"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 190,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 190,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_0e958e70e62d2b8a:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_0bbe6a59b6ca584c:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_3f9b10502a79be77:2025-01-21",
+          "reach:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e:officials:person_423656f02ae97942:2025-01-21"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 1228,
+        "src/core2/modules/world-legislating.ts:253": 234,
+        "src/core2/modules/outcome-web.ts:158": 105,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/candidacy.ts:364": 56,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:625": 40,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:619": 32,
+        "src/core2/life.ts:549": 8,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:government-operations.ban-lobbying-after-office:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46506438,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 372497293,
+            "control": 374002702,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 349474447,
+            "control": 348581976,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 242762969,
+            "control": 241937488,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3332693456,
+            "control": 3333473247,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/counted-demotion.ts:308",
+            "treatment": 5055124,
+            "control": 4289034,
+            "ids": [
+              "journal:2025-09-01:55190",
+              "journal:2025-09-01:55191",
+              "journal:2025-09-01:55192"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208789183637,
+            "control": 710208788484896,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 63498951,
+            "control": 64139831,
+            "ids": [
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907",
+              "journal:2025-02-01:1908"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 9864857,
+            "control": 9392200,
+            "ids": [
+              "journal:2025-02-19:8275",
+              "journal:2025-02-19:8276",
+              "journal:2025-02-19:8278"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+            "treatment": 18079042,
+            "control": 17756163,
+            "ids": [
+              "journal:2025-02-03:7435",
+              "journal:2025-02-03:7436",
+              "journal:2025-02-03:7437"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079579671628,
+            "control": 177079579907146,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 60159222,
+            "control": 59937173,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 177541101,
+            "control": 177335672,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          }
+        ],
+        "diffKinds": 34,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "revolving-door-ban-to-ex-legislator-lobbyists",
+            "status": "about-zero",
+            "to": "politics.ex-legislator-lobbyists"
+          },
+          {
+            "key": "revolving-door-ban-to-candidate-entry",
+            "status": "outcome-not-produced",
+            "to": "elections.new-candidate-entry"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 109,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:government-operations.ban-lobbying-after-office:general:2025-01-21:law-wiring-36fe109e"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 190,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 190,
+        "sample": []
+      },
+      "seconds": 89
+    },
+    {
+      "key": "public-pay-floor",
+      "kind": "amount",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "public-pay-floor 0 -> 70000 at federal (law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613) effective 2025-01-21",
+      "lawIds": [
+        "law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+        "law:US:federal:public-pay-floor:general:1985-02-19",
+        "law:US:federal:public-pay-floor:general:2026-01-22:law-wiring-cbc3c613-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 45,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 45,
+        "ended": 0,
+        "sample": [
+          "applied|public-pay-floor|person_84039870b5970636",
+          "applied|public-pay-floor|person_95f684085236b198",
+          "applied|public-pay-floor|person_0e958f70e62d2d3d",
+          "applied|public-pay-floor|person_54d221efd6ccd406"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/public-pay-floor.ts:70": 131,
+        "src/core2/modules/outcome-web.ts:158": 100,
+        "src/core2/life.ts:549": 2
+      },
+      "openingRow": "law:US:federal:public-pay-floor:general:1985-02-19",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 43062103,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:7976",
+              "journal:2025-02-21:8302"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1174 <- src/core2/life.ts:549",
+            "treatment": 36149521,
+            "control": 35826976,
+            "ids": ["journal:2025-05-13:30921"]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 448021741,
+            "control": 374002702,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208726352562,
+            "control": 710208788484896,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 448605316,
+            "control": 423918712,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079560934272,
+            "control": 177079579907146,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3349319142,
+            "control": 3333473247,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:621",
+            "treatment": 35003270,
+            "control": 31174950,
+            "ids": [
+              "journal:2025-01-25:1642",
+              "journal:2025-01-25:1644",
+              "journal:2025-01-25:1646"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 43062103,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:7976",
+              "journal:2025-02-21:8302"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 244617238,
+            "control": 241937488,
+            "ids": [
+              "journal:2025-02-01:1896",
+              "journal:2025-02-01:1897",
+              "journal:2025-02-01:1898"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/official-living.ts:75",
+            "treatment": 46646186,
+            "control": 44831581,
+            "ids": [
+              "journal:2025-01-21:1623",
+              "journal:2025-01-21:1624",
+              "journal:2025-01-21:1625"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/official-living.ts:102",
+            "treatment": 3263175978,
+            "control": 3261416606,
+            "ids": [
+              "journal:2025-01-27:1657",
+              "journal:2025-01-27:1658",
+              "journal:2025-01-27:1659"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 61549532,
+            "control": 59937173,
+            "ids": [
+              "journal:2025-02-01:1913",
+              "journal:2025-02-01:1915",
+              "journal:2025-02-01:1917"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 1940987422,
+            "control": 1942593101,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          }
+        ],
+        "diffKinds": 41,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "public-pay-floor-to-other-employers-wages",
+            "status": "about-zero",
+            "to": "labor.wages"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 65,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US:federal:public-pay-floor:general:2025-01-21:law-wiring-cbc3c613"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 88
+    },
+    {
+      "key": "budget-line:administration",
+      "kind": "budget-line",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "place:2666300 administration 3673148 -> 13673148 by law-wiring-190055c7",
+      "lawIds": ["law-wiring-190055c7"],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 3,
+        "countedGroups": 2,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 7,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-190055c7:positions:organization_1571ef11eb9b9b4a:2025-01-20",
+          "applied|budget-line:administration|organization_1571ef11eb9b9b4a",
+          "applied|budget-line:administration|person_8ff861de2f15d13f",
+          "applied|budget-line:administration|person_1ad99a4d0f5099bd"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 3,
+        "countedGroups": 2,
+        "countedPeople": 2,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 5,
+        "ended": 0,
+        "sample": [
+          "applied|budget-line:administration|person_8ff861de2f15d13f",
+          "applied|budget-line:administration|person_1ad99a4d0f5099bd",
+          "applied|budget-line:administration|person_0bbe6a59b6ca584c",
+          "applied|budget-line:administration|person_e6e57f9aae6f5b49"
+        ]
+      },
+      "inPlay": [],
+      "readers": {},
+      "openingRow": null,
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 407135430,
+            "control": 372946465,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208773128229,
+            "control": 710208788547158,
+            "ids": [
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743",
+              "journal:2025-02-01:1744"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 362932148,
+            "control": 349472956,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 1952018187,
+            "control": 1939988824,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 187552635,
+            "control": 177553852,
+            "ids": [
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614",
+              "journal:2025-02-01:2615"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079572547695,
+            "control": 177079579992911,
+            "ids": [
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733",
+              "journal:2025-02-01:1734"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 431281013,
+            "control": 424787149,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 236659330,
+            "control": 242391707,
+            "ids": [
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932",
+              "journal:2025-02-01:1933"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 64382162,
+            "control": 59523904,
+            "ids": [
+              "journal:2025-02-01:1948",
+              "journal:2025-02-01:1950",
+              "journal:2025-02-01:1952"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3337303645,
+            "control": 3332604842,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 6725906,
+            "control": 9540301,
+            "ids": [
+              "journal:2025-02-19:8283",
+              "journal:2025-02-19:8284",
+              "journal:2025-02-19:8286"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 44740835,
+            "control": 46798503,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8013",
+              "journal:2025-02-21:8344"
+            ]
+          }
+        ],
+        "diffKinds": 37,
+        "cited": [
+          {
+            "token": "budget-line:administration",
+            "gross": 26212749,
+            "ids": [
+              "journal:2025-02-13:8116",
+              "journal:2025-02-13:8117",
+              "journal:2025-02-27:8470"
+            ]
+          }
+        ]
+      },
+      "web": {
+        "links": [
+          {
+            "key": "public-jobs-to-private-employment",
+            "status": "about-zero",
+            "to": "labor.unemployment-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 48,
+        "sample": [
+          "person_77493bd0fdd4c8ad:printed:outlet:television:0:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:administration:law-wiring-190055c7",
+          "person_a66a50fc6585ed57:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:administration:law-wiring-190055c7",
+          "person_54d221efd6ccd406:printed:outlet:television:1:jurisdiction_971998ff58477430:budget-line-changed:budget:place:2666300:2024:administration:law-wiring-190055c7"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 2,
+        "countedGroups": 1,
+        "countedPeople": 1,
+        "households": 0,
+        "organizations": 2,
+        "governments": 0,
+        "other": 0,
+        "open": 5,
+        "ended": 0,
+        "sample": [
+          "reach:law-wiring-190055c7:positions:organization_1571ef11eb9b9b4a:2025-01-20",
+          "applied|budget-line:administration|organization_1571ef11eb9b9b4a",
+          "applied|budget-line:administration|person_7015860ee21b00cb",
+          "applied|budget-line:administration|person_e6e57f9aae6f5b49"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 81
+    },
+    {
+      "key": "us-policy-positions:government-operations.broaden-local-authority",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:government-operations.broaden-local-authority:general:starting",
+        "law:US-MI:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-01-21:law-wiring-3e9c78cc",
+        "law:US-MI:state:us-policy-positions:government-operations.broaden-local-authority:general:2026-01-22:law-wiring-3e9c78cc-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.broaden-local-authority|place:2666300"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 1090,
+        "src/core2/policy-authority.ts:47": 333,
+        "src/core2/modules/world-legislating.ts:253": 222,
+        "src/core2/modules/outcome-web.ts:158": 91,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/life.ts:549": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:government-operations.broaden-local-authority:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46253170,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8323"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/law-reach/group-b-money.ts:1174 <- src/core2/life.ts:549",
+            "treatment": 35986207,
+            "control": 35826976,
+            "ids": [
+              "journal:2025-05-13:30626",
+              "journal:2025-10-20:69803",
+              "journal:2026-01-20:93853"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 381875981,
+            "control": 374002702,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 238042994,
+            "control": 241937488,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 352223578,
+            "control": 348581976,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208785215961,
+            "control": 710208788484896,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 427016514,
+            "control": 423918712,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+            "treatment": 6910748,
+            "control": 9392200,
+            "ids": [
+              "journal:2025-02-19:8264",
+              "journal:2025-02-19:8265",
+              "journal:2025-02-19:8267"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 179653751,
+            "control": 177335672,
+            "ids": [
+              "journal:2025-02-01:2612",
+              "journal:2025-02-01:2613",
+              "journal:2025-02-01:2614"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079577711669,
+            "control": 177079579907146,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
+            "treatment": 13100925,
+            "control": 11449950,
+            "ids": [
+              "journal:2025-03-01:9691",
+              "journal:2025-04-01:17317",
+              "journal:2025-05-01:24902"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1207",
+            "treatment": 22675353,
+            "control": 24225960,
+            "ids": [
+              "journal:2025-02-01:2626",
+              "journal:2025-02-01:2627",
+              "journal:2025-02-01:2628"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 1941537439,
+            "control": 1942593101,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3334233911,
+            "control": 3333473247,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          }
+        ],
+        "diffKinds": 39,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "home-rule-to-local-spending",
+            "status": "size-not-set",
+            "to": "gov.local-spending-mix"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 71,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-01-21:law-wiring-3e9c78cc",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-01-21:law-wiring-3e9c78cc",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.broaden-local-authority:general:2025-01-21:law-wiring-3e9c78cc"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 1,
+        "other": 0,
+        "open": 1,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:government-operations.broaden-local-authority|place:2666300"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 76
+    },
+    {
+      "key": "us-policy-positions:government-operations.legislative-term-limits",
+      "kind": "question",
+      "family": "government",
+      "inForceAtOpening": true,
+      "change": "repealed at state effective 2025-01-21; then enacted again at state effective 2026-01-22",
+      "lawIds": [
+        "law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:starting",
+        "law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48",
+        "law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2026-01-22:law-wiring-b04adc48-b"
+      ],
+      "openingReach": {
+        "fullPeople": 164,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 164,
+        "ended": 0,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_0e958e70e62d2b8a:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_0bbe6a59b6ca584c:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_3f9b10502a79be77:2025-01-20",
+          "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:starting:legislators:person_423656f02ae97942:2025-01-20"
+        ]
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 160,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 160,
+        "sample": []
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/legislature.ts:2094": 1239,
+        "src/core2/modules/outcome-web.ts:158": 294,
+        "src/core2/modules/world-legislating.ts:253": 278,
+        "src/core2/modules/world-legislating.ts:183": 90,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/elections.ts:730": 20,
+        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/elections.ts:696": 16,
+        "src/core2/life.ts:549": 10,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:starting",
+      "money": {
+        "direct": [
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46472384,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          }
+        ],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1225",
+            "treatment": 1940402282,
+            "control": 1942593101,
+            "ids": [
+              "journal:2025-01-21:1565",
+              "journal:2025-01-21:1566",
+              "journal:2025-01-21:1567"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 424794839,
+            "control": 423918712,
+            "ids": [
+              "journal:2025-01-21:1595",
+              "journal:2025-01-21:1596",
+              "journal:2025-01-21:1597"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 64756370,
+            "control": 64139831,
+            "ids": [
+              "journal:2025-02-01:1906",
+              "journal:2025-02-01:1907",
+              "journal:2025-02-01:1908"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2351",
+            "treatment": 374576892,
+            "control": 374002702,
+            "ids": [
+              "journal:2025-01-27:1666",
+              "journal:2025-01-28:1669",
+              "journal:2025-01-28:1672"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:875",
+            "treatment": 177079579626462,
+            "control": 177079579907146,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1732",
+              "journal:2025-02-01:1733"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1443",
+            "treatment": 3333203123,
+            "control": 3333473247,
+            "ids": [
+              "journal:2025-01-27:1667",
+              "journal:2025-01-28:1670",
+              "journal:2025-01-28:1673"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 241681234,
+            "control": 241937488,
+            "ids": [
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931",
+              "journal:2025-02-01:1932"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/life.ts:551",
+            "treatment": 46472384,
+            "control": 46705410,
+            "ids": [
+              "journal:2025-01-23:1638",
+              "journal:2025-02-06:8009",
+              "journal:2025-02-21:8336"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:908",
+            "treatment": 710208788252855,
+            "control": 710208788484896,
+            "ids": [
+              "journal:2025-02-01:1741",
+              "journal:2025-02-01:1742",
+              "journal:2025-02-01:1743"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 59740912,
+            "control": 59937173,
+            "ids": [
+              "journal:2025-02-01:1947",
+              "journal:2025-02-01:1949",
+              "journal:2025-02-01:1951"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 348386932,
+            "control": 348581976,
+            "ids": [
+              "journal:2025-01-23:1639",
+              "journal:2025-01-24:1640",
+              "journal:2025-01-25:1641"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:792",
+            "treatment": 11274600,
+            "control": 11449950,
+            "ids": [
+              "journal:2025-03-01:9713",
+              "journal:2025-04-01:17460",
+              "journal:2025-05-01:25100"
+            ]
+          }
+        ],
+        "diffKinds": 35,
+        "cited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "term-limits-to-turnout",
+            "status": "built",
+            "to": "voting.turnout-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-01",
+            "month": "2025-01",
+            "link": "term-limits-to-turnout",
+            "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-02",
+            "month": "2025-02",
+            "link": "term-limits-to-turnout",
+            "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-03",
+            "month": "2025-03",
+            "link": "term-limits-to-turnout",
+            "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-04",
+            "month": "2025-04",
+            "link": "term-limits-to-turnout",
+            "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-05",
+            "month": "2025-05",
+            "link": "term-limits-to-turnout",
+            "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          },
+          {
+            "id": "web:jurisdiction_971998ff58477430:2025-06",
+            "month": "2025-06",
+            "link": "term-limits-to-turnout",
+            "from": "law:us-policy-positions:government-operations.legislative-term-limits",
+            "lagMonths": 0,
+            "treated": 0,
+            "control": 1
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 116,
+        "sample": [
+          "person_a66a50fc6585ed57:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48",
+          "person_54d221efd6ccd406:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48",
+          "person_182e4b917b4e10f7:printed:outlet:cable:0:national:law-took-effect:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2025-01-21:law-wiring-b04adc48"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 163,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 163,
+        "ended": 160,
+        "sample": [
+          "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2026-01-22:law-wiring-b04adc48-b:legislators:person_0bbe6a59b6ca584c:2026-01-22",
+          "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2026-01-22:law-wiring-b04adc48-b:legislators:person_423656f02ae97942:2026-01-22",
+          "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2026-01-22:law-wiring-b04adc48-b:legislators:person_0e958f70e62d2d3d:2026-01-22",
+          "reach:law:US-MI:state:us-policy-positions:government-operations.legislative-term-limits:general:2026-01-22:law-wiring-b04adc48-b:legislators:person_182e4b917b4e10f7:2026-01-22"
+        ]
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 160,
+        "sample": []
+      },
+      "seconds": 86
+    }
+  ]
+}

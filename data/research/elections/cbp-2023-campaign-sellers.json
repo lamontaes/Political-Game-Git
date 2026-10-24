@@ -1,0 +1,4790 @@
+{
+  "id": "cbp-2023-campaign-sellers",
+  "publisher": "U.S. Census Bureau",
+  "vintage": "2023 (released 2025)",
+  "table": "County Business Patterns 2023: state files cbp23st and cbp23pr_ia_st (all legal forms, lfo '-') and county files cbp23co and cbp23pr_ia_co, column est",
+  "title": "Who sells a campaign its polls, mailers and halls: employer establishments by place for nine NAICS industries",
+  "universe": "Employer establishments with paid employees in the week of March 12, 2023; nonemployer businesses, government and most religious organizations are not counted",
+  "geography": "All 56 places (50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands; the island areas from the Puerto Rico and Island Areas files), with county equivalents",
+  "sourceUrl": "https://www2.census.gov/programs-surveys/cbp/datasets/2023/",
+  "retrievedOn": "2026-10-23",
+  "limits": "A count of establishments, not of firms that sell to campaigns: a polling firm (NAICS 541910) also does market research, and many political consultants are coded under public relations (541820) or advertising. The Census Bureau omits county cells with fewer than three establishments ('Cells with fewer than three establishments are omitted from publication', CBP program flyer, September 2022, https://census.gov/content/dam/Census/topics/business-and-economy/flyers/cbp_sep_2022.pdf), so countiesWithAny counts county equivalents with three or more, and a state's establishments exceed inCounties plus statewideNoCounty (county code 999) by those small cells. The county table holds only the three campaign-specific industries, keyed by five-digit county GEOID. Calibrates where a campaign's seller sits (in town, in the county, elsewhere in the state); it never decides which seller one campaign picks.",
+  "method": "For each place, est on the state file row with lfo '-' for the NAICS code (six digits, or three digits written '713///'); countiesWithAny and inCounties from the county files' published rows (est of three or more), excluding county code 999. The check script scripts/research/elections-sources-check.ts confirms for every place and kind that inCounties plus statewideNoCounty does not exceed establishments, that countiesWithAny does not exceed counties, that the national figures are the sums of the 56 places, and that the county table matches each place's inCounties.",
+  "naics": {
+    "541910": {
+      "key": "pollingAndMarketResearch",
+      "title": "Marketing research and public opinion polling",
+      "purchase": "poll"
+    },
+    "541820": {
+      "key": "publicRelations",
+      "title": "Public relations agencies (campaign consultants are often coded here)",
+      "purchase": "poll"
+    },
+    "541860": {
+      "key": "directMailAdvertising",
+      "title": "Direct mail advertising (mail houses)",
+      "purchase": "mail"
+    },
+    "323111": {
+      "key": "commercialPrinting",
+      "title": "Commercial printing (except screen and books)",
+      "purchase": "mail"
+    },
+    "713///": {
+      "key": "amusementRecreation",
+      "title": "Amusement, gambling and recreation industries",
+      "purchase": "event"
+    },
+    "721///": {
+      "key": "accommodation",
+      "title": "Accommodation (hotels and lodges)",
+      "purchase": "event"
+    },
+    "722///": {
+      "key": "foodServicesAndDrinking",
+      "title": "Food services and drinking places",
+      "purchase": "event"
+    },
+    "722320": {
+      "key": "caterersAndBanquetHalls",
+      "title": "Caterers (includes banquet halls with catering staff)",
+      "purchase": "event"
+    },
+    "813410": {
+      "key": "civicAndSocialOrganizations",
+      "title": "Civic and social organizations (lodges and halls with paid staff)",
+      "purchase": "event"
+    }
+  },
+  "national": {
+    "counties": 3246,
+    "kinds": {
+      "pollingAndMarketResearch": {
+        "establishments": 4419,
+        "countiesWithAny": 260
+      },
+      "publicRelations": {
+        "establishments": 8685,
+        "countiesWithAny": 327
+      },
+      "directMailAdvertising": {
+        "establishments": 1705,
+        "countiesWithAny": 166
+      },
+      "commercialPrinting": {
+        "establishments": 15271,
+        "countiesWithAny": 837
+      },
+      "amusementRecreation": {
+        "establishments": 89974,
+        "countiesWithAny": 2324
+      },
+      "accommodation": {
+        "establishments": 70817,
+        "countiesWithAny": 2424
+      },
+      "foodServicesAndDrinking": {
+        "establishments": 721107,
+        "countiesWithAny": 3152
+      },
+      "caterersAndBanquetHalls": {
+        "establishments": 13335,
+        "countiesWithAny": 688
+      },
+      "civicAndSocialOrganizations": {
+        "establishments": 24784,
+        "countiesWithAny": 1485
+      }
+    }
+  },
+  "places": {
+    "US-AK": {
+      "fips": "02",
+      "counties": 30,
+      "allEstablishments": 22178,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 4,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 17,
+          "countiesWithAny": 2,
+          "inCounties": 15,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 4,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 31,
+          "countiesWithAny": 3,
+          "inCounties": 26,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 491,
+          "countiesWithAny": 22,
+          "inCounties": 481,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 570,
+          "countiesWithAny": 27,
+          "inCounties": 569,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 1718,
+          "countiesWithAny": 26,
+          "inCounties": 1715,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 27,
+          "countiesWithAny": 3,
+          "inCounties": 24,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 139,
+          "countiesWithAny": 11,
+          "inCounties": 119,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-AL": {
+      "fips": "01",
+      "counties": 67,
+      "allEstablishments": 105720,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 22,
+          "countiesWithAny": 3,
+          "inCounties": 14,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 52,
+          "countiesWithAny": 4,
+          "inCounties": 36,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 16,
+          "countiesWithAny": 2,
+          "inCounties": 8,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 190,
+          "countiesWithAny": 17,
+          "inCounties": 152,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 980,
+          "countiesWithAny": 45,
+          "inCounties": 948,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1083,
+          "countiesWithAny": 48,
+          "inCounties": 1059,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 8984,
+          "countiesWithAny": 65,
+          "inCounties": 8980,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 87,
+          "countiesWithAny": 11,
+          "inCounties": 70,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 253,
+          "countiesWithAny": 23,
+          "inCounties": 236,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-AR": {
+      "fips": "05",
+      "counties": 75,
+      "allEstablishments": 70452,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 22,
+          "countiesWithAny": 3,
+          "inCounties": 15,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 28,
+          "countiesWithAny": 1,
+          "inCounties": 20,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 4,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 113,
+          "countiesWithAny": 9,
+          "inCounties": 85,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 637,
+          "countiesWithAny": 43,
+          "inCounties": 595,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 912,
+          "countiesWithAny": 56,
+          "inCounties": 891,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 5665,
+          "countiesWithAny": 75,
+          "inCounties": 5664,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 42,
+          "countiesWithAny": 4,
+          "inCounties": 27,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 179,
+          "countiesWithAny": 22,
+          "inCounties": 149,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-AS": {
+      "fips": "60",
+      "counties": 2,
+      "allEstablishments": 602,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 3,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 7,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 3
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 59,
+          "countiesWithAny": 2,
+          "inCounties": 15,
+          "statewideNoCounty": 44
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 6,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 6
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-AZ": {
+      "fips": "04",
+      "counties": 15,
+      "allEstablishments": 162845,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 78,
+          "countiesWithAny": 2,
+          "inCounties": 69,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 166,
+          "countiesWithAny": 2,
+          "inCounties": 158,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 27,
+          "countiesWithAny": 1,
+          "inCounties": 20,
+          "statewideNoCounty": 4
+        },
+        "commercialPrinting": {
+          "establishments": 281,
+          "countiesWithAny": 6,
+          "inCounties": 271,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1614,
+          "countiesWithAny": 13,
+          "inCounties": 1611,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1374,
+          "countiesWithAny": 14,
+          "inCounties": 1370,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 13666,
+          "countiesWithAny": 15,
+          "inCounties": 13666,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 177,
+          "countiesWithAny": 5,
+          "inCounties": 169,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 368,
+          "countiesWithAny": 13,
+          "inCounties": 365,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-CA": {
+      "fips": "06",
+      "counties": 58,
+      "allEstablishments": 1029689,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 713,
+          "countiesWithAny": 21,
+          "inCounties": 692,
+          "statewideNoCounty": 5
+        },
+        "publicRelations": {
+          "establishments": 1638,
+          "countiesWithAny": 27,
+          "inCounties": 1627,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 214,
+          "countiesWithAny": 15,
+          "inCounties": 191,
+          "statewideNoCounty": 5
+        },
+        "commercialPrinting": {
+          "establishments": 1884,
+          "countiesWithAny": 35,
+          "inCounties": 1868,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 9174,
+          "countiesWithAny": 54,
+          "inCounties": 9167,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 7174,
+          "countiesWithAny": 58,
+          "inCounties": 7172,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 88778,
+          "countiesWithAny": 58,
+          "inCounties": 88778,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 1961,
+          "countiesWithAny": 41,
+          "inCounties": 1948,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 2151,
+          "countiesWithAny": 44,
+          "inCounties": 2136,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-CO": {
+      "fips": "08",
+      "counties": 64,
+      "allEstablishments": 182486,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 112,
+          "countiesWithAny": 9,
+          "inCounties": 102,
+          "statewideNoCounty": 4
+        },
+        "publicRelations": {
+          "establishments": 256,
+          "countiesWithAny": 13,
+          "inCounties": 242,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 38,
+          "countiesWithAny": 5,
+          "inCounties": 28,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 275,
+          "countiesWithAny": 15,
+          "inCounties": 253,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2124,
+          "countiesWithAny": 46,
+          "inCounties": 2111,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1728,
+          "countiesWithAny": 53,
+          "inCounties": 1714,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 13677,
+          "countiesWithAny": 62,
+          "inCounties": 13675,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 268,
+          "countiesWithAny": 19,
+          "inCounties": 254,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 453,
+          "countiesWithAny": 23,
+          "inCounties": 418,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-CT": {
+      "fips": "09",
+      "counties": 9,
+      "allEstablishments": 89234,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 82,
+          "countiesWithAny": 5,
+          "inCounties": 75,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 82,
+          "countiesWithAny": 7,
+          "inCounties": 81,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 34,
+          "countiesWithAny": 3,
+          "inCounties": 25,
+          "statewideNoCounty": 4
+        },
+        "commercialPrinting": {
+          "establishments": 180,
+          "countiesWithAny": 9,
+          "inCounties": 180,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1203,
+          "countiesWithAny": 9,
+          "inCounties": 1202,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 438,
+          "countiesWithAny": 9,
+          "inCounties": 438,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 8612,
+          "countiesWithAny": 9,
+          "inCounties": 8611,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 183,
+          "countiesWithAny": 9,
+          "inCounties": 183,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 297,
+          "countiesWithAny": 9,
+          "inCounties": 297,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-DC": {
+      "fips": "11",
+      "counties": 1,
+      "allEstablishments": 23801,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 66,
+          "countiesWithAny": 1,
+          "inCounties": 66,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 493,
+          "countiesWithAny": 1,
+          "inCounties": 493,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 12,
+          "countiesWithAny": 1,
+          "inCounties": 12,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 19,
+          "countiesWithAny": 1,
+          "inCounties": 19,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 173,
+          "countiesWithAny": 1,
+          "inCounties": 173,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 131,
+          "countiesWithAny": 1,
+          "inCounties": 131,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 2686,
+          "countiesWithAny": 1,
+          "inCounties": 2686,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 48,
+          "countiesWithAny": 1,
+          "inCounties": 48,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 248,
+          "countiesWithAny": 1,
+          "inCounties": 248,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-DE": {
+      "fips": "10",
+      "counties": 3,
+      "allEstablishments": 29706,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 30,
+          "countiesWithAny": 3,
+          "inCounties": 29,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 29,
+          "countiesWithAny": 3,
+          "inCounties": 29,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 10,
+          "countiesWithAny": 1,
+          "inCounties": 9,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 36,
+          "countiesWithAny": 2,
+          "inCounties": 35,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 327,
+          "countiesWithAny": 3,
+          "inCounties": 327,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 214,
+          "countiesWithAny": 3,
+          "inCounties": 214,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 2230,
+          "countiesWithAny": 3,
+          "inCounties": 2229,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 33,
+          "countiesWithAny": 3,
+          "inCounties": 33,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 96,
+          "countiesWithAny": 3,
+          "inCounties": 96,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-FL": {
+      "fips": "12",
+      "counties": 67,
+      "allEstablishments": 645575,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 336,
+          "countiesWithAny": 21,
+          "inCounties": 314,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 591,
+          "countiesWithAny": 24,
+          "inCounties": 573,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 147,
+          "countiesWithAny": 15,
+          "inCounties": 129,
+          "statewideNoCounty": 7
+        },
+        "commercialPrinting": {
+          "establishments": 1018,
+          "countiesWithAny": 36,
+          "inCounties": 1002,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 5950,
+          "countiesWithAny": 57,
+          "inCounties": 5940,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 4244,
+          "countiesWithAny": 61,
+          "inCounties": 4235,
+          "statewideNoCounty": 3
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 44609,
+          "countiesWithAny": 67,
+          "inCounties": 44608,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 993,
+          "countiesWithAny": 33,
+          "inCounties": 981,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 1102,
+          "countiesWithAny": 47,
+          "inCounties": 1092,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-GA": {
+      "fips": "13",
+      "counties": 159,
+      "allEstablishments": 261320,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 130,
+          "countiesWithAny": 7,
+          "inCounties": 104,
+          "statewideNoCounty": 4
+        },
+        "publicRelations": {
+          "establishments": 277,
+          "countiesWithAny": 13,
+          "inCounties": 239,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 50,
+          "countiesWithAny": 4,
+          "inCounties": 29,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 487,
+          "countiesWithAny": 36,
+          "inCounties": 434,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2446,
+          "countiesWithAny": 93,
+          "inCounties": 2400,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 2412,
+          "countiesWithAny": 106,
+          "inCounties": 2366,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 21994,
+          "countiesWithAny": 150,
+          "inCounties": 21984,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 383,
+          "countiesWithAny": 29,
+          "inCounties": 337,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 435,
+          "countiesWithAny": 35,
+          "inCounties": 368,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-GU": {
+      "fips": "66",
+      "counties": 18,
+      "allEstablishments": 3471,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 6,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 52,
+          "countiesWithAny": 4,
+          "inCounties": 42,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 38,
+          "countiesWithAny": 1,
+          "inCounties": 33,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 502,
+          "countiesWithAny": 11,
+          "inCounties": 488,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 12,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 9,
+          "countiesWithAny": 1,
+          "inCounties": 8,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-HI": {
+      "fips": "15",
+      "counties": 4,
+      "allEstablishments": 32911,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 13,
+          "countiesWithAny": 1,
+          "inCounties": 8,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 26,
+          "countiesWithAny": 1,
+          "inCounties": 21,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 3,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 50,
+          "countiesWithAny": 3,
+          "inCounties": 49,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 305,
+          "countiesWithAny": 4,
+          "inCounties": 305,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 341,
+          "countiesWithAny": 4,
+          "inCounties": 341,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 3703,
+          "countiesWithAny": 4,
+          "inCounties": 3703,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 74,
+          "countiesWithAny": 4,
+          "inCounties": 74,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 57,
+          "countiesWithAny": 4,
+          "inCounties": 57,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-IA": {
+      "fips": "19",
+      "counties": 99,
+      "allEstablishments": 83321,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 21,
+          "countiesWithAny": 4,
+          "inCounties": 16,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 35,
+          "countiesWithAny": 2,
+          "inCounties": 24,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 25,
+          "countiesWithAny": 3,
+          "inCounties": 13,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 165,
+          "countiesWithAny": 15,
+          "inCounties": 116,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1031,
+          "countiesWithAny": 84,
+          "inCounties": 1011,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 866,
+          "countiesWithAny": 67,
+          "inCounties": 817,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 6646,
+          "countiesWithAny": 99,
+          "inCounties": 6644,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 86,
+          "countiesWithAny": 6,
+          "inCounties": 41,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 310,
+          "countiesWithAny": 32,
+          "inCounties": 254,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-ID": {
+      "fips": "16",
+      "counties": 44,
+      "allEstablishments": 58100,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 28,
+          "countiesWithAny": 2,
+          "inCounties": 16,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 37,
+          "countiesWithAny": 1,
+          "inCounties": 28,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 7,
+          "countiesWithAny": 1,
+          "inCounties": 5,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 77,
+          "countiesWithAny": 6,
+          "inCounties": 58,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 674,
+          "countiesWithAny": 35,
+          "inCounties": 665,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 564,
+          "countiesWithAny": 36,
+          "inCounties": 555,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 4033,
+          "countiesWithAny": 43,
+          "inCounties": 4033,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 55,
+          "countiesWithAny": 4,
+          "inCounties": 40,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 119,
+          "countiesWithAny": 12,
+          "inCounties": 94,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-IL": {
+      "fips": "17",
+      "counties": 102,
+      "allEstablishments": 322415,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 226,
+          "countiesWithAny": 6,
+          "inCounties": 208,
+          "statewideNoCounty": 7
+        },
+        "publicRelations": {
+          "establishments": 336,
+          "countiesWithAny": 8,
+          "inCounties": 326,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 76,
+          "countiesWithAny": 5,
+          "inCounties": 59,
+          "statewideNoCounty": 4
+        },
+        "commercialPrinting": {
+          "establishments": 801,
+          "countiesWithAny": 26,
+          "inCounties": 761,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 3807,
+          "countiesWithAny": 78,
+          "inCounties": 3777,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1730,
+          "countiesWithAny": 70,
+          "inCounties": 1693,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 28496,
+          "countiesWithAny": 102,
+          "inCounties": 28496,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 513,
+          "countiesWithAny": 19,
+          "inCounties": 478,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 993,
+          "countiesWithAny": 66,
+          "inCounties": 950,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-IN": {
+      "fips": "18",
+      "counties": 92,
+      "allEstablishments": 155692,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 53,
+          "countiesWithAny": 5,
+          "inCounties": 38,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 66,
+          "countiesWithAny": 2,
+          "inCounties": 49,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 23,
+          "countiesWithAny": 1,
+          "inCounties": 6,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 320,
+          "countiesWithAny": 25,
+          "inCounties": 259,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1562,
+          "countiesWithAny": 81,
+          "inCounties": 1546,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1308,
+          "countiesWithAny": 77,
+          "inCounties": 1291,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 13400,
+          "countiesWithAny": 92,
+          "inCounties": 13400,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 217,
+          "countiesWithAny": 22,
+          "inCounties": 179,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 901,
+          "countiesWithAny": 78,
+          "inCounties": 886,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-KS": {
+      "fips": "20",
+      "counties": 105,
+      "allEstablishments": 76139,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 20,
+          "countiesWithAny": 1,
+          "inCounties": 14,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 41,
+          "countiesWithAny": 3,
+          "inCounties": 36,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 22,
+          "countiesWithAny": 2,
+          "inCounties": 8,
+          "statewideNoCounty": 4
+        },
+        "commercialPrinting": {
+          "establishments": 162,
+          "countiesWithAny": 14,
+          "inCounties": 132,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 739,
+          "countiesWithAny": 46,
+          "inCounties": 686,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 736,
+          "countiesWithAny": 54,
+          "inCounties": 689,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 5922,
+          "countiesWithAny": 100,
+          "inCounties": 5911,
+          "statewideNoCounty": 3
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 74,
+          "countiesWithAny": 7,
+          "inCounties": 53,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 270,
+          "countiesWithAny": 30,
+          "inCounties": 215,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-KY": {
+      "fips": "21",
+      "counties": 120,
+      "allEstablishments": 94402,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 35,
+          "countiesWithAny": 3,
+          "inCounties": 21,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 45,
+          "countiesWithAny": 3,
+          "inCounties": 37,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 18,
+          "countiesWithAny": 2,
+          "inCounties": 12,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 175,
+          "countiesWithAny": 14,
+          "inCounties": 136,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 884,
+          "countiesWithAny": 62,
+          "inCounties": 829,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 897,
+          "countiesWithAny": 67,
+          "inCounties": 855,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 7857,
+          "countiesWithAny": 117,
+          "inCounties": 7854,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 104,
+          "countiesWithAny": 6,
+          "inCounties": 70,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 262,
+          "countiesWithAny": 23,
+          "inCounties": 207,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-LA": {
+      "fips": "22",
+      "counties": 64,
+      "allEstablishments": 108561,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 14,
+          "countiesWithAny": 1,
+          "inCounties": 9,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 71,
+          "countiesWithAny": 6,
+          "inCounties": 67,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 12,
+          "countiesWithAny": 2,
+          "inCounties": 6,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 151,
+          "countiesWithAny": 14,
+          "inCounties": 130,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1104,
+          "countiesWithAny": 50,
+          "inCounties": 1088,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1027,
+          "countiesWithAny": 49,
+          "inCounties": 1009,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 9521,
+          "countiesWithAny": 63,
+          "inCounties": 9509,
+          "statewideNoCounty": 10
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 189,
+          "countiesWithAny": 14,
+          "inCounties": 172,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 255,
+          "countiesWithAny": 17,
+          "inCounties": 226,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-MA": {
+      "fips": "25",
+      "counties": 14,
+      "allEstablishments": 183767,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 141,
+          "countiesWithAny": 8,
+          "inCounties": 134,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 201,
+          "countiesWithAny": 8,
+          "inCounties": 193,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 32,
+          "countiesWithAny": 5,
+          "inCounties": 20,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 320,
+          "countiesWithAny": 11,
+          "inCounties": 316,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2429,
+          "countiesWithAny": 14,
+          "inCounties": 2428,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1077,
+          "countiesWithAny": 14,
+          "inCounties": 1076,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 17050,
+          "countiesWithAny": 14,
+          "inCounties": 17049,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 436,
+          "countiesWithAny": 13,
+          "inCounties": 435,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 829,
+          "countiesWithAny": 14,
+          "inCounties": 829,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-MD": {
+      "fips": "24",
+      "counties": 24,
+      "allEstablishments": 142967,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 86,
+          "countiesWithAny": 6,
+          "inCounties": 75,
+          "statewideNoCounty": 4
+        },
+        "publicRelations": {
+          "establishments": 162,
+          "countiesWithAny": 8,
+          "inCounties": 155,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 52,
+          "countiesWithAny": 6,
+          "inCounties": 38,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 211,
+          "countiesWithAny": 13,
+          "inCounties": 200,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1529,
+          "countiesWithAny": 23,
+          "inCounties": 1528,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 814,
+          "countiesWithAny": 24,
+          "inCounties": 814,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 11930,
+          "countiesWithAny": 24,
+          "inCounties": 11930,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 283,
+          "countiesWithAny": 14,
+          "inCounties": 272,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 515,
+          "countiesWithAny": 24,
+          "inCounties": 515,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-ME": {
+      "fips": "23",
+      "counties": 16,
+      "allEstablishments": 43345,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 14,
+          "countiesWithAny": 1,
+          "inCounties": 8,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 32,
+          "countiesWithAny": 3,
+          "inCounties": 30,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 9,
+          "countiesWithAny": 1,
+          "inCounties": 4,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 66,
+          "countiesWithAny": 6,
+          "inCounties": 52,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 601,
+          "countiesWithAny": 16,
+          "inCounties": 601,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 938,
+          "countiesWithAny": 16,
+          "inCounties": 938,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 3424,
+          "countiesWithAny": 16,
+          "inCounties": 3424,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 70,
+          "countiesWithAny": 5,
+          "inCounties": 59,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 222,
+          "countiesWithAny": 15,
+          "inCounties": 220,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-MI": {
+      "fips": "26",
+      "counties": 83,
+      "allEstablishments": 229564,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 97,
+          "countiesWithAny": 6,
+          "inCounties": 73,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 129,
+          "countiesWithAny": 7,
+          "inCounties": 108,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 38,
+          "countiesWithAny": 3,
+          "inCounties": 19,
+          "statewideNoCounty": 5
+        },
+        "commercialPrinting": {
+          "establishments": 459,
+          "countiesWithAny": 32,
+          "inCounties": 426,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2621,
+          "countiesWithAny": 81,
+          "inCounties": 2619,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1960,
+          "countiesWithAny": 80,
+          "inCounties": 1955,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 19760,
+          "countiesWithAny": 83,
+          "inCounties": 19752,
+          "statewideNoCounty": 8
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 346,
+          "countiesWithAny": 21,
+          "inCounties": 313,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 786,
+          "countiesWithAny": 61,
+          "inCounties": 757,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-MN": {
+      "fips": "27",
+      "counties": 87,
+      "allEstablishments": 154455,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 91,
+          "countiesWithAny": 4,
+          "inCounties": 70,
+          "statewideNoCounty": 4
+        },
+        "publicRelations": {
+          "establishments": 123,
+          "countiesWithAny": 7,
+          "inCounties": 111,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 47,
+          "countiesWithAny": 5,
+          "inCounties": 36,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 380,
+          "countiesWithAny": 29,
+          "inCounties": 341,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1950,
+          "countiesWithAny": 75,
+          "inCounties": 1931,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1437,
+          "countiesWithAny": 68,
+          "inCounties": 1411,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 10937,
+          "countiesWithAny": 87,
+          "inCounties": 10937,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 200,
+          "countiesWithAny": 12,
+          "inCounties": 162,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 965,
+          "countiesWithAny": 76,
+          "inCounties": 949,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-MO": {
+      "fips": "29",
+      "counties": 115,
+      "allEstablishments": 151475,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 54,
+          "countiesWithAny": 5,
+          "inCounties": 41,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 104,
+          "countiesWithAny": 8,
+          "inCounties": 92,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 36,
+          "countiesWithAny": 4,
+          "inCounties": 26,
+          "statewideNoCounty": 4
+        },
+        "commercialPrinting": {
+          "establishments": 322,
+          "countiesWithAny": 20,
+          "inCounties": 271,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1619,
+          "countiesWithAny": 78,
+          "inCounties": 1579,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1362,
+          "countiesWithAny": 79,
+          "inCounties": 1327,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 12484,
+          "countiesWithAny": 114,
+          "inCounties": 12481,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 193,
+          "countiesWithAny": 13,
+          "inCounties": 166,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 501,
+          "countiesWithAny": 41,
+          "inCounties": 429,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-MP": {
+      "fips": "69",
+      "counties": 3,
+      "allEstablishments": 1604,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 8,
+          "countiesWithAny": 1,
+          "inCounties": 8,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 33,
+          "countiesWithAny": 1,
+          "inCounties": 30,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 30,
+          "countiesWithAny": 1,
+          "inCounties": 27,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 170,
+          "countiesWithAny": 2,
+          "inCounties": 168,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 12,
+          "countiesWithAny": 1,
+          "inCounties": 11,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 7,
+          "countiesWithAny": 1,
+          "inCounties": 7,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-MS": {
+      "fips": "28",
+      "counties": 82,
+      "allEstablishments": 60465,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 7,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 39,
+          "countiesWithAny": 4,
+          "inCounties": 28,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 7,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 80,
+          "countiesWithAny": 9,
+          "inCounties": 50,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 538,
+          "countiesWithAny": 48,
+          "inCounties": 506,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 806,
+          "countiesWithAny": 48,
+          "inCounties": 773,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 5495,
+          "countiesWithAny": 80,
+          "inCounties": 5494,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 60,
+          "countiesWithAny": 10,
+          "inCounties": 39,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 140,
+          "countiesWithAny": 16,
+          "inCounties": 113,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-MT": {
+      "fips": "30",
+      "counties": 56,
+      "allEstablishments": 42566,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 6,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 29,
+          "countiesWithAny": 4,
+          "inCounties": 22,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 4,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 60,
+          "countiesWithAny": 7,
+          "inCounties": 48,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1035,
+          "countiesWithAny": 42,
+          "inCounties": 1023,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 778,
+          "countiesWithAny": 39,
+          "inCounties": 763,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 3072,
+          "countiesWithAny": 51,
+          "inCounties": 3067,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 57,
+          "countiesWithAny": 5,
+          "inCounties": 44,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 168,
+          "countiesWithAny": 16,
+          "inCounties": 138,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-NC": {
+      "fips": "37",
+      "counties": 100,
+      "allEstablishments": 258169,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 94,
+          "countiesWithAny": 7,
+          "inCounties": 77,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 198,
+          "countiesWithAny": 13,
+          "inCounties": 168,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 51,
+          "countiesWithAny": 6,
+          "inCounties": 32,
+          "statewideNoCounty": 5
+        },
+        "commercialPrinting": {
+          "establishments": 436,
+          "countiesWithAny": 32,
+          "inCounties": 380,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2935,
+          "countiesWithAny": 88,
+          "inCounties": 2924,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 2308,
+          "countiesWithAny": 84,
+          "inCounties": 2290,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 21985,
+          "countiesWithAny": 100,
+          "inCounties": 21985,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 356,
+          "countiesWithAny": 26,
+          "inCounties": 304,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 538,
+          "countiesWithAny": 50,
+          "inCounties": 491,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-ND": {
+      "fips": "38",
+      "counties": 53,
+      "allEstablishments": 25402,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 6,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 6,
+          "countiesWithAny": 1,
+          "inCounties": 4,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 31,
+          "countiesWithAny": 4,
+          "inCounties": 17,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 403,
+          "countiesWithAny": 29,
+          "inCounties": 376,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 339,
+          "countiesWithAny": 24,
+          "inCounties": 303,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 1815,
+          "countiesWithAny": 51,
+          "inCounties": 1811,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 19,
+          "countiesWithAny": 3,
+          "inCounties": 13,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 149,
+          "countiesWithAny": 15,
+          "inCounties": 118,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-NE": {
+      "fips": "31",
+      "counties": 93,
+      "allEstablishments": 56503,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 18,
+          "countiesWithAny": 2,
+          "inCounties": 11,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 30,
+          "countiesWithAny": 2,
+          "inCounties": 27,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 7,
+          "countiesWithAny": 1,
+          "inCounties": 4,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 93,
+          "countiesWithAny": 7,
+          "inCounties": 75,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 712,
+          "countiesWithAny": 47,
+          "inCounties": 671,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 511,
+          "countiesWithAny": 35,
+          "inCounties": 461,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 4371,
+          "countiesWithAny": 77,
+          "inCounties": 4347,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 62,
+          "countiesWithAny": 3,
+          "inCounties": 41,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 248,
+          "countiesWithAny": 19,
+          "inCounties": 204,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-NH": {
+      "fips": "33",
+      "counties": 10,
+      "allEstablishments": 39298,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 21,
+          "countiesWithAny": 3,
+          "inCounties": 19,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 23,
+          "countiesWithAny": 3,
+          "inCounties": 19,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 12,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 67,
+          "countiesWithAny": 7,
+          "inCounties": 61,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 636,
+          "countiesWithAny": 10,
+          "inCounties": 636,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 561,
+          "countiesWithAny": 10,
+          "inCounties": 561,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 3324,
+          "countiesWithAny": 10,
+          "inCounties": 3324,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 69,
+          "countiesWithAny": 7,
+          "inCounties": 65,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 176,
+          "countiesWithAny": 10,
+          "inCounties": 176,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-NJ": {
+      "fips": "34",
+      "counties": 21,
+      "allEstablishments": 237968,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 149,
+          "countiesWithAny": 13,
+          "inCounties": 142,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 218,
+          "countiesWithAny": 15,
+          "inCounties": 212,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 59,
+          "countiesWithAny": 8,
+          "inCounties": 46,
+          "statewideNoCounty": 4
+        },
+        "commercialPrinting": {
+          "establishments": 509,
+          "countiesWithAny": 19,
+          "inCounties": 506,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2757,
+          "countiesWithAny": 21,
+          "inCounties": 2757,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1255,
+          "countiesWithAny": 21,
+          "inCounties": 1254,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 21457,
+          "countiesWithAny": 21,
+          "inCounties": 21457,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 533,
+          "countiesWithAny": 19,
+          "inCounties": 530,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 421,
+          "countiesWithAny": 21,
+          "inCounties": 421,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-NM": {
+      "fips": "35",
+      "counties": 33,
+      "allEstablishments": 44861,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 15,
+          "countiesWithAny": 3,
+          "inCounties": 11,
+          "statewideNoCounty": 4
+        },
+        "publicRelations": {
+          "establishments": 38,
+          "countiesWithAny": 2,
+          "inCounties": 36,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 71,
+          "countiesWithAny": 7,
+          "inCounties": 58,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 425,
+          "countiesWithAny": 24,
+          "inCounties": 418,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 797,
+          "countiesWithAny": 29,
+          "inCounties": 795,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 3935,
+          "countiesWithAny": 31,
+          "inCounties": 3932,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 38,
+          "countiesWithAny": 3,
+          "inCounties": 28,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 174,
+          "countiesWithAny": 19,
+          "inCounties": 165,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-NV": {
+      "fips": "32",
+      "counties": 17,
+      "allEstablishments": 77297,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 48,
+          "countiesWithAny": 2,
+          "inCounties": 46,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 111,
+          "countiesWithAny": 3,
+          "inCounties": 109,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 13,
+          "countiesWithAny": 2,
+          "inCounties": 11,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 135,
+          "countiesWithAny": 4,
+          "inCounties": 131,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 991,
+          "countiesWithAny": 11,
+          "inCounties": 989,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 640,
+          "countiesWithAny": 15,
+          "inCounties": 635,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 7339,
+          "countiesWithAny": 16,
+          "inCounties": 7337,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 109,
+          "countiesWithAny": 2,
+          "inCounties": 104,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 94,
+          "countiesWithAny": 4,
+          "inCounties": 90,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-NY": {
+      "fips": "36",
+      "counties": 62,
+      "allEstablishments": 541313,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 407,
+          "countiesWithAny": 16,
+          "inCounties": 384,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 938,
+          "countiesWithAny": 19,
+          "inCounties": 919,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 108,
+          "countiesWithAny": 11,
+          "inCounties": 91,
+          "statewideNoCounty": 4
+        },
+        "commercialPrinting": {
+          "establishments": 988,
+          "countiesWithAny": 38,
+          "inCounties": 963,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 5423,
+          "countiesWithAny": 62,
+          "inCounties": 5422,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 3080,
+          "countiesWithAny": 62,
+          "inCounties": 3079,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 52317,
+          "countiesWithAny": 62,
+          "inCounties": 52317,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 1266,
+          "countiesWithAny": 41,
+          "inCounties": 1249,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 1426,
+          "countiesWithAny": 58,
+          "inCounties": 1420,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-OH": {
+      "fips": "39",
+      "counties": 88,
+      "allEstablishments": 255049,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 136,
+          "countiesWithAny": 10,
+          "inCounties": 112,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 161,
+          "countiesWithAny": 8,
+          "inCounties": 138,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 74,
+          "countiesWithAny": 11,
+          "inCounties": 55,
+          "statewideNoCounty": 5
+        },
+        "commercialPrinting": {
+          "establishments": 597,
+          "countiesWithAny": 39,
+          "inCounties": 549,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2880,
+          "countiesWithAny": 84,
+          "inCounties": 2875,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1791,
+          "countiesWithAny": 80,
+          "inCounties": 1780,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 24162,
+          "countiesWithAny": 88,
+          "inCounties": 24162,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 490,
+          "countiesWithAny": 29,
+          "inCounties": 444,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 1354,
+          "countiesWithAny": 82,
+          "inCounties": 1344,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-OK": {
+      "fips": "40",
+      "counties": 77,
+      "allEstablishments": 96402,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 19,
+          "countiesWithAny": 2,
+          "inCounties": 13,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 73,
+          "countiesWithAny": 3,
+          "inCounties": 60,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 11,
+          "countiesWithAny": 1,
+          "inCounties": 5,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 145,
+          "countiesWithAny": 8,
+          "inCounties": 111,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 898,
+          "countiesWithAny": 47,
+          "inCounties": 868,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1010,
+          "countiesWithAny": 54,
+          "inCounties": 992,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 7955,
+          "countiesWithAny": 77,
+          "inCounties": 7955,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 78,
+          "countiesWithAny": 5,
+          "inCounties": 63,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 234,
+          "countiesWithAny": 22,
+          "inCounties": 202,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-OR": {
+      "fips": "41",
+      "counties": 36,
+      "allEstablishments": 122451,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 56,
+          "countiesWithAny": 4,
+          "inCounties": 48,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 144,
+          "countiesWithAny": 7,
+          "inCounties": 140,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 24,
+          "countiesWithAny": 3,
+          "inCounties": 15,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 205,
+          "countiesWithAny": 15,
+          "inCounties": 193,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1279,
+          "countiesWithAny": 29,
+          "inCounties": 1270,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1309,
+          "countiesWithAny": 35,
+          "inCounties": 1307,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 11224,
+          "countiesWithAny": 35,
+          "inCounties": 11223,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 143,
+          "countiesWithAny": 12,
+          "inCounties": 128,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 323,
+          "countiesWithAny": 25,
+          "inCounties": 311,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-PA": {
+      "fips": "42",
+      "counties": 67,
+      "allEstablishments": 307065,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 167,
+          "countiesWithAny": 11,
+          "inCounties": 145,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 195,
+          "countiesWithAny": 12,
+          "inCounties": 176,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 70,
+          "countiesWithAny": 7,
+          "inCounties": 48,
+          "statewideNoCounty": 6
+        },
+        "commercialPrinting": {
+          "establishments": 599,
+          "countiesWithAny": 38,
+          "inCounties": 575,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 3452,
+          "countiesWithAny": 63,
+          "inCounties": 3447,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 2067,
+          "countiesWithAny": 64,
+          "inCounties": 2062,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 27120,
+          "countiesWithAny": 67,
+          "inCounties": 27117,
+          "statewideNoCounty": 3
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 579,
+          "countiesWithAny": 32,
+          "inCounties": 550,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 2138,
+          "countiesWithAny": 65,
+          "inCounties": 2134,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-PR": {
+      "fips": "72",
+      "counties": 78,
+      "allEstablishments": 50332,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 20,
+          "countiesWithAny": 1,
+          "inCounties": 11,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 39,
+          "countiesWithAny": 2,
+          "inCounties": 31,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 6,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 111,
+          "countiesWithAny": 12,
+          "inCounties": 75,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 306,
+          "countiesWithAny": 32,
+          "inCounties": 269,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 335,
+          "countiesWithAny": 29,
+          "inCounties": 302,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 5598,
+          "countiesWithAny": 78,
+          "inCounties": 5598,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 74,
+          "countiesWithAny": 8,
+          "inCounties": 43,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 65,
+          "countiesWithAny": 5,
+          "inCounties": 43,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-RI": {
+      "fips": "44",
+      "counties": 5,
+      "allEstablishments": 29510,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 13,
+          "countiesWithAny": 2,
+          "inCounties": 9,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 26,
+          "countiesWithAny": 3,
+          "inCounties": 22,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 61,
+          "countiesWithAny": 4,
+          "inCounties": 59,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 428,
+          "countiesWithAny": 5,
+          "inCounties": 428,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 224,
+          "countiesWithAny": 4,
+          "inCounties": 223,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 3046,
+          "countiesWithAny": 5,
+          "inCounties": 3046,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 52,
+          "countiesWithAny": 4,
+          "inCounties": 50,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 124,
+          "countiesWithAny": 5,
+          "inCounties": 124,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-SC": {
+      "fips": "45",
+      "counties": 46,
+      "allEstablishments": 122958,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 59,
+          "countiesWithAny": 6,
+          "inCounties": 43,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 76,
+          "countiesWithAny": 6,
+          "inCounties": 69,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 21,
+          "countiesWithAny": 4,
+          "inCounties": 15,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 188,
+          "countiesWithAny": 15,
+          "inCounties": 163,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1357,
+          "countiesWithAny": 34,
+          "inCounties": 1345,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1304,
+          "countiesWithAny": 41,
+          "inCounties": 1297,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 10924,
+          "countiesWithAny": 46,
+          "inCounties": 10923,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 165,
+          "countiesWithAny": 14,
+          "inCounties": 145,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 243,
+          "countiesWithAny": 22,
+          "inCounties": 223,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-SD": {
+      "fips": "46",
+      "counties": 66,
+      "allEstablishments": 29106,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 6,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 8,
+          "countiesWithAny": 1,
+          "inCounties": 4,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 50,
+          "countiesWithAny": 5,
+          "inCounties": 34,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 518,
+          "countiesWithAny": 29,
+          "inCounties": 486,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 636,
+          "countiesWithAny": 32,
+          "inCounties": 595,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 2060,
+          "countiesWithAny": 59,
+          "inCounties": 2053,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 20,
+          "countiesWithAny": 3,
+          "inCounties": 13,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 129,
+          "countiesWithAny": 15,
+          "inCounties": 97,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-TN": {
+      "fips": "47",
+      "counties": 95,
+      "allEstablishments": 150129,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 41,
+          "countiesWithAny": 5,
+          "inCounties": 32,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 107,
+          "countiesWithAny": 5,
+          "inCounties": 96,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 18,
+          "countiesWithAny": 2,
+          "inCounties": 8,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 316,
+          "countiesWithAny": 25,
+          "inCounties": 281,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 1628,
+          "countiesWithAny": 67,
+          "inCounties": 1603,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1730,
+          "countiesWithAny": 73,
+          "inCounties": 1704,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 13713,
+          "countiesWithAny": 94,
+          "inCounties": 13712,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 190,
+          "countiesWithAny": 13,
+          "inCounties": 154,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 377,
+          "countiesWithAny": 26,
+          "inCounties": 328,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-TX": {
+      "fips": "48",
+      "counties": 253,
+      "allEstablishments": 670878,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 318,
+          "countiesWithAny": 15,
+          "inCounties": 278,
+          "statewideNoCounty": 5
+        },
+        "publicRelations": {
+          "establishments": 467,
+          "countiesWithAny": 14,
+          "inCounties": 443,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 113,
+          "countiesWithAny": 7,
+          "inCounties": 82,
+          "statewideNoCounty": 7
+        },
+        "commercialPrinting": {
+          "establishments": 1101,
+          "countiesWithAny": 41,
+          "inCounties": 1005,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 6526,
+          "countiesWithAny": 139,
+          "inCounties": 6423,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 6596,
+          "countiesWithAny": 189,
+          "inCounties": 6527,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 60248,
+          "countiesWithAny": 236,
+          "inCounties": 60220,
+          "statewideNoCounty": 9
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 866,
+          "countiesWithAny": 39,
+          "inCounties": 807,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 1401,
+          "countiesWithAny": 79,
+          "inCounties": 1292,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-UT": {
+      "fips": "49",
+      "counties": 29,
+      "allEstablishments": 95494,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 70,
+          "countiesWithAny": 5,
+          "inCounties": 64,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 71,
+          "countiesWithAny": 5,
+          "inCounties": 67,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 18,
+          "countiesWithAny": 3,
+          "inCounties": 11,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 161,
+          "countiesWithAny": 7,
+          "inCounties": 148,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 853,
+          "countiesWithAny": 22,
+          "inCounties": 843,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 825,
+          "countiesWithAny": 28,
+          "inCounties": 824,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 6178,
+          "countiesWithAny": 27,
+          "inCounties": 6174,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 118,
+          "countiesWithAny": 8,
+          "inCounties": 109,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 114,
+          "countiesWithAny": 8,
+          "inCounties": 101,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-VA": {
+      "fips": "51",
+      "counties": 133,
+      "allEstablishments": 210842,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 119,
+          "countiesWithAny": 12,
+          "inCounties": 93,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 308,
+          "countiesWithAny": 14,
+          "inCounties": 284,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 76,
+          "countiesWithAny": 6,
+          "inCounties": 47,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 300,
+          "countiesWithAny": 32,
+          "inCounties": 241,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2284,
+          "countiesWithAny": 97,
+          "inCounties": 2244,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1867,
+          "countiesWithAny": 105,
+          "inCounties": 1833,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 17551,
+          "countiesWithAny": 132,
+          "inCounties": 17549,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 286,
+          "countiesWithAny": 25,
+          "inCounties": 233,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 619,
+          "countiesWithAny": 62,
+          "inCounties": 565,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-VI": {
+      "fips": "78",
+      "counties": 3,
+      "allEstablishments": 2410,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 3,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 43,
+          "countiesWithAny": 3,
+          "inCounties": 43,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 57,
+          "countiesWithAny": 3,
+          "inCounties": 57,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 246,
+          "countiesWithAny": 3,
+          "inCounties": 246,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 9,
+          "countiesWithAny": 3,
+          "inCounties": 9,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 5,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-VT": {
+      "fips": "50",
+      "counties": 14,
+      "allEstablishments": 20841,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 9,
+          "countiesWithAny": 1,
+          "inCounties": 4,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 15,
+          "countiesWithAny": 2,
+          "inCounties": 12,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 4,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 33,
+          "countiesWithAny": 5,
+          "inCounties": 27,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 280,
+          "countiesWithAny": 13,
+          "inCounties": 278,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 418,
+          "countiesWithAny": 14,
+          "inCounties": 418,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 1497,
+          "countiesWithAny": 14,
+          "inCounties": 1497,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 48,
+          "countiesWithAny": 6,
+          "inCounties": 41,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 140,
+          "countiesWithAny": 11,
+          "inCounties": 136,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-WA": {
+      "fips": "53",
+      "counties": 39,
+      "allEstablishments": 202177,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 82,
+          "countiesWithAny": 4,
+          "inCounties": 65,
+          "statewideNoCounty": 3
+        },
+        "publicRelations": {
+          "establishments": 200,
+          "countiesWithAny": 8,
+          "inCounties": 190,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 28,
+          "countiesWithAny": 2,
+          "inCounties": 15,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 253,
+          "countiesWithAny": 15,
+          "inCounties": 239,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2204,
+          "countiesWithAny": 33,
+          "inCounties": 2199,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1646,
+          "countiesWithAny": 36,
+          "inCounties": 1641,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 17386,
+          "countiesWithAny": 39,
+          "inCounties": 17386,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 304,
+          "countiesWithAny": 15,
+          "inCounties": 288,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 555,
+          "countiesWithAny": 28,
+          "inCounties": 544,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-WI": {
+      "fips": "55",
+      "counties": 72,
+      "allEstablishments": 144774,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 34,
+          "countiesWithAny": 3,
+          "inCounties": 19,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 92,
+          "countiesWithAny": 3,
+          "inCounties": 68,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 22,
+          "countiesWithAny": 1,
+          "inCounties": 5,
+          "statewideNoCounty": 3
+        },
+        "commercialPrinting": {
+          "establishments": 416,
+          "countiesWithAny": 32,
+          "inCounties": 383,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 2140,
+          "countiesWithAny": 68,
+          "inCounties": 2135,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 1591,
+          "countiesWithAny": 69,
+          "inCounties": 1587,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 13939,
+          "countiesWithAny": 72,
+          "inCounties": 13939,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 208,
+          "countiesWithAny": 23,
+          "inCounties": 178,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 388,
+          "countiesWithAny": 38,
+          "inCounties": 358,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-WV": {
+      "fips": "54",
+      "counties": 55,
+      "allEstablishments": 35839,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 13,
+          "countiesWithAny": 1,
+          "inCounties": 7,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 3,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 47,
+          "countiesWithAny": 7,
+          "inCounties": 32,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 628,
+          "countiesWithAny": 40,
+          "inCounties": 608,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 413,
+          "countiesWithAny": 36,
+          "inCounties": 393,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 3271,
+          "countiesWithAny": 54,
+          "inCounties": 3269,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 28,
+          "countiesWithAny": 5,
+          "inCounties": 16,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 203,
+          "countiesWithAny": 23,
+          "inCounties": 173,
+          "statewideNoCounty": 0
+        }
+      }
+    },
+    "US-WY": {
+      "fips": "56",
+      "counties": 23,
+      "allEstablishments": 23865,
+      "kinds": {
+        "pollingAndMarketResearch": {
+          "establishments": 11,
+          "countiesWithAny": 1,
+          "inCounties": 3,
+          "statewideNoCounty": 0
+        },
+        "publicRelations": {
+          "establishments": 23,
+          "countiesWithAny": 3,
+          "inCounties": 22,
+          "statewideNoCounty": 0
+        },
+        "directMailAdvertising": {
+          "establishments": 0,
+          "countiesWithAny": 0,
+          "inCounties": 0,
+          "statewideNoCounty": 0
+        },
+        "commercialPrinting": {
+          "establishments": 25,
+          "countiesWithAny": 4,
+          "inCounties": 13,
+          "statewideNoCounty": 0
+        },
+        "amusementRecreation": {
+          "establishments": 356,
+          "countiesWithAny": 19,
+          "inCounties": 350,
+          "statewideNoCounty": 0
+        },
+        "accommodation": {
+          "establishments": 511,
+          "countiesWithAny": 21,
+          "inCounties": 507,
+          "statewideNoCounty": 0
+        },
+        "foodServicesAndDrinking": {
+          "establishments": 1366,
+          "countiesWithAny": 23,
+          "inCounties": 1366,
+          "statewideNoCounty": 0
+        },
+        "caterersAndBanquetHalls": {
+          "establishments": 36,
+          "countiesWithAny": 5,
+          "inCounties": 27,
+          "statewideNoCounty": 0
+        },
+        "civicAndSocialOrganizations": {
+          "establishments": 116,
+          "countiesWithAny": 14,
+          "inCounties": 108,
+          "statewideNoCounty": 0
+        }
+      }
+    }
+  },
+  "countyEstablishments": {
+    "pollingAndMarketResearch": {
+      "01073": 4,
+      "01101": 4,
+      "01117": 6,
+      "02020": 3,
+      "04013": 60,
+      "04019": 9,
+      "05007": 4,
+      "05119": 7,
+      "05131": 4,
+      "06001": 34,
+      "06013": 10,
+      "06019": 4,
+      "06037": 225,
+      "06041": 13,
+      "06053": 5,
+      "06055": 4,
+      "06059": 86,
+      "06061": 3,
+      "06065": 12,
+      "06067": 14,
+      "06071": 11,
+      "06073": 77,
+      "06075": 71,
+      "06079": 5,
+      "06081": 35,
+      "06083": 3,
+      "06085": 48,
+      "06087": 5,
+      "06097": 10,
+      "06111": 17,
+      "08001": 3,
+      "08005": 10,
+      "08013": 22,
+      "08014": 3,
+      "08031": 23,
+      "08035": 4,
+      "08041": 13,
+      "08059": 18,
+      "08069": 6,
+      "09110": 13,
+      "09120": 9,
+      "09140": 3,
+      "09170": 12,
+      "09190": 38,
+      "10001": 3,
+      "10003": 22,
+      "10005": 4,
+      "11001": 66,
+      "12009": 6,
+      "12011": 45,
+      "12019": 3,
+      "12021": 8,
+      "12031": 12,
+      "12033": 3,
+      "12057": 28,
+      "12061": 3,
+      "12069": 3,
+      "12071": 12,
+      "12073": 4,
+      "12081": 6,
+      "12086": 69,
+      "12095": 26,
+      "12099": 33,
+      "12101": 3,
+      "12103": 19,
+      "12109": 3,
+      "12115": 9,
+      "12117": 10,
+      "12127": 9,
+      "13067": 11,
+      "13089": 16,
+      "13121": 53,
+      "13135": 14,
+      "13139": 4,
+      "13151": 3,
+      "13245": 3,
+      "15003": 8,
+      "16001": 13,
+      "16055": 3,
+      "17031": 143,
+      "17043": 26,
+      "17089": 10,
+      "17097": 20,
+      "17111": 4,
+      "17197": 5,
+      "18057": 7,
+      "18089": 4,
+      "18097": 18,
+      "18141": 4,
+      "18163": 5,
+      "19049": 3,
+      "19113": 4,
+      "19153": 5,
+      "19163": 4,
+      "20091": 14,
+      "21067": 7,
+      "21111": 10,
+      "21117": 4,
+      "22071": 9,
+      "23005": 8,
+      "24003": 6,
+      "24005": 17,
+      "24021": 7,
+      "24027": 10,
+      "24031": 27,
+      "24510": 8,
+      "25001": 4,
+      "25009": 7,
+      "25015": 3,
+      "25017": 54,
+      "25021": 11,
+      "25023": 4,
+      "25025": 39,
+      "25027": 12,
+      "26065": 5,
+      "26081": 3,
+      "26093": 4,
+      "26125": 39,
+      "26161": 10,
+      "26163": 12,
+      "27037": 6,
+      "27053": 54,
+      "27123": 6,
+      "27163": 4,
+      "28047": 3,
+      "29077": 4,
+      "29095": 7,
+      "29183": 4,
+      "29189": 19,
+      "29510": 7,
+      "30111": 3,
+      "31055": 8,
+      "31109": 3,
+      "32003": 37,
+      "32031": 9,
+      "33011": 5,
+      "33015": 10,
+      "33017": 4,
+      "34003": 36,
+      "34005": 6,
+      "34007": 3,
+      "34013": 5,
+      "34017": 4,
+      "34019": 6,
+      "34021": 9,
+      "34023": 13,
+      "34025": 16,
+      "34027": 20,
+      "34031": 5,
+      "34035": 13,
+      "34039": 6,
+      "35001": 5,
+      "35013": 3,
+      "35049": 3,
+      "36029": 7,
+      "36047": 32,
+      "36055": 12,
+      "36059": 38,
+      "36061": 194,
+      "36065": 3,
+      "36067": 6,
+      "36069": 3,
+      "36071": 3,
+      "36079": 6,
+      "36081": 14,
+      "36087": 5,
+      "36091": 6,
+      "36103": 18,
+      "36111": 5,
+      "36119": 32,
+      "37021": 5,
+      "37025": 3,
+      "37063": 14,
+      "37081": 11,
+      "37119": 14,
+      "37135": 6,
+      "37183": 24,
+      "38017": 3,
+      "39025": 4,
+      "39035": 22,
+      "39041": 6,
+      "39049": 20,
+      "39061": 37,
+      "39089": 3,
+      "39095": 7,
+      "39151": 3,
+      "39153": 6,
+      "39165": 4,
+      "40109": 8,
+      "40143": 5,
+      "41005": 10,
+      "41017": 3,
+      "41051": 26,
+      "41067": 9,
+      "42003": 18,
+      "42011": 3,
+      "42017": 21,
+      "42029": 19,
+      "42043": 5,
+      "42045": 5,
+      "42049": 3,
+      "42071": 5,
+      "42077": 3,
+      "42091": 38,
+      "42101": 25,
+      "44003": 3,
+      "44007": 6,
+      "45015": 4,
+      "45019": 19,
+      "45045": 9,
+      "45051": 4,
+      "45079": 4,
+      "45083": 3,
+      "47037": 16,
+      "47065": 5,
+      "47093": 3,
+      "47157": 3,
+      "47187": 5,
+      "48029": 20,
+      "48085": 25,
+      "48091": 5,
+      "48113": 47,
+      "48121": 17,
+      "48141": 5,
+      "48157": 11,
+      "48201": 46,
+      "48209": 4,
+      "48213": 3,
+      "48339": 4,
+      "48367": 3,
+      "48439": 22,
+      "48453": 56,
+      "48491": 10,
+      "49005": 4,
+      "49035": 20,
+      "49049": 26,
+      "49053": 7,
+      "49057": 7,
+      "50007": 4,
+      "51013": 15,
+      "51041": 5,
+      "51059": 25,
+      "51087": 4,
+      "51107": 5,
+      "51177": 4,
+      "51510": 15,
+      "51540": 4,
+      "51600": 3,
+      "51710": 3,
+      "51760": 7,
+      "51810": 3,
+      "53033": 55,
+      "53053": 3,
+      "53061": 3,
+      "53063": 4,
+      "55025": 9,
+      "55079": 4,
+      "55133": 6,
+      "56021": 3,
+      "72127": 11
+    },
+    "directMailAdvertising": {
+      "01073": 5,
+      "01117": 3,
+      "02020": 3,
+      "04013": 20,
+      "06001": 10,
+      "06013": 3,
+      "06037": 56,
+      "06059": 44,
+      "06061": 3,
+      "06065": 6,
+      "06067": 3,
+      "06073": 24,
+      "06075": 10,
+      "06081": 5,
+      "06083": 3,
+      "06085": 9,
+      "06087": 4,
+      "06111": 6,
+      "06113": 5,
+      "08005": 9,
+      "08031": 3,
+      "08041": 5,
+      "08059": 5,
+      "08069": 6,
+      "09110": 11,
+      "09140": 6,
+      "09190": 8,
+      "10003": 9,
+      "11001": 12,
+      "12009": 5,
+      "12011": 22,
+      "12031": 3,
+      "12033": 4,
+      "12057": 12,
+      "12071": 9,
+      "12081": 5,
+      "12085": 3,
+      "12086": 16,
+      "12095": 6,
+      "12099": 12,
+      "12103": 17,
+      "12115": 3,
+      "12117": 4,
+      "12127": 8,
+      "13067": 14,
+      "13121": 5,
+      "13135": 7,
+      "13215": 3,
+      "15003": 3,
+      "16001": 5,
+      "17031": 24,
+      "17043": 16,
+      "17089": 7,
+      "17097": 9,
+      "17197": 3,
+      "18097": 6,
+      "19013": 3,
+      "19113": 3,
+      "19153": 7,
+      "20091": 5,
+      "20173": 3,
+      "21067": 3,
+      "21111": 9,
+      "22051": 3,
+      "22103": 3,
+      "23005": 4,
+      "24003": 4,
+      "24005": 8,
+      "24021": 8,
+      "24031": 10,
+      "24033": 5,
+      "24510": 3,
+      "25009": 3,
+      "25017": 3,
+      "25023": 8,
+      "25025": 3,
+      "25027": 3,
+      "26081": 5,
+      "26125": 9,
+      "26163": 5,
+      "27003": 3,
+      "27019": 4,
+      "27053": 19,
+      "27123": 7,
+      "27145": 3,
+      "29047": 3,
+      "29095": 5,
+      "29183": 4,
+      "29189": 14,
+      "31055": 4,
+      "32003": 7,
+      "32031": 4,
+      "33011": 3,
+      "34003": 9,
+      "34007": 5,
+      "34013": 3,
+      "34021": 5,
+      "34023": 7,
+      "34025": 8,
+      "34027": 5,
+      "34029": 4,
+      "36001": 3,
+      "36029": 6,
+      "36047": 7,
+      "36055": 5,
+      "36059": 9,
+      "36061": 19,
+      "36067": 3,
+      "36071": 4,
+      "36087": 4,
+      "36103": 22,
+      "36119": 9,
+      "37067": 4,
+      "37081": 4,
+      "37089": 3,
+      "37119": 7,
+      "37129": 3,
+      "37183": 11,
+      "39025": 3,
+      "39035": 10,
+      "39045": 3,
+      "39049": 9,
+      "39061": 8,
+      "39093": 3,
+      "39095": 3,
+      "39099": 3,
+      "39151": 3,
+      "39153": 7,
+      "39165": 3,
+      "40143": 5,
+      "41047": 4,
+      "41051": 8,
+      "41067": 3,
+      "42003": 11,
+      "42017": 7,
+      "42029": 6,
+      "42045": 6,
+      "42071": 3,
+      "42091": 10,
+      "42101": 5,
+      "45019": 3,
+      "45045": 4,
+      "45051": 4,
+      "45079": 4,
+      "47037": 4,
+      "47187": 4,
+      "48029": 4,
+      "48085": 8,
+      "48113": 25,
+      "48121": 3,
+      "48201": 21,
+      "48439": 9,
+      "48453": 12,
+      "49035": 5,
+      "49049": 3,
+      "49053": 3,
+      "51013": 5,
+      "51059": 9,
+      "51087": 9,
+      "51107": 13,
+      "51153": 4,
+      "51760": 7,
+      "53033": 12,
+      "53061": 3,
+      "55079": 5,
+      "72127": 3
+    },
+    "commercialPrinting": {
+      "01003": 9,
+      "01033": 3,
+      "01043": 3,
+      "01049": 4,
+      "01051": 5,
+      "01053": 3,
+      "01055": 3,
+      "01069": 4,
+      "01073": 44,
+      "01081": 4,
+      "01089": 12,
+      "01095": 8,
+      "01097": 12,
+      "01101": 16,
+      "01103": 9,
+      "01117": 8,
+      "01125": 5,
+      "02020": 18,
+      "02090": 3,
+      "02110": 5,
+      "04005": 5,
+      "04013": 204,
+      "04015": 6,
+      "04019": 35,
+      "04021": 6,
+      "04025": 15,
+      "05005": 4,
+      "05007": 12,
+      "05031": 6,
+      "05045": 4,
+      "05051": 6,
+      "05119": 29,
+      "05125": 6,
+      "05131": 8,
+      "05143": 10,
+      "06001": 93,
+      "06007": 5,
+      "06013": 33,
+      "06017": 9,
+      "06019": 29,
+      "06023": 3,
+      "06025": 5,
+      "06029": 20,
+      "06031": 4,
+      "06037": 596,
+      "06041": 10,
+      "06045": 5,
+      "06047": 5,
+      "06053": 10,
+      "06055": 11,
+      "06059": 293,
+      "06061": 15,
+      "06065": 85,
+      "06067": 62,
+      "06071": 78,
+      "06073": 168,
+      "06075": 49,
+      "06077": 17,
+      "06079": 14,
+      "06081": 38,
+      "06083": 15,
+      "06085": 75,
+      "06087": 11,
+      "06089": 10,
+      "06095": 10,
+      "06097": 25,
+      "06099": 10,
+      "06107": 11,
+      "06111": 34,
+      "06113": 10,
+      "08001": 29,
+      "08005": 38,
+      "08013": 21,
+      "08014": 3,
+      "08031": 53,
+      "08035": 12,
+      "08037": 5,
+      "08041": 20,
+      "08059": 28,
+      "08067": 4,
+      "08069": 19,
+      "08077": 6,
+      "08101": 4,
+      "08107": 3,
+      "08123": 8,
+      "09110": 51,
+      "09120": 10,
+      "09130": 7,
+      "09140": 17,
+      "09150": 4,
+      "09160": 7,
+      "09170": 37,
+      "09180": 11,
+      "09190": 36,
+      "10003": 30,
+      "10005": 5,
+      "11001": 19,
+      "12001": 10,
+      "12005": 5,
+      "12009": 21,
+      "12011": 134,
+      "12015": 6,
+      "12017": 5,
+      "12019": 5,
+      "12021": 9,
+      "12031": 55,
+      "12033": 11,
+      "12035": 3,
+      "12053": 5,
+      "12057": 70,
+      "12061": 9,
+      "12069": 13,
+      "12071": 33,
+      "12073": 20,
+      "12081": 12,
+      "12083": 10,
+      "12085": 12,
+      "12086": 182,
+      "12087": 4,
+      "12089": 5,
+      "12091": 5,
+      "12095": 70,
+      "12097": 10,
+      "12099": 69,
+      "12101": 19,
+      "12103": 71,
+      "12105": 21,
+      "12109": 11,
+      "12111": 4,
+      "12115": 21,
+      "12117": 31,
+      "12119": 3,
+      "12127": 28,
+      "13009": 3,
+      "13015": 3,
+      "13021": 3,
+      "13031": 3,
+      "13045": 6,
+      "13047": 3,
+      "13051": 10,
+      "13057": 17,
+      "13059": 7,
+      "13063": 9,
+      "13067": 57,
+      "13069": 3,
+      "13073": 4,
+      "13077": 6,
+      "13089": 47,
+      "13097": 5,
+      "13113": 12,
+      "13115": 4,
+      "13117": 17,
+      "13121": 61,
+      "13127": 4,
+      "13135": 80,
+      "13139": 12,
+      "13143": 3,
+      "13151": 8,
+      "13157": 3,
+      "13185": 3,
+      "13215": 8,
+      "13223": 4,
+      "13245": 6,
+      "13247": 3,
+      "13255": 4,
+      "13285": 3,
+      "13293": 3,
+      "13297": 3,
+      "13313": 7,
+      "15001": 6,
+      "15003": 32,
+      "15009": 11,
+      "16001": 25,
+      "16017": 3,
+      "16019": 6,
+      "16027": 11,
+      "16055": 10,
+      "16083": 3,
+      "17001": 5,
+      "17019": 5,
+      "17029": 3,
+      "17031": 327,
+      "17037": 5,
+      "17043": 136,
+      "17049": 8,
+      "17055": 3,
+      "17077": 3,
+      "17089": 51,
+      "17093": 6,
+      "17097": 64,
+      "17099": 6,
+      "17105": 3,
+      "17111": 16,
+      "17113": 10,
+      "17115": 4,
+      "17119": 11,
+      "17141": 3,
+      "17143": 9,
+      "17163": 6,
+      "17167": 7,
+      "17179": 5,
+      "17183": 3,
+      "17197": 46,
+      "17201": 16,
+      "18003": 23,
+      "18019": 11,
+      "18035": 8,
+      "18037": 4,
+      "18039": 15,
+      "18043": 8,
+      "18057": 10,
+      "18063": 7,
+      "18067": 4,
+      "18081": 4,
+      "18085": 5,
+      "18087": 3,
+      "18089": 23,
+      "18091": 5,
+      "18093": 4,
+      "18095": 4,
+      "18097": 61,
+      "18099": 3,
+      "18105": 4,
+      "18127": 9,
+      "18141": 14,
+      "18151": 4,
+      "18157": 4,
+      "18163": 13,
+      "18167": 9,
+      "19013": 10,
+      "19033": 3,
+      "19057": 3,
+      "19061": 9,
+      "19103": 8,
+      "19113": 8,
+      "19131": 3,
+      "19153": 36,
+      "19155": 3,
+      "19157": 3,
+      "19163": 12,
+      "19167": 4,
+      "19169": 8,
+      "19187": 3,
+      "19193": 3,
+      "20011": 5,
+      "20035": 3,
+      "20037": 6,
+      "20045": 7,
+      "20091": 49,
+      "20099": 3,
+      "20103": 4,
+      "20113": 3,
+      "20155": 4,
+      "20161": 4,
+      "20169": 3,
+      "20173": 27,
+      "20177": 9,
+      "20209": 5,
+      "21015": 11,
+      "21029": 4,
+      "21037": 11,
+      "21059": 4,
+      "21067": 21,
+      "21093": 4,
+      "21101": 4,
+      "21107": 3,
+      "21111": 52,
+      "21113": 5,
+      "21117": 6,
+      "21125": 3,
+      "21145": 4,
+      "21151": 4,
+      "22015": 4,
+      "22017": 9,
+      "22019": 5,
+      "22033": 22,
+      "22051": 23,
+      "22055": 15,
+      "22063": 3,
+      "22071": 14,
+      "22073": 5,
+      "22079": 8,
+      "22101": 4,
+      "22103": 11,
+      "22105": 3,
+      "22109": 4,
+      "23001": 4,
+      "23005": 28,
+      "23009": 4,
+      "23011": 7,
+      "23017": 3,
+      "23019": 6,
+      "24001": 3,
+      "24003": 18,
+      "24005": 38,
+      "24009": 4,
+      "24013": 8,
+      "24017": 6,
+      "24021": 9,
+      "24027": 13,
+      "24031": 38,
+      "24033": 35,
+      "24043": 5,
+      "24045": 4,
+      "24510": 19,
+      "25001": 14,
+      "25003": 11,
+      "25005": 27,
+      "25009": 27,
+      "25013": 26,
+      "25015": 7,
+      "25017": 84,
+      "25021": 42,
+      "25023": 22,
+      "25025": 26,
+      "25027": 30,
+      "26005": 3,
+      "26017": 3,
+      "26021": 10,
+      "26025": 8,
+      "26037": 3,
+      "26041": 4,
+      "26045": 4,
+      "26047": 4,
+      "26049": 18,
+      "26055": 7,
+      "26061": 4,
+      "26065": 14,
+      "26073": 3,
+      "26075": 5,
+      "26077": 20,
+      "26081": 53,
+      "26091": 4,
+      "26093": 6,
+      "26099": 43,
+      "26111": 5,
+      "26117": 3,
+      "26121": 9,
+      "26125": 82,
+      "26127": 3,
+      "26137": 4,
+      "26139": 14,
+      "26145": 6,
+      "26147": 3,
+      "26149": 5,
+      "26155": 3,
+      "26161": 12,
+      "26163": 61,
+      "27003": 22,
+      "27007": 3,
+      "27009": 3,
+      "27013": 3,
+      "27015": 4,
+      "27017": 3,
+      "27019": 3,
+      "27025": 3,
+      "27027": 3,
+      "27035": 6,
+      "27037": 32,
+      "27053": 108,
+      "27061": 5,
+      "27067": 6,
+      "27091": 3,
+      "27095": 5,
+      "27099": 3,
+      "27103": 9,
+      "27109": 6,
+      "27111": 5,
+      "27123": 47,
+      "27131": 3,
+      "27135": 3,
+      "27137": 9,
+      "27139": 7,
+      "27145": 16,
+      "27163": 11,
+      "27169": 4,
+      "27171": 6,
+      "28033": 4,
+      "28035": 3,
+      "28047": 4,
+      "28049": 10,
+      "28059": 4,
+      "28075": 3,
+      "28081": 6,
+      "28089": 6,
+      "28121": 10,
+      "29019": 9,
+      "29021": 4,
+      "29031": 5,
+      "29037": 4,
+      "29043": 5,
+      "29047": 18,
+      "29051": 5,
+      "29071": 6,
+      "29077": 27,
+      "29095": 40,
+      "29097": 9,
+      "29099": 10,
+      "29127": 4,
+      "29161": 3,
+      "29165": 3,
+      "29183": 16,
+      "29189": 74,
+      "29213": 4,
+      "29229": 3,
+      "29510": 22,
+      "30013": 4,
+      "30029": 8,
+      "30031": 7,
+      "30049": 4,
+      "30063": 10,
+      "30093": 4,
+      "30111": 11,
+      "31019": 4,
+      "31053": 3,
+      "31055": 46,
+      "31109": 12,
+      "31111": 3,
+      "31119": 3,
+      "31153": 4,
+      "32003": 92,
+      "32005": 3,
+      "32031": 30,
+      "32510": 6,
+      "33001": 3,
+      "33007": 3,
+      "33009": 6,
+      "33011": 22,
+      "33013": 8,
+      "33015": 14,
+      "33017": 5,
+      "34001": 4,
+      "34003": 95,
+      "34005": 22,
+      "34007": 39,
+      "34009": 5,
+      "34011": 7,
+      "34013": 51,
+      "34015": 12,
+      "34017": 22,
+      "34019": 6,
+      "34021": 22,
+      "34023": 36,
+      "34025": 30,
+      "34027": 31,
+      "34029": 23,
+      "34031": 42,
+      "34035": 18,
+      "34037": 4,
+      "34039": 37,
+      "35001": 28,
+      "35013": 6,
+      "35017": 3,
+      "35035": 3,
+      "35043": 3,
+      "35045": 4,
+      "35049": 11,
+      "36001": 19,
+      "36005": 20,
+      "36007": 10,
+      "36009": 4,
+      "36011": 4,
+      "36013": 8,
+      "36015": 3,
+      "36019": 3,
+      "36023": 3,
+      "36025": 3,
+      "36027": 11,
+      "36029": 65,
+      "36037": 4,
+      "36047": 115,
+      "36051": 4,
+      "36053": 3,
+      "36055": 52,
+      "36057": 4,
+      "36059": 95,
+      "36061": 115,
+      "36063": 9,
+      "36065": 5,
+      "36067": 27,
+      "36069": 4,
+      "36071": 22,
+      "36075": 3,
+      "36079": 4,
+      "36081": 106,
+      "36083": 7,
+      "36085": 7,
+      "36087": 29,
+      "36091": 9,
+      "36093": 5,
+      "36103": 138,
+      "36109": 3,
+      "36111": 4,
+      "36113": 4,
+      "36119": 32,
+      "37001": 10,
+      "37019": 4,
+      "37021": 17,
+      "37025": 7,
+      "37035": 18,
+      "37045": 3,
+      "37047": 3,
+      "37051": 5,
+      "37057": 9,
+      "37063": 12,
+      "37067": 22,
+      "37071": 7,
+      "37081": 42,
+      "37097": 4,
+      "37101": 12,
+      "37105": 5,
+      "37109": 4,
+      "37119": 62,
+      "37125": 5,
+      "37127": 6,
+      "37129": 14,
+      "37147": 3,
+      "37151": 10,
+      "37159": 4,
+      "37161": 3,
+      "37169": 3,
+      "37171": 5,
+      "37179": 11,
+      "37183": 57,
+      "37189": 3,
+      "37193": 4,
+      "37195": 6,
+      "38015": 4,
+      "38017": 6,
+      "38035": 3,
+      "38101": 4,
+      "39003": 7,
+      "39005": 6,
+      "39007": 3,
+      "39017": 19,
+      "39025": 11,
+      "39029": 3,
+      "39031": 3,
+      "39033": 3,
+      "39035": 85,
+      "39041": 8,
+      "39045": 7,
+      "39049": 53,
+      "39051": 3,
+      "39055": 7,
+      "39057": 4,
+      "39061": 75,
+      "39063": 5,
+      "39071": 3,
+      "39075": 5,
+      "39085": 15,
+      "39089": 7,
+      "39093": 12,
+      "39095": 20,
+      "39099": 11,
+      "39101": 4,
+      "39103": 6,
+      "39107": 3,
+      "39109": 10,
+      "39113": 38,
+      "39133": 9,
+      "39139": 6,
+      "39149": 3,
+      "39151": 20,
+      "39153": 38,
+      "39155": 5,
+      "39157": 6,
+      "39165": 9,
+      "39169": 8,
+      "39173": 9,
+      "40027": 12,
+      "40031": 4,
+      "40049": 3,
+      "40109": 44,
+      "40115": 4,
+      "40123": 3,
+      "40131": 4,
+      "40143": 37,
+      "41003": 3,
+      "41005": 18,
+      "41007": 4,
+      "41017": 14,
+      "41029": 8,
+      "41033": 7,
+      "41035": 3,
+      "41039": 14,
+      "41041": 3,
+      "41047": 12,
+      "41051": 63,
+      "41057": 3,
+      "41059": 4,
+      "41067": 32,
+      "41071": 5,
+      "42001": 3,
+      "42003": 54,
+      "42007": 5,
+      "42011": 15,
+      "42013": 10,
+      "42017": 59,
+      "42019": 9,
+      "42021": 6,
+      "42027": 6,
+      "42029": 32,
+      "42033": 5,
+      "42037": 3,
+      "42039": 4,
+      "42041": 13,
+      "42043": 12,
+      "42045": 26,
+      "42049": 18,
+      "42055": 8,
+      "42063": 4,
+      "42069": 13,
+      "42071": 27,
+      "42073": 5,
+      "42075": 9,
+      "42077": 16,
+      "42079": 18,
+      "42081": 8,
+      "42083": 3,
+      "42085": 8,
+      "42089": 9,
+      "42091": 57,
+      "42095": 9,
+      "42097": 3,
+      "42101": 43,
+      "42121": 5,
+      "42125": 6,
+      "42127": 4,
+      "42129": 16,
+      "42133": 24,
+      "44003": 13,
+      "44005": 3,
+      "44007": 37,
+      "44009": 6,
+      "45003": 4,
+      "45007": 10,
+      "45013": 10,
+      "45019": 17,
+      "45035": 5,
+      "45045": 35,
+      "45047": 3,
+      "45051": 16,
+      "45057": 5,
+      "45063": 12,
+      "45075": 3,
+      "45077": 3,
+      "45079": 16,
+      "45083": 14,
+      "45091": 10,
+      "46011": 3,
+      "46013": 4,
+      "46029": 4,
+      "46099": 15,
+      "46103": 8,
+      "47001": 4,
+      "47009": 6,
+      "47011": 4,
+      "47021": 4,
+      "47031": 5,
+      "47037": 46,
+      "47043": 3,
+      "47059": 5,
+      "47065": 31,
+      "47073": 5,
+      "47093": 32,
+      "47113": 4,
+      "47119": 5,
+      "47125": 4,
+      "47141": 4,
+      "47147": 4,
+      "47149": 9,
+      "47155": 4,
+      "47157": 53,
+      "47163": 7,
+      "47165": 10,
+      "47169": 4,
+      "47179": 6,
+      "47187": 14,
+      "47189": 8,
+      "48005": 5,
+      "48021": 5,
+      "48027": 6,
+      "48029": 62,
+      "48039": 9,
+      "48041": 6,
+      "48061": 13,
+      "48085": 36,
+      "48091": 4,
+      "48113": 190,
+      "48121": 25,
+      "48135": 12,
+      "48139": 5,
+      "48141": 40,
+      "48157": 17,
+      "48167": 10,
+      "48181": 3,
+      "48183": 6,
+      "48187": 5,
+      "48201": 216,
+      "48209": 9,
+      "48215": 15,
+      "48231": 5,
+      "48245": 9,
+      "48259": 3,
+      "48265": 3,
+      "48303": 9,
+      "48309": 11,
+      "48329": 5,
+      "48339": 15,
+      "48355": 8,
+      "48367": 7,
+      "48375": 9,
+      "48397": 4,
+      "48423": 8,
+      "48439": 101,
+      "48441": 4,
+      "48451": 6,
+      "48453": 69,
+      "48479": 8,
+      "48491": 22,
+      "49003": 3,
+      "49005": 5,
+      "49011": 21,
+      "49035": 73,
+      "49049": 33,
+      "49053": 3,
+      "49057": 10,
+      "50003": 4,
+      "50007": 12,
+      "50021": 3,
+      "50023": 4,
+      "50027": 4,
+      "51013": 4,
+      "51019": 3,
+      "51031": 3,
+      "51041": 3,
+      "51059": 43,
+      "51061": 3,
+      "51069": 3,
+      "51085": 6,
+      "51087": 26,
+      "51107": 15,
+      "51117": 3,
+      "51153": 12,
+      "51165": 6,
+      "51177": 3,
+      "51179": 6,
+      "51510": 10,
+      "51550": 4,
+      "51580": 3,
+      "51590": 3,
+      "51600": 3,
+      "51650": 4,
+      "51660": 3,
+      "51680": 3,
+      "51683": 4,
+      "51700": 4,
+      "51710": 12,
+      "51740": 5,
+      "51760": 12,
+      "51770": 7,
+      "51775": 4,
+      "51810": 16,
+      "51840": 5,
+      "53005": 6,
+      "53007": 3,
+      "53009": 3,
+      "53011": 9,
+      "53015": 3,
+      "53031": 3,
+      "53033": 110,
+      "53035": 7,
+      "53053": 17,
+      "53057": 3,
+      "53061": 28,
+      "53063": 27,
+      "53067": 7,
+      "53073": 7,
+      "53077": 6,
+      "54003": 5,
+      "54011": 6,
+      "54037": 3,
+      "54039": 7,
+      "54061": 4,
+      "54069": 4,
+      "54107": 3,
+      "55009": 28,
+      "55017": 6,
+      "55021": 3,
+      "55025": 34,
+      "55027": 4,
+      "55035": 7,
+      "55039": 8,
+      "55043": 3,
+      "55045": 3,
+      "55049": 5,
+      "55055": 6,
+      "55059": 9,
+      "55063": 10,
+      "55069": 3,
+      "55071": 5,
+      "55073": 10,
+      "55075": 3,
+      "55079": 57,
+      "55087": 17,
+      "55089": 4,
+      "55097": 3,
+      "55101": 9,
+      "55105": 12,
+      "55109": 10,
+      "55111": 3,
+      "55115": 3,
+      "55117": 14,
+      "55127": 5,
+      "55131": 14,
+      "55133": 61,
+      "55139": 18,
+      "55141": 6,
+      "56005": 4,
+      "56021": 3,
+      "56025": 3,
+      "56041": 3,
+      "66160": 3,
+      "69110": 8,
+      "72013": 3,
+      "72021": 10,
+      "72025": 4,
+      "72029": 3,
+      "72031": 4,
+      "72061": 7,
+      "72071": 3,
+      "72075": 3,
+      "72097": 3,
+      "72113": 3,
+      "72127": 28,
+      "72137": 4
+    }
+  }
+}

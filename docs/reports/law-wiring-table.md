@@ -91,7 +91,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | protect farmland from development            | agriculture        | yes    | yes    | SG    | yes     | yes   | yes | yes     | NO     | NO        | partly     |
 | Spending: parks                              | parks-culture      | yes    | yes    | yes   | yes     | yes   | SG  | yes     | NO     | yes       | partly     |
 | local-income-tax-authority                   | starting law       | yes    | NO     | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
-| local-minimum-wage-authority                 | starting law       | yes    | yes    | NO    | yes     | NO    | SG  | yes     | NO     | NO        | partly     |
+| local-minimum-wage-authority                 | starting law       | yes    | yes    | NO    | yes     | NO    | yes | yes     | NO     | NO        | partly     |
 | unemployment-insurance                       | starting law       | yes    | yes    | NO    | NO      | NO    | SG  | yes     | NO     | NO        | partly     |
 
 ## Why each link is missing
@@ -592,7 +592,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - reach: no law-reach row: nothing records who it applies to
 - money: no money flow: nobody pays or receives anything because of it
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure local minimum wage adoption (SG-LAW-outcome-link-unresearched)
 - repeal: nothing reached, so nothing to stop
 - allPlaces: reaches nobody anywhere
 
