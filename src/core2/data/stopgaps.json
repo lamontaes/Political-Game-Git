@@ -1847,7 +1847,8 @@
     "addedBy": "OPUS-GOV-ELECTIONS",
     "addedAt": "2026-10-14",
     "replacement": "Each territory's 2024 delegate race votes cast (its election office's certified results) sizing the place, so it is counted on the election engine like any district.",
-    "status": "open"
+    "status": "resolved",
+    "resolution": "The votesCast per place in data/research/elections/house-delegates-2024.json (D.C., Guam, Northern Marianas, Puerto Rico, Virgin Islands; American Samoa's race is nonpartisan) sizes the place through delegateEligible in src/core2/electorate-places.ts."
   },
   {
     "id": "SG-GOV-turnout-weather",

@@ -1,10 +1,35 @@
 {
-  "about": "The 2024 result in each place that sends a nonvoting member to the U.S. House, as percent of the vote won by the Democratic-caucus and the Republican-caucus candidates; independents and other parties are left out. Read from the 2024 U.S. House elections page (Wikipedia), which cites each territory's election office and the Clerk of the House; the Clerk's own tables were not read. Puerto Rico's Popular Democratic candidate stands for the Democratic caucus and the New Progressive candidate for the Republican caucus, and the Northern Marianas' two independents (24.4% together) are left out: both ESTIMATED FROM AVERAGE. American Samoa's race is nonpartisan, so it has no two-caucus vote.",
+  "about": "The 2024 result in each place that sends a nonvoting member to the U.S. House, as percent of the vote won by the Democratic-caucus and the Republican-caucus candidates; independents and other parties are left out. Read from the 2024 U.S. House elections page (Wikipedia), which cites each territory's election office and the Clerk of the House; the Clerk's own tables were not read. Puerto Rico's Popular Democratic candidate stands for the Democratic caucus and the New Progressive candidate for the Republican caucus, and the Northern Marianas' two independents (24.4% together) are left out: both ESTIMATED FROM AVERAGE. American Samoa's race is nonpartisan, so it has no two-caucus vote. votesCast is each place's total delegate-race votes in 2024 (ESTIMATED FROM the cited tabulations, which differ from one another by up to 6 percent), used to size the place on the counted-residents engine.",
   "places": {
-    "DC": { "democraticPercent": 80.1, "republicanPercent": 6.3 },
-    "GU": { "democraticPercent": 46.8, "republicanPercent": 52.7 },
-    "MP": { "democraticPercent": 33.3, "republicanPercent": 40.3 },
-    "PR": { "democraticPercent": 44.6, "republicanPercent": 35.0 },
-    "VI": { "democraticPercent": 73.4, "republicanPercent": 9.5 }
+    "DC": {
+      "democraticPercent": 80.1,
+      "republicanPercent": 6.3,
+      "votesCast": 314069,
+      "votesCastSource": "District of Columbia Board of Elections certified 2024 delegate race total as tabulated on Wikipedia, 2024 U.S. House election in the District of Columbia (251,540 for Norton at 80.09%)"
+    },
+    "GU": {
+      "democraticPercent": 46.8,
+      "republicanPercent": 52.7,
+      "votesCast": 29271,
+      "votesCastSource": "Guam Election Commission 2024 general election delegate race, as tabulated on Wikipedia (15,422 Moylan at 52.69%)"
+    },
+    "MP": {
+      "democraticPercent": 33.3,
+      "republicanPercent": 40.3,
+      "votesCast": 12225,
+      "votesCastSource": "Northern Mariana Islands Commonwealth Election Commission 2024 delegate race, as tabulated on Wikipedia (4,931 King-Hinds at 40.34%)"
+    },
+    "PR": {
+      "democraticPercent": 44.6,
+      "republicanPercent": 35.0,
+      "votesCast": 1220162,
+      "votesCastSource": "Ballotpedia, 2024 U.S. House election in Puerto Rico, total votes 1,220,162 (Wikipedia's Resident Commissioner page shows 1,144,918; the State Elections Commission's certified total was not read)"
+    },
+    "VI": {
+      "democraticPercent": 73.4,
+      "republicanPercent": 9.5,
+      "votesCast": 14165,
+      "votesCastSource": "Derived: 10,397 votes for Plaskett at 73.4% (Ballotpedia and The Green Papers) gives about 14,165 votes cast; the Elections System's unofficial territorial report shows 13,613 cast"
+    }
   }
 }

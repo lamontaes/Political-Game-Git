@@ -46,6 +46,7 @@ import {
 } from "../electorate";
 import {
   housePlace,
+  delegateEligible,
   legislativePlace,
   statePlaces,
   type ElectoratePlace,
@@ -911,11 +912,8 @@ function racePlaces(api: CoreAPI, race: Race): readonly ElectoratePlace[] {
     const place = housePlace(usps, race.code);
     if (place) return [place];
     // A delegate's seat with no House vote on record (a territory): the
-    // place at its 2024 delegate race's lean, its size not yet read.
-    // stopgapId: SG-GOV-delegate-race-size
-    api.stopgap("SG-GOV-delegate-race-size");
-    const delegate = statePlaces(usps, 1)[0];
-    return delegate ? [{ ...delegate, eligible: 0 }] : [];
+    // place at its 2024 delegate race's lean, sized by that race's votes cast.
+    return statePlaces(usps, delegateEligible(usps));
   }
   if (race.office === "us-senate") return statePlaces(usps);
   const offices = api.moduleState(OFFICES_MODULE_ID);
