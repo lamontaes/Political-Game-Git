@@ -5,12 +5,12 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
-claimed-by: claude/dreamy-tesla-bgi3ui-core-parameters
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-parameters-estimated-behavior, core-stopgap-parameters-estimated-data, core-stopgap-parameters-uncalibrated-time-plan, core-stopgap-parameters-uncalibrated-tunable-2, core-stopgap-parameters-uncalibrated-tunable-3, core-stopgap-parameters-uncalibrated-tunable-4"
-claimed-at: 2026-10-23T20:23:47.741Z
+claimed-at:
 ---
 
 **What.** Source the numbers behind the core parameter tables (distance, time, past, speech, corruption, moves). Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 6 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
@@ -33,3 +33,5 @@ claimed-at: 2026-10-23T20:23:47.741Z
 Oct 20 (pool feeder): research done in docs/research/pool-feeder-oct20/research-core-parameters-sourced-parameters.md (6 rows: 2 sourced, 4 estimated, 0 mechanic).
 
 Oct 20 (research-reachable-sources-oct20): the Census Gazetteer place centroids named in the first row (travel time between places) are reachable at https://www2.census.gov/geo/docs/maps-data/data/gazetteer/2023_Gazetteer/ (2023_Gaz_place_national.zip family, HTTP 200); that row can be taken. Check it in a played world (buildBenchWorld) in a drawn place and seed named in the PR body.
+
+Oct 24, 2026: split. PR 5857 (item research-core-parameters-spreads-citations) delivers spreads and citations, with no value changed, for farKinContactShare, workSleepReserveHours, restDayHours, both past-law age rows, movesOwnerHold, movesJobHold and movesUnemploymentGapWeight. Still open here: movesChildrenHold and movesKinHold (converted to 0.32 and 0.30, held at main's values until world-town-net-moving-negative), four speech rows and ten corruption rows (files held by PRs 5657 and 5737), and movesMinimumAge, movesKinHoldCap and movesHousingCostShareCap (a cutoff and caps; bug core-moves-caps-and-minimum-age-as-cause). Also open: eleven moves rows with no convertible source (the Jokela 2009 page refused the cloud, 403) and all six stopgaps.
