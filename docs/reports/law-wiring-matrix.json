@@ -5237,12 +5237,12 @@
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/work-payroll-cash.ts, src/core2/budgets-treasury.ts, src/core2/counted-money.ts, src/core2/modules/residents.ts, src/core2/credit-deposits.ts",
+          "evidence": "src/core2/work-payroll-cash.ts, src/core2/budgets-treasury.ts, src/core2/modules/residents.ts, src/core2/counted-money.ts, src/core2/credit-deposits.ts",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing budget-line:administration: 26212749 (journal:2025-02-13:8116); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing budget-line:administration: 23938777 (journal:2025-02-13:7929)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing budget-line:administration: 26212749 (journal:2025-02-13:8116); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing budget-line:administration: 24203486 (journal:2025-02-13:7929)",
           "why": ""
         },
         "web": {
