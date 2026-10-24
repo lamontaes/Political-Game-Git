@@ -7,6 +7,7 @@
  * adults choose whether to found one. Chains are repeated growth, never
  * scripted. Every payment moves through the ledger.
  */
+import { townOutsideOf } from "../opening-outside-market";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./laws";
 import resourceParameters from "../data/laws/reach-group-b-parameters.json" with { type: "json" };
 import { chooseAct } from "../choice";
@@ -191,9 +192,7 @@ function outsideOwned(api: CoreAPI): Map<string, string> {
   for (const row of sized) {
     // Stop where one more would overshoot the share by more than it falls short.
     if (taken + row.staff / 2 > share * total) break;
-    const parent = [...c.organizations.values()].find(
-      (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-    )?.id;
+    const parent = townOutsideOf(c.organizations.values(), row.placeId)?.id;
     if (!parent) continue;
     out.set(row.id, parent);
     taken += row.staff;
@@ -453,11 +452,7 @@ export function estateHeir(
     .sort();
   if (kin[0]) return kin[0];
   const placeId = c.organizations.get(organizationId)?.placeId;
-  return (
-    [...c.organizations.values()].find(
-      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-    )?.id ?? ownerId
-  );
+  return townOutsideOf(c.organizations.values(), placeId)?.id ?? ownerId;
 }
 
 function succeed(api: CoreAPI): void {
@@ -531,9 +526,7 @@ function membershipPayouts(api: CoreAPI): void {
       "membership:labor-union"
     )
       continue;
-    const outside = [...c.organizations.values()].find(
-      (row) => row.placeId === org.placeId && row.outsideFlow !== undefined,
-    );
+    const outside = townOutsideOf(c.organizations.values(), org.placeId);
     if (!outside) continue;
     let daily = 0;
     for (const id of c.finance.jobsByOrganization.get(org.id) ?? []) {
@@ -991,9 +984,7 @@ function payCompliance(api: CoreAPI): void {
     const book = c.finance.businesses.get(row.organizationId);
     if (!book || book.closedAt) continue;
     const placeId = c.organizations.get(row.organizationId)?.placeId;
-    const outside = [...c.organizations.values()].find(
-      (org) => org.placeId === placeId && org.outsideFlow !== undefined,
-    )?.id;
+    const outside = townOutsideOf(c.organizations.values(), placeId)?.id;
     const to = row.payeeId ?? outside;
     if (!to) continue;
     const requested = Math.floor(

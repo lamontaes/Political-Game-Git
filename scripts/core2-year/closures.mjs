@@ -106,6 +106,14 @@ const cashTotal = () =>
     0,
   );
 const openingCash = cashTotal();
+// Outside flows the opening build already posted (before this cash was counted).
+const netOutside = () => {
+  let n = 0;
+  for (const row of core.cashJournal.externalFlowsByOwner.values())
+    n += row.netMinor;
+  return n;
+};
+const openingOutsideNet = netOutside();
 const traceFirm = value("--trace-firm", "");
 const traced = new Map();
 if (traceFirm) {
@@ -200,7 +208,7 @@ const owedByPlugs = plugs.reduce((n, [, t]) => n + t.owedMinor, 0);
 const passed = {
   close: rows.length > 0 && closed / rows.length < 0.1,
   sales: sales > wages / 2,
-  balances: openingCash - outsideNet === cashTotal(),
+  balances: openingCash - (outsideNet - openingOutsideNet) === cashTotal(),
   outside: Object.keys(outside).length > 0,
   labeled: labeled.length > 0,
   matched: unmatched.size === 0 && owedByPlugs === 0,
@@ -225,7 +233,7 @@ console.log(
       checks: {
         "1 under 10% close": `${closed} of ${rows.length} (${((100 * closed) / rows.length).toFixed(1)}%)`,
         "2 sales over half of wages": `sales $${sales.toLocaleString()} vs wages $${wages.toLocaleString()} (${(sales / wages).toFixed(2)}x)`,
-        "3 every dollar balances": openingCash - outsideNet === cashTotal(),
+        "3 every dollar balances": passed.balances,
         "4 outside money reported": outside,
         "5 national conditions labeled": labeled,
         "6 the outside is owed only for recorded exchanges": {

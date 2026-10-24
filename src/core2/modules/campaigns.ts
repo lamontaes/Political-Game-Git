@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import { customPolitics, registerElectorate } from "../electorate";
 import { partySide } from "../appointments";
@@ -1331,9 +1332,9 @@ export function askOutsideDonors(api: CoreAPI, filingId: string): number {
   const { places } = basePlaces(api, contest);
   if (!places.length) return 0;
   const core = api.state as CoreState;
-  const outside = [...core.organizations.values()].find(
-    (o) =>
-      o.placeId === townRow(api).townPlaceId && o.outsideFlow !== undefined,
+  const outside = townOutsideOf(
+    core.organizations.values(),
+    townRow(api).townPlaceId,
   );
   if (!outside) return 0;
   const side = partySide(filing.party ?? null);
