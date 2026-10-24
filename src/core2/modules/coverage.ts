@@ -8,7 +8,11 @@
  * years people work, with a job, holds an employer plan when the town's
  * working adults ranked by their employer's size (the larger first) and then
  * their pay reach the share who hold their own plan (a parameter, ESTIMATED).
- * The policy covers everyone else in the policyholder's household, at the
+ * The uninsured part of that share is multiplied, for each worker, by the
+ * outcome web's factor for health.uninsured-pct at their age and sex (a
+ * recession lands on men more than women, Cawley, Moriya and Simon 2015), so
+ * the same rank order holds a smaller share for a worker the web has pushed
+ * toward being uninsured. The policy covers everyone else in the policyholder's household, at the
  * family premium when there are two or more people on it and the single
  * premium when there is one. People 65 and over hold Medicare (no premium
  * here). Everyone else is uninsured until another engine (Medicaid, the
@@ -28,6 +32,7 @@
  * everyone. The employer's share of the premium is part of the employer's
  * compensation and is not modeled.
  */
+import { webReach } from "../outcome-web-reach";
 import { coreAPI, registerModule } from "../state";
 import { outsideAccountOf } from "../budgets-treasury";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -96,7 +101,14 @@ interface Candidate {
   readonly wage: number;
   /** Real workers the candidate stands for: 1 for a full person, the household's weight for a counted one. */
   readonly weight: number;
+  /** What the outcome web's coverage links see of them. */
+  readonly placeId: string;
+  readonly age: number;
+  readonly sex: "female" | "male" | undefined;
 }
+
+const sexOf = (gender: string | undefined) =>
+  gender === "female" || gender === "male" ? gender : undefined;
 
 /**
  * Jobs per employer, full and counted alike: a counted job stands for as many
@@ -160,6 +172,9 @@ function holdersToday(
       size: staff.get(job.organizationId) ?? 0,
       wage: job.wageDailyMinor,
       weight: 1,
+      placeId: person.placeId,
+      age: ageOnDate(makeIsoDate(person.birthDate), date),
+      sex: sexOf(person.looks?.gender),
     });
   }
   const rt = residentsRuntime(core);
@@ -177,6 +192,9 @@ function holdersToday(
           size: staff.get(job.organizationId) ?? 0,
           wage: job.wageDailyMinor,
           weight,
+          placeId: h.placeId,
+          age: ageOnDate(makeIsoDate(store.born[m]!), date),
+          sex: sexOf(store.strings[store.genderIx[m]!]),
         });
       }
     }
@@ -188,7 +206,7 @@ function holdersToday(
       a.personId.localeCompare(b.personId),
   );
   const total = candidates.reduce((n, c) => n + c.weight, 0);
-  const slots = Math.round(total * p("healthEmployerPolicyholderShare"));
+  const share = p("healthEmployerPolicyholderShare");
   const counted = new Set(
     rt ? [...rt.store.liveHouseholds()].map((h) => h.id) : [],
   );
@@ -196,8 +214,20 @@ function holdersToday(
   const heldCounted = new Map<string, string>();
   let taken = 0;
   for (const c of candidates) {
-    if (taken >= slots) break;
+    // The share that hold a policy is the national one, less what the web
+    // says has pushed this worker toward being uninsured (a recession lands
+    // on men more than on women): the uninsured part times the web's factor
+    // for them, in the same rank order.
+    const reach = webReach(api, c.placeId, "health.uninsured-pct", {
+      age: c.age,
+      ...(c.sex ? { sex: c.sex } : {}),
+    });
+    const slots = Math.round(
+      total * Math.min(1, Math.max(0, 1 - (1 - share) * reach.factor)),
+    );
+    const held = taken < slots;
     taken += c.weight;
+    if (!held) continue;
     if (unpaid.has(c.personId)) continue;
     const into = counted.has(c.householdId) ? heldCounted : full;
     if (!into.has(c.householdId)) into.set(c.householdId, c.personId);
