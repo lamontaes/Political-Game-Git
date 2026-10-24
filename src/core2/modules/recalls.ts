@@ -38,7 +38,7 @@ import { OFFICES_MODULE_ID, vacateSeat, type TermRow } from "./offices";
 import { VOTING_MODULE_ID, turnoutOn, type ResultRow } from "./voting";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
 import { countedResidents } from "../electorate";
-import { NEWS_MODULE_ID, storiesHeard } from "./news";
+import { NEWS_MODULE_ID, storiesHeard, type Story } from "./news";
 import { citizenShareOf } from "../electorate-places";
 import { electorateChange } from "../electorate-inputs";
 import recallBarData from "../data/campaigns/recall-bars.json" with { type: "json" };
@@ -364,7 +364,7 @@ export function recallRule(api: CoreAPI) {
  * petition against them circulating or on the ballot and none that failed or
  * kept them this term.
  */
-function openToRecall(api: CoreAPI, term: TermRow): boolean {
+export function openToRecall(api: CoreAPI, term: TermRow): boolean {
   // stopgapId: SG-GOV-recall-bars-national (states with no row in recall-bars.json take one national bar)
   if (!recallBarsFor(stateUsps(api), undefined))
     api.stopgap("SG-GOV-recall-bars-national");
@@ -543,20 +543,26 @@ function localOffice(api: CoreAPI, term: TermRow): boolean {
   return level === "city" || level === "county" || level === "township";
 }
 
-/** The town's named adults who heard a story about the misconduct (`kind|match`), from the news engine's record of who heard what. */
-function heardOfMisconduct(api: CoreAPI, cause: string): Set<string> {
+/**
+ * The town's named adults who heard a story about the misconduct, from the
+ * news engine's record of who heard what: the record itself where the news
+ * engine runs alone, or a printed story that reports it (its source record),
+ * and for an exposure a story on the exposed topic.
+ */
+function heardOfMisconduct(
+  api: CoreAPI,
+  eventId: string,
+  cause: string,
+): Set<string> {
   const [kind, match] = cause.split("|");
   const out = new Set<string>();
   if (!api.state.modules.has(NEWS_MODULE_ID)) return out;
+  const about = (story: Story) =>
+    story.id === eventId ||
+    story.facts.sourceRecordId === eventId ||
+    (kind === "press.exposed" && story.topic === match);
   for (const p of adults(api))
-    if (
-      storiesHeard(api, p.id).some(
-        (story) =>
-          story.kind === kind &&
-          (story.facts.caseId === match || story.topic === match),
-      )
-    )
-      out.add(p.id);
+    if (storiesHeard(api, p.id).some(about)) out.add(p.id);
   return out;
 }
 
@@ -604,7 +610,7 @@ function weighMisconduct(
   if (!rule || !term || term.status !== "serving" || !openToRecall(api, term))
     return;
   const cause = `${kind}|${match}`;
-  const heard = heardOfMisconduct(api, cause);
+  const heard = heardOfMisconduct(api, eventId!, cause);
   if (!heard.size) return;
   const exposure = heard.size / Math.max(1, adults(api).length);
   let best: { p: Readonly<PersonState>; drive: number } | null = null;

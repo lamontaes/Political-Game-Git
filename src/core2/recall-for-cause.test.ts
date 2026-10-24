@@ -6,7 +6,10 @@
  * through the recall decisions' own weights. The world is the played one
  * (buildBenchWorld, two-level, every module) in a place drawn from all 56
  * whose state requires grounds; the charge is a fixture, since few played
- * years hold one against a council member.
+ * years hold one against a council member. The member is one already past
+ * the state's opening bar on their term, so the charge falls on the second
+ * day and the world plays three weeks, not the months a big town's memory
+ * would not hold.
  */
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
@@ -20,7 +23,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { resolveMunicipalRecallRule } from "./gov-rules/municipal-ballot-rules";
 import { townSeats } from "./modules/offices";
 import { lawChain } from "./modules/laws";
-import { recallRule, recallsOf } from "./modules/recalls";
+import { openToRecall, recallRule, recallsOf } from "./modules/recalls";
 import { storiesHeard } from "./modules/news";
 import { setTraitProbe } from "./trait-probe";
 
@@ -47,16 +50,18 @@ it("a recorded charge against a serving local official starts a recall where the
       if (rule) tried.push(`${where}: the state does not require grounds`);
       continue;
     }
+    advanceCore(world.core, addDays(makeIsoDate(api.state.date), 1));
     const seat = townSeats(api).find(
-      (s) => s.office.kind === "council" && s.holder?.personId,
+      (s) =>
+        s.office.kind === "council" &&
+        s.holder?.personId &&
+        openToRecall(api, s.holder),
     );
     if (!seat) {
-      tried.push(`${where}: no council seat held by a person`);
+      tried.push(`${where}: no council member open to a recall yet`);
       continue;
     }
     const official = seat.holder!.personId!;
-    // Past the state's opening bar on the term.
-    advanceCore(world.core, addDays(makeIsoDate(api.state.date), 200));
     const charged = `justice.charged:fixture:${official}`;
     api.emit({
       id: charged,
@@ -93,12 +98,12 @@ it("a recorded charge against a serving local official starts a recall where the
     }
     expect(petition.cause, where).toBe("misconduct");
     expect(petition.memberId, where).toBe(official);
-    // The organizer heard of the charge in the news.
+    // The organizer heard of the charge in the news: a printed story that
+    // reports it.
     expect(
       storiesHeard(api, petition.organizerId).some(
         (story) =>
-          story.kind === "justice.charged" &&
-          story.facts.caseId === `fixture:${official}`,
+          story.id === charged || story.facts.sourceRecordId === charged,
       ),
       where,
     ).toBe(true);
