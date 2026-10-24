@@ -13,8 +13,9 @@ import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../tests/golden-path/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
+import { setJournalTrace } from "./journal-state";
 import { gameStartDate } from "./game-start";
-import { heirsOf, settleEstate } from "./estates";
+import { heirsOf, settleCountedEstate, settleEstate } from "./estates";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { appliedOn, type LawAppliedRow } from "./law-reach/applied";
 import { advanceCore } from "./life";
@@ -23,10 +24,19 @@ import {
   EMPLOYER_TAXES_MODULE_ID,
   profitTaxesOf,
 } from "./modules/employer-taxes";
-import { governments } from "./modules/budgets";
-import { ownerOf } from "./modules/business";
-import { outsideAccountOf } from "./budgets-treasury";
+import { amendBudget, budgetsOf, governments } from "./modules/budgets";
 import {
+  countedEstateOf,
+  householdCash,
+  removeCountedPerson,
+  residentsRuntime,
+} from "./modules/residents";
+import { billCatalog } from "./bill-catalog";
+import { OUTCOME_WEB_MODULE_ID, type WebMonth } from "./modules/outcome-web";
+import { ownerOf } from "./modules/business";
+import { outsideAccountOf, treasuryMonthsOf } from "./budgets-treasury";
+import {
+  authorityFor,
   bodyOf,
   draftBill,
   LEGISLATURE_MODULE_ID,
@@ -115,12 +125,38 @@ function scaleAmount(api: CoreAPI, series: string, factor: number): string {
 
 const keysOf = (api: CoreAPI, key: string) => [...appliedOn(api, key)];
 
+/** The journal posts for an estate's transfers (the source names the transfer), with the money each moved, while `act` runs. */
+function estatePosts(
+  act: () => void,
+): { id: string; source: string; minor: number }[] {
+  const posts: { id: string; source: string; minor: number }[] = [];
+  setJournalTrace((input) => {
+    if (!input.sourceRef.id.includes("estate:")) return;
+    posts.push({
+      id: input.id,
+      source: input.sourceRef.id,
+      minor: input.postings.reduce(
+        (n, p) => n + (p.deltaMinor > 0 ? p.deltaMinor : 0),
+        0,
+      ),
+    });
+  });
+  try {
+    act();
+  } finally {
+    setJournalTrace(null);
+  }
+  return posts;
+}
+
 interface Attempt {
   readonly where: string;
   readonly api: CoreAPI;
   readonly core: CoreState;
   readonly ids: Record<string, string>;
   readonly missing: string[];
+  /** Every journal post of the run: its id and what names it (source, accounts). */
+  readonly posts: { id: string; text: string }[];
 }
 
 function attempt(index: number): Attempt {
@@ -148,16 +184,35 @@ function attempt(index: number): Attempt {
   // each month so every read happens under it.
   // Putting an income tax question back writes its own income-tax row, so the
   // raise is made again on the row then in force.
-  for (let day = 0; day < 170; day += 30) {
-    const back = QUESTIONS.filter((key) => lawInForce(api, key).value !== 1);
-    for (const key of back)
-      setQuestion(api, key, 1, key === CAP ? undefined : "state");
-    if (back.includes(ADOPT) || back.includes(GRADUATED)) {
-      run(core, 2);
-      ids.income = scaleAmount(api, "income-tax", 1.1);
+  // The journal's posts for the run, so each law's money is named by its entry.
+  const posts: { id: string; text: string }[] = [];
+  setJournalTrace((input) => {
+    posts.push({
+      id: input.id,
+      text: `${input.sourceRef.kind} ${input.sourceRef.id} ${input.postings
+        .map((p) => p.accountId)
+        .join(" ")}`,
+    });
+  });
+  try {
+    for (let day = 0; day < 170; day += 30) {
+      const back = QUESTIONS.filter((key) => lawInForce(api, key).value !== 1);
+      for (const key of back)
+        setQuestion(api, key, 1, key === CAP ? undefined : "state");
+      if (back.includes(ADOPT) || back.includes(GRADUATED)) {
+        run(core, 2);
+        ids.income = scaleAmount(api, "income-tax", 1.1);
+      }
+      run(core, Math.min(30, 170 - day));
     }
-    run(core, Math.min(30, 170 - day));
+  } finally {
+    setJournalTrace(null);
   }
+  // The web's pay link reads the state's corporate rate: a state with none has
+  // nothing to move, so the place is redrawn.
+  const stateRate = lawInForce(api, "corporate-income-tax").levels.find(
+    (l) => l.level === "state" && !l.setAside,
+  )?.row?.value;
   const missing = [
     "income-tax",
     "property-tax",
@@ -165,12 +220,13 @@ function attempt(index: number): Attempt {
     ...QUESTIONS,
   ]
     .filter((key) => !keysOf(api, key).length)
+    .concat(stateRate && stateRate > 0 ? [] : ["a state corporate rate"])
     .concat(
       Object.entries(ids)
         .filter(([, id]) => !id)
         .map(([name]) => `${name} law row`),
     );
-  return { where, api, core, ids, missing };
+  return { where, api, core, ids, missing, posts };
 }
 
 describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
@@ -196,7 +252,7 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           found,
           `no drawn place had a subject for every law: ${tried.join("; ")}`,
         ).not.toBeNull();
-        const { api, core, ids, where } = found!;
+        const { api, core, ids, where, posts: runPosts } = found!;
         const rows = (key: string) => keysOf(api, key);
         const open = (key: string) => rows(key).filter((r) => !r.endedOn);
         const money = (list: readonly LawAppliedRow[]) =>
@@ -271,6 +327,22 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           corporate.every((r) => r.target === "organization"),
           `${where}: corporate targets`,
         ).toBe(true);
+        // The state's raised rate is the web's cause for the pay link: the
+        // town's month records carry its effect, and pay falls with the tax.
+        const months = (core.modules.has(OUTCOME_WEB_MODULE_ID)
+          ? api.moduleState(OUTCOME_WEB_MODULE_ID).table("months").rows()
+          : []) as unknown as WebMonth[];
+        const incidence = months
+          .map((row) => row.effects?.["corporate-tax-incidence"] ?? 0)
+          .filter((effect) => effect !== 0);
+        expect(
+          incidence.length,
+          `${where}: web month records with the corporate pay link moving`,
+        ).toBeGreaterThan(0);
+        expect(
+          incidence.every((effect) => effect < 0),
+          `${where}: a higher corporate rate lowers pay (${incidence.join(", ")})`,
+        ).toBe(true);
 
         // The balanced budget, pensions and reserve acts reach the treasury.
         for (const key of [BALANCED, PENSIONS, RESERVE])
@@ -282,6 +354,82 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           money(open(PENSIONS)),
           `${where}: pension contribution`,
         ).toBeGreaterThan(0);
+        // The pension rule also names the public workers it funds, full and counted.
+        expect(
+          open(PENSIONS).filter(
+            (r) =>
+              (r.target === "person" || r.target === "group") && r.count >= 1,
+          ).length,
+          `${where}: public workers whose pensions are funded`,
+        ).toBeGreaterThan(0);
+        // The treasury reads the reserve rule as it closes each month: with the
+        // budget's spending raised, the next close tops the reserve up and
+        // records the government again, on a date the treasury closed its books.
+        const held = open(RESERVE).find((r) => r.target === "government")!;
+        const reserveGov = governments(api).find(
+          (g) => g.id === held.targetId,
+        )!;
+        const lineToRaise = Object.entries(
+          [...budgetsOf(api, reserveGov.id)].sort((a, b) =>
+            b.startsOn.localeCompare(a.startsOn),
+          )[0]!.spendingMinor,
+        ).sort((a, b) => b[1] - a[1])[0]![0];
+        amendBudget(api, {
+          governmentId: reserveGov.id,
+          line: lineToRaise,
+          deltaMinor: 50_000_000_00,
+          measureId: "test:more-spending",
+        });
+        run(core, 35);
+        const reread = open(RESERVE).find((r) => r.targetId === held.targetId)!;
+        expect(
+          reread.times,
+          `${where}: reserve read again by the treasury`,
+        ).toBeGreaterThan(held.times);
+        expect(
+          treasuryMonthsOf(api, reserveGov.id).some(
+            (m) => m.date === reread.lastOn,
+          ),
+          `${where}: reserve last applied ${reread.lastOn}, a treasury close`,
+        ).toBe(true);
+
+        // Each law's money is named by a journal entry of the run: the posting
+        // that moved it, found by the record it was paid for (the worker, the
+        // owner household, the business, the treasury's owner).
+        const evidence: string[] = [];
+        const named = (
+          label: string,
+          list: readonly LawAppliedRow[],
+          owner: (row: LawAppliedRow) => string = (row) => row.targetId,
+        ) => {
+          for (const row of [...list].sort(
+            (a, b) => Math.abs(b.amountMinor) - Math.abs(a.amountMinor),
+          )) {
+            const base = owner(row).split("|")[0]!;
+            const post = runPosts.find((p) => p.text.includes(base));
+            if (!post) continue;
+            evidence.push(
+              `${label}: ${row.id} (${row.target}${row.count > 1 ? ` x${row.count}` : ""}, ${row.amountMinor} minor) <- journal ${post.id}`,
+            );
+            return;
+          }
+          expect.fail(`${where}: no journal entry names a ${label} row`);
+        };
+        named("income-tax", raised);
+        named("adopt-income-tax", open(ADOPT));
+        named("graduated-income-tax", open(GRADUATED));
+        named("property-tax", property);
+        named("cap-property-tax-growth", open(CAP));
+        named("corporate-income-tax", corporate);
+        const treasuryOwner = (row: LawAppliedRow) =>
+          governments(api).find((g) => g.id === row.targetId)?.organizationId ??
+          row.targetId;
+        for (const key of [BALANCED, PENSIONS, RESERVE])
+          named(
+            key.replace("us-policy-positions:fiscal.", ""),
+            open(key).filter((r) => r.target === "government"),
+            treasuryOwner,
+          );
 
         // Local income-tax authority: a local body drafts a tax bill and the
         // state's grant or refusal is read for it.
@@ -318,6 +466,51 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
         expect(authority[0]!.lawId, where).toBe(bill.authority[0]!.source);
         expect(authority[0]!.target, where).toBe("organization");
         expect(LEGISLATURE_MODULE_ID).toBe(authority[0]!.engine);
+        // The grant can be changed by bill: the state's catalog offers it, and
+        // the row a bill enacts replaces the one in force, so the same body's
+        // next draft is allowed or barred by the new row.
+        const offered = billCatalog(api, "state")
+          .flatMap((menu) => menu.topics.flatMap((topic) => topic.policies))
+          .find((policy) => policy.id === "law:local-income-tax-authority");
+        expect(
+          offered,
+          `${where}: state catalog offers the grant`,
+        ).toBeDefined();
+        const granted = authority[0]!.what === "local-tax-allowed";
+        const flipped = enactLaw(api, {
+          jurisdiction: lawChain(api).stateKey,
+          level: "state",
+          series: "local-income-tax-authority",
+          value: granted ? 0 : 1,
+          effectiveDate: addDays(makeIsoDate(core.date), 1),
+          measureId: "test:local-income-tax-authority",
+          citation: "Test: the state changes its grant",
+        });
+        run(core, 2);
+        const redraft = draftBill(api, {
+          bodyOfficeId: office!.id,
+          sponsorId: sponsor.id,
+          provisions: [
+            {
+              kind: "law-amount",
+              series: "income-tax",
+              value: 1,
+              unit: "percent",
+            },
+          ],
+        });
+        expect(redraft.authority[0]!.allowed, where).toBe(!granted);
+        expect(redraft.authority[0]!.source, where).toBe(flipped.id);
+        const changed = rows("local-income-tax-authority").find(
+          (r) => r.targetId === office!.id && !r.endedOn,
+        );
+        expect(
+          changed?.lawId,
+          `${where}: applied row cites the new grant`,
+        ).toBe(flipped.id);
+        expect(changed?.what, where).toBe(
+          granted ? "local-tax-barred" : "local-tax-allowed",
+        );
 
         // An estate under a death tax the test sets low enough to reach it:
         // the decedent pays the estate tax, the heir the inheritance tax.
@@ -371,9 +564,11 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           `${where}: a person with cash and heirs`,
         ).toBeDefined();
         api.updatePerson(decedent!.id, { alive: false });
-        settleEstate(api, decedent!.id, "event:death:test");
-        // Probate closes after its days; the estate's taxes come out then.
-        run(core, api.parameter("probateDays") + 1);
+        const posts = estatePosts(() => {
+          settleEstate(api, decedent!.id, "event:death:test");
+          // Probate closes after its days; the estate's taxes come out then.
+          run(core, api.parameter("probateDays") + 1);
+        });
         const heirIds = new Set(
           heirsOf(api, core.people.get(decedent!.id)!).heirs,
         );
@@ -392,6 +587,90 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           inheritance.length,
           `${where}: inheritance tax on heirs of ${decedent!.id}`,
         ).toBeGreaterThan(0);
+        // The money of each: the journal entry that paid it to the treasury.
+        for (const row of [...estate, ...inheritance].filter(
+          (r) => r.amountMinor > 0,
+        ))
+          expect(
+            posts.some(
+              (p) =>
+                p.source.includes(`estate:${decedent!.id}:${row.key}:`) &&
+                p.minor > 0,
+            ),
+            `${where}: journal entry for ${row.id}`,
+          ).toBe(true);
+
+        // A counted resident's death in the same world: the household's cash
+        // is shared among the counted members who outlive them, the same laws
+        // read the estate and each heir's share, and the group that inherits
+        // pays, times the households the record stands for.
+        const rt = residentsRuntime(core)!;
+        const store = rt.store;
+        const house = [...store.liveHouseholds()]
+          .filter((h) => store.countedMembers(h).length >= 2)
+          .sort(
+            (a, b) =>
+              householdCash(rt, b) - householdCash(rt, a) ||
+              a.id.localeCompare(b.id),
+          )[0];
+        expect(
+          house,
+          `${where}: a counted household of two or more`,
+        ).toBeDefined();
+        const dead = store.ids[store.countedMembers(house!)[0]!]!;
+        const passing = countedEstateOf(core, dead as never)!;
+        expect(
+          passing.estateMinor,
+          `${where}: cash to pass on`,
+        ).toBeGreaterThan(100_00);
+        expect(passing.heirs.length, where).toBeGreaterThan(0);
+        removeCountedPerson(core, dead as never);
+        const countedPosts = estatePosts(() =>
+          settleCountedEstate(api, {
+            deceasedId: dead as never,
+            placeId: lawChain(api).townPlaceId,
+            estate: passing,
+          }),
+        );
+        const countedEstate = rows("estate-tax").filter((r) =>
+          r.targetId.startsWith(dead),
+        );
+        const countedInheritance = rows("inheritance-tax").filter((r) =>
+          passing.heirs.includes(r.targetId as never),
+        );
+        expect(
+          countedEstate.some(
+            (r) => r.target === "group" && r.count >= 1 && r.amountMinor > 0,
+          ),
+          `${where}: counted estate of ${dead} taxed`,
+        ).toBe(true);
+        expect(
+          countedInheritance.some(
+            (r) => r.target === "group" && r.count >= 1 && r.amountMinor > 0,
+          ),
+          `${where}: counted heirs of ${dead} taxed`,
+        ).toBe(true);
+        for (const row of [...countedEstate, ...countedInheritance].filter(
+          (r) => r.amountMinor > 0,
+        ))
+          expect(
+            countedPosts.some(
+              (p) =>
+                p.source.includes(`estate:${dead}:${row.key}:`) && p.minor > 0,
+            ),
+            `${where}: journal entry for ${row.id}`,
+          ).toBe(true);
+
+        evidence.push(
+          `local-income-tax-authority: ${authority[0]!.id} (${authority[0]!.target}, grants a power and moves no money by its terms)`,
+        );
+        for (const row of [...estate, ...inheritance].slice(0, 2))
+          evidence.push(
+            `${row.key}: ${row.id} (${row.target}, ${row.amountMinor} minor) <- journal ${posts.find((p) => p.source.includes(`estate:${decedent!.id}:${row.key}:`))?.id ?? "-"}`,
+          );
+        console.info(
+          `law-wiring-taxes evidence, ${where}:\n${evidence.join("\n")}`,
+        );
 
         // Repeal: the questions end their rows, and a repealed amount stops
         // citing its old law.

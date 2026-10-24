@@ -414,31 +414,37 @@ export function settleCountedEstate(
   input: {
     readonly deceasedId: PersonId;
     readonly placeId: string;
-    readonly heirs: readonly {
-      readonly heirId: PersonId;
-      readonly amountMinor: number;
-    }[];
+    readonly estate: {
+      readonly householdId: string;
+      readonly bornOn: string;
+      readonly heirs: readonly PersonId[];
+      readonly estateMinor: number;
+    };
   },
 ): void {
   const core = api.state as CoreState;
   const rt = residentsRuntime(core);
-  const deceased = rt?.store.countedMember(input.deceasedId);
   if (
     !rt ||
-    deceased === undefined ||
-    !input.heirs.length ||
+    !input.estate.heirs.length ||
     !api.state.modules.has(LAWS_MODULE_ID) ||
     lawChain(api).townPlaceId !== input.placeId
   )
     return;
+  // Equal shares among the heirs; the first takes the odd cents.
+  const each = Math.floor(input.estate.estateMinor / input.estate.heirs.length);
+  const heirs = input.estate.heirs.map((heirId, index) => ({
+    heirId,
+    amountMinor:
+      index === 0
+        ? input.estate.estateMinor - each * (input.estate.heirs.length - 1)
+        : each,
+  }));
   const store = rt.store;
   const stateKey = lawChain(api).stateKey || null;
-  const estateMinor = input.heirs.reduce((n, h) => n + h.amountMinor, 0);
+  const estateMinor = input.estate.estateMinor;
   if (estateMinor <= 0) return;
-  const stands = countedHouseholdStands(
-    api,
-    store.households[store.household[deceased]!]!.id,
-  );
+  const stands = countedHouseholdStands(api, input.estate.householdId);
   const households = stands?.households ?? 1;
   const date = api.state.date;
   const source = (citation: string) => ({
@@ -470,14 +476,14 @@ export function settleCountedEstate(
     });
   // The estate tax is figured on the whole estate; each heir bears their share of it.
   const shares = new Map<PersonId, number>(
-    input.heirs.map((h) => [h.heirId, h.amountMinor]),
+    heirs.map((h) => [h.heirId, h.amountMinor]),
   );
   for (const tax of assessEstateTaxes(api, stateKey, estateMinor)) {
     let paid = 0;
     let left = tax.amountMinor;
-    input.heirs.forEach((h, index) => {
+    heirs.forEach((h, index) => {
       const part =
-        index === input.heirs.length - 1
+        index === heirs.length - 1
           ? left
           : Math.floor((tax.amountMinor * h.amountMinor) / estateMinor);
       left -= part;
@@ -502,8 +508,8 @@ export function settleCountedEstate(
     const m = store.countedMember(id);
     return m === undefined ? undefined : store.born[m];
   };
-  const deceasedBorn = store.born[deceased];
-  for (const h of input.heirs) {
+  const deceasedBorn = input.estate.bornOn;
+  for (const h of heirs) {
     const heirBorn = born(h.heirId);
     if (!deceasedBorn || !heirBorn) continue;
     const assessment = assessInheritanceTax(

@@ -142,6 +142,12 @@ const ENGINE = local.engineMeasures as Readonly<
       readonly field: string;
       /** Or a named reader of an engine's own record (src/core2/modules/outcome-web.ts). */
       readonly reader?: string;
+      /**
+       * A cause read from a law: the level it is measured from is the law the
+       * day before the web opened, so a law taking effect on the opening day
+       * (or after) moves the outcome (src/core2/modules/outcome-web.ts).
+       */
+      readonly baselineReader?: string;
       readonly unitScale: number;
       /** An engine that keeps its own month rows by place: its module and table (rows have `placeId`, `date`, `id`). */
       readonly module?: string;

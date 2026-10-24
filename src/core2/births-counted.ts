@@ -41,6 +41,7 @@ import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
 import { openingTemperaments } from "./opening-personality";
 import {
   addCountedPerson,
+  countedEstateOf,
   countedHouseholdsByPlace,
   householdIncome,
   incomeBandOf,
@@ -432,15 +433,12 @@ export function applyCountedFlows(
             !row.deaths.includes(other.id),
         )
         .map((other) => other.id);
-      const heirs = removeCountedPerson(core, person.id);
-      for (const heir of heirs)
+      const estate = countedEstateOf(core, person.id);
+      for (const heir of removeCountedPerson(core, person.id))
         row.estates.push({ deceasedId: person.id, ...heir });
       // The death taxes in force read the estate that passed to them.
-      settleCountedEstate(api, {
-        deceasedId: person.id,
-        placeId,
-        heirs,
-      });
+      if (estate)
+        settleCountedEstate(api, { deceasedId: person.id, placeId, estate });
       row.deaths.push(person.id);
       // The death, for the household that outlives them: a private record
       // the people engines read (a counted death is no public notice).
