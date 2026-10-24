@@ -6474,5 +6474,17 @@
     "addedAt": "2026-10-24",
     "replacement": "The owner's ruling on how a campaign orders the doors it knocks (docs/coordination/OWNER-DECISIONS.md), built as the campaign's own choice of list.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-counted-victims-lived-crime",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/views.ts",
+    "line": 713,
+    "whatItFakes": "A counted group's victimizations are a tally row per place, month and group (the crime engine's tallies); the views engine moves only the full victims a crime.victimized record names, so the wider population's view on the police never moves from the crimes it lives.",
+    "why": "A counted group's view is read from its opening profile alone; the views engine keeps no per-group stance a tally could move, and filling a member in would have to carry that moved view.",
+    "addedBy": "effects lead (web-views-lived-crime-moves-stance)",
+    "addedAt": "2026-10-24",
+    "replacement": "people-counted-victims-lived-crime: each counted group a tally row names moves its view on the police by the full victim's rule times the tally's count, citing the tally row, and a member filled in from that group holds the moved view.",
+    "status": "open"
   }
 ]
