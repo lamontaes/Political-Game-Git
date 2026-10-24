@@ -337,6 +337,7 @@ const MEASURES: Readonly<Record<string, readonly string[]>> = {
   "local-minimum-wage-authority": ["labor.minimum-wage-change-pct"],
   "budget-line:police": ["police.officers-per-1000"],
   "budget-line:schools": ["budget.schools-added-pct"],
+  "snap-maximum": ["program.snap-maximum-change-pct"],
   "budget-line:highways": ["roads.condition", "roads.poor-condition-pct"],
   "budget-line:corrections": ["justice.incarcerated-per-100k"],
   "property-tax": ["tax.property-rate"],

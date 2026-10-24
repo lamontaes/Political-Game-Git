@@ -45,16 +45,7 @@ declare const data: {
       ceiling: number;
     };
   };
-  baselines: {
-    "labor.unemployment-pct": {
-      value: number;
-      note: string;
-    };
-    "labor.minimum-wage-to-median": {
-      value: number;
-      note: string;
-    };
-  };
+  baselines: Record<string, { value: number; note: string }>;
   links: Array<{
     key: string;
     status: string;

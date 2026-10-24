@@ -51,6 +51,26 @@
     "labor.minimum-wage-to-median": {
       "value": 0,
       "note": "Not a starting level. The one link that reads this measure is a threshold: it acts only on how far the ratio sits above its own threshold (0.59), so no change from a start is taken and zero only lets the link be read."
+    },
+    "budget.healthAndHospitals-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the health and hospitals line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "budget.welfareAndMedicaid-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the welfare and Medicaid line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "budget.higherEducation-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the higher education line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "budget.schools-added-pct": {
+      "value": 0,
+      "note": "Defined from the Census base: the schools line above its base is 0 where it has not been changed, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
+    },
+    "program.snap-maximum-change-pct": {
+      "value": 0,
+      "note": "Defined from the opening: the SNAP maximum allotment's change since the opening is 0 at the opening, whenever the web first reads it. A reading taken after a change in the same month must not become the starting level."
     }
   },
   "links": [
