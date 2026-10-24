@@ -70,6 +70,20 @@ export interface CountedGroup extends GroupKey {
   readonly households: Set<number>;
 }
 
+/** What engines read about someone still counted, from the group's columns. */
+export interface CountedFacts {
+  readonly id: PersonId;
+  readonly familyName: string;
+  readonly placeId: string;
+  readonly birthDate: IsoDate;
+  readonly householdId: string;
+  readonly jobId?: string;
+  readonly liquidMinor: number;
+  readonly livingCostDailyMinor: number;
+  /** Read in place from the group's columns. */
+  readonly traits: Readonly<Record<string, number>>;
+}
+
 export interface CountedHousehold {
   readonly index: number;
   readonly id: string;
@@ -204,6 +218,11 @@ export class CountedStore {
   private readonly peopleViews = new Map<
     number,
     { rev: number; people: readonly PersonInput[] }
+  >();
+  /** Each household's counted members' facts, kept until the household changes (`touch`). */
+  private readonly factsViews = new Map<
+    number,
+    { rev: number; facts: readonly CountedFacts[] }
   >();
   /**
    * How many real jobs a counted job stands for where that is not its
@@ -364,6 +383,32 @@ export class CountedStore {
   touch(h: CountedHousehold): void {
     h.rev = (h.rev ?? 0) + 1;
     this.peopleViews.delete(h.index);
+    this.factsViews.delete(h.index);
+  }
+
+  /** What engines read about a counted member: their columns, with no person record built. */
+  factsOf(member: number): CountedFacts {
+    const jobId = this.jobId[member];
+    return {
+      id: this.ids[member]!,
+      familyName: this.family[member]!,
+      placeId: this.strings[this.placeIx[member]!]!,
+      birthDate: this.born[member]! as IsoDate,
+      householdId: this.households[this.household[member]!]!.id,
+      liquidMinor: this.liquid[member]!,
+      livingCostDailyMinor: this.living[member]!,
+      ...(jobId ? { jobId } : {}),
+      traits: this.packedTraits(member),
+    };
+  }
+
+  /** A household's counted members' facts, built once per change. */
+  factsOfHousehold(h: CountedHousehold): readonly CountedFacts[] {
+    const held = this.factsViews.get(h.index);
+    if (held && held.rev === (h.rev ?? 0)) return held.facts;
+    const facts = this.countedMembers(h).map((m) => this.factsOf(m));
+    this.factsViews.set(h.index, { rev: h.rev ?? 0, facts });
+    return facts;
   }
 
   /** A household's counted people as records (in-place traits), built once per change. */
@@ -771,6 +816,7 @@ export function encodeStore(store: CountedStore): unknown {
             "traitView",
             "traitViews",
             "peopleViews",
+            "factsViews",
             // Cache keys, not state: a restored store starts its own count.
             "version",
             "membersVersion",
