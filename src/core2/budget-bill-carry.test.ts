@@ -12,6 +12,7 @@ import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { baseLine } from "./law-reach/group-a-money";
 import { advanceCore } from "./life";
 import {
   amendBudget,
@@ -77,6 +78,12 @@ it("a passed bill's line change carries into the next fiscal year, and a one-tim
       current().spendingMinor[once!],
       `${where}: the one-time change changed this year's ${once}`,
     ).toBe((before.spendingMinor[once!] ?? 0) + delta);
+    // This year the carried change is still a change: what a line's service
+    // is measured against is the line before the bill.
+    expect(
+      baseLine(api, gov!, current(), carried!),
+      `${where}: ${carried}'s base this year is the line before the bill`,
+    ).toBe(before.spendingMinor[carried!] ?? 0);
     // The government's enacted lines, which every later year starts from.
     const enacted = enactedBudgetChanges(api, gov!.id);
     expect(
