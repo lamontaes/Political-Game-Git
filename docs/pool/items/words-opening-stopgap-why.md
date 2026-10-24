@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: words/opening-stopgap-why
 pr: #5954
 blocked-on:
