@@ -185,7 +185,7 @@ it("records native premiums for both tiers and reads a controlled repeal immedia
   }
   // Measured one at a time on a 4-core container: 103 to 294 seconds for a
   // drawn place and its year (the longest, North Bend, Washington). Each place
-  // passed over adds one opening, 4 to 37 seconds; 3 passed over and the
-  // longest year come to about 7 minutes, and 15 minutes leaves a slower
-  // runner twice that.
+  // passed over adds one opening, 3 to 36 seconds; 3 passed over and the
+  // longest year come to about 7 minutes, and 15 minutes allows twice that
+  // for a run beside another file.
 }, 900_000);

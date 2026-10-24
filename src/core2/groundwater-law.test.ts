@@ -245,7 +245,8 @@ it("reads withdrawal law at farm production and removes its limit on repeal", ()
   }
   // Measured one at a time on a 4-core container: 75 to 384 seconds for a
   // drawn place, its year and the second opening (the longest, Hampton, New
-  // Hampshire). Each place passed over adds one opening, 4 to 37 seconds; 11
-  // passed over and the longest year come to about 13 minutes, and 30 minutes
-  // leaves a slower runner twice that.
+  // Hampshire). Each place passed over adds one opening, 3 to 36 seconds; 11
+  // passed over and the longest year come to about 13 minutes. Beside another
+  // file this test ran about twice as slow (156 and 189 seconds at two
+  // workers, against 57 to 97 alone), so the bound is 30 minutes.
 }, 1_800_000);
