@@ -897,17 +897,17 @@
     "citation": "Owner result-only records ruling; per-person monthly receipts retain the current measured year, aggregate totals remain."
   },
   "lookupHours": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-civic-progress",
+    "value": 0.91,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table A-1 (https://www.bls.gov/tus/tables/a1-2025.pdf): Government services, 0.91 hours per day for the people who did it that day (0.3 percent of people 15 and over a day). Recorded with the 2018 to 2024 tables in data/research/core/bls-atus-table-a1-2025.json; scripts/research/content-year.ts checks this row against that file.",
+    "estimatedFrom": "ATUS has no activity for looking up which local office handles something. The nearest measured activity is Using Government Services (ATUS 2018 lexicon, category 10 01: police and fire services, social services, obtaining licenses and paying fines, fees and taxes), so its 2025 duration for the people who did it stands in for one look-up act. It is a duration, not a share: who looks something up still follows the person's own drive and choice score.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.72,
+      "high": 1.06,
+      "unit": "hours per look-up act (ATUS hours per day for people who did the activity)",
+      "citation": "BLS ATUS Table A-1, Government services, hours per day for people who did it, every year the figure is published: 0.72 (2018), 0.87 (2019), 1.06 (2021), 0.72 (2024), 0.91 (2025); suppressed in 2022 and 2023."
     },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "stopgapId": "SG-P8-civic-progress"
   },
   "openingPeerGroupSize": {
     "value": 20,
@@ -4973,7 +4973,7 @@
   "careNeedHalfExcessHazard": {
     "value": 6,
     "tag": "TUNABLE",
-    "citation": "The combined chronic-condition hazard weight above ordinary health (the weight that sets a person's illness onset) that asks for half of full care from a relative at home. A grown relative's care need is excess / (excess + this). Checked on three generated towns over 90 days (seeds care-a, care-b, care-c; Filley, Nebraska; Slaughter Beach and Ardencroft, Delaware): values of 3 and 6 gave the same share of person-days caring for household members (21.5%, 3.4% and 48.8%, against 18.8%, 0.2% and 43.6% with children alone; ATUS 2025 Table 1 household care 22.0% of person-days), because a relative who asks for any care draws the act; the value sets how strongly. No direct source for the value itself.",
+    "citation": "The combined chronic-condition hazard weight above ordinary health (the weight that sets a person's illness onset) that asks for half of full care from a relative at home. A grown relative's care need is excess / (excess + this). Checked on three generated towns over 90 days (seeds care-a, care-b, care-c; Filley, Nebraska; Slaughter Beach and Ardencroft, Delaware): values of 3 and 6 gave the same share of person-days caring for household members (21.5%, 3.4% and 48.8%, against 18.8%, 0.2% and 43.6% with children alone; ATUS 2025 Table 1 household care 22.0% of person-days), because a relative who asks for any care draws the act; the value sets how strongly. No direct source for the value itself. Outcome bands it is checked against: ATUS Table A-1, caring for and helping household adults, 4.6 to 6.2 percent of people a day (2018 to 2025), and caring for and helping household members, 21.6 to 24.1 percent (data/research/core/bls-atus-table-a1-2025.json, reported by scripts/research/content-year.ts).",
     "stopgapId": "SG-P8-life-utility",
     "spread": {
       "status": "unmeasured",
