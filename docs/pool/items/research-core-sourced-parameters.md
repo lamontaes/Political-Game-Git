@@ -5,9 +5,9 @@ area: core
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/dreamy-tesla-bgi3ui-core
-pr:
+pr: #5853
 blocked-on:
 source: "collapsed Oct 19, 2026 from core-stopgap-closeness-relationship-closeness-model, core-stopgap-emotion-estimated-behavior, core-stopgap-free-block-behavior-model-gap, core-stopgap-policy-authority-missing-mechanic, core-stopgap-recalls-assumed-data, core-stopgap-renewal-opening-prehistory-estimate"
 claimed-at: 2026-10-23T20:23:51.253Z
