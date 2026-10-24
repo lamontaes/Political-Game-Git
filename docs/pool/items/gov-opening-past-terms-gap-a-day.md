@@ -5,7 +5,7 @@ area: office
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/past-terms-gap
 pr: #5974
 blocked-on:
