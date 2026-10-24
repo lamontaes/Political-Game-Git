@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/bench/m1-12-check.ts, docs/roadmap/features.json
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-people-politics-flags (CTO branch).
+
+Sent back 2026-10-24 from PR #5881 (branch claude/quirky-ride-vrwwz4-m1-12): coverage derives only from returned officials and permits only 50 of 56 places, so omitted territories can pass; require independent expected jurisdictions and a missing-territory control; finish on that branch, merge main into it first.
