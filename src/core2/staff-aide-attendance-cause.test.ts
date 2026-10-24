@@ -16,8 +16,6 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { discretionaryHours } from "./modules/work";
-import { townSeats } from "./modules/offices";
-import { staffOf } from "./modules/staff";
 import { coreAPI } from "./state";
 
 interface Day {
@@ -54,12 +52,8 @@ function aideDays(place: { name: string; key: string; seed: string }) {
       return record(row);
     };
     advanceCore(core, addDays(makeIsoDate(core.date), 120));
-    const aides = townSeats(api)
-      .flatMap((seat) =>
-        seat.holder ? staffOf(api, seat.holder.personId) : [],
-      )
-      .map((aide) => aide.jobId)
-      .filter((id): id is string => !!id);
+    // Every staff job observed scheduled during the 120 days, whoever holds it now.
+    const aides = [...days.keys()].sort();
     return {
       aides,
       days,
@@ -70,28 +64,33 @@ function aideDays(place: { name: string; key: string; seed: string }) {
   }
 }
 
+/** One job's scheduled days: attended time, or a recorded reason (and the miss reason where the day was longer than the hours free). */
+function checkJob(where: string, jobId: string, list: readonly Day[]) {
+  let missed = 0;
+  for (const day of list) {
+    if (day.attended > 0) continue;
+    missed += 1;
+    expect(day.reason, `${where} ${jobId} ${day.date} reason`).not.toBe("");
+    if (day.planned / 60 > day.freeHours)
+      expect(day.reason, `${where} ${jobId} ${day.date}`).toMatch(/miss/);
+  }
+  return { scheduled: list.length, missed };
+}
+
+/** Every staff job observed in the run, each checked day by day. */
 function checkCauses(run: ReturnType<typeof aideDays>): {
+  jobs: number;
   scheduled: number;
   missed: number;
 } {
   let scheduled = 0;
   let missed = 0;
-  // Only the days of the place's scheduled aides (their job ids) count.
-  for (const jobId of run.aides)
-    for (const day of run.days.get(jobId) ?? []) {
-      scheduled += 1;
-      // Each scheduled day has attended time or a recorded absence reason.
-      if (day.attended > 0) continue;
-      missed += 1;
-      // The cause is on the record: the decision's reason, and where the
-      // day is longer than the hours free, why absence was the only offer.
-      expect(day.reason, `${run.where} ${jobId} ${day.date} reason`).not.toBe(
-        "",
-      );
-      if (day.planned / 60 > day.freeHours)
-        expect(day.reason, `${run.where} ${jobId} ${day.date}`).toMatch(/miss/);
-    }
-  return { scheduled, missed };
+  for (const jobId of run.aides) {
+    const r = checkJob(run.where, jobId, run.days.get(jobId) ?? []);
+    scheduled += r.scheduled;
+    missed += r.missed;
+  }
+  return { jobs: run.aides.length, scheduled, missed };
 }
 
 it("the governor's aide in Independence, Louisiana, has attended time or a recorded cause on each scheduled day", () => {
@@ -102,17 +101,21 @@ it("the governor's aide in Independence, Louisiana, has attended time or a recor
   });
   const jobId =
     "job:public:staff:official:term:seat:US-LA:governor:2025-01-20:person:aide:official:term:seat:US-LA:governor:2025-01-20:0";
+  // The named job is among the staff jobs observed, and its own days are checked.
+  expect(run.aides, `${run.where}: staff jobs observed`).toContain(jobId);
   const list = run.days.get(jobId) ?? [];
   expect(list.length, `${run.where} ${jobId} scheduled days`).toBeGreaterThan(
     0,
   );
-  // Each of the aide's scheduled days has attended time or a recorded cause.
-  const result = checkCauses(run);
-  expect(result.scheduled, run.where).toBeGreaterThanOrEqual(list.length);
-  expect(
-    list.filter((d) => d.attended <= 0).length,
-    `${run.where}: missed days of ${jobId}`,
-  ).toBeLessThanOrEqual(result.missed);
+  const named = checkJob(run.where, jobId, list);
+  expect(named.scheduled, `${run.where} ${jobId}`).toBe(list.length);
+  // And every other staff job observed in the place.
+  const all = checkCauses(run);
+  expect(all.jobs, run.where).toBeGreaterThan(0);
+  expect(all.scheduled, run.where).toBeGreaterThanOrEqual(named.scheduled);
+  process.stdout.write(
+    `${run.where}: ${jobId}: ${named.scheduled} scheduled days, ${named.missed} missed, each with attended time or a recorded reason; ${all.jobs} staff jobs, ${all.scheduled} days\n`,
+  );
 }, 900_000);
 
 it("every scheduled day of an aide in a drawn place has attended time or a recorded cause", () => {
@@ -123,6 +126,9 @@ it("every scheduled day of an aide in a drawn place has attended time or a recor
     const run = aideDays(drawPlace(`${seed}:${attempt}`, "staff-attendance"));
     const { scheduled, missed } = checkCauses(run);
     if (run.aides.length && scheduled) {
+      process.stdout.write(
+        `${run.where}: ${run.aides.length} staff jobs, ${scheduled} scheduled days, ${missed} missed, each accounted for\n`,
+      );
       // The aides' scheduled days were observed, and every one is accounted for.
       expect(scheduled, run.where).toBeGreaterThan(0);
       expect(missed, run.where).toBeLessThanOrEqual(scheduled);
