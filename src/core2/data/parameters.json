@@ -792,6 +792,17 @@
     "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
     "stopgapId": "SG-P15-distance-by-place"
   },
+  "causeHolderWeeklyContacts": {
+    "value": 15,
+    "tag": "TUNABLE",
+    "citation": "How many of their ties a person with a cause weighs contacting in a week (owner decision SG-PEOPLE-cause-holder-weekly-contacts). Studies of personal networks find layers of about 5 people in closest weekly touch and about 12 to 15 contacted at least monthly (the 'sympathy group'; Dunbar and colleagues' network-layer studies); the value is the upper layer, so the shortlist binds only for people whose cause has tied them to many more.",
+    "spread": {
+      "low": 5,
+      "high": 15,
+      "unit": "people",
+      "citation": "From the closest weekly layer to the monthly 'sympathy group' of personal-network studies; to be sourced from pages fetched by research before it leaves TUNABLE."
+    }
+  },
   "extendedKinVisitShare": {
     "value": 0.25,
     "tag": "TUNABLE",

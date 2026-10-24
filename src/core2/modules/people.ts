@@ -28,7 +28,13 @@ import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
-import type { ActOffer, CoreAPI, PersonState, Relationship } from "../types";
+import type {
+  ActOffer,
+  CoreAPI,
+  PersonId,
+  PersonState,
+  Relationship,
+} from "../types";
 import { offer } from "./life";
 import type {
   HistoryWriter,
@@ -36,6 +42,73 @@ import type {
   PreStartWindow,
 } from "../pre-start";
 import { pairKey } from "../kernel/ids";
+
+/** The hours a tie has lost, read near or far: the pull toward a visit. */
+function tiePull(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  otherId: PersonId,
+): { value: number; sourceIds: string[] } | undefined {
+  const row = api.state.relationships.get(pairKey(actor.id, otherId));
+  const other = api.state.people.get(otherId);
+  if (!row || !other) return undefined;
+  const near =
+    other.placeId === actor.placeId ||
+    (other.countyId !== undefined && other.countyId === actor.countyId);
+  return {
+    value:
+      hoursLost(api.state, row) *
+      (near ? api.parameter("one") : api.parameter("farKinContactShare")),
+    sourceIds: [row.id],
+  };
+}
+
+/**
+ * A person with a cause weighs, each week, only the ties that pull hardest at
+ * the week's first look (the hours each has lost, as the chooser reads them);
+ * a tie made during the week joins the next week's ranking. Someone with no
+ * more ties than the shortlist holds weighs them all.
+ */
+const shortlists = new WeakMap<
+  object,
+  Map<PersonId, { week: number; ids: ReadonlySet<PersonId> }>
+>();
+function weeklyContacts(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+  tied: readonly PersonId[],
+): readonly PersonId[] {
+  const size = api.parameter("causeHolderWeeklyContacts");
+  if (tied.length <= size) return tied;
+  // stopgapId: SG-PEOPLE-cause-holder-weekly-contacts
+  api.stopgap("SG-PEOPLE-cause-holder-weekly-contacts");
+  const week = Math.floor(
+    daysBetweenText(api.state.startedAt, api.state.date) /
+      api.parameter("daysPerWeek"),
+  );
+  let byPerson = shortlists.get(api.state);
+  if (!byPerson) shortlists.set(api.state, (byPerson = new Map()));
+  let held = byPerson.get(actor.id);
+  if (!held || held.week !== week) {
+    const ranked = tied
+      .map((id) => ({
+        id,
+        pull: tiePull(api, actor, id)?.value ?? api.parameter("zero"),
+      }))
+      .sort(
+        (a, b) =>
+          b.pull - a.pull ||
+          (a.id < b.id ? api.parameter("negativeOne") : api.parameter("one")),
+      );
+    held = {
+      week,
+      ids: new Set(ranked.slice(0, size).map((row) => row.id)),
+    };
+    byPerson.set(actor.id, held);
+  }
+  const ids = held.ids;
+  return tied.filter((id) => ids.has(id));
+}
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 const LOOKUP = {
@@ -245,15 +318,20 @@ export const PEOPLE_MODULE: PreStartModule = {
     // Everyone the person knows and has a tie with, plus one person they know
     // without a tie yet. Untied offers all score alike and the chooser breaks
     // ties by the lowest key, so the lowest-id untied person stands for them all.
+    // A person with a cause weighs only the week's shortlist of their ties.
     "contact-candidate": (api, actor, action) => {
       const out: ActOffer[] = [];
+      const tied: PersonId[] = [];
       let untied: string | undefined;
       for (const id of actor.knownIds) {
         if (!api.state.people.get(id)?.alive) continue;
-        if (api.state.relationships.has(pairKey(actor.id, id)))
-          out.push(offer(api, actor, action, id));
+        if (api.state.relationships.has(pairKey(actor.id, id))) tied.push(id);
         else if (untied === undefined || id < untied) untied = id;
       }
+      for (const id of actor.drives.size
+        ? weeklyContacts(api, actor, tied)
+        : tied)
+        out.push(offer(api, actor, action, id));
       if (untied !== undefined) out.push(offer(api, actor, action, untied));
       return out;
     },
@@ -269,20 +347,6 @@ export const PEOPLE_MODULE: PreStartModule = {
         return undefined;
       return { value: grief, sourceIds };
     },
-    "tie-fading": (api, actor, offer) => {
-      const id = pairKey(actor.id, offer.targetId);
-      const row = api.state.relationships.get(id);
-      const other = api.state.people.get(offer.targetId);
-      if (!row || !other) return undefined;
-      const near =
-        other.placeId === actor.placeId ||
-        (other.countyId !== undefined && other.countyId === actor.countyId);
-      return {
-        value:
-          hoursLost(api.state, row) *
-          (near ? api.parameter("one") : api.parameter("farKinContactShare")),
-        sourceIds: [row.id],
-      };
-    },
+    "tie-fading": (api, actor, offer) => tiePull(api, actor, offer.targetId),
   },
 };

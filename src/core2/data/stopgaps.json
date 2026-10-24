@@ -5536,5 +5536,17 @@
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-cause-holder-weekly-contacts",
+    "kind": "owner-decision",
+    "file": "src/core2/modules/people.ts",
+    "line": 83,
+    "whatItFakes": "A person with a cause weighs contacting only the week's shortlist of their ties (the causeHolderWeeklyContacts that pull hardest at the week's first look), not every tie every day. Whether people with causes reach out only to the people they know, ranked this way, is the owner's call (OWNER-DECISIONS.md, Open: 'Do activists reach out only to people they know?').",
+    "why": "Sharing a cause ties an activist to each person told, and every tie was weighed every day, so a town's third year ran 1.35 times its first (Bedford, Wyoming); the speed rule asks that a later year run within 20 percent of the first. Built as the order's recommended version while the owner rules.",
+    "addedBy": "claude/speed-cause-weekly-contacts",
+    "addedAt": "2026-10-24",
+    "replacement": "The owner's ruling on whether people with causes contact only people they know, and how many in a week (docs/coordination/OWNER-DECISIONS.md); then causeHolderWeeklyContacts sourced by research.",
+    "status": "open"
   }
 ]
