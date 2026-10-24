@@ -373,7 +373,8 @@ describe(`the outcomes the web now produces, in a generated town (seed ${seed})`
 const ADDED_LAW_LINKS = [
   "same-day-registration-to-youth-turnout",
   "medicaid-expansion-to-mortality",
-  "end-cash-bail-to-pretrial-detention",
+  // end-cash-bail-to-pretrial-detention is carried by the justice engine's
+  // pretrial decision (links.json carriedBy), so the web no longer runs it.
   "right-to-counsel-to-evictions",
   "child-access-law-to-youth-gun-deaths",
   "min-age-to-youth-gun-suicide",
