@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/weight-release-heads
-pr: #0
+pr: #5866
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-23T23:36:12.581Z
