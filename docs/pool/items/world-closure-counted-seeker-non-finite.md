@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/closure-seeker-finite
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T20:03:46.873Z
 ---
 
 **What.** On Oct 24 src/core2/legislature-committees.test.ts failed during its world build, before any test ran, with 'Module data must be finite, acyclic JSON data' thrown from the countedSeekers put in the jobs engine's closure handler (src/core2/modules/jobs.ts:3154, called from applyCoreEvent at src/core2/state.ts:2048). The row copies the closed job whole (lastJob: { ...job }) and its referenceHourlyMinor, so one of the counted job's fields was NaN or infinite. The test draws its place from a random seed and the failure came before it printed one, so the place is unknown. It happened on branch claude/laws-end-to-end-proof, which does not touch the jobs engine.

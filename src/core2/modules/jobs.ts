@@ -2100,13 +2100,25 @@ function hireCounted(
   // The role's schedule and payday, as a full hire takes them, kept with the
   // household so the worker is on that payroll the day they are met.
   const role = roleTemplate(c, { ...position, templateJobId: template.id });
+  // A founded firm hires from another employer's role: its hire is paid on the
+  // firm's own calendar with that role's payday, one per firm and role, as a
+  // full hire's calendar names its own employer (hire, below).
+  const calendar: WorkPayrollCalendarInput | undefined =
+    role &&
+    (role.calendar.organizationId === position.organizationId
+      ? role.calendar
+      : {
+          ...role.calendar,
+          id: `${role.calendar.id}:at:${position.organizationId}`,
+          organizationId: position.organizationId,
+        });
   const commitment: WorkCommitmentInput | undefined = role && {
     ...role.commitment,
     organizationId: position.organizationId,
     id: `work-commitment:${jobId}`,
     jobId,
     personId: seeker.personId,
-    payrollCalendarId: role.calendar.id,
+    payrollCalendarId: calendar!.id,
     startsAt: addDays(makeIsoDate(api.state.date), 1),
     endsAt: undefined,
     hourlyMinor: position.hourlyMinor,
@@ -2115,7 +2127,7 @@ function hireCounted(
     scheduleSource: job.source,
   };
   if (!addCountedJob(c, job, template.id, commitment)) return false;
-  if (role) keepCalendar(c, role.calendar);
+  if (calendar) keepCalendar(c, calendar);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {
