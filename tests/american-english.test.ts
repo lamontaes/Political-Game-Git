@@ -276,6 +276,11 @@ const ALLOWED_PHRASES: readonly {
     reason:
       "the legacy town-wards.ts module name and its persisted event key (identifiers keep their spelling); player text says the place's recorded seat type",
   },
+  {
+    pattern: /\bSG-GOV-ward-residency\b/g,
+    reason:
+      "the registered stopgap id the residency citation names (identifiers keep their spelling); the citation's own words say district seats",
+  },
 ];
 
 /**
