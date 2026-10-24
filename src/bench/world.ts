@@ -7,6 +7,8 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
+import { preStartWindow, runPreStart } from "../core2/pre-start";
+import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import {
   WORLD_MODULES,
@@ -425,6 +427,12 @@ function* benchWorldStages(
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
+  // The government's history before day one (M1-14): how each official
+  // reached their seat, kept for the person card to read. It takes
+  // milliseconds, being coarse steps over the records the opening wrote.
+  const preStart = defaultPreStart(core);
+  if (preStart)
+    runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);
