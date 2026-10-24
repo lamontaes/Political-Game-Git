@@ -1147,7 +1147,6 @@ export function setJournalTrace(hook: typeof journalTrace): void {
   journalTrace = hook;
 }
 
-/** All original rows are rechecked after the last provider call and before the first write. */
 /** The runtime maps a journal write must leave in place (checked under bookkeeping). */
 const RUNTIME_FIELDS = [
   "accounts",
@@ -1165,6 +1164,7 @@ const RUNTIME_FIELDS = [
   "requiredBySource",
 ] as const;
 
+/** All original rows are rechecked after the last provider call and before the first write. */
 export function postCashJournal(
   runtime: CashJournalRuntime,
   host: CashJournalHost,
