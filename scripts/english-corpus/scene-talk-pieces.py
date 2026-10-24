@@ -3216,8 +3216,8 @@ L('reply','promise',Y,'constituent-help',[("I'll get you in with the workforce o
 BL=['bill-lost']; FL=['bill-lost','lost-on-floor']; CM=['bill-lost','lost-in-committee']
 L(N,N,R,'staff-news',[("The vote on {bill} is over. {name} comes in and closes the door.","solemn",BL)])
 L('state','deliver-news',A,'staff-news',[("We lost {bill} on the floor, {tally}.","solemn",FL),("{bill} went down on the floor. It was {tally}.","solemn",FL),("The committee voted down {bill}, {tally}.","solemn",CM),("{bill} didn't make it out of committee. It was {tally}.","solemn",CM)])
-L('reply','ask',Y,'staff-news',[("What was the count?","braced",BL)])
-L('follow','answer',A,'staff-news',[("It was {tally}. I have the roll call if you want it.","solemn",BL)],after='What was the count?')
+L('reply','ask',Y,'staff-news',[("Who voted against it?","braced",BL)])
+L('follow','answer',A,'staff-news',[("I have the roll call. I'll go through it with you.","solemn",BL)],after='Who voted against it?')
 L('follow','answer',A,'staff-news',[("It lost {tally}. That's where we are.","solemn",BL)],after='How bad is it?')
 L('reply','blame',Y,'staff-news',[("We counted those votes. What happened?","braced",BL),("We should have had this one.","braced",BL)])
 L('follow','disagree',A,'staff-news',[("It's not on you. The votes weren't there.","solemn",BL)],after='blame')

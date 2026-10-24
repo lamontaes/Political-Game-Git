@@ -5838,6 +5838,15 @@
           "role": "asked",
           "purpose": "desk-bill",
           "key": "vote-wanted"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "requiresFacts": ["bill-lost"]
         }
       ],
       "bearing": "curious",
@@ -83191,36 +83200,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.what-was-the-count",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "What was the count?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "staff-news",
-          "key": "news-received",
-          "requiresFacts": ["bill-lost"]
-        }
-      ],
-      "bearing": "braced",
-      "shippable": true,
-      "origin": "authored",
-      "author": "Words session",
-      "date": "2026-10-15",
-      "tag": {
-        "move": "ask",
-        "key": "news-received"
-      }
-    },
-    {
-      "key": "scene-talk.follow-answer.it-was-tally-i-have-the-roll-call-if-you-want-it",
+      "key": "scene-talk.follow-answer.i-have-the-roll-call-i-ll-go-through-it-with-you",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "It was {tally}. I have the roll call if you want it.",
+      "text": "I have the roll call. I'll go through it with you.",
       "uses": [
         {
           "subject": "scene",
@@ -83229,7 +83212,7 @@
           "role": "asker",
           "purpose": "staff-news",
           "key": "news-received",
-          "after": "scene-talk.reply-ask.what-was-the-count",
+          "after": "scene-talk.reply-ask.who-voted-against-it",
           "requiresFacts": ["bill-lost"]
         }
       ],
