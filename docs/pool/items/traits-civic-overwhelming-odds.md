@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-civic
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-24T16:12:50.417Z
 ---
 
 **What.** Three civic decisions with no study run at the general trait weight of 1 against a case that barely varies, so temperament alone settles them. In Ora, Indiana's played year the most suspicious hearers doubted every claim while everyone else believed every claim, the least willing third went to party meetings 2 percent of the time against 75 percent for the most willing, and group joining split 0.2 against 25 percent. Give each case its own recorded circumstances (the teller's trust and closeness and the claim's fit with the hearer's views; the member's distance and free time; the group's stake in the hearer), then calibrate each weight to the single-decision range the research file reports (1.1 to 1.3 per standard deviation) unless a study gives a size.
