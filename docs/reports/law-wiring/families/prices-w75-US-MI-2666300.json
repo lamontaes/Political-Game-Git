@@ -1,0 +1,269 @@
+{
+ "seed": "a91c03e7d2b84f10",
+ "place": {
+  "seed": "793624401e4b21b97adeea34888bdb5ba03dc740b82e6bd47ae58d2eb9430d45",
+  "key": "2666300",
+  "name": "Prescott, Michigan",
+  "state": "US-MI"
+ },
+ "window": 75,
+ "after": 10,
+ "results": [
+  {
+   "key": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+   "kind": "question",
+   "family": "infrastructure",
+   "inForceAtOpening": false,
+   "change": "enacted at city (law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b) effective 2025-01-21; then repealed at city effective 2025-04-07",
+   "lawIds": [
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+    "law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-04-07:law-wiring-167ca21b-b"
+   ],
+   "openingReach": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "reach": {
+    "fullPeople": 0,
+    "countedGroups": 35,
+    "countedPeople": 139,
+    "households": 41,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 76,
+    "ended": 0,
+    "sample": [
+     "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|jurisdiction_971998ff58477430:counted-group-6",
+     "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|jurisdiction_971998ff58477430:counted-group-15",
+     "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|jurisdiction_971998ff58477430:counted-group-23",
+     "applied|us-policy-positions:transportation-infrastructure.fare-free-transit|jurisdiction_971998ff58477430:counted-group-30"
+    ]
+   },
+   "readers": {
+    "src/core2/modules/outcome-web.ts:158": 83,
+    "src/core2/modules/place-prices.ts:688": 6,
+    "src/core2/life.ts:549": 5
+   },
+   "openingRow": "law:US-MI:state:us-policy-positions:transportation-infrastructure.fare-free-transit:general:starting",
+   "money": {
+    "direct": [],
+    "diff": [
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+      "treatment": 79835521,
+      "control": 79749552,
+      "ids": [
+       "journal:2025-01-23:1639",
+       "journal:2025-01-24:1640",
+       "journal:2025-01-25:1641"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+      "treatment": 12869445,
+      "control": 12809627,
+      "ids": [
+       "journal:2025-02-01:1908",
+       "journal:2025-02-01:1909",
+       "journal:2025-02-01:1910"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+      "treatment": 137826557,
+      "control": 137789324,
+      "ids": [
+       "journal:2025-01-21:1595",
+       "journal:2025-01-21:1596",
+       "journal:2025-01-21:1597"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1810",
+      "treatment": 6093699,
+      "control": 6085456,
+      "ids": [
+       "journal:2025-02-19:8337",
+       "journal:2025-02-19:8338",
+       "journal:2025-02-19:8340"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+      "treatment": 43256937,
+      "control": 43249627,
+      "ids": [
+       "journal:2025-02-01:2614",
+       "journal:2025-02-01:2615",
+       "journal:2025-02-01:2616"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+      "treatment": 2822642,
+      "control": 2817592,
+      "ids": [
+       "journal:2025-02-03:7437",
+       "journal:2025-02-03:7438",
+       "journal:2025-02-03:7439"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+      "treatment": 12749115,
+      "control": 12744557,
+      "ids": [
+       "journal:2025-02-01:1949",
+       "journal:2025-02-01:1951",
+       "journal:2025-02-01:1953"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/coverage.ts:230",
+      "treatment": 2125406,
+      "control": 2122731,
+      "ids": [
+       "journal:2025-02-01:7392",
+       "journal:2025-02-01:7393",
+       "journal:2025-02-01:7394"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1207",
+      "treatment": 5008121,
+      "control": 5005490,
+      "ids": [
+       "journal:2025-02-01:2628",
+       "journal:2025-02-01:2629",
+       "journal:2025-02-01:2630"
+      ]
+     },
+     {
+      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+      "treatment": 39363379,
+      "control": 39361233,
+      "ids": [
+       "journal:2025-02-01:1932",
+       "journal:2025-02-01:1933",
+       "journal:2025-02-01:1934"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:851",
+      "treatment": 177671714121421,
+      "control": 177671714120102,
+      "ids": [
+       "journal:2025-02-01:1741",
+       "journal:2025-02-01:1742",
+       "journal:2025-02-01:1743"
+      ]
+     },
+     {
+      "kind": "accounts.transfer @ src/core2/modules/budgets.ts:837",
+      "treatment": 2516912,
+      "control": 2515700,
+      "ids": [
+       "journal:2025-03-01:8607",
+       "journal:2025-03-01:8608",
+       "journal:2025-03-01:8609"
+      ]
+     }
+    ],
+    "diffKinds": 15,
+    "cited": [
+     {
+      "token": "law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+      "gross": 146145,
+      "ids": [
+       "journal:2025-02-03:7523",
+       "journal:2025-02-03:7524",
+       "journal:2025-02-03:7525"
+      ]
+     },
+     {
+      "token": "us-policy-positions:transportation-infrastructure.fare-free-transit",
+      "gross": 146145,
+      "ids": [
+       "journal:2025-02-03:7523",
+       "journal:2025-02-03:7524",
+       "journal:2025-02-03:7525"
+      ]
+     },
+     {
+      "token": "law-wiring-167ca21b",
+      "gross": 146145,
+      "ids": [
+       "journal:2025-02-03:7523",
+       "journal:2025-02-03:7524",
+       "journal:2025-02-03:7525"
+      ]
+     }
+    ]
+   },
+   "web": {
+    "links": [
+     {
+      "key": "fare-free-transit-to-ridership",
+      "status": "built",
+      "to": "transit.ridership"
+     }
+    ],
+    "fired": [
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-03",
+      "link": "fare-free-transit-to-ridership",
+      "effect": 0.42
+     },
+     {
+      "id": "web:jurisdiction_971998ff58477430:2025-04",
+      "link": "fare-free-transit-to-ridership",
+      "effect": 0.42
+     }
+    ],
+    "firedCount": 2
+   },
+   "heard": {
+    "people": 1,
+    "sample": [
+     "person_2dc9b118ebc09a54:printed:outlet:television:0:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+     "person_2dc9b118ebc09a54:printed:outlet:television:1:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b",
+     "person_2dc9b118ebc09a54:printed:outlet:television:2:jurisdiction_971998ff58477430:law-took-effect:law:place:2666300:city:us-policy-positions:transportation-infrastructure.fare-free-transit:general:2025-01-21:law-wiring-167ca21b"
+    ]
+   },
+   "afterUndo": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "afterUndoChanged": {
+    "fullPeople": 0,
+    "countedGroups": 0,
+    "countedPeople": 0,
+    "households": 0,
+    "organizations": 0,
+    "governments": 0,
+    "other": 0,
+    "open": 0,
+    "ended": 0,
+    "sample": []
+   },
+   "seconds": 27
+  }
+ ]
+}
