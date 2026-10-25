@@ -116,7 +116,7 @@
     "estates.will": {
       "class": "rare",
       "why": "Runs when someone with an estate dies (src/core2/estates.ts:159). Ran 3 times in the election window (first 2026-10-08).",
-      "fix": "None needed; rare by nature."
+      "fix": "The calls run, but a retained decision or owning estate record witness remains unproved; capture and verify it in the audit without adding production history for the wider population (pool item traits-audit-will-record-proof)."
     },
     "office-day-state.clemency": {
       "class": "no trigger (no prisoner)",
