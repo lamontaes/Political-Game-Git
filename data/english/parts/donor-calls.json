@@ -189,94 +189,6 @@
       }
     },
     {
-      "key": "donor-calls.total.your-calls-raised-amount-from-gave-of-asked-people",
-      "move": "total",
-      "kind": "written",
-      "text": "Your calls raised {amount} from {gave} of {asked} people.",
-      "uses": [
-        {
-          "move": "total",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "total"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "total"
-      }
-    },
-    {
-      "key": "donor-calls.total.gave-of-the-asked-people-you-called-gave-amount-in-all",
-      "move": "total",
-      "kind": "written",
-      "text": "{gave} of the {asked} people you called gave, {amount} in all.",
-      "uses": [
-        {
-          "move": "total",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "total"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "total"
-      }
-    },
-    {
-      "key": "donor-calls.none-gave.you-called-asked-people-and-none-of-them-gave",
-      "move": "none-gave",
-      "kind": "written",
-      "text": "You called {asked} people and none of them gave.",
-      "uses": [
-        {
-          "move": "none-gave",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "none-gave"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "none-gave"
-      }
-    },
-    {
-      "key": "donor-calls.none-gave.none-of-the-asked-people-you-called-gave-anything",
-      "move": "none-gave",
-      "kind": "written",
-      "text": "None of the {asked} people you called gave anything.",
-      "uses": [
-        {
-          "move": "none-gave",
-          "subject": "campaign",
-          "role": "fundraising",
-          "choice": "none-gave"
-        }
-      ],
-      "shippable": true,
-      "origin": "authored",
-      "author": "play-first lane",
-      "date": "2026-10-25",
-      "tag": {
-        "move": "deliver-news",
-        "key": "none-gave"
-      }
-    },
-    {
       "key": "donor-calls.grayed-calls-nobody.you-know-no-one-old-enough-to-ask-for-money-yet",
       "move": "grayed-calls-nobody",
       "kind": "written",
@@ -406,6 +318,94 @@
       "tag": {
         "move": "deliver-news",
         "key": "grayed-interview"
+      }
+    },
+    {
+      "key": "donor-calls.total.you-asked-asked-and-gave-gave-amount-in-all",
+      "move": "total",
+      "kind": "written",
+      "text": "You asked {asked}, and {gave} gave, {amount} in all.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "total"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      }
+    },
+    {
+      "key": "donor-calls.total.of-the-asked-you-asked-gave-gave-amount-in-all",
+      "move": "total",
+      "kind": "written",
+      "text": "Of the {asked} you asked, {gave} gave: {amount} in all.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "total"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      }
+    },
+    {
+      "key": "donor-calls.none-gave.you-asked-asked-and-none-gave-anything",
+      "move": "none-gave",
+      "kind": "written",
+      "text": "You asked {asked}, and none gave anything.",
+      "uses": [
+        {
+          "move": "none-gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "none-gave"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "none-gave"
+      }
+    },
+    {
+      "key": "donor-calls.none-gave.nobody-gave-anything-of-the-asked-you-asked",
+      "move": "none-gave",
+      "kind": "written",
+      "text": "Nobody gave anything, of the {asked} you asked.",
+      "uses": [
+        {
+          "move": "none-gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "none-gave"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "none-gave"
       }
     }
   ]

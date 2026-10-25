@@ -60,6 +60,7 @@ it("Call donors names each person reached with their gift or why not, and the ra
         }
       }
       if (!filing) continue;
+      tried++;
       const raisedOf = () =>
         campaignView(core as CoreState, candidate.id).campaigns.find(
           (c) => c.filing.id === filing!.id,
