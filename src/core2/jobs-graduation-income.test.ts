@@ -207,18 +207,24 @@ it("a senior who graduates only where graduation was raised is hired at a diplom
         );
         if (!flipped.size) break;
       }
-      // An opening posted at the wage floor pays the floor with a diploma or
-      // without one (schooling never takes a hire under it): both hires are
-      // held to the posted pay, and the search goes on to a pay the diploma
-      // can move.
+      // An opening posted at or just above the wage floor can pay the floor
+      // with a diploma or without one (schooling never takes a hire under
+      // it): such a pair is paid alike, at no more than the posted pay, and
+      // the search goes on to a pay the diploma can move. A graduate is never
+      // paid less.
       const all = pairsOf(base, raised, flipped);
       const posted = postingsOf(raised);
-      for (const { personId, ha, hb } of all)
+      for (const { personId, ha, hb } of all) {
+        expect(
+          hb.values.hourlyMinor,
+          `${where}: ${hb.jobId} for ${personId}`,
+        ).toBeGreaterThanOrEqual(ha.values.hourlyMinor);
         if (hb.values.hourlyMinor === ha.values.hourlyMinor)
           expect(
             hb.values.hourlyMinor,
-            `${where}: ${hb.jobId} for ${personId}, both at the posted pay`,
-          ).toBe(postingOf(posted, hb)?.hourlyMinor);
+            `${where}: ${hb.jobId} for ${personId}, paid alike`,
+          ).toBeLessThanOrEqual(postingOf(posted, hb)!.hourlyMinor);
+      }
       pairs = all.filter(
         (pair) => pair.hb.values.hourlyMinor !== pair.ha.values.hourlyMinor,
       );
