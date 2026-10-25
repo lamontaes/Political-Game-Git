@@ -8,7 +8,7 @@ size: S
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 source: added with npm run pool -- add
 ---
 
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/housing.ts, src/core2/housing-sale.ts, src/core2/housing-foreclosure.ts
 
 **Notes.** Found Oct 24 by the M0-13 lead's helper. A renter's tombstone has a last rent but no value, and the check at tests/golden-path/played-world.node-test.ts:774 reads valueMinor for every tenure other than rent, so a renter tombstone needs either a valueMinor of the home it was (the landlord's recorded value) or the spec to read rows with tenure rent, own only: the second is the M0-13 owner's call (OWNER DECISIONS NEEDED if the builder picks it).
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

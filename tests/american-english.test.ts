@@ -234,6 +234,12 @@ const ALLOWED_PHRASES: readonly {
       "the title of a real journal (Labour Economics, Elsevier), quoted in a research citation",
   },
   {
+    pattern:
+      /\bThe effect of public sector employment on local labour markets\b/g,
+    reason:
+      "the title of a real paper (Faggio and Overman 2014, Journal of Urban Economics), quoted in a research citation",
+  },
+  {
     pattern: /\bLabour Party\b/g,
     reason: "a real party name, if one is ever quoted",
   },
@@ -330,6 +336,11 @@ const ALLOWED_FILES: readonly {
     file: /^data\/research\/places\/local-institutions(?:\.json|\/[A-Z]{2}\.json)$/,
     reason:
       "real names of schools, hospitals, colleges and employers: Centre College, Sauk Centre, Long Prairie-Grey Eagle, Starr King School for the Ministry, Ward Melville High School",
+  },
+  {
+    file: /^data\/research\/world\/hud-hic-2025-beds-by-city\.json$/,
+    words: /^centre$/i,
+    reason: "HUD's city names as published: Rockville Centre, New York",
   },
   {
     file: /^src\/simulation\/municipal-seat-identity\.ts$/,

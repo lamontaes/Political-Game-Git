@@ -5,7 +5,7 @@ area: people
 kind: feature
 priority: 3
 size: M
-status: open
+status: done
 claimed-by:
 pr: #5749
 blocked-on:
@@ -32,3 +32,9 @@ Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): The earlie
 Sent back 2026-10-23 from PR #5749 (branch claude/provider-distance): provenance repair is present, but the carried unplanned-pregnancy feature covers only full people and its only tier-gap registry row is resolved; include the counted implementation or register the remaining gap as open and bound the scope; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): carried unplanned decision/travel TUNABLEs have unmeasured spreads and point to a resolved owner-decision row; check their sensitivity or register and mark the exact remaining calibration gap with open follow-up; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): five-weight calibration repair is present, but renewalTravelCostPerMileMinor still has an unmeasured estimated spread linked to the resolved owner-decision row; source its numeric range or register/mark this exact sixth cost estimate and its follow-up; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): checked b015eda19d, ordinary generated-world test renewal.test.ts:176 failed on fresh base 537cf8a8ef0da50d with zero natural unplanned plans in twelve 365-day worlds; mandatory isolated same-input repeat reproduced all twelve zero-plan results (1081.920s then 1069.351s), while paid-trip and player-exclusion checks passed; retain accepted IRS range/calibration/tier-gap repairs and repair the ordinary nonempty producer proof without seeded exposure or weaker assertions; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5749 (branch claude/provider-distance): checked 9bcddffe94 fixes the zero-plan proof, but fresh root e5578114fa35ac74 reproduces a paid-trip historical-law mismatch in East Kapolei at renewal.test.ts:72/261 (opening rule expected, 2025-02-05 HB 7 reread); isolated same-input repeat fails too, and decideUnplanned ignores asOf for the law while the fixture can pick an earlier natural pregnancy; preserve the law/miles and positive journal assertions and accepted prior repairs; finish on that branch, merge main into it first.

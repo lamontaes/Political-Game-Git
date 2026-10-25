@@ -70,33 +70,42 @@ beforeAll(() => {
 const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
 
 describe("interest-groups.member-join reads the resident's calibrated lean toward joining", () => {
-  it("the residents who joined a group lean more toward joining than the town's adults who did not", () => {
+  // At a weight of 0.115 most of who joins in a played town is how hard the
+  // question pulls each resident and who they know in the group, so the
+  // joiners' mean lean against everyone else's measures those, not the trait.
+  // In one case, temperament decides the close calls at the decision's weight.
+  it("the town's adults facing the same pull just under the bar join exactly when their lean at the decision's weight carries them over", () => {
     const residents = groups.filter((g) => (g.memberPersonIds ?? []).length);
     console.log(`groups of residents: ${residents.length}`);
     expect(residents.length).toBeGreaterThan(0);
-    const members = new Set(residents.flatMap((g) => g.memberPersonIds ?? []));
-    const lean = (id: string) =>
-      decisionLean(
+    const weight = weightOf(core, "interest-groups.member-join");
+    const short = 0.02;
+    const pull = campaignParameter("groupJoinBar") - short;
+    const year = Number(core.date.slice(0, 4));
+    const adults = [...core.people.values()].filter(
+      (p) => p.alive && year - Number(p.birthDate.slice(0, 4)) >= 18,
+    );
+    const rows = adults.map((p) => ({
+      lean: decisionLean(
         core,
-        core.people.get(id)!,
+        p,
         "interest-groups.member-join",
         "join",
         "stay-out",
-      );
-    const year = Number(core.date.slice(0, 4));
-    const outsiders = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          !members.has(p.id) &&
-          year - Number(p.birthDate.slice(0, 4)) >= 18,
-      )
-      .map((p) => lean(p.id));
-    const joined = [...members].filter((id) => core.people.has(id)).map(lean);
+      ),
+      joins: joinsGroup(api, p, pull, false, 0),
+    }));
+    const joined = rows.filter((r) => r.joins).map((r) => r.lean);
+    const stayed = rows.filter((r) => !r.joins).map((r) => r.lean);
     console.log(
-      `joined: ${joined.length}, mean lean ${mean(joined).toFixed(3)}; adults who did not: ${outsiders.length}, ${mean(outsiders).toFixed(3)}`,
+      `at a pull ${short} under the bar, weight ${weight}: ${joined.length} of ${rows.length} adults join (mean lean ${mean(joined).toFixed(3)}), ${stayed.length} stay out (${mean(stayed).toFixed(3)})`,
     );
-    expect(mean(joined)).toBeGreaterThan(mean(outsiders));
+    // Both sides are present, and the lean alone separates them at the weight.
+    expect(joined.length).toBeGreaterThan(0);
+    expect(stayed.length).toBeGreaterThan(0);
+    for (const r of rows) expect(r.joins).toBe(weight * r.lean > short);
+    // With the trait weight at 0 nobody joins on a pull under the bar.
+    expect(weight).toBeGreaterThan(0);
   });
 });
 

@@ -95,15 +95,31 @@ export function openBenchFilingVisit(
   minuteOfDay: number,
 ): BenchFilingVisit {
   const api = coreAPI(core);
-  const contests = openContests(api)
-    .filter((row) => filingOfficeFor(api, row.id).filedWith === filedWith)
-    .map((row) => ({
+  const open = openContests(api).filter(
+    (row) => filingOfficeFor(api, row.id).filedWith === filedWith,
+  );
+  // Contests are told apart by their own records, in one parenthesis: a
+  // seat's district; the year of election, where seats of the same title
+  // are elected in different years (a state's two Senate seats); and the
+  // seat's place among those of its body elected the same day at large.
+  const titled = open.map((row) => `${row.title}|${row.district ?? ""}`);
+  const yearOf = (i: number) => open[i]!.electionDate.slice(0, 4);
+  const contests = open.map((row, i) => {
+    const same = titled.flatMap((t, j) => (t === titled[i] ? [j] : []));
+    const years = new Set(same.map(yearOf));
+    const sameYear = same.filter((j) => yearOf(j) === yearOf(i));
+    const parts = [
+      ...(row.district ? [row.district] : []),
+      ...(years.size > 1 ? [yearOf(i)] : []),
+      ...(sameYear.length > 1 ? [String(sameYear.indexOf(i) + 1)] : []),
+    ];
+    return {
       id: row.id,
-      // Seats elected by district are told apart by their district record.
-      title: row.district ? `${row.title} (${row.district})` : row.title,
+      title: parts.length ? `${row.title} (${parts.join(", ")})` : row.title,
       filingDeadline: row.filingDeadline,
       sourceIds: row.sources,
-    }));
+    };
+  });
   if (!contests.length) throw new Error("No open contest files there.");
   // The clerk the contest's filing office records name (none for a state or federal counter).
   const clerk = filingClerkFor(api, contests[0]!.id)?.personId;
