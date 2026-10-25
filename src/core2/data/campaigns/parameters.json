@@ -49,10 +49,10 @@
       "spread": [0.05, 0.3]
     },
     "secondhandWeight": {
-      "value": 0.3,
+      "value": 0.28,
       "tag": "TUNABLE",
-      "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.65 times). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
-      "spread": [0.18, 0.42]
+      "source": "Share of a first-hand impression that a retelling passes on to family and friends before the teller's personality, which multiplies it by 1 plus the calibrated campaigns.retell weight times their lean (a town average of 1.77 times at the retell weight of 5.8, Newfane, Vermont, seed c1, adults at the opening; 1.65 at the earlier 4.9). Set to 0.5 divided by that average so the town's mean second-hand reach stays where Katz and Lazarsfeld 1955 and Nickerson 2008 (60% of a canvassing turnout effect passed to housemates) put it.",
+      "spread": [0.17, 0.39]
     },
     "donationShareOfCashPerWarmth": {
       "value": 0.01,
@@ -107,6 +107,12 @@
       "tag": "ESTIMATED",
       "source": "Hours a candidate without a job spends knocking doors on a campaign day: two shifts.",
       "spread": [3, 6]
+    },
+    "rivalHoursLeanShare": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How far a candidate's own inclination to campaign slides their door hours around the base, as a share of it: at 0.5 the least campaign-minded walks half the base hours and the most walks one and a half times. Below 1 so that no one's hours reach zero.",
+      "spread": [0.25, 0.75]
     },
     "minimumVolunteerAge": {
       "value": 16,
@@ -353,6 +359,24 @@
       "tag": "TUNABLE",
       "source": "How strongly a resident must be moved (their grievance with a member's vote plus the weighted trait lean between organizing and leaving it, about -1 to 1 on the shared trait scale, recalls.organize) before taking on a recall petition drive. Checked against local recall frequency: Ballotpedia counts about 150 to 250 local recall efforts a year across roughly 90,000 local governments.",
       "spread": [0.3, 1]
+    },
+    "recallMisconductWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How much a recorded charge or press exposure of a serving local official weighs with a resident who heard of it, toward organizing, signing a recall petition and voting to remove: on the same scale as an ordinance grievance (-1 to 1), so misconduct heard of counts as fully as the strongest disagreement with a vote.",
+      "spread": [0.5, 1.5]
+    },
+    "recallMisconductBar": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "What a petition or a removal over misconduct asks of anyone before they act on it, whatever their temperament: with the weight at 1, someone who heard of it and is not close to the official is halfway past the bar, and their lean decides the rest.",
+      "spread": [0.25, 0.75]
+    },
+    "recallMisconductNewsDays": {
+      "value": 14,
+      "tag": "TUNABLE",
+      "source": "Days after a charge or an exposure is recorded before the town weighs a petition over it, for the news to reach residents through the press and their talk.",
+      "spread": [7, 30]
     },
     "recallElectionDays": {
       "value": 75,

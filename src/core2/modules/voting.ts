@@ -1855,6 +1855,9 @@ const PLACES_SOURCE =
  * voters need at the national count of voters per voting location, each in
  * the town government's building where the records hold one.
  */
+/** The classification a town's own government is recorded under. */
+const MUNICIPAL_GOVERNMENT = "service:municipal-government";
+
 export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
   const rows = table(api, "pollingPlaces");
   if (rows.size)
@@ -1869,16 +1872,14 @@ export function pollingPlaces(api: CoreAPI): readonly PollingPlaceRow[] {
     Math.ceil(voters / electionsParameter("votersPerVotingLocation")),
   );
   const core = api.state as CoreState;
+  // The town's own government, recorded as the disasters engine and the law
+  // reach read it; a place with none on record has no building yet.
   const building =
     [...core.organizations.values()]
       .filter(
         (o) =>
           o.placeId === townPlaceId &&
-          ((o as { classification?: string }).classification?.startsWith(
-            "government:",
-          ) ||
-            o.kind === "government" ||
-            o.kind === "local-government"),
+          o.classification === MUNICIPAL_GOVERNMENT,
       )
       .map((o) => o.id)
       .sort()[0] ?? null;
@@ -2517,8 +2518,18 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput;
+  // A holdover needs someone to hold over: a seat no one holds (an office
+  // its law created since the last election) is vacant.
+  const method =
+    row.method === "holdover" &&
+    !api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", [contest.seatId, "serving"]).length
+      ? "vacancy"
+      : row.method;
   const vacancy =
-    row.method === "vacancy"
+    method === "vacancy"
       ? unfilledTerm(
           api,
           contest.seatId,
@@ -2537,6 +2548,7 @@ export function resolveEmptyRace(api: CoreAPI, contestId: string): void {
       : null;
   table(api, "emptyRaces").put({
     ...row,
+    method,
     status: "resolved",
     resolvedOn: api.state.date,
     vacancyId: vacancy?.id ?? repeated?.id ?? null,

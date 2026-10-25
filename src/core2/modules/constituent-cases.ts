@@ -242,6 +242,15 @@ export function bringCases(api: CoreAPI): void {
     if (recent(person.id)) continue;
     const problem = problemOf(api, person);
     if (!problem) continue;
+    // A wage complaint under the federal floor goes to the town's members of
+    // Congress; every other problem goes to the officials nearest to home.
+    // With no one to hear it there is nothing to weigh.
+    const federalFloor =
+      problem.problem === "paid-under-minimum-wage" &&
+      federal.length > 0 &&
+      lawInForce(api, "minimum-wage").governing?.level === "federal";
+    const pool = federalFloor ? federal : local;
+    if (!pool.length) continue;
     if (
       !leanedYes(
         api.state,
@@ -256,14 +265,6 @@ export function bringCases(api: CoreAPI): void {
       )
     )
       continue;
-    // A wage complaint under the federal floor goes to the town's members of
-    // Congress; every other problem goes to the officials nearest to home.
-    const federalFloor =
-      problem.problem === "paid-under-minimum-wage" &&
-      federal.length > 0 &&
-      lawInForce(api, "minimum-wage").governing?.level === "federal";
-    const pool = federalFloor ? federal : local;
-    if (!pool.length) continue;
     bringCase(api, person, problem, pool, town);
   }
   // The wider population brings problems from the same records: a counted
