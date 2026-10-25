@@ -327,6 +327,11 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   eligibilityRules: {
+    // An office is approached through its staff. A plan made while it had
+    // staff lapses if the last of them has gone by the day it is carried out.
+    "office-staffed": (api, _actor, chosen) =>
+      (api.state.publicOrganizations.get(chosen.targetId)?.staff?.length ??
+        zero(api)) > zero(api),
     "not-member": (api, actor, chosen) =>
       !api.state.memberships.has(`${actor.id}:${chosen.targetId}`),
     "has-drive": (_api, actor, chosen) =>

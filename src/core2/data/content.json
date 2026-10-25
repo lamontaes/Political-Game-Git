@@ -182,6 +182,9 @@
         },
         {
           "operation": "has-organized-topic"
+        },
+        {
+          "operation": "office-staffed"
         }
       ],
       "stopgapId": "SG-P8-civic-progress",
