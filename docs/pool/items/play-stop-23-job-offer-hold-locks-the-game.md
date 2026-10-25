@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-23-job-offer-hold-locks-the-game
 pr: #5971
 blocked-on:
