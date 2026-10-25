@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: blocked
 claimed-by: claude/unemployment-scope
 pr:
-blocked-on:
+blocked-on: world-unemployment-rate-names-its-area
 source: added with npm run pool -- add
 lead: effects
 milestone: play-first
