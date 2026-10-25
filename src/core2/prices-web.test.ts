@@ -13,7 +13,9 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import type { CoreState } from "./types";
+import { enactLaw, lawChain } from "./modules/laws";
 import { monthlyChange } from "./modules/place-prices";
+import { coreAPI } from "./state";
 
 const held = vi.hoisted(() => ({ factors: {} as Record<string, number> }));
 const reachOf = (measure: string, subject?: { incomeFifth?: number }) => {
@@ -83,6 +85,49 @@ const webReceipts = (core: CoreState, good: string) =>
         r.sourceRef.id.includes(":web:"),
     )
     .map((r) => JSON.stringify(r.postings));
+
+const MILEAGE =
+  "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax";
+
+/** Every payment the mileage fee's rule made in a played stretch: what households paid the law's payee and what came back in fuel tax. */
+function mileageMoney(factor: number, days: number) {
+  held.factors = { "traffic.vehicle-miles": factor };
+  const opening = gameStartDate();
+  const world = buildBenchWorld(seed, opening, {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(world.core);
+  for (const level of lawChain(api).levels)
+    enactLaw(api, {
+      jurisdiction: level.jurisdiction,
+      level: level.level,
+      series: MILEAGE,
+      value: 1,
+      effectiveDate: api.state.date,
+      measureId: `test:web-miles:${MILEAGE}:1`,
+      citation: "Controlled law case in a generated stretch.",
+    });
+  advanceCore(world.core, addDays(makeIsoDate(opening), days));
+  let paid = 0,
+    refunded = 0,
+    posts = 0;
+  for (const r of world.core.cashJournal.detailedReceipts.values()) {
+    if (
+      !r.sourceRef.id.startsWith("price:") ||
+      !r.sourceRef.id.includes(":vehicle-miles:")
+    )
+      continue;
+    posts += 1;
+    for (const p of r.postings) {
+      // The household's account is the one money leaves for the payee and enters from the outside.
+      if (r.sourceRef.id.endsWith(":refund"))
+        refunded += Math.abs(p.deltaMinor);
+      else paid += Math.abs(p.deltaMinor);
+    }
+  }
+  return { paid, refunded, posts };
+}
 
 const prices = (core: CoreState) =>
   new Map(
@@ -154,6 +199,25 @@ describe(`prices and place services take the web's factor (${place.name}, seed $
       webReceipts(c, "transit-fare"),
     );
     expect(receipts.length).toBeGreaterThan(0);
+  }, 600_000);
+
+  it("a mileage fee is charged on the miles the web says households drive", () => {
+    const rule = {
+      good: "vehicle-miles",
+      kind: "per-unit",
+      value: 2,
+      replacesFuelTax: true,
+    } as const;
+    const flat = monthlyChange(rule, 1, 2, {});
+    const more = monthlyChange(rule, 1, 2, { miles: 1.1 });
+    expect(more.payMinor).toBeCloseTo(flat.payMinor * 1.1, 6);
+    expect(more.refundMinor).toBeCloseTo(flat.refundMinor * 1.1, 6);
+    // In a played stretch the same households are billed in proportion.
+    const base = mileageMoney(1, 75);
+    const wider = mileageMoney(1.1, 75);
+    expect(base.posts, "the fee billed nobody").toBeGreaterThan(0);
+    expect(wider.paid / base.paid).toBeGreaterThan(1.05);
+    expect(wider.paid / base.paid).toBeLessThan(1.15);
   }, 600_000);
 
   it("a fare-free price takes the extra trips for free and refunds only the old trips", () => {

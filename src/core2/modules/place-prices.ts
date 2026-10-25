@@ -275,8 +275,8 @@ export function monthlyChange(
   >,
   scale: number,
   persons: number,
-  /** What the outcome web carries into this household's use: trips taken and the share subscribing, each against its own base. */
-  web: { trips?: number; subscribe?: number } = {},
+  /** What the outcome web carries into this household's use: trips taken, the share subscribing and the miles driven, each against its own base. */
+  web: { trips?: number; subscribe?: number; miles?: number } = {},
 ): { payMinor: number; refundMinor: number } {
   const g = goods.goods;
   switch (rule.kind) {
@@ -301,8 +301,11 @@ export function monthlyChange(
     }
     case "per-unit": {
       if (rule.good === "vehicle-miles") {
+        // The miles the household drives are the average household's, scaled
+        // by its pay and by the web's factor on miles driven per resident
+        // (the fee against the fuel tax it replaces moves the cost of a mile).
         const v = g["vehicle-miles"],
-          miles = (v.milesPerHouseholdYear * scale) / MONTHS;
+          miles = (v.milesPerHouseholdYear * scale * (web.miles ?? 1)) / MONTHS;
         return {
           payMinor: miles * rule.value,
           refundMinor: rule.replacesFuelTax
@@ -871,8 +874,8 @@ function webUse(
   api: CoreAPI,
   rule: Rule,
   subject: Subject,
-): { rule: Rule; trips: number; subscribe: number } {
-  const same = { rule, trips: 1, subscribe: 1 };
+): { rule: Rule; trips: number; subscribe: number; miles: number } {
+  const same = { rule, trips: 1, subscribe: 1, miles: 1 };
   if (rule.good === "electricity" && rule.kind === "share") {
     const reach = webReach(
       api,
@@ -901,6 +904,12 @@ function webUse(
     return {
       ...same,
       subscribe: webReach(api, rule.placeId, "broadband.home-access", subject)
+        .factor,
+    };
+  if (rule.good === "vehicle-miles" && rule.kind === "per-unit")
+    return {
+      ...same,
+      miles: webReach(api, rule.placeId, "traffic.vehicle-miles", subject)
         .factor,
     };
   return same;

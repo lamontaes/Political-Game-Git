@@ -2,11 +2,6 @@
   "about": "Laws that have no researched outcome-web link in data/research/outcome-web/links.json, neither from the law itself nor from a measure an engine sets from it, and the outcome the research would measure. Each carries the stopgap that registers the gap; read by scripts/law-wiring/catalog.ts for the law-wiring matrix. The research belongs to the outcome-web line (pool item laws-outcome-links-unresearched).",
   "laws": [
     {
-      "key": "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
-      "outcome": "vehicle miles traveled and fuel use",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "medicare-tax",
       "outcome": "take-home pay and labor supply",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
