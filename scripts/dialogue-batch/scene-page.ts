@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- module rows are read untyped by this tooling */
 /**
- * Batch 13: scenes with a purpose (owner, Oct 15, evening: "what a scene
- * is"). Development tooling; nothing here words anything.
+ * Batch 13: scenes with a purpose. Development tooling; nothing here words anything.
  *
  *   OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" \
  *   npm run words:scenes -- --id batch-13 --cache /tmp/claude-0/batch-12.cache \
@@ -1417,7 +1416,7 @@ for (const [typeKey, label] of [
       askerId,
       askedId,
       {
-        // "the Town of Briarcliffe Acres treasury", not "Town of ... treasury".
+        // "the Town of Briarcliffe Acres treasury", not "Town of... treasury".
         office: fact(
           /\s[a-z]/.test(properName(org.name))
             ? `the ${properName(org.name)}`

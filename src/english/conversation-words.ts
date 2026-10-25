@@ -5,8 +5,7 @@
  * and what the records give it; this file picks, from every mined wording of
  * that move, the ones that fit the person spoken of and the facts the moment
  * has, renders one in the speaker's voice, and says whether the line asks a
- * question and whether it is said after a plain answer (CTO, Oct 19: two
- * layers under one contract).
+ * question and whether it is said after a plain answer.
  */
 import { P } from "../core2/parameters";
 import type { PersonId } from "../core2/types";
@@ -36,7 +35,7 @@ export interface Move {
   pronoun?: "he" | "she" | "they";
   /** A bare question turned back ("And you?"), said after the plain answer. */
   afterPlain?: boolean;
-  /** The manner the wording carries (tender, guarded, ...), from the bank. */
+  /** The manner the wording carries (tender, guarded,...), from the bank. */
   bearing?: string;
 }
 export interface SubjectBank {

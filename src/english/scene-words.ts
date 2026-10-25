@@ -3,8 +3,7 @@
  * (`composeScene` in `src/director/scene.ts`) says which line the narrator
  * gives (the day, the setting, who is there, what is happening, how the scene
  * opens, what led here), with the facts from the records; this file picks the
- * mined sentence that words it and renders it (CTO, Oct 19: two layers under
- * one contract).
+ * mined sentence that words it and renders it.
  */
 import { P } from "../core2/parameters";
 import type { PersonId } from "../core2/types";

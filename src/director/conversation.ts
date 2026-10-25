@@ -19,7 +19,7 @@
  * Every line is a mined sentence (`./mined/conversation-bank.ts`); a moment no
  * mined sentence covers is left unsaid.
  *
- * What a talk is about (owner, Oct 14, 2026, night): it starts from the place
+ * What a talk is about: it starts from the place
  * and the occasion, then from the biggest recorded event of either person in
  * the director's ledger, else from what they share; it keeps to that one
  * topic, may go on to one related topic, and the other person closes it when
@@ -104,7 +104,7 @@ export interface ConversationData {
   tells?: Readonly<Record<string, Readonly<Record<string, string>>>>;
   /** The ledger labels, by prefix, that are something happening to a person. */
   happenings?: { prefixes: readonly string[] };
-  /** The subject kinds relatives do not raise or ask between them (owner, Oct 15, evening). */
+  /** The subject kinds relatives do not raise or ask between them. */
   familyTalk: { dropped: readonly string[] };
   /** What the player answers when the other person raises one of their own subjects. */
   otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
@@ -572,7 +572,7 @@ export function subjectsBetween(
 ): Subject[] {
   const speaker = core.people.get(speakerId)!;
   // Someone not in the room is talked about only when something recorded
-  // happened to them lately (owner, Oct 14, 2026, night: no cold "How is X?").
+  // happened to them lately.
   const happened = (id: PersonId) =>
     !!latestMoment(core, director, speakerId, id);
   const listener = core.people.get(listenerId)!;
@@ -646,7 +646,7 @@ export function subjectsBetween(
   }
   // A new job of the speaker's own, from the money moment of its start: the
   // job record names the employer, so the talk opens on it ("I got a job at
-  // ..."), and the listener answers (congratulate, ask, brief).
+  //..."), and the listener answers (congratulate, ask, brief).
   const started = recentMoments(core, director, speakerId).find(
     (moment) =>
       moment.label === "money:job-started" && !moment.counterpartIds.length,
@@ -668,7 +668,7 @@ export function subjectsBetween(
       },
     });
   // The listener's own new job, as the speaker would take it up ("Congratulations
-  // on the job at ..."). Said only once the rules map "job-new-told" to a
+  // on the job at..."). Said only once the rules map "job-new-told" to a
   // reply kind and the bank has words for it (src/director/data/conversation-rules.json).
   const listenerStarted = recentMoments(core, director, listenerId).find(
     (moment) =>
@@ -968,7 +968,7 @@ export function subjectsBetween(
         },
       },
     });
-  // Between relatives, a talk is personal only (owner, Oct 15, evening).
+  // Between relatives, a talk is personal only.
   if (speaker.familyIds.has(listenerId))
     return out.filter(
       (row) => !CONVERSATION_RULES.familyTalk.dropped.includes(row.kind),
@@ -1485,7 +1485,7 @@ function mainTopic(
   const { playerId, otherId, director } = conversation;
   let best: { subject: Subject; asks: boolean; weight: number } | null = null;
   // The occasion comes first: a talk a scene opens is about the scene's
-  // moment (owner, Oct 14, 2026, night: the place and the occasion).
+  // moment.
   const occasion = conversation.occasion;
   const consider = (subject: Subject, asks: boolean, holderId: PersonId) => {
     if (
@@ -1956,7 +1956,7 @@ function offerChoices(
   offer("");
   // Four replies that each answer the line: where a move's wordings collided
   // ("Of course." said twice), another wording of a move stands in for it,
-  // never an acknowledgment (owner, Oct 15).
+  // never an acknowledgment.
   for (
     let again = one;
     again <= P.two + one && conversation.choices.length < wanted;
@@ -1964,7 +1964,7 @@ function offerChoices(
   )
     offer(`:more${again}`);
   // "Okay." and "All right." take in a statement; they are not an answer to a
-  // question ("How's Keanu?"), and each reply moves the talk (owner, Oct 15).
+  // question ("How's Keanu?"), and each reply moves the talk.
   const question = conversation.lines.at(-one);
   // A bare "Okay." never answers bad news either: it does not continue the talk.
   if (
@@ -1993,8 +1993,7 @@ function offerChoices(
 }
 
 /**
- * The four replies a turn offers (owner, Oct 14: "four dynamic choices,
- * always"), ranked by the player's traits: someone who carries talk on sees
+ * The four replies a turn offers, ranked by the player's traits: someone who carries talk on sees
  * the replies that raise or ask first, someone who keeps it short sees plain
  * answers and acknowledgments first. Different moves come before a second
  * wording of the same move. "Say nothing" is a control beside them

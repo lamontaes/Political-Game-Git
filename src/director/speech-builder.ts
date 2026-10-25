@@ -1,6 +1,5 @@
 /**
- * A speech the player builds as they give it (owner, Oct 15, evening: the
- * Suzerain example). Four stages, four choices at each: a short opener, two
+ * A speech the player builds as they give it. Four stages, four choices at each: a short opener, two
  * longer parts at the core on different subjects, and a short closer. The
  * subjects are the speaker's own: the stands they hold (the views engine's
  * stances, named as the bill catalog names them), their work, their town,

@@ -3,8 +3,7 @@
  * (`src/director/bring-it-up.ts`) decides which change a person mentions and
  * whom they believe caused it, from what they heard and saw; this file picks
  * the mined sentence that says the change, and the one that says the blame,
- * and renders them in the speaker's voice (CTO, Oct 19: two layers under one
- * contract).
+ * and renders them in the speaker's voice.
  */
 import type { PersonId } from "../core2/types";
 import {

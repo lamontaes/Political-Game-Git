@@ -1,10 +1,8 @@
 /**
- * The English engine's half of the speech the player builds (owner, Oct 15:
- * the Suzerain example): the authored pieces of
+ * The English engine's half of the speech the player builds: the authored pieces of
  * `data/english/parts/speech-stages.json`, by stage role, that a speech may
  * be worded from. The director's speech builder says which stage and subject
- * comes next and fills the facts; it never reads the bank (CTO, Oct 19: two
- * layers under one contract). Pieces the owner's grades hold back are left
+ * comes next and fills the facts; it never reads the bank. Pieces the owner's grades hold back are left
  * out.
  */
 import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
@@ -31,7 +29,7 @@ const BANK = stagesJson as unknown as { parts: BankPart[] };
 export const SPEECH_STAGES_VERSION = "words-speech-stages-v1";
 
 /**
- * The pieces that may word one stage role ("opener", "core:work", ...), as
+ * The pieces that may word one stage role ("opener", "core:work",...), as
  * renderer variants. Play offers only shipped pieces. A grading page
  * (`heldFirst`) offers the held ones wherever one fits, so the owner hears
  * each in a real speech; a stage no held piece fits keeps its shipped pieces.

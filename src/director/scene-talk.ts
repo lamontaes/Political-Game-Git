@@ -1,9 +1,8 @@
 /**
- * The exchange engine for scenes with a purpose (owner, Oct 15, evening,
- * "what a scene is"; Oct 15, night: scenes are trees). A setup, a person with
+ * The exchange engine for scenes with a purpose. A setup, a person with
  * a purpose, stakes, and an exchange that plays to resolved or refused, with
  * a branch for each thing the player might say. It words nothing itself and
- * never reads a bank (CTO, Oct 19: two layers under one contract): it says
+ * never reads a bank: it says
  * which move each turn makes, who makes it, the line it answers and the facts
  * on record, and the English engine (`src/english/scene-talk-words.ts`) picks
  * the piece and words it in the speaker's voice.
@@ -124,7 +123,7 @@ export interface SceneTalkLine {
   move: string;
   register: "scene-talk";
   bearing?: string;
-  /** The situation's key (vote-wanted, favor-asked, ...). */
+  /** The situation's key (vote-wanted, favor-asked,...). */
   key: string;
   purpose: string;
   /** How deep in the exchange it is (0 for the setup and the open). */

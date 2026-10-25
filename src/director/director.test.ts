@@ -515,7 +515,7 @@ describe("story director on the new core", () => {
     const types = SITUATION_LIBRARY.types;
     // 32, plus the justice engine's hearing and verdict (OPUS-GOV, October 14,
     // 2026), plus the 15 civic moments inside the engines' procedures (a race
-    // won or lost, a floor vote, a signing, ...; words work order, Oct 15),
+    // won or lost, a floor vote, a signing,...; words work order, Oct 15),
     // each waiting for the director's producer, plus the 14 scenes with a
     // purpose (owner, Oct 15, evening: a vote asked, a yes withdrawn, a bill
     // to carry, a donor, the party, office hours, family, a rally, the desk,
@@ -568,7 +568,7 @@ describe("story director on the new core", () => {
     )!;
     // The spouse's share of the same loss, 0.431, is under the line, but a
     // household member's lost job is a family scene at home whatever its size
-    // (owner, Oct 14, 2026, night).
+    //.
     expect(spouseEntry.outcome).toBe("scene-now");
     const heard = spouseEntry.bindings.find(
       (row) => row.typeKey === "news-arrives",
@@ -763,7 +763,7 @@ describe("story director on the new core", () => {
       modules: [fixtureWorld("place:director-fixture"), filtered.module],
     });
     filtered.start(core);
-    // The player allows only funerals to stop their day (owner, Oct 14, 2026).
+    // The player allows only funerals to stop their day.
     const record = filtered.setSceneFilter(
       "person:worker",
       ["funeral", "not-a-kind"],
@@ -1133,7 +1133,7 @@ describe("story director on the new core", () => {
 
     // The spouse's 0.431 share of the same loss is under the line, but a
     // household member's lost job is a family scene at home whatever its
-    // size (owner, Oct 14, 2026, night): it stops the spouse's day too.
+    // size: it stops the spouse's day too.
     const spouse = play("person:spouse");
     expect(
       spouse.stops.filter((packet) =>

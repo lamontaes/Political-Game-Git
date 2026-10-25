@@ -183,7 +183,7 @@ export function composeScene(
   // son") are said by their given names instead, so each is someone.
   // Only the people the scene is about are named: the one who opens it and
   // whoever its record names, never a roll call of everyone in the house
-  // (batch 11: "Timothy, your daughter, Ahmad, your father, ... are here.").
+  // (batch 11: "Timothy, your daughter, Ahmad, your father,... are here.").
   const opener = binding.roles.find((row) => row.role === binding.opener);
   const about = new Set<string>([
     ...(opener?.personIds ?? []),
@@ -300,7 +300,7 @@ export function composeScene(
   if (opening) sentences.push(opening);
 
   // The sentences are one paragraph, so the narrator sets the scene before
-  // anyone speaks (owner, Oct 15: two short lines do not set a scene).
+  // anyone speaks.
   const narration: SceneLine[] = sentences.length
     ? [
         {

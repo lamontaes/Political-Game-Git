@@ -373,7 +373,7 @@ export function composeJournal(
         };
         // A relative with their name, so a line carries its subject ("My
         // daughter Jane was born."; owner, Oct 15, evening).
-        // With the name said, two daughters are each "my daughter ...".
+        // With the name said, two daughters are each "my daughter...".
         const relation = kin.get(otherId);
         const phrase = relation
           ? relationPhrase(
@@ -434,7 +434,7 @@ export function composeJournal(
 
   const chapters: JournalChapter[] = [];
   // Where life happened (a school, a job): never a chapter or an entry, only
-  // where the person knew someone who matters later (owner, Oct 14).
+  // where the person knew someone who matters later.
   const settingFactIds: string[] = [];
   const employerIds: string[] = [];
   let chapter: (typeof chapters)[number] | undefined;
@@ -672,7 +672,7 @@ export function composeJournal(
         row.counterpartIds.some((id) => moment.counterpartIds.includes(id)),
     );
     // "That was a turning point" only when the record shows one: a later
-    // chapter of another kind opened in this life (owner, Oct 15).
+    // chapter of another kind opened in this life.
     const turned =
       !!row.turn &&
       stories.some((story) => {
@@ -683,7 +683,7 @@ export function composeJournal(
           next.kindPrefix !== row.kindPrefix
         );
       });
-    // Revised by what came after (owner, Oct 15: a memoir with hindsight):
+    // Revised by what came after:
     // an entry told as small, and since grown by the same person coming back,
     // is looked back on in the entry that echoes it. Only when the record
     // shows it: the earlier entry's weight then, against its weight now.
@@ -838,7 +838,7 @@ export function composeJournal(
   }
 
   // A law or a broad event is told only when the person had a part in it
-  // (owner, Oct 14: "The bill passed" is not a chapter about a son).
+  //.
   for (const entry of book.backdrop) {
     if (entry.date > through) continue;
     const rule = journalBackdrop(entry.kind, words);

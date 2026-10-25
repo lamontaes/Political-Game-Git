@@ -5,8 +5,7 @@
  * says how: it picks the mined sentence for each line the director names (the
  * event for whose it was, a chapter's title, a memoir's framing and
  * look-backs, a broad event that reached the person), renders it from the
- * record facts, and names relatives the way the person would (CTO, Oct 19:
- * two layers under one contract).
+ * record facts, and names relatives the way the person would.
  */
 import { P } from "../core2/parameters";
 import type { PersonId } from "../core2/types";
@@ -126,7 +125,7 @@ export interface JournalWords {
     /** Said only when a later chapter of another kind opened. */
     turning?: readonly string[];
   }>;
-  /** The memoir's framing and look-back sentences, by field (whenAge, hook, remember, ...). */
+  /** The memoir's framing and look-back sentences, by field (whenAge, hook, remember,...). */
   memoir?: Readonly<Record<string, readonly { key: string; text: string }[]>>;
   /** Broad events that reached the person, written as lines in their story. */
   backdropLines?: readonly {

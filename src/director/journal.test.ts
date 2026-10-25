@@ -247,7 +247,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
       row.lines.map((line) => line.text),
     );
     // No mined sentence says a raise, so the raise's own line is left out;
-    // a law the person had no part in is not their story (owner, Oct 14).
+    // a law the person had no part in is not their story.
     expect(text.some((line) => /pay|\$15/.test(line))).toBe(false);
     expect(text).not.toContain("The bill passed.");
   });

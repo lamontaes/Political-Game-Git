@@ -4,7 +4,7 @@
  * makes (the clerk's greeting, the office the player names, the terms, a rule
  * that stops the filing, the player's answer), who says it and the facts from
  * the records; this file picks the mined clerk sentence that words it and
- * renders it (CTO, Oct 19: two layers under one contract).
+ * renders it.
  */
 import type { PersonId } from "../core2/types";
 import {

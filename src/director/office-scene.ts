@@ -1,6 +1,5 @@
 /**
- * The office scene (owner, Oct 14, 2026: scenes carry the consequential
- * dialogue): a floor vote where the goal is one member's vote. When the
+ * The office scene: a floor vote where the goal is one member's vote. When the
  * controlled person sits on the body taking up a bill, the scene finds the
  * one colleague whose recorded position is nearest the controlled person's
  * side while still against it, and offers what the player can do about it:

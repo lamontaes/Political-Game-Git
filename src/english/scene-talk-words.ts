@@ -1,6 +1,5 @@
 /**
- * The English engine's half of a scene with a purpose (CTO, Oct 19: the
- * director and the English engine are two layers under one contract). The
+ * The English engine's half of a scene with a purpose. The
  * director says what is happening: the purpose, the situation key, who speaks,
  * the move each turn makes, the line it answers and the facts on record. This
  * module says how: it holds the scene-talk bank

@@ -12,7 +12,7 @@ import type { Fact } from "../english/scene-talk-words";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 
-// Scenes with a purpose (owner, Oct 15, evening): a setup, a person with a
+// Scenes with a purpose: a setup, a person with a
 // purpose, stakes, and an exchange that plays to resolved or refused, worded
 // only from data/english/parts/scene-talk.json.
 const seed = process.env.GOLDEN_PATH_SEED ?? "scene-talk-test";

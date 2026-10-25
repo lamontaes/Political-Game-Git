@@ -123,11 +123,11 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
         expect(last.kind).not.toBe("ack");
-        // Four replies, always (owner, Oct 14), each saying something else.
+        // Four replies, always, each saying something else.
         const texts = talk.choices.map((row) => row.text);
         // An acknowledgment ("Okay.", "All right.") takes in a statement; it
         // is never a reply to a question, which every reply moves on
-        // (owner, Oct 15). Where a question has fewer than four real
+        //. Where a question has fewer than four real
         // wordings in its stage ("Where did you go to school?"), it gets
         // fewer, never a filler.
         const questioned = last.act === "ask" || /\?$/.test(last.text);
@@ -161,7 +161,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
     }
     // Relatives talk personal subjects only and often have nothing to say
-    // (owner, Oct 15, evening), so fewer turns run than before.
+    //, so fewer turns run than before.
     expect(turns).toBeGreaterThan(8);
   });
 
@@ -222,7 +222,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     const texts = talk.lies.map((row) => row.text);
     expect(new Set(texts).size).toBe(texts.length);
     // A lie about work is a denial or a believable false alternative; a lie
-    // about where the player is from always names another place (owner, Oct 15).
+    // about where the player is from always names another place.
     const kinds = new Set(talk.lies.map((row) => row.key.split(":")[2]));
     if (opening(talk).kind.startsWith("own-work")) expect(kinds.size).toBe(2);
     else expect([...kinds]).toEqual(["elsewhere"]);

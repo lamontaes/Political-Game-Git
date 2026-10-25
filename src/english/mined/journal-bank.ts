@@ -39,7 +39,7 @@ export function journalSlots(text: string): string {
   );
 }
 
-/** The memoir fields the bank words (owner, Oct 14: the journal reads like a memoir). */
+/** The memoir fields the bank words. */
 const MEMOIR = "memoir:";
 
 /**

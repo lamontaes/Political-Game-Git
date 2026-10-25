@@ -1,7 +1,5 @@
 /**
- * Mined sentences by part key, as renderer variants (CTO, Oct 19: the
- * director names the parts a moment may use; the English engine holds the
- * banks and gives the words). Used by the office scene, which names its
+ * Mined sentences by part key, as renderer variants. Used by the office scene, which names its
  * parts by key in `src/director/data/office-scene.json`. A part that is not
  * shippable, or that the owner's grades hold back, is never given.
  */
