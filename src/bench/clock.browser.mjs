@@ -102,6 +102,13 @@ try {
   await page.waitForTimeout(800);
   // Something that happened on the way (the filing's own moment) is answered
   // by Continue; the outing's hours are then spent.
+  if (await page.locator("#continue").isVisible()) {
+    // What holds the clock is shown in words, never an empty box.
+    const said = await page.locator("#talk-lines").innerText();
+    console.log("Held by:", said.replace(/\s+/g, " ").trim());
+    assert.ok(said.trim(), "a stop after the outing shows nothing");
+    if (shots) await page.screenshot({ path: `${shots}/held.png` });
+  }
   while (await page.locator("#continue").isVisible()) {
     await page.locator("#continue").click();
     await page.waitForTimeout(800);

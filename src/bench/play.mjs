@@ -1322,15 +1322,18 @@ async function campaignRows() {
       ]
         .filter(Boolean)
         .join(" · ");
+      // Something that came up while out holds the clock: it is shown, as
+      // after Day, so Continue never stands over an empty screen.
+      const moment = storyStop(result.packet);
       // The doors and the calls are seen where they happen, with the people reached.
+      if (result.scene || moment) closeSheet();
       if (result.scene) {
-        closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
         $("card-why").textContent = campaignResult;
-        return;
       }
-      openSheet("campaigns");
+      if (moment) await showStory(moment.recordId);
+      if (!result.scene && !moment) openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
       const result = await post(
