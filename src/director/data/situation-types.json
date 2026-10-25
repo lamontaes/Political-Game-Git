@@ -2783,13 +2783,14 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "sponsor-sought",
-          "causeEngine": "legislature",
-          "causeRecord": "legislative-vote",
-          "bind": {
-            "member": "members",
-            "you": "subject"
+          "match": {
+            "label": "cause:event:carry-asked",
+            "selfNamed": true,
+            "causeFacts": [{ "key": "memberId", "is": "subject" }]
           },
+          "causeEngine": "legislature",
+          "causeRecord": "carry-asked",
+          "bind": { "member": "counterpart", "you": "subject" },
           "opener": "member"
         }
       ],

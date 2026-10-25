@@ -17195,6 +17195,110 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.name-can-t-introduce-bill-without-a-member-to-sponsor-it-and-name-want",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} can't introduce {bill} without a member to sponsor it, and {name} wants that member to be you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["carry-ask"]
+        }
+      ],
+      "bearing": "curious",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "narrate",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-can-t-introduce-bill-myself-i-need-you-to-carry-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can't introduce {bill} myself. I need you to carry it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["carry-ask"]
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bill-needs-a-member-to-sponsor-it-and-you-re-the-one-i-want",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{bill} needs a member to sponsor it, and you're the one I want.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["carry-ask"]
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "request",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-can-t-file-it-myself-you-re-the-one-i-d-trust-with-it",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I can't file it myself. You're the one I'd trust with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "carry-bill",
+          "key": "favor-asked",
+          "requiresFacts": ["carry-ask"]
+        }
+      ],
+      "bearing": "hopeful",
+      "shippable": true,
+      "origin": "authored",
+      "author": "Words session",
+      "date": "2026-10-24",
+      "tag": {
+        "move": "plea",
+        "key": "favor-asked"
+      }
+    },
+    {
       "key": "scene-talk.follow-comfort.come-sit-down-tell-me-about-it",
       "move": "follow-comfort",
       "kind": "spoken",
