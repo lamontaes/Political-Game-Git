@@ -479,29 +479,37 @@ export function applyCountedFlows(
       let expected = 0;
       for (const [key, members] of cohorts) {
         // Each member's own chance at their own age, summed over the real
-        // people the member stands for.
-        const share = members.reduce(
-          (n, member) =>
-            n +
-            monthlyShare(
+        // people the member stands for. A cohort shares sex and birth year,
+        // so a member's chance depends only on their age and income fifth:
+        // it is worked out once for each pair and summed in the same order.
+        const chances = new Map<number, number>();
+        const share = members.reduce((n, member) => {
+          const age = ageOf(member, on),
+            fifth = fifthOf.get(member.id),
+            slot = age * 8 + (fifth ?? 7);
+          let chance = chances.get(slot);
+          if (chance === undefined) {
+            chance = monthlyShare(
               Math.min(
                 1,
                 deathChance(
                   member.looks?.gender,
                   Number(member.birthDate.slice(0, 4)),
-                  ageOf(member, on),
+                  age,
                 ) *
                   mortality *
                   webDeaths(member, on),
               ),
               months,
-            ) *
-              weightOfPerson(member),
-          0,
-        );
+            );
+            chances.set(slot, chance);
+          }
+          return n + chance * weightOfPerson(member);
+        }, 0);
         expected += share;
         debts[key] = (debts[key] ?? 0) + share;
       }
+      const sorted = new Set<string>();
       // The illnesses owed (the sum of every cohort's debt) begin, each in
       // the cohort owed the most, while the debt covers the real people the
       // next person stands for; a cohort that pays goes below zero and waits
@@ -517,7 +525,12 @@ export function applyCountedFlows(
           )
             pick = key;
         if (pick === undefined) break;
-        const members = cohorts.get(pick)!.sort((a, b) => compare(a.id, b.id));
+        // Sorted once, the first time it is picked: picks only take from it.
+        const members = cohorts.get(pick)!;
+        if (!sorted.has(pick)) {
+          members.sort((a, b) => compare(a.id, b.id));
+          sorted.add(pick);
+        }
         const owedNow = Object.values(debts).reduce((n, debt) => n + debt, 0);
         if (!(owedNow + 1e-9 >= weightOfPerson(members[0]!))) break;
         const person = members.shift()!;
@@ -559,12 +572,9 @@ export function applyCountedFlows(
               "counted-subject": person.id,
               "counted-household": person.householdId,
               "counted-perceivers": JSON.stringify(
-                people
+                (byHousehold.get(person.householdId) ?? [])
                   .filter(
-                    (other) =>
-                      other.id !== person.id &&
-                      other.householdId === person.householdId &&
-                      !row.deaths.includes(other.id),
+                    (other) => other.id !== person.id && !dead.has(other.id),
                   )
                   .map((other) => other.id),
               ),
@@ -618,6 +628,7 @@ export function applyCountedFlows(
     const current = countedHouseholdsByPlace(core).get(placeId) ?? [];
     const spacing = p("renewalCountedBirthSpacingDays");
     const today = Date.parse(date);
+    const rateList = [...rates];
     const mothers: {
       record: ResidentHouseholdRecord;
       woman: PersonInput;
@@ -627,7 +638,7 @@ export function applyCountedFlows(
       for (const woman of record.people) {
         if (woman.looks?.gender !== "female") continue;
         const age = ageOf(woman, date);
-        const rate = [...rates].find(
+        const rate = rateList.find(
           ([[low, high]]) => age >= low && age <= high,
         )?.[1];
         if (!rate) continue;
