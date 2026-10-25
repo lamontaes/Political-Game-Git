@@ -17,7 +17,7 @@
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
-    "school-spending-to-attainment",
+    "minimum-wage-to-low-wage-jobs",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
@@ -119,7 +119,8 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "parks-spending-to-exercise-access"
   ],
   "waiting": {
     "police-to-low-level-arrests": {
@@ -233,9 +234,6 @@
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts wageFloor raises pay; src/core2/world-poverty.ts counts it"
     },
-    "minimum-wage-to-low-wage-jobs": {
-      "waitingOn": ["labor.minimum-wage-to-median"]
-    },
     "unemployment-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts: a lost job ends its pay; src/core2/world-poverty.ts counts the household"
@@ -244,9 +242,16 @@
       "waitingOn": ["justice.parent-incarcerated", "household.income"],
       "needsSize": true
     },
+    "school-spending-to-attainment": {
+      "waitingOn": [
+        "person:school.spending-per-student",
+        "school.years-completed"
+      ],
+      "needsSize": true
+    },
     "child-coverage-to-graduation": {
-      "waitingOn": [],
-      "carriedBy": "the web's uninsured-to-graduation link (the same Cohodes, Grossman, Kleiner and Lovenheim 2016 effect, read from the place's uninsured share five years earlier), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
+      "waitingOn": ["person:health.child-coverage-years", "school.graduation"],
+      "needsSize": true
     },
     "teacher-quality-to-earnings": {
       "waitingOn": [
@@ -260,12 +265,12 @@
       "needsSize": true
     },
     "prek-to-graduation": {
-      "waitingOn": [],
-      "carriedBy": "the web's universal-prek-to-graduation link (the same Gray-Lobe, Pathak and Walters 2023 Boston and Tennessee estimates, read from the universal-preschool law in force with a 14-year lag and a range from Tennessee's loss to Boston's gain), which the school engine reads when it decides each senior's graduation (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.graduation-pct, by income fifth)"
+      "waitingOn": ["school.prek-quality", "school.graduation"],
+      "needsSize": true
     },
     "family-income-to-scores": {
-      "waitingOn": [],
-      "carriedBy": "for math, the web's poverty-to-math-proficiency link (the same Dahl and Lochner 2012 income effect, read as the place's poverty share into the share of eighth graders proficient in math), which the school engine reads when it decides each eighth grader's math result (decideSchoolOutcome in src/core2/school-outcomes.ts reads webReach for school.math-proficient-pct, by income fifth); the engine's income-fifth gradient (gradientOf) then spreads the place's result over the fifths. Reading is not carried: no link moves reading proficiency by family income"
+      "waitingOn": ["school.test-scores"],
+      "needsSize": true
     },
     "neighborhood-years-to-adult-outcomes": {
       "waitingOn": [
@@ -516,8 +521,25 @@
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
-    "parks-spending-to-exercise-access": {
-      "waitingOn": ["budget.parks-added-pct"]
+    "social-security-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "medicare-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "federal-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "state-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "unemployment-insurance-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    "unemployment-weekly-maximum-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
     },
     "revolving-door-ban-to-ex-legislator-lobbyists": {
       "waitingOn": [],
@@ -543,11 +565,15 @@
   "measuresWanted": {
     "school.graduation": {
       "owner": "OPUS-GOV",
-      "links": 4
+      "links": 6
+    },
+    "labor.unemployment-pct": {
+      "owner": "OPUS-WORLD",
+      "links": 5
     },
     "school.test-scores": {
       "owner": "OPUS-GOV",
-      "links": 4
+      "links": 5
     },
     "crime.rate-index": {
       "owner": "OPUS-CORE",
@@ -593,13 +619,13 @@
       "owner": "OPUS-GOV",
       "links": 2
     },
-    "spending.disaster-preparedness": {
+    "school.years-completed": {
       "owner": "OPUS-GOV",
       "links": 2
     },
-    "budget.parks-added-pct": {
+    "spending.disaster-preparedness": {
       "owner": "OPUS-GOV",
-      "links": 1
+      "links": 2
     },
     "crime.all": {
       "owner": "OPUS-CORE",
@@ -777,14 +803,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "labor.minimum-wage-to-median": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "labor.unemployment-pct": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
     "labor.workforce": {
       "owner": "OPUS-WORLD",
       "links": 1
@@ -805,6 +823,10 @@
       "owner": "OPUS-CORE",
       "links": 1
     },
+    "person:health.child-coverage-years": {
+      "owner": "OPUS-PEOPLE",
+      "links": 1
+    },
     "person:health.coverage-pct": {
       "owner": "OPUS-PEOPLE",
       "links": 1
@@ -822,6 +844,10 @@
       "links": 1
     },
     "person:program.snap-years-in-childhood": {
+      "owner": "OPUS-GOV",
+      "links": 1
+    },
+    "person:school.spending-per-student": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -877,7 +903,7 @@
       "owner": "OPUS-GOV",
       "links": 1
     },
-    "school.years-completed": {
+    "school.prek-quality": {
       "owner": "OPUS-GOV",
       "links": 1
     },

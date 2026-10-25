@@ -13,7 +13,6 @@ import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import type { Fact } from "./render";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 import type { Moment } from "./types";
 import {
@@ -23,6 +22,7 @@ import {
   type TreeNode,
   type TreeReply,
 } from "./scene-talk";
+import type { Fact } from "../english/scene-talk-words";
 import { spoken } from "./words";
 
 export interface PurposeScene {
@@ -125,6 +125,21 @@ function composeBinding(
   const town = corePlaceByJurisdictionId(asked.placeId as never);
   if (town)
     facts.place = { text: spoken(town), sourceRecordIds: [asked.placeId] };
+  // A bill the record names, by its number, and the section a trade added.
+  if (said.number)
+    facts.bill = {
+      text: said.number,
+      sourceRecordIds: [said.billId ?? moment.causeId, moment.causeId],
+    };
+  if (said.section)
+    facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };
+  // A vote trade puts the holdout's own section in (legislature.ts adopt()):
+  // the talk says it goes in, not that a section comes out.
+  if (said.kind === "trade-amendment" && said.section)
+    facts["section-added"] = {
+      text: said.section,
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.office)
     facts.office = {
       text: said.office,

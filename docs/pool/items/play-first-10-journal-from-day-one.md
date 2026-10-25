@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/play-first-10-journal
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T19:26:23.684Z
 ---
 
 **What.** On the v0.22.10 release the Journal was blank for the first three weeks. The owner ruled Oct 14 that the player's own context (parents, their relationship, siblings, where the family came from and a few remembered moments) is rendered from day one, and Oct 24 that people's histories are simulated and the journal runs from day one. This item writes the opening chapter of the memoir from the player's deep past.

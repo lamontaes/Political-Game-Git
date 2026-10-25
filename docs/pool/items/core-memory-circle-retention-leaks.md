@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/committee-heap
-pr:
+pr: #6067
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:44:16.717Z
