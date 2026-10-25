@@ -95,6 +95,9 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
     `${place.name} ${bill.id}: no introduced line in ${lines.map((l) => l.text).join(" | ")}`,
   ).toBeDefined();
   expect(introduced!.sourceRecordIds).toContain(`office.introduced:${bill.id}`);
+  console.log(
+    `JOURNAL BILL ${place.name} (${place.key}), seed ${seed}, ${bill.id}: "${introduced!.text}" cites ${introduced!.sourceRecordIds.join(", ")}; vote ${cast?.vote}`,
+  );
   if (cast && (cast.vote === "yes" || cast.vote === "no")) {
     const voted = lines.find(
       (line) => line.text.includes(name) && /voted/i.test(line.text),
@@ -108,6 +111,9 @@ it(`a member's journal tells the bill they introduced and their vote, by its rea
     );
     expect(voted!.sourceRecordIds).toContain(
       `office.voted:${bill.id}:${memberId}`,
+    );
+    console.log(
+      `JOURNAL BILL ${place.name}: "${voted!.text}" cites ${voted!.sourceRecordIds.join(", ")}`,
     );
   }
 }, 600_000);
