@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/counted-births-weight-bookkeeping
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T07:06:39.559Z
 ---
 
 **What.** src/core2/counted-births-weight.test.ts turns bookkeeping off and then reads the renewal engine's monthly counts record (core2-renewal-v1, table counts). Since d3e204ac90 (Oct 17, table-unread-renewal-counts-parameters) that record is kept only with bookkeeping on, so every drawn town reads no rows, expects no births, is skipped, and after six draws the test throws 'no drawn town with enough counted people in 6 places'. It fails so on main 01f5cd4715 in two runs (Oct 25). Turn bookkeeping on in the test, as counted-illness.test.ts was changed in the same commit.
