@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-focus-recent-contact
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T18:42:35.910Z
 ---
 
 **What.** Everyone the player meets joins the daily focus set for good (met-in-group ties, owner Oct 10), so a town's later years run far slower than its first: in Bedford, Wyoming the focus set grows from 20 to 78 and year three runs 2.05 times year one on main with the drives change. The acting CTO ruled on Oct 25 (OWNER-DECISIONS): daily focus only for people seen in the last 30 days, as an index read, not a scan. Prototyped Oct 25 (core-speed-contact-offers-grow-with-ties Notes): Bedford ran 32.4, 55.4 and 41.6 s, year three 1.28 times year one.
