@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/renewal-tables-read
 pr: #4980
 blocked-on:

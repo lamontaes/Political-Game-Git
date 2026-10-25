@@ -19,13 +19,16 @@ import { leaderOf } from "./modules/leadership";
 import {
   draftBill,
   floorAgendaOn,
+  LEGISLATURE_MODULE_ID,
   memberKey,
   members,
+  offerDeal,
 } from "./modules/legislature";
 import { lawChain, lawHere } from "./modules/laws";
 import {
   actOn,
   askLeaderForHearing,
+  reanswerLeaderRequest,
   perDiemOf,
   perDiemPaidTo,
   stateDay,
@@ -40,6 +43,15 @@ import {
 import { impressionOf } from "./modules/campaigns";
 import type { ModuleRow } from "./module-data";
 import { coreAPI } from "./state";
+import weekRows from "./data/office-day/state-week.json" with { type: "json" };
+import calendars from "../../data/research/laws/state-session-calendars.json" with { type: "json" };
+
+interface WeekRow {
+  sessionWeek: string[];
+  interimCommitteeDayOfMonth: number;
+  basis: string;
+  tag: string;
+}
 
 /** Plays one place; false where its offices data seats no state legislator or no governor (a territory's legislature). */
 function playPlace(seed: string, skipped: string[]): boolean {
@@ -86,6 +98,25 @@ function playPlace(seed: string, skipped: string[]): boolean {
         expect(entry.holderId).toBe(office.personId);
         expect(entry.source.citation.length, entry.id).toBeGreaterThan(0);
         kinds.get(office.role)!.add(entry.kind);
+        // The district week and the interim day are the place's own row, cited by it.
+        if (office.role === "legislator") {
+          const row = (weekRows.places as Record<string, WeekRow>)[
+            lawChain(api).stateKey
+          ]!;
+          const weekday = new Date(`${date}T00:00:00Z`).getUTCDay();
+          if (entry.kind === "floor-session")
+            expect(row.sessionWeek[weekday - 1], `${where} ${entry.id}`).toBe(
+              "floor",
+            );
+          if (entry.kind === "district-office" && weekday >= 1 && weekday <= 5)
+            expect(entry.source.citation, entry.id).toContain(row.basis);
+          if (entry.kind === "interim-committee") {
+            expect(Number(date.slice(8, 10)), entry.id).toBe(
+              row.interimCommitteeDayOfMonth,
+            );
+            expect(entry.source.citation, entry.id).toContain(row.basis);
+          }
+        }
       }
   }
   // A legislator has days of office whether the legislature sits or not.
@@ -310,9 +341,115 @@ it("a floor leader's answer to a member's request decides whether the bill is on
     const agenda = floorAgendaOn(api, yes.scheduledFor!).map((row) => row.id);
     expect(agenda, where).toContain(friendly.id);
     expect(agenda, where).not.toContain(hostile.id);
+    // The refused member comes back with something the leader can accept: a
+    // favor owed, else backing the leader's own item. Nothing accepted leaves
+    // the refusal standing; an accepted deal is read again, cited by the
+    // obligation it created, and may put the bill on the floor.
+    let offered = false;
+    for (const kind of ["favor", "back-their-item"] as const) {
+      const dealt = offerDeal(api, {
+        billId: hostile.id,
+        memberId: found.leader,
+        kind,
+      });
+      if (!dealt.accepted) continue;
+      offered = true;
+      const again = reanswerLeaderRequest(
+        api,
+        found.rival.personId,
+        hostile.id,
+      )!;
+      expect(again.offer?.kind, where).toBe(kind);
+      expect(again.offer?.earlierReasons, where).toEqual(no.reasons);
+      expect(again.reasons.offer, where).toBeGreaterThan(0);
+      expect(
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("obligations")
+          .get(again.offer!.obligationId),
+        `${where}: ${again.offer!.obligationId}`,
+      ).toBeDefined();
+      if (again.granted) {
+        expect(again.scheduledFor, where).toBeTruthy();
+        expect(
+          floorAgendaOn(api, again.scheduledFor!).map((row) => row.id),
+          where,
+        ).toContain(hostile.id);
+      }
+      break;
+    }
+    if (!offered) {
+      // No leader took a real offer here: the refusal stands (the engine's
+      // own answer), and a deal recorded the way offerDeal records an
+      // accepted favor is read again and cited (an edge-case fixture).
+      expect(
+        reanswerLeaderRequest(api, found.rival.personId, hostile.id)?.reasons,
+        where,
+      ).toEqual(no.reasons);
+      const legislature = api.moduleState(LEGISLATURE_MODULE_ID);
+      const row = legislature.table("bills").get(hostile.id) as unknown as {
+        deals: readonly object[];
+      };
+      const index = row.deals.length;
+      legislature.table("bills").put({
+        ...row,
+        deals: [
+          ...row.deals,
+          {
+            memberId: found.leader,
+            kind: "favor",
+            terms: "favor",
+            date: api.state.date,
+            status: "accepted",
+          },
+        ],
+      } as never);
+      legislature.table("obligations").put({
+        id: `obligation:${hostile.id}:${found.leader}:${index}`,
+        owedBy: found.rival.personId,
+        owedTo: found.leader,
+        kind: "favor",
+        billId: hostile.id,
+        date: api.state.date,
+        settled: false,
+      } as never);
+      const again = reanswerLeaderRequest(
+        api,
+        found.rival.personId,
+        hostile.id,
+      )!;
+      expect(again.offer?.obligationId, where).toBe(
+        `obligation:${hostile.id}:${found.leader}:${index}`,
+      );
+      expect(again.reasons.offer, where).toBeGreaterThan(0);
+      expect(again.offer?.earlierReasons, where).toEqual(no.reasons);
+    }
     return;
   }
   throw new Error(
     `No drawn place seated a leader and members of both sides: ${skipped.join("; ")}`,
   );
 }, 1_800_000);
+
+it("every one of the 56 places has a district week and an interim committee day, marked as an estimate with its basis", () => {
+  const places = Object.keys(calendars.places).sort();
+  expect(places.length).toBe(56);
+  const rows = weekRows.places as Record<string, WeekRow>;
+  expect(Object.keys(rows).sort()).toEqual(places);
+  for (const key of places) {
+    const row = rows[key]!;
+    expect(row.tag, key).toBe("ESTIMATED");
+    expect(row.basis.length, key).toBeGreaterThan(20);
+    expect(row.sessionWeek.length, key).toBe(5);
+    expect(
+      row.sessionWeek.filter((d) => d === "floor").length,
+      key,
+    ).toBeGreaterThanOrEqual(2);
+    expect(row.interimCommitteeDayOfMonth, key).toBeGreaterThanOrEqual(1);
+    expect(row.interimCommitteeDayOfMonth, key).toBeLessThanOrEqual(28);
+  }
+  // Places differ: the week follows each body's own session length.
+  expect(
+    new Set(Object.values(rows).map((r) => r.sessionWeek.join())).size,
+  ).toBeGreaterThan(1);
+});

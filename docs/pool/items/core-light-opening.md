@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 2
 size: M
-status: in-pr
-claimed-by: claude/light-opening
+status: open
+claimed-by:
 pr: #5079
 blocked-on:
 source: "core-needs-core-172 triage, Oct 15"
-claimed-at: 2026-10-19T18:24:48.939Z
+claimed-at:
 ---
 
 **What.** `buildOpeningKin` and personality still run for every household at the opening (about half of the 12 s open). Take a `countedHouseholdIds`-style option decided before generation so counted households get only ages, household, job, cash and living cost, and build kin and past on demand at fill-in. The saving is meant to take a few seconds off the opening and keep a clicked counted person consistent with the records.
@@ -29,3 +29,7 @@ Looked at Oct 18 (claude/light-opening, nothing built). Timed a drawn opening (b
 - **Counted people's temperament reads their kin.** `openingTemperaments` passes a resident's outside parents' inherited share down. A counted resident built without kin draws unseen parents instead, which keeps the spread but changes every counted value, and a filled-in person's relatives would no longer be heritable from them.
 
 Two ways forward that change no output: speed up `buildOpeningKin` (`moveHazard` is 0.8 s, recomputed in loops) and `openingTemperaments` and prove it by hash on three drawn places, or rule that the county and state counted population is generated from the census directly, not from residents' relatives, and then build this item against that.
+
+Oct 22, merger A: PR #5079 splits the proposed kin-opening work into three tasks; it does not implement the opening or fill-in acceptance. This parent stays open with its own Done when intact.
+
+Sent back 2026-10-24 from planning PR #5079 (branch claude/light-opening): own-environment applicable checks passed on f4ffec899c079efa446665c56e02005f232b83c1, but the head-pinned merge returned 405 merge conflicts after main advanced; implementation acceptance remains open. Finish the planning merge on that branch, merge current main into it first and rerun the changed-file checks.

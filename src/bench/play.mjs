@@ -31,6 +31,13 @@ const post = (path) => api(path, "POST");
 function pageIn(box, pager) {
   box.scrollTo(0, 0);
   const [back, next] = pager.querySelectorAll("button");
+  // Measure with every row showing; a page then hides the rows that are not its own.
+  for (const hidden of box.querySelectorAll(".paged-out"))
+    hidden.classList.remove("paged-out");
+  const rows = [
+    ...box.querySelectorAll(":scope > *:not(.flow), :scope > .flow > *"),
+  ];
+  const tops = rows.map((row) => row.offsetTop);
   const stops = [0];
   let sideways = false;
   if (box.clientHeight > 0) {
@@ -41,20 +48,30 @@ function pageIn(box, pager) {
       for (let x = step; x < box.scrollWidth - 2; x += step) stops.push(x);
     } else if (box.scrollHeight > box.clientHeight + 2) {
       let top = 0;
-      for (const kid of box.querySelectorAll(
-        ":scope > *:not(.flow), :scope > .flow > *",
-      )) {
-        if (kid.offsetTop + kid.offsetHeight - top > box.clientHeight) {
-          top = kid.offsetTop;
+      rows.forEach((kid, index) => {
+        if (tops[index] + kid.offsetHeight - top > box.clientHeight) {
+          top = tops[index];
           stops.push(top);
         }
-      }
+      });
     }
   }
   let at = 0;
   const go = (index) => {
     at = index;
-    box.scrollTo(sideways ? stops[at] : 0, sideways ? 0 : stops[at]);
+    if (sideways) box.scrollTo(stops[at], 0);
+    else {
+      // A plain list shows one page of rows: the rest are out of the box, not scrolled past.
+      const from = stops[at];
+      const to = stops[at + 1] ?? Infinity;
+      rows.forEach((row, index) =>
+        row.classList.toggle(
+          "paged-out",
+          stops.length > 1 && (tops[index] < from || tops[index] >= to),
+        ),
+      );
+      box.scrollTo(0, 0);
+    }
     back.hidden = at === 0;
     next.hidden = at === stops.length - 1;
   };
@@ -541,6 +558,26 @@ const amount = (value, unit) => {
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
+/**
+ * Who sets a level's rate: the level and the government its seats name
+ * ("State · Texas"). A stand-in row from another series (a state's average
+ * local sales tax where the town records none) says what it is instead.
+ */
+const lawLevelLabel = (law, level) =>
+  [
+    controls.levels?.[level.level] ?? words(level.level),
+    level.row.series !== law.series
+      ? `${words(level.row.series)}${level.row.estimate ? ` · ${words("estimate")}` : ""}`
+      : level.government,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+/** A law's later phase as a level row, with the government its level names. */
+const pendingLevel = (law, row) => ({
+  level: row.level,
+  row,
+  government: law.levels.find((l) => l.level === row.level)?.government,
+});
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -943,7 +980,7 @@ function replies(choices, onPick) {
   return choices.map((choice) => {
     const b = el("button", {
       type: "button",
-      className: `reply${choice.lie ? " lying" : ""}`,
+      className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
       // Filing is a control of its own, never worded like acknowledging a refusal.
       textContent:
         choice.control === "file"
@@ -973,6 +1010,7 @@ function renderTalk(value) {
   if (value?.otherId !== talk?.otherId) lying = false;
   talk = value;
   show("talk", Boolean(value));
+  $("talk-gap").classList.remove("marked");
   if (!value) return;
   const other = value.lines.find((line) => line.speakerId === value.otherId);
   if (
@@ -1010,6 +1048,12 @@ async function talkTo(otherId, momentId) {
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
+// A line that does not read right is marked where it is said; no time passes.
+$("talk-gap").addEventListener("click", async () => {
+  if (!talk) return;
+  await post("/api/gap");
+  $("talk-gap").classList.add("marked");
+});
 $("talk-silent").addEventListener("click", async () => {
   if (!talk) return;
   lying = false;
@@ -1025,6 +1069,7 @@ $("talk-leave").addEventListener("click", async () => {
     await post("/api/filing/leave");
     filing = undefined;
     show("filing-overlay", false);
+    $("game").classList.remove("filing-open");
     delete $("filing-title").dataset.contest;
     show("talk", false);
     await refresh();
@@ -1082,16 +1127,20 @@ function renderFiling(value) {
 /** The named office's rules from its records, with the platform and party to file under. */
 function renderFilingOverlay(value) {
   const overlay = value?.overlay;
-  show("filing-overlay", Boolean(overlay && !value.result));
+  const open = Boolean(overlay && !value.result);
+  show("filing-overlay", open);
+  // The news card sits where the overlay does; it waits until the counter closes.
+  $("game").classList.toggle("filing-open", open);
   if (!overlay || $("filing-title").dataset.contest === overlay.contestId)
     return;
   $("filing-title").dataset.contest = overlay.contestId;
   $("filing-title").textContent = overlay.title;
+  // Each rule by its control name; the filing deadline is one of the rules.
+  const ruleNames = controls.filing?.rules ?? {};
   $("filing-checks").replaceChildren(
-    row("Deadline", overlay.filingDeadline),
     ...overlay.checks.map((check) => {
       const line = row(
-        check.rule,
+        ruleNames[check.rule] ?? words(check.rule),
         `${check.actual ?? ""}${check.required ? ` / ${check.required}` : ""}${check.metOn ? ` · ${check.metOn}` : ""}`,
       );
       if (!check.met) line.classList.add("unmet");
@@ -1265,19 +1314,40 @@ function speechPanel(filing, venue) {
 async function campaignRows() {
   const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
   const rows = [];
-  for (const { filing, campaign, polls, day, causes, debates } of v.campaigns) {
-    const takeDay = async (kind) => {
+  for (const {
+    filing,
+    campaign,
+    polls,
+    outings,
+    causes,
+    debates,
+  } of v.campaigns) {
+    const goOut = async (outing, outletId) => {
+      const kindOf = {
+        doors: "canvass",
+        calls: "raise-money",
+        event: "event",
+        interview: "interview",
+      };
       const result = await post(
-        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind })}`,
+        `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
       campaignResult = [
-        controls.campaignDay[kind],
+        controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
         result.reached ? `${result.reached} reached` : "",
         result.raisedMinor ? dollars(result.raisedMinor) : "",
       ]
         .filter(Boolean)
         .join(" · ");
+      // The doors and the calls are seen where they happen, with the people reached.
+      if (result.scene) {
+        closeSheet();
+        $("backdrop").src = result.scene.backdrop.url;
+        drawPeople(result.scene.people);
+        $("card-why").textContent = campaignResult;
+        return;
+      }
       openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
@@ -1330,14 +1400,15 @@ async function campaignRows() {
         el(
           "div",
           {},
-          el("b", { textContent: controls.campaignDay.title }),
-          ...(day ?? []).map((choice) => {
+          ...(outings ?? []).map((choice) => {
             const b = el("button", {
               type: "button",
-              textContent: `${controls.campaignDay[choice.kind]} · ${choice.hours} ${controls.campaignDay.hours}`,
+              textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
               disabled: !choice.available,
             });
-            b.addEventListener("click", () => takeDay(choice.kind));
+            b.addEventListener("click", () =>
+              goOut(choice.outing, choice.outletId),
+            );
             return b;
           }),
         ),
@@ -1350,6 +1421,26 @@ async function campaignRows() {
           button("Ad", "ad", { amountMinor: "5000" }),
           button("Poll", "poll", { sampleSize: "50" }),
         ),
+        // The player's own money into the campaign: the amount is theirs to set.
+        (() => {
+          const dollarsIn = el("input", {
+            type: "number",
+            min: "0",
+            step: "1",
+            value: "0",
+            ariaLabel: controls.campaignContribute.dollars,
+          });
+          const give = el("button", {
+            type: "button",
+            textContent: controls.campaignContribute.give,
+          });
+          give.addEventListener("click", () =>
+            act("contribute", {
+              amountMinor: String(Math.round(Number(dollarsIn.value) * 100)),
+            }),
+          );
+          return el("div", {}, dollarsIn, give);
+        })(),
         speechPanel(filing, venue),
         // A debate the outlet invited the candidates to: one position (or a pass) on each question it asks.
         ...(debates ?? []).map((debate) => debatePanel(debate)),
@@ -1381,9 +1472,22 @@ async function campaignRows() {
 }
 
 // ---- A big moment, staged when it stops the clock ----
+// The grading view (/play?held=1): a scene may say lines still held until the
+// owner grades them, each marked, with the record that fired it.
+const HELD_VIEW =
+  new URLSearchParams(window.location.search).get("held") === "1";
+/** Why a scene is happening: its cause record and the facts it may say, by record. */
+function whyRows(why) {
+  return [
+    `${why.cause.kind} · ${why.cause.date} · ${why.cause.id}`,
+    ...why.facts.map(
+      (row) => `${row.key}: ${row.text} (${row.recordIds.join(", ")})`,
+    ),
+  ].map((text) => el("li", { className: "why", textContent: text }));
+}
 async function showStory(momentId) {
   const story = await api(
-    `/api/story?momentId=${encodeURIComponent(momentId)}`,
+    `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
   );
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
@@ -1393,17 +1497,63 @@ async function showStory(momentId) {
   $("talk-name").textContent = "";
   $("talk-lines").replaceChildren(
     ...story.narration.map((line) =>
-      el("li", { className: "speech narration", textContent: line.text }),
+      el("li", {
+        className: `speech narration${line.held ? " held" : ""}`,
+        textContent: line.text,
+      }),
     ),
+    ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
   );
+  // A scene with a purpose is its own exchange; any other opens a talk.
+  const withId = story.talk?.askerId ?? story.talkToId;
   $("talk-choices").replaceChildren(
-    ...(story.talkToId
-      ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId, momentId),
+    ...(withId
+      ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
+          story.talk ? playExchange(story) : talkTo(withId, momentId),
         )
       : []),
   );
   setScales({ available: false });
+}
+/** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
+function playExchange(story) {
+  const { talk } = story;
+  setWho(talk.askerId, story.names[talk.askerId]);
+  const said = [...talk.opening];
+  const lineOf = (line) =>
+    el("li", {
+      className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
+      textContent: line.text,
+    });
+  // The path is the index of each reply chosen, from the first.
+  const play = (node, path) => {
+    said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
+    $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+    $("talk-choices").replaceChildren(
+      ...replies(
+        node.replies.map((reply, index) => ({
+          text: reply.line.text,
+          held: reply.line.held,
+          reply,
+          index,
+        })),
+        ({ reply, index }) => {
+          const chosen = [...path, index];
+          // The reply is the player's: the game keeps it (purpose-scene.ts
+          // replyInScene).
+          api(
+            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
+            "POST",
+          );
+          said.push(reply.line);
+          if (reply.next) play(reply.next, chosen);
+          else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+          if (!reply.next) $("talk-choices").replaceChildren();
+        },
+      ),
+    );
+  };
+  play(talk.tree, []);
 }
 function storyStop(value) {
   return value?.kind === "stop"
@@ -1640,6 +1790,41 @@ async function officeRows() {
         })(),
       ),
     ),
+    // The budget you may send now: the change to each line, in steps of its amount.
+    ...(v.budget
+      ? [
+          el(
+            "div",
+            { className: "row campaign" },
+            el("b", { textContent: controls.budgetEditor.title }),
+            ...v.budget.lines.map((row) => {
+              const pick = el(
+                "select",
+                {},
+                ...[-20, -10, 0, 10, 20].map((pct) => {
+                  const minor = Math.round((row.amountMinor * pct) / 100);
+                  return el("option", {
+                    value: String(minor),
+                    selected: row.changeMinor === minor,
+                    textContent: controls.budgetEditor[String(pct)],
+                  });
+                }),
+              );
+              pick.addEventListener("change", async () => {
+                await post(
+                  `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor: pick.value })}`,
+                );
+              });
+              return el(
+                "label",
+                {},
+                ` ${row.name} ${dollars(row.amountMinor)} `,
+                pick,
+              );
+            }),
+          ),
+        ]
+      : []),
     // The deal to offer each colleague who votes on a bill of yours when you talk to them.
     ...(v.deals ?? []).map((bill) =>
       el(
@@ -2967,13 +3152,10 @@ const sheets = {
           ),
           ...(e.region
             ? [
+                // The region's rate under the area it covers, beside the nation's.
                 row(
-                  `Region · ${e.region.month ?? ""}`,
-                  Object.entries(e.region)
-                    .filter(([, v]) => typeof v === "number")
-                    .slice(0, 4)
-                    .map(([k, v]) => `${k} ${Number(v).toFixed(1)}`)
-                    .join(" · "),
+                  `${(e.region.name ?? "").replace(/^./, (c) => c.toUpperCase())} · ${e.region.month ?? ""}`,
+                  `Unemployment ${pct(e.region.unemploymentPct)}`,
                 ),
               ]
             : []),
@@ -3241,12 +3423,12 @@ const sheets = {
               .filter((level) => level.row)
               .map((level) =>
                 el("div", {
-                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                  textContent: `${lawLevelLabel(law, level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
                 }),
               ),
             ...law.pending.map((row) =>
               el("div", {
-                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+                textContent: `${lawLevelLabel(law, pendingLevel(law, row))} · ${row.effectiveDate} → ${amount(row.value, row.unit)}`,
               }),
             ),
           ),
@@ -3566,7 +3748,7 @@ const sheets = {
               el("h3", { textContent: first.title }),
               el("p", {
                 className: "government-place",
-                textContent: first.government ?? "",
+                textContent: first.body ?? first.government ?? "",
               }),
             );
             if (first.presentation?.chamberUrl)
@@ -3676,6 +3858,14 @@ const sheets = {
     // The key people the opening names: one list for both screens.
     const keyPeople = v.keyPeople.map((k) => {
       const line = row(k.officeTitle, k.name);
+      // The President and Vice President a territory's voters do not choose.
+      if (k.chosenByHere === false)
+        line.append(
+          el("span", {
+            className: "label",
+            textContent: controls.politics.notChosenHere,
+          }),
+        );
       // Play anyone: a resident officeholder can be taken over (bench only).
       if (k.resident && k.personId !== me.id) {
         const b = el("button", {
@@ -3763,14 +3953,14 @@ const sheets = {
               for (const level of law.levels.filter((l) => l.row))
                 detail.append(
                   row(
-                    controls.levels?.[level.level] ?? words(level.level),
+                    lawLevelLabel(law, level),
                     `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
                   ),
                 );
               for (const pending of law.pending)
                 detail.append(
                   row(
-                    pending.effectiveDate,
+                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${pending.effectiveDate}`,
                     amount(pending.value, pending.unit),
                   ),
                 );
@@ -4217,19 +4407,17 @@ async function listTowns() {
   );
   if (ask !== townAsk) return;
   const count = new Intl.NumberFormat("en-US");
+  const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
     ...towns.map((t) => {
+      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
       const b = el(
         "button",
         { type: "button", className: "item" },
         el("b", { textContent: t.name }),
-        ...(t.population
-          ? [
-              el("small", {
-                textContent: `${count.format(t.population)} people`,
-              }),
-            ]
-          : []),
+        el("small", {
+          textContent: t.county ? `${t.county}, ${size}` : size,
+        }),
       );
       b.addEventListener("click", () => {
         setup.town = t;

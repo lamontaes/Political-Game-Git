@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fill-in-purchases-draw
 pr: #5456
 blocked-on:

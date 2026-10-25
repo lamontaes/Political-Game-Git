@@ -1,0 +1,32 @@
+{
+  "id": "atus-2025-volunteering",
+  "publisher": "U.S. Bureau of Labor Statistics",
+  "vintage": "2025 annual averages",
+  "table": "American Time Use Survey, Table 1",
+  "title": "Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day by sex",
+  "universe": "Civilian noninstitutional population age 15 and over",
+  "geography": "United States",
+  "sourceUrl": "https://www.bls.gov/news.release/atus.t01.htm",
+  "retrievedOn": "2026-10-24",
+  "limits": "A day's total for people who volunteered that day, not the length of one session; national only. Read through the fetch tool; a plain download from the cloud returns Access Denied.",
+  "volunteering": {
+    "row": "Volunteering (organizational and civic activities)",
+    "hoursPerDayPopulation": {
+      "total": 0.12,
+      "men": 0.11,
+      "women": 0.12
+    },
+    "percentEngaged": {
+      "total": 5.3,
+      "men": 5.2,
+      "women": 5.4
+    },
+    "hoursPerParticipantDay": {
+      "total": 2.18,
+      "men": 2.2,
+      "women": 2.16
+    },
+    "quote": "Volunteering (organizational and civic activities) | 0.12 | 0.11 | 0.12 | 5.3 | 5.2 | 5.4 | 2.18 | 2.20 | 2.16"
+  },
+  "use": "volunteerHours: one volunteering act for a cause is one participant-day, 2.18 hours; the spread is women's 2.16 to men's 2.20. The 5.3% engaged on a day is a band the year run reports, never a chance anyone reads."
+}

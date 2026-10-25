@@ -64,5 +64,8 @@ describe(`a budget at the executive's desk (${place.name}, seed ${seed})`, () =>
       printed.some((s) => s.outletId.includes(":national")),
       "a national outlet",
     ).toBe(true);
+    process.stdout.write(
+      `budget desk: ${place.name} (${place.key}), seed ${seed}; ${desk[0]!.vote} ${desk[0]!.memberId} on ${federal!.id}; stories ${printed.map((s) => `${s.id} (${s.outletId})`).join(", ")}\n`,
+    );
   }, 900_000);
 });

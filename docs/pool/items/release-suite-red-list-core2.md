@@ -5,7 +5,7 @@ area: release
 kind: research
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/suite-red-list-core2
 pr: #4985
 blocked-on:

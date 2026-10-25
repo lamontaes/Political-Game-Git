@@ -5,10 +5,11 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: blocked
-claimed-by: claude/political-game-pool-yucp92-qq
+status: open
+claimed-by:
 pr:
-blocked-on: world-police-patrol-and-grievance-causes
+blocked-on:
+after: world-police-patrol-and-grievance-causes
 source: split from gov-justice-incident-records (M, really L) by the claiming session, Oct 19
 claimed-at: 2026-10-20T04:53:20.573Z
 ---
@@ -22,3 +23,5 @@ claimed-at: 2026-10-20T04:53:20.573Z
 **Files.** src/core2/modules/justice.ts, src/core2/justice-chain.ts, src/core2/justice-incidents.ts (new), src/core2/data/justice/ (new)
 
 **Notes.** Closes the incident prerequisite of the five SG-GOV-REACH-A rows in src/core2/data/stopgaps.json only when the engine reads the law, never by deleting the row. Check docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md before adding any player-facing step. Remainder of gov-justice-incident-records.
+
+Oct 20: Switched from blocked to the automatic after: gate on world-police-patrol-and-grievance-causes, so it opens by itself the moment those items are done.

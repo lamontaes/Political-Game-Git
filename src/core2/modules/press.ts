@@ -19,9 +19,9 @@ import bases from "../../../data/research/money/public-budget-bases.json" with {
 import rows from "../data/press/parameters.json" with { type: "json" };
 import nationalJson from "../data/press/national.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../kernel/dates";
-import { parameter } from "../parameters";
-import { decisionLean } from "../trait-decisions";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
+import { spendLivingCost } from "../official-living";
+import { decisionLean, leanedYes } from "../trait-decisions";
 import type {
   CoreAPI,
   CoreEventInput,
@@ -76,8 +76,15 @@ import { stancesOf, viewOf, VIEWS_MODULE_ID } from "./views";
 import { residentCounts, residentsRuntime } from "./residents";
 import { openingEmployerCashBufferPrior } from "../opening-capital";
 import { employerTaxShareOfWage } from "./employer-taxes";
-import { startOutletRevenue } from "../press-money";
-import { countedJobsOf } from "../residents-economy";
+import {
+  adBudgetMonthMinor,
+  installOutletMoney,
+  outletYearlyRevenue,
+  outsideCustomersOf,
+  payWiderAudience,
+  type OutletMoneyDeps,
+} from "../press-money";
+import { countedHeadsOf, countedJobsOf } from "../residents-economy";
 import { pressStaffChanged } from "../press-conflict";
 import { isPolicyTopic, wireItem, type WireItem } from "../press-topics";
 import {
@@ -241,6 +248,15 @@ export const PRESS_MODULE: CoreModule = {
     tables: {
       outlets: {},
       employerEnrollment: {},
+      /** Each local outlet's money by month, by who paid it. */
+      revenueMonths: { indexes: { byOutlet: { fields: ["outletId"] } } },
+      /** The ads the town's businesses bought, with the payment each rode on. */
+      adBuys: {
+        indexes: {
+          byOutlet: { fields: ["outletId"] },
+          byAdvertiser: { fields: ["advertiserId"] },
+        },
+      },
       staff: { indexes: { byOutlet: { fields: ["outletId"] } } },
       wire: { indexes: { byDate: { fields: ["date"] } } },
       digs: {},
@@ -260,6 +276,8 @@ export const PRESS_MODULE: CoreModule = {
           byCandidate: { fields: ["candidateId"] },
         },
       },
+      /** Who was told of a hidden act, by the telling's event: what a leaker knows. */
+      told: { indexes: { byCrime: { fields: ["crimeId"] } } },
     },
   },
   onDay: enrollPressEmployers,
@@ -271,6 +289,15 @@ export const PRESS_MODULE: CoreModule = {
   onEvent(api, event) {
     // A hidden act someone was just told of may reach a reporter.
     if (event.kind === "crime.told") {
+      const crimeKey = Object.keys(event.facts ?? {}).find((k) =>
+        k.startsWith("crime:"),
+      );
+      if (crimeKey)
+        table(api, "told").put({
+          id: event.id,
+          crimeId: crimeKey.slice("crime:".length),
+          personIds: [...event.personIds, ...(event.witnessIds ?? [])],
+        } as unknown as ModuleRow);
       tipOff(api, event);
       return;
     }
@@ -297,6 +324,127 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
   (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
 const bandOf = (age: number): Band =>
   age < 30 ? "18-29" : age < 50 ? "30-49" : age < 65 ? "50-64" : "65+";
+
+/**
+ * What an outlet's own open jobs are paid in a year: each full job at its work
+ * schedule's weekly hours, and each counted job at its daily wage times the
+ * jobs it stands for, as the payroll and wage flows pay them.
+ */
+function outletPayrollYearMinor(api: CoreAPI, organizationId: string): number {
+  const core = api.state as CoreState;
+  let total = 0;
+  for (const id of core.finance.jobsByOrganization.get(organizationId) ?? []) {
+    const job = core.jobs.get(id);
+    if (!job || job.endsAt !== undefined) continue;
+    for (const commitmentId of core.work.commitmentsByPerson.get(
+      job.personId,
+    ) ?? []) {
+      const commitment = core.work.commitments.get(commitmentId);
+      if (commitment?.jobId !== job.id || commitment.endsAt !== undefined)
+        continue;
+      total +=
+        ((commitment.hourlyMinor * commitment.expectedWeeklyMinutes) / 60) *
+        pressParameter("weeksPerYear");
+    }
+  }
+  for (const job of countedJobsOf(core, organizationId))
+    total +=
+      job.wageDailyMinor *
+      api.parameter("jobsDaysPerYear") *
+      countedHeadsOf(core, job.personId);
+  return total;
+}
+
+/** What an outlet's people in town cost in a month: their pay, the employer's payroll taxes on it and its margin. */
+export function outletMonthlyCostMinor(
+  api: CoreAPI,
+  outlet: OutletRow,
+): number {
+  const payroll = outletPayrollYearMinor(api, outlet.organizationId);
+  const payTaxShare = employerTaxShareOfWage(
+    api,
+    pressParameter("reporterAnnualPayMinor"),
+  );
+  return (
+    (payroll * (1 + payTaxShare + pressParameter("bureauMarginShare"))) /
+    pressParameter("monthsPerYear")
+  );
+}
+
+/** The counted adults who follow an outlet: its audience less its full followers. */
+function countedReadersOf(api: CoreAPI, outlet: OutletRow): number {
+  return Math.max(
+    0,
+    countedAudience(api, outlet) - followersOf(api, outlet.id).length,
+  );
+}
+
+/**
+ * What an outlet can expect to take in a year: its readers' subscriptions and
+ * its share of the town's businesses' ads at their cash today, and at least
+ * what its people here cost where its wider audience makes up the rest.
+ */
+function expectedRevenueYearMinor(api: CoreAPI, outlet: OutletRow): number {
+  const core = api.state as CoreState;
+  const months = pressParameter("monthsPerYear");
+  const local = outletsHere(api).filter((o) => o.tier !== "national");
+  const audience = (o: OutletRow) => countedAudience(api, o);
+  const total = local.reduce((n, o) => n + audience(o), 0);
+  const subscriptions =
+    outlet.kind === "newspaper"
+      ? audience(outlet) *
+        pressParameter("newspaperRevenuePerFollowerYear") *
+        pressParameter("newspaperCirculationShare")
+      : 0;
+  let ads = 0;
+  if (total > 0)
+    for (const id of core.finance.businessesByPlace.get(outlet.placeId) ?? [])
+      if (!local.some((o) => o.organizationId === id))
+        ads += adBudgetMonthMinor(api, id) * months;
+  const town =
+    subscriptions + (total > 0 ? (ads * audience(outlet)) / total : 0);
+  const floor = outsideCustomersOf(core, outlet.placeId)
+    ? outletMonthlyCostMinor(api, outlet) * months
+    : 0;
+  return Math.round(Math.max(town, floor));
+}
+
+/** What the money side reads of the press: its outlets, their audiences and costs. */
+function outletMoneyDeps(api: CoreAPI): OutletMoneyDeps {
+  // A closed outlet is paid by no one.
+  const local = () =>
+    outletsHere(api).filter(
+      (o) =>
+        o.tier !== "national" &&
+        !api.state.finance.businesses.get(o.organizationId)?.closedAt,
+    );
+  return {
+    moduleId: PRESS_MODULE_ID,
+    townPlaceId: () => lawChain(api).townPlaceId,
+    outlets: local,
+    followers: (id) => followersOf(api, id),
+    countedFollowers: (id) => {
+      const outlet = local().find((o) => o.id === id);
+      return outlet ? countedReadersOf(api, outlet) : 0;
+    },
+    subscriptionYearMinor:
+      pressParameter("newspaperRevenuePerFollowerYear") *
+      pressParameter("newspaperCirculationShare"),
+    adShareOfCosts: pressParameter("advertisingShareOfCosts"),
+    localNewsShareOfAds: pressParameter("localNewsShareOfAdvertising"),
+    monthlyCostMinor: (id) => {
+      const outlet = local().find((o) => o.id === id);
+      return outlet ? outletMonthlyCostMinor(api, outlet) : 0;
+    },
+    source: {
+      tag: "ESTIMATED",
+      citation:
+        "src/core2/data/press/parameters.json: a paper's circulation revenue per reader (Pew newspapers fact sheet 2022); businesses' advertising share of costs (IRS SOI 2022 Table 2.1) and the local news share of it (Pew 2022)",
+      asOf: api.state.date,
+      estimatedFrom: "subscriptions and advertising",
+    },
+  };
+}
 
 /**
  * Register the press and record the town's outlets: its county's share of the
@@ -549,61 +697,15 @@ export function openPress(core: CoreState): readonly OutletRow[] {
   }
   followCache.delete(api.state);
   pressStaffChanged(api);
-  // Revenue: its audience's subscriptions and the advertising they see, from
-  // the town's outside customers. A national outlet's money is outside the
-  // town's economy.
+  // Revenue: its readers' subscriptions and the town's businesses' ads, each
+  // paid from the payer's own account. A national outlet's money is outside
+  // the town's economy.
+  installOutletMoney(api, outletMoneyDeps(api));
   for (const outlet of outletsHere(api)) {
     if (outlet.tier === "national") continue;
-    const audience = countedAudience(api, outlet);
-    const fromAudience = Math.round(
-      audience *
-        pressParameter(
-          outlet.kind === "newspaper"
-            ? "newspaperRevenuePerFollowerYear"
-            : outlet.kind === "television"
-              ? "televisionRevenuePerFollowerYear"
-              : "radioRevenuePerFollowerYear",
-        ),
-    );
-    // The outlet in town is its town bureau: where its audience here pays
-    // less than its people here cost, the wider area it serves makes up the
-    // rest, as a parent funds a location.
-    const payroll = [outlet.headId, ...outlet.reporterIds].reduce((sum, id) => {
-      const job = id ? core.jobs.get(core.people.get(id)?.jobId ?? "") : null;
-      return (
-        sum + (job?.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear")
-      );
-    }, 0);
-    // Its people cost their pay and the employer's payroll taxes on it.
-    const payTaxShare = employerTaxShareOfWage(
-      api,
-      pressParameter("reporterAnnualPayMinor"),
-    );
-    const capacityMinor = Math.max(
-      fromAudience,
-      Math.round(
-        payroll * (1 + payTaxShare + pressParameter("bureauMarginShare")),
-      ),
-    );
-    // stopgapId: SG-PEOPLE-press-outlet-revenue
-    api.stopgap("SG-PEOPLE-press-outlet-revenue");
-    const revenue = startOutletRevenue(api, {
-      organizationId: outlet.organizationId,
-      placeId: town,
-      annualMinor: capacityMinor,
-      monthsPerYear: pressParameter("monthsPerYear"),
-      daysPerYear: pressParameter("daysPerYear"),
-      source: {
-        tag: "ESTIMATED",
-        citation:
-          "src/core2/data/press/parameters.json: an outlet's revenue per follower per year by kind (Pew State of the News Media 2023), at least its town staff's pay and margin",
-        asOf: api.state.date,
-        estimatedFrom: "revenue per follower",
-      },
-    });
     table(api, "outlets").put({
       ...outlet,
-      audienceRevenueMinor: revenue,
+      audienceRevenueMinor: expectedRevenueYearMinor(api, outlet),
     } as unknown as ModuleRow);
   }
   scheduleWeek(api, api.state.date);
@@ -643,14 +745,13 @@ function enrollPressEmployers(api: CoreAPI): void {
     if (!jobs.length || core.finance.businesses.has(outlet.organizationId))
       continue;
     const payroll = Math.round(
-      jobs.reduce(
-        (sum, job) =>
-          sum + (job.hourlyMinor ?? 0) * pressParameter("fullTimeHoursPerYear"),
-        0,
-      ),
+      outletPayrollYearMinor(api, outlet.organizationId),
     );
-    // SG-PEOPLE-press-outlet-revenue still covers demand and absent supplier
-    // contracts. An actual income anchor prevents manufactured zero demand.
+    // Its demand is the revenue it can expect (subscriptions, ads and its
+    // wider audience's part); an actual income anchor prevents manufactured
+    // zero demand. Its costs other than its people are not on its books.
+    // stopgapId: SG-PEOPLE-press-outlet-other-costs
+    api.stopgap("SG-PEOPLE-press-outlet-other-costs");
     api.addBusinessBooks({
       organizationId: outlet.organizationId,
       kindId: "information",
@@ -664,8 +765,8 @@ function enrollPressEmployers(api: CoreAPI): void {
       source: {
         tag: "ESTIMATED",
         asOf: core.date,
-        citation: `Press payroll and registered revenue estimate; town income anchor from ${anchor.organizationId}.`,
-        estimatedFrom: "SG-PEOPLE-press-outlet-revenue",
+        citation: `Press payroll and expected subscription and advertising revenue; town income anchor from ${anchor.organizationId}.`,
+        estimatedFrom: "expected revenue",
       },
     });
     enrollBusinessOwner(api, {
@@ -882,6 +983,38 @@ function adOutlet(api: CoreAPI): {
 }
 
 /**
+ * The town's counted adults by age band, counted once a week: the count walks
+ * every counted resident, and a campaign asks for an outlet's audience many
+ * times a day while the adults change slowly (the same week the followers of
+ * an outlet are held, `countedFollowersOf`).
+ */
+function townAdultsByBand(api: CoreAPI): ReadonlyMap<Band, number> {
+  const held = adultsCache.get(api.state);
+  if (
+    held &&
+    held.date <= api.state.date &&
+    api.state.date < addDays(makeIsoDate(held.date), 7)
+  )
+    return held.adults;
+  const town = lawChain(api).townPlaceId;
+  const date = api.state.date;
+  const adults = new Map<Band, number>();
+  for (const voter of countedResidents(api.state as CoreState)) {
+    if (voter.placeId !== town) continue;
+    const age = ageOn(voter, date);
+    if (age < 18) continue;
+    const band = bandOf(age);
+    adults.set(band, (adults.get(band) ?? 0) + voter.weight);
+  }
+  adultsCache.set(api.state, { date, adults });
+  return adults;
+}
+const adultsCache = new WeakMap<
+  object,
+  { date: string; adults: ReadonlyMap<Band, number> }
+>();
+
+/**
  * The counted adults in town who follow an outlet: the same rule as the full
  * people (in each age band the share that follows its kind, Pew 2024), times
  * each counted household's weight, and the outlet's slice of its kind's
@@ -892,17 +1025,8 @@ export function countedFollowers(api: CoreAPI, outletId: string): number {
   const outlet = table(api, "outlets").get(outletId) as unknown as
     OutletRow | undefined;
   if (!outlet) return 0;
-  const town = lawChain(api).townPlaceId;
-  const date = api.state.date;
   const national = NATIONAL.kinds.find((row) => row.kind === outlet.kind);
-  const adults = new Map<Band, number>();
-  for (const voter of countedResidents(api.state as CoreState)) {
-    if (voter.placeId !== town) continue;
-    const age = ageOn(voter, date);
-    if (age < 18) continue;
-    const band = bandOf(age);
-    adults.set(band, (adults.get(band) ?? 0) + voter.weight);
-  }
+  const adults = townAdultsByBand(api);
   let ofKind = 0;
   for (const [band, count] of adults) {
     const share = national
@@ -2046,10 +2170,7 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     .get(crimeId) as unknown as CrimeRecord | undefined;
   if (!crime?.taken || table(api, "tips").get(crimeId)) return;
   const officialId = crime.officialId;
-  const staff = new Map<string, OutletRow>();
-  for (const outlet of outletsHere(api))
-    for (const id of outlet.reporterIds ?? []) staff.set(id, outlet);
-  const p = pressParameter;
+  const staff = reportersHere(api);
   for (const knowerId of [...event.personIds, ...(event.witnessIds ?? [])]) {
     const knower = api.state.people.get(knowerId);
     if (!knower?.alive || knowerId === officialId) continue;
@@ -2061,103 +2182,205 @@ function tipOff(api: CoreAPI, event: Readonly<CoreEventInput>): void {
           a.localeCompare(b),
       )[0];
     if (!reporterId) continue;
-    const reporter = api.state.people.get(reporterId);
-    if (!reporter?.alive) continue;
-    const tip =
-      reporterId === knowerId
-        ? 1
-        : decisionLean(api.state, knower, "press.tip", "tip", "keep") +
-          closeness(api, knowerId, reporterId) -
-          regard(api, p, knowerId, officialId);
-    const row: Record<string, unknown> = {
-      id: crimeId,
+    const row = weighTip(api, {
       crimeId,
+      officialId,
       knowerId,
       reporterId,
-      officialId,
-      date: api.state.date,
-      tip,
-      dig: null,
-      run: null,
-      storyId: null,
-    };
-    if (tip <= 0) {
-      table(api, "tips").put(row as unknown as ModuleRow);
-      continue;
-    }
-    // The paper trail: the payment is on the cash journal.
-    const dig =
-      decisionLean(api.state, reporter, "press.dig", "dig", "let-go") +
-      grudge(api, reporterId, officialId) -
-      closeness(api, reporterId, officialId) +
-      p("tipDocumentsWeight");
-    row.dig = dig;
-    const outlet = staff.get(reporterId)!;
-    const run =
-      dig -
-      p("slantOwnerWeight") *
-        (outlet.ownerId ? regard(api, p, outlet.ownerId, officialId) : 0) -
-      p("slantPublisherWeight") *
-        (outlet.headId ? regard(api, p, outlet.headId, officialId) : 0);
-    row.run = dig > 0 ? run : null;
-    if (dig > 0 && run > 0) {
-      const exposedId = `press.exposed:${crimeId}:${outlet.id}`;
-      api.emit({
-        id: exposedId,
-        date: api.state.date,
-        kind: "press.exposed",
-        personIds: api.state.people.has(officialId) ? [officialId] : [],
-        placeId: outlet.placeId,
-        publicRecord: true,
-        news: true,
-        topic: `conduct:${officialId}`,
-        facts: { [`crime:${crimeId}`]: "bribe-taken", outletId: outlet.id },
-        source: {
-          tag: "SOURCED",
-          citation: `A reporter's story on recorded bribe ${crimeId}`,
-          asOf: api.state.date,
-        },
-      });
-      const ctx = deskContext(api);
-      const story = printItem(
-        api,
-        ctx,
-        outlet,
-        reporterId,
-        {
-          id: exposedId,
-          kind: "press.exposed",
-          date: api.state.date,
-          level: "town",
-          topic: `conduct:${officialId}`,
-          desiredChange: "remove",
-          ending: false,
-          subjectIds: api.state.people.has(officialId) ? [officialId] : [],
-        },
-        null,
-        {
-          slant: {
-            slant: -Math.min(1, run),
-            reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
-          },
-          facts: { [`crime:${crimeId}`]: "bribe-taken" },
-        },
-      );
-      row.storyId = story.id;
-      for (const id of ctx.followers(outlet.id))
-        if (id !== officialId)
-          touchImpression(api, {
-            voterId: id,
-            officialId,
-            act: "interview",
-            target: -1,
-            weight: p("exposureWeight") * Math.min(1, run),
-            rapport: 0,
-          });
-    }
-    table(api, "tips").put(row as unknown as ModuleRow);
-    if (row.storyId) return;
+      staff,
+      leak: false,
+    });
+    if (row?.storyId) return;
   }
+}
+
+/** The town's outlets' reporters, each with the outlet they file for. */
+function reportersHere(api: CoreAPI): Map<string, OutletRow> {
+  const staff = new Map<string, OutletRow>();
+  for (const outlet of outletsHere(api))
+    for (const id of outlet.reporterIds ?? []) staff.set(id, outlet);
+  return staff;
+}
+
+/**
+ * One person's tip of a hidden act to a reporter, weighed in order: whether
+ * the one who knows takes it (their lean toward tipping off over keeping
+ * quiet, their closeness to the reporter, their regard for the official; a
+ * leak is a tip the person chose to make), whether the reporter digs, and
+ * whether the outlet's owner and head let it run. A run is a public record
+ * and a story its readers take in. Returns the tip's row, or null when the
+ * reporter is no longer there.
+ */
+function weighTip(
+  api: CoreAPI,
+  input: {
+    readonly crimeId: string;
+    readonly officialId: string;
+    readonly knowerId: string;
+    readonly reporterId: string;
+    readonly staff: ReadonlyMap<string, OutletRow>;
+    readonly leak: boolean;
+  },
+): Record<string, unknown> | null {
+  const { crimeId, officialId, knowerId, reporterId, staff } = input;
+  const knower = api.state.people.get(knowerId);
+  const reporter = api.state.people.get(reporterId);
+  const outlet = staff.get(reporterId);
+  if (!knower?.alive || !reporter?.alive || !outlet) return null;
+  const p = pressParameter;
+  const tip =
+    reporterId === knowerId || input.leak
+      ? 1
+      : decisionLean(api.state, knower, "press.tip", "tip", "keep") +
+        closeness(api, knowerId, reporterId) -
+        regard(api, p, knowerId, officialId);
+  const row: Record<string, unknown> = {
+    id: crimeId,
+    crimeId,
+    knowerId,
+    reporterId,
+    officialId,
+    date: api.state.date,
+    tip,
+    dig: null,
+    run: null,
+    storyId: null,
+    ...(input.leak ? { leaked: true } : {}),
+  };
+  if (tip <= 0) {
+    table(api, "tips").put(row as unknown as ModuleRow);
+    return row;
+  }
+  // The paper trail: the payment is on the cash journal.
+  const dig =
+    decisionLean(api.state, reporter, "press.dig", "dig", "let-go") +
+    grudge(api, reporterId, officialId) -
+    closeness(api, reporterId, officialId) +
+    p("tipDocumentsWeight");
+  row.dig = dig;
+  const run =
+    dig -
+    p("slantOwnerWeight") *
+      (outlet.ownerId ? regard(api, p, outlet.ownerId, officialId) : 0) -
+    p("slantPublisherWeight") *
+      (outlet.headId ? regard(api, p, outlet.headId, officialId) : 0);
+  row.run = dig > 0 ? run : null;
+  if (dig > 0 && run > 0) {
+    const exposedId = `press.exposed:${crimeId}:${outlet.id}`;
+    api.emit({
+      id: exposedId,
+      date: api.state.date,
+      kind: "press.exposed",
+      personIds: api.state.people.has(officialId) ? [officialId] : [],
+      placeId: outlet.placeId,
+      publicRecord: true,
+      news: true,
+      topic: `conduct:${officialId}`,
+      facts: { [`crime:${crimeId}`]: "bribe-taken", outletId: outlet.id },
+      source: {
+        tag: "SOURCED",
+        citation: `A reporter's story on recorded bribe ${crimeId}`,
+        asOf: api.state.date,
+      },
+    });
+    const ctx = deskContext(api);
+    const story = printItem(
+      api,
+      ctx,
+      outlet,
+      reporterId,
+      {
+        id: exposedId,
+        kind: "press.exposed",
+        date: api.state.date,
+        level: "town",
+        topic: `conduct:${officialId}`,
+        desiredChange: "remove",
+        ending: false,
+        subjectIds: api.state.people.has(officialId) ? [officialId] : [],
+      },
+      null,
+      {
+        slant: {
+          slant: -Math.min(1, run),
+          reasons: { lean: 0, tie: 0, publisher: 0, advertiser: 0 },
+        },
+        facts: { [`crime:${crimeId}`]: "bribe-taken" },
+      },
+    );
+    row.storyId = story.id;
+    for (const id of ctx.followers(outlet.id))
+      if (id !== officialId)
+        touchImpression(api, {
+          voterId: id,
+          officialId,
+          act: "interview",
+          target: -1,
+          weight: p("exposureWeight") * Math.min(1, run),
+          rapport: 0,
+        });
+  }
+  table(api, "tips").put(row as unknown as ModuleRow);
+  return row;
+}
+
+/**
+ * A person who knows of a hidden act takes it to a reporter on purpose (a
+ * leak): the tip is theirs to give,
+ * so the first step is not weighed; the reporter still decides to dig and the
+ * outlet's owner and head still decide to run it. The leaker is named on the
+ * tip and in what the reporter knows, and the two spend time together. A tip
+ * already in print is not leaked again. Returns the tip.
+ */
+export function leakToReporter(
+  api: CoreAPI,
+  input: {
+    readonly leakerId: string;
+    readonly reporterId: string;
+    readonly crimeId: string;
+  },
+): Record<string, unknown> {
+  const crime = api.state.modules.has(CORRUPTION_MODULE_ID)
+    ? (api
+        .moduleState(CORRUPTION_MODULE_ID)
+        .table("crimes")
+        .get(input.crimeId) as unknown as CrimeRecord | undefined)
+    : undefined;
+  if (!crime?.taken) throw new Error(`No hidden act to leak: ${input.crimeId}`);
+  if (input.leakerId === crime.officialId)
+    throw new Error("The official cannot leak their own act.");
+  // They can leak only what they know: they were told of it, or they told it.
+  const told = (
+    table(api, "told").query("byCrime", [input.crimeId]) as unknown as {
+      personIds: readonly string[];
+    }[]
+  ).some((row) => row.personIds.includes(input.leakerId));
+  if (!told && input.leakerId !== crime.offererId)
+    throw new Error(`${input.leakerId} does not know of ${input.crimeId}.`);
+  const staff = reportersHere(api);
+  if (!staff.has(input.reporterId))
+    throw new Error(`${input.reporterId} reports for no outlet here.`);
+  const had = table(api, "tips").get(input.crimeId) as unknown as
+    Record<string, unknown> | undefined;
+  if (had?.storyId) return had;
+  const row = weighTip(api, {
+    crimeId: input.crimeId,
+    officialId: crime.officialId,
+    knowerId: input.leakerId,
+    reporterId: input.reporterId,
+    staff,
+    leak: true,
+  })!;
+  // The reporter knows who gave it to them, and the two have spent time together.
+  api.observe(input.reporterId, {
+    key: `leak:${input.crimeId}`,
+    value: input.leakerId,
+    learnedAt: api.state.date,
+    sourceId: `leak:${input.crimeId}`,
+    access: "told",
+  });
+  api.relationship(input.leakerId, input.reporterId, "contact", 0.5);
+  return row;
 }
 
 /**
@@ -2458,10 +2681,66 @@ export function refreshPressStaff(api: CoreAPI): void {
   pressStaffChanged(api);
 }
 
+/**
+ * Each press week the outlets' wider audience pays its part of the coming
+ * week; the first press week of each month, each outlet's yearly revenue is
+ * last month's, times twelve.
+ */
+function reviewOutletRevenue(api: CoreAPI, monthStart: boolean): void {
+  const deps = outletMoneyDeps(api);
+  // A restored world has no money hooks until the press puts them back.
+  installOutletMoney(api, deps);
+  const core = api.state as CoreState;
+  payWiderAudience(
+    api,
+    deps,
+    outsideCustomersOf(core, lawChain(api).townPlaceId),
+    api.parameter("daysPerWeek"),
+  );
+  if (!monthStart) return;
+  const last = addDays(makeIsoDate(`${core.date.slice(0, 7)}-01`), -1).slice(
+    0,
+    7,
+  );
+  const yearly = outletYearlyRevenue(api, deps, last);
+  for (const outlet of outletsHere(api)) {
+    const revenue = yearly.get(outlet.organizationId);
+    if (revenue === undefined || revenue === outlet.audienceRevenueMinor)
+      continue;
+    table(api, "outlets").put({
+      ...outlet,
+      audienceRevenueMinor: revenue,
+    } as unknown as ModuleRow);
+  }
+}
+
+/** Owners given a household cost spend what it came to since last week out of what they hold. */
+function ownersLive(api: CoreAPI): void {
+  for (const raw of table(api, "staff").rows()) {
+    const row = raw as unknown as StaffRow;
+    if (!row.livedThrough || row.livedThrough >= api.state.date) continue;
+    spendLivingCost(
+      api,
+      row.id,
+      daysBetweenText(row.livedThrough, api.state.date),
+    );
+    table(api, "staff").put({
+      ...row,
+      livedThrough: api.state.date,
+    } as unknown as ModuleRow);
+  }
+}
+
 function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind !== "press-week") return;
   scheduleWeek(api, api.state.date);
   refreshPressStaff(api);
+  // Revenue: the week's wider-audience part, and each month's yearly rate.
+  reviewOutletRevenue(
+    api,
+    Number(api.state.date.slice(8, 10)) <= api.parameter("daysPerWeek"),
+  );
+  ownersLive(api);
   // stopgapId: SG-PEOPLE-press-endorsements
   api.stopgap("SG-PEOPLE-press-endorsements");
   // The week's stories: each reporter files from the fresh wire.
@@ -2529,21 +2808,21 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       if (row.status !== "invited" || f.personId === playerId) continue;
       const person = api.state.people.get(f.personId);
       const reporter = row.reporterId ?? "";
-      const willing = person
-        ? // Every trait's lean, on the trait scale the bar was set on, and
-          // how they stand with the reporter who asks.
-          parameter("traitScale") *
-            decisionLean(
-              api.state,
-              person,
-              "press.accept-interview",
-              "accept",
-              "decline",
-            ) +
-          closeness(api, person.id, reporter) -
-          grudge(api, person.id, reporter)
-        : 0;
-      if (willing < pressParameter("interviewShyness")) refuse(api, row);
+      // How they stand with the reporter who asks, past the bar, and every
+      // trait's lean toward accepting.
+      const accepts = person
+        ? leanedYes(
+            api.state,
+            person,
+            "press.accept-interview",
+            "accept",
+            "decline",
+            closeness(api, person.id, reporter) -
+              grudge(api, person.id, reporter) -
+              pressParameter("interviewShyness"),
+          )
+        : true;
+      if (!accepts) refuse(api, row);
       else publish(api, row, candidateAnswers(api, row.questions, f));
     }
 }

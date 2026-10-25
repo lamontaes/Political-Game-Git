@@ -1,0 +1,880 @@
+{
+  "about": "Rows to add to data.geos in src/core2/data/opening-partnership.json for the four territories the ACS does not cover (keys '66' Guam, '78' U.S. Virgin Islands, '60' American Samoa, '69' Northern Mariana Islands), from the 2020 Census Island Areas tables (people in households; Guam PCT2/PCT18/PCT13/P15/P19/P20/P22, USVI PCT2/PCT15/PCT10/P15/P19/P20/P22, American Samoa and CNMI PCT2/PCT17/PCT12/P15/P19/P20/P22). Puerto Rico ('72') already reads its own ACS 2024 1-year row in that file.",
+  "geos": {
+    "66": {
+      "population": {
+        "male": [
+          2188.0,
+          1056.0,
+          1050.0,
+          3354.0,
+          5669.0,
+          5018.0,
+          4368.0,
+          4213.0,
+          4625.0,
+          4931.0,
+          4885.0,
+          1810.0,
+          2273.0,
+          1262.0,
+          1898.0,
+          2362.0,
+          1130.0,
+          791.0,
+          463.0
+        ],
+        "female": [
+          2189.0,
+          1061.0,
+          1032.0,
+          3130.0,
+          5342.0,
+          4721.0,
+          4628.0,
+          4500.0,
+          5081.0,
+          5022.0,
+          4801.0,
+          1681.0,
+          2440.0,
+          1511.0,
+          1965.0,
+          2486.0,
+          1478.0,
+          944.0,
+          718.0
+        ]
+      },
+      "marital": {
+        "male": [
+          3651,
+          2163,
+          5312,
+          5455,
+          4829,
+          4173,
+          4024,
+          4569,
+          4871,
+          4857,
+          4059,
+          5515,
+          1919,
+          463
+        ],
+        "female": [
+          3377,
+          2162,
+          5109,
+          5146,
+          4547,
+          4463,
+          4339,
+          5026,
+          4967,
+          4777,
+          4100,
+          5955,
+          2419,
+          715
+        ]
+      },
+      "neverMarried": {
+        "male": [
+          3636,
+          2128,
+          4783,
+          4029,
+          2545,
+          1640,
+          1218,
+          1056,
+          923,
+          660,
+          504,
+          367,
+          73,
+          16
+        ],
+        "female": [
+          3357,
+          2084,
+          4336,
+          3318,
+          1947,
+          1360,
+          1008,
+          894,
+          732,
+          546,
+          417,
+          376,
+          108,
+          24
+        ]
+      },
+      "spousePresent": {
+        "male": [
+          2,
+          11,
+          324,
+          1053,
+          1753,
+          2017,
+          2190,
+          2809,
+          3049,
+          3244,
+          2712,
+          3877,
+          1359,
+          252
+        ],
+        "female": [
+          4,
+          16,
+          460,
+          1383,
+          1993,
+          2469,
+          2538,
+          3218,
+          3172,
+          2960,
+          2464,
+          3034,
+          915,
+          114
+        ]
+      },
+      "households": {
+        "otherFamilyNoChildren": 6461,
+        "nonfamilyShared": 1703,
+        "nonfamilyBySize": [
+          1451,
+          158,
+          54,
+          22,
+          12,
+          6
+        ]
+      },
+      "arrangements": {
+        "adults": [
+          35810,
+          55258,
+          17008
+        ],
+        "livesAlone": [
+          1528,
+          3272,
+          2074
+        ],
+        "unpartnered": [
+          28148,
+          20246,
+          6587
+        ],
+        "nonrelatives": [
+          1688,
+          977,
+          323
+        ],
+        "childOfHouseholder": [
+          15648,
+          4139,
+          125
+        ],
+        "otherRelatives": [
+          3903,
+          7093,
+          3573
+        ]
+      },
+      "_exactness": {
+        "exact": [
+          "population",
+          "households",
+          "marital (15-17, 18-19, 20-24 and 85+ bands; coarse bands split)",
+          "livesAlone age 65+ and living-alone total"
+        ],
+        "estimated": [
+          "marital/neverMarried/spousePresent sub-band splits of 25-34, 35-44, 45-54, 55-64, 65-84 (population-weighted, logit-shifted US shape)",
+          "arrangements except adults and livesAlone[2] (IA census has no living-arrangement-by-age table; totals exact, age split by US shares)"
+        ]
+      }
+    },
+    "78": {
+      "population": {
+        "male": [
+          902.0,
+          404.0,
+          405.0,
+          1064.0,
+          1987.0,
+          2031.0,
+          2255.0,
+          2299.0,
+          2637.0,
+          3086.0,
+          3212.0,
+          1290.0,
+          1795.0,
+          1110.0,
+          1489.0,
+          2474.0,
+          1819.0,
+          889.0,
+          548.0
+        ],
+        "female": [
+          878.0,
+          411.0,
+          361.0,
+          1205.0,
+          2376.0,
+          2430.0,
+          2572.0,
+          2617.0,
+          2881.0,
+          3357.0,
+          3624.0,
+          1432.0,
+          1943.0,
+          1271.0,
+          1822.0,
+          2750.0,
+          2062.0,
+          1211.0,
+          952.0
+        ]
+      },
+      "marital": {
+        "male": [
+          1486,
+          902,
+          1873,
+          1987,
+          2031,
+          2255,
+          2299,
+          2637,
+          3086,
+          3212,
+          3085,
+          5073,
+          2708,
+          548
+        ],
+        "female": [
+          1413,
+          878,
+          1977,
+          2376,
+          2430,
+          2572,
+          2617,
+          2881,
+          3357,
+          3624,
+          3375,
+          5843,
+          3273,
+          952
+        ]
+      },
+      "neverMarried": {
+        "male": [
+          1474,
+          898,
+          1795,
+          1690,
+          1404,
+          1245,
+          1041,
+          991,
+          983,
+          859,
+          763,
+          728,
+          230,
+          59
+        ],
+        "female": [
+          1405,
+          863,
+          1839,
+          1923,
+          1546,
+          1367,
+          1148,
+          1095,
+          1102,
+          993,
+          840,
+          1022,
+          422,
+          154
+        ]
+      },
+      "spousePresent": {
+        "male": [
+          3,
+          0,
+          37,
+          192,
+          412,
+          649,
+          782,
+          997,
+          1202,
+          1400,
+          1345,
+          2629,
+          1422,
+          252
+        ],
+        "female": [
+          3,
+          5,
+          82,
+          315,
+          595,
+          835,
+          926,
+          1129,
+          1308,
+          1490,
+          1324,
+          2294,
+          898,
+          122
+        ]
+      },
+      "households": {
+        "otherFamilyNoChildren": 5816,
+        "nonfamilyShared": 1981,
+        "nonfamilyBySize": [
+          1806,
+          117,
+          39,
+          12,
+          6,
+          1
+        ]
+      },
+      "arrangements": {
+        "adults": [
+          14454,
+          35000,
+          18397
+        ],
+        "livesAlone": [
+          2996,
+          6414,
+          6492
+        ],
+        "unpartnered": [
+          12373,
+          20179,
+          10205
+        ],
+        "nonrelatives": [
+          911,
+          527,
+          174
+        ],
+        "childOfHouseholder": [
+          6389,
+          1690,
+          51
+        ],
+        "otherRelatives": [
+          1340,
+          2435,
+          1227
+        ]
+      },
+      "_exactness": {
+        "exact": [
+          "population",
+          "households",
+          "marital (15-17, 18-19, 20-24 and 85+ bands; coarse bands split)",
+          "livesAlone age 65+ and living-alone total"
+        ],
+        "estimated": [
+          "marital/neverMarried/spousePresent sub-band splits of 25-34, 35-44, 45-54, 55-64, 65-84 (population-weighted, logit-shifted US shape)",
+          "arrangements except adults and livesAlone[2] (IA census has no living-arrangement-by-age table; totals exact, age split by US shares)"
+        ]
+      }
+    },
+    "60": {
+      "population": {
+        "male": [
+          912.0,
+          351.0,
+          305.0,
+          874.0,
+          1409.0,
+          1384.0,
+          1399.0,
+          1544.0,
+          1570.0,
+          1578.0,
+          1276.0,
+          455.0,
+          520.0,
+          306.0,
+          351.0,
+          418.0,
+          232.0,
+          114.0,
+          46.0
+        ],
+        "female": [
+          769.0,
+          356.0,
+          326.0,
+          906.0,
+          1610.0,
+          1482.0,
+          1439.0,
+          1576.0,
+          1557.0,
+          1497.0,
+          1320.0,
+          431.0,
+          564.0,
+          297.0,
+          374.0,
+          470.0,
+          250.0,
+          162.0,
+          93.0
+        ]
+      },
+      "marital": {
+        "male": [
+          1709,
+          912,
+          1530,
+          1409,
+          1384,
+          1399,
+          1544,
+          1570,
+          1578,
+          1276,
+          975,
+          1075,
+          346,
+          46
+        ],
+        "female": [
+          1606,
+          769,
+          1588,
+          1610,
+          1482,
+          1439,
+          1576,
+          1557,
+          1497,
+          1320,
+          995,
+          1141,
+          412,
+          93
+        ]
+      },
+      "neverMarried": {
+        "male": [
+          1701,
+          900,
+          1305,
+          825,
+          496,
+          380,
+          309,
+          258,
+          210,
+          132,
+          91,
+          68,
+          12,
+          3
+        ],
+        "female": [
+          1598,
+          751,
+          1263,
+          793,
+          424,
+          289,
+          232,
+          199,
+          156,
+          127,
+          85,
+          66,
+          17,
+          5
+        ]
+      },
+      "spousePresent": {
+        "male": [
+          2,
+          6,
+          128,
+          388,
+          657,
+          787,
+          959,
+          1045,
+          1067,
+          868,
+          664,
+          707,
+          230,
+          21
+        ],
+        "female": [
+          2,
+          14,
+          206,
+          589,
+          815,
+          904,
+          1037,
+          1041,
+          999,
+          778,
+          568,
+          467,
+          119,
+          6
+        ]
+      },
+      "households": {
+        "otherFamilyNoChildren": 1726,
+        "nonfamilyShared": 210,
+        "nonfamilyBySize": [
+          146,
+          28,
+          12,
+          9,
+          6,
+          9
+        ]
+      },
+      "arrangements": {
+        "adults": [
+          10684,
+          16726,
+          3113
+        ],
+        "livesAlone": [
+          242,
+          517,
+          194
+        ],
+        "unpartnered": [
+          7818,
+          5805,
+          1481
+        ],
+        "nonrelatives": [
+          777,
+          449,
+          149
+        ],
+        "childOfHouseholder": [
+          4968,
+          1314,
+          40
+        ],
+        "otherRelatives": [
+          1755,
+          3189,
+          1606
+        ]
+      },
+      "_exactness": {
+        "exact": [
+          "population",
+          "households",
+          "marital (15-17, 18-19, 20-24 and 85+ bands; coarse bands split)",
+          "livesAlone age 65+ and living-alone total"
+        ],
+        "estimated": [
+          "marital/neverMarried/spousePresent sub-band splits of 25-34, 35-44, 45-54, 55-64, 65-84 (population-weighted, logit-shifted US shape)",
+          "arrangements except adults and livesAlone[2] (IA census has no living-arrangement-by-age table; totals exact, age split by US shares)"
+        ]
+      }
+    },
+    "69": {
+      "population": {
+        "male": [
+          675.0,
+          328.0,
+          314.0,
+          854.0,
+          1528.0,
+          1521.0,
+          1452.0,
+          1673.0,
+          1907.0,
+          2037.0,
+          1712.0,
+          588.0,
+          688.0,
+          353.0,
+          359.0,
+          406.0,
+          148.0,
+          85.0,
+          40.0
+        ],
+        "female": [
+          662.0,
+          278.0,
+          295.0,
+          776.0,
+          1485.0,
+          1362.0,
+          1475.0,
+          1617.0,
+          1860.0,
+          1960.0,
+          1508.0,
+          512.0,
+          622.0,
+          323.0,
+          357.0,
+          349.0,
+          149.0,
+          94.0,
+          68.0
+        ]
+      },
+      "marital": {
+        "male": [
+          1304,
+          685,
+          1537,
+          1627,
+          1620,
+          1610,
+          1856,
+          2035,
+          2174,
+          1824,
+          1360,
+          1156,
+          241,
+          40
+        ],
+        "female": [
+          1178,
+          667,
+          1371,
+          1508,
+          1383,
+          1493,
+          1637,
+          1875,
+          1976,
+          1529,
+          1150,
+          1038,
+          245,
+          72
+        ]
+      },
+      "neverMarried": {
+        "male": [
+          1303,
+          665,
+          1408,
+          1228,
+          887,
+          637,
+          567,
+          445,
+          389,
+          281,
+          191,
+          97,
+          12,
+          0
+        ],
+        "female": [
+          1173,
+          642,
+          1216,
+          1057,
+          680,
+          530,
+          451,
+          423,
+          372,
+          296,
+          200,
+          126,
+          21,
+          11
+        ]
+      },
+      "spousePresent": {
+        "male": [
+          0,
+          4,
+          42,
+          213,
+          427,
+          551,
+          741,
+          977,
+          1068,
+          886,
+          661,
+          668,
+          141,
+          25
+        ],
+        "female": [
+          0,
+          5,
+          75,
+          316,
+          498,
+          752,
+          878,
+          1050,
+          1102,
+          740,
+          533,
+          398,
+          66,
+          7
+        ]
+      },
+      "households": {
+        "otherFamilyNoChildren": 1789,
+        "nonfamilyShared": 1194,
+        "nonfamilyBySize": [
+          955,
+          122,
+          51,
+          23,
+          20,
+          23
+        ]
+      },
+      "arrangements": {
+        "adults": [
+          10078,
+          19611,
+          2731
+        ],
+        "livesAlone": [
+          850,
+          1819,
+          404
+        ],
+        "unpartnered": [
+          8080,
+          8318,
+          883
+        ],
+        "nonrelatives": [
+          1006,
+          582,
+          192
+        ],
+        "childOfHouseholder": [
+          3348,
+          885,
+          27
+        ],
+        "otherRelatives": [
+          1028,
+          1869,
+          942
+        ]
+      },
+      "_exactness": {
+        "exact": [
+          "population",
+          "households",
+          "marital (15-17, 18-19, 20-24 and 85+ bands; coarse bands split)",
+          "livesAlone age 65+ and living-alone total"
+        ],
+        "estimated": [
+          "marital/neverMarried/spousePresent sub-band splits of 25-34, 35-44, 45-54, 55-64, 65-84 (population-weighted, logit-shifted US shape)",
+          "arrangements except adults and livesAlone[2] (IA census has no living-arrangement-by-age table; totals exact, age split by US shares)"
+        ]
+      }
+    }
+  },
+  "comparisonToNation": {
+    "GU": {
+      "neverMarriedWomen25to34": 0.543,
+      "neverMarriedMen25to34": 0.639,
+      "neverMarriedWomen35to44": 0.269,
+      "adultsIn18to34_35to64_65plus": [
+        35810,
+        55258,
+        17008
+      ],
+      "householdsNonfamilyShared": 1703
+    },
+    "VI": {
+      "neverMarriedWomen25to34": 0.722,
+      "neverMarriedMen25to34": 0.77,
+      "neverMarriedWomen35to44": 0.485,
+      "adultsIn18to34_35to64_65plus": [
+        14454,
+        35000,
+        18397
+      ],
+      "householdsNonfamilyShared": 1981
+    },
+    "AS": {
+      "neverMarriedWomen25to34": 0.394,
+      "neverMarriedMen25to34": 0.473,
+      "neverMarriedWomen35to44": 0.173,
+      "adultsIn18to34_35to64_65plus": [
+        10684,
+        16726,
+        3113
+      ],
+      "householdsNonfamilyShared": 210
+    },
+    "MP": {
+      "neverMarriedWomen25to34": 0.601,
+      "neverMarriedMen25to34": 0.651,
+      "neverMarriedWomen35to44": 0.313,
+      "adultsIn18to34_35to64_65plus": [
+        10078,
+        19611,
+        2731
+      ],
+      "householdsNonfamilyShared": 1194
+    },
+    "US_acs2024_1yr": {
+      "neverMarriedWomen25to34": 0.528,
+      "neverMarriedMen25to34": 0.623,
+      "neverMarriedWomen35to44": 0.25
+    }
+  },
+  "marriageStatusTableIds": {
+    "GU": "PCT18",
+    "VI": "PCT15",
+    "AS": "PCT17",
+    "MP": "PCT17"
+  },
+  "bandSplitMethod": "The Island Areas tables give marital status in coarse ages (25-34, 35-44, 45-54, 55-64, 65-84). Each coarse never-married and spouse-present count is split over the game's 5-year bands with weights from the territory's own PCT2 population, and the US ACS 2024 never-married and spouse-present shares by band shifted on the logit scale so the territory's coarse total is reproduced exactly.",
+  "arrangementsNote": "Adults by band (PCT2), living alone (65+ and all ages), and households are exact. The 2020 Island Areas census has no living-arrangements-by-age table, so the child-of-householder, other-relatives, nonrelatives and partner splits across 18-34 / 35-64 apply US ACS 2024 age shares to the territory's own totals (P20 relationship counts less the children under 18 in P22)."
+}

@@ -5,13 +5,13 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/fs11vb-director-producers
+status: open
+claimed-by:
 pr: #4600
 blocked-on:
 after: director-civic-roles
 source: "director-civic-producers, found building it"
-claimed-at: 2026-10-20T03:00:28.244Z
+claimed-at:
 ---
 
 **What.** Bill signing, veto, hearings, floor votes, recalls, scandals, appointments and a law reaching a person fire as scenes. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks. Finish it on the existing branch claude/director-civic-producers-government, after merging main into it with a plain merge.
@@ -22,7 +22,7 @@ claimed-at: 2026-10-20T03:00:28.244Z
 
 **Files.** docs/pool/items/director-civic-producers-government.md and the files that pull request #4600 changes on claude/director-civic-producers-government
 
-**Notes.** Needs director-civic-roles for the chair, members and press. Some of these records are decisions, not events, so the legislature may need to emit an event first, which belongs to the government area. Split out of director-civic-producers.
+**Notes.** Needs director-civic-roles for the chair, members and press. Some of these records are decisions, not events, so the legislature may need to emit an event first, which belongs to the government area. Split out of director-civic-producers. PR #4600 closed unmerged (Oct 23); reopened by reconcile.
 
 Sent back 2026-10-16 from PR #4600 (branch claude/director-civic-producers-government): The top of the PR body lacks a gate line naming the in-session checks on changed files and their results. Add the named checks and results at the top (a pool id may precede it); "Local checks pass" alone does not name the checks; finish on that branch, merge main into it first.
 
@@ -37,3 +37,5 @@ Sent back 2026-10-19 from PR #4600 (branch claude/director-civic-producers-gover
 Sent back 2026-10-20 from PR #4600 (branch claude/director-civic-producers-government): Code or data conflict with main in src/director/civic-roles.ts, src/director/data/director.json, src/director/government-scenes.test.ts; finish on that branch, merge main into it first.
 
 Oct 20 (claude, claude/civic-producers-government-landed): nothing left to finish on PR #4600's branch. Merging current main into `claude/director-civic-producers-government` leaves a tree identical to main: the work is already on main as commit 172ad46fc0 ("Director: a floor vote, a signing and a veto are scenes for the people they reach") with its release declaration `docs/release/changes/director-civic-producers-government.md`, and the skipped-acceptance fix the merger asked for landed as 2816e931c7 ("Scene tests: draw again up to eight places and fail when no case is reached"); `src/director/government-scenes.test.ts` on main draws up to eight places and fails if none reaches a voted bill. The item was left open and sent back from a PR whose content main already holds. The merger can mark it done and close PR #4600.
+
+Oct 20 (fs11vb): merged main into the #4600 branch and took main's side of the four conflicts (`civic-roles.ts`, `director.json`, `government-scenes.test.ts`, the `-rest` item); the result has no difference from main at all. Main already holds the floor-vote, bill-signed and veto scenes with no `awaitingProducer` marks (landed with #4606), and `src/director/government-scenes.test.ts` passes on main (1 test). So #4600 adds nothing main lacks; the CTO can mark this item done and close #4600 as superseded.

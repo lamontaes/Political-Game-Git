@@ -1,0 +1,20 @@
+{
+  "version": "age-unemployment-v1",
+  "source": {
+    "tag": "SOURCED",
+    "citation": "BLS Current Population Survey, Table 3, 'Employment status of the civilian noninstitutional population by age, sex, and race', household data annual averages, total (all races), civilian labor force and unemployed in thousands. https://www.bls.gov/cps/cpsaat03.htm",
+    "quote": "16 years and over 273,653 170,807 62.4 163,493 59.7 7,314 4.3 102,846",
+    "asOf": "2025 annual averages (11 months; October 2025 was not collected)"
+  },
+  "note": "Each band's unemployment rate against the overall rate is the band's ratio; a place's own rate scales it. The 16-to-19 row covers the opening's youngest working-age band (18 and 19).",
+  "total": { "laborForce": 170807, "unemployed": 7314 },
+  "bands": [
+    { "from": 16, "to": 20, "laborForce": 6456, "unemployed": 905 },
+    { "from": 20, "to": 25, "laborForce": 15649, "unemployed": 1302 },
+    { "from": 25, "to": 35, "laborForce": 37920, "unemployed": 1645 },
+    { "from": 35, "to": 45, "laborForce": 38312, "unemployed": 1275 },
+    { "from": 45, "to": 55, "laborForce": 33302, "unemployed": 999 },
+    { "from": 55, "to": 65, "laborForce": 27402, "unemployed": 797 },
+    { "from": 65, "to": 200, "laborForce": 11766, "unemployed": 392 }
+  ]
+}

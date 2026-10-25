@@ -41,15 +41,9 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyStayOutPull": {
-    "value": 4.0,
+    "value": 3.94,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Those counts were taken when a money term (cash against the filing fee, weight 1) still sat in the sum, near its full weight for almost everyone (a median of 0.96 to 1.0 across the named adults of two played worlds, Oct 13, 2026); filing fees were removed (owner, Oct 13), and the bar came down by that weight to keep the same people over it. Spread 3.8 to 4.4.",
-    "stopgapId": "SG-P15-candidacy-weights"
-  },
-  "candidacyIncumbencyWeight": {
-    "value": 3.5,
-    "tag": "TUNABLE",
-    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). With the stay-out pull at 4.6, the 19th percentile of run-over-stay-out margins without incumbency was -3.15 (seed candidacy-a) and -2.97 (seed candidacy-b), so 3.1; raised by the same 0.4 as the stay-out pull (5.0) to keep the share. Spread 3.3 to 3.7.",
+    "citation": "The pull of staying out, against which running is weighed, for every adult in town: named people through the chooser and counted residents from their counted records (their own engagement, the value the views engine gives them when filled in). Checked against candidates per local seat: most local seats draw one or two candidates, the incumbent and at most one challenger (Ballotpedia, 'Annual Competitiveness Report', local elections in the 100 largest cities and school districts, 2020 to 2024). In six drawn towns (seeds 02ef01243a3d2b97, 708e6071ef433886, f5e3a5796b3b8ef3, 340b15b3e6772787, 488331b4a95b8a20 and Vayas, Puerto Rico; 5,569 to 8,990 counted adults each), the adults whose recorded pull for a local seat exceeds 5.0 number 3, 0, 8, 2, 3 and 2 (at 4.8: 8, 1, 30, 13, 16 and 4); each runs for one seat, and a crowded race spreads them over the town's seats. The chooser's own run-over-stay-out score sits within 0.12 of the reason sum. Those counts were taken when a money term (cash against the filing fee, weight 1) still sat in the sum, near its full weight for almost everyone (a median of 0.96 to 1.0 across the named adults of two played worlds, Oct 13, 2026); filing fees were removed (owner, Oct 13), and the bar came down by that weight to keep the same people over it. Spread 3.8 to 4.4. Measured Oct 20, 2026 in played towns (buildBenchWorld, 400 days, local seats whose filing had closed, specials left out; places drawn with drawPlace('unc-batch:<n>', 'unc') for n = 100 to 189): with the pull at 3.8, 85.0 percent of 107 local seats (15 towns) had no more than one candidate; at 3.9, 91.7 percent of 132 seats (25 towns); at 4.0 an earlier batch of 111 seats gave 85 percent. Ballotpedia's band is 58 to 75 percent, so the pull inside its documented spread does not move the share to the band; the gap is not in this weight (pool item elections-local-races-share-above-band). Lowered from 4.0 to 3.94 when the run decision's trait weight was refitted among newcomers (0.91 to 0.2), so the same 40 of 14,430 newcomers in four drawn election years run as before.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyFilingWindowDays": {
@@ -111,9 +105,9 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyRecordGapWeight": {
-    "value": 1,
+    "value": 2,
     "tag": "TUNABLE",
-    "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2.",
+    "citation": "How strongly an incumbent's record against one's own views (0 to 1: the average, over the incumbent's recorded votes, of how strongly one's current view opposes each) pulls one to challenge them. Policy disagreement with the officeholder is a leading reason challengers give for running (Maisel and Stone 1997, Legislative Studies Quarterly 22(1):79-96; Lawless and Fox 2010, ch. 4). Spread 0.5 to 2. Set at 2, the top of its spread, with the counted adults weighing a seat by the same standing and record terms as named people: in played towns (buildBenchWorld, 400 days, local seats whose filing had closed, specials left out; places drawn with drawPlace('unc-batch:<n>', 'unc') for n = 100 to 127, 18 towns with such seats), 91 of 121 local seats (75 percent, 95% interval 68 to 83) had no more than one candidate, against 85 to 92 percent at 1 and Ballotpedia's 58 to 75. At 2 the fixture town of named adults still draws under 2 percent of its adults for one seat (candidacy.test.ts).",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyMeansRunwayDays": {
@@ -205,5 +199,17 @@
     "tag": "TUNABLE",
     "citation": "Opportunity cost of leaving a current mandate for another office, multiplied by steps down the existing office rank. Schlesinger, Ambition and Politics (1966), progressive and static ambition. Spread 1 to 3.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyRevolvingDoorWeight": {
+    "value": 0.011,
+    "tag": "TUNABLE",
+    "citation": "What a revolving-door law in force takes from a legislative seat's pull for someone who does not hold it: on leaving it they could not lobby for a time. Fisman, Leder-Luis, O'Donnell and Vannutelli 2025 (Revolving Door Laws and Political Selection, NBER Working Paper 33626, state legislative candidates 1968 to 2022): new-candidate entry falls 18.2% against its base where such a law passes (11% to 25% across specifications). Calibrated by scripts/law-wiring/calibrate-revolving-door.ts (seed revolving-door-a, ten draws, four towns with a council contest: Oldtown, Idaho; Griffith, Indiana; Old Bennington, Vermont; Clarksburg, West Virginia; 20,401 named and counted adults weighing a council seat they do not hold): above the top 0.1% of run-over-stay-out margins the excess falls off with a scale of 0.054, so a pull of 0.011 keeps out 18.2% of those over the line. Spread 0.005 to 0.019: the 11% and 25% shares across the 0.1%, 0.5% and 1% tails.",
+    "stopgapId": "SG-P15-candidacy-weights",
+    "spread": {
+      "low": 0.005,
+      "high": 0.019,
+      "unit": "pull",
+      "citation": "The 11% and 25% entry shares of Fisman et al. 2025 read through the tail scales 0.044 to 0.066 of the calibration's 0.1%, 0.5% and 1% tails."
+    }
   }
 }

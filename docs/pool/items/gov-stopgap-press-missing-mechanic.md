@@ -6,7 +6,7 @@ kind: stopgap
 priority: 3
 status: open
 claimed-by:
-pr: #5273
+pr: #5581
 blocked-on:
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/press.ts, kind missing-mechanic"
@@ -25,3 +25,7 @@ claimed-at:
 
 SG-PEOPLE-press-employer-enrollment was resolved in PR #5273 via enrollBusinessOwner in modules/business.ts. 3 rows remain open (SG-PEOPLE-press-interview-conversation, SG-PEOPLE-press-favors-and-leaks, SG-PEOPLE-press-endorsements).
 
+
+Oct 20 (PR #5581): SG-PEOPLE-press-endorsements built. The other two rows are split into their own items so this one can close with the PR: gov-press-interview-conversation (director conversation) and gov-press-favors-and-leaks (after it).
+
+Sent back 2026-10-21 from PR #5307 (branch claude/press-endorsements): The date-note and views-module repairs are present. The body names gov-stopgap-press-missing-mechanic, which is currently attached to another open PR #5581 and covers multiple press rows, while this PR only implements endorsements. Use a bounded endorsements item so this merge cannot complete the other PRs unfinished work. The shared item also requires a one-year buildBenchWorld replacement read by another engine by record id; the body instead labels its press.test.ts fixture played-style and gives no ordinary played-year chain. Add that evidence and the required Done when table for the actual completed item. No local gate pass is claimed here.; finish on that branch, merge main into it first.

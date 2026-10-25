@@ -5,7 +5,8 @@
  * business its closure names), or, with neither, someone they know holds a
  * public role, when their temperament runs to blaming authority. Telling it
  * passes the change and the blame on, so the next person's belief follows
- * this one's words.
+ * this one's words. The director says which change and which blame; the
+ * English engine (`src/english/bring-it-up-words.ts`) words them.
  */
 import { P } from "../core2/parameters";
 import { storyOfReadEvent } from "../core2/modules/news";
@@ -13,27 +14,16 @@ import { printedStoryOf } from "../core2/modules/press";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import { decisionLean } from "../core2/trait-decisions";
 import type { CoreState, PersonId, PersonState, Source } from "../core2/types";
-import { storyTopicName } from "./question-names";
-import { renderLine, type Variant } from "./render";
-import { bringDataFromBank } from "./mined/scene-bank";
+import { storyTopicName } from "../english/policy-names";
+import {
+  wordBringMove,
+  type BlameHow,
+  type BringMove,
+  type BringWords,
+} from "../english/bring-it-up-words";
+import rowsJson from "./data/bring-it-up-rows.json" with { type: "json" };
 import { possessive, properName } from "./words";
 
-export interface BringData {
-  version: string;
-  toldEvent: string;
-  heardKey: string;
-  blameKey: string;
-  changes: readonly {
-    eventKind: string;
-    institutionFact: { prefix: string; suffix: string };
-    /** A printed story a reader remembers: its subject is the outlet, its topic comes from the story record, and no one is blamed. */
-    story?: boolean;
-    /** Event ids that start this way are changes of this kind when heard from someone. */
-    eventIdPrefix?: string;
-    line: Variant[];
-  }[];
-  blame: Readonly<Record<Attribution["how"], Variant[]>>;
-}
 /** `data/bring-it-up-rows.json`: the structure, holding no sentences. */
 export interface BringRows {
   version: string;
@@ -48,8 +38,7 @@ export interface BringRows {
   }[];
   blame: readonly Attribution["how"][];
 }
-/** The default words are the mined bank's. */
-export const BRING_IT_UP_DATA: BringData = bringDataFromBank();
+export const BRING_IT_UP_ROWS = rowsJson as unknown as BringRows;
 
 export interface KnownChange {
   eventId: string;
@@ -63,7 +52,7 @@ export interface KnownChange {
 
 export interface Attribution {
   eventId: string;
-  how: "told" | "record" | "assumed" | "unknown";
+  how: BlameHow;
   blamedId?: string;
   /** The record the belief came from: a told event, the change, a public role. */
   sourceId?: string;
@@ -73,7 +62,7 @@ export interface Attribution {
 export function changesKnownTo(
   core: Readonly<CoreState>,
   personId: PersonId,
-  data: BringData = BRING_IT_UP_DATA,
+  data: BringRows = BRING_IT_UP_ROWS,
 ): KnownChange[] {
   const known = core.knowledgeByPerson.get(personId);
   if (!known) return [];
@@ -142,7 +131,7 @@ export function believedCause(
   core: Readonly<CoreState>,
   personId: PersonId,
   change: KnownChange,
-  data: BringData = BRING_IT_UP_DATA,
+  data: BringRows = BRING_IT_UP_ROWS,
 ): Attribution {
   const known = core.knowledgeByPerson.get(personId);
   const told = known?.get(`${data.blameKey}:${change.eventId}`);
@@ -207,8 +196,9 @@ export function bringItUp(
   core: CoreState,
   speakerId: PersonId,
   listenerId: PersonId,
-  data: BringData = BRING_IT_UP_DATA,
+  options: { rows?: BringRows; words?: BringWords } = {},
 ): BroughtUp | null {
+  const data = options.rows ?? BRING_IT_UP_ROWS;
   // The newest change they know of that can be put into words: a printed
   // story is remembered only when the catalog names its topic.
   const api = coreAPI(core);
@@ -226,45 +216,45 @@ export function bringItUp(
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
   const attribution = believedCause(core, speakerId, change, data);
-  const words = data.changes.find((row) => row.eventKind === change.kind)!;
+  const story = data.changes.find(
+    (row) => row.eventKind === change.kind,
+  )!.story;
   const say = (
-    part: string,
-    variants: Variant[],
+    move: BringMove,
     facts: Record<string, { text: string; sourceRecordIds: readonly string[] }>,
   ) =>
-    renderLine({
+    wordBringMove({
       seed: core.seed,
-      surface: "dialogue",
-      holderId: speakerId,
-      bankKey: `bring-it-up:${part}`,
-      version: data.version,
-      variants,
+      move,
+      speakerId,
+      traits: core.people.get(speakerId)?.traits ?? {},
       facts,
-      momentKey: `${speakerId}:${listenerId}:${change.eventId}:${core.date}:${part}`,
+      momentKey: `${speakerId}:${listenerId}:${change.eventId}:${core.date}`,
       fallbackSourceId: change.eventId,
+      ...(options.words ? { words: options.words } : {}),
     });
   const lines = [];
-  const topic = words.story ? storyTopic(change) : null;
-  const first = say("change", words.line, {
-    subject: {
-      text: subject,
-      sourceRecordIds: [change.eventId, change.institutionId],
+  const topic = story ? storyTopic(change) : null;
+  const first = say(
+    { part: "change", eventKind: change.kind },
+    {
+      subject: {
+        text: subject,
+        sourceRecordIds: [change.eventId, change.institutionId],
+      },
+      ...(topic
+        ? { topic: { text: topic, sourceRecordIds: [change.eventId] } }
+        : {}),
     },
-    ...(topic
-      ? { topic: { text: topic, sourceRecordIds: [change.eventId] } }
-      : {}),
-  });
+  );
   if (first) lines.push(first);
   // A printed story blames no one: the outlet only printed it.
   const who =
-    attribution.blamedId && !words.story
-      ? nameOf(core, attribution.blamedId)
-      : null;
-  const second = words.story
+    attribution.blamedId && !story ? nameOf(core, attribution.blamedId) : null;
+  const second = story
     ? null
     : say(
-        `blame:${attribution.how}`,
-        data.blame[who ? attribution.how : "unknown"],
+        { part: "blame", how: attribution.how, named: !!who },
         who
           ? {
               who: {

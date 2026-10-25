@@ -1,5 +1,5 @@
 /** Pure recorded work boundaries only; no cursor, attendance, earnings or cash effects. */
-import { addDays, daysBetween, makeIsoDate } from "./kernel/dates";
+import { addDays, makeIsoDate, daysBetweenText } from "./kernel/dates";
 import { FinanceReadGuard } from "./finance-plan";
 import {
   plannedWorkMinutesBetween,
@@ -377,9 +377,7 @@ class SpanRead {
       minutes <= this.zero ||
       originDate < row.startsAt ||
       remainder(
-        daysBetween(makeIsoDate(row.anchorDate), makeIsoDate(at)) -
-          slot.offsetDays -
-          shift,
+        daysBetweenText(row.anchorDate, at) - slot.offsetDays - shift,
         row.periodDays,
       ) !== this.zero
     )
@@ -436,7 +434,7 @@ class SpanRead {
         plannedMinutes += slotMinutes;
       }
       const residue = remainder(
-        daysBetween(makeIsoDate(this.startedAt), makeIsoDate(at)),
+        daysBetweenText(this.startedAt, at),
         row.periodDays,
       );
       let cached = this.zero;
@@ -561,9 +559,7 @@ export function earliestWorkBoundaryV1(
             windowDate = addDays(makeIsoDate(from.date), -midnightEnd),
             lower = windowDate > firstOrigin ? windowDate : firstOrigin,
             jump = remainder(
-              slot.offsetDays +
-                shift -
-                daysBetween(makeIsoDate(row.anchorDate), makeIsoDate(lower)),
+              slot.offsetDays + shift - daysBetweenText(row.anchorDate, lower),
               row.periodDays,
             );
           let at = addDays(makeIsoDate(lower), jump),

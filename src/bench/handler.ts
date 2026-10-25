@@ -22,7 +22,7 @@ import {
   speechView,
 } from "./campaign";
 import type { SpeechBuild } from "../director/speech-builder";
-import { storyScene } from "./story";
+import { storyReply, storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
@@ -37,6 +37,7 @@ import {
   colleagueDeal,
   interviewOutlet,
   nameHeadPick,
+  budgetLinePick,
   officeView,
 } from "./office";
 import { bankView } from "./bank";
@@ -49,6 +50,7 @@ import {
   type BenchFilingVisit,
 } from "./filing";
 import { backdropPath, benchScene } from "./scene";
+import { DevMode } from "./dev-mode";
 import { titleScene } from "./title";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import {
@@ -187,6 +189,15 @@ function requireCore(): CoreState {
   return core;
 }
 
+let marker: DevMode | undefined;
+/** The dev-mode record writer for the current town, which holds the gap marks. */
+function gapMarker(): DevMode {
+  const current = requireCore();
+  if (marker?.core !== current)
+    marker = new DevMode(current, director, player, placeId);
+  return marker;
+}
+
 /** The world the developer view reads (dev-api.ts), the same engine state. */
 export function benchWorld() {
   return { core, director, player, placeId };
@@ -300,14 +311,11 @@ export async function benchRequest(
       }
       if (
         request.method === "GET" &&
-        /^\/art\/people-whole\/[\w.-]+\.png$/.test(url.pathname)
+        /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
       ) {
-        // Whole-figure people: the owner-approved cutouts, served as they are.
+        // Standing people: the v2 figures, served as they are.
         const content = await readFile(
-          new URL(
-            `../../art/people-whole/${url.pathname.slice("/art/people-whole/".length)}`,
-            import.meta.url,
-          ),
+          new URL(`../..${url.pathname}`, import.meta.url),
         );
         response.writeHead(200, {
           "Content-Type": "image/png",
@@ -386,6 +394,26 @@ export async function benchRequest(
         if (!conversation) throw new Error("No conversation is open.");
         conversation = sayNothing(requireCore(), conversation);
         send(200, talkView(conversation));
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/gap") {
+        // Mark the talk's newest line as a gap (play-mark-gap): one record
+        // naming the scene and the line; no game time passes.
+        if (!conversation) throw new Error("No conversation is open.");
+        const view = talkView(conversation)!;
+        const at = Number(
+          url.searchParams.get("line") ?? view.lines.length - 1,
+        );
+        const line = view.lines[at];
+        if (!line) throw new Error("No such line.");
+        const sceneId =
+          conversation.occasion?.id ??
+          `talk:${conversation.playerId}:${conversation.otherId}:${requireCore().date}`;
+        send(200, gapMarker().markGap(sceneId, `${sceneId}#${at}`, line.text));
+        return;
+      }
+      if (request.method === "GET" && url.pathname === "/api/gaps") {
+        send(200, gapMarker().gaps());
         return;
       }
       if (request.method === "POST" && url.pathname === "/api/talk/leave") {
@@ -743,6 +771,22 @@ export async function benchRequest(
         );
         return;
       }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/office/budget-line"
+      ) {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        send(
+          200,
+          budgetLinePick(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("line") ?? "",
+            Number(url.searchParams.get("changeMinor")),
+          ),
+        );
+        return;
+      }
       if (request.method === "POST" && url.pathname === "/api/office/deal") {
         if (!player?.personId) throw new Error("Choose a resident first.");
         send(
@@ -808,6 +852,27 @@ export async function benchRequest(
             player.personId,
             url.searchParams.get("momentId") ?? "",
             player.packet?.at.minuteOfDay ?? 12 * 60,
+            // ?held=1 on the play page: the grading view, held lines marked.
+            { held: url.searchParams.get("held") === "1" },
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/story/reply") {
+        if (!player?.personId || !director)
+          throw new Error("Choose a resident first.");
+        send(
+          200,
+          storyReply(
+            requireCore(),
+            director,
+            player.personId,
+            url.searchParams.get("momentId") ?? "",
+            (url.searchParams.get("path") ?? "")
+              .split(".")
+              .filter(Boolean)
+              .map(Number),
+            { held: url.searchParams.get("held") === "1" },
           ),
         );
         return;

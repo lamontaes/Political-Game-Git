@@ -55,6 +55,8 @@ export interface CrimeRecord {
   subjectId: string;
   offered: boolean;
   taken: boolean;
+  /** Taken bribes by this official that the offerer had learned of when offering (knowledge records). */
+  heardOf?: readonly string[];
   reasons: Readonly<Record<string, Readonly<Record<string, number>>>>;
 }
 
@@ -155,6 +157,12 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
   if (amount <= api.parameter("zero")) return null;
   const tie = closeness(api, ask.offererId, ask.officialId);
   const one = api.parameter("one");
+  // What the offerer has learned of this official: bribes they are known to
+  // have taken, from the offerer's own knowledge records.
+  const heardOf = crimesKnownTo(api, ask.offererId)
+    .filter((row) => row.taken && row.officialId === ask.officialId)
+    .map((row) => row.id)
+    .sort();
   const offer = decide(
     api,
     ask.offererId,
@@ -170,6 +178,8 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
             one),
       ),
       tie: c(api, "corruptionTieWeight") * tie,
+      reputation:
+        c(api, "corruptionReputationWeight") * Math.log1p(heardOf.length),
     },
     ask.subjectId,
   );
@@ -204,6 +214,7 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
     subjectId: ask.subjectId,
     offered: offer.yes,
     taken: !!take?.yes,
+    ...(heardOf.length ? { heardOf } : {}),
     reasons: { offer: offer.values, ...(take ? { take: take.values } : {}) },
   };
   if (!offer.yes) return record;

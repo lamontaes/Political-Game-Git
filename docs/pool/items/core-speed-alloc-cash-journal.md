@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: claude/political-game-pool-yucp92-z
 pr: #5499
 blocked-on: core-speed-journal-bigint

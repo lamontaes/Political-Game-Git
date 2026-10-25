@@ -112,6 +112,8 @@ export interface StartingConditionSubject {
   readonly category: MortalityCalibrationCategory;
   /** Unknown household income sorts after recorded incomes; it is never zero. */
   readonly monthlyHouseholdIncomeMinor: number | null;
+  /** The person's conscientiousness level (-2..2); absent for a person who carries none. */
+  readonly conscientiousness?: number;
 }
 
 /**
@@ -120,6 +122,13 @@ export interface StartingConditionSubject {
  */
 export function startingConditionAssignments(
   subjects: readonly StartingConditionSubject[],
+  /**
+   * Log odds per conscientiousness level for behavior-driven conditions
+   * (smoking, drug use): within a cell their holders are spread by each
+   * person's weight, exp(slope times level), so the count is the prevalence's
+   * and personality decides only who.
+   */
+  behaviorSlopes: ReadonlyMap<string, number> = new Map(),
 ): ReadonlyMap<EntityId, readonly string[]> {
   const assignments = new Map<EntityId, string[]>(
     subjects.map(({ personId }) => [personId, []]),
@@ -136,7 +145,12 @@ export function startingConditionAssignments(
     cells.set(cellKey, cell);
   }
   const conditionCount = CONDITION_PACK.length;
-  for (const cell of cells.values()) {
+  // A rare condition's expected count in one small cell is a fraction of a
+  // person; rounding each cell alone drops it everywhere a set is small (the
+  // full people of a town). The fraction carries to the next cell, in a fixed
+  // cell order, so the set holds the condition at its prevalence in total.
+  const carried = new Map<string, number>();
+  for (const [, cell] of [...cells].sort((a, b) => a[0].localeCompare(b[0]))) {
     cell.sort((left, right) => {
       const leftIncome = left.monthlyHouseholdIncomeMinor;
       const rightIncome = right.monthlyHouseholdIncomeMinor;
@@ -158,20 +172,14 @@ export function startingConditionAssignments(
       // PLACEHOLDER(research: chronic-condition-income-gradients): the 2026 pack
       // has no condition-specific income gradient; keep even spacing until one
       // is sourced.
-      const count = Math.min(
-        cell.length,
-        Math.max(
-          0,
-          Math.round(
-            cell.reduce(
-              (total, person) =>
-                total +
-                conditionPrevalence(condition, person.age, person.category),
-              0,
-            ),
-          ),
-        ),
+      const expected = cell.reduce(
+        (total, person) =>
+          total + conditionPrevalence(condition, person.age, person.category),
+        0,
       );
+      const owed = expected + (carried.get(condition.key) ?? 0);
+      const count = Math.min(cell.length, Math.max(0, Math.round(owed)));
+      carried.set(condition.key, owed - count);
       if (count === 0) continue;
       if (count === cell.length) {
         for (const person of cell)
@@ -179,6 +187,24 @@ export function startingConditionAssignments(
         continue;
       }
       const offset = conditionIndex / conditionCount;
+      const slope = behaviorSlopes.get(condition.key);
+      if (slope !== undefined) {
+        // Weighted even spacing: the running share of the condition's count
+        // each person's weight earns; a person holds it when the running
+        // total passes a whole number.
+        const weights = cell.map((person) =>
+          Math.exp(slope * (person.conscientiousness ?? 0)),
+        );
+        const total = weights.reduce((sum, weight) => sum + weight, 0);
+        let running = offset;
+        for (const [position, person] of cell.entries()) {
+          const before = Math.floor(running);
+          running += (count * weights[position]!) / total;
+          if (Math.floor(running) > before)
+            assignments.get(person.personId)!.push(condition.key);
+        }
+        continue;
+      }
       for (let index = 0; index < count; index += 1) {
         const position = Math.min(
           cell.length - 1,

@@ -46,7 +46,8 @@
       "town:fire-chief": "fire",
       "town:library-parks": "parks",
       "town:public-works": "highways",
-      "town:planning": "housing"
+      "town:planning": "housing",
+      "job:public-schools:": "schools"
     },
     "federal": "otherPrograms"
   },

@@ -7,6 +7,8 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
+import { preStartWindow, runPreStart } from "../core2/pre-start";
+import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import {
   WORLD_MODULES,
@@ -22,10 +24,13 @@ import { openVoting } from "../core2/modules/voting";
 import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openOfficialPay } from "../core2/modules/official-pay";
+import { openCrime } from "../core2/modules/crime";
+import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openContracts } from "../core2/modules/contracts";
+import { openProjects } from "../core2/modules/projects";
 import { openLegislature } from "../core2/modules/legislature";
 import { openOfficials } from "../core2/modules/officials";
 import { openLawReach } from "../core2/law-reach/host";
@@ -44,10 +49,14 @@ import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openCases } from "../core2/modules/constituent-cases";
 import { openJustice } from "../core2/modules/justice";
+import { openPublicSafety } from "../core2/modules/public-safety";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
 import { renewalData } from "../core2/births-setup";
 import type { CoreInput, CoreState } from "../core2/types";
+import { OPENING_KIN } from "../core2/opening-kin";
+import { scaleFirmsToCensus } from "../core2/census-firms";
+import { placeReferencePopulation } from "../core2/gov-rules/place-population";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
 import { addOutsideMarket } from "../core2/opening-outside-market";
@@ -210,6 +219,20 @@ export async function buildBenchWorldInStages(
   }
 }
 
+/** Real people per sampled person: the place's Census count over the people generated, one where the sample is the whole town. */
+function censusScale(
+  place: { sourceGeoid?: string },
+  population: CoreInput,
+): number {
+  const real = place.sourceGeoid
+    ? placeReferencePopulation(place.sourceGeoid)?.value
+    : undefined;
+  const sample = population.people.filter(
+    (person) => person.tier !== OPENING_KIN.kinTier,
+  ).length;
+  return real !== undefined && real > sample ? real / sample : 1;
+}
+
 function* benchWorldStages(
   seed: string,
   date: string,
@@ -258,6 +281,12 @@ function* benchWorldStages(
     // buyers by industry), light terms for counted households, two levels and
     // the counted voter groups.
     playerId = entrantOf(input, place.context.jurisdiction.id);
+    // A town opens at its real Census size: the sample is the
+    // people generated, and each counted household stands for as many real
+    // households as the Census count is over the sample, unless asked for.
+    const countScale =
+      options.countScale ??
+      (minimumPeople ? 1 : censusScale(place, population));
     let withPlayer: CoreInput = {
       ...buildOpeningPeerContacts(input, { personIds: [playerId] }).input,
       playerId,
@@ -282,12 +311,18 @@ function* benchWorldStages(
         .filter((home) => !home.memberIds.some((id) => kept.has(id)))
         .map((home) => home.id),
     );
+    // The firms are sized to the weighted town before the outside market is
+    // derived from their books, so its buyers and suppliers follow them.
     const economy: CoreInput = addOutsideMarket(
       withPrivateTuition(
-        buildOpeningEconomy(withPlayer, {
-          finance: { countedHouseholdIds },
-          customers: { countedHouseholdIds },
-        }).input,
+        scaleFirmsToCensus(
+          buildOpeningEconomy(withPlayer, {
+            finance: { countedHouseholdIds },
+            customers: { countedHouseholdIds },
+          }).input,
+          place.context.jurisdiction.id,
+          countScale,
+        ),
       ),
     );
     // The world economy goes on after the collapse, as on the core's
@@ -299,10 +334,10 @@ function* benchWorldStages(
       withWorldEconomy(
         collapseToTwoLevels(economy, {
           keep: kept,
-          ...(options.countScale && options.countScale !== 1
+          ...(countScale !== 1
             ? {
                 weights: {
-                  [place.context.jurisdiction.id]: options.countScale,
+                  [place.context.jurisdiction.id]: countScale,
                 },
               }
             : {}),
@@ -352,11 +387,14 @@ function* benchWorldStages(
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
+  openCrime(core);
   openEstates(core);
   openEmployerTaxes(core);
   openLegislature(core);
   // Each government's body awards the town's public contracts (gov-public-contract-awards).
   openContracts(core);
+  openProjects(core);
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
@@ -384,9 +422,20 @@ function* benchWorldStages(
   openOfficeDay(core, seed);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
+  // Ordinary crime, courts, jail, firearm laws and fire service.
+  openPublicSafety(core);
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
+  // The government's history before day one (M1-14): how each official
+  // reached their seat, kept for the person card to read. It takes
+  // milliseconds, being coarse steps over the records the opening wrote.
+  const preStart = defaultPreStart(core);
+  if (preStart)
+    runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // Last, so everyone the opening seated has a health coverage record on day one
+  // (people who arrive later get theirs on the next 1st); the household pays its premium.
+  openCoverage(core);
   director.start(core);
   yield "opening";
   // The opening, told as a story from the records (owner, Oct 14, 2026): the

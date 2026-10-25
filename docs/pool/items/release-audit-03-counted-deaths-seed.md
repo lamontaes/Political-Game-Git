@@ -5,15 +5,15 @@ area: release
 kind: bug
 priority: 2
 size: S
-status: claimed
-claimed-by: claude/audit-counted-deaths
-pr:
+status: done
+claimed-by: claude/counted-deaths-opening-bookkeeping
+pr: #5904
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-20T04:20:14.647Z
+claimed-at: 2026-10-24T17:06:24.670Z
 ---
 
-**What.** Pin seed 140bb7872bc46f5202d12ae8c4c52ca2364da2da170593f43aeb7f7810bd5366 as a regression case and replace the loose half-of-expected floor with a bound that holds on small towns.
+**What.** src/core2/counted-deaths-opening.test.ts draws a random seed and requires counted deaths in the opening to reach at least half of the expected count, which fails on small towns where a few deaths either way is ordinary. Pin seed 140bb7872bc46f5202d12ae8c4c52ca2364da2da170593f43aeb7f7810bd5366 (Centennial, Wyoming) as a regression case that failed before the fix. Replace the half-of-expected floor with a bound that holds on small towns, for example a Poisson interval around the life-table expectation that widens as the expected count falls, so the test still fails when deaths are missing entirely.
 
 **Rules.** Replace, never layer: the fix replaces the faulty code, text or note in the same change, and a test asserts the feature and fails when nothing is found.
 
@@ -21,4 +21,6 @@ claimed-at: 2026-10-20T04:20:14.647Z
 
 **Files.** src/core2/counted-deaths-opening.test.ts
 
-**Notes.** Item 3 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes.
+**Notes.** Item 3 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Claim released Oct 23: branch gone.
+
+Sent back 2026-10-24 from PR #5904 (branch claude/counted-deaths-opening-bookkeeping): the audit is marked fixed without its requested Centennial regression and the primary evidence row admits changed assertions; reconcile a bounded split or complete the requested proof on that branch, merge main into it first.

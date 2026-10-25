@@ -166,9 +166,14 @@ describe(`moments from the economy over a year in ${input.placeMetadata?.placeNa
         const text = composeJournal(core, director, parentId).flatMap(
           (chapter) => chapter.lines.map((line) => line.text),
         );
+        // The line carries the child's name (owner, Oct 15, evening: "My
+        // daughter Jane was born.").
         expect(
-          text.some((line) =>
-            /^My (son|daughter|child)( [^.]+)? was born\./.test(line),
+          text.some(
+            (line) =>
+              /\b[Mm]y (son|daughter|child) [A-Z][\w'-]*( was born| came along)?\.$/.test(
+                line,
+              ) || /^My (son|daughter|child)( [^.]+)? was born\./.test(line),
           ),
         ).toBe(true);
       }

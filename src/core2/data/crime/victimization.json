@@ -1,0 +1,87 @@
+{
+  "about": "What the victimization records stand on (src/core2/modules/crime.ts): the national NCVS rate of each kind of crime, the share reported to police, and how exposure to it differs by income, tenure, household kind and age. Rates are before the outcome web's factor for the place; exposure only decides which household is victimized, never how many.",
+  "types": {
+    "burglary": {
+      "unit": "household",
+      "ratePer1000": 8.2,
+      "reportedShare": 0.407,
+      "webMeasures": ["crime.burglary", "crime.property"],
+      "exposure": "household",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization, 2024 (NCJ 310547, https://bjs.ojp.gov/document/cv24.pdf), table 2: burglary 8.2 per 1,000 households; table 4: 40.7 percent of burglaries reported to police.",
+        "asOf": "2024-12-31"
+      },
+      "note": "Burglary is a property crime, so the web's property factor (police, for one) acts on it as well as its own."
+    },
+    "other-property": {
+      "unit": "household",
+      "ratePer1000": 89.4,
+      "reportedShare": 0.2955,
+      "webMeasures": ["crime.property"],
+      "exposure": "household",
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization, 2024 (NCJ 310547), tables 2 and 4: total property crime 97.6 per 1,000 households less burglary 8.2; trespassing 3.8 (40.7 percent reported), motor vehicle theft 6.3 (75.0) and other theft 79.3 (25.4).",
+        "asOf": "2024-12-31",
+        "estimatedFrom": "Total property crime less burglary, so the web's property total is not counted twice. The reported share is the three rates' weighted mean: (3.8 x 40.7 + 6.3 x 75.0 + 79.3 x 25.4) / 89.4 = 29.55 percent."
+      }
+    },
+    "robbery": {
+      "unit": "person",
+      "ratePer1000": 2.2,
+      "reportedShare": 0.734,
+      "webMeasures": ["crime.robbery", "crime.violent"],
+      "exposure": "person",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization, 2024 (NCJ 310547), table 1: robbery 2.2 per 1,000 persons age 12 or older; table 4: 73.4 percent reported to police.",
+        "asOf": "2024-12-31"
+      }
+    },
+    "assault": {
+      "unit": "person",
+      "ratePer1000": 19.1,
+      "reportedShare": 0.474,
+      "webMeasures": ["crime.assault", "crime.violent"],
+      "exposure": "person",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization, 2024 (NCJ 310547), table 1: aggravated assault 4.7 plus simple assault 14.4 per 1,000 persons age 12 or older; table 4: 47.4 percent of assaults reported to police.",
+        "asOf": "2024-12-31"
+      }
+    }
+  },
+  "householdExposure": {
+    "about": "Relative burglary risk of a household, each factor against its national mean (1 is average). Household income fifths and the BJS tables are marginal, so a poor renter's product overstates the gap; the weights only rank households, and the place's expected count does not depend on them.",
+    "incomeFifth": [1.556, 1.093, 0.949, 0.736, 0.666],
+    "tenure": { "own": 0.795, "rent": 1.471 },
+    "kind": { "one-adult": 0.878, "adults": 0.541, "with-children": 1.217 },
+    "source": {
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Victimization During Household Burglary (NCJ 227379, September 2010, https://bjs.ojp.gov/redirect-legacy/content/pub/pdf/vdhb.pdf), table 3 (burglary rate per 1,000 households, household member present plus not present, by household income and ownership, 2003-2007) and table 2 (by household composition).",
+      "asOf": "2007-12-31",
+      "estimatedFrom": "Income: the seven reported income bands (4,992,420 to 21,336,190 households each; 65.7, 50.2, 41.1, 33.8, 32.9, 25.6 and 22.5 per 1,000) cut into national fifths of households by cumulative share, uniform within a band, giving 52.6, 36.9, 32.1, 24.9 and 22.5 per 1,000 against a mean of 33.79. Tenure: own 25.6 (18.9 + 6.7) and rent 47.4 (33.5 + 13.9) against the mean 32.2. Kind: one adult is the households-weighted mean of single males (31.5) and single females (25.1) without children, 27.9; adults is married couples without children, 17.2; with children is 38.7 (28.2 + 10.5); the mean for all households is 31.8. A counted household's mortgage or other tenure counts as owning."
+    },
+    "stopgapId": "SG-CORE-crime-exposure-marginals"
+  },
+  "personExposure": {
+    "about": "Relative violent-crime risk of a person age 12 or older: their age band against the national mean rate (23.3), times their household's income fifth against the same mean.",
+    "meanRatePer1000": 23.3,
+    "ageRatePer1000": [
+      { "min": 12, "max": 18, "rate": 29.3 },
+      { "min": 18, "max": 25, "rate": 34.8 },
+      { "min": 25, "max": 35, "rate": 31.7 },
+      { "min": 35, "max": 50, "rate": 27.1 },
+      { "min": 50, "max": 65, "rate": 20.4 },
+      { "min": 65, "max": 200, "rate": 7.5 }
+    ],
+    "incomeFifth": [1.359, 0.983, 1.009, 0.779, 0.87],
+    "source": {
+      "tag": "ESTIMATED",
+      "citation": "Bureau of Justice Statistics, Criminal Victimization, 2024 (NCJ 310547), table 3 (rate of total violent crime per 1,000 persons age 12 or older by age and household income, 2024) and appendix table 19 (person populations).",
+      "asOf": "2024-12-31",
+      "estimatedFrom": "Income: the five bands (38.3 under $25,000, 22.4, 23.5, 17.7 and 22.1 at $200,000 or more; 33.4, 54.5, 88.4, 76.7 and 33.4 million persons) cut into national fifths of persons by cumulative share, uniform within a band, giving 31.7, 22.9, 23.5, 18.2 and 20.3 per 1,000 against a mean of 23.3. Age rates are read straight off table 3; their population-weighted mean is 23.31."
+    }
+  }
+}

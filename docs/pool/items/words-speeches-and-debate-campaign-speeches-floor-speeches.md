@@ -19,6 +19,6 @@ claimed-at: 2026-10-19T22:19:00.484Z
 
 **Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): a campaign speech, a floor speech and a public comment delivered in the year each compose from the right register's parts (speech and part ids named) and are composed through the real engine in a drawn place (named, with seed) and graded by the owner in the next words batch page under `docs/grading/`. Tests in `scripts/english-corpus/address-bank.test.ts` and `src/core2/speech-composition.test.ts`. The owner plays it: speaks at a council hearing and hears the register.
 
-**Files.** data/english/parts/address.json, scripts/english-corpus/address-bank.ts, src/core2/speech-composition.ts, src/core2/modules/speech.ts
+**Files.** data/english/parts/address.json, scripts/english-corpus/address-bank.ts, src/director/speech-builder.ts, src/core2/modules/speech.ts
 
 **Notes.** Checklist line from words.md; verify against main before starting.

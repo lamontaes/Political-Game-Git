@@ -54,7 +54,7 @@ import {
   type PastElectionRow,
   type RollCall,
 } from "./past-module";
-import { daysBetween, makeIsoDate } from "./kernel/dates";
+import { daysBetweenText } from "./kernel/dates";
 import type { CoreAPI } from "./types";
 
 const SERIES_QUESTION = (
@@ -457,10 +457,7 @@ export function buildLawHistories(
         : (() => {
             // A phase taking effect after day one was passed before it:
             // the lag is at least the days from day one to the phase.
-            const ahead = daysBetween(
-              makeIsoDate(town.opening),
-              makeIsoDate(phase),
-            );
+            const ahead = daysBetweenText(town.opening, phase);
             const low = Math.max(lagLow, ahead + 1);
             return shiftDays(
               phase,

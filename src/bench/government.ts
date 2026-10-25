@@ -7,7 +7,9 @@ import {
   seatsOfOffices,
   townSeats,
 } from "../core2/modules/offices";
+import { choosesPresident } from "../core2/electorate-places";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
+import { lawChain } from "../core2/modules/laws";
 import {
   checkEligibility,
   fileCandidacy,
@@ -23,6 +25,8 @@ import {
   partyTie,
 } from "../core2/modules/parties";
 import type { CoreState } from "../core2/types";
+
+const LOCAL_LEVELS = new Set(["city", "township", "county"]);
 
 const ELECTIONS = "core2-elections-v1";
 
@@ -111,6 +115,12 @@ export function governmentView(core: CoreState, personId: string) {
     .moduleState(ELECTIONS)
     .table("filings")
     .query("byPerson", [personId]) as unknown as FilingRow[];
+  const seats = townSeats(api);
+  // Who sets each level's law: the government its seats name ("Texas").
+  const governmentOf = new Map<string, string>();
+  for (const { office } of seats)
+    if (!governmentOf.has(office.level))
+      governmentOf.set(office.level, office.governmentName);
   return {
     date: core.date,
     law: lawHere(api).map((row) => ({
@@ -119,14 +129,21 @@ export function governmentView(core: CoreState, personId: string) {
       unit: row.unit,
       estimate: row.estimate,
       governing: row.governing,
-      levels: row.levels,
+      levels: row.levels.map((level) => ({
+        ...level,
+        government: governmentOf.get(level.level) ?? null,
+      })),
       pending: row.pending,
     })),
-    seats: townSeats(api).map(({ office, seat, holder }) => ({
+    seats: seats.map(({ office, seat, holder }) => ({
       officeId: office.id,
       title: office.title,
       level: office.level,
       government: office.governmentName,
+      // A local seat's body as its record names it, place included ("Eolia
+      // Board of Trustees"); a state chamber's name ("Senate") leaves its
+      // government's name in place.
+      body: LOCAL_LEVELS.has(office.level) ? (office.bodyName ?? null) : null,
       seatId: seat.id,
       district: seat.district,
       // The seat's elections, oldest first, each named by the term it seated.
@@ -154,6 +171,13 @@ export function governmentView(core: CoreState, personId: string) {
           officeTitle: row.officeTitle,
           stateKey: row.stateKey,
           post: row.leads?.post ?? null,
+          // The President and Vice President are known to everyone, but a
+          // territory's voters do not choose them (owner ruling, Oct 19).
+          chosenByHere: row.reasons.some(
+            (reason) => reason === "president" || reason === "vice-president",
+          )
+            ? choosesPresident(lawChain(api).stateKey)
+            : null,
           reasons: row.reasons,
         }))
       : [],
