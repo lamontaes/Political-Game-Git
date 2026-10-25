@@ -5538,14 +5538,14 @@
     }
   },
   "traitWeightCandidacyRun": {
-    "value": 0.91,
+    "value": 0.2,
     "tag": "ESTIMATED",
-    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters (the separate temperament reason was removed). Found with the cross-product calibration of the played years of Newfane VT, Ute IA, Clifton KS and Cameron SC (seeds c1, d1, d3, d12, 365 days each, scripts/traits/trait-wiring-audit.ts): every kept reason total met with every kept trait lean, the weight at which the odds of the studied option between the top and bottom third of lean match the study's, with the threshold moved so the share who say yes is unchanged. Reached 1.21.",
+    "citation": "van de Wardt, Bundi, Loewen, Rasmussen, Sheffer and Varone (2026), Too honest and humble to run for office?, European Journal of Political Research 65, having run for office, honesty-humility -0.03 per interquartile range: target odds ratio 1.21 between thirds. The chooser's trait term is the only place personality enters. Only newcomers weigh running: a serving incumbent weighs standing again (voting.stand-again). Running is rare among newcomers, so at the real share the few who run are those temperament tips over the line; the study's outcome (ever having run for office) has a base rate of a few percent, so the odds are read with every reason total moved so one in twenty would run. Fitted on 14,430 newcomers' decisions in the election-window years of four places drawn from all 56 (seeds e6cc8ea3d8b7, a3367c5b3f9c, fc53ee5340e9 and fd6b432aad56, scripts/traits/trait-wiring-audit.ts with TRAIT_AUDIT_ELECTION=1): the places fit alone at 0.15 to 0.22 and pooled at 0.23; 0.2 reaches 1.21 to 1.35 in them. Before incumbents left this choice it was fitted at 0.91 with their nearly certain yes in the sample.",
     "spread": {
-      "low": 0.45,
-      "high": 1.4,
+      "low": 0.11,
+      "high": 0.23,
       "unit": "weight",
-      "citation": "Scaled linearly from the study's reported interval (or half to one and a half times where none is reported) to the weight."
+      "citation": "The places' own fits at a one-in-twenty share, with Secretary, Maryland and Halaula, Hawaii (from the campaigns trait test at 0.91) at 0.12 and 0.11."
     }
   },
   "traitWeightSpeechRetell": {
