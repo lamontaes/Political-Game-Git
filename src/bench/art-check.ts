@@ -55,7 +55,7 @@ function check(
     failures.push(`${label}: ${place} has nobody on its stage`);
   for (const row of people) {
     figures++;
-    // Only the v2 standing figures are drawn (owner, Oct 24).
+    // Only the v2 standing figures are drawn.
     const url = new URL(row.figureUrl, "http://bench");
     if (!url.pathname.startsWith("/art/people-engine/v2/figures/"))
       failures.push(`${label}: ${row.personId} is not a v2 figure`);

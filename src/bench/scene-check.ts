@@ -29,7 +29,7 @@ function look(personId: string) {
   if (!existsSync(backdropPath(scene.backdrop.file)))
     throw new Error(`Missing backdrop ${scene.backdrop.file}`);
   for (const person of scene.people) {
-    // Only the v2 standing figures are drawn (owner, Oct 24).
+    // Only the v2 standing figures are drawn.
     if (!person.figureUrl.startsWith("/art/people-engine/v2/figures/"))
       throw new Error(`${person.personId} is not a v2 figure`);
     const file = new URL(`../..${person.figureUrl}`, import.meta.url);

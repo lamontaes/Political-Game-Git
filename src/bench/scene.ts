@@ -65,7 +65,7 @@ export interface BenchScenePerson {
   spotId: string;
   figure: WholeFigure["figure"];
   figureUrl: string;
-  /** Only the v2 standing figures are drawn (owner, Oct 24). */
+  /** Only the v2 standing figures are drawn. */
   art: "whole";
 }
 

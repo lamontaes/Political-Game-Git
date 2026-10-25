@@ -5,7 +5,7 @@
 // or commission, the state chamber, the U.S. House and Senate, the Oval
 // Office, a conversation), renders each the way /play draws it, and counts
 // figures by source. Only the v2 standing figures (art/people-engine/v2) may
-// be drawn (owner, Oct 24).
+// be drawn.
 // Usage: node --import tsx scripts/people/scene-shots.ts <out-dir> [seed ...]
 import { mkdirSync, writeFileSync, readFileSync } from "node:fs";
 import { createHash, randomBytes } from "node:crypto";
