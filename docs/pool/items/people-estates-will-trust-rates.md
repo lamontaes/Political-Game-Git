@@ -5,11 +5,12 @@ area: people
 kind: research
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-estates-rates
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:25:36.046Z
 ---
 
 **What.** Weighed for every adult 55 or older in Haledon, New Jersey (place key 3429070, seed fc8bf1311d0f) as if at death, the will's age term (src/core2/estates.ts, willOf) puts all 858 over the line with temperament off, against 37.4% with a will among Swiss adults 55+ (Ryser et al. 2026) and about half of older Americans. The trust's wealth term (trustOf, a 5 million dollar midpoint) keeps 98% of the 832 with savings far below it. With the rates this far from life, the trait weights cannot reach the studies' odds (1.42 and 1.34 between the thirds).
