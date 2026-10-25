@@ -1,5 +1,5 @@
 ---
-id: merger0-returns-5980-5984-2026-10-24
+id: merger0-return-notes-2026-10-25
 impact: none
 ---
 
