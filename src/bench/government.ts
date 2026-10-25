@@ -115,6 +115,12 @@ export function governmentView(core: CoreState, personId: string) {
     .moduleState(ELECTIONS)
     .table("filings")
     .query("byPerson", [personId]) as unknown as FilingRow[];
+  const seats = townSeats(api);
+  // Who sets each level's law: the government its seats name ("Texas").
+  const governmentOf = new Map<string, string>();
+  for (const { office } of seats)
+    if (!governmentOf.has(office.level))
+      governmentOf.set(office.level, office.governmentName);
   return {
     date: core.date,
     law: lawHere(api).map((row) => ({
@@ -123,10 +129,13 @@ export function governmentView(core: CoreState, personId: string) {
       unit: row.unit,
       estimate: row.estimate,
       governing: row.governing,
-      levels: row.levels,
+      levels: row.levels.map((level) => ({
+        ...level,
+        government: governmentOf.get(level.level) ?? null,
+      })),
       pending: row.pending,
     })),
-    seats: townSeats(api).map(({ office, seat, holder }) => ({
+    seats: seats.map(({ office, seat, holder }) => ({
       officeId: office.id,
       title: office.title,
       level: office.level,
