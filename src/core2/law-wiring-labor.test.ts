@@ -624,11 +624,36 @@ function run(specId: string) {
   need(moved > 0, "no pay raise moved money");
 
   // ---- repeal ends the reach -------------------------------------------------
+  const repealedOn = addDays(makeIsoDate(api.state.date), 1);
   for (const [name, key] of Object.entries(KEYS))
     setQuestion(api, key, 0, `end-${name}`);
   step(3);
-  for (const key of Object.values(KEYS))
-    need(rows(api, key).length === 0, `repeal: ${key} still has open reach`);
+  for (const key of Object.values(KEYS)) {
+    // A body in play may pass the law again after the repeal (a state's
+    // legislature with its own bill); whom that later row reaches is its own.
+    const later = new Set(
+      lawChain(api).levels.flatMap(({ jurisdiction }) =>
+        (
+          api
+            .moduleState(LAWS_MODULE_ID)
+            .table("laws")
+            .query("bySeries", [jurisdiction, key]) as unknown as LawRowInput[]
+        )
+          .filter((r) => r.effectiveDate > repealedOn)
+          .map((r) => r.id),
+      ),
+    );
+    const open = rows(api, key);
+    const passedAgain = open.filter((r) => later.has(r.lawId));
+    if (passedAgain.length)
+      console.info(
+        `${where}: ${key} passed again after the repeal; ${passedAgain.length} records open under ${[...new Set(passedAgain.map((r) => r.lawId))].join(", ")}`,
+      );
+    need(
+      open.length === passedAgain.length,
+      `repeal: ${key} still has open reach`,
+    );
+  }
   setJournalTrace(() => {});
   return { where, problems };
 }
