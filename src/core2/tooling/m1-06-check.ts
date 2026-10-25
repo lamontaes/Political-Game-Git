@@ -21,11 +21,14 @@
  *     (no roll: the borrower's cash, job and payment record decide);
  * (6) a missed payment changes something, shown by record id in the first
  *     place where a payment falls short (the runner's, else up to four more
- *     drawn from all 56, each named): the borrower's credit (the payment and
- *     the loan go late, and a household whose loan is charged off gets no new
- *     loan), the lender's books (the bank is paid only what the borrower
- *     paid, and the loan's balance keeps the rest) and the collection (the
- *     next bill carries the unpaid amount).
+ *     drawn from all 56, each named and held to clauses 1 to 3 on its own
+ *     journal): the borrower's credit (the payment and the loan go late, and
+ *     a household whose loan is charged off gets no new loan), the lender's
+ *     books (the journal paid the bank only what the borrower paid, and the
+ *     loan record's balance is the replay that keeps the rest) and the
+ *     collection (the next bill is the regular payment plus the unpaid
+ *     amount, capped at what the loan owes; the world plays on until that
+ *     bill is written).
  * Exits nonzero naming each failed clause.
  */
 import { setJournalTrace } from "../journal-state";
@@ -36,8 +39,13 @@ import { drawPlace } from "../../../scripts/core2-year/place";
 import { buildBenchWorld } from "../../bench/world";
 import { gameStartDate } from "../game-start";
 import { coreAPI } from "../state";
-import type { CoreAPI } from "../types";
-import { buildPlayedWorld, playYear, type PlayedYear } from "./m1-played-year";
+import type { CoreAPI, CoreState } from "../types";
+import {
+  buildPlayedWorld,
+  monthsAfter,
+  playYear,
+  type PlayedYear,
+} from "./m1-played-year";
 
 const world = buildPlayedWorld();
 const { api, core } = world;
@@ -50,19 +58,24 @@ interface Posting {
   owner: string | undefined;
   deltaMinor: number;
 }
-const posted = new Map<string, Posting[][]>();
+type Posted = Map<string, Posting[][]>;
 const wanted = /^(loan:|loan-payment:|startup-loan:|mortgage-loan:|credit:)/;
-setJournalTrace((entry) => {
-  const id = entry.sourceRef.id;
-  if (!wanted.test(id)) return;
-  const rows = entry.postings.map((posting) => ({
-    owner: core.cashJournal.accounts.get(posting.accountId)?.ownerId,
-    deltaMinor: posting.deltaMinor,
-  }));
-  const list = posted.get(id) ?? [];
-  list.push(rows);
-  posted.set(id, list);
-});
+/** Watches one world's loan and credit entries as the journal takes them, into `posted`. */
+function watchJournal(on: CoreState, posted: Posted = new Map()): Posted {
+  setJournalTrace((entry) => {
+    const id = entry.sourceRef.id;
+    if (!wanted.test(id)) return;
+    const rows = entry.postings.map((posting) => ({
+      owner: on.cashJournal.accounts.get(posting.accountId)?.ownerId,
+      deltaMinor: posting.deltaMinor,
+    }));
+    const list = posted.get(id) ?? [];
+    list.push(rows);
+    posted.set(id, list);
+  });
+  return posted;
+}
+const posted = watchJournal(core);
 
 const openingPrincipal = new Map<string, number>();
 for (const facility of core.finance.facilities.values())
@@ -84,7 +97,6 @@ try {
   setJournalTrace(null);
 }
 
-const credit = api.moduleState("credit");
 interface Loan {
   id: string;
   kind: "personal" | "startup" | "mortgage";
@@ -111,14 +123,22 @@ interface Payment {
   employed: boolean;
   standing: string;
 }
-const loans = credit.table("loans").rows() as unknown as Loan[];
-const payments = credit.table("payments").rows() as unknown as Payment[];
-const perLoan = new Map<string, Payment[]>();
-for (const row of payments)
-  perLoan.set(row.loanId, [...(perLoan.get(row.loanId) ?? []), row]);
+/** One world's loans, their payment records, and each loan's payments in date order. */
+function loanBook(read: CoreAPI) {
+  const store = read.moduleState("credit");
+  const loans = store.table("loans").rows() as unknown as Loan[];
+  const payments = store.table("payments").rows() as unknown as Payment[];
+  const perLoan = new Map<string, Payment[]>();
+  for (const row of [...payments].sort((a, b) => a.date.localeCompare(b.date)))
+    perLoan.set(row.loanId, [...(perLoan.get(row.loanId) ?? []), row]);
+  return { loans, payments, perLoan };
+}
 
 /** The money one journal entry moved, and whether it balanced; the lender's and borrower's sides by owner. */
-function moved(id: string): {
+function moved(
+  posted: Posted,
+  id: string,
+): {
   entries: number;
   balanced: boolean;
   outOf: Map<string, number>;
@@ -148,73 +168,87 @@ function moved(id: string): {
   }
   return out;
 }
-const isCounted = (id: string) =>
-  !core.people.has(id as never) && !core.organizations.has(id);
 const months = api.parameter("macroMonthsPerYear");
 const chargeOffDays = creditParameters.creditChargeOffDays.value;
 
-let disbursed = 0,
-  repaid = 0,
-  countedBorrowers = 0;
-for (const loan of loans) {
-  const lendId =
-    loan.kind === "startup" ? `startup-loan:${loan.borrowerId}` : loan.id;
-  const lend = moved(lendId);
-  if (lend.entries !== 1)
-    fail(
-      `${loan.id}: ${lend.entries} journal entries for its disbursement ${lendId}`,
-    );
-  else {
-    if (!lend.balanced)
-      fail(`${loan.id}: its disbursement entry does not balance`);
-    if (lend.total !== loan.principalMinor)
-      fail(
-        `${loan.id}: journal moved ${lend.total}, the loan record says ${loan.principalMinor}`,
+/**
+ * Clauses (1) to (3) for one world, on its own journal: each loan's
+ * disbursement and payments as the journal took them, and its balance
+ * replayed from the record. `label` names the world in each failure.
+ */
+function checkLoans(on: CoreState, posted: Posted, label: string) {
+  const say = (text: string) => fail(label ? `${label}: ${text}` : text);
+  const isCounted = (id: string) =>
+    !on.people.has(id as never) && !on.organizations.has(id);
+  const book = loanBook(coreAPI(on));
+  let disbursed = 0,
+    repaid = 0,
+    countedBorrowers = 0;
+  for (const loan of book.loans) {
+    const lendId =
+      loan.kind === "startup" ? `startup-loan:${loan.borrowerId}` : loan.id;
+    const lend = moved(posted, lendId);
+    if (lend.entries !== 1)
+      say(
+        `${loan.id}: ${lend.entries} journal entries for its disbursement ${lendId}`,
       );
-    if (lend.outOf.size !== 1 || !lend.outOf.has(loan.lenderId))
-      fail(
-        `${loan.id}: the money did not leave the lender ${loan.lenderId} alone (${[...lend.outOf.keys()].join(", ")})`,
+    else {
+      if (!lend.balanced)
+        say(`${loan.id}: its disbursement entry does not balance`);
+      if (lend.total !== loan.principalMinor)
+        say(
+          `${loan.id}: journal moved ${lend.total}, the loan record says ${loan.principalMinor}`,
+        );
+      if (lend.outOf.size !== 1 || !lend.outOf.has(loan.lenderId))
+        say(
+          `${loan.id}: the money did not leave the lender ${loan.lenderId} alone (${[...lend.outOf.keys()].join(", ")})`,
+        );
+      if (isCounted(loan.borrowerId)) countedBorrowers += 1;
+      else if (lend.into.size !== 1 || !lend.into.has(loan.borrowerId))
+        say(
+          `${loan.id}: the money did not reach the borrower ${loan.borrowerId} alone (${[...lend.into.keys()].join(", ")})`,
+        );
+      disbursed += lend.total;
+    }
+    let balance = loan.principalMinor;
+    for (const payment of book.perLoan.get(loan.id) ?? []) {
+      const pay = moved(posted, `loan-payment:${loan.id}:${payment.date}`);
+      if (payment.paidMinor > 0) {
+        if (
+          pay.entries !== 1 ||
+          !pay.balanced ||
+          pay.total !== payment.paidMinor
+        )
+          say(
+            `${payment.id}: record paid ${payment.paidMinor}, journal moved ${pay.total} in ${pay.entries} entries${pay.balanced ? "" : " (unbalanced)"}`,
+          );
+        else if (!pay.into.has(loan.lenderId) || pay.into.size !== 1)
+          say(
+            `${payment.id}: the payment did not reach the lender ${loan.lenderId} alone`,
+          );
+        else if (
+          !isCounted(loan.borrowerId) &&
+          (pay.outOf.size !== 1 || !pay.outOf.has(loan.borrowerId))
+        )
+          say(
+            `${payment.id}: the payment did not leave the borrower ${loan.borrowerId} alone`,
+          );
+        repaid += pay.total;
+      } else if (pay.entries)
+        say(`${payment.id}: record paid nothing, journal moved ${pay.total}`);
+      const interest = (balance * loan.annualRate) / months;
+      balance = Math.round(Math.max(0, balance + interest - payment.paidMinor));
+    }
+    if (Math.abs(balance - loan.balanceMinor) > 1)
+      say(
+        `${loan.id}: replayed balance ${balance}, record ${loan.balanceMinor}`,
       );
-    if (isCounted(loan.borrowerId)) countedBorrowers += 1;
-    else if (lend.into.size !== 1 || !lend.into.has(loan.borrowerId))
-      fail(
-        `${loan.id}: the money did not reach the borrower ${loan.borrowerId} alone (${[...lend.into.keys()].join(", ")})`,
-      );
-    disbursed += lend.total;
   }
-  const rows = (perLoan.get(loan.id) ?? []).sort((a, b) =>
-    a.date.localeCompare(b.date),
-  );
-  let balance = loan.principalMinor;
-  for (const payment of rows) {
-    const pay = moved(`loan-payment:${loan.id}:${payment.date}`);
-    if (payment.paidMinor > 0) {
-      if (pay.entries !== 1 || !pay.balanced || pay.total !== payment.paidMinor)
-        fail(
-          `${payment.id}: record paid ${payment.paidMinor}, journal moved ${pay.total} in ${pay.entries} entries${pay.balanced ? "" : " (unbalanced)"}`,
-        );
-      else if (!pay.into.has(loan.lenderId) || pay.into.size !== 1)
-        fail(
-          `${payment.id}: the payment did not reach the lender ${loan.lenderId} alone`,
-        );
-      else if (
-        !isCounted(loan.borrowerId) &&
-        (pay.outOf.size !== 1 || !pay.outOf.has(loan.borrowerId))
-      )
-        fail(
-          `${payment.id}: the payment did not leave the borrower ${loan.borrowerId} alone`,
-        );
-      repaid += pay.total;
-    } else if (pay.entries)
-      fail(`${payment.id}: record paid nothing, journal moved ${pay.total}`);
-    const interest = (balance * loan.annualRate) / months;
-    balance = Math.round(Math.max(0, balance + interest - payment.paidMinor));
-  }
-  if (Math.abs(balance - loan.balanceMinor) > 1)
-    fail(
-      `${loan.id}: replayed balance ${balance}, record ${loan.balanceMinor}`,
-    );
+  return { ...book, disbursed, repaid, countedBorrowers };
 }
+
+const { loans, payments, perLoan, disbursed, repaid, countedBorrowers } =
+  checkLoans(core, posted, "");
 
 // (4) Credit lines.
 let lineDraws = 0,
@@ -331,65 +365,104 @@ interface Witness {
   loan: string;
   shortMinor: number;
   standing: string;
+  /** The journal entry that paid the lender for the short bill, and what it moved (none when nothing was paid). */
+  lenderEntry: string | null;
   paidToLenderMinor: number;
-  /** The balance replayed from the record after the short payment; clause 3 holds the loan record to the replay. */
-  balanceAfterMinor: number | null;
-  nextBill: string | null;
-  nextDueMinor: number | null;
+  /** The balance replayed from the record after the short bill, and the loan record's balance, which the full replay matches. */
+  balanceAfterMinor: number;
+  loanBalanceMinor: number;
+  nextBill: string;
+  nextDueMinor: number;
+  /** The regular payment plus what was left unpaid, capped at what the loan then owed. */
+  expectedNextDueMinor: number;
   chargedOffHouseholds: number;
 }
+/**
+ * The first short bill in one world whose consequences all show on its
+ * records: marked late, the lender paid on the journal exactly what the
+ * borrower paid, the loan's balance the replay that keeps the rest, and a
+ * next bill for the regular payment plus the unpaid amount. `waiting` counts
+ * short bills whose loan has not billed again yet.
+ */
 function missedPayments(
-  read: CoreAPI,
+  on: CoreState,
+  posted: Posted,
   where: string,
-): { witness: Witness | null; problems: string[]; short: number } {
-  const store = read.moduleState("credit");
-  const book = store.table("loans").rows() as unknown as Loan[];
-  const bills = [
-    ...(store.table("payments").rows() as unknown as Payment[]),
-  ].sort((a, b) => a.date.localeCompare(b.date));
-  const byLoan = new Map<string, typeof bills>();
-  for (const row of bills)
-    byLoan.set(row.loanId, [...(byLoan.get(row.loanId) ?? []), row]);
+): {
+  witness: Witness | null;
+  problems: string[];
+  short: number;
+  waiting: number;
+} {
+  const { loans: book, perLoan: byLoan } = loanBook(coreAPI(on));
   const problems: string[] = [];
   let witness: Witness | null = null,
-    short = 0;
+    short = 0,
+    waiting = 0;
   for (const loan of book) {
     const rows = byLoan.get(loan.id) ?? [];
     let balance = loan.principalMinor;
-    rows.forEach((bill, i) => {
+    const after: number[] = [];
+    for (const bill of rows) {
       const interest = (balance * loan.annualRate) / months;
       balance = Math.round(Math.max(0, balance + interest - bill.paidMinor));
+      after.push(balance);
+    }
+    const replayHolds = Math.abs(balance - loan.balanceMinor) <= 1;
+    rows.forEach((bill, i) => {
       const unpaid = bill.dueMinor - bill.paidMinor;
       if (unpaid <= 1) return;
       short += 1;
       // The borrower's credit: the payment is on the record as late (or the
       // loan charged off), never current.
-      if (bill.standing === "current")
+      const late = bill.standing !== "current";
+      if (!late)
         problems.push(
           `${where}: ${bill.id} paid ${bill.paidMinor} of ${bill.dueMinor} and still reads current`,
         );
-      // The collection: the next bill is the regular payment plus what was
-      // not paid, never more than the loan then owes.
-      const next = rows[i + 1];
-      const owed = balance + (balance * loan.annualRate) / months;
-      const want = Math.min(owed, loan.paymentMinor + unpaid);
-      if (next && next.dueMinor < want - 1)
+      // The lender's books: what the journal paid the lender for this bill.
+      const entry = `loan-payment:${loan.id}:${bill.date}`;
+      const pay = moved(posted, entry);
+      const toLender = pay.into.get(loan.lenderId) ?? 0;
+      const lenderHolds =
+        pay.balanced &&
+        toLender === bill.paidMinor &&
+        pay.entries === (bill.paidMinor > 0 ? 1 : 0);
+      if (!lenderHolds)
         problems.push(
-          `${where}: ${next.id} bills ${next.dueMinor}, not the regular ${loan.paymentMinor} plus the ${unpaid} left unpaid on ${bill.id}`,
+          `${where}: ${entry} paid the lender ${toLender} in ${pay.entries} entries for ${bill.id}, which paid ${bill.paidMinor}`,
         );
-      // The lender's books: the journal paid the lender only what the
-      // borrower paid (clause 2), and the loan's balance keeps the rest, which
-      // the replay holds the record to (clause 3).
-      witness ??= {
+      // The collection: the next bill is the regular payment plus what was
+      // not paid, never more than the loan then owes, and never other than that.
+      const next = rows[i + 1];
+      const left = after[i]!;
+      const owed = left + (left * loan.annualRate) / months;
+      const want = Math.round(Math.min(owed, loan.paymentMinor + unpaid));
+      if (!next) {
+        if (loan.standing !== "charged-off" && loan.standing !== "paid")
+          waiting += 1;
+        return;
+      }
+      const billHolds = Math.abs(next.dueMinor - want) <= 1;
+      if (!billHolds)
+        problems.push(
+          `${where}: ${next.id} bills ${next.dueMinor}, not the ${want} of the regular ${loan.paymentMinor} plus the ${unpaid} left unpaid on ${bill.id}`,
+        );
+      if (witness || !late || !lenderHolds || !billHolds || !replayHolds)
+        return;
+      witness = {
         where,
         payment: bill.id,
         loan: loan.id,
         shortMinor: unpaid,
         standing: bill.standing,
-        paidToLenderMinor: bill.paidMinor,
-        balanceAfterMinor: balance,
-        nextBill: next?.id ?? null,
-        nextDueMinor: next?.dueMinor ?? null,
+        lenderEntry: pay.entries ? entry : null,
+        paidToLenderMinor: toLender,
+        balanceAfterMinor: left,
+        loanBalanceMinor: loan.balanceMinor,
+        nextBill: next.id,
+        nextDueMinor: next.dueMinor,
+        expectedNextDueMinor: want,
         chargedOffHouseholds: 0,
       };
     });
@@ -408,14 +481,46 @@ function missedPayments(
           `${where}: ${later.id} lent to ${off.householdId} after ${off.id} was charged off on ${off.chargedOffAt}`,
         );
   if (witness) (witness as Witness).chargedOffHouseholds = offs.length;
-  return { witness, problems, short };
+  return { witness, problems, short, waiting };
+}
+
+/**
+ * The witness in one world, its journal watched throughout. Where every short
+ * bill still waits for the next one, the world plays on a month at a time (up
+ * to two) until the loan bills again, and the world is held to clauses 1 to 3
+ * again on the longer journal.
+ */
+function witnessIn(on: CoreState, seen: Posted, where: string) {
+  let found = missedPayments(on, seen, where);
+  for (
+    let month = 0;
+    month < 2 && !found.witness && found.waiting;
+    month += 1
+  ) {
+    watchJournal(on, seen);
+    try {
+      advanceCore(on, monthsAfter(on.date, 1));
+    } finally {
+      setJournalTrace(null);
+    }
+    checkLoans(on, seen, where);
+    found = missedPayments(on, seen, where);
+  }
+  return found;
 }
 
 const witnessTried: string[] = [];
-let witnessed = missedPayments(api, `${world.placeName}, seed ${world.seed}`);
-if (!witnessed.short)
-  witnessTried.push(`${world.placeName}: no payment fell short`);
-for (let draw = 0; draw < 4 && !witnessed.short; draw += 1) {
+let witnessed = witnessIn(
+  core,
+  posted,
+  `${world.placeName}, seed ${world.seed}`,
+);
+if (!witnessed.witness)
+  witnessTried.push(
+    `${world.placeName}: ${witnessed.short ? `${witnessed.short} short payments, none with every consequence on record` : "no payment fell short"}`,
+  );
+for (let draw = 0; draw < 4 && !witnessed.witness; draw += 1) {
+  for (const problem of witnessed.problems) fail(problem);
   const place = drawPlace(
     createHash("sha256")
       .update(`${world.seed}:M1-06-default:${draw}`)
@@ -436,18 +541,26 @@ for (let draw = 0; draw < 4 && !witnessed.short; draw += 1) {
     api: coreAPI(built.core),
     start: built.core.date,
   };
-  playYear(other);
-  witnessed = missedPayments(
-    other.api,
-    `${other.placeName} (${place.key}), seed ${place.seed}`,
-  );
-  if (!witnessed.short)
-    witnessTried.push(`${other.placeName}: no payment fell short`);
+  const where = `${other.placeName} (${place.key}), seed ${place.seed}`;
+  // The redrawn world's journal is watched like the runner's, and its loans
+  // held to the same clauses.
+  const seen = watchJournal(other.core);
+  try {
+    playYear(other);
+  } finally {
+    setJournalTrace(null);
+  }
+  checkLoans(other.core, seen, where);
+  witnessed = witnessIn(other.core, seen, where);
+  if (!witnessed.witness)
+    witnessTried.push(
+      `${other.placeName}: ${witnessed.short ? `${witnessed.short} short payments, none with every consequence on record` : "no payment fell short"}`,
+    );
 }
 for (const problem of witnessed.problems) fail(problem);
 if (!witnessed.witness)
   fail(
-    `no payment fell short in the runner's place or four more drawn: ${witnessTried.join("; ")}`,
+    `no short payment with every consequence on record in the runner's place or four more drawn: ${witnessTried.join("; ")}`,
   );
 
 console.log(
