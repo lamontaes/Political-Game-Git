@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/session-calendar-2025
+pr: #6021
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T10:39:20.032Z
 ---
 
 **What.** `data/research/laws/state-session-calendars.json` lists, under `sessionEnds`, only 2026 adjournment dates for the 21 places whose acts take effect a set time after the session ends (US-AL, US-AR, US-AS, US-AZ, US-DC, US-FL, US-HI, US-ID, US-KS, US-KY, US-ME, US-MI, US-MO, US-NC, US-NE, US-NM, US-OK, US-TX, US-UT, US-WA, US-WY). The game opens on January 20, 2025, so for any act passed in 2025 the rule finds no session end and falls back to counting from passage (`src/rules/laws/effective-date.ts:104`, registered stopgap `laws.session-end-effective-date-fallback`). In the laws end-to-end proof (seed 6685a893b8c2080d6542a87f), Burr, Nebraska's bottle deposit passed on January 20, 2025 took effect April 21, 2025, three months and a day after passage. Nebraska's rule counts from adjournment (Neb. Const. art. III, § 27), and its 2025 session adjourned June 2 (the data's own note), so the act should take effect September 3, 2025.

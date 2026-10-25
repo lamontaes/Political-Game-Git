@@ -126,6 +126,11 @@ const governorParty = new Map(
     g.party ? g.party[0]!.toUpperCase() + g.party.slice(1) : null,
   ]),
 );
+
+/** The party holding a state's governorship when the game opens, or null. */
+export function governorPartyAtOpening(stateKey: string): string | null {
+  return governorParty.get(stateKey) ?? null;
+}
 const federalExecutive = federalExecutiveResearch as unknown as Record<
   "president" | "vicePresident",
   { party: string }
