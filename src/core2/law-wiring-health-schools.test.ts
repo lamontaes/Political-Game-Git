@@ -34,6 +34,7 @@ import {
 } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
 import { OUTCOME_WEB_MODULE_ID } from "./modules/outcome-web";
+import { WEB_LINKS } from "./outcome-web-model";
 import type { LawRowInput } from "./laws-starting";
 import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
@@ -65,10 +66,25 @@ const SEED = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const TRIES = 12;
 const ENACTED_DAYS = 40;
 const WORK_REQUIREMENT_DAYS = 10;
-// The slowest link lags six months and reads the law as it stood that long ago
-// on the web's own row day, so a hold needs the lag plus three rows to show it
-// whatever day of the month the law changed.
-const HELD_MONTHS = 9;
+// The web links the test requires to fire, each from a law or line it holds.
+const LAGGED_LINKS = [
+  "medicaid-expansion-to-coverage",
+  "medicaid-expansion-to-medical-debt",
+  "work-requirement-to-coverage",
+  "snap-maximum-to-food-insecurity",
+  "health-hospitals-spending-to-infant-mortality",
+  "higher-education-spending-to-college-completion",
+  "school-spending-to-graduation",
+] as const;
+// The slowest of them (the hospitals line, nine months) reads its cause as it
+// stood that long before the web's own row day, so a hold needs the lag plus
+// three rows to show it whatever day of the month the cause changed.
+const HELD_MONTHS =
+  Math.max(
+    ...LAGGED_LINKS.map(
+      (key) => WEB_LINKS.find((l) => l.key === key)?.lagMonths ?? 0,
+    ),
+  ) + 3;
 const MODERATED_MONTHS = 3;
 const DAYS_PER_MONTH = 30;
 
@@ -627,7 +643,7 @@ function tryPlace(where: string, seed: string, key: string): string | null {
 
   // Hold every law a different way from where the place began (laws it
   // already had are repealed, the others stay) so each link's cause differs
-  // from its baseline, and wait out the 6-month lag of the slower links.
+  // from its baseline, and wait out the lag of the slowest link.
   // The played world legislates on its own (a bill may repeal a question
   // mid-run), so each month the held state is set again where a bill moved it.
   for (let month = 0; month < HELD_MONTHS + moderatedMonths; month += 1) {
@@ -639,25 +655,16 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     }
     advance(core, DAYS_PER_MONTH);
   }
-  const lags = [
-    ["medicaid-expansion-to-coverage"],
-    ["medicaid-expansion-to-medical-debt"],
-    ["work-requirement-to-coverage"],
-    ["snap-maximum-to-food-insecurity"],
-    ["health-hospitals-spending-to-infant-mortality"],
-    ["higher-education-spending-to-college-completion"],
-    ["school-spending-to-graduation"],
-  ];
-  for (const [link] of lags)
+  for (const link of LAGGED_LINKS)
     expect(
-      firedIn(api, link!),
+      firedIn(api, link),
       say(
         `the web link ${link} never fired (baseline yes: ${JSON.stringify([...baselineYes])}; rows ${JSON.stringify(
           webMonths(api).map((m) => [
             m.date,
             m.values[`law:${MEDICAID_WORK}`],
             m.values[`law:${EXPAND}`],
-            m.effects[link!],
+            m.effects[link],
           ]),
         )}; date ${api.state.date})`,
       ),
