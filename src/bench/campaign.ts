@@ -37,8 +37,13 @@ import {
   speechText,
   type SpeechBuild,
 } from "../director/speech-builder";
+import { campaignParameter } from "../core2/campaign-views";
 import { backdropFile, stagePeople } from "./scene";
+import { dollarsOf, nameList, standingLine } from "./race-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+
+/** The voters a poll asks when the player commissions one from the Campaigns screen. */
+const POLL_SAMPLE = 50;
 
 const ELECTIONS = "core2-elections-v1";
 const CAMPAIGNS = "core2-campaigns-v1";
@@ -89,8 +94,15 @@ export function campaignView(core: CoreState, personId: string) {
           doors: campaign.doorsKnockedCount ?? 0,
         },
         polls: polls.slice(-3),
-        // What the contest turns on: each candidate's acts and how the people they reached came to feel.
-        causes: contestCauses(core, filing.contestId, personId),
+        // The sample a poll asks, so the screen's Poll button and the price below agree.
+        pollSample: POLL_SAMPLE,
+        // Where the race stands, in the English engine's words, from the contest's records.
+        standing: raceStanding(
+          core,
+          filing,
+          polls.at(-1),
+          contestCauses(core, filing.contestId, personId),
+        ),
         // Where the player can go out and meet people today: a street of doors, the phone bank.
         outings: campaignDayChoices(api, filing.id).flatMap((choice) => {
           const outing = OUTINGS[choice.kind];
@@ -130,10 +142,10 @@ export function campaignView(core: CoreState, personId: string) {
 }
 
 /**
- * The causes a contest turns on: for each candidate on its ballot, the acts
- * that reached voters (doors, speeches, ads, a retelling) with how many were
- * reached and how many came away warmer or cooler. Read from the cause rows
- * the campaign engine kept; a read-only view.
+ * The causes a contest turns on: for each candidate on its ballot, how many
+ * voters the campaign reached (each voter once, by any act) and how many of
+ * them came away warmer or cooler, summed over the cause rows the campaign
+ * engine kept. A read-only view.
  */
 function contestCauses(core: CoreState, contestId: string, personId: string) {
   const api = coreAPI(core);
@@ -148,22 +160,13 @@ function contestCauses(core: CoreState, contestId: string, personId: string) {
       .moduleState(CAMPAIGNS)
       .table("causes")
       .query("byCandidate", [filing.personId]) as unknown as CauseRow[];
-    const acts = new Map<
-      string,
-      { act: string; reached: number; warmer: number; cooler: number }
-    >();
-    for (const row of rows) {
-      const entry = acts.get(row.act) ?? {
-        act: row.act,
-        reached: 0,
-        warmer: 0,
-        cooler: 0,
-      };
-      entry.reached += 1;
-      if (row.warmthAfter > row.warmthBefore) entry.warmer += 1;
-      else if (row.warmthAfter < row.warmthBefore) entry.cooler += 1;
-      acts.set(row.act, entry);
-    }
+    // Each voter's warmth moved by the sum of what every act did to it.
+    const moved = new Map<string, number>();
+    for (const row of rows)
+      moved.set(
+        row.voterId,
+        (moved.get(row.voterId) ?? 0) + (row.warmthAfter - row.warmthBefore),
+      );
     const person = core.people.get(filing.personId);
     return {
       filingId: filing.id,
@@ -172,9 +175,81 @@ function contestCauses(core: CoreState, contestId: string, personId: string) {
         ? `${person.givenName} ${person.familyName}`
         : filing.personId,
       you: filing.personId === personId,
-      acts: [...acts.values()].sort((a, b) => a.act.localeCompare(b.act)),
+      reached: moved.size,
+      warmer: [...moved.values()].filter((d) => d > 0).length,
+      cooler: [...moved.values()].filter((d) => d < 0).length,
     };
   });
+}
+
+/**
+ * Where the race stands, as sentences from the English engine's
+ * campaign-standing bank: the voters the player reached and how many moved,
+ * the opponents on the contest's filings and how many voters each reached,
+ * the last poll's answers, and what a poll would cost (the Poll action's
+ * sample at the campaign engine's price per interview).
+ */
+function raceStanding(
+  core: CoreState,
+  filing: FilingRow,
+  lastPoll:
+    | { date: string; contacted: number; answers: Record<string, number> }
+    | undefined,
+  causes: ReturnType<typeof contestCauses>,
+): string[] {
+  const mine = causes.find((who) => who.you);
+  const others = causes.filter((who) => !who.you);
+  const id = filing.id;
+  const perInterview = campaignParameter("pollCostPerInterviewMinor");
+  const nameOf = (candidateId: string) =>
+    causes.find((who) => who.candidateId === candidateId)?.name ??
+    (candidateId === "undecided"
+      ? "undecided"
+      : candidateId === "no-opinion"
+        ? "no opinion"
+        : candidateId);
+  return [
+    mine && mine.reached > 0
+      ? standingLine("reached", id, { reached: mine.reached })
+      : standingLine("reached-none", id, {}),
+    ...(mine && mine.reached > 0
+      ? [
+          standingLine("moved", id, {
+            warmer: mine.warmer,
+            cooler: mine.cooler,
+          }),
+        ]
+      : []),
+    others.length
+      ? standingLine("opponents", id, {
+          opponents: nameList(others.map((who) => who.name)),
+        })
+      : standingLine("opponents-none", id, {}),
+    ...others
+      .filter((who) => who.reached > 0)
+      .map((who) =>
+        standingLine("opponent-reached", `${id}|${who.candidateId}`, {
+          name: who.name,
+          reached: who.reached,
+        }),
+      ),
+    ...(lastPoll
+      ? [
+          standingLine("poll-result", id, {
+            date: lastPoll.date,
+            contacted: lastPoll.contacted,
+            tally: Object.entries(lastPoll.answers)
+              .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+              .map(([who, n]) => `${nameOf(who)} ${n}`)
+              .join(", "),
+          }),
+        ]
+      : []),
+    standingLine("poll-cost", id, {
+      sample: POLL_SAMPLE,
+      cost: dollarsOf(POLL_SAMPLE * perInterview),
+    }),
+  ];
 }
 
 const summary = (causes: readonly CauseRow[]) => ({
@@ -246,7 +321,7 @@ export function campaignAct(
     case "poll":
       return commissionPoll(api, {
         filingId: input.filingId,
-        sampleSize: input.sampleSize ?? 50,
+        sampleSize: input.sampleSize ?? POLL_SAMPLE,
       });
     default:
       throw new Error("Unknown campaign act.");

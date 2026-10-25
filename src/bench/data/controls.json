@@ -40,23 +40,8 @@
     "against": "Against",
     "pass": "Pass"
   },
-  "campaignActs": {
-    "title": "What the race turns on",
-    "reached": "reached",
-    "door": "Doors",
-    "volunteer-door": "Volunteers' doors",
-    "speech": "Speeches",
-    "interview": "Interviews",
-    "town-hall": "Town halls",
-    "debate": "Debates",
-    "retold": "Retold",
-    "ad": "Ads",
-    "attack-ad": "Attack ads",
-    "endorsement": "Endorsements",
-    "donation-ask": "Asking for money",
-    "constituent-case": "Cases for constituents",
-    "mail": "Mail",
-    "event": "Events"
+  "raceStanding": {
+    "title": "Where the race stands"
   },
   "speech": {
     "begin": "Give a speech",

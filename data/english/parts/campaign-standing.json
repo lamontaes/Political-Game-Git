@@ -1,0 +1,372 @@
+{
+  "schema": "english-parts/1",
+  "register": "campaign-standing",
+  "description": "How the Campaigns screen says where a race stands: voters reached, how many warmed or cooled, who the opponents are, the last poll and what a poll costs. Every part is a whole sentence; the facts are slots from the campaign's cause, filing and poll records and the Poll action's price.",
+  "slots": {
+    "reached": "Voters reached, from the campaign's cause records (each voter once).",
+    "warmer": "Voters whose warmth toward the candidate rose, from the same records.",
+    "cooler": "Voters whose warmth fell, from the same records.",
+    "opponents": "The other candidates on the contest's filing records.",
+    "name": "One candidate on the contest's filing records.",
+    "sample": "The poll's sample size, from the Poll action.",
+    "cost": "Dollars the poll costs: sample times the campaign engine's price per interview.",
+    "date": "The date the poll was taken.",
+    "contacted": "Voters who answered the poll.",
+    "tally": "Each answer with its count, from the poll record."
+  },
+  "maxWords": 20,
+  "parts": [
+    {
+      "key": "campaign-standing.reached.you-have-reached-reached-voters-so-far",
+      "move": "reached",
+      "kind": "written",
+      "text": "You have reached {reached} voters so far.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      }
+    },
+    {
+      "key": "campaign-standing.reached.so-far-reached-voters-have-heard-from-you",
+      "move": "reached",
+      "kind": "written",
+      "text": "So far {reached} voters have heard from you.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      }
+    },
+    {
+      "key": "campaign-standing.reached.reached-voters-have-heard-from-you-so-far",
+      "move": "reached",
+      "kind": "written",
+      "text": "{reached} voters have heard from you so far.",
+      "uses": [
+        {
+          "move": "reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-none.no-voters-have-heard-from-you-yet",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "No voters have heard from you yet.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      }
+    },
+    {
+      "key": "campaign-standing.reached-none.nobody-has-heard-from-you-yet",
+      "move": "reached-none",
+      "kind": "written",
+      "text": "Nobody has heard from you yet.",
+      "uses": [
+        {
+          "move": "reached-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "reached-none"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "reached-none"
+      }
+    },
+    {
+      "key": "campaign-standing.moved.warmer-came-away-warmer-toward-you-and-cooler-came-away-cool",
+      "move": "moved",
+      "kind": "written",
+      "text": "{warmer} came away warmer toward you, and {cooler} came away cooler.",
+      "uses": [
+        {
+          "move": "moved",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved"
+      }
+    },
+    {
+      "key": "campaign-standing.moved.warmer-voters-warmed-to-you-and-cooler-cooled",
+      "move": "moved",
+      "kind": "written",
+      "text": "{warmer} voters warmed to you, and {cooler} cooled.",
+      "uses": [
+        {
+          "move": "moved",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "moved"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "moved"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents.you-are-running-against-opponents",
+      "move": "opponents",
+      "kind": "written",
+      "text": "You are running against {opponents}.",
+      "uses": [
+        {
+          "move": "opponents",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents.your-opponents-are-opponents",
+      "move": "opponents",
+      "kind": "written",
+      "text": "Your opponents are {opponents}.",
+      "uses": [
+        {
+          "move": "opponents",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents-none.no-one-else-has-filed-for-this-seat-yet",
+      "move": "opponents-none",
+      "kind": "written",
+      "text": "No one else has filed for this seat yet.",
+      "uses": [
+        {
+          "move": "opponents-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponents-none.nobody-else-is-on-the-ballot-for-this-seat-yet",
+      "move": "opponents-none",
+      "kind": "written",
+      "text": "Nobody else is on the ballot for this seat yet.",
+      "uses": [
+        {
+          "move": "opponents-none",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponents-none"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponents-none"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-reached.name-has-reached-reached-voters",
+      "move": "opponent-reached",
+      "kind": "written",
+      "text": "{name} has reached {reached} voters.",
+      "uses": [
+        {
+          "move": "opponent-reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached"
+      }
+    },
+    {
+      "key": "campaign-standing.opponent-reached.reached-voters-have-heard-from-name",
+      "move": "opponent-reached",
+      "kind": "written",
+      "text": "{reached} voters have heard from {name}.",
+      "uses": [
+        {
+          "move": "opponent-reached",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "opponent-reached"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "opponent-reached"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-cost.a-poll-of-sample-voters-would-cost-cost",
+      "move": "poll-cost",
+      "kind": "written",
+      "text": "A poll of {sample} voters would cost {cost}.",
+      "uses": [
+        {
+          "move": "poll-cost",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-cost"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-cost"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-cost.asking-sample-voters-in-a-poll-would-cost-cost",
+      "move": "poll-cost",
+      "kind": "written",
+      "text": "Asking {sample} voters in a poll would cost {cost}.",
+      "uses": [
+        {
+          "move": "poll-cost",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-cost"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-cost"
+      }
+    },
+    {
+      "key": "campaign-standing.poll-result.the-last-poll-on-date-asked-contacted-voters-tally",
+      "move": "poll-result",
+      "kind": "written",
+      "text": "The last poll, on {date}, asked {contacted} voters. {tally}.",
+      "uses": [
+        {
+          "move": "poll-result",
+          "subject": "campaign",
+          "role": "standing",
+          "choice": "poll-result"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "poll-result"
+      }
+    }
+  ]
+}

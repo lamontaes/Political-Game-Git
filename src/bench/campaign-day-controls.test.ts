@@ -186,12 +186,14 @@ function play(
     (c) => c.filing.id === filing.id,
   )!;
   expect(after.campaign.doors, where).toBe(taken.doorsKnocked);
-  // What the race turns on lists the doors act with the people it reached.
-  const mine = after.causes.find((who) => who.you)!;
+  // Where the race stands says how many voters the doors reached, in the engine's words.
+  const saidReached = Number(
+    /(\d+) voters/.exec(after.standing[0] ?? "")?.[1] ?? Number.NaN,
+  );
   expect(
-    mine.acts.find((a) => a.act === "door")?.reached,
-    `the doors in the race's causes: ${where}`,
-  ).toBe(taken.reached);
+    saidReached,
+    `the voters reached, in the standing "${after.standing[0]}": ${where}`,
+  ).toBeGreaterThanOrEqual(taken.reached);
 
   // An interview asked of an outlet that covers the race writes the engine's own interview row.
   const interview = view.outings.find((c) => c.outing === "interview")!;
