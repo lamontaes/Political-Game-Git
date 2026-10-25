@@ -131,6 +131,7 @@ export function weighUnplanned(
   placeId: string,
   circumstances: Readonly<Record<string, number>>,
   cash: number,
+  asOf: string,
 ): UnplannedDecision {
   const p = (key: string) => renewalParameter(api, key);
   const raising = Object.values(circumstances).reduce((sum, v) => sum + v, 0);
@@ -185,5 +186,6 @@ export function decideUnplanned(
     mother.placeId,
     birthCircumstances(api, mother, couple, asOf),
     cash,
+    asOf,
   );
 }

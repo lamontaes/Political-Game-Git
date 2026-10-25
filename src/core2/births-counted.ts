@@ -808,6 +808,7 @@ export function applyCountedFlows(
           ),
         },
         cash,
+        date,
       );
       store.table(unplannedTable).put({
         id: `${woman.id}:unplanned:${date}`,
@@ -874,7 +875,7 @@ export function applyCountedFlows(
         continue;
       }
       const partner = partnerOf(found, mother, date);
-      const baby = countedNewborn(api, found, mother, partner, date);
+      const baby = countedNewborn(api, found, mother, date);
       addCountedPerson(core, found.household.id, baby);
       row.births.push(baby.id);
       store.table(birthsTable).put({
