@@ -59,9 +59,24 @@ interface Result {
     }[];
     diff: { kind: string; treatment: number; control: number; ids: string[] }[];
     diffKinds: number;
-    cited: { token: string; gross: number; ids: string[] }[];
+    cited: { token: string; gross: number; ids: string[]; control?: number }[];
     /** Posts citing a law in force at the opening in the control world, where it stays in force (older result files have none). */
     controlCited?: { token: string; gross: number; ids: string[] }[];
+    /**
+     * For an act that moves budget lines: each line its own move rows name,
+     * the amount moved, and what the treasury paid on it here and in the
+     * control world (empty: the act moved nothing; absent: not such an act).
+     */
+    lines?: {
+      government: string;
+      line: string;
+      moved: number;
+      treatment: number;
+      control: number;
+      /** Payments before this day only: a body in play changed the act on it. */
+      before?: string;
+      ids: string[];
+    }[];
   };
   web: {
     links: { key: string; status: string; to: string }[];
@@ -310,44 +325,108 @@ function ownPost(kind: string, r: Result): boolean {
 }
 
 function moneyLink(law: LawEntry, runs: { place: string; r: Result }[]): Link {
+  // An act that moves budget lines is paid by the treasury on those lines:
+  // its money is the lines its own move rows name, what the treasury paid on
+  // them with the act and without it. An act that moved no line (a budget
+  // already in balance) moved no money, whatever else differed between worlds.
+  const moved = runs.filter(({ r }) => r.money?.lines);
+  if (moved.length) {
+    const paid = moved.flatMap(({ place, r }) =>
+      r.money
+        .lines!.filter((l) => l.treatment !== l.control)
+        .map((l) => ({ place, l, opening: r.inForceAtOpening })),
+    );
+    if (paid.length)
+      return {
+        status: "wired",
+        evidence: paid
+          .slice(0, 3)
+          .map(
+            ({ place, l, opening }) =>
+              `${place}: the ${l.government} treasury's payments on ${l.line}, which the act moved by ${l.moved}: ${
+                opening
+                  ? `${l.control} with the act in force, ${l.treatment} with it repealed`
+                  : `${l.control} without the act, ${l.treatment} with it`
+              }${l.before ? `, payments before ${l.before}` : ""} (${l.ids[0] ?? ""})`,
+          )
+          .join("; "),
+        why: "",
+      };
+    const none = moved.every(({ r }) => !r.money.lines!.length);
+    return {
+      status: "missing",
+      evidence: moved
+        .map(
+          ({ place, r }) =>
+            `${place}: ${
+              r.money.lines!.length
+                ? `the act moved ${r.money.lines!.map((l) => l.line).join(", ")} and the treasury paid the same with and without it`
+                : "the act's move rows hold no line"
+            }`,
+        )
+        .join("; "),
+      why: none
+        ? "the act moved no budget line in the drawn places (the budget it balances had nothing to cut), so it moved no money"
+        : "the treasury paid the same on the lines the act moved with and without it",
+    };
+  }
   const direct = runs.flatMap(({ place, r }) =>
     (r.money?.direct ?? [])
       .filter((d) => ownPost(d.kind, r))
       .map((d) => ({ place, d })),
   );
-  const cited = runs.flatMap(({ place, r }) =>
-    (r.money?.cited ?? [])
+  // A law's own payments come first: posts naming a row of the law (the one
+  // the checker wrote), then those naming its key; the shared tag of the
+  // checker's rows comes last because it repeats the first.
+  const rank = (token: string) =>
+    token.startsWith("law:") ? 0 : token.startsWith("law-wiring-") ? 2 : 1;
+  const cited = runs.flatMap(({ place, r }) => {
+    const named = (r.money?.cited ?? [])
       .filter((c) => c.gross > 0)
-      .map((c) => ({ place, c })),
-  );
+      .sort((a, b) => rank(a.token) - rank(b.token) || b.gross - a.gross);
+    // The key alone is a looser match (any post that mentions it): it stands
+    // only where no post names a row of the law.
+    if (!named.length) return [];
+    return named
+      .filter((c) => rank(c.token) === rank(named[0]!.token))
+      .slice(0, 2)
+      .map((c) => ({ place, c }));
+  });
   const controlCited = runs.flatMap(({ place, r }) =>
     (r.money?.controlCited ?? [])
       .filter((c) => c.gross > 0)
+      .slice(0, 2)
       .map((c) => ({ place, c })),
   );
-  if (direct.length || cited.length || controlCited.length) {
-    const ev = [
-      ...direct
+  // Posts that name the law are its payments; a post that differs from the
+  // control world without naming it is only where its poster read the law.
+  if (cited.length || controlCited.length)
+    return {
+      status: "wired",
+      evidence: [
+        ...cited.map(
+          ({ place, c }) =>
+            `${place}: posts citing ${c.token}: ${c.gross}${c.control === undefined ? "" : ` (control world ${c.control})`} (${c.ids[0]})`,
+        ),
+        ...controlCited.map(
+          ({ place, c }) =>
+            `${place}: in force in the control world, posts citing ${c.token}: ${c.gross} (${c.ids[0]})`,
+        ),
+      ].join("; "),
+      why: "",
+    };
+  if (direct.length)
+    return {
+      status: "wired",
+      evidence: direct
         .slice(0, 3)
         .map(
           ({ place, d }) =>
             `${place}: ${d.kind} ${d.control} -> ${d.treatment} (${d.ids[0] ?? ""})`,
-        ),
-      ...cited
-        .slice(0, 2)
-        .map(
-          ({ place, c }) =>
-            `${place}: posts citing ${c.token}: ${c.gross} (${c.ids[0]})`,
-        ),
-      ...controlCited
-        .slice(0, 2)
-        .map(
-          ({ place, c }) =>
-            `${place}: in force in the control world, posts citing ${c.token}: ${c.gross} (${c.ids[0]})`,
-        ),
-    ].join("; ");
-    return { status: "wired", evidence: ev, why: "" };
-  }
+        )
+        .join("; "),
+      why: "",
+    };
   const any = runs.flatMap(({ place, r }) =>
     (r.money?.diff ?? []).map((d) => ({ place, d })),
   );

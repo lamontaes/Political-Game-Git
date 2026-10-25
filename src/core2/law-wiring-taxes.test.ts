@@ -189,7 +189,7 @@ function attempt(index: number): Attempt {
     posts.push({
       id: input.id,
       text: `${input.sourceRef.kind} ${input.sourceRef.id} ${input.postings
-        .map((p) => p.accountId)
+        .map((p) => `${p.accountId} ${p.id}`)
         .join(" ")}`,
     });
   });
@@ -326,6 +326,15 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
           corporate.every((r) => r.target === "organization"),
           `${where}: corporate targets`,
         ).toBe(true);
+        // A profit tax that was paid names, on the treasury's posting, the
+        // corporate row it was paid under (the raised one, once in force).
+        if (profits.some((p) => p.postings.length > 0))
+          expect(
+            runPosts.some(
+              (p) => p.text.includes(":in:") && p.text.includes(ids.corporate),
+            ),
+            `${where}: no profit-tax posting names ${ids.corporate}`,
+          ).toBe(true);
         // The state's raised rate is the web's cause for the pay link: the
         // town's month records carry its effect, and pay falls with the tax.
         const months = (core.modules.has(OUTCOME_WEB_MODULE_ID)
@@ -388,6 +397,12 @@ describe(`tax and public finance laws in a played world (seed ${seed})`, () => {
               .join("; ")} of ${list.length}`,
           );
         };
+        // The paycheck's tax line itself names the raised row it took, so the
+        // journal says which law each withheld dollar was taken under.
+        expect(
+          runPosts.some((p) => p.text.includes(`:income:${ids.income}`)),
+          `${where}: no withholding posting names ${ids.income}`,
+        ).toBe(true);
         named("income-tax", raised);
         named("adopt-income-tax", open(ADOPT));
         named("graduated-income-tax", open(GRADUATED));

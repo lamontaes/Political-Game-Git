@@ -267,12 +267,16 @@ function payProfitTaxes(api: CoreAPI): void {
       paid > 0
         ? [
             { id: `${recordId}:out`, accountId: from, deltaMinor: -paid },
+            // Each treasury's posting names the corporate-tax row it was paid under.
             ...govs
-              .map((g, index) => ({
-                id: `${recordId}:in:${g.id}`,
-                accountId: `cash:${g.organizationId}:residual`,
-                deltaMinor: shares[index]!,
-              }))
+              .map((g, index) => {
+                const row = taxes.find((l) => l.gov.id === g.id)?.row.id;
+                return {
+                  id: `${recordId}:in:${g.id}${row ? `:${row}` : ""}`,
+                  accountId: `cash:${g.organizationId}:residual`,
+                  deltaMinor: shares[index]!,
+                };
+              })
               .filter((p) => p.deltaMinor > 0),
           ]
         : [];

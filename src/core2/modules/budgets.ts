@@ -1506,10 +1506,11 @@ function postWithholding(
       accountFor(api, line.jurisdiction) ??
       `cash:${outsideGovernment(api, line.jurisdiction)}:residual`;
     kept.push(line);
-    // The posting names its tax, so every paycheck's journal entry says what
-    // it withheld; the table keeps the full record only for the player's circle.
+    // The posting names its tax and the law row it took, so every paycheck's
+    // journal entry says what it withheld and under which law; the table keeps
+    // the full record only for the player's circle.
     postings.push({
-      id: `${input.id}:tax:${index}:${line.level}:${line.tax}`,
+      id: `${input.id}:tax:${index}:${line.level}:${line.tax}:${line.lawId}`,
       accountId: account,
       deltaMinor: line.minor,
     });
