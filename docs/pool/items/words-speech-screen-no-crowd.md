@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/speech-screen-crowd
-pr:
+pr: #5995
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T07:09:57.846Z
