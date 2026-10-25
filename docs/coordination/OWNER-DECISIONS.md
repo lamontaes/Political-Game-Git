@@ -11,6 +11,10 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 - **Counted people's out-of-town pay and non-local spending are labeled estimates (Oct 19, claude; stopgaps SG-CORE-outside-living-costs and SG-CORE-unplaced-workers-income, now resolved).** Counted workers the opening could not place earn the place's ACS median earnings, and the part of a counted household's living cost not bought from a local seller leaves the town (CEX and HUD), each flow carrying its ESTIMATED source and spread, as the Oct 14 stand-in audit (#4151) closed them. The alternative is to build recorded commutes (LEHD origin-destination flows) and an outside-spending model by category. Reopen the two rows if you want those built.
 
+## Oct 25: rulings (owner, via the acting CTO)
+
+- **The freeze lifted (owner, Oct 25):** "get everything moving again, not this lane but everything." Play-first stays the first claim for its leads; nothing else is held. The 18 open items frozen Oct 24 are open again and `play-first-freeze` is dropped. The lane owns `src/bench` and may edit director and English files with `Review: words`; Traits' and Effects' overnight PRs stand; Speed's queued PRs open.
+
 ## Oct 24: rulings (owner, via the acting CTO)
 
 - **Lane edits director and English files (owner, Oct 24, "go ahead"):** play-first lane agents may edit `src/director`, `src/english` and `data/english` directly for lane items. The Words session reviews those PRs: the PR body carries `Review: words`. The merger does not send a lane PR back for touching those files. Carried by docs/play-first/README.md, the `play-first`, `merger` and `words-engine` skills.
