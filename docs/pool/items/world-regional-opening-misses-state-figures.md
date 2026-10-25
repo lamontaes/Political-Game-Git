@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/regional-opening-pay
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T12:44:28.114Z
 ---
 
 **What.** The new M1-03 check compares every state's opening figures with the raw series in src/core2/data/regional/regions.json (BLS LAUS, BLS CES, BEA regional price parities). On main 2ab5bf066d, DC opens at 2.9 percent unemployment against 5.6 real, Rhode Island at 4.2 against 4.5, Hawaii's hourly pay at 36.63 against 37.29, and Virginia's at 38.24 against 35.35. src/core2/regional-model.ts:182-184 takes a whole metro's LAUS rate in place of the state's own, and :200 builds state pay as statePay times a population-weighted income ratio (:177).

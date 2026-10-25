@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/no-pinned-place-opelika
-pr:
+pr: #6014
 blocked-on:
 source: added by the acting CTO, Oct 22 merge sample
 claimed-at: 2026-10-25T09:19:46.575Z
