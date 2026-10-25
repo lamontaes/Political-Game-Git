@@ -7,7 +7,7 @@
     "state": "US-IN"
   },
   "window": 35,
-  "after": 10,
+  "after": 31,
   "results": [
     {
       "key": "us-policy-positions:justice-public-safety.restore-voting-after-sentence",
@@ -46,15 +46,25 @@
         "ended": 1,
         "sample": []
       },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 1,
+        "sample": []
+      },
+      "inPlay": [],
       "readers": {
-        "src/core2/modules/legislature.ts:2081": 374,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/elections.ts:693": 16,
-        "src/core2/modules/outcome-web.ts:158": 12,
+        "src/core2/modules/legislature.ts:2094": 374,
+        "src/core2/modules/outcome-web.ts:166": 12,
         "src/core2/modules/world-legislating.ts:183": 10,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:483": 8,
         "src/core2/modules/world-legislating.ts:253": 8,
-        "src/core2/law-reach/group-a-records.ts:251 <- src/core2/modules/interest-groups.ts:625": 8,
-        "src/core2/life.ts:549": 5,
+        "src/core2/life.ts:556": 5,
         "src/core2/modules/world-legislating.ts:333": 2
       },
       "openingRow": "law:US-IN:state:us-policy-positions:justice-public-safety.restore-voting-after-sentence:general:starting",
@@ -62,7 +72,17 @@
         "direct": [],
         "diff": [],
         "diffKinds": 0,
-        "cited": []
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 1,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
       },
       "web": {
         "links": [
@@ -127,7 +147,7 @@
         "ended": 1,
         "sample": []
       },
-      "seconds": 13
+      "seconds": 12
     }
   ]
 }
