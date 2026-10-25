@@ -365,6 +365,12 @@ try {
         .catch(() => {});
       await page.waitForTimeout(2000);
     }
+    // A scene still playing covers the menu: wait it out, don't touch the calendar.
+    if (await page.locator("#game.cinema").count()) {
+      console.log("Stop: cinema scene playing, waiting");
+      await page.waitForTimeout(5000);
+      continue;
+    }
     // Run the clock again from the calendar.
     await page
       .locator('[data-tab="calendar"]')
@@ -392,13 +398,17 @@ try {
       .catch(() => {});
     const day3 = page.locator('.month button.day[data-date="2026-11-03"]');
     if (!(await day3.count())) {
-      console.log(
-        "No day 3 in view; days:",
-        await page
-          .locator(".month .day")
-          .allInnerTexts()
-          .catch(() => []),
-      );
+      console.log("No day 3 in view; skipping leg");
+      continue;
+    }
+    if (
+      !(await day3
+        .first()
+        .isVisible()
+        .catch(() => false))
+    ) {
+      console.log("Day 3 hidden behind a scene; waiting");
+      await page.waitForTimeout(5000);
       continue;
     }
     await day3.first().click();
