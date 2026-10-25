@@ -341,7 +341,7 @@ export function composeJournal(
             : [moment.causeId],
       };
     }
-    const hasOwnLine = Boolean(row?.ownLine);
+    const hasOwnLine = Boolean(row?.hasOwnLine);
     const otherId =
       moment.counterpartIds[zero] ??
       (moment.causeKind === "family:child"
