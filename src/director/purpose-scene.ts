@@ -15,7 +15,6 @@ import type { CoreState, PersonId } from "../core2/types";
 import { spokenDesignation } from "../english/bill-names";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
 import type { Director } from "./ledger";
-import type { Fact } from "./render";
 import { SITUATION_LIBRARY, type ScheduleEntry } from "./scheduling";
 import type { Moment } from "./types";
 import {
@@ -25,6 +24,7 @@ import {
   type TreeNode,
   type TreeReply,
 } from "./scene-talk";
+import type { Fact } from "../english/scene-talk-words";
 import { spoken } from "./words";
 
 export interface PurposeScene {
