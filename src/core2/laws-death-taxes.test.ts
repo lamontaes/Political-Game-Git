@@ -125,7 +125,9 @@ describe("estate and inheritance taxes", () => {
     }).core;
     const api = coreAPI(core);
     expect(inheritanceTax(api, state, "sibling", 100_000_00), where).toBeNull();
-    for (const series of ["inheritance-tax", "estate-tax"])
+    const [inheritanceLaw, estateLaw] = (
+      ["inheritance-tax", "estate-tax"] as const
+    ).map((series) =>
       enactLaw(api, {
         jurisdiction: state,
         level: "state",
@@ -134,17 +136,21 @@ describe("estate and inheritance taxes", () => {
         effectiveDate: core.date,
         measureId: `test:adopt-${series}`,
         citation: "A bill that sets only a rate",
-      });
-    // Five percent of a $100,000 share, in cents, with no exemption.
-    expect(
-      inheritanceTax(api, state, "sibling", 100_000_00)?.amountMinor,
-      where,
-    ).toBe(5_000_00);
-    expect(
-      estateTaxes(api, state, 100_000_00).find((t) => t.jurisdiction === state)
-        ?.amountMinor,
-      where,
-    ).toBe(5_000_00);
+      }),
+    );
+    // Five percent of a $100,000 share, in cents, with no exemption, under
+    // the row the bill wrote.
+    const heir = inheritanceTax(api, state, "sibling", 100_000_00);
+    expect(heir?.amountMinor, where).toBe(5_000_00);
+    expect(heir?.lawId, where).toBe(inheritanceLaw!.id);
+    const estate = estateTaxes(api, state, 100_000_00).find(
+      (t) => t.jurisdiction === state,
+    );
+    expect(estate?.amountMinor, where).toBe(5_000_00);
+    expect(estate?.lawId, where).toBe(estateLaw!.id);
+    console.log(
+      `rate-only death taxes: ${where}: ${heir!.lawId} ${heir!.amountMinor}, ${estate!.lawId} ${estate!.amountMinor}`,
+    );
     // A government that takes the estate pays what each state's statute says.
     // Every state with the tax in the starting law exempts it, while a heir
     // outside the family still pays; Kentucky's statute names cities, towns and
@@ -216,8 +222,7 @@ describe("estate and inheritance taxes", () => {
         ?.amountMinor,
       `${where}, ${other}`,
     ).toBe(7_000_00);
-    // Building the drawn place's bench world took 59 s on the 4-core shared
-    // container (Oct 24): the same ten-minute limit as the played-world test below.
+    // A drawn world builds in 32 to 84 seconds (measured); the case below has the same limit.
   }, 600_000);
 
   it("every state's inheritance tax carries its statute's term for a government heir, cited and quoted", () => {
