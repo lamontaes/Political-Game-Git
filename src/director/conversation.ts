@@ -505,25 +505,20 @@ function evictionSubjects(
 const VICTIMIZED_LABEL = `feeling:event:${CRIME_EVENT}`;
 
 /**
- * A household's latest victimization as the speaker can tell it, from the
- * crime engine's record: what happened (the crime's kind, the stage the line
- * is worded for) and when. The record names the household's members (for a
- * violent crime, the person it happened to), so a housemate's moment counts.
+ * The speaker's latest victimization as they can tell it, from the crime
+ * engine's record: what happened (the crime's kind, the stage the line is
+ * worded for) and when. Only the speaker's own moment counts: the record
+ * names whom it happened to (every member for a crime against the household,
+ * only the victim for a robbery or an assault), and the lines are told in the
+ * first person.
  */
 function victimizationSubjects(
   core: Readonly<CoreState>,
   director: Director | undefined,
   speakerId: PersonId,
-  listenerId: PersonId,
 ): Subject[] {
   if (!core.modules.has(CRIME_MODULE_ID)) return [];
-  const speaker = core.people.get(speakerId)!;
-  const together =
-    core.people.get(listenerId)?.householdId === speaker.householdId;
-  const moment = [
-    ...recentMoments(core, director, speakerId),
-    ...(together ? recentMoments(core, director, listenerId) : []),
-  ].find(
+  const moment = recentMoments(core, director, speakerId).find(
     (row) =>
       row.label === VICTIMIZED_LABEL &&
       row.causeId.startsWith(`${CRIME_EVENT}:`),
@@ -776,7 +771,7 @@ export function subjectsBetween(
     });
   }
   out.push(...evictionSubjects(core, director, speakerId, listenerId));
-  out.push(...victimizationSubjects(core, director, speakerId, listenerId));
+  out.push(...victimizationSubjects(core, director, speakerId));
   out.push(...justiceSubjects(core, director, speakerId, listenerId));
   const theirs = jobOf(core, listener);
   if (!mine || theirs?.org.id !== mine.org.id)
