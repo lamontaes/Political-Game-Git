@@ -1,7 +1,7 @@
 /**
- * Turns the mined scene and bring-it-up banks into the story director's words
- * (`composeScene` in `src/director/scene.ts`, `bringItUp` in
- * `src/director/bring-it-up.ts`). Each mined part names the director's
+ * Turns the mined scene and bring-it-up banks into the words the English
+ * engine says them with (`src/english/scene-words.ts` for a scene's
+ * narration, `src/english/bring-it-up-words.ts` for `bringItUp`). Each mined part names the director's
  * subject (setting, present, cause; change, blame) and its role (the setting
  * kind, the cause's label prefix, the blame's source). The structure is
  * `data/scene-rows.json` and `data/bring-it-up-rows.json`, which hold no
@@ -10,11 +10,13 @@
  */
 import sceneJson from "../../../data/english/parts/scene-words.json" with { type: "json" };
 import bringJson from "../../../data/english/parts/bring-it-up.json" with { type: "json" };
-import { heldByGrades } from "../../english/english-grades";
-import bringRowsJson from "../data/bring-it-up-rows.json" with { type: "json" };
-import sceneRowsJson from "../data/scene-rows.json" with { type: "json" };
-import type { BringData, BringRows } from "../bring-it-up";
-import type { SceneRows, SceneWords } from "../scene";
+import { heldByGrades } from "../english-grades";
+import bringRowsJson from "../../director/data/bring-it-up-rows.json" with { type: "json" };
+import sceneRowsJson from "../../director/data/scene-rows.json" with { type: "json" };
+import type { BringRows } from "../../director/bring-it-up";
+import type { BringWords } from "../bring-it-up-words";
+import type { SceneRows } from "../../director/scene";
+import type { SceneWords } from "../scene-words";
 
 interface Use {
   subject: string;
@@ -168,25 +170,24 @@ export function sceneWordsFromBank(
 }
 
 /** `heldFirst` is for a grading page only: see `admitted`. */
-export function bringDataFromBank(
+export function bringWordsFromBank(
   bank: Bank = BRING_BANK,
   rows: BringRows = BRING_ROWS,
   heldFirst = false,
-): BringData {
+): BringWords {
   return {
     version: rows.version,
-    toldEvent: rows.toldEvent,
-    heardKey: rows.heardKey,
-    blameKey: rows.blameKey,
-    changes: rows.changes.map((row) => ({
-      ...row,
-      line: variants(bank, "change", row.eventKind, false, heldFirst),
-    })),
+    changes: Object.fromEntries(
+      rows.changes.map((row) => [
+        row.eventKind,
+        variants(bank, "change", row.eventKind, false, heldFirst),
+      ]),
+    ),
     blame: Object.fromEntries(
       rows.blame.map((how) => [
         how,
         variants(bank, "blame", how, false, heldFirst),
       ]),
-    ) as BringData["blame"],
+    ) as BringWords["blame"],
   };
 }
