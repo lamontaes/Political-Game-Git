@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-decisions-never-run
 pr:
 blocked-on: play-first-freeze
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 2026-10-25T06:46:52.015Z
 ---
 
 **What.** Of 84 personality decisions, 61 ran in the Oct 20 played year and 23 never did. The causes were measured: no election inside the year (voting, the exit poll, canvassing, donating, polls, press), decisions only the player or the bench can start (a candidate asking someone to volunteer or endorse, a legislator asking for a hearing), a bribe never taken so its chain never starts, rare events (an appointment, a will, a recall vote), and a staffer always taking the case first. Make each run where its cause really happens, through the world's own actors, or record why it cannot in a gap row.
