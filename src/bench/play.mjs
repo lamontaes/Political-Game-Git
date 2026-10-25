@@ -682,8 +682,8 @@ function officeStop(value) {
     : undefined;
 }
 /** A stop the jobs engine holds: an employer's offer to the player, when it
- * arrives and again at its deadline. Every hold reason answers here (owner,
- * Oct 24: #5232's offer-deadline kind included). */
+ * arrives and again at its deadline. Every hold reason answers here, the
+ * offer-deadline kind included. */
 function jobOfferStop(value) {
   return value?.kind === "stop"
     ? value.stop.modules.find(
@@ -913,8 +913,8 @@ function atThePolls(scene) {
   });
 }
 // ---- A job offer (jobs): the hold is the offer itself ----
-// The employer, the job and the pay with Take it and Turn it down (owner,
-// Oct 14: the engine offers, the player decides). Either answer releases the
+// The employer, the job and the pay with Take it and Turn it down: the
+// engine offers, the player decides. Either answer releases the
 // hold and the day goes on; before the deadline the offer can also wait,
 // answerable at the Jobs tab, until the deadline holds the clock.
 async function atTheOffer(stopRow) {
@@ -969,7 +969,7 @@ async function atTheOffer(stopRow) {
     $("job-offer-take").onclick = () => answer("accept");
     $("job-offer-turn").onclick = () => answer("decline");
     $("job-offer-wait").onclick = () => close(false);
-    // A later offer's moment must not inherit a answered one's disabled buttons.
+    // A later offer's moment must not inherit an answered one's disabled buttons.
     for (const button of $("job-offer").querySelectorAll("button"))
       button.disabled = false;
     show("job-offer", true);
