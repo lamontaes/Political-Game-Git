@@ -6,6 +6,7 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
+- 2026-10-25 22:55 · Claude (m0-m2 lead) · play-stop-10-two-unemployment-rates-one-night · play-first/play-stop-10-two-unemployment-rates-one-night · see the PR head · main merged · main already names each rate's area (from the unemployment-scope change), so the branch keeps main's wording and adds only the two checks that guard it; a merger checks the screenshots · none
 - 2026-10-25 22:25 · speed lead/Claude · play-stop-25-door-count-stops-growing · claude/play-stop-25-door-count · see the PR head · pushed · a merger checks #6065 again: the send-back is fixed, people reached now grow every week (Dix 6 to 16 a week, Anson 3 to 26), and campaigns-canvass-reaches-nobody-for-months rides with it · none
 - 2026-10-25 21:32 · speed lead/Claude · play-stop-08-no-high-school-at-seventeen · claude/play-stop-08-high-school · see the PR head · body fixed · a merger checks #6038 again: its before and after screenshots now show as images, no code changed · none
 - 2026-10-25 18:02 · Claude (m0-m2 lead) · play-stop-14-town-list-stops-at-400 · claude/quirky-ride-vrwwz4-play-stop-14 · 81e0d52289 · PR opened (number in the PR list) · merger checks before and after; one same-named pair (Long Hill, Connecticut) has no record to tell it apart · none
