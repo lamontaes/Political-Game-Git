@@ -138,7 +138,6 @@ function changeLaw(
   );
   for (const row of later)
     enact(row.jurisdiction, row.level, row.effectiveDate);
-  return [effectiveDate, ...later.map((row) => row.effectiveDate)];
 }
 
 /** On each 4th, after the death engine's refresh: the month it read, the web's reach for each death outcome, and each full person's factor. */
