@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/officials-roster.ts, src/core2/modules/officials.ts, src/core2/data/officials/officials.json
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5964 (branch claude/officials-carry-every-trait): CTO explicitly orders #5582 before every traits PR (comment 6386070636), and #5582 remains open with its recorded return; finish on that branch, merge main into it first after #5582 lands.
