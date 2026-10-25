@@ -62,6 +62,7 @@ import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
 import { residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
+import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
@@ -356,6 +357,13 @@ function reasonsFrom(
       (two * Math.exp(-distance * distance) - one),
     // A countywide race: more ground and more voters to reach than a town seat.
     reach: contest.countywide ? -c(api, "candidacyCountywideWeight") : zero,
+    // A revolving-door law in force: a legislative seat is worth less to a
+    // newcomer who could not lobby for a time after leaving it.
+    afterOffice:
+      contest.incumbentId !== person.id &&
+      revolvingDoorFor(api, contest.contestId)
+        ? -c(api, "candidacyRevolvingDoorWeight")
+        : zero,
   };
 }
 
@@ -838,7 +846,9 @@ function countedScreen(
             filingDeadline: open.filingDeadline,
             sourceIds: open.sourceIds,
           });
-          let base = api.parameter("zero");
+          // A seat's own law (a revolving-door law) only lowers the pull,
+          // so it is left out of the bound.
+          let base = -(reasons.afterOffice ?? api.parameter("zero"));
           for (const value of Object.values(reasons)) base += value;
           return { voter, base };
         })
@@ -907,6 +917,26 @@ export function fileRunners(
       ? fileFor(api, person, contest, Boolean(seatParty(api, contest)))
       : { status: "refused", filingId: null, unmet: ["not-available"] };
     table(api).put({ ...decision, filing } as unknown as { id: string });
+  }
+  // A runner the filing day's weighing no longer holds (gone from the town,
+  // dead) is refused for the rules they no longer meet, so every decision to
+  // run ends with a filing or a refusal.
+  for (const decision of candidatesFor(api, contest.id)) {
+    if (decision.filing || row.runIds.includes(decision.personId)) continue;
+    const person = api.state.people.get(decision.personId);
+    const unmet = person?.alive
+      ? checkEligibility(api, decision.personId, contest.id, null)
+          .filter((check) => !check.met)
+          .map((check) => check.rule)
+      : [];
+    table(api).put({
+      ...decision,
+      filing: {
+        status: "refused",
+        filingId: null,
+        unmet: unmet.length ? unmet : ["not-available"],
+      },
+    } as unknown as { id: string });
   }
   weighed.put({ ...row, filedOn: api.state.date } as unknown as {
     id: string;

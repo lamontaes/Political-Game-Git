@@ -21,6 +21,10 @@ import { publicBargaining } from "./group-a-bargaining";
 
 const records: PolicyHandler = (api, change) =>
   applyRecords(api, change.key, change.lawId, change.inForce);
+// The voting file imports the elections, budgets and voting engines, which
+// load this registry back through law reach; read its handler when a law
+// takes effect, not when this file loads, so no import order leaves it unset.
+const voting: PolicyHandler = (api, change) => votingLaw(api, change);
 
 /** Each mechanic's handler, by the mechanic name a policy's data row gives. */
 const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
@@ -48,8 +52,8 @@ const MECHANICS: Readonly<Record<string, readonly PolicyHandler[]>> = {
   staffing: [staffing],
   "public-bargaining": [records, publicBargaining],
   "right-to-work": [records, rightToWork],
-  voting: [votingLaw],
-  "office-limits": [votingLaw],
+  voting: [voting],
+  "office-limits": [voting],
 };
 
 export function registerGroupA(): void {

@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5997
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The trait coverage test (src/core2/trait-coverage.test.ts, 'finds every decision in code that weighs traits') fails on clean main because src/director/scene-talk.ts decides with traits but has no row in data/content/trait-decisions.json. Its pullOf sums per-move trait pulls from the purpose-arc data to pick the asker's answer and the branch the page follows first, a hand trait sum beside the shared table. Give the decision a table row whose options carry act kinds and read the lean through the shared helper, or list the site under outside with the reason, whichever the words line's design allows.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/director/scene-talk.ts, data/content/trait-decisions.json, src/core2/trait-coverage.test.ts
 
 **Notes.** Found Oct 24 by the traits lead while landing the money family: red on main at 7b30a85cd, so it does not block family PRs.
+
+Sent back 2026-10-25 from PR #5997 (branch claude/traits-scene-talk-table): Lead traits branch edits Words-owned director scene-talk logic, arcs, rules and tests; route that portion through Words or explicit applicable ownership ruling, then rerun integrated scene/coverage/played-talk proof; finish on that branch, merge main into it first.
