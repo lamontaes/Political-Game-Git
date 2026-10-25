@@ -547,9 +547,12 @@ export function buildDeepPast(
           `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
         );
         const [campusId, campusName] = school ?? [];
-        const schoolName = campusName
+        const spokenCampus = campusName
           ? campusSpokenName(campusName, data.schools)
-          : `${rng.pick(SCHOOL_NAMES.features)} ${stage.nameSuffix}`;
+          : undefined;
+        const schoolName =
+          spokenCampus ??
+          `${rng.pick(SCHOOL_NAMES.features)} ${stage.nameSuffix}`;
         const source: Source = {
           tag: "ESTIMATED",
           asOf: input.startedAt,
