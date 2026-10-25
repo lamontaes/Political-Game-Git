@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: play-first/play-stop-26-empty-something-needs-you
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T23:29:58.616Z
 ---
 
 **What.** On the v0.22.10 release the game stopped me with SOMETHING NEEDS YOU on July 1, September 10, November 10, 17, 19 and 25, and December 8, 2026. Each time Day and Week were grayed and the talk box was empty (no name, no line, only Mark gap, Say nothing and Leave) or missing. Continue moved on most times; on December 14 it did not (see play-stop-23-job-offer-hold-locks-the-game). I could not tell who or what needed me.
