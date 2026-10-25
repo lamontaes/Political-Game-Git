@@ -813,7 +813,7 @@ function voteGrievance(
   recall: RecallRow,
 ): (voter: TownVoter) => number {
   if (recall.cause === "misconduct") {
-    const heard = heardOfMisconduct(api, recall.causeMatch ?? "");
+    const heard = heardOfMisconduct(api, recall.lawId, recall.causeMatch ?? "");
     const exposure = heard.size / Math.max(1, adults(api).length);
     return (voter) =>
       misconductGrievance(api, voter, recall.memberId, heard, exposure);
