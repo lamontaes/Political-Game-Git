@@ -646,7 +646,7 @@ export function subjectsBetween(
   }
   // A new job of the speaker's own, from the money moment of its start: the
   // job record names the employer, so the talk opens on it ("I got a job at
-  //..."), and the listener answers (congratulate, ask, brief).
+  // ..."), and the listener answers (congratulate, ask, brief).
   const started = recentMoments(core, director, speakerId).find(
     (moment) =>
       moment.label === "money:job-started" && !moment.counterpartIds.length,
@@ -668,7 +668,7 @@ export function subjectsBetween(
       },
     });
   // The listener's own new job, as the speaker would take it up ("Congratulations
-  // on the job at..."). Said only once the rules map "job-new-told" to a
+  // on the job at ..."). Said only once the rules map "job-new-told" to a
   // reply kind and the bank has words for it (src/director/data/conversation-rules.json).
   const listenerStarted = recentMoments(core, director, listenerId).find(
     (moment) =>

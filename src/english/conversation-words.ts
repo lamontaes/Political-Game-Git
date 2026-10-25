@@ -35,7 +35,7 @@ export interface Move {
   pronoun?: "he" | "she" | "they";
   /** A bare question turned back ("And you?"), said after the plain answer. */
   afterPlain?: boolean;
-  /** The manner the wording carries (tender, guarded,...), from the bank. */
+  /** The manner the wording carries (tender, guarded, ...), from the bank. */
   bearing?: string;
 }
 export interface SubjectBank {

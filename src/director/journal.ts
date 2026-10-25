@@ -373,7 +373,7 @@ export function composeJournal(
         };
         // A relative with their name, so a line carries its subject ("My
         // daughter Jane was born."; owner, Oct 15, evening).
-        // With the name said, two daughters are each "my daughter...".
+        // With the name said, two daughters are each "my daughter ...".
         const relation = kin.get(otherId);
         const phrase = relation
           ? relationPhrase(
@@ -837,8 +837,7 @@ export function composeJournal(
     }
   }
 
-  // A law or a broad event is told only when the person had a part in it
-  //.
+  // A law or a broad event is told only when the person had a part in it.
   for (const entry of book.backdrop) {
     if (entry.date > through) continue;
     const rule = journalBackdrop(entry.kind, words);

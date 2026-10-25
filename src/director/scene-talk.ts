@@ -123,7 +123,7 @@ export interface SceneTalkLine {
   move: string;
   register: "scene-talk";
   bearing?: string;
-  /** The situation's key (vote-wanted, favor-asked,...). */
+  /** The situation's key (vote-wanted, favor-asked, ...). */
   key: string;
   purpose: string;
   /** How deep in the exchange it is (0 for the setup and the open). */

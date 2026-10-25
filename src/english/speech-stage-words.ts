@@ -29,7 +29,7 @@ const BANK = stagesJson as unknown as { parts: BankPart[] };
 export const SPEECH_STAGES_VERSION = "words-speech-stages-v1";
 
 /**
- * The pieces that may word one stage role ("opener", "core:work",...), as
+ * The pieces that may word one stage role ("opener", "core:work", ...), as
  * renderer variants. Play offers only shipped pieces. A grading page
  * (`heldFirst`) offers the held ones wherever one fits, so the owner hears
  * each in a real speech; a stage no held piece fits keeps its shipped pieces.

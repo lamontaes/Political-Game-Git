@@ -1416,7 +1416,7 @@ for (const [typeKey, label] of [
       askerId,
       askedId,
       {
-        // "the Town of Briarcliffe Acres treasury", not "Town of... treasury".
+        // "the Town of Briarcliffe Acres treasury", not "Town of ... treasury".
         office: fact(
           /\s[a-z]/.test(properName(org.name))
             ? `the ${properName(org.name)}`

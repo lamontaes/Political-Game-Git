@@ -125,7 +125,7 @@ export interface JournalWords {
     /** Said only when a later chapter of another kind opened. */
     turning?: readonly string[];
   }>;
-  /** The memoir's framing and look-back sentences, by field (whenAge, hook, remember,...). */
+  /** The memoir's framing and look-back sentences, by field (whenAge, hook, remember, ...). */
   memoir?: Readonly<Record<string, readonly { key: string; text: string }[]>>;
   /** Broad events that reached the person, written as lines in their story. */
   backdropLines?: readonly {
