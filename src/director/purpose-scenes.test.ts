@@ -28,9 +28,10 @@ import { purposeScene } from "./purpose-scene";
 // record and every fact it says. The count's result record fires the win or
 // the loss at home for every filer on the night it plays, and the year plays
 // out in full. Many places elect their seats only in even years: a place with
-// no race counted within the year is passed over the day it is built.
+// no race counted within the year is passed over the day it is built. Most
+// drawn places are (eight in a row in one CI run), so up to 32 are drawn.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
-const ATTEMPTS = 8;
+const ATTEMPTS = 32;
 const YEAR = 365;
 
 /** One drawn place: why it could not show both scenes, or null once it has. */
@@ -228,4 +229,4 @@ it(`a filing and a count fire the household's scenes in the lines that play, ove
     skipped.push(why);
   }
   throw new Error(`no drawn place filed and counted: ${skipped.join("; ")}`);
-}, 1_800_000);
+}, 3_600_000);
