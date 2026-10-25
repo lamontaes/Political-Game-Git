@@ -594,6 +594,17 @@ try {
   let found = false;
   for (let p = 0; p < 20; p += 1) {
     console.log(`Ballot page ${p + 1}:`, (await titles()).join(" | "));
+    console.log(
+      `Ballot page ${p + 1} choices:`,
+      (
+        await page
+          .locator("#ballot-races .race:not(.paged-out) button")
+          .allInnerTexts()
+          .catch(() => [])
+      )
+        .join(" || ")
+        .slice(0, 600),
+    );
     if (
       await page
         .locator("#ballot-races .race:not(.paged-out) button", {
