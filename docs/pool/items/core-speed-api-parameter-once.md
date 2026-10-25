@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T07:44:50.722Z
 **Files.** src/core2/state.ts
 
 **Notes.** Filed Oct 25 by the speed lead from the profiled pair of core-speed-news-telling-sorted (the reader is the anonymous function at the top of coreAPI).
+
+Ready Oct 25 (speed lead), not opened while the play-first freeze holds: branch `claude/speed-api-parameter-once` at 48e20e125e (base main ac0c6e2fac, no code change from 01f5cd4715). Exact: deep fingerprints identical before and after (Long Hill year one `3350c66a3805f1e8`; Stanardsville years one to three `176370fb6d3c2ba1`, `3ccb0a9002236aa5`, `4be9e9254da3aaf3`). Profiled pair 133.2 to 129.8 s (0.975): the reader 3.47 to 0.96 s inclusive, `parameter()` 2.7 to 2.0 s. Plain pair 122.6 to 111.1 s (0.906), more than the profile explains, so the claimed saving is the profile's 2.5 s. Twelve parameter, bookkeeping and stopgap test files pass; typecheck, release check and zero-dice are clean.
