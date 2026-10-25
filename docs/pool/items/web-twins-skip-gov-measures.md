@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/web-twins-skip-gov-measures
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T23:01:33.474Z
+claimed-at:
 ---
 
 **What.** src/core2/outcome-web-twins.test.ts shifts every running non-law cause in the record the web reads it from. Since the labor law wiring, the web counts the government's ten measures (gov-measure-keys.ts, read by gov-measures.ts from budgets, elections and the wage floor) as causes, and budget.parks-added-pct now runs. engineMeasure knows nothing of them, so the check shifts them as kept outcomes, touches no row, and fails: 'budget.parks-added-pct: expected 0 to be greater than 0' (drawn seed 6a3fb300aa4b91e3, on main after the labor family merged, Oct 25).
@@ -22,3 +22,4 @@ claimed-at: 2026-10-25T23:01:33.474Z
 **Files.** src/core2/outcome-web-twins.test.ts
 
 **Notes.** TODO
+Claim released Oct 25: branch never pushed (`claude/web-twins-skip-gov-measures`).
