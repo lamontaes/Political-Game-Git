@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-16-identical-council-seat-choices
-pr:
+pr: #6101
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
