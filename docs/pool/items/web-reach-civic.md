@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by: claude/web-reach-civic-played
 pr: #6020
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at: 2026-10-25T10:42:17.215Z
 Sent back 2026-10-24 from PR #5927 (branch claude/web-reach-civic): First Done-when row admits a hand-inserted scandal story and no played year; static carriedBy/source-string checks supply neither annual engine-read/voter record IDs nor the second-row proof; provide annual witnesses for existing readers or bound audit-only completion while retaining this acceptance open; finish on that branch, merge main into it first.
 
 Oct 24, effects lead: the carried-link audit moved to `web-civic-carried-links-recorded` (#5927). This item's played-year acceptance stays open: the two readers act only in a race, and a played year from January 20, 2025 had no world race in Shawnee, Ohio (seed `civic24a`). The economy term reaches only the president's party's candidates, so most places' first witness is the November 2026 general election, about two years of play; the scandal term needs a candidate whose bribe or conviction story reached voters before that race.
+
+Sent back 2026-10-25 from PR #6020 (branch claude/web-reach-civic-played): the new test checks only candidate-key presence in ballot appeal, not the economy-bearing standing being read, and has no positive assertion when a scandal story exists; add the claimed causal assertions and give a completed economy-only slice its own item while the full family stays open; finish on that branch, merge main into it first.
