@@ -278,7 +278,7 @@ try {
     .first()
     .waitFor({ timeout: 15000 })
     .catch(() => {});
-  const day3 = page.locator(".month .day", { hasText: /^3$/ });
+  const day3 = page.locator('.month button.day[data-date="2026-11-03"]');
   assert.ok(await day3.count(), "no day 3 in November 2026 view");
   await day3.first().click();
   await page.waitForTimeout(1000);
@@ -337,12 +337,25 @@ try {
       await talk.first().click();
       await page.waitForTimeout(2000);
     } else if (await page.locator("#talk:not([hidden])").count()) {
-      console.log("Stop: choiceless talk, leaving");
-      await page
-        .locator("#talk-leave:visible")
-        .click()
-        .catch(() => {});
-      await page.keyboard.press("Escape").catch(() => {});
+      console.log(
+        "Stop: choiceless talk:",
+        (
+          (await page
+            .locator("#talk-lines")
+            .innerText()
+            .catch(() => "?")) ?? ""
+        ).slice(-160),
+      );
+      await page.screenshot({
+        path: "docs/reports/ballot-pages-2026-10-24/stop.png",
+      });
+      const left = page.locator("#talk-leave:visible");
+      if (await left.count()) await left.click().catch(() => {});
+      else
+        await page
+          .locator("#talk-silent:visible")
+          .click()
+          .catch(() => {});
       await page.waitForTimeout(2000);
     } else if (await page.locator("#continue:not([hidden]):visible").count()) {
       console.log("Stop: player Continue");
@@ -377,7 +390,7 @@ try {
       .first()
       .waitFor({ timeout: 15000 })
       .catch(() => {});
-    const day3 = page.locator(".month .day", { hasText: /^3$/ });
+    const day3 = page.locator('.month button.day[data-date="2026-11-03"]');
     if (!(await day3.count())) {
       console.log(
         "No day 3 in view; days:",
