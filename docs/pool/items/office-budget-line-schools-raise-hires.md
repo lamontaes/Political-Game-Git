@@ -5,7 +5,7 @@ area: office
 kind: wiring
 priority: 3
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #5632
 blocked-on:
@@ -32,3 +32,5 @@ Sent back 2026-10-21 from PR #5632 (branch claude/schools-raise-test): The confl
 Sent back 2026-10-23 from PR #5632 (branch claude/schools-raise-test): group-a-staffing.ts:307 concatenates full candidates before counted candidates instead of ranking one shared list, and :315-316 lays off all full staff before counted staff rather than newest hires across both; prove hiring/layoff order is unchanged by fill-in; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5632 (branch claude/schools-raise-test): integrated group-a-money.ts:46 removes township from governmentFor, so a township-only paid-leave law loses its paying government; restore main township support and its regression, and correct the stale full-candidates-first body description; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #5632 (branch claude/schools-raise-test): corrective head f8032533e8 fixes the township regression but a normal merge of current main conflicts in src/core2/law-reach/group-a-staffing.ts; resolve the code conflict preserving main and the shared named/counted staffing rank, then rerun the changed-file proofs; finish on that branch, merge main into it first.
