@@ -5,8 +5,8 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/law-wiring-government
 pr: #5582
 blocked-on:
 source: added with npm run pool -- add

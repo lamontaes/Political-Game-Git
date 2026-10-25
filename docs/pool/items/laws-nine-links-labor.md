@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/law-wiring-labor
 pr: #5589
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 2026-10-25T14:52:46.800Z
 ---
 
 **What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the labor and pay family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): minimum-wage, raise-federal-minimum-wage, local-minimum-wage-authority (the policy and the starting-law rows), raise-minimum-wage, paid-family-leave, public-sector-collective-bargaining, right-to-work, unemployment-insurance, unemployment-weekly-maximum, federal-unemployment-tax, state-unemployment-tax, social-security-tax and medicare-tax.
@@ -21,3 +22,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** src/core2/modules/jobs.ts, src/core2/work-payroll-cash.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/applied.ts
 
 **Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: open, #5589 (branch claude/law-wiring-labor), sent back Oct 23 for a missing Done-when evidence table. A PR for this family names this item on line 1 (`Pool item: laws-nine-links-labor`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. The two measured gaps of Oct 20 sit here: a minimum wage raise named no worker it raised, and the raise-the-minimum-wage question changed no pay.
+
+Sent back 2026-10-25 from PR #5589 (branch claude/law-wiring-labor): five annual money grades still rely on transfers/deposits the body cannot tie to their laws; arbitrary untraced twin differences do not prove the required law-person-dollar annual chain; repair witnesses or bound delivery while keeping family open; finish on that branch, merge main into it first.

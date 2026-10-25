@@ -5,12 +5,12 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/talk-lived-crime
+status: open
+claimed-by:
 pr: #5922
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T06:56:50.618Z
+claimed-at:
 ---
 
 **What.** The crime engine writes a victimization record for each full household it victimizes, and the ledger keeps it as a moment for each person it names, but conversations never raise it: the conversation rules' happenings list has no crime prefix and the conversation bank has no subject for a victimization. So a burglary that an outcome-web link made more likely, and that moved the victim's view, never reaches a scene. Add a victimization subject the way eviction is one: the speaker raises their own household's latest victimization, its facts read from the crime record (what happened and when), and the listener's replies follow. Its lines come from the mined bank; where no graded line exists, file the lines for the Words line and keep the subject out of play until they are graded.
@@ -22,3 +22,9 @@ claimed-at: 2026-10-24T06:56:50.618Z
 **Files.** src/director/conversation.ts, src/director/data/conversation-rules.json, data/english/parts/conversation.json, src/director/conversation-crime.test.ts
 
 **Notes.** Added Oct 24 by the effects lead for effects-end-to-end-proof (its scene step), after web-views-lived-crime-moves-stance.
+
+Sent back 2026-10-24 UTC from PR #5922 (branch claude/talk-lived-crime): successful crime test stops at the first victim rather than required year boundary; PersonId still imported from non-exporting kernel/brands instead of core2/types; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5922 (branch claude/talk-lived-crime): test passes victim moment as listener occasion; openConversation resolves listener ledger, so intended crime occasion is absent; use and assert listener own moment of same household crime, keeping year/source checks; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 UTC from PR #5922 (branch claude/talk-lived-crime): integrated6817054dae leaves12 ungraded authored victimization raises held, contrary current main grade policy; changed-bank grade guard fails here and passes clean main, and conversation-crime.test.ts160-169 expects ordinary lines absent and uses grading-only proof; apply official grades, require ordinary-play positive proof, and update held claims while retaining listener occasion/full years; finish on that branch, merge main into it first.
