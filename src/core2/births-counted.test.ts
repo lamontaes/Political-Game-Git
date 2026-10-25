@@ -11,6 +11,11 @@ import { coreAPI, personOrFillIn } from "./state";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { pairKey } from "./kernel/ids";
 import { currentCloseness } from "./closeness";
+import {
+  inheritedPartOf,
+  inheritedTemperament,
+  type KeptParent,
+} from "./opening-personality";
 import type { CoreInput, CoreState } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -108,6 +113,60 @@ describe(`counted population drift in ${place.name} (seed ${seed})`, () => {
     for (const row of core.cashJournal.externalFlowsByOwner.values())
       outside += row.netMinor;
     expect(cash(core)).toBe(opening - outside);
+  });
+
+  it("gives each counted baby the temperament its counted parents' kept traits pass on", () => {
+    const kept = (id: string): KeptParent => {
+      const row = residentPerson(core, id)!;
+      return {
+        id: row.id,
+        birthDate: row.birthDate,
+        ...(row.looks?.gender ? { gender: row.looks.gender } : {}),
+        traits: row.traits,
+      };
+    };
+    // Babies still counted whose parents still are (a death or a move ends a record).
+    const babies = rows
+      .flatMap((row) => row.births)
+      .flatMap((id) => residentPerson(core, id) ?? [])
+      .filter((baby) =>
+        baby.familyIds.every((id) => residentPerson(core, id) !== undefined),
+      );
+    const centers = new Map<string, number[]>();
+    for (const baby of babies) {
+      const parents = baby.familyIds.map(kept);
+      const options = { seed: core.seed, startedAt: baby.birthDate };
+      // The baby record carries exactly what its parents' records pass on.
+      const passed = inheritedTemperament(
+        parents,
+        {
+          id: baby.id,
+          birthDate: baby.birthDate,
+          ...(baby.looks?.gender ? { gender: baby.looks.gender } : {}),
+        },
+        options,
+      );
+      expect(
+        Object.fromEntries(
+          Object.keys(passed).map((key) => [key, baby.traits[key]]),
+        ),
+        `${place.name}: ${baby.id} from ${baby.familyIds.join(" and ")}`,
+      ).toEqual(passed);
+      const parts = parents.map((parent) =>
+        inheritedPartOf(parent, { seed: core.seed, date: baby.birthDate }),
+      );
+      // The parents' mean inherited part; an unseen parent's is zero on average.
+      centers.set(
+        baby.familyIds.join(":"),
+        parts[0]!.map(
+          (_, index) => parts.reduce((sum, part) => sum + part[index]!, 0) / 2,
+        ),
+      );
+    }
+    // Two babies of different parents start from different inherited centers.
+    const distinct = [...centers.values()];
+    if (distinct.length < 2) return expect(babies.length).toBeLessThan(2);
+    expect(distinct[0]).not.toEqual(distinct[1]);
   });
 
   it("fills in a counted newborn as the counts recorded them", () => {
