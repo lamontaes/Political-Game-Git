@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, getComputedStyle */
 // The creator's town list in a real browser, on the bench (npm run bench): in
 // Texas and in one state drawn from the whole place list, the list must reach
 // every town, each row must show a population and no two rows may read the
@@ -46,6 +46,14 @@ try {
         () => document.getElementById("cr-given").value,
       );
       await page.locator("#cr-character-next").click();
+      // The state buttons' font, which the town list must read in.
+      const fontOf = (node) => {
+        const s = getComputedStyle(node);
+        return `${s.fontFamily} ${s.fontSize} ${s.fontWeight} ${s.textTransform}`;
+      };
+      const stateFont = await page
+        .locator(`[data-testid="state-${state.key}"]`)
+        .evaluate(fontOf);
       await page.locator(`[data-testid="state-${state.key}"]`).click();
       await page.locator("#cr-towns button").first().waitFor();
       await page.waitForTimeout(1500);
@@ -56,6 +64,23 @@ try {
       await page.screenshot({
         path: `${out}/${state.key}-end-of-list.png`,
       });
+      const townFonts = await page
+        .locator("#cr-towns button")
+        .first()
+        .evaluate(
+          (b, f) =>
+            [...b.children].map((child) =>
+              new Function(`return ${f}`)()(child),
+            ),
+          fontOf.toString(),
+        );
+      console.log(
+        `${state.name}: states ${stateFont}; town rows ${townFonts.join(" | ")}`,
+      );
+      assert.ok(
+        townFonts.length && townFonts.every((font) => font === stateFont),
+        `${state.name}: the town list is not in the state buttons' font`,
+      );
       const usps = state.key.slice(3);
       console.log(
         `${state.name}: ${texts.length} rows, last "${texts.at(-1)}"`,
