@@ -834,7 +834,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       personId: relationship.personId,
       organizationId: relationship.organizationId,
       title: role.title,
-      occupationClassification: role.occupationClassification ?? undefined,
+      ...(role.occupationClassification
+        ? { occupationClassification: role.occupationClassification }
+        : {}),
       hoursDaily,
       hourlyMinor: Math.round(hourlyMinor),
       wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
