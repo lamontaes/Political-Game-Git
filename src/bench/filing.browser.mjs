@@ -19,6 +19,13 @@ try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto(`${base}/play`);
   await ready;
+  // SEED=<seed> replays a drawn world: the new-life request carries it.
+  if (process.env.SEED)
+    await page.route("**/api/newlife?*", (route) => {
+      const url = new URL(route.request().url());
+      url.searchParams.set("seed", process.env.SEED);
+      return route.continue({ url: url.toString() });
+    });
   const made = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/newlife",
     { timeout: 600000 },
@@ -135,15 +142,33 @@ try {
     .locator('[data-tab="politics"]')
     .first()
     .evaluate((e) => e.click());
+  // Three honest cases: parties on offer (join the first), already a member
+  // (use that party; the screen shows membership, not Join), or no party in
+  // this place (run as an independent).
   const join = page.locator("#sheet-body button", { hasText: /^Join / });
-  await join.first().waitFor();
-  const joined = (await join.first().innerText()).replace(/^Join /, "");
-  const joining = page.waitForResponse(
-    (r) => new URL(r.url()).pathname === "/api/party/join",
-  );
-  await join.first().click();
-  await joining;
-  console.log("Joined:", joined);
+  const member = page.locator("#sheet-body [data-party-id]");
+  const shown = await join
+    .first()
+    .or(member.first())
+    .waitFor({ timeout: 20000 })
+    .then(() => true)
+    .catch(() => false);
+  let joined = "";
+  if (shown && (await join.count())) {
+    joined = (await join.first().innerText()).replace(/^Join /, "");
+    const joining = page.waitForResponse(
+      (r) => new URL(r.url()).pathname === "/api/party/join",
+    );
+    await join.first().click();
+    await joining;
+    console.log("Joined:", joined);
+  } else if (shown) {
+    const line = await member.first().locator(".record-value").innerText();
+    joined = line.split(" · ")[0].trim();
+    console.log("Already a member of:", joined);
+  } else {
+    console.log("No party on offer in this place: filing as independent");
+  }
   await page
     .locator('[data-tab="travel"]')
     .first()
@@ -166,7 +191,10 @@ try {
   // (an independent); filing under a party they never joined is refused.
   const party = await page.locator("#filing-party").inputValue();
   assert.equal(party, joined, "the form does not start on the party joined");
+  if (!joined)
+    assert.equal(party, "", "an independent's form starts on a party");
   const stands = page.locator("#filing-platform select");
+  await stands.first().waitFor();
   const picked = [];
   for (const [i, value] of [
     [0, "1"],
@@ -178,6 +206,7 @@ try {
     await stand.selectOption(value);
     picked.push(`${await stand.getAttribute("name")}=${value}`);
   }
+  assert.ok(picked.length > 0, "no stand could be picked on the form");
   const filed = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/filing/choose",
   );
