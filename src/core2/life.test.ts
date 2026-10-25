@@ -426,10 +426,26 @@ describe("shared actor chooser and committed effects", () => {
         affect: { ...actor.affect, mood, stress },
       });
       const before = structuredClone(actor);
-      const decision = chooseAct(core, actorId, availableActs(core, actorId));
+      // Scored as a prediction (keepWeighed false): reading the choice
+      // creates no facts. A choice the player weighs for keeps is the
+      // chooser's why-kept record, `weighed:<date>:<action>:<person>`
+      // (keepChoice in choice.ts), checked below.
+      const decision = chooseAct(
+        core,
+        actorId,
+        availableActs(core, actorId),
+        undefined,
+        false,
+        false,
+      );
       expect(core.people.get(actorId)).toEqual(before);
       expect(actor.actCount).toBe(p("zero"));
       expect(core.durableLog.size).toBe(p("zero"));
+      const kept = chooseAct(core, actorId, availableActs(core, actorId));
+      expect([...core.durableLog.keys()]).toEqual([
+        `weighed:${core.date}:${kept.selected!.definition.id}:${actorId}`,
+      ]);
+      expect(core.people.get(actorId)).toEqual(before);
       return decision;
     };
     const calm = decide(p("moodBaseline"), p("stressBaseline"));
