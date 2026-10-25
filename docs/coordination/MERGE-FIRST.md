@@ -1,8 +1,8 @@
 # Merge first (CTO's list; mergers read this before their share)
 
-Current as of 2026-10-24, 19:30 UTC
+Current as of 2026-10-24, 20:30 UTC
 
-1. Any PR whose body line 1 names a `play-stop-*` item (the playtest's stoppers; order in docs/work-orders/play-first-2026-10-24.md)
+1. Any PR whose body line 1 names a `play-first-*` or `play-stop-*` item; held-to-shippable changes in data/english are the owner's Oct 24 ruling, never a send-back reason.
 2. #5956 stays open as the record; do not merge it (items are on main)
 3. The PR for `jobs-counted-hire-other-employer-calendar` when it opens (claimed on `claude/counted-hire-own-calendar`; every three-year world crashes on main until it lands).
 4. #5944
