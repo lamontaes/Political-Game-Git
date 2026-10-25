@@ -39,18 +39,7 @@ import {
   governments,
 } from "./modules/budgets";
 
-export const GOV_MEASURES = [
-  "labor.minimum-wage-change-pct",
-  "labor.minimum-wage-gap-to-15",
-  "election.incumbent-vote",
-  "election.incumbent-reelection",
-  "voting.local-turnout",
-  "budget.parks-added-pct",
-  "labor.minimum-wage",
-  "labor.minimum-wage-to-median",
-  "voting.youth-turnout",
-  "voting.party-share",
-] as const;
+export { GOV_MEASURES } from "./gov-measure-names";
 
 const daysBefore = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) - days * 86_400_000)

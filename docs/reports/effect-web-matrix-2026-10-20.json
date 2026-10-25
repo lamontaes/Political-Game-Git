@@ -3,12 +3,12 @@
   "summary": {
     "links": 221,
     "lawLinks": 118,
-    "webCoverageWired": 121,
+    "webCoverageWired": 123,
     "allEightPoints": 0,
-    "reachesOrCarried": 110,
+    "reachesOrCarried": 111,
     "namedInAStopgap": 116,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 110,
+    "reachesTheWorld": 111,
     "withAnyModerator": 22,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 110,
+        "pass": 111,
         "partial": 0,
-        "fail": 111,
+        "fail": 110,
         "n/a": 0
       },
       "varied": {
@@ -2211,7 +2211,7 @@
       "to": "labor.low-wage-jobs",
       "causeKind": "gov",
       "lawLink": false,
-      "webCoverage": "waiting",
+      "webCoverage": "wired",
       "points": {
         "cause": {
           "status": "pass",
@@ -2222,9 +2222,8 @@
           "evidence": "data/research/outcome-web/links.json:1114 size -0.25, range [-0.5, 0], Cengiz et al. 2019; Neumark and Shirley 2022"
         },
         "reaches": {
-          "status": "fail",
-          "evidence": "outcome read by src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2297, src/core2/modules/jobs.ts:2306, src/core2/modules/jobs.ts:2335, src/core2/modules/jobs.ts:2337, src/core2/modules/jobs.ts:2357, src/core2/modules/jobs.ts:2359",
-          "why": "the web does not run it: it waits on labor.minimum-wage-to-median; no engine produces labor.low-wage-jobs"
+          "status": "pass",
+          "evidence": "src/core2/jobs-web.ts:19, src/core2/modules/jobs.ts:2297, src/core2/modules/jobs.ts:2306, src/core2/modules/jobs.ts:2335, src/core2/modules/jobs.ts:2337, src/core2/modules/jobs.ts:2357, src/core2/modules/jobs.ts:2359"
         },
         "varied": {
           "status": "fail",
@@ -2250,8 +2249,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": "SG-LABOR-minimum-wage-ratio"
+      "wiredPoints": 5,
+      "stopgap": "SG-LABOR-low-wage-unreviewed"
     },
     {
       "key": "unemployment-to-poverty",
@@ -10665,7 +10664,7 @@
       "to": "parks.access-to-exercise",
       "causeKind": "gov",
       "lawLink": false,
-      "webCoverage": "waiting",
+      "webCoverage": "wired",
       "points": {
         "cause": {
           "status": "pass",

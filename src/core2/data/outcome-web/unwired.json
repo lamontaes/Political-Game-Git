@@ -188,12 +188,6 @@
       "stopgapId": "SG-WEB-snap-receipt-ledger"
     },
     {
-      "link": "minimum-wage-to-low-wage-jobs",
-      "outcome": "labor.low-wage-jobs",
-      "reason": "the web does not run it: it waits on labor.minimum-wage-to-median; no engine produces labor.low-wage-jobs",
-      "stopgapId": "SG-LABOR-minimum-wage-ratio"
-    },
-    {
       "link": "parent-incarceration-to-household-income",
       "outcome": "household.income",
       "reason": "engine doesn't read the factor: an engine records household.income, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",

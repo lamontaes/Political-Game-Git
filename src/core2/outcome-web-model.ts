@@ -14,6 +14,7 @@ import bases from "../../data/research/outcome-web/place-outcome-bases-2024.json
 import ledger from "../../data/research/outcome-web/placeholder-ledger.json" with { type: "json" };
 import local from "./data/outcome-web/outcome-web.json" with { type: "json" };
 import coverageData from "./data/outcome-web/coverage.json" with { type: "json" };
+import { GOV_MEASURES } from "./gov-measure-names";
 import type { Source } from "./types";
 
 export type Shape =
@@ -206,6 +207,7 @@ export function causeAvailable(measure: string): boolean {
   return (
     isLaw(measure) ||
     measure in ENGINE ||
+    (GOV_MEASURES as readonly string[]).includes(measure) ||
     keptOutcome(measure) ||
     derivedOf(measure) !== null
   );
