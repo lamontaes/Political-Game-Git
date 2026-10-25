@@ -2953,7 +2953,8 @@
             "colleague": "counterpart",
             "you": "subject"
           },
-          "opener": "colleague"
+          "opener": "colleague",
+          "setting": ["chamber"]
         }
       ],
       "tag": {
