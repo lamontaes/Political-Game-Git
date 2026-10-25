@@ -58,12 +58,12 @@ try {
     mornings.push(await clock());
   }
   console.log("Day:", mornings.join(" | "));
+  if (shots) await page.screenshot({ path: `${shots}/morning.png` });
   for (const text of mornings)
     assert.ok(
       minutes(text) > 0 && minutes(text) < 12 * 60,
       `Day landed off the morning: ${text}`,
     );
-  if (shots) await page.screenshot({ path: `${shots}/morning.png` });
   // File, then go out knocking on doors: the card's clock moves by the hours.
   const filed = await page.evaluate(async () => {
     const gov = await (await fetch("/api/government")).json();
