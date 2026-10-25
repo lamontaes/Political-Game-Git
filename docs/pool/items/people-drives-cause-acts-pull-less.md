@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/drives.ts, src/core2/data/drives.json, scripts/research/cause-activity-year.ts
 
 **Notes.** Filed Oct 25 by the speed lead from the research in people-cause-holder-activity-calibrated (bands: data/research/people/cev-2017-2023-national-rates.json and census-2024-cev-volunteer-hours.json). The tried Oct 18 repeat interval in core-later-years-slower-drive-holders-offers was a fixed interval, which the sliding-scales rule rules out.
+
+Build after #5994 (people-drives-responses-against-research-bands) lands: it changes src/core2/modules/drives.ts by 139 lines (speed lead, Oct 25).
