@@ -946,6 +946,19 @@ export function prepareWorkPayAccrual(
   return bookkeeping() ? Object.freeze({ ledger, period }) : { ledger, period };
 }
 
+/** Days from a period's end to its payday: fixed by the calendar, so play asks once. */
+const lags = new WeakMap<WorkPayrollCalendarInput, number>();
+function paydayLag(c: WorkPayrollCalendarInput, u: Units): number {
+  const kept = bookkeeping() ? undefined : lags.get(c);
+  if (kept !== undefined) return kept;
+  const lag = daysBetween(
+    date(periodAtIndex(c, u.zero, u).throughAt),
+    date(c.firstPaydayAt),
+  );
+  if (!bookkeeping()) lags.set(c, lag);
+  return lag;
+}
+
 /** A period becomes due once. Re-requested old arrears are not newly recognized wages. */
 export function prepareWorkPayrollRequest(
   r: FinanceReadGuard,
@@ -963,8 +976,7 @@ export function prepareWorkPayrollRequest(
   c = calendar(r, c, at, u);
   b = basis(r, c, b, at, u);
   const old = readLedger(r, c, b, priorLedger, u),
-    firstThrough = periodAtIndex(c, u.zero, u).throughAt,
-    lag = daysBetween(date(firstThrough), date(c.firstPaydayAt)),
+    lag = paydayLag(c, u),
     throughDate = addDays(date(at), -lag);
   if (throughDate < c.firstPeriodStartsAt)
     throw new Error("Payroll cash may settle only on its recorded payday.");
@@ -1024,41 +1036,45 @@ export function prepareWorkPayrollSettlement(
   request = guardedRecord(r, request, u);
   c = calendar(r, c, request.date, u);
   b = basis(r, c, b, request.date, u);
-  const expected = prepareWorkPayrollRequest(
-    r,
-    c,
-    b,
-    priorLedger,
-    earnedPeriod,
-    request.date,
-    request.id,
-    u,
-  );
-  for (const key of [
-    "index",
-    "fromAt",
-    "throughAt",
-    "dueAt",
-    "earnedPeriodId",
-    "newlyDueMinor",
-    "arrearsBeforeMinor",
-    "requestedMinor",
-  ] as const)
-    if (request[key] !== expected[key])
-      throw new Error(
-        "Payroll request differs from its owned original earned/due terms.",
-      );
-  sameOwner(request, b);
-  availableSource(r, request.source, request.date, u);
-  if (
-    !sameEvidence(r, request.source, expected.source, u) ||
-    !sameEvidence(r, request.jobSource, b.jobSource, u) ||
-    !sameEvidence(r, request.paySource, b.paySource, u) ||
-    !sameEvidence(r, request.scheduleSource, b.scheduleSource, u)
-  )
-    throw new Error(
-      "Payroll request full Source evidence differs from its original owning basis.",
+  // Play settles the request it just prepared; bookkeeping prepares it again
+  // from the recorded terms and compares.
+  if (bookkeeping()) {
+    const expected = prepareWorkPayrollRequest(
+      r,
+      c,
+      b,
+      priorLedger,
+      earnedPeriod,
+      request.date,
+      request.id,
+      u,
     );
+    for (const key of [
+      "index",
+      "fromAt",
+      "throughAt",
+      "dueAt",
+      "earnedPeriodId",
+      "newlyDueMinor",
+      "arrearsBeforeMinor",
+      "requestedMinor",
+    ] as const)
+      if (request[key] !== expected[key])
+        throw new Error(
+          "Payroll request differs from its owned original earned/due terms.",
+        );
+    sameOwner(request, b);
+    availableSource(r, request.source, request.date, u);
+    if (
+      !sameEvidence(r, request.source, expected.source, u) ||
+      !sameEvidence(r, request.jobSource, b.jobSource, u) ||
+      !sameEvidence(r, request.paySource, b.paySource, u) ||
+      !sameEvidence(r, request.scheduleSource, b.scheduleSource, u)
+    )
+      throw new Error(
+        "Payroll request full Source evidence differs from its original owning basis.",
+      );
+  }
   const paid = minor(actualPaidMinor, u);
   if (paid > request.requestedMinor)
     throw new Error("Payroll paid exceeds its actual request.");
@@ -1077,7 +1093,7 @@ export function prepareWorkPayrollSettlement(
     lastPayrollReceiptId: request.id,
   };
   readLedger(r, c, b, ledger, u);
-  return Object.freeze({
+  const settled = {
     ledger,
     receipt: {
       ...request,
@@ -1088,7 +1104,8 @@ export function prepareWorkPayrollSettlement(
       missedNewlyDueMinor: request.newlyDueMinor - paidNewlyDueMinor,
       arrearsAfterMinor,
     },
-  });
+  };
+  return bookkeeping() ? Object.freeze(settled) : settled;
 }
 
 /** Readonly validation of already recorded earned stocks; no due request or payment is created. */
