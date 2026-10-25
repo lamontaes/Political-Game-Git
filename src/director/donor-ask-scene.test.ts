@@ -35,8 +35,9 @@ import { purposeScene } from "./purpose-scene";
 // something back: about the bill, when there is one. In the played world a
 // resident files for a race counted within the year, watched from the day
 // they file as a player is, and campaigns to the count. Places are drawn in
-// turn until a race there takes the filing; most elect only in even years
-// (eight in a row in one CI run), so up to 32 are drawn.
+// turn until a race there takes the filing and a donor holds a view on a
+// bill pending before its body; most elect only in even years (eight in a
+// row in one CI run), so up to 32 are drawn.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const ATTEMPTS = 32;
 const YEAR = 365;
@@ -167,18 +168,18 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
     }
     // A gift while bills were pending names the one before the race's body
     // that its donor holds the strongest view on: one the test drafted, or
-    // one a member had already brought (a state chamber has many).
+    // one a member had already brought (a state chamber has many). A donor
+    // who holds no view on any of them names none.
     const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
-    expect(
-      gifts.some(
-        (gift) =>
-          (
-            bills.get(String(gift.facts?.billId)) as unknown as
-              BillRow | undefined
-          )?.bodyOfficeId === race.officeId,
-      ),
-      `${where}: no gift named a bill pending before the race's body`,
-    ).toBe(true);
+    const named = gifts.filter((gift) => gift.facts?.billId);
+    for (const gift of named)
+      expect(
+        (
+          bills.get(String(gift.facts!.billId)) as unknown as
+            BillRow | undefined
+        )?.bodyOfficeId,
+        `${where}: ${gift.id} named a bill before another body`,
+      ).toBe(race.officeId);
     for (const gift of gifts) {
       const donorId = String(gift.facts!.donorId);
       const here = `${where}: ${gift.id}`;
@@ -220,9 +221,14 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
         `DONOR ASK ${here}: ${money!.text}${gift.facts!.number ? ` (${gift.facts!.number})` : ""}; "${result.scene.talk.state.text}"`,
       );
     }
-    return;
+    // Places are drawn on until a donor holds a view on a pending bill, so
+    // the ask about it is seen too.
+    if (named.length) return;
+    tried.push(
+      `${place.name} (no donor of ${gifts.length} held a view on a pending bill)`,
+    );
   }
   throw new Error(
-    `no campaign took a gift that was a moment in ${tried.join("; ")} (seed ${seed})`,
+    `no campaign took a gift naming a pending bill in ${tried.join("; ")} (seed ${seed})`,
   );
 }, 3_600_000);
