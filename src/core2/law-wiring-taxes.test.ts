@@ -46,7 +46,10 @@ import { coreAPI } from "./state";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const TRIES = 4;
+// Each draw plays about half a year; a place missing a subject (no state
+// corporate rate, no grant row, no public worker a pension rule funds) is
+// redrawn, and eight draws keep a run under about five minutes.
+const TRIES = 8;
 const ADOPT = "us-policy-positions:fiscal.adopt-income-tax";
 const GRADUATED = "us-policy-positions:fiscal.graduated-income-tax";
 const CAP = "us-policy-positions:fiscal.cap-property-tax-growth";
