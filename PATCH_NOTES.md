@@ -296,6 +296,216 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.24.2
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Every family weighs private school the same way** In the town's yearly
+  private-school enrollment, families you have not met are now ranked with the
+  ones you have, by what they hold per child. The best-off enroll until the
+  town's private share is reached, and their tuition goes to the school.
+
+- **Estimated travel to an abortion provider follows where people live** When
+  someone in town has an unplanned pregnancy, the distance to the nearest
+  abortion provider now comes from where they live, before and after a
+  restriction there, for all 56 places. The trip's cost, which their household
+  pays, and whether they carry or end the pregnancy both follow from that
+  distance.
+
+- **Some pregnancies in town are unplanned, and each woman decides from her own
+  life and the law where she lives** People in town now sometimes have an
+  unplanned pregnancy. Whether she carries it or ends it comes from her own
+  health, money, household and views and from the law in force where she lives;
+  when she ends it, her household pays the trip, and a carried one becomes a
+  birth in the family.
+
+## PRE-ALPHA 0.24.1
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Election and government laws reach people and cost money** Mail voting,
+  automatic registration, same-day registration and photo ID now reach every
+  voter in town, named or counted, and the county or city that runs the election
+  pays for ballots, registrations and IDs out of its administration budget. A
+  treasury short of cash owes the rest and pays it as cash arrives, even after
+  the law is repealed. When a council raises a staffing line (administration,
+  police, fire, jail, schools), the employer posts the new jobs and any job
+  seeker in town can be hired, and a cut lets the line's own hires go first.
+  Local news now covers a budget line a council changes. A ban on lobbying after
+  office keeps former officials from being hired as lobbyists and makes a
+  council seat a little less attractive to newcomers. Term limits are applied
+  when someone files, home rule when a council drafts a bill, and a state with
+  an independent redistricting commission pays it every month. A public pay
+  floor raises every public worker in town paid under it, and payroll pays them
+  the raised rate; repealing it keeps the raises.
+
+### Fixed
+
+- **A town no longer stops when a resident goes to an office whose clerk has
+  just left.** A resident who planned to bring their cause to a public office no
+  longer stops the town's day if the office's only staff member left the job
+  before the visit. The visit is called off, and the resident can plan another.
+
+- **Release validation has room to check the full word pack** Release validation
+  now gives its existing build and typecheck a 5 GB Node heap. The full word
+  pack exceeded Node's default 4 GB heap, stopping candidate validation before
+  an update could be published.
+
+### Changed
+
+- **Rival candidates campaign through the same choices you do.** A rival's
+  campaign day is now a choice among the same acts your day offers (call time,
+  doors, an event, an interview), by their money, how well known they are,
+  whether they hold the seat and their temperament: a rich candidate holds
+  events and buys ads, a poor one works calls and doors, a known incumbent sits
+  for the press, and an unknown one builds a name on doors.
+
+- **Scenes with a purpose sound like real people and keep moving** A reporter
+  changes the angle instead of repeating the question; a vote counter asks what
+  would change your mind; a volunteer opens with something from the rally and
+  your character answers first. After the first exchange the replies offer new
+  moves, including a way out, and a lie can be owned with an edge. Every branch
+  of a scene ends with the other person's closing line, never on an unanswered
+  question. The lines are calibrated on real interviews, oral histories and
+  casework reports, studied, not copied. People say "have to", not "must"; a
+  complaint says why the change hurts; a good argument keeps going instead of
+  ending on a jab; and someone can storm off, told as a reaction rather than a
+  "Good night." Filing for office happens at the place's own filing office,
+  where the clerk mentions the rival who filed first. A friend who comes by
+  after a baby is born asks how you're actually doing. An officeholder's own
+  records now bring scenes: signing or vetoing a bill brings the reporters who
+  cover it and the aide who carried it to the desk, the sponsor hears from the
+  executive who signed or vetoed, a town hall puts the residents who asked in
+  front of its host, and a town post's appointer tells the appointee. Five bills
+  signed in one afternoon are one press availability, not five. The narrator
+  speaks between lines ("A second reporter drifts over, then a third."), and
+  someone who keeps to themself skips the hello and says why they came. The
+  director can compose the President's address as a scene at the seat of
+  government, with the speech the English engine wrote. Some scene endings name
+  a destination screen: the desk, the filing office, your office, the meeting or
+  the campaign. Showing those exchanges and speech fields and opening their
+  destinations on the play screen require a separate play-screen integration. A
+  remark at a council meeting is no longer mistaken for a campaign event, and an
+  aide bringing a bill to the desk talks about what it costs and who voted for
+  it instead of inventing changes nobody made.
+
+## PRE-ALPHA 0.24.0
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Government charges and fees record their payers separately from the outside
+  revenue lump** A government's charges and fees are now paid by named payers
+  (the town's households and the people elsewhere who use its services) instead
+  of riding the monthly outside lump; the amounts each treasury receives are the
+  same.
+
+- **A law that raises the full retirement age now keeps more people from 62 to
+  66 at work.** Raising the age for full Social Security benefits used to change
+  nothing about who works. Now people from 62 to 66 weigh it when they decide
+  whether to retire or look for work, and a two-year rise keeps about a tenth
+  more of them on the job, as the research finds. Nothing changes while no such
+  law is in force.
+
+- **New Jersey no longer starts with a local sales tax below zero** New Jersey
+  levies no general local sales tax, but its starting law carried an average
+  local rate below zero, taken from a table that folds Salem County's and the
+  Urban Enterprise Zones' half state rate into it. New Jersey now has no local
+  rate, like the other states without local sales taxes, and its sales carry the
+  state rate.
+
+### Changed
+
+- **All the dialogue is in the game, and only the lines you rejected stay out**
+  Scenes, conversations, the journal and the news now use every line the English
+  engine has, not only the few that were graded. People with a reason to talk to
+  you say it in ordinary play, and the campaign speech screen offers its four
+  choices at every stage again. A line you graded bad is left out everywhere at
+  once, and each new round of grades reaches the whole game.
+
+## PRE-ALPHA 0.23.5
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A town's clerk now shows up on the town office's staff, and a newly hired
+  clerk replaces one who left.** Towns record their government under the
+  municipal-government classification, which the public-office list did not
+  recognize, so a town's clerk was left off the office staff while a county's
+  clerk was listed. The town office is now built from the same recorded
+  government facts as the county office, with its clerk on the staff. An
+  office's staff now follow its jobs: a clerk hired during play joins the list
+  and one who leaves comes off it.
+
+- **A business short of cash on payday now draws its credit line to pay its
+  workers.** An employer with an approved credit line now draws on it when its
+  cash runs short on payday, instead of leaving its workers' pay unpaid. A
+  business with credit room no longer piles up unpaid wages and closes over
+  them.
+
+- **Households in the wider population now carry living costs they could not
+  pay.** A group of counted households that cannot pay its living cost on the
+  first of the month is asked again each day until money arrives, as a full
+  household already is.
+
+## PRE-ALPHA 0.23.4
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A retiree in the town's wider population takes their Social Security with
+  them when they move away** When a household from the town's wider population
+  moved away, a Social Security award one of its members had claimed during play
+  kept paying into the town they left. It now ends the day they leave.
+
+## PRE-ALPHA 0.23.3
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A town's year no longer stops when you meet a new firm's worker** A year no
+  longer stops partway when you meet someone a newly founded business hired, as
+  it did in Long Hill, Connecticut in October. Their paycheck now comes on their
+  own employer's payday.
+
+## PRE-ALPHA 0.23.2
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **A governor who takes office mid-year starts the job the next office day**
+  When a governor left office during the year, the successor could sit in the
+  seat as a name only until some other part of the game happened to look at the
+  seat: weeks, or in Guam five months, with no clemency petitions taken up. Now
+  the successor becomes a full person on the governor's next office day and
+  takes up the weekly petitions from then on.
+
+## PRE-ALPHA 0.23.1
+
+_Released October 24, 2026._
+
+### Fixed
+
+- **Bail posted by the town's wider population is held by the court and
+  returned** When people in the town's wider population are charged and post
+  bail, the money now leaves their households' funds for the county court's
+  escrow and comes back when the case closes, as it already did for the people
+  you meet.
+
+- **An office created after the opening has no holder before its first term** An
+  office its law creates after the game opens, such as a new lieutenant
+  governor, has no holder until its first term. Its first election fills it, and
+  if nobody wins, the office's vacancy rule does.
+
 ## PRE-ALPHA 0.23.0
 
 _Released October 24, 2026._

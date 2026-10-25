@@ -4,6 +4,7 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
+- **Can a council set a fee by bill (Oct 24, claude; stopgap SG-GOV-fee-level-by-bill, pool item gov-fee-level-by-bill)?** A government's charges and fees (tuition, fares, park and hospital charges, utility bills) are the charges line of its budget. The town's households pay their part out of their living costs and the people elsewhere who use its services pay the rest, but no bill sets a charge's level: the line moves only with the budget. The item asks that the owner raise a transit or park fee in a council bill and see the charges line move. The simplest version follows the budget; the alternative is a fee-schedule provision on a council bill that the budget's charges line reads. A real-world step the game lacks is a question, not a feature (DECISION-REGISTER, Oct 14).
 - **What happens to a town's paper or station when its town's readers and advertisers pay less than its people cost? (Oct 24, claude; stopgap SG-PEOPLE-press-bureau-shortfall.)** An outlet now earns from its readers' subscriptions and the ads the town's businesses buy (gov-press-outlet-revenue). In most small towns that comes to less than its reporter's and editor's pay. For now the outlet's wider audience (the town's outside customers) makes up the rest each week, in advance, so no outlet runs out of money. The alternative is that it cuts staff or closes, as many real local papers have.
 
 - **Counted people's out-of-town pay and non-local spending are labeled estimates (Oct 19, claude; stopgaps SG-CORE-outside-living-costs and SG-CORE-unplaced-workers-income, now resolved).** Counted workers the opening could not place earn the place's ACS median earnings, and the part of a counted household's living cost not bought from a local seller leaves the town (CEX and HUD), each flow carrying its ESTIMATED source and spread, as the Oct 14 stand-in audit (#4151) closed them. The alternative is to build recorded commutes (LEHD origin-destination flows) and an outside-spending model by category. Reopen the two rows if you want those built.
@@ -361,6 +362,55 @@ The owner reviewed scenes 1 to 28 of batch 13 ("a solid step forward") and asked
 - **Specific lines.** "I'm not going to talk about that" is unnatural. "Then put this in the story: I'm proud of my vote" is wrong before the vote. "I'll have something to say after the vote" is the most natural. "Your vote is public. Your reasons don't have to be a secret" is great. Caught in a lie: "You're right, I shouldn't have said that" sounds like AI; "People say a lot of things" is decent; "Then {source} has it wrong" is good. The three-way choice (an off-ramp, doubling down, or honest but combative) is right.
 - **Volunteers.** "They loved you up there. What do you need from us this week?" is an awkward jump: talk about the speech, and let the player's character answer first. "Bring a friend next time", "You've got it. We'll bring more people Saturday" and "We'll be there" read as AI's quick resolution, not how people talk.
 - **Send finished work only.** Don't hand over a batch with a "still rough" list; fix what is known before the owner grades.
+- **Study any source (owner, Oct 16).** Calibration research may read anything, copyrighted or not (full interview transcripts, documentaries, captions, books): it only studies how people reply, the way one rapper learns from another's rhymes. Nothing is copied into the game, so no source credit is needed. Lines stay original.
+
+## Oct 16, morning: batch 15 review (owner, voice notes)
+
+- **Every scene needs conclusions.** A scene has several distinct endings, and several ways to reach each one; today most branches just stop. An ending is a result the world keeps (a vote given, a favor owed, a story that runs, trust lost), not "resolved/refused/open".
+- **New situations every batch, as the director would make them.** Three kinds of vote ask read as the same two or three situations. Batches draw on the director's whole catalog and the research, not the same staged asks again.
+- **Replies may be longer and substantive.** Not every line short; some carry an argument or a reason. Today many replies "completely kill" the talk, and the dialogue doesn't sound natural yet.
+- **Specific lines.** "You'll have to ask the chair" makes no sense for your own vote. "I'm not doing this in a hallway" and "Your vote is public. Your reasons don't have to be a secret" are good. "I've got a meeting. Walk with me if you want" answered by "The story runs Thursday" is a weird response: an invitation to walk should be taken up. Volunteer: "The back of the room was standing by the end" doesn't connect to "Was it that loud back there?", "It cut out twice" is unexplained, "Where'd you drive in from?" is creepy, "Go home. I'll call you at eight" is awkward, and the volunteer replies overall are weird. Vote asks: "Fine, I'll do it, but this is the last time" and "Okay. For you, I'll do it" are weird answers to "What do you need to get there?" and to a reminder of your word. The opponent scene is awkward throughout.
+- **Endings end naturally (owner, Oct 16, morning).** A scene needs a natural close, not a game-changing result: some scenes are transitions between the big ones, and the director finds that balance. What he grades is voice and choice.
+- **The improvements apply to every conversation, not the staged scenarios.** The English engine must put together a coherent exchange, even crudely, for any situation the game produces, including ones nobody has written for yet (having a baby, say). In live play the owner marks what's thin as a gap; the engine builds crudely until then.
+
+## Oct 16, afternoon: batch 16 review (owner, voice notes)
+
+A step forward, still awkward. Rules that apply to every scene:
+
+- **Say what happened.** A complaint names the concrete effect ("you made it worse" without saying what is weird); the asker cites what changed, from the record.
+- **Mirror escalation.** When the other person escalates, the player can escalate back, not only de-escalate or leave ("Then we're done talking" is an exit, not a back-and-forth). He liked the pressing in the apology scene.
+- **"Why?" is always there** when someone asks something of you (the floor switch had no "Why?").
+- **Endings land.** Walking away gets a beat, not a pleasantry ("I'm just here for cereal" / "Enjoy your cereal" was anticlimactic; "I've been to meetings" then nothing was weird).
+- **Offers carry context:** who, why you, what the job is, and some surprise. The appointment had none, and "keep my own voice" made no sense for a budget office.
+- **Answer what was asked.** Asked to state your name for the record, the reply states it.
+- **Endings that set something show up in play:** "Tuesday nights. Then I'll see you there, and so will everybody I bring" is great, and should put an event on the calendar.
+- **Specific lines:** "Come stand on my corner at five" reads wrong (drop it); "I still don't like it. But okay." isn't how people talk; the recall's first two replies are unnatural and "Have a good day" is weird; the hearing's "I'm done" / "Next speaker" is flat.
+
+## Oct 19: batch 17 review (owner, voice notes)
+
+Rules that apply to every scene:
+
+- **Every claim has a reason the listener can follow.** A complaint says why the change hurts this person ("I must lock up any gun where a child could reach it" left him asking why that is bad for her: is she a hunter, conservative?). A narrator line names the thing it refers to ("because you can't decide": decide what?). A petition, a forum or office hours appear only after the scene has said what they are.
+- **American usage.** People say "have to", not "must", about what a law makes them do; "the eleven o'clock news", not "the eleven o'clock"; "put the vote on hold", not "hold the vote"; "the people this affects", not "reaches"; an office is named as people say it ("the finance secretary"), never as "Budget Director / Finance Secretary".
+- **A reply answers the line right before it.** "I will. First thing on the agenda" after "A tense night. That's what you've got?" makes no sense; neither does "Ten minutes" after the player asked for five, "Not this one" after an offer, or "Thank you. That's noted" after an apology to the chair.
+- **Promise only what the character can do.** "I'll call you" to a stranger in a grocery store: how?
+- **A good exchange keeps going.** "If I wait, somebody else takes it" met with "Or you lose, and nobody remembers you either" should open more talk, not end; the polling-place scene ended abruptly when it was going well.
+- **Endings and their labels match the path.** Leaving a question unanswered ("Come here. One more for the road.") is not "You said what it meant."
+- **Introduce people by role.** He could not tell whether Jessica Sparks was staff or a reporter; a governor on the phone is "the governor", not "the executive".
+- **Vary the bills.** The same two or three bills come back in every scene.
+- **Narrated reactions are welcome** ("grumbles" instead of "Good night").
+- **Mundane scenes need a stake.** The first day at work ("Mind the step", "I'll find the coffee") went nowhere; "What do you want to learn first?" is an odd question at a diner.
+- **Pronouns.** "Leans in the doorway like they've done a hundred times" reads wrong for one man; avoid the pronoun or use the person's own.
+- **Liked:** the mentor's "Run for state senator when you can win it, not when you want it"; the floor switch ("Why me?" / "Then move me. What's it worth to you?" / "Done. Put it in writing tonight"); the appointment's "Why me? We've never met." / "That's the point" / "Tell the governor I'll talk. Not yes. I'll talk." / "Don't make me chase you"; the victory scene apart from "Write that on your hand".
+
+## Oct 19: speeches, voices and merging graded work (owner)
+
+- **Speeches next.** The opening presidential speech is weak. Speeches should work in real figures naturally (inflation, Social Security, states' rights, whatever the record holds), and lines should belong to kinds of people and ways of speaking (a newscaster, a plain speaker, a polished one).
+- **Speechwriting craft is earned.** Call and response, saying things in threes and literary turns belong to speakers who have the skill: a poor first-time candidate's first speech does not sound like a president who was an actor. Grading such speeches may need its own curve; the Words session proposes how.
+- **Graded work lands.** As batches are graded, what's good goes onto a PR that is ready to merge and kept up to date, so the English engine in the playable game improves as grading goes on. The session never merges its own PR.
+- **Context with every scene (owner, Oct 19).** Each scene on the review page comes from a generated world, and says why it is happening and who the people are to each other (a parent, a coworker, a colleague, a stranger), from the records, so the owner can judge whether a line fits the relationship: "you might say something to your mom that you would never say to a coworker." Worth a slower batch.
+- **Grade many things, and every note adjusts the engine,** not one scene.
+- **The Words session is also the director (owner, Oct 19):** it makes scenes fire and makes the words right, so the two work together.
 
 ## Oct 16, evening: rulings (owner, via the acting CTO)
 
@@ -386,6 +436,26 @@ The owner reviewed scenes 1 to 28 of batch 13 ("a solid step forward") and asked
 - **Public minimum salary (owner, Oct 16):** it is a law, and an employer may of course pay more than the floor. The one-time dev-mode raise is not the mechanism; the law in force is read by every public employer's payroll, including later hires.
 - **The first simulated year against 2020 (owner, Oct 16):** no grading of months against real 2020. "It just has to make sense; it doesn't have to be super accurate to 2020... it's just to calibrate the simulation; no numbers are locked in." Real history calibrates ranges; no test fails a world for not matching a real month. Retire that check.
 - **Executive acts and roll calls in the news (acting CTO reading of the rule above; owner may overrule):** not answered directly; no fixed 40 or 15 slots. An outlet prints what matters to its readers by its own reads (what moved money or people in its place, what its readers follow); the count falls out.
+
+## Oct 19, later: batch 18 review (owner)
+
+- **Every batch reads new.** Batch 18 repeated batch 17's replies; that breaks "every batch needs to be different." Every wording helps calibrate, so a review page never shows a line from an earlier page (the gate refuses one that does).
+- **Personality, experiences and memories come into effect,** and the context panel shows them: a person acts from their traits, their money, their household and job, and the views their records hold, with what formed those views (a story read, a speech retold, a campaign's message). A city attorney would not complain about a photo-ID law; only someone it burdens who is against it does.
+- **Not every line comes from a memory (owner, Oct 19).** Baldur's Gate 3 is the model: some replies are extra options drawn from the player's own life ("[Out of work]"), sometimes just color, sometimes changing the outcome, beside the ordinary ones.
+- **Rejected lines:** "Write down your number. I'll call you this week." and "Which part of it hit you? I ask because if it's landing wrong on your street, I want to know."
+
+## Oct 19: the narrative seam (CTO)
+
+- **The director and the English engine are two layers under one contract.** The director says what is happening and why, by record (roles, purpose, stakes, the move at each turn, the facts to cite by record id), with no words. The English engine says how it is said: it fills each move from the banks, graded by move. Nothing crosses the seam. The one blurred place, `src/director/scene-talk.ts` picking pieces from `data/english/parts/scene-talk.json`, moves into the English engine on its own PR after the current item, with what was deleted counted in the PR body.
+
+## Oct 19, evening: batch 19 review (owner)
+
+- **Scenes need a reason and stakes.** "There are scenes being generated, but why?" Each batch scene was a stand-in in a random life; nothing the player had done (campaigning, a vote, being accused, holding office) led to it, and some scenes should lead to a game screen (drafting a bill). Not every scene needs stakes, but the batch must show a life where they build.
+- **The narrator is a narrator.** Every scene opened with one narrator sentence and two lines from the other person. Vary it, and let the narrator speak between lines ("the crowd grows louder"), as Baldur's Gate does.
+- **The panel is plain English.** Dates read month, day, year. "office replied", "bond loyalty", "works as us-house at Us" and "no job on record" for someone who just left a job are not English. Show money only where it matters, and say why.
+- **Casting fits the life.** An 80-year-old is not told to wait a cycle or that they'll land on their feet; the trainer on a first day is not the boss; the poll worker and the voter are told apart by role.
+- **Lines carry the thread.** "Then we'll settle it at the next meeting" dropped the personal grievance she came with; "bring your numbers" twice is redundant; "can't afford a yes" sounds like a bribe and should be a real trade from the district's interests (its industries, its employers).
+- **Wording took a step back in places:** "Before the day eats us", "picked the diner, and the back booth, and already ordered", "Take the message. I'm not holding the room", "I'll help anyway".
 
 ## Oct 19: rulings (owner, via the acting CTO)
 
