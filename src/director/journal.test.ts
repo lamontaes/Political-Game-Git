@@ -410,6 +410,33 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     for (const line of told) expect(line.text).not.toMatch(/\blost\b/);
   });
 
+  it("tells the player's own race when nobody ran against them", () => {
+    const me = core.people.get(player.id)!;
+    applyCoreEvent(core, {
+      id: "election-result:fixture-own-unopposed",
+      date: core.date,
+      kind: "election-result",
+      personIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the voting module's count.",
+        asOf: core.date,
+      },
+      facts: { office: "U.S. Senator", winnerId: player.id },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const told = composeJournal(core, director, player.id)
+      .flatMap((row) => row.lines)
+      .filter((line) =>
+        line.sourceRecordIds.includes("election-result:fixture-own-unopposed"),
+      );
+    expect(told.length).toBeGreaterThan(0);
+    for (const line of told) expect(line.text).not.toMatch(/\blost\b/);
+  });
+
   it("names a child at birth, and says no look-back that points at nothing", () => {
     const lines = chapters.flatMap((chapter) => chapter.lines);
     const births = lines.filter((line) => / was born\./.test(line.text));

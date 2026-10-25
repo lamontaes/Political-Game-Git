@@ -105,14 +105,13 @@ function staffingNews(
 
 /**
  * The visibility a kept record has as news. A record that names the player or
- * their circle is kept as "circle", but a public record or a news event stays
- * public for everyone, the people it names included (their own race's result).
+ * their circle is kept as "circle"; when it is a public record or a news
+ * event (their own race's result, in town or for a statewide seat), it is
+ * news to them and shows with the town's public record.
  */
 function newsVisibility(core: CoreState, row: LogRecord) {
   if (row.visibility !== "circle") return row.visibility;
-  if (row.publicRecord && core.visiblePlaceIds.has(row.placeId))
-    return "public";
-  return row.news ? "news" : undefined;
+  return row.publicRecord || row.news ? "public" : undefined;
 }
 
 /** Public records and news the player can know, newest first. */

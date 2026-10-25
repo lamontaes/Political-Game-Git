@@ -103,7 +103,7 @@ export function electionResults(core: CoreState, playerId: string) {
   }
   // Within a night: the player's race, then their ballot's, then the rest,
   // each in the records' order (the sort is stable).
-  const rank = (race: (typeof out)[number]) =>
+  const rank = (race: { mine: unknown; ballot: unknown }) =>
     race.mine ? 0 : race.ballot ? 1 : 2;
   return out.sort((a, b) => b.date.localeCompare(a.date) || rank(a) - rank(b));
 }
