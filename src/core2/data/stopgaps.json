@@ -6663,7 +6663,7 @@
     "id": "SG-WORLD-weight-release-jobless-not-seeking",
     "kind": "missing-mechanic",
     "file": "src/core2/counted-groups.ts",
-    "line": 503,
+    "line": 529,
     "whatItFakes": "When a filled-in household's weight spreads over its group, the households that take it stand for more people while their jobs keep the heads they stood for, so the added people stand for no job and never become counted job seekers.",
     "why": "A counted job's heads now stay with its employer through a fill-in (world-counted-weight-release-grows-employer-staff); the jobs engine's counted seekers are read from records, not from the weight a record gains.",
     "addedBy": "claude/weight-release-heads",

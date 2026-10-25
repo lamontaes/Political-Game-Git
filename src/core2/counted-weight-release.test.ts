@@ -33,13 +33,26 @@ const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 /** How far over its sales staff an employer stands before it counts as over. */
 const OVER = 1.1;
 
+/**
+ * A world at an explicit scale: the bench opens a town at its Census size
+ * when no scale is given, so the sample-size world asks for 1.
+ */
 function build(seed: string, key: string, countScale: number): CoreState {
   setBookkeeping(false);
   return buildBenchWorld(seed, gameStartDate(), {
     twoLevel: true,
     placeKey: key,
-    ...(countScale !== 1 ? { countScale } : {}),
+    countScale,
   }).core as CoreState;
+}
+
+/** The largest weight any counted household record stands for. */
+function heaviest(core: CoreState): number {
+  const rt = residentsRuntime(core)!;
+  let most = 0;
+  for (const h of rt.store.liveHouseholds())
+    most = Math.max(most, rt.store.weightOf(h));
+  return most;
 }
 
 /** Each employer's jobs: one for a full person's, its heads for a counted worker's. */
@@ -110,6 +123,13 @@ function check(where: string, seed: string, key: string, reference: number) {
   advanceCore(core, addDays(gameStartDate(), 365));
   const scaled = over(core);
   const sampleCore = build(seed, key, 1);
+  // The two worlds differ in size: every sample record stands for one
+  // household, and the Census world's records for more.
+  expect(heaviest(sampleCore), `${where}: the sample world's weights`).toBe(1);
+  expect(
+    heaviest(core),
+    `${where}: the Census world's weights`,
+  ).toBeGreaterThan(1);
   advanceCore(sampleCore, addDays(gameStartDate(), 365));
   const sample = over(sampleCore);
   const show = (rows: ReturnType<typeof over>) =>
