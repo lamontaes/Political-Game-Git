@@ -82,6 +82,26 @@ try {
     !(await page.locator("#news-surface").isVisible()),
     "the news card is showing over the counter",
   );
+  // The party picker and every stand can be reached: scrolled into view,
+  // nothing else on top of them.
+  const covered = await page.evaluate(() =>
+    [
+      ...document.querySelectorAll("#filing-platform select"),
+      document.getElementById("filing-party"),
+    ]
+      .filter(Boolean)
+      .filter((control) => {
+        control.scrollIntoView({ block: "nearest" });
+        const r = control.getBoundingClientRect();
+        const top = document.elementFromPoint(
+          r.left + r.width / 2,
+          r.top + r.height / 2,
+        );
+        return !(top === control || control.contains(top));
+      })
+      .map((control) => control.name || control.id),
+  );
+  assert.deepEqual(covered, [], "a stand or the party picker is covered");
   await page.screenshot({
     path: "docs/reports/filing-overlay-2026-10-24/overlay.png",
   });
