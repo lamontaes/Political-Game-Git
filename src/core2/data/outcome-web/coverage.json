@@ -521,6 +521,26 @@
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
+    "social-security-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "medicare-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "federal-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "state-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "unemployment-insurance-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    "unemployment-weekly-maximum-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
     "revolving-door-ban-to-ex-legislator-lobbyists": {
       "waitingOn": [],
       "carriedBy": "src/core2/modules/interest-groups.ts passes over a former officeholder the ban still bars (lobbyingBarredUntil, src/core2/law-reach/group-a-voting.ts) when it chooses a group's lobbyist"
@@ -546,6 +566,10 @@
     "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 6
+    },
+    "labor.unemployment-pct": {
+      "owner": "OPUS-WORLD",
+      "links": 5
     },
     "school.test-scores": {
       "owner": "OPUS-GOV",
@@ -776,10 +800,6 @@
       "links": 1
     },
     "labor.formal-employment": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.unemployment-pct": {
       "owner": "OPUS-WORLD",
       "links": 1
     },

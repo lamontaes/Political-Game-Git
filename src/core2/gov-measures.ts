@@ -23,6 +23,7 @@
  * - `voting.party-share`: the Democratic share of the two-party vote in the
  *   latest decided partisan race covering the town (0 to 1).
  */
+import { GOV_MEASURES } from "./gov-measure-keys";
 import type { CoreAPI, CoreState } from "./types";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import {
@@ -39,7 +40,7 @@ import {
   governments,
 } from "./modules/budgets";
 
-export { GOV_MEASURES } from "./gov-measure-names";
+export { GOV_MEASURES };
 
 const daysBefore = (date: string, days: number) =>
   new Date(Date.parse(`${date}T00:00:00Z`) - days * 86_400_000)
