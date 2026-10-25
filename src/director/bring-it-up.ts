@@ -18,6 +18,7 @@ import { storyTopicName } from "../english/policy-names";
 import {
   wordBringMove,
   type BlameHow,
+  type BringMove,
   type BringWords,
 } from "../english/bring-it-up-words";
 import rowsJson from "./data/bring-it-up-rows.json" with { type: "json" };
@@ -219,7 +220,7 @@ export function bringItUp(
     (row) => row.eventKind === change.kind,
   )!.story;
   const say = (
-    move: Parameters<typeof wordBringMove>[0]["move"],
+    move: BringMove,
     facts: Record<string, { text: string; sourceRecordIds: readonly string[] }>,
   ) =>
     wordBringMove({
