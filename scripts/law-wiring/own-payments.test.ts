@@ -1,0 +1,213 @@
+import { describe, expect, it } from "vitest";
+import { ownPayments, type Posting, type Reached } from "./own-payments";
+
+const reached = (id: string, since = "2025-01-02"): Reached => ({
+  targetId: id,
+  row: `applied|minimum-wage|${id}`,
+  amountMinor: 0,
+  since,
+});
+const accountOf = (id: string) => `cash:${id}:residual`;
+const world = (postings: Record<string, Posting[]>) =>
+  new Map(Object.entries(postings).map(([id, p]) => [accountOf(id), p]));
+const none = () => [] as string[];
+
+describe("a law's own payments", () => {
+  it("names the paycheck a raise made larger than the control world's", () => {
+    const own = ownPayments(
+      none,
+      [reached("person_a")],
+      world({
+        person_a: [
+          ["2025-01-10", "work-payroll", 1_100, "journal:2025-01-10:7"],
+          ["2025-01-12", "purchase", -400, "journal:2025-01-12:9"],
+        ],
+      }),
+      world({
+        person_a: [
+          ["2025-01-10", "work-payroll", 1_000, "journal:2025-01-10:7"],
+          ["2025-01-12", "purchase", -300, "journal:2025-01-12:9"],
+        ],
+      }),
+      false,
+      "2025-01-02",
+    );
+    expect(own.paid).toBe(1);
+    expect(own.sample[0]).toMatchObject({
+      target: "person_a",
+      kind: "work-payroll",
+      way: "in",
+      treatment: 1_100,
+      control: 1_000,
+      journal: "journal:2025-01-10:7",
+    });
+  });
+
+  it("takes the kind and direction most targets share as the law's payment", () => {
+    // Three raised workers; one of them also spends differently. The paycheck
+    // all three got is the law's, not the one worker's purchase.
+    const paycheck = (amount: number): Posting[] => [
+      ["2025-01-10", "work-payroll", amount, "journal:2025-01-10:1"],
+    ];
+    const own = ownPayments(
+      none,
+      ["person_a", "person_b", "person_c"].map((id) => reached(id)),
+      world({
+        person_a: [
+          ["2025-01-05", "purchase", -100, "journal:2025-01-05:2"],
+          ...paycheck(1_100),
+        ],
+        person_b: paycheck(1_100),
+        person_c: paycheck(1_100),
+      }),
+      world({
+        person_a: [
+          ["2025-01-05", "purchase", -300, "journal:2025-01-05:2"],
+          ...paycheck(1_000),
+        ],
+        person_b: paycheck(1_000),
+        person_c: paycheck(1_000),
+      }),
+      false,
+      "2025-01-02",
+    );
+    expect(own.paid).toBe(3);
+    expect(own.sample.every((e) => e.kind === "work-payroll")).toBe(true);
+    expect(own.pick).toBe("work-payroll|in");
+    expect(own.pairs.map((p) => [p.kind, p.way, p.targets])).toEqual([
+      ["work-payroll", "in", 3],
+      ["purchase", "in", 1],
+    ]);
+  });
+
+  it("does not count a difference long after the law reached the target", () => {
+    // Two worlds of the same seed drift apart over months; that is not the law's money.
+    const own = ownPayments(
+      none,
+      [reached("person_a")],
+      world({
+        person_a: [["2025-07-01", "interest", 120, "journal:2025-07-01:3"]],
+      }),
+      world({
+        person_a: [["2025-07-01", "interest", 100, "journal:2025-07-01:3"]],
+      }),
+      false,
+      "2025-01-02",
+    );
+    expect(own.paid).toBe(0);
+  });
+
+  it("ignores payments before the law changed", () => {
+    const own = ownPayments(
+      none,
+      [reached("person_a")],
+      world({
+        person_a: [
+          ["2025-01-01", "work-payroll", 1_100, "journal:2025-01-01:3"],
+        ],
+      }),
+      world({
+        person_a: [
+          ["2025-01-01", "work-payroll", 1_000, "journal:2025-01-01:3"],
+        ],
+      }),
+      false,
+      "2025-01-02",
+    );
+    expect(own.paid).toBe(0);
+  });
+
+  it("takes the control world's payment when a repeal stopped it", () => {
+    const own = ownPayments(
+      none,
+      [reached("person_a")],
+      world({}),
+      world({
+        person_a: [
+          ["2025-01-10", "leave-premium", -50, "journal:2025-01-10:8"],
+        ],
+      }),
+      true,
+      "2025-01-02",
+    );
+    expect(own.sample[0]).toMatchObject({
+      kind: "leave-premium",
+      way: "out",
+      treatment: 0,
+      control: -50,
+      journal: "journal:2025-01-10:8",
+    });
+  });
+
+  it("reads a named household's payments on its members' accounts", () => {
+    const own = ownPayments(
+      (id) => (id === "household_h" ? ["person_a"] : []),
+      [reached("household_h")],
+      world({
+        person_a: [
+          ["2025-01-06", "rent-assistance", 900, "journal:2025-01-06:4"],
+        ],
+      }),
+      world({}),
+      false,
+      "2025-01-02",
+    );
+    expect(own.paid).toBe(1);
+    expect(own.pick).toBe("rent-assistance|in");
+  });
+
+  it("does not credit a payment only one target of many got", () => {
+    const targets = Array.from({ length: 40 }, (_, i) =>
+      reached(`person_${i}`),
+    );
+    const own = ownPayments(
+      none,
+      targets,
+      world({
+        person_0: [["2025-01-10", "interest", 105, "journal:2025-01-10:5"]],
+      }),
+      world({
+        person_0: [["2025-01-10", "interest", 100, "journal:2025-01-10:5"]],
+      }),
+      false,
+      "2025-01-02",
+    );
+    expect(own.paid).toBe(0);
+  });
+
+  it("takes the paycheck that came first over the spending it allows", () => {
+    // Four raised workers spend a little more from the 1st; three of their
+    // paychecks came a week before. The paycheck came first: it is the law's.
+    const ids = ["person_a", "person_b", "person_c", "person_d"];
+    const treated: Record<string, Posting[]> = {};
+    const control: Record<string, Posting[]> = {};
+    for (const [i, id] of ids.entries()) {
+      treated[id] = [["2025-02-01", "cost-of-living", -320, `journal:s${i}`]];
+      control[id] = [["2025-02-01", "cost-of-living", -300, `journal:s${i}`]];
+      if (i < 3) {
+        treated[id].push([
+          "2025-01-24",
+          "work-payroll",
+          1_100,
+          `journal:p${i}`,
+        ]);
+        control[id].push([
+          "2025-01-24",
+          "work-payroll",
+          1_000,
+          `journal:p${i}`,
+        ]);
+      }
+    }
+    const own = ownPayments(
+      none,
+      ids.map((id) => reached(id)),
+      world(treated),
+      world(control),
+      false,
+      "2025-01-02",
+    );
+    expect(own.pick).toBe("work-payroll|in");
+    expect(own.paid).toBe(3);
+  });
+});
