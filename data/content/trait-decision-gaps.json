@@ -10,8 +10,8 @@
   "gaps": {
     "corruption.offer": {
       "class": "weight too small",
-      "why": "Runs when a lobbyist meets a member on a bill with employer costs (src/core2/modules/interest-groups.ts). The offer's honest pull (corruptionHonestPull 3) against the stake settles it by place, not by person: in Jerry City, Ohio's played year one of 3,044 weighings became an offer, and in New Britain, Connecticut's every one of 1,156 did. The take side is calibrated (corruptionTakeHonestPull, Pletzer et al. 2019); the offer side is not.",
-      "fix": "Calibrate the offer's honest pull against the honesty-humility effect size, as the take side is (people-corruption-honest-pull-calibrated)."
+      "why": "Runs when a lobbyist meets a member on a bill with employer costs (src/core2/modules/interest-groups.ts). Honesty now weighs it person by person: in South Windham, Connecticut's year 190 of 1,142 offers the money alone would have made were withheld for the lobbyist's honesty, and in Langley, Washington's 5 of 1,082; no offer was made in either, so taking and the chain behind it did not run.",
+      "fix": "Calibrate the offer's honest pull to the asks play makes, so some offers are made (people-corruption-honest-pull-calibrated)."
     },
     "corruption.take": {
       "class": "circumstances saturate the choice",
@@ -44,18 +44,18 @@
       "fix": "Same as corruption.offer."
     },
     "recalls.organize": {
-      "class": "no trigger",
-      "why": "Only a county or city ordinance taking effect starts one, and only where the state allows recall without grounds (src/core2/modules/recalls.ts:159, :190); most places have no petition recall or require grounds.",
-      "fix": "Let a reported scandal or crime start a for-cause recall where the state requires grounds."
+      "class": "needs a petition's cause",
+      "why": "A petition starts from a county or city ordinance where the state allows recall without grounds (src/core2/modules/recalls.ts, weighOrdinance), or, where it requires grounds, from a charge or a press exposure of a serving local official that the town heard of (noteMisconduct, weighMisconduct). Neither South Windham, Connecticut nor Langley, Washington held either in its year; with a fixture charge in Sylvan Grove, Kansas, the printed story reached 71 of 76 named residents and a petition started two weeks later (src/core2/recall-for-cause.test.ts).",
+      "fix": "Charges come from the bribe chain once offers are made (people-corruption-honest-pull-calibrated)."
     },
     "recalls.sign": {
-      "class": "no trigger",
-      "why": "Follows an organizer (src/core2/modules/recalls.ts:299).",
+      "class": "needs a petition's cause",
+      "why": "Follows an organizer (src/core2/modules/recalls.ts, startRecall); see recalls.organize.",
       "fix": "Same as recalls.organize."
     },
     "recalls.vote": {
-      "class": "no trigger",
-      "why": "Needs a recall on the ballot (src/core2/modules/recalls.ts:380).",
+      "class": "needs a petition's cause",
+      "why": "Needs a petition that reached the ballot (src/core2/modules/recalls.ts, recallWork); see recalls.organize.",
       "fix": "Same as recalls.organize."
     },
     "ballot-measures.vote": {
