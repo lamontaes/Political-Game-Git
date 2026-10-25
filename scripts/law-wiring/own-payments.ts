@@ -38,6 +38,29 @@ function accountIndex(
   return index;
 }
 
+/** What a posting's kind names after this: the laws its source cites (check.ts, `underOf`), joined by "+". */
+export const UNDER = " under ";
+
+/** Whether a payment was made under other laws and not under `key`: a price a law sets is that law's money, not a raise's. */
+function foreignTo(key: string | undefined) {
+  const seen = new Map<string, boolean>();
+  return (kind: string): boolean => {
+    if (!key) return false;
+    let v = seen.get(kind);
+    if (v === undefined) {
+      const at = kind.indexOf(UNDER);
+      v =
+        at >= 0 &&
+        !kind
+          .slice(at + UNDER.length)
+          .split("+")
+          .includes(key);
+      seen.set(kind, v);
+    }
+    return v;
+  };
+}
+
 /** How long after a law reaches a target its own payment shows: past it, the twin worlds' drift does. */
 export const OWN_WINDOW_DAYS = 92;
 /**
@@ -64,7 +87,10 @@ const plusDays = (date: string, days: number) =>
  * repeal of a law in force at the opening stops money the control world still
  * pays, so there the control's payment is the law's. The payment the law
  * makes is the kind and direction (paid in or out) most targets share; each
- * target's first payment of that kind and direction is its evidence.
+ * target's first payment of that kind and direction is its evidence. A
+ * payment whose source cites other laws and not this one (`key`) is theirs:
+ * a raise lets a worker use more electricity, but the electricity standard's
+ * share of that bill is the standard's payment, not the raise's.
  */
 export function ownPayments(
   membersOf: (targetId: string) => readonly string[],
@@ -73,8 +99,10 @@ export function ownPayments(
   control: ReadonlyMap<string, readonly Posting[]>,
   repeal: boolean,
   since: string,
+  key?: string,
 ) {
   const index = accountIndex(treated, control);
+  const foreign = foreignTo(key);
   const sums = (
     m: ReadonlyMap<string, readonly Posting[]>,
     accounts: string[],
@@ -84,7 +112,7 @@ export function ownPayments(
     const by = new Map<string, { delta: number; id: string }>();
     for (const a of accounts)
       for (const [date, kind, delta, id] of m.get(a) ?? []) {
-        if (date < from || date > to) continue;
+        if (date < from || date > to || foreign(kind)) continue;
         const k = `${date}|${kind}`;
         const v = by.get(k);
         if (v) v.delta += delta;

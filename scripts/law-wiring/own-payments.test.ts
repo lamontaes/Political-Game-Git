@@ -210,4 +210,51 @@ describe("a law's own payments", () => {
     expect(own.pick).toBe("work-payroll|in");
     expect(own.paid).toBe(3);
   });
+
+  it("leaves out a payment made under another law", () => {
+    // A raise lets three workers use more electricity before their raised
+    // paycheck comes: the electricity standard's share of the bill is that
+    // standard's payment. A payment under the raise itself still counts.
+    const ids = ["person_a", "person_b", "person_c"];
+    const bill = "accounts.transfer under clean-electricity-standard";
+    const treated: Record<string, Posting[]> = {};
+    const control: Record<string, Posting[]> = {};
+    for (const [i, id] of ids.entries()) {
+      treated[id] = [
+        ["2025-01-05", bill, -495, `journal:e${i}`],
+        [
+          "2025-01-15",
+          "work-payroll under minimum-wage",
+          1_100,
+          `journal:p${i}`,
+        ],
+      ];
+      control[id] = [
+        ["2025-01-05", bill, -487, `journal:e${i}`],
+        [
+          "2025-01-15",
+          "work-payroll under minimum-wage",
+          1_000,
+          `journal:p${i}`,
+        ],
+      ];
+    }
+    const check = (key?: string) =>
+      ownPayments(
+        none,
+        ids.map((id) => reached(id)),
+        world(treated),
+        world(control),
+        false,
+        "2025-01-02",
+        key,
+      );
+    expect(check().pick).toBe(`${bill}|out`);
+    const own = check("minimum-wage");
+    expect(own.pick).toBe("work-payroll under minimum-wage|in");
+    expect(own.paid).toBe(3);
+    expect(own.pairs.map((p) => p.kind)).toEqual([
+      "work-payroll under minimum-wage",
+    ]);
+  });
 });
