@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/tooling/, src/core2/opening-customers.ts
 
 **Notes.** TODO
+
+Oct 25 (Merger 0): PR #5944 now delivers only the bounded per-jurisdiction regression under core-county-governed-openings-per-jurisdiction. It does not complete the exhaustive all-localities acceptance; that remains here and neither original item is finished by this merge.
