@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
 import { duePeople } from "./calendar";
+import { addDays, makeIsoDate } from "./kernel/dates";
+import { P } from "./parameters";
 import { coreAPI } from "./state";
 import type { CoreInput, PersonInput, Source } from "./types";
 
@@ -175,6 +177,43 @@ describe("normal play circle and tier scope", () => {
     coreAPI(core).relationship("town", "player", "contact", 0.1);
     expect(
       duePeople(core, "2021-01-02").some((row) => row.personId === "town"),
+    ).toBe(true);
+  });
+
+  it("keeps a contact daily only while the player has seen them in the window, then at their tier's cadence until they meet again", () => {
+    // Acting CTO, Oct 25: daily focus only for people seen in the last
+    // focusDailyContactDays days, read from the tie, not a scan.
+    const core = createLifeCore(input());
+    const api = coreAPI(core);
+    api.relationship("town", "player", "contact", 0.1);
+    expect(
+      duePeople(core, "2021-01-02").some((row) => row.personId === "town"),
+    ).toBe(true);
+    const window = P.focusDailyContactDays;
+    const activations = new Map<string, number>();
+    const count = (decision: { actorId: string }) => {
+      activations.set(
+        decision.actorId,
+        (activations.get(decision.actorId) ?? 0) + 1,
+      );
+      return undefined;
+    };
+    // Out of touch past the window (no act here touches the tie).
+    const out = addDays(makeIsoDate("2021-01-01"), window + 7);
+    advanceCore(core, out, { controller: count });
+    activations.clear();
+    advanceCore(core, addDays(out, 7), { controller: count });
+    // A week: the weekly tier's one activation, not seven.
+    expect(activations.get("town")).toBe(1);
+    // Family and household choose daily whatever the tie says.
+    expect(activations.get("family")).toBe(7);
+    expect(activations.get("household")).toBe(7);
+    // They meet again: daily from the next day.
+    api.relationship("town", "player", "contact", 0.1);
+    expect(
+      duePeople(core, addDays(makeIsoDate(core.date), 1)).some(
+        (row) => row.personId === "town",
+      ),
     ).toBe(true);
   });
 
