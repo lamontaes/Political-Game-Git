@@ -40,25 +40,28 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
       advanceCore(core, addDays(makeIsoDate(gameStartDate()), 120));
       const positions = api.moduleState(JOBS_MODULE_ID).table("positions");
       const rows = positions.rows() as unknown as PositionRow[];
-      // An employer with a living owner and a month of trading it can carry a raise from.
-      const found = rows
+      // An employer with a living owner and a month of trading it can carry a raise from: sales above the month's costs, which already hold its wages and compliance. One whose margin is smaller than its wages comes first, since counting the wages twice would leave it no room at all.
+      const candidates = rows
         .map((row) => ({
           row,
           owner: ownerOf(api, row.organizationId),
           trading: businessTradingMonth(api, row.organizationId),
         }))
-        .find(
+        .filter(
           (entry) =>
             entry.owner &&
             core.people.get(entry.owner)?.alive &&
             entry.trading &&
             entry.trading.days > 0 &&
-            entry.trading.salesMinor -
-              entry.trading.payrollMinor -
-              entry.trading.costsMinor -
-              entry.trading.complianceMinor >
-              0,
+            entry.trading.salesMinor - entry.trading.costsMinor > 0,
         );
+      const thin = (entry: (typeof candidates)[number]) =>
+        entry.trading!.salesMinor -
+          entry.trading!.costsMinor -
+          entry.trading!.payrollMinor -
+          entry.trading!.complianceMinor <=
+        0;
+      const found = candidates.find((entry) => thin(entry)) ?? candidates[0];
       if (!found) continue;
       const { row, owner, trading } = found;
       const heads = Math.max(
@@ -69,9 +72,7 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
       const monthDays = parameter("jobsDaysPerYear", core.data.parameters) / 12;
       const perMonth = monthDays / trading!.days;
       const carries =
-        ((trading!.salesMinor -
-          trading!.costsMinor -
-          trading!.complianceMinor) *
+        ((trading!.salesMinor - trading!.costsMinor + trading!.payrollMinor) *
           perMonth) /
         heads;
       const hours = core.jobs.get(row.templateJobId)?.hoursDaily ?? 0;
@@ -106,6 +107,9 @@ describe(`unfilled openings and their pay (seed ${seed})`, () => {
       const long = standing(`${row.id}:long`, 400);
       raiseUnfilledPay(api, row.organizationId, [long], trading, heads);
       const raised = positions.get(long.id) as unknown as PositionRow;
+      console.log(
+        `${here}: opening ${long.id} from ${row.hourlyMinor} to ${raised.hourlyMinor} cents an hour; the month left ${trading!.salesMinor - trading!.costsMinor} after its costs${thin(found) ? ", and nothing had its wages been counted twice" : ""}`,
+      );
       if (lean > -1) {
         expect(raised.hourlyMinor, here).toBeGreaterThan(row.hourlyMinor);
         expect(raised.raisedBy, here).toBe(owner);
