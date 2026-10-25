@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/school-pay-small-district
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T08:05:37.774Z
 ---
 
 **What.** src/core2/school-pay.test.ts fails on clean main with GOLDEN_PATH_SEED=9c9f0e287480bcf02e45374469eca456646c879c: 'Lamar Public Schools full teachers: expected 0 to be greater than 0', while the same run's counted case passes (Jolivue Public Schools paid from organization:treasury:county:51015). The laws lead found it in its gate on Oct 24 and confirmed it on main with the same seed. Either the district has no full (named) teacher to pay, which the test should read from the district's records before asserting, or a named teacher there is not paid from the treasury.
