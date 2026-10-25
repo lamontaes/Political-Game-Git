@@ -8,7 +8,7 @@ size: M
 status: open
 claimed-by:
 pr:
-blocked-on: play-first-freeze
+blocked-on:
 source: added with npm run pool -- add
 ---
 
@@ -21,5 +21,3 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/elections.ts, src/core2/data/elections/, data/research/elections/
 
 **Notes.** TODO
-
-Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).
