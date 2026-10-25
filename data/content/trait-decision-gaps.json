@@ -164,14 +164,14 @@
       "fix": "Calibrate when a study gives the odds of an owner joining a trade association by trait."
     },
     "jobs-benefits.file-claim": {
-      "class": "too few calls to fit",
-      "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds), but only 6 and 14 eligible people weighed filing in a played year, so trait-calibrate has too few calls and the general weight of 1 stands. Temperament turned 1 of 6 and 1 of 14 of them.",
-      "fix": "Calibrate when a run weighs 30 or more claims (several places pooled, or a year with layoffs)."
+      "class": "circumstances saturate the choice",
+      "why": "Vella, Richiardi and van de Ven 2025 give neuroticism 0.6 percentage points per standard deviation on taking up benefits (odds ratio 1.32 between the thirds). Pooled over seven played years (59 claims weighed, src/core2/jobs-benefits.ts), every eligible worker files with temperament off, against real take-up of 70 to 80%, and no weight up to 0.5 turns any of them; at the general weight of 1, 7% decline.",
+      "fix": "Bring the filing base down to the researched take-up (research-unemployment-claim-take-up), then fit the weight."
     },
     "speech.retell": {
       "class": "circumstances saturate the choice",
       "why": "Hibbing, Ritchie and Anderson 2011 give conscientiousness 0.63 on talking about local politics with family (odds ratio 1.49 between the thirds). The listener keeps a fixed reason to stay quiet (0.6) against a retelling reason of 0.01 to 0.04 for how far the speech moved them, so temperament alone sorts who retells: the third leaning most toward retelling retold 0.26 and the third leaning least 0.00 at weight 1, and no weight up to 0.2 in steps of 0.005 comes near the study (trait-calibrate cannot reach it). The general weight of 1 stands.",
-      "fix": "Give the retelling its own circumstances (how close the household members are, how much the speech matters to them), then calibrate to the study."
+      "fix": "Give the retelling its own circumstances, then fit the weight (traits-retell-circumstances)."
     },
     "jobs.raise-for-opening": {
       "class": "no study row on this head",
