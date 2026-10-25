@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-circle-turnover
 pr: #5913
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-24T15:25:34.409Z
+claimed-at: 2026-10-24T18:01:36.913Z
 ---
 
 **What.** Roadmap M0-07 ends 'over years, circle turnover matches a sourced study', and nothing checked it. PR #5913 adds a check that plays three years of the bench world and asks how many of each adult full person's five closest ties on the first day are still among their five closest at the end, against Mollenhorst, Volker and Flap (2014), and makes it part of M0-07's command. The check fails on a real gap, which stays open in people-circle-turnover-too-low; the original acceptance stays open in people-circle-turnover-over-years.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-24T15:25:34.409Z
 **Files.** src/core2/tooling/m0-07-turnover-check.ts, src/core2/circle-turnover-check.ts, data/research/people/mollenhorst-2014-network-turnover.json, docs/roadmap/features.json
 
 **Notes.** TODO
+
+Sent back 2026-10-24 from PR #5913 (branch claude/quirky-ride-vrwwz4-circle-turnover): current main after #5957 conflicts in src/core2/decision-detail.ts and src/core2/data/parameters.json; resolve on this branch preserving main's accepted circle-retention fix, then push for a fresh local gate; finish on that branch, merge main into it first.

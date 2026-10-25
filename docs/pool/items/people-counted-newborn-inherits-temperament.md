@@ -5,11 +5,12 @@ area: people
 kind: stopgap
 priority: 3
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/traits-counted-newborn-temperament
+pr: #6028
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T11:29:17.436Z
 ---
 
 **What.** src/core2/births-counted.ts gives a counted baby a temperament drawn from the world's seed for its age and place, ignoring its parents. A full person's child inherits through the family model. Make the counted birth read the counted parents' packed traits through the same family model, so the baby is a consistent member of its family when filled in. Closes SG-PW8-counted-newborn-temperament.

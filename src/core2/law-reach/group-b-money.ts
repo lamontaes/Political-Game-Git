@@ -30,7 +30,7 @@ import {
 import { flowWeights, fundOf } from "../counted-money";
 import { getRow, putRow, rowsOf } from "./group-b-store";
 import { appliedTo, lawApplied, type AppliedTarget } from "./applied";
-import { registerLinePayments } from "../budgets-treasury";
+import { fundFederalStanding, registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 
 export const source = (api: CoreAPI, citation: string): Source => ({
@@ -403,6 +403,16 @@ export function reconcileObligations(
       ...(input.line ? { line: input.line } : {}),
     } satisfies BenefitRow);
   }
+  // The federal treasury, which borrows any day, covers its new shares from
+  // tomorrow; a state's or a town's pays from what it holds.
+  if (
+    [...want.keys()].some(
+      (pair) =>
+        governments(api).find((g) => g.id === pair.split("|")[0])?.level ===
+        "federal",
+    )
+  )
+    fundFederalStanding(api);
 }
 
 /** An assistance work requirement in force: who it reaches and how long they may draw. */
@@ -1248,6 +1258,13 @@ export function incomeTaxAct(
   const id = `tax|${input.key}|${input.level}`;
   const prior = getRow<TaxRow>(api, "taken", id);
   const current = levelRow(api, input.level);
+  // A territory's own income tax stands in place of the federal one under
+  // federal law (26 U.S.C. 931 to 933), whatever rate its legislature sets:
+  // an act that rewrites the territory's tax keeps that standing.
+  const standing =
+    current?.terms?.replacesFederal === true
+      ? { replacesFederal: true }
+      : undefined;
   const enact = (
     value: number,
     unit: string,
@@ -1263,7 +1280,7 @@ export function incomeTaxAct(
       effectiveDate: api.state.date,
       measureId: `${tag}:${input.lawId}`,
       citation: `Act ${input.lawId}`,
-      ...(terms ? { terms } : {}),
+      ...(terms || standing ? { terms: { ...terms, ...standing } } : {}),
     });
   const hasTax = !!current && (current.value ?? 0) > 0;
   const scope = input.level === "state" ? "state" : "local";

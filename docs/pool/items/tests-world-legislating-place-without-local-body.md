@@ -5,11 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/legislating-local-body-redraw
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:40:17.165Z
 ---
 
 **What.** src/core2/world-legislating.test.ts, "the town's council and county board bring their own ordinances on their schedule", draws a state whose legislature sits in 2026 and then any locality in it. When the drawn locality has no council and no county-board office (seen Oct 24 on US-VI territory:VI:frederiksted-southeast, run on the words/bargain-scenes branch), the expected meeting count is 0 and the check that it is above 0 fails. The test does not print its seed, so the draw cannot be replayed. Either draw again until the place has a local body (and say in the message why each skipped place had none), or, if every place should have one, add the missing local bodies for that place's data.

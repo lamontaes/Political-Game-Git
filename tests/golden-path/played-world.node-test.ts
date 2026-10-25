@@ -651,17 +651,32 @@ function playWorld(seed: string) {
       heldIds.has(String(d.contestId)) &&
       !incumbentIds.has(String(d.personId)),
   );
+  // A challenger who filed and lost a primary ran too: the primary marks the
+  // losing filing withdrawn (src/core2/modules/voting.ts, its `lose`), as in
+  // Crosspointe, Virginia, where the one challenger lost the Democratic
+  // primary for attorney general to the incumbent.
+  const primaryLosers = rowsOf(core, "core2-elections-v1", "filings").filter(
+    (f) =>
+      f.status === "withdrawn" &&
+      heldIds.has(String(f.contestId)) &&
+      !incumbentIds.has(String(f.personId)) &&
+      core.people.has(String(f.personId)),
+  );
   verdicts["a named challenger runs"] = !held.length
     ? unobserved("no race was decided in the run")
     : challengers.length
       ? pass(`${challengers.length} named challengers in ${held.length} races`)
-      : !wantedToRun.length
-        ? unobserved(
-            `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+      : primaryLosers.length
+        ? pass(
+            `${primaryLosers.length} named challengers filed and lost a primary in ${held.length} races (${String(primaryLosers[0]!.id)})`,
           )
-        : fail(
-            `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
-          );
+        : !wantedToRun.length
+          ? unobserved(
+              `${held.length} races decided and no adult other than an incumbent chose to run (the stay-out pull held)`,
+            )
+          : fail(
+              `${wantedToRun.length} adults other than the incumbent chose to run in the ${held.length} races decided, and none was on the ballot. Who runs (src/core2/modules/candidacy.ts, filing) must put a decision to run on the ballot.`,
+            );
 
   // Break 10: the counted population votes in local races.
   const local = held.filter(
@@ -754,11 +769,23 @@ function playWorld(seed: string) {
   const countedAtEnd = residentCounts(core).reduce((n, r) => n + r.people, 0);
   const countedChange = countedAtEnd + filledIn - countedAtStart;
   countedIdsAtStart.clear();
-  verdicts["the counted population changes"] = countedChange
-    ? pass(`counted population changed by ${countedChange}`)
-    : fail(
-        `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
-      );
+  // The counted engine's own records of the year: births and moves can
+  // cancel in the total (Red Hook, U.S. Virgin Islands: 7 counted births and
+  // 58 moves, and the count back where it began), so they are read too.
+  const countedBirths = rowsOf(core, "core2-renewal-v1", "births").filter(
+    (b) => String(b.date) >= start && b.counted === true,
+  ).length;
+  const countedMoves = rowsOf(core, "core2-counted-moves-v1", "moves").filter(
+    (m) => String(m.date) >= start,
+  ).length;
+  verdicts["the counted population changes"] =
+    countedChange || countedBirths || countedMoves
+      ? pass(
+          `counted population changed by ${countedChange}, with ${countedBirths} counted births and ${countedMoves} counted moves`,
+        )
+      : fail(
+          `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
+        );
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
     : fail(
