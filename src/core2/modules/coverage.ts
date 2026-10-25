@@ -31,6 +31,7 @@
 import { coreAPI, registerModule } from "../state";
 import { outsideAccountOf } from "../budgets-treasury";
 import { ageOnDate, makeIsoDate } from "../kernel/dates";
+import { gameStartDate } from "../game-start";
 import { declareSnapshotCovered } from "../snapshot";
 import { countedPayment } from "../counted-money";
 import { countedJob, residentsRuntime } from "./residents";
@@ -205,16 +206,24 @@ function holdersToday(
   return { full, counted: heldCounted };
 }
 
+/** The day of the last review: the 1st, or the opening day in the opening month. */
+function lastReview(date: IsoDate): IsoDate {
+  const first = makeIsoDate(`${date.slice(0, 8)}01`);
+  const opening = gameStartDate();
+  return first < opening ? opening : first;
+}
+
 /** What every full person's coverage should be today (or a few households', for a fill-in). */
 function plansToday(
   api: CoreAPI,
   holderByHousehold: ReadonlyMap<string, string>,
   /** Only these households (a fill-in's); every full household when absent. */
   only?: ReadonlySet<string>,
+  /** The day ages are taken on: today at a review, the last review's day at a fill-in. */
+  agesOn: IsoDate = makeIsoDate(api.state.date),
 ): Map<string, { householdId: string } & Plan> {
   const core = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
-  const date = makeIsoDate(core.date);
   const plans = new Map<string, { householdId: string } & Plan>();
   const everyone = only
     ? [...only].flatMap((id) =>
@@ -227,7 +236,7 @@ function plansToday(
   const people = everyone.filter(
     (person) => person.alive && !person.id.startsWith("official:"),
   );
-  const ageOf = (birth: string) => ageOnDate(makeIsoDate(birth), date);
+  const ageOf = (birth: string) => ageOnDate(makeIsoDate(birth), agesOn);
   const members = new Map<string, string[]>();
   for (const person of people)
     members.set(person.householdId, [
@@ -477,10 +486,13 @@ function handOff(api: CoreAPI, householdId: string): void {
       ...counted,
       to: makeIsoDate(api.state.date),
     } as unknown as ModuleRow);
+  // Ages as of the last review, as the counted record and a full household's
+  // plans were set then: someone who turned 65 since moves at the next review.
   const plans = plansToday(
     api,
     new Map(counted ? [[householdId, counted.holderId]] : []),
     new Set([householdId]),
+    lastReview(makeIsoDate(api.state.date)),
   );
   // The policyholder pays what the counted record said.
   const held = counted ? plans.get(counted.holderId) : undefined;
