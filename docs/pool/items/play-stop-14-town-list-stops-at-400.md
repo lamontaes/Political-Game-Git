@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-14
+pr: #6069
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+claimed-at: 2026-10-25T18:02:49.575Z
 ---
 
 **What.** Picking Texas on the v0.22.10 release shows a town list that stops at the 400th town alphabetically (Abbott to Deer Park); later towns are reachable only by typing in Search, and nothing says so. Ten towns show no population (Airport Heights, Amaya, Anacua, Barksdale, Brookston and others). Agua Dulce and Chula Vista each appear twice with different counts and no county to tell them apart. I expected to scroll to any town, see a count for each, and tell same-named towns apart.
