@@ -34,6 +34,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
+import NATALITY from "../../data/research/renewal/natality-2024.json" with { type: "json" };
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import {
   residentCounts,
@@ -778,14 +779,27 @@ function playWorld(seed: string) {
   const countedMoves = rowsOf(core, "core2-counted-moves-v1", "moves").filter(
     (m) => String(m.date) >= start,
   ).length;
+  // How many counted births the year should hold at the nation's birth rate
+  // per resident (NCHS 2024): a town of three counted people can go a year
+  // with none, so the check judges only a counted population that expects a
+  // few births. Deaths and moves would add to it, so this is the low side.
+  const expectedBirths =
+    (countedAtStart *
+      NATALITY.areas["United States"].birthsPer1000Residents *
+      years) /
+    1000;
   verdicts["the counted population changes"] =
     countedChange || countedBirths || countedMoves
       ? pass(
           `counted population changed by ${countedChange}, with ${countedBirths} counted births and ${countedMoves} counted moves`,
         )
-      : fail(
-          `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
-        );
+      : expectedBirths < 2
+        ? unobserved(
+            `${countedAtStart} counted people expect ${expectedBirths.toFixed(2)} births in ${years} year(s) at the nation's ${NATALITY.areas["United States"].birthsPer1000Residents} per 1,000 residents (NCHS 2024), and none was born, died or moved`,
+          )
+        : fail(
+            `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
+          );
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
     : fail(
