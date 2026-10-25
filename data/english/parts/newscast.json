@@ -6,6 +6,8 @@
     "name": "A person, by name, from the records (the anchor, the reporter, a candidate, an official, someone who died).",
     "program": "The broadcast's name, from the station record.",
     "place": "A place, from the place records.",
+    "region": "The state a regional figure covers, from the regional engine's records.",
+    "metro": "The metro area a regional figure covers, as the BLS names it, from the regional engine's records.",
     "topic": "What the story is about, from the event record.",
     "claim": "What officials say, from the event record.",
     "number": "A count from the event record.",
@@ -2461,7 +2463,7 @@
       "key": "newscast.story-economy.the-unemployment-rate-is-percent-percent",
       "move": "story-economy",
       "kind": "spoken",
-      "text": "The unemployment rate is {percent} percent.",
+      "text": "The unemployment rate in {region} is {percent} percent.",
       "uses": [
         {
           "move": "story-economy",
@@ -2492,7 +2494,7 @@
       "key": "newscast.story-economy.the-unemployment-rate-fell-to-percent-percent",
       "move": "story-economy",
       "kind": "spoken",
-      "text": "The unemployment rate fell to {percent} percent.",
+      "text": "The unemployment rate in {region} fell to {percent} percent.",
       "uses": [
         {
           "move": "story-economy",
@@ -2517,6 +2519,50 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "newscast.story-economy.the-unemployment-rate-in-the-metro-area-is-percent",
+      "move": "story-economy",
+      "kind": "spoken",
+      "text": "The unemployment rate in the {metro} area is {percent} percent.",
+      "uses": [
+        {
+          "move": "story-economy",
+          "subject": "story",
+          "role": "economy",
+          "choice": "economy"
+        }
+      ],
+      "shippable": true,
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25"
+    },
+    {
+      "key": "newscast.story-economy.the-unemployment-rate-in-the-metro-area-fell-to-percent",
+      "move": "story-economy",
+      "kind": "spoken",
+      "text": "The unemployment rate in the {metro} area fell to {percent} percent.",
+      "uses": [
+        {
+          "move": "story-economy",
+          "subject": "story",
+          "role": "economy",
+          "choice": "economy"
+        }
+      ],
+      "shippable": true,
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      },
+      "origin": "authored",
+      "author": "Claude (pool item play-stop-10-two-unemployment-rates-one-night)",
+      "date": "2026-10-25"
     },
     {
       "key": "newscast.story-economy.unemployment-is-down",

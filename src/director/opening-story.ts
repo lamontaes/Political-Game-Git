@@ -31,10 +31,17 @@ import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { ownStance } from "../core2/officials-roster";
 import { PRESIDENT_FACT } from "../core2/officials-president";
-import { regionalMonth, regionOfPlace } from "../core2/modules/regional";
+import {
+  regionalMonth,
+  regionName,
+  regionOfPlace,
+} from "../core2/modules/regional";
 import { openingRegionMonths } from "../core2/regional-model";
 import { NEWS_MODULE_ID } from "../core2/modules/news";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  coreStateName,
+} from "../core2/place-lookup";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
 import type { EntityId } from "../core2/kernel/brands";
 import type {
@@ -538,12 +545,27 @@ function townStory(
     recordId: region.id,
     facts: {
       place: fact(townName, townId),
+      // The rate covers the town's metro area, else its state; the story
+      // says which (a rate on one night never reads as the nation's).
+      ...(regionName(regionId)
+        ? { metro: fact(regionName(regionId)!, region.id) }
+        : { region: fact(stateOf(townId) ?? townName, region.id) }),
       percent: fact(region.unemploymentPct.toFixed(N.decimals), region.id),
       ...(before && region.unemploymentPct < before.unemploymentPct
         ? { "unemployment-down": fact("yes", region.id, before.id) }
         : {}),
     },
   };
+}
+
+/** The name of the state a town is in, from its place record. */
+function stateOf(townId: string): string | undefined {
+  const key = corePlaceByJurisdictionId(
+    townId as EntityId,
+  )?.stateJurisdictionKey;
+  return key
+    ? (coreStateName(key.replace(/^US-/, "")) ?? undefined)
+    : undefined;
 }
 
 function newsStory(

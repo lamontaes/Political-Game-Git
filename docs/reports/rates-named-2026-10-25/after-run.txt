@@ -1,0 +1,6 @@
+Place: Dannebrog, Nebraska Seed: 7817c191-83ad-4817-8344-43b36d7f829a
+Unemployment lines on the first night: [
+  'National unemployment is at 4.1 percent.',
+  'The unemployment rate in Nebraska fell to 3.0 percent.'
+]
+PASS every unemployment rate names its place

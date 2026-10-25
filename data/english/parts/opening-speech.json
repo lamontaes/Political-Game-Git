@@ -521,7 +521,7 @@
       "key": "opening-speech.state-of-the-union-report.unemployment-is-at-unemployment-rate-percent",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Unemployment is at {unemployment_rate} percent.",
+      "text": "National unemployment is at {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -557,7 +557,7 @@
       "key": "opening-speech.state-of-the-union-report.the-unemployment-rate-is-unemployment-rate-perce",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "The unemployment rate is {unemployment_rate} percent.",
+      "text": "The national unemployment rate is {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
@@ -593,7 +593,7 @@
       "key": "opening-speech.state-of-the-union-report.unemployment-is-down-to-unemployment-rate-percen",
       "move": "state-of-the-union-report",
       "kind": "spoken",
-      "text": "Unemployment is down to {unemployment_rate} percent.",
+      "text": "National unemployment is down to {unemployment_rate} percent.",
       "uses": [
         {
           "move": "state-of-the-union-report",
