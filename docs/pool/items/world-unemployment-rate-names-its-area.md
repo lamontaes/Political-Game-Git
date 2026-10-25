@@ -5,11 +5,12 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/unemployment-scope
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T15:35:27.209Z
 ---
 
 **What.** On the opening night the President says the nation's unemployment rate and the evening news gives the town's region's rate, and neither says where it applies, so a player reads 4.1 and 4.4 percent as one number twice. The news line labeled the rate with nothing, though the figure is a metro's or the rest of a state's, not the town's. News's economy row printed raw field names (unemploymentPct 4.4) under REGION. This is the buildable half of play-stop-10-two-unemployment-rates-one-night, which stays open for the owner's installed-build check.
