@@ -234,6 +234,12 @@ const ALLOWED_PHRASES: readonly {
       "the title of a real journal (Labour Economics, Elsevier), quoted in a research citation",
   },
   {
+    pattern:
+      /\bThe effect of public sector employment on local labour markets\b/g,
+    reason:
+      "the title of a real paper (Faggio and Overman 2014, Journal of Urban Economics), quoted in a research citation",
+  },
+  {
     pattern: /\bLabour Party\b/g,
     reason: "a real party name, if one is ever quoted",
   },
