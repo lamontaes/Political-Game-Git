@@ -2,11 +2,6 @@
   "about": "Laws that have no researched outcome-web link in data/research/outcome-web/links.json, neither from the law itself nor from a measure an engine sets from it, and the outcome the research would measure. Each carries the stopgap that registers the gap; read by scripts/law-wiring/catalog.ts for the law-wiring matrix. The research belongs to the outcome-web line (pool item laws-outcome-links-unresearched).",
   "laws": [
     {
-      "key": "medicare-tax",
-      "outcome": "take-home pay and labor supply",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "medicaid-match",
       "outcome": "state Medicaid enrollment and coverage",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
@@ -47,26 +42,6 @@
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     },
     {
-      "key": "federal-unemployment-tax",
-      "outcome": "employer hiring",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "state-unemployment-tax",
-      "outcome": "employer hiring",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "unemployment-weekly-maximum",
-      "outcome": "unemployment duration and household income",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "social-security-tax",
-      "outcome": "take-home pay and labor supply",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
       "key": "budget-line:housing",
       "outcome": "homelessness and rent burden",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
@@ -99,11 +74,6 @@
     {
       "key": "local-minimum-wage-authority",
       "outcome": "local minimum wage adoption",
-      "stopgapId": "SG-LAW-outcome-link-unresearched"
-    },
-    {
-      "key": "unemployment-insurance",
-      "outcome": "unemployment duration and household income",
       "stopgapId": "SG-LAW-outcome-link-unresearched"
     }
   ]

@@ -26,6 +26,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 // A drawn place may have no seat held by a full person, or a chamber that does
 // not vote in the run; draw again, a bounded number of times, and fail if none does.
 const ATTEMPTS = 8;
+const WEEK = 7;
 
 /** One drawn place: whether its bill was voted, and whether an executive's signature or veto on it was checked. */
 const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
@@ -85,10 +86,16 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
     provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
   });
   scheduleVote(api, bill.id);
-  advanceCore(
-    core,
-    addDays(makeIsoDate(core.date), seat!.office.level === "state" ? 400 : 120),
+  // Played a week at a time until the executive acts, so the vote and the
+  // act are read within weeks of happening: a watched resident's older
+  // moments fold into the director's summaries (its memory window; the
+  // player keeps all of theirs).
+  const end = addDays(
+    makeIsoDate(core.date),
+    seat!.office.level === "state" ? 400 : 120,
   );
+  while (core.date < end && !core.durableLog.has(`executive-action:${bill.id}`))
+    advanceCore(core, [addDays(makeIsoDate(core.date), WEEK), end].sort()[0]!);
 
   const scenesOf = (personId: string, cause: string) =>
     (director.ledger.people.get(personId)?.schedule ?? [])
@@ -127,7 +134,22 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
     const action = acted.facts.action;
     const type =
       action === "signed" ? "bill-signed" : action === "vetoed" ? "veto" : null;
-    const sponsorScenes = scenesOf(sponsorId, `executive-action:${bill.id}`);
+    // A veto and the vote to override it come the same day, and one sitting
+    // covers a day (scheduling.ts): the sponsor's scene may stand on either,
+    // or be the day's sitting with the same people that took this bill's act
+    // in (two of the sponsor's bills vetoed in one afternoon are one sitting).
+    const causes = [`executive-action:${bill.id}`, `veto-override:${bill.id}`];
+    const actOf = (personId: string) =>
+      (director.ledger.people.get(personId)?.schedule ?? []).flatMap((row) =>
+        row.bindings.filter(
+          (binding) =>
+            causes.some((cause) => row.momentId.includes(cause)) ||
+            (binding.joined ?? []).some((entry) =>
+              causes.some((cause) => entry.momentId.includes(cause)),
+            ),
+        ),
+      );
+    const sponsorScenes = actOf(sponsorId);
     // The act's own record names whoever sat at the desk that day, and the
     // director casts the signer from it. The office can change hands, or its
     // official be filled in, during the run: the one who acted held it when
@@ -149,11 +171,7 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
       )!;
       expect(executive.personIds).toEqual([actorId]);
       // The executive's own moment is not a scene about their own bill.
-      expect(
-        scenesOf(actorId, `executive-action:${bill.id}`).map(
-          (row) => row.typeKey,
-        ),
-      ).not.toContain(type);
+      expect(actOf(actorId).map((row) => row.typeKey)).not.toContain(type);
       lines.push(`${action} by ${actorId}`);
       checked = true;
     }
