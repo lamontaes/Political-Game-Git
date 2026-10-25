@@ -5,11 +5,12 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/primary-loss-scene
+pr: #6022
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T11:03:45.486Z
 ---
 
 **What.** A top-two or top-four primary (src/core2/modules/voting.ts holdPrimary) sends only its top finishers on, marks the others' filings withdrawn and writes a public primary-result record naming every candidate. The director has no rule for primary-result, so a candidate it put out never has a loss scene at home or on their own: the family-loss and race-lost scenes fire only from the general's election-result, which no longer names them. Seen in Deer Park, Washington (seed 393dad669a24a488:1, purpose-scenes), where two of three filers for county assessor were out in the August primary and nothing was staged for either.
