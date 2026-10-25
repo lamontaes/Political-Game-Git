@@ -325,7 +325,7 @@ try {
     await skip.first().click();
     await page.waitForTimeout(3000);
   }
-  for (let leg = 0; leg < 24; leg += 1) {
+  for (let leg = 0; leg < 48; leg += 1) {
     if (await page.locator("#ballot:not([hidden])").count()) {
       const clock = await page
         .locator("#card-clock")
@@ -484,8 +484,23 @@ try {
   );
   // Election day arrived at midnight: play the day out until the polls stop
   // opens the ballot. Answer stops, wait out scenes, advance the day.
+  const arrived = (
+    await page
+      .locator("#card-clock")
+      .innerText()
+      .catch(() => "?")
+  ).includes(targetClock);
+  assert.ok(arrived, `legs never reached ${targetClock}`);
   for (let round = 0; round < 30; round += 1) {
     if (await page.locator("#ballot:not([hidden])").count()) break;
+    console.log(
+      "Round",
+      round,
+      await page
+        .locator("#card-clock")
+        .innerText()
+        .catch(() => "?"),
+    );
     const talk = page.locator(
       "#talk:not([hidden]) #talk-choices button:visible",
     );
@@ -531,6 +546,12 @@ try {
       await page.waitForTimeout(4000);
       continue;
     }
+    console.log(
+      "Election day: no ballot, no stops, no scenes, no day button; day count:",
+      await page.locator("#day").count(),
+      "disabled:",
+      await page.locator("#day[disabled]").count(),
+    );
     await page.waitForTimeout(3000);
   }
   console.log(
