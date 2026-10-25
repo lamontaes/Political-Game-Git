@@ -91,6 +91,19 @@ function pageWhenChanged(box, pager) {
 }
 const dollars = (minor) =>
   (minor / 100).toLocaleString("en-US", { style: "currency", currency: "USD" });
+const compactWords = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  compactDisplay: "long",
+  maximumFractionDigits: 1,
+});
+/** A government's sum in a readable unit: "$5.2 trillion", "$48,300". */
+const roundedDollars = (minor) => {
+  const whole = Math.abs(minor / 100);
+  const sign = minor < 0 ? "−" : "";
+  return whole >= 1e6
+    ? `${sign}$${compactWords.format(whole)}`
+    : `${sign}$${Number(whole.toPrecision(3)).toLocaleString("en-US")}`;
+};
 /** The player card's date, and the time under it: the only place either appears. */
 function setClock(at) {
   const day = new Date(`${at.date}T12:00:00`).toLocaleDateString("en-US", {
@@ -2885,7 +2898,7 @@ const sheets = {
             el("span", { className: "label", textContent: label }),
             el("strong", {
               className: "record-total",
-              textContent: dollars(value),
+              textContent: roundedDollars(value),
             }),
           ),
         );
@@ -2898,7 +2911,7 @@ const sheets = {
         const chart = comparison(
           lines.map((r) => ({ label: r.name ?? r.line, value: r.minor })),
           label,
-          dollars,
+          roundedDollars,
         );
         const rows = [...chart.children];
         if (gov.youAreExecutive && label === labels.spending)
@@ -4016,11 +4029,11 @@ async function openSheet(tab) {
   openTab = tab;
   show("tip", false);
   const group = groupOf(tab);
-  const holdsOffice =
-    group === "politics" &&
-    (await api(`/api/government?id=${encodeURIComponent(me.id)}`)).seats.some(
-      (s) => s.holder?.personId === me.id,
-    );
+  const politics =
+    group === "politics"
+      ? await api(`/api/government?id=${encodeURIComponent(me.id)}`)
+      : { seats: [], filings: [], ofVotingAge: false };
+  const holdsOffice = politics.seats.some((s) => s.holder?.personId === me.id);
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === group);
   $("sheet-title").textContent = titles[group];
@@ -4029,7 +4042,13 @@ async function openSheet(tab) {
       .filter(
         (name) =>
           (name !== "results" || seenResults > 0) &&
-          (name !== "office" || holdsOffice),
+          (name !== "office" || holdsOffice) &&
+          // Budgets wait until they are the player's business: an office, a
+          // filing, or the age to vote.
+          (name !== "budgets" ||
+            holdsOffice ||
+            politics.filings.length > 0 ||
+            politics.ofVotingAge),
       )
       .map((name) => {
         const b = el("button", {
