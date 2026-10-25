@@ -178,7 +178,7 @@
   "missingCountyScaleParameter": "openingMissingCountyEmploymentScale",
   "stopgapId": "SG-P8-resident-employment-proxy",
   "coverage": {
-    "acsEstimateStatus": "Every U.S. county and Puerto Rico municipio has its ACS 2020-2024 B23001 age rows in resident-employment-counties.json (3,222 rows, read from the key-free static table). A county absent from it (Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands have no ACS five-year table) still uses the explicit tunable proxy.",
+    "acsEstimateStatus": "Every U.S. county and Puerto Rico municipio has its ACS 2020-2024 B23001 age rows in resident-employment-counties.json (3,222 rows, read from the key-free static table). Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands have no ACS five-year table; their island-wide rows come from the 2020 Island Areas Censuses table PCT47 and are keyed by their state-equivalent codes (60, 66, 69, 78) in the same file. A county whose own cell for an age is empty still uses the explicit tunable proxy.",
     "nationalApplicability": "National civilian noninstitutional age-cohort proxy does not establish local or territorial employment. Population-to-workplace and source-vintage application remain estimates.",
     "olderAgeDenominator": "B23001 age 65+ has no distinct Armed Forces subtotal. Those observed rates use total age residents, not a claimed civilian-only denominator. Younger civilian totals subtract the actually reported sex-specific Armed Forces estimates."
   },

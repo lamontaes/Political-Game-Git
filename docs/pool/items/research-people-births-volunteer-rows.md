@@ -5,7 +5,7 @@ area: people
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/dreamy-tesla-bgi3ui-people
 pr: #5868
 blocked-on:

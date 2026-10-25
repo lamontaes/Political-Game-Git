@@ -31,7 +31,7 @@ import {
   residentsRuntime,
   householdCash,
   householdCashReader,
-  residentPerson,
+  residentFacts,
 } from "./residents";
 import { chooseAct, traitLean } from "../choice";
 import { decisionTraitWeight, leanedByKinds } from "../trait-decisions";
@@ -915,7 +915,7 @@ function borrowingHouseholds(api: CoreAPI): BorrowingHousehold[] {
   if (rt)
     for (const h of rt.store.liveHouseholds()) {
       if (c.households.has(h.id)) continue;
-      const members = rt.store.peopleOf(h);
+      const members = rt.store.factsOfHousehold(h);
       if (!members.length) continue;
       rows.push({
         id: h.id,
@@ -1030,7 +1030,7 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
         loan.paymentMinor + loan.pastDueMinor,
       );
     const person =
-      c.people.get(loan.borrowerId) ?? residentPerson(c, loan.borrowerId);
+      c.people.get(loan.borrowerId) ?? residentFacts(c, loan.borrowerId);
     const cashBefore = borrowerCash(api, loan.borrowerId);
     const paid = personalLoanTransfer(
       api,

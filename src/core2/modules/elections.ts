@@ -350,7 +350,9 @@ function contestFor(
       termEnd,
       onDate,
     });
-  let dates = at(holder?.endDate ?? null);
+  // An office its law creates later is first filled at the last election
+  // before its first term, as a term ending then would be.
+  let dates = at(holder?.endDate ?? office.firstTermStart ?? null);
   // A holder whose seat's election passed with no one elected holds over;
   // the seat's next election comes a full term on.
   if (
@@ -654,7 +656,7 @@ export function checkEligibility(
       required: String(wards.seatWard),
       actual: String(wards.homeWard),
       source:
-        "Assumed: most ward and district charters ask it (SG-GOV-ward-residency)",
+        "Assumed: most charters with district seats ask it (SG-GOV-ward-residency)",
     });
   }
   // Registration is research metadata, not a modeled status. The game has
