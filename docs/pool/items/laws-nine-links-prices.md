@@ -2,11 +2,12 @@
 id: laws-nine-links-prices
 title: "Every prices and sales taxes law passes all nine wiring links in a played year"
 area: laws
+lead: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/laws-nine-links-prices
 pr: #5986
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
@@ -26,3 +27,5 @@ claimed-at:
 Laws lead, Oct 25 06:15: in PR #5986 (merge after #5582). Nine of ten laws wired; the per-mile fee's outcome link waits on web-vehicle-miles-traveled-per-resident (CTO decision in the PR).
 
 Sent back 2026-10-25 19:04 UTC from PR #5986 (branch claude/laws-nine-links-prices): first Done-when row requires every family law on all nine links but body/table admit mileage-fee-replaces-fuel-tax outcome remains SG-LAW-outcome-link-unresearched; complete its researched link/year proof or route a completed bounded slice to its own item while this family stays open; finish on that branch, merge main into it first.
+
+Laws lead, Oct 25 23:30: #5986 is back in review. All ten prices laws grade wired on the own-payment checker in both audit towns (the grocery exemption in Colome, South Dakota; the gas hookup ban over 900 days, since no builder starts a house in either town within a year), with the mileage link from web-vehicle-miles-traveled-per-resident folded in.

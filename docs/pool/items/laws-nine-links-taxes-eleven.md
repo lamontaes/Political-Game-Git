@@ -6,8 +6,8 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/law-wiring-taxes
+status: open
+claimed-by:
 pr: "#5649"
 blocked-on:
 source: added with npm run pool -- add
