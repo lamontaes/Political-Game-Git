@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/candidacy.ts, tests/golden-path/played-world.node-test.ts
 
 **Notes.** Filed Oct 25 by the effects lead: it turned PR 5915's golden-path-year red, and clean main fails identically on the same seed.
+
+- Laws lead, Oct 25: reproduced on main 929ab16c42 in Perrysville, Indiana (place key 1859238, seed f0390569196f1442db81ee832aa105840f6bd916977c1addc22e1ae233d30c9c, the M0-13 draw for #5986's head fe40e0d021): "1 adults other than the incumbent chose to run in the 4 races decided, and none was on the ballot". The same check fails identically on #5986's head.
