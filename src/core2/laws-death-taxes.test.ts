@@ -116,7 +116,9 @@ describe("estate and inheritance taxes", () => {
     }).core;
     const api = coreAPI(core);
     expect(inheritanceTax(api, state, "sibling", 100_000_00), where).toBeNull();
-    for (const series of ["inheritance-tax", "estate-tax"])
+    const [inheritanceLaw, estateLaw] = (
+      ["inheritance-tax", "estate-tax"] as const
+    ).map((series) =>
       enactLaw(api, {
         jurisdiction: state,
         level: "state",
@@ -125,18 +127,23 @@ describe("estate and inheritance taxes", () => {
         effectiveDate: core.date,
         measureId: `test:adopt-${series}`,
         citation: "A bill that sets only a rate",
-      });
-    // Five percent of a $100,000 share, in cents, with no exemption.
-    expect(
-      inheritanceTax(api, state, "sibling", 100_000_00)?.amountMinor,
-      where,
-    ).toBe(5_000_00);
-    expect(
-      estateTaxes(api, state, 100_000_00).find((t) => t.jurisdiction === state)
-        ?.amountMinor,
-      where,
-    ).toBe(5_000_00);
-  });
+      }),
+    );
+    // Five percent of a $100,000 share, in cents, with no exemption, under
+    // the row the bill wrote.
+    const heir = inheritanceTax(api, state, "sibling", 100_000_00);
+    expect(heir?.amountMinor, where).toBe(5_000_00);
+    expect(heir?.lawId, where).toBe(inheritanceLaw!.id);
+    const estate = estateTaxes(api, state, 100_000_00).find(
+      (t) => t.jurisdiction === state,
+    );
+    expect(estate?.amountMinor, where).toBe(5_000_00);
+    expect(estate?.lawId, where).toBe(estateLaw!.id);
+    console.log(
+      `rate-only death taxes: ${where}: ${heir!.lawId} ${heir!.amountMinor}, ${estate!.lawId} ${estate!.amountMinor}`,
+    );
+    // A drawn world builds in 32 to 84 seconds (measured); the case below has the same limit.
+  }, 600_000);
 
   it("a played world's estate pays the taxes in force to named treasuries, every cent balanced, and the heirs learn which law took it", () => {
     const state = pick(taxing, "state");
