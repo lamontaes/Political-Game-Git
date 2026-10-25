@@ -296,6 +296,78 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.24.1
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Election and government laws reach people and cost money** Mail voting,
+  automatic registration, same-day registration and photo ID now reach every
+  voter in town, named or counted, and the county or city that runs the election
+  pays for ballots, registrations and IDs out of its administration budget. A
+  treasury short of cash owes the rest and pays it as cash arrives, even after
+  the law is repealed. When a council raises a staffing line (administration,
+  police, fire, jail, schools), the employer posts the new jobs and any job
+  seeker in town can be hired, and a cut lets the line's own hires go first.
+  Local news now covers a budget line a council changes. A ban on lobbying after
+  office keeps former officials from being hired as lobbyists and makes a
+  council seat a little less attractive to newcomers. Term limits are applied
+  when someone files, home rule when a council drafts a bill, and a state with
+  an independent redistricting commission pays it every month. A public pay
+  floor raises every public worker in town paid under it, and payroll pays them
+  the raised rate; repealing it keeps the raises.
+
+### Fixed
+
+- **A town no longer stops when a resident goes to an office whose clerk has
+  just left.** A resident who planned to bring their cause to a public office no
+  longer stops the town's day if the office's only staff member left the job
+  before the visit. The visit is called off, and the resident can plan another.
+
+- **Release validation has room to check the full word pack** Release validation
+  now gives its existing build and typecheck a 5 GB Node heap. The full word
+  pack exceeded Node's default 4 GB heap, stopping candidate validation before
+  an update could be published.
+
+### Changed
+
+- **Rival candidates campaign through the same choices you do.** A rival's
+  campaign day is now a choice among the same acts your day offers (call time,
+  doors, an event, an interview), by their money, how well known they are,
+  whether they hold the seat and their temperament: a rich candidate holds
+  events and buys ads, a poor one works calls and doors, a known incumbent sits
+  for the press, and an unknown one builds a name on doors.
+
+- **Scenes with a purpose sound like real people and keep moving** A reporter
+  changes the angle instead of repeating the question; a vote counter asks what
+  would change your mind; a volunteer opens with something from the rally and
+  your character answers first. After the first exchange the replies offer new
+  moves, including a way out, and a lie can be owned with an edge. Every branch
+  of a scene ends with the other person's closing line, never on an unanswered
+  question. The lines are calibrated on real interviews, oral histories and
+  casework reports, studied, not copied. People say "have to", not "must"; a
+  complaint says why the change hurts; a good argument keeps going instead of
+  ending on a jab; and someone can storm off, told as a reaction rather than a
+  "Good night." Filing for office happens at the place's own filing office,
+  where the clerk mentions the rival who filed first. A friend who comes by
+  after a baby is born asks how you're actually doing. An officeholder's own
+  records now bring scenes: signing or vetoing a bill brings the reporters who
+  cover it and the aide who carried it to the desk, the sponsor hears from the
+  executive who signed or vetoed, a town hall puts the residents who asked in
+  front of its host, and a town post's appointer tells the appointee. Five bills
+  signed in one afternoon are one press availability, not five. The narrator
+  speaks between lines ("A second reporter drifts over, then a third."), and
+  someone who keeps to themself skips the hello and says why they came. The
+  director can compose the President's address as a scene at the seat of
+  government, with the speech the English engine wrote. Some scene endings name
+  a destination screen: the desk, the filing office, your office, the meeting or
+  the campaign. Showing those exchanges and speech fields and opening their
+  destinations on the play screen require a separate play-screen integration. A
+  remark at a council meeting is no longer mistaken for a campaign event, and an
+  aide bringing a bill to the desk talks about what it costs and who voted for
+  it instead of inventing changes nobody made.
+
 ## PRE-ALPHA 0.24.0
 
 _Released October 24, 2026._

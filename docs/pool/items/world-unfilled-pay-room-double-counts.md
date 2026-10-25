@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-unfilled-pay-room
-pr:
+pr: #6025
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T10:51:51.054Z

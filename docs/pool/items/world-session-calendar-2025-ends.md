@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/session-calendar-2025
-pr:
+pr: #6021
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T10:39:20.032Z
