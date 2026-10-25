@@ -47,14 +47,14 @@ async function solid(screen, selector) {
   console.log(
     `${screen}: ${found.stops.length} stops, ${see.length} see-through, blur ${found.blur}, contrast ${contrast.toFixed(1)}`,
   );
-  assert.ok(found.stops.length, `${screen}: no panel background`);
-  assert.deepEqual(see, [], `${screen}: the scene shows through`);
-  assert.equal(found.blur, "none", `${screen}: the scene blurs through`);
-  assert.ok(contrast >= 4.5, `${screen}: text contrast ${contrast}`);
   if (shots)
     await page.screenshot({
       path: `${shots}/${screen.replace(/\W+/g, "-").toLowerCase()}.png`,
     });
+  assert.ok(found.stops.length, `${screen}: no panel background`);
+  assert.deepEqual(see, [], `${screen}: the scene shows through`);
+  assert.equal(found.blur, "none", `${screen}: the scene blurs through`);
+  assert.ok(contrast >= 4.5, `${screen}: text contrast ${contrast}`);
 }
 async function sheet(tab) {
   await page
