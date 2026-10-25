@@ -213,8 +213,15 @@ try {
     await skip.first().click();
     await page.waitForTimeout(3000);
   }
-  for (let leg = 0; leg < 12; leg += 1) {
-    if (await page.locator("#ballot:not([hidden])").count()) break;
+  for (let leg = 0; leg < 24; leg += 1) {
+    if (await page.locator("#ballot:not([hidden])").count()) {
+      const clock = await page.locator("#card-clock").innerText().catch(() => "?");
+      if (/2026/.test(clock)) break;
+      // An earlier election's ballot: leave it honestly and keep skipping.
+      console.log("Earlier ballot at", clock, "— leaving it");
+      await page.locator("#ballot-leave").click();
+      await page.waitForTimeout(2000);
+    }
     if (/November 3, 2026/.test(await page.locator("#card-clock").innerText().catch(() => "?"))) break;
     // Answer whatever stop is open.
     const talk = page.locator("#talk:not([hidden]) #talk-choices button:visible");
@@ -251,7 +258,23 @@ try {
   }
   console.log("Clock:", await page.locator("#card-clock").innerText().catch(() => "?"));
   console.log("Ballot visible:", await page.locator("#ballot:not([hidden])").count());
+  assert.ok(await page.locator("#ballot:not([hidden])").count(), "no ballot on election day");
+  const titles = () =>
+    page.locator("#ballot-races .race:not(.paged-out) h3").allInnerTexts();
+  const total = await page.locator("#ballot-races .race").count();
+  console.log("Races on ballot:", total);
+  const page1 = await titles();
+  console.log("Page 1:", page1.join(" | "));
   await page.screenshot({ path: "docs/reports/ballot-pages-2026-10-24/before-ballot.png" });
+  // Continue must turn the ballot's pages.
+  const pagerNext = page.locator("#ballot-pager button").nth(1);
+  assert.ok(await pagerNext.count(), "no ballot pager Continue");
+  await pagerNext.evaluate((e) => e.click());
+  await page.waitForTimeout(1500);
+  const page2 = await titles();
+  console.log("Page 2:", page2.join(" | "));
+  assert.notDeepEqual(page2, page1, "Continue did not turn the ballot page");
+  console.log("PASS ballot: Continue turns the pages");
 } finally {
   await browser.close();
 }
