@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #6092
 blocked-on:
@@ -13,6 +13,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 after: play-first-01-start-a-life-first
+claimed-at: 
 ---
 
 **What.** On the v0.22.10 title screen, NEW GAME opens a second menu: CUSTOM WORLD, START A LIFE, NEW WORLD, BACK. Nothing says how Start a life differs from New world, or what Custom world changes. A first-time player who wants to play a person has to guess; I guessed Start a life. The title menu also has four dimmed entries (Watch the world, Continue, Saved games, Patch notes) with no reason.
