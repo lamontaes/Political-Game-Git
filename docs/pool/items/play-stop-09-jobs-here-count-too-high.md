@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-stop-09-jobs-here
-pr:
+pr: #6037
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
