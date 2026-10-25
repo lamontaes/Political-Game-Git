@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: open
 claimed-by: claude/laws-nine-links-justice
 pr: #6012
 blocked-on:
@@ -23,3 +23,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: merged, #5642. A PR for this family names this item on line 1 (`Pool item: laws-nine-links-justice`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. Merged does not mean nine links: on Oct 20 civilian oversight, the juvenile court age and the handgun purchase age only wrote a record nobody read. Bail money is `justice-bail-moves-the-cash` (in review).
 
 Laws lead, Oct 25 10:20: PR #6012 opened at 681395e90d. 10 of 12 wired over a year in both audit towns (jail line's money untraced). Police line's low-level-arrests link waits on justice-low-level-offenses; restore voting waits on laws-checker-enacts-where-no-power. Merge after #5582.
+
+Sent back 2026-10-25 from PR #6012 (branch claude/laws-nine-links-justice): only 10 of 12 laws meet the family table, and corrections money remains untraced while police/fire have gross treatment posts without control deltas; provide every required link or a completed bounded slice and causal law-linked money evidence, keeping the family open; finish on that branch, merge main into it first. The prior government-family ordering hold is cleared.
