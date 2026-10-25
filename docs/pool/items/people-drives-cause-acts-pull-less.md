@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** Sliding scales and causes: no cap, cooldown or fixed interval; the pull of a further act falls on a sliding scale with what the holder already gave of their time and money. No dice: the bands check the town's totals and never become a chance; each act stays the holder's own scored choice. Speed: no change makes a year slower than its base.
 
-**Done when.** scripts/research/cause-activity-year.ts on Bedford, Wyoming (seed 9a4dd331ace7, key 5606045) and on a place drawn from all 56 (named with its seed), three played years, prints each act's share of adults and hours per volunteer inside or nearer the CEV bands than on main, with the before and after lines in the PR body; and Bedford's third year runs within 1.2 times its first on one process (speed-year-three-within-band).
+**Done when.** In the played world (buildBenchWorld), scripts/research/cause-activity-year.ts on Bedford, Wyoming (seed 9a4dd331ace7, key 5606045) and on a place drawn from all 56 (named with its seed), three played years, prints each act's share of adults and hours per volunteer inside or nearer the CEV bands than on main, with the before and after lines in the PR body; and Bedford's third year runs within 1.2 times its first on one process (speed-year-three-within-band).
 
 **Files.** src/core2/modules/drives.ts, src/core2/data/drives.json, scripts/research/cause-activity-year.ts
 
