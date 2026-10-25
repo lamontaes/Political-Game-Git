@@ -250,14 +250,19 @@ interface HeardEntry {
   heardDate: string;
 }
 
-/** One person's recent hearing: entries newest first once sorted, and their ids. */
+/** One person's recent hearing: entries newest first, and their ids. */
 interface Recent {
   list: HeardEntry[];
   ids: Set<string>;
-  sorted: boolean;
   /** The cutoff the list was last pruned to. */
   since: string;
+  /** No entry was heard before this date (a bound, exact after a full prune). */
+  oldestHeard?: string;
 }
+
+/** Newest story first, then by id: the order telling reads them in. */
+const newestFirst = (a: HeardEntry, b: HeardEntry) =>
+  b.storyDate.localeCompare(a.storyDate) || a.storyId.localeCompare(b.storyId);
 
 /**
  * What each person heard that may still be news, rebuilt from the table when
@@ -294,14 +299,24 @@ function addRecent(
     map.set(personId, {
       list: [entry],
       ids: new Set([entry.storyId]),
-      sorted: true,
       since: "",
+      oldestHeard: entry.heardDate,
     });
     return;
   }
-  recent.list.push(entry);
+  // Into its place, after any equal entry, as a stable sort would put it.
+  const list = recent.list;
+  let low = 0;
+  let high = list.length;
+  while (low < high) {
+    const mid = (low + high) >>> 1;
+    if (newestFirst(list[mid]!, entry) > 0) high = mid;
+    else low = mid + 1;
+  }
+  list.splice(low, 0, entry);
   recent.ids.add(entry.storyId);
-  recent.sorted = false;
+  if (recent.oldestHeard === undefined || entry.heardDate < recent.oldestHeard)
+    recent.oldestHeard = entry.heardDate;
 }
 
 /** The person's recent entries pruned to `since`, newest first. */
@@ -314,19 +329,26 @@ function recentList(
   if (!recent) return [];
   // Days only move forward, so what is too old now stays too old.
   if (recent.since !== since) {
-    recent.list = recent.list.filter(
-      (row) => row.heardDate >= since && row.storyDate >= since,
-    );
-    recent.ids = new Set(recent.list.map((row) => row.storyId));
+    const list = recent.list;
+    if (recent.oldestHeard === undefined || recent.oldestHeard >= since) {
+      // Everyone's entries were heard since the cutoff: only stories older
+      // than it go, and they are the list's tail.
+      while (list.length && list[list.length - 1]!.storyDate < since)
+        recent.ids.delete(list.pop()!.storyId);
+    } else {
+      recent.list = list.filter(
+        (row) => row.heardDate >= since && row.storyDate >= since,
+      );
+      recent.ids = new Set(recent.list.map((row) => row.storyId));
+      recent.oldestHeard = undefined;
+      for (const row of recent.list)
+        if (
+          recent.oldestHeard === undefined ||
+          row.heardDate < recent.oldestHeard
+        )
+          recent.oldestHeard = row.heardDate;
+    }
     recent.since = since;
-  }
-  if (!recent.sorted) {
-    recent.list.sort(
-      (a, b) =>
-        b.storyDate.localeCompare(a.storyDate) ||
-        a.storyId.localeCompare(b.storyId),
-    );
-    recent.sorted = true;
   }
   return recent.list;
 }
@@ -341,8 +363,9 @@ function* recentStoriesHeard(
   personId: PersonId,
   since: string,
 ): Iterable<Story> {
+  const table = stories(api);
   for (const row of recentList(api, personId, since))
-    yield stories(api).get(row.storyId) as unknown as Story;
+    yield table.get(row.storyId) as unknown as Story;
 }
 
 /** Whether the person is known to have heard a recent story (the table has the rest). */
