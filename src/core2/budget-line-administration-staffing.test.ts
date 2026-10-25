@@ -19,6 +19,8 @@ import { staffingOf } from "./law-reach/group-a-staffing";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
 import { countedStaffOf } from "./modules/residents";
+import { appliedOn } from "./law-reach/applied";
+import { fundedOpenings } from "./modules/jobs";
 import { memberKey } from "./modules/legislature";
 import { prepareAct, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
@@ -184,6 +186,17 @@ for (const direction of ["cut", "raise"] as const)
         }
       } else {
         expect(row!.positions, detail).toBeGreaterThan(staffInPlace);
+        process.stdout.write(
+          `ADMIN LINE RAISE ${detail}: openings still posted ${fundedOpenings(api, district.id, "budget-line:administration").length}; hires ${appliedOn(
+            api,
+            "budget-line:administration",
+          )
+            .filter((r) => r.what === "hired-on-budget-line")
+            .map((r) => `${r.targetId} (${r.target})`)
+            .join(
+              ", ",
+            )}; staff named ${employees(district.id).length} counted ${countedStaffOf(core, district.id)}\n`,
+        );
         // A raise hires: a named person with no job at city hall before now
         // holds a current one, and a payday names that job's commitment.
         const hired = employees(district.id).filter(
