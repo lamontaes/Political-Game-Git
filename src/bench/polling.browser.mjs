@@ -484,6 +484,12 @@ try {
   );
   // Election day arrived at midnight: play the day out until the polls stop
   // opens the ballot. Answer stops, wait out scenes, advance the day.
+  // The last skip leg leaves the calendar sheet open over the day button.
+  if (await page.locator("#sheet:not([hidden])").count()) {
+    console.log("Election day: closing the calendar sheet");
+    await page.locator("#sheet-close").click();
+    await page.waitForTimeout(1000);
+  }
   const arrived = (
     await page
       .locator("#card-clock")
