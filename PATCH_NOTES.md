@@ -296,6 +296,70 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.27.0
+
+_Released October 25, 2026._
+
+### Added
+
+- **A vote trade is a scene for both legislators** When a bill's sponsor wins a
+  holdout's vote by adding a section the holdout wants, the holdout is asked for
+  their vote by the sponsor, and the sponsor bargains with the holdout over the
+  section. Both scenes name the bill and the section from the trade's own record
+  and are staged in the chamber it was made in.
+
+- **A bill on your desk is a scene** When a bill the council or legislature
+  passed is presented to you as mayor, county executive, governor or president,
+  an aide you hired brings it to you to sign or veto. A mayor or county
+  executive with no aide gets it from the town's or county's clerk. The
+  presentment is on the record, and the scene names the bill as a clerk reads it
+  ("Ordinance 2025-1").
+
+### Improved
+
+- **Pay and payroll laws reach workers** When a minimum wage, a union law or a
+  payroll tax changes, the game now names the workers, worker groups and
+  employers it reached and how much money moved. A minimum wage raise names each
+  worker it raised and the act that set the wage, and the raise-the-minimum-wage
+  question raises pay. A town's low-wage job count now follows its minimum wage.
+  A household's income now counts the unemployment benefit it is owed, so the
+  poverty rate falls while a claim pays.
+
+- **Babies born in town take after their parents.** A baby born to a family you
+  have not met yet now inherits its temperament from its parents, the same way a
+  baby in a family you know does. Meet the family later and the child resembles
+  them.
+
+- **People answer a death in the family, and a layoff, the way research says
+  people do** About two in three people carry on after a death in the family, as
+  grief research finds; the rest take up a cause, resolve to protect their
+  family or answer a calling. A worker who is laid off can now hold a grudge
+  against the person who let them go, and may confront them, which costs the two
+  of them their closeness. Whether a person carries on or holds on still follows
+  their own temperament: agreeable people let it go, and people who hold on to a
+  quarrel do not.
+
+### Fixed
+
+- **A state that adopts a death tax by setting only a rate no longer stops the
+  year** When a state with no estate or inheritance tax adopts one by a bill
+  that sets only a rate, the next estate pays that rate on the whole amount
+  instead of the year stopping.
+
+### Changed
+
+- **Sitting officials decide whether to run again** A serving official now
+  decides whether to run again by their age and temperament in every played
+  world, including a member a special election seated. A newcomer's case for
+  running no longer carries a bonus for holding the seat, and its personality
+  weight is refitted among newcomers.
+
+- **Endorsements weigh temperament at the size research finds** Whether a
+  resident publicly backs a candidate now turns on their temperament at the size
+  a study of political persuasion finds, rather than at a general size that made
+  temperament decide most endorsements. Wills and trusts now read their own
+  temperament weight, unchanged for now.
+
 ## PRE-ALPHA 0.26.2
 
 _Released October 25, 2026._
