@@ -5,9 +5,9 @@ area: director
 kind: research
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5644
 blocked-on:
 source: added with npm run pool -- add
 ---
