@@ -6,7 +6,7 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 | -------------------------------------------- | ------------------ | ------ | ------ | ----- | ------- | ----- | --- | ------- | ------ | --------- | ---------- |
 | Spending: highways                           | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG  | NO      | yes    | yes       | partly     |
 | fare free transit                            | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
-| mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | yes   | yes     | yes   | SG  | yes     | yes    | yes       | stopgapped |
+| mileage fee replaces fuel tax                | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | public broadband                             | infrastructure     | yes    | yes    | yes   | yes     | yes   | yes | yes     | yes    | yes       | wired      |
 | shift highway funds to transit               | infrastructure     | yes    | yes    | part  | part    | yes   | NO  | yes     | yes    | part      | partly     |
 | Medicare tax rate                            | healthcare         | yes    | yes    | NO    | yes     | yes   | SG  | yes     | NO     | NO        | partly     |
@@ -100,10 +100,6 @@ Every law the game has, graded on the nine wiring links in two drawn places. Eac
 
 - web: every link is unbuilt: size-not-set (registered SG-GOV-REACH-B-road-condition)
 - knowing: nobody heard of it: the change is not a news story anyone receives
-
-**mileage fee replaces fuel tax** (`us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax`)
-
-- web: no researched outcome-web link starts from this law or a measure it sets; the research would measure vehicle miles traveled and fuel use (SG-LAW-outcome-link-unresearched)
 
 **shift highway funds to transit** (`us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit`)
 

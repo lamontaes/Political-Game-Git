@@ -16,9 +16,9 @@
   ],
   "summary": {
     "laws": 89,
-    "wired": 10,
+    "wired": 11,
     "partly": 73,
-    "stopgapped": 6,
+    "stopgapped": 5,
     "byLink": {
       "exists": {
         "wired": 89,
@@ -56,10 +56,10 @@
         "n/a": 3
       },
       "web": {
-        "wired": 35,
+        "wired": 36,
         "partial": 0,
         "missing": 12,
-        "stopgap": 32,
+        "stopgap": 31,
         "n/a": 10
       },
       "knowing": {
@@ -232,7 +232,7 @@
       "family": "infrastructure",
       "reachGroup": "B",
       "mechanic": "price-payment",
-      "overall": "stopgapped",
+      "overall": "wired",
       "links": {
         "exists": {
           "status": "wired",
@@ -246,23 +246,23 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 89 open (full 0, counted groups 38/129 people, households 50, orgs 0, govts 1) e.g. applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_971998ff58477430:counted-group-6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 91 open (full 0, counted groups 37/134 people, households 53, orgs 0, govts 1) e.g. applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0191bce915485942",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 90 open (full 0, counted groups 38/127 people, households 51, orgs 0, govts 1) e.g. applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|jurisdiction_971998ff58477430:counted-group-6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 93 open (full 0, counted groups 37/134 people, households 55, orgs 0, govts 1) e.g. applied|us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax|household_0191bce915485942",
           "why": ""
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/modules/place-prices.ts:688",
+          "evidence": "src/core2/modules/place-prices.ts:690",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871: 5659880 (journal:2025-02-03:7521); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax: 5659880 (journal:2025-02-03:7521)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing law:place:2666300:city:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax:general:2025-01-21:law-wiring-9b95e871: 5674106 (journal:2025-02-03:7517); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax: 5674106 (journal:2025-02-03:7517)",
           "why": ""
         },
         "web": {
-          "status": "stopgap",
-          "evidence": "src/core2/data/laws/outcome-research-gaps.json",
-          "why": "no researched outcome-web link starts from this law or a measure it sets; the research would measure vehicle miles traveled and fuel use (SG-LAW-outcome-link-unresearched)"
+          "status": "wired",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 mileage-fee-to-vehicle-miles 0.0001; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 mileage-fee-to-vehicle-miles 0.0001; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-03 mileage-fee-to-vehicle-miles 0.0001",
+          "why": ""
         },
         "knowing": {
           "status": "wired",
@@ -271,7 +271,7 @@
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 89 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 91 open -> after repeal 0 open, 0 ended",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 90 open -> after repeal 0 open, 0 ended; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 93 open -> after repeal 0 open, 0 ended",
           "why": ""
         },
         "allPlaces": {
