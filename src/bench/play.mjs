@@ -4387,19 +4387,17 @@ async function listTowns() {
   );
   if (ask !== townAsk) return;
   const count = new Intl.NumberFormat("en-US");
+  const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
     ...towns.map((t) => {
+      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
       const b = el(
         "button",
         { type: "button", className: "item" },
         el("b", { textContent: t.name }),
-        ...(t.population
-          ? [
-              el("small", {
-                textContent: `${count.format(t.population)} people`,
-              }),
-            ]
-          : []),
+        el("small", {
+          textContent: t.county ? `${t.county}, ${size}` : size,
+        }),
       );
       b.addEventListener("click", () => {
         setup.town = t;

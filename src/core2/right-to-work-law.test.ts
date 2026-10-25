@@ -10,7 +10,8 @@ import { advanceCore } from "./life";
 import { coreAPI } from "./state";
 import { enactLaw, lawChain } from "./modules/laws";
 import { residentsRuntime } from "./modules/residents";
-import { membershipPoints, rightToWorkRow } from "./law-reach/group-a-union";
+import { rightToWorkRow } from "./law-reach/group-a-union";
+import { membershipPoints } from "./right-to-work-dues";
 import { reachParameter } from "./law-reach/group-a-records";
 import { inForceHere } from "./law-reach/host";
 
