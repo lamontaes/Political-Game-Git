@@ -5,12 +5,13 @@ area: core
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/web-twin-unmoved-causes
 pr:
 blocked-on:
 after:
 source: added by EFFECT-WEB-WIRING
+claimed-at: 2026-10-25T15:25:39.796Z
 ---
 
 **What.** The twin check (src/core2/outcome-web-twins.test.ts, seed ew20oct26, Paris, Arkansas, three months) shifts each running cause against an unshifted copy. Eight causes with no lag moved no record total: births level, broadband, violent crime to moves, particulates, SNAP receipt, poor roads, the rural speed limit and transit service. For each, find whether the engine reads the factor but no whole death, move or job changed in a town this size, or whether the shift never reaches the reader, and fix the second kind.
