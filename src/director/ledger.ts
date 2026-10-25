@@ -335,6 +335,19 @@ export function createDirector(
       observedDays: zero,
     };
     ledger.people.set(personId, book);
+    // Someone first followed partway through a day still meets what already
+    // happened to them that day (the address given the morning they begin to
+    // be followed), read from the log's own index of them.
+    for (const id of core.logByPerson.get(personId) ?? []) {
+      const record = core.durableLog.get(id);
+      if (record?.date === core.date && record.personIds.includes(personId))
+        pendingFor(personId).events.push({
+          event: record,
+          reach: "named",
+          mood: zero,
+          stress: zero,
+        });
+    }
     const home = new Set(
       core.households.get(actor.householdId)?.memberIds ?? [],
     );
@@ -1105,7 +1118,13 @@ export function createDirector(
     impact: number,
     contributions: ChannelContribution[],
   ): void {
-    const date = core.date;
+    // A cause met only after it happened (someone first followed partway
+    // through the day it happened) keeps its own day.
+    const causeDate = core.durableLog.get(row.causeId)?.date;
+    const date =
+      causeDate && causeDate < core.date && causeDate >= book.watchedSince
+        ? causeDate
+        : core.date;
     const counterpartIds = [...row.counterparts].sort();
     // A cause measured twice in a day (once when its event is recorded, again
     // when the day closes) keeps one id per moment.
