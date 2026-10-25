@@ -34,6 +34,7 @@ import {
 import { officeActsOf, officeHost } from "./modules/office-day";
 import { townSeats } from "./modules/offices";
 import {
+  budgetLineStakes,
   executiveBudgetChanges,
   LEGISLATURE_MODULE_ID,
   memberKey,
@@ -443,7 +444,7 @@ it("the executive's budget act opens in its season and its changes are what the 
 
 it("the character's own budget is cut by an aide's read of the council", () => {
   const tried: string[] = [];
-  for (let draw = 0; draw < 6; draw += 1) {
+  for (let draw = 0; draw < 12; draw += 1) {
     const place = drawPlace(`${seed}:advice:${draw}`, "budget-advice");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
@@ -460,6 +461,16 @@ it("the character's own budget is cut by an aide's read of the council", () => {
       continue;
     }
     const mayorId = memberKey(mayor.holder!);
+    const lead = api.parameter("budgetProposalLeadDays");
+    const year = Number(core.date.slice(0, 4));
+    const next =
+      `${year}-${city.fiscalYearStart}` > core.date
+        ? `${year}-${city.fiscalYearStart}`
+        : `${year + 1}-${city.fiscalYearStart}`;
+    const open = addDays(makeIsoDate(next), -(lead - 1));
+    if (core.date < open) advanceCore(core, open);
+    // The mayor's attendance review lets an absent aide go, so the aide is
+    // hired on the day the window opens and serves through it.
     const pick = staffCandidates(api, mayorId)[0];
     if (!pick) {
       tried.push(`${where}: no aide candidate`);
@@ -470,14 +481,6 @@ it("the character's own budget is cut by an aide's read of the council", () => {
       personId: pick.personId,
       role: "aide",
     });
-    const lead = api.parameter("budgetProposalLeadDays");
-    const year = Number(core.date.slice(0, 4));
-    const next =
-      `${year}-${city.fiscalYearStart}` > core.date
-        ? `${year}-${city.fiscalYearStart}`
-        : `${year + 1}-${city.fiscalYearStart}`;
-    const open = addDays(makeIsoDate(next), -(lead - 1));
-    if (core.date < open) advanceCore(core, open);
     expect(
       servingStaffOf(api, mayorId).length,
       `${where}: the aide serves`,
@@ -485,6 +488,13 @@ it("the character's own budget is cut by an aide's read of the council", () => {
     const own = executiveBudgetChanges(api, city.id, Number(next.slice(0, 4)));
     if (!own || !Object.keys(own.changes).length) {
       tried.push(`${where}: the mayor's lean changes no line`);
+      continue;
+    }
+    // A place whose city budget has no council to read (the district's)
+    // has no one for the aide to read: another draw.
+    const [firstLine, firstDelta] = Object.entries(own.changes)[0]!;
+    if (!budgetLineStakes(api, city.id, firstLine, firstDelta)) {
+      tried.push(`${where}: no council to read for the city budget`);
       continue;
     }
     officeActHandlers(officeHost)["propose-budget"]!(api, mayorId, {} as never);
@@ -507,6 +517,6 @@ it("the character's own budget is cut by an aide's read of the council", () => {
     return;
   }
   throw new Error(
-    `no mayor with an aide and a budget in 6 places: ${tried.join("; ")}; ${seed}`,
+    `no mayor with an aide and a budget in 12 places: ${tried.join("; ")}; ${seed}`,
   );
 }, 3_600_000);
