@@ -1,5 +1,14 @@
 {
   "about": "How conversations run on the new core: the events they record, how many choices the player gets, and which subject a reply or a raised subject is worded under. No sentence text: every line is a mined sentence from data/english/parts/conversation.json.",
+  "sharedPast": {
+    "about": "Owner, Oct 15, evening (batch 12 rejected): nobody opens a talk with 'Do you remember <school>?' or 'Did you work at <employer>?'. A shared school or workplace is raised only when something recorded happened to it (not built yet) or when this many years have passed since, so the question has a reason. The record supplies the fact long-ago; the parts need it.",
+    "longAgoYears": {
+      "value": 20,
+      "tag": "TUNABLE",
+      "spread": [10, 30],
+      "checkedAgainst": "Class reunions are held at 10, 20 and 25 years; below ten years people see the same classmates; checked against the spread of years in the generated past."
+    }
+  },
   "toldEvent": "conversation.told",
   "lieEvent": "conversation.lie",
   "minutesPerExchange": 2,
@@ -56,6 +65,26 @@
       "kind": "eviction-where-reply",
       "stage": "default"
     },
+    "job-new": {
+      "kind": "job-new-reply",
+      "stage": "default"
+    },
+    "death-news": {
+      "kind": "death-news-reply",
+      "stage": "default"
+    },
+    "illness-news": {
+      "kind": "illness-news-reply",
+      "stage": "default"
+    },
+    "prison-news": {
+      "kind": "prison-news-reply",
+      "stage": "default"
+    },
+    "job-new-told": {
+      "kind": "job-new-told-reply",
+      "stage": "default"
+    },
     "charge": {
       "kind": "charge-reply",
       "stage": "default"
@@ -96,7 +125,7 @@
   },
   "topicOfLabel": {
     "about": "A recorded moment of the speaker's own (no one else in it) is talked about as this subject, by the moment's label: a new job is their work, a move is their home.",
-    "money:job-started": "own-work",
+    "money:job-started": "job-new",
     "money:job-changed": "own-work",
     "home:moved": "home"
   },

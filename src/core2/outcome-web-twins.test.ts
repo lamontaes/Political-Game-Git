@@ -10,7 +10,8 @@
  *
  * It writes its findings to the effect matrix
  * (docs/reports/effect-web-matrix-2026-10-20.json, under `twins`) when
- * EFFECT_TWINS_WRITE is set. EFFECT_TWINS_CAUSES picks causes (comma list).
+ * EFFECT_TWINS_WRITE is set. EFFECT_TWINS_CAUSES picks causes (comma list);
+ * EFFECT_TWINS_OUT names a file to write this run's findings to instead.
  */
 import { randomBytes } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
@@ -62,8 +63,34 @@ const shiftOf = (measure: string): Shift =>
 const moveBy = (cause: Shift, value: number) =>
   cause.by ?? value * (cause.relative ?? 0);
 const CHOSEN = process.env.EFFECT_TWINS_CAUSES?.split(",").filter(Boolean);
-const CAUSES = (CHOSEN ?? RUNNING_FROM).map(shiftOf);
+/** Causes read through a named reader (a law value) have no record row to shift. */
+const CAUSES = (CHOSEN ?? RUNNING_FROM)
+  .filter(
+    (measure) =>
+      !(engineMeasure(measure) as { reader?: string } | undefined)?.reader,
+  )
+  .map(shiftOf);
 const MONTHS = Number(process.env.EFFECT_TWINS_MONTHS || 4);
+
+/**
+ * Add up every leaf of a row, nested objects and lists included: numbers into
+ * `sum`, and the text of every string (a cause of death, a reason) into
+ * `text` as a checksum, so a changed label moves the record kind too.
+ */
+function leaves(value: unknown, into: { sum: number; text: number }): void {
+  if (typeof value === "number") {
+    if (Number.isFinite(value)) into.sum += value;
+  } else if (typeof value === "string") {
+    let h = 0;
+    for (let i = 0; i < value.length; i += 1)
+      h = (Math.imul(h, 31) + value.charCodeAt(i)) >>> 0;
+    into.text = (into.text + h) % 2 ** 32;
+  } else if (Array.isArray(value)) {
+    for (const item of value) leaves(item, into);
+  } else if (value && typeof value === "object") {
+    for (const item of Object.values(value)) leaves(item, into);
+  }
+}
 
 /** Every record a played world keeps, as counts and sums by kind. */
 function fingerprint(core: CoreState): Map<string, number> {
@@ -78,11 +105,10 @@ function fingerprint(core: CoreState): Map<string, number> {
     for (const table of Object.keys(tables)) {
       const rows = api.moduleState(id).table(table).rows();
       out.set(`${id}/${table}:rows`, rows.length);
-      let sum = 0;
-      for (const row of rows)
-        for (const value of Object.values(row))
-          if (typeof value === "number" && Number.isFinite(value)) sum += value;
-      out.set(`${id}/${table}:sum`, sum);
+      const seen = { sum: 0, text: 0 };
+      for (const row of rows) leaves(row, seen);
+      out.set(`${id}/${table}:sum`, seen.sum);
+      out.set(`${id}/${table}:text`, seen.text);
     }
   }
   return out;
@@ -97,11 +123,24 @@ function shift(core: CoreState, cause: Shift): string[] {
   const api = coreAPI(core);
   const month = core.date.slice(0, 7);
   const touched: string[] = [];
-  const engine = engineMeasure(cause.measure);
+  const engine = engineMeasure(cause.measure) as
+    | (ReturnType<typeof engineMeasure> & { module?: string; table?: string })
+    | undefined;
   if (engine) {
-    const table = api.moduleState(WORLD_METRICS_MODULE_ID).table("months");
-    for (const row of table.rows() as unknown as Record<string, unknown>[]) {
-      if (!String(row.date).startsWith(month)) continue;
+    // An engine that keeps its own month rows (the crime records) is shifted
+    // in its latest row; the economy's rows in this month's.
+    const own = engine.module !== undefined;
+    const table = api
+      .moduleState(engine.module ?? WORLD_METRICS_MODULE_ID)
+      .table(engine.table ?? "months");
+    const rows = table.rows() as unknown as Record<string, unknown>[];
+    const latest = rows.reduce(
+      (max, row) => (String(row.date) > max ? String(row.date) : max),
+      "",
+    );
+    for (const row of rows) {
+      if (own ? row.date !== latest : !String(row.date).startsWith(month))
+        continue;
       const value = row[engine.field];
       if (typeof value !== "number") continue;
       table.put({
@@ -133,6 +172,18 @@ function shift(core: CoreState, cause: Shift): string[] {
   return touched;
 }
 
+/** The date stamped on this month's web rows (they all carry the day the web last ran). */
+function webRowDate(core: CoreState): string {
+  const month = core.date.slice(0, 7);
+  let latest = "";
+  for (const row of coreAPI(core)
+    .moduleState(OUTCOME_WEB_MODULE_ID)
+    .table("months")
+    .rows() as unknown as WebMonth[])
+    if (row.month === month && row.date > latest) latest = row.date;
+  return latest;
+}
+
 /** Play a world the given months, shifting the cause each month at the moment the web reads it. */
 function play(cause: Shift | null) {
   const opening = gameStartDate();
@@ -144,14 +195,26 @@ function play(cause: Shift | null) {
   const touched: string[] = [];
   let day = makeIsoDate(opening);
   const end = addDays(day, MONTHS * 31);
+  // The web rewrites its month row whenever a law takes effect, which drops a
+  // shift made earlier; the web's own rows are shifted again after each
+  // rewrite (a rewrite carries a new `date`), from the 3rd on.
+  const shiftedRows = new Set<string>();
   while (day < end) {
     day = addDays(day, 1);
     advanceCore(core, day);
     if (!cause) continue;
     const dom = Number(day.slice(8, 10));
-    // Engine rows are written on the 2nd; the web's own rows on the 3rd.
-    if (engineMeasure(cause.measure) ? dom === 2 : dom === 3)
-      touched.push(...shift(core, cause));
+    if (engineMeasure(cause.measure)) {
+      // Engine rows are written on the 2nd.
+      if (dom === 2) touched.push(...shift(core, cause));
+      continue;
+    }
+    if (dom < 3) continue;
+    const stamp = `${day.slice(0, 7)}|${webRowDate(core)}`;
+    if (shiftedRows.has(stamp)) continue;
+    const moved = shift(core, cause);
+    if (moved.length) shiftedRows.add(stamp);
+    touched.push(...moved);
   }
   return { core, touched };
 }
@@ -206,6 +269,11 @@ describe(`the effect web's twin worlds (${place.name}, ${place.state}, seed ${se
         `${JSON.stringify({ ...matrix, twins }, null, 2)}\n`,
       );
     }
+    if (process.env.EFFECT_TWINS_OUT)
+      writeFileSync(
+        process.env.EFFECT_TWINS_OUT,
+        `${JSON.stringify(twins, null, 2)}\n`,
+      );
     console.log(JSON.stringify(twins, null, 2));
     expect(results.length).toBeGreaterThan(0);
   }, 3_600_000);

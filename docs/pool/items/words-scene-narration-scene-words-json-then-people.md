@@ -4,13 +4,13 @@ title: "Scene narration (scene-words.json), then people bringing things up (brin
 area: words
 kind: feature
 priority: 2
-status: claimed
-claimed-by: claude/political-game-pool-yucp92-bo
+status: open
+claimed-by:
 pr: #5706
 blocked-on: words: the merger accepts edits under src/director and data/english only from the Words session; the CTO must confirm a non-Words branch or hand this to the Words line (merger comment, Oct 20)
 milestone:
 source: "docs/coordination/words.md line 34 (unchecked checklist line)"
-claimed-at: 2026-10-23T18:09:17.299Z
+claimed-at:
 ---
 
 **What.** Scene narration is thin: `data/english/parts/scene-words.json` has few setting lines, `bring-it-up.json` lacks the rows for many subjects, and news headlines and the names of choices, stance questions and actions still show as record keys (the News screen reads 'election-result · office: Commissioner · winner: ...'). Mine and author scene narration first, then the bring-it-up rows, then headlines (from `headlines.json` and `news.json`) and choice names, and have composeScene, bringItUp and the news writer read them. The player would notice scenes that describe where he is, neighbors who bring things up and headlines instead of keys.
@@ -34,3 +34,5 @@ Sent back 2026-10-20 from PR #5233 (branch claude/law-decision-headlines): the r
 Sent back 2026-10-20 from PR #5706 (branch claude/political-game-pool-yucp92-bo): data/english/parts/headlines.json:1 and the added src/director headline composers are Words-owned paths. The body explicitly identifies this as a pool session rather than the Words session, so the merger morning check refuses these edits. Route this change through the Words session; also retain the item-specific played-world proof when resubmitting.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5241 (branch claude/news-headlines-more): data/english/parts/headlines.json adds six origin authored entries with shippable true. Authored pieces must stay held until graded, and the body gives no grading proof. Correct the flags and the player-visible headline claim before merging; Words-owned bank and director edits also require the Words session. Keep the stacked parent handling separate from completion of the main pool item.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5706 (branch claude/political-game-pool-yucp92-bo): Words ownership is resolved, but the missing Done-when table and explicitly unfinished broad scope require a valid bounded held-headline item or full acceptance proof; finish on that branch, merge main into it first.

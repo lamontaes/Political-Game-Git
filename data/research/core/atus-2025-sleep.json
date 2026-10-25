@@ -1,0 +1,48 @@
+{
+  "id": "atus-2025-sleep",
+  "publisher": "U.S. Bureau of Labor Statistics",
+  "vintage": "American Time Use Survey, 2025 annual averages",
+  "table": "Table 1; Table 8B (employed); Table 8C (not employed)",
+  "title": "Time spent in primary activities: sleeping, civilian population",
+  "universe": "Civilian noninstitutional population 15 and over (Table 1); 18 and over, employed or not employed, by presence of a household child under 18 (Tables 8B and 8C)",
+  "geography": "United States",
+  "sourceUrl": "https://www.bls.gov/news.release/atus.t08b.htm",
+  "otherUrls": [
+    "https://www.bls.gov/news.release/atus.t01.htm",
+    "https://www.bls.gov/news.release/atus.t08c.htm",
+    "https://www.bls.gov/news.release/atus.t03.htm"
+  ],
+  "retrievedOn": "2026-10-23",
+  "limits": "Average hours per diary day over every day of the year (weekdays, weekends and holidays together), not hours on days worked; sleeping includes naps and spells of sleeplessness. Table 8B gives no total for all employed adults, only with and without a household child. Leisure by age (Table 3) is already held in src/core2/data/time-use-reference.json and is not repeated here. bls.gov refuses scripted requests (HTTP 403 to curl); the pages were read through a fetch tool.",
+  "sleepingHoursPerDay": {
+    "allAged15Plus": {
+      "value": 9.03,
+      "table": "Table 1",
+      "quote": "Sleeping(2) 9.03 8.93 9.13 (total, men, women)"
+    },
+    "employedWithHouseholdChild": {
+      "value": 8.56,
+      "table": "Table 8B",
+      "quote": "Sleeping (2) | 8.56 | 8.58 | 8.53 | ... (household child under 18: total, men, women)"
+    },
+    "employedNoHouseholdChild": {
+      "value": 8.83,
+      "table": "Table 8B",
+      "quote": "... | 8.83 | 8.66 | 9.02 (no household children under 18: total, men, women)"
+    },
+    "notEmployedWithHouseholdChild": {
+      "value": 9.31,
+      "table": "Table 8C",
+      "quote": "Sleeping(2) 9.31 9.71 9.16 ..."
+    },
+    "notEmployedNoHouseholdChild": {
+      "value": 9.37,
+      "table": "Table 8C",
+      "quote": "... 9.37 9.32 9.41"
+    }
+  },
+  "derived": {
+    "workSleepReserveHours": "midpoint of the employed figures (8.56 + 8.83) / 2 = 8.70, spread 8.56 to 8.83; checked by scripts/research/core-parameters-check.ts",
+    "restDayHours": "ATUS 2025 Table 3 leisure and sports, 5.16 hours for everyone 15 and over, spread 3.89 (35 to 44) to 7.39 (75 and over), read from src/core2/data/time-use-reference.json by the same check"
+  }
+}

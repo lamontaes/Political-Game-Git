@@ -4,13 +4,13 @@ title: "Presidential orders, pardons, the situation room:"
 area: office
 kind: feature
 priority: 2
-status: in-pr
-claimed-by: claude/pick-office-presidential-orders-pardons-the-situation-room
+status: open
+claimed-by:
 pr: #5184
 blocked-on:
 milestone:
 source: "docs/coordination/OFFICE-FEDERAL.md line 19 (unchecked checklist line)"
-claimed-at: 2026-10-21T10:34:39.447Z
+claimed-at:
 ---
 
 **What.** Checked against main on Oct 16: OPEN. `presidentialOrders`, `pardonable` and `crisesToday` in `office-day-federal-president.ts` all return nothing, each registered as a stopgap (`SG-OFFICE-FED-presidential-orders`, `-pardons`, `-situation-room`); the justice engine has no federal sovereign to pardon. Next: A federal executive order whose law row an agency or the budget engine reads. Pardons and the situation room wait on a federal-sovereign record in justice and on crisis records. The player would notice the act on the politics screen as a choice among people, never a form.
@@ -26,3 +26,7 @@ claimed-at: 2026-10-21T10:34:39.447Z
 Sent back 2026-10-20 from PR #5184 (branch claude/presidential-orders): a 'Resolved Oct 19' date note in the stopgap replacement text; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5184 (branch claude/presidential-orders): The dated stopgap-note feedback is fixed, but docs/release/changes/office-presidential-orders-pardons-the-situation-room.md:3 still says impact none even though the order changes a law in force and the public-pay review raises actual federal paychecks. Use an accurate patch declaration for that simulation change. This PR also leaves pardons and the situation-room/player action unfinished; track the completed order under a bounded item or complete the original umbrella proof before marking it done.; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5184 (branch claude/presidential-orders): the body lacks the required Done-when evidence table mapping the drawn played-world order, law-row reader, changed record ID and named test coverage; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5184 (branch claude/presidential-orders): The new evidence table marks the player order action unbuilt; route the completed NPC-order mechanism to valid bounded acceptance while the player action, pardons and situation room remain open; finish on that branch, merge main into it first.

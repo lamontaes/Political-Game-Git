@@ -5,12 +5,12 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: in-pr
-claimed-by: claude/house-candidates
+status: open
+claimed-by:
 pr: #5340
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T15:22:43.811Z
+claimed-at:
 ---
 
 **What.** TODO
@@ -26,3 +26,5 @@ claimed-at: 2026-10-21T15:22:43.811Z
 Sent back 2026-10-20 from PR #5340 (branch claude/political-game-pool-yucp92-l): merge conflict with main in code; merge main and resolve; finish on that branch, merge main into it first.
 
 Sent back 2026-10-20 from PR #5340 (branch claude/political-game-pool-yucp92-l): world-races.test.ts fails all 3 tests with main merged: Error 'Module has no registered state.'; finish on that branch, merge main into it first.
+
+Sent back 2026-10-23 from PR #5340 (branch claude/political-game-pool-yucp92-l): the item requires a one-year buildBenchWorld same-filing-path proof by candidate record ID, but the body admits who-runs and candidate records/campaigns are unfinished and has no Done-when evidence table; finish on that branch, merge main into it first.

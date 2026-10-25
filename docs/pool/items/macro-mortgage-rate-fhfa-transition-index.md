@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/fhfa-mortgage-index
 pr: #5838
 blocked-on:

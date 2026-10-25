@@ -4,6 +4,7 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
+import { conversationDataFromBank } from "./mined/conversation-bank";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -418,23 +419,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     }
     expect(closed).toBeGreaterThan(0);
   });
-  it("opens a reunion scene's talk on what the two share, ahead of any other event", () => {
+  it("opens a reunion scene's talk on a school or workplace the two once shared only when decades have passed and the record shows it (owner, Oct 15, evening)", () => {
     const book = director.ledger.people.get(player.id)!;
     const template = book.moments[0]!;
     let checked = 0;
     for (const otherId of others) {
-      // Not one whose last talk with the player was already about it.
-      const remembered = core.knowledgeByPerson
-        .get(otherId)
-        ?.get(`talk:${player.id}:topic`)?.value;
-      if (
-        !subjectsBetween(core, player.id, otherId, director).some(
-          (row) =>
-            (row.kind === "shared-school" || row.kind === "shared-work") &&
-            row.id !== remembered,
-        )
-      )
-        continue;
+      const shared = subjectsBetween(core, player.id, otherId, director).filter(
+        (row) => row.kind === "shared-school" || row.kind === "shared-work",
+      );
+      if (!shared.length) continue;
       // Edge case by hand: a re-entry moment whose cause no subject is about.
       const occasion = {
         ...template,
@@ -448,7 +441,17 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
         occasionId: occasion.id,
       });
       book.momentsById.delete(occasion.id);
-      expect(talk.topics[0], otherId).toMatch(/(?:^|>)shared-(?:school|work):/);
+      // "Do you remember <school>?" opens nothing unless a record says
+      // something happened to it or decades have passed.
+      for (const line of talk.lines) {
+        const about = shared.find((row) => line.subjectId.includes(row.id));
+        if (about)
+          expect(
+            about.facts["long-ago"],
+            `${otherId}: ${line.text}`,
+          ).toBeTruthy();
+        else expect(line.text, otherId).not.toMatch(/\bremember\b/i);
+      }
       checked += 1;
       if (checked >= 3) break;
     }
@@ -467,6 +470,8 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(kin.length).toBeGreaterThan(0);
   });
   it("remembers the last talk's topic and opens the next one with something else", () => {
+    // Any topic a talk keeps to is remembered by the listener: the next talk
+    // with the same person opens on another (a shared school is not an opener).
     let checked = 0;
     for (const otherId of others.slice(0, 15)) {
       const first = openConversation(core, player.id, otherId, { director });
@@ -475,9 +480,56 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       const next = openConversation(core, player.id, otherId, { director });
       if (next.topics[0]) expect(next.topics[0]).not.toBe(first.topics[0]);
       checked += 1;
+      if (checked >= 5) break;
     }
     expect(checked).toBeGreaterThan(0);
   });
+  it("never opens on a school or an old job without a reason, and a question answered is followed up, not answered with goodbye", () => {
+    // 15 talks in a drawn place. Owner, Oct 15, evening (batch 12 rejected).
+    const reason = /remember|go to school|work at|work for/i;
+    let talks = 0;
+    let checkedPairs = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const talk = openConversation(core, player.id, otherId, { director });
+      talks += 1;
+      // Rule 1: a shared school or workplace is raised only with a reason.
+      const subjects = subjectsBetween(core, player.id, otherId, director);
+      for (const row of subjects)
+        if (row.kind === "shared-school" || row.kind === "shared-work") {
+          const long = !!row.facts["long-ago"];
+          const said = talk.lines.some((line) =>
+            line.subjectId.includes(row.id),
+          );
+          if (said) expect(long).toBe(true);
+        }
+      for (let turn = 0; turn < 5 && talk.choices.length; turn += 1) {
+        // A yes or no (or any reply) to the other person's question.
+        const choice =
+          talk.choices.find((row) => /^(yes|no|yeah|nope)\b/i.test(row.text)) ??
+          talk.choices[0]!;
+        say(core, talk, choice.key);
+        void reason;
+      }
+      // Rule 2 and 3: a farewell is never the next thing said after the
+      // other person's own question was answered (an ack may sit between).
+      talk.lines.forEach((line, at) => {
+        if (line.kind !== "farewell") return;
+        let back = at - 1;
+        while (back >= 0 && talk.lines[back]!.kind === "ack") back -= 1;
+        const answer = talk.lines[back];
+        const asked = talk.lines[back - 1];
+        if (answer && answer.speakerId === player.id && asked) {
+          checkedPairs += 1;
+          expect(
+            asked.speakerId === talk.otherId && /\?$/.test(asked.text.trim()),
+          ).toBe(false);
+        }
+      });
+    }
+    expect(talks).toBe(Math.min(15, others.length));
+    expect(checkedPairs).toBeGreaterThan(0);
+  });
+
   it("answers a question about the player's relative, and may ask back about theirs", () => {
     // Neighbors who know one of the player's relatives and have a relative
     // the player knows, the two relatives being different people (a
@@ -542,11 +594,15 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       }
     }
     // A talk the neighbor opens by asking after the player's relative: the
-    // player's answer may turn it back, and the neighbor answers in turn.
+    // player's answer may turn it back, and the neighbor answers in turn. The
+    // family answers that turn a talk back are hand-written and held until
+    // graded, so this reads them the way a grading batch does.
+    const held = conversationDataFromBank(undefined, true);
     let turned = 0;
     for (const pair of pairs) {
       const talk = openConversation(core, player.id, pair.otherId, {
         director,
+        data: held,
       });
       if (talk.lines.find((row) => row.kind !== "greet")?.kind !== "family")
         continue;
@@ -560,7 +616,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       expect(aboutId).not.toBe(asked);
       expect(core.people.get(pair.otherId)!.familyIds.has(aboutId)).toBe(true);
       const before = talk.lines.length;
-      say(core, talk, back.key);
+      say(core, talk, back.key, held);
       const [said, reply] = talk.lines.slice(before);
       expect(said!.speakerId).toBe(player.id);
       expect(reply!.speakerId).toBe(pair.otherId);

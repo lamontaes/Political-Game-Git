@@ -31,3 +31,5 @@ Looked at Oct 18 (claude/light-opening, nothing built). Timed a drawn opening (b
 Two ways forward that change no output: speed up `buildOpeningKin` (`moveHazard` is 0.8 s, recomputed in loops) and `openingTemperaments` and prove it by hash on three drawn places, or rule that the county and state counted population is generated from the census directly, not from residents' relatives, and then build this item against that.
 
 Oct 22, merger A: PR #5079 splits the proposed kin-opening work into three tasks; it does not implement the opening or fill-in acceptance. This parent stays open with its own Done when intact.
+
+Sent back 2026-10-24 from planning PR #5079 (branch claude/light-opening): own-environment applicable checks passed on f4ffec899c079efa446665c56e02005f232b83c1, but the head-pinned merge returned 405 merge conflicts after main advanced; implementation acceptance remains open. Finish the planning merge on that branch, merge current main into it first and rerun the changed-file checks.

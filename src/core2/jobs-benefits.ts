@@ -10,11 +10,12 @@
  * law enacted in play changes the next claim; a filed claim keeps the terms
  * it was filed under and cites the law row.
  */
+import { townOutsideOf } from "./opening-outside-market";
 import type { ModuleTable } from "./module-state";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import type { LawRowInput } from "./laws-starting";
-import { residentPerson, residentsRuntime } from "./modules/residents";
+import { residentFacts, residentsRuntime } from "./modules/residents";
 import { decisionLean } from "./trait-decisions";
 import { transferCash } from "./world-transfer";
 import type { CoreAPI, CoreState, JobInput, Source } from "./types";
@@ -154,11 +155,11 @@ export function fileClaim(
 ): ClaimRow | undefined {
   const c = api.state as CoreState;
   const full = c.people.get(job.personId);
-  const placeId = (full ?? residentPerson(c, job.personId))?.placeId;
+  const placeId = (full ?? residentFacts(c, job.personId))?.placeId;
   if (!placeId) return undefined;
   // An eligible worker files unless their traits lean hard toward skipping;
   // the record's traits are the full person's or the counted worker's own.
-  const filer = full ?? residentPerson(c, job.personId);
+  const filer = full ?? residentFacts(c, job.personId);
   if (
     filer &&
     api.parameter("benefitsFileBase") +
@@ -217,9 +218,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
       : undefined;
     const fund = state
       ? c.organizations.get(state.organizationId)
-      : [...c.organizations.values()].find(
-          (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-        );
+      : townOutsideOf(c.organizations.values(), row.placeId);
     if (!fund) {
       table.put({
         ...row,
@@ -262,9 +261,7 @@ export function payClaims(api: CoreAPI, table: ModuleTable): void {
     // the town, as a state borrows from the federal government when its fund
     // runs short (26 U.S.C. 1201, Title XII advances).
     if (state && paid < row.weeklyMinor) {
-      const advance = [...c.organizations.values()].find(
-        (org) => org.placeId === row.placeId && org.outsideFlow !== undefined,
-      );
+      const advance = townOutsideOf(c.organizations.values(), row.placeId);
       if (advance)
         paid += transferCash(
           api,

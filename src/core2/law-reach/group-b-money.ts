@@ -470,6 +470,30 @@ interface DrawRow {
 }
 
 /**
+ * Whether a resident has drawn the benefit for the requirement's whole time
+ * limit: the months they drew, within the window and since the requirement
+ * took effect, not counting this month.
+ */
+export function timeLimitUsed(
+  api: CoreAPI,
+  id: string,
+  since: string,
+): boolean {
+  const today = api.state.date;
+  const thisMonth = today.slice(0, 7);
+  const window = reachParameter("snapWorkTimeLimitWindowMonths");
+  const drawn = (
+    getRow<DrawRow>(api, "taken", `draw|${id}`)?.months ?? []
+  ).filter(
+    (m) =>
+      m !== thisMonth &&
+      m >= since.slice(0, 7) &&
+      monthsBetween(`${m}-01`, today) < window,
+  );
+  return drawn.length >= reachParameter("snapWorkTimeLimitMonths");
+}
+
+/**
  * Those the work requirement has stopped paying (7 U.S.C. 2015(o)(2): three
  * months in any 36). Each person's own months of benefit under the
  * requirement count against their own window, from the day it took effect;
@@ -485,19 +509,8 @@ export function timeLimitedNow(
   const stopped = new Set<string>();
   if (!limit) return stopped;
   const today = api.state.date;
-  const allowed = reachParameter("snapWorkTimeLimitMonths");
-  const window = reachParameter("snapWorkTimeLimitWindowMonths");
-  const thisMonth = today.slice(0, 7);
   for (const id of limit.reachedIds) {
-    const drawn = (
-      getRow<DrawRow>(api, "taken", `draw|${id}`)?.months ?? []
-    ).filter(
-      (m) =>
-        m !== thisMonth &&
-        m >= limit.since.slice(0, 7) &&
-        monthsBetween(`${m}-01`, today) < window,
-    );
-    if (drawn.length < allowed) continue;
+    if (!timeLimitUsed(api, id, limit.since)) continue;
     stopped.add(id);
     if (api.state.people.has(id))
       putRow(api, "taken", {
@@ -1235,6 +1248,13 @@ export function incomeTaxAct(
   const id = `tax|${input.key}|${input.level}`;
   const prior = getRow<TaxRow>(api, "taken", id);
   const current = levelRow(api, input.level);
+  // A territory's own income tax stands in place of the federal one under
+  // federal law (26 U.S.C. 931 to 933), whatever rate its legislature sets:
+  // an act that rewrites the territory's tax keeps that standing.
+  const standing =
+    current?.terms?.replacesFederal === true
+      ? { replacesFederal: true }
+      : undefined;
   const enact = (
     value: number,
     unit: string,
@@ -1250,7 +1270,7 @@ export function incomeTaxAct(
       effectiveDate: api.state.date,
       measureId: `${tag}:${input.lawId}`,
       citation: `Act ${input.lawId}`,
-      ...(terms ? { terms } : {}),
+      ...(terms || standing ? { terms: { ...terms, ...standing } } : {}),
     });
   const hasTax = !!current && (current.value ?? 0) > 0;
   const scope = input.level === "state" ? "state" : "local";

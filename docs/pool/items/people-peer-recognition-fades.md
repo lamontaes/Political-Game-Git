@@ -5,12 +5,12 @@ area: people
 kind: feature
 priority: 3
 size: S
-status: in-pr
-claimed-by: claude/peer-fades
+status: open
+claimed-by:
 pr: #5810
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-21T14:36:00.174Z
+claimed-at:
 ---
 
 **What.** Opening school peers are generated as remembering each other's names forever (recognitionStatus generated-remembered-name in src/core2/data/opening-peer-network.json). The Oct 19 research puts name recognition of cohort peers at about 0.9 within 15 years of leaving school and about 0.7 near 50 years (Bahrick 1975; low 0.6, high 0.95). Make remembered-name strength fade with years since the school context, read by whatever greets or recalls a peer.
@@ -22,3 +22,5 @@ claimed-at: 2026-10-21T14:36:00.174Z
 **Files.** src/core2/opening-peer-network.ts,src/core2/data/opening-peer-network.json,src/core2/data/parameters.json
 
 **Notes.** TODO
+
+Sent back 2026-10-23 from PR #5810 (branch claude/peer-fades): Non-Words pool branch edits src/director/conversation.ts without a Words-session handoff; route or absorb the consuming director change into the Words line; finish on that branch, merge main into it first.

@@ -1,0 +1,1014 @@
+{
+  "id": "fns-2025-snap-maximums",
+  "publisher": "U.S. Department of Agriculture, Food and Nutrition Service",
+  "vintage": "FY2025",
+  "table": "Table 1: Maximum Monthly Allotment",
+  "title": "Supplemental Nutrition Assistance Program (SNAP) Fiscal Year (FY) 2025 Maximum Allotments and Deductions",
+  "universe": "Maximum monthly SNAP allotment by household size",
+  "geography": "48 states and the District of Columbia; Alaska (urban, rural 1, rural 2); Guam; Hawaii; U.S. Virgin Islands; keyed by postal code like the FY2026 rows",
+  "sourceUrl": "https://www.fns.usda.gov/sites/default/files/media/file/FY2025-Maximum-Allotments-Deductions.pdf",
+  "retrievedOn": "2026-10-23",
+  "quote": "The following tables provide the monthly maximum allotment and allowable deductions for FY 2025 (effective October 1, 2024, through September 30, 2025). 1           $292          $377     $481        $586       $431      $517       $376 ; 2           $536          $692     $882        $1,074     $790      $948       $689 ; 3           $768          $991     $1,263      $1,538     $1,132   $1,357      $987 ; 4           $975         $1,258    $1,604      $1,953     $1,437   $1,723      $1,254 ; 5          $1,158        $1,494   $1,905       $2,319     $1,707   $2,046      $1,489 ; 6          $1,390        $1,793    $2,287      $2,783     $2,049   $2,456      $1,787 ; 7          $1,536        $1,982    $2,527      $3,076     $2,264   $2,714      $1,975 ; 8          $1,756        $2,265    $2,888      $3,516     $2,588   $3,102      $2,257 ; Member        +$220         +$283     +$361       +$440      +$324     +$388      +$282",
+  "limits": [
+    "Maximum allotments, not actual awards.",
+    "The places and Alaska areas are the ones the FY2026 file (data/research/laws/local-starting-law/snap-maximums.json) lists; American Samoa, the Northern Mariana Islands and Puerto Rico run other nutrition programs and have no SNAP row.",
+    "U.S. government work (17 U.S.C. 105)."
+  ],
+  "columns": [
+    "contiguous",
+    "urban",
+    "rural-1",
+    "rural-2",
+    "territory-gu",
+    "statewide-hi",
+    "territory-vi"
+  ],
+  "places": {
+    "US-AL": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-AK": [
+      {
+        "area": "rural-1",
+        "maximumByHouseholdSize": {
+          "1": 481,
+          "2": 882,
+          "3": 1263,
+          "4": 1604,
+          "5": 1905,
+          "6": 2287,
+          "7": 2527,
+          "8": 2888
+        },
+        "additionalPersonAboveEight": 361,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      },
+      {
+        "area": "rural-2",
+        "maximumByHouseholdSize": {
+          "1": 586,
+          "2": 1074,
+          "3": 1538,
+          "4": 1953,
+          "5": 2319,
+          "6": 2783,
+          "7": 3076,
+          "8": 3516
+        },
+        "additionalPersonAboveEight": 440,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      },
+      {
+        "area": "urban",
+        "maximumByHouseholdSize": {
+          "1": 377,
+          "2": 692,
+          "3": 991,
+          "4": 1258,
+          "5": 1494,
+          "6": 1793,
+          "7": 1982,
+          "8": 2265
+        },
+        "additionalPersonAboveEight": 283,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-AZ": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-AR": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-CA": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-CO": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-CT": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-DE": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-DC": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-FL": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-GA": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-GU": [
+      {
+        "area": "territory-gu",
+        "maximumByHouseholdSize": {
+          "1": 431,
+          "2": 790,
+          "3": 1132,
+          "4": 1437,
+          "5": 1707,
+          "6": 2049,
+          "7": 2264,
+          "8": 2588
+        },
+        "additionalPersonAboveEight": 324,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-HI": [
+      {
+        "area": "statewide-hi",
+        "maximumByHouseholdSize": {
+          "1": 517,
+          "2": 948,
+          "3": 1357,
+          "4": 1723,
+          "5": 2046,
+          "6": 2456,
+          "7": 2714,
+          "8": 3102
+        },
+        "additionalPersonAboveEight": 388,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-ID": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-IL": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-IN": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-IA": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-KS": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-KY": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-LA": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-ME": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-MD": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-MA": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-MI": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-MN": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-MS": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-MO": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-MT": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-NE": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-NV": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-NH": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-NJ": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-NM": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-NY": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-NC": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-ND": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-OH": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-OK": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-OR": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-PA": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-RI": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-SC": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-SD": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-TN": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-TX": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-UT": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-VT": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-VI": [
+      {
+        "area": "territory-vi",
+        "maximumByHouseholdSize": {
+          "1": 376,
+          "2": 689,
+          "3": 987,
+          "4": 1254,
+          "5": 1489,
+          "6": 1787,
+          "7": 1975,
+          "8": 2257
+        },
+        "additionalPersonAboveEight": 282,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-VA": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-WA": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-WV": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-WI": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ],
+    "US-WY": [
+      {
+        "area": "contiguous",
+        "maximumByHouseholdSize": {
+          "1": 292,
+          "2": 536,
+          "3": 768,
+          "4": 975,
+          "5": 1158,
+          "6": 1390,
+          "7": 1536,
+          "8": 1756
+        },
+        "additionalPersonAboveEight": 220,
+        "effectiveDate": "2024-10-01",
+        "endDateExclusive": "2025-10-01"
+      }
+    ]
+  }
+}

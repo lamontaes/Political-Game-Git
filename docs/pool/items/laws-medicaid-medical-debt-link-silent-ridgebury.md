@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: claude/medicaid-debt-link
 pr: #5798
 blocked-on:

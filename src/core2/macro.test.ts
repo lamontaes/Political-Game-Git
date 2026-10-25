@@ -19,6 +19,8 @@ import {
 import { medianTransactionBalance } from "./starting-cash";
 import { parameter } from "./parameters";
 import type { CoreInput, Source } from "./types";
+import { readFileSync } from "node:fs";
+import pmms from "../../data/research/macro/series/pmms-monthly.json" with { type: "json" };
 
 const data = macroCoreData();
 const p = (key: string) => parameter(key, data.parameters);
@@ -141,6 +143,85 @@ describe("national economy", () => {
     expect(
       Object.keys(row).filter((key) => /budget|fiscal/i.test(key)),
     ).toEqual([]);
+  });
+});
+
+describe("the 30-year mortgage rate since June 2019", () => {
+  // FHFA's MIRS Transition Index by release date, as downloaded.
+  const index = new Map<string, number>();
+  for (const line of readFileSync(
+    new URL(
+      "../../data/research/macro/series/mirs-transition-index.csv",
+      import.meta.url,
+    ),
+    "utf8",
+  )
+    .split(/\r?\n/)
+    .slice(1)) {
+    const [date, value] = line.split(",");
+    if (!date || !value) continue;
+    const [month, , year] = date.split("/").map(Number) as [
+      number,
+      number,
+      number,
+    ];
+    // Each value measures the month two before its release.
+    const at = year * 12 + month - 1 - 2;
+    index.set(
+      `${Math.floor(at / 12)}-${String((at % 12) + 1).padStart(2, "0")}`,
+      Number(value),
+    );
+  }
+  // The opening reads back a window of months: openings a year apart cover
+  // every month from June 2019 to the last recorded one.
+  const byMonth = new Map(
+    ["2020-01-01", "2021-01-01", "2022-01-01", "2026-10-20"]
+      .flatMap((start) => historyMonths(start, p))
+      .filter((row) => row.month >= "2019-06")
+      .map((row) => [row.month, row]),
+  );
+  const months = [...byMonth.values()].sort((a, b) =>
+    a.month.localeCompare(b.month),
+  );
+
+  it("reads FHFA's index for every month it covers, and the Treasury plus the spread only where it has not published", () => {
+    expect(months[0]!.month).toBe("2019-06");
+    expect(months.at(-1)!.month).toBe("2026-09");
+    expect(months.length).toBe(88);
+    const fallback: string[] = [];
+    for (const row of months) {
+      const published = index.get(row.month);
+      if (published !== undefined) {
+        expect(row.mortgage30Pct, row.month).toBe(published);
+        continue;
+      }
+      fallback.push(row.month);
+      expect(row.mortgage30Pct, row.month).toBeCloseTo(
+        row.treasury10Pct + p("macroMortgageSpreadOverTreasuryPct"),
+        10,
+      );
+    }
+    // Only the months FHFA has not measured yet: none from June 2019 to July 2026.
+    expect(fallback).toEqual(["2026-08", "2026-09"]);
+  });
+
+  it("names each month that moved from the excluded Freddie Mac survey, and by how much", () => {
+    const moved = months
+      .filter((row) => index.has(row.month))
+      .map((row) => ({
+        month: row.month,
+        by: row.mortgage30Pct - (pmms as Record<string, number>)[row.month]!,
+      }))
+      .filter((row) => Math.abs(row.by) > 1e-9);
+    process.stdout.write(
+      `MORTGAGE moved ${moved.length} months: ${moved.map((row) => `${row.month} ${row.by >= 0 ? "+" : ""}${row.by.toFixed(2)}`).join(", ")}\n`,
+    );
+    expect(moved.length).toBe(82);
+    // Within the spread recorded on the series.
+    for (const row of moved) {
+      expect(row.by, row.month).toBeGreaterThanOrEqual(-0.33 - 1e-9);
+      expect(row.by, row.month).toBeLessThanOrEqual(0.27 + 1e-9);
+    }
   });
 });
 
