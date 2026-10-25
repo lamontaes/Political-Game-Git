@@ -296,6 +296,34 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.28.1
+
+_Released October 25, 2026._
+
+### Fixed
+
+- **Towns can be recalled only where their state's recall law reaches them.**
+  South Dakota's recall needs one of the causes its law lists, so a council vote
+  alone no longer starts one there. Wyoming's recall covers only commission-form
+  towns, and Mississippi's covers only county officials, so ordinary towns in
+  those states have none. Where a state's recall depends on a town adopting a
+  form or charter, a town that hasn't adopted one follows the state's default
+  instead of a national estimate.
+
+- **Issues names each tax by the government that sets it.** Politics → Issues no
+  longer calls a town's combined federal and state income tax a local income
+  tax. The income and sales tax cards are titled by the tax alone, and each rate
+  under them names the government that sets it, such as Federal · United States
+  or State · Texas, including the rates scheduled for later. A state's average
+  local sales tax says it is that average and an estimate.
+
+- **The opening night's unemployment rates say where they apply.** On the
+  opening night the President now gives the national unemployment rate as the
+  nation's, and the evening news gives the region's rate under the area it
+  covers, such as the Phoenix area or Texas outside the Dallas and Houston
+  areas. News's economy panel shows that area's rate under its name instead of
+  raw field names.
+
 ## PRE-ALPHA 0.28.0
 
 _Released October 25, 2026._
