@@ -19,6 +19,7 @@ const MONEY = {
   "jobs.apply": "jobs-apply",
   "jobs.accept-offer": "jobs-accept",
   "business.found": "business-found",
+  "business.owner-draw": "business-owner-draw",
   "housing.buy-home": "housing-buy",
 } as const;
 

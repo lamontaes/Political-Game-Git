@@ -1,4 +1,4 @@
-import { retirementClaimAgeMonths } from "./retirement-claim";
+import { claimWaitCase, retirementClaimAgeMonths } from "./retirement-claim";
 import { startingSocialSecurityAges } from "./social-security-law";
 import dataJson from "./data/opening-income.json" with { type: "json" };
 import {
@@ -12,7 +12,7 @@ import { corePlaceByJurisdictionId } from "./place-lookup";
 import type { EntityId } from "./kernel/brands";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { DEFAULT_DATA } from "./data";
-import { decisionLean, decisionTraitWeight } from "./trait-decisions";
+import { leanedTerm } from "./trait-decisions";
 import { stopgap } from "./stopgaps";
 import { recordedTraitSource } from "./trait-source";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
@@ -618,29 +618,31 @@ export function buildOpeningRetirementIncome(
       const trait = traitValue ?? zero;
       // Claiming is their own decision inside the law: savings and patience.
       const dailyCost = person.livingCostDailyMinor;
+      const claimWeights = {
+        anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,
+        traitPullYears: values.claimTraitPullYears!,
+        needPullYears: values.claimNeedPullYears!,
+        fullBufferMonths: values.claimFullBufferMonths!,
+      };
+      const bufferMonths =
+        dailyCost > zero
+          ? person.liquidMinor / ((dailyCost * p("daysPerMeanYear")) / months)
+          : values.claimFullBufferMonths!;
       const claimMonths = retirementClaimAgeMonths(
         {
           ages: startingSocialSecurityAges(person.birthDate),
-          bufferMonths:
-            dailyCost > zero
-              ? person.liquidMinor /
-                ((dailyCost * p("daysPerMeanYear")) / months)
-              : values.claimFullBufferMonths!,
-          patience:
-            decisionLean(
-              traitData,
-              person,
-              "retirement.claim-age",
-              "wait-to-claim",
-              "claim-now",
-            ) * decisionTraitWeight(traitData, "retirement.claim-age"),
+          bufferMonths,
+          // Waiting past the full retirement age is a score: the case for it plus every trait's lean at the decision's calibrated weight.
+          patience: leanedTerm(
+            traitData,
+            person,
+            "retirement.claim-age",
+            "wait-to-claim",
+            "claim-now",
+            claimWaitCase(bufferMonths, claimWeights),
+          ),
         },
-        {
-          anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,
-          traitPullYears: values.claimTraitPullYears!,
-          needPullYears: values.claimNeedPullYears!,
-          fullBufferMonths: values.claimFullBufferMonths!,
-        },
+        claimWeights,
       );
       const claimAt =
         claim?.date ?? calendarAfterMonths(person.birthDate, claimMonths);

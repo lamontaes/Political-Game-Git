@@ -1286,14 +1286,15 @@ function month(api: CoreAPI): void {
     const cushion = Math.round(
       (weightedPayroll / p("macroMonthsPerYear")) * p("businessCushionMonths"),
     );
-    const ownerDays =
-      owner.livingCostDailyMinor > 0
-        ? owner.liquidMinor / owner.livingCostDailyMinor
-        : Number.POSITIVE_INFINITY;
-    const short = cushion > 0 ? Math.max(0, 1 - cash / cushion) : 0;
-    // Cash beyond the cushion is profit the business doesn't need: on a sliding scale toward 1.
-    const spare = cash > cushion ? 1 - cushion / cash : 0;
-    const need = 1 / (1 + ownerDays / p("businessDaysPerMonth"));
+    const { need, short, spare } = ownerDrawCase(p, {
+      cashMinor: cash,
+      payrollCushionMinor: cushion,
+      annualOutflowsMinor: annualOutflowsMinor(api, book),
+      ownerDays:
+        owner.livingCostDailyMinor > 0
+          ? owner.liquidMinor / owner.livingCostDailyMinor
+          : Number.POSITIVE_INFINITY,
+    });
     let drawn = 0,
       share = 0;
     if (retained > 0) {
@@ -1301,12 +1302,7 @@ function month(api: CoreAPI): void {
         c,
         owner.id,
         businessData.drawShares.map((s) =>
-          option(s, {
-            need: p("businessDrawNeedWeight") * need * s,
-            keep: -p("businessDrawKeepWeight") * short * s,
-            surplus: p("businessDrawSurplusWeight") * spare * s,
-            size: -p("businessDrawSizeWeight") * s * s,
-          }),
+          option(s, ownerDrawReasons(p, { need, short, spare }, s)),
         ),
       ).selected!;
       share = Number(selected.targetId.split(":").at(-1));
@@ -1362,6 +1358,73 @@ function month(api: CoreAPI): void {
         netThrough: net - drawn,
       });
   }
+}
+
+/**
+ * The three circumstances an owner's draw weighs, each sliding with the cash
+ * in hand and none a bar. `need`: the owner's cash against a month of their
+ * living costs (1 with none, toward 0 as it grows). `short` and `spare`: the
+ * business's cash against a buffer of a month of everything it pays out, not
+ * only payroll (a firm with no payroll would otherwise have no cushion and
+ * all its cash spare, so every owner drew), the shortfall below it and the
+ * share above it.
+ */
+export function ownerDrawCase(
+  p: (key: string) => number,
+  c: {
+    cashMinor: number;
+    payrollCushionMinor: number;
+    annualOutflowsMinor: number;
+    ownerDays: number;
+  },
+): { need: number; short: number; spare: number } {
+  const buffer = Math.max(
+    c.payrollCushionMinor,
+    Math.round(
+      (c.annualOutflowsMinor / p("macroMonthsPerYear")) *
+        p("businessCushionMonths"),
+    ),
+  );
+  return {
+    need: 1 / (1 + c.ownerDays / p("businessDaysPerMonth")),
+    short: buffer > 0 ? Math.max(0, 1 - c.cashMinor / buffer) : 0,
+    spare: c.cashMinor > buffer ? 1 - buffer / c.cashMinor : 0,
+  };
+}
+
+/**
+ * Why an owner draws a share of the profit the business has kept, each reason
+ * sliding with the owner's and the business's own cash and none a bar: the
+ * owner's need (their cash against a month of living costs, `need`, 1 when
+ * they have none and toward 0 as it grows), the business's shortfall against
+ * its buffer (`short`, a reason to keep it in), its cash beyond the buffer
+ * (`spare`), and a reason against taking everything. Keeping is a share of 0.
+ */
+export function ownerDrawReasons(
+  p: (key: string) => number,
+  c: { need: number; short: number; spare: number },
+  share: number,
+): Record<string, number> {
+  return {
+    need: p("businessDrawNeedWeight") * c.need * share,
+    keep: -p("businessDrawKeepWeight") * c.short * share,
+    surplus: p("businessDrawSurplusWeight") * c.spare * share,
+    size: -p("businessDrawSizeWeight") * share * share,
+  };
+}
+
+/** What a business pays out in a year to run (payroll, supplies and the rest): the share of its demand its kind does not keep as margin. */
+function annualOutflowsMinor(
+  api: CoreAPI,
+  book: { kindId: string; annualDemandMinor: number },
+): number {
+  const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
+    (row) => row.id === book.kindId,
+  );
+  return kind
+    ? book.annualDemandMinor *
+        (api.parameter("one") - api.parameter(kind.marginParameter))
+    : 0;
 }
 
 /** Room in each place's market for each kind: incumbents' demand above their capacity, as a share of capacity. */
