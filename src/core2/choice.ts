@@ -190,22 +190,37 @@ export function traitLean(
   actor: Pick<PersonState, "traits">,
   actKinds: readonly string[],
 ): number {
-  // Called millions of times on a busy day: no per-call closures.
-  const parameters = core.data.parameters;
-  const zero = parameter("zero", parameters);
+  // Called millions of times on a busy day: no per-call closures, and in
+  // play the bounds are read once per parameter table.
+  const bounds = leanBounds(core.data.parameters);
+  const zero = bounds.zero;
   const lean = kindLean(core, actor);
   let sum = zero;
   for (let i = 0; i < actKinds.length; i++)
     sum += lean.sum[KIND_INDEX.get(actKinds[i]!) ?? lean.sum.length] ?? zero;
   return actKinds.length && lean.perKind > zero
     ? Math.max(
-        parameter("negativeOne", parameters),
-        Math.min(
-          parameter("one", parameters),
-          sum / (actKinds.length * lean.perKind),
-        ),
+        bounds.negativeOne,
+        Math.min(bounds.one, sum / (actKinds.length * lean.perKind)),
       )
     : zero;
+}
+
+/** traitLean's bounds, kept per parameter table in play; tests re-read them, since some change a value in place. */
+const boundsByParameters = new WeakMap<
+  object,
+  { zero: number; one: number; negativeOne: number }
+>();
+function leanBounds(parameters: CoreState["data"]["parameters"]) {
+  const kept = bookkeeping() ? undefined : boundsByParameters.get(parameters);
+  if (kept) return kept;
+  const bounds = {
+    zero: parameter("zero", parameters),
+    one: parameter("one", parameters),
+    negativeOne: parameter("negativeOne", parameters),
+  };
+  boundsByParameters.set(parameters, bounds);
+  return bounds;
 }
 
 /**
