@@ -658,7 +658,19 @@ function play(
       measureId: "law-wiring-housing-line",
       carry: true,
     });
-    step(core, HELPED_DAYS);
+    // Every tenant seen on any day of the window, as it stood that day: a
+    // household that moves in and out between the raise and the end is paid
+    // at the rent it held while it rented.
+    const seen = new Map<string, Tenant[]>();
+    const note = () => {
+      for (const t of tenants(api))
+        seen.set(t.id, [...(seen.get(t.id) ?? []), t]);
+    };
+    note();
+    for (let day = 0; day < HELPED_DAYS; day += 1) {
+      step(core, 1);
+      note();
+    }
     // Rent help is paid under the measure that last changed the paying line, so
     // this government's help carries this law; another government whose line
     // stands above its own base pays under its own (a state budget, say).
@@ -682,8 +694,10 @@ function play(
     check(
       "rentHelp.lease",
       paid.length > 0 &&
-        paid.every((p) => Boolean(rentAtRaise.get(owner(p))?.leaseId)),
-      "a payment went to a household with no lease at the raise",
+        paid.every((p) =>
+          (seen.get(owner(p)) ?? []).some((t) => Boolean(t.leaseId)),
+        ),
+      "a payment went to a household that held no lease in the window",
     );
     // No more than the rent: a full household's payment is at most its rent; a counted group's, at most the rent of the households it stands for.
     // The help is paid at the rent and size in force that month, so a lease renewed in the window, or a counted group grown in it, is held to its later rent.
@@ -694,15 +708,11 @@ function play(
       t ? Math.ceil(t.rentMinor * t.weight) + t.weight : -1;
     const rentNote = (p: Post) => {
       const [a, b] = [rentAtRaise.get(owner(p)), rentAtEnd.get(owner(p))];
-      return `${p.ref} paid ${p.gross} (rent ${a?.rentMinor ?? "none"} for ${a?.weight ?? "none"} at the raise, ${b?.rentMinor ?? "none"} for ${b?.weight ?? "none"} at the end)`;
+      const days = seen.get(owner(p)) ?? [];
+      return `${p.ref} paid ${p.gross} (rent ${a?.rentMinor ?? "none"} for ${a?.weight ?? "none"} at the raise, ${b?.rentMinor ?? "none"} for ${b?.weight ?? "none"} at the end, at most ${Math.max(-1, ...days.map(bound))} on the ${days.length} days it rented)`;
     };
     const over = paid.filter(
-      (p) =>
-        p.gross >
-        Math.max(
-          bound(rentAtRaise.get(owner(p))),
-          bound(rentAtEnd.get(owner(p))),
-        ),
+      (p) => p.gross > Math.max(-1, ...(seen.get(owner(p)) ?? []).map(bound)),
     );
     const later = paid.filter(
       (p) => p.gross > bound(rentAtRaise.get(owner(p))) && !over.includes(p),
@@ -718,7 +728,7 @@ function play(
     );
     // A counted renter's help goes into its group's fund, the place's pooled money for it.
     const counted = paid.filter(
-      (p) => rentAtRaise.get(owner(p))?.tier === "counted",
+      (p) => (seen.get(owner(p)) ?? [])[0]?.tier === "counted",
     );
     check(
       "rentHelp.counted",
