@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-press-town-adults
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T08:51:28.947Z
 ---
 
 **What.** In Long Hill, Connecticut's played year (seed m7b), townAdultsByBand in src/core2/modules/press.ts takes 2.25 s of a profiled pair, 2.08 s of it in countedResidents (src/core2/electorate.ts). Once a week it asks for every counted resident of the world, 30,643 in Long Hill's, as full voter rows with packed traits, weekly work minutes and pay built per household, sorted by id, then keeps only the town's 8,521 to count adults by age band. Read only the town's counted residents, with their birth date and household weight, sorted by id as before so the sums add up in the same order, through one shared rule for who votes as counted.
