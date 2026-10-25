@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: claude/web-reach-crime-justice
 pr: #5892
 blocked-on:
