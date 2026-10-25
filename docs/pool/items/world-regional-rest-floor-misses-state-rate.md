@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/regional-rest-state-rate
-pr:
+pr: #6019
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T10:19:06.986Z
