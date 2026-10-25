@@ -13,7 +13,8 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { JOBS_MODULE_ID } from "./modules/jobs";
+import { JOBS_MODULE_ID, hirePay, type PositionRow } from "./modules/jobs";
+import { lawInForce } from "./modules/laws";
 import { residentPerson } from "./modules/residents";
 import { PROFILE_FACT_KINDS, profileFor } from "./opening-profile";
 import { coreAPI } from "./state";
@@ -106,3 +107,46 @@ it("hires into one position pay differ by their own schooling, full and counted 
     `no drawn place had two hires at one position pay with different schooling: ${tried.join("; ")}`,
   );
 }, 1_800_000);
+
+it("schooling never takes a hire under the minimum wage an opening was posted at", () => {
+  const place = drawPlace(`${seed}:floor`, "schooling-pay");
+  const where = `${place.name} (${place.key}), seed ${place.seed}`;
+  const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const api = coreAPI(core);
+  const floor = lawInForce(api, "minimum-wage").value ?? 0;
+  expect(floor, `${where}: minimum wage in force`).toBeGreaterThan(0);
+  const job = [...core.jobs.values()].find(
+    (row) =>
+      !core.organizations.get(row.organizationId)?.publicPayAuthority &&
+      (row.hourlyMinor ?? 0) > 0,
+  );
+  expect(job, `${where}: a private job to post from`).toBeDefined();
+  const opening = (hourlyMinor: number): PositionRow => ({
+    id: `position:test:${hourlyMinor}`,
+    organizationId: job!.organizationId,
+    placeId: place.key,
+    templateJobId: job!.id,
+    title: job!.title,
+    occupation: job!.title,
+    hourlyMinor,
+    openedAt: core.date,
+    status: "open",
+    reasonKey: "test",
+  });
+  // A hire whose schooling pays under the all-worker average: their pay at an
+  // opening well above the floor comes out lower than posted.
+  const above = opening(floor * 2);
+  const hire = [...core.people.keys()].find(
+    (id) => hirePay(api, above, id) < above.hourlyMinor,
+  );
+  expect(hire, `${where}: a hire paid under the posted rate`).toBeDefined();
+  expect(hirePay(api, above, hire!)).toBeGreaterThanOrEqual(floor);
+  // At an opening posted at the floor, the same hire is paid the floor.
+  expect(hirePay(api, opening(floor), hire!), `${where}: ${hire}`).toBe(floor);
+  process.stdout.write(
+    `schooling floor: ${where}: ${hire} paid ${hirePay(api, above, hire!)} at ${above.hourlyMinor}, ${floor} at the floor\n`,
+  );
+}, 300_000);

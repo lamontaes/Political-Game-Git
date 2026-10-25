@@ -2112,9 +2112,22 @@ export function hirePay(
   const gap = weekly / api.parameter("jobsWeeklyEarningsAllWorkers") - 1;
   // stopgapId: SG-WORLD-jobs-schooling-pay-share (the within-role share of the schooling pay gap is assumed)
   stopgap("SG-WORLD-jobs-schooling-pay-share");
-  return Math.round(
+  const pay = Math.round(
     position.hourlyMinor * (1 + api.parameter("jobsSchoolingPayShare") * gap),
   );
+  // Schooling never takes a hire under the floors the opening was posted to
+  // respect: the minimum wage and, at a public employer, the public pay floor.
+  const template =
+    c.jobs.get(position.templateJobId) ??
+    residentsRuntime(c)?.jobs.get(position.templateJobId) ??
+    countedJobsOf(c, position.organizationId)[0];
+  const floor = Math.max(
+    wageFloor(api),
+    template
+      ? publicPayFloorHourly(api, position.organizationId, template)
+      : api.parameter("zero"),
+  );
+  return Math.max(pay, Math.min(position.hourlyMinor, floor));
 }
 
 function hireCounted(
