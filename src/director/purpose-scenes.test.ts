@@ -19,6 +19,7 @@ import { resultOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import type { ScheduleEntry } from "./scheduling";
 
 // Scenes with a purpose fire in play from their cause records, in the lines
 // that play (no grading view). In the played world, on a fresh seed and places
@@ -163,6 +164,45 @@ const run = (drawSeed: string): string | null => {
     (
       core.households.get(core.people.get(filer)!.householdId)?.memberIds ?? []
     ).some((id) => id !== filer && core.people.get(id)?.alive);
+  // One sitting covers a day for the same people (scheduling.ts): a filer
+  // who lost two races that day, or two who live together and both lost,
+  // hear it in one sitting, which takes the other moments in. The scene for
+  // a filer's moment is its own, or the day's sitting that took it in.
+  const stagedFor = (
+    filer: PersonId,
+    entry: ScheduleEntry,
+    typeKey: string,
+  ) => {
+    if (entry.bindings.some((row) => row.typeKey === typeKey))
+      return { personId: filer, entry };
+    for (const [personId, book] of director.ledger.people)
+      for (const row of book.schedule)
+        if (
+          row.date === entry.date &&
+          row.bindings.some(
+            (binding) =>
+              binding.typeKey === typeKey &&
+              binding.roles.some((role) => role.personIds.includes(filer)) &&
+              (binding.joined ?? []).some(
+                (joined) => joined.momentId === entry.momentId,
+              ),
+          )
+        )
+          return { personId, entry: row };
+    return undefined;
+  };
+  // A scene that stands on the cause, or a sitting that took it in.
+  const standsOn = (
+    staged: { entry: ScheduleEntry },
+    own: ScheduleEntry,
+    composed: { cause: { id: string } },
+    causeId: string,
+  ) =>
+    staged.entry === own
+      ? composed.cause.id === causeId
+      : staged.entry.bindings
+          .flatMap((row) => row.joined ?? [])
+          .some((row) => row.causeId === causeId);
   // A top-two or top-four primary sends only its top finishers on. Its record
   // names everyone it put out and fires their loss on the night it plays: at
   // home with the household, or the race's own scene for one who lives alone.
@@ -181,19 +221,26 @@ const run = (drawSeed: string): string | null => {
         .get(filer)!
         .schedule.find((row) => row.momentId.includes(primary!.id));
       expect(entry, `${here}: the primary fired no scene`).toBeTruthy();
-      const home = livesWithSomeone(filer);
-      expect(
-        entry!.bindings.map((row) => row.typeKey),
-        here,
-      ).toContain(home ? "family-loss" : "race-lost");
-      const scene = purposeScene(core, director, filer, entry!);
+      const typeKey = livesWithSomeone(filer) ? "family-loss" : "race-lost";
+      const staged = stagedFor(filer, entry!, typeKey);
+      expect(staged, `${here}: no ${typeKey} scene`).toBeTruthy();
+      const scene = purposeScene(
+        core,
+        director,
+        staged!.personId,
+        staged!.entry,
+        { typeKey },
+      );
       expect(scene?.kind, here).toBe("composed");
       if (scene?.kind !== "composed") continue;
-      expect(scene.scene.cause.id, here).toBe(primary!.id);
-      expect(
-        scene.scene.facts.find((row) => row.key === "office")?.recordIds,
-        here,
-      ).toContain(primary!.id);
+      expect(standsOn(staged!, entry!, scene.scene, primary!.id), here).toBe(
+        true,
+      );
+      if (staged!.entry === entry)
+        expect(
+          scene.scene.facts.find((row) => row.key === "office")?.recordIds,
+          here,
+        ).toContain(primary!.id);
       told.push(
         `${scene.scene.cause.id} (out in the primary): "${scene.scene.talk.state.text}"`,
       );
@@ -224,39 +271,17 @@ const run = (drawSeed: string): string | null => {
       );
     expect(entry, `${here}: the count fired no scene`).toBeTruthy();
     const won = result!.winnerId === filer;
-    // One sitting covers a day for the same people (scheduling.ts): a filer
-    // who lost two races that day, or two who live together and both lost,
-    // hear it in one sitting, which takes the other moments in.
-    const sitting = (typeKey: string) => {
-      if (entry!.bindings.some((row) => row.typeKey === typeKey))
-        return { personId: filer, entry: entry! };
-      for (const [personId, book] of director.ledger.people)
-        for (const row of book.schedule)
-          if (
-            row.date === entry!.date &&
-            row.bindings.some(
-              (binding) =>
-                binding.typeKey === typeKey &&
-                binding.roles.some((role) => role.personIds.includes(filer)) &&
-                (binding.joined ?? []).some(
-                  (joined) => joined.momentId === entry!.momentId,
-                ),
-            )
-          )
-            return { personId, entry: row };
-      return undefined;
-    };
     // A filer who lives alone by the count (their household moved out or
     // died) has the race's own scene: nobody is at home to meet them.
     if (!livesWithSomeone(filer)) {
       expect(
-        sitting(won ? "race-won" : "race-lost"),
+        stagedFor(filer, entry!, won ? "race-won" : "race-lost"),
         `${here}: no ${won ? "race-won" : "race-lost"} scene`,
       ).toBeTruthy();
       alone += 1;
       continue;
     }
-    const staged = sitting(won ? "family-win" : "family-loss");
+    const staged = stagedFor(filer, entry!, won ? "family-win" : "family-loss");
     expect(
       staged,
       `${here}: no ${won ? "family-win" : "family-loss"} scene`,
@@ -272,23 +297,15 @@ const run = (drawSeed: string): string | null => {
     );
     expect(scene?.kind, here).toBe("composed");
     if (scene?.kind !== "composed") continue;
-    const causeId = `election-result:${contest.id}`;
-    if (staged!.entry === entry) {
-      expect(scene.scene.cause.id, here).toBe(causeId);
-      if (!won)
-        expect(
-          scene.scene.facts.find((row) => row.key === "opponent")?.recordIds,
-          here,
-        ).toContain(result!.winnerId);
-    } else
-      // Taken into the day's sitting about another count: the sitting names
-      // this filer's count among its records.
+    expect(
+      standsOn(staged!, entry!, scene.scene, `election-result:${contest.id}`),
+      here,
+    ).toBe(true);
+    if (staged!.entry === entry && !won)
       expect(
-        staged!.entry.bindings
-          .flatMap((row) => row.joined ?? [])
-          .map((row) => row.causeId),
+        scene.scene.facts.find((row) => row.key === "opponent")?.recordIds,
         here,
-      ).toContain(causeId);
+      ).toContain(result!.winnerId);
     counted += 1;
     told.push(
       `${scene.scene.cause.id} (${won ? "won" : "lost"}): "${scene.scene.talk.state.text}"`,
