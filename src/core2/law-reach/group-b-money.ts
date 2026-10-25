@@ -36,7 +36,6 @@ import {
 import { flowWeights, fundOf } from "../counted-money";
 import { getRow, putRow, REACH_B_MODULE_ID, rowsOf } from "./group-b-store";
 import { payReach } from "./pay-reach";
-import { appliedTo, lawApplied, type AppliedTarget } from "./applied";
 import { fundFederalStanding, registerLinePayments } from "../budgets-treasury";
 import tuition from "../data/opening-private-tuition.json" with { type: "json" };
 

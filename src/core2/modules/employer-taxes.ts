@@ -29,7 +29,6 @@ import { countedPayment, paydayLaw } from "../counted-money";
 import { withholdingFor } from "../tax-withholding";
 import { BUDGETS_MODULE_ID, governments, withholdPay } from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { lawApplied } from "../law-reach/applied";
 import { noteTownRevenue } from "../budgets-treasury";
 
 export const EMPLOYER_TAXES_MODULE_ID = "core2-employer-taxes-v1";

@@ -55,7 +55,6 @@ import {
   LAWS_MODULE_ID,
 } from "./laws";
 import { localAuthority, type EnactedAuthority } from "../laws-in-force";
-import { lawApplied } from "../law-reach/applied";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote, votesOf } from "./record";
