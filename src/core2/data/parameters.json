@@ -5364,6 +5364,17 @@
       "citation": "From a gentle rise with wealth to most of the very wealthy holding a trust."
     }
   },
+  "playerEntryAge": {
+    "value": 18,
+    "tag": "TUNABLE",
+    "citation": "The age the player is drawn at, the start of adulthood (the age of majority is 18 in 48 of the 50 states). The opening keeps at least one full resident of this age wherever the place's own households can hold one, so the person the player is drawn from exists in every place. Matches the bench player's entry age (src/bench/world.ts).",
+    "spread": {
+      "low": 17,
+      "high": 21,
+      "unit": "years",
+      "citation": "From a player who starts as a 17-year-old turning 18 in play to the age of majority for alcohol (21)."
+    }
+  },
   "cohortSearchMinimumHouseholds": {
     "value": 400,
     "tag": "TUNABLE",
