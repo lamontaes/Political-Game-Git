@@ -82,10 +82,14 @@ it(`two worlds' addresses differ in length and order, each citing its own number
     for (const other of seen)
       expect(lines, `${where} and ${other.where}`).not.toEqual(other.lines);
     seen.push({ where, lines, order: levels });
+    // A pair that differs in length and in which comes first, the numbers
+    // or the occasion.
+    const numbersFirst = (order: string[]) =>
+      order.indexOf("country") < order.indexOf("occasion");
     const pair = seen.find(
       (other) =>
         other.lines.length !== lines.length &&
-        other.order.join() !== levels.join(),
+        numbersFirst(other.order) !== numbersFirst(levels),
     );
     if (pair) {
       console.log(`OPENING ADDRESS pair: ${pair.where} and ${where}`);
