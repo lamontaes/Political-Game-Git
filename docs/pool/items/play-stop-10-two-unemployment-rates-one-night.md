@@ -5,13 +5,14 @@ area: world
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/unemployment-scope
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: effects
 milestone: play-first
+claimed-at: 2026-10-25T15:09:54.053Z
 ---
 
 **What.** On the first evening of the v0.22.10 release, the President's speech line reads "The unemployment rate is 4.1 percent." The news panel on the same night ends "The unemployment rate is 4.4 percent. Good night." Nothing says one is national and one is the region. A week later News shows "NATION · 2025-01 Unemployment 4.1%" and "REGION · 2025-01 unemploymentPct 4.4". I expected one rate, or each labeled with where it applies.
