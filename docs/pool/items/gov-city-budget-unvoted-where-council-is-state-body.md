@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: in-pr
+status: open
 claimed-by:
 pr: #5588
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/office-day-acts.ts, src/core2/budget-line-administration-staffing.test.ts
 
 **Notes.** Found Oct 25, 2026 by the fixer on PR 5588 (office-budget-line-reaches-pay): the merger's drawn place 1150000, world seed f73674b020840528c35ee69e493ace9ce2b5ece15f39c2162b48622e3256ae64, kept its administration line at 190276913260 because the city budget (budget:place:1150000:2025) was carried forward unvoted; the council's own budget bill (HB 34) passed with every line 0.
+
+Sent back 2026-10-25 from PR #5588 (branch claude/budget-line-reaches-pay): current-main head e0c51ae576 fails the raise payroll proof at budget-line-administration-staffing.test.ts:192 in Worley, Idaho (1688480), independent root cef553a7f374d5e75a07778b1a15fd77, world seed c178de8f3b3288aac2e9dd092ab200910a1abdec5c2dc6eeb443e826535e5850 (adopted administration 2373322 + 1582214, zero new hires); preserve this failure, prove shared-government payroll and add the routing item's Done-when table row (the body still says proof only); finish on that branch, merge main into it first.
