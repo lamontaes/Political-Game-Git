@@ -1191,6 +1191,8 @@ function partyRows(party) {
 
 // ---- Campaigning (step 4): each act answered by the people it reaches ----
 let campaignResult = "";
+// Each person the last call reached, in the English engine's words.
+let campaignLines = [];
 // The speech being built: the parts said and the four on offer, from the server.
 let speechState = null;
 function debatePanel(debate) {
@@ -1312,6 +1314,13 @@ async function campaignRows() {
       const result = await post(
         `/api/campaign/day?${new URLSearchParams({ filingId: filing.id, kind: kindOf[outing], ...(outletId ? { outletId } : {}) })}`,
       );
+      campaignLines = (result.calls ?? []).map((call) => call.line);
+      // The calls are read on the sheet, each person with what they gave or why not.
+      if (outing === "calls" && result.callsLine) {
+        campaignResult = result.callsLine;
+        openSheet("campaigns");
+        return;
+      }
       campaignResult = [
         controls.campaignOutings[outing],
         result.doorsKnocked ? `${result.doorsKnocked} doors` : "",
@@ -1331,6 +1340,7 @@ async function campaignRows() {
       openSheet("campaigns");
     };
     const act = async (kind, extra = {}) => {
+      campaignLines = [];
       const result = await post(
         `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
       );
@@ -1385,6 +1395,7 @@ async function campaignRows() {
               type: "button",
               textContent: `${controls.campaignOutings[choice.outing]} · ${choice.hours} ${controls.campaignOutings.hours}`,
               disabled: !choice.available,
+              title: choice.why ?? "",
             });
             b.addEventListener("click", () =>
               goOut(choice.outing, choice.outletId),
@@ -1392,6 +1403,12 @@ async function campaignRows() {
             return b;
           }),
         ),
+        // A grayed act says why, in words, beside the buttons.
+        ...(outings ?? [])
+          .filter((choice) => !choice.available && choice.why)
+          .map((choice) =>
+            el("div", { className: "why", textContent: choice.why }),
+          ),
         el(
           "div",
           {},
@@ -1445,6 +1462,9 @@ async function campaignRows() {
           ? `Poll ${polls.at(-1).date}: ${polls.at(-1).contacted}`
           : "",
         campaignResult ? el("div", { textContent: campaignResult }) : "",
+        ...campaignLines.map((line) =>
+          el("div", { className: "row call", textContent: line }),
+        ),
       ),
     );
   }

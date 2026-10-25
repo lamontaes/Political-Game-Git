@@ -1,0 +1,412 @@
+{
+  "schema": "english-parts/1",
+  "register": "donor-calls",
+  "description": "What the Campaigns screen says when the player calls donors: each person asked and what they gave or why not, the call's total, and why a campaign act is grayed. Every part is a whole sentence; the facts come from the gift rows, the person records and the campaign's account.",
+  "slots": {
+    "name": "The person asked, from the person records.",
+    "amount": "Dollars given, from the gift row and journal entry.",
+    "gave": "How many people gave on this call.",
+    "asked": "How many people were asked on this call.",
+    "cash": "Dollars in the campaign's account.",
+    "price": "Dollars the hall costs."
+  },
+  "maxWords": 20,
+  "parts": [
+    {
+      "key": "donor-calls.gave.name-gave-amount",
+      "move": "gave",
+      "kind": "written",
+      "text": "{name} gave {amount}.",
+      "uses": [
+        {
+          "move": "gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "gave"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "gave"
+      }
+    },
+    {
+      "key": "donor-calls.gave.name-put-in-amount-for-your-campaign",
+      "move": "gave",
+      "kind": "written",
+      "text": "{name} put in {amount} for your campaign.",
+      "uses": [
+        {
+          "move": "gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "gave"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "gave"
+      }
+    },
+    {
+      "key": "donor-calls.not-warm.name-has-no-reason-yet-to-give-to-your-campaign",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} has no reason yet to give to your campaign.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "not-warm"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      }
+    },
+    {
+      "key": "donor-calls.not-warm.name-would-rather-keep-the-money-for-now",
+      "move": "not-warm",
+      "kind": "written",
+      "text": "{name} would rather keep the money for now.",
+      "uses": [
+        {
+          "move": "not-warm",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "not-warm"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "not-warm"
+      }
+    },
+    {
+      "key": "donor-calls.no-spare.name-has-nothing-to-spare-after-the-month-s-bills",
+      "move": "no-spare",
+      "kind": "written",
+      "text": "{name} has nothing to spare after the month's bills.",
+      "uses": [
+        {
+          "move": "no-spare",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "no-spare"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "no-spare"
+      }
+    },
+    {
+      "key": "donor-calls.no-spare.name-cannot-spare-anything-right-now",
+      "move": "no-spare",
+      "kind": "written",
+      "text": "{name} cannot spare anything right now.",
+      "uses": [
+        {
+          "move": "no-spare",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "no-spare"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "no-spare"
+      }
+    },
+    {
+      "key": "donor-calls.at-limit.name-has-already-given-the-most-the-law-allows",
+      "move": "at-limit",
+      "kind": "written",
+      "text": "{name} has already given the most the law allows.",
+      "uses": [
+        {
+          "move": "at-limit",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "at-limit"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "at-limit"
+      }
+    },
+    {
+      "key": "donor-calls.small.name-could-spare-less-than-a-dollar",
+      "move": "small",
+      "kind": "written",
+      "text": "{name} could spare less than a dollar.",
+      "uses": [
+        {
+          "move": "small",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "small"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "small"
+      }
+    },
+    {
+      "key": "donor-calls.total.your-calls-raised-amount-from-gave-of-asked-people",
+      "move": "total",
+      "kind": "written",
+      "text": "Your calls raised {amount} from {gave} of {asked} people.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "total"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      }
+    },
+    {
+      "key": "donor-calls.total.gave-of-the-asked-people-you-called-gave-amount-in-all",
+      "move": "total",
+      "kind": "written",
+      "text": "{gave} of the {asked} people you called gave, {amount} in all.",
+      "uses": [
+        {
+          "move": "total",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "total"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "total"
+      }
+    },
+    {
+      "key": "donor-calls.none-gave.you-called-asked-people-and-none-of-them-gave",
+      "move": "none-gave",
+      "kind": "written",
+      "text": "You called {asked} people and none of them gave.",
+      "uses": [
+        {
+          "move": "none-gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "none-gave"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "none-gave"
+      }
+    },
+    {
+      "key": "donor-calls.none-gave.none-of-the-asked-people-you-called-gave-anything",
+      "move": "none-gave",
+      "kind": "written",
+      "text": "None of the {asked} people you called gave anything.",
+      "uses": [
+        {
+          "move": "none-gave",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "none-gave"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "none-gave"
+      }
+    },
+    {
+      "key": "donor-calls.grayed-calls-nobody.you-know-no-one-old-enough-to-ask-for-money-yet",
+      "move": "grayed-calls-nobody",
+      "kind": "written",
+      "text": "You know no one old enough to ask for money yet.",
+      "uses": [
+        {
+          "move": "grayed-calls-nobody",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "grayed-calls-nobody"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "grayed-calls-nobody"
+      }
+    },
+    {
+      "key": "donor-calls.grayed-calls-nobody.there-is-no-one-left-to-call-meet-more-people-first",
+      "move": "grayed-calls-nobody",
+      "kind": "written",
+      "text": "There is no one left to call. Meet more people first.",
+      "uses": [
+        {
+          "move": "grayed-calls-nobody",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "grayed-calls-nobody"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "grayed-calls-nobody"
+      }
+    },
+    {
+      "key": "donor-calls.grayed-event-cash.the-campaign-has-cash-and-the-hall-costs-price",
+      "move": "grayed-event-cash",
+      "kind": "written",
+      "text": "The campaign has {cash} and the hall costs {price}.",
+      "uses": [
+        {
+          "move": "grayed-event-cash",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "grayed-event-cash"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "grayed-event-cash"
+      }
+    },
+    {
+      "key": "donor-calls.grayed-event-platform.take-a-stand-on-something-first-so-there-is-something-to-spe",
+      "move": "grayed-event-platform",
+      "kind": "written",
+      "text": "Take a stand on something first, so there is something to speak about.",
+      "uses": [
+        {
+          "move": "grayed-event-platform",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "grayed-event-platform"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "grayed-event-platform"
+      }
+    },
+    {
+      "key": "donor-calls.grayed-doors.you-have-knocked-on-every-door-in-town",
+      "move": "grayed-doors",
+      "kind": "written",
+      "text": "You have knocked on every door in town.",
+      "uses": [
+        {
+          "move": "grayed-doors",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "grayed-doors"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "grayed-doors"
+      }
+    },
+    {
+      "key": "donor-calls.grayed-interview.no-paper-or-station-has-room-to-ask-you-this-week",
+      "move": "grayed-interview",
+      "kind": "written",
+      "text": "No paper or station has room to ask you this week.",
+      "uses": [
+        {
+          "move": "grayed-interview",
+          "subject": "campaign",
+          "role": "fundraising",
+          "choice": "grayed-interview"
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "deliver-news",
+        "key": "grayed-interview"
+      }
+    }
+  ]
+}

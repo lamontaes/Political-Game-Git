@@ -38,6 +38,7 @@ import {
   type SpeechBuild,
 } from "../director/speech-builder";
 import { backdropFile, stagePeople } from "./scene";
+import { dollarsOf, donorLine } from "./donor-words";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
 const ELECTIONS = "core2-elections-v1";
@@ -111,6 +112,10 @@ export function campaignView(core: CoreState, personId: string) {
               outing,
               hours: choice.hours,
               available: choice.available,
+              // A grayed act says why, from the records that gray it.
+              ...(choice.available
+                ? {}
+                : { why: grayedWhy(core, personId, filing.id, choice) }),
               ...(outletId ? { outletId } : {}),
             },
           ];
@@ -127,6 +132,34 @@ export function campaignView(core: CoreState, personId: string) {
       };
     }),
   };
+}
+
+/** The sentence for an act that is grayed, from the facts the day's choice carries. */
+function grayedWhy(
+  core: CoreState,
+  personId: string,
+  filingId: string,
+  choice: ReturnType<typeof campaignDayChoices>[number],
+): string {
+  const say = (move: string, slots: Record<string, string | number> = {}) =>
+    donorLine(core.seed, personId, move, filingId, slots);
+  switch (choice.kind) {
+    case "raise-money":
+      return say("grayed-calls-nobody");
+    case "event":
+      return choice.facts.platformStances === 0
+        ? say("grayed-event-platform")
+        : say("grayed-event-cash", {
+            cash: dollarsOf(choice.facts.cashMinor),
+            price: dollarsOf(choice.facts.venuePriceMinor),
+          });
+    case "canvass":
+      return say("grayed-doors");
+    case "interview":
+      return say("grayed-interview");
+    default:
+      return "";
+  }
 }
 
 /**
@@ -386,7 +419,41 @@ export function campaignDay(
     ...(input.outletId ? { outletId: input.outletId } : {}),
   });
   const met = outingPeople(core, kind, result);
+  // Each person asked for money: their name, what they gave or why not, in words.
+  const calls = result.answers.map((answer) => {
+    const person = core.people.get(answer.personId);
+    const name = person ? `${person.givenName} ${person.familyName}` : "";
+    const recordId = `${input.filingId}|${answer.personId}`;
+    return {
+      personId: answer.personId,
+      name,
+      givenMinor: answer.givenMinor,
+      why: answer.why,
+      line: donorLine(
+        core.seed,
+        personId,
+        answer.why === "gave" ? "gave" : answer.why,
+        recordId,
+        { name, amount: dollarsOf(answer.givenMinor) },
+      ),
+    };
+  });
+  const gave = calls.filter((c) => c.givenMinor > 0).length;
+  const callsLine =
+    kind !== "raise-money" || calls.length === 0
+      ? ""
+      : gave > 0
+        ? donorLine(core.seed, personId, "total", input.filingId, {
+            amount: dollarsOf(result.raisedMinor),
+            gave,
+            asked: calls.length,
+          })
+        : donorLine(core.seed, personId, "none-gave", input.filingId, {
+            asked: calls.length,
+          });
   return {
+    calls,
+    callsLine,
     ...(met.length ? { scene: outingScene(core, personId, kind, met) } : {}),
     households: [
       ...new Set(met.map((id) => core.people.get(id)?.householdId ?? "")),

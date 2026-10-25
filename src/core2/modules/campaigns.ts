@@ -1241,14 +1241,34 @@ export function askForDonation(
   filingId: string,
   donorId: string,
 ): number {
+  return donationAnswer(api, filingId, donorId).givenMinor;
+}
+
+/** Why an ask brought in nothing, from the donor's own records. */
+export type DonationWhy =
+  "gave" | "not-warm" | "no-spare" | "at-limit" | "small";
+
+/**
+ * An ask answered: what the person gave, or the record-side reason they did
+ * not: their reasons to give are at or below zero (`not-warm`), they hold no
+ * cash beyond their cushion (`no-spare`), they have given what the law allows
+ * (`at-limit`), or what they'd give is under a whole dollar (`small`).
+ */
+export function donationAnswer(
+  api: CoreAPI,
+  filingId: string,
+  donorId: string,
+): { readonly givenMinor: number; readonly why: DonationWhy } {
   const campaign = campaignFor(api, filingId);
   const donor = api.state.people.get(donorId);
-  if (!donor?.alive || ageOn(donor, api.state.date) < 18) return 0;
+  if (!donor?.alive || ageOn(donor, api.state.date) < 18)
+    return { givenMinor: 0, why: "no-spare" };
   const reason = donorReason(api, filingId, donorId);
   const spare =
     donor.liquidMinor -
     campaignParameter("caseCushionMonths") * 30 * donor.livingCostDailyMinor;
-  if (reason <= 0 || spare <= 0) return 0;
+  if (reason <= 0) return { givenMinor: 0, why: "not-warm" };
+  if (spare <= 0) return { givenMinor: 0, why: "no-spare" };
   const limit = contributionLimit(api, campaign.contestId);
   const gift = giftOf(api, filingId, donorId);
   const given = gift?.totalMinor ?? 0;
@@ -1265,7 +1285,8 @@ export function askForDonation(
       : limit.minor - given;
   const amount =
     Math.floor(Math.max(0, Math.min(wanted - given, room)) / 100) * 100;
-  if (amount <= 0) return 0;
+  if (amount <= 0)
+    return { givenMinor: 0, why: room <= 0 ? "at-limit" : "small" };
   postMoney(
     api,
     DONATION_KIND,
@@ -1287,7 +1308,7 @@ export function askForDonation(
     ...campaignFor(api, filingId),
     raisedMinor: campaignFor(api, filingId).raisedMinor + amount,
   });
-  return amount;
+  return { givenMinor: amount, why: "gave" };
 }
 
 /**
