@@ -4687,7 +4687,7 @@
       "low": 45,
       "high": 60,
       "unit": "years of age",
-      "citation": "45 gives a 0.58 ratio between 28 and 45; 60 gives 0.83, which brackets the paper's 0.65 to 0.73."
+      "citation": "45 gives a 0.59 ratio between 28 and 45; 60 gives 0.85, which brackets the paper's 0.65 to 0.73."
     }
   },
   "responseRetrainAgeWidthYears": {
