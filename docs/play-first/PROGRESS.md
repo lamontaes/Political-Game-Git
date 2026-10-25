@@ -6,5 +6,7 @@ The handoff log. Newest first. Every agent adds one line before it stops, in the
 
 ## Log
 
+- 2026-10-25 17:24 · Muse/Spark (Muse Code) · play-stop-21-ballot-stuck-on-first-page · play-first/play-stop-21-ballot-stuck-on-first-page · 14d3aededf · PR opened #6062 · root cause found in pageIn (ResizeObserver re-runs pagination after paging resizes the box, resetting to page 0); fix pushed (pager keeps page across resizes, new content starts at 0); browser check polling.browser.mjs drives filing+skip to Nov 2026 ballot and is mid-verification; the merger takes #6062 when green (before/after screenshots, gate and live-world proof in its body) · none
+
 - 2026-10-24 18:32 · CTO subagent/Claude Opus · lane built (LAW, README, ORDER, 61 items, skill, pool check) · cto/play-first-lane · see the PR head · PR opened #5963 · the CTO merges #5963; then the next agent takes line 1 of ORDER.md (play-stop-23-job-offer-hold-locks-the-game) · none
 - 2026-10-24 18:04 · CTO/Claude Opus · lane opened · cto/play-first-lane · see the PR · PR opened · the next agent takes item 1 of ORDER.md (play-stop-23-job-offer-hold-locks-the-game) · none
