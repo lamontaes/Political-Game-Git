@@ -17,6 +17,7 @@
     "emission-rules-to-particulates",
     "work-requirement-to-coverage",
     "snap-to-food-insecurity",
+    "minimum-wage-to-low-wage-jobs",
     "enforcement-to-hispanic-enrollment",
     "graduation-to-turnout",
     "rent-control-to-rental-supply",
@@ -118,7 +119,8 @@
     "groundwater-limits-to-irrigation-pumping",
     "transit-service-to-ridership",
     "fix-it-first-to-poor-roads",
-    "poor-roads-to-prices"
+    "poor-roads-to-prices",
+    "parks-spending-to-exercise-access"
   ],
   "waiting": {
     "police-to-low-level-arrests": {
@@ -231,9 +233,6 @@
     "minimum-wage-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/modules/jobs.ts wageFloor raises pay; src/core2/world-poverty.ts counts it"
-    },
-    "minimum-wage-to-low-wage-jobs": {
-      "waitingOn": ["labor.minimum-wage-to-median"]
     },
     "unemployment-to-poverty": {
       "waitingOn": [],
@@ -522,8 +521,25 @@
     "federal-rail-expansion-to-riders": {
       "waitingOn": ["federal.rail-expansion-pct"]
     },
-    "parks-spending-to-exercise-access": {
-      "waitingOn": ["budget.parks-added-pct"]
+    "social-security-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "medicare-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "federal-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "state-unemployment-tax-to-unemployment": {
+      "waitingOn": ["labor.unemployment-pct"]
+    },
+    "unemployment-insurance-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
+    },
+    "unemployment-weekly-maximum-to-poverty": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/jobs-benefits.ts payClaims pays each open claim's benefit; src/core2/world-poverty.ts counts that benefit (weekly amount times the weeks left, at most 52) in the household's income, named and counted"
     },
     "revolving-door-ban-to-ex-legislator-lobbyists": {
       "waitingOn": [],
@@ -550,6 +566,10 @@
     "school.graduation": {
       "owner": "OPUS-GOV",
       "links": 6
+    },
+    "labor.unemployment-pct": {
+      "owner": "OPUS-WORLD",
+      "links": 5
     },
     "school.test-scores": {
       "owner": "OPUS-GOV",
@@ -606,10 +626,6 @@
     "spending.disaster-preparedness": {
       "owner": "OPUS-GOV",
       "links": 2
-    },
-    "budget.parks-added-pct": {
-      "owner": "OPUS-GOV",
-      "links": 1
     },
     "crime.all": {
       "owner": "OPUS-CORE",
@@ -784,14 +800,6 @@
       "links": 1
     },
     "labor.formal-employment": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "labor.minimum-wage-to-median": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "labor.unemployment-pct": {
       "owner": "OPUS-WORLD",
       "links": 1
     },

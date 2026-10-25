@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/laws-outcome-links-rest
-pr:
+pr: #6070
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T17:37:04.400Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T17:37:04.400Z
 **Files.** data/research/outcome-web/links.json, src/core2/data/laws/outcome-research-gaps.json, src/core2/data/outcome-web/coverage.json, src/core2/data/stopgaps.json
 
 **Notes.** Filed by the laws lead, Oct 25, splitting `laws-outcome-links-rest` so a PR for three laws does not close the item for all of them. The natural resources line and the social media age check stay in `laws-outcome-links-rest`, with the searches recorded in their gap rows.
+
+Laws lead, Oct 25: PR #6070 opened at fe198c96c5. Three about-zero links to out-migration (income tax rate, estate tax, inheritance tax); the stopgap count now matches the gap file (20).
