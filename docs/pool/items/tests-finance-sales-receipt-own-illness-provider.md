@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/finance-sales-receipt-writer.test.ts, src/core2/modules/work.ts, src/core2/choice.ts
 
 **Notes.** Merger 3 reproduced both cases on checked PR 5907 head 5f0ed17187 and clean main c3c03bc19a with GOLDEN_PATH_SEED=c79c39c75d74bbb891f40bbeffc197dd; isolated baseline: 13 pass, 2 fail in 8.11s. #5829/core-finance-writer-own-illness-provider-red fixed finance-writer-contract.test.ts, not this receipt fixture.
+
+Sent back 2026-10-25 from PR #5987 (branch claude/receipt-own-illness-provider): own local checks and all15receipt cases pass at570896f316, but newer main release40205834226 fails desktop builds at the explicit4GB heap; release-main-red is actively claimed by claude/release-package-heap; resume after that repair lands and recheck locally, with no code defect alleged; finish on that branch, merge main into it first.
