@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: merger3/release-typecheck-heap-2026-10-25
 pr: #6035
 blocked-on:
