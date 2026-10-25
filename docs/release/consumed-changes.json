@@ -1,6 +1,26 @@
 {
   "entries": [
     {
+      "version": "0.24.1",
+      "releasedOn": "2026-10-25",
+      "revision": "db1f761fbeb793ba3aca425405471f8e547862ff",
+      "changeIds": [
+        "core-planned-approach-office-staff-left",
+        "gov-opening-past-terms-gap-a-day-report",
+        "gov-rival-campaign-day-shared-choices",
+        "gov-world-races-governor-races-counted",
+        "law-wiring-government",
+        "merger0-return-5952-2026-10-24",
+        "merger0-returns-5980-5984-2026-10-24",
+        "release-candidate-typecheck-heap",
+        "tests-life-emotion-choice-unexpected-log",
+        "tests-lived-crime-redraw-two-worlds",
+        "tests-played-world-counted-change-nets-zero",
+        "words-word-pack",
+        "world-closure-counted-seeker-non-finite"
+      ]
+    },
+    {
       "version": "0.24.0",
       "releasedOn": "2026-10-24",
       "revision": "f887b559bf8a97dba5b3168210c14994f3d1367a",

@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-research-weights-civic
-pr:
+pr: #6017
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T09:42:36.103Z
