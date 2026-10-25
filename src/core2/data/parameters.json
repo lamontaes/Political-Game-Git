@@ -4655,11 +4655,11 @@
   "causeGivenWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "How strongly what a person has lately given to their causes (volunteer sessions, donations, groups joined, causes shared, each one act, fading at causeGivenDays) weighs against a further act of the same kind (a reason in the chooser). Without it the cause acts scored the same pull each day, so in Bedford, Wyoming (seed 9a4dd331ace7) the third year's 63 volunteers gave a median of 158 sessions, about 340 hours, and 46 donors gave a median of 227 times. Checked against the Census Bureau's hours per formal volunteer (median 24 to 40 hours a year, CEV 2017 to 2023) in a played town's third year.",
+    "citation": "How strongly what a person has lately given to their causes (volunteer sessions, donations, groups joined, causes shared, each one act, fading at causeGivenDays) weighs against a further act of the same kind (a reason in the chooser). Without it the cause acts scored the same pull each day, so in Bedford, Wyoming (seed 9a4dd331ace7) the third year's 63 volunteers gave a median of 158 sessions, about 340 hours, and 46 donors gave a median of 227 times. Set beside the Census Bureau's hours per formal volunteer (median 24 to 40 hours a year, CEV 2017 to 2023) in a played town's third year, as an exploratory proxy: the survey counts every formal volunteer through any organization, the game only cause volunteering.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
-      "reason": "No study measures giving on the chooser's utility scale; the volunteer-hours band checks the town's totals."
+      "reason": "No study measures giving on the chooser's utility scale; the volunteer-hours measure is a broader proxy for the town's totals, not a band."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4672,7 +4672,7 @@
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
-      "reason": "No study measures how the memory of one's own giving fades; the volunteer-hours band checks the town's totals."
+      "reason": "No study measures how the memory of one's own giving fades; the volunteer-hours measure is a broader proxy for the town's totals, not a band."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -4681,11 +4681,11 @@
   "causeJoinedDays": {
     "value": 365,
     "tag": "TUNABLE",
-    "citation": "Days over which joining a cause group fades by a factor of e in the weight against joining another (causeGivenWeight): a membership is a standing commitment, remembered for about a year, not a month. Checked against the share of adults who belong to any group or organization (CEV 2017 to 2023, 23.8 to 27.1 percent) and the groups each member holds in a played town's third year.",
+    "citation": "Days over which joining a cause group fades by a factor of e in the weight against joining another (causeGivenWeight): a membership is a standing commitment, remembered for about a year, not a month. Set beside the share of people who belong to any group or organization (CEV 2017 to 2023, 23.8 to 27.1 percent) and the groups each member holds in a played town's third year, as an exploratory proxy: the survey counts any group, the game only cause groups.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
-      "reason": "No study measures how long one membership weighs against the next; the membership share checks the town's totals."
+      "reason": "No study measures how long one membership weighs against the next; the membership share is a broader proxy for the town's totals, not a band."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
