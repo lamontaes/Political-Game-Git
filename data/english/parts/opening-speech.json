@@ -551,7 +551,10 @@
       "tag": {
         "move": "tell"
       },
-      "bearing": "calm"
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25"
     },
     {
       "key": "opening-speech.state-of-the-union-report.the-unemployment-rate-is-unemployment-rate-perce",
@@ -587,7 +590,10 @@
       "tag": {
         "move": "tell"
       },
-      "bearing": "calm"
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25"
     },
     {
       "key": "opening-speech.state-of-the-union-report.unemployment-is-down-to-unemployment-rate-percen",
@@ -625,7 +631,10 @@
       "tag": {
         "move": "tell"
       },
-      "bearing": "glad"
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25"
     },
     {
       "key": "opening-speech.state-of-the-union-report.unemployment-is-down",

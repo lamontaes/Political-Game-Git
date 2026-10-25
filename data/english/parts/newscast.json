@@ -2488,7 +2488,10 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25"
     },
     {
       "key": "newscast.story-economy.the-unemployment-rate-fell-to-percent-percent",
@@ -2518,7 +2521,10 @@
       "tag": {
         "move": "deliver-news",
         "key": "news-received"
-      }
+      },
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25"
     },
     {
       "key": "newscast.story-economy.the-unemployment-rate-in-the-metro-area-is-percent",
