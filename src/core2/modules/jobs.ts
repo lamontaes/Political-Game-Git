@@ -1344,7 +1344,7 @@ function layOff(
     const shed = Math.floor(budget + 1e-9);
     const rt = residentsRuntime(c);
     if (c.jobs.has(job.id) || shed < 1 || !rt) return "over";
-    rt.store.setJobHeads(job.id, heads - shed);
+    rt.store.setJobHeads(job, heads - shed);
     record(api, {
       personId: job.personId,
       organizationId,
@@ -2290,7 +2290,7 @@ function hireCounted(
   if (calendar) keepCalendar(c, calendar);
   // The hire stands for the jobs the opening offered (one, or the leaver's it
   // replaces), not every household the seeker's record stands for.
-  residentsRuntime(c)?.store.setJobHeads(job.id, position.heads ?? 1);
+  residentsRuntime(c)?.store.setJobHeads(job, position.heads ?? 1);
   if (previous) {
     endCountedJob(c, previous.id);
     record(api, {

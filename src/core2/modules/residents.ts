@@ -2048,7 +2048,7 @@ function keepJobHeads(
       if (Math.abs(left) <= HEADS_EPSILON) break;
       const heads = countedJobHeads(core, keeper);
       const take = left > 0 ? left : -Math.min(-left, heads);
-      store.setJobHeads(keeper.id, heads + take);
+      store.setJobHeads(keeper, heads + take);
       left -= take;
     }
     if (left > HEADS_EPSILON) {
@@ -2058,7 +2058,7 @@ function keepJobHeads(
         holder &&
         addCountedJob(core, { ...job, id, personId: holder }, job.id)
       )
-        store.setJobHeads(id, left);
+        store.setJobHeads({ id, personId: holder }, left);
     } else if (left < -HEADS_EPSILON)
       // A record standing for less than one job at an employer with no
       // other counted job becomes one full job.
@@ -2552,11 +2552,7 @@ export function countedHouseholdJobChanged(
   if (job.endsAt === undefined) store.jobId[m] = job.id;
   else if (store.jobId[m] === job.id)
     store.jobId[m] = h.jobs.find((row) => row.personId === job.personId)?.id;
-  h.wagesMinorYear = Math.round(
-    h.jobs
-      .filter((row) => row.endsAt === undefined)
-      .reduce((n, row) => n + row.wageDailyMinor * DAYS_PER_YEAR, 0),
-  );
+  h.wagesMinorYear = store.wagesOf(h);
   store.version++;
   store.touch(h);
 }
@@ -2608,9 +2604,7 @@ export function removeCountedPerson(
   h.incomeContracts = h.incomeContracts.filter(
     (row) => row.recipientIncome?.personId !== personId,
   );
-  h.wagesMinorYear = h.jobs
-    .filter((job) => job.endsAt === undefined)
-    .reduce((n, job) => n + job.wageDailyMinor * DAYS_PER_YEAR, 0);
+  h.wagesMinorYear = store.wagesOf(h);
   h.retirementMinorYear = h.incomeContracts.reduce(
     (n, row) => n + (row.amountMinor * 12) / Math.max(1, row.periodMonths),
     0,

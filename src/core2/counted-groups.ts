@@ -165,6 +165,9 @@ function grown<T extends Int8Array | Uint8Array>(
   return next;
 }
 
+/** Days a counted job is paid for in a year, as the residents engine pays it. */
+const DAYS_PER_YEAR = 365;
+
 /** Where a packed trait reader keeps its member (a symbol: not a trait key to for...in). */
 const MEMBER = Symbol("member");
 
@@ -439,10 +442,33 @@ export class CountedStore {
     return this.jobHeads.get(jobId) ?? this.weightOf(h);
   }
 
-  /** Set the jobs a counted job stands for, as its employer's staffing decided. */
-  setJobHeads(jobId: string, heads: number): void {
+  /**
+   * Set the jobs a counted job stands for, as its employer's staffing
+   * decided. The household record that holds it earns for those jobs only.
+   */
+  setJobHeads(job: { id: string; personId: string }, heads: number): void {
     this.version++;
-    this.jobHeads.set(jobId, heads);
+    this.jobHeads.set(job.id, heads);
+    const m = this.countedMember(job.personId as PersonId);
+    const h = m === undefined ? undefined : this.households[this.household[m]!];
+    if (h) h.wagesMinorYear = this.wagesOf(h);
+  }
+
+  /**
+   * A household record's yearly pay, as one of the households it stands for
+   * earns it: each open job's wage, times the share of those households its
+   * heads cover (all of them unless staffing changed the job's heads), so
+   * the record's pay times its weight is what its employers pay.
+   */
+  wagesOf(h: CountedHousehold): number {
+    const weight = this.weightOf(h);
+    let n = 0;
+    for (const job of h.jobs)
+      if (job.endsAt === undefined)
+        n +=
+          (job.wageDailyMinor * DAYS_PER_YEAR * this.headsOfJob(h, job.id)) /
+          weight;
+    return Math.round(n);
   }
 
   /** The people a household record stands for: its counted members times its weight. */
@@ -506,6 +532,7 @@ export class CountedStore {
         if (!this.jobHeads.has(job.id))
           this.jobHeads.set(job.id, this.weightOf(other));
       other.weight = this.weightOf(other) + added;
+      other.wagesMinorYear = this.wagesOf(other);
     }
     return 0;
   }
@@ -624,7 +651,7 @@ export class CountedStore {
       }
     const wages = record.jobs
       .filter((job) => job.endsAt === undefined)
-      .reduce((n, job) => n + job.wageDailyMinor * 365, 0);
+      .reduce((n, job) => n + job.wageDailyMinor * DAYS_PER_YEAR, 0);
     const incomeContracts = record.contracts.filter(
       (row) => row.recipientIncome,
     );
