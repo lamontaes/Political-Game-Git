@@ -74,19 +74,5 @@
     "tag": "TUNABLE",
     "spread": [0.5, 1.5],
     "checkedAgainst": "Batch 20: about one asker in six opens without a greeting, the share of adults a full level or more below the middle on the opening temperament's 10/20/40/20/10 cut."
-  },
-  "tags": {
-    "asked_out_of_work": "Out of work",
-    "asked_short_on_money": "Short on money",
-    "asked_kid": "Parent",
-    "asked_partner": "Partner at home",
-    "asked_employer": "Working",
-    "asked_blunt": "Blunt",
-    "asked_warm": "Warm",
-    "asked_guarded": "Guarded",
-    "asked_argumentative": "Argumentative",
-    "asked_against": "Disagrees",
-    "asked_wants_gone": "Against it",
-    "asked_wants_kept": "For it"
   }
 }

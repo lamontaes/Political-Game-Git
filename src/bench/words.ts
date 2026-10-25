@@ -1,5 +1,5 @@
 // The words the bench shows for records, all from the English engine's data.
-import { JOURNAL_DATA } from "../director/journal";
+import { JOURNAL_WORDS } from "../english/journal-words";
 import { properName } from "../director/words";
 import type { CoreState } from "../core2/types";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
@@ -12,7 +12,7 @@ export function relationWord(
   kin: string | null | undefined,
 ): string | null {
   if (!kin) return null;
-  const words = JOURNAL_DATA.relationWords[kin];
+  const words = JOURNAL_WORDS.relationWords[kin];
   if (!words) return null;
   const gender = core.people.get(otherId)?.looks?.gender ?? "other";
   return words[gender as keyof typeof words] ?? words.other ?? null;
