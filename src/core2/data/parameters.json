@@ -6014,12 +6014,14 @@
     }
   },
   "traitWeightPressFollowNews": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the press.follow-news decision. How much a person keeps up with the news is their political engagement plus their lean toward following over skipping. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.025,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt and others 2021 (rows press.follow-news in data/research/trait-effect-sizes.json): extraversion correlates 0.16 with the number of news sources a German adult follows (openness 0.12, neuroticism -0.09). A person's habit is their political engagement plus the weighted lean, so the weight is set so the lean correlates 0.16 with the habit. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). Pooled over 182 habits, 0.025 gives about 0.16 (0.02 gives 0.147, 0.03 gives 0.170); engagement alone already correlates 0.27 with the lean in Lookeba (34 habits) and 0.03 in Jagual (148).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.02,
+      "high": 0.03,
+      "unit": "weight",
+      "citation": "The pooled fit's neighbors."
     }
   },
   "traitWeightPressAcceptInterview": {
@@ -6403,23 +6405,25 @@
     }
   },
   "traitWeightViewsPersuasion": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the views.persuasion outcome: the hearer's traits toward yielding (openness and agreeableness) scale how far an argument or a story moves their view. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
-    "stopgapId": "SG-TRAITS-persuasion-size",
+    "value": 0.3,
+    "tag": "ESTIMATED",
+    "citation": "Hibbing, Ritchie and Anderson 2011 (rows views.persuasion in data/research/trait-effect-sizes.json): openness raises the log odds of being moved toward a discussion partner's view by 0.66 across the trait's range (trait sd 0.22), an odds ratio of 1.37 between the thirds. A move is a size, so the weight is set so the most yielding third's mean move over the least yielding third's, net of the same ratio without the trait term, is 1.37. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). At 0.3 the ratio is 1.36 in Lookeba and 1.35 in Jagual.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "weight",
+      "citation": "The fit's neighbors: 0.2 gives 1.22 to 1.23 and 0.4 gives 1.49 to 1.51."
     }
   },
   "traitWeightViewsTrust": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the views.trust outcome: the hearer's traits toward trusting (agreeableness) scale how far they trust a speaker. No study gives a size for one occasion (Hirsh, Kang and Bodenhausen 2012, Psychological Science 23(6) find persuasion works better when an appeal fits the recipient's traits; no effect size), so the general weight (1) stands and SG-TRAITS-persuasion-size keeps the gap open.",
-    "stopgapId": "SG-TRAITS-persuasion-size",
+    "value": 0.25,
+    "tag": "ESTIMATED",
+    "citation": "Sindermann, Schmitt and others 2021 (row views.trust in data/research/trait-effect-sizes.json): agreeableness correlates 0.20 with the Interpersonal Trust Scale among German adults (neuroticism -0.17; Thielmann et al. 2020 give 0.09 to 0.11 for trust-game sending). The weight is set so the hearer's lean correlates 0.20 with how far they trust a speaker. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). Pooled over 29,256 trust readings, 0.25 gives 0.203 (0.119 in Lookeba, 0.302 in Jagual: how far near ties already track the lean differs by town).",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study found with a one-occasion size; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.15,
+      "high": 0.35,
+      "unit": "weight",
+      "citation": "The pooled fit's neighbors: 0.15 gives 0.141 and 0.35 gives 0.256."
     }
   },
   "workAbsenceIllnessWeight": {

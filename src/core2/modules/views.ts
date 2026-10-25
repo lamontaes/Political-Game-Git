@@ -451,8 +451,7 @@ export function standingWith(
       )
     : half;
   // How far the listener trusts anyone follows their own traits (generalized
-  // trust: agreeableness; the size is the weight's, SG-TRAITS-persuasion-size).
-  // stopgapId: SG-TRAITS-persuasion-size
+  // trust: agreeableness), at the weight fitted to its study.
   const hearer = api.state.people.get(listener.id);
   let trust = nearTrust;
   if (hearer) {
@@ -766,8 +765,8 @@ export const viewsModule: CoreModule = {
         ? (prior?.heard?.[speakerId] ?? v("zero"))
         : v("zero");
       // How far this hearer lets an argument or a story move them follows
-      // their own traits (openness and agreeableness toward yielding).
-      // stopgapId: SG-TRAITS-persuasion-size
+      // their own traits (openness and agreeableness toward yielding), at the
+      // weight fitted to its study.
       const hearer = api.state.people.get(personId);
       // A multiplier, never zero: the most resistant hearer still moves a little.
       const yieldLean = hearer
