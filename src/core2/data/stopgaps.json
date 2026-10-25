@@ -6044,8 +6044,8 @@
     "why": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records labor.earnings-at-28 for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-person-exposure: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-labor-adult-earnings",
@@ -6056,8 +6056,8 @@
     "why": "no measure: the web does not keep labor.adult-earnings and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records labor.adult-earnings for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-person-exposure: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-school-hispanic-enrollment",
@@ -6080,8 +6080,8 @@
     "why": "no measure: the web does not keep labor.earnings and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records labor.earnings for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-justice-incarceration-risk",
@@ -6111,9 +6111,9 @@
     "id": "SG-WEB-unread-labor-unemployment-pct",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 272,
-    "whatItFakes": "transit-loss-to-unemployment, social-security-tax-to-unemployment, medicare-tax-to-unemployment, federal-unemployment-tax-to-unemployment, state-unemployment-tax-to-unemployment move labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
-    "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
+    "line": 560,
+    "whatItFakes": "social-security-tax-to-unemployment, medicare-tax-to-unemployment, federal-unemployment-tax-to-unemployment, state-unemployment-tax-to-unemployment move labor.unemployment-pct only in the outcome web's monthly ledger; no person, household or organization record changes.",
+    "why": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research finds no effect (about zero), so an engine would multiply by one",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
     "replacement": "The engine that owns labor.unemployment-pct multiplies its own person, household or organization rate by webReach(api, placeId, \"labor.unemployment-pct\", subject), as counted births do, so these links change its records.",
@@ -6140,8 +6140,8 @@
     "why": "no measure: the web does not keep labor.deal-industry-jobs and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records labor.deal-industry-jobs for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-economy-broad-growth",
@@ -6164,8 +6164,8 @@
     "why": "engine doesn't read the factor: labor.undocumented-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.undocumented-employment",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns labor.undocumented-employment multiplies its own person, household or organization rate by webReach(api, placeId, \"labor.undocumented-employment\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-no-legal-status: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-labor-us-born-employment",
@@ -6176,8 +6176,8 @@
     "why": "engine doesn't read the factor: labor.us-born-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.us-born-employment",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns labor.us-born-employment multiplies its own person, household or organization rate by webReach(api, placeId, \"labor.us-born-employment\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-no-legal-status: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-family-same-sex-marriages",
@@ -6416,8 +6416,8 @@
     "why": "no measure: the web does not keep labor.workforce and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records labor.workforce for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-crime-rate-index",
