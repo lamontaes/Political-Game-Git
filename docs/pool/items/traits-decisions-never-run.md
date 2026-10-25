@@ -5,9 +5,9 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/traits-decisions-never-run
-pr:
+pr: #5886
 blocked-on: play-first-freeze
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at: 2026-10-25T06:46:52.015Z
