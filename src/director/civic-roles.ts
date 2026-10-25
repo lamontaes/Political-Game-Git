@@ -46,7 +46,6 @@ import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { retellingsOf } from "../core2/modules/speech";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { MEETINGS_MODULE_ID } from "../core2/modules/meetings";
-import { STAFF_MODULE_ID, servingStaffOf } from "../core2/modules/staff";
 import { VOTING_MODULE_ID, pollingPlaceOf } from "../core2/modules/voting";
 import { P } from "../core2/parameters";
 import type { Moment } from "./types";
@@ -348,16 +347,6 @@ export function civicFill(
       if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return [];
       const clerk = filingClerkFor(api, contestOfFiling(api, moment.causeId));
       return free(living(core, [clerk?.personId ?? null]));
-    }
-    case "staff": {
-      // The official's own aides, from the staff module's hires.
-      if (!api.state.modules.has(STAFF_MODULE_ID)) return [];
-      return free(
-        living(
-          core,
-          servingStaffOf(api, moment.personId).map((row) => row.personId),
-        ),
-      );
     }
     default:
       return [];
