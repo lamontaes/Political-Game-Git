@@ -88,9 +88,23 @@ it(`a bill that loses its vote is the sponsor's staff-news scene, about that bil
         const sponsorId = String(loss.facts!.sponsorId) as PersonId;
         const here = `${where}: ${loss.id}`;
         const book = director.ledger.people.get(sponsorId)!;
-        const entry = book.schedule.find((row) =>
-          row.momentId.includes(loss.id),
-        );
+        const own = book.schedule.find((row) => row.momentId.includes(loss.id));
+        // One sitting covers a day (scheduling.ts): a second loss the aide
+        // brings that day is taken into the first one's scene, which cites it.
+        const sitting = own?.bindings.some(
+          (row) => row.typeKey === "staff-news",
+        )
+          ? undefined
+          : book.schedule.find(
+              (row) =>
+                row.date === loss.date &&
+                row.bindings.some(
+                  (other) =>
+                    other.typeKey === "staff-news" &&
+                    other.joined?.some((row) => row.causeId === loss.id),
+                ),
+            );
+        const entry = sitting ?? own;
         const binding = entry?.bindings.find(
           (row) => row.typeKey === "staff-news",
         );
@@ -102,6 +116,8 @@ it(`a bill that loses its vote is the sponsor's staff-news scene, about that bil
           aides,
           `${here}: the aide is one of the sponsor's staff`,
         ).toContain(aide.personIds[0]);
+        // The sitting's own loss is talked of when its turn comes.
+        if (sitting) continue;
         // The aide says the bill lost, in the lines that play, as ordinary
         // play says them, and the talk stands on the loss.
         const result = purposeScene(core, director, sponsorId, entry!);
