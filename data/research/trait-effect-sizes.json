@@ -1375,13 +1375,25 @@
     },
     {
       "id": "voting.exit-poll",
-      "trait": "none found",
-      "outcome": "telling an exit pollster who one voted for",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No study with a personality effect size on answering an exit poll was found; the general weight (1) stands."
+      "trait": "conscientiousness",
+      "outcome": "responding to a survey invitation in an online probability panel (proxy for telling an exit pollster)",
+      "effect": {
+        "kind": "logit-coef-full-range",
+        "value": 0.38,
+        "low": 0.22,
+        "high": 0.54,
+        "traitSd": 0.2
+      },
+      "source": {
+        "authors": "Kostadintcheva, K., Kuha, J., & Sturgis, P.",
+        "year": 2025,
+        "title": "Survey Experience and Nonresponse in an Online Probability Panel: A Survival Analysis",
+        "venue": "arXiv 2505.03971",
+        "url": "https://arxiv.org/html/2505.03971v1"
+      },
+      "quote": "Table 3, main effects (discrete-time logistic model of nonresponse, log odds): Conscientiousness \"-0.095\" (SE \"0.020\"); Agreeableness \"0.083\" (0.020); Extraversion \"0.062\" (0.018); Negative emotionality \"-0.030\" (0.016); Open-mindedness \"-0.005\" (0.020). \"The least Conscientious panel members have a nonresponse probability of 21% compared to 15% for the most.\"",
+      "quoteVerified": true,
+      "notes": "Verian Public Voice (UK online probability panel), 34 surveys from November 2019 to April 2023, 11,169 members and 42,036 person-time observations. The coefficient is per point of a 1-5 short form, so the full range (4 points) is 0.38 toward responding (0.22 to 0.54 from the standard error). The paper gives no trait standard deviation; 0.2 of the range (0.8 points) is assumed from typical short Big Five forms. A panel invitation stands in for an exit pollster's approach; no study of exit polls and personality was found."
     },
     {
       "id": "interest-groups.employer-join",

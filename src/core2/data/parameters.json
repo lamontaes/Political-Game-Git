@@ -5750,12 +5750,14 @@
     }
   },
   "traitWeightVotingExitPoll": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the voting.exit-poll decision. A voter tells the exit pollster who they voted for when their lean toward telling is above zero. The research row for it in data/research/trait-effect-sizes.json gives no effect size, so the general traitWeight (1) stands until a study gives one.",
+    "value": 0.094,
+    "tag": "ESTIMATED",
+    "citation": "Kostadintcheva, Kuha and Sturgis 2025, Survey Experience and Nonresponse in an Online Probability Panel (arXiv 2505.03971), Table 3: conscientiousness -0.095 log odds of not responding per point of a 1-5 scale; \"The least Conscientious panel members have a nonresponse probability of 21% compared to 15% for the most\"), row voting.exit-poll in data/research/trait-effect-sizes.json, carried to the thirds as an odds ratio of 1.18. Fitted with the exit poll's case (exitPollBase, exitPollEngagementWeight, exitPollInterestWeight) on the named voters of three drawn race towns, Finklea, South Carolina (4525405, seed 100a9eddd8c1), Silver City, Nevada (3266800, 62fd4b12c74d) and Douglas, Nebraska (3113505, d6f5f50c5452): crossed net odds 1.18 pooled, 1.14 to 1.35 by town; temperament turns 3.6% of answers. At the general weight of 1 with a case of 0 the thirds ran at 35.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No effect size found for this decision; until one is, the general weight's spread, 0.2 to 1.0."
+      "low": 0.06,
+      "high": 0.13,
+      "unit": "weight",
+      "citation": "The conscientiousness standard deviation behind the target is assumed (0.15 to 0.25 of the scale's range), which moves the target from 1.13 to 1.23."
     }
   },
   "traitWeightVotingStandAgain": {

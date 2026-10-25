@@ -187,6 +187,13 @@ export interface BallotRow {
   readonly lean?: number;
   /** What they told the exit pollster. */
   readonly toldPollster: string | null;
+  /** Why they told or declined: how closely they follow politics and how much the day's races mattered to them. */
+  readonly pollsterReasons?: {
+    readonly engagement: number;
+    readonly interest: number;
+    /** Their trait lean toward telling, before the decision's weight. */
+    readonly lean: number;
+  };
   /** Each incumbent's record as this voter weighed it, by candidate. */
   readonly recordReasons?: Readonly<Record<string, readonly RecordReason[]>>;
 }
@@ -1805,6 +1812,39 @@ const townReach = new WeakMap<object, { key: string; contacts: number }>();
  * leave it blank), how often the campaigns reached them, their own record and
  * what voting costs them that day.
  */
+/**
+ * A voter's reasons to tell the exit pollster how they voted, before
+ * temperament: a base reluctance to stop for a stranger's questionnaire, more
+ * readiness the more closely they follow politics (engaged people are the
+ * ones surveys over-reach, Pew Research Center 2017) and the more the day's
+ * races mattered to them (their own gap between the candidates).
+ */
+function pollsterCase(
+  api: CoreAPI,
+  voter: {
+    readonly id: string;
+    readonly birthDate?: string;
+    readonly placeId?: string;
+  },
+  interest: number,
+): {
+  readonly case: number;
+  readonly engagement: number;
+  readonly interest: number;
+} {
+  const engagement =
+    engagementOf(api.state as CoreState, voter) ?? NATIONAL_ENGAGEMENT;
+  return {
+    case:
+      electionsParameter("exitPollBase") +
+      electionsParameter("exitPollEngagementWeight") *
+        (engagement - NATIONAL_ENGAGEMENT) +
+      electionsParameter("exitPollInterestWeight") * interest,
+    engagement,
+    interest,
+  };
+}
+
 function atThePolls(
   api: CoreAPI,
   voter: Readonly<Pick<PersonState, "id" | "traits">> & {
@@ -2263,11 +2303,20 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
         : filings.some((f) => f.personId === voter.id)
           ? voter.id
           : countedChoice(appeal);
+    const pollster =
+      t.votes && choice !== null ? pollsterCase(api, voter, t.interest) : null;
     const told = !t.votes
       ? null
       : choice === null
         ? "left-blank"
-        : !leanedYes(api.state, voter, "voting.exit-poll", "tell", "decline", 0)
+        : !leanedYes(
+              api.state,
+              voter,
+              "voting.exit-poll",
+              "tell",
+              "decline",
+              pollster!.case,
+            )
           ? "declined"
           : choice;
     if (t.votes) {
@@ -2295,6 +2344,21 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
             basis,
             lean,
             recordReasons,
+            ...(pollster
+              ? {
+                  pollsterReasons: {
+                    engagement: pollster.engagement,
+                    interest: pollster.interest,
+                    lean: decisionLean(
+                      api.state,
+                      voter,
+                      "voting.exit-poll",
+                      "tell",
+                      "decline",
+                    ),
+                  },
+                }
+              : {}),
           }
         : {}),
     } as unknown as ModuleRow);

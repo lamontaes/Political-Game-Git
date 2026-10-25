@@ -11,10 +11,13 @@ import {
   RUN_SEED,
   netLogOdds,
   studyLogOdds,
+  weightOf,
   withTraitWeight,
 } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { propensityOf } from "../turnout";
+import { NATIONAL_ENGAGEMENT } from "../electorate";
+import electionParameters from "../data/elections/parameters.json" with { type: "json" };
 import {
   VOTING_MODULE_ID,
   incumbentLeanOf,
@@ -148,23 +151,32 @@ function polledBallots(api: CoreAPI): BallotRow[] {
   ).filter((b) => b.voted && b.choice !== null && b.toldPollster !== null);
 }
 
-describe("voting.exit-poll is told by the voters whose traits lean toward telling", () => {
-  it("every voter in the drawn town's race who told the pollster leans toward telling, and everyone who declined leans away", () => {
-    const polled = polledBallots(api);
+describe("voting.exit-poll is told by voters whose engagement, stake in the race and temperament carry them over", () => {
+  it("every voter in the drawn town's race tells the pollster exactly when their own reasons and their lean at the decision's weight clear zero, and both answers occur", () => {
+    const polled = polledBallots(api).filter((b) => b.pollsterReasons);
     console.log(`exit poll: ${polled.length} voters with a choice`);
     expect(polled.length).toBeGreaterThan(0);
+    const param = (key: string) =>
+      (
+        electionParameters as unknown as {
+          parameters: Record<string, { value: number }>;
+        }
+      ).parameters[key]!.value;
+    const weight = weightOf(core, "voting.exit-poll");
+    let told = 0;
     for (const b of polled) {
-      const voter = core.people.get(b.voterId)!;
-      const lean = decisionLean(
-        core,
-        voter,
-        "voting.exit-poll",
-        "tell",
-        "decline",
+      const { engagement, interest, lean } = b.pollsterReasons!;
+      const reasons =
+        param("exitPollBase") +
+        param("exitPollEngagementWeight") * (engagement - NATIONAL_ENGAGEMENT) +
+        param("exitPollInterestWeight") * interest;
+      expect(b.toldPollster !== "declined", b.id).toBe(
+        reasons + weight * lean > 0,
       );
-      if (b.toldPollster === "declined")
-        expect(lean, b.id).toBeLessThanOrEqual(0);
-      else expect(lean, b.id).toBeGreaterThan(0);
+      if (b.toldPollster !== "declined") told += 1;
     }
+    console.log(`exit poll: ${told} of ${polled.length} told`);
+    expect(told).toBeGreaterThan(0);
+    expect(told).toBeLessThan(polled.length);
   });
 });
