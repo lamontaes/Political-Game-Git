@@ -134,7 +134,12 @@ export function endRecordedJob(
     []) {
     const commitment = core.work.commitments.get(commitmentId)!;
     if (commitment.jobId !== jobId || commitment.endsAt !== undefined) continue;
-    commitment.endsAt = core.date;
+    // A job that ends before its first day (a commuter job starts the day
+    // after a fill-in, and a return to the counts can end it the same day)
+    // ends its commitment on that first day, never before it starts; the
+    // job's own end, today, still comes first, so it is never worked.
+    commitment.endsAt =
+      commitment.startsAt > core.date ? commitment.startsAt : core.date;
     const residues = core.work.byPeriodResidue.get(commitment.periodDays);
     for (const [residue, ids] of residues ?? []) {
       ids.delete(commitmentId);
