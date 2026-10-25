@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/play-stop-08-high-school
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T15:57:39.096Z
 ---
 
 **What.** The implementation half of play-stop-08-no-high-school-at-seventeen, so it can merge on bench evidence while the play-stop item waits for the owner's steps on the next installed build. The deep past (src/core2/deep-past.ts) cut every school stage at January 1, 2021, so nobody who started high school (or middle school) after that had one, and the national directory's short names ('ANSON EL', 'ANSON H S') were shown as they are.
