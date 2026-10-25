@@ -17,7 +17,7 @@ claimed-at: 2026-10-24T03:31:11.460Z
 
 **Rules.** No hand-written player text: the panel shows record data and control names only, in dev mode. Ask why: every row names the act record it reads. An effect is a read: following treats a resident as one the player deals with (focus), so their acts keep every reason and they take that circle's daily schedule; it picks nothing for them and writes no record.
 
-**Done when.** In the bench on a drawn place, seed named, following two residents and playing a month lists each one's decisions with their trait reasons by act record id, src/bench/dev-why.test.ts covers the new panel, and a browser check (browser-visual-acceptance) takes a screenshot of the two panels side by side.
+**Done when.** In the bench on a drawn place, seed named, following two residents and playing a month lists each one's decisions with their trait reasons by act record id, src/bench/dev-why.test.ts covers the new panel, and a browser check (the browser check in the play-first skill) takes a screenshot of the two panels side by side.
 
 **Files.** src/bench/dev-why.ts, src/bench/dev-mode.ts, src/bench/dev-api.ts
 

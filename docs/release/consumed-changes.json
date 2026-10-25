@@ -1,6 +1,44 @@
 {
   "entries": [
     {
+      "version": "0.26.2",
+      "releasedOn": "2026-10-25",
+      "revision": "932cf9637dbd0d36f45bc26a70df1b5d0b72f919",
+      "changeIds": [
+        "cto-play-first-lane",
+        "gov-press-outlet-cost-scheduled-hours",
+        "release-playtest-report-lead-commit-hash",
+        "words-speech-screen-no-crowd",
+        "world-school-pay-no-full-teachers-small-district"
+      ]
+    },
+    {
+      "version": "0.26.1",
+      "releasedOn": "2026-10-25",
+      "revision": "8d0dd8f295b83d6f63cd421004fda1feaf37ef05",
+      "changeIds": ["release-package-build-heap"]
+    },
+    {
+      "version": "0.26.0",
+      "releasedOn": "2026-10-25",
+      "revision": "cd27a2a370cf83fea4e78be031500d7dc549323d",
+      "changeIds": ["tests-county-governed-openings", "web-reach-crime-justice"]
+    },
+    {
+      "version": "0.25.0",
+      "releasedOn": "2026-10-25",
+      "revision": "2553b99fbfe3ff9ba03f5e982fe58b75ce03d414",
+      "changeIds": [
+        "art-people-whole-out-of-play",
+        "core-census-uncap-opening",
+        "drives-counted-job-loss-unanswered",
+        "tests-closure-counted-seeker-witness-gone",
+        "words-scenes-fire-in-play",
+        "world-apply-and-buy-reasons-vary",
+        "world-federal-treasury-too-small-for-medicaid-match"
+      ]
+    },
+    {
       "version": "0.24.3",
       "releasedOn": "2026-10-25",
       "revision": "122c3217c5847ab4138dc26a8cc2d2b1eb49a83b",
