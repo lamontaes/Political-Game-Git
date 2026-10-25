@@ -90,11 +90,20 @@ try {
       .locator('[data-tab="politics"]')
       .first()
       .evaluate((e) => e.click());
-    await page.waitForTimeout(1500);
-    await page.evaluate(() => {
-      document.getElementById("sheet-body")?.scrollTo(0, 999999);
-    });
-    await page.waitForTimeout(1000);
+    await page
+      .locator("#sheet-body")
+      .waitFor({ timeout: 20000 })
+      .catch(() => {});
+    for (let w = 0; w < 10; w += 1) {
+      await page.evaluate(() => {
+        document.getElementById("sheet-body")?.scrollTo(0, 999999);
+      });
+      await page.waitForTimeout(1500);
+      if (
+        await page.locator("#sheet-body button", { hasText: /join/i }).count()
+      )
+        break;
+    }
     if (await page.locator("#sheet-body button", { hasText: /join/i }).count())
       break;
     seed = "";
