@@ -1,8 +1,9 @@
 /**
  * A person's schooling sets the pay they are hired at (pool item
  * world-schooling-to-pay): over a played year, each hire's pay is the
- * position's pay moved by the hire's own education record, so hires into
- * positions at the same pay differ by schooling. A place is drawn from all 56
+ * position's pay moved by the hire's own education record, so two hires to
+ * one job (one employer's openings from one role, posted at one pay) differ
+ * by schooling. A place is drawn from all 56
  * on a seed nobody chose (SCHOOLING_PAY_SEED pins one).
  */
 import { randomBytes } from "node:crypto";
@@ -35,16 +36,27 @@ it("hires into one position pay differ by their own schooling, full and counted 
     const api = coreAPI(core);
     advanceCore(core, addDays(makeIsoDate(core.date), 365));
     const store = api.moduleState(JOBS_MODULE_ID);
+    // One job: the same employer's opening from the same role, posted at the
+    // same pay.
     const positions = new Map(
       (
         store.table("positions").rows() as unknown as {
           id: string;
+          organizationId: string;
+          templateJobId: string;
           hourlyMinor: number;
         }[]
-      ).map((row) => [row.id, row.hourlyMinor]),
+      ).map((row) => [row.id, row]),
     );
+    const levels = new Map([
+      [api.parameter("jobsWeeklyEarningsNoCollege"), "no-college"],
+      [api.parameter("jobsWeeklyEarningsSomeCollege"), "some-college"],
+      [api.parameter("jobsWeeklyEarningsCollege"), "college"],
+    ]);
+    const ordered = ["no-college", "some-college", "college"];
     const hires = (
       store.table("changes").rows() as unknown as {
+        id: string;
         jobId: string;
         personId: string;
         kind: string;
@@ -60,57 +72,66 @@ it("hires into one position pay differ by their own schooling, full and counted 
         const positionId = row.jobId
           .slice("job:".length)
           .slice(0, -(row.personId.length + 1));
-        // The schooling the hire's pay read, as the hire recorded it (a
-        // counted worker filled in later may gain a record the hire never saw).
-        const weekly = row.values.schoolingWeekly ?? 0;
-        const level =
-          weekly === api.parameter("jobsWeeklyEarningsCollege")
-            ? "college"
-            : weekly === api.parameter("jobsWeeklyEarningsSomeCollege")
-              ? "some-college"
-              : weekly === api.parameter("jobsWeeklyEarningsNoCollege")
-                ? "no-college"
-                : "";
         return {
+          change: row.id,
           jobId: row.jobId,
-          level: level ?? "",
+          // The schooling the hire's pay read, as the hire recorded it (a
+          // counted worker filled in later may gain a record the hire never
+          // saw).
+          level: levels.get(row.values.schoolingWeekly ?? 0) ?? "",
           counted: Boolean(row.values.counted),
           paid: row.values.hourlyMinor,
           position: positions.get(positionId),
         };
       })
       .filter((row) => row.position !== undefined && row.level);
-    const ordered = ["no-college", "some-college", "college"];
-    const byPosition = Map.groupBy(hires, (row) => row.position!);
+    const byJob = Map.groupBy(
+      hires,
+      (row) =>
+        `${row.position!.organizationId}|${row.position!.templateJobId}|${row.position!.hourlyMinor}`,
+    );
     let low: (typeof hires)[number] | undefined;
     let high: (typeof hires)[number] | undefined;
-    for (const [, rows] of byPosition) {
-      const a = rows.find((r) => r.level === "no-college");
-      const b = rows.find((r) => r.level === "college");
-      if (a && b) {
-        low = a;
-        high = b;
+    for (const [, rows] of byJob) {
+      const sorted = [...rows].sort(
+        (a, b) => ordered.indexOf(a.level) - ordered.indexOf(b.level),
+      );
+      if (sorted[0]!.level !== sorted.at(-1)!.level) {
+        low = sorted[0];
+        high = sorted.at(-1);
         break;
       }
     }
     if (!low || !high) {
-      // Two hires at the same position pay who differ in schooling are needed
-      // for the same-job comparison; another place is drawn.
-      tried.push(`${where}: ${hires.length} hires, no same-pay pair of levels`);
+      // Two hires to one job who differ in schooling are needed for the
+      // same-job comparison; another place is drawn.
+      tried.push(
+        `${where}: ${hires.length} hires, no job with two hires of different schooling`,
+      );
       continue;
     }
+    // The same job: one employer, one role, one posted pay.
+    expect(low.position!.organizationId, where).toBe(
+      high.position!.organizationId,
+    );
+    expect(low.position!.templateJobId, where).toBe(
+      high.position!.templateJobId,
+    );
+    expect(low.position!.hourlyMinor, where).toBe(high.position!.hourlyMinor);
     expect(
       ordered.indexOf(low.level) < ordered.indexOf(high.level),
       where,
     ).toBe(true);
-    expect(
-      low.paid / low.position!,
-      `${where}: ${low.jobId} vs ${high.jobId}`,
-    ).toBeLessThan(high.paid / high.position!);
+    expect(low.paid, `${where}: ${low.change} vs ${high.change}`).toBeLessThan(
+      high.paid,
+    );
+    process.stdout.write(
+      `schooling same job: ${where}: ${low.change} (${low.level}${low.counted ? ", counted" : ""}) paid ${low.paid}, ${high.change} (${high.level}${high.counted ? ", counted" : ""}) paid ${high.paid}, both at ${low.position!.organizationId} role ${low.position!.templateJobId} posted ${low.position!.hourlyMinor}\n`,
+    );
     return;
   }
   throw new Error(
-    `no drawn place had two hires at one position pay with different schooling: ${tried.join("; ")}`,
+    `no drawn place had two hires to one job with different schooling: ${tried.join("; ")}`,
   );
 }, 1_800_000);
 
