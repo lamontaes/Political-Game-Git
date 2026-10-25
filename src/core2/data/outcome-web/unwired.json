@@ -8,12 +8,6 @@
       "stopgapId": "SG-CORE-crime-vandalism"
     },
     {
-      "link": "police-to-low-level-arrests",
-      "outcome": "justice.low-level-arrests",
-      "reason": "no measure: the web does not keep justice.low-level-arrests and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-justice-low-level-arrests"
-    },
-    {
       "link": "summer-jobs-to-youth-violence",
       "outcome": "crime.youth-violent-arrests",
       "reason": "no measure: the web does not keep crime.youth-violent-arrests and no engine produces it; its research gives no size the game can apply, so the web does not run it",
@@ -24,6 +18,12 @@
       "outcome": "crime.all",
       "reason": "no measure: the web does not keep crime.all and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
       "stopgapId": "SG-WEB-unread-crime-all"
+    },
+    {
+      "link": "fire-spending-to-fire-deaths",
+      "outcome": "fire.civilian-casualties",
+      "reason": "no measure: the web does not keep fire.civilian-casualties and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
+      "stopgapId": "SG-WEB-unread-fire-civilian-casualties"
     },
     {
       "link": "pretrial-detention-to-future-crime",

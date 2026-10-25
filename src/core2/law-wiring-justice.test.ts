@@ -43,6 +43,7 @@ import {
   POLICE_LINE,
   PUBLIC_SAFETY_MODULE_ID,
   STAND_GROUND,
+  type CaseRow,
   type SafetyMonth,
 } from "./public-safety";
 import { coreAPI } from "./state";
@@ -124,6 +125,8 @@ interface Attempt {
   /** The first journal entry of each kind of public-safety money. */
   readonly postIds: Map<string, string>;
   readonly web: Map<string, number[]>;
+  /** The minor-offense cases the case flow recorded (disorderly conduct, loitering and the like). */
+  readonly minorCases: CaseRow[];
   readonly after: Map<string, LawAppliedRow[]>;
   readonly monthsRun: SafetyMonth[];
   readonly cutService: number[];
@@ -202,6 +205,13 @@ function attempt(trySeed: string, index: number): Attempt {
     for (const row of webTable)
       for (const [link, effect] of Object.entries(row.effects))
         web.set(link, [...(web.get(link) ?? []), effect]);
+    // The minor offenses the case flow recorded while the police line stood a tenth above where it began.
+    const minorCases = (
+      api
+        .moduleState(PUBLIC_SAFETY_MODULE_ID)
+        .table("cases")
+        .rows() as unknown as CaseRow[]
+    ).filter((c) => c.offense === "lowlevel");
     // A cut police line gives less service, and putting it back gives it back.
     const gov =
       governments(api).find((g) => g.level === "city") ??
@@ -262,6 +272,7 @@ function attempt(trySeed: string, index: number): Attempt {
       posts,
       postIds,
       web,
+      minorCases,
       after,
       monthsRun: months(api),
       cutService,
@@ -309,6 +320,30 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
         a.monthsRun.reduce((n, m) => n + m.arrests, 0),
         `${a.where}: arrests`,
       ).toBeGreaterThan(0);
+
+      // The minor offenses were recorded as cases, read the web's police
+      // factor, and the sized link moved their rate: the raised police line
+      // reached these arrests (disorderly conduct, loitering and the like).
+      expect(
+        a.minorCases.length,
+        `${a.where}: minor-offense cases`,
+      ).toBeGreaterThan(0);
+      expect(
+        a.monthsRun.reduce((n, m) => n + m.lowLevelArrests, 0),
+        `${a.where}: minor-offense arrests`,
+      ).toBeGreaterThan(0);
+      expect(
+        (a.web.get("police-to-low-level-arrests") ?? []).some((e) => e > 0),
+        `${a.where}: police-to-low-level-arrests moved up with the raised police line (links seen: ${[...a.web.keys()].join(", ")})`,
+      ).toBe(true);
+      const minor = a.minorCases.find((c) => c.webRecordId);
+      expect(
+        minor,
+        `${a.where}: a minor case that names its web row`,
+      ).toBeDefined();
+      console.log(
+        `law-wiring-justice minor offenses in ${a.where}: ${a.minorCases.length} cases, e.g. ${minor?.id} read ${minor?.webRecordId} at ${minor?.officersPer1000?.toFixed(3)} officers per 1,000`,
+      );
 
       // Every law recorded an application, and the counted tier by count.
       for (const key of [...QUESTIONS, HANDGUN_AGE])
