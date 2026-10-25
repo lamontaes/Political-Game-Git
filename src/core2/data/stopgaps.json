@@ -5553,6 +5553,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-jobs-schooling-pay-share",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 2100,
+    "whatItFakes": "The share of the BLS weekly-earnings gap between education levels that holds within one role and employer (jobsSchoolingPayShare, 0.4). Positions are already priced for their occupation, which carries part of the schooling premium, so only a share of the raw gap moves a hire's pay.",
+    "why": "No source measuring the within-occupation, within-employer schooling premium was fetched; 0.4 is an assumed middle value with a wide spread (0.2 to 0.7).",
+    "addedBy": "schooling-to-pay",
+    "addedAt": "2026-10-21",
+    "replacement": "A sourced within-occupation schooling premium (for example from a wage regression with occupation and employer controls) replacing the assumed share, with the share read per occupation.",
+    "status": "open"
+  },
+  {
     "id": "SG-EFFECT-WEB-prices-gov-borrowing",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/prices-web-gaps.ts",

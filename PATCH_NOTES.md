@@ -296,6 +296,44 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.24.3
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Schooling now affects the pay you are hired at** Adults with more schooling
+  are now hired at somewhat higher pay than adults with less for the same job,
+  and a job offer shows the pay that person would actually get. A teenager who
+  finishes high school is hired at a diploma's pay, and one who does not is paid
+  as a worker without one, so a town that raises its graduation rate sees it in
+  its households' pay.
+
+## PRE-ALPHA 0.24.2
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Every family weighs private school the same way** In the town's yearly
+  private-school enrollment, families you have not met are now ranked with the
+  ones you have, by what they hold per child. The best-off enroll until the
+  town's private share is reached, and their tuition goes to the school.
+
+- **Estimated travel to an abortion provider follows where people live** When
+  someone in town has an unplanned pregnancy, the distance to the nearest
+  abortion provider now comes from where they live, before and after a
+  restriction there, for all 56 places. The trip's cost, which their household
+  pays, and whether they carry or end the pregnancy both follow from that
+  distance.
+
+- **Some pregnancies in town are unplanned, and each woman decides from her own
+  life and the law where she lives** People in town now sometimes have an
+  unplanned pregnancy. Whether she carries it or ends it comes from her own
+  health, money, household and views and from the law in force where she lives;
+  when she ends it, her household pays the trip, and a carried one becomes a
+  birth in the family.
+
 ## PRE-ALPHA 0.24.1
 
 _Released October 25, 2026._

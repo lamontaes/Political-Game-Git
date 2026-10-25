@@ -22,7 +22,7 @@ import {
   speechView,
 } from "./campaign";
 import type { SpeechBuild } from "../director/speech-builder";
-import { storyScene } from "./story";
+import { storyReply, storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
 import { electionResults, resultsScene } from "./results";
 import { seatAct, seatView } from "./legislature";
@@ -311,14 +311,11 @@ export async function benchRequest(
       }
       if (
         request.method === "GET" &&
-        /^\/art\/people-whole\/[\w.-]+\.png$/.test(url.pathname)
+        /^\/art\/people-engine\/v2\/figures\/[\w.-]+\.png$/.test(url.pathname)
       ) {
-        // Whole-figure people: the owner-approved cutouts, served as they are.
+        // Standing people: the v2 figures, served as they are.
         const content = await readFile(
-          new URL(
-            `../../art/people-whole/${url.pathname.slice("/art/people-whole/".length)}`,
-            import.meta.url,
-          ),
+          new URL(`../..${url.pathname}`, import.meta.url),
         );
         response.writeHead(200, {
           "Content-Type": "image/png",
@@ -855,6 +852,27 @@ export async function benchRequest(
             player.personId,
             url.searchParams.get("momentId") ?? "",
             player.packet?.at.minuteOfDay ?? 12 * 60,
+            // ?held=1 on the play page: the grading view, held lines marked.
+            { held: url.searchParams.get("held") === "1" },
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/story/reply") {
+        if (!player?.personId || !director)
+          throw new Error("Choose a resident first.");
+        send(
+          200,
+          storyReply(
+            requireCore(),
+            director,
+            player.personId,
+            url.searchParams.get("momentId") ?? "",
+            (url.searchParams.get("path") ?? "")
+              .split(".")
+              .filter(Boolean)
+              .map(Number),
+            { held: url.searchParams.get("held") === "1" },
           ),
         );
         return;

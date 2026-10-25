@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-play-stop-22
-pr:
+pr: #6041
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
