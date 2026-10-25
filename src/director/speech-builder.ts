@@ -1,20 +1,24 @@
 /**
- * A speech the player builds as they give it (owner, Oct 15, evening: the
- * Suzerain example). Four stages, four choices at each: a short opener, two
+ * A speech the player builds as they give it. Four stages, four choices at each: a short opener, two
  * longer parts at the core on different subjects, and a short closer. The
  * subjects are the speaker's own: the stands they hold (the views engine's
  * stances, named as the bill catalog names them), their work, their town,
- * their children and their school. Nothing is typed here; the sentences are
- * the authored pieces in `data/english/parts/speech-stages.json`, filled
- * from the speaker's records, and a subject with no record for its slots is
- * never offered.
+ * their children and their school. Nothing is typed here, and no bank is
+ * read here: the English engine (`src/english/speech-stage-words.ts`) gives
+ * the pieces for each stage, filled from the speaker's records, and a subject
+ * with no record for its slots is never offered.
  *
  * Giving the speech (`giveBuiltSpeech`) hands each stand the speaker took to
  * the speech engine, so the audience's views move by the speaker's standing
  * with them: the chosen words are read by another engine, not only shown.
  */
-import stagesJson from "../../data/english/parts/speech-stages.json" with { type: "json" };
-import { heldByGrades } from "../english/english-grades";
+import {
+  speechPartsByReach,
+  speechStagePieces,
+  speechWords,
+  wordSpeechPart,
+  type Fact,
+} from "../english/speech-stage-words";
 import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { deliverSpeech } from "../core2/modules/speech";
@@ -24,8 +28,11 @@ import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { DEFAULT_DIRECTOR_DATA } from "./ledger";
-import { allQuestions, questionName, questionTopic } from "./question-names";
-import { renderLine, type Fact } from "./render";
+import {
+  allQuestions,
+  questionName,
+  questionTopic,
+} from "../english/policy-names";
 import { properName, spoken } from "./words";
 
 export type SpeechStage = "opener" | "core" | "closer";
@@ -36,15 +43,6 @@ export const SPEECH_STAGES: readonly SpeechStage[] = [
   "core",
   "closer",
 ];
-
-interface BankPart {
-  key: string;
-  text: string;
-  uses: { subject: string; role: string }[];
-  shippable: boolean;
-}
-const BANK = stagesJson as unknown as { parts: BankPart[] };
-const VERSION = "words-speech-stages-v1";
 
 export interface SpeechChoice {
   key: string;
@@ -71,25 +69,6 @@ export interface SpeechBuild {
   /** A grading page only: held parts are offered wherever one fits a stage. */
   heldFirst?: boolean;
 }
-
-/**
- * A stage's parts. Play offers only shipped parts. A grading page
- * (`heldFirst`) offers the held ones wherever one fits, so the owner hears
- * each in a real speech; a stage no held part fits keeps its shipped parts.
- */
-const variantsOf = (role: string, heldFirst = false) => {
-  const fits = (part: (typeof BANK.parts)[number]) =>
-    !heldByGrades(part.key) &&
-    part.uses.some((use) => use.subject === "stage" && use.role === role);
-  const shipped = BANK.parts.filter((part) => part.shippable && fits(part));
-  const held = heldFirst
-    ? BANK.parts.filter((part) => !part.shippable && fits(part))
-    : [];
-  return (held.length ? held : shipped).map((part) => ({
-    key: part.key,
-    text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
-  }));
-};
 
 /** The facts a speaker's own records give a part. */
 function factsOf(
@@ -224,16 +203,13 @@ function corePool(
     stand?: SpeechChoice["stand"],
   ) => {
     if (taken.has(subject)) return;
-    const line = renderLine({
+    const line = wordSpeechPart({
       seed: core.seed,
-      surface: "dialogue",
-      holderId: build.speakerId,
-      bankKey: `speech-stages.${role}`,
-      version: VERSION,
-      variants: variantsOf(role, build.heldFirst),
+      role,
+      speakerId: build.speakerId,
       facts: { ...facts, ...extra },
       momentKey: `speech:${build.speakerId}:${build.startedOn}:${subject}`,
-      fallbackSourceId: build.speakerId,
+      ...(build.heldFirst ? { heldFirst: true } : {}),
     });
     if (!line) return;
     pool.push({
@@ -293,14 +269,7 @@ function rank(
     : P.zero;
   const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
   const byReach = (rows: readonly SpeechChoice[]) =>
-    rows
-      .map((row, at) => ({ row, at }))
-      .sort(
-        (a, b) =>
-          (reach >= P.zero ? -P.one : P.one) *
-            (a.row.text.length - b.row.text.length) || a.at - b.at,
-      )
-      .map(({ row }) => row);
+    speechPartsByReach(rows, reach >= P.zero);
   const stands = pool.filter((row) => row.stand).slice(P.zero, P.two);
   const personal = pool.filter((row) => !row.stand);
   if (!stands.length) return byReach(personal).slice(P.zero, count);
@@ -318,25 +287,23 @@ function edgePool(
 ): SpeechChoice[] {
   const facts = factsOf(core, build.speakerId);
   const pool: SpeechChoice[] = [];
-  for (const variant of variantsOf(role, build.heldFirst)) {
-    const line = renderLine({
+  for (const piece of speechStagePieces(role, build.heldFirst)) {
+    const line = wordSpeechPart({
       seed: core.seed,
-      surface: "dialogue",
-      holderId: build.speakerId,
-      bankKey: `speech-stages.${role}`,
-      version: VERSION,
-      variants: [variant],
+      role,
+      speakerId: build.speakerId,
       facts,
       momentKey: `speech:${build.speakerId}:${build.startedOn}:${role}`,
-      fallbackSourceId: build.speakerId,
+      ...(build.heldFirst ? { heldFirst: true } : {}),
+      pieceKey: piece,
     });
     if (line)
       pool.push({
-        key: `${role}:${variant.key}`,
+        key: `${role}:${piece}`,
         stage: role,
         subject: "",
         text: line.text,
-        partKey: variant.key,
+        partKey: piece,
         sourceRecordIds: usedIds(line, facts, build.speakerId),
       });
   }
@@ -388,7 +355,7 @@ export function chooseSpeechPart(
 
 /** The speech as given so far, parts in order. */
 export function speechText(build: Pick<SpeechBuild, "picked">): string {
-  return build.picked.map((row) => row.text).join(" ");
+  return speechWords(build.picked);
 }
 
 /**

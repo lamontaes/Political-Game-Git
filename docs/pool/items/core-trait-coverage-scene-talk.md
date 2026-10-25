@@ -26,3 +26,7 @@ claimed-at:
 Sent back 2026-10-25 from PR #5997 (branch claude/traits-scene-talk-table): Lead traits branch edits Words-owned director scene-talk logic, arcs, rules and tests; route that portion through Words or explicit applicable ownership ruling, then rerun integrated scene/coverage/played-talk proof; finish on that branch, merge main into it first.
 
 Oct 25 (traits lead): handed to the Words line, as the send-back asks. Branch `claude/traits-scene-talk-table` (PR #5997, head 8c6da3b4d1, main merged in) holds a working version: one `scene-talk.move` row in the shared decision table (40 moves with act kinds), the asker's answer and the player's lead read through the trait lean, the per-move pulls in purpose-arcs.json removed, and a played-talk proof in Kalamazoo, Michigan. The Words session claims this item to take the branch and keeps, changes or replaces that design; the traits lead makes no further src/director edits on it.
+
+Sent back 2026-10-25 from PR #5997 (branch claude/traits-scene-talk-table): Words takeover accepted; current main integration conflicts in src/director/scene-talk.ts after English seam move; preserve current seam and shared trait reader, rerun scene/coverage/played-talk gate; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #5997 (branch claude/traits-scene-talk-table): new scene-talk opposite-lean acceptance test fails at line318 in argument on fc0e5511905a6541, reproduced alone: -0.21739130434782591 < 0.6086956521739126; finish on that branch, merge main into it first.

@@ -1,6 +1,63 @@
 {
   "entries": [
     {
+      "version": "0.28.0",
+      "releasedOn": "2026-10-25",
+      "revision": "2432b123aed7aa4e61452351be582ae6f2bc4d43",
+      "changeIds": [
+        "core-voter-groups-weight-sum-order",
+        "law-reach-money-handlers-load-cycle",
+        "officials-carry-every-trait",
+        "people-fill-in-keeps-job-tenure",
+        "play-stop-09-jobs-here-count-too-high",
+        "play-stop-14-town-list-stops-at-400",
+        "tests-no-pinned-place-opelika",
+        "web-labor-waiting-links-named",
+        "world-disaster-no-outside-market",
+        "world-session-calendar-2025-ends",
+        "world-unfilled-pay-room-double-counts"
+      ]
+    },
+    {
+      "version": "0.27.0",
+      "releasedOn": "2026-10-25",
+      "revision": "a83efbf169b110f18fda615ec1653b8de82cc021",
+      "changeIds": [
+        "elections-stand-again-in-play",
+        "law-wiring-death-tax-no-schedule",
+        "law-wiring-labor",
+        "people-counted-newborn-inherits-temperament",
+        "people-drives-responses-against-research-bands",
+        "release-pool-done-on-merge-proof",
+        "tests-budgets-public-pay-intermittent",
+        "tests-finance-sales-receipt-own-illness-provider",
+        "traits-research-weights-endorse-estates",
+        "web-health-waiting-links-named",
+        "words-bargain-scenes",
+        "words-desk-bill-scene",
+        "words-seam-director-reads-no-bank",
+        "world-construction-outside-market-payee"
+      ]
+    },
+    {
+      "version": "0.26.2",
+      "releasedOn": "2026-10-25",
+      "revision": "932cf9637dbd0d36f45bc26a70df1b5d0b72f919",
+      "changeIds": [
+        "cto-play-first-lane",
+        "gov-press-outlet-cost-scheduled-hours",
+        "release-playtest-report-lead-commit-hash",
+        "words-speech-screen-no-crowd",
+        "world-school-pay-no-full-teachers-small-district"
+      ]
+    },
+    {
+      "version": "0.26.1",
+      "releasedOn": "2026-10-25",
+      "revision": "8d0dd8f295b83d6f63cd421004fda1feaf37ef05",
+      "changeIds": ["release-package-build-heap"]
+    },
+    {
       "version": "0.26.0",
       "releasedOn": "2026-10-25",
       "revision": "cd27a2a370cf83fea4e78be031500d7dc549323d",
