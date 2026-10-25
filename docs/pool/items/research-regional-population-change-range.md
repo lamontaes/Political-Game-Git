@@ -5,9 +5,9 @@ area: world
 kind: research
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/regional-population-range
-pr:
+pr: #6023
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T11:10:27.639Z
