@@ -6,12 +6,12 @@ import { initialFocusPeople } from "../../core2/focus";
 import { advanceCore, createLifeCore } from "../../core2/life";
 import { buildPopulation } from "../../core2/population";
 import { applyCoreEvent } from "../../core2/state";
-import { bringItUp } from "../bring-it-up";
-import { createDirector } from "../ledger";
-import { composeScene } from "../scene";
+import { bringItUp } from "../../director/bring-it-up";
+import { createDirector } from "../../director/ledger";
+import { composeScene } from "../../director/scene";
 import {
   BRING_BANK,
-  bringDataFromBank,
+  bringWordsFromBank,
   SCENE_BANK,
   sceneWordsFromBank,
 } from "./scene-bank";
@@ -102,7 +102,9 @@ describe(`mined scenes and bring-it-up in ${base.placeMetadata?.placeName} (seed
       facts: { [`organization:${org}:status`]: "closed" },
     });
     const listener = [...worker.knownIds][0]!;
-    const said = bringItUp(core, worker.id, listener, bringDataFromBank());
+    const said = bringItUp(core, worker.id, listener, {
+      words: bringWordsFromBank(),
+    });
     expect(said).not.toBeNull();
     const patterns = mined(BRING_BANK);
     expect(said!.lines.length).toBeGreaterThan(0);
