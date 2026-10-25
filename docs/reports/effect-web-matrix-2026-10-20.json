@@ -5,10 +5,10 @@
     "lawLinks": 128,
     "webCoverageWired": 120,
     "allEightPoints": 0,
-    "reachesOrCarried": 132,
-    "namedInAStopgap": 107,
+    "reachesOrCarried": 121,
+    "namedInAStopgap": 117,
     "notReachingAndNoStopgap": 0,
-    "reachesTheWorld": 132,
+    "reachesTheWorld": 121,
     "withAnyModerator": 22,
     "byPoint": {
       "cause": {
@@ -24,9 +24,9 @@
         "n/a": 0
       },
       "reaches": {
-        "pass": 132,
+        "pass": 121,
         "partial": 0,
-        "fail": 100,
+        "fail": 111,
         "n/a": 0
       },
       "varied": {
@@ -1385,8 +1385,9 @@
           "evidence": "data/research/outcome-web/links.json:733 size 0.05, range [0.025, 0.1], Boustan, Kahn, Rhode and Yanguas 2020 (JUE); IRS Statistics of Income state migration 2022-23"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/modules/counted-moves.ts:479, src/core2/modules/moves.ts:823"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/modules/counted-moves.ts:479, src/core2/modules/moves.ts:823",
+          "why": "the web does not run it: it waits on disaster.severe; nothing in the core records its cause, disaster.severe"
         },
         "varied": {
           "status": "fail",
@@ -1412,8 +1413,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": null
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-population-out-migration"
     },
     {
       "key": "disaster-to-home-values",
@@ -1680,8 +1681,9 @@
           "evidence": "data/research/outcome-web/links.json:857 size -0.25, range [-0.4, -0.1], Miller, Johnson and Wherry 2021 (QJE)"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/health-web.ts:60"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/health-web.ts:60",
+          "why": "the web does not run it: it waits on person:health.coverage-pct; it needs each person's own exposure record, which no engine keeps"
         },
         "varied": {
           "status": "fail",
@@ -1707,8 +1709,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": null
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-health-mortality-55-64"
     },
     {
       "key": "work-requirement-to-coverage",
@@ -3312,8 +3314,9 @@
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/housing-occupancy.ts:379"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/housing-occupancy.ts:379",
+          "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3339,8 +3342,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": null
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-housing-rent"
     },
     {
       "key": "rent-control-to-rental-supply",
@@ -3453,8 +3456,9 @@
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:389"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/housing-homeless.ts:389",
+          "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3480,8 +3484,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": null
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-housing-homelessness"
     },
     {
       "key": "eviction-to-homelessness",
@@ -3501,8 +3505,9 @@
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/housing-homeless.ts:389"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/housing-homeless.ts:389",
+          "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -3528,8 +3533,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": null
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-housing-homelessness"
     },
     {
       "key": "eviction-to-hospital-visits",
@@ -4223,8 +4228,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:228"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:228",
+          "why": "the web does not run it: it waits on program.child-benefit-dollars; its research finds no effect (about zero), so an engine would multiply by one"
         },
         "varied": {
           "status": "fail",
@@ -4250,8 +4256,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": null
+      "wiredPoints": 2,
+      "stopgap": "SG-WEB-unread-births-rate"
     },
     {
       "key": "baby-bonus-to-births",
@@ -4272,8 +4278,9 @@
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:228"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/births-counted.ts:293, src/core2/births-counted.ts:296, src/core2/births-counted.ts:631, src/core2/births-plan.ts:228",
+          "why": "the web does not run it: it waits on program.birth-bonus-dollars, and it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -4299,8 +4306,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": null
+      "wiredPoints": 2,
+      "stopgap": "SG-WEB-unread-births-rate"
     },
     {
       "key": "marriage-equality-to-marriages",
@@ -4370,8 +4377,9 @@
           "evidence": "data/research/outcome-web/links.json:2373 size -0.007, range [-0.012, -0.002], Carpenter, Eppink, Gonzales and McKay 2021 (JPAM)"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "through uninsured-to-graduation: src/core2/school-outcomes.ts:37"
+          "status": "fail",
+          "evidence": "outcome read by through uninsured-to-graduation: src/core2/school-outcomes.ts:37",
+          "why": "the web does not run it: it waits on law.marriage-equality; nothing in the core records its cause, law.marriage-equality"
         },
         "varied": {
           "status": "fail",
@@ -4398,8 +4406,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
-      "stopgap": null
+      "wiredPoints": 2,
+      "stopgap": "SG-WEB-unread-health-uninsured-pct"
     },
     {
       "key": "abortion-ban-to-births",
@@ -9131,8 +9139,9 @@
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:37"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/school-outcomes.ts:37",
+          "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -9158,8 +9167,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": null
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-school-graduation-pct"
     },
     {
       "key": "housing-vouchers-to-crime",
@@ -10082,8 +10091,9 @@
           "why": "no size: the link's research has not been sized"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/school-outcomes.ts:36"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/school-outcomes.ts:36",
+          "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it"
         },
         "varied": {
           "status": "fail",
@@ -10109,8 +10119,8 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 4,
-      "stopgap": null
+      "wiredPoints": 3,
+      "stopgap": "SG-WEB-unread-school-reading-proficient-pct"
     },
     {
       "key": "city-anti-discrimination-to-poverty",
@@ -10323,8 +10333,9 @@
           "why": "no recorded spread (range) around the size"
         },
         "reaches": {
-          "status": "pass",
-          "evidence": "src/core2/modules/jobs.ts:1565"
+          "status": "fail",
+          "evidence": "outcome read by src/core2/modules/jobs.ts:1565",
+          "why": "the web does not run it: it waits on federal.defense-boost-pct"
         },
         "varied": {
           "status": "fail",
@@ -10350,7 +10361,7 @@
           "evidence": "one code path (src/core2/modules/outcome-web.ts effectOf) for every place"
         }
       },
-      "wiredPoints": 3,
+      "wiredPoints": 2,
       "stopgap": "SG-LABOR-defense-cause"
     },
     {
