@@ -1079,19 +1079,37 @@ function renderFiling(value) {
   }));
   $("talk-lines").replaceChildren(...spokenLines(lines, (line) => line.text));
   renderFilingOverlay(value);
-  $("talk-choices").replaceChildren(
-    ...replies(value.visit.choices.slice(0, 6), async (choice) => {
-      // Filing carries the platform and party chosen on the overlay.
-      const params = new URLSearchParams({ key: choice.key });
-      if (choice.action.kind === "file") {
-        for (const select of $("filing-platform").querySelectorAll("select"))
-          if (select.value)
-            params.append("stance", `${select.name}=${select.value}`);
-        params.set("party", $("filing-party").value);
-      }
-      renderFiling(await post(`/api/filing/choose?${params}`));
-    }),
-  );
+  const choices = value.visit.choices.slice(0, 6);
+  const buttons = replies(choices, async (choice) => {
+    // Filing carries the platform and party chosen on the overlay.
+    const params = new URLSearchParams({ key: choice.key });
+    if (choice.action.kind === "file") {
+      for (const select of $("filing-platform").querySelectorAll("select"))
+        if (select.value)
+          params.append("stance", `${select.name}=${select.value}`);
+      params.set("party", $("filing-party").value);
+    }
+    renderFiling(await post(`/api/filing/choose?${params}`));
+  });
+  // Each race told apart before the pick: its seat, its election day and
+  // who holds the seat now, from the contest's records.
+  const counter = controls.filing;
+  choices.forEach((choice, i) => {
+    const seat =
+      choice.action.kind === "pick" && value.seats?.[choice.action.contestId];
+    if (!seat) return;
+    buttons[i].append(
+      el("small", {
+        className: "reply-facts",
+        textContent: [
+          ...(seat.seat ? [`${counter.seat} ${seat.seat}`] : []),
+          proseDate(seat.electionDate),
+          seat.holder ? `${counter.heldBy} ${seat.holder}` : counter.openSeat,
+        ].join(" · "),
+      }),
+    );
+  });
+  $("talk-choices").replaceChildren(...buttons);
   // The filing's record once it is made: its status.
   if (value.result)
     $("talk-lines").append(
