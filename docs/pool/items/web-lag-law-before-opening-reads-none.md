@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/web-reach-health-played
-pr:
+pr: #6006
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T15:19:59.748Z
