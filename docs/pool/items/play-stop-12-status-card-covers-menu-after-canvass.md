@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/bench/play.css, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:05, 16:12; screenshots 49, 61. Related to play-stop-card-covers-rings (priority 3), which saw the same overlap at a pending stop. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+
+Sent back 2026-10-25 ~22:05 UTC from PR #6051 (branch claude/quirky-ride-vrwwz4-play-stop-12, head 1d51fa6ef9 with main merged in): the body screenshot is wrapped in backticks so it renders as code, not an image, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tag and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
