@@ -1,6 +1,6 @@
 /** Actual finance source adapters. Arithmetic stays in the read-only planner. */
 import { bookkeeping } from "./bookkeeping";
-import { countedJob } from "./modules/residents";
+import { countedJob, residentsRuntime } from "./modules/residents";
 import { countedJobsOf } from "./residents-economy";
 import { makeIsoDate } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
@@ -128,12 +128,14 @@ function config(session: FinancePlanningSession): FinanceCashPolicy {
         "visit",
         "market",
         "customerBudget",
+        "wageFlow",
       ] as const
     ).map((key) => r.field(related, key)),
     r.field(cfg, "financeReceiptPrefix"),
     r.field(cfg, "creditReceiptPrefix"),
     r.field(cfg, "interestContractPrefix"),
     r.field(cfg, "standaloneDrawRequestPrefix"),
+    r.field(cfg, "wageFlowDrawRequestPrefix"),
   ];
   for (const value of values) identity(value, value);
   if (new Set(values).size !== values.length)
@@ -1848,6 +1850,29 @@ function creditTrigger(
       date: receipt.date,
       source: source(session, r.field(receipt, "source")),
     });
+  } else if (r.field(actualCause, "kind") === cfg.relatedKinds.wageFlow) {
+    // A counted employer short of cash on payday: the draw is at most what
+    // its cash could not pay of the wage flow due today.
+    const flowId = r.field(actualCause, "id"),
+      flow = residentsRuntime(session.core)?.flows.get(flowId);
+    if (
+      r.field(request, "triggerId") !==
+        `${r.field(cfg, "wageFlowDrawRequestPrefix")}${session.date}:${facilityId}:${flowId}` ||
+      !flow ||
+      flow.kind !== "wages" ||
+      flow.payerId !== r.field(facility, "borrowerId") ||
+      flow.creditNeed?.date !== session.date ||
+      r.field(request, "requestedMinor") > flow.creditNeed.minor ||
+      r.field(request, "reasonKey") !==
+        r.field(r.field(session.policy()!, "reasons"), "borrowing")
+    )
+      throw new Error("Wage-flow draw is not its payer's actual short payday.");
+    add(relations, {
+      kind: cfg.relatedKinds.wageFlow,
+      id: flowId,
+      date: session.date,
+      source: source(session, flow.source),
+    });
   } else {
     const contractId = r.field(actualCause, "id"),
       expectedRequestId = `${r.field(cfg, "standaloneDrawRequestPrefix")}${session.date}:${facilityId}:${contractId}`;
@@ -2695,6 +2720,48 @@ export function transferFinanceCreditJournal(
       reasonKey,
       triggerId,
       repayment,
+    }),
+    relations: Relations = { records: [], required: [] };
+  creditTrigger(session, request, relations, actualCause);
+  const result = prepareFinanceCredit(session, request);
+  const row: FinanceCashSourceState = {
+    id: result.id,
+    kind: cfg.sourceKinds.credit,
+    date: session.date,
+    mode: "credit",
+    facilityId,
+    trigger: actualCause,
+    request,
+    creditIds: [],
+  };
+  return submit(core, api, session, row, result, []) as CreditReceipt;
+}
+
+/**
+ * An employer's credit line pays what its cash could not of a counted wage
+ * flow due today (residents settle()), journal-balanced like any draw.
+ */
+export function transferWageFlowCreditJournal(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  requestedMinor: number,
+  flowId: string,
+): CreditReceipt {
+  ensureFinanceCashModule(core);
+  const session = fresh(core),
+    cfg = config(session),
+    r = session.reads;
+  const actualCause: CashJournalSourceRef = Object.freeze({
+    kind: cfg.relatedKinds.wageFlow,
+    id: flowId,
+  });
+  const request: FinanceCashCreditRequest = Object.freeze({
+      facilityId,
+      requestedMinor,
+      reasonKey: r.field(r.field(session.policy()!, "reasons"), "borrowing"),
+      triggerId: `${cfg.wageFlowDrawRequestPrefix}${session.date}:${facilityId}:${flowId}`,
+      repayment: false,
     }),
     relations: Relations = { records: [], required: [] };
   creditTrigger(session, request, relations, actualCause);

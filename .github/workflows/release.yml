@@ -188,6 +188,9 @@ jobs:
       CANDIDATE_TREE: ${{ needs.build_candidate.outputs.candidate_tree }}
       BUNDLE_SHA256: ${{ needs.build_candidate.outputs.bundle_sha256 }}
       NEXT_VERSION: ${{ needs.build_candidate.outputs.next_version }}
+      # The full word pack takes typecheck beyond Node's default 4 GB heap.
+      # Share the measured allowance between the build and its follow-up check.
+      NODE_OPTIONS: --max-old-space-size=5120
     steps:
       - name: Check out the pushed revision without write credentials
         uses: actions/checkout@v7
@@ -491,7 +494,9 @@ jobs:
 
       - name: Build the game
         env:
-          NODE_OPTIONS: --max-old-space-size=4096
+          # The full word pack takes typecheck beyond 4 GB; this is the same
+          # measured allowance as candidate validation.
+          NODE_OPTIONS: --max-old-space-size=5120
           PG_ARTIFACTS_DIR: ${{ runner.temp }}/pg-artifacts
         run: npm run build
 
@@ -544,6 +549,14 @@ jobs:
           mv "${files[@]}" ../release-upload/
           ls -la ../release-upload
 
+      # The installed app's Check for updates reads the feed: it must name
+      # this release's version and the installer beside it, at its real size
+      # and sha512. A wrong feed stops here, before anything is uploaded.
+      - name: Check the update feed against the files beside it
+        shell: bash
+        working-directory: desktop
+        run: node scripts/check-release-feed.mjs release-upload "$NEXT_VERSION"
+
       - name: Hand the files to the publisher
         uses: actions/upload-artifact@v7
         with:
@@ -588,6 +601,9 @@ jobs:
           ls -la
           # Windows may be missing until early access (owner,
           # Oct 14: the Windows row stays allowed-to-fail); the Mac files may not.
+          # A feed reaches here only after its package job checked it against
+          # its installer (check-release-feed.mjs), so the Mac feed's presence
+          # means the Mac update was checked.
           [[ -f latest-mac.yml ]]
           tag="v${NEXT_VERSION}"
           # A draft first, so the updater never sees a half-uploaded release.

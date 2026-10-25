@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: claude/staff-dismissal-after-attendance
 pr: #5894
 blocked-on:

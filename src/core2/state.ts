@@ -1,3 +1,4 @@
+import { refreshOfficeStaff } from "./civic-inputs";
 import { initialPersonState } from "./person-state";
 import {
   closenessAfter,
@@ -6,7 +7,7 @@ import {
 } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
-import { queueDecisionDetail } from "./decision-detail";
+import { keptDecision, queueDecisionDetail } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
@@ -71,6 +72,7 @@ import {
   settleFinanceContract,
   retireFinanceBudget,
   transferCredit,
+  transferWageFlowCredit,
   reviewBusiness,
   closeBusinessByChoice,
   closeEmployer,
@@ -695,6 +697,15 @@ export function retainLog(core: CoreState, event: LogRecord): void {
   if (core.durableLog.has(event.id)) return;
   const row: LogRecord = {
     ...event,
+    ...(event.decision
+      ? {
+          decision: keptDecision(
+            core,
+            event.decision,
+            isExplicitlyControlledPersonV1(core, event.decision.actorId),
+          ),
+        }
+      : {}),
     visibility: core.observer
       ? "observer"
       : circle
@@ -984,6 +995,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     repayCredit(id, minor, reason, sourceId) {
       return transferCredit(core, api, id, minor, reason, sourceId, true);
+    },
+    drawWageFlowCredit(id, minor, flowId) {
+      return transferWageFlowCredit(core, api, id, minor, flowId);
     },
     reviewBusiness(id) {
       reviewBusiness(core, api, id);
@@ -2228,6 +2242,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
           job.id,
         );
         api.updatePerson(row.id, { jobId: job.id });
+        refreshOfficeStaff(core, job.organizationId);
       }
       admitted.push(core.people.get(row.id)!);
       continue;
@@ -2257,6 +2272,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     if (job && active) {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+      refreshOfficeStaff(core, job.organizationId);
     }
   }
   // Their economic life moves from the merged flows to their own records.
@@ -2418,6 +2434,17 @@ export interface RecordedIdentity {
   tier?: string;
   /** What they hold on the opening day, from the survey rule for their pay; only then, since later cash would come from nowhere. */
   openingLiquidMinor?: number;
+  /**
+   * A person met in a place kept as counts: the job its counts show, kept as a
+   * fact with no payroll behind it (stopgap SG-WORLD-coarse-place-no-payroll).
+   */
+  work?: {
+    readonly workplace: string;
+    readonly title: string;
+    readonly occupation: string;
+    readonly hourlyMinor: number | null;
+    readonly weeklyHours: number;
+  };
   source: Source;
 }
 
@@ -2483,6 +2510,26 @@ export function fillInIdentity(
             summary: identity.seatKey,
             source: identity.source,
             facts: { seatKey: identity.seatKey },
+          },
+        ]
+      : []),
+    ...(identity.work
+      ? [
+          {
+            id: `${identity.id}:work`,
+            date: core.date,
+            kind: "identity:work",
+            summary: identity.work.title,
+            source: identity.source,
+            facts: {
+              workplace: identity.work.workplace,
+              title: identity.work.title,
+              occupation: identity.work.occupation,
+              weeklyHours: String(identity.work.weeklyHours),
+              ...(identity.work.hourlyMinor === null
+                ? {}
+                : { hourlyMinor: String(identity.work.hourlyMinor) }),
+            },
           },
         ]
       : []),
