@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Filed Oct 25 by the speed lead investigating core-speed-opelika-year-memory-growth. #5994 also changes drives.ts; its nearest hunk is 40 lines from this provider.
 
 Oct 25, 13:30 UTC (speed lead): built on `claude/speed-cause-group-offers` (8efde991e8, on main 71499f28b8) and measured; not shipped, claim released, recommend drop. It is exact: Long Hill, Connecticut (seed m7b, one year) gives deep fingerprint `040f1fbd608e813b` on the base and on the branch, and Stanardsville, Virginia (seed cc91f5444b53bd47, three years) gives `1711a7afb2fab95e` on both. It saves almost nothing: the paired Long Hill year ran 138.7 s on the base and 138.1 s on the branch (ratio 0.996, fingerprints `b26a8d3e70ecce6f` both), and in that pair `groupKnown` takes 0.1 s on each side. Only in a town with runaway cause activity does the provider cost time (Opelika, Alabama, seed op1, ninth month: `groupKnown` 6.15 s inclusive on main, 5.86 s on the branch), and there the cure is people-drives-cause-acts-pull-less. The drives tests on the branch were not needed for a decision and are not quoted.
+
+Oct 25 (CTO ruling): dropped at the speed lead's recommendation; the per-kind score cut and core-speed-contact-offers-grow-with-ties carry what was left.

@@ -5,12 +5,12 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: in-pr
 claimed-by:
 pr: #5588
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Where a place's city and state government are one body, its council is built as the state-level unicameral legislature, and no chamber is attached to the city government. The mayor's propose-budget act sets priorities on the city government (setBudgetPriorities), but councilBudget in src/core2/modules/legislature.ts never runs for it (budgetChambers finds no city chamber). So each year the city budget is 'carried forward by the budget rule until the council or legislature votes it', and the mayor's changes never reach a vote. Meanwhile the state-level budget bill that council does pass carries every line at 0 (provisions with of: 0). Route the city budget to the body that actually governs it, from the place's government records (the city's council is the state-level chamber where the records say they are one), so the mayor's proposal is voted, passed, amended or rejected like any council's, and a passed change becomes the adopted line.
