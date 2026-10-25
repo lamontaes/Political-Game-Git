@@ -59,9 +59,36 @@ export interface BenchScene {
   /** People who are there but have no spot or no approved figure that fits one. */
   unplaced: { personId: string; reason: string }[];
 }
+/**
+ * Why a person stands in a room, from the records (owner, Oct 24: people in a
+ * room need a reason to be there). Nobody is staged without one.
+ */
+export type StageReason =
+  /** The person whose scene it is. */
+  | "you"
+  /** Lives in the household whose home this is. */
+  | "household"
+  /** Holds a job at the organization this place belongs to. */
+  | "coworker"
+  /** The other person in the act the player chose (a talk, a visit). */
+  | "act"
+  /** The moment the scene plays is about them: they opened it or it names them. */
+  | "moment"
+  /** The filing office's clerk on record. */
+  | "clerk"
+  /** A voter the campaign act reached, by its cause record. */
+  | "reached"
+  /** Holds the office or seat this room is for. */
+  | "official"
+  /** The person a card or portrait is of. */
+  | "subject"
+  /** The address or broadcast the scene shows names them. */
+  | "named";
+
 export interface BenchScenePerson {
   personId: string;
   name: string;
+  reason: StageReason;
   spotId: string;
   figure: WholeFigure["figure"];
   figureUrl: string;
@@ -546,7 +573,7 @@ function isOfficial(core: CoreState, id: string): boolean {
 export function stagePeople(
   core: CoreState,
   place: string,
-  ids: readonly { id: string; name: string }[],
+  ids: readonly { id: string; name: string; reason: StageReason }[],
 ): { people: BenchScenePerson[]; unplaced: BenchScene["unplaced"] } {
   const stage = backdropStaging(place);
   const people: BenchScenePerson[] = [];
@@ -566,13 +593,18 @@ export function stagePeople(
   const placed: {
     id: string;
     name: string;
+    reason: StageReason;
     look: Figure;
     band: Parameters<typeof figureOn>[1];
     spot: StagingSpot;
   }[] = [];
   // No twins: each look is worn by one person in the scene, the lead first.
   const taken = new Set<string>();
-  for (const { id, name } of ids) {
+  for (const { id, name, reason } of ids) {
+    if (!reason) {
+      unplaced.push({ personId: id, reason: "no-reason" });
+      continue;
+    }
     const looks = looksOf(core, id);
     if (!looks) {
       unplaced.push({ personId: id, reason: "no-record" });
@@ -607,13 +639,20 @@ export function stagePeople(
       continue;
     }
     taken.add(look.look);
-    placed.push({ id, name, look, band, spot: free.splice(index, 1)[0]! });
+    placed.push({
+      id,
+      name,
+      reason,
+      look,
+      band,
+      spot: free.splice(index, 1)[0]!,
+    });
   }
   const front = FRONTS[place];
   // Drawn far to near, so nearer people stand in front of farther ones.
   const depth = (spot: StagingSpot) => spot.depth ?? spot.y;
   const order = [...placed].sort((a, b) => depth(a.spot) - depth(b.spot));
-  for (const { id, name, look, band, spot } of order) {
+  for (const { id, name, reason, look, band, spot } of order) {
     const turn = turnOf(
       spot,
       placed.map((row) => row.spot),
@@ -623,6 +662,7 @@ export function stagePeople(
     people.push({
       personId: id,
       name,
+      reason,
       spotId: spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`,
       figure: whole.figure,
       figureUrl: whole.url,
@@ -733,13 +773,24 @@ export function benchScene(
     minute,
     openingEvening !== undefined,
   );
+  const working =
+    why === "work-shift" || why === "attend-scheduled-work-date-segment";
   const ids = [personId, ...presentIds(core, personId, place, why, targetId)];
   const { people, unplaced } = stagePeople(
     core,
     place,
     ids.map((id) => {
       const person = core.people.get(id)!;
-      return { id, name: `${person.givenName} ${person.familyName}` };
+      // The same reasons presentIds draws them by.
+      const reason: StageReason =
+        id === personId
+          ? "you"
+          : working
+            ? "coworker"
+            : id === targetId
+              ? "act"
+              : "household";
+      return { id, name: `${person.givenName} ${person.familyName}`, reason };
     }),
   );
   return {
