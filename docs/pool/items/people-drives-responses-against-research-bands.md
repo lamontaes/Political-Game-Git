@@ -5,9 +5,9 @@ area: people
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: claude/traits-drives-respond
-pr:
+pr: #5994
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T20:08:23.284Z

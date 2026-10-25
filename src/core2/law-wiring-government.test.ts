@@ -595,6 +595,21 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         const hireFlow = countedHireJob
           ? rt?.wageFlowByJob.get(countedHireJob.id)
           : undefined;
+        // A named hire is paid on the employer's own pay calendar; one that
+        // pays monthly pays a late-month hire after the window above, so the
+        // world plays on to the first payday (at most nine weeks).
+        const hireCalendar = hire
+          ? [...core.work.payrollCalendars.values()].find((cal) =>
+              cal.workCommitmentIds.some((id) => id.endsWith(hire.targetId)),
+            )
+          : undefined;
+        let waited = 0;
+        for (; waited < 63 && hireCalendar && !moneyOf(ADMIN); waited += 7)
+          advanceCore(core, next(api, 7));
+        if (waited)
+          console.log(
+            `${where}: the line's hire was first paid ${waited} days after the window (${hireCalendar?.rule}, first payday ${hireCalendar?.firstPaydayAt})`,
+          );
         const hirePay =
           moneyOf(ADMIN) ??
           (hireFlow
@@ -632,7 +647,14 @@ describe(`government operations laws are applied by their engines (seed ${seed})
         // line, or the wage flow that pays a counted hire.
         expect(
           hirePay,
-          `${where}: the administration line's hire was paid (${hire?.id})`,
+          `${where}: the administration line's hire was paid (${hire?.id}, hired ${hire?.since}, today ${api.state.date}; ${lineHires.length} line hires; named job ${
+            [...core.jobs.values()]
+              .filter((j) => j.personId === hire?.targetId)
+              .map((j) => `${j.id}${j.endsAt ? ` to ${j.endsAt}` : ""}`)
+              .join(", ") || "none"
+          }; counted job ${countedHireJob?.id ?? "none"}; calendar ${hireCalendar ? `${hireCalendar.rule} first payday ${hireCalendar.firstPaydayAt}` : "none"}; posts naming the person ${
+            posts.filter((p) => p.id.includes(hire?.targetId ?? "-")).length
+          })`,
         ).not.toBeNull();
         govReport(
           "law-wiring-government",
