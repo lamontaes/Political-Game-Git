@@ -16,11 +16,10 @@ import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
-import { moduleData } from "./module-data";
+import { moduleData, type ModuleRow } from "./module-data";
 import { JOBS_MODULE_ID, type PositionRow } from "./modules/jobs";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
-import type { ModuleRow } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 const DRAWS = 6;
