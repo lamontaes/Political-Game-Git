@@ -145,9 +145,11 @@ it(`a reply chosen in a scene is a record the relationship writer reads (seed ${
     // The relationship writer read it: the tie's latest change cites it.
     const tie = core.relationships.get(pairKey(scene.askedId, scene.askerId));
     expect(tie?.latestChange?.reason?.sourceId, where).toBe(recordId);
-    expect(tie!.latestChange!.after.level, where).toBeGreaterThanOrEqual(
-      tie!.latestChange!.before.level,
-    );
+    // It is time together that day: the contact is dated today, and the
+    // change asked for is the exchange's time (the tie's level also fades
+    // with the days since they last talked, so it can end a little lower).
+    expect(tie!.latestChange!.after.lastContactDate, where).toBe(core.date);
+    expect(tie!.latestChange!.requestedChange, where).toBeGreaterThan(0);
     // Said again, it is the same record, and the tie does not count it twice.
     const latest = tie!.latestChange;
     expect(
