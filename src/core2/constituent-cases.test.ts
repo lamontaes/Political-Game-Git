@@ -63,7 +63,7 @@ describe("M3-08 constituent cases", () => {
           seed,
           placeKey: key,
           startedAt: START,
-          minimumPeople: 200,
+          minimumPeople: 600,
         }),
       );
       openLaws(core);
@@ -73,7 +73,9 @@ describe("M3-08 constituent cases", () => {
       openLegislature(core);
       openCases(core);
       const api = coreAPI(core);
-      advanceCore(core, "2026-02-05");
+      // About one adult in five reaches an official in a year (Pew, 2018), so
+      // a town needs a few hundred people and two months to bring two problems.
+      advanceCore(core, "2026-03-05");
       const cases = allCases(api);
       if (cases.length < 2) continue;
       // Every case is a problem the resident's own records show.
@@ -108,12 +110,12 @@ describe("M3-08 constituent cases", () => {
       expect(after).toBeGreaterThan(before);
       expect(afterD).toBeLessThan(beforeD);
       // The rest are handled by the office within the response window.
-      advanceCore(core, "2026-02-20");
-      const done = allCases(api).filter((c) => c.opened <= "2026-02-05");
+      advanceCore(core, "2026-03-20");
+      const done = allCases(api).filter((c) => c.opened <= "2026-03-05");
       expect(done.every((c) => c.status !== "open")).toBe(true);
       expect(
         casesOpenFor(api, helped.officialId).filter(
-          (c) => c.opened <= "2026-02-05",
+          (c) => c.opened <= "2026-03-05",
         ),
       ).toEqual([]);
       report = {

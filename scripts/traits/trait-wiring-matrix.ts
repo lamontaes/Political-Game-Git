@@ -167,11 +167,31 @@ function formulaThirds(run: Run, decision: DecisionRow, weight: number) {
     };
     return Math.log(odds(high) / odds(low));
   };
+  // The same with every kept case crossed with every decider's lean (each
+  // distinct lean is one decider), so the thirds face the same cases. A
+  // decision few people make, such as an official's call on each case, is
+  // then not read off which of them happened to get which case.
+  const leans = [...new Set(samples.map((s) => s.lean))].sort((a, b) => a - b);
+  const m = Math.floor(leans.length / 3);
+  const crossed = (w: number) => {
+    const odds = (part: number[]) => {
+      let yes = 0;
+      for (const lean of part)
+        for (const s of samples) if (s.bare + lean * w > 0) yes += 1;
+      const r = (yes + 0.5) / (part.length * samples.length + 1);
+      return r / (1 - r);
+    };
+    return Math.log(
+      odds(leans.slice(leans.length - m)) / odds(leans.slice(0, m)),
+    );
+  };
   return {
     calls: samples.length,
     lowThird: rate(low, weight),
     highThird: rate(high, weight),
     netOddsRatio: Math.exp(logOdds(weight) - logOdds(0)),
+    deciders: leans.length,
+    crossedNetOddsRatio: m ? Math.exp(crossed(weight) - crossed(0)) : null,
   };
 }
 
