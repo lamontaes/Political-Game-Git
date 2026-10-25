@@ -299,19 +299,25 @@ it(`a counted household pays the premium a full household of its shape pays, and
           coverageOf(api, id)?.plan,
           `${where} ${id} on ${nextPayday}`,
         ).toBe("medicare");
-  const continuing = handed.filter(
-    (h) =>
-      coverageOf(api, h.record.holderId)?.id ===
-      `coverage:${h.record.holderId}:${fillDay}`,
-  );
+  // The policy each handed household holds on the 1st, whoever holds it now:
+  // the review ranks the members afresh, so a member's new job at a larger
+  // employer can move the household's policy to them.
+  const continuing = handed.flatMap((h) => {
+    const row = (core.households.get(h.record.householdId)?.memberIds ?? [])
+      .map((id) => coverageOf(api, id))
+      .find(
+        (held) => held?.plan === "employer" && held.holderId === held.personId,
+      );
+    return row ? [{ ...h, row }] : [];
+  });
   expect(
     continuing.length,
-    `${where}: policies handed over that are still in force on the 1st`,
+    `${where}: households handed a policy that still hold one on the 1st`,
   ).toBeGreaterThan(0);
   let inFull = 0;
   for (const h of continuing) {
-    const row = coverageOf(api, h.record.holderId)!;
-    const posting = posted.get(`premium:${h.record.holderId}:${nextPayday}`);
+    const row = h.row;
+    const posting = posted.get(`premium:${row.personId}:${nextPayday}`);
     const label = `${where} ${row.id}`;
     // The premium due is the counted household's, to the minor unit.
     expect(row.lastDueMinor, `${label}: premium due`).toBe(
@@ -332,7 +338,7 @@ it(`a counted household pays the premium a full household of its shape pays, and
       inFull++;
       expect(
         posting!.paidMinor,
-        `${where}: ${posting!.journalId} (filled in ${h.record.holderId}) against ${posted.get(`premium:${h.record.householdId}:${lastPayday}`)!.journalId} (counted ${h.record.householdId})`,
+        `${where}: ${posting!.journalId} (filled in ${row.personId}) against ${posted.get(`premium:${h.record.householdId}:${lastPayday}`)!.journalId} (counted ${h.record.householdId})`,
       ).toBe(Math.round(h.paidMinor / h.weight));
     }
   }
