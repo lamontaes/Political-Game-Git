@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: open
 claimed-by:
-pr: #6009
+pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Rows found Oct 24 by a research helper under the traits lead: 59 rows, every quote matched against the downloaded text. Not found: staff.dismiss (weak proxy only) and legislature.budget-priorities.
 
 Sent back 2026-10-25 from PR #6009 (branch claude/traits-research-weights): main integration conflicts in production data/content/trait-decision-gaps.json; abort; reconcile bounded endorsement/estate delivery with still-unmerged all-family21-decision acceptance before completion; finish on that branch, merge main into it first.
+
+Oct 25 (traits lead): PR #6009's delivered subset (endorsing at its study's size; study and gap rows for planning a child, wills, trusts and contract awards) moved to `traits-research-weights-endorse-estates`. This item's 21-decision acceptance stays open until every traits family (#5587, #5657, #5715) is merged; the per-decision weights in flight are on #6017, #6039 and #6001.
