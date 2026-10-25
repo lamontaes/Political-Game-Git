@@ -135,6 +135,12 @@
   },
   "filing": {
     "file": "File for this office",
+    "metOn": "From",
+    "status": {
+      "on-ballot": "You are on the ballot",
+      "withdrawn": "Withdrawn",
+      "refused": "Not accepted"
+    },
     "rules": {
       "filing-deadline": "Filing deadline",
       "already-filed": "Filed before",
@@ -280,6 +286,13 @@
     "yes": "Yes",
     "no": "No",
     "vacant": "Vacant",
+    "reached": {
+      "in office at the opening": "Serving when your story began",
+      "elected": "Elected"
+    },
+    "electedOn": "Elected",
+    "ofVote": "of the vote",
+    "adopted": "Adopted",
     "searchIssues": "Search issues",
     "back": "Back",
     "next": "Continue",
