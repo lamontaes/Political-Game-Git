@@ -24,6 +24,10 @@
     "speak": "Spoke",
     "state-of-the-city": "State of the city"
   },
+  "creator": {
+    "people": "people",
+    "about": "about"
+  },
   "endedBy": {
     "start": "Shift starts",
     "end": "Shift ends",
