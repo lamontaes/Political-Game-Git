@@ -68,8 +68,8 @@
         "n/a": 5
       },
       "web": {
-        "wired": 37,
-        "partial": 0,
+        "wired": 36,
+        "partial": 1,
         "missing": 9,
         "stopgap": 30,
         "n/a": 13
@@ -4163,9 +4163,9 @@
           "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
-          "status": "wired",
+          "status": "partial",
           "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-01 end-cash-bail-to-pretrial-detention -0.2000; Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): web:jurisdiction_971998ff58477430:2025-02 end-cash-bail-to-pretrial-detention -0.2000; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): web:jurisdiction_45a3b3ebe97fe71d:2025-01 end-cash-bail-to-pretrial-detention -0.2000",
-          "why": ""
+          "why": "links not built: end-cash-bail-to-pretrial-detention (outcome-not-produced)"
         },
         "knowing": {
           "status": "wired",
