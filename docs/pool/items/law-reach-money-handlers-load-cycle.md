@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/law-reach-money-handlers-lazy
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:29:10.375Z
 ---
 
 **What.** On main after #5892, scripts/outcome-web/write-unwired.ts and scripts/outcome-web/effect-matrix.ts stop at load with ReferenceError: Cannot access 'paidLeave' before initialization (src/core2/law-reach/group-a.ts:48). The money handlers file reaches the treasury and budget engines, which load the group A registry back through law reach, so the registry's handler table reads paidLeave, parksFunding and housingLineMeasure before group-a-money.ts has finished loading. The same cycle was fixed for the voting handler by reading it when a law takes effect (commit 6466e7b5df). Read the three money handlers the same way, so the effects lead's rerun after every merge can run.
