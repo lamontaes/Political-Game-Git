@@ -164,7 +164,14 @@ function run(
   const api = coreAPI(core);
   const sales = lawInForce(api, SALES_TAX);
   if (!(sales.value && sales.value > 0)) return false;
-  const posts: { id: string; ref: string; gross: number }[] = [];
+  // For each law row the test enacted: its first post that pays money and
+  // its first post that cites it by id, and whether any post cites it after
+  // the repeal. A year of every post would not fit a test worker's memory.
+  const watched: string[] = [];
+  const firstPriced = new Map<string, string>();
+  const firstCited = new Map<string, string>();
+  const afterRepeal = new Set<string>();
+  let repealed = false;
   // A seller's first sales-tax remittance once the laws are in force, by the
   // account that paid it: the journal entry of the tax money.
   const remittances = new Map<string, string>();
@@ -176,10 +183,24 @@ function run(
       if (payer && !remittances.has(payer))
         remittances.set(payer, `${input.id} (${input.sourceRef.id})`);
     }
-    if (!(input.id + input.sourceRef.id).includes("law:")) return;
+    const text = input.id + input.sourceRef.id;
+    if (!text.includes("law:")) return;
     let gross = 0;
     for (const p of input.postings) if (p.deltaMinor > 0) gross += p.deltaMinor;
-    posts.push({ id: input.id, ref: input.sourceRef.id, gross });
+    for (const lawId of watched) {
+      if (!text.includes(lawId)) continue;
+      if (repealed) afterRepeal.add(lawId);
+      else {
+        if (gross > 0 && !firstPriced.has(lawId))
+          firstPriced.set(lawId, input.id);
+        if (
+          input.id.includes(lawId) &&
+          !input.id.startsWith("price:") &&
+          !firstCited.has(lawId)
+        )
+          firstCited.set(lawId, input.id);
+      }
+    }
   });
 
   // Phase 0: the laws start repealed where the starting law has them in force.
@@ -201,6 +222,7 @@ function run(
     const row = lawInForce(api, key).governing;
     expect(row, `${where}: ${key} in force`).toBeTruthy();
     lawIds.set(key, row!.id);
+    watched.push(row!.id);
   }
   advanceCore(core, addDays(makeIsoDate(core.date), PLAYED_DAYS));
 
@@ -246,20 +268,15 @@ function run(
         `${where}: ${law.key} treasury received`,
       ).toBeGreaterThan(0);
     // The money: journal posts that cite this law's row, paid by its payers.
-    const cited = posts.filter(
-      (p) => p.id.includes(lawId) && p.id.startsWith("price:") === false,
-    );
-    const priced = posts.filter(
-      (p) => (p.id + p.ref).includes(lawId) && p.gross > 0,
-    );
+    const journal = firstPriced.get(lawId) ?? firstCited.get(lawId);
     expect(
-      priced.length + cited.length,
+      journal,
       `${where}: ${law.key} moved no money (law ${lawId})`,
-    ).toBeGreaterThan(0);
+    ).toBeDefined();
     const reached = households[0] ?? groups[0]!;
     evidence[law.key] = {
       applied: reached.id,
-      journal: (priced[0] ?? cited[0])!.id,
+      journal: journal!,
       reached: reached.targetId,
     };
   }
@@ -279,16 +296,14 @@ function run(
     const buyer = rows.find(
       (r) => r.target === "household" || r.target === "group",
     )!;
-    const sale = posts.find(
-      (p) => (p.id + p.ref).includes(lawIds.get(CANNABIS)!) && p.gross > 0,
-    );
+    const sale = firstPriced.get(lawIds.get(CANNABIS)!);
     expect(
       sale,
       `${where}: a journal entry of the cannabis sale`,
     ).toBeDefined();
     evidence[CANNABIS] = {
       applied: buyer.id,
-      journal: sale!.id,
+      journal: sale!,
       reached: buyer.targetId,
     };
   }
@@ -454,7 +469,7 @@ function run(
   // Repeal: the rows end and the prices stop.
   for (const key of YES_LAWS) setAll(api, key, 0, "repeal");
   const repealedOn = core.date;
-  const before = posts.length;
+  repealed = true;
   advanceCore(core, addDays(makeIsoDate(core.date), REPEAL_DAYS));
   for (const key of YES_LAWS) {
     expect(
@@ -463,9 +478,9 @@ function run(
     ).toHaveLength(0);
     const lawId = lawIds.get(key)!;
     expect(
-      posts.slice(before).filter((p) => (p.id + p.ref).includes(lawId)),
+      afterRepeal.has(lawId),
       `${where}: ${key} still moved money after repeal`,
-    ).toHaveLength(0);
+    ).toBe(false);
   }
 
   // A sales-tax rate change and its restoration: each is a new row the sellers are recorded under.
