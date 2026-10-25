@@ -726,30 +726,53 @@ function adultsAt(
 
 /**
  * Walk the town's doors for some hours, full households and counted ones
- * alike, skipping those already walked: at each door the most willing adult
+ * alike, those not yet walked first: at each door the most willing adult
  * home at that minute opens, or no one does. Yields each opener's id (a
- * counted resident is filled in by the caller); `done` gains every door.
+ * counted resident is filled in by the caller); `done` and `walked` gain
+ * every door knocked.
  */
 function* walkDoors(
   api: CoreAPI,
   input: {
     readonly done: Set<string>;
+    /** When each door already walked was last knocked. */
+    readonly lastKnocked: ReadonlyMap<string, string>;
+    readonly walked: string[];
     readonly doors: number;
     readonly hours: number;
   },
 ): Generator<string> {
   const doors = input.doors;
   const done = input.done;
+  const list = townAddresses(api).list;
   const homes: { id: string; adults: ReturnType<typeof adultsAt> }[] = [];
-  for (const address of townAddresses(api).list) {
+  for (const address of list) {
     if (homes.length >= doors) break;
     if (done.has(address.id)) continue;
     homes.push({ id: address.id, adults: adultsAt(api, address) });
+  }
+  // With every door in town walked, the canvass goes round again, the doors
+  // knocked longest ago first, as a field campaign walks its turf again
+  // before election day (the same walk order, SG-GOV-campaign-walk-order).
+  if (homes.length < doors) {
+    const again = list
+      .map((address, at) => ({
+        address,
+        at,
+        last: input.lastKnocked.get(address.id),
+      }))
+      .filter((row) => row.last !== undefined)
+      .sort((a, b) => a.last!.localeCompare(b.last!) || a.at - b.at);
+    for (const { address } of again) {
+      if (homes.length >= doors) break;
+      homes.push({ id: address.id, adults: adultsAt(api, address) });
+    }
   }
   const perHour = Math.max(1, doors / Math.max(1, input.hours));
   const start = campaignParameter("canvassStartHour") * 60;
   for (const [index, home] of homes.entries()) {
     done.add(home.id);
+    input.walked.push(home.id);
     // Who's home at the minute of the knock: not at a scheduled shift.
     const minute = start + Math.floor((index * 60) / perHour);
     const athome = home.adults.filter(
@@ -783,7 +806,8 @@ function* walkDoors(
 
 /**
  * Knock on doors for some hours: the montage. Households not yet visited, in
- * the order they stand. At each door the most outgoing adult answers, if
+ * the order they stand, then (once every door has been knocked) those knocked
+ * longest ago. At each door the most outgoing adult answers, if
  * anyone in the house is willing to open to a stranger; they talk with the
  * canvasser, and tell their household. Returns everyone met at a door, in
  * order, so the screen can stop on a porch.
@@ -817,11 +841,21 @@ export function knockDoors(
     citation: `Campaign ${campaign.id}`,
     asOf: api.state.date,
   });
-  const done = new Set(doorsKnockedOf(api, campaign.id));
-  const before = done.size;
+  const knocked = doorRowsOf(api, campaign.id);
+  const done = new Set(knocked.map((row) => row.householdId));
+  const lastKnocked = new Map(
+    knocked.map((row) => [row.householdId, row.lastDate ?? row.date]),
+  );
+  const walked: string[] = [];
   const core = api.state as CoreState;
   const met: CauseRow[] = [];
-  for (const openerId of walkDoors(api, { done, doors, hours: input.hours })) {
+  for (const openerId of walkDoors(api, {
+    done,
+    lastKnocked,
+    walked,
+    doors,
+    hours: input.hours,
+  })) {
     // A counted household is filled in when the player's campaign opens its
     // door (the owner's on-meet design): the person who answers is a full
     // person from then on. A world candidate's door counts them as reached.
@@ -852,22 +886,45 @@ export function knockDoors(
     met.push(cause);
     retell(api, campaign, answers, cause);
   }
+  // One row a household: the day its door was first knocked, the last, and
+  // how many times.
   const doorRows = table(api, "doors");
-  for (const household of done)
-    if (!doorRows.get(`${campaign.id}|${household}`))
-      doorRows.put({
-        id: `${campaign.id}|${household}`,
-        campaignId: campaign.id,
-        householdId: household,
-        date: api.state.date,
-      } as unknown as ModuleRow);
+  for (const household of walked) {
+    const id = `${campaign.id}|${household}`;
+    const prior = doorRows.get(id) as unknown as DoorRow | undefined;
+    doorRows.put({
+      id,
+      campaignId: campaign.id,
+      householdId: household,
+      date: prior?.date ?? api.state.date,
+      lastDate: api.state.date,
+      knocks: (prior?.knocks ?? (prior ? 1 : 0)) + 1,
+    } as unknown as ModuleRow);
+  }
   campaign = campaignFor(api, input.filingId);
+  // The campaign's door count is every door knocked, a second pass included.
   save(api, {
     ...campaign,
-    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + done.size - before,
+    doorsKnockedCount: (campaign.doorsKnockedCount ?? 0) + walked.length,
     countedReached: (campaign.countedReached ?? 0) + counted,
   });
   return met;
+}
+
+interface DoorRow {
+  readonly id: string;
+  readonly campaignId: string;
+  readonly householdId: string;
+  /** The day the door was first knocked. */
+  readonly date: string;
+  readonly lastDate?: string;
+  readonly knocks?: number;
+}
+
+function doorRowsOf(api: CoreAPI, campaignId: string): readonly DoorRow[] {
+  return table(api, "doors").query("byCampaign", [
+    campaignId,
+  ]) as unknown as DoorRow[];
 }
 
 /** The households a campaign's doors have reached. */
@@ -875,11 +932,7 @@ export function doorsKnockedOf(
   api: CoreAPI,
   campaignId: string,
 ): readonly string[] {
-  return (
-    table(api, "doors").query("byCampaign", [campaignId]) as unknown as {
-      householdId: string;
-    }[]
-  ).map((row) => row.householdId);
+  return doorRowsOf(api, campaignId).map((row) => row.householdId);
 }
 
 /**

@@ -213,6 +213,60 @@ describe("a campaign day", () => {
     expect(rest.causeIds.length + rest.giftIds.length, where).toBe(0);
   });
 
+  it("goes round again once every door in town is knocked, and every knock counts", () => {
+    const { api, filing, where } = setup();
+    expect(
+      filing,
+      `the player could file for nothing: ${where}`,
+    ).not.toBeNull();
+    const id = filing!.id;
+    const canvass = () => {
+      const choice = campaignDayChoices(api, id).find(
+        (c) => c.kind === "canvass",
+      )!;
+      if (choice.kind !== "canvass") throw new Error("canvass first");
+      return choice;
+    };
+    // The first pass: every household in town, a shift at a time.
+    for (let shift = 0; canvass().facts.doorsLeft > 0; shift += 1) {
+      expect(shift, `the first pass ends: ${where}`).toBeLessThan(10_000);
+      takeCampaignDayChoice(api, id, "canvass");
+    }
+    const households = doorsKnockedOf(api, id).length;
+    const before = campaignFor(api, id).doorsKnockedCount ?? 0;
+    // The last shift of the first pass may already start the second.
+    expect(before, where).toBeGreaterThanOrEqual(households);
+    // With every door knocked the canvass is still offered, and the next
+    // shift knocks again, the doors knocked longest ago first.
+    expect(canvass().available, `canvass after every door: ${where}`).toBe(
+      true,
+    );
+    const again = takeCampaignDayChoice(api, id, "canvass");
+    expect(again.doorsKnocked, `second-pass doors: ${where}`).toBeGreaterThan(
+      0,
+    );
+    expect(campaignFor(api, id).doorsKnockedCount, where).toBe(
+      before + again.doorsKnocked,
+    );
+    expect(canvass().facts.doorsKnocked, where).toBe(
+      before + again.doorsKnocked,
+    );
+    // Still one row a household, and its knocks add up to the count.
+    const rows = api
+      .moduleState(CAMPAIGNS_MODULE_ID)
+      .table("doors")
+      .query("byCampaign", [id]) as unknown as { knocks?: number }[];
+    expect(rows.length, where).toBe(households);
+    expect(
+      rows.reduce((sum, row) => sum + (row.knocks ?? 1), 0),
+      where,
+    ).toBe(before + again.doorsKnocked);
+    expect(
+      rows.some((row) => (row.knocks ?? 1) > 1),
+      where,
+    ).toBe(true);
+  });
+
   it("offers an interview where an outlet has room, and the press desk records it", () => {
     const { api, filing, where } = setup();
     if (!filing) return;
