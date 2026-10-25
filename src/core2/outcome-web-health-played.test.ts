@@ -148,7 +148,7 @@ interface Look {
   readonly reach: Readonly<Record<string, ReturnType<typeof webReach>>>;
   readonly people: ReadonlyMap<
     string,
-    { age: number; factor: number; reads: boolean }
+    { age: number; factor: number; reads: boolean; links: string[] }
   >;
   /** Counted people in the town of each death outcome's ages. */
   readonly counted: Readonly<Record<string, number>>;
@@ -210,18 +210,34 @@ function play(drawSeed: string) {
     if (next.slice(8, 10) === "04") {
       const people = new Map<
         string,
-        { age: number; factor: number; reads: boolean }
+        { age: number; factor: number; reads: boolean; links: string[] }
       >();
       for (const person of core.people.values()) {
         if (!person.alive || person.placeId !== town) continue;
         const age = ageOnDate(makeIsoDate(person.birthDate), next);
         const factor = healthDeathWebOf(core, person.id);
-        const reads = [undefined, ...FIFTHS].some(
+        // The fifth whose factor the person carries, and the links whose
+        // part reaches that subject (a link may reach some fifths only).
+        const at = [undefined, ...FIFTHS].findIndex(
           (fifth) =>
             Math.abs(deathWebFactor(api, town, age, fifth).factor - factor) <
             1e-12,
         );
-        people.set(person.id, { age, factor, reads });
+        const fifth = at > 0 ? FIFTHS[at - 1] : undefined;
+        const links =
+          at < 0
+            ? []
+            : Object.entries(DEATHS)
+                .filter(([, ages]) => age >= ages.from && age < ages.below)
+                .flatMap(([measure]) =>
+                  webReach(api, town, measure, {
+                    age,
+                    ...(fifth === undefined ? {} : { incomeFifth: fifth }),
+                  })
+                    .parts.filter((part) => part.weight !== 0)
+                    .map((part) => part.link),
+                );
+        people.set(person.id, { age, factor, reads: at >= 0, links });
       }
       looks.push({
         date: next,
@@ -380,6 +396,7 @@ describe(`health laws reach people's death risk on the web's own lags in a playe
               person.age >= ages.from &&
               person.age < ages.below &&
               person.reads &&
+              person.links.includes(row.key) &&
               person.factor !== (before?.people.get(id)?.factor ?? 1),
           );
           const counted = counts.filter(
