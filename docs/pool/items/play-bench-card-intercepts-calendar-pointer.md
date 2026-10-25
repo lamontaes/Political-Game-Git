@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-12
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:17:42.648Z
 ---
 
 **What.** The Calendar ring is visibly present but cannot be opened with an ordinary pointer click after a new game. Fresh real-browser run on main-integrated #5869 head 03a8dc54d1: New game with empty Place, Skip opening, then Calendar pointer click times out because section#card intercepts pointer events. South Windham Maine; seed 3c088861-ddf4-4043-be35-04578d107721; viewport 1440x1000.
