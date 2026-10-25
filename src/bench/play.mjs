@@ -351,18 +351,44 @@ async function playOpening() {
   return opening;
 }
 
-/** That night's news at home: on the table, picked up to read. */
+/**
+ * That night's news at home, as a toast top right: it fades by itself after
+ * controls.opening.newsToastSeconds, goes at once on its close, and the story
+ * stays in News either way.
+ */
+let newsToastTimer;
+function hideNewsToast() {
+  clearTimeout(newsToastTimer);
+  show("news-surface", false);
+  $("news-surface").classList.remove("fading");
+}
 function showNewsSurface(news) {
   const story = news?.stories?.[0];
   if (!story) return;
   $("news-surface-label").textContent = controls.opening?.news ?? "";
   $("news-surface-headline").textContent =
     story.headline ?? story.lede ?? story.broadcast[0]?.text ?? "";
-  $("news-surface").onclick = () => {
+  $("news-surface-close").setAttribute(
+    "aria-label",
+    controls.opening?.closeNews ?? "",
+  );
+  $("news-surface-open").onclick = () => {
     coachUsed("news-surface");
+    hideNewsToast();
     openNewsReader(news);
   };
-  // The paper stays on the table for the evening; living on clears it.
+  $("news-surface-close").onclick = () => {
+    coachUsed("news-surface");
+    hideNewsToast();
+  };
+  const seconds = controls.opening?.newsToastSeconds ?? 8;
+  $("news-surface").style.setProperty("--toast-seconds", `${seconds}s`);
+  clearTimeout(newsToastTimer);
+  newsToastTimer = setTimeout(() => {
+    coachUsed("news-surface");
+    hideNewsToast();
+  }, seconds * 1000);
+  $("news-surface").classList.add("fading");
   show("news-surface", true);
 }
 function openNewsReader(news) {
@@ -894,7 +920,7 @@ function atThePolls(scene) {
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
     // Living on puts the evening's paper away and ends the first-choice glow.
-    show("news-surface", false);
+    hideNewsToast();
     coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });

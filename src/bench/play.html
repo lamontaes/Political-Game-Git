@@ -30,10 +30,17 @@
         <div id="opening-point-name" class="name"></div>
         <div id="opening-point-role" class="role"></div>
       </div>
-      <button id="news-surface" class="panel" type="button" hidden>
-        <span id="news-surface-label" class="label"></span>
-        <span id="news-surface-headline" class="prose"></span>
-      </button>
+      <div id="news-surface" class="panel" hidden>
+        <button id="news-surface-open" type="button">
+          <span id="news-surface-label" class="label"></span>
+          <span id="news-surface-headline" class="prose"></span>
+        </button>
+        <button
+          id="news-surface-close"
+          class="glyph close"
+          type="button"
+        ></button>
+      </div>
       <!-- Election day at the polls: the ballot, from the elections engine's records. -->
       <section id="ballot" class="panel" hidden>
         <div id="ballot-races"></div>
