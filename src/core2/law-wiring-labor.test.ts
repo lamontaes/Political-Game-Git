@@ -323,8 +323,23 @@ function run(specId: string) {
   const wageLaw = amountAt(api, "minimum-wage", 1.1, "wage");
   // Payroll runs on the raised wages before the chain is read.
   step(35);
+  // A legislature in play may repeal or replace one of the test's laws in the
+  // window (in Allendale, South Carolina, H 3012 repealed paid family leave on
+  // March 17, 2025). Whom a law reached while it was in force still counts, so
+  // a record ended under one of the test's own law rows is read with the open ones.
+  const ours = new Set([
+    ...Object.values(enacted).flat(),
+    ...Object.values(taxLaw),
+    maxLaw,
+    wageLaw.id,
+    seriesGrant.id,
+  ]);
+  const reached = (key: string): LawAppliedRow[] => [
+    ...rows(api, key),
+    ...rows(api, key, false).filter((r) => ours.has(r.lawId)),
+  ];
   // ---- minimum wage (amount) ---------------------------------------------
-  const wage = rows(api, "minimum-wage");
+  const wage = reached("minimum-wage");
   need(
     wage.some((r) => r.target === "person" && r.amountMinor > 0),
     `minimum-wage: no worker raised (${wageLaw.id})`,
@@ -334,7 +349,7 @@ function run(specId: string) {
     "minimum-wage: no counted worker group raised",
   );
   // ---- local authority -----------------------------------------------------
-  const authority = rows(api, KEYS.authority);
+  const authority = reached(KEYS.authority);
   need(
     authority.some((r) => r.target === "government"),
     `authority: no government reached (${enacted.authority?.join(",")})`,
@@ -344,18 +359,23 @@ function run(specId: string) {
     `authority: the drafting body ${draftedAt} was not reached`,
   );
   // ---- paid leave, bargaining, right to work, teacher ---------------------
-  const leave = rows(api, KEYS.leave);
+  const leave = reached(KEYS.leave);
+  // What the state's leave law is now, and the records it ended, for a failure's message.
+  const leaveNow = () => {
+    const answer = lawInForce(api, KEYS.leave);
+    return `law now ${answer.value} under ${answer.governing?.id ?? "none"}; ${rows(api, KEYS.leave, false).length} records ended`;
+  };
   need(
     leave.some((r) => r.target === "person" && r.amountMinor > 0),
-    "leave: no worker paid a premium",
+    `leave: no worker paid a premium (${leaveNow()})`,
   );
   need(
     leave.some((r) => r.target === "group" && r.count > 0),
     "leave: no counted group paid a premium",
   );
-  const bargaining = rows(api, KEYS.bargaining);
+  const bargaining = reached(KEYS.bargaining);
   need(bargaining.length > 0, "bargaining: no public worker reached");
-  const rtw = rows(api, KEYS.rtw);
+  const rtw = reached(KEYS.rtw);
   need(
     rtw.some((r) => r.target === "organization"),
     "right-to-work: no union local reached",
@@ -364,11 +384,11 @@ function run(specId: string) {
     rtw.some((r) => r.target === "group" && r.count > 0),
     "right-to-work: no worker group reached",
   );
-  const teacher = rows(api, KEYS.teacher);
+  const teacher = reached(KEYS.teacher);
   need(teacher.length > 0, "teacher: no teacher raised");
   // ---- payroll taxes and unemployment ---------------------------------------
   for (const s of taxes) {
-    const list = rows(api, s);
+    const list = reached(s);
     need(
       list.some((r) => r.amountMinor > 0 && r.lawId === taxLaw[s]),
       `${s}: no reach row under ${taxLaw[s]}`,
@@ -376,11 +396,11 @@ function run(specId: string) {
   }
   for (const s of ["social-security-tax", "medicare-tax"])
     need(
-      rows(api, s).some((r) => r.target === "person") &&
-        rows(api, s).some((r) => r.target === "group"),
+      reached(s).some((r) => r.target === "person") &&
+        reached(s).some((r) => r.target === "group"),
       `${s}: needs full and counted reach`,
     );
-  const ui = rows(api, "unemployment-insurance");
+  const ui = reached("unemployment-insurance");
   need(filed.full !== "" || filed.counted !== "", "no claim could be filed");
   for (const who of [filed.full, filed.counted].filter(Boolean))
     need(
@@ -430,7 +450,7 @@ function run(specId: string) {
     throw new NoSubject("no claimant earns above the weekly maximum");
   need(
     topClaim.weeklyMinor === maximumMinor &&
-      rows(api, "unemployment-weekly-maximum").some(
+      reached("unemployment-weekly-maximum").some(
         (r) => r.targetId === capped && r.lawId === maxLaw,
       ),
     `unemployment-weekly-maximum (${maxLaw}): claimant ${capped} paid ${topClaim.weeklyMinor} a week against a maximum of ${maximumMinor}, or not recorded`,
@@ -476,7 +496,7 @@ function run(specId: string) {
     pick: (r: LawAppliedRow) => boolean,
     journalOf: (r: LawAppliedRow) => JournalEntry | undefined | string,
   ) => {
-    const r = rows(api, key)
+    const r = reached(key)
       .filter(pick)
       .sort(
         (a, b) => a.since.localeCompare(b.since) || a.id.localeCompare(b.id),
