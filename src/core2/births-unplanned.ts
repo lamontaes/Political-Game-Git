@@ -50,14 +50,17 @@ export function providerMiles(
   };
 }
 
-/** The restriction law in force where she lives: its record id, or none recorded. */
-export function restrictionRead(api: CoreAPI): {
+/** The restriction law in force where she lives on a day: its record id, or none recorded. */
+export function restrictionRead(
+  api: CoreAPI,
+  asOf: string = api.state.date,
+): {
   restricted: boolean;
   lawId: string | null;
 } {
   let answer;
   try {
-    answer = lawInForce(api, ABORTION_LAW_SERIES);
+    answer = lawInForce(api, ABORTION_LAW_SERIES, asOf);
   } catch {
     // No laws engine in this world: nothing restricts, and no record is cited.
     return { restricted: false, lawId: null };
@@ -130,7 +133,7 @@ export function decideUnplanned(
   const mother = api.state.people.get(couple.motherId)!;
   const circumstances = birthCircumstances(api, mother, couple, asOf);
   const raising = Object.values(circumstances).reduce((sum, v) => sum + v, 0);
-  const law = restrictionRead(api);
+  const law = restrictionRead(api, asOf);
   const { miles } = providerMiles(
     mother.placeId,
     law.restricted,
