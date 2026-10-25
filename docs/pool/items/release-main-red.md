@@ -5,12 +5,12 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: done
-claimed-by: claude/release-package-heap
+status: open
+claimed-by:
 pr: #6049
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-10-25T16:07:19.351Z
+claimed-at:
 ---
 
 **What.** Main release run 40205834226 (source 122c3217c5, the merge of #5822) validated and published its candidate, then both desktop package jobs failed at "Build the game": Node ran out of its 4 GB heap during typecheck (macOS: `typecheck-test-imports.ts` aborted with exit 134; Windows: "JavaScript heap out of memory"), so the desktop release was never published. #6035 gave candidate validation a measured 5 GB heap, but the package job's own build step still sets `--max-old-space-size=4096`. Until this is fixed no code release reaches the owner's installed build, which every `play-stop-*` item's done-when waits on.
