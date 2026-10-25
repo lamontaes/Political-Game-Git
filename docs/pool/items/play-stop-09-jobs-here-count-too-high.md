@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: in-pr
 claimed-by:
 pr: #6037
 blocked-on: owner-installed-build-acceptance
