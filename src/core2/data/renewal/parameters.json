@@ -290,5 +290,67 @@
       "unit": "days",
       "citation": "Two to four e-folds within the recommended 24 months."
     }
+  },
+  "renewalUnplannedExposure": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Exposure a couple that chose to wait adds each review when it has no cushion at all; scaled by the mother's age curve and cushion. Guttmacher 2024: about 4 in 100 women 15 to 44 have an unintended pregnancy a year; this checks the town's total and never picks a couple.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 0.25 to 1 pending a generated-year check against the town's total."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
+  },
+  "renewalUnplannedAcceptance": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Pull toward carrying a pregnancy that has already begun, added to the circumstances a planned birth weighs.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 0 to 1.5 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
+  },
+  "renewalEndingBase": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "What ending a pregnancy weighs against, apart from travel: the decision itself, recorded as a sliding weight, never a rate.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 0.5 to 2 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
+  },
+  "renewalTravelWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "How hard travel to a provider weighs on ending a pregnancy, scaled by distance and the household's cash.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 1 to 4 pending a generated-year check."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
+  },
+  "renewalTravelHalfMiles": {
+    "value": 100,
+    "tag": "TUNABLE",
+    "citation": "Miles at which travel weighs half as much as it ever will; a smooth curve, no cutoff.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sensitivity 50 to 200."
+    },
+    "stopgapId": "SG-PEOPLE-unplanned-calibration"
+  },
+  "renewalTravelCostPerMileMinor": {
+    "value": 60,
+    "tag": "ESTIMATED",
+    "citation": "Cost of getting there per mile, in cents; used only to weigh the cost against her cash. IRS standard mileage rates, https://www.irs.gov/tax-professionals/standard-mileage-rates, 2025 row: \"2025 | 70 | 14 | 21\" (business, charity, medical cents per mile).",
+    "spread": {
+      "low": 21,
+      "high": 70,
+      "unit": "cents per mile",
+      "citation": "The IRS 2025 medical rate (driving's variable cost, what the IRS allows for travel to medical care) to its business rate (the whole cost of owning and driving a car), from the same table."
+    },
+    "estimatedFrom": "Between the IRS 2025 medical and business mileage rates, nearer the business rate for a trip far enough to need a share of lodging."
   }
 }

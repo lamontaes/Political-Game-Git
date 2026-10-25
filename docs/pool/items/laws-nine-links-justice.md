@@ -2,14 +2,16 @@
 id: laws-nine-links-justice
 title: "Every justice law passes all nine wiring links in a played year"
 area: laws
+lead: laws
 kind: wiring
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/laws-nine-links-justice
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 
 ---
 
 **What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the justice family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): budget-line:police, civilian-oversight-of-police, partner-with-federal-immigration-enforcement, end-cash-bail, budget-line:corrections, restore-voting-after-sentence, raise-juvenile-court-age, child-access-prevention, permit-to-carry-concealed, raise-handgun-purchase-age, stand-your-ground and budget-line:fire.
@@ -21,3 +23,7 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Files.** src/core2/modules/crime.ts, src/core2/law-reach/group-a.ts, src/core2/law-reach/applied.ts
 
 **Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: merged, #5642. A PR for this family names this item on line 1 (`Pool item: laws-nine-links-justice`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. Merged does not mean nine links: on Oct 20 civilian oversight, the juvenile court age and the handgun purchase age only wrote a record nobody read. Bail money is `justice-bail-moves-the-cash` (in review).
+
+Laws lead, Oct 25 10:20: PR #6012 opened at 681395e90d. 10 of 12 wired over a year in both audit towns (jail line's money untraced). Police line's low-level-arrests link waits on justice-low-level-offenses; restore voting waits on laws-checker-enacts-where-no-power. Merge after #5582.
+
+Laws lead, Oct 25 22:00: PR #6012 now lands the nine laws that are wired as `laws-nine-links-justice-nine`. This item stays open for three: the police line (its low-level arrests link, #6056), the corrections line (money untraced, `laws-checker-follows-line-transfers`) and restore-voting-after-sentence (its turnout link, `SG-GOV-REACH-A-convictions`).
