@@ -5,11 +5,12 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/m1-06-default-witness
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T20:09:14.485Z
 ---
 
 **What.** The M1-06 command (src/core2/tooling/m1-06-check.ts) never showed what a missed loan payment changes, so its default clauses ran on nothing in Bruceville, Indiana. This is the checker-only slice of roadmap-m1-06-default-witness, which keeps its own passes: true and bench screenshot acceptance. A missed payment must show, by record id, that the payment goes late, that the lender was paid on its own journal only what the borrower paid, that the loan balance keeps the rest, and that the next bill collects it.
