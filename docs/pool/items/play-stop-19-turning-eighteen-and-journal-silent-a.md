@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: play-first/play-stop-19-turning-eighteen-and-journal-silent-a
-pr:
+pr: #6108
 blocked-on:
 source: added with npm run pool -- add
 lead: play-first

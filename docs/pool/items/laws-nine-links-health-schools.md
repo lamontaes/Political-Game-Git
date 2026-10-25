@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: in-pr
-claimed-by: claude/laws-nine-links-health-schools
+status: open
+claimed-by:
 pr: #6026
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+claimed-at: 
 ---
 
 **What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the health, assistance and schools family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): medicaid-match, expand-medicaid-eligibility, medicaid-work-requirement, work-requirement-for-assistance, budget-line:healthAndHospitals, snap-maximum, budget-line:welfareAndMedicaid, universal-preschool, budget-line:schools, public-funds-for-private-schooling, raise-teacher-minimum-salary and budget-line:higherEducation.
@@ -23,3 +24,5 @@ source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 **Notes.** Split Oct 24 by the CTO from `laws-wiring-every-law` (the lead order: `docs/work-orders/lead-laws-2026-10-24.md`). Family PR state on Oct 23: merged, #5652 and #5732. A PR for this family names this item on line 1 (`Pool item: laws-nine-links-health-schools`) and `Lead: laws` in its body, never the umbrella: family PRs looped because the umbrella's done-when is one no single family can meet, and a bare umbrella id on line 1 closes the umbrella on merge. Merged does not mean nine links: rebuild the matrix on main and finish what the rows still show missing, partial or stopgapped. Open pieces already filed: `laws-medicaid-counted-coverage-unpaid-ainaloa`, `laws-medicaid-medical-debt-link-silent-ridgebury`.
 
 Laws lead, Oct 25 11:40: in PR #6026 (head fee1a54619, #5582 merged in); merge after #5582.
+
+Sent back 2026-10-25 ~23:20 UTC from PR #6026 (branch claude/laws-nine-links-health-schools, head db8866631637, main NOT merged: conflicts in code src/core2/world-poverty.ts and src/core2/law-reach/group-b-money.ts plus data gaps/coverage/unwired/stopgaps and reports): resolve on the branch preserving both sides' reach/gap rows, rerun the family gate, and it goes back in the queue; finish on that branch, merge main into it first.

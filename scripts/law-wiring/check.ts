@@ -44,7 +44,7 @@ import {
 } from "../../src/core2/modules/budgets";
 import { REACH_A_MODULE_ID } from "../../src/core2/law-reach/group-a-records";
 import { REACH_B_MODULE_ID } from "../../src/core2/law-reach/group-b-store";
-import { ownPayments, type Posting, type Reached } from "./own-payments";
+import { ownPayments, UNDER, type Posting, type Reached } from "./own-payments";
 import { OUTCOME_WEB_MODULE_ID } from "../../src/core2/modules/outcome-web";
 import type { LawRowInput } from "../../src/core2/laws-starting";
 import { townSeats } from "../../src/core2/modules/offices";
@@ -143,6 +143,22 @@ const trace: Trace = {
 let trackedKeys = new Set<string>();
 const kinds = new Map<string, string>();
 let citeTokens: string[] = [];
+/** Every law key, to name the laws a payment's source cites. */
+const lawKeys = allLaws().map((l) => l.key);
+const underCache = new Map<string, string>();
+/** The law keys a source id cites, from its first "law:" on (a price's id ends in its law's key and row), bounded by colons. */
+function underOf(sourceId: string): string {
+  const at = sourceId.indexOf("law:");
+  if (at < 0) return "";
+  const tail = `:${sourceId.slice(at)}:`;
+  let under = underCache.get(tail);
+  if (under === undefined) {
+    if (underCache.size > 50_000) underCache.clear();
+    under = lawKeys.filter((k) => tail.includes(`:${k}:`)).join("+");
+    underCache.set(tail, under);
+  }
+  return under;
+}
 
 function startTraces(): void {
   Error.stackTraceLimit = 60;
@@ -174,8 +190,10 @@ function startTraces(): void {
     row.posts += 1;
     if (row.ids.length < 3) row.ids.push(input.id);
     trace.money.set(kind, row);
-    // One shared string per source kind and poster, as the money map names it.
-    const shared = kinds.get(kind) ?? kinds.set(kind, kind).get(kind)!;
+    // One shared string per source kind, poster and the laws its source cites.
+    const under = underOf(input.sourceRef.id);
+    const own = under ? `${kind}${UNDER}${under}` : kind;
+    const shared = kinds.get(own) ?? kinds.set(own, own).get(own)!;
     for (const p of input.postings) {
       const list = trace.byAccount.get(p.accountId);
       const posting: Posting = [input.date, shared, p.deltaMinor, input.id];
@@ -1035,6 +1053,7 @@ function checkLaw(
     control.byAccount,
     opening,
     since,
+    law.key,
   );
   const reach =
     peak?.reach && peak.reach.open > reachAtEnd.open ? peak.reach : reachAtEnd;
