@@ -26,3 +26,5 @@ claimed-at:
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:02; screenshot 39. Lead: m0-m2 (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md).
 
 Sent back 2026-10-25 from PR #6037 (branch claude/play-stop-09-jobs-here): Done-when requires installed-build drawn-place screenshot/owner replay; body provides bench screenshots and defers installed proof to nextrelease; supply it or boundimplementationwhilekeepingplaystopacceptanceopen; finish on that branch, merge main into it first.
+
+Oct 25, 16:25 UTC (speed lead): the fix is in PR 6037 under `play-jobs-here-counts-the-town`, with bench screenshots and tests, as Merger 1 suggested on PR 6037. This item stays open, blocked on the owner's steps on the next installed build (its done-when); close it when the owner confirms.
