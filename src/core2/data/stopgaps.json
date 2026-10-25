@@ -6682,5 +6682,17 @@
     "addedBy": "claude/law-wiring-death-tax-terms",
     "addedAt": "2026-10-20",
     "status": "open"
+  },
+  {
+    "id": "SG-TRAITS-press-local-misconduct-reach",
+    "kind": "rule-copy",
+    "file": "src/core2/press-desk.ts",
+    "line": 532,
+    "whatItFakes": "A charge against, or an exposure of, someone serving in a local office is ranked by the press desk as involving every follower of the outlet, named or counted, the way a law in force is.",
+    "why": "The desk's people term counts the item's named subjects, so a charge against one council member (one subject) was outranked by every law taking effect (every follower it reaches) and every town hall (its attendees). In the recall-for-cause test's draws, six of six towns printed no story on a council member's bribery charge in three weeks, so no resident heard of it and the recall for cause could not start. A real town's paper covers such a charge.",
+    "addedBy": "traits lead (OPUS)",
+    "addedAt": "2026-10-25",
+    "replacement": "The press desk weighs how much a story matters to the outlet's followers by who it concerns (a public official answers to every constituent) for every item kind, owned by the press area, replacing this one-kind rule.",
+    "status": "open"
   }
 ]
