@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/speed-news-telling
-pr:
+pr: #6073
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T07:23:30.762Z
