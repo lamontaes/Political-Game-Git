@@ -1986,12 +1986,12 @@
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:653",
+          "evidence": "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:695",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1227 1942668602 -> 1940100894 (journal:2025-01-21:1565); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:574 348934695 -> 350195643 (journal:2025-01-23:1639); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): work-payroll @ src/core2/work-payroll-cash.ts:2351 373201924 -> 372080703 (journal:2025-01-27:1666)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1221 657467974 -> 660338345 (journal:2025-02-01:2622); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1239 1292097093 -> 1289414522 (journal:2025-01-21:1565); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/press-money.ts:374 9567944 -> 7651226 (journal:2025-01-27:1653)",
           "why": "",
           "untraced": true
         },
@@ -2056,12 +2056,12 @@
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:653",
+          "evidence": "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:695",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:927 710208788552157 -> 710185127205727 (journal:2025-02-01:1741); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/residents.ts:1227 1942668602 -> 1940037684 (journal:2025-01-21:1565); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/counted-demotion.ts:285 4289861 -> 6046954 (journal:2025-09-01:55161)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:967 710208787955513 -> 710185127220540 (journal:2025-02-01:1737); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/press-money.ts:374 9567944 -> 7651243 (journal:2025-01-27:1653); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/counted-money.ts:574 349213010 -> 350979333 (journal:2025-01-23:1635)",
           "why": "",
           "untraced": true
         },
@@ -2077,7 +2077,7 @@
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 11 -> after repeal 0 -> re-enacted 10; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 15 -> after repeal 0 -> re-enacted 14",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): opening 11 -> after repeal 0 -> re-enacted 10; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): opening 15 -> after repeal 0 -> re-enacted 13",
           "why": ""
         },
         "allPlaces": {
@@ -2126,14 +2126,13 @@
         },
         "systems": {
           "status": "wired",
-          "evidence": "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:653",
+          "evidence": "src/core2/law-reach/group-b.ts:234 <- src/core2/budgets-treasury.ts:695",
           "why": ""
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/law-reach/group-b-money.ts:1212 <- src/core2/life.ts:556 35671774 -> 0 (journal:2025-05-13:30844); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/budgets-treasury.ts:927 710208788552157 -> 710208771053621 (journal:2025-02-01:1741); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/law-reach/group-b-money.ts:1212 <- src/core2/budgets-treasury.ts:653 155202 -> 17528161 (journal:2025-03-01:8548)",
-          "why": "",
-          "untraced": true
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing us-policy-positions:fiscal.minimum-reserve-balance: 17528161 (journal:2025-03-01:8542); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing us-policy-positions:fiscal.minimum-reserve-balance: 29310176 (journal:2025-05-20:31175); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): in force in the control world, posts citing us-policy-positions:fiscal.minimum-reserve-balance: 59671194 (journal:2025-02-01:1634)",
+          "why": ""
         },
         "web": {
           "status": "wired",
