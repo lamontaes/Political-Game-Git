@@ -140,6 +140,16 @@ describe("choosing each person's look", () => {
       expect(taken.has(look.look)).toBe(false);
       taken.add(look.look);
     }
+    // Four outfits of this sex exhaust the painted distinct looks. Another
+    // person stays unplaced rather than silently reusing a look.
+    expect(
+      pickLook(
+        core,
+        { ...person, id: "person:crowd-overflow", gender: "female" },
+        place,
+        taken,
+      ),
+    ).toBeNull();
   });
 });
 
