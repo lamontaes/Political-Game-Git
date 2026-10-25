@@ -99,6 +99,16 @@ try {
   console.log("Place:", await page.locator("#card-place").innerText());
   await sheet("news");
   await read("News", "#sheet");
+  // Every public record names who it is about.
+  const nameless = await page
+    .locator(".paper-records article")
+    .evaluateAll((rows) =>
+      rows
+        .filter((row) => !row.querySelector("p")?.textContent.trim())
+        .map((row) => row.querySelector("h4")?.textContent),
+    );
+  for (const kind of nameless)
+    found.push(`News: a public record names no one: "${kind}"`);
   await sheet("politics");
   const tabs = page.locator("#sheet-tabs button");
   for (let i = 0; i < (await tabs.count()); i++) {
@@ -170,6 +180,41 @@ try {
     .click();
   await page.locator(".row.campaign").first().waitFor();
   await read("Politics Campaigns after filing", "#sheet");
+  // Two weeks on, News carries the region's numbers and the month's records.
+  await page.locator("#sheet-close").click();
+  for (let week = 0; week < 2; week++) {
+    const moved = page.waitForResponse(
+      (r) => new URL(r.url()).pathname === "/api/advance",
+      { timeout: 600000 },
+    );
+    await page.locator("#week").click();
+    await moved;
+    await page.waitForTimeout(1000);
+    // Anything that stops the week is answered as a player would.
+    for (let stop = 0; stop < 20; stop++) {
+      if (await page.locator("#talk-leave").isVisible())
+        await page.locator("#talk-leave").click();
+      if (!(await page.locator("#continue").isVisible())) break;
+      const resumed = page.waitForResponse(
+        (r) => new URL(r.url()).pathname === "/api/resume",
+        { timeout: 600000 },
+      );
+      await page.locator("#continue").click();
+      await resumed;
+      await page.waitForTimeout(1000);
+    }
+  }
+  await sheet("news");
+  await read("News two weeks on", "#sheet");
+  const namelessLater = await page
+    .locator(".paper-records article")
+    .evaluateAll((rows) =>
+      rows
+        .filter((row) => !row.querySelector("p")?.textContent.trim())
+        .map((row) => row.querySelector("h4")?.textContent),
+    );
+  for (const kind of namelessLater)
+    found.push(`News two weeks on: a public record names no one: "${kind}"`);
   for (const line of found) console.log(line);
   assert.deepEqual(found, [], "developer text on the player's screens");
   assert.deepEqual(errors, []);

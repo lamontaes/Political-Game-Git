@@ -1010,12 +1010,27 @@ export async function benchRequest(
         // news event in the world.
         const heard = id ? heardItems(requireCore(), id) : [];
         const seen = new Set(heard.map((row) => row.id));
-        send(200, [
-          ...heard,
-          ...newsItems(requireCore()).filter(
-            (row) => row.visibility === "public" && !seen.has(row.id),
-          ),
-        ]);
+        // A public record names who it is about: each fact that is a person.
+        const core = requireCore();
+        send(
+          200,
+          [
+            ...heard,
+            ...newsItems(core).filter(
+              (row) => row.visibility === "public" && !seen.has(row.id),
+            ),
+          ].map((row) => {
+            const facts = (row as { facts?: Record<string, unknown> }).facts;
+            const names: Record<string, string> = {};
+            for (const value of Object.values(facts ?? {})) {
+              const person =
+                typeof value === "string" ? core.people.get(value) : undefined;
+              if (person)
+                names[person.id] = `${person.givenName} ${person.familyName}`;
+            }
+            return Object.keys(names).length ? { ...row, names } : row;
+          }),
+        );
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/opening") {
