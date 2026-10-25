@@ -124,9 +124,16 @@ function decide(
   });
   pending.delete(api.state);
   const decision = decisionFromScores(api.state, personId, scored);
+  // The record keeps temperament beside the circumstances: the chooser's
+  // trait term toward yes over no, at the decision's own weight.
+  const trait = (yes: boolean) =>
+    scored.find(
+      (row) =>
+        row.offer.definition.id === `corruption-${role}-${yes ? "yes" : "no"}`,
+    )?.reasons.trait ?? api.parameter("zero");
   return {
     yes: decision.selected?.definition.id === `corruption-${role}-yes`,
-    values,
+    values: { ...values, temperament: trait(true) - trait(false) },
   };
 }
 
