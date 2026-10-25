@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: blocked
+status: dropped
 claimed-by:
 pr:
 blocked-on: laws-nine-links-government (#5582)
