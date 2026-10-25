@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-observe-in-play
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T11:35:27.498Z
 ---
 
 **What.** The core API's observe (src/core2/state.ts) runs for every fact anyone learns: each story heard and each of its facts, each conversation, each event a person perceives. In play it still parses the fact's learned-at date, refuses a fact dated after today, and stores a copy of the fact rather than the fact. Its own time is 1.36 s of Long Hill, Connecticut's profiled year (seed m7b), and every caller passes a new object literal, so the copy guards nothing. Run the date checks and the copy only with bookkeeping on, as the owner's rule says, and store the caller's fact in play.
