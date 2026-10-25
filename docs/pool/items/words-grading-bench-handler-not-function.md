@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: open
 claimed-by:
 pr: #6057
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-25 from PR #6057 (branch words/grading-bench-handler): merging main f99a979bae conflicts in production src/core2/law-reach/group-a.ts; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #6057 (branch words/grading-bench-handler): corrected bd4486c449 head now conflicts with current main again in production code src/core2/law-reach/group-a.ts; resolve on the PR branch and rerun integrated grading-bench evidence; finish on that branch, merge main into it first.

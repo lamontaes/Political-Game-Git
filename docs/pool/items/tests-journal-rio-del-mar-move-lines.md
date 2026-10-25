@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/journal.test.ts
 
 **Notes.** Merger 1 measured while reviewing PR #6041: PR16pass/2fail; clean base journal13pass/2samefail. Baseline log in merger1-state/6041-2222/main-journal.log; move regex failure main line452 and whole-journal I assertion main line564. Separate from #6113 seed2803 death/school/moment fixes.
+
+Merger 1, Oct 25 23:38 UTC: a second natural wording variant reproduces on clean main7565bdc4d5 and #6093 integration5171426206, North Weeki Wachee FL, root e9539f3aa58c00a1: When I was 13, my brother moved away. is rejected by the strict My-relation regex (main line452, PR456). Preserve the moved subject and source-ID proof while admitting a valid age preface. Raise/missing-household-move failures on this draw have their own item tests-journal-north-weeki-raise-and-move.
