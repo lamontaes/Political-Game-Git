@@ -135,10 +135,19 @@ const run = (attemptSeed: string): { voted: boolean; acted: boolean } => {
     const type =
       action === "signed" ? "bill-signed" : action === "vetoed" ? "veto" : null;
     // A veto and the vote to override it come the same day, and one sitting
-    // covers a day (scheduling.ts): the sponsor's scene may stand on either.
+    // covers a day (scheduling.ts): the sponsor's scene may stand on either,
+    // or be the day's sitting with the same people that took this bill's act
+    // in (two of the sponsor's bills vetoed in one afternoon are one sitting).
+    const causes = [`executive-action:${bill.id}`, `veto-override:${bill.id}`];
     const actOf = (personId: string) =>
-      [`executive-action:${bill.id}`, `veto-override:${bill.id}`].flatMap(
-        (cause) => scenesOf(personId, cause),
+      (director.ledger.people.get(personId)?.schedule ?? []).flatMap((row) =>
+        row.bindings.filter(
+          (binding) =>
+            causes.some((cause) => row.momentId.includes(cause)) ||
+            (binding.joined ?? []).some((entry) =>
+              causes.some((cause) => entry.momentId.includes(cause)),
+            ),
+        ),
       );
     const sponsorScenes = actOf(sponsorId);
     // The act's own record names whoever sat at the desk that day, and the
