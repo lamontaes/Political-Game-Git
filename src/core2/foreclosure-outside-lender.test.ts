@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { townOutsideOf } from "./opening-outside-market";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
@@ -61,10 +62,10 @@ for (const selfLender of [true, false])
         continue;
       }
       const household = core.households.get(loan.householdId)!;
-      // The buyer the sale itself takes: the place's first outside market.
-      const buyer = [...core.organizations.values()].find(
-        (org) =>
-          org.outsideFlow !== undefined && org.placeId === household.placeId,
+      // The buyer the sale itself takes: the place's outside market.
+      const buyer = townOutsideOf(
+        core.organizations.values(),
+        household.placeId,
       );
       if (!buyer) {
         tried.push(`${where}: no outside market`);

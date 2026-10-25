@@ -19,7 +19,7 @@
       "package": "M0-bench",
       "test": "Three different seeds give three different places in three different states or territories; each builds without error; and every resident on the list exists in the core's records.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-01",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-02",
@@ -29,7 +29,7 @@
       "package": "M0-bench",
       "test": "Over 7 days, every act on the chosen person's record is the character's own recorded answer (Day and Week open no choice list, owner Oct 14, 2026), other residents' lives continue, and an answer nobody was asked for is refused and changes no record.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-02",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-03",
@@ -39,7 +39,7 @@
       "package": "M0-bench",
       "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment that needs the player (a routine work shift the character attends on its own never stops a skip; owner, Oct 12), or an offer with a deadline; it says which one; nothing was skipped past.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-03",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-04",
@@ -59,7 +59,7 @@
       "package": "M0-bench",
       "test": "For a fresh life, steps 1-2 show reachable, steps 3-11 show the specific missing module, and the world pieces show 'not in the new core yet' until M1 lands.",
       "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-05",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-06",
@@ -69,7 +69,7 @@
       "package": "M0-people",
       "test": "In a random place, the 18-year-old's parents and siblings follow the kin rules; schools are real schools from the place data (real naming patterns where none exists); every fact shown has a record behind it.",
       "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-life-at-18.test.ts",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-07",
@@ -78,7 +78,7 @@
       "golden_path": "2",
       "package": "M0-people",
       "test": "Over 91 days in a random place: the player gains new acquaintances through real encounters, at least one grows closer, and visits to parents and siblings fall inside the survey ranges (GSS, ATUS); over years, circle turnover matches a sourced study.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-meeting-people.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-meeting-people.test.ts && node --max-old-space-size=8192 --import tsx src/core2/tooling/m0-07-turnover-check.ts",
       "passes": false
     },
     {
@@ -99,7 +99,7 @@
       "package": "M0-core",
       "test": "Module state, accounts with one balanced writer, the institution calendar and voter groups each have their own contract tests; the speed budget holds; the first two M1 ports build on them without patching the core.",
       "command": "NODE_OPTIONS=--max-old-space-size=8192 npx vitest run src/core2/module-state.test.ts src/core2/accounts.test.ts src/core2/module-calendar.test.ts src/core2/voter-groups.test.ts",
-      "passes": false
+      "passes": true
     },
     {
       "id": "M0-10",
@@ -169,7 +169,7 @@
       "golden_path": "world",
       "package": "M1-regional",
       "test": "In a year, two randomly drawn states diverge plausibly in jobs and wages (each inside the real spread of one-year state changes since 2000); a town's prices and pay follow its region; each state's and metro's starting figures match real data.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-03-check.ts",
       "passes": false
     },
     {
@@ -179,7 +179,7 @@
       "golden_path": "world",
       "package": "M1-jobs",
       "test": "Over a year in a random place, unemployment, hiring and quitting stay within real ranges (federal job-turnover data), and every job change on record has a reason.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-04-check.ts",
       "passes": false
     },
     {
@@ -199,7 +199,7 @@
       "golden_path": "world",
       "package": "M1-credit",
       "test": "Every loan's money balances from lender to borrower and back; defaults follow borrowers' real circumstances, never a chance roll.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-06-check.ts",
       "passes": false
     },
     {
@@ -239,7 +239,7 @@
       "golden_path": "world",
       "package": "M1-views",
       "test": "In a random place, views match real spreads by age, education, faith and region, checked against state and metro answer keys, so conservatives in two randomly drawn states can differ; a big event shifts the people it touches and no one else.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts && node --max-old-space-size=8192 --import tsx src/bench/m1-10-check.ts",
       "passes": false
     },
     {
@@ -249,7 +249,7 @@
       "golden_path": "world",
       "package": "M1-drives-economy",
       "test": "Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.",
-      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/drives-economy.test.ts",
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/drives-economy.test.ts && node --max-old-space-size=8192 --import tsx src/bench/m1-11-check.ts",
       "passes": false
     },
     {

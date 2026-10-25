@@ -514,7 +514,11 @@ export function transferSplit(
   }
 }
 
-function nextDue(at: IsoDate, cadence: AccountCadence, anchorDay: number) {
+export function nextDue(
+  at: IsoDate,
+  cadence: AccountCadence,
+  anchorDay: number,
+) {
   if (cadence.kind === "days")
     return makeIsoDate(addDays(makeIsoDate(at), cadence.every));
   const date = new Date(`${at}T00:00:00.000Z`);

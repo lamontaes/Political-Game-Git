@@ -5,12 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
+status: done
+claimed-by: claude/uncap
 pr: #5295
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at: 2026-10-25T07:06:46.893Z
 ---
 
 **What.** The part of core-census-uncap-opening that PR 5295 finishes. A town above 10,000 people opens with its generated 10,000-person sample and each counted household weighted so the town holds its Census count, by default rather than only when a count scale is asked for. Each firm's yearly demand, capacity, payroll, costs, supplier contracts and cash are sized to the same scale before the outside market is derived from its books, replacing the separate outside-sales and business-cash multipliers. The year in the largest towns may take no more than 20 percent longer than the same town opened at its sample on main.

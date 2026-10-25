@@ -27,6 +27,7 @@ import {
 } from "../../src/core2/modules/elections";
 import { residentsRuntime } from "../../src/core2/modules/residents";
 import { coreAPI } from "../../src/core2/state";
+import { lawChain } from "../../src/core2/modules/laws";
 import { setTraitProbe } from "../../src/core2/trait-probe";
 import type { CoreState } from "../../src/core2/types";
 import { drawPlace } from "../../tests/golden-path/place";
@@ -80,6 +81,32 @@ if (electionWindow) {
 const core = world.core;
 const buildSeconds = (performance.now() - t0) / 1000;
 
+/**
+ * With TRAIT_AUDIT_RECORDS=1, a sample of the town's named people is put in
+ * focus, as the people a player deals with are, so the choices they weigh
+ * keep a `person.weighed` record (choice.ts, trait-decisions.ts) that the
+ * examples below cite by id. Off by default: focus keeps reasons the plain
+ * audit does not need.
+ */
+const FOCUS_SAMPLE = 400;
+const KEEP_RECORDS = process.env.TRAIT_AUDIT_RECORDS === "1";
+if (KEEP_RECORDS) {
+  // The town's own state's officials, whose decisions a town's year reaches,
+  // and a sample of everyone else by id (ids are hashes, so in no order).
+  const stateKey = lawChain(coreAPI(core)).stateKey;
+  const own = `US-${stateKey.slice(stateKey.lastIndexOf("-") + 1)}:`;
+  const living = [...core.people.values()]
+    .filter((p) => p.alive)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  for (const p of living)
+    if (p.id.startsWith("official:") && p.id.includes(own))
+      core.focusPersonIds.add(p.id);
+  for (const p of living
+    .filter((p) => !p.id.startsWith("official:"))
+    .slice(0, FOCUS_SAMPLE))
+    core.focusPersonIds.add(p.id);
+}
+
 /** Every trait set to the middle (flat) or its opposite (mirror), full and counted. */
 function reshape(core: CoreState, how: "flat" | "mirror" | "copy"): void {
   const turn = (value: number) =>
@@ -124,6 +151,27 @@ interface Example {
 }
 const chooserExamples = new Map<string, Example[]>();
 const formulaExamples = new Map<string, Example[]>();
+/** With TRAIT_AUDIT_RECORDS=1: up to `EXAMPLES_PER_SITE` calls by people in focus, each with the weighed record's id it should leave. */
+const chooserRecorded = new Map<string, (Example & { recordId: string })[]>();
+const formulaRecorded = new Map<string, (Example & { recordId: string })[]>();
+function keepRecorded(
+  into: Map<string, (Example & { recordId: string })[]>,
+  key: string,
+  actorId: string | undefined | null,
+  action: string,
+  result: string | boolean | undefined,
+): void {
+  if (!KEEP_RECORDS || !actorId || !core.focusPersonIds.has(actorId)) return;
+  let list = into.get(key);
+  if (!list) into.set(key, (list = []));
+  if (list.length >= EXAMPLES_PER_SITE) return;
+  list.push({
+    actorId,
+    date: core.date,
+    ...(result === undefined ? {} : { result }),
+    recordId: `weighed:${core.date}:${action}:${actorId}`,
+  });
+}
 /**
  * Keeps the first few calls; a later call that names its actor takes the
  * place of a kept call that does not (the probe passes an id only where the
@@ -193,6 +241,7 @@ if (process.env.TRAIT_PROBE !== "off")
         date: core.date,
         result: row.chosen,
       }));
+      keepRecorded(chooserRecorded, key, row.actorId, row.chosen, row.chosen);
       t.gapSum += row.traitGap;
       if (row.chosen !== row.withoutTrait) t.turned++;
       t.chosen[row.chosen] = (t.chosen[row.chosen] ?? 0) + 1;
@@ -248,6 +297,13 @@ if (process.env.TRAIT_PROBE !== "off")
         date: core.date,
         ...(row.yes === undefined ? {} : { result: row.yes }),
       }));
+      keepRecorded(
+        formulaRecorded,
+        row.decisionId,
+        row.actorId,
+        row.decisionId,
+        row.yes,
+      );
       const a = Math.abs(row.lean);
       t.absLeanSum += a;
       t.maxAbs = Math.max(t.maxAbs, a);
@@ -319,6 +375,20 @@ for (const id of core.eventIds) {
   const kind = id.split(":")[1] ?? id;
   events[kind] = (events[kind] ?? 0) + 1;
 }
+/** The first ids of each kind of record the log kept, so a decision weighed only for the counted population can name the record it fed. */
+const eventExamples: Record<string, string[]> = {};
+for (const record of core.durableLog.values()) {
+  const kept = (eventExamples[record.kind] ??= []);
+  if (kept.length < EXAMPLES_PER_SITE) kept.push(record.id);
+}
+/** A kept call's record, only where the log holds it (a decision that writes none is reported without one). */
+const withRecords = (from: Map<string, (Example & { recordId: string })[]>) =>
+  Object.fromEntries(
+    [...from].map(([key, list]) => [
+      key,
+      list.filter((example) => core.durableLog.has(example.recordId)),
+    ]),
+  );
 
 writeFileSync(
   out,
@@ -345,6 +415,15 @@ writeFileSync(
     examples: {
       chooser: Object.fromEntries(chooserExamples),
       formula: Object.fromEntries(formulaExamples),
+      ...(KEEP_RECORDS
+        ? {
+            recorded: {
+              chooser: withRecords(chooserRecorded),
+              formula: withRecords(formulaRecorded),
+            },
+          }
+        : {}),
+      events: eventExamples,
     },
     people: [...opening].map(([id, traits]) => {
       const p = core.people.get(id);
