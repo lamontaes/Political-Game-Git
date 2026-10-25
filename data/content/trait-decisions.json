@@ -685,6 +685,30 @@
         {
           "id": "confess",
           "actKinds": ["follow-rules", "concede"]
+        },
+        {
+          "id": "leave",
+          "actKinds": ["withdraw", "play-safe"]
+        },
+        {
+          "id": "deny",
+          "actKinds": ["refuse", "self-interest"]
+        },
+        {
+          "id": "congratulate",
+          "actKinds": ["cooperate", "help-others"]
+        },
+        {
+          "id": "deliver-news",
+          "actKinds": ["speak-out", "trust"]
+        },
+        {
+          "id": "note",
+          "actKinds": ["stay-quiet"]
+        },
+        {
+          "id": "react",
+          "actKinds": ["speak-out"]
         }
       ]
     },
