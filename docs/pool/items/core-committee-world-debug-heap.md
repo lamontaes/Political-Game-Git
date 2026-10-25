@@ -10,6 +10,7 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** Merger 1 reproduced an unexpected Vitest worker exit on clean main e269fd0acf3234a06a7ae06e31e9fe0f2cbde18f while collecting src/core2/legislature-committees.test.ts. GOLDEN_PATH_SEED=93678d3573d46855 draws Gastonia, North Carolina (3725580), attempt 0. With normal bookkeeping, one worker and NODE_OPTIONS=--max-old-space-size=5120 in the 8 GiB cloud container, collection ended after 1848.90 seconds, before any assertion. The cgroup oom_kill counter increased from 12 to 13 during this isolated main run. PR #5981 on the same input also exited before assertions at 1828.19 seconds in its isolated 5 GiB repeat; its earlier 4 GiB run hit the V8 heap limit. The producer fix in that PR passes its separate named regression and 35 producer tests.
