@@ -16,7 +16,7 @@ import {
   say,
 } from "../../src/director/conversation";
 import { createDirector } from "../../src/director/ledger";
-import { MINED_CONVERSATION } from "../../src/director/mined/conversation-bank";
+import { MINED_CONVERSATION } from "../../src/english/mined/conversation-bank";
 
 const seed = process.argv[2] ?? "words-show";
 const count = Number(process.argv[3] ?? 6);
