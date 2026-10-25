@@ -24,7 +24,7 @@ import { resolveMunicipalRecallRule } from "./gov-rules/municipal-ballot-rules";
 import { townSeats } from "./modules/offices";
 import { lawChain } from "./modules/laws";
 import { openToRecall, recallRule, recallsOf } from "./modules/recalls";
-import { storiesHeard } from "./modules/news";
+import { NEWS_MODULE_ID, storiesHeard } from "./modules/news";
 import { setTraitProbe } from "./trait-probe";
 
 const seed =
@@ -34,7 +34,12 @@ const seed =
 it("a recorded charge against a serving local official starts a recall where the state requires grounds", () => {
   setBookkeeping(false);
   const tried: string[] = [];
-  for (let draw = 0; draw < 200 && tried.length < 6; draw += 1) {
+  const unreported: string[] = [];
+  for (
+    let draw = 0;
+    draw < 200 && tried.length < 6 && unreported.length < 6;
+    draw += 1
+  ) {
     const place = drawPlace(`${seed}:${draw}`, "recall-cause");
     // Only places whose state's law gives a recall and requires grounds for it.
     const law = resolveMunicipalRecallRule(place.state.slice(3));
@@ -89,6 +94,21 @@ it("a recorded charge against a serving local official starts a recall where the
     } finally {
       setTraitProbe(undefined);
     }
+    // The town can act only on a charge it heard of: where no outlet printed
+    // a story reporting it, nobody heard, and the place is passed over.
+    const reported = (
+      api.moduleState(NEWS_MODULE_ID).table("stories").rows() as unknown as {
+        id: string;
+        facts?: { sourceRecordId?: string };
+      }[]
+    ).some(
+      (story) =>
+        story.id === charged || story.facts?.sourceRecordId === charged,
+    );
+    if (!reported) {
+      unreported.push(`${where}: no outlet printed a story on ${charged}`);
+      continue;
+    }
     const petition = recallsOf(api).find((r) => r.lawId === charged);
     if (!petition) {
       tried.push(
@@ -115,6 +135,6 @@ it("a recorded charge against a serving local official starts a recall where the
     return;
   }
   throw new Error(
-    `no drawn place started a recall for cause: ${tried.join("; ")}`,
+    `no drawn place started a recall for cause: ${[...tried, ...unreported].join("; ")}`,
   );
 }, 1_800_000);
