@@ -1,362 +1,362 @@
 {
- "seed": "d5005a7c6bd3a520-0",
- "place": {
-  "seed": "0b4b9998952a19ce24a14f37c5ded030ca028a8304f8ee21b1487a4525c43378",
-  "key": "1150000",
-  "name": "Washington, District of Columbia",
-  "state": "US-DC"
- },
- "window": 365,
- "after": 31,
- "results": [
-  {
-   "key": "us-policy-positions:education.raise-teacher-minimum-salary",
-   "kind": "question",
-   "family": "education",
-   "inForceAtOpening": false,
-   "change": "enacted at city (law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2026-01-22",
-   "lawIds": [
-    "law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
-    "law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2026-01-22:law-wiring-8f723f97-b"
-   ],
-   "openingReach": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "reach": {
-    "fullPeople": 3,
-    "countedGroups": 1,
-    "countedPeople": 76,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 4,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_8c4efc7c59907476",
-     "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_c4932b55e8f4034c",
-     "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_f21e87ed64586aee",
-     "applied|us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_7691c6e3ae48f824:counted-teachers"
-    ]
-   },
-   "reachAtEnd": {
-    "fullPeople": 1,
-    "countedGroups": 1,
-    "countedPeople": 71,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 2,
-    "ended": 0,
-    "sample": [
-     "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_8c4efc7c59907476",
-     "applied|us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_7691c6e3ae48f824:counted-teachers"
-    ]
-   },
-   "inPlay": [],
-   "readers": {
-    "src/core2/modules/outcome-web.ts:172": 198,
-    "src/core2/law-reach/group-b-money.ts:88 <- src/core2/public-pay-floor.ts:46": 52,
-    "src/core2/modules/world-legislating.ts:183": 16,
-    "src/core2/life.ts:556": 5,
-    "src/core2/modules/legislature.ts:2094": 4,
-    "src/core2/modules/world-legislating.ts:333": 4
-   },
-   "openingRow": "law:US-DC:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
-   "money": {
-    "direct": [],
-    "diff": [
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1240",
-      "treatment": 12502704714,
-      "control": 12379748116,
-      "ids": [
-       "journal:2025-01-21:1456",
-       "journal:2025-01-21:1457",
-       "journal:2025-01-21:1458"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1222",
-      "treatment": 11422884585,
-      "control": 11537647493,
-      "ids": [
-       "journal:2025-02-01:5551",
-       "journal:2025-02-01:5552",
-       "journal:2025-02-01:5553"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
-      "treatment": 47393338716,
-      "control": 47345887151,
-      "ids": [
-       "journal:2025-01-21:1494",
-       "journal:2025-01-21:1495",
-       "journal:2025-01-21:1496"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
-      "treatment": 27854188960,
-      "control": 27820316139,
-      "ids": [
-       "journal:2025-02-01:2444",
-       "journal:2025-02-01:2445",
-       "journal:2025-02-01:2446"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
-      "treatment": 87749065539,
-      "control": 87742863505,
-      "ids": [
-       "journal:2025-01-21:1479",
-       "journal:2025-01-21:1480",
-       "journal:2025-01-21:1481"
-      ]
-     },
-     {
-      "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
-      "treatment": 1631083721,
-      "control": 1628060826,
-      "ids": [
-       "journal:2025-01-27:1552",
-       "journal:2025-01-29:1587",
-       "journal:2025-01-31:1605"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
-      "treatment": 12423366393,
-      "control": 12425767741,
-      "ids": [
-       "journal:2025-02-01:1731",
-       "journal:2025-02-01:1733",
-       "journal:2025-02-01:1735"
-      ]
-     },
-     {
-      "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
-      "treatment": 6725210137,
-      "control": 6722843187,
-      "ids": [
-       "journal:2025-02-01:1781",
-       "journal:2025-02-01:1782",
-       "journal:2025-02-01:1783"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:2635",
-      "treatment": 68385734,
-      "control": 66722871,
-      "ids": [
-       "journal:2025-02-01:5634",
-       "journal:2025-02-01:5635",
-       "journal:2025-02-01:5636"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
-      "treatment": 1508407952,
-      "control": 1506934791,
-      "ids": [
-       "journal:2025-02-01:1728",
-       "journal:2025-02-01:1729",
-       "journal:2025-02-01:1730"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:955",
-      "treatment": 701889589885929,
-      "control": 701889588482898,
-      "ids": [
-       "journal:2025-02-01:1632",
-       "journal:2025-02-01:1633",
-       "journal:2025-02-01:1634"
-      ]
-     },
-     {
-      "kind": "accounts.transfer @ src/core2/modules/residents.ts:1825",
-      "treatment": 102110802,
-      "control": 100914849,
-      "ids": [
-       "journal:2025-02-19:13358",
-       "journal:2025-02-19:13359",
-       "journal:2025-02-19:13360"
-      ]
-     }
-    ],
-    "diffKinds": 38,
-    "cited": [],
-    "controlCited": []
-   },
-   "web": {
-    "links": [
-     {
-      "key": "teacher-minimum-salary-to-graduation",
-      "status": "built",
-      "to": "school.graduation-pct"
-     }
-    ],
-    "fired": [],
-    "firedCount": 0,
-    "windowDays": 365,
-    "cause": [
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-01",
-      "month": "2025-01",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-02",
-      "month": "2025-02",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-03",
-      "month": "2025-03",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-04",
-      "month": "2025-04",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-05",
-      "month": "2025-05",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-06",
-      "month": "2025-06",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-07",
-      "month": "2025-07",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-08",
-      "month": "2025-08",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-09",
-      "month": "2025-09",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-10",
-      "month": "2025-10",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-11",
-      "month": "2025-11",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     },
-     {
-      "id": "web:jurisdiction_7691c6e3ae48f824:2025-12",
-      "month": "2025-12",
-      "link": "teacher-minimum-salary-to-graduation",
-      "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
-      "lagMonths": 24,
-      "treated": 1,
-      "control": 0
-     }
-    ],
-    "reenacted": null
-   },
-   "heard": {
-    "people": 95,
-    "sample": [
-     "person_00dc91d66c81c918:printed:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:law-took-effect:law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
-     "person_591a8b5ed90f3b16:printed:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:law-took-effect:law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
-     "person:press:outlet:newspaper:0:jurisdiction_7691c6e3ae48f824:owner:0:printed:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:law-took-effect:law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97"
-    ]
-   },
-   "afterUndo": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "afterUndoChanged": {
-    "fullPeople": 0,
-    "countedGroups": 0,
-    "countedPeople": 0,
-    "households": 0,
-    "organizations": 0,
-    "governments": 0,
-    "other": 0,
-    "open": 0,
-    "ended": 0,
-    "sample": []
-   },
-   "seconds": 263
-  }
- ]
+  "seed": "d5005a7c6bd3a520-0",
+  "place": {
+    "seed": "0b4b9998952a19ce24a14f37c5ded030ca028a8304f8ee21b1487a4525c43378",
+    "key": "1150000",
+    "name": "Washington, District of Columbia",
+    "state": "US-DC"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:education.raise-teacher-minimum-salary",
+      "kind": "question",
+      "family": "education",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+        "law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2026-01-22:law-wiring-8f723f97-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 3,
+        "countedGroups": 1,
+        "countedPeople": 76,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 4,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_8c4efc7c59907476",
+          "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_c4932b55e8f4034c",
+          "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_f21e87ed64586aee",
+          "applied|us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_7691c6e3ae48f824:counted-teachers"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 1,
+        "countedGroups": 1,
+        "countedPeople": 71,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 2,
+        "ended": 0,
+        "sample": [
+          "applied|us-policy-positions:education.raise-teacher-minimum-salary|person_8c4efc7c59907476",
+          "applied|us-policy-positions:education.raise-teacher-minimum-salary|organization:public-schools:jurisdiction_7691c6e3ae48f824:counted-teachers"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:172": 198,
+        "src/core2/law-reach/group-b-money.ts:88 <- src/core2/public-pay-floor.ts:46": 52,
+        "src/core2/modules/world-legislating.ts:183": 16,
+        "src/core2/life.ts:556": 5,
+        "src/core2/modules/legislature.ts:2094": 4,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-DC:state:us-policy-positions:education.raise-teacher-minimum-salary:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1240",
+            "treatment": 12502704714,
+            "control": 12379748116,
+            "ids": [
+              "journal:2025-01-21:1456",
+              "journal:2025-01-21:1457",
+              "journal:2025-01-21:1458"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1222",
+            "treatment": 11422884585,
+            "control": 11537647493,
+            "ids": [
+              "journal:2025-02-01:5551",
+              "journal:2025-02-01:5552",
+              "journal:2025-02-01:5553"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:545",
+            "treatment": 47393338716,
+            "control": 47345887151,
+            "ids": [
+              "journal:2025-01-21:1494",
+              "journal:2025-01-21:1495",
+              "journal:2025-01-21:1496"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:631",
+            "treatment": 27854188960,
+            "control": 27820316139,
+            "ids": [
+              "journal:2025-02-01:2444",
+              "journal:2025-02-01:2445",
+              "journal:2025-02-01:2446"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 87749065539,
+            "control": 87742863505,
+            "ids": [
+              "journal:2025-01-21:1479",
+              "journal:2025-01-21:1480",
+              "journal:2025-01-21:1481"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 1631083721,
+            "control": 1628060826,
+            "ids": [
+              "journal:2025-01-27:1552",
+              "journal:2025-01-29:1587",
+              "journal:2025-01-31:1605"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 12423366393,
+            "control": 12425767741,
+            "ids": [
+              "journal:2025-02-01:1731",
+              "journal:2025-02-01:1733",
+              "journal:2025-02-01:1735"
+            ]
+          },
+          {
+            "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2591",
+            "treatment": 6725210137,
+            "control": 6722843187,
+            "ids": [
+              "journal:2025-02-01:1781",
+              "journal:2025-02-01:1782",
+              "journal:2025-02-01:1783"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:2635",
+            "treatment": 68385734,
+            "control": 66722871,
+            "ids": [
+              "journal:2025-02-01:5634",
+              "journal:2025-02-01:5635",
+              "journal:2025-02-01:5636"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/counted-money.ts:742",
+            "treatment": 1508407952,
+            "control": 1506934791,
+            "ids": [
+              "journal:2025-02-01:1728",
+              "journal:2025-02-01:1729",
+              "journal:2025-02-01:1730"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:955",
+            "treatment": 701889589885929,
+            "control": 701889588482898,
+            "ids": [
+              "journal:2025-02-01:1632",
+              "journal:2025-02-01:1633",
+              "journal:2025-02-01:1634"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1825",
+            "treatment": 102110802,
+            "control": 100914849,
+            "ids": [
+              "journal:2025-02-19:13358",
+              "journal:2025-02-19:13359",
+              "journal:2025-02-19:13360"
+            ]
+          }
+        ],
+        "diffKinds": 38,
+        "cited": [],
+        "controlCited": []
+      },
+      "web": {
+        "links": [
+          {
+            "key": "teacher-minimum-salary-to-graduation",
+            "status": "built",
+            "to": "school.graduation-pct"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-01",
+            "month": "2025-01",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-02",
+            "month": "2025-02",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-03",
+            "month": "2025-03",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-04",
+            "month": "2025-04",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-05",
+            "month": "2025-05",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-06",
+            "month": "2025-06",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-07",
+            "month": "2025-07",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-08",
+            "month": "2025-08",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-09",
+            "month": "2025-09",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-10",
+            "month": "2025-10",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-11",
+            "month": "2025-11",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_7691c6e3ae48f824:2025-12",
+            "month": "2025-12",
+            "link": "teacher-minimum-salary-to-graduation",
+            "from": "law:us-policy-positions:education.raise-teacher-minimum-salary",
+            "lagMonths": 24,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 95,
+        "sample": [
+          "person_00dc91d66c81c918:printed:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:law-took-effect:law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+          "person_591a8b5ed90f3b16:printed:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:law-took-effect:law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97",
+          "person:press:outlet:newspaper:0:jurisdiction_7691c6e3ae48f824:owner:0:printed:outlet:newspaper:1:jurisdiction_7691c6e3ae48f824:law-took-effect:law:place:1150000:city:us-policy-positions:education.raise-teacher-minimum-salary:general:2025-01-21:law-wiring-8f723f97"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 263
+    }
+  ]
 }
