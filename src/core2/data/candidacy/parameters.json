@@ -205,5 +205,17 @@
     "tag": "TUNABLE",
     "citation": "Opportunity cost of leaving a current mandate for another office, multiplied by steps down the existing office rank. Schlesinger, Ambition and Politics (1966), progressive and static ambition. Spread 1 to 3.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyRevolvingDoorWeight": {
+    "value": 0.011,
+    "tag": "TUNABLE",
+    "citation": "What a revolving-door law in force takes from a legislative seat's pull for someone who does not hold it: on leaving it they could not lobby for a time. Fisman, Leder-Luis, O'Donnell and Vannutelli 2025 (Revolving Door Laws and Political Selection, NBER Working Paper 33626, state legislative candidates 1968 to 2022): new-candidate entry falls 18.2% against its base where such a law passes (11% to 25% across specifications). Calibrated by scripts/law-wiring/calibrate-revolving-door.ts (seed revolving-door-a, ten draws, four towns with a council contest: Oldtown, Idaho; Griffith, Indiana; Old Bennington, Vermont; Clarksburg, West Virginia; 20,401 named and counted adults weighing a council seat they do not hold): above the top 0.1% of run-over-stay-out margins the excess falls off with a scale of 0.054, so a pull of 0.011 keeps out 18.2% of those over the line. Spread 0.005 to 0.019: the 11% and 25% shares across the 0.1%, 0.5% and 1% tails.",
+    "stopgapId": "SG-P15-candidacy-weights",
+    "spread": {
+      "low": 0.005,
+      "high": 0.019,
+      "unit": "pull",
+      "citation": "The 11% and 25% entry shares of Fisman et al. 2025 read through the tail scales 0.044 to 0.066 of the calibration's 0.1%, 0.5% and 1% tails."
+    }
   }
 }

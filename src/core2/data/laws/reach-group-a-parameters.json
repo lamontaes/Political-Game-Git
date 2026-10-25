@@ -122,6 +122,30 @@
       "source": "Gerber, Huber and Hill (Political Science Research and Methods, 2013): all-mail elections in Washington raised turnout about 2 to 4 points; the share of the work-time cost of getting to the polls a mailed ballot removes.",
       "spread": [0.1, 0.5]
     },
+    "mailBallotCostMinor": {
+      "value": 300,
+      "tag": "ESTIMATED",
+      "source": "Pew Charitable Trusts, Colorado Voting Reforms (2016), and county auditor reports from Washington and Oregon: printing, outbound and prepaid return postage, and processing run about $1.50 to $6 a ballot mailed. In cents.",
+      "spread": [150, 600]
+    },
+    "photoIdIssueCostMinor": {
+      "value": 1500,
+      "tag": "ESTIMATED",
+      "source": "GAO-15-19 (2014) and state fiscal notes for strict photo ID laws: a free voter ID costs the state about $10 to $30 to issue, counting staff time and materials. In cents, per voter with no current ID.",
+      "spread": [800, 3000]
+    },
+    "automaticRegistrationCostMinor": {
+      "value": 200,
+      "tag": "ESTIMATED",
+      "source": "Brennan Center for Justice, Automatic Voter Registration cost studies (2019): an electronic transfer from the motor vehicle office costs about $0.50 to $4 a registration, less than a paper form. In cents.",
+      "spread": [50, 400]
+    },
+    "sameDayRegistrationCostMinor": {
+      "value": 400,
+      "tag": "ESTIMATED",
+      "source": "Election administrators in same-day registration states (Demos, Same Day Registration, 2014): added poll staff and registration processing run about $2 to $8 for each person who registers at the polls. In cents.",
+      "spread": [200, 800]
+    },
     "rentIncreaseCap": {
       "value": 0.07,
       "tag": "ESTIMATED",
@@ -164,12 +188,6 @@
       "source": "BLS OEWS May 2023 mean annual wages (correctional officers $59,840, police officers $74,910, firefighters $63,890) plus benefits at 38% of state and local government compensation (BLS Employer Costs for Employee Compensation, 2024): about $100,000 a year per position.",
       "spread": [8000000, 13000000]
     },
-    "hireAgeBelow": {
-      "value": 65,
-      "tag": "TUNABLE",
-      "source": "Public employers hire working-age adults; the upper age past which a named adult isn't considered for a new public job.",
-      "spread": [60, 70]
-    },
     "daysPerYear": {
       "value": 365,
       "tag": "SOURCED",
@@ -204,6 +222,18 @@
       "tag": "ESTIMATED",
       "source": "Fortin, Lemieux and Lloyd (NBER Working Paper 30098, 2022): the effect is measured five years after adoption; it is spread evenly over those years here.",
       "spread": [3, 8]
+    },
+    "redistrictingCommissionYearPerResidentMinor": {
+      "value": 5.1,
+      "tag": "ESTIMATED",
+      "source": "What a state's independent redistricting commission costs a year, in cents per state resident, at the floor its constitution sets in Michigan: 13 commissioners (Mich. Const. art. IV, sec. 6(1)), each paid \"at least equal to 25 percent of the governor's salary\" (art. IV, sec. 6(5), read at https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-Article-IV-6), the governor's salary being $159,300 (State Officers Compensation Commission, as given at https://en.wikipedia.org/wiki/Governor_of_Michigan): 13 x $39,825 = $517,725 a year over Michigan's 10,077,331 residents (2020 Census apportionment count), about 5.1 cents. The commission's experts, counsel and hearings cost more: it ran a projected shortfall of \"a little over $1.2 million\", mostly legal costs (Michigan Public, Feb 24, 2022), which puts the high end at about 17 cents.",
+      "estimatedFrom": "commissioners' constitutional pay floor in the one state whose constitution fixes it, per resident; the high end adds the commission's reported legal overrun",
+      "spread": [5.1, 17]
+    },
+    "monthsPerYear": {
+      "value": 12,
+      "tag": "SOURCED",
+      "source": "Civil calendar: a year has 12 months."
     }
   }
 }
