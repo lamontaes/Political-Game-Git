@@ -66,7 +66,7 @@ const run = (drawSeed: string): string | null => {
           a.electionDate.localeCompare(b.electionDate) ||
           a.id.localeCompare(b.id),
       );
-  for (let day = 0; !open().length && day < 120; day += 7)
+  for (let day = 0; !open().length && day < YEAR; day += 7)
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
   let contest: ContestRow | undefined;
   const filings: FilingRow[] = [];

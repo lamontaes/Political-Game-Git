@@ -1505,26 +1505,35 @@ function playExchange(story) {
       className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
       textContent: line.text,
     });
-  const play = (node) => {
+  // The path is the index of each reply chosen, from the first.
+  const play = (node, path) => {
     said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
     $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
     $("talk-choices").replaceChildren(
       ...replies(
-        node.replies.map((reply) => ({
+        node.replies.map((reply, index) => ({
           text: reply.line.text,
           held: reply.line.held,
           reply,
+          index,
         })),
-        ({ reply }) => {
+        ({ reply, index }) => {
+          const chosen = [...path, index];
+          // The reply is the player's: the game keeps it (purpose-scene.ts
+          // replyInScene).
+          api(
+            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
+            "POST",
+          );
           said.push(reply.line);
-          if (reply.next) play(reply.next);
+          if (reply.next) play(reply.next, chosen);
           else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
           if (!reply.next) $("talk-choices").replaceChildren();
         },
       ),
     );
   };
-  play(talk.tree);
+  play(talk.tree, []);
 }
 function storyStop(value) {
   return value?.kind === "stop"
