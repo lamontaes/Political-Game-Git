@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/law-reached-husk
-pr:
+pr: #5991
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T06:54:21.604Z

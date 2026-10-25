@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/uncap
 pr: #5295
 blocked-on:
