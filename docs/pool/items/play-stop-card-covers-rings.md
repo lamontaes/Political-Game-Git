@@ -27,6 +27,6 @@ after: play-stop-12-status-card-covers-menu-after-canvass
 
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
-**Files.** src/bench/play.css, src/bench/play.ts
+**Files.** src/bench/play.css, src/bench/play.mjs
 
 **Notes.** Found by the browser run on PR #5533; screenshot defect-card-covers-rings-at-stop.png in that session. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).

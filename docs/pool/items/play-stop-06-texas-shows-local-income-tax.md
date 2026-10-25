@@ -5,14 +5,14 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: blocked
-claimed-by: claude/issues-tax-levels
+status: open
+claimed-by:
 pr:
 blocked-on: politics-issues-taxes-named-by-level
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-10-25T15:37:35.531Z
+claimed-at:
 ---
 
 **What.** Politics → Issues in Anson, Texas on the v0.22.10 release reads "Local income tax rate 37% top rate". Texas has no state income tax and Anson no local one; 37 percent is the federal top rate, shown under a local label. The other rows (minimum wage $7.25 an hour, local sales tax 8.201 percent, property tax 1.591 percent of home value) look plausible. A player choosing what to run on would believe the town taxes income at 37 percent.
