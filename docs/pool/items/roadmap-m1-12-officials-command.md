@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: claude/quirky-ride-vrwwz4-m1-12
 pr: #5881
 blocked-on:
