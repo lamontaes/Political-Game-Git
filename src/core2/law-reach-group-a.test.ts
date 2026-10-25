@@ -43,6 +43,7 @@ import {
   reachOn,
   reachParameter,
   STAFFING,
+  targetsOf,
   townOrganizations,
   townPeople,
 } from "./law-reach/group-a-records";
@@ -199,9 +200,18 @@ function recordRoundTrip(
   mayBeEmpty = false,
 ): void {
   const level = levelFor(key);
+  // The engine's own selection: a town with no one and nothing a law selects
+  // (no teenager and no online business for the age check) is reached by no one.
+  const subject = (POLICIES[key]?.reaches ?? []).some(
+    (spec) => targetsOf(api, spec).length > 0,
+  );
   enact(key, level, 1);
   const open = openReach(api, key);
-  if (mayBeEmpty && !open.length) {
+  if (!subject && !open.length)
+    console.log(
+      `${where}: ${key} selects no one here; its mechanic is checked instead`,
+    );
+  if ((mayBeEmpty || !subject) && !open.length) {
     between?.();
     enact(key, level, 0);
     afterRepeal?.();
