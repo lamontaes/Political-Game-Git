@@ -1,6 +1,6 @@
 ---
 id: release-main-red
-title: "Desktop package build exceeds its 4 GB Node heap, so no desktop release publishes"
+title: "Main is red: the lane's shared files fail the release declaration check"
 area: release
 kind: bug
 priority: 1
@@ -21,4 +21,4 @@ claimed-at: 2026-10-25T23:42:13.390Z
 
 **Files.** .github/workflows/release.yml, docs/release/changes/release-package-build-heap.md
 
-**Notes.** Reopened Oct 25 by the speed lead for the package build's heap (run 40205834226, jobs 121208900744 and 121208901649). The earlier candidate-validation heap failure (run 40194542362) was fixed by #6035; the older pool-declaration incident by #5746.
+**Notes.** Reopened Oct 25 by the speed lead for the package build's heap (run 40205834226, jobs 121208900744 and 121208901649). The earlier candidate-validation heap failure (run 40194542362) was fixed by #6035; the older pool-declaration incident by #5746. Reopened Oct 25 23:40 by the acting CTO for a new red: the release check refused `docs/play-first/PROGRESS.md` changed with no declaration (the lane appends to it straight on main). #6119 exempts that file and the lane's two lead sheets (`LEADS-2026-10-24.md`, `MERGE-FIRST.md`) in the check and in `release.yml` `paths-ignore`, beside the pool. The heap fix (#6049) stays merged.
