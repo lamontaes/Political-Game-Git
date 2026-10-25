@@ -1768,10 +1768,6 @@ function raisePay(api: CoreAPI): void {
     const business = c.finance.businesses.has(job.organizationId);
     if (!business) stopgap("SG-WORLD-jobs-public-pay-growth");
     const earns = business && ownerOf(api, job.organizationId) !== job.personId;
-    // The opening records no start for anyone's job, so an opening worker's
-    // tenure counts from the game's start and their first raise reads the
-    // profile's steepest year.
-    // stopgapId: SG-WORLD-jobs-opening-tenure
     const reasons = earns
       ? {
           tenureYears: tenureYears(api, job),
@@ -2884,14 +2880,16 @@ function countedRolesOf(rt: NonNullable<ReturnType<typeof residentsRuntime>>) {
   return roles;
 }
 
-/** Years a counted worker has held their job: from their hire here, else their opening work commitment. */
+/** Years a counted worker has held their job: from their hire here, else when they took their opening job (its commitment's heldSince). */
 function countedTenureYears(api: CoreAPI, job: JobInput): number {
   const c = core(api),
     rt = residentsRuntime(c);
+  const role = rt ? countedRolesOf(rt).byJob.get(job.id) : undefined;
   const since =
     (store(api).table("pay").get(job.id) as { since?: string } | undefined)
       ?.since ??
-    (rt ? countedRolesOf(rt).byJob.get(job.id)?.startsAt : undefined) ??
+    role?.heldSince ??
+    role?.startsAt ??
     api.state.startedAt;
   return (
     Math.max(0, daysBetweenText(since, c.date)) /

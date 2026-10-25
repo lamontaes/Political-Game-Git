@@ -6606,6 +6606,8 @@
     "addedBy": "claude/traits-pay-growth",
     "addedAt": "2026-10-25",
     "replacement": "An opening start date for each job held at the opening, generated from the BLS Employee Tenure tables by age and industry when the world is generated (who exists may be seeded), read by tenureYears for raises and layoffs alike.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-25",
+    "resolution": "Each job held at the opening carries when it was taken (the work commitment's heldSince): the world's recorded start, else the opening's estimate from the BLS age band's median tenure bounded by adulthood and the employer's founding, the same date the person's work:opening fact and their opening pay read (src/core2/population.ts, openingStartOf). tenureYears reads it for full and counted workers alike, so raises, layoffs and quits read real tenure (pool item people-opening-job-tenure-estimate)."
   }
 ]

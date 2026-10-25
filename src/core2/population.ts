@@ -3,6 +3,7 @@ import { lawChainForPlace, startingLawRows } from "./laws-starting";
 import {
   DEFAULT_RESIDENT_EMPLOYMENT,
   openingEmploymentFromRecordedRoles,
+  openingJobStart,
 } from "./opening-employment";
 import { createOpeningEmployerCapital } from "./opening-capital";
 import {
@@ -886,6 +887,35 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     jobs.push(job);
     jobByPerson.set(job.personId, job);
   }
+  // When each opening job was taken, by one rule (openingJobStart): the
+  // opening's own hires carry it from the allocation; a relationship the
+  // world wrote is estimated the same way (its own start is the old median
+  // estimate). The person's history and their tenure (the work commitment's
+  // heldSince) read the same date.
+  const formedAtByOrganization = new Map(
+    world.history.organizations.map((row) => [row.id, row.formedAt]),
+  );
+  const openingStartOf = (jobId: string): WorldDate => {
+    const allocated = openingAllocation.startedAtByJob.get(jobId);
+    if (allocated) return allocated;
+    const relationship = workById.get(jobId as EntityId);
+    const person = relationship && world.people[relationship.personId];
+    if (!relationship || !person)
+      throw new Error("Opening job has no admitted source start date.");
+    return openingJobStart({
+      seed: options.seed,
+      personId: relationship.personId,
+      birthDate: person.birthDate,
+      ...(relationship.organizationId &&
+      formedAtByOrganization.get(relationship.organizationId)
+        ? {
+            formedAt: formedAtByOrganization.get(relationship.organizationId)!,
+          }
+        : {}),
+      currentDate: world.currentDate,
+    });
+  };
+
   if (openingAllocation.receipt.omitted.length)
     gaps.add(
       "Unsupported opening workplace/occupation shares remain omitted; unassigned actors are not declared unemployed.",
@@ -1191,11 +1221,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ...(familyPast.get(id) ?? []),
     ];
     if (job) {
-      const relationship = workById.get(job.id as EntityId);
-      const workStartedAt =
-        relationship?.startedAt ?? openingAllocation.startedAtByJob.get(job.id);
-      if (!workStartedAt)
-        throw new Error("Opening job has no admitted source start date.");
+      const workStartedAt = openingStartOf(job.id);
       pastFacts.push({
         id: `${job.id}:past:opening`,
         date: workStartedAt,
@@ -1248,7 +1274,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       jobs,
       openingAllocation.templateJobIdByJob,
     ),
-  );
+  ).map((row) => ({ ...row, heldSince: openingStartOf(row.jobId) }));
   // A job states the week its schedule runs: the hourly rate (the occupation's
   // market rate) is paid for those minutes, so the stated hours and daily pay
   // follow them, and a hire that copies the job copies the same week.
