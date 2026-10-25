@@ -40,7 +40,7 @@ import { renewalParameter } from "./births-parameters";
 import { weighUnplanned } from "./births-unplanned";
 import { countedPayment } from "./counted-money";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./modules/health";
-import { openingTemperaments } from "./opening-personality";
+import { inheritedTemperament } from "./opening-personality";
 import {
   addCountedPerson,
   countedHouseholdsByPlace,
@@ -717,8 +717,7 @@ export function applyCountedFlows(
       const stands = weightOfPerson(woman);
       if (carry.births < stands) continue;
       carry.births -= stands;
-      const partner = partnerOf(record, woman, date);
-      const baby = countedNewborn(api, record, woman, partner, date);
+      const baby = countedNewborn(api, record, woman, date);
       addCountedPerson(core, record.household.id, baby);
       row.births.push(baby.id);
       birthMothers.add(woman.id);
@@ -729,7 +728,7 @@ export function applyCountedFlows(
         childId: baby.id,
         counted: true,
         motherId: woman.id,
-        otherParentId: partner?.id ?? null,
+        otherParentId: baby.familyIds[1] ?? null,
         date,
         placeId,
         householdId: record.household.id,
@@ -908,16 +907,19 @@ export function applyCountedFlows(
   }
 }
 
-/** A counted baby: who they are comes from the world's seed. */
-function countedNewborn(
+/**
+ * A counted baby: who they are comes from the world's seed, and their
+ * temperament from their parents' kept traits by the family rule every
+ * child is drawn by. The mother's partner is the household's relative
+ * within one generation (partnerOf). Exported for the births test.
+ */
+export function countedNewborn(
   api: CoreAPI,
   record: ResidentHouseholdRecord,
   mother: PersonInput,
-  partner: PersonInput | undefined,
   date: string,
 ): PersonInput {
-  // stopgapId: SG-PW8-counted-newborn-temperament (a seeded temperament, not inherited)
-  api.stopgap("SG-PW8-counted-newborn-temperament");
+  const partner = partnerOf(record, mother, date);
   const id = createStableId(
     "person",
     `${api.state.seed}:counted-birth:${mother.id}:${date}`,
@@ -925,17 +927,18 @@ function countedNewborn(
   const rng = new SeededRng(api.state.seed).fork(id);
   const identity = generatePersonIdentity(rng.fork("identity"));
   const name = drawCanonicalNamedIdentity(rng.fork("name"), identity);
-  const parents = partner ? [mother.id, partner.id] : [mother.id];
-  const subjects = [mother, ...(partner ? [partner] : [])].map((row) => ({
-    id: row.id,
-    birthDate: row.birthDate,
-    gender: row.looks?.gender,
-    parents: [],
-  }));
-  const traits = openingTemperaments(
-    [...subjects, { id, birthDate: date, gender: identity.gender, parents }],
-    { seed: api.state.seed, startedAt: date },
-  ).get(id)!;
+  const parentRows = partner ? [mother, partner] : [mother];
+  const parents = parentRows.map((row) => row.id);
+  const traits = inheritedTemperament(
+    parentRows.map((row) => ({
+      id: row.id,
+      birthDate: row.birthDate,
+      ...(row.looks?.gender ? { gender: row.looks.gender } : {}),
+      traits: row.traits,
+    })),
+    { id, birthDate: makeIsoDate(date), gender: identity.gender },
+    { seed: api.state.seed, startedAt: makeIsoDate(date) },
+  );
   return {
     id,
     givenName: name.givenName,
