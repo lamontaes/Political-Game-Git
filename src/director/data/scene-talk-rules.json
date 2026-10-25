@@ -42,7 +42,7 @@
       "value": 600,
       "tag": "TUNABLE",
       "spread": [300, 1000],
-      "checkedAgainst": "The review page plays one scene at a time, one path at a time (owner, Oct 16), so every branch must be whole: a pruned branch is a button that leads nowhere. Six hundred nodes holds a five-wide tree five deep with its lie branches."
+      "checkedAgainst": "The review page plays one scene at a time, one path at a time, so every branch must be whole: a pruned branch is a button that leads nowhere. Six hundred nodes holds a five-wide tree five deep with its lie branches."
     }
   },
   "grounds": {
@@ -57,11 +57,11 @@
       "value": 50000,
       "tag": "TUNABLE",
       "spread": [25000, 250000],
-      "checkedAgainst": "A gift big enough that leaning on it reads as pressure, not a joke (owner, Oct 16: an $11 gift called most of what you raised). Under it the donor is 'one of your donors', with no amount said."
+      "checkedAgainst": "A gift big enough that leaning on it reads as pressure, not a joke. Under it the donor is 'one of your donors', with no amount said."
     }
   },
   "screens": {
-    "about": "The game screens a scene's ending can hand the player to (owner, Oct 19), by the key the game screen uses.",
+    "about": "The game screens a scene's ending can hand the player to, by the key the game screen uses.",
     "desk": "The desk: sign or veto the bill.",
     "filing": "The filing office: file to run.",
     "office": "Your office: bills, cases and staff.",
@@ -69,7 +69,7 @@
     "campaigns": "Campaigns: the campaign's week."
   },
   "bluntGreeting": {
-    "about": "Owner, Oct 19: every scene opened the same way. An asker whose sociability is at or below minus this level skips the greeting and opens on why they came; trait levels run from -2 to 2.",
+    "about": "So scenes do not all open the same way: an asker whose sociability is at or below minus this level skips the greeting and opens on why they came; trait levels run from -2 to 2.",
     "value": 1,
     "tag": "TUNABLE",
     "spread": [0.5, 1.5],

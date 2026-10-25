@@ -23,3 +23,7 @@ pr: #5822
 **Notes.** From the poverty family of the effect web. The link graduation-to-poverty no longer runs on the ledger.
 
 Sent back 2026-10-23 from PR #5822 (branch claude/schooling-to-pay): Graduation-to-income proof is explicitly missing, same-job test falls back to different jobs, and the unmeasured within-role pay share lacks its stopgap registration/code marker; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 UTC from PR #5822 (branch claude/schooling-to-pay): hirePay schooling discount bypasses legal minimum/public-pay floors enforced on posted positions; actual function maps floor725 to656 and1500 to1357 for no-college; preserve floors in offers/full/counted hires with regression; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 UTC from PR #5822 (branch claude/schooling-to-pay): at integrated ca2087b349 the first Done-when witness still groups unrelated hires only by numeric posted hourly pay (jobs-schooling-pay.test.ts:41-46,73,78), rather than the same job/template and employer, and names no two actual same-job hire IDs in its evidence; the prior wage-floor fix is present; finish on that branch, merge main into it first.

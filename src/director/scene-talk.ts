@@ -52,8 +52,7 @@ interface Ending {
   label: string;
   keeps: string;
   /**
-   * The game screen this ending hands the player to (owner, Oct 19: some
-   * scenes should lead to a screen, like drafting a bill): a key of
+   * The game screen this ending hands the player to: a key of
    * `screens` in scene-talk-rules.json.
    */
   opens?: string;
@@ -250,8 +249,7 @@ export interface SceneTalkOptions {
   strict?: boolean;
   /**
    * Pieces the reader has already seen (earlier review pages): a piece not in
-   * it is said whenever one fits, so every page reads new (owner, Oct 19:
-   * "every batch needs to be different").
+   * it is said whenever one fits, so every page reads new.
    */
   shown?: ReadonlySet<string>;
   /** With `shown`, a seen piece is never said: a review page is all new. */
@@ -411,7 +409,7 @@ export function composeSceneTalk(
       return null;
     }
     // A reaction is told, not said ("Ryan Wagner grumbles something and
-    // heads for the door"; owner, Oct 19): the narrator speaks it.
+    // heads for the door"): the narrator speaks it.
     const role = use.move === "react" ? "narrator" : use.role;
     return {
       n: zero,
@@ -463,7 +461,7 @@ export function composeSceneTalk(
       (move) => move !== "greet",
     ) ?? "greet";
   // Not everyone says hello first: an asker who keeps to themself goes
-  // straight to why they came (owner, Oct 19: every scene started the same).
+  // straight to why they came.
   const blunt =
     openMove === "greet" &&
     (askerTraits["people-mind-v1:sociability"] ?? zero) <=
@@ -652,8 +650,7 @@ export function composeSceneTalk(
     askerTraits,
   );
   root.lines = rootStart.lines;
-  // The narrator speaks between lines, not only at the top (owner, Oct 19:
-  // "the crowd grows louder"): a beat of the room after the statement and
+  // The narrator speaks between lines, not only at the top: a beat of the room after the statement and
   // partway in, where the bank has one for this purpose.
   const beatAt = (path: Path, label: string): SceneTalkLine | null =>
     render(
@@ -885,7 +882,7 @@ export function composeSceneTalk(
     // lists it as repeatable after this asker move), and a node never offers
     // two replies of one move.
     // A move may come back with a different line; a line offered once on
-    // this path is never offered again (owner, Oct 16: no rehashed menus).
+    // this path is never offered again.
     const fresh = [...new Set(moves)];
     const seen = new Set([...path.said, ...path.offeredPieces]);
     const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
@@ -942,7 +939,7 @@ export function composeSceneTalk(
     // A question the asker just asked is always answerable: the menu stays
     // open with what fits rather than the talk ending on it.
     const asked = lastAsker?.asks ?? false;
-    // Owner rules (Oct 16): a confront or a threat is answered in kind (the menu
+    // A confrontation or a threat is answered in kind (the menu
     // can mirror it), and a scene that asks, offers or tells a decision lets the
     // player ask back at the root.
     const unmirrored =

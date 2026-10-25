@@ -55,22 +55,34 @@ function resultStages(text: string): string[] | undefined {
 /** A mined sentence in the first person plural, told when the event names a group. */
 const plural = (text: string) => /^We\b/.test(text);
 
+/**
+ * The journal's words. Play says only shipped parts. A grading page
+ * (`heldFirst`) says the held ones wherever one fits a field, so the owner
+ * reads each in a real journal; a field no held part fits keeps its shipped
+ * parts.
+ */
 export function journalDataFromBank(
   bank: { parts: MinedPart[] } = JOURNAL_BANK,
   rows: JournalRows = JOURNAL_ROWS,
+  heldFirst = false,
 ): JournalData {
-  const fields = new Map<string, { key: string; text: string }[]>();
-  for (const part of bank.parts) {
-    if (!part.shippable || heldByGrades(part.key)) continue;
-    for (const use of part.uses)
-      for (const target of use.journal ?? []) {
-        const id = `${target.kindPrefix}|${target.field}`;
-        const list = fields.get(id) ?? [];
-        if (!list.some((row) => row.key === part.key))
-          list.push({ key: part.key, text: journalSlots(part.text) });
-        fields.set(id, list);
-      }
-  }
+  const collect = (shipped: boolean) => {
+    const found = new Map<string, { key: string; text: string }[]>();
+    for (const part of bank.parts) {
+      if (part.shippable !== shipped || heldByGrades(part.key)) continue;
+      for (const use of part.uses)
+        for (const target of use.journal ?? []) {
+          const id = `${target.kindPrefix}|${target.field}`;
+          const list = found.get(id) ?? [];
+          if (!list.some((row) => row.key === part.key))
+            list.push({ key: part.key, text: journalSlots(part.text) });
+          found.set(id, list);
+        }
+    }
+    return found;
+  };
+  const fields = collect(true);
+  if (heldFirst) for (const [id, list] of collect(false)) fields.set(id, list);
   // A wording that names the record ("I went to work for {employer}.") is
   // said before one that doesn't ("I went to work.").
   const mined = (kindPrefix: string, field: string) => {

@@ -263,7 +263,7 @@ for (const seed of seeds) {
         part: key ?? null,
         parts: key ? [key] : [],
         composer:
-          "the filing visit's renderer (src/director/render.ts), words from data/english/parts/filing-visit.json",
+          "the filing visit's renderer (src/english/bank-line.ts), words from data/english/parts/filing-visit.json",
         kind: "conversation",
         cell: cell("workplace", "filing", place),
         seed,

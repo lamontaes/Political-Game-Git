@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr:
 after: core-old-engine-03-schedules-jobs-traits-history
-blocked-on:
+blocked-on: play-first-freeze
 source: "docs/reports/repo-audit-2026-10-19.md section A and G2 step 6"
 ---
 
@@ -22,3 +22,5 @@ source: "docs/reports/repo-audit-2026-10-19.md section A and G2 step 6"
 **Files.** src/core2/population.ts, src/bench/world.ts, src/core2/tooling/generated-world.ts, src/simulation/world.ts, src/simulation/types.ts, src/simulation/history-index.ts
 
 **Notes.** This is the audit's step 6 and the pool item `core-port-world-scaffold`, which was blocked until steps 2–5 landed; this item carries it. Parent: core-delete-old-engine.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

@@ -7,7 +7,7 @@ priority: 1
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-first-freeze
 milestone:
 after: gov-outside-revenue-real-payers
 source: "known bugs; noted in #4352"
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Verified the failing check: closures.mjs check 6. `core-outside-flow-rows` classifies the five real exchanges; what is left is the registered plug, `gov-outside-revenue-real-payers`. Closes when that item merges.
 
 Oct 20 (pool feeder): spec written; this is the gate for the plug roll-up, so it waits on gov-outside-revenue-real-payers (itself waiting on gov-outside-revenue-retire-plug, still claimed) and closes by running the gate once it lands.
+
+Frozen Oct 24 (play first): not claimable until the CTO lifts the freeze (play-first-freeze; docs/work-orders/play-first-2026-10-24.md).

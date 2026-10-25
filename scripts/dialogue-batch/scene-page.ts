@@ -69,8 +69,7 @@ if (!cache || !hasWorld(cache)) {
 }
 
 // The people's own traits come first: the lead exchange is the one their
-// records make (owner, Oct 19: personality must come into effect). The
-// grading profiles follow as comparisons.
+// records make. The grading profiles follow as comparisons.
 const profiles: GradingProfile[] = [
   {
     id: "own",
@@ -128,7 +127,7 @@ const serving17 = new Set(
     .map((row) => realPerson(row.personId))
     .filter((id): id is string => !!id),
 );
-/** An adult with no office: who a plain resident's part is cast from (owner, Oct 19: the context must fit). */
+/** An adult with no office: who a plain resident's part is cast from. */
 const citizen = (id: string) => {
   const row = core.people.get(id);
   return (
@@ -811,8 +810,7 @@ const newSpec = (
 /** A bill from the bill table, for a scene that names one the record does not. */
 const usedBills = new Set<string>();
 const billFact = (seed: string): Record<string, Fact> => {
-  // A bill no other scene on the page has named, while one is left (owner,
-  // Oct 19: "why is it always the same two or three bills?").
+  // A bill no other scene on the page has named, while one is left.
   const ordered = order(titled, seed, (r) => r.bill.id);
   const row =
     ordered.find((r) => !usedBills.has(String(r.title))) ?? ordered[0];
@@ -1059,7 +1057,7 @@ for (const hall of order(
   break;
 }
 
-/** What a law made a person do, as people say it: "have to", not "must" (owner, Oct 19). */
+/** What a law made a person do, as people say it: "have to", not "must". */
 const spokenWhat = (what: string) =>
   what
     .replace(/^must not\b/, "can't")
@@ -1118,7 +1116,7 @@ const opposed = reaches
 /**
  * What turned a person against (or for) something, as slot facts from the
  * view's strongest cause: a story in a named outlet, a speech someone retold
- * to them, a campaign's message (owner, Oct 19: memories come into effect).
+ * to them, a campaign's message.
  */
 const memoryFacts = (
   stance: ReturnType<typeof stanceOn>,
@@ -1256,7 +1254,7 @@ for (const row of opposed) {
   }
 }
 
-/** A post as people say it: one name, lowercase ("finance secretary", not "Budget Director / Finance Secretary"; owner, Oct 19). */
+/** A post as people say it: one name, lowercase ("finance secretary", not "Budget Director / Finance Secretary"). */
 const spokenPost = (title: unknown) =>
   String(title).split(" / ").at(-1)!.trim().toLowerCase();
 // appointment: an appointment the executive made, offered by a staffer in
@@ -1448,7 +1446,7 @@ for (const [typeKey, label] of [
     (row) => row.id,
   );
   // Someone the candidate knows runs the campaign; a stranger only when
-  // nobody they know is in the world (owner, Oct 19: the context must fit).
+  // nobody they know is in the world.
   const supporterOf = (personId: string) =>
     order(
       [
@@ -2090,8 +2088,7 @@ interface Chosen {
 
 /**
  * What the records say about a person's life right now, as slot facts the
- * pieces may speak to (owner, Oct 19: "take in everything that would affect
- * people"). `who` is "asker" or "asked"; a flag has no words, only a source.
+ * pieces may speak to. `who` is "asker" or "asked"; a flag has no words, only a source.
  */
 const circumstancesOf = (who: string, id: string): Record<string, Fact> => {
   const person = core.people.get(id);
@@ -2114,8 +2111,7 @@ const circumstancesOf = (who: string, id: string): Record<string, Fact> => {
   const daily = (person as any).livingCostDailyMinor;
   if (typeof liquid === "number" && daily && liquid < daily * 30)
     out[`${who}_short_on_money`] = flag([id]);
-  // Age that changes what can be said to someone (owner, Oct 19: nobody tells
-  // an 80-year-old to wait a cycle or that they'll land on their feet).
+  // Age that changes what can be said to someone.
   const age = ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date));
   if (age >= 70) out[`${who}_elder`] = flag([id]);
   else if (age < 30) out[`${who}_young`] = flag([id]);
@@ -2159,8 +2155,7 @@ const viewFacts = (
 ): Record<string, Fact> => {
   const stance = topic ? stanceOn(id, topic) : undefined;
   if (!stance) return {};
-  // A view only speaks as strongly as it is held (owner, Oct 19: "it said
-  // barely, but then it said that he really wants it gone"). A firm view
+  // A view only speaks as strongly as it is held. A firm view
   // takes a side out loud; a weak one only leans, and no side-taking line
   // reads a lean.
   const side = stance.desiredChange === "repeal" ? "gone" : "kept";
@@ -2260,13 +2255,11 @@ function tryCast(type: any, spec: Spec): Chosen | { reason: string } {
 
 /* --------------------------------------------------- context for the grader */
 // Who the two people are and what links them, from the records, so the owner
-// can judge whether a line fits the relationship (owner, Oct 19: "you might
-// say something to your mom that you would never say to a coworker").
+// can judge whether a line fits the relationship.
 // Development tooling: the page's context panel, never game text.
 const dollars = (minor: number) =>
   `$${Math.round(minor / 100).toLocaleString("en-US")}`;
-// A trait in the catalog's own words ("Loyal", "Duty-bound"; owner, Oct 19:
-// "bond loyalty" is not English). One-sided facets show only when marked.
+// A trait in the catalog's own words ("Loyal", "Duty-bound"). One-sided facets show only when marked.
 const traitLabel = new Map(
   CATALOGUE_SCALES.map((row) => [row.key, row] as const),
 );
@@ -2302,7 +2295,7 @@ const topicOf = (records: readonly string[]): string | undefined => {
   }
   return undefined;
 };
-/** A date as people read it: "November 1, 2026" (owner, Oct 19). */
+/** A date as people read it: "November 1, 2026". */
 const MONTHS = [
   "January",
   "February",
@@ -2321,7 +2314,7 @@ const dateSaid = (iso: string) => {
   const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
   return `${MONTHS[(m ?? 1) - 1]} ${d}, ${y}`;
 };
-/** What a moment in someone's life was, in plain words (owner, Oct 19). */
+/** What a moment in someone's life was, in plain words. */
 const LIFE_WORDS: readonly [RegExp, string][] = [
   [/^cause:event:office\.replied$/, "heard back from a town office"],
   [/^cause:event:office\.introduced$/, "introduced a bill"],
@@ -2371,7 +2364,7 @@ const causeWords = (cause: { eventId: string; date: string }) => {
 };
 /** The strength (0 to 1) at which a view is said out loud as a side ("firmly"). */
 const FIRM_VIEW = 0.35;
-/** How strongly someone holds a view, in words (owner, Oct 19: "what is the scale?"). */
+/** How strongly someone holds a view, in words. */
 const strengthWords = (strength: number) =>
   strength < 0.1
     ? "barely"
@@ -2507,8 +2500,7 @@ const relationOf = (a: string, b: string): string => {
   return "strangers: no record links them";
 };
 
-// A life's own scenes (owner, Oct 19: "start as the president ... see what
-// the simulation does for their life ... not authoring scenes"): with
+// A life's own scenes: with
 // `--life <person id>`, the page stages only what the director scheduled for
 // that person in the cached year, cast as the director bound it, each scene's
 // facts read from its cause record. The proof scenes above are set aside.
@@ -2574,7 +2566,7 @@ const lifeCauseFacts = (
   }
   return out;
 };
-/** Why a life's scene happens, from its cause record, for the panel (owner, Oct 19: "but why?"). */
+/** Why a life's scene happens, from its cause record, for the panel. */
 const lifeWhy = (
   moment: any,
   cause: any,
@@ -2793,7 +2785,7 @@ for (const typeKey of pageTypes) {
     problems.push(`piece gap: ${gap}`);
   }
   // A scene with a purpose reaches at least 3 distinct endings; a fallback
-  // scene at least 2. Endings only need to close naturally (owner, Oct 16).
+  // scene at least 2. Endings only need to close naturally.
   const fewest = typeOf.get(typeKey)?.purpose ? 3 : 2;
   for (const variant of best.variants) {
     const counts = Object.values(
@@ -3225,7 +3217,7 @@ directorChosen.forEach((row, at) => {
 });
 
 /* ------------------------------------------------- what is new on this page */
-// Every batch reads new (owner, Oct 19): a line the owner saw on an earlier
+// Every batch reads new: a line the owner saw on an earlier
 // page counts against the page, and too many refuse it.
 const NEW_SHARE = 0.8;
 let linesOnPage = 0;

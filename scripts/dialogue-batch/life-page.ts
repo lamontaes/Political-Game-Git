@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- module rows are read untyped by this tooling */
 /**
- * One officeholder's year, as the simulation lives it (owner, Oct 19: "start
- * as the president and see what the simulation does for their life ... work
- * backwards, not authoring scenes"). Development tooling: nothing here words
+ * One officeholder's year, as the simulation lives it. Development tooling: nothing here words
  * anything for play.
  *
  *   npm run words:life -- --id life-1 --seed life-1 [--role president] [--days 365] [--cache <file>]
@@ -40,7 +38,7 @@ const role = option("role", "president");
 const days = Number(option("days", "365"));
 const cache = option("cache", "");
 
-/** A date as people read it: "November 1, 2026" (owner, Oct 19). */
+/** A date as people read it: "November 1, 2026". */
 const MONTHS = [
   "January",
   "February",

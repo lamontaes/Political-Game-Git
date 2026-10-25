@@ -22,18 +22,23 @@ const BANK = stagesJson as unknown as { parts: BankPart[] };
 /** The bank's version, for the renderer's stable pick. */
 export const SPEECH_STAGES_VERSION = "words-speech-stages-v1";
 
-/** The pieces that may word one stage role ("opener", "core:work", ...), as renderer variants. */
-export function speechStageVariants(role: string): Variant[] {
-  return BANK.parts
-    .filter(
-      (part) =>
-        part.shippable &&
-        !heldByGrades(part.key) &&
-        part.uses.some((use) => use.subject === "stage" && use.role === role),
-    )
-    .map((part) => ({
-      key: part.key,
-      // The bank writes a slot as {name}; the renderer reads {{name}}.
-      text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
-    }));
+/**
+ * The pieces that may word one stage role ("opener", "core:work", ...), as
+ * renderer variants. Play offers only shipped pieces. A grading page
+ * (`heldFirst`) offers the held ones wherever one fits, so the owner hears
+ * each in a real speech; a stage no held piece fits keeps its shipped pieces.
+ */
+export function speechStageVariants(role: string, heldFirst = false): Variant[] {
+  const fits = (part: BankPart) =>
+    !heldByGrades(part.key) &&
+    part.uses.some((use) => use.subject === "stage" && use.role === role);
+  const shipped = BANK.parts.filter((part) => part.shippable && fits(part));
+  const held = heldFirst
+    ? BANK.parts.filter((part) => !part.shippable && fits(part))
+    : [];
+  return (held.length ? held : shipped).map((part) => ({
+    key: part.key,
+    // The bank writes a slot as {name}; the renderer reads {{name}}.
+    text: part.text.replace(/\{(\w+)\}/g, "{{$1}}"),
+  }));
 }

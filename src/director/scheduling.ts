@@ -57,6 +57,12 @@ export interface SituationCause {
     }[];
     /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
     occasion?: string;
+    /**
+     * The cause's own record names the moment's person (a public comment's
+     * speakers): someone who only heard of it from a tie matches nothing, so
+     * a hearing is never staged around a speaker who did not speak.
+     */
+    causeNames?: "subject";
   };
   awaitingProducer?: string;
   causeEngine?: string;
@@ -75,10 +81,15 @@ export interface SituationType {
   awaiting?: readonly string[];
   /**
    * A scene that never stops the player's day: it waits its turn by the life's
-   * pace however strongly it was felt (an invitation to a cause meeting; owner,
-   * Oct 20: a well-known mayor was interrupted by 79 of them in a year).
+   * pace however strongly it was felt (an invitation to a cause meeting).
    */
   waits?: boolean;
+  /**
+   * A scene about one record's own decision (a member's vote on one bill):
+   * each cause stages its own, never taken into another sitting or held back
+   * by the repeat window.
+   */
+  eachCause?: boolean;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -119,6 +130,8 @@ export interface SceneBinding {
   opening?: string;
   reason?: string;
   openUntil: IsoDate;
+  /** Later moments of the same day this sitting took in, each with its cause record. */
+  joined?: { momentId: string; causeId: string }[];
 }
 
 export interface CoverageRow {
@@ -194,8 +207,7 @@ export function paceRank(
 /**
  * What a heard speech was given at: a campaign stop, a remark at a meeting, a
  * hearing, a party meeting, a press attack or a state address. A council
- * remark is not a campaign event (owner, Oct 20: scenes need the right
- * reason).
+ * remark is not a campaign event.
  */
 export function speechOccasion(
   core: Readonly<CoreState>,
@@ -230,6 +242,11 @@ export function causeMatches(
   if (
     match.occasion !== undefined &&
     speechOccasion(core, moment.causeId) !== match.occasion
+  )
+    return false;
+  if (
+    match.causeNames === "subject" &&
+    !core.durableLog.get(moment.causeId)?.personIds.includes(moment.personId)
   )
     return false;
   if (match.selfNamed && !moment.selfNamed) return false;
@@ -586,9 +603,37 @@ export function scheduleMoment(
       )
       .flatMap((entry) => entry.bindings.map(castOf)),
   );
-  const bindings = (
-    allowed ? staged.filter((row) => allowed.has(row.typeKey)) : staged
-  ).filter((row) => !sittingToday.has(castOf(row)));
+  const wanted = allowed
+    ? staged.filter((row) => allowed.has(row.typeKey))
+    : staged;
+  const eachCause = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
+  const bindings = wanted.filter(
+    (row) => eachCause(row) || !sittingToday.has(castOf(row)),
+  );
+  // The day's own sitting takes this cause in, so its scene cites both
+  // records. A sitting on an earlier day within the repeat window does not:
+  // that scene has been played.
+  const sittings = new Map(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date === moment.date &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) =>
+        entry.bindings.map((row) => [castOf(row), row] as const),
+      ),
+  );
+  for (const row of wanted) {
+    if (eachCause(row)) continue;
+    const sitting = sittings.get(castOf(row));
+    if (!sitting) continue;
+    sitting.joined ??= [];
+    if (!sitting.joined.some((entry) => entry.momentId === moment.id))
+      sitting.joined.push({ momentId: moment.id, causeId: moment.causeId });
+  }
   const filteredOut = staged.length > zero && !bindings.length;
   // News from the household's own records (a parent's lost job, a death, a
   // serious illness) is a family scene at home whatever its size (owner,

@@ -1106,6 +1106,12 @@ export interface CoreAPI {
     reasonKey: string,
     sourceId: string,
   ): CreditReceipt;
+  /** An employer's credit line pays what its cash could not of a counted wage flow due today. */
+  drawWageFlowCredit(
+    facilityId: string,
+    requestedMinor: number,
+    flowId: string,
+  ): CreditReceipt;
   reviewBusiness(organizationId: string): void;
   closeEmployer(
     organizationId: string,

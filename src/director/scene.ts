@@ -366,8 +366,12 @@ export function composeScene(
     ? [
         {
           text: sentences.map((line) => line.text).join(" "),
+          // A sitting that took in a later cause the same day cites it too.
           sourceRecordIds: [
-            ...new Set(sentences.flatMap((line) => line.sourceRecordIds)),
+            ...new Set([
+              ...sentences.flatMap((line) => line.sourceRecordIds),
+              ...(binding.joined ?? []).map((row) => row.causeId),
+            ]),
           ],
         },
       ]

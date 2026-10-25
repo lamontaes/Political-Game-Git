@@ -3,8 +3,7 @@ import { expect, it } from "vitest";
 import arcsJson from "./data/purpose-arcs.json" with { type: "json" };
 import rulesJson from "./data/scene-talk-rules.json" with { type: "json" };
 
-// Some scenes hand the player to a game screen when they end (owner, Oct 19:
-// "some scenes should lead to game screens", like the bill on the desk). An
+// Some scenes hand the player to a game screen when they end. An
 // ending names the screen by the key the game screen itself uses.
 it("every ending that opens a screen names one the game has", () => {
   const screens = rulesJson.screens as Record<string, string>;

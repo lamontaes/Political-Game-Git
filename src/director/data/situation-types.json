@@ -77,7 +77,7 @@
     },
     "trailingDays": 365,
     "repeatDays": 30,
-    "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running (owner review, Oct 20).",
+    "repeatDaysNote": "TUNABLE, spread 14 to 60: the same scene with the same people (an invitation to the same cause, the same reporter after the same kind of act) is staged once a month at most; checked by a played year where one neighbor shared one cause seven days running.",
     "openDays": {
       "at-cause": 7,
       "effective-date": 3,
@@ -1969,6 +1969,7 @@
     },
     {
       "key": "floor-vote",
+      "eachCause": true,
       "roles": [
         {
           "key": "chair",
@@ -2381,7 +2382,8 @@
       "causes": [
         {
           "match": {
-            "label": "cause:event:public-comment"
+            "label": "cause:event:public-comment",
+            "causeNames": "subject"
           },
           "causeEngine": "meetings",
           "causeRecord": "public-comment",
@@ -3546,7 +3548,7 @@
     },
     {
       "key": "new-baby",
-      "note": "A birth on record brings someone close to the new parent to the door (owner, Oct 16: the engine must build a conversation for having a baby).",
+      "note": "A birth on record brings someone close to the new parent to the door.",
       "roles": [
         {
           "key": "parent",

@@ -127,8 +127,7 @@ const VARIED: readonly SceneTalkStep[] = ["narrate", "open", "state", "close"];
 /**
  * A reply that draws on the player's own life (a fact named `asked_...`: out
  * of work, short on money, a partner, a blunt streak) is offered as one extra,
- * tagged option beside the usual replies, never in place of them (owner,
- * Oct 19: the Baldur's Gate 3 model of tagged options).
+ * tagged option beside the usual replies, never in place of them.
  */
 const taggedBy = (part: BankPart) =>
   part.uses

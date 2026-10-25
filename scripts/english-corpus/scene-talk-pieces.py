@@ -1,9 +1,10 @@
 # Authoring source for data/english/parts/scene-talk.json (development tooling).
-# Each L() row is a piece authored to the calibrated patterns (owner text rule, Oct 15),
+# Each L() row is a piece authored to the calibrated patterns,
 # scoped by purpose, step, move and the reply it answers; blocks are applied in order and
 # later DROP sets remove lines the owner cut. Run from the repo root: python3 scripts/english-corpus/scene-talk-pieces.py,
 # then: node --import tsx scripts/english-corpus/tag-moves.ts && npx prettier --write data/english/parts/scene-talk.json
-# Every piece is written held (shippable false) until the owner grades it (AGENTS.md, "No hand-written player text").
+# Every piece plays unless the owner's grades reject it:
+# a piece the grade ledger (data/english/part-grades.json, from apply-grades.ts) holds is written held (shippable false).
 import json,re,collections
 VOTE=['ask-vote','confirm-vote','section-bargain']
 FAVOR=['carry-bill','donor-ask','party-ask']
@@ -244,7 +245,7 @@ L('close','press',A,'desk-bill',[("Let me know when you've decided.","calm")],ou
 L('close','press',A,'staff-news',[("We need a plan by morning.","braced")],outcome='open')
 L('close','warn',A,'staff-news',[("This isn't going away on its own.","solemn")])
 
-# ================= BATCH 14 REVISIONS (owner's batch-13 review, Oct 15, night) =================
+# ================= BATCH 14 REVISIONS =================
 DROP={"Got a minute for {outlet}?","Who's your source?","Let's not get ahead of ourselves.","I'm a no, and I'll say why to anyone who asks.",
  "I'll be at the doors with you this weekend.","Find me more people for the doors.","That's all we need to hear.","You've got it. We'll double the list.",
  "I need a few days.","Give me until the vote.","Make it smaller, and you'll have my vote.","I'll vote yes if you help me with mine.",
@@ -315,7 +316,7 @@ L('follow','thank',A,'family-filing',[("Okay. Next time, tell me first.","hurt")
 L('reply','promise',Y,'family-absence',[("This weekend is ours. No calls.","tender")],after='press')
 L('reply','promise',Y,'family-absence',[("This weekend is ours. No calls.","tender")],after='plea')
 L('reply','thank',Y,'family-win',[("I couldn't have done it without you.","glad")])
-# ================= LIES (owner, Oct 15 night: "add lies in, different ways to test that") =================
+# ================= LIES =================
 # The player can lie in a reply. Whether the asker catches it is not a roll:
 # an asker holding the record that contradicts it (fact `knows-truth`, with
 # {source} naming where they learned it) calls it out; one who doesn't takes
@@ -429,7 +430,7 @@ L('follow','plea',A,'donor-ask',[("I've stood by you from the start.","tender"),
 L('follow','plea',A,'party-ask',[("The party stood behind you when you needed it.","tender"),("We don't have anyone else who can win it.","anxious")])
 L('follow','accept',A,'party-ask',[("Good. Don't take too long.","calm")],after='lie')
 L('follow','bargain',A,['ask-vote','confirm-vote'],[("I'll make sure your district comes first in the next budget.","calm")],after="What's in it for my district?")
-# ================= BATCH 15 REWRITE (owner's batch-14 review, Oct 16; docs/research/words-real-exchanges.md) =================
+# ================= BATCH 15 REWRITE =================
 DROP2={"I'm not going to talk about that.","Then put this in the story: I'm proud of my vote.","You're right. I shouldn't have said that.","All right. Here's the truth.",
  "Thank you for telling me straight.","Great rally.","They loved you up there.","What do you need from us this week?",
  "More people knocking on doors. Bring a friend next time.","Get me more volunteers for door knocking.","I'll go door knocking with you this weekend.",
@@ -933,7 +934,7 @@ L('follow','thank',A,F,[("That's all I'm asking.","glad")])
 L('follow','press',A,F,[("Somebody. Not you?","hopeful")],after='offer')
 L('follow','answer',A,F,[("He's been looking a long time. Nothing comes through.","calm")],after='ask')
 E[:]=[e for e in E if not (e['step']=='open' and e['move']=='call-to-order' and False)]
-# ================= FALLBACK BY SITUATION KEY (owner, Oct 16: every conversation, even unwritten ones) =================
+# ================= FALLBACK BY SITUATION KEY =================
 # Plain pieces any situation of a key can use when nobody has written its purpose yet. Authored purposes win.
 G=lambda k:'*:'+k
 k=G('loss')
@@ -1088,7 +1089,7 @@ L('follow','thank',A,G('news-received'),[("Tomorrow, then.","calm")],after='answ
 L('reply','thank',Y,G('news-received'),[("Thanks. Tell me when you know more.","calm")],after='answer')
 L('reply','answer',Y,'hearing-testify',[("How it was done. Ask us first, and I'll sit down.","calm")],after="Is your concern the bill, or how it was done?")
 L('reply','leave',Y,'neighbor-argument',[("Forget it. Enjoy your shopping.","guarded")],after='ask')
-# ================= BATCH 16 REVIEW (owner, Oct 16 afternoon): say what happened, mirror escalation, "Why?", endings land =================
+# ================= BATCH 16 REVIEW: say what happened, mirror escalation, "Why?", endings land =================
 DROP6={"I've lived on that street a long time, and you just made it worse.","Numbers. Come stand on my corner at five.","I'll come stand on your corner at five. Tomorrow.",
  "I still don't like it. But okay.","I'm just here for cereal.","Enjoy your cereal.","I've been to meetings.",
  "Is that the only reason on the petition?","You're telling people I did things I didn't do.","Have a good day.",
@@ -1382,7 +1383,7 @@ L('follow','accept',A,'victory-night',[("Door by door. Write that on your hand."
 L('close','accept',A,'victory-night',[("Go. They're waiting.","glad")],after='leave',outcome='open')
 L('follow','accept',A,'signing-ask',[("Moved up a year. I can live with that.","calm")],after="Then I'll want my district's line moved up a year.")
 L('follow','thank',A,'veto-call',[("Next year, then. Bring me a cheaper one.","calm")],after="Then it dies. I'll be back with it next year.")
-# ================= BATCH 18: the owner's batch-17 review (Oct 19) =================
+# ================= BATCH 18: the batch-17 review =================
 def DROPT(texts):
     E[:]=[e for e in E if e['text'] not in texts and e['after'] not in texts]
 def RELINK(text,after):
@@ -1646,7 +1647,7 @@ L('reply','leave',Y,'filing-clerk',[("Forget I asked.","calm")],after='refuse')
 L('close','accept',A,'filing-clerk',[("Already forgotten. The forms will be here.","calm")],after="Forget I asked.",outcome='open')
 DROPT({"I'll answer this at the next council meeting."})
 L('reply','leave',Y,'recall-confront',[("I'll answer this at my next town hall.","calm")])
-# ================= BATCH 19: every line new, lives on record (owner, Oct 19) =================
+# ================= BATCH 19: every line new, lives on record =================
 DROPT({"Write down your number. I'll call you this week.","Which part of it hit you? I ask because if it's landing wrong on your street, I want to know."})
 F='neighbor-argument'
 L(N,N,R,F,[("{name} stops you in the parking lot outside the hardware store, keys still in hand.","braced")])
@@ -2538,7 +2539,7 @@ REMOVE("More than it saves anybody. That's my whole point.","confront")
 REMOVE("Because I've watched my neighbors wait for it for years.","thank")
 G('hearing-testify','follow','warn',A,"More than it saves anybody. That's my whole point.",[("Thank you. Please keep to the time.","calm")])
 G('hearing-testify','follow','promise',A,"Because I've watched my neighbors wait for it for years.",[("Thank you. That's in the record.","calm")])
-# ================= BATCH 20: a president's and a mayor's year as lived (owner, Oct 19) =================
+# ================= BATCH 20: a president's and a mayor's year as lived =================
 # Every line rests on what the cause record says happened: a signing, a bill just introduced,
 # a re-election filing, the question a resident asked at a town hall.
 P='press-comment'
@@ -3194,6 +3195,66 @@ A_(P,"I'm not going line by line in a hallway.",[('press',"Then pick one line.")
 L('open','greet',A,'join-cause',[("Have you got a second for a neighbor?","calm"),("I won't keep you long.","calm"),("I've been trying to catch you for a week.","hopeful"),("Mind if I walk with you a bit?","calm"),("You probably don't remember me.","nervous"),("I hope this isn't a bad time.","nervous")])
 A_('constituent-help',"Watch the city's website. It'll be there the day it happens.",[('ask',"Which page? Nobody can find anything on that site.","curious")])
 L('open','greet',A,'join-cause',[("Thanks for stopping. I know you're busy.","calm"),("I've got something I think you'll want to hear.","hopeful"),("Do you have five minutes? Just five.","calm"),("I've been meaning to come by your office.","calm"),("Can I bend your ear for a second?","calm"),("Glad I caught you before you left.","calm"),("I'm with the group that's been calling you.","nervous"),("I'll be honest, I almost didn't come over.","nervous")])
+# Vote trades (legislature.ts adopt(), kind trade-amendment): the holdout's own section goes in, so these
+# need the fact section-added, and with it they outrank the lines about a section coming out.
+ADDED=['section-added']
+L('state','bargain',A,'section-bargain',[("Put my amendment in {bill}, and you have my vote.","braced",ADDED),("I'll vote yes on {bill} if my amendment goes in.","braced",ADDED),("I can get to yes on {bill}. I need my amendment in it.","braced",ADDED)])
+L('reply','agree',Y,'section-bargain',[("Fine. It goes in as section {section}.","calm",ADDED),("All right. Your amendment goes in.","calm",ADDED)])
+L('reply','refuse',Y,'section-bargain',[("Your amendment isn't going in.","braced",ADDED),("I can't put that in {bill}.","braced",ADDED)])
+L('reply','bargain',Y,'section-bargain',[("I'll take part of it. Not all of it.","guarded",ADDED),("What if we soften it first?","calm",ADDED)])
+L('reply','lie',Y,'section-bargain',[("I was going to put it in anyway.","guarded",ADDED)])
+L('follow','confront',A,'section-bargain',[("You spent an hour fighting it in committee.","braced",K+ADDED)],after='lie')
+L('reply','bargain',Y,'ask-vote',[("Put my amendment in {bill}, and you'll have my vote.","braced",ADDED)])
+L('follow','accept',A,'ask-vote',[("Then your amendment goes in. Deal.","calm",ADDED)],after='bargain')
+# Office hours (constituent-cases.ts problemOf): the resident's own problem from the case record, and the
+# referral the module really makes; each needs the case's fact, and with it they outrank the generic request.
+LW=['case-looking-for-work']; UW=['case-paid-under-minimum-wage']
+L('state','request',A,'constituent-help',[("I've been out of work for months, and my savings are almost gone.","anxious",LW),("I can't find work, and I'm running out of money.","anxious",LW),("My job pays less than the minimum wage, and nobody will do anything about it.","anxious",UW),("I'm paid under the minimum wage. I checked the law.","braced",UW)])
+L('reply','promise',Y,'constituent-help',[("I'll get you in with the workforce office this week.","calm",LW),("I'll send this to the labor standards office today.","calm",UW)])
+# A bill that lost a vote (legislature.ts recordFailure): the sponsor's aide brings the news. Each needs the
+# fact bill-lost, and the count lines where it lost too, so they outrank the lines about a news story.
+BL=['bill-lost']; FL=['bill-lost','lost-on-floor']; CM=['bill-lost','lost-in-committee']
+L(N,N,R,'staff-news',[("The vote on {bill} is over. {name} comes in and closes the door.","solemn",BL)])
+L('state','deliver-news',A,'staff-news',[("We lost {bill} on the floor, {tally}.","solemn",FL),("{bill} went down on the floor. It was {tally}.","solemn",FL),("The committee voted down {bill}, {tally}.","solemn",CM),("{bill} didn't make it out of committee. It was {tally}.","solemn",CM)])
+L('reply','ask',Y,'staff-news',[("Who voted against it?","braced",BL)])
+L('follow','answer',A,'staff-news',[("I have the roll call. I'll go through it with you.","solemn",BL)],after='Who voted against it?')
+L('follow','answer',A,'staff-news',[("It lost {tally}. That's where we are.","solemn",BL)],after='How bad is it?')
+L('reply','blame',Y,'staff-news',[("We counted those votes. What happened?","braced",BL),("We should have had this one.","braced",BL)])
+L('follow','disagree',A,'staff-news',[("It's not on you. The votes weren't there.","solemn",BL)],after='blame')
+L('follow','comfort',A,'staff-news',[("You did everything you could on this one.","calm",BL)])
+L('follow','promise',A,'staff-news',[("I'll find out what it would take to bring it back.","braced",BL)])
+L('follow','offer',A,'staff-news',[("We can bring it back next session.","calm",BL),("We rework it and bring it back.","calm",BL)])
+L('reply','refuse',Y,'staff-news',[("No. Let it go for now.","guarded",BL)])
+L('close','press',A,'staff-news',[("Let's sit down tomorrow and count for next time.","braced",BL)])
+# A committee trade coming due on the floor (legislature.ts recordPromises): the member promised their vote.
+# Each needs the fact your-promise, and with it they outrank the lines that don't fit a vote already traded.
+PR=['your-promise']
+L('state','ask',A,'confirm-vote',[("Your amendment is in {bill}. Are you still with me?","calm",PR),("I put your amendment in {bill}. I'm counting on your vote today.","calm",PR)])
+L('reply','bargain',Y,'confirm-vote',[("Keep my section in, and you have my vote.","guarded",PR)])
+L('follow','accept',A,'confirm-vote',[("It stays in. You have my word.","calm",PR)],after="Keep my section in, and you have my vote.")
+L('reply','deflect',Y,'confirm-vote',[("You'll see when the roll is called.","guarded",PR)],after='press')
+L('follow','press',A,'confirm-vote',[("We made a deal in committee. I need to know it holds.","braced",PR)])
+# A race's debate (meetings.ts holdDebate): another candidate comes over after it. Each needs the fact debate,
+# and with it they outrank the lines about a rally crowd.
+DB=['debate']
+L(N,N,R,'rally-opponent',[("The debate is over, and the candidates are leaving the stage. {name} stops you on the way out.","braced",DB),("The cameras are off. {name} walks over before you reach the door.","braced",DB)])
+L('open','greet',A,'rally-opponent',[("Good debate.","guarded",DB),("That went well for you, didn't it?","braced",DB)])
+L('state','confront',A,'rally-opponent',[("Nice answers up there. Too bad none of them were true.","braced",DB),("People heard you tonight. They won't forget it.","braced",DB)])
+L('reply','deflect',Y,'rally-opponent',[("I said what I came to say tonight.","guarded",DB)])
+L('reply','confront',Y,'rally-opponent',[("You could have said that on stage.","braced",DB)])
+L('reply','boast',Y,'rally-opponent',[("People heard me tonight. That's enough for me.","braced",DB)])
+# An executive's ask to carry their bill (legislature.ts askToCarry): the executive can't introduce it. Each
+# needs the fact carry-ask, and with it they outrank the lines that don't fit an executive's ask.
+CA=['carry-ask']
+L(N,N,R,'carry-bill',[("{name} can't introduce {bill} without a member to sponsor it, and {name} wants that member to be you.","curious",CA)])
+L('state','request',A,'carry-bill',[("I can't introduce {bill} myself. I need you to carry it.","hopeful",CA),("{bill} needs a member to sponsor it, and you're the one I want.","hopeful",CA)])
+L('follow','plea',A,'carry-bill',[("I can't file it myself. You're the one I'd trust with it.","hopeful",CA)])
+# A donor's gift to the campaign (campaigns.ts recordGift): the donor wants something back. Each needs the
+# fact gift; the two that name the bill the donor holds the strongest view on need donor-bill too, and outrank
+# the rest exactly when there is one.
+GF=['gift']; GB=['gift','donor-bill']
+L('state','request',A,'donor-ask',[("I was glad to help your campaign. I'll want your ear when it counts.","calm",GF),("That check wasn't charity. When I call, I need you to pick up.","braced",GF),("I backed you early. I'd like to know I can count on you later.","calm",GF),("I gave because I think you'll listen. Keep listening.","calm",GF),("I put my money behind you. Now I need to know where you stand on what I care about.","braced",GF)])
+L('state','request',A,'donor-ask',[("I gave to your campaign because of {bill}. I need you with me on it.","calm",GB),("That check was about {bill}. Don't forget it.","braced",GB)])
 # ---------------- build ----------------
 def slug(t): return re.sub(r'-+','-',re.sub(r'[^a-z0-9]+','-',t.lower())).strip('-')[:70]
 parts={}; textkey={}
@@ -3212,6 +3273,16 @@ for e in E:
             continue
         bm=f"{e['step']}-{e['move']}"
         parts[t]={"key":textkey[t],"move":bm,"kind":"spoken","text":t,"uses":[use],"bearing":e['bearing'],"shippable":False,"origin":"authored","author":"Words session","date":"2026-10-15"}
+# Held only on the owner's own rejection: heldByGrades in src/english/english-grades.ts, the rule the bank test enforces.
+ledger=json.load(open('data/english/part-grades.json'))['parts']
+def held(counts):
+    if not counts: return False
+    if counts.get('good',0)>0 or counts.get('sharedGood',0)>0: return False
+    if counts.get('bad',0)+counts.get('fix',0)>0: return True
+    if counts.get('sharedBad',0)+counts.get('sharedFix',0)>=2: return True
+    axes=list((counts.get('axes') or {}).values())
+    return bool(axes) and all(a.get('good',0)==0 and a.get('bad',0)+a.get('fix',0)>0 for a in axes)
+for part in parts.values(): part['shippable']=not held(ledger.get(part['key']))
 p='data/english/parts/scene-talk.json'; bank=json.load(open(p))
 bank['parts']=list(parts.values())
 bank['description']=bank['description'].replace("a generic piece names no purpose, and a piece that only fits one purpose or situation key names it.","each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`.")
@@ -3225,6 +3296,7 @@ bank['slots'].update({
  "source":"Who told the speaker, by relation or name, from the news-received record.",
  "votes":"How many votes are counted for the bill, from the whip count.",
  "needed":"How many votes the bill needs to pass, from the chamber's rules.",
+ "tally":"A vote's count, against to for, from the legislature's record of the bill that lost.",
  "candidate":"Present when the person in the scene filed for office, from the filing record.",
  "cause":"A cause someone shared, by name, from the views engine's cause-shared record.",
  "kid":"The household's new child, by name, from the household record.",

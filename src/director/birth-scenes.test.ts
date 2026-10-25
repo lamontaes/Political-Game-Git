@@ -10,9 +10,8 @@ import { RENEWAL_MODULE_ID } from "../core2/modules/renewal";
 import { coreAPI } from "../core2/state";
 import { composeScene } from "./scene";
 
-// A birth in the household is a scene for each parent (owner, Oct 15: scenes
-// fire from recorded causes): someone close comes by to see the baby and asks
-// how the parent is actually doing (owner, Oct 19, batch 17). The cause is the birth record the
+// A birth in the household is a scene for each parent: someone close comes by to see the baby and asks
+// how the parent is actually doing. The cause is the birth record the
 // renewal engine wrote, and that record names the plan the couple made, so the
 // scene can answer why the child came. Places are drawn in turn until a year
 // of one has a birth to a couple the director watches.
@@ -70,22 +69,19 @@ it(`a birth is a new-baby visit for each parent, citing the birth and the plan b
       // birth, citing the birth record; the child is the counterpart, so it names the child.
       const scene = composeScene(core, director, personId, entry)!;
       const text = scene.narration.map((line) => line.text).join(" ");
-      // (The sentence about the new baby was hand-written and is held until
-      // graded; pool item words-birth-scene-lead. Until the
-      // engine writes it, the scene is the engine's own sentences.)
       expect(scene.typeKey, where).toBe("new-baby");
-      expect(text.trim().length, `${where}: ${text}`).toBeGreaterThan(0);
+      expect(text, `${where}: ${text}`).toMatch(
+        /new baby|has been born|was born/,
+      );
       expect(text, where).not.toMatch(/\{\{|\}\}|undefined/);
-      // The scene stands on the birth moment, whose cause is the birth record,
-      // and its narration cites records (the sentence that named the birth was
-      // hand-written and is held).
+      // The scene stands on the birth moment, whose cause is the birth record.
       expect(scene.momentId, where).toBe(entry.momentId);
       expect(moment.causeId, where).toBe(birth?.id);
       expect(scene.presentIds, where).toContain(personId);
       expect(
-        scene.narration.flatMap((line) => line.sourceRecordIds).length,
+        scene.narration.flatMap((line) => line.sourceRecordIds),
         where,
-      ).toBeGreaterThan(0);
+      ).toContain(moment.causeId);
       console.log(`${where}: ${text}`);
       return;
     }

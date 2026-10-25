@@ -10,6 +10,7 @@ import { createDirector } from "./ledger";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
 import type { Fact } from "../english/bank-line";
 import situationFile from "./data/situation-types.json" with { type: "json" };
+import { heldByGrades } from "../english/english-grades";
 
 // Scenes with a purpose (owner, Oct 15, evening): a setup, a person with a
 // purpose, stakes, and an exchange that plays to resolved or refused, worded
@@ -88,8 +89,8 @@ const facts: Record<string, Fact> = {
   employer: fact("the hardware store"),
   when: fact("this morning"),
 };
-// The bank's parts are authored and held until the owner grades them; the
-// engine is tested the way the review page composes, with held parts in.
+// The engine is tested the way the grading page composes, with every part in,
+// even the ones the owner rejected; "plays every purpose in play" checks play.
 const HELD = { includeHeld: true } as const;
 const types = (
   situationFile as unknown as { types: PurposeType[] }
@@ -125,15 +126,23 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         expect(line.parts[0]).toMatch(/^scene-talk\./);
         expect(line.slotRecordIds.length).toBeGreaterThan(0);
       }
-      // The page gate (scene-page.ts) reports an end that leaves a question
-      // hanging. The engine never ends on the asker's own question: where the
-      // bank holds no close for that ending, the asker does not ask it.
+      // The close is never the next line after a question: the asker's last
+      // question was answered by a reply first, and the close follows an answer.
+      // It ends on the asker's answer or a close, never on a question left hanging.
+      // Where the bank holds no close for that ending, the asker does not ask
+      // a question nothing can close: the scene ends on the answer before
+      // it, and the page lists the missing close. A closing beat (the
+      // narrator) may follow the close; nobody's last line is a question.
       const final = talk.lines.at(-1)!;
+      const spoken = talk.lines.filter((l) => l.role !== "narrator").at(-1)!;
       const where = `${type.key}: ${JSON.stringify(talk.lines.slice(-3).map((l) => [l.role, l.move, l.text]))}`;
-      expect(
-        final.role === "asker" && /\?$/.test(final.text.trim()),
-        where,
-      ).toBe(false);
+      expect(/\?$/.test(final.text.trim()), where).toBe(false);
+      expect(/\?$/.test(spoken.text.trim()), where).toBe(false);
+      if (spoken.role !== "asker")
+        expect(
+          talk.gaps.some((row) => row.includes("question left unasked")),
+          where,
+        ).toBe(true);
     }
   });
 
@@ -187,7 +196,9 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     );
     expect(result.kind).toBe("skipped");
   });
-  it("keeps a scene out of play while its words are held until graded", () => {
+  it("plays every purpose in play, and never says a line the owner rejected", () => {
+    // Every piece of dialogue is in the game; the grades take out the lines
+    // the owner rejects.
     for (const type of types) {
       const result = composeSceneTalk(
         core,
@@ -196,7 +207,11 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
         type,
         facts,
       );
-      expect(result.kind, type.key).toBe("skipped");
+      expect(result.kind, type.key).toBe("composed");
+      if (result.kind !== "composed") continue;
+      for (const line of result.talk.lines)
+        for (const part of line.parts)
+          expect(heldByGrades(part), `${type.key}: ${part}`).toBe(false);
     }
   });
   it("composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes", () => {
@@ -222,7 +237,7 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       expect(talk.nodes).toBeLessThanOrEqual(
         RULES_BOUND.tree.maxNodes.value + 10,
       );
-      expect(talk.depth).toBeGreaterThanOrEqual(1);
+      expect(talk.depth).toBeGreaterThanOrEqual(2);
       const numbers: number[] = [];
       let lies = 0;
       const walk = (node: typeof talk.tree) => {

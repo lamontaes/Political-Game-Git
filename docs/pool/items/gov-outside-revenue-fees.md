@@ -5,10 +5,10 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
+status: blocked
 claimed-by:
-pr:
-blocked-on:
+pr: #5926
+blocked-on: gov-service-charges-by-use
 source: added with npm run pool -- add
 claimed-at:
 ---
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`). Claim released Oct 23: branch idle since Oct 16.
 
 Oct 20: gov-outside-revenue-fees-wiring is done, so the item no longer waits on it.
+
+Sent back 2026-10-24 UTC from PR #5926 (branch claude/outside-revenue-fees): council fee-change acceptance explicitly unmet and aggregate budget twelfths do not prove per-use payer chain; fee-family permit closure follow-up needs named tracking or valid bounded scope; finish on that branch, merge main into it first.
