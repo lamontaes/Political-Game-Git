@@ -558,6 +558,26 @@ const amount = (value, unit) => {
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
+/**
+ * Who sets a level's rate: the level and the government its seats name
+ * ("State · Texas"). A stand-in row from another series (a state's average
+ * local sales tax where the town records none) says what it is instead.
+ */
+const lawLevelLabel = (law, level) =>
+  [
+    controls.levels?.[level.level] ?? words(level.level),
+    level.row.series !== law.series
+      ? `${words(level.row.series)}${level.row.estimate ? ` · ${words("estimate")}` : ""}`
+      : level.government,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+/** A law's later phase as a level row, with the government its level names. */
+const pendingLevel = (law, row) => ({
+  level: row.level,
+  row,
+  government: law.levels.find((l) => l.level === row.level)?.government,
+});
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -960,7 +980,7 @@ function replies(choices, onPick) {
   return choices.map((choice) => {
     const b = el("button", {
       type: "button",
-      className: `reply${choice.lie ? " lying" : ""}`,
+      className: `reply${choice.lie ? " lying" : ""}${choice.held ? " held" : ""}`,
       // Filing is a control of its own, never worded like acknowledging a refusal.
       textContent:
         choice.control === "file"
@@ -1452,9 +1472,22 @@ async function campaignRows() {
 }
 
 // ---- A big moment, staged when it stops the clock ----
+// The grading view (/play?held=1): a scene may say lines still held until the
+// owner grades them, each marked, with the record that fired it.
+const HELD_VIEW =
+  new URLSearchParams(window.location.search).get("held") === "1";
+/** Why a scene is happening: its cause record and the facts it may say, by record. */
+function whyRows(why) {
+  return [
+    `${why.cause.kind} · ${why.cause.date} · ${why.cause.id}`,
+    ...why.facts.map(
+      (row) => `${row.key}: ${row.text} (${row.recordIds.join(", ")})`,
+    ),
+  ].map((text) => el("li", { className: "why", textContent: text }));
+}
 async function showStory(momentId) {
   const story = await api(
-    `/api/story?momentId=${encodeURIComponent(momentId)}`,
+    `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
   );
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
@@ -1464,17 +1497,63 @@ async function showStory(momentId) {
   $("talk-name").textContent = "";
   $("talk-lines").replaceChildren(
     ...story.narration.map((line) =>
-      el("li", { className: "speech narration", textContent: line.text }),
+      el("li", {
+        className: `speech narration${line.held ? " held" : ""}`,
+        textContent: line.text,
+      }),
     ),
+    ...(HELD_VIEW && story.talk ? whyRows(story.talk.why) : []),
   );
+  // A scene with a purpose is its own exchange; any other opens a talk.
+  const withId = story.talk?.askerId ?? story.talkToId;
   $("talk-choices").replaceChildren(
-    ...(story.talkToId
-      ? replies([{ text: `Talk · ${story.names[story.talkToId] ?? ""}` }], () =>
-          talkTo(story.talkToId, momentId),
+    ...(withId
+      ? replies([{ text: `Talk · ${story.names[withId] ?? ""}` }], () =>
+          story.talk ? playExchange(story) : talkTo(withId, momentId),
         )
       : []),
   );
   setScales({ available: false });
+}
+/** A scene with a purpose, tapped through: each reply leads to its own branch, to the close. */
+function playExchange(story) {
+  const { talk } = story;
+  setWho(talk.askerId, story.names[talk.askerId]);
+  const said = [...talk.opening];
+  const lineOf = (line) =>
+    el("li", {
+      className: `${line.role === "asked" ? "said" : "speech"}${line.held ? " held" : ""}`,
+      textContent: line.text,
+    });
+  // The path is the index of each reply chosen, from the first.
+  const play = (node, path) => {
+    said.push(...node.lines, ...(node.end?.close ? [node.end.close] : []));
+    $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+    $("talk-choices").replaceChildren(
+      ...replies(
+        node.replies.map((reply, index) => ({
+          text: reply.line.text,
+          held: reply.line.held,
+          reply,
+          index,
+        })),
+        ({ reply, index }) => {
+          const chosen = [...path, index];
+          // The reply is the player's: the game keeps it (purpose-scene.ts
+          // replyInScene).
+          api(
+            `/api/story/reply?momentId=${encodeURIComponent(story.momentId)}&path=${chosen.join(".")}${HELD_VIEW ? "&held=1" : ""}`,
+            "POST",
+          );
+          said.push(reply.line);
+          if (reply.next) play(reply.next, chosen);
+          else $("talk-lines").replaceChildren(...said.slice(-4).map(lineOf));
+          if (!reply.next) $("talk-choices").replaceChildren();
+        },
+      ),
+    );
+  };
+  play(talk.tree, []);
 }
 function storyStop(value) {
   return value?.kind === "stop"
@@ -3073,13 +3152,10 @@ const sheets = {
           ),
           ...(e.region
             ? [
+                // The region's rate under the area it covers, beside the nation's.
                 row(
-                  `Region · ${e.region.month ?? ""}`,
-                  Object.entries(e.region)
-                    .filter(([, v]) => typeof v === "number")
-                    .slice(0, 4)
-                    .map(([k, v]) => `${k} ${Number(v).toFixed(1)}`)
-                    .join(" · "),
+                  `${(e.region.name ?? "").replace(/^./, (c) => c.toUpperCase())} · ${e.region.month ?? ""}`,
+                  `Unemployment ${pct(e.region.unemploymentPct)}`,
                 ),
               ]
             : []),
@@ -3347,12 +3423,12 @@ const sheets = {
               .filter((level) => level.row)
               .map((level) =>
                 el("div", {
-                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                  textContent: `${lawLevelLabel(law, level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
                 }),
               ),
             ...law.pending.map((row) =>
               el("div", {
-                textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+                textContent: `${lawLevelLabel(law, pendingLevel(law, row))} · ${row.effectiveDate} → ${amount(row.value, row.unit)}`,
               }),
             ),
           ),
@@ -3877,14 +3953,14 @@ const sheets = {
               for (const level of law.levels.filter((l) => l.row))
                 detail.append(
                   row(
-                    controls.levels?.[level.level] ?? words(level.level),
+                    lawLevelLabel(law, level),
                     `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
                   ),
                 );
               for (const pending of law.pending)
                 detail.append(
                   row(
-                    pending.effectiveDate,
+                    `${lawLevelLabel(law, pendingLevel(law, pending))} · ${pending.effectiveDate}`,
                     amount(pending.value, pending.unit),
                   ),
                 );
@@ -4331,19 +4407,17 @@ async function listTowns() {
   );
   if (ask !== townAsk) return;
   const count = new Intl.NumberFormat("en-US");
+  const words = controls.creator ?? {};
   $("cr-towns").replaceChildren(
     ...towns.map((t) => {
+      const size = `${t.estimated ? `${words.about} ` : ""}${count.format(t.population)} ${words.people}`;
       const b = el(
         "button",
         { type: "button", className: "item" },
         el("b", { textContent: t.name }),
-        ...(t.population
-          ? [
-              el("small", {
-                textContent: `${count.format(t.population)} people`,
-              }),
-            ]
-          : []),
+        el("small", {
+          textContent: t.county ? `${t.county}, ${size}` : size,
+        }),
       );
       b.addEventListener("click", () => {
         setup.town = t;

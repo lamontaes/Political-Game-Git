@@ -4,7 +4,13 @@ import type { EntityId } from "./kernel/brands";
 import contentJson from "./data/civic-inputs.json" with { type: "json" };
 import { groupedJsonTable } from "./reference/lazy-data";
 import { stopgap } from "./stopgaps";
-import type { CoreInput, JobInput, PublicOrganization, Source } from "./types";
+import type {
+  CoreInput,
+  CoreState,
+  JobInput,
+  PublicOrganization,
+  Source,
+} from "./types";
 
 interface DirectoryRow {
   name: string;
@@ -73,6 +79,51 @@ export const DEFAULT_CIVIC_INPUTS_DATA: CivicInputsData = {
     facts: stringFacts(row.facts),
   })),
 };
+
+/** The staff rule that puts a job on an office of this kind, if any. */
+function staffRuleFor(
+  data: CivicInputsData,
+  kind: string,
+  job: Pick<JobInput, "occupationClassification" | "title">,
+): CivicInputsData["staffRules"][number] | undefined {
+  return data.staffRules.find(
+    (row) =>
+      row.targetKinds.includes(kind) &&
+      (!row.occupations.length ||
+        (job.occupationClassification !== undefined &&
+          row.occupations.includes(job.occupationClassification))) &&
+      (!row.titles.length || row.titles.includes(job.title)),
+  );
+}
+
+/**
+ * An employer's public office after a hire or a job's end: its staff are the
+ * employer's current jobs a staff rule names for the office's kind, so filing
+ * and a resident's callback find who holds the job today. An office not built
+ * from its employer's records (a directory listing) keeps its own list.
+ */
+export function refreshOfficeStaff(
+  core: CoreState,
+  organizationId: string,
+): void {
+  const office = core.publicOrganizations.get(organizationId);
+  if (office?.facts?.organizationId !== organizationId) return;
+  const staff: NonNullable<PublicOrganization["staff"]>[number][] = [];
+  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ??
+    []) {
+    const job = core.jobs.get(jobId);
+    if (!job || job.endsAt !== undefined || !core.people.has(job.personId))
+      continue;
+    if (!staffRuleFor(DEFAULT_CIVIC_INPUTS_DATA, office.kind, job)) continue;
+    staff.push({
+      personId: job.personId,
+      jobId: job.id,
+      title: job.title,
+      source: job.source,
+    });
+  }
+  core.publicOrganizations.set(organizationId, { ...office, staff });
+}
 
 // Read on first use, only for the states a world asks about.
 const DIRECTORY = groupedJsonTable(
@@ -199,17 +250,12 @@ export function enrichCivicInputs(
       );
       continue;
     }
+    // The staff are the office's jobs now; the jobs engine keeps the list
+    // as people are hired and leave (refreshOfficeStaff).
     const staff: NonNullable<PublicOrganization["staff"]>[number][] = [];
     const staffSources = new Set<string>();
     for (const job of jobsByOrganization.get(organization.id) ?? []) {
-      const rule = data.staffRules.find(
-        (row) =>
-          row.targetKinds.includes(definition.kind) &&
-          (!row.occupations.length ||
-            (job.occupationClassification !== undefined &&
-              row.occupations.includes(job.occupationClassification))) &&
-          (!row.titles.length || row.titles.includes(job.title)),
-      );
+      const rule = staffRuleFor(data, definition.kind, job);
       if (!rule) continue;
       if (!peopleById.has(job.personId)) {
         gaps.add(
