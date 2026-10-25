@@ -10,8 +10,8 @@ import {
   openConversation,
   say,
   type Conversation,
-} from "../conversation";
-import { createDirector } from "../ledger";
+} from "../../director/conversation";
+import { createDirector } from "../../director/ledger";
 import { CONVERSATION_BANK, MINED_CONVERSATION } from "./conversation-bank";
 
 /**
