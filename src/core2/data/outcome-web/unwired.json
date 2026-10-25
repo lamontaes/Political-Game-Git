@@ -368,12 +368,6 @@
       "stopgapId": "SG-WEB-voting-newspaper-closure"
     },
     {
-      "link": "exposed-corruption-to-reelection",
-      "outcome": "election.incumbent-reelection",
-      "reason": "engine doesn't read the factor: an engine records election.incumbent-reelection, but nothing multiplies its rates by the link's effect; nothing in the core records its cause, gov.corruption-exposed",
-      "stopgapId": "SG-WEB-voting-corruption-reelection"
-    },
-    {
       "link": "press-attacks-to-media-trust",
       "outcome": "press.media-trust",
       "reason": "no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it",
@@ -396,12 +390,6 @@
       "outcome": "disaster.damage",
       "reason": "no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it",
       "stopgapId": "SG-WEB-unread-disaster-damage"
-    },
-    {
-      "link": "economy-to-approval",
-      "outcome": "approval.incumbent",
-      "reason": "no measure: the web does not keep approval.incumbent and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-voting-relief-approval"
     },
     {
       "link": "medicaid-expansion-to-medical-debt",
