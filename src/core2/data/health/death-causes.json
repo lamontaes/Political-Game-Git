@@ -1,6 +1,6 @@
 {
   "about": "Deaths by cause and age band, the shares a death is assigned from. Each cause's share of all deaths in its age band is deaths over all deaths in the band; the shares are linear between band midpoints so no age is a cliff, and the rest is 'other'. A band the source does not report has zero deaths.",
-  "refreshNote": "The outcome web's factor on a cause multiplies that cause's share (see src/core2/death-cause.ts).",
+  "refreshNote": "The outcome web's factor on a cause multiplies that cause's share (see src/core2/death-cause.ts). A cause reads each web outcome it lists under `reads`, at the ages given (all ages where `ages` is null), and the factors multiply.",
   "allDeaths": {
     "source": {
       "tag": "SOURCED",
@@ -68,8 +68,12 @@
   "causes": [
     {
       "id": "drug-overdose",
-      "measure": "health.overdose-deaths",
-      "webAges": null,
+      "reads": [
+        {
+          "measure": "health.overdose-deaths",
+          "ages": null
+        }
+      ],
       "method": "deaths",
       "source": {
         "tag": "SOURCED",
@@ -116,11 +120,20 @@
     },
     {
       "id": "firearm-homicide",
-      "measure": "health.youth-firearm-deaths",
-      "webAges": {
-        "min": 1,
-        "max": 20
-      },
+      "reads": [
+        {
+          "measure": "health.youth-firearm-deaths",
+          "ages": {
+            "min": 1,
+            "max": 20
+          }
+        },
+        {
+          "measure": "crime.firearm-homicide",
+          "ages": null,
+          "note": "stand-your-ground-to-homicide and concealed-carry-permit-to-firearm-homicide (data/research/outcome-web/links.json): both studies measure statewide firearm-homicide rates for the whole population and give no moderator by age, so the factor lands at every age, on the cause's share of the deaths there."
+        }
+      ],
       "method": "deaths",
       "scaleToTotal": 17927,
       "source": {
@@ -159,11 +172,15 @@
     },
     {
       "id": "firearm-suicide",
-      "measure": "health.youth-firearm-suicide",
-      "webAges": {
-        "min": 10,
-        "max": 20
-      },
+      "reads": [
+        {
+          "measure": "health.youth-firearm-suicide",
+          "ages": {
+            "min": 10,
+            "max": 20
+          }
+        }
+      ],
       "method": "deaths",
       "scaleToTotal": 27300,
       "source": {
@@ -202,8 +219,12 @@
     },
     {
       "id": "motor-vehicle",
-      "measure": "traffic.fatality-rate",
-      "webAges": null,
+      "reads": [
+        {
+          "measure": "traffic.fatality-rate",
+          "ages": null
+        }
+      ],
       "method": "rate",
       "source": {
         "tag": "SOURCED",

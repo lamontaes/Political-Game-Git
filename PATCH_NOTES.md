@@ -296,6 +296,108 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.26.0
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Gun laws change how many people die of firearm homicide, and violent crime
+  no longer feeds on itself** When a state adopts stand-your-ground or requires
+  a permit to carry a concealed gun, the town's firearm homicides follow. The
+  people you meet and the wider population both die of firearm homicide more or
+  less often, at every age, as the research on those laws finds, and the cause
+  recorded for each death follows. A town's robberies and assaults no longer
+  climb month after month on their own. They used to be scaled by an index made
+  of themselves, so any rise counted twice and grew without end; burglary and
+  vandalism still rise with the town's violent crime.
+
+## PRE-ALPHA 0.25.0
+
+_Released October 25, 2026._
+
+### Added
+
+- **Your family reacts when you file for office, and when the votes are
+  counted** The day you file to run for office, someone at home is waiting for
+  you: a partner who asks "So you're really doing this?", a parent who wants to
+  know why you didn't tell them. You answer from a set of replies, and each one
+  takes the talk somewhere different. The night your race is counted, your
+  household meets you with the win or the loss. These scenes come from the
+  filing and the count themselves, so they happen to anyone who runs. What you
+  say is kept: the time you spend talking it through counts toward how close you
+  are.
+
+### Improved
+
+- **Jobless neighbors apply for work by how long their savings last** People
+  without work now press harder to apply when their household's money is running
+  out and take their time when it will last, so job seekers in a town no longer
+  all act alike.
+
+### Fixed
+
+- **The federal share of Medicaid reaches the people it covers** Where Medicaid
+  expansion is law, the federal government's share of each covered adult's care
+  is now paid every month alongside the state's. The federal treasury borrows
+  for the program payments falling due in the month, not only for its budget
+  lines, so it no longer runs dry before they come due.
+
+### Changed
+
+- **New standing people, and the creator dresses you in them** Everyone you meet
+  is now drawn from a new set of standing figures, in everyday clothes, work
+  clothes or a blazer depending on who they are and where. The old figures, some
+  caught mid-gesture with their arms out, are gone. The character creator now
+  offers the same figures the game draws, chosen by build and clothes, and the
+  look you pick is the one you wear in every room.
+
+- **Big towns open at their real Census size.** A town of more than 10,000
+  people now opens at its real Census size: the people you meet are drawn from a
+  10,000-person sample, and every count in town (jobs, homes, voters, money) is
+  scaled to the real population. A game year in the largest towns takes about as
+  long as before: measured on one machine, Washington, D.C. about 17 percent
+  less and New York about 11 percent more, and the two-minute year for the
+  largest town is still open.
+
+## PRE-ALPHA 0.24.3
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Schooling now affects the pay you are hired at** Adults with more schooling
+  are now hired at somewhat higher pay than adults with less for the same job,
+  and a job offer shows the pay that person would actually get. A teenager who
+  finishes high school is hired at a diploma's pay, and one who does not is paid
+  as a worker without one, so a town that raises its graduation rate sees it in
+  its households' pay.
+
+## PRE-ALPHA 0.24.2
+
+_Released October 25, 2026._
+
+### Improved
+
+- **Every family weighs private school the same way** In the town's yearly
+  private-school enrollment, families you have not met are now ranked with the
+  ones you have, by what they hold per child. The best-off enroll until the
+  town's private share is reached, and their tuition goes to the school.
+
+- **Estimated travel to an abortion provider follows where people live** When
+  someone in town has an unplanned pregnancy, the distance to the nearest
+  abortion provider now comes from where they live, before and after a
+  restriction there, for all 56 places. The trip's cost, which their household
+  pays, and whether they carry or end the pregnancy both follow from that
+  distance.
+
+- **Some pregnancies in town are unplanned, and each woman decides from her own
+  life and the law where she lives** People in town now sometimes have an
+  unplanned pregnancy. Whether she carries it or ends it comes from her own
+  health, money, household and views and from the law in force where she lives;
+  when she ends it, her household pays the trip, and a carried one becomes a
+  birth in the family.
+
 ## PRE-ALPHA 0.24.1
 
 _Released October 25, 2026._

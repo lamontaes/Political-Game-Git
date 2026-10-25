@@ -1,6 +1,48 @@
 {
   "entries": [
     {
+      "version": "0.26.0",
+      "releasedOn": "2026-10-25",
+      "revision": "cd27a2a370cf83fea4e78be031500d7dc549323d",
+      "changeIds": ["tests-county-governed-openings", "web-reach-crime-justice"]
+    },
+    {
+      "version": "0.25.0",
+      "releasedOn": "2026-10-25",
+      "revision": "2553b99fbfe3ff9ba03f5e982fe58b75ce03d414",
+      "changeIds": [
+        "art-people-whole-out-of-play",
+        "core-census-uncap-opening",
+        "drives-counted-job-loss-unanswered",
+        "tests-closure-counted-seeker-witness-gone",
+        "words-scenes-fire-in-play",
+        "world-apply-and-buy-reasons-vary",
+        "world-federal-treasury-too-small-for-medicaid-match"
+      ]
+    },
+    {
+      "version": "0.24.3",
+      "releasedOn": "2026-10-25",
+      "revision": "122c3217c5847ab4138dc26a8cc2d2b1eb49a83b",
+      "changeIds": [
+        "director-new-adult-skip-finding",
+        "merger0-return-notes-2026-10-25",
+        "tests-counted-births-weight-red",
+        "world-schooling-to-pay"
+      ]
+    },
+    {
+      "version": "0.24.2",
+      "releasedOn": "2026-10-25",
+      "revision": "06a713f25d3cd76ecf9ec343e355eea0da770eff",
+      "changeIds": [
+        "core-private-tuition-counted",
+        "people-abortion-provider-distance",
+        "people-unplanned-pregnancy-decision",
+        "traits-decisions-never-run"
+      ]
+    },
+    {
       "version": "0.24.1",
       "releasedOn": "2026-10-25",
       "revision": "db1f761fbeb793ba3aca425405471f8e547862ff",
