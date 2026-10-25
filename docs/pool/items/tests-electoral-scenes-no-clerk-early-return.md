@@ -5,11 +5,12 @@ area: director
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/electoral-scenes-redraw
+pr: #6094
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T19:09:05.594Z
 ---
 
 **What.** On clean main, src/director/electoral-scenes.test.ts returns from its filing and campaign-stop case after logging NO CLERK CONTEST when the generated world has no qualifying contest. It reaches none of that case's filing, clerk, audience or campaign-stop assertions. A green test can therefore contain no proof of the feature, independently of the hindsight optimization in PR #5928.
