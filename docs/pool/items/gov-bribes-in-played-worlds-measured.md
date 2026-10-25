@@ -5,11 +5,12 @@ area: gov
 kind: research
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/gov-bribes-played-measured
+pr: #6053
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T15:28:51.689Z
 ---
 
 **What.** In two drawn bench worlds played 22 months, Cuyamungue Grant, New Mexico (seed b71a31b3cabbf14d) and Lawton, North Dakota (seed 3e7525a63795aa7b), the corruption engine recorded no bribe at all (crimes 0, surfaced 0, reported 0). Bribes start only at contract awards and lobbyist meetings on bills. So the voting engine's scandal term, which carries the exposed-corruption-to-reelection link, never acts in play there, and web-reach-civic has no played witness for it. Small towns may rightly see none; the question is how often a player's places should. Measure the offered, taken, surfaced and reported counts across drawn places of several sizes over a played term, and check them against real counts (for example the Justice Department's Public Integrity Section reports of public corruption prosecutions, scaled by the number of local governments).

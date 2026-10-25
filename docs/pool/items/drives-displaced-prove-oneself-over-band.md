@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-prove-oneself
-pr:
+pr: #6044
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T12:58:14.330Z

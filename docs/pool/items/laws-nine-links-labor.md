@@ -5,12 +5,12 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: done
+claimed-by: claude/law-wiring-labor
 pr: #5589
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at: 
+claimed-at: 2026-10-25T14:52:46.800Z
 ---
 
 **What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the labor and pay family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): minimum-wage, raise-federal-minimum-wage, local-minimum-wage-authority (the policy and the starting-law rows), raise-minimum-wage, paid-family-leave, public-sector-collective-bargaining, right-to-work, unemployment-insurance, unemployment-weekly-maximum, federal-unemployment-tax, state-unemployment-tax, social-security-tax and medicare-tax.
