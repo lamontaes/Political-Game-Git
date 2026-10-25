@@ -5,9 +5,9 @@ area: world
 kind: wiring
 priority: 3
 size: S
-status: open
+status: in-pr
 claimed-by:
-pr:
+pr: #5812
 blocked-on:
 source: added with npm run pool -- add
 ---
