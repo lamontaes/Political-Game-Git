@@ -1,6 +1,6 @@
 {
   "version": "words-filing-visit-v1",
-  "about": "The structure of the filing visit: each eligibility rule the clerk can state, the mined clerk sentence that states it, and the slot that rule fills with what the record requires. It holds no sentences; they come from the mined bank (data/english/parts/filing-visit.json) through src/director/mined/filing-bank.ts.",
+  "about": "The structure of the filing visit: each eligibility rule the clerk can state, the mined clerk sentence that states it, and the slot that rule fills with what the record requires. It holds no sentences; they come from the mined bank (data/english/parts/filing-visit.json) through src/english/mined/filing-bank.ts.",
   "rules": {
     "filing-deadline": {
       "choice": "late",
