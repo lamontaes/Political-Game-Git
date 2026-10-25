@@ -5,12 +5,13 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: blocked
 claimed-by:
-pr:
-blocked-on:
+pr: #6032
+blocked-on: roadmap-m1-06-mortgage-and-line-clauses
 after: roadmap-m1-economy-commands
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** The M1-06 command (src/core2/tooling/m1-06-check.ts, PR #5876) passed in Bruceville, Indiana (place key 1808578, seed 0aaca669c442e4369ff7e0d87575e2330a37bd2cb8947166068aa786f1cd7637): 19 personal loans and 59 payments balanced on the journal, but no payment fell short, so the clauses on what a default does to the borrower and lender ran on nothing. The flag stays false until a played year shows one.

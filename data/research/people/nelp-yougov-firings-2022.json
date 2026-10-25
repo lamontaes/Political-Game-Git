@@ -1,0 +1,31 @@
+{
+  "id": "nelp-yougov-firings-2022",
+  "publisher": "National Employment Law Project, with a YouGov survey commissioned June 2022",
+  "vintage": "June 2022; 1,849 adults in the U.S. workforce (employed and unemployed); margin of error +/- 2.96 percent",
+  "table": "Survey Findings, finding 1 and finding 3",
+  "title": "Fired with No Reason, No Warning, No Severance (NELP, 2022)",
+  "universe": "Adults in the U.S. workforce; the firing rows are the 40 percent who have ever been fired or let go",
+  "geography": "United States",
+  "sourceUrl": "https://www.nelp.org/app/uploads/2022/12/2022-Just-Cause-Survey-Report-FINAL3.pdf",
+  "retrievedOn": "2026-10-24",
+  "limits": "Reported by the worker, not tested against the employer's reasons, and it measures belief that the firing was unfair rather than a grudge held. Used only as the ceiling a grudge share must stay under: a grudge needs a grievance, and about 69 percent of the fired report one.",
+  "firedOrLetGoEver": {
+    "percentOfWorkers": 40
+  },
+  "ofThoseFired": [
+    {
+      "id": "no-reason-or-unfair-reason",
+      "percent": 69
+    },
+    {
+      "id": "without-warning-or-chance-to-improve",
+      "percent": 72
+    },
+    {
+      "id": "ever-received-severance",
+      "percent": 34
+    }
+  ],
+  "quote": "Of the 40 percent of U.S. workers that have been fired or let go by employers at some point in their lives, 69 percent report that employers have terminated them for no reason or for an unfair reason, and 72 percent report that they have been terminated without warning or a chance to improve.",
+  "use": "SG-P10-response-model: the upper limit for the grudge share after a layoff, reported beside the termination-claims band (scripts/research/people-year.ts)."
+}

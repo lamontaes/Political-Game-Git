@@ -1,0 +1,799 @@
+{
+  "seed": "8a0a30a37a506",
+  "place": {
+    "seed": "5c649180fdb8e02c042dcd2bb03d3c4673fbfae3dd4833430638b862fb1c9077",
+    "key": "4941350",
+    "name": "Kingston, Utah",
+    "state": "US-UT"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+      "kind": "question",
+      "family": "labor",
+      "inForceAtOpening": false,
+      "change": "enacted at city (law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8) effective 2025-01-21; then repealed at city effective 2026-01-22",
+      "lawIds": [
+        "law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+        "law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2026-01-22:law-wiring-8c69b2e8-b"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 20,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 9,
+        "governments": 0,
+        "other": 0,
+        "open": 29,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8:public-workers:person_b6bb6d600ba30ace:2025-01-21",
+          "reach:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8:public-workers:person_75c1e7b3a5ef30ad:2025-01-21",
+          "reach:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8:public-workers:person_827c45535db16fe9:2025-01-21",
+          "reach:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8:public-workers:person_6b3f125de78240f0:2025-01-21"
+        ]
+      },
+      "reachAtEnd": {
+        "fullPeople": 20,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 9,
+        "governments": 0,
+        "other": 0,
+        "open": 29,
+        "ended": 0,
+        "sample": [
+          "reach:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8:public-workers:person_b6bb6d600ba30ace:2025-01-21",
+          "reach:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8:public-workers:person_75c1e7b3a5ef30ad:2025-01-21",
+          "reach:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8:public-workers:person_827c45535db16fe9:2025-01-21",
+          "reach:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8:public-workers:person_6b3f125de78240f0:2025-01-21"
+        ]
+      },
+      "inPlay": [],
+      "readers": {
+        "src/core2/modules/outcome-web.ts:166": 560,
+        "src/core2/modules/legislature.ts:2126": 224,
+        "src/core2/modules/world-legislating.ts:253": 192,
+        "src/core2/modules/world-legislating.ts:183": 64,
+        "src/core2/public-bargaining.ts:26": 14,
+        "src/core2/life.ts:556": 5,
+        "src/core2/modules/world-legislating.ts:333": 4
+      },
+      "openingRow": "law:US-UT:state:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:starting",
+      "money": {
+        "direct": [],
+        "diff": [
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1282",
+            "treatment": 1211285710,
+            "control": 1210800517,
+            "ids": [
+              "journal:2025-01-21:1509",
+              "journal:2025-01-21:1510",
+              "journal:2025-01-21:1511"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+            "treatment": 622790877,
+            "control": 623252296,
+            "ids": [
+              "journal:2025-02-01:2493",
+              "journal:2025-02-01:2494",
+              "journal:2025-02-01:2495"
+            ]
+          },
+          {
+            "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+            "treatment": 221385456,
+            "control": 220974488,
+            "ids": [
+              "journal:2025-01-26:1564",
+              "journal:2025-01-26:1567",
+              "journal:2025-01-27:1585"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+            "treatment": 71518108,
+            "control": 71342746,
+            "ids": [
+              "journal:2025-01-21:1521",
+              "journal:2025-01-21:1522",
+              "journal:2025-01-21:1523"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+            "treatment": 63876612,
+            "control": 64001266,
+            "ids": [
+              "journal:2025-02-01:1929",
+              "journal:2025-02-01:1930",
+              "journal:2025-02-01:1931"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:937",
+            "treatment": 703690200875036,
+            "control": 703690200983846,
+            "ids": [
+              "journal:2025-02-01:1673",
+              "journal:2025-02-01:1674",
+              "journal:2025-02-01:1675"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/budgets-treasury.ts:904",
+            "treatment": 176978794219577,
+            "control": 176978794270750,
+            "ids": [
+              "journal:2025-02-01:1663",
+              "journal:2025-02-01:1664",
+              "journal:2025-02-01:1665"
+            ]
+          },
+          {
+            "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+            "treatment": 54596125,
+            "control": 54556197,
+            "ids": [
+              "journal:2025-02-01:1955",
+              "journal:2025-02-01:1958",
+              "journal:2025-02-01:1961"
+            ]
+          },
+          {
+            "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+            "treatment": 3129418141,
+            "control": 3129378287,
+            "ids": [
+              "journal:2025-01-26:1565",
+              "journal:2025-01-26:1568",
+              "journal:2025-01-27:1586"
+            ]
+          },
+          {
+            "kind": "employer-taxes:profit @ src/core2/modules/employer-taxes.ts:273",
+            "treatment": 8164281,
+            "control": 8181323,
+            "ids": [
+              "journal:2025-07-01:41974",
+              "journal:2025-07-01:41976",
+              "journal:2025-07-01:41977"
+            ]
+          },
+          {
+            "kind": "employer-taxes:share @ src/core2/modules/employer-taxes.ts:647",
+            "treatment": 18604138,
+            "control": 18595018,
+            "ids": [
+              "journal:2025-01-26:1566",
+              "journal:2025-01-26:1569",
+              "journal:2025-01-26:1571"
+            ]
+          },
+          {
+            "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+            "treatment": 564019,
+            "control": 567136,
+            "ids": [
+              "journal:2025-02-25:7828",
+              "journal:2025-02-25:7829",
+              "journal:2025-02-26:7835"
+            ]
+          }
+        ],
+        "diffKinds": 26,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 19,
+          "pairs": [
+            {
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "targets": 10,
+              "moved": 1305,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "person_432cf78888d259a8",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_432cf78888d259a8",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 116856,
+                  "control": 116748,
+                  "journal": "journal:2025-02-27:7852"
+                },
+                {
+                  "target": "person_6b3f125de78240f0",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_6b3f125de78240f0",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 201960,
+                  "control": 201816,
+                  "journal": "journal:2025-02-27:7850"
+                },
+                {
+                  "target": "person_75c1e7b3a5ef30ad",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_75c1e7b3a5ef30ad",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 204570,
+                  "control": 204390,
+                  "journal": "journal:2025-02-27:7840"
+                },
+                {
+                  "target": "person_827c45535db16fe9",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_827c45535db16fe9",
+                  "date": "2025-02-27",
+                  "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+                  "way": "in",
+                  "treatment": 222390,
+                  "control": 222210,
+                  "journal": "journal:2025-02-27:7842"
+                }
+              ]
+            },
+            {
+              "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+              "way": "out",
+              "targets": 10,
+              "moved": 335,
+              "earliest": "2025-02-27",
+              "sample": [
+                {
+                  "target": "person_432cf78888d259a8",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_432cf78888d259a8",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -20460,
+                  "control": -20434,
+                  "journal": "journal:2025-02-27:7853"
+                },
+                {
+                  "target": "person_6b3f125de78240f0",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_6b3f125de78240f0",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -41055,
+                  "control": -41021,
+                  "journal": "journal:2025-02-27:7851"
+                },
+                {
+                  "target": "person_75c1e7b3a5ef30ad",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_75c1e7b3a5ef30ad",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -41686,
+                  "control": -41644,
+                  "journal": "journal:2025-02-27:7841"
+                },
+                {
+                  "target": "person_827c45535db16fe9",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_827c45535db16fe9",
+                  "date": "2025-02-27",
+                  "kind": "budgets:withholding @ src/core2/modules/budgets.ts:1571",
+                  "way": "out",
+                  "treatment": -46000,
+                  "control": -45956,
+                  "journal": "journal:2025-02-27:7843"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "out",
+              "targets": 8,
+              "moved": 920,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_432cf78888d259a8",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_432cf78888d259a8",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -118971,
+                  "control": -118836,
+                  "journal": "journal:2025-03-01:8825"
+                },
+                {
+                  "target": "person_6b3f125de78240f0",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_6b3f125de78240f0",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -273972,
+                  "control": -273864,
+                  "journal": "journal:2025-03-01:8991"
+                },
+                {
+                  "target": "person_827c45535db16fe9",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_827c45535db16fe9",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -131917,
+                  "control": -131813,
+                  "journal": "journal:2025-03-01:8673"
+                },
+                {
+                  "target": "person_b6bb6d600ba30ace",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_b6bb6d600ba30ace",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "out",
+                  "treatment": -125755,
+                  "control": -125634,
+                  "journal": "journal:2025-03-01:8531"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "out",
+              "targets": 4,
+              "moved": 591,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_75c1e7b3a5ef30ad",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_75c1e7b3a5ef30ad",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -310138,
+                  "control": -310000,
+                  "journal": "journal:2025-03-01:8219"
+                },
+                {
+                  "target": "person_827c45535db16fe9",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_827c45535db16fe9",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -27871,
+                  "control": -27735,
+                  "journal": "journal:2025-03-01:8218"
+                },
+                {
+                  "target": "person_e47e916206770de3",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_e47e916206770de3",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -163696,
+                  "control": -163579,
+                  "journal": "journal:2025-03-01:8222"
+                },
+                {
+                  "target": "person_9debc41b5d45b767",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_9debc41b5d45b767",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "out",
+                  "treatment": -190040,
+                  "control": -189840,
+                  "journal": "journal:2025-04-01:15163"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+              "way": "in",
+              "targets": 4,
+              "moved": 354,
+              "earliest": "2025-03-01",
+              "sample": [
+                {
+                  "target": "person_9debc41b5d45b767",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_9debc41b5d45b767",
+                  "date": "2025-03-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -27727,
+                  "control": -27848,
+                  "journal": "journal:2025-03-01:8593"
+                },
+                {
+                  "target": "person_432cf78888d259a8",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_432cf78888d259a8",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -180005,
+                  "control": -180214,
+                  "journal": "journal:2025-04-01:15856"
+                },
+                {
+                  "target": "person_b6bb6d600ba30ace",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_b6bb6d600ba30ace",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -190295,
+                  "control": -190318,
+                  "journal": "journal:2025-04-01:15539"
+                },
+                {
+                  "target": "person_e47e916206770de3",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_e47e916206770de3",
+                  "date": "2025-04-01",
+                  "kind": "accounts.transfer @ src/core2/cost-of-living.ts:327",
+                  "way": "in",
+                  "treatment": -174560,
+                  "control": -174561,
+                  "journal": "journal:2025-04-01:15948"
+                }
+              ]
+            },
+            {
+              "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+              "way": "out",
+              "targets": 3,
+              "moved": 3,
+              "earliest": "2025-03-27",
+              "sample": [
+                {
+                  "target": "person_432cf78888d259a8",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_432cf78888d259a8",
+                  "date": "2025-03-27",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -323,
+                  "control": -322,
+                  "journal": "journal:2025-03-27:14806"
+                },
+                {
+                  "target": "person_e47e916206770de3",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_e47e916206770de3",
+                  "date": "2025-03-29",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -360,
+                  "control": -359,
+                  "journal": "journal:2025-03-29:14835"
+                },
+                {
+                  "target": "person_6b3f125de78240f0",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_6b3f125de78240f0",
+                  "date": "2025-03-30",
+                  "kind": "drive-donation @ src/core2/modules/drives.ts:1170",
+                  "way": "out",
+                  "treatment": -75,
+                  "control": -74,
+                  "journal": "journal:2025-03-30:14853"
+                }
+              ]
+            },
+            {
+              "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+              "way": "out",
+              "targets": 2,
+              "moved": 599,
+              "earliest": "2025-04-01",
+              "sample": [
+                {
+                  "target": "person_b81eefb03f8ecc9d",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_b81eefb03f8ecc9d",
+                  "date": "2025-04-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -26698,
+                  "control": -26451,
+                  "journal": "journal:2025-04-01:15224"
+                },
+                {
+                  "target": "person_827c45535db16fe9",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_827c45535db16fe9",
+                  "date": "2025-05-01",
+                  "kind": "finance.contract-settlement @ src/core2/finance-cash.ts:2616",
+                  "way": "out",
+                  "treatment": -8640,
+                  "control": -8288,
+                  "journal": "journal:2025-05-01:22262"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+              "way": "in",
+              "targets": 2,
+              "moved": 2,
+              "earliest": "2025-02-03",
+              "sample": [
+                {
+                  "target": "person_9debc41b5d45b767",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_9debc41b5d45b767",
+                  "date": "2025-02-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 358,
+                  "control": 357,
+                  "journal": "journal:2025-02-03:7187"
+                },
+                {
+                  "target": "person_b6bb6d600ba30ace",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_b6bb6d600ba30ace",
+                  "date": "2025-04-03",
+                  "kind": "accounts.transfer @ src/core2/world-transfer.ts:40",
+                  "way": "in",
+                  "treatment": 478,
+                  "control": 477,
+                  "journal": "journal:2025-04-03:20836"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+              "way": "in",
+              "targets": 1,
+              "moved": 236,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_e47e916206770de3",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_e47e916206770de3",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/modules/residents.ts:1264",
+                  "way": "in",
+                  "treatment": -45802,
+                  "control": -46038,
+                  "journal": "journal:2025-05-01:23153"
+                }
+              ]
+            },
+            {
+              "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+              "way": "in",
+              "targets": 1,
+              "moved": 37,
+              "earliest": "2025-05-01",
+              "sample": [
+                {
+                  "target": "person_e47e916206770de3",
+                  "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_e47e916206770de3",
+                  "date": "2025-05-01",
+                  "kind": "accounts.transfer @ src/core2/credit-deposits.ts:159",
+                  "way": "in",
+                  "treatment": 19874,
+                  "control": 19837,
+                  "journal": "journal:2025-05-01:22232"
+                }
+              ]
+            }
+          ],
+          "paid": 10,
+          "pick": "work-payroll @ src/core2/work-payroll-cash.ts:2386|in",
+          "sample": [
+            {
+              "target": "person_432cf78888d259a8",
+              "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_432cf78888d259a8",
+              "date": "2025-02-27",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 116856,
+              "control": 116748,
+              "journal": "journal:2025-02-27:7852"
+            },
+            {
+              "target": "person_6b3f125de78240f0",
+              "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_6b3f125de78240f0",
+              "date": "2025-02-27",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 201960,
+              "control": 201816,
+              "journal": "journal:2025-02-27:7850"
+            },
+            {
+              "target": "person_75c1e7b3a5ef30ad",
+              "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_75c1e7b3a5ef30ad",
+              "date": "2025-02-27",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 204570,
+              "control": 204390,
+              "journal": "journal:2025-02-27:7840"
+            },
+            {
+              "target": "person_827c45535db16fe9",
+              "row": "applied|us-policy-positions:labor-workforce.public-sector-collective-bargaining|person_827c45535db16fe9",
+              "date": "2025-02-27",
+              "kind": "work-payroll @ src/core2/work-payroll-cash.ts:2386",
+              "way": "in",
+              "treatment": 222390,
+              "control": 222210,
+              "journal": "journal:2025-02-27:7842"
+            }
+          ]
+        }
+      },
+      "web": {
+        "links": [
+          {
+            "key": "public-bargaining-to-graduation",
+            "status": "built",
+            "to": "school.graduation-pct"
+          },
+          {
+            "key": "public-bargaining-to-earnings",
+            "status": "built",
+            "to": "labor.median-earnings"
+          }
+        ],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-01",
+            "month": "2025-01",
+            "link": "public-bargaining-to-graduation",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-01",
+            "month": "2025-01",
+            "link": "public-bargaining-to-earnings",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 180,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-02",
+            "month": "2025-02",
+            "link": "public-bargaining-to-graduation",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-02",
+            "month": "2025-02",
+            "link": "public-bargaining-to-earnings",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 180,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-03",
+            "month": "2025-03",
+            "link": "public-bargaining-to-graduation",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-03",
+            "month": "2025-03",
+            "link": "public-bargaining-to-earnings",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 180,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-04",
+            "month": "2025-04",
+            "link": "public-bargaining-to-graduation",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-04",
+            "month": "2025-04",
+            "link": "public-bargaining-to-earnings",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 180,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-05",
+            "month": "2025-05",
+            "link": "public-bargaining-to-graduation",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-05",
+            "month": "2025-05",
+            "link": "public-bargaining-to-earnings",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 180,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-06",
+            "month": "2025-06",
+            "link": "public-bargaining-to-graduation",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 0,
+            "treated": 1,
+            "control": 0
+          },
+          {
+            "id": "web:jurisdiction_b788bab87ae762d1:2025-06",
+            "month": "2025-06",
+            "link": "public-bargaining-to-earnings",
+            "from": "law:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
+            "lagMonths": 180,
+            "treated": 1,
+            "control": 0
+          }
+        ],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 67,
+        "sample": [
+          "person_6b3f125de78240f0:printed:outlet:television:3:jurisdiction_b788bab87ae762d1:law-took-effect:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+          "person:press:outlet:television:3:jurisdiction_b788bab87ae762d1:reporter:0:printed:outlet:television:3:jurisdiction_b788bab87ae762d1:law-took-effect:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8",
+          "person_432cf78888d259a8:printed:outlet:television:3:jurisdiction_b788bab87ae762d1:law-took-effect:law:place:4941350:city:us-policy-positions:labor-workforce.public-sector-collective-bargaining:general:2025-01-21:law-wiring-8c69b2e8"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 19,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 19,
+        "sample": []
+      },
+      "seconds": 84
+    }
+  ]
+}
