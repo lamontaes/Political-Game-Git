@@ -96,13 +96,16 @@ const compactWords = new Intl.NumberFormat("en-US", {
   compactDisplay: "long",
   maximumFractionDigits: 1,
 });
-/** A government's sum in a readable unit: "$5.2 trillion", "$48,300". */
+/**
+ * A government's sum in a readable unit: "$5.2 trillion", or whole dollars
+ * to three figures below a million ("$48,300", "$12").
+ */
 const roundedDollars = (minor) => {
-  const whole = Math.abs(minor / 100);
-  const sign = minor < 0 ? "−" : "";
+  const whole = Math.round(Math.abs(minor / 100));
+  const sign = minor < 0 && whole > 0 ? "−" : "";
   return whole >= 1e6
     ? `${sign}$${compactWords.format(whole)}`
-    : `${sign}$${Number(whole.toPrecision(3)).toLocaleString("en-US")}`;
+    : `${sign}$${Math.round(Number(whole.toPrecision(3))).toLocaleString("en-US")}`;
 };
 /** The player card's date, and the time under it: the only place either appears. */
 function setClock(at) {
