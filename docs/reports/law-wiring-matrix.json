@@ -1262,7 +1262,7 @@
         },
         "web": {
           "status": "wired",
-          "evidence": "income-tax-rate-to-poverty: carried by src/core2/world-poverty.ts: the measure counts income before taxes (U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html)); income-tax-rate-to-out-migration: carried by src/core2/modules/counted-moves.ts: pullBetween reads the income-tax law in force into the income pull (Young, Varner, Lurie and Prisinzano 2016, Millionaire Migration and Taxation of the Elite, American Sociological Review 81(3) (abstract at https://inequality.stanford.edu/node/7506))",
+          "evidence": "income-tax-rate-to-poverty: carried by src/core2/world-poverty.ts: the measure counts income before taxes (U.S. Census Bureau, How the Census Bureau Measures Poverty (https://www.census.gov/topics/income-poverty/poverty/guidance/poverty-measures.html))",
           "why": ""
         },
         "knowing": {
@@ -1539,7 +1539,7 @@
         },
         "web": {
           "status": "n/a",
-          "evidence": "estate-tax-to-out-migration: about-zero (Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER w10645 (https://www.nber.org/papers/w10645); IRS Statistics of Income Publication 5332, Estate Tax Statistics (filing year 2024); CDC NCHS Data Brief 521)",
+          "evidence": "estate-tax-to-out-migration: about-zero (Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Moretti and Wilson 2023, Taxing Billionaires: Estate Taxes and the Geographical Location of the Ultra-Wealthy, American Economic Journal: Economic Policy 15(2):424-466; text read from NBER Working Paper 26387 (revised September 2020) at https://www.nber.org/papers/w26387.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403))",
           "why": "the research puts every outcome link from it at about zero, so there is nothing for the web to move"
         },
         "knowing": {
@@ -1613,7 +1613,7 @@
         },
         "web": {
           "status": "n/a",
-          "evidence": "inheritance-tax-to-out-migration: about-zero (Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER w10645 (https://www.nber.org/papers/w10645))",
+          "evidence": "inheritance-tax-to-out-migration: about-zero (Brulhart and Parchet 2014, Alleged tax competition: The mysterious death of bequest taxes in Switzerland, Journal of Public Economics 111:63-78 (doi 10.1016/j.jpubeco.2013.12.009); author's free version of December 17, 2013 read at https://www.fiscalfederalism.ch/publications/docs/brulhart_parchet_2014_free.pdf; Bakija and Slemrod 2004, Do the Rich Flee from High State Taxes? Evidence from Federal Estate Tax Returns, NBER Working Paper 10645; full text read at https://www.nber.org/system/files/working_papers/w10645/w10645.pdf; ITEP, The Estate Tax is Irrelevant to More Than 99 Percent of Americans (December 2023), https://itep.org/?p=52173, a summary of IRS Statistics of Income estate tax data (the IRS estate tax statistics page, https://www.irs.gov/statistics/soi-tax-stats-estate-tax-statistics, was read and gives no share of decedents; the Tax Policy Center page returned 403))",
           "why": "the research puts every outcome link from it at about zero, so there is nothing for the web to move"
         },
         "knowing": {
