@@ -915,13 +915,47 @@
     },
     {
       "id": "drives.respond",
+      "option": "hold-grudge",
+      "trait": "agreeableness (low agreeableness keeps a grievance)",
+      "outcome": "forgiving a single offender rather than keeping a grievance (forgiveness and unforgiveness measures pooled)",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.22,
+        "low": -0.27,
+        "high": -0.17
+      },
+      "source": {
+        "authors": "Fehr, R., Gelfand, M. J., & Nag, M.",
+        "year": 2010,
+        "title": "The road to forgiveness: A meta-analytic synthesis of its situational and dispositional correlates",
+        "venue": "Psychological Bulletin 136(5), 894-914",
+        "url": "https://doi.org/10.1037/a0019993"
+      },
+      "quote": "Table 2, row Agreeableness (k = 10, total n = 1,732): weighted mean r = .22, SE .02, 95% CI [.17, .27]. Text: \"For agreeableness, r = .22, indicating that agreeable people tend to forgive their offenders.\"",
+      "quoteVerified": true,
+      "notes": "Read from the Psychological Bulletin PDF (data/research/people/fehr-forgiveness-correlates-2010.json). The authors do not separate forgiveness from unforgiveness measures (benevolence from revenge), so the sign is reversed for holding a grudge: value -0.22, low/high the reversed 95% interval. A correlation with forgiving one offender, not with a choice among responses to a loss; it sizes the pull a temperament gives toward keeping a grievance and is checked, not obeyed (scripts/research/people-year.ts reports the thirds). The game's people-mind-v1:conflict trait is agreeableness compliance reversed. Neuroticism r = -.24 [-.32, -.16] (k = 9) and trait anger r = -.18 [-.23, -.13] (k = 18) in the same table."
+    },
+    {
+      "id": "drives.respond",
+      "option": "hold-grudge",
       "trait": "neuroticism",
-      "outcome": "responses to stressors and drives",
-      "effect": null,
-      "source": null,
-      "quote": "",
-      "quoteVerified": false,
-      "notes": "No dedicated study; see outcome.stress-reactivity."
+      "outcome": "forgiving a single offender rather than keeping a grievance (forgiveness and unforgiveness measures pooled)",
+      "effect": {
+        "kind": "correlation",
+        "value": 0.24,
+        "low": 0.16,
+        "high": 0.32
+      },
+      "source": {
+        "authors": "Fehr, R., Gelfand, M. J., & Nag, M.",
+        "year": 2010,
+        "title": "The road to forgiveness: A meta-analytic synthesis of its situational and dispositional correlates",
+        "venue": "Psychological Bulletin 136(5), 894-914",
+        "url": "https://doi.org/10.1037/a0019993"
+      },
+      "quote": "Table 2, row Neuroticism (k = 9, total n = 1,551): weighted mean r = -.24, SE .03, 95% CI [-.32, -.16].",
+      "quoteVerified": true,
+      "notes": "Sign reversed for holding a grudge, as for agreeableness. The game has no neuroticism trait of its own; its defensive, brooding and sensitive facets are the nearest (data/content/trait-act-pulls.json)."
     },
     {
       "id": "legislature.member-position",
@@ -1283,6 +1317,48 @@
       "quote": "Again, high extraversion was positively associated with the odds of becoming a parent and becoming a parent earlier whereas high openness to experience had the opposite effect.",
       "quoteVerified": true,
       "notes": "Table 3 all participants OR 0.74 (SE .02); women 0.70, men 0.79. Cohort note: Jokela (2012) finds the openness effect grows in younger cohorts."
+    },
+    {
+      "id": "renewal.plan-child",
+      "trait": "agreeableness",
+      "outcome": "intending to add another child, ever-married Indonesian women aged 15-49, IFLS 2014 (logistic regression, odds per SD)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 1.067,
+        "low": 1.011,
+        "high": 1.126
+      },
+      "source": {
+        "authors": "Wahyuningsih",
+        "year": 2018,
+        "title": "Do Personality Traits Affect Fertility Intention in Indonesia?",
+        "venue": "Advances in Economics, Business and Management Research 89 (1st Asia Pacific Business and Economics Conference, APBEC 2018), 473-475",
+        "url": "https://www.atlantis-press.com/article/125913799.pdf"
+      },
+      "quote": "Table I \"RESULT OF LOGISTIC BINARY REGRESSION\", row Agreeableness: \"0.065\" \"0.018*\" \"1.067\" (B, Sig., Exp). Text: \"each trait score was standardized by transforming to a mean value of 0 and standard deviation of 1 so that the odds ratio expressed the difference in the odds of intending to add children by one SD difference in the personality trait level.\"",
+      "quoteVerified": true,
+      "notes": "A conference paper (not peer-reviewed journal), one wave of the Indonesian Family Life Survey 2014, ever-married women; BFI-15 (three items per trait); logistic regression of the intention to add another child on the five standardized traits plus parity, age, schooling, area and workforce. The table prints B, p and Exp(B) but no standard errors: low/high were derived by the research helper from the p-value (z from the two-sided p, SE = |B| / z, CI = exp(B +/- 1.96 SE)). The odds ratios are small (0.94 to 1.08 per SD) and the signs for extraversion and openness are the OPPOSITE of the Jokela et al. (2011) US realized-fertility rows already in the file (extraversion 1.28, openness 0.74); the paper itself notes the extraversion sign did not match its hypothesis. A different outcome (intention for a further child, among women who already have children, in a high-fertility country) from the existing rows (becoming a parent), so the two sets are not a conflict but they do not agree; use as evidence that the trait pull on planning a child is small when the outcome is an intention. Neuroticism: B 0.030, p 0.259, Exp 1.030 (not significant)."
+    },
+    {
+      "id": "renewal.plan-child",
+      "trait": "conscientiousness",
+      "outcome": "intending to add another child, ever-married Indonesian women aged 15-49, IFLS 2014 (logistic regression, odds per SD)",
+      "effect": {
+        "kind": "odds-ratio-per-sd",
+        "value": 0.937,
+        "low": 0.887,
+        "high": 0.99
+      },
+      "source": {
+        "authors": "Wahyuningsih",
+        "year": 2018,
+        "title": "Do Personality Traits Affect Fertility Intention in Indonesia?",
+        "venue": "Advances in Economics, Business and Management Research 89 (1st Asia Pacific Business and Economics Conference, APBEC 2018), 473-475",
+        "url": "https://www.atlantis-press.com/article/125913799.pdf"
+      },
+      "quote": "Table I \"RESULT OF LOGISTIC BINARY REGRESSION\", row Conscientiousness: \"−0.065\" \"0.020*\" \"0.937\" (B, Sig., Exp). Text: \"each trait score was standardized by transforming to a mean value of 0 and standard deviation of 1 so that the odds ratio expressed the difference in the odds of intending to add children by one SD difference in the personality trait level.\"",
+      "quoteVerified": true,
+      "notes": "A conference paper (not peer-reviewed journal), one wave of the Indonesian Family Life Survey 2014, ever-married women; BFI-15 (three items per trait); logistic regression of the intention to add another child on the five standardized traits plus parity, age, schooling, area and workforce. The table prints B, p and Exp(B) but no standard errors: low/high were derived by the research helper from the p-value (z from the two-sided p, SE = |B| / z, CI = exp(B +/- 1.96 SE)). The odds ratios are small (0.94 to 1.08 per SD) and the signs for extraversion and openness are the OPPOSITE of the Jokela et al. (2011) US realized-fertility rows already in the file (extraversion 1.28, openness 0.74); the paper itself notes the extraversion sign did not match its hypothesis. A different outcome (intention for a further child, among women who already have children, in a high-fertility country) from the existing rows (becoming a parent), so the two sets are not a conflict but they do not agree; use as evidence that the trait pull on planning a child is small when the outcome is an intention. Neuroticism: B 0.030, p 0.259, Exp 1.030 (not significant)."
     },
     {
       "id": "outcome.marriage-formation",
@@ -2116,6 +2192,146 @@
       "quote": "Table A12a, column (6) \"Speak at Local Meeting\", row Agreeableness (0-1): \"-0.763\" with robust standard error \"[0.319]**\". Table A1, CT Survey, Agreeableness (0-1): SD \"[.2088]\". Text: \"However, we find a strong negative and statistically significant relationship between this trait and more conflictual forms of participation such as speaking at a local meeting (-29.5%).\"",
       "quoteVerified": true,
       "notes": "Logit coefficient from Table A12a of the on-line appendix to Gerber et al. (2011, Journal of Politics 73(3):692-706; DOI 10.1017/S0022381611000399), CT Survey (2008 Connecticut telephone-recruited survey, N = 1,924; controls race, age, age squared, income, education); trait scaled 0 to 1, so the coefficient is the log-odds change from lowest to highest trait score, not per SD. low/high = coefficient +/- 1.96 x robust SE. Per SD multiply by the CT-survey SD from Table A1. Negative: more agreeable residents are much less likely to speak at a local meeting, which the authors tie to conflict avoidance. Conditional on attending a meeting (column 7) agreeableness is -1.107 [0.404]***."
+    },
+    {
+      "id": "estates.trust",
+      "trait": "openness to experience",
+      "outcome": "having a durable power of attorney for financial, legal or administrative matters, adults 55+, Switzerland (SHARE); proxy for setting up a trust",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.24,
+        "low": null,
+        "high": null
+      },
+      "baseRate": 0.386,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Ryser, V.-A., Vilpert, S., & Maurer, J.",
+        "year": 2026,
+        "title": "Personality traits and end-of-life planning in older adults: insights from a population-based survey",
+        "venue": "European Journal of Ageing 23(1), 19",
+        "url": "https://doi.org/10.1007/s10433-026-00916-x"
+      },
+      "quote": "Table 2, row Openness, column Having a power of attorney (yes): \"3.6 **\"; Table 1 row \"Openness | 3.7 (0.9)\"; Table 1 share having a power of attorney \"Yes | 38.6\". Table 2 source note: \"Average marginal effects (AMEs) based on logit regression models. All probabilities are multiplied by 100 to express AMEs in percentage points.\" Table 1 note: \"Personality traits’ statistics are mean (standard deviation).\"",
+      "quoteVerified": true,
+      "notes": "Average marginal effect (percentage points) from a logistic regression on the 1-5 BFI-10 trait score ('each unit'), SHARE Switzerland waves 6 and 7 (2015 and 2017), adults 55+, n = 1,524, controls gender, age, education, partner, children, finances, region, health. The paper prints the effect per unit of the 5-point trait score; the helper multiplied it by the trait SD in points from the paper's Table 1 (openness 0.9, conscientiousness 0.7, extraversion 1.0, agreeableness 0.8, neuroticism 1.0) to get the per-SD value, which assumes the effect is linear in the trait. The paper prints significance stars, not SEs, so low/high are null. Switzerland only; the instruments were new in Swiss law two years before the survey (the SHARE summary cautions on this). 3.6 pp per unit x SD 0.9 = 3.24 pp per SD (p<.01). Proxy: no study of setting up a trust was found; a power of attorney for financial and legal matters is the nearest legal-planning instrument that study measured. Same column: conscientiousness 2.9 (ns; SD 0.7, so 2.03 pp per SD), extraversion 1.2 (ns), agreeableness -2.4 (ns), neuroticism 1.1 (ns).",
+      "option": "set-up-trust"
+    },
+    {
+      "id": "estates.trust",
+      "trait": "conscientiousness",
+      "outcome": "having a durable power of attorney for financial, legal or administrative matters, adults 55+, Switzerland (SHARE); proxy for setting up a trust",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 2.03,
+        "low": null,
+        "high": null
+      },
+      "baseRate": 0.386,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Ryser, V.-A., Vilpert, S., & Maurer, J.",
+        "year": 2026,
+        "title": "Personality traits and end-of-life planning in older adults: insights from a population-based survey",
+        "venue": "European Journal of Ageing 23(1), 19",
+        "url": "https://doi.org/10.1007/s10433-026-00916-x"
+      },
+      "quote": "Table 2, row Conscientiousness, column Having a power of attorney (yes): \"2.9\"; Table 1 row \"Conscientiousness | 4.3 (0.7)\". Table 2 source note: \"Average marginal effects (AMEs) based on logit regression models. All probabilities are multiplied by 100 to express AMEs in percentage points.\" Table 1 note: \"Personality traits’ statistics are mean (standard deviation).\"",
+      "quoteVerified": true,
+      "notes": "Average marginal effect (percentage points) from a logistic regression on the 1-5 BFI-10 trait score ('each unit'), SHARE Switzerland waves 6 and 7 (2015 and 2017), adults 55+, n = 1,524, controls gender, age, education, partner, children, finances, region, health. The paper prints the effect per unit of the 5-point trait score; the helper multiplied it by the trait SD in points from the paper's Table 1 (openness 0.9, conscientiousness 0.7, extraversion 1.0, agreeableness 0.8, neuroticism 1.0) to get the per-SD value, which assumes the effect is linear in the trait. The paper prints significance stars, not SEs, so low/high are null. Switzerland only; the instruments were new in Swiss law two years before the survey (the SHARE summary cautions on this). 2.9 pp per unit x SD 0.7 = 2.03 pp per SD, not significant, shown because the estates.trust lean is built from follow-rules, commit and play-safe, which conscientiousness carries.",
+      "option": "set-up-trust"
+    },
+    {
+      "id": "estates.will",
+      "trait": "extraversion",
+      "outcome": "having a testament (will), adults 55+, Switzerland (SHARE)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 3.8,
+        "low": null,
+        "high": null
+      },
+      "baseRate": 0.374,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Ryser, V.-A., Vilpert, S., & Maurer, J.",
+        "year": 2026,
+        "title": "Personality traits and end-of-life planning in older adults: insights from a population-based survey",
+        "venue": "European Journal of Ageing 23(1), 19",
+        "url": "https://doi.org/10.1007/s10433-026-00916-x"
+      },
+      "quote": "Table 2, row Extraversion, column Having a testament (yes): \"3.8 **\"; Table 1 row \"Extraversion | 3.5 (1)\"; Table 1 share having a testament \"Yes | 37.4\". Table 2 source note: \"Average marginal effects (AMEs) based on logit regression models. All probabilities are multiplied by 100 to express AMEs in percentage points.\" Table 1 note: \"Personality traits’ statistics are mean (standard deviation).\"",
+      "quoteVerified": true,
+      "notes": "Average marginal effect (percentage points) from a logistic regression on the 1-5 BFI-10 trait score ('each unit'), SHARE Switzerland waves 6 and 7 (2015 and 2017), adults 55+, n = 1,524, controls gender, age, education, partner, children, finances, region, health. The paper prints the effect per unit of the 5-point trait score; the helper multiplied it by the trait SD in points from the paper's Table 1 (openness 0.9, conscientiousness 0.7, extraversion 1.0, agreeableness 0.8, neuroticism 1.0) to get the per-SD value, which assumes the effect is linear in the trait. The paper prints significance stars, not SEs, so low/high are null. Switzerland only; the instruments were new in Swiss law two years before the survey (the SHARE summary cautions on this). 3.8 pp per scale unit x SD 1.0 = 3.8 pp per SD (p<.01), the only significant trait for a testament apart from openness. Base rate 37.4 percent. The paper reads extraversion as social ties making the question of who inherits more salient. A will is made by the dying person's own choice in this study; the game's estates.will runs at the death of someone with an estate.",
+      "option": "make-will"
+    },
+    {
+      "id": "estates.will",
+      "trait": "openness to experience",
+      "outcome": "having a testament (will), adults 55+, Switzerland (SHARE)",
+      "effect": {
+        "kind": "pp-per-sd",
+        "value": 2.7,
+        "low": null,
+        "high": null
+      },
+      "baseRate": 0.374,
+      "outcomeIsProbability": true,
+      "source": {
+        "authors": "Ryser, V.-A., Vilpert, S., & Maurer, J.",
+        "year": 2026,
+        "title": "Personality traits and end-of-life planning in older adults: insights from a population-based survey",
+        "venue": "European Journal of Ageing 23(1), 19",
+        "url": "https://doi.org/10.1007/s10433-026-00916-x"
+      },
+      "quote": "Table 2, row Openness, column Having a testament (yes): \"3.0 *\"; Table 1 row \"Openness | 3.7 (0.9)\". Table 2 source note: \"Average marginal effects (AMEs) based on logit regression models. All probabilities are multiplied by 100 to express AMEs in percentage points.\" Table 1 note: \"Personality traits’ statistics are mean (standard deviation).\"",
+      "quoteVerified": true,
+      "notes": "Average marginal effect (percentage points) from a logistic regression on the 1-5 BFI-10 trait score ('each unit'), SHARE Switzerland waves 6 and 7 (2015 and 2017), adults 55+, n = 1,524, controls gender, age, education, partner, children, finances, region, health. The paper prints the effect per unit of the 5-point trait score; the helper multiplied it by the trait SD in points from the paper's Table 1 (openness 0.9, conscientiousness 0.7, extraversion 1.0, agreeableness 0.8, neuroticism 1.0) to get the per-SD value, which assumes the effect is linear in the trait. The paper prints significance stars, not SEs, so low/high are null. Switzerland only; the instruments were new in Swiss law two years before the survey (the SHARE summary cautions on this). 3.0 pp per unit x SD 0.9 = 2.7 pp per SD (p<.05). Other traits for a testament: conscientiousness 2.4 (ns; SD 0.7), agreeableness -1.3 (ns), neuroticism 1.4 (ns). The SHARE summary calls the missing conscientiousness effect a surprising null.",
+      "option": "make-will"
+    },
+    {
+      "id": "contracts.award",
+      "trait": "honesty-humility: Fairness facet (HEXACO)",
+      "outcome": "workplace deviance (voluntary behavior that violates significant organizational norms; k = 16, N = 5055); proxy for an official bending procurement rules to favor a known firm",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.519,
+        "low": -0.558,
+        "high": -0.48
+      },
+      "source": {
+        "authors": "Pletzer, J. L., Oostrom, J. K., Bentvelzen, M., & de Vries, R. E.",
+        "year": 2020,
+        "title": "Comparing domain- and facet-level relations of the HEXACO personality model with workplace deviance: A meta-analysis",
+        "venue": "Personality and Individual Differences 152, 109539",
+        "url": "https://repub.eur.nl/pub/123154/Pletzer-et-al.-2020-PAID.pdf"
+      },
+      "quote": "Table 2, row Fairness: \"16\" studies, N \"5055\", r \"−0.424\", ρ \"−0.519\", SEρ \"0.020\", 95% CI \"−0.558, −0.480\". Text: \"Among the Honesty-Humility facets, Fairness (ρ = −0.519) exhibited the strongest correlation with WD.\" Table 2 note: \"ρ = meta-analytic correlation corrected for unreliability\" and \"95% CI = 95% confidence interval for ρ\". Text: \"WD, also known as counterproductive work behavior, is defined as voluntary behavior by employees that violates significant organizational norms and thereby harms the organization and/or its members (Bennett & Robinson, 2000).\"",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation (corrected for unreliability, rho) between the HEXACO scale and self- or other-rated workplace deviance, 29 studies. Used as a proxy because no study of public officials awarding contracts by personality was found: awarding to a known firm instead of the lowest bidder is an organizational-norm violation for self-interest, which is what workplace deviance measures. The honesty-humility domain alone is rho = -0.420 (k = 27, N = 8,875; 95% CI -0.483, -0.358) in the same table and Pletzer et al. 2019 (rho = -0.482), already used for corruption.take and corruption.offer. The Fairness facet (HEXACO: avoiding fraud and corruption, not taking what is not one's own) is the facet nearest this decision and has the largest correlation of any facet; the paper reports that Fairness alone explains almost as much variance as all six domains. Correlations are with self-reported deviance in mostly employee and student samples; they check the size of the trait's pull and do not make the official corrupt. Fairness is a facet of Honesty-Humility; the game's trait set uses the domain-level and Greed Avoidance pulls, so the domain row (-0.420) may map more directly if the lean has no fairness facet. CALIBRATION CAUTION: trait-calibrate.ts turns a correlation of this size into a log-odds gap between the top and bottom thirds of about 2.4 (an odds ratio near 11 for the Fairness row) and about 1.7 (near 5 for conscientiousness). The existing corruption.take and corruption.offer rows (rho -0.482) imply about 9 under the same conversion, so this is consistent with how they were treated, but treat it as an upper bound: the correlation is with a self-reported deviance scale across many behaviors, not with one official's choice among bidders.",
+      "option": "award-known-firm"
+    },
+    {
+      "id": "contracts.award",
+      "trait": "conscientiousness (HEXACO)",
+      "outcome": "workplace deviance (voluntary behavior that violates significant organizational norms; k = 18, N = 5714); proxy for an official bending procurement rules to favor a known firm",
+      "effect": {
+        "kind": "correlation",
+        "value": -0.391,
+        "low": -0.452,
+        "high": -0.329
+      },
+      "source": {
+        "authors": "Pletzer, J. L., Oostrom, J. K., Bentvelzen, M., & de Vries, R. E.",
+        "year": 2020,
+        "title": "Comparing domain- and facet-level relations of the HEXACO personality model with workplace deviance: A meta-analysis",
+        "venue": "Personality and Individual Differences 152, 109539",
+        "url": "https://repub.eur.nl/pub/123154/Pletzer-et-al.-2020-PAID.pdf"
+      },
+      "quote": "Table 2, row Conscientiousness: \"18\" studies, N \"5714\", r \"−0.328\", ρ \"−0.391\", SEρ \"0.031\", 95% CI \"−0.452, −0.329\". Text: \"Honesty-Humility exhibited the strongest relation with WD (ρ = −0.420), followed by Conscientiousness (ρ = −0.391), Agreeableness (ρ = −0.206)\". Table 2 note: \"ρ = meta-analytic correlation corrected for unreliability\" and \"95% CI = 95% confidence interval for ρ\". Text: \"WD, also known as counterproductive work behavior, is defined as voluntary behavior by employees that violates significant organizational norms and thereby harms the organization and/or its members (Bennett & Robinson, 2000).\"",
+      "quoteVerified": true,
+      "notes": "Meta-analytic correlation (corrected for unreliability, rho) between the HEXACO scale and self- or other-rated workplace deviance, 29 studies. Used as a proxy because no study of public officials awarding contracts by personality was found: awarding to a known firm instead of the lowest bidder is an organizational-norm violation for self-interest, which is what workplace deviance measures. The honesty-humility domain alone is rho = -0.420 (k = 27, N = 8,875; 95% CI -0.483, -0.358) in the same table and Pletzer et al. 2019 (rho = -0.482), already used for corruption.take and corruption.offer. The Fairness facet (HEXACO: avoiding fraud and corruption, not taking what is not one's own) is the facet nearest this decision and has the largest correlation of any facet; the paper reports that Fairness alone explains almost as much variance as all six domains. Correlations are with self-reported deviance in mostly employee and student samples; they check the size of the trait's pull and do not make the official corrupt. Conscientiousness maps to the follow-rules pull (low conscientiousness bends rules); agreeableness is -0.206 (k = 18) and emotionality -0.091 in the same table. CALIBRATION CAUTION: trait-calibrate.ts turns a correlation of this size into a log-odds gap between the top and bottom thirds of about 2.4 (an odds ratio near 11 for the Fairness row) and about 1.7 (near 5 for conscientiousness). The existing corruption.take and corruption.offer rows (rho -0.482) imply about 9 under the same conversion, so this is consistent with how they were treated, but treat it as an upper bound: the correlation is with a self-reported deviance scale across many behaviors, not with one official's choice among bidders.",
+      "option": "award-known-firm"
     }
   ]
 }
