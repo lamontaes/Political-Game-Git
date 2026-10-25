@@ -558,6 +558,20 @@ const amount = (value, unit) => {
   if (unit?.startsWith("USD/")) return `$${value}/${unit.slice(4)}`;
   return `${value ?? ""}${unit ? ` ${unit.replace(/-/g, " ")}` : ""}`;
 };
+/**
+ * Who sets a level's rate: the level and the government its seats name
+ * ("State · Texas"). A stand-in row from another series (a state's average
+ * local sales tax where the town records none) says what it is instead.
+ */
+const lawLevelLabel = (law, level) =>
+  [
+    controls.levels?.[level.level] ?? words(level.level),
+    level.row.series !== law.series
+      ? `${words(level.row.series)}${level.row.estimate ? ` · ${words("estimate")}` : ""}`
+      : level.government,
+  ]
+    .filter(Boolean)
+    .join(" · ");
 /** A policy question by its name on the bill catalog, else its key's last part in words. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? words(question);
@@ -3406,7 +3420,7 @@ const sheets = {
               .filter((level) => level.row)
               .map((level) =>
                 el("div", {
-                  textContent: `${controls.levels?.[level.level] ?? words(level.level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
+                  textContent: `${lawLevelLabel(law, level)} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${words(level.setAside)}` : ""}`,
                 }),
               ),
             ...law.pending.map((row) =>
@@ -3936,7 +3950,7 @@ const sheets = {
               for (const level of law.levels.filter((l) => l.row))
                 detail.append(
                   row(
-                    controls.levels?.[level.level] ?? words(level.level),
+                    lawLevelLabel(law, level),
                     `${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}`,
                   ),
                 );
