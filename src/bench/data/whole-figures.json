@@ -1,5 +1,5 @@
 {
-  "about": "Standing people (owner, Oct 24), drawn from the Codex people-engine v2 set (art/people-engine/v2): which of its outfits a person wears where, by role, and how tall each age band stands. An official at a government place wears an official's outfit, someone at their own workplace wears work clothes, anyone else their age band's everyday clothes. The set paints adults only, in the outfits base (tee and shorts), shirt, vest and blazer standing. Heights are presentation sizes, TUNABLE by eye.",
+  "about": "Standing people drawn from the Codex people-engine v2 set (art/people-engine/v2): which of its outfits a person wears where, by role, and how tall each age band stands. An official at a government place wears an official's outfit, someone at their own workplace wears work clothes, anyone else their age band's everyday clothes. The set paints adults only, in the outfits base (tee and shorts), shirt, vest and blazer standing. Heights are presentation sizes, TUNABLE by eye.",
   "officialOutfits": ["blazer", "vest"],
   "workOutfits": ["shirt", "vest", "blazer"],
   "casualByAge": {

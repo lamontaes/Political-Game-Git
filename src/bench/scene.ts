@@ -538,7 +538,7 @@ function isOfficial(core: CoreState, id: string): boolean {
 
 /**
  * Puts each id on the place's spots: the first on the hero spot, the rest
- * near them. Only approved whole figures are drawn (owner, Oct 13): a person
+ * near them. Only v2 figures are drawn: a person
  * no figure fits on a spot moves to the next spot that one fits, and where
  * none does, nobody is drawn for them. Then each turns toward who they're
  * with, or toward the front of a room that has one.

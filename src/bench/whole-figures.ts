@@ -1,7 +1,7 @@
 // Standing people: one cut-out per person from the Codex people-engine v2
 // set, picked from their record (sex, age and role at the place), placed on
 // the backdrop's staging spot by depth and turned to face the room. The set
-// paints adults only, in six outfits and three builds; a child has no figure
+// paints adults only, in four standing outfits and three builds; a child has no figure
 // and is listed as unplaced.
 import { readFileSync } from "node:fs";
 import { PNG } from "pngjs";
