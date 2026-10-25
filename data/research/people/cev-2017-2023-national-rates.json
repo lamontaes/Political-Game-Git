@@ -1,0 +1,101 @@
+{
+  "id": "cev-2017-2023-national-rates",
+  "publisher": "AmeriCorps Office of Research and Evaluation, from the U.S. Census Bureau's Current Population Survey",
+  "vintage": "2017, 2019, 2021 and 2023 (each a September survey asking about the past 12 months)",
+  "table": "2017-2023 CEV Findings: National Rates of All Measures from the Current Population Survey Civic Engagement and Volunteering Supplement (data.americorps.gov view rhng-qtzw)",
+  "title": "National rates of all measures, Civic Engagement and Volunteering Supplement",
+  "universe": "Civilian noninstitutional population age 16 and over",
+  "geography": "United States",
+  "sourceUrl": "https://data.americorps.gov/dataset/2017-2023-CEV-Findings-National-Rates-of-All-Measu/rhng-qtzw",
+  "downloadUrl": "https://data.americorps.gov/api/views/rhng-qtzw/rows.csv?accessType=DOWNLOAD",
+  "retrievedOn": "2026-10-25",
+  "limits": "Each rate is the share of people who did the activity at least once in the past 12 months, as a fraction; the survey gives no counts of how often. Formal volunteering is through any organization (religious, school, civic, cause), not only causes; charitable giving is money or goods over $25 to a non-political group; donating to a political cause is separate. National only; state and metro rates are other tables. The download repeats the 2017, 2019 and 2021 rows; the repeats differ only in the local-election voting rate, listed under repeatedRowDifferences, and the first row of each year is kept.",
+  "rates": {
+    "2021": {
+      "formalVolunteering": 0.232,
+      "organizationalMembership": 0.238,
+      "charitableGiving": 0.481,
+      "informalHelping": 0.509,
+      "talkingWithFriendsAndFamily": 0.963,
+      "talkingWithNeighbors": 0.688,
+      "learningAboutIssues": 0.834,
+      "discussingIssuesWithFriendsAndFamily": 0.693,
+      "discussingIssuesWithNeighbors": 0.302,
+      "postingViewsOnline": 0.209,
+      "votingInLocalElections": 0.562,
+      "contactingPublicOfficials": 0.095,
+      "donatingToAPoliticalCause": 0.094,
+      "attendingPublicMeetings": 0.082,
+      "takingActionWithNeighbors": 0.18,
+      "buycottingOrBoycotting": 0.171,
+      "employerPromotesVolunteering": 0.355
+    },
+    "2019": {
+      "formalVolunteering": 0.3,
+      "organizationalMembership": 0.271,
+      "charitableGiving": 0.505,
+      "informalHelping": 0.517,
+      "talkingWithFriendsAndFamily": 0.973,
+      "talkingWithNeighbors": 0.704,
+      "learningAboutIssues": 0.838,
+      "discussingIssuesWithFriendsAndFamily": 0.682,
+      "discussingIssuesWithNeighbors": 0.291,
+      "postingViewsOnline": 0.191,
+      "votingInLocalElections": 0.526,
+      "contactingPublicOfficials": 0.099,
+      "donatingToAPoliticalCause": 0.081,
+      "attendingPublicMeetings": 0.104,
+      "takingActionWithNeighbors": 0.205,
+      "buycottingOrBoycotting": 0.148,
+      "employerPromotesVolunteering": null
+    },
+    "2017": {
+      "formalVolunteering": 0.303,
+      "organizationalMembership": 0.271,
+      "charitableGiving": 0.522,
+      "informalHelping": 0.514,
+      "talkingWithFriendsAndFamily": 0.975,
+      "talkingWithNeighbors": 0.748,
+      "learningAboutIssues": 0.87,
+      "discussingIssuesWithFriendsAndFamily": 0.715,
+      "discussingIssuesWithNeighbors": 0.326,
+      "postingViewsOnline": 0.218,
+      "votingInLocalElections": 0.512,
+      "contactingPublicOfficials": 0.114,
+      "donatingToAPoliticalCause": 0.087,
+      "attendingPublicMeetings": 0.107,
+      "takingActionWithNeighbors": 0.209,
+      "buycottingOrBoycotting": 0.139,
+      "employerPromotesVolunteering": null
+    },
+    "2023": {
+      "formalVolunteering": 0.283,
+      "organizationalMembership": 0.249,
+      "charitableGiving": 0.485,
+      "informalHelping": 0.543,
+      "talkingWithFriendsAndFamily": 0.969,
+      "talkingWithNeighbors": 0.703,
+      "learningAboutIssues": 0.813,
+      "discussingIssuesWithFriendsAndFamily": 0.673,
+      "discussingIssuesWithNeighbors": 0.288,
+      "postingViewsOnline": 0.173,
+      "votingInLocalElections": 0.532,
+      "contactingPublicOfficials": 0.087,
+      "donatingToAPoliticalCause": 0.07,
+      "attendingPublicMeetings": 0.094,
+      "takingActionWithNeighbors": 0.215,
+      "buycottingOrBoycotting": 0.175,
+      "employerPromotesVolunteering": 0.4
+    }
+  },
+  "repeatedRowDifferences": {
+    "2019": {
+      "votingInLocalElections": [0.526, 0.533]
+    },
+    "2017": {
+      "votingInLocalElections": [0.512, 0.521]
+    }
+  },
+  "quote": "Year,National Formal Volunteering Rate,National Organizational Membership Rate,National Charitable Giving Rate,National Informal Helping Rate,National Talking with Friends and Family Rate,National Talking with Neighbors Rate,National Learning About Issues Rate,National Discussing Issues with Friends and Family Rate,National Discussing Issues with Neighbors Rate,National Posting Views Online Rate,National Rate of Voting in Local Elections,National Contacting Public Officials Rate,National Donating to a Political Cause Rate,National Attending Public Meetings Rate,National Taking Action with Neighbors Rate,National Buycotting or Boycotting Rate,National Employer Promotes Volunteering Rate / 2023,0.283,0.249,0.485,0.543,0.969,0.703,0.813,0.673,0.288,0.173,0.532,0.087,0.07,0.094,0.215,0.175,0.4",
+  "use": "Bands the cause-activity year report (scripts/research/cause-activity-year.ts) checks a played town's full adults against: the share of adults who volunteered, belonged to a group, gave, contacted an official, donated to a political cause or attended a public meeting at least once in a year, against the range of the four survey years. Never a chance anyone reads; who acts stays each person's own scored choice."
+}
