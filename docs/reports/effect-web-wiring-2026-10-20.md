@@ -73,15 +73,18 @@ By point, after the fixes:
 
 ## Shifting one cause in a copy of the town
 
-The twin check plays Paris, Arkansas, twice for three months, shifting one cause in one copy, and compares every record. Before the fixes, no engine record moved for any of 15 causes. After them, 12 of 16 causes moved records outside the web; rerun on Oct 24 with main merged, it shifts 17 causes and the same 12 move:
+The twin check plays Paris, Arkansas (seed `ew20oct26`), twice for a played year, shifting one cause in one copy, and compares every record. Before the fixes, no engine record moved for any of 15 causes in three months. After them, rerun for twelve months, it shifts 17 causes and 12 move records outside the web, the same 12 as the three-month runs. Each line names one record the shifted copy changed:
 
-- Unemployment, police staffing and the crime index change the month's crimes.
-- Violent crime moves families out.
-- Particulates and the speed limit change counted deaths, and the birth level changes counted births.
-- The corporate tax, broadband, road condition and transit change pay, prices and the budgets that follow.
+- Unemployment, police staffing and the crime index change the month's crimes (`core2-crime-v1/months` `jurisdiction_2516a182010dba98:2025-02`).
+- Violent crime moves families out: a full resident's pull to move (`moves/pulls` `person_fe76daa906c7aeb9`).
+- The birth level changes births: a counted month (`core2-renewal-v1/counts` `jurisdiction_2516a182010dba98:2025-03`) and a full birth (`person_6657abfcc9767712:birth`).
+- Particulates change counted infant deaths (`core2-renewal-v1/counts` `jurisdiction_2516a182010dba98:2025-03`).
+- The rural speed limit changes deaths: counted months, and a full resident's death (`life.death:person_1065ef2358d40a00:2026-01-27`).
+- Broadband changes hiring (`jobs/changes` `job-change:2025-03-03:job:position:organization_c9eaaa24496abaa1:2025-03-01:1:person_becc24b61bdd61ac:hire`).
+- Road condition and transit change what businesses charge (`business/trading` `business-trading:organization_5d437b7950c7dde6:2025-04-01` and `:2025-05-01`); the corporate tax changes pay, prices and the budgets that follow.
 - Home prices change only the economy's own figures.
 
-The other five do not move in three months. The uninsured share, poverty and graduation act after 12 to 120 months. SNAP receipt has no engine reader, and drinking-water violations reach only infants' birthweight, which no engine records; their stopgaps say so. The counts of moved record kinds include knock-on changes, since one changed record moves others. Earlier runs undercounted for two reasons, both now fixed: the check lost its shift whenever the web rewrote a month's row, and it could not see nested fields.
+The other five do not move in twelve months. The uninsured share, poverty and graduation act after 12 to 120 months. SNAP receipt has no engine reader (`SG-WEB-unread-household-food-insecurity`), and drinking-water violations reach only infants' birthweight, which no engine records; their stopgaps say so. The counts of moved record kinds include knock-on changes, since one changed record moves others. Earlier runs undercounted for two reasons, both now fixed: the check lost its shift whenever the web rewrote a month's row, and it could not see nested fields. The matrix's `twins` block holds this run, with up to three records for each table that moved.
 
 ## What happens next
 
