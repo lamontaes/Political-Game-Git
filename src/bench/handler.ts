@@ -429,6 +429,11 @@ export async function benchRequest(
             requireCore(),
             director,
             url.searchParams.get("id") ?? "",
+            // The player's own journal reads to their clock, which stands at
+            // the start of a day the core has yet to run (a birthday morning).
+            player?.packet && player.personId === url.searchParams.get("id")
+              ? { through: player.packet.at.date }
+              : {},
           ),
         );
         return;

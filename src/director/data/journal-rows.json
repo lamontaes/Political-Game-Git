@@ -337,6 +337,11 @@
       "kindPrefix": "household:moment:parent-new-job",
       "turn": false,
       "entry": "story"
+    },
+    {
+      "kindPrefix": "life:came-of-age",
+      "turn": false,
+      "entry": "story"
     }
   ],
   "firstTitle": [

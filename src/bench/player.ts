@@ -1,3 +1,4 @@
+import { comingOfAgeOn } from "../director/coming-of-age";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   advancePlayerV1,
@@ -208,10 +209,16 @@ export class BenchPlayer {
   private run(start: PlayerPacketV1 | undefined, from: PlayerMomentV1) {
     const { through, mode } = this.destination!;
     const skipping = mode === "calendar";
+    // Coming of voting age is golden-path step one: an advance that reaches
+    // that day stops on it, so the player sees the day it happens.
+    const began = from.date;
+    const person = this.core.people.get(this.personId!);
+    const comesOfAge = person ? comingOfAgeOn(person.birthDate) : undefined;
     let packet = start;
     while (true) {
       if (!packet || packet.kind === "complete") {
         if (packet) from = packet.at;
+        if (comesOfAge && began < comesOfAge && from.date >= comesOfAge) break;
         if (compareMoments(from, through) >= 0) break;
         const next = {
           date: addDays(makeIsoDate(from.date), 1),

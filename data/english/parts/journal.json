@@ -6264,6 +6264,87 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-turned-eighteen",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I turned eighteen.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.today-i-turned-eighteen",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "Today I turned eighteen.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.self-line-came-of-age.i-am-eighteen-now",
+      "move": "self-line-came-of-age",
+      "kind": "spoken",
+      "text": "I'm eighteen now.",
+      "uses": [
+        {
+          "move": "self-line-came-of-age",
+          "subject": "life",
+          "role": "came-of-age",
+          "choice": "came-of-age",
+          "journal": [
+            {
+              "kindPrefix": "life:came-of-age",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "shippable": true,
+      "origin": "authored",
+      "author": "play-first lane",
+      "date": "2026-10-25",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

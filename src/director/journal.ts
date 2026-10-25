@@ -25,6 +25,7 @@ import {
   type JournalWords,
 } from "../english/journal-words";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
+import { comingOfAgeOn } from "./coming-of-age";
 import { properName } from "./words";
 import type { Moment } from "./types";
 import {
@@ -165,6 +166,32 @@ function householdMoments(person: PersonState): JournalMoment[] {
       ];
     return [];
   });
+}
+
+/**
+ * The day the person comes of voting age, told once it has come, for a life
+ * the player began before it (golden-path step one). It cites the person's
+ * own record, whose birth date sets the day.
+ */
+function comingOfAgeMoments(
+  core: Readonly<CoreState>,
+  person: PersonState,
+): JournalMoment[] {
+  const date = comingOfAgeOn(person.birthDate);
+  if (date < core.startedAt) return [];
+  return [
+    {
+      id: `came-of-age:${person.id}`,
+      date,
+      causeId: person.id,
+      causeFactId: person.id,
+      causeKind: "life:came-of-age",
+      counterpartIds: [],
+      hindsight: zero,
+      impact: zero,
+      echoes: [],
+    },
+  ];
 }
 
 /**
@@ -420,6 +447,7 @@ export function composeJournal(
     ...book.moments,
     ...officeActMoments(core, personId, words),
     ...householdMoments(person),
+    ...comingOfAgeMoments(core, person),
   ]
     .filter((moment) => moment.date <= through)
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
