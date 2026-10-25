@@ -482,10 +482,64 @@ try {
       .innerText()
       .catch(() => "?"),
   );
+  // Election day arrived at midnight: play the day out until the polls stop
+  // opens the ballot. Answer stops, wait out scenes, advance the day.
+  for (let round = 0; round < 30; round += 1) {
+    if (await page.locator("#ballot:not([hidden])").count()) break;
+    const talk = page.locator(
+      "#talk:not([hidden]) #talk-choices button:visible",
+    );
+    if (await talk.count()) {
+      console.log("Election day stop: talk");
+      await talk.first().click();
+      await page.waitForTimeout(2000);
+      continue;
+    }
+    if (await page.locator("#talk:not([hidden])").count()) {
+      const left = page.locator("#talk-leave:visible");
+      if (await left.count()) await left.click().catch(() => {});
+      else
+        await page
+          .locator("#talk-silent:visible")
+          .click()
+          .catch(() => {});
+      await page.waitForTimeout(2000);
+      continue;
+    }
+    if (await page.locator("#continue:not([hidden]):visible").count()) {
+      console.log("Election day stop: player Continue");
+      await page
+        .locator("#continue:not([hidden]):visible")
+        .click()
+        .catch(() => {});
+      await page.waitForTimeout(2000);
+      continue;
+    }
+    if (await page.locator("#game.cinema").count()) {
+      console.log("Election day: cinema scene playing, waiting it out");
+      await page
+        .locator("#game.cinema")
+        .waitFor({ state: "detached", timeout: 90000 })
+        .catch(() => {});
+      await page.waitForTimeout(1000);
+      continue;
+    }
+    const day = page.locator("#day:not([disabled]):visible");
+    if (await day.count()) {
+      console.log("Election day: advancing the day");
+      await day.first().click();
+      await page.waitForTimeout(4000);
+      continue;
+    }
+    await page.waitForTimeout(3000);
+  }
   console.log(
     "Ballot visible:",
     await page.locator("#ballot:not([hidden])").count(),
   );
+  await page.screenshot({
+    path: "docs/reports/ballot-pages-2026-10-24/election-day.png",
+  });
   assert.ok(
     await page.locator("#ballot:not([hidden])").count(),
     "no ballot on election day",
@@ -508,6 +562,49 @@ try {
   console.log("Page 2:", page2.join(" | "));
   assert.notDeepEqual(page2, page1, "Continue did not turn the ballot page");
   console.log("PASS ballot: Continue turns the pages");
+  // Page on until the player's own race (candidate "Test Voter") shows.
+  let found = false;
+  for (let p = 0; p < 15; p += 1) {
+    if (
+      await page
+        .locator("#ballot-races .race:not(.paged-out) button", {
+          hasText: "Test Voter",
+        })
+        .count()
+    ) {
+      found = true;
+      break;
+    }
+    const next = page.locator("#ballot-pager button").nth(1);
+    if (!(await next.count()) || (await next.isDisabled().catch(() => true)))
+      break;
+    await next.evaluate((e) => e.click());
+    await page.waitForTimeout(1500);
+  }
+  assert.ok(found, "own race (Test Voter) never paged into view");
+  console.log("PASS ballot: paged to own race");
+  await page.screenshot({
+    path: "docs/reports/ballot-pages-2026-10-24/own-race.png",
+  });
+  // Mark the own race; the mark response carries the ballot (visit) id.
+  const marked = page.waitForResponse(
+    (r) => new URL(r.url()).pathname === "/api/polling-place/mark",
+    { timeout: 30000 },
+  );
+  await page
+    .locator("#ballot-races .race:not(.paged-out) button", {
+      hasText: "Test Voter",
+    })
+    .first()
+    .click();
+  const record = (await (await marked).json()).record ?? {};
+  console.log("Ballot id:", record.id ?? "?");
+  assert.ok(record.id, "mark response carried no ballot id");
+  console.log("PASS marking: vote recorded with ballot id", record.id);
+  await page.waitForTimeout(1500);
+  await page.screenshot({
+    path: "docs/reports/ballot-pages-2026-10-24/after-mark.png",
+  });
 } finally {
   await browser.close();
 }
