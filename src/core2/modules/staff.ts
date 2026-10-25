@@ -882,7 +882,7 @@ function record(
     result,
   };
   // The row says why this work was good or poor; it is kept for the people
-  // the player deals with (everyone's when bookkeeping is on). The count of
+  // the player deals with (everyone's under the keep-everyone's-why switch). The count of
   // tasks stays on the staffer for everyone.
   if (keepsWhy(api.state as CoreState, staffer.officialId, staffer.personId))
     table(api, "work").put(work as unknown as ModuleRow);

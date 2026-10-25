@@ -448,7 +448,7 @@ export function impressionOf(
  * A cause is the "why" behind one voter's warmth. The voter's running count
  * of contacts lives on their impression row, which the votes read; the cause
  * row itself is kept for the player's circle, for candidates the player
- * runs against, and when bookkeeping is on.
+ * runs against, and everyone's under the keep-everyone's-why switch.
  */
 function keepCause(api: CoreAPI, cause: CauseRow): void {
   if (keepsWhy(api.state as CoreState, cause.voterId, cause.candidateId))
