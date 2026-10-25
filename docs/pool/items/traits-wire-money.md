@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-24 from PR #5587 (branch claude/traits-money): Family completion still defers saturated applying/buying/owner-draw/founding choices explicitly required by item Notes, with 0 percent turned and zero housing arrears calls despite the positive-call Done-when row; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 from PR #5587 (branch claude/traits-money): corrective head 673bc569dc has current-main conflicts in data/content/trait-decision-gaps.json, scripts/traits/trait-wiring-audit.ts and src/core2/modules/jobs.ts; reconcile all current job/payroll, gap and audit behavior before the family gate; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 from PR #5587 (branch claude/traits-money): Unsourced jobs.apply and business.owner-draw weights are 0.7 and 0.35 against an assumed OR, but the item requires the general weight 1 with a gap row when no study number exists (parameters.json:5459 and :5512); restore that fallback or supply quantitative research, then rerun both drawn-place audits and update the Done-when evidence table; finish on that branch, merge main into it first.
