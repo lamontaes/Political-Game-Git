@@ -1,5 +1,5 @@
 import { composeScene } from "../director/scene";
-import { purposeScene } from "../director/purpose-scene";
+import { purposeScene, replyInScene } from "../director/purpose-scene";
 import {
   shipped,
   type SceneTalkLine,
@@ -163,4 +163,32 @@ export function storyScene(
     ...(purpose?.kind === "skipped" ? { talkSkipped: purpose.reason } : {}),
     names: Object.fromEntries(cast.map((row) => [row.id, row.name])),
   };
+}
+
+/**
+ * The reply the player chose in a scene with a purpose, by its path through
+ * the tree: the game keeps it as a record the core's own writer reads.
+ */
+export function storyReply(
+  core: CoreState,
+  director: Director,
+  personId: string,
+  momentId: string,
+  path: readonly number[],
+  options: { held?: boolean } = {},
+) {
+  const entry = director.ledger.people
+    .get(personId)
+    ?.schedule.find((row) => row.momentId === momentId);
+  if (!entry) throw new Error("No scheduled moment with that id.");
+  const recordId = replyInScene(
+    core,
+    director,
+    personId as PersonId,
+    entry,
+    path,
+    options.held ? { includeHeld: true } : {},
+  );
+  if (!recordId) throw new Error("Not a reply the scene offers.");
+  return { recordId };
 }
