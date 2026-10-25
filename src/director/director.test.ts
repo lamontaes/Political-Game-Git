@@ -25,7 +25,7 @@ import {
   SITUATION_LIBRARY,
   type SituationLibrary,
 } from "./scheduling";
-import { SCENE_BANK, sceneWordsFromBank } from "./mined/scene-bank";
+import { everySceneWord } from "../english/scene-words";
 import { composeScene } from "./scene";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
@@ -567,8 +567,7 @@ describe("story director on the new core", () => {
       (row) => row.mode !== "before-opening",
     )!;
     // The spouse's share of the same loss, 0.431, is under the line, but a
-    // household member's lost job is a family scene at home whatever its size
-    // (owner, Oct 14, 2026, night).
+    // household member's lost job is a family scene at home whatever its size.
     expect(spouseEntry.outcome).toBe("scene-now");
     const heard = spouseEntry.bindings.find(
       (row) => row.typeKey === "news-arrives",
@@ -678,10 +677,7 @@ describe("story director on the new core", () => {
       staged.roles.find((row) => row.role === "bearer")!.personIds,
     ).toEqual(["person:worker"]);
     // Every bank line, as the grading view reads them, so the narrator speaks.
-    const words = sceneWordsFromBank({
-      ...SCENE_BANK,
-      parts: SCENE_BANK.parts.map((part) => ({ ...part, shippable: true })),
-    });
+    const words = everySceneWord();
     const scene = composeScene(core, director, personId, sitting, words);
     expect(scene?.narration.length).toBeGreaterThan(0);
     const cited = (scene?.narration ?? []).flatMap(
@@ -766,7 +762,7 @@ describe("story director on the new core", () => {
       modules: [fixtureWorld("place:director-fixture"), filtered.module],
     });
     filtered.start(core);
-    // The player allows only funerals to stop their day (owner, Oct 14, 2026).
+    // The player allows only funerals to stop their day.
     const record = filtered.setSceneFilter(
       "person:worker",
       ["funeral", "not-a-kind"],
@@ -1136,7 +1132,7 @@ describe("story director on the new core", () => {
 
     // The spouse's 0.431 share of the same loss is under the line, but a
     // household member's lost job is a family scene at home whatever its
-    // size (owner, Oct 14, 2026, night): it stops the spouse's day too.
+    // size: it stops the spouse's day too.
     const spouse = play("person:spouse");
     expect(
       spouse.stops.filter((packet) =>
