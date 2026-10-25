@@ -44,13 +44,16 @@ export interface SituationCause {
     /**
      * Facts of the cause's own record, every one of which must hold: a fact
      * ("winnerId") names the moment's person ("is": "subject") or someone
-     * else ("other"), or is one of the listed values ("equals"). A cause whose
-     * record is gone, or lacks the fact, matches nothing.
+     * else ("other"), is one of the listed values ("equals"), or is a list
+     * of people ("outIds") that includes the moment's person ("includes":
+     * "subject"). A cause whose record is gone, or lacks the fact, matches
+     * nothing.
      */
     causeFacts?: readonly {
       key: string;
       is?: "subject" | "other";
       equals?: readonly string[];
+      includes?: "subject";
     }[];
     /**
      * The cause's own record names the moment's person (a public comment's
@@ -200,6 +203,11 @@ export function causeMatches(
     if (want.is && (fact === moment.personId) !== (want.is === "subject"))
       return false;
     if (want.equals && !want.equals.includes(fact)) return false;
+    if (
+      want.includes === "subject" &&
+      !(JSON.parse(fact) as unknown[]).includes(moment.personId)
+    )
+      return false;
   }
   if (
     match.causeNames === "subject" &&

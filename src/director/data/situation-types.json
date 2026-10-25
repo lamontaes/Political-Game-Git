@@ -106,7 +106,8 @@
     "householdRecordScenes": ["feeling:event:housing.eviction"],
     "ownRecordScenes": [
       "cause:event:candidate-filed",
-      "cause:event:election-result"
+      "cause:event:election-result",
+      "cause:event:primary-result"
     ]
   },
   "types": [
@@ -1897,6 +1898,21 @@
           },
           "opener": "candidate",
           "opening": "congratulate"
+        },
+        {
+          "match": {
+            "label": "cause:event:primary-result",
+            "causeFacts": [{ "key": "outIds", "includes": "subject" }]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "primary-result",
+          "bind": {
+            "candidate": "subject",
+            "supporters": "supporters",
+            "family": "household"
+          },
+          "opener": "candidate",
+          "opening": "congratulate"
         }
       ],
       "tag": {
@@ -3067,6 +3083,19 @@
           },
           "causeEngine": "elections",
           "causeRecord": "election-result",
+          "bind": {
+            "relative": "household",
+            "you": "subject"
+          },
+          "opener": "relative"
+        },
+        {
+          "match": {
+            "label": "cause:event:primary-result",
+            "causeFacts": [{ "key": "outIds", "includes": "subject" }]
+          },
+          "causeEngine": "elections",
+          "causeRecord": "primary-result",
           "bind": {
             "relative": "household",
             "you": "subject"

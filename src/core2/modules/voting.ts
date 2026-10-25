@@ -1514,11 +1514,15 @@ export function holdPrimary(
     for (const [id, n] of Object.entries(wider.votes))
       votes[id] = (votes[id] ?? 0) + n;
   };
-  const lose = (filing: FilingRow) =>
+  // Who the primary puts out, named on its record so each hears it.
+  const out: string[] = [];
+  const lose = (filing: FilingRow) => {
+    out.push(filing.personId);
     api
       .moduleState(ELECTIONS_MODULE_ID)
       .table("filings")
       .put({ ...filing, status: "withdrawn" } as unknown as ModuleRow);
+  };
   const advancing = method === "top-two" ? 2 : method === "top-four" ? 4 : 0;
   if (advancing) {
     countNamed(filings, named);
@@ -1602,9 +1606,16 @@ export function holdPrimary(
     news: true,
     facts: {
       contestId,
+      office: contest.title,
       method,
       votes: JSON.stringify(votes),
       namedVotes: String(namedVotes),
+      outIds: JSON.stringify(
+        out
+          .map((id) => winningPersonId(api, id))
+          .filter((id) => api.state.people.has(id))
+          .sort(),
+      ),
     },
   });
   return { votes, namedVotes };
