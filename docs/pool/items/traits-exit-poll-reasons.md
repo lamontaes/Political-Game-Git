@@ -5,11 +5,12 @@ area: people
 kind: wiring
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/traits-exit-poll
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T17:41:54.190Z
 ---
 
 **What.** Part of traits-wire-civic. A voter's answer to the exit pollster (voting.exit-poll in src/core2/modules/voting.ts) had a case of 0, so the sign of their temperament decided every answer: net odds of 35 between the thirds in Halfway, Missouri. Give the case the voter's own reasons, how closely they follow politics and how much the day's races mattered to them, set so the share who tell matches the exit-poll response rate, and weigh temperament at a researched size.
