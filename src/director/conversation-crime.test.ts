@@ -3,10 +3,9 @@
  * victimization record for a full household it victimizes, and the ledger
  * keeps it as a moment for each person it names; a talk with the victim
  * raises it as a victimization subject whose source is the crime record, the
- * kind of crime as its stage. Its raising lines are authored and held until
- * graded, so play leaves the subject unsaid; the grading route
- * (`includeHeld`) says it. A one-year played world in a place drawn from all
- * 56; set GOLDEN_PATH_SEED to reproduce the draw.
+ * kind of crime as its stage. Its raising lines play like every bank piece no
+ * grade holds, so ordinary play says it. A one-year played world in a place
+ * drawn from all 56; set GOLDEN_PATH_SEED to reproduce the draw.
  */
 import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -25,7 +24,6 @@ import {
   openConversation,
   subjectsBetween,
 } from "./conversation";
-import { conversationDataFromBank } from "./mined/conversation-bank";
 
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const VICTIMIZED = `feeling:event:${CRIME_EVENT}`;
@@ -156,16 +154,15 @@ it(`a victim's talk raises the victimization from the crime record (base ${base}
     ]);
     const type = found.causeId.slice(CRIME_EVENT.length + 1).split(":")[0];
     expect(subject!.stage, where).toBe(type);
-    // Held: play has no graded line to raise it with.
+    // Play has lines to raise it with: no grade holds them.
     expect(
-      CONVERSATION_DATA.subjects.victimization?.raise ?? [],
+      CONVERSATION_DATA.subjects.victimization?.raise?.length ?? 0,
       where,
-    ).toEqual([]);
-    // The grading route says it: the victim raises it, citing the record.
+    ).toBeGreaterThan(0);
+    // Ordinary play says it: the victim raises it, citing the record.
     const talk = openConversation(core, found.listener, found.victim, {
       director,
       occasionId: found.momentId,
-      data: conversationDataFromBank(undefined, true),
     });
     expect(
       talk.occasion?.id,
