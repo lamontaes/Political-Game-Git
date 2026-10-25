@@ -6266,10 +6266,10 @@
       }
     },
     {
-      "key": "journal.home-line-parents-met-hometown.my-parents-both-came-from-place",
+      "key": "journal.home-line-parents-met-hometown.my-parents-met-in-their-hometown",
       "move": "home-line-parents-met-hometown",
       "kind": "spoken",
-      "text": "My parents both came from {place}.",
+      "text": "My parents met in their hometown.",
       "uses": [
         {
           "move": "home-line-parents-met-hometown",
@@ -6293,10 +6293,10 @@
       }
     },
     {
-      "key": "journal.home-line-parents-met-hometown.my-parents-were-both-from-place",
+      "key": "journal.home-line-parents-met-hometown.my-parents-met-where-they-both-grew-up",
       "move": "home-line-parents-met-hometown",
       "kind": "spoken",
-      "text": "My parents were both from {place}.",
+      "text": "My parents met where they both grew up.",
       "uses": [
         {
           "move": "home-line-parents-met-hometown",
@@ -6320,10 +6320,10 @@
       }
     },
     {
-      "key": "journal.home-line-parents-met-hometown.my-parents-grew-up-in-place",
+      "key": "journal.home-line-parents-met-hometown.my-parents-knew-each-other-from-home",
       "move": "home-line-parents-met-hometown",
       "kind": "spoken",
-      "text": "My parents grew up in {place}.",
+      "text": "My parents knew each other from home.",
       "uses": [
         {
           "move": "home-line-parents-met-hometown",

@@ -180,10 +180,14 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
         ]),
       },
     } as Director;
+    // The household's own past still tells the family; the visits tell nothing.
+    const contactIds = [seen("2021-03-01").id, seen("2021-03-08").id];
     expect(
       composeJournal(core, fixture, player.id, {
         through: makeIsoDate("2021-04-01"),
-      }).flatMap((row) => row.lines),
+      })
+        .flatMap((row) => row.lines)
+        .filter((line) => line.momentIds.some((id) => contactIds.includes(id))),
     ).toEqual([]);
     for (const line of chapters.flatMap((row) => row.lines))
       expect(line.text).not.toMatch(

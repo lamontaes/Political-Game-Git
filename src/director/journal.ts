@@ -118,6 +118,11 @@ function householdMoments(
 ): JournalMoment[] {
   // Each relative once, from the first family fact that names them.
   const toldOf = new Set<string>();
+  // The day the past records the birth, which the family facts are dated by
+  // (a creator's chosen age keeps the drawn past: SG-PLAY-creator-age-keeps-past).
+  const bornOn =
+    (person.pastFacts ?? []).find((fact) => fact.kind === "birth-date")?.date ??
+    person.birthDate;
   return (person.pastFacts ?? []).flatMap((fact): JournalMoment[] => {
     const base = {
       id: fact.id,
@@ -181,9 +186,9 @@ function householdMoments(
       return [
         {
           ...base,
-          date: (sibling > zero
+          date: (sibling > zero && relative.birthDate > bornOn
             ? relative.birthDate
-            : person.birthDate) as IsoDate,
+            : bornOn) as IsoDate,
           causeKind: parent
             ? relative.householdId === person.householdId
               ? "household:raised-by"
