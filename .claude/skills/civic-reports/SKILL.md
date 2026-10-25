@@ -9,6 +9,8 @@ description: >
 
 # Civic reports
 
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: "play first"; every status report leads with how far he can play)
+
 The owner reads reports between other things, often on a phone, and acts on
 them. A report is finished when a reader who was not there can say what
 happened, why, and what they need to do, after one read. Passing the
@@ -20,7 +22,8 @@ mechanical check is the floor; it is not the standard.
    inherits almost nothing", not "Multi-generation walk results".
 2. **Lead**, under 120 words, before the first section. What happened and
    what it means for the game. If the owner has to decide or do something,
-   that goes first. No commit hashes, pull request numbers, file paths, clock
+   that goes first. A status report leads with the play-first lane: how far
+   he can play now toward its one acceptance (owner, Oct 24). No commit hashes, pull request numbers, file paths, clock
    times, or how the test was run.
 3. **The story** (playtest and life reports; the first section). The life as
    the player met it: which town, which character, what was pressed, what the
