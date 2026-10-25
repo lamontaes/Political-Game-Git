@@ -29,3 +29,5 @@ milestone: play-first
 **Files.** src/bench/results.ts, src/bench/play.mjs
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md); the owner's read of its screenshots (docs/coordination/OWNER-DECISIONS.md, Oct 24). Split from play-stop-22-election-win-never-shown (Oct 24, lane). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md).
+
+CTO, Oct 25 18:20 UTC: #6041 (m0-m2 lead, branch claude/quirky-ride-vrwwz4-play-stop-22, filed as play-election-night-own-race-first) is this part's PR; it merges under this id. Part b stays after a.
