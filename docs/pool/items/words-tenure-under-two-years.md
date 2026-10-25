@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Conversations now say a work tenure as whole years, and only from two years up (words/grading-bench-handler): nobody says the month they started. Someone at a job under two years has no tenure line, so that answer is not offered. The five bank pieces worded 'since {since}' (conversation.own-work-answer-since.*-since, tenure-reply-reply-since.i-started-in-since, tenure-reply-answer-own.*-my-since) no longer fit any fact.
+**What.** Conversations now say a work tenure as whole years, and only from two years up (words/grading-bench-handler): nobody says the month they started. Someone at a job under two years has no tenure line, so that answer is not offered. The five bank pieces worded 'since {since}' (conversation.own-work-answer-since._-since, tenure-reply-reply-since.i-started-in-since, tenure-reply-answer-own._-my-since) no longer fit any fact.
 
 **Rules.** No hand-written player text: the short-tenure lines come from the bank by civic-prose ("I just started.", "About a year now."), and the five date pieces are retired in the bank regeneration, not hand-edited.
 
