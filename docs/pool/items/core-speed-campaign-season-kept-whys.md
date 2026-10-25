@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/speed-campaign-kept-whys
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T20:22:24.880Z
 ---
 
 **What.** In Bedford, Wyoming (key 5606045, seed 9a4dd331ace7), on main with the drives change (branch claude/drives-cause-acts-pull-less), month by month with the live heap after a full collection: year one's months run 2 to 4.6 s. From month 15 (spring 2026) the campaigns module's causes table grows by 1,110 rows a month, rising to 17,659 in month 21, and the kept log gains person.weighed records (104 in month 14, 15,939 in month 21). Month 21 takes 7.4 s and month 22 (to November 11, 2026, the election) 16.4 s; the kept log goes from 13,076 records to 79,742 in eight months. Two rules keep them. keepCause in src/core2/modules/campaigns.ts saves a voter's cause row when keepsWhy(voter, candidate) holds, so every voter a candidate the player merely knows reaches gets a kept row. keepWeighing in src/core2/trait-decisions.ts keeps a person.weighed record for every two-way decision a focus person weighs. Keep the why only where it is read (the player's own circle, the player's own race), and price the rest by count.
