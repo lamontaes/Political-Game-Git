@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/jobs.ts, src/core2/outcome-web-reach.ts
 
 **Notes.** Split Oct 24 by the CTO from the effect-web audit (order `docs/work-orders/lead-effects-2026-10-24.md`). Counts from the capstone branch's unwired list on Oct 23 (effect-web-integration). Two minimum-wage links count as reaching in the static matrix but move no records in played towns (`SG-LABOR-low-wage-unreviewed`); `web-calibrate-labor-participation` and `web-calibrate-choice-terms` belong here. A PR names this item on line 1 and `Lead: effects` in its body.
+
+Merger 0 scope split 2026-10-25: PR #6004 completes web-labor-waiting-links-named (specific reasons and positive reader guards); this family remains open because none of its twelve waiting links has the played-world reach proof required above.
