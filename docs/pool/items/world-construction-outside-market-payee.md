@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr: #5982
 blocked-on:
 source: found while tracing tests-budgets-public-pay-intermittent, Oct 24
-claimed-at: 
+claimed-at:
 ---
 
 **What.** Housing construction pays half of a builder's own house to the outside of the town each month, and the property tax engine pays a tax with no payee of its own to the outside too. Both pick the first organization in the place that carries an outside flow, and a government's opening employer carries one as its zero-stock paying authority. In Marlborough, New Hampshire (seed 109a7b3b1d5c1715d738e7b8ca9deec614910239) the state offices received a roofer's monthly materials payment of 1,518,438 cents (journal:2025-02-06:9016) instead of the outside market, which hid that employer's payday overdrafts.
