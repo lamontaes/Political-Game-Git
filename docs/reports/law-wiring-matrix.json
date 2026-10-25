@@ -1304,7 +1304,7 @@
         },
         "reach": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 200 open (full 140, counted groups 45/5044 people, households 0, orgs 15, govts 0) e.g. applied|sales-tax|organization_6bfeefad73e308c6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 181 open (full 135, counted groups 32/2950 people, households 0, orgs 14, govts 0) e.g. applied|sales-tax|person_5a25c780bc2b2e82",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 200 open (full 140, counted groups 45/5044 people, households 0, orgs 15, govts 0) e.g. applied|sales-tax|organization_6bfeefad73e308c6; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 183 open (full 135, counted groups 34/3132 people, households 0, orgs 14, govts 0) e.g. applied|sales-tax|person_5a25c780bc2b2e82",
           "why": ""
         },
         "systems": {
@@ -1314,7 +1314,7 @@
         },
         "money": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1571 3332309503 -> 3332414203 (journal:2025-01-27:1709); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/budgets.ts:942 13530222 -> 13530218 (journal:2025-03-01:8605); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): budgets:withholding @ src/core2/modules/budgets.ts:1571 3161575935 -> 3161570809 (journal:2025-01-28:1603); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing sales-tax: 21703245 (journal:2025-02-01:1989); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing sales-tax: 8845234 (journal:2025-02-01:1947); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 200 the law paid or charged, the payments that changed first: 34 accounts.transfer paid out (src/core2/cost-of-living.ts:327; e.g. household_1093198c88d363ac on 2025-05-01: -197229 in the control world, -197230 here, journal:2025-05-01:24205); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 181 the law paid or charged, the payments that changed first: 14 accounts.transfer paid in (src/core2/modules/purchase-tax.ts:274; e.g. organization_07da3fc20d983a22 on 2025-02-01: -4543 in the control world, -2083 here, journal:2025-02-01:1947)",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): budgets:withholding @ src/core2/modules/budgets.ts:1571 3332309503 -> 3332414203 (journal:2025-01-27:1709); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): accounts.transfer @ src/core2/modules/budgets.ts:942 13530222 -> 13530218 (journal:2025-03-01:8605); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): budgets:withholding @ src/core2/modules/budgets.ts:1571 3161575935 -> 3161583044 (journal:2025-01-28:1603); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): posts citing sales-tax: 21703245 (journal:2025-02-01:1989); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): posts citing sales-tax: 20528433 (journal:2025-02-01:1947); Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): of 200 the law paid or charged, the payments that changed first: 34 accounts.transfer paid out (src/core2/cost-of-living.ts:327; e.g. household_1093198c88d363ac on 2025-05-01: -197229 in the control world, -197230 here, journal:2025-05-01:24205); Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): of 183 the law paid or charged, the payments that changed first: 14 accounts.transfer paid out (src/core2/modules/purchase-tax.ts:274; e.g. organization_07da3fc20d983a22 on 2025-02-01: -4543 in the control world, -4876 here, journal:2025-02-01:1947)",
           "why": ""
         },
         "web": {
@@ -1329,7 +1329,7 @@
         },
         "repeal": {
           "status": "wired",
-          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 200 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 181 open under the changed row -> after the old amount is put back 0 still cite it",
+          "evidence": "Prescott, Michigan, US-MI (seed a91c03e7d2b84f10): 200 open under the changed row -> after the old amount is put back 0 still cite it; Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8): 183 open under the changed row -> after the old amount is put back 0 still cite it",
           "why": ""
         },
         "allPlaces": {
@@ -1346,7 +1346,7 @@
         },
         {
           "place": "Uehling, Nebraska, US-NE (seed 5e27b0c4196fd3a8)",
-          "change": "sales-tax 1.472 -> 1.62 at state (law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4) effective 2025-01-21",
+          "change": "sales-tax 5.5 -> 6.05 at state (law:US-NE:state:sales-tax:general:2025-01-21:law-wiring-dc491ba4) effective 2025-01-21",
           "inForceAtOpening": false
         }
       ],

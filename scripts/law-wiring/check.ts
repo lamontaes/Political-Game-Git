@@ -754,7 +754,21 @@ function changeAmount(
 ): Change {
   const series = law.series!;
   const now = lawInForce(api, series);
-  const g = now.governing as LawRowInput | null | undefined;
+  const governing = now.governing as LawRowInput | null | undefined;
+  // The governing row can be another series lifted into a level's slot (the
+  // state's average local sales tax stands in for a place with no local row):
+  // the change is then made to the most local row of the law's own series.
+  const g =
+    governing && governing.series !== series
+      ? (["city", "county", "state", "federal"] as const)
+          .map(
+            (level) =>
+              now.levels.find(
+                (l) => l.level === level && l.row?.series === series,
+              )?.row,
+          )
+          .find((row) => row)
+      : governing;
   const at = g
     ? { level: g.level, jurisdiction: g.jurisdiction }
     : townLevel(api, AT ? [AT] : (law.catalog?.levels ?? null));
