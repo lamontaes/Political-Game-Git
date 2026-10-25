@@ -5,12 +5,12 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/weight-release-heads
 pr: #5866
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-25T19:40:37.775Z
 ---
 
 **What.** When a counted household record is filled in, releaseWeight (src/core2/counted-groups.ts) spreads the other households it stood for over its group's remaining records. A remaining record's counted job then stands for more workers (countedHeadsOf reads the household's weight), so its employer's staff and payroll grow without a hire, and layOff (src/core2/modules/jobs.ts) refuses to lay off a record that stands for more heads than the staff is over by. Washington, D.C. at its Census size (seed dc-closures-a, scale 69.4): Dixon's Bowling Lanes (organization_e2a2729e26acde67) went from 49 counted records and 3,406 heads on Jan 20 (69.5 a record) to 35 records and 2,818 heads on Dec 16 (80.5 a record), 26 percent over its sales staff of 2,232, while the same town at the sample size shrank to its target (49 to 31 plus 5 full). Its wages over 340 days were 85 times the sample's against sales 75.6 times, and it closed on 2025-12-25 when the payroll came 36,154,827 short. Find where the released weight should go so an employer's heads follow its staffing decisions, and let a record that stands for many jobs shed part of them.
@@ -30,3 +30,5 @@ Sent back 2026-10-24 UTC from PR #5866 (branch claude/weight-release-heads): Che
 Sent back 2026-10-24 UTC from PR #5866 (branch claude/weight-release-heads): corrective head7e6cda5a1b still conflicts with current main in src/core2/modules/jobs.ts; resolve retaining hire behavior, per-job heads and payroll calendars before local recheck; finish on that branch, merge main into it first.
 
 Sent back 2026-10-25 UTC from PR #5866 (branch claude/weight-release-heads): integrated a7c9052bf6 changes per-job heads and payroll without updating householdIncome/wagesMinorYear, which poverty still applies to full household weight; a controlled Trommald MN probe (root57585865cf3defdc, household_a2813740f322cf54, job work-relationship_02dd1704af76e917:kept:household_4455d65d241d5264) lowers heads9 to4.5 and payroll54271850 to29849517.5 cents/year while household income stays5427185; make those downstream readers agree and prove partial cuts/fill-in transfers; finish on that branch, merge main into it first.
+
+Sent back 2026-10-25 18:57 UTC from PR #5866 (branch claude/weight-release-heads): annual sample control omits countScale=1 but buildBenchWorld now defaults omitted scale to Census, so required Census-versus-sample year proof instead compares two Census worlds; pass/verify distinct explicit scales and rerun both annual comparisons, retaining the new income repair; finish on that branch, merge main into it first.
