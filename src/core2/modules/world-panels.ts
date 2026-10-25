@@ -5,7 +5,8 @@
  */
 import { nationalPanel } from "./macro";
 import { regionalLevel } from "./regional";
-import { JOBS_DATA } from "./jobs";
+import { countedResidents } from "../electorate";
+import { JOBS_DATA, type PositionRow } from "./jobs";
 import { residentsRuntime } from "./residents";
 import type { CoreAPI, CoreState } from "../types";
 
@@ -45,6 +46,58 @@ export function jobHistory(api: CoreAPI, personId: string) {
     : [];
 }
 
+/**
+ * The town's own labor market today: its residents at work and looking, a
+ * counted resident standing for its household's weight and a full person for
+ * one (one model, two tiers), and the open positions its employers post.
+ */
+export function townJobsPanel(api: CoreAPI, placeId: string) {
+  const c = api.state as CoreState;
+  const counted = new Map<string, number>();
+  let employed = 0;
+  for (const row of countedResidents(c)) {
+    if (row.placeId !== placeId) continue;
+    counted.set(row.id, row.weight);
+    if (row.weeklyMinutes > 0) employed += row.weight;
+  }
+  const fullHere = (personId: string) => {
+    const person = c.people.get(personId);
+    return person?.alive === true && person.placeId === placeId;
+  };
+  const atWork = new Set<string>();
+  for (const job of c.jobs.values())
+    if (job.endsAt === undefined && fullHere(job.personId))
+      atWork.add(job.personId);
+  employed += atWork.size;
+  // The workers the opening placed in no town firm (commuters, and work in
+  // industries the town lacks) are at work too, paid from the place's outside account.
+  const rt = residentsRuntime(c);
+  for (const h of rt?.store.liveHouseholds() ?? [])
+    if (h.placeId === placeId)
+      employed += h.unplacedWorkers * rt!.store.weightOf(h);
+  employed = Math.round(employed);
+  const jobs = api.moduleState("jobs");
+  // Looking is a seeker's row in either table, each person once, as the jobs
+  // engine counts participation (a counted seeker filled in keeps their row).
+  const looking = new Map<string, number>();
+  for (const table of ["seekers", "countedSeekers"])
+    for (const row of jobs.table(table).rows() as unknown as {
+      personId: string;
+    }[]) {
+      const heads =
+        counted.get(row.personId) ?? (fullHere(row.personId) ? 1 : 0);
+      if (heads) looking.set(row.personId, heads);
+    }
+  let seekers = 0;
+  for (const heads of looking.values()) seekers += heads;
+  let openPositions = 0;
+  for (const row of jobs
+    .table("positions")
+    .query("byStatus", ["open"]) as unknown as PositionRow[])
+    if (row.placeId === placeId) openPositions += row.heads ?? 1;
+  return { employed, seekers, openPositions };
+}
+
 /** The town's monthly hires, quits and layoffs per hundred jobs, against JOLTS 2001-2019. */
 export function turnoverPanel(api: CoreAPI) {
   const c = api.state as CoreState;
@@ -71,14 +124,6 @@ export function turnoverPanel(api: CoreAPI) {
     ]),
   );
   return {
-    employed,
-    seekers:
-      rows(api, "jobs", "seekers").length +
-      rows(api, "jobs", "countedSeekers").length,
-    openPositions: has(api, "jobs")
-      ? api.moduleState("jobs").table("positions").query("byStatus", ["open"])
-          .length
-      : 0,
     ratesByMonth: rates,
     jolts: JOBS_DATA.turnover.industries.total,
   };

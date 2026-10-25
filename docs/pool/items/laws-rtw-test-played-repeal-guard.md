@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/rtw-repeal-guard
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T21:14:02.775Z
 ---
 
 **What.** The right-to-work law test checks union dues over its first 400 days, but in some drawn states a bill the legislature passes in play repeals right-to-work inside that window (Nevada's AB 39, effective 2025-10-01, in one labor-family run). The test then fails on dues the repealed law no longer stops, which is the game working, not a defect. The labor helper saw it fail once and pass on a rerun. The test should check that the law still stands before asserting what it does, the way other law tests do.
