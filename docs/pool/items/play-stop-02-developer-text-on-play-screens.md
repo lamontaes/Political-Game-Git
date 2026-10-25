@@ -5,14 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/quirky-ride-vrwwz4-play-stop-02
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
 milestone: play-first
-claimed-at: 2026-10-25T16:23:53.028Z
+claimed-at:
 ---
 
 **What.** Playing the v0.22.10 release, developer text reached the player on at least eight screens. The talk box always carries a "Mark gap" button. News shows "REGION · 2025-01 unemploymentPct 4.4 · jobsThousands 6909.0 · hourlyEarnings 30.3 · priceLevelPct 92.9" and public records reading "Press.archived" and "Official appointed" with no names. Politics lists council members as "1999-01-01 – 2027-01-01 · in office at the opening · 2022-11-08 60%" and my party as "Views fit 0.91". The filing panel reads "FILING-DEADLINE 2025-02-08 / 2026-08-17", "ALREADY-FILED not filed / one filing per contest", "MINIMUM-AGE 18 / 18". After I filed, the city secretary's line was "on-ballot", and Campaigns is headed "ON-BALLOT · COUNCIL 0 2026-11-03". I expected plain words: dates as "November 3, 2026", "You are on the ballot", no Mark gap in the installed game.

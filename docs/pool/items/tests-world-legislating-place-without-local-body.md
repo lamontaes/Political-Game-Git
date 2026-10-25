@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/legislating-local-body-redraw
-pr:
+pr: #6060
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:40:17.165Z
