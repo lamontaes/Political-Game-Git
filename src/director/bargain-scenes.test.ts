@@ -58,7 +58,24 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
           row.momentId.includes(trade.id),
         );
         const binding = entry?.bindings.find((row) => row.typeKey === typeKey);
-        return { entry, binding };
+        if (binding) return { entry, binding, joined: false };
+        // One sitting covers a day (scheduling.ts): a second trade between
+        // the same two that day is taken into the first one's scene, which
+        // cites it.
+        const sitting = book.schedule.find(
+          (row) =>
+            row.date === trade.date &&
+            row.bindings.some(
+              (other) =>
+                other.typeKey === typeKey &&
+                other.joined?.some((row) => row.causeId === trade.id),
+            ),
+        );
+        return {
+          entry: sitting,
+          binding: sitting?.bindings.find((row) => row.typeKey === typeKey),
+          joined: true,
+        };
       };
       const ask = sceneFor(holdout, "vote-asked");
       expect(ask.binding, `${where}: ${trade.id}: no vote ask`).toBeTruthy();
@@ -78,10 +95,12 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
         bargain.binding!.roles.find((row) => row.role === "member")!.personIds,
       ).toEqual([holdout]);
       // Both talk about the trade's own bill and section, citing the record.
+      // A trade taken into the day's sitting is talked of there, and that
+      // sitting's own trade is checked when its turn comes.
       for (const [personId, entry] of [
-        [holdout, ask.entry!],
-        [sponsor, bargain.entry!],
-      ] as const) {
+        ...(ask.joined ? [] : [[holdout, ask.entry!] as const]),
+        ...(bargain.joined ? [] : [[sponsor, bargain.entry!] as const]),
+      ]) {
         // The lines that play, as ordinary play says them.
         const result = purposeScene(core, director, personId as never, entry);
         expect(result?.kind, `${where}: ${personId}`).toBe("composed");
@@ -107,6 +126,7 @@ it(`a vote trade is a vote ask for the holdout and a section bargain for the spo
         );
       }
       // The holdout asks the sponsor to put their amendment in.
+      if (bargain.joined) continue;
       const asked = purposeScene(
         core,
         director,
