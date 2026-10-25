@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: words/journal-seed-2803
-pr:
+pr: #6113
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T21:21:05.600Z
