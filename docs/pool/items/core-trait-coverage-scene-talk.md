@@ -5,12 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: claude/traits-scene-talk-table
 pr: #5997
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-10-25T20:22:03.636Z
 ---
 
 **What.** The trait coverage test (src/core2/trait-coverage.test.ts, 'finds every decision in code that weighs traits') fails on clean main because src/director/scene-talk.ts decides with traits but has no row in data/content/trait-decisions.json. Its pullOf sums per-move trait pulls from the purpose-arc data to pick the asker's answer and the branch the page follows first, a hand trait sum beside the shared table. Give the decision a table row whose options carry act kinds and read the lean through the shared helper, or list the site under outside with the reason, whichever the words line's design allows.
