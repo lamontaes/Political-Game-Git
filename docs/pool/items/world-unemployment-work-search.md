@@ -36,3 +36,5 @@ Looked at Oct 17 (claude), not built, for two reasons. First, this is the kind o
 Oct 23, merger A: The historical question above was answered by the later owner ruling already recorded in main Notes: the law is simulated without player paperwork, contacts come from effort and the labor market, and posted openings do not block this item. This note does not reopen that question or replace the current written acceptance. No implementation is completed by this historical Notes addition.
 
 Sent back 2026-10-23 from PR #5595 (branch claude/political-game-pool-yucp92-ad): Normal main integration conflicts in src/core2/jobs-benefits.ts; resolve code while preserving current payment/funding and search readers and rerun the generated-year proof; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5595 (branch claude/political-game-pool-yucp92-ad): Posted-opening contact caps contradict OWNER-DECISIONS regional labor-market ruling; the player exemption is unregistered and the Done-when table is missing; finish on that branch, merge main into it first.

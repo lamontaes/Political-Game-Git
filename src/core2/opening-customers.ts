@@ -1376,6 +1376,8 @@ export function buildOpeningCustomers(
     basisRecordIds: readonly string[];
     identitySource?: Source;
     coverageSource?: Source;
+    /** The count comes from the government's recorded coverage, not an office's place. */
+    recorded: boolean;
   }
   const governmentAccountsByPlace = new Map<
     string,
@@ -1422,11 +1424,28 @@ export function buildOpeningCustomers(
         governmentAccountsByPlace.get(row.placeId) ??
         new Map<string, PublicAccountGroup>();
       const group = groups.get(facts.governmentKey);
+      // A government's recorded coverage of a place (its county-buyer
+      // account) stands for every office it runs there: an office in an
+      // unincorporated place belongs to the county, whose record already
+      // counts the people it serves, so the office joins that count rather
+      // than conflicting with the place's own residents.
+      const recorded =
+        organization.classification === OPENING_COUNTY_BUYER_CLASSIFICATION;
       if (group) {
-        if (group.representedResidentCount !== row.representedResidentCount)
-          throw new Error(
-            `Conflicting represented public owner coverage: ${facts.governmentKey}/${row.placeId}`,
-          );
+        if (group.representedResidentCount !== row.representedResidentCount) {
+          if (recorded === group.recorded)
+            throw new Error(
+              `Conflicting represented public owner coverage: ${facts.governmentKey}/${row.placeId}`,
+            );
+          if (recorded)
+            Object.assign(group, {
+              representedResidentCount: row.representedResidentCount,
+              basisRecordIds: row.basisRecordIds,
+              identitySource: row.identitySource,
+              coverageSource: row.coverageSource,
+              recorded,
+            });
+        }
         group.accounts.push(organization);
       } else {
         groups.set(facts.governmentKey, {
@@ -1435,6 +1454,7 @@ export function buildOpeningCustomers(
           basisRecordIds: row.basisRecordIds,
           identitySource: row.identitySource,
           coverageSource: row.coverageSource,
+          recorded,
         });
       }
       governmentAccountsByPlace.set(row.placeId, groups);
