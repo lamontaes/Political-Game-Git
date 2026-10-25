@@ -6648,6 +6648,9 @@
     "replacement": "A statute-cited governmentHeir term on every inheritance-tax row: an adopting bill carries its state's term (the engine taxes the government at the state's rate for others when the term says exempt: false), and Kentucky's Department of Revenue or a court confirms the Commonwealth is exempt as an escheat taker.",
     "addedBy": "claude/law-wiring-taxes",
     "addedAt": "2026-10-24",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-fee-level-by-bill",
     "kind": "owner-decision",
     "file": "src/core2/budgets-service-charges.ts",
