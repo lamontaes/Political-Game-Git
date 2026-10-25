@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/tests-group-a-age-check-empty-town
-pr:
+pr: #6027
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T11:34:29.958Z
@@ -22,3 +22,5 @@ claimed-at: 2026-10-25T11:34:29.958Z
 **Files.** src/core2/law-reach-group-a.test.ts
 
 **Notes.** From the laws lead, Oct 25, reading #6012's red unit job. The rights family (#5669) moves the age check's reach to its own engine, so whoever takes this checks the test against that branch too.
+
+Laws lead, Oct 25 11:50: in PR #6027 (head e3e7c567e4); ported into the family PRs that hit it.
