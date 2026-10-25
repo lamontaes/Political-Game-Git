@@ -5,9 +5,9 @@ area: people
 kind: research
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/cause-activity-research
-pr:
+pr: #6077
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T10:42:24.873Z

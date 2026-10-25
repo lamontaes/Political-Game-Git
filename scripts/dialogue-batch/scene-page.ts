@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any -- module rows are read untyped by this tooling */
 /**
- * Batch 13: scenes with a purpose (owner, Oct 15, evening: "what a scene
- * is"). Development tooling; nothing here words anything.
+ * Batch 13: scenes with a purpose. Development tooling; nothing here words anything.
  *
  *   OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" \
  *   npm run words:scenes -- --id batch-13 --cache /tmp/claude-0/batch-12.cache \
@@ -29,7 +28,7 @@ import {
   type PurposeType,
   type SceneTalkLine,
 } from "../../src/director/scene-talk";
-import type { Fact } from "../../src/director/render";
+import type { Fact } from "../../src/english/bank-line";
 import { properName, spoken, spokenWhen } from "../../src/director/words";
 import { composeScene } from "../../src/director/scene";
 import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
