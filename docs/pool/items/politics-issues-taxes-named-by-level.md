@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/issues-tax-levels
-pr:
+pr: #6047
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:00:20.256Z
