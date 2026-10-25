@@ -390,12 +390,17 @@ describe(`health laws reach people's death risk on the web's own lags in a playe
             `${where}: ${row.key} not read before ${look.date}`,
           ).toBe(false);
           const ages = DEATHS[row.to]!;
-          const people = [...look.people].filter(
-            ([id, person]) =>
+          // The full people the link's part reaches by their own age and
+          // income fifth, and those of them whose factor that look moved.
+          const inGroup = [...look.people].filter(
+            ([, person]) =>
               person.age >= ages.from &&
               person.age < ages.below &&
               person.reads &&
-              person.links.includes(row.key) &&
+              person.links.includes(row.key),
+          );
+          const people = inGroup.filter(
+            ([id, person]) =>
               person.factor !== (before?.people.get(id)?.factor ?? 1),
           );
           const counted = counts.filter(
@@ -415,13 +420,25 @@ describe(`health laws reach people's death risk on the web's own lags in a playe
           const inAges = [...look.people.values()].filter(
             (person) => person.age >= ages.from && person.age < ages.below,
           ).length;
-          // An infant is rare in a small town; every other link's ages have full people.
-          if (ages.below > 1)
+          // A small town can have no full person in a link's group (an
+          // infant, or a low-income adult of the study's ages); its counted
+          // months carry the link then, as checked above.
+          if (inGroup.length > 0)
             expect(
               people.length,
-              `${where}: full people aged ${ages.from} to ${ages.below - 1} carry ${month.id} (${inAges} in the town)`,
+              `${where}: full people aged ${ages.from} to ${ages.below - 1} in ${row.key}'s group carry ${month.id} (${inGroup.length} in the group, ${inAges} of those ages in the town)`,
             ).toBeGreaterThan(0);
-          return { row, look, before, month, part, people, inAges, counted };
+          return {
+            row,
+            look,
+            before,
+            month,
+            part,
+            people,
+            inGroup: inGroup.length,
+            inAges,
+            counted,
+          };
         });
 
       console.log(
@@ -438,7 +455,7 @@ describe(`health laws reach people's death risk on the web's own lags in a playe
           ),
           ...reads.map((r) => {
             const one = r.people[0];
-            return `${r.row.key}: death engine read ${r.month.id} on ${r.look.date} (part ${r.part.effect}, weight ${r.part.weight}, factor at age ${DEATHS[r.row.to]!.from} ${r.look.reach[r.row.to]!.factor}); ${r.people.length} of ${r.inAges} full people aged ${DEATHS[r.row.to]!.from} to ${DEATHS[r.row.to]!.below - 1} carry it${one ? `, e.g. ${one[0]} (age ${one[1].age}) ${r.before?.people.get(one[0])?.factor ?? 1} -> ${one[1].factor}` : ""}; ${r.look.counted[r.row.to]} counted people of those ages, counted months ${r.counted.map((c) => `${c.month} (${c.webDeathRecordId})`).join(", ") || "none"}`;
+            return `${r.row.key}: death engine read ${r.month.id} on ${r.look.date} (part ${r.part.effect}, weight ${r.part.weight}, factor at age ${DEATHS[r.row.to]!.from} ${r.look.reach[r.row.to]!.factor}); ${r.people.length} of ${r.inGroup} full people in its group (${r.inAges} aged ${DEATHS[r.row.to]!.from} to ${DEATHS[r.row.to]!.below - 1}) carry it${one ? `, e.g. ${one[0]} (age ${one[1].age}) ${r.before?.people.get(one[0])?.factor ?? 1} -> ${one[1].factor}` : ""}; ${r.look.counted[r.row.to]} counted people of those ages, counted months ${r.counted.map((c) => `${c.month} (${c.webDeathRecordId})`).join(", ") || "none"}`;
           }),
         ].join("\n"),
       );
