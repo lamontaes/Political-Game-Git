@@ -472,9 +472,13 @@ function play(
     const underLaw = projects.filter(
       (p) => p.lawIds?.inclusionary && p.affordableUnits > 0,
     );
+    // The landlord's record follows the law's newest enactment, while each
+    // building keeps the one it was started under (the test enacts the law
+    // again after a body in play repeals it), so any building with set-aside
+    // units this landlord started under the law counts.
     for (const row of trails.inclusionary ? [] : required) {
       const paid = underLaw
-        .filter((p) => p.lawIds!.inclusionary === row.lawId)
+        .filter((p) => p.payerId === row.targetId)
         .map((project) =>
           posts.find(
             (p) =>
@@ -525,7 +529,15 @@ function play(
     ).filter((r) => r.counselLawId);
     check("counsel", cases.length > 0, "no eviction hearing had a lawyer");
     const counsel = rowsOn(api, KEYS.counsel);
-    for (const row of cases.slice(0, 5)) {
+    // A treasury with no cash pays nothing for a hearing's lawyer
+    // (`laws-counsel-unpaid-is-not-owed`); the cases it paid carry the money.
+    const paidCases = cases.filter((r) => (r.counselPaidMinor ?? 0) > 0);
+    check(
+      "counsel",
+      paidCases.length > 0,
+      `no hearing's lawyer was paid (${cases.length} hearings had one)`,
+    );
+    for (const row of paidCases.slice(0, 5)) {
       check(
         "counsel",
         counsel.some(
