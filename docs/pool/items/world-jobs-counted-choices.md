@@ -31,3 +31,5 @@ Claude, Oct 19: counted retire, quit and look already score with the same reason
 Sent back 2026-10-24 from PR #5767 (branch claude/counted-job-choices): New counted choices test stops on the first retirement/search and returns before completing the required one-year run; retain witnesses and finish/assert all 365 days; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5767 (branch claude/counted-job-choices): Already-seeking full people are skipped by reviewJobless while counted seekers are re-evaluated and may lose seeker/claim state; resolved counted-choices stopgap still leaves a tier exception; finish on that branch, merge main into it first.
+
+Sent back 2026-10-24 from PR #5767 (branch claude/counted-job-choices): Shared settlement repaired; regression retains historical seekers without current-row preconditions, and counted worker strain remains zero without its own open registered gap; finish on that branch, merge main into it first.

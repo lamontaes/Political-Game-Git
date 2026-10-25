@@ -35,7 +35,7 @@ import { lawApplied } from "./law-reach/applied";
 import type { ModuleRow } from "./module-data";
 import {
   BUDGETS_MODULE_ID,
-  lineBeforeBill,
+  lineWithoutBills,
   budgetsOf,
   governments,
   type GovernmentRow,
@@ -43,6 +43,7 @@ import {
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
 import { baseOf } from "./outcome-web-model";
 import { OUTCOME_WEB_MODULE_ID, placeOutcome } from "./modules/outcome-web";
+import { escrowOf } from "./modules/justice";
 import { residentsRuntime } from "./modules/residents";
 import type { CoreAPI, CoreState, PersonId, Source } from "./types";
 
@@ -162,9 +163,9 @@ function serviceOf(
     .sort((a, b) => b.startsOn.localeCompare(a.startsOn))[0];
   if (!budget) return { ratio: 1, lawId: null };
   const name = line.slice("budget-line:".length);
-  // Against the line before this year's bill: a change a bill carries into
-  // the adopted lines still moves the service this year.
-  const base = lineBeforeBill(api, gov, budget.fiscalYear, name);
+  // Against the line with no bill passed: a raise a bill carries into the
+  // adopted lines moves the service every year it stays in the line.
+  const base = lineWithoutBills(api, gov, budget.fiscalYear, name);
   const now = budget.spendingMinor[name] ?? 0;
   const ratio = base > 0 ? Math.min(ceiling, Math.max(floor, now / base)) : 1;
   return { ratio, lawId: lineLawId(api, line) };
@@ -474,6 +475,10 @@ export interface CaseRow {
   readonly detained: number;
   readonly noncitizens: number;
   readonly bailLawId: string;
+  /** Bail the case's counted defendants posted, by group index, held in the court escrow until the case closes. */
+  readonly bailHeld?: Readonly<Record<string, number>>;
+  /** The treasury whose court escrow holds that bail. */
+  readonly bailTreasuryId?: string;
   readonly dueMonth: string;
   readonly status: "open" | "closed";
   readonly verdict: string;
@@ -751,7 +756,8 @@ function arrest(
     }
   }
   const caseTable = table(api, "cases");
-  for (const c of cases) {
+  for (const posted of cases) {
+    const c = postBail(api, pool, posted);
     caseTable.put(c as unknown as ModuleRow);
     tally.arrests += c.count;
     if (c.court === "juvenile") tally.juvenileCases += c.count;
@@ -772,6 +778,78 @@ function unableToPost(api: CoreAPI, group: GroupCensus): number {
   const perPerson =
     (group.cash / group.people) * safetyParameter("liquidMedianToMean");
   return Math.min(1, Math.max(0, 1 - perPerson / bail));
+}
+
+/**
+ * Counted defendants who post bail pay it as a full person does: where cash
+ * bail is in force, each group's share that can post moves the bail from the
+ * group's fund into the prosecuting county's court escrow, as much as the
+ * fund holds, and it is held there until the case closes.
+ */
+function postBail(api: CoreAPI, census: Census, c: CaseRow): CaseRow {
+  if (c.court !== "adult" || c.bailLawId || c.count <= 0) return c;
+  const gov = govAt(api, ["county", "state"]);
+  const core = api.state as CoreState;
+  if (
+    !gov ||
+    !core.cashJournal.accounts.has(`cash:${gov.organizationId}:residual`)
+  )
+    return c;
+  const bail = justiceParameter(api, "pretrialBailMinor");
+  const byId = new Map(census.groups.map((g) => [g.id, g]));
+  const scale = c.count / Object.values(c.groups).reduce((n, v) => n + v, 0);
+  const wants = new Map<number, number>();
+  for (const [gid, n] of Object.entries(c.groups)) {
+    const g = byId.get(gid);
+    // The named residents' unnamed share has no fund of its own.
+    if (!g || g.index < 0) continue;
+    const posting = n * scale * (1 - unableToPost(api, g));
+    if (posting > 0) wants.set(g.index, posting * bail);
+  }
+  if (!wants.size) return c;
+  const paid = levy(api, {
+    id: `public-safety:bail:${c.id}`,
+    to: escrowOf(api, gov.organizationId),
+    reason: "public-safety:bail",
+    source: sourceOf(
+      api,
+      "Bail is held by the court apart from the government's own funds until the case is heard; a counted group posts it for the share of its defendants who can.",
+    ),
+    groups: wants,
+    people: new Map(),
+  });
+  if (!paid.groups.size) return c;
+  return {
+    ...c,
+    bailHeld: Object.fromEntries(
+      [...paid.groups].map(([group, minor]) => [String(group), minor]),
+    ),
+    bailTreasuryId: gov.organizationId,
+  };
+}
+
+/** The case is closed: the court escrow hands each group's bail back to its fund. */
+function returnCountedBail(api: CoreAPI, c: CaseRow): void {
+  const held = Object.entries(c.bailHeld ?? {}).filter(([, m]) => m > 0);
+  const core = api.state as CoreState;
+  const rt = residentsRuntime(core);
+  if (!held.length || !c.bailTreasuryId || !rt) return;
+  const total = held.reduce((n, [, m]) => n + m, 0);
+  transferSplit(core, api, {
+    id: `public-safety:bail-return:${c.id}`,
+    lines: [
+      { accountId: escrowOf(api, c.bailTreasuryId), deltaMinor: -total },
+      ...held.map(([group, minor]) => ({
+        accountId: fundOf(api, rt, Number(group)),
+        deltaMinor: minor,
+      })),
+    ],
+    reasonKey: "public-safety:bail-return",
+    source: sourceOf(
+      api,
+      "The court returns posted bail when the case is heard, whatever the verdict.",
+    ),
+  });
 }
 
 function batchCase(
@@ -971,6 +1049,7 @@ function resolveDue(
       );
       verdict = "adjudicated";
     }
+    returnCountedBail(api, c);
     caseTable.put({
       ...c,
       status: "closed",

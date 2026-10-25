@@ -632,7 +632,6 @@ function tryPlace(where: string, seed: string, key: string): string | null {
     ["medicaid-expansion-to-coverage"],
     ["medicaid-expansion-to-medical-debt"],
     ["work-requirement-to-coverage"],
-    ["snap-work-requirement-to-participation"],
     ["snap-maximum-to-food-insecurity"],
     ["health-hospitals-spending-to-infant-mortality"],
     ["higher-education-spending-to-college-completion"],
@@ -652,6 +651,12 @@ function tryPlace(where: string, seed: string, key: string): string | null {
         )}; date ${api.state.date})`,
       ),
     ).toBeTruthy();
+  // The assistance work requirement is the SNAP benefit's own (read above, for
+  // each person it reaches), so the web does not also cut SNAP receipt for it.
+  expect(
+    firedIn(api, "snap-work-requirement-to-participation"),
+    say("the web ran the SNAP work requirement link the benefit carries"),
+  ).toBeUndefined();
 
   // Each line reached people and moved money: the reach record that names a
   // person it served, and the journal entry of a payment out of the line.
