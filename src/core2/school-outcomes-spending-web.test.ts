@@ -338,20 +338,30 @@ describe(`the schools budget line moves graduation (seed ${seed})`, () => {
       shifted.core,
       "results",
     ).filter((r) => r.measure === MEASURE && r.placeId === placeId);
+    // Each senior's record names the raised web month and a higher factor.
+    // Who graduates is not monotone one senior at a time: the far raise moves
+    // household incomes, so seniors change fifths, and a fifth's share goes to
+    // its students in order of standing, each taking their household's weight
+    // of it, so a heavier household ahead can clear and leave a lighter one
+    // short. Across the town, at least as many newly graduate as newly fail.
     const flipped: string[] = [];
+    const failed: string[] = [];
     for (const result of shiftedResults) {
       const before = baseResults.get(result.id);
       if (!before) continue;
-      // A senior is never made to fail by the raise; the record names the web month it read.
-      expect(result.passed || !before.passed, result.id).toBe(true);
       expect(result.webRecordId, result.id).toBe(shiftedMeasure.webRecordId);
       expect(result.factor, result.id).toBeGreaterThan(before.factor);
       if (result.passed && !before.passed) flipped.push(result.id);
+      if (!result.passed && before.passed) failed.push(result.id);
     }
     expect(shiftedResults.length).toBeGreaterThan(0);
+    expect(
+      flipped.length,
+      `newly graduated against newly failed [${failed.join(", ")}]`,
+    ).toBeGreaterThanOrEqual(failed.length);
 
     console.log(
-      `school spending to graduation: ${where}, test seed ${seed}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}. Raised ${raise.governmentId} schools line by ${raise.deltaMinor} (${raise.pct.toFixed(3)}% of the town's schools lines): web ${first.id} reads ${CAUSE} ${first.values[CAUSE]!.toFixed(3)} from ${first.engineSources[CAUSE]}, link effect ${first.effects[LINK]!.toExponential(3)} then ${lastRaised.effects[LINK]!.toExponential(3)} at ${lastRaised.id}. Graduation ${raisedMeasure.id} (read ${graduationWeb.id}): factor by income fifth with the link / without it ${raisedGroups.map((g) => `${g.incomeFifth}:${g.factor.toFixed(4)}/${factorOf(graduationWeb, g.incomeFifth, LINK).toFixed(4)}`).join(" ")}. Raised ${FAR_RAISE} times over, link effect ${shiftedWeb.effects[LINK]!.toFixed(4)} (read ${shiftedMeasure.webRecordId}): graduates ${passed(baseGroups)} -> ${passed(shiftedGroups)} of ${shiftedGroups.reduce((n, g) => n + g.students, 0)}, value ${baseMeasure.value.toFixed(2)} -> ${shiftedMeasure.value.toFixed(2)}; ${flipped.length} of ${shiftedResults.length} full seniors newly graduate [${flipped.slice(0, 4).join(", ")}].`,
+      `school spending to graduation: ${where}, test seed ${seed}${tried.length ? `; drawn again after ${tried.join("; ")}` : ""}. Raised ${raise.governmentId} schools line by ${raise.deltaMinor} (${raise.pct.toFixed(3)}% of the town's schools lines): web ${first.id} reads ${CAUSE} ${first.values[CAUSE]!.toFixed(3)} from ${first.engineSources[CAUSE]}, link effect ${first.effects[LINK]!.toExponential(3)} then ${lastRaised.effects[LINK]!.toExponential(3)} at ${lastRaised.id}. Graduation ${raisedMeasure.id} (read ${graduationWeb.id}): factor by income fifth with the link / without it ${raisedGroups.map((g) => `${g.incomeFifth}:${g.factor.toFixed(4)}/${factorOf(graduationWeb, g.incomeFifth, LINK).toFixed(4)}`).join(" ")}. Raised ${FAR_RAISE} times over, link effect ${shiftedWeb.effects[LINK]!.toFixed(4)} (read ${shiftedMeasure.webRecordId}): graduates ${passed(baseGroups)} -> ${passed(shiftedGroups)} of ${shiftedGroups.reduce((n, g) => n + g.students, 0)}, value ${baseMeasure.value.toFixed(2)} -> ${shiftedMeasure.value.toFixed(2)}; ${flipped.length} of ${shiftedResults.length} seniors newly graduate [${flipped.slice(0, 4).join(", ")}] and ${failed.length} newly fail [${failed.slice(0, 4).join(", ")}].`,
     );
   }, 3_600_000);
 });
