@@ -10,6 +10,8 @@ description: >
 
 # Merge audit
 
+Current as of 2026-10-24, 21:30 UTC (owner, Oct 24: four mergers by PR number mod 4 plus a recheck merger; the lane edits director and English files with Words review; held lines flipped to shippable are the owner's ruling)
+
 1. **List the window:** every PR merged since a time T, with base branch, head branch and size (`gh api graphql` search `is:pr is:merged merged:>=T`). Leave out the CTO's own docs PRs.
 2. **Fan out:** three or four Sonnet reviewers, 7 or 8 PRs each. They read only: `gh api repos/lamontaes/Political-Game-Git/pulls/N` and `.../pulls/N/files` (each file has a `patch`). Give each reviewer the checklist below verbatim. Ask for a table of PR, verdict (good, concerns, bad), reason and red flags with `file:line`, then the exact fix for every concerns or bad verdict.
 3. **Checklist:**
@@ -19,6 +21,8 @@ description: >
    - Timeouts raised without a measured reason.
    - Done-when proof missing (the pool item names it).
    - Hand-written player text in code, or a bank part whose `shippable` flag disagrees with the grade ledger (owner, Oct 24: bank parts play unless graded out).
+   - Director or English edits by a session that is neither Words nor a play-first lane PR (`Review: words`); `src/bench` edits by anyone but the lane.
+   - A play item merged without its before and after screenshots, or a changed look merged without the owner's yes.
    - `src/core2` importing `src/simulation`.
    - Owner or date notes in code or data.
    - Pool sections pasted twice.
@@ -31,8 +35,8 @@ description: >
    - Player controls removed without saying where they went.
 4. **Verify one claim per bad PR yourself** before acting. Reviewers can be wrong.
 5. **File:**
-   - Fixes owned by a running lead session go to that session.
+   - Fixes owned by a running lead session go to that session: a pool item with `lead:` set and a line in the CTO section of the channel (`how-we-talk`), never a message.
    - Everything else goes into one pool item, `release-merge-audit-<date>-fixes`: area release, kind bug, priority 1, numbered fixes, Rules naming a standing rule, and Done-when naming the tests.
    - A defect on main that blocks others (a red test) is priority 1 on its own.
 6. **Fix the cause:** add each new class of slip to "What went wrong before" in `merger`, in both `.agents/skills/merger/` and `.claude/skills/merger/`.
-7. **Report:** counts of good, concerns and bad; the bad ones in plain words; and where each fix went.
+7. **Report:** counts of good, concerns and bad, per merger (their comment prefixes tell them apart); the bad ones in plain words; and where each fix went.
