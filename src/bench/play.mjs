@@ -2727,7 +2727,7 @@ const sheets = {
             )
           : "",
         el("b", {
-          textContent: `${race.title} · ${race.date}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
+          textContent: `${race.title} · ${proseDate(race.date)}${race.unopposed ? ` · ${labels.unopposed}` : ""}`,
         }),
         ...race.candidates.map((c) =>
           el("div", {
@@ -3804,7 +3804,7 @@ const sheets = {
               if (s.elect) {
                 const elect = el("div", {
                   className: "row elect",
-                  textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${s.elect.takesOffice}`,
+                  textContent: `${labels.elected} ${s.elect.name} · ${labels.takesOffice} ${proseDate(s.elect.takesOffice)}`,
                 });
                 elect.dataset.contest = s.elect.contestId;
                 line.append(elect);
