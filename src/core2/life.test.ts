@@ -2,6 +2,8 @@ import { addDays } from "./kernel/dates";
 import { describe, expect, it } from "vitest";
 import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "json" };
 import { DEFAULT_DATA, extendData } from "./data";
+import { scoreOffers } from "./choice";
+import { planFreeTime } from "./free-block";
 import { advanceCore, availableActs, chooseAct, createLifeCore } from "./life";
 import { parameter as p } from "./parameters";
 import { assertCoreIntegrity, coreAPI } from "./state";
@@ -753,6 +755,61 @@ describe("learned civic cause and honest requests", () => {
       ),
     ).toBe(false);
     assertCoreIntegrity(core);
+  });
+
+  it("drops a planned approach on its day when the office's staff have left since the plan", () => {
+    const actsOn = (core: CoreState, date: string) =>
+      [...(core.logByPerson.get(actorId) ?? [])]
+        .map((id) => core.durableLog.get(id)!)
+        .filter((row) => row.actorId === actorId && row.date === date);
+    // The resident organizes on January 3, and their free-time planner books
+    // the visit to the office for the next day, as a resident planning a
+    // block of days does.
+    const planned = () => {
+      const core = createLifeCore(civicInput());
+      const api = coreAPI(core);
+      const event = adverse(core);
+      api.emit(event);
+      recordFixtureCause(core, event);
+      advanceCore(core, "2021-01-03");
+      expect(lastAct(core, actorId).actionId).toBe(definition("organize").id);
+      const offers = availableActs(core, actorId).filter(
+        (offer) => offer.definition.effect === "approach",
+      );
+      expect(offers).toHaveLength(p("one"));
+      planFreeTime(
+        api,
+        core.people.get(actorId)!,
+        scoreOffers(core, actorId, offers),
+        undefined,
+        p("two"),
+      );
+      return core;
+    };
+    // With the office staffed, the planned visit happens on its day.
+    const kept = planned();
+    advanceCore(kept, "2021-01-04");
+    const visits = actsOn(kept, "2021-01-04").filter(
+      (row) => row.actionId === definition("approach").id,
+    );
+    expect(visits).toHaveLength(p("one"));
+    expect(visits[0]!.reasonKey).toMatch(/^planned:/);
+    expect(kept.logByKind.get("office.approached")?.size).toBe(p("one"));
+    // The office's only staff member leaves before that day, as an office's
+    // staff follow its jobs: the visit has no one to receive it and does not
+    // happen, and the day goes on.
+    const left = planned();
+    const office = left.publicOrganizations.get(institution)!;
+    left.publicOrganizations.set(institution, { ...office, staff: [] });
+    advanceCore(left, "2021-01-04");
+    expect(left.logByKind.has("office.approached")).toBe(false);
+    expect(left.pendingCallbacks.size).toBe(p("zero"));
+    expect(
+      actsOn(left, "2021-01-04").some(
+        (row) => row.actionId === definition("approach").id,
+      ),
+    ).toBe(false);
+    assertCoreIntegrity(left);
   });
 
   it("keeps association membership requested after an unforced lookup and joining attempt", () => {
