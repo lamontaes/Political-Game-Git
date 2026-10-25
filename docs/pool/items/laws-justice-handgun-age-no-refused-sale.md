@@ -21,4 +21,4 @@ claimed-at: 2026-10-25T08:30:00.602Z
 
 **Files.** src/core2/law-wiring-justice.test.ts
 
-**Notes.** TODO
+**Notes.** 2026-10-25 (claude/handgun-age-refused-sale): a town with no buyer due, not a missed refusal. Skanee's only counted young adult was filled in as `person_a836a823afcaf328` (born 2004-07-08), whose purchase builds up at 0.0075 a month, so no purchase fell due in the 35 days the limit was law; the refusal path (`src/core2/public-safety.ts:1408-1452`) records one only when a purchase is due. The test now redraws such a town, naming it, and tries up to six places.

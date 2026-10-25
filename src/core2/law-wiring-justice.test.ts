@@ -46,7 +46,7 @@ import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const TRIES = 3;
+const TRIES = 6;
 const QUESTIONS = [
   OVERSIGHT,
   IMMIGRATION,
@@ -219,6 +219,17 @@ function attempt(trySeed: string, index: number): Attempt {
             !rows.get(key)?.some((r) => r.target === "group" && r.count > 1),
         )
         .map((key) => `${key} (counted groups above one)`),
+      // A refusal is recorded when a young adult in a gun home is due to buy:
+      // a counted group's share each month, a full person's whole purchase
+      // when it falls due. A town whose young buyers were all full people
+      // with no purchase due while the limit was law has no refusal to show.
+      ...(rows
+        .get(HANDGUN_AGE)
+        ?.some((r) => r.what === "sale-refused-under-age")
+        ? []
+        : [
+            `${HANDGUN_AGE} (a young adult due to buy while the limit was law)`,
+          ]),
     ];
     return {
       where,
@@ -382,5 +393,5 @@ describe(`justice and public safety laws in a played world (seed ${seed})`, () =
     } finally {
       setBookkeeping(true);
     }
-  }, 300_000);
+  }, 600_000);
 });
