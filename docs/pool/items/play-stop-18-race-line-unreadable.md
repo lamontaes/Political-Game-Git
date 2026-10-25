@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/bench/campaign.ts, src/bench/play.mjs, src/bench/data/controls.json
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:05, 16:12; screenshots 53, 61. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+
+Sent back 2026-10-25 ~22:35 UTC from PR #6104 (branch play-first/play-stop-18-race-line-unreadable, head 23d50c233a with main merged in): both body screenshots are wrapped in backticks so they render as code, not images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
