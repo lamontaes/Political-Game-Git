@@ -51,7 +51,9 @@ import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
-const TRIES = 3;
+// A place with no subject for a law in the window (no police department for
+// oversight, no noncitizen arrested for a detainer) is redrawn: five draws.
+const TRIES = 5;
 const QUESTIONS = [
   OVERSIGHT,
   IMMIGRATION,
