@@ -782,7 +782,8 @@ function budgetLean(api: CoreAPI, officialId: string): number {
 }
 
 /** The treasury of the government whose seat the official holds. */
-function employerOf(api: CoreAPI, officialId: string): string | null {
+/** The government an official's staff are on the payroll of: the one whose seat they hold. */
+export function employerOf(api: CoreAPI, officialId: string): string | null {
   if (!api.state.modules.has(BUDGETS_MODULE_ID)) return null;
   const seat = townSeats(api).find((s) => s.holder?.personId === officialId);
   if (!seat) return null;

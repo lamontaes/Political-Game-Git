@@ -21,6 +21,7 @@ import { allCases, openCases } from "./modules/constituent-cases";
 import {
   briefOnBill,
   adviseOnBudget,
+  employerOf,
   hireStaff,
   openStaff,
   servingStaffOf,
@@ -31,7 +32,6 @@ import {
   workingAgeWeight,
 } from "./modules/staff";
 import { governmentUnitsForPlace } from "./reference/government-units";
-import { postPayCapDaily } from "./budgets-treasury";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -49,6 +49,14 @@ const states = [...corePlaceStateIdentities()]
 describe("M3-06 staff", () => {
   it("a staffer's work follows their record, improves with experience, and every result traces to them", () => {
     let report: Record<string, unknown> | null = null;
+    // Offices whose post's budget line had no room: their aides serve unpaid.
+    const noRoom: {
+      place: string;
+      official: string;
+      employer: string;
+      post: string;
+      unpaid: string[];
+    }[] = [];
     const tried: string[] = [];
     for (let attempt = 0; attempt < 8 && !report; attempt += 1) {
       const state = pick(states, `state:${attempt}`);
@@ -184,19 +192,27 @@ describe("M3-06 staff", () => {
         const job = staffJob(row.personId);
         return job ? core.work.latestPayrollByJob.has(job) : false;
       });
-      const townGov = governments(api).find((g) =>
-        ["city", "county"].includes(g.level),
-      );
       // An aide is paid what the post's budget line can carry, as a town's
-      // department heads are: a line with no room left holds the post unpaid.
+      // department heads are: a line with no room at the hire holds the post
+      // unpaid, and the staffer's record carries no job. The town is redrawn
+      // for the paid case, and those aides are named by record.
+      const employerId = employerOf(api, official);
+      const serving = servingStaffOf(api, official);
       if (
         !paidAide &&
-        townGov &&
-        postPayCapDaily(api, townGov.organizationId, `staff:${official}`, 1) ===
-          0
+        employerId &&
+        serving.length > 0 &&
+        serving.every((row) => row.jobId === undefined)
       ) {
-        for (const row of servingStaffOf(api, official))
+        for (const row of serving)
           expect(staffJob(row.personId), `${key}: ${row.id}`).toBeUndefined();
+        noRoom.push({
+          place: key,
+          official,
+          employer: employerId,
+          post: `staff:${official}`,
+          unpaid: serving.map((row) => row.id),
+        });
         continue;
       }
       if (!paidAide) {
@@ -232,6 +248,7 @@ describe("M3-06 staff", () => {
         : undefined;
       if (town) {
         expect(aideJob).toMatch(/^job:public:staff:/);
+        expect(employer, key).toBe(employerOf(api, official));
         expect(
           governments(api).some((g) => g.organizationId === employer),
         ).toBe(true);
@@ -255,6 +272,7 @@ describe("M3-06 staff", () => {
       report = {
         budgetAdvice: advice?.lines ?? null,
         aidePay: { job: aideJob, employer, lastPaidMinor: payroll?.paidMinor },
+        noRoom,
         seed,
         state,
         place: key,
