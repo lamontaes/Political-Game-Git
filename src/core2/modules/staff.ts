@@ -52,7 +52,7 @@ import { startPublicJob } from "../public-payroll";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import { publicPayRoom, treasuryParameter } from "../budgets-treasury";
 // The cases engine imports this one; these are read only when a review runs.
-import { caseLoad, openCasesOf } from "./constituent-cases";
+import { caseLoad, recentCasesOf } from "./constituent-cases";
 import {
   LEGISLATURE_MODULE_ID,
   budgetLineStakes,
@@ -1216,7 +1216,14 @@ function staffReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         campaignParameter("staffHireBase") +
           budgetLean(api, officialId) +
           campaignParameter("staffHireLoadWeight") *
-            caseLoad(api, openCasesOf(api, officialId)),
+            caseLoad(
+              api,
+              recentCasesOf(
+                api,
+                officialId,
+                campaignParameter("staffHireCaseDays"),
+              ),
+            ),
       )
     )
       continue;

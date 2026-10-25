@@ -450,6 +450,19 @@ function bringCase(
   });
 }
 
+/** How many cases residents brought an official in the last `days` days: the office's recent demand. */
+export function recentCasesOf(
+  api: CoreAPI,
+  officialId: string,
+  days: number,
+): number {
+  const since = addDays(api.state.date, -days);
+  let count = 0;
+  for (const row of table(api).rows() as unknown as CaseRow[])
+    if (row.officialId === officialId && row.opened > since) count += 1;
+  return count;
+}
+
 /** How many of an official's cases are open now, besides `except`. */
 export function openCasesOf(
   api: CoreAPI,

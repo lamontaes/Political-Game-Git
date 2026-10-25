@@ -5970,32 +5970,36 @@
     }
   },
   "traitWeightConstituentCasesBringCase": {
-    "value": 0.08,
+    "value": 0.035,
     "tag": "ESTIMATED",
-    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator in the past two years by 0.92 across the trait's full 0-to-1 range (2006 CES, N about 1,065; row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact, not only a casework request). Carried to the thirds with the trait's own standard deviation (0.26 of its range), a log odds gap of 0.52 (odds ratio 1.68); Gerber et al. 2011's contact with a local official gives 0.40. Bringing a problem is decided by its severity against caseEffort, and most residents out of work sit at the same severity, so the thirds' odds in play depend on where the line falls in that pile, not on the weight. The weight is therefore the study's log odds gap over the gap in lean between the thirds of residents weighing a case: 1.087 in Jerry City, Ohio (place key 3939074, 217 calls) and 0.957 in New Britain, Connecticut (0950370, 528 calls), giving 0.48 and 0.54.",
+    "citation": "Mondak, Hibbing, Canache, Seligson and Anderson 2010, Personality and Civic Engagement, American Political Science Review 104(1), Table 2: extraversion raises the log odds of having contacted a House member or senator by 0.92 across the trait's range (row constituent-cases.bring-case in data/research/trait-effect-sizes.json, a proxy: any contact), a log odds gap of 0.52 between thirds (odds ratio 1.68). A resident's case now carries the problem's severity and their interest in politics against the effort, so it is fitted by the net odds between the thirds pooled over five played years of drawn places (Louisiana place 2377765, seed 35fd76d836c6; Barrigada, Guam, 59f99c7f10c3; Oregon place 3542740, bb4dfdd3575a; Missouri place 2952418, 1d02d2eb8f70; Washington, District of Columbia, 9596c58bc725): 8,447 weighings, 6.2% brought; 0.02 reaches 1.39 and 0.05 reaches 2.13, so 0.035.",
     "spread": {
-      "low": 0.22,
-      "high": 0.8,
+      "low": 0.02,
+      "high": 0.05,
       "unit": "weight",
-      "citation": "Weight scales with the coefficient: the study's 95% interval for the extraversion coefficient is 0.39 to 1.45 (0.92 gives 0.51)."
+      "citation": "The pooled fit's neighbors: 0.02 gives net odds 1.39 and 0.05 gives 2.13, around the target 1.68."
     }
   },
   "traitWeightConstituentCasesHandleCase": {
-    "value": 0.15,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the constituent-cases.handle-case decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991, The Big Five personality dimensions and job performance, Personnel Psychology 44(1): conscientiousness correlates about 0.22 with job performance, an odds ratio of 2.44 between thirds (row constituent-cases.handle-case in data/research/trait-effect-sizes.json, a proxy: an official's diligence with a case as job performance). Fitted with the case's own circumstances (severity, closeness to the resident, the office's open load) pooled over five played years of drawn places (Louisiana place 2377765, seed 35fd76d836c6; Barrigada, Guam, 59f99c7f10c3; Oregon place 3542740, bb4dfdd3575a; Missouri place 2952418, 1d02d2eb8f70; Washington, District of Columbia, 9596c58bc725): at 0.5, with the help base at -0.38, 80% of 582 cases are helped and the net odds ratio between the thirds is 2.15.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.3,
+      "high": 0.75,
+      "unit": "weight",
+      "citation": "The pooled fit's neighbors: 0.5 reaches 2.09 to 2.15 at shares of 78 to 82%; 0.75 overshoots to 3.6."
     }
   },
   "traitWeightStaffFollowThrough": {
-    "value": 0.3,
-    "tag": "TUNABLE",
-    "citation": "The trait weight of the staff.follow-through decision. Starts at the general traitWeight (1); calibrated against its row in data/research/trait-effect-sizes.json with scripts/traits/trait-calibrate.ts.",
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "Barrick and Mount 1991 (as for constituent-cases.handle-case): conscientiousness and job performance, an odds ratio of 2.44 between thirds (row staff.follow-through in data/research/trait-effect-sizes.json). Fitted with the staffer's work quality and the office's open load pooled over five played years of drawn places (Louisiana place 2377765, seed 35fd76d836c6; Barrigada, Guam, 59f99c7f10c3; Oregon place 3542740, bb4dfdd3575a; Missouri place 2952418, 1d02d2eb8f70; Washington, District of Columbia, 9596c58bc725): at 1.0, with the follow-through bar at 0.6, 81% of 385 helped cases are seen through and the net odds ratio is 2.51.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+      "low": 0.75,
+      "high": 1.0,
+      "unit": "weight",
+      "citation": "The pooled fit's neighbors: 0.75 reaches 2.08 and 1.0 reaches 2.51 at an 81% share."
     }
   },
   "traitWeightJobsBenefitsFileClaim": {

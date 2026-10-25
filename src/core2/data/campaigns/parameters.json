@@ -476,7 +476,7 @@
       "spread": [0.9, 1.7]
     },
     "constituentHelpBase": {
-      "value": -0.44,
+      "value": -0.38,
       "tag": "TUNABLE",
       "source": "An official's readiness to help a resident's case before the case's own circumstances (severity, standing, the office's load) and their traits tilt it (scaled trait lean runs about -1 to 1). Lowered from 0.5 when the case gained its circumstances (traits-integrity-cases-vary), so an average case (severity about 0.8, a stranger, a light load) weighs about what the constant did.",
       "spread": [0.25, 0.75]
@@ -535,9 +535,9 @@
       "spread": [0, 3]
     },
     "staffHireBase": {
-      "value": 0.25,
+      "value": 0,
       "tag": "TUNABLE",
-      "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't.",
+      "source": "How readily an official takes on the aide their office allows before their trait lean toward hiring over doing it alone (scaled trait lean runs about -1 to 1): most do, the most self-reliant don't. Lowered from 0.25 to 0 when hiring began to read the office's recent caseload (staffHireLoadWeight), so an office with no recent cases weighs hiring on its budget and its official's temperament.",
       "spread": [0, 0.5]
     },
     "staffAbsenceTolerance": {
@@ -577,7 +577,7 @@
       "spread": [0.05, 0.35]
     },
     "staffCaseFollowThrough": {
-      "value": 0.54,
+      "value": 0.6,
       "tag": "TUNABLE",
       "source": "How good a staffer's work on a case must be for them to see it through to a referral.",
       "spread": [0.3, 0.7]
@@ -1259,6 +1259,12 @@
       "tag": "TUNABLE",
       "source": "How much a resident's interest in politics (CES news interest, 0 to 1, from the views engine or their survey cell) eases bringing a problem to an official: political interest is among the strongest correlates of contacting officials (Verba, Schlozman and Brady 1995, Voice and Equality).",
       "spread": [0.3, 1]
+    },
+    "staffHireCaseDays": {
+      "value": 90,
+      "tag": "TUNABLE",
+      "source": "The window of recent cases an official weighs when deciding whether to take on an aide: the office's demand over the last season.",
+      "spread": [30, 180]
     }
   }
 }
