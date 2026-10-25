@@ -6,11 +6,12 @@ lead: laws
 kind: wiring
 priority: 1
 size: S
-status: in-pr
-claimed-by: claude/laws-nine-links-justice
+status: open
+claimed-by:
 pr: "#6012"
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 
 ---
 
 **What.** A bounded part of `laws-nine-links-justice`, as the mergers asked for when a family lands a completed subset first. Nine of the family's twelve laws grade wired on all nine links, or not applicable, on the law checker that credits a law only with its own payment: civilian-oversight-of-police, partner-with-federal-immigration-enforcement, end-cash-bail, raise-juvenile-court-age, child-access-prevention, permit-to-carry-concealed, raise-handgun-purchase-age, stand-your-ground and budget-line:fire. The police line (its low-level arrests link), the corrections line (its money, untraced through the treasury's outside accounts) and restore-voting-after-sentence (its turnout link, a stopgap) stay in the family item.
