@@ -17,8 +17,10 @@ claimed-at: 2026-10-25T10:42:24.873Z
 
 **Rules.** Simulate it, don't ask (owner, Oct 24): built from research, calibrated, no question to the owner. No dice: real rates check the totals; a holder's traits, time, money, ties and the groups they already hold decide each act. Sliding scales and causes: no cap or cutoff; each further group or act pulls less. Every number in a parameter table, SOURCED or ESTIMATED with its source and spread.
 
-**Done when.** In Bedford, Wyoming (seed 9a4dd331ace7) and a place drawn from all 56 (named with its seed), three played years of buildBenchWorld show cause acts per holder a year and group memberships per member inside the sourced bands, each band cited in its parameter row, with the counts by year in the PR body; and Bedford's third year runs within 1.2 times its first on one process (speed-year-three-within-band).
+**Done when.** data/research/people holds the CEV 2017 to 2023 national rates and the Census Bureau's 2024 hours per volunteer, each with its source, quotes and limits, and scripts/research/cause-activity-year.ts reads both: for Bedford, Wyoming (seed 9a4dd331ace7) and a place drawn from all 56 (named with its seed), three played years of buildBenchWorld, it prints each cause act's share of full adults, times per person and hours per volunteer beside its band, with the lines in the PR body. The engine change that brings the totals into the bands is people-drives-cause-acts-pull-less.
 
 **Files.** src/core2/modules/drives.ts, src/core2/data/drives.json
 
 **Notes.** Filed Oct 25 by the speed lead, replacing the owner question on how often a person with a cause acts (asked in the speed channel Oct 24; the Oct 24 standing ruling says to simulate it from research instead). Counts from scratchpad drive-years.mts (drivesReport and core.memberships at each year's end).
+
+Done when amended Oct 25 by the speed lead before the PR, as the researcher skill says: research records the bands and the report that reads them; the drives engine change goes to the area's builder (people-drives-cause-acts-pull-less).
