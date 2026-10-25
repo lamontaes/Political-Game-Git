@@ -5,11 +5,12 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-02
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T16:52:36.696Z
 ---
 
 **What.** On main, a drawn-place game shows developer text on the player's screens. The Government tab reads '2022-01-01 – 2026-01-01 · in office at the opening · 2021-11-02 60%' for each member. The Budgets tab shows the adoption date as '2024-10-01', the filing panel shows '2025-01-20 / 2025-08-21' and '17 / 18 · 2025-01-22', the clerk answers a filing with 'on-ballot', Campaigns heads the race with the filing status and the contest id, News lists public records as 'Press.archived', and the talk box always shows Mark gap. Found in Columbia Falls, Montana by the new plain-text browser check. This is the bench-checkable part of play-stop-02.
