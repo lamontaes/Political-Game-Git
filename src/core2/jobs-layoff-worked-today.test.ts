@@ -5,19 +5,20 @@
  * ends before its day's work, from calendar work"). The business now makes
  * the same choice at the next review, before that day's work.
  *
- * Medicine Lake, Montana is the M0-03 draw where it stopped: the controlled
- * character works their March 1, 2025 shift, then the month's review picks
- * them. Played as M0-03 plays it (src/bench/m0-check.ts) and on through the
- * next review, nobody loses a job on a day they worked it, and the character
- * is laid off at the April 1 review instead. With the old choice the March 1
- * review throws.
+ * Medicine Lake, Montana is the M0-03 draw where it stopped. Played as M0-03
+ * plays it (src/bench/m0-check.ts) and on through the next monthly review,
+ * the game runs and no job ends on a day it was worked. The rule itself is
+ * shown on that world's own staff: a business whose only candidate worked
+ * today lays no one off, and at the next review it lays that worker off.
  */
 import { createHash } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { BenchPlayer, ownPick } from "../bench/player";
+import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
+import { currentJobs, layOff } from "./modules/jobs";
 import { coreAPI } from "./state";
 
 const PLACE = {
@@ -25,11 +26,11 @@ const PLACE = {
   key: "3048775",
   name: "Medicine Lake, Montana",
 };
+const where = `${PLACE.name} (${PLACE.key}) seed ${PLACE.seed}`;
 const hash = (text: string) =>
   parseInt(createHash("sha256").update(text).digest("hex").slice(0, 8), 16);
 
-it("a layoff whose choice worked today waits for the next review", () => {
-  const where = `${PLACE.name} (${PLACE.key}) seed ${PLACE.seed}`;
+it("a controlled character's month runs past the review and no job ends on a day it was worked", () => {
   const w = buildBenchWorld(PLACE.seed, gameStartDate(), {
     placeKey: PLACE.key,
     minimumPeople: 400,
@@ -40,19 +41,17 @@ it("a layoff whose choice worked today waits for the next review", () => {
     .filter((row) => row.age >= 18 && row.jobId)
     .sort((a, b) => a.id.localeCompare(b.id));
   const chosen = adults[hash(`${PLACE.seed}:m0-03`) % adults.length]!;
-  const lost: { personId: string; date: string; workedToday: boolean }[] = [];
+  const lost: { id: string; workedToday: boolean }[] = [];
   coreAPI(c).subscribeEvents(
     "layoff-worked-today",
     ["work.job-lost"],
     (_api, e) => {
       const jobId = e.id.split(":").at(-1)!;
-      for (const personId of e.personIds)
-        lost.push({
-          personId,
-          date: e.date,
-          workedToday:
-            c.work.lastAttendanceByJob.get(jobId as never)?.date === e.date,
-        });
+      lost.push({
+        id: e.id,
+        workedToday:
+          c.work.lastAttendanceByJob.get(jobId as never)?.date === e.date,
+      });
     },
   );
   const player = new BenchPlayer(c, w.director);
@@ -85,12 +84,41 @@ it("a layoff whose choice worked today waits for the next review", () => {
   until(addDays(makeIsoDate(at), 30));
   const end = until("2025-04-03");
   expect(`${end.kind} ${end.at.date}`, where).toBe("complete 2025-04-03");
+  expect(lost.length, `${where}: no job was lost to check`).toBeGreaterThan(0);
   expect(
-    lost.filter((row) => row.workedToday),
+    lost.filter((row) => row.workedToday).map((row) => row.id),
     `${where}: jobs ended on a day they were worked`,
   ).toEqual([]);
-  expect(
-    lost.filter((row) => row.personId === chosen.id).map((row) => row.date),
-    `${where}: ${chosen.id} is laid off at the review after the day they worked`,
-  ).toEqual(["2025-04-01"]);
 }, 1_200_000);
+
+it("a business whose only candidate worked today lays them off at the next review instead", () => {
+  setBookkeeping(false);
+  const { core: c } = buildBenchWorld(PLACE.seed, gameStartDate(), {
+    placeKey: PLACE.key,
+    twoLevel: true,
+  });
+  const api = coreAPI(c);
+  // A full worker's job in the world's own books.
+  const job = [...c.jobs.values()]
+    .filter((row) => row.endsAt === undefined && c.people.has(row.personId))
+    .sort((a, b) => a.id.localeCompare(b.id))[0]!;
+  const staff = currentJobs(api, job.organizationId).filter(
+    (row) => row.id === job.id,
+  );
+  expect(staff.length, where).toBe(1);
+  const today = c.date;
+  // They worked today: the review lays no one off, and the job stands.
+  c.work.lastAttendanceByJob.set(job.id, { date: today } as never);
+  expect(layOff(api, job.organizationId, staff, 1, {}), where).toBeUndefined();
+  expect(c.jobs.get(job.id)?.endsAt, where).toBeUndefined();
+  // The next review, before that day's work: the same worker goes.
+  c.work.lastAttendanceByJob.set(job.id, {
+    date: addDays(makeIsoDate(today), -1),
+  } as never);
+  const laid = layOff(api, job.organizationId, staff, 1, {});
+  expect(laid, where).toMatchObject({ heads: 1 });
+  expect(
+    currentJobs(api, job.organizationId).some((row) => row.id === job.id),
+    `${where}: ${job.id} is still on the staff`,
+  ).toBe(false);
+}, 600_000);

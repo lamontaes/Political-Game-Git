@@ -186,7 +186,7 @@ function fullJobs(api: CoreAPI, organizationId: string) {
 }
 
 /** An employer's staff: its full people's jobs and its counted workers' jobs. */
-function currentJobs(api: CoreAPI, organizationId: string) {
+export function currentJobs(api: CoreAPI, organizationId: string) {
   return [
     ...fullJobs(api, organizationId),
     ...countedJobsOf(core(api), organizationId),
@@ -1310,7 +1310,7 @@ function managerOf(
 }
 
 /** The business decides who goes: the worker whose tenure and record it values least. */
-function layOff(
+export function layOff(
   api: CoreAPI,
   organizationId: string,
   staff: readonly JobInput[],
