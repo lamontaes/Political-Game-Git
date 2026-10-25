@@ -1,5 +1,5 @@
 ---
-id: release-pool-done-on-merge-misses
+id: release-pool-done-on-merge-proof
 impact: none
 ---
 
