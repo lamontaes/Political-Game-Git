@@ -5,11 +5,12 @@ area: words
 kind: wiring
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: words/donor-ask-scene
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T07:52:05.837Z
 ---
 
 **What.** The donor-ask scene (situation-types.json) waits on a campaign-contribution record nobody writes, so a donor never comes back to the candidate. The campaigns engine moves a gift through the journal and keeps the donor's running total, but writes no core record the director reads. Make each gift from someone other than the candidate a public record naming the candidate and the donor, the amount, and its share of what the campaign has raised, plus the pending bill before the seat's body the donor holds the strongest view on, when there is one. The director sizes the moment by that share, and the donor-ask scene fires from it with the donor as the one who comes in.
