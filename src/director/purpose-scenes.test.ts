@@ -170,9 +170,23 @@ const run = (drawSeed: string): string | null => {
   ).toBeTruthy();
   let counted = 0;
   let alone = 0;
+  let outInPrimary = 0;
+  const primary = core.durableLog.get(`primary-result:${contest.id}`);
   for (const filing of filings) {
     const filer = filing.personId as PersonId;
     const here = `${where}: ${filing.id}`;
+    // A top-two or top-four primary sends only its top finishers on: a filer
+    // it put out is named on the primary's record, and the general's count
+    // is not theirs.
+    const now = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .get(filing.id) as unknown as FilingRow | undefined;
+    if (now?.status === "withdrawn" && primary) {
+      expect(primary.personIds, `${here}: out in the primary`).toContain(filer);
+      outInPrimary += 1;
+      continue;
+    }
     const entry = director.ledger.people
       .get(filer)!
       .schedule.find((row) =>
@@ -211,10 +225,13 @@ const run = (drawSeed: string): string | null => {
       `${scene.scene.cause.id} (${won ? "won" : "lost"}): "${scene.scene.talk.state.text}"`,
     );
   }
-  // Every filer's count is a scene: the household's for each who still
-  // lives with someone, and there is at least one.
-  expect(counted + alone, `${where}: result scenes`).toBe(filings.length);
-  if (!counted) return `${where}: every filer lived alone by the count`;
+  // Every filer on the count has its scene: the household's for each who
+  // still lives with someone, and there is at least one.
+  expect(counted + alone + outInPrimary, `${where}: result scenes`).toBe(
+    filings.length,
+  );
+  if (!counted)
+    return `${where}: no filer on the count lived with someone (${alone} alone, ${outInPrimary} out in the primary)`;
   // The rest of the year plays out.
   advanceCore(core, end);
   console.log(`PURPOSE SCENES ${where}\n${told.join("\n")}`);
