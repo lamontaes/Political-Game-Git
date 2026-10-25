@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/play-stop-08-high-school
 pr: #6038
 blocked-on: owner-installed-build-acceptance
