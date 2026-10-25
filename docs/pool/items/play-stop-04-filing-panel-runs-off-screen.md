@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/bench/play.css, src/bench/play.html, src/bench/play.mjs, src/bench/filing.ts
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:03, 16:04; screenshots 44, 45. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
+
+Sent back 2026-10-25 ~22:10 UTC from PR #6052 (branch claude/quirky-ride-vrwwz4-play-stop-04, head df9d55ecaa with main merged in): both body screenshots are wrapped in backticks so they render as code, not images, and OWNER SCREENSHOT NEEDED still awaits the owner's yes; unwrap the image tags and it goes back in the queue once the owner says yes; finish on that branch, merge main into it first.
