@@ -23,12 +23,12 @@ import { stableHash } from "../core2/kernel/ids";
 import type { CoreState, PersonId } from "../core2/types";
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
-import type { Fact } from "../english/bank-line";
 import {
   pieceAnswers,
   sceneMoveFits,
   sceneMovesWritten,
   wordSceneMove,
+  type Fact,
   type SceneMove,
   type SceneTalkStep,
 } from "../english/scene-talk-words";

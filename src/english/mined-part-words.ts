@@ -9,7 +9,15 @@ import addressJson from "../../data/english/parts/address.json" with { type: "js
 import choiceNamesJson from "../../data/english/parts/choice-names.json" with { type: "json" };
 import sceneWordsJson from "../../data/english/parts/scene-words.json" with { type: "json" };
 import { heldByGrades } from "./english-grades";
-import type { Variant } from "./bank-line";
+import type { EnglishSurface } from "./grounded-english";
+import {
+  renderLine,
+  type Fact,
+  type RenderedLine,
+  type Variant,
+} from "./bank-line";
+
+export type { Fact, RenderedLine };
 
 interface MinedPart {
   key: string;
@@ -45,5 +53,40 @@ export function minedPartVariants(
         ),
       },
     ];
+  });
+}
+
+/**
+ * Words a line from the parts a moment names, or null when none fits its
+ * facts: the director names the bank and the part keys its rows give the
+ * moment, and the English engine picks one and renders it.
+ */
+export function wordMinedParts(request: {
+  seed: string;
+  surface: EnglishSurface;
+  holderId: string;
+  bankKey: string;
+  version: string;
+  bank: string;
+  keys: readonly string[] | undefined;
+  facts: Record<string, Fact>;
+  momentKey: string;
+  fallbackSourceId: string;
+  /** Said in the speaker's own voice: their traits pull the pick. */
+  voiceTraits?: Readonly<Record<string, number>>;
+}): RenderedLine | null {
+  return renderLine({
+    seed: request.seed,
+    surface: request.surface,
+    holderId: request.holderId,
+    bankKey: request.bankKey,
+    version: request.version,
+    variants: request.keys ? minedPartVariants(request.bank, request.keys) : [],
+    facts: request.facts,
+    momentKey: request.momentKey,
+    fallbackSourceId: request.fallbackSourceId,
+    ...(request.voiceTraits
+      ? { voice: { traits: request.voiceTraits, register: "conversation" } }
+      : {}),
   });
 }

@@ -20,6 +20,8 @@ import { P } from "../core2/parameters";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import tagsFile from "../../data/english/scene-talk-tags.json" with { type: "json" };
 import { renderLine, type Fact } from "./bank-line";
+
+export type { Fact };
 import { heldByGrades } from "./english-grades";
 
 const zero = P.zero;

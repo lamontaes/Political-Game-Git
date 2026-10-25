@@ -4,7 +4,7 @@
  * one import:
  *
  *   import { MINED_WORDS } from "../../scripts/english-corpus";
- *   composeJournal(core, director, personId, { data: MINED_WORDS.journal });
+ *   composeJournal(core, director, personId, { words: MINED_WORDS.journal });
  *   composeScene(core, director, personId, entry, MINED_WORDS.scene);
  *   bringItUp(core, speakerId, listenerId, MINED_WORDS.bringItUp);
  *   MINED_WORDS.openingSpeech.composeOpeningSpeech(packet, "state-of-the-union");
@@ -20,7 +20,7 @@ import { composeCounterVisit } from "./counter-bank";
 import { composeNewsStory } from "./newscast-bank";
 import { composeOpeningSpeech, openingSpeechKind } from "./opening-speech-bank";
 import {
-  bringDataFromBank,
+  bringWordsFromBank,
   sceneWordsFromBank,
 } from "../../src/english/mined/scene-bank";
 
@@ -30,7 +30,7 @@ export const MINED_WORDS = {
   journal: journalDataFromBank(),
   filingVisit: filingWordsFromBank(),
   scene: sceneWordsFromBank(),
-  bringItUp: bringDataFromBank(),
+  bringItUp: { words: bringWordsFromBank() },
   address: { addressMoves, composeTurn },
   /** The President's address that opens the game, section by section. */
   openingSpeech: { composeOpeningSpeech, openingSpeechKind },

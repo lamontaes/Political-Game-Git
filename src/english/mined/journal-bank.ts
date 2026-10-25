@@ -1,6 +1,6 @@
 /**
  * Turns the mined journal bank (`data/english/parts/journal.json`) into the
- * story director's journal data, so "My life" is written in sentences real
+ * journal's words (`src/english/journal-words.ts`), so "My life" is written in sentences real
  * Americans said about their own lives, never hand-written templates.
  *
  * Each mined part names the journal row (`kindPrefix`) and the field it fills
@@ -14,7 +14,7 @@
 import bankJson from "../../../data/english/parts/journal.json" with { type: "json" };
 import { heldByGrades } from "../english-grades";
 import rowsJson from "../../director/data/journal-rows.json" with { type: "json" };
-import type { JournalData, JournalRows } from "../../director/journal";
+import type { JournalRows, JournalWords } from "../journal-words";
 
 interface JournalUse {
   journal?: { kindPrefix: string; field: string }[];
@@ -65,7 +65,7 @@ export function journalDataFromBank(
   bank: { parts: MinedPart[] } = JOURNAL_BANK,
   rows: JournalRows = JOURNAL_ROWS,
   heldFirst = false,
-): JournalData {
+): JournalWords {
   const collect = (shipped: boolean) => {
     const found = new Map<string, { key: string; text: string }[]>();
     for (const part of bank.parts) {

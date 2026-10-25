@@ -25,7 +25,7 @@ import {
   SITUATION_LIBRARY,
   type SituationLibrary,
 } from "./scheduling";
-import { SCENE_BANK, sceneWordsFromBank } from "../english/mined/scene-bank";
+import { everySceneWord } from "../english/scene-words";
 import { composeScene } from "./scene";
 import { DIRECTOR_STOPGAPS, openDirectorStopgapCount } from "./stopgaps";
 import type { DirectorData } from "./types";
@@ -678,10 +678,7 @@ describe("story director on the new core", () => {
       staged.roles.find((row) => row.role === "bearer")!.personIds,
     ).toEqual(["person:worker"]);
     // Every bank line, as the grading view reads them, so the narrator speaks.
-    const words = sceneWordsFromBank({
-      ...SCENE_BANK,
-      parts: SCENE_BANK.parts.map((part) => ({ ...part, shippable: true })),
-    });
+    const words = everySceneWord();
     const scene = composeScene(core, director, personId, sitting, words);
     expect(scene?.narration.length).toBeGreaterThan(0);
     const cited = (scene?.narration ?? []).flatMap(

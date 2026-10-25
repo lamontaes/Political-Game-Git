@@ -4,22 +4,17 @@
  * states the deadline from the record, explains each
  * rule that stops the filing, and otherwise offers the ways to file. The
  * records are GOV's (`openContests`, `filingOfficeFor`, `checkEligibility`),
- * passed in as plain data; the filing itself is GOV's `fileCandidacy`.
+ * passed in as plain data; the filing itself is GOV's `fileCandidacy`. The
+ * visit says which move each line makes and the facts it stands on; the
+ * English engine (`src/english/filing-visit-words.ts`) words it.
  */
 import type { CoreState, PersonId } from "../core2/types";
-import { renderLine, type Fact, type Variant } from "../english/bank-line";
-import { filingWordsFromBank } from "../english/mined/filing-bank";
-
-export interface VisitWords {
-  version: string;
-  greet: Variant[];
-  pick: Variant[];
-  terms: Variant[];
-  rules: Readonly<Record<string, Variant[]>>;
-  accept: Variant[];
-}
-/** The default words are the mined clerk bank's. */
-export const FILING_VISIT_WORDS: VisitWords = filingWordsFromBank();
+import {
+  wordFilingMove,
+  type Fact,
+  type FilingMove,
+  type VisitWords,
+} from "../english/filing-visit-words";
 
 export interface FilingContest {
   id: string;
@@ -80,24 +75,21 @@ function say(
   core: Readonly<CoreState>,
   visit: FilingVisit,
   speaker: "clerk" | "player",
-  part: string,
-  variants: readonly Variant[] | undefined,
+  move: FilingMove,
   facts: Record<string, Fact>,
-  version: string,
+  words: VisitWords | undefined,
   stage?: string,
 ) {
-  return renderLine({
+  return wordFilingMove({
     seed: core.seed,
-    surface: "dialogue",
-    holderId:
+    move,
+    speakerId:
       speaker === "clerk" ? (visit.clerkId ?? visit.playerId) : visit.playerId,
-    bankKey: `filing-visit:${part}`,
-    version,
-    variants,
-    facts,
-    momentKey: `${visit.playerId}:${core.date}:${visit.lines.length}:${part}`,
-    ...(stage ? { stage } : {}),
     fallbackSourceId: visit.playerId,
+    facts,
+    momentKey: `${visit.playerId}:${core.date}:${visit.lines.length}:${move}`,
+    ...(stage ? { stage } : {}),
+    ...(words ? { words } : {}),
   });
 }
 
@@ -106,7 +98,7 @@ export function openFilingVisit(
   playerId: PersonId,
   contests: readonly FilingContest[],
   clerkId?: PersonId,
-  words: VisitWords = FILING_VISIT_WORDS,
+  words?: VisitWords,
 ): FilingVisit {
   const visit: FilingVisit = {
     playerId,
@@ -115,15 +107,7 @@ export function openFilingVisit(
     lines: [],
     choices: [],
   };
-  const greet = say(
-    core,
-    visit,
-    "clerk",
-    "greet",
-    words.greet,
-    {},
-    words.version,
-  );
+  const greet = say(core, visit, "clerk", "greet", {}, words);
   if (greet) visit.lines.push({ speaker: "clerk", ...greet });
   for (const contest of contests) {
     const line = say(
@@ -131,9 +115,8 @@ export function openFilingVisit(
       visit,
       "player",
       "pick",
-      words.pick,
       { office: { text: contest.title, sourceRecordIds: [contest.id] } },
-      words.version,
+      words,
     );
     if (line)
       visit.choices.push({
@@ -154,7 +137,7 @@ export function pickContest(
   contestId: string,
   terms: FilingTerms,
   checks: readonly FilingCheck[],
-  words: VisitWords = FILING_VISIT_WORDS,
+  words?: VisitWords,
 ): FilingVisit {
   const choice = visit.choices.find(
     (row) => row.action.kind === "pick" && row.action.contestId === contestId,
@@ -173,16 +156,7 @@ export function pickContest(
     deadline: { text: longDate(contest.filingDeadline), sourceRecordIds: ids },
     "filing-office": { text: terms.filedWith, sourceRecordIds: ids },
   };
-  const stated = say(
-    core,
-    visit,
-    "clerk",
-    "terms",
-    words.terms,
-    facts,
-    words.version,
-    "none",
-  );
+  const stated = say(core, visit, "clerk", "terms", facts, words, "none");
   if (stated) visit.lines.push({ speaker: "clerk", ...stated });
 
   // Each rule that stops the filing, in the clerk's words, from its record.
@@ -198,27 +172,18 @@ export function pickContest(
       visit,
       "clerk",
       `rule:${check.rule}`,
-      words.rules[check.rule],
       {
         ...facts,
         required: { text: required, sourceRecordIds: ids },
         actual: { text: actual, sourceRecordIds: [visit.playerId] },
       },
-      words.version,
+      words,
     );
     if (line) visit.lines.push({ speaker: "clerk", ...line });
   }
   visit.choices = [];
-  const offer = (key: string, variants: Variant[], action: FilingAction) => {
-    const line = say(
-      core,
-      visit,
-      "player",
-      key,
-      variants,
-      facts,
-      words.version,
-    );
+  const offer = (key: "accept" | "file", action: FilingAction) => {
+    const line = say(core, visit, "player", key, facts, words);
     if (line)
       visit.choices.push({
         key,
@@ -229,9 +194,9 @@ export function pickContest(
       });
   };
   if (unmet.length) {
-    offer("accept", words.accept, { kind: "done" });
+    offer("accept", { kind: "done" });
     return visit;
   }
-  offer("file", words.accept, { kind: "file", contestId });
+  offer("file", { kind: "file", contestId });
   return visit;
 }

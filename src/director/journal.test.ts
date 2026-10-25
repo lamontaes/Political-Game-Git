@@ -8,7 +8,8 @@ import { applyCoreEvent } from "../core2/state";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
-import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
+import { composeJournal, composeLookBack } from "./journal";
+import { JOURNAL_WORDS } from "../english/journal-words";
 import { createDirector, type Director } from "./ledger";
 import type { Moment } from "./types";
 
@@ -116,7 +117,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
   it("never invents a feeling: its words hold no feeling", () => {
     const feelings =
       /\b(happy|sad|angry|afraid|scared|proud|lonely|glad|upset|love[ds]?|hate[ds]?|miss(ed)?|worried|excited|hurt|felt|feel|joy|grief|ashamed|relieved)\b/i;
-    for (const row of JOURNAL_DATA.lines)
+    for (const row of JOURNAL_WORDS.lines)
       for (const variant of [
         ...row.line,
         ...(row.otherLine ?? []),
@@ -128,7 +129,7 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
 
   it("frames by age only what happens around a young person, and keeps names", () => {
     // A race, a filing or a letter is told as itself, never "When I was 17".
-    const framed = JOURNAL_DATA.lines.filter((row) => row.framesAge);
+    const framed = JOURNAL_WORDS.lines.filter((row) => row.framesAge);
     expect(framed.length).toBeGreaterThan(0);
     for (const row of framed)
       expect(row.kindPrefix).not.toMatch(/^event:(election|candidate|office)/);

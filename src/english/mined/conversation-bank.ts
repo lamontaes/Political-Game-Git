@@ -1,5 +1,5 @@
 /**
- * The director's conversation words, from the conversation bank
+ * The conversation words (`src/english/conversation-words.ts`), from the conversation bank
  * (`data/english/parts/conversation.json`): sentences real Americans said,
  * with their public-domain sources, and sentences authored to the calibrated
  * patterns (`origin: authored`). Nothing here is written by hand; the
@@ -22,7 +22,8 @@
 import bankJson from "../../../data/english/parts/conversation.json" with { type: "json" };
 import { heldByGrades } from "../english-grades";
 import rulesJson from "../../director/data/conversation-rules.json" with { type: "json" };
-import type { ConversationData, Move } from "../../director/conversation";
+import type { ConversationData } from "../../director/conversation";
+import type { Move } from "../conversation-words";
 
 export interface MinedUse {
   subject: string;

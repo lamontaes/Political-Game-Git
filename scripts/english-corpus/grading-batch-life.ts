@@ -34,7 +34,7 @@ import {
 } from "../../src/english/mined/journal-bank";
 import {
   BRING_BANK,
-  bringDataFromBank,
+  bringWordsFromBank,
   SCENE_BANK,
   sceneWordsFromBank,
 } from "../../src/english/mined/scene-bank";
@@ -126,7 +126,7 @@ for (const seed of seeds) {
 
   // The journal: each line after the one before it.
   for (const chapter of composeJournal(core, director, player.id, {
-    data: journalDataFromBank(),
+    words: journalDataFromBank(),
   }))
     chapter.lines.forEach((line, at) => {
       const key = journalPart(line.text);
@@ -193,7 +193,9 @@ for (const seed of seeds) {
       facts: { [`organization:${org}:status`]: "closed" },
     });
     for (const listener of [...worker.knownIds].slice(0, 3)) {
-      const said = bringItUp(core, worker.id, listener, bringDataFromBank());
+      const said = bringItUp(core, worker.id, listener, {
+        words: bringWordsFromBank(),
+      });
       said?.lines.forEach((line, at) => {
         const key = bringPart(line.text);
         items.push({

@@ -44,7 +44,7 @@ const core = createLifeCore(input, { modules: [director.module] });
 director.start(core);
 advanceCore(core, addDays(makeIsoDate(core.date), 31));
 const chapters = composeJournal(core, director, player.id, {
-  data: journalDataFromBank(),
+  words: journalDataFromBank(),
 });
 
 const minedPatterns = JOURNAL_BANK.parts.map(

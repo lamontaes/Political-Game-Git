@@ -38,11 +38,14 @@ import { VIEWS_SPEAKER_KEY } from "../core2/modules/views";
 import { P } from "../core2/parameters";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
-import { minedPartVariants } from "../english/mined-part-words";
+import {
+  wordMinedParts,
+  type Fact,
+  type RenderedLine,
+} from "../english/mined-part-words";
 import { questionAbout } from "../english/question-names";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import rowsJson from "./data/office-scene.json" with { type: "json" };
-import { renderLine, type Fact, type RenderedLine } from "../english/bank-line";
 import { spoken } from "./words";
 
 type Side = "yes" | "no";
@@ -69,15 +72,6 @@ export interface OfficeSceneRows {
   parameters: Readonly<Record<string, { value: number; tag: string }>>;
 }
 export const OFFICE_SCENE_ROWS = rowsJson as unknown as OfficeSceneRows;
-
-/** The mined parts a row names, as renderer variants (bank slots as `{{slot}}`). */
-function variantsFor(
-  ref: PartRef | undefined,
-  keys: readonly string[] | undefined,
-) {
-  if (!ref || !keys) return [];
-  return minedPartVariants(ref.bank, keys);
-}
 
 const parameter = (rows: OfficeSceneRows, key: string): number => {
   const row = rows.parameters[key];
@@ -255,21 +249,24 @@ export function composeOfficeScene(
   if (named.length === questions.length && named.length === P.one)
     facts.issue = { text: named[P.zero]!, sourceRecordIds: [bill.id] };
 
+  // The rows name the parts each line may use; the English engine words it.
   const say = (
     surface: EnglishSurface,
     holderId: string,
     bankKey: string,
-    variants: { key: string; text: string }[],
+    ref: PartRef,
+    keys: readonly string[] | undefined,
     lineFacts: Record<string, Fact>,
     moment: string,
   ) =>
-    renderLine({
+    wordMinedParts({
       seed: core.seed,
       surface,
       holderId,
       bankKey,
       version: rows.version,
-      variants,
+      bank: ref.bank,
+      keys,
       facts: lineFacts,
       momentKey: `office-scene:${bill.id}:${playerId}:${moment}`,
       fallbackSourceId: bill.id,
@@ -282,7 +279,8 @@ export function composeOfficeScene(
     "scene",
     playerId,
     "office-scene:setting",
-    variantsFor(rows.narration.setting, rows.narration.setting.keys),
+    rows.narration.setting,
+    rows.narration.setting.keys,
     facts.place ? { place: facts.place } : {},
     "setting",
   );
@@ -291,7 +289,8 @@ export function composeOfficeScene(
     "scene",
     playerId,
     "office-scene:present",
-    variantsFor(rows.narration.present, rows.narration.present.keys),
+    rows.narration.present,
+    rows.narration.present.keys,
     { who: facts.name! },
     "present",
   );
@@ -300,7 +299,8 @@ export function composeOfficeScene(
     "scene",
     playerId,
     "office-scene:lead",
-    variantsFor(rows.narration.lead, rows.narration.lead.keys),
+    rows.narration.lead,
+    rows.narration.lead.keys,
     facts.issue
       ? { name: facts.name!, issue: facts.issue }
       : { name: facts.name! },
@@ -317,7 +317,8 @@ export function composeOfficeScene(
       "menu",
       playerId,
       `office-scene:choice:${row.key}`,
-      variantsFor(row.label, row.label.keys),
+      row.label,
+      row.label.keys,
       { name: facts.name! },
       `choice:${row.key}`,
     );
@@ -327,7 +328,8 @@ export function composeOfficeScene(
           "dialogue",
           playerId,
           `office-scene:line:${row.key}`,
-          variantsFor(row.line, row.line.keysBySide?.[side]),
+          row.line,
+          row.line.keysBySide?.[side],
           facts.issue ? { issue: facts.issue } : {},
           `line:${row.key}`,
         )
@@ -432,23 +434,18 @@ export function chooseOfficeScene(
   const reply =
     row.records === "nothing"
       ? null
-      : renderLine({
+      : wordMinedParts({
           seed: core.seed,
           surface: "dialogue",
           holderId: scene.targetId,
           bankKey: `office-scene:reply:${lean}`,
           version: rows.version,
-          variants: variantsFor(
-            { bank: rows.reply.bank },
-            rows.reply.keysByLean[lean],
-          ),
+          bank: rows.reply.bank,
+          keys: rows.reply.keysByLean[lean],
           facts: {},
           momentKey: `office-scene:${scene.billId}:${scene.targetId}:reply:${choiceKey}`,
           fallbackSourceId: eventIds[P.zero] ?? scene.billId,
-          voice: {
-            traits: core.people.get(scene.targetId)?.traits ?? {},
-            register: "conversation",
-          },
+          voiceTraits: core.people.get(scene.targetId)?.traits ?? {},
         });
   return {
     choiceKey,

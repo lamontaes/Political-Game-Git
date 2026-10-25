@@ -11,7 +11,7 @@ import { createDirector } from "../../director/ledger";
 import { composeScene } from "../../director/scene";
 import {
   BRING_BANK,
-  bringDataFromBank,
+  bringWordsFromBank,
   SCENE_BANK,
   sceneWordsFromBank,
 } from "./scene-bank";
@@ -102,7 +102,9 @@ describe(`mined scenes and bring-it-up in ${base.placeMetadata?.placeName} (seed
       facts: { [`organization:${org}:status`]: "closed" },
     });
     const listener = [...worker.knownIds][0]!;
-    const said = bringItUp(core, worker.id, listener, bringDataFromBank());
+    const said = bringItUp(core, worker.id, listener, {
+      words: bringWordsFromBank(),
+    });
     expect(said).not.toBeNull();
     const patterns = mined(BRING_BANK);
     expect(said!.lines.length).toBeGreaterThan(0);

@@ -36,7 +36,7 @@ director.start(core);
 advanceCore(core, addDays(makeIsoDate(core.date), 120));
 console.log(`# ${base.placeMetadata?.placeName} (seed ${seed})`);
 for (const chapter of composeJournal(core, director, player.id, {
-  data: journalDataFromBank(),
+  words: journalDataFromBank(),
 })) {
   console.log(`\n## ${chapter.title}`);
   for (const line of chapter.lines) console.log(line.text);

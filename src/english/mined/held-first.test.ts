@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { bringDataFromBank, sceneWordsFromBank } from "./scene-bank";
+import { bringWordsFromBank, sceneWordsFromBank } from "./scene-bank";
 import { journalDataFromBank } from "./journal-bank";
 
 /**
@@ -25,7 +25,7 @@ describe("the held-first switch", () => {
   for (const [bank, words] of [
     ["scene-words.json", sceneWordsFromBank],
     ["journal.json", journalDataFromBank],
-    ["bring-it-up.json", bringDataFromBank],
+    ["bring-it-up.json", bringWordsFromBank],
   ] as const) {
     it(`keeps every held line of ${bank} out of play, and offers them to grading`, () => {
       const held = heldKeys(bank);

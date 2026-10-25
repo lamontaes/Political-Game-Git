@@ -1,6 +1,6 @@
 /**
  * Turns the mined clerk bank (`data/english/parts/filing-visit.json`) into the
- * filing visit's words (`src/director/filing-visit.ts`). The clerk speaks only
+ * filing visit's words (`src/english/filing-visit-words.ts`). The clerk speaks only
  * sentences a public-domain election record says; what no record says is left
  * empty here, and the visit leaves the line out. The rules and the slot each
  * rule's value fills are `data/filing-visit-rows.json`, which holds no
@@ -12,7 +12,7 @@
 import bankJson from "../../../data/english/parts/filing-visit.json" with { type: "json" };
 import { heldByGrades } from "../english-grades";
 import rowsJson from "../../director/data/filing-visit-rows.json" with { type: "json" };
-import type { VisitWords } from "../../director/filing-visit";
+import type { VisitWords } from "../filing-visit-words";
 import type { Variant } from "../bank-line";
 
 interface Use {

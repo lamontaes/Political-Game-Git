@@ -15,24 +15,15 @@ import {
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { openConversation, subjectsBetween } from "./conversation";
-import bankJson from "../../data/english/parts/conversation.json" with { type: "json" };
-import { conversationDataFromBank } from "../english/mined/conversation-bank";
+import {
+  heldConversationWords,
+  pieceServes as serves,
+} from "../english/conversation-words";
 
 // The new parts are held until the owner grades them, so the talk reads them through the grading-only option.
-const HELD_DATA = conversationDataFromBank(undefined, true);
+const HELD_DATA = heldConversationWords();
 
 // A piece serves a subject by a use of its own, whether it was written for it or shared with another subject.
-const BANK = bankJson as unknown as {
-  parts: { key: string; uses: { subject: string }[] }[];
-};
-const serves = (key: string, subject: string) =>
-  BANK.parts.some(
-    (part) =>
-      part.key === key &&
-      part.uses.some(
-        (use) => use.subject === subject || use.subject === `${subject}-reply`,
-      ),
-  );
 
 // Hearing and verdict words (pool item words-justice-hearing-verdict-bank): a
 // person the justice engine charges, and then convicts or acquits, can be

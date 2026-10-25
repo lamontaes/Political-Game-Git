@@ -17,7 +17,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { stageWorldHeld } from "../stage-world";
 import { composeScene } from "../../../src/director/scene";
 import {
-  bringDataFromBank,
+  bringWordsFromBank,
   sceneWordsFromBank,
 } from "../../../src/english/mined/scene-bank";
 import { journalDataFromBank } from "../../../src/english/mined/journal-bank";
@@ -81,7 +81,7 @@ const plainKind = (label: string) =>
     .trim();
 
 const WORDS = sceneWordsFromBank(undefined, undefined, true);
-const BRING = bringDataFromBank(undefined, undefined, true);
+const BRING = { words: bringWordsFromBank(undefined, undefined, true) };
 const JOURNAL = journalDataFromBank(undefined, undefined, true);
 
 interface Line {
@@ -243,7 +243,7 @@ function playWorld(worldSeed: string) {
     .map((book) => book.personId as string);
   for (const id of [playerId, ...lives.filter((row) => row !== playerId)]) {
     const journal = composeJournal(core, director, id as PersonId, {
-      data: JOURNAL,
+      words: JOURNAL,
     }) as unknown;
     const chapters = (
       Array.isArray(journal)

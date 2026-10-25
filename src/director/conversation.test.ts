@@ -4,7 +4,10 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
-import { conversationDataFromBank } from "../english/mined/conversation-bank";
+import {
+  CONVERSATION_WORDS,
+  heldConversationWords,
+} from "../english/conversation-words";
 import { newsKey, newsModule } from "../core2/modules/news";
 import { viewsModule } from "../core2/modules/views";
 import { P } from "../core2/parameters";
@@ -15,6 +18,7 @@ import {
   beliefsModule,
   beliefsOf,
   CONVERSATION_DATA,
+  CONVERSATION_RULES,
   doubtsClaim,
   openConversation,
   say,
@@ -23,10 +27,6 @@ import {
   type Conversation,
 } from "./conversation";
 import { createDirector, DEFAULT_DIRECTOR_DATA } from "./ledger";
-import {
-  CONVERSATION_RULES,
-  MINED_CONVERSATION,
-} from "../english/mined/conversation-bank";
 import { REGISTER_CARDS } from "../english/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
@@ -597,7 +597,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     // player's answer may turn it back, and the neighbor answers in turn. The
     // family answers that turn a talk back are hand-written and held until
     // graded, so this reads them the way a grading batch does.
-    const held = conversationDataFromBank(undefined, true);
+    const held = heldConversationWords();
     let turned = 0;
     for (const pair of pairs) {
       const talk = openConversation(core, player.id, pair.otherId, {
@@ -681,7 +681,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
 
 describe("the answers to a question fit it", () => {
   it('never answers "Where did you go to school?" with "It\'s okay."', () => {
-    const school = MINED_CONVERSATION.subjects.school!;
+    const school = CONVERSATION_WORDS.subjects.school!;
     const keys = new Set((school.answers ?? []).map((move) => move.key));
     // Where, or that they are done: nothing about how it is going.
     expect([...keys].sort()).toEqual(["at", "done"]);
@@ -689,7 +689,7 @@ describe("the answers to a question fit it", () => {
       expect(move.text).not.toMatch(/^It'?s (okay|fine|good|hard|going well)/);
     // The reply to the same question, from their own record, is where.
     expect(
-      (MINED_CONVERSATION.subjects["school-reply"]?.reply ?? []).every(
+      (CONVERSATION_WORDS.subjects["school-reply"]?.reply ?? []).every(
         (move) => move.key === "at",
       ),
     ).toBe(true);

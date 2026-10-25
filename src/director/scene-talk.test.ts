@@ -8,7 +8,7 @@ import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import { createDirector } from "./ledger";
 import { composeSceneTalk, type PurposeType } from "./scene-talk";
-import type { Fact } from "../english/bank-line";
+import type { Fact } from "../english/scene-talk-words";
 import situationFile from "./data/situation-types.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 

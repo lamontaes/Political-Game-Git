@@ -9,7 +9,7 @@ import { advanceCore } from "../core2/life";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
-import type { Fact } from "../english/bank-line";
+import type { Fact } from "../english/scene-talk-words";
 import { SITUATION_LIBRARY } from "./scheduling";
 import {
   composeSceneTalk,

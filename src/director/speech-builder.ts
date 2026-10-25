@@ -14,8 +14,11 @@
  * with them: the chosen words are read by another engine, not only shown.
  */
 import {
-  SPEECH_STAGES_VERSION as VERSION,
-  speechStageVariants as variantsOf,
+  speechPartsByReach,
+  speechStagePieces,
+  speechWords,
+  wordSpeechPart,
+  type Fact,
 } from "../english/speech-stage-words";
 import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
@@ -31,7 +34,6 @@ import {
   questionName,
   questionTopic,
 } from "../english/policy-names";
-import { renderLine, type Fact } from "../english/bank-line";
 import { properName, spoken } from "./words";
 
 export type SpeechStage = "opener" | "core" | "closer";
@@ -202,16 +204,13 @@ function corePool(
     stand?: SpeechChoice["stand"],
   ) => {
     if (taken.has(subject)) return;
-    const line = renderLine({
+    const line = wordSpeechPart({
       seed: core.seed,
-      surface: "dialogue",
-      holderId: build.speakerId,
-      bankKey: `speech-stages.${role}`,
-      version: VERSION,
-      variants: variantsOf(role, build.heldFirst),
+      role,
+      speakerId: build.speakerId,
       facts: { ...facts, ...extra },
       momentKey: `speech:${build.speakerId}:${build.startedOn}:${subject}`,
-      fallbackSourceId: build.speakerId,
+      ...(build.heldFirst ? { heldFirst: true } : {}),
     });
     if (!line) return;
     pool.push({
@@ -271,14 +270,7 @@ function rank(
     : P.zero;
   const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
   const byReach = (rows: readonly SpeechChoice[]) =>
-    rows
-      .map((row, at) => ({ row, at }))
-      .sort(
-        (a, b) =>
-          (reach >= P.zero ? -P.one : P.one) *
-            (a.row.text.length - b.row.text.length) || a.at - b.at,
-      )
-      .map(({ row }) => row);
+    speechPartsByReach(rows, reach >= P.zero);
   const stands = pool.filter((row) => row.stand).slice(P.zero, P.two);
   const personal = pool.filter((row) => !row.stand);
   if (!stands.length) return byReach(personal).slice(P.zero, count);
@@ -296,25 +288,23 @@ function edgePool(
 ): SpeechChoice[] {
   const facts = factsOf(core, build.speakerId);
   const pool: SpeechChoice[] = [];
-  for (const variant of variantsOf(role, build.heldFirst)) {
-    const line = renderLine({
+  for (const piece of speechStagePieces(role, build.heldFirst)) {
+    const line = wordSpeechPart({
       seed: core.seed,
-      surface: "dialogue",
-      holderId: build.speakerId,
-      bankKey: `speech-stages.${role}`,
-      version: VERSION,
-      variants: [variant],
+      role,
+      speakerId: build.speakerId,
       facts,
       momentKey: `speech:${build.speakerId}:${build.startedOn}:${role}`,
-      fallbackSourceId: build.speakerId,
+      ...(build.heldFirst ? { heldFirst: true } : {}),
+      pieceKey: piece,
     });
     if (line)
       pool.push({
-        key: `${role}:${variant.key}`,
+        key: `${role}:${piece}`,
         stage: role,
         subject: "",
         text: line.text,
-        partKey: variant.key,
+        partKey: piece,
         sourceRecordIds: usedIds(line, facts, build.speakerId),
       });
   }
@@ -366,7 +356,7 @@ export function chooseSpeechPart(
 
 /** The speech as given so far, parts in order. */
 export function speechText(build: Pick<SpeechBuild, "picked">): string {
-  return build.picked.map((row) => row.text).join(" ");
+  return speechWords(build.picked);
 }
 
 /**
