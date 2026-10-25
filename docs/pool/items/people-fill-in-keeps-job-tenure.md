@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/traits-fill-in-tenure
-pr:
+pr: #6024
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T10:51:44.355Z
