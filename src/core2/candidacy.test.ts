@@ -163,8 +163,9 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
 
   it("has most incumbents run again, as about 81% really do", () => {
     // Every adult in town, each as the seat's incumbent: about 1,200 at the
-    // smallest, so one standard error of the share is under a point and the
-    // band below is the spread between towns, not between draws. The first
+    // smallest, in several hundred households, so one standard error of the
+    // share is about a point and the band below is the spread between towns,
+    // not between draws. The first
     // 200 records alone came in households, a few dozen of them, and an old
     // town's first households ran again at 0.955 (Suissevale, New Hampshire)
     // against 0.918 for the whole town.
