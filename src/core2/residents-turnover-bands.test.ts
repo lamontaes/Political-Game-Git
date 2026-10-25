@@ -56,17 +56,57 @@ it("reports a played year's monthly turnover rates against JOLTS, by record id",
   });
   const from = core.date;
   const to = addDays(makeIsoDate(from), 365);
-  advanceCore(core, to);
+  // The CPS absence measure is the share of workers absent in a survey week:
+  // a week at a time, each full person's completed work weeks (planned days,
+  // and any missed) are read from the work engine's weekly rollups before
+  // they age out. The counted tier has no absence mechanic yet
+  // (SG-CORE-residents-cadence), so its share is zero by construction and is
+  // reported apart.
+  const seen = new Set<string>();
+  let plannedWeeks = 0;
+  let absentWeeks = 0;
+  const absentSample: string[] = [];
+  const readWeeks = () => {
+    for (const [key, week] of core.work.rollups) {
+      if (seen.has(key) || week.weekStartedAt < from) continue;
+      if (addDays(makeIsoDate(week.weekStartedAt), 7) > core.date) continue;
+      seen.add(key);
+      if (week.plannedDays <= 0 || !core.people.has(week.personId)) continue;
+      plannedWeeks += 1;
+      if (week.missedDays > 0) {
+        absentWeeks += 1;
+        if (absentSample.length < 3)
+          absentSample.push(
+            `${week.personId} on ${week.jobId} week of ${week.weekStartedAt}`,
+          );
+      }
+    }
+  };
+  while (core.date < to) {
+    const next = addDays(makeIsoDate(core.date), 7);
+    advanceCore(core, next < to ? next : to);
+    readWeeks();
+  }
+  const absenceShare =
+    plannedWeeks > 0 ? (100 * absentWeeks) / plannedWeeks : 0;
   const report = turnoverReport(core, from, to);
   const lines = Object.entries(report.rates).map(
     ([kind, r]) =>
       `${kind}: ${r.town.toFixed(2)} a month against JOLTS ${r.jolts}`,
   );
-  console.log(
-    `turnover: ${where}; ${report.employed} employed; changes ${JSON.stringify(report.counts)}; ${lines.join("; ")}; ids ${JSON.stringify(report.ids)}`,
+  process.stdout.write(
+    `turnover: ${where}; ${report.employed} employed; changes ${JSON.stringify(report.counts)}; ${lines.join("; ")}; ids ${JSON.stringify(report.ids)}\n`,
+  );
+  process.stdout.write(
+    `absence: ${where}; full people absent in ${absentWeeks} of ${plannedWeeks} work weeks (${absenceShare.toFixed(2)} percent) against CPS ${absenceRate("Private sector")} private and ${absenceRate("Public sector")} public, e.g. ${absentSample.join("; ")}; counted workers 0 by construction (SG-CORE-residents-cadence)\n`,
   );
   expect(report.employed, where).toBeGreaterThan(0);
   expect(Object.keys(report.counts).length, where).toBeGreaterThan(0);
+  // The absence share is measured from the full people's own weeks.
+  expect(
+    plannedWeeks,
+    `${where}: full people's work weeks read`,
+  ).toBeGreaterThan(0);
   for (const r of Object.values(report.rates))
     expect(Number.isFinite(r.town), where).toBe(true);
 }, 600_000);
