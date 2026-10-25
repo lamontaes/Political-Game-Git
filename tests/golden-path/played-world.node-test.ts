@@ -769,11 +769,23 @@ function playWorld(seed: string) {
   const countedAtEnd = residentCounts(core).reduce((n, r) => n + r.people, 0);
   const countedChange = countedAtEnd + filledIn - countedAtStart;
   countedIdsAtStart.clear();
-  verdicts["the counted population changes"] = countedChange
-    ? pass(`counted population changed by ${countedChange}`)
-    : fail(
-        `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
-      );
+  // The counted engine's own records of the year: births and moves can
+  // cancel in the total (Red Hook, U.S. Virgin Islands: 7 counted births and
+  // 58 moves, and the count back where it began), so they are read too.
+  const countedBirths = rowsOf(core, "core2-renewal-v1", "births").filter(
+    (b) => String(b.date) >= start && b.counted === true,
+  ).length;
+  const countedMoves = rowsOf(core, "core2-counted-moves-v1", "moves").filter(
+    (m) => String(m.date) >= start,
+  ).length;
+  verdicts["the counted population changes"] =
+    countedChange || countedBirths || countedMoves
+      ? pass(
+          `counted population changed by ${countedChange}, with ${countedBirths} counted births and ${countedMoves} counted moves`,
+        )
+      : fail(
+          `The counted population stayed at ${countedAtStart} for ${years} year(s), apart from ${filledIn} people filled in: no counted births, deaths or moves (src/core2/modules/residents.ts, src/core2/modules/renewal.ts).`,
+        );
   verdicts["a baby is born"] = births.length
     ? pass(`${births.length} births`)
     : fail(

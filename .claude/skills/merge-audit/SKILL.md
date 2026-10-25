@@ -18,7 +18,7 @@ description: >
    - Tests narrowed, skipped, returning early, `>= 0`, looping over a set that can be empty, or pinned to one convenient seed.
    - Timeouts raised without a measured reason.
    - Done-when proof missing (the pool item names it).
-   - Hand-written player text (`origin: authored` with `shippable: true`).
+   - Hand-written player text in code, or a bank part whose `shippable` flag disagrees with the grade ledger (owner, Oct 24: bank parts play unless graded out).
    - `src/core2` importing `src/simulation`.
    - Owner or date notes in code or data.
    - Pool sections pasted twice.
