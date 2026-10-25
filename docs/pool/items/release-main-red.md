@@ -5,9 +5,9 @@ area: release
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/release-package-heap
-pr:
+pr: #6049
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T16:07:19.351Z
@@ -17,7 +17,7 @@ claimed-at: 2026-10-25T16:07:19.351Z
 
 **Rules.** Red main comes first: repair the package build at its root, keeping every check it runs. Replace, never layer: change the existing step's heap setting; add no second build and skip no typecheck project.
 
-**Done when.** The package job's "Build the game" step uses the same measured 5 GB heap as candidate validation; on current main both typecheck scripts fail at 4 GB and pass at 5 GB in a local run, with peak memory recorded in the PR; the release workflow test passes; and the PR names the failed run.
+**Done when.** The package job's "Build the game" step uses the same measured 5 GB heap as candidate validation; on current main `typecheck-test-imports.ts` fails at 4 GB and both typecheck scripts pass at 5 GB in a local run, with peak memory recorded in the PR; the release workflow test passes; and the PR names the failed run.
 
 **Files.** .github/workflows/release.yml, docs/release/changes/release-package-build-heap.md
 
