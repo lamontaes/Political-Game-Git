@@ -50,30 +50,54 @@ function directorText(text: string): string {
   );
 }
 
-function variants(bank: Bank, subject: string, role: string, staged = false) {
-  return bank.parts
-    .filter(
-      (part) =>
-        part.shippable &&
-        !heldByGrades(part.key) &&
-        part.uses.some((use) => use.subject === subject && use.role === role),
-    )
-    .map((part) => {
-      const stages = part.uses.find(
-        (use) => use.subject === subject && use.role === role,
-      )?.stages;
-      return {
-        key: part.key,
-        text: directorText(part.text),
-        // A use's choice names the stage a part is said at ("any" says it at all).
-        ...(stages
-          ? { stages }
-          : staged
-            ? stagesOf(part.uses.filter((use) => use.subject === subject))
-            : {}),
-        ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
-      };
-    });
+/**
+ * The parts a slot may say. Play says only shipped parts. A grading page
+ * (`heldFirst`) says the held ones wherever one fits, so the owner reads each
+ * in a real scene; a slot no held part fits keeps its shipped parts.
+ */
+function admitted(
+  bank: Bank,
+  fits: (part: MinedPart) => boolean,
+  heldFirst: boolean,
+): MinedPart[] {
+  const shipped = bank.parts.filter(
+    (part) => part.shippable && !heldByGrades(part.key) && fits(part),
+  );
+  if (!heldFirst) return shipped;
+  const held = bank.parts.filter(
+    (part) => !part.shippable && !heldByGrades(part.key) && fits(part),
+  );
+  return held.length ? held : shipped;
+}
+
+function variants(
+  bank: Bank,
+  subject: string,
+  role: string,
+  staged = false,
+  heldFirst = false,
+) {
+  return admitted(
+    bank,
+    (part) =>
+      part.uses.some((use) => use.subject === subject && use.role === role),
+    heldFirst,
+  ).map((part) => {
+    const stages = part.uses.find(
+      (use) => use.subject === subject && use.role === role,
+    )?.stages;
+    return {
+      key: part.key,
+      text: directorText(part.text),
+      // A use's choice names the stage a part is said at ("any" says it at all).
+      ...(stages
+        ? { stages }
+        : staged
+          ? stagesOf(part.uses.filter((use) => use.subject === subject))
+          : {}),
+      ...(part.bearing ? { bearing: part.bearing, pieceKey: part.key } : {}),
+    };
+  });
 }
 
 function stagesOf(uses: readonly Use[]): { stages?: string[] } {
@@ -86,65 +110,68 @@ function stagesOf(uses: readonly Use[]): { stages?: string[] } {
  * or about the person it names (`other`); a line with any other choice fits
  * both.
  */
-function causeVariants(bank: Bank, role: string) {
-  return bank.parts
-    .filter(
-      (part) =>
-        part.shippable &&
-        !heldByGrades(part.key) &&
-        part.uses.some((use) => use.subject === "cause" && use.role === role),
-    )
-    .map((part) => {
-      const choice = part.uses.find(
-        (use) => use.subject === "cause" && use.role === role,
-      )!.choice;
-      return {
-        key: part.key,
-        text: directorText(part.text),
-        ...(choice === "self" || choice === "other"
-          ? { stages: [choice] }
-          : {}),
-      };
-    });
+function causeVariants(bank: Bank, role: string, heldFirst = false) {
+  return admitted(
+    bank,
+    (part) =>
+      part.uses.some((use) => use.subject === "cause" && use.role === role),
+    heldFirst,
+  ).map((part) => {
+    const choice = part.uses.find(
+      (use) => use.subject === "cause" && use.role === role,
+    )!.choice;
+    return {
+      key: part.key,
+      text: directorText(part.text),
+      ...(choice === "self" || choice === "other" ? { stages: [choice] } : {}),
+    };
+  });
 }
 
+/** `heldFirst` is for a grading page only: see `admitted`. */
 export function sceneWordsFromBank(
   bank: Bank = SCENE_BANK,
   rows: SceneRows = SCENE_ROWS,
+  heldFirst = false,
 ): SceneWords {
   return {
     version: rows.version,
     and: rows.and,
     settings: Object.fromEntries(
-      rows.settings.map((kind) => [kind, variants(bank, "setting", kind)]),
+      rows.settings.map((kind) => [
+        kind,
+        variants(bank, "setting", kind, false, heldFirst),
+      ]),
     ),
     present: ["one", "many"].flatMap((stage) =>
-      variants(bank, "present", stage).map((row) => ({
+      variants(bank, "present", stage, false, heldFirst).map((row) => ({
         ...row,
         stages: [stage],
       })),
     ),
-    frame: variants(bank, "frame", "day"),
+    frame: variants(bank, "frame", "day", false, heldFirst),
     leads: rows.leads.map((typeKey) => ({
       typeKey,
-      variants: variants(bank, "lead", typeKey, true),
+      variants: variants(bank, "lead", typeKey, true, heldFirst),
     })),
     causes: rows.causes.map((labelPrefix) => ({
       labelPrefix,
-      variants: causeVariants(bank, labelPrefix),
+      variants: causeVariants(bank, labelPrefix, heldFirst),
     })),
     openings: Object.fromEntries(
       (rows.openings ?? []).map((move) => [
         move,
-        variants(bank, "opening", move),
+        variants(bank, "opening", move, false, heldFirst),
       ]),
     ),
   };
 }
 
+/** `heldFirst` is for a grading page only: see `admitted`. */
 export function bringDataFromBank(
   bank: Bank = BRING_BANK,
   rows: BringRows = BRING_ROWS,
+  heldFirst = false,
 ): BringData {
   return {
     version: rows.version,
@@ -153,10 +180,13 @@ export function bringDataFromBank(
     blameKey: rows.blameKey,
     changes: rows.changes.map((row) => ({
       ...row,
-      line: variants(bank, "change", row.eventKind),
+      line: variants(bank, "change", row.eventKind, false, heldFirst),
     })),
     blame: Object.fromEntries(
-      rows.blame.map((how) => [how, variants(bank, "blame", how)]),
+      rows.blame.map((how) => [
+        how,
+        variants(bank, "blame", how, false, heldFirst),
+      ]),
     ) as BringData["blame"],
   };
 }

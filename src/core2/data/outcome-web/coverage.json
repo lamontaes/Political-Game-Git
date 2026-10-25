@@ -38,7 +38,6 @@
     "medicaid-expansion-to-coverage",
     "medicaid-expansion-to-mortality",
     "medicaid-expansion-to-medical-debt",
-    "snap-work-requirement-to-participation",
     "universal-prek-to-graduation",
     "equalized-funding-to-spending",
     "end-cash-bail-to-pretrial-detention",
@@ -63,6 +62,7 @@
     "power-plant-carbon-to-particulates",
     "tariffs-to-prices",
     "housing-vouchers-to-homelessness",
+    "retirement-age-to-older-work",
     "drug-negotiation-to-out-of-pocket",
     "federal-loan-cap-to-high-cost-loans",
     "universal-prek-to-math-proficiency",
@@ -387,11 +387,8 @@
       "waitingOn": ["press.local-newspaper", "voting.local-turnout"]
     },
     "exposed-corruption-to-reelection": {
-      "waitingOn": [
-        "gov.corruption-exposed",
-        "press.local-outlets",
-        "election.incumbent-reelection"
-      ]
+      "waitingOn": [],
+      "carriedBy": "the voting engine's scandal term (scandalTerm and scandalAppeal in src/core2/modules/voting.ts), which reads a candidate's bribes reported to the press and convictions the court made public (scandalStoriesOf) and lowers the candidate's appeal with each voter the story reached, weighed by how far they trust the press; counted voters take it at the share of the town's named adults it reached. It uses its own size, the 5 points of the two-party vote a tainted U.S. incumbent loses (scandalShare in src/core2/data/electorate/parameters.json), not this row's 17% fall in a Brazilian mayor's chance of reelection"
     },
     "press-attacks-to-media-trust": {
       "waitingOn": ["official.press-hostility", "press.media-trust"],
@@ -409,8 +406,12 @@
       "needsSize": true
     },
     "economy-to-approval": {
-      "waitingOn": ["economy.real-income-growth", "approval.incumbent"],
-      "needsSize": true
+      "waitingOn": [],
+      "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
+    },
+    "snap-work-requirement-to-participation": {
+      "waitingOn": [],
+      "carriedBy": "the SNAP benefit (runFoodAid in src/core2/law-reach/group-b-food-aid.ts), which reads the work-requirement law in force through assistanceTimeLimit (src/core2/law-reach/group-b.ts) and stops each head the law reaches after their own three months of benefit in 36 (timeLimitedNow in src/core2/law-reach/group-b-money.ts), named and counted households alike"
     },
     "mandatory-minimums-to-incarceration": {
       "waitingOn": [],
@@ -425,10 +426,6 @@
     "federal-minimum-wage-to-poverty": {
       "waitingOn": [],
       "carriedBy": "src/core2/law-reach/group-a-wages.ts writes the wage row that src/core2/modules/jobs.ts wageFloor applies"
-    },
-    "retirement-age-to-older-work": {
-      "waitingOn": [],
-      "carriedBy": "the jobs engine's retirement onset (retirementOnsetYears in src/core2/modules/jobs.ts), which reads the earliest Social Security claim age under the law in force when each worker decides whether to keep working"
     },
     "student-debt-relief-to-finances": {
       "waitingOn": ["finance.past-due-debt"],
@@ -518,6 +515,26 @@
     },
     "parks-spending-to-exercise-access": {
       "waitingOn": ["budget.parks-added-pct"]
+    },
+    "revolving-door-ban-to-ex-legislator-lobbyists": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/interest-groups.ts passes over a former officeholder the ban still bars (lobbyingBarredUntil, src/core2/law-reach/group-a-voting.ts) when it chooses a group's lobbyist"
+    },
+    "revolving-door-ban-to-candidate-entry": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/candidacy.ts weighs the law when a would-be newcomer, named or counted, decides whether to run for a legislative seat (afterOffice, read through revolvingDoorFor in src/core2/law-reach/group-a-voting.ts; candidacyRevolvingDoorWeight is calibrated to the paper's 18.2% fewer entrants)"
+    },
+    "public-jobs-to-private-employment": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/modules/jobs.ts fills the openings the line funds (postFundedOpenings, posted by src/core2/law-reach/group-a-staffing.ts) from named and counted seekers, and the unemployment measure counts each hire"
+    },
+    "home-rule-to-local-spending": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/policy-authority.ts lets a town or county body legislate on what the state leaves to home rule, read by src/core2/modules/legislature.ts when a bill is drafted; the bills it passes set the ordinances and spending"
+    },
+    "public-pay-floor-to-other-employers-wages": {
+      "waitingOn": [],
+      "carriedBy": "src/core2/public-pay-floor.ts holdPublicPay re-rates every public job under the floor, named and counted (rerateJob), and src/core2/modules/jobs.ts payFor posts public openings at it; the wages measure reads that pay"
     }
   },
   "measuresWanted": {
@@ -581,10 +598,6 @@
       "owner": "OPUS-GOV",
       "links": 2
     },
-    "approval.incumbent": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
     "budget.parks-added-pct": {
       "owner": "OPUS-GOV",
       "links": 1
@@ -617,14 +630,6 @@
       "owner": "OPUS-WORLD",
       "links": 1
     },
-    "economy.real-income-growth": {
-      "owner": "OPUS-WORLD",
-      "links": 1
-    },
-    "election.incumbent-reelection": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
     "env.carbon-monoxide": {
       "owner": "OPUS-CORE",
       "links": 1
@@ -654,10 +659,6 @@
       "links": 1
     },
     "federal.rail-expansion-pct": {
-      "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "gov.corruption-exposed": {
       "owner": "OPUS-GOV",
       "links": 1
     },
@@ -843,10 +844,6 @@
     },
     "police.killing-nearby": {
       "owner": "OPUS-GOV",
-      "links": 1
-    },
-    "press.local-outlets": {
-      "owner": "OPUS-PEOPLE",
       "links": 1
     },
     "press.media-trust": {

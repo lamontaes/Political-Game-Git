@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found by the M0-M2 lead's baseline run, Oct 24 (docs/coordination/LEADS-2026-10-24.md). Blocks roadmap M0-08.
 
 Sent back 2026-10-24 from PR #5891 (branch claude/quirky-ride-vrwwz4-city-treasury): First Done-when row explicitly not met: committed closures command remains false in required three places, while passing corrected-checker copy is unpublished; publish root checker fix or bound completion item and retain balance acceptance open; finish on that branch, merge main into it first.
+
+The outside-market lookup fix is bounded by core-treasury-settles-with-outside-market for PR #5891. This item stays open for its first Done-when line (closures.mjs reporting every dollar balances: true), which waits on roadmap-m0-08-closures-check-opening-timing.
