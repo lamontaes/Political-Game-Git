@@ -14,7 +14,13 @@ import {
   type ContestRow,
   type FilingRow,
 } from "../core2/modules/elections";
-import { draftBill, memberKey, members } from "../core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  draftBill,
+  memberKey,
+  members,
+  type BillRow,
+} from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { filingClerkFor } from "../core2/modules/filing-clerk";
 import { lawChain } from "../core2/modules/laws";
@@ -159,12 +165,19 @@ it(`a donor's gift is the candidate's donor-ask scene, with the donor (seed ${se
       tried.push(`${place.name} (no gift was a moment)`);
       continue;
     }
-    // A gift while the bills were pending names the one its donor holds
-    // the strongest view on.
-    const drafted = new Set(pending.map((bill) => bill.id));
+    // A gift while bills were pending names the one before the race's body
+    // that its donor holds the strongest view on: one the test drafted, or
+    // one a member had already brought (a state chamber has many).
+    const bills = api.moduleState(LEGISLATURE_MODULE_ID).table("bills");
     expect(
-      gifts.some((gift) => drafted.has(String(gift.facts?.billId))),
-      `${where}: no gift named a pending bill`,
+      gifts.some(
+        (gift) =>
+          (
+            bills.get(String(gift.facts?.billId)) as unknown as
+              BillRow | undefined
+          )?.bodyOfficeId === race.officeId,
+      ),
+      `${where}: no gift named a bill pending before the race's body`,
     ).toBe(true);
     for (const gift of gifts) {
       const donorId = String(gift.facts!.donorId);
