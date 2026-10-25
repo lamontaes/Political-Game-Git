@@ -1,27 +1,5 @@
 {
-  "about": "What the opening story reads that no record names yet. The address asks Congress for a President's own issue by the bill catalog's name for it, so only a name that reads as an action can follow \"I ask Congress to\": these are the first words that make one (OPUS-GOV's bill catalog, src/core2/data/legislature/bill-catalog.json). The town's lead story maps a public record's event kind to the newscast bank's kind of story.",
-  "stopgapId": "SG-PEOPLE-opening-goal-words",
-  "actionWords": [
-    "adopt",
-    "allow",
-    "ban",
-    "broaden",
-    "cap",
-    "end",
-    "exempt",
-    "expand",
-    "fund",
-    "legalize",
-    "limit",
-    "partner",
-    "price",
-    "protect",
-    "raise",
-    "require",
-    "restore",
-    "restrict",
-    "shift"
-  ],
+  "about": "What the opening story reads that no record names yet: the town's lead story maps a public record's event kind to the newscast bank's kind of story.",
   "townStoryKinds": {
     "organization.closed": "closing",
     "life.death": "death"

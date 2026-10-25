@@ -7,9 +7,10 @@ priority: 2
 size: S
 status: open
 claimed-by:
-pr:
+pr: #5984
 blocked-on:
 source: added with npm run pool -- add
+claimed-at:
 ---
 
 **What.** fileStandingCandidates returns at src/core2/modules/voting.ts:1132, before the standsAgain call at :1196, whenever the candidacy module is installed, and every played world installs it. So the voting.stand-again decision (age and a small trait lean, calibrated to van de Wardt et al.) never runs in play: in Parkway, Missouri's election window it had 0 calls while the race ran. Either candidacy asks the incumbent the same standsAgain question before filing them, or the voting path's early return gives way to it.
@@ -21,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/voting.ts, src/core2/modules/candidacy.ts
 
 **Notes.** Found Oct 24 by the traits lead's never-run audit (branch claude/traits-decisions-never-run, Parkway, Missouri, seed e6ff0d60d6bc).
+
+Sent back 2026-10-24 from PR #5984 (branch claude/traits-stand-again): CTO explicitly orders #5582 before any traits PR (comment 6386070636), and #5582 remains open with its election-cost registration return; no source defect or local green gate claimed; finish on that branch and merge main into it first after #5582 lands.

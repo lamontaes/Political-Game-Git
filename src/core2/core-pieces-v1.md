@@ -2,7 +2,7 @@
 
 Before: Ports had fixed core tables, a one-event callback writer, and individual residents.
 
-After: Engines can register their own versioned tables, schedule keyed institutional work, and store recorded voter groups. The player clock keeps its existing interface.
+After: Engines can register their own versioned tables, schedule keyed institutional work, and read the counted electorate. The player clock keeps its existing interface.
 
 ## Interface
 
@@ -69,37 +69,10 @@ Inferred: A dated condition producer reads a registered table in `onCalendarWork
 
 ## Voter groups
 
-```ts
-const groups = api.voterGroups();
-groups.put({
-  id,
-  placeId,
-  ageBand,
-  lean,
-  turnout,
-  size,
-  asOf,
-  source,
-  sourceRecordIds,
-});
-groups.atPlace(placeId, ageBand);
-groups.summarize(placeId, ageBand);
-groups.check({
-  id,
-  placeId,
-  ageBand,
-  asOf,
-  turnout: [minimum, maximum],
-  source,
-});
-```
+Voter groups and electorate blocks are gone as decision paths and stores (owner, Oct 14, 2026). The unnamed electorate is the town's counted residents: each counted voter is one member of a live counted household and carries that household's weight, the real voters it stands for. [Counted voters](electorate.ts#L68). A race orders the town's counted adults by lean and readiness into a sample, each with its weight. [Electorate sample](modules/voting.ts#L2794). Places outside the town are counted coarsely on the same sample, each inside its eligible voters. [Place counts](electorate.ts#L495).
 
-Inferred: A group represents unnamed eligible residents at coarse tiers. Named people remain on the individual path. Lean is a recorded continuous position from -1 to 1; turnout is recorded aggregate participation from 0 to 1; size is a nonnegative safe integer. The caller supplies causal records. The core never assigns political views or draws ballots from these fields. `CoreInput.voterGroups` admits explicit opening rows and rejects duplicate IDs. [Group admission](voter-groups.ts#L114).
-
-Inferred: Summaries weight lean and turnout by group size. Empty populations return null rates. Spread checks require sourced reference bounds. They return within, outside, or missing for supplied turnout, lean, and size bounds and leave all rows unchanged. Source dates and group dates remain separate. [Read-only checks](voter-groups.ts#L160).
-
-Inferred: The developer helper reads retained November 2024 CPS table 4c citizen-adult turnout and its published 90% margin of error. It does not initialize groups. Uncovered geographies return no observations; there is no claim of territorial CPS coverage or a measured lean distribution. The views and elections ports must supply causal group state and suitable lean checks. [CPS helper](tooling/voter-spreads.ts#L17).
+The contract test builds a played world in a place drawn from all 56 and checks those promises, and that reading them changes no record. [Electorate contract](voter-groups.test.ts).
 
 ## Handoff boundary
 
-Inferred: The three piece contracts cover table isolation, indexes, restoration, rejected writes, keyed date dispatch, stop/resume behavior, dated conditions, weighted groups, and sourced turnout checks. Political engines, actual group generation, accounts acceptance, and the first two M1-port acceptance proofs remain separate work. Calendar and stop registries retain the existing process-local clock scope. The finisher reviews these boundaries before M0-09 is marked passing. [Table contracts](module-state.test.ts), [calendar contracts](module-calendar.test.ts), [group contracts](voter-groups.test.ts), and [clock scope](player-v1.md).
+Inferred: The three piece contracts cover table isolation, indexes, restoration, rejected writes, keyed date dispatch, stop/resume behavior, dated conditions and the counted electorate. Political engines, actual group generation, accounts acceptance, and the first two M1-port acceptance proofs remain separate work. Calendar and stop registries retain the existing process-local clock scope. The finisher reviews these boundaries before M0-09 is marked passing. [Table contracts](module-state.test.ts), [calendar contracts](module-calendar.test.ts), [group contracts](voter-groups.test.ts), and [clock scope](player-v1.md).

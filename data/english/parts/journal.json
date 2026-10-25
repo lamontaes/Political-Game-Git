@@ -196,7 +196,7 @@
         "nasa2": 1,
         "nps": 4
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "DREAM DEFERRED: THE URGENT NEED TO PROTECT IMMIGRANT YOUTH",
         "date": "2024-05-08",
@@ -242,7 +242,7 @@
         "nps": 2,
         "wpa": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "NATIVE AMERICAN EDUCATION: EXAMINING FEDERAL PROGRAMS AT THE U.S. DEPARTMENT OF EDUCATION",
         "date": "2025-04-02",
@@ -290,7 +290,7 @@
         "nps": 14,
         "wpa": 5
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks on Affordability in Macungie, Pennsylvania",
         "date": "2026-06-23",
@@ -328,7 +328,7 @@
         "hearings": 1,
         "wpa": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "NOMINATIONS OF THE HONORABLE",
         "date": "2022-03-02",
@@ -418,7 +418,7 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "nasa": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "NASA JSC Oral History Project: David J. Homan (Engineer, Shuttle RMS, MPAD; Manager, Space Station Freedom Level II; Manager, Space Station Level III Functional Area for assembly; Critical Evaluation Task Force (following the Challenger accident); Manager, Manager, Virtual Reality Lab)",
         "date": "2023-06-14",
@@ -717,7 +717,7 @@
       "bySource": {
         "house": 2
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
         "date": "2019-09-30",
@@ -989,7 +989,7 @@
         "U.S. Senate Historical Office oral history": 1,
         "nasa2": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "John P. Andrews oral history (discovery-and-new-frontiers collection)",
         "date": "2023-09-29",
@@ -1077,7 +1077,7 @@
         "nps.gov": 1,
         "wpa": 7
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
         "date": "2020-04-05",
@@ -2708,7 +2708,7 @@
         "chrg": 1,
         "senate": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Senate Budget Committee Mid-Session Hearings Fiscal Year 2016",
         "date": "2015-05-19",
@@ -2784,7 +2784,7 @@
         "nasa": 9,
         "senate": 2
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Concurrent Receipt Of Survivor",
         "date": "2015-12-09",
@@ -3050,7 +3050,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3077,7 +3077,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3104,7 +3104,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3131,7 +3131,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3158,7 +3158,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3185,7 +3185,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3212,7 +3212,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -3357,7 +3357,7 @@
         "dcpd": 4,
         "nasa": 3
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks Following a Document Signing Ceremony on Semiconductor Supply and Citizenship and Immigration and an Exchange With Reporters",
         "date": "2026-08-06",
@@ -3466,7 +3466,7 @@
         "house": 1,
         "nasa": 1
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "The Family First Prevention Services Act: Successes, Roadblocks, And Opportunities For Improvement",
         "date": "2015-01-01",
@@ -3683,7 +3683,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3710,7 +3710,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3737,7 +3737,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3764,7 +3764,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3791,7 +3791,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -3818,7 +3818,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item people-officeholder-journal)",
       "date": "2026-10-15",
@@ -4579,7 +4579,7 @@
         "NASA oral histories": 4,
         "U.S. House oral histories": 3
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "U.S. House oral history: The Honorable Tony Coelho",
         "date": "2024-07-22",
@@ -4616,7 +4616,7 @@
         "U.S. House oral histories": 3,
         "U.S. Senate oral histories": 2
       },
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "U.S. House oral history: Brenda Countz",
         "date": "2024-03-29",
@@ -5698,7 +5698,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-subjects)",
       "date": "2026-10-15",
@@ -5725,7 +5725,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-journal-household-move-line)",
       "date": "2026-10-16",
@@ -5796,7 +5796,7 @@
           "choice": "born"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5824,7 +5824,7 @@
           "choice": "born"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5852,7 +5852,7 @@
           "choice": "hook"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5879,7 +5879,7 @@
           "choice": "hook"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5906,7 +5906,7 @@
           "choice": "hook"
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
@@ -5933,7 +5933,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-main-line)",
       "date": "2026-10-19",
@@ -5960,7 +5960,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-main-line)",
       "date": "2026-10-19",
@@ -5987,7 +5987,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-main-line)",
       "date": "2026-10-19",
@@ -6014,7 +6014,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-main-line)",
       "date": "2026-10-19",
@@ -6041,7 +6041,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6068,7 +6068,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6095,7 +6095,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6122,7 +6122,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6149,7 +6149,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6176,7 +6176,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6203,7 +6203,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6230,7 +6230,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
@@ -6257,7 +6257,7 @@
           ]
         }
       ],
-      "shippable": false,
+      "shippable": true,
       "origin": "authored",
       "author": "Claude Sonnet (pool item words-past-household-roots-and-moments)",
       "date": "2026-10-19",
