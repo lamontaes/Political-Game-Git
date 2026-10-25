@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: blocked
 claimed-by: claude/approach-office-staffed
 pr: #6015
-blocked-on:
+blocked-on: core-planned-approach-office-staff-left
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T10:16:55.943Z
 ---
