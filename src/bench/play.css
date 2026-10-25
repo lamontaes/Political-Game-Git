@@ -3,7 +3,7 @@
    .panel (dark glass, brass frame, brass corner ornaments), .bust (a figure cropped to head and
    shoulders), .name / .heading (Cinzel), .speech / .prose (Andada Pro), .label / .role / .when
    (Fira Sans), .replies / .reply (numbered lines), .action (a button: .primary is Continue,
-   plain is Back, .small the second size; the brass corner mark shows only while .active or
+   plain is Back; one size for all; the brass corner mark shows only while .active or
    pressed), .tabs / .tab (the open tab a raised glass box), .nav-item, .item, .ring (an icon),
    .glyph (thin close X, return arrow), .row (a gold label and its value), .lie-scales.
    The chevron rule: a mark appears only on a static button while it is activated; never in
@@ -282,10 +282,11 @@ select:focus-visible {
 #person-facts button {
   position: relative;
   display: inline-block;
-  min-height: 38px;
-  padding: 7px 26px;
+  /* One button size across the game (owner, Oct 24: buttons are the same size). */
+  min-height: 34px;
+  padding: 6px 20px;
   margin: 0 12px 0 0;
-  font: 500 16px/1.2 var(--ui);
+  font: 500 15px/1.2 var(--ui);
   color: var(--text-strong);
   text-align: center;
   background:
@@ -296,14 +297,6 @@ select:focus-visible {
   box-shadow:
     0 2px 0 rgba(0, 0, 0, 0.7),
     inset 0 1px 0 rgba(255, 255, 255, 0.07);
-}
-.action.small,
-#sheet-body button,
-#person-facts button,
-.me .action {
-  min-height: 30px;
-  padding: 4px 16px;
-  font-size: 14px;
 }
 .action.primary {
   min-width: 120px;
@@ -764,6 +757,17 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-3);
   font: 400 11px var(--ui);
 }
+.item small:empty {
+  display: none;
+}
+/* On the title, Continue's saved life sits beside it, so every entry is one height. */
+#front-main .item b,
+#front-main .item small {
+  display: inline;
+}
+#front-main .item small {
+  margin-left: 10px;
+}
 .item small {
   display: block;
   font: 400 12.5px var(--ui);
@@ -1070,6 +1074,8 @@ body.dev .dev-ring {
 .nav-item {
   display: block;
   width: 100%;
+  /* Every menu entry one height, with a description line or without. */
+  min-height: 50px;
   padding: 8px 18px;
 }
 .nav-item .nl {
