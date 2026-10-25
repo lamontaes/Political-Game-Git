@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
+status: in-pr
 claimed-by:
 pr: #6021
 blocked-on:
