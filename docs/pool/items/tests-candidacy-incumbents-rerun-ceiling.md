@@ -5,9 +5,9 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/candidacy-rerun-bound
-pr:
+pr: #5999
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T08:14:53.565Z

@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/handgun-age-refused-sale
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T08:30:00.602Z
 ---
 
 **What.** The justice family test fails on clean main in Skanee, Michigan (2674120), seed 1d3152b7aae80d2d9733320a04fa4fdad4b61fb6: with the handgun purchase age raised, no handgun sale is refused, so the law moves no money there ('refused sales: expected 0 to be greater than 0'). Sales before the limit do happen in the same run, so the town has buyers; the raised age either reaches nobody under it who would buy, or the refusal path posts nothing. The laws lead found it in its gate on Oct 24 and confirmed it on main with the same seed. Either the engine misses a refusal it should record, or the test needs a town where a buyer under the age exists.
