@@ -25,7 +25,7 @@ import {
   spendingPaymentsOf,
 } from "./modules/budgets";
 import { withholdingFor } from "./tax-withholding";
-import { treasuryMonthsOf } from "./budgets-treasury";
+import { chargedSinceClose, treasuryMonthsOf } from "./budgets-treasury";
 import { billPropertyTax } from "./housing-property-tax";
 import { HOUSING_MODULE_ID } from "./modules/housing";
 import { residentsRuntime } from "./modules/residents";
@@ -128,8 +128,14 @@ describe(
           closes +=
             month.aidReceivedMinor + month.borrowedMinor - month.aidPaidMinor;
           for (const line of Object.values(month.lines))
-            closes -= line.providersMinor + line.outsideMinor;
+            closes -=
+              line.providersMinor +
+              line.outsideMinor +
+              (line.chargedMinor ?? 0);
         }
+        // What it paid suppliers outside the town since its last close (a
+        // commission's month, an election's costs), not yet in a month.
+        closes -= chargedSinceClose(api, gov.id);
         // The wages it paid the opening's public employers' workers, less
         // what it couldn't cover (the authority paid those).
         for (const [authorityId, link] of publicPayTreasuries(core))
@@ -191,8 +197,12 @@ describe(
               .filter(
                 ([line]) => gov.level !== "federal" || line !== "netInterest",
               )
-              .reduce((a, [, row]) => a + row.outsideMinor, 0),
-          0,
+              .reduce(
+                (a, [, row]) => a + row.outsideMinor + (row.chargedMinor ?? 0),
+                0,
+              ),
+          // Paid between closes (`chargeLine`) and not yet in a month.
+          chargedSinceClose(api, gov.id),
         );
         expect(
           payments.reduce((n, p) => n + p.amountMinor, 0),

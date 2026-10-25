@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/staff.ts
 
 **Notes.** TODO
+
+Oct 25 (speed lead), on main 01f5cd4715: a CPU profile of Long Hill, Connecticut's played year (seed m7b, key 0943580, the world `npm run speed:year -- --seed m7b` plays) puts `staffReview` at 0.95 s inclusive of 130.2 s (`staffCandidates` 0.43 s), back near the 1 s this item asks for, after #5835 (place index, 6.9 to 5.0 s) and the later cuts. `staff.test.ts` passes on main (2 of 2, with a 4 GB test heap; see tests-world-tests-outgrow-worker-heap). The same-staff check was #5835's (171 rows identical by record id). Recommend the CTO mark it done; no PR during the play-first freeze.

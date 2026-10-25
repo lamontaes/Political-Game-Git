@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/quirky-ride-vrwwz4-play-stop-22
+pr: #6041
 blocked-on:
 source: added with npm run pool -- add
 lead: m0-m2
 milestone: play-first
+claimed-at: 2026-10-25T10:25:06.047Z
 ---
 
 **What.** On the v0.22.10 release I filed for Anson City Council in February 2025 and campaigned for 21 months. The game's results record shows I won seat 0 on November 3, 2026 with 448 votes to Brenda Stanley's 246, Mason Hudson's 169, Sam Rose's 6 and Ethan Stanley's 1. On screen, election night opens an empty-looking party room behind Politics → Campaigns, which still says "ON-BALLOT"; the results pages show eight statewide races and run out before the county, city and council races. The Journal still says "I ran for Council member.", News has no election story, Who you are shows no seat and Government lists the old council. I expected election night to say I won, with my vote count, and the journal and news to say so.

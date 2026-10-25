@@ -5,8 +5,8 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
+status: done
+claimed-by: claude/law-wiring-government
 pr: #5582
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
@@ -38,3 +38,5 @@ Sent back 2026-10-24 UTC from PR #5582 (branch claude/law-wiring-government): co
 Sent back 2026-10-24 from PR #5582 (branch claude/law-wiring-government): Annual body and carry-proof source repaired; four ESTIMATED election costs at reach-group-a-parameters.json:125-147 and group-a-voting.ts:233-271 still have no registered stopgap row or reader marker, as already returned at17:31; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 at 21:08 UTC from PR #5582 (branch claude/law-wiring-government), corrective head 6466e7b5df: four ESTIMATED election-cost parameters still have no matching canonical stopgap row/replacement or consuming code marker; register that stand-in and finish on that branch, merge main into it first. The stale short-window filenames in the earlier return are fixed and that objection is withdrawn; no complete new green gate claimed.
+
+Laws lead, Oct 25 06:30: the election-cost stand-ins are registered (SG-GOV-REACH-A-election-cost-estimates, marked at group-a-voting.ts:463); back for recheck at 712804a556.
