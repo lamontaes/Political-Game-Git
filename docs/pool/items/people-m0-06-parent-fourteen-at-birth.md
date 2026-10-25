@@ -5,11 +5,12 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/m0-06-parent-age
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T17:08:18.851Z
 ---
 
 **What.** The golden-path spec M0-06 (src/core2/m0-life-at-18.test.ts, 'gives them parents of child-bearing age at their birth, and siblings who share a parent') fails on clean main 0532b566a4 with GOLDEN_PATH_SEED=553b7186a7662f5664d5b8a0ae6556949d26f01a18472ba07767837df2ff624f and GOLDEN_PATH_PLACE_KEY=5466892 (Rand, West Virginia): 'expected 14 to be greater than or equal to 15'. A parent of the player was 14 when the player was born. The draw came from CI on PR 6021, whose diff does not touch people or kin, and turns accepted M0-06 red for any PR that draws it.
