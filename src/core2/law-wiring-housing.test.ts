@@ -447,9 +447,13 @@ function play(
       const row = rowsOn(api, KEYS.inclusionary).find(
         (r) => r.targetId === a.householdId && r.what === "set-aside-tenant",
       );
-      const paid = lastSettlement(`lease:${a.householdId}`, "0000-00-00");
+      // A full household pays its lease; a counted one pays its rent flow, for every household it stands for (the row's count).
+      const paid =
+        lastSettlement(`lease:${a.householdId}`, "0000-00-00") ??
+        lastSettlement(`rent:${a.householdId}`, "0000-00-00");
       if (!row || !paid || row.amountMinor <= 0) continue;
-      if (!(paid.paidMinor < project.askingRentMinor)) continue;
+      if (!(paid.paidMinor / Math.max(1, row.count) < project.askingRentMinor))
+        continue;
       trails.inclusionary = {
         appliedId: row.id,
         lawId: row.lawId,
@@ -461,35 +465,50 @@ function play(
       break;
     }
     // Before a building under the law is let (apartments take over a year and a half to build), the law's reach is the landlord that must set the units aside and the construction payment for them.
-    if (!trails.inclusionary) {
-      const row = rowsOn(api, KEYS.inclusionary).find(
-        (r) => r.target === "organization" && r.what === "set-aside-required",
-      );
-      const project = projects.find(
-        (p) =>
-          p.lawIds?.inclusionary &&
-          p.lawIds.inclusionary === row?.lawId &&
-          p.affordableUnits > 0,
-      );
-      const paid = project
-        ? posts.find(
+    // A body in play may repeal and enact the law again, so a landlord can hold a row under each enactment: any row whose law a building with set-aside units was started under counts.
+    const required = rowsOn(api, KEYS.inclusionary).filter(
+      (r) => r.target === "organization" && r.what === "set-aside-required",
+    );
+    const underLaw = projects.filter(
+      (p) => p.lawIds?.inclusionary && p.affordableUnits > 0,
+    );
+    for (const row of trails.inclusionary ? [] : required) {
+      const paid = underLaw
+        .filter((p) => p.lawIds!.inclusionary === row.lawId)
+        .map((project) =>
+          posts.find(
             (p) =>
               p.ref.startsWith(`construction:${project.id}:`) && p.gross > 0,
-          )
-        : undefined;
-      if (row && paid)
-        trails.inclusionary = {
-          appliedId: row.id,
-          lawId: row.lawId,
-          reached: row.targetId,
-          journalId: paid.id,
-          amountMinor: row.amountMinor,
-        };
+          ),
+        )
+        .find(Boolean);
+      if (!paid) continue;
+      trails.inclusionary = {
+        appliedId: row.id,
+        lawId: row.lawId,
+        reached: row.targetId,
+        journalId: paid.id,
+        amountMinor: row.amountMinor,
+      };
+      break;
     }
     check(
       "inclusionary",
       Boolean(trails.inclusionary),
-      "no set-aside tenant paying the lower rent, and no building under the law with a construction payment, has an applied row",
+      `no set-aside tenant paying the lower rent, and no building under the law with a construction payment, has an applied row (${setAside.length} set-aside tenants: ${setAside
+        .slice(0, 3)
+        .map((a) => {
+          const r = rowsOn(api, KEYS.inclusionary).find(
+            (x) => x.targetId === a.householdId,
+          );
+          const paid =
+            lastSettlement(`lease:${a.householdId}`, "0000-00-00") ??
+            lastSettlement(`rent:${a.householdId}`, "0000-00-00");
+          return `${a.householdId} row ${r?.what ?? "none"} ${r?.amountMinor ?? ""} for ${r?.count ?? ""}, paid ${paid?.paidMinor ?? "nothing"}, asking ${projects.find((p) => p.id === a.projectId)?.askingRentMinor}`;
+        })
+        .join(
+          "; ",
+        )}; ${required.length} landlord rows under ${[...new Set(required.map((r) => r.lawId))].join(", ") || "no law"}; ${underLaw.length} buildings with set-aside units under ${[...new Set(underLaw.map((p) => p.lawIds!.inclusionary))].join(", ") || "no law"}; ${posts.filter((p) => underLaw.some((u) => p.ref.startsWith(`construction:${u.id}:`))).length} construction payments for them)`,
     );
   }
 
@@ -647,16 +666,35 @@ function play(
       "a payment went to a household with no lease at the raise",
     );
     // No more than the rent: a full household's payment is at most its rent; a counted group's, at most the rent of the households it stands for.
+    // The help is paid at the rent and size in force that month, so a lease renewed in the window, or a counted group grown in it, is held to its later rent.
+    const rentAtEnd = new Map<string, Tenant>(
+      tenants(api).map((t) => [t.id, t]),
+    );
+    const bound = (t: Tenant | undefined) =>
+      t ? Math.ceil(t.rentMinor * t.weight) + t.weight : -1;
+    const rentNote = (p: Post) => {
+      const [a, b] = [rentAtRaise.get(owner(p)), rentAtEnd.get(owner(p))];
+      return `${p.ref} paid ${p.gross} (rent ${a?.rentMinor ?? "none"} for ${a?.weight ?? "none"} at the raise, ${b?.rentMinor ?? "none"} for ${b?.weight ?? "none"} at the end)`;
+    };
+    const over = paid.filter(
+      (p) =>
+        p.gross >
+        Math.max(
+          bound(rentAtRaise.get(owner(p))),
+          bound(rentAtEnd.get(owner(p))),
+        ),
+    );
+    const later = paid.filter(
+      (p) => p.gross > bound(rentAtRaise.get(owner(p))) && !over.includes(p),
+    );
+    if (later.length)
+      console.log(
+        `${where}: ${later.length} rent help payments above the rent at the raise, within the rent at the end: ${later.slice(0, 3).map(rentNote).join("; ")}`,
+      );
     check(
       "rentHelp.atMostRent",
-      paid.length > 0 &&
-        paid.every((p) => {
-          const t = rentAtRaise.get(owner(p));
-          return t
-            ? p.gross <= Math.ceil(t.rentMinor * t.weight) + t.weight
-            : false;
-        }),
-      "a payment was more than the rent",
+      paid.length > 0 && over.length === 0,
+      `a payment was more than the rent: ${over.slice(0, 3).map(rentNote).join("; ")}`,
     );
     // A counted renter's help goes into its group's fund, the place's pooled money for it.
     const counted = paid.filter(
