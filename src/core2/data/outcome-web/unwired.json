@@ -41,7 +41,7 @@
       "link": "pretrial-detention-to-employment",
       "outcome": "labor.formal-employment",
       "reason": "no measure: the web does not keep labor.formal-employment and no engine produces it; nothing in the core records its cause, justice.pretrial-detained",
-      "stopgapId": "SG-WEB-unread-labor-formal-employment"
+      "stopgapId": "SG-LABOR-pretrial-employment"
     },
     {
       "link": "release-lower-level-to-larceny",
@@ -59,7 +59,7 @@
       "link": "birth-year-pollution-to-adult-earnings",
       "outcome": "labor.earnings-at-30",
       "reason": "no measure: the web does not keep labor.earnings-at-30 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-WEB-unread-labor-earnings-at-30"
+      "stopgapId": "SG-LABOR-person-exposure"
     },
     {
       "link": "water-violations-to-infant-health",
@@ -125,7 +125,7 @@
       "link": "work-requirement-to-employment",
       "outcome": "labor.employment-rate",
       "reason": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
-      "stopgapId": "SG-WEB-unread-labor-employment-rate"
+      "stopgapId": "SG-LABOR-unsized-links"
     },
     {
       "link": "job-loss-to-death-risk",
@@ -179,7 +179,7 @@
       "link": "teacher-quality-to-earnings",
       "outcome": "labor.earnings-at-28",
       "reason": "no measure: the web does not keep labor.earnings-at-28 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-WEB-unread-labor-earnings-at-28"
+      "stopgapId": "SG-LABOR-person-exposure"
     },
     {
       "link": "class-size-to-scores",
@@ -191,7 +191,7 @@
       "link": "neighborhood-years-to-adult-outcomes",
       "outcome": "labor.adult-earnings",
       "reason": "no measure: the web does not keep labor.adult-earnings and no engine produces it; it needs each person's own exposure record, which no engine keeps",
-      "stopgapId": "SG-WEB-unread-labor-adult-earnings"
+      "stopgapId": "SG-LABOR-person-exposure"
     },
     {
       "link": "homicide-nearby-to-scores",
@@ -245,7 +245,7 @@
       "link": "graduation-to-earnings",
       "outcome": "labor.earnings",
       "reason": "no measure: the web does not keep labor.earnings and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-labor-earnings"
+      "stopgapId": "SG-LABOR-unsized-links"
     },
     {
       "link": "graduation-to-incarceration",
@@ -269,13 +269,13 @@
       "link": "transit-loss-to-unemployment",
       "outcome": "labor.unemployment-pct",
       "reason": "engine doesn't read the factor: an engine records labor.unemployment-pct, but nothing multiplies its rates by the link's effect; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-labor-unemployment-pct"
+      "stopgapId": "SG-LABOR-unsized-links"
     },
     {
       "link": "broadband-to-employment",
       "outcome": "labor.employment-rate",
       "reason": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-labor-employment-rate"
+      "stopgapId": "SG-LABOR-unsized-links"
     },
     {
       "link": "road-condition-to-vehicle-costs",
@@ -287,7 +287,7 @@
       "link": "incentive-deal-to-industry-jobs",
       "outcome": "labor.deal-industry-jobs",
       "reason": "no measure: the web does not keep labor.deal-industry-jobs and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-labor-deal-industry-jobs"
+      "stopgapId": "SG-LABOR-unsized-links"
     },
     {
       "link": "incentive-deal-to-broad-growth",
@@ -299,13 +299,13 @@
       "link": "enforcement-to-undocumented-employment",
       "outcome": "labor.undocumented-employment",
       "reason": "engine doesn't read the factor: labor.undocumented-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.undocumented-employment",
-      "stopgapId": "SG-WEB-unread-labor-undocumented-employment"
+      "stopgapId": "SG-LABOR-no-legal-status"
     },
     {
       "link": "enforcement-to-us-born-employment",
       "outcome": "labor.us-born-employment",
       "reason": "engine doesn't read the factor: labor.us-born-employment moves only in the web's monthly ledger; no engine multiplies its own rates by it; no engine produces labor.us-born-employment",
-      "stopgapId": "SG-WEB-unread-labor-us-born-employment"
+      "stopgapId": "SG-LABOR-no-legal-status"
     },
     {
       "link": "marriage-equality-to-marriages",
@@ -449,7 +449,7 @@
       "link": "more-immigration-to-workforce",
       "outcome": "labor.workforce",
       "reason": "no measure: the web does not keep labor.workforce and no engine produces it; its research gives no size the game can apply, so the web does not run it",
-      "stopgapId": "SG-WEB-unread-labor-workforce"
+      "stopgapId": "SG-LABOR-unsized-links"
     },
     {
       "link": "crime-level-to-vandalism",

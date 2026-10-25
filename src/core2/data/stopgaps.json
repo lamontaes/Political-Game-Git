@@ -4603,6 +4603,18 @@
     "status": "open"
   },
   {
+    "id": "SG-PLAY-town-count-estimate",
+    "kind": "estimated-data",
+    "file": "src/bench/creator.ts",
+    "line": 193,
+    "whatItFakes": "A town the Census Vintage 2025 estimates and the ACS 2020-2024 table hold no count for (34 of 32,508 places, mostly military posts and merged places) shows its state's median town count, marked as an estimate in the creator's list.",
+    "why": "The records name the place but hold no count for it; the creator must show a number (estimate, never unknown) and the real count needs research per place.",
+    "addedBy": "claude/quirky-ride-vrwwz4-play-stop-14",
+    "addedAt": "2026-10-25",
+    "replacement": "A sourced count for each of the 34 places (Census 2020 decennial or the base's own published figure), after which the estimate branch is deleted.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-official-attendance",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/legislature.ts",
@@ -5114,7 +5126,7 @@
     "kind": "missing-data",
     "file": "src/core2/data/laws/outcome-research-gaps.json",
     "line": 7,
-    "whatItFakes": "17 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
+    "whatItFakes": "14 laws (listed in outcome-research-gaps.json, each with the outcome its research would measure) move no outcome-web measure: no researched link starts from the law or from a measure an engine sets from it, so the web holds those outcomes at their base whatever the law does.",
     "why": "data/research/outcome-web/links.json has no link from these laws or their measures; the laws' reach, engine reads and money are wired, but an outcome link needs a researched strength, shape and lag before the web can move anything.",
     "addedBy": "claude/law-wiring-audit",
     "addedAt": "2026-10-20",
@@ -5463,7 +5475,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "Undocumented and U.S.-born employment: the web keeps them as place numbers, but no person carries a nativity or legal status, so no hire, layoff or quit can read the enforcement links.",
+    "whatItFakes": "Undocumented employment (enforcement-to-undocumented-employment) and U.S.-born employment (enforcement-to-us-born-employment) under local immigration enforcement: the web keeps them as place numbers, but no person carries a work authorization. People carry a seeded citizenship (citizenship.ts) at both tiers, and a noncitizen may be a lawful permanent resident, so no record marks the likely undocumented workers the study measures; nativity is drawn only for officials, so U.S.-born workers are not marked apart from naturalized citizens. No hire, layoff or quit can read the links.",
     "why": "People are generated without a birthplace or work authorization; inventing one per person would be a guess that decides who loses work.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
@@ -5487,7 +5499,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "Birth-year pollution, teacher quality and neighborhood years acting on adult earnings: they need each person's own exposure-years record, which no engine keeps.",
+    "whatItFakes": "Birth-year pollution (birth-year-pollution-to-adult-earnings), teacher quality (teacher-quality-to-earnings) and neighborhood years (neighborhood-years-to-adult-outcomes) acting on adult earnings: they need each person's own exposure-years record, which no engine keeps, and none has a size the game can apply.",
     "why": "The links are person-level (exposure-years shape); a place rate would apply them to the wrong people.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
@@ -5499,7 +5511,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "Graduation to earnings, transit loss to unemployment, broadband to employment and incentive deals to industry jobs have no researched size the game can use, and their causes or outcomes are not recorded.",
+    "whatItFakes": "Graduation to earnings (graduation-to-earnings), transit loss to unemployment (transit-loss-to-unemployment), broadband to employment (broadband-to-employment), incentive deals to industry jobs (incentive-deal-to-industry-jobs) and more immigrants to the workforce (more-immigration-to-workforce) have no researched size the game can use, and a Medicaid work requirement's effect on employment (work-requirement-to-employment) is about zero, so an engine would multiply by one.",
     "why": "Their sources give a study-unit effect (one lost line, a county gaining broadband, one deal) that no conversion turns into the game's slopes; the sizes are to confirm.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
@@ -5511,7 +5523,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/jobs-web.ts",
     "line": 1,
-    "whatItFakes": "Pretrial detention lowering formal employment: the justice engine decides each detention from the law, but no engine records formal-sector employment, and a place rate would count the detention twice.",
+    "whatItFakes": "Pretrial detention lowering formal employment (pretrial-detention-to-employment): the justice engine decides each detention from the law, but no engine records formal-sector employment, and a place rate would count the detention twice.",
     "why": "The cause is a person's own detention in the justice records; the jobs engine does not read it when a detained person's job ends.",
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
@@ -5780,8 +5792,8 @@
     "why": "no measure: the web does not keep labor.formal-employment and no engine produces it; nothing in the core records its cause, justice.pretrial-detained",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records labor.formal-employment for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-pretrial-employment: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-crime-larceny",
@@ -5816,8 +5828,8 @@
     "why": "no measure: the web does not keep labor.earnings-at-30 and no engine produces it; it needs each person's own exposure record, which no engine keeps",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records labor.earnings-at-30 for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-person-exposure: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-health-low-birthweight",
@@ -5936,8 +5948,8 @@
     "why": "no measure: the web does not keep labor.employment-rate and no engine produces it; its research finds no effect (about zero), so an engine would multiply by one",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records labor.employment-rate for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Superseded by SG-LABOR-unsized-links: the links this row named that still do not reach an engine's records now wait on that stopgap instead (src/core2/data/outcome-web/unwired.json); any others reach an engine's records (scripts/outcome-web/effect-matrix.ts). It is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-health-death-risk",
@@ -6657,6 +6669,18 @@
     "addedBy": "claude/provider-distance",
     "addedAt": "2026-10-24",
     "replacement": "A generated-year sensitivity check in drawn places: each weight run across its window, the town's unplanned pregnancies and endings per 1,000 women 15 to 44 against the state's published rates, and each spread replaced by the measured window (pool item people-unplanned-calibration).",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAW-death-tax-no-schedule",
+    "kind": "assumed-behavior",
+    "file": "src/core2/laws-death-taxes.ts",
+    "line": 37,
+    "whatItFakes": "A state that adopts an estate or inheritance tax by a bill that sets only a rate (it had none, so the bill has no schedule to keep) taxes the whole estate or share at that rate, with no exemption and no classes of heirs.",
+    "why": "The bill catalog lets a legislature set the estate and inheritance tax amounts in any state; shapedRate keeps an existing schedule but a state without the tax has none to scale.",
+    "replacement": "An adopting bill carries a schedule (an exemption, and for an inheritance tax the classes of heirs), drafted from the states that levy the tax.",
+    "addedBy": "claude/law-wiring-death-tax-terms",
+    "addedAt": "2026-10-20",
     "status": "open"
   },
   {

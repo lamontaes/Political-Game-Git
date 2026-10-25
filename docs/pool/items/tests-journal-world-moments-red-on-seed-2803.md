@@ -5,11 +5,12 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: words/journal-seed-2803
+pr: #6113
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-10-25T21:21:05.600Z
 ---
 
 **What.** With GOLDEN_PATH_SEED=28031889fda9c4e2a7d67d921b18e16b696b5d72, three tests fail on main's code. In journal.test.ts, drawn in Juncal, Puerto Rico, the journal writes no line for a relative's death (line 300, expected a 'My <relative> died.' line), and the schoolmate test reads facts of an undefined row (line 583). In world-moments.test.ts, drawn in Oak Grove, Tennessee, one relative a move left behind, person_b2431a547ad9c079, has no moment citing the move (line 136). The same tests pass on the default seed, so a CI run that draws this seed goes red with no change of its own.
