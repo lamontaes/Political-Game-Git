@@ -10,6 +10,9 @@
  * line. Everything else is a journal line. A moment no type can stage writes
  * a coverage row with the reason. Nothing is drawn by chance.
  */
+import { coreAPI } from "../core2/state";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
+import { coreSeatOfGovernmentPlace } from "../core2/place-lookup";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, IsoDate, PersonId } from "../core2/types";
@@ -55,6 +58,8 @@ export interface SituationCause {
       equals?: readonly string[];
       includes?: "subject";
     }[];
+    /** What a heard speech was given at: "campaign", "remark" at a meeting, a "hearing" (see speechOccasion). */
+    occasion?: string;
     /**
      * The cause's own record names the moment's person (a public comment's
      * speakers): someone who only heard of it from a tie matches nothing, so
@@ -77,6 +82,17 @@ export interface SituationType {
   timing: string;
   causes: readonly SituationCause[];
   awaiting?: readonly string[];
+  /**
+   * A scene that never stops the player's day: it waits its turn by the life's
+   * pace however strongly it was felt (an invitation to a cause meeting).
+   */
+  waits?: boolean;
+  /**
+   * A scene about one record's own decision (a member's vote on one bill):
+   * each cause stages its own, never taken into another sitting or held back
+   * by the repeat window.
+   */
+  eachCause?: boolean;
   /** The decision the scene is for, when it has one ("ballot": the vote is cast here). */
   choice?: string;
   /**
@@ -93,6 +109,8 @@ export interface SituationLibrary {
     paces: Readonly<Record<string, number>>;
     paceBands: readonly { band: string; maxAge?: number }[];
     trailingDays: number;
+    /** Days within which the same scene with the same people is staged once. */
+    repeatDays: number;
     openDays: Readonly<Record<string, number>>;
     /** Moments that stage their family scene when a household member is in them. */
     householdScenes: readonly string[];
@@ -117,6 +135,8 @@ export interface SceneBinding {
   opening?: string;
   reason?: string;
   openUntil: IsoDate;
+  /** Later moments of the same day this sitting took in, each with its cause record. */
+  joined?: { momentId: string; causeId: string }[];
 }
 
 export interface CoverageRow {
@@ -189,6 +209,26 @@ export function paceRank(
   return rank;
 }
 
+/**
+ * What a heard speech was given at: a campaign stop, a remark at a meeting, a
+ * hearing, a party meeting, a press attack or a state address. A council
+ * remark is not a campaign event.
+ */
+export function speechOccasion(
+  core: Readonly<CoreState>,
+  causeId: string,
+): string | undefined {
+  const said = core.durableLog.get(causeId)?.facts?.occasion;
+  if (typeof said === "string" && said) return said;
+  // stopgapId: SG-DIRECTOR-speech-occasion (the speech engine's record has no
+  // occasion yet, so the producer's id says it: "speech:remark:...", or
+  // "speech:<speaker>:<date>:<act>:..." for a candidate's own speech).
+  const [head, first, , act] = causeId.split(":");
+  if (head !== "speech" || !first) return undefined;
+  if (!core.people.has(first as never)) return first;
+  return act === "attack" ? "press" : "campaign";
+}
+
 export function causeMatches(
   cause: SituationCause,
   book: PersonLedger,
@@ -209,6 +249,11 @@ export function causeMatches(
     )
       return false;
   }
+  if (
+    match.occasion !== undefined &&
+    speechOccasion(core, moment.causeId) !== match.occasion
+  )
+    return false;
   if (
     match.causeNames === "subject" &&
     !core.durableLog.get(moment.causeId)?.personIds.includes(moment.personId)
@@ -379,6 +424,37 @@ function resolveSetting(
         core.durableLog.get(moment.causeId)?.facts?.organizationId;
       return employer ? { kind, recordId: employer } : undefined;
     }
+    case "seat": {
+      // Where an officeholder's government sits (an address is given at the
+      // capitol, not in the town that watched it), named as a venue.
+      const api = coreAPI(core as CoreState);
+      if (!api.state.modules.has(OFFICES_MODULE_ID)) return undefined;
+      const state = api.moduleState(OFFICES_MODULE_ID);
+      const term = (
+        state.table("terms").rows() as unknown as {
+          personId: string;
+          officeId: string;
+          status: string;
+        }[]
+      ).find((row) => row.personId === subject.id && row.status === "serving");
+      const office = term
+        ? (state.table("offices").get(term.officeId) as unknown as
+            { jurisdiction: string } | undefined)
+        : undefined;
+      const seat = office
+        ? coreSeatOfGovernmentPlace(
+            office.jurisdiction === "US" ? "US-FEDERAL" : office.jurisdiction,
+          )
+        : null;
+      return seat
+        ? { kind: "venue", recordId: seat.place.context.jurisdiction.id }
+        : undefined;
+    }
+    case "office":
+      // An officeholder's office is their post's employer on record.
+      return job?.organizationId
+        ? { kind, recordId: job.organizationId }
+        : undefined;
     case "phone":
       return peopleBound > one ? { kind, recordId: moment.causeId } : undefined;
     case "public":
@@ -529,9 +605,59 @@ export function scheduleMoment(
   });
   // The player's filter: only the scene kinds they allow stage or interrupt.
   const allowed = options.allowedKinds;
-  const bindings = allowed
+  // One sitting covers a day: a scene of the same kind with the same people
+  // already staged today takes this cause in (five bills signed in one
+  // afternoon are one press availability, not five). The same scene with the
+  // same people is not staged again within the repeat window either (a
+  // neighbor who shares the same cause seven days running asks once).
+  const castOf = (row: SceneBinding) =>
+    `${row.typeKey}|${row.roles
+      .flatMap((role) => role.personIds)
+      .sort()
+      .join(",")}`;
+  const sittingToday = new Set(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date <= moment.date &&
+          entry.date >
+            addDays(makeIsoDate(moment.date), -library.scheduling.repeatDays) &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) => entry.bindings.map(castOf)),
+  );
+  const wanted = allowed
     ? staged.filter((row) => allowed.has(row.typeKey))
     : staged;
+  const eachCause = (row: SceneBinding) =>
+    library.types.find((type) => type.key === row.typeKey)?.eachCause ?? false;
+  const bindings = wanted.filter(
+    (row) => eachCause(row) || !sittingToday.has(castOf(row)),
+  );
+  // The day's own sitting takes this cause in, so its scene cites both
+  // records. A sitting on an earlier day within the repeat window does not:
+  // that scene has been played.
+  const sittings = new Map(
+    book.schedule
+      .filter(
+        (entry) =>
+          entry.date === moment.date &&
+          entry.momentId !== moment.id &&
+          entry.outcome !== "journal-line",
+      )
+      .flatMap((entry) =>
+        entry.bindings.map((row) => [castOf(row), row] as const),
+      ),
+  );
+  for (const row of wanted) {
+    if (eachCause(row)) continue;
+    const sitting = sittings.get(castOf(row));
+    if (!sitting) continue;
+    sitting.joined ??= [];
+    if (!sitting.joined.some((entry) => entry.momentId === moment.id))
+      sitting.joined.push({ momentId: moment.id, causeId: moment.causeId });
+  }
   const filteredOut = staged.length > zero && !bindings.length;
   // News from the household's own records (a parent's lost job, a death, a
   // serious illness) is a family scene at home whatever its size (owner,
@@ -550,8 +676,15 @@ export function scheduleMoment(
       ((library.scheduling.ownRecordScenes?.includes(moment.label) ?? false) &&
         moment.selfNamed === true)) &&
     bindings.some((row) => row.setting.kind === "home");
+  const waits =
+    bindings.length > zero &&
+    bindings.every(
+      (row) => library.types.find((type) => type.key === row.typeKey)?.waits,
+    );
   const interrupt =
-    (moment.impact >= options.interruptImpact || familyNews) && !filteredOut;
+    (moment.impact >= options.interruptImpact || familyNews) &&
+    !filteredOut &&
+    !waits;
   if (!found.length)
     coverage ??= {
       momentId: moment.id,
