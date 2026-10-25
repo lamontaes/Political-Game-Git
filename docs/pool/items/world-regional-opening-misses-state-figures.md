@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/regional-opening-pay
-pr:
+pr: #6034
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T12:44:28.114Z
