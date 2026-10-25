@@ -7,6 +7,7 @@ import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
 import { closenessBetween } from "../closeness";
+import { setTraitProbe, traitProbe } from "../trait-probe";
 import { bookkeeping } from "../bookkeeping";
 import { keepsWhy } from "../why-kept";
 import { adTimeForSale, buyAdTime } from "./campaigns";
@@ -33,6 +34,7 @@ import type {
   IsoDate,
   PersonId,
   PersonState,
+  ReasonBinding,
 } from "../types";
 
 /**
@@ -93,6 +95,12 @@ export interface DrivesData {
     responses: readonly string[];
     /** The impact used when the event's record holds no appraised impulse. */
     impulseParameter?: string;
+    /**
+     * How much harder this kind of event pushes toward a lasting drive than
+     * the responses' own fits say (a multiple of each drive response's fit,
+     * one when absent). Carrying on is not scaled.
+     */
+    fitScaleParameter?: string;
   }[];
   actions: readonly ActionDefinition[];
   gaps: readonly string[];
@@ -114,6 +122,7 @@ type EventKindKey =
   | "strengthened";
 type FactKey =
   | "responsible"
+  | "decidedBy"
   | "drive"
   | "origin"
   | "condition"
@@ -231,6 +240,12 @@ interface DrivesRuntime {
   /** The same count for drives formed in the wider population. */
   countedFormedByYearKind: Map<string, number>;
   responsesByRule: Map<string, number>;
+  /**
+   * The same count by the role the person held toward the event and whether
+   * they are old enough to form a drive of their own (agency at least half
+   * an adult's, from `responseAgencyTurnAge` on): rule:role:grown|young:response.
+   */
+  responsesByRole: Map<string, number>;
   perceived: number;
   decisions: FormationTrace[];
   /** Today's scored choice for each drive holder, matched against the act recorded. */
@@ -270,6 +285,7 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       formedByYearKind: new Map(),
       countedFormedByYearKind: new Map(),
       responsesByRule: new Map(),
+      responsesByRole: new Map(),
       perceived: zero,
       decisions: [],
       predicted: new Map(),
@@ -396,9 +412,19 @@ type RequirementTest = (
   event: CoreEventInput,
 ) => boolean;
 
-function responsibleId(data: DrivesData, event: CoreEventInput) {
+/** Who an event holds responsible for a harm: a person or institution its record names. */
+export function responsibleId(
+  data: DrivesData,
+  event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
+) {
   const named = event.facts?.[`event:${event.id}:${data.factKeys.responsible}`];
   if (named) return named;
+  // The person the record names as deciding the harm (the owner or manager
+  // who decided a layoff), when they are a living full person: a grudge can
+  // then be held against someone, not only the institution.
+  const decider = event.facts?.[data.factKeys.decidedBy];
+  if (decider && people.get(decider)?.alive) return decider;
   // Some engines name the responsible party as the event's topic (the
   // employer behind a layoff, the landlord behind an eviction).
   if (data.responsibleInTopic?.includes(event.kind) && event.topic)
@@ -416,7 +442,7 @@ const requirementOperations: Readonly<Record<string, RequirementTest>> = {
   "event-topic": (_api, _data, _actor, event) =>
     !!event.topic && !!event.desiredChange,
   "event-responsible": (api, data, actor, event) => {
-    const id = responsibleId(data, event);
+    const id = responsibleId(data, event, api.state.people);
     return (
       !!id &&
       id !== actor.id &&
@@ -501,8 +527,9 @@ function driveIdentity(
   kind: DriveKindRow,
   actor: Readonly<PersonState>,
   event: CoreEventInput,
+  people: ReadonlyMap<string, Readonly<PersonState>>,
 ) {
-  const responsible = responsibleId(data, event);
+  const responsible = responsibleId(data, event, people);
   const topic =
     kind.shareable && event.topic
       ? event.topic
@@ -675,6 +702,9 @@ export function respond(
         : p(rule.impulseParameter) *
           (p("lifeEventMoodScale") + p("lifeEventStressScale"));
     const pressure = seen.attention * magnitude;
+    const fitScale = rule.fitScaleParameter
+      ? p(rule.fitScaleParameter)
+      : p("one");
     // Agency to form a lasting drive of one's own rises smoothly through adolescence.
     const age =
       daysBetweenText(actor.birthDate, api.state.date) / p("daysPerMeanYear");
@@ -716,7 +746,7 @@ export function respond(
       const alone = chooseAct(core(api), actor.id, [offer]);
       const lean =
         (alone.selectedReasons?.trait ?? p("zero")) / p("traitWeight");
-      const fit = p(row.fitParameter);
+      const fit = p(row.fitParameter) * (row.driveKind ? fitScale : p("one"));
       return {
         responseId: row.id,
         fit,
@@ -756,6 +786,54 @@ export function respond(
     const decision = chooseAct(core(api), actor.id, decided, context);
     const chosen = scored(decision);
     if (!chosen) continue;
+    // A debug switch, off in play: would the same person, with the same event
+    // and no trait lean, have answered differently? (the trait-wiring audit)
+    const probe = traitProbe();
+    if (probe?.formula) {
+      setTraitProbe(undefined);
+      const flat = scored(
+        chooseAct(
+          core(api),
+          actor.id,
+          decided,
+          chooserContext(
+            actor,
+            rows.map((row, position) => {
+              const entry = considered[position]!;
+              const [goalKind] = row.goalKinds;
+              const leaned = Math.max(
+                p("zero"),
+                entry.fit + p("responseTraitLeanGain") * entry.lean,
+              );
+              return {
+                id: goalKind!,
+                kind: goalKind!,
+                urgency:
+                  entry.urgency -
+                  pressure *
+                    (row.driveKind ? agency : p("one")) *
+                    (leaned - Math.max(p("zero"), entry.fit)),
+              };
+            }),
+          ),
+          false,
+          false,
+        ),
+      );
+      setTraitProbe(probe);
+      probe.formula({
+        decisionId: "drives.respond",
+        actorId: actor.id,
+        lean: considered.find(
+          (entry) => entry.responseId === chosen.responseId,
+        )!.lean,
+        bare: flat?.score ?? p("zero"),
+        yes:
+          rows.find((row) => row.id === chosen.responseId)!.driveKind !==
+          undefined,
+        turned: flat?.responseId !== chosen.responseId,
+      });
+    }
     // The runner-up is a second look at the same choice, not a choice of its own.
     const runnerUp = scored(
       chooseAct(
@@ -798,6 +876,11 @@ export function respond(
     };
     const runtime = runtimeFor(api.state);
     bump(runtime.responsesByRule, `${rule.id}:${row.id}`, api);
+    bump(
+      runtime.responsesByRole,
+      `${rule.id}:${seen.role}:${agency >= p("one") / p("two") ? "grown" : "young"}:${row.id}`,
+      api,
+    );
     runtime.perceived += p("one");
     const kind = row.driveKind
       ? data.driveKinds.find((entry) => entry.id === row.driveKind)
@@ -808,7 +891,13 @@ export function respond(
       const urgency = considered.find(
         (entry) => entry.responseId === row.id,
       )!.urgency;
-      const identity = driveIdentity(data, kind, actor, event);
+      const identity = driveIdentity(
+        data,
+        kind,
+        actor,
+        event,
+        api.state.people,
+      );
       trace.driveId = identity.id;
       const holders = counted ? runtime.countedByPerson : runtime.byPerson;
       let mine = holders.get(actor.id);
@@ -917,6 +1006,15 @@ function servingDrives(
     )
     .map((row) => row.drive);
 }
+
+/** A grudge's confrontation weighs how recently the holder last had it out with the person. */
+const CONFRONT_RECENCY: readonly ReasonBinding[] = [
+  {
+    id: "confront-recency",
+    provider: "drives:confront-recency",
+    weightParameter: "grudgeConfrontRecencyWeight",
+  },
+];
 
 function driveOffer(
   api: CoreAPI,
@@ -1381,6 +1479,31 @@ export function createDrivesModule(
         );
       },
     },
+    reasonProviders: {
+      // Having just had it out with someone weighs against doing it again,
+      // fading as the days pass: no cooldown, no cutoff.
+      [CONFRONT_RECENCY[0]!.provider]: (api, actor, offer) => {
+        const drive = offer.driveId
+          ? heldFor(api, actor.id)?.get(offer.driveId)
+          : undefined;
+        if (!drive) return;
+        // The latest confrontation among the drive's kept act traces.
+        let last: string | undefined;
+        for (const act of drive.acts)
+          if (
+            act.actionId === offer.definition.id &&
+            act.basis === "scored" &&
+            (!last || act.date > last)
+          )
+            last = act.date;
+        if (!last) return;
+        const days = daysBetweenText(last, api.state.date);
+        return {
+          value: -Math.exp(-days / api.parameter("grudgeConfrontRecencyDays")),
+          sourceIds: [drive.id],
+        };
+      },
+    },
     // Only the events a rule answers or a drive act emits reach this module.
     eventKinds: [
       ...new Set([
@@ -1610,7 +1733,10 @@ export function createDrivesModule(
             (drive) =>
               drive.targetId && api.state.people.get(drive.targetId)?.alive,
           )
-          .map((drive) => driveOffer(api, action, drive.targetId!, drive)),
+          .map((drive) => ({
+            ...driveOffer(api, action, drive.targetId!, drive),
+            reasonBindings: CONFRONT_RECENCY,
+          })),
       "known-public-figure": (api, actor, action) => {
         const out: ActOffer[] = [];
         for (const drive of servingDrives(api, actor, action))
@@ -1920,6 +2046,7 @@ export function drivesReport(core: Readonly<CoreState>) {
       runtime?.countedFormedByYearKind ?? [],
     ),
     responsesByRule: Object.fromEntries(runtime?.responsesByRule ?? []),
+    responsesByRole: Object.fromEntries(runtime?.responsesByRole ?? []),
     perceived: runtime?.perceived,
     decisions: runtime?.decisions ?? [],
     groups: runtime
