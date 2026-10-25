@@ -768,7 +768,7 @@ function scheduleWeek(api: CoreAPI, from: string): void {
  * (their view's engagement, against the nation's) plus every trait's lean
  * toward keeping up over letting it go, at the decision's weight.
  */
-const habitScore = (p: Readonly<PersonState>, core: CoreState) => {
+export const habitScore = (p: Readonly<PersonState>, core: CoreState) => {
   const engaged =
     (engagementOf(core, p) ?? NATIONAL_ENGAGEMENT) - NATIONAL_ENGAGEMENT;
   const lean = decisionLean(core, p, "press.follow-news", "follow", "skip");

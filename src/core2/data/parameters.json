@@ -6014,14 +6014,14 @@
     }
   },
   "traitWeightPressFollowNews": {
-    "value": 0.025,
+    "value": 0.08,
     "tag": "ESTIMATED",
-    "citation": "Sindermann, Schmitt and others 2021 (rows press.follow-news in data/research/trait-effect-sizes.json): extraversion correlates 0.16 with the number of news sources a German adult follows (openness 0.12, neuroticism -0.09). A person's habit is their political engagement plus the weighted lean, so the weight is set so the lean correlates 0.16 with the habit. Fitted on the audit's kept samples (each the level with and without the trait term) in two played years, buildBenchWorld, every module: Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, December 3, 2025 to December 3, 2026, around its November 2026 race) and Jagual, Puerto Rico (7237166, seed d29d296abf1f, January 20, 2025 to January 20, 2026). Pooled over 182 habits, 0.025 gives about 0.16 (0.02 gives 0.147, 0.03 gives 0.170); engagement alone already correlates 0.27 with the lean in Lookeba (34 habits) and 0.03 in Jagual (148).",
+    "citation": "Sindermann, Schmitt and others 2021 (rows press.follow-news in data/research/trait-effect-sizes.json): extraversion correlates 0.16 with the number of news sources a German adult follows (openness 0.12, neuroticism -0.09). A person's habit is their political engagement plus the weighted lean, and each kind of news (local paper, television, radio, and the national kinds) takes the top of each age band by habit at its researched share, so the weight is set so the lean correlates 0.16 with the number of kinds a person follows. Fitted by rebuilding the audiences at each weight over every adult of two played towns (buildBenchWorld, every module): Lookeba, Oklahoma (place key 4044000, seed f20e6549007c, 57 adults) reaches 0.16 at about 0.02 and Jagual, Puerto Rico (7237166, seed d29d296abf1f, 112 adults) at about 0.11; pooled, 0.08.",
     "spread": {
       "low": 0.02,
-      "high": 0.03,
+      "high": 0.11,
       "unit": "weight",
-      "citation": "The pooled fit's neighbors."
+      "citation": "The two towns' own fits."
     }
   },
   "traitWeightPressAcceptInterview": {
