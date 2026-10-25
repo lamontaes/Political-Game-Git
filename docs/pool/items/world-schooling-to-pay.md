@@ -5,10 +5,10 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: open
+status: in-pr
 source: effect-web-poverty; stopgap SG-WEB-poverty-graduation-no-engine
-claimed-by:
-claimed-at:
+claimed-by: claude/schooling-to-pay
+claimed-at: 2026-10-25T09:04:28.139Z
 pr: #5822
 ---
 
