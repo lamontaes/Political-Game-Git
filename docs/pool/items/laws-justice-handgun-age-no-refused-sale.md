@@ -5,9 +5,9 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/handgun-age-refused-sale
-pr:
+pr: #6003
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T08:30:00.602Z

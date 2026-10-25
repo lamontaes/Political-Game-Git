@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/quirky-ride-vrwwz4-drives-counted-loss
-pr: #5972
+pr: #6005
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-10-25T08:16:11.735Z
