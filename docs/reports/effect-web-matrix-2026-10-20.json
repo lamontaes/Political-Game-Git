@@ -2249,7 +2249,7 @@
         }
       },
       "wiredPoints": 5,
-      "stopgap": "SG-LABOR-minimum-wage-ratio"
+      "stopgap": "SG-LABOR-low-wage-unreviewed"
     },
     {
       "key": "unemployment-to-poverty",
