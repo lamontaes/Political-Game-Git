@@ -83,8 +83,8 @@ it("a layoff whose choice worked today waits for the next review", () => {
   );
   const at = until(from).at.date;
   until(addDays(makeIsoDate(at), 30));
-  until("2025-04-03");
-  expect(c.date >= "2025-04-03", where).toBe(true);
+  const end = until("2025-04-03");
+  expect(`${end.kind} ${end.at.date}`, where).toBe("complete 2025-04-03");
   expect(
     lost.filter((row) => row.workedToday),
     `${where}: jobs ended on a day they were worked`,
